@@ -1,4 +1,42 @@
-import { ICommand, IConnectParams, IKeyboard, IHid, IDeviceInformation, IResult } from './hid';
+// Usage example:
+//
+// // Connect and open the device.
+// const hid = new WebHid();
+// const result = await hid.connect({
+//   vendorId: 0x5954,
+//   productId: 0x0001
+// });
+// if (!result.success) {
+//    const errorMessage = result.error;
+//    const cause = result.cause;
+//    // Do something.
+// }
+// // Get the keycode.
+// const command = new DynamicKeymapGetKeycodeCommand(
+//   { layer: 0, row: 0, column: 1 },
+//   async (result): Promise<void> => {
+//     if (!result.success) {
+//       const errorMessage = result.error;
+//       const cause = result.cause;
+//       // Do something.
+//     } else {
+//       const keycode = result.response!.value;
+//       // Do something.
+//     }
+//   }
+// );
+// await hid.execute(command);
+// // Close the device.
+// await hid.close();
+
+import {
+  ICommand,
+  IConnectParams,
+  IKeyboard,
+  IHid,
+  IDeviceInformation,
+  IResult
+} from './hid';
 
 export class Keyboard implements IKeyboard {
 
