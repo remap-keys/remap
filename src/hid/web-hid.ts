@@ -92,7 +92,7 @@ export abstract class AbstractCommand<TRequest extends ICommandRequest, TRespons
 
   static OUTPUT_REPORT_ID: number = 0x00;
 
-  protected constructor(request: TRequest, responseHandler: ICommandResponseHandler<TResponse>) {
+  constructor(request: TRequest, responseHandler: ICommandResponseHandler<TResponse>) {
     this.request = request
     this.responseHandler = responseHandler;
   }
@@ -208,7 +208,7 @@ export class WebHid implements IHid {
       await device.open();
       device.addEventListener(
         'inputreport',
-        async (e: any) => this.handleInputReport(e)
+        this.handleInputReport
       );
     } catch(error) {
       return {
@@ -228,7 +228,7 @@ export class WebHid implements IHid {
   }
 
   isOpened(): boolean {
-    return this.keyboard !== undefined && this.keyboard.isOpened();
+    return this.isConnected() && this.keyboard!.isOpened();
   }
 
   getKeyboard(): IKeyboard | undefined {
@@ -238,6 +238,10 @@ export class WebHid implements IHid {
   async close(): Promise<void> {
     if (this.keyboard) {
       try {
+        this.keyboard.getDevice().removeEventListener(
+          'inputreport',
+          this.handleInputReport,
+        )
         await this.keyboard.close();
       } catch (error) {
         console.log(error);
@@ -247,14 +251,24 @@ export class WebHid implements IHid {
     }
   }
 
-  async execute(command: AbstractCommand<ICommandRequest, ICommandResponseHandler<ICommandResponse>>): Promise<void> {
-    this.commandQueue.push(command);
-    if (this.commandQueue.length === 1) {
-      await this.commandQueue[0].sendReport(this.keyboard!.getDevice());
+  async enqueue(command: ICommand): Promise<IResult> {
+    if (this.isOpened()) {
+      this.commandQueue.push(command);
+      if (this.commandQueue.length === 1) {
+        await this.commandQueue[0].sendReport(this.keyboard!.getDevice());
+      }
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Not connected or opened.',
+      }
     }
   }
 
-  private async handleInputReport(e: any): Promise<void> {
+  handleInputReport = async (e: any): Promise<void> => {
     const command = this.commandQueue.shift();
     if (command) {
       await command.handleInputReport(e);
@@ -264,6 +278,6 @@ export class WebHid implements IHid {
     } else {
       throw new Error('The command queue is empty.');
     }
-  }
+  };
 
 }
