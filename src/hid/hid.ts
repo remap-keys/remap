@@ -5,8 +5,8 @@ export interface IResult {
 }
 
 export interface IConnectParams {
-  readonly vendorId: string;
-  readonly productId: string;
+  readonly vendorId: number;
+  readonly productId: number;
 }
 
 export interface IDeviceInformation {
@@ -32,5 +32,5 @@ export interface IHid {
   isOpened(): boolean;
   getKeyboard(): IKeyboard | undefined;
   close(): Promise<void>;
-  execute(command: ICommand): Promise<void>;
+  enqueue(command: ICommand): Promise<IResult>;
 }
