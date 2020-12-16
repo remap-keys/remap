@@ -167,6 +167,8 @@ export class WebHid implements IHid {
 
   constructor() {
     this.commandQueue = [];
+    // (navigator as any).hid.addEventListener('connect', (e: any) => console.log(e));
+    // (navigator as any).hid.addEventListener('disconnect', (e: any) => console.log(e));
   }
 
   async detectKeyboards(): Promise<IKeyboard[]> {
