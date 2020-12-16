@@ -4,9 +4,17 @@ button {
 
 div {
   margin: 8px;
+
+  &.box {
+    border: 1px solid lightgray;
+  }
 }
 
 input[type=text] {
   width: 50px;
+  margin-right: 8px;
+}
+
+label {
   margin-right: 8px;
 }
