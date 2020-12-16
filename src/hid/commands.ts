@@ -73,6 +73,40 @@ export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<IDynamicKeym
 
 }
 
+export interface IDynamicKeymapSetKeycodeRequest extends ICommandRequest {
+  layer: number;
+  row: number;
+  column: number;
+  code: number;
+}
+
+export interface IDynamicKeymapSetKeycodeResponse extends ICommandResponse {
+  layer: number;
+  row: number;
+  column: number;
+  code: number;
+}
+
+export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<IDynamicKeymapSetKeycodeRequest, IDynamicKeymapSetKeycodeResponse> {
+
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([0x05, req.layer, req.row, req.column, req.code >> 8, req.code & 0xFF]);
+  }
+
+  createResponse(resultArray: Uint8Array): IDynamicKeymapSetKeycodeResponse {
+    const req = this.getRequest();
+    const code = (resultArray[4] << 8) | (resultArray[5]);
+    return {
+      layer: req.layer,
+      row: req.row,
+      column: req.column,
+      code
+    };
+  }
+
+}
+
 export interface IDynamicKeymapGetLayerCountResponse extends ICommandResponse {
   value: number;
 }
