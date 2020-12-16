@@ -2,10 +2,7 @@
 //
 // // Connect and open the device.
 // const hid = new WebHid();
-// const result = await hid.connect({
-//   vendorId: 0x5954,
-//   productId: 0x0001
-// });
+// const result = await hid.connect();
 // if (!result.success) {
 //    const errorMessage = result.error;
 //    const cause = result.cause;
@@ -172,24 +169,78 @@ export class WebHid implements IHid {
     this.commandQueue = [];
   }
 
+  async detectKeyboards(): Promise<IKeyboard[]> {
+    const devices = await (navigator as any).hid.getDevices();
+    return devices.filter((device: any) => {
+        const collectionInfo = device.collections[0];
+        return collectionInfo && collectionInfo.usage === 0x61 && collectionInfo.usagePage === 0xFF60;
+      })
+      .map((device: any) => {
+        return new Keyboard(device);
+      });
+  }
 
-  async connect(connectParams: IConnectParams): Promise<IResult> {
+  async open(keyboard: IKeyboard): Promise<IResult> {
+    if (this.isOpened()) {
+      return {
+        success: false,
+        error: 'Other keyboard already connected and opened.',
+      };
+    }
+    if (keyboard.isOpened()) {
+      return {
+        success: false,
+        error: 'The keyboard already connected and opened.',
+      };
+    }
+    const internal = keyboard as Keyboard;
+    const device = internal.getDevice();
+    try {
+      await device.open();
+      device.addEventListener(
+        'inputreport',
+        this.handleInputReport
+      );
+    } catch(error) {
+      return {
+        success: false,
+        error: 'The device cannot be opened.',
+        cause: error,
+      };
+    }
+    this.keyboard = internal;
+    return {
+      success: true,
+    };
+  }
+
+  async connect(connectParams?: IConnectParams): Promise<IResult> {
     if (this.keyboard) {
       return {
         success: false,
-        error: 'The keyboard already connected.',
+        error: 'Other keyboard already connected.',
       };
     }
     let device;
     try {
-      const devices = await (navigator as any).hid.requestDevice({
-        filters: [{
-          vendorId: connectParams.vendorId,
-          productId: connectParams.productId,
-          usagePage: 0xFF60,
-          usage: 0x61,
-        }]
-      });
+      let devices;
+      if (connectParams) {
+        devices = await (navigator as any).hid.requestDevice({
+          filters: [{
+            vendorId: connectParams.vendorId,
+            productId: connectParams.productId,
+            usagePage: 0xFF60,
+            usage: 0x61,
+          }]
+        });
+      } else {
+        devices = await (navigator as any).hid.requestDevice({
+          filters: [{
+            usagePage: 0xFF60,
+            usage: 0x61,
+          }]
+        });
+      }
       device = devices[0];
     } catch(error) {
       return {

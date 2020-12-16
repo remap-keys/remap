@@ -27,7 +27,9 @@ export interface ICommand {
 }
 
 export interface IHid {
-  connect(connectParams: IConnectParams): Promise<IResult>;
+  detectKeyboards(): Promise<IKeyboard[]>;
+  connect(connectParams?: IConnectParams): Promise<IResult>;
+  open(keyboard: IKeyboard): Promise<IResult>;
   isConnected(): boolean;
   isOpened(): boolean;
   getKeyboard(): IKeyboard | undefined;
