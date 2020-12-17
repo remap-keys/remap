@@ -15,10 +15,18 @@ export interface IDeviceInformation {
   readonly productName: string;
 }
 
+export interface IConnectionEventHandler {
+  connect: (keyboard: IKeyboard) => void;
+  disconnect: (keyboard: IKeyboard) => void;
+}
+
 export interface IKeyboard {
   getInformation(): IDeviceInformation;
+  open(): Promise<IResult>;
   isOpened(): boolean;
+  enqueue(command: ICommand): Promise<IResult>;
   close(): Promise<void>;
+  equals(keyboard: IKeyboard): boolean;
 }
 
 export interface ICommand {
@@ -26,13 +34,12 @@ export interface ICommand {
   handleInputReport(data: any): Promise<void>;
 }
 
+export interface IConnectResult extends IResult {
+  keyboard?: IKeyboard;
+}
+
 export interface IHid {
   detectKeyboards(): Promise<IKeyboard[]>;
-  connect(connectParams?: IConnectParams): Promise<IResult>;
-  open(keyboard: IKeyboard): Promise<IResult>;
-  isConnected(): boolean;
-  isOpened(): boolean;
-  getKeyboard(): IKeyboard | undefined;
-  close(): Promise<void>;
-  enqueue(command: ICommand): Promise<IResult>;
+  setConnectionEventHandler(handler: IConnectionEventHandler): void;
+  connect(connectParams?: IConnectParams): Promise<IConnectResult>;
 }
