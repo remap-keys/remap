@@ -1,6 +1,6 @@
 // Usage example:
 //
-// // Connect and open the device.
+// // Connect a device.
 // const hid = new WebHid();
 // const result = await hid.connect();
 // if (!result.success) {
@@ -8,6 +8,9 @@
 //    const cause = result.cause;
 //    // Do something.
 // }
+// // Open the keyboard
+// const keyboard = result.keyboard;
+// await keyboard.open();
 // // Get the keycode.
 // const command = new DynamicKeymapGetKeycodeCommand(
 //   { layer: 0, row: 0, column: 1 },
@@ -22,9 +25,9 @@
 //     }
 //   }
 // );
-// await hid.execute(command);
+// await keyboard.execute(command);
 // // Close the device.
-// await hid.close();
+// await keyboard.close();
 
 import {
   ICommand,
@@ -32,14 +35,18 @@ import {
   IKeyboard,
   IHid,
   IDeviceInformation,
-  IResult
+  IResult,
+  IConnectResult,
+  IConnectionEventHandler
 } from './hid';
 
 export class Keyboard implements IKeyboard {
 
   private readonly device: any;
+  private commandQueue: ICommand[];
 
   constructor(device: any) {
+    this.commandQueue = [];
     this.device = device;
   }
 
@@ -56,11 +63,80 @@ export class Keyboard implements IKeyboard {
   }
 
   async close(): Promise<void> {
-    this.device.close();
+    try {
+      this.getDevice().removeEventListener(
+        'inputreport',
+        this.handleInputReport,
+      )
+      await this.device.close();
+    } catch (error) {
+      console.log(error);
+      // Ignore.
+    }
   }
 
   getDevice(): any {
     return this.device;
+  }
+
+  async open(): Promise<IResult> {
+    if (this.isOpened()) {
+      return {
+        success: false,
+        error: 'The keyboard already connected and opened.',
+      };
+    }
+    const device = this.getDevice();
+    try {
+      await device.open();
+      device.addEventListener(
+        'inputreport',
+        this.handleInputReport
+      );
+    } catch(error) {
+      return {
+        success: false,
+        error: 'The device cannot be opened.',
+        cause: error,
+      };
+    }
+    return {
+      success: true,
+    };
+  }
+
+  handleInputReport = async (e: any): Promise<void> => {
+    const command = this.commandQueue.shift();
+    if (command) {
+      await command.handleInputReport(e);
+      if (this.commandQueue.length > 0) {
+        await this.commandQueue[0].sendReport(this.getDevice());
+      }
+    } else {
+      throw new Error('The command queue is empty.');
+    }
+  };
+
+  async enqueue(command: ICommand): Promise<IResult> {
+    if (this.isOpened()) {
+      this.commandQueue.push(command);
+      if (this.commandQueue.length === 1) {
+        await this.commandQueue[0].sendReport(this.getDevice());
+      }
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Not connected or opened.',
+      }
+    }
+  }
+
+  equals(keyboard: IKeyboard): boolean {
+    return (this.getInformation().vendorId === keyboard.getInformation().vendorId) &&
+      (this.getInformation().productId === keyboard.getInformation().productId);
   }
 
 }
@@ -162,15 +238,6 @@ export abstract class AbstractCommand<TRequest extends ICommandRequest, TRespons
 
 export class WebHid implements IHid {
 
-  private keyboard?: Keyboard;
-  private commandQueue: ICommand[];
-
-  constructor() {
-    this.commandQueue = [];
-    // (navigator as any).hid.addEventListener('connect', (e: any) => console.log(e));
-    // (navigator as any).hid.addEventListener('disconnect', (e: any) => console.log(e));
-  }
-
   async detectKeyboards(): Promise<IKeyboard[]> {
     const devices = await (navigator as any).hid.getDevices();
     return devices.filter((device: any) => {
@@ -182,47 +249,7 @@ export class WebHid implements IHid {
       });
   }
 
-  async open(keyboard: IKeyboard): Promise<IResult> {
-    if (this.isOpened()) {
-      return {
-        success: false,
-        error: 'Other keyboard already connected and opened.',
-      };
-    }
-    if (keyboard.isOpened()) {
-      return {
-        success: false,
-        error: 'The keyboard already connected and opened.',
-      };
-    }
-    const internal = keyboard as Keyboard;
-    const device = internal.getDevice();
-    try {
-      await device.open();
-      device.addEventListener(
-        'inputreport',
-        this.handleInputReport
-      );
-    } catch(error) {
-      return {
-        success: false,
-        error: 'The device cannot be opened.',
-        cause: error,
-      };
-    }
-    this.keyboard = internal;
-    return {
-      success: true,
-    };
-  }
-
-  async connect(connectParams?: IConnectParams): Promise<IResult> {
-    if (this.keyboard) {
-      return {
-        success: false,
-        error: 'Other keyboard already connected.',
-      };
-    }
+  async connect(connectParams?: IConnectParams): Promise<IConnectResult> {
     let device;
     try {
       let devices;
@@ -257,80 +284,33 @@ export class WebHid implements IHid {
         error: 'No device was selected.',
       };
     }
-    try {
-      await device.open();
-      device.addEventListener(
-        'inputreport',
-        this.handleInputReport
-      );
-    } catch(error) {
-      return {
-        success: false,
-        error: 'The device cannot be opened.',
-        cause: error,
-      };
-    }
-    this.keyboard = new Keyboard(device);
     return {
       success: true,
+      keyboard: new Keyboard(device),
     };
   }
 
-  isConnected(): boolean {
-    return this.keyboard !== undefined;
-  }
-
-  isOpened(): boolean {
-    return this.isConnected() && this.keyboard!.isOpened();
-  }
-
-  getKeyboard(): IKeyboard | undefined {
-    return this.keyboard;
-  }
-
-  async close(): Promise<void> {
-    if (this.keyboard) {
-      try {
-        this.keyboard.getDevice().removeEventListener(
-          'inputreport',
-          this.handleInputReport,
-        )
-        await this.keyboard.close();
-      } catch (error) {
-        console.log(error);
-        // Ignore.
-      }
-      this.keyboard = undefined;
-    }
-  }
-
-  async enqueue(command: ICommand): Promise<IResult> {
-    if (this.isOpened()) {
-      this.commandQueue.push(command);
-      if (this.commandQueue.length === 1) {
-        await this.commandQueue[0].sendReport(this.keyboard!.getDevice());
-      }
-      return {
-        success: true,
-      };
+  checkViaSupportedDevice(device: any): boolean {
+    const collection = device.collections[0];
+    if (collection) {
+      return collection.usage === 0x61 && collection.usagePage === 0xFF60;
     } else {
-      return {
-        success: false,
-        error: 'Not connected or opened.',
-      }
+      return false;
     }
   }
 
-  handleInputReport = async (e: any): Promise<void> => {
-    const command = this.commandQueue.shift();
-    if (command) {
-      await command.handleInputReport(e);
-      if (this.commandQueue.length > 0) {
-        await this.commandQueue[0].sendReport(this.keyboard!.getDevice());
+  setConnectionEventHandler(handler: IConnectionEventHandler): void {
+    (navigator as any).hid.addEventListener('connect', (e: any) => {
+      if (this.checkViaSupportedDevice(e.device)) {
+        handler.connect(new Keyboard(e.device));
       }
-    } else {
-      throw new Error('The command queue is empty.');
-    }
-  };
+    });
+    (navigator as any).hid.addEventListener('disconnect', (e: any) => {
+      if (this.checkViaSupportedDevice(e.device)) {
+        handler.disconnect(new Keyboard(e.device));
+      }
+    });
+  }
 
 }
+

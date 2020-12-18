@@ -1,5 +1,5 @@
 import { WebHid } from '../web-hid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
@@ -11,18 +11,41 @@ import { keycodeArray, keycodeToNameMap } from '../keycode';
 
 const Hid = () => {
   const [webHid] = useState<WebHid>(new WebHid());
+  const [keyboard, setKeyboard] = useState<IKeyboard | undefined>(undefined);
   const [message, setMessage] = useState<string>('');
   const [productName, setProductName] = useState<string>('');
   const [vendorId, setVendorId] = useState<string>('5954');
   const [productId, setProductId] = useState<string>('1');
   const [useFilter, setUseFilter] = useState<boolean>(false);
-  const [authorizedKeyboards, setAuthorizedKeyboards] = useState<IKeyboard[]>([]);
+  const [connectedKeyboards, setConnectedKeyboards] = useState<IKeyboard[]>([]);
   const [selectedKeyboardValue, setSelectedKeyboardValue] = useState<number>(0);
   const [layerCount, setLayerCount] = useState<number>(0);
   const [layer, setLayer] = useState<number>(0);
   const [row, setRow] = useState<number>(0);
   const [column, setColumn] = useState<number>(0);
   const [code, setCode] = useState<number>(0);
+
+  useEffect(() => {
+    webHid.detectKeyboards()
+      .then(keyboards => setConnectedKeyboards(keyboards));
+  }, [webHid]);
+
+  useEffect(() => {
+    webHid.setConnectionEventHandler({
+      connect: connectedKeyboard => {
+        const newConnectedKeyboards = [...connectedKeyboards];
+        const found = newConnectedKeyboards.find(x => x.equals(connectedKeyboard));
+        if (!found) {
+          newConnectedKeyboards.push(connectedKeyboard);
+        }
+        setConnectedKeyboards(newConnectedKeyboards);
+      },
+      disconnect: disconnectedKeyboard => {
+        const newConnectedKeyboards = connectedKeyboards.filter(x => !x.equals(disconnectedKeyboard));
+        setConnectedKeyboards(newConnectedKeyboards);
+      }
+    });
+  }, [webHid, connectedKeyboards]);
 
   const handleConnectClick = async () => {
     let result;
@@ -35,7 +58,9 @@ const Hid = () => {
       result = await webHid.connect();
     }
     if (result.success) {
-      setProductName(webHid.getKeyboard()!.getInformation().productName);
+      await result.keyboard!.open();
+      setKeyboard(result.keyboard);
+      setProductName(result.keyboard!.getInformation().productName);
     } else {
       setMessage(result.error!);
       console.log(result.cause);
@@ -43,7 +68,10 @@ const Hid = () => {
   };
 
   const handleCloseClick = async () => {
-    await webHid.close();
+    if (keyboard) {
+      await keyboard.close();
+      setKeyboard(undefined);
+    }
     setProductName('');
     setMessage('');
   };
@@ -59,7 +87,7 @@ const Hid = () => {
         }
       }
     );
-    const result = await webHid.enqueue(command);
+    const result = await keyboard!.enqueue(command);
     if (!result.success) {
       setMessage(result.error!);
     }
@@ -77,9 +105,9 @@ const Hid = () => {
     setUseFilter(event.target.checked);
   };
 
-  const handleGetAuthorizedKeyboardsClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleGetConnectedKeyboardsClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const keyboards = await webHid.detectKeyboards();
-    setAuthorizedKeyboards(keyboards);
+    setConnectedKeyboards(keyboards);
     setSelectedKeyboardValue(0);
   };
 
@@ -88,10 +116,11 @@ const Hid = () => {
   };
 
   const handleOpenClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const keyboard = authorizedKeyboards[selectedKeyboardValue];
-    const result = await webHid.open(keyboard);
+    const keyboard = connectedKeyboards[selectedKeyboardValue];
+    const result = await keyboard.open();
     if (result.success) {
-      setProductName(webHid.getKeyboard()!.getInformation().productName);
+      setKeyboard(keyboard);
+      setProductName(keyboard.getInformation().productName);
     } else {
       setMessage(result.error!);
       console.log(result.cause);
@@ -128,7 +157,7 @@ const Hid = () => {
         console.log(result.cause);
       }
     });
-    await webHid.enqueue(command);
+    await keyboard!.enqueue(command);
   };
 
   const handleDynamicKeymapSetKeycodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -145,16 +174,16 @@ const Hid = () => {
         console.log(result.cause);
       }
     });
-    await webHid.enqueue(command);
+    await keyboard!.enqueue(command);
   };
 
   return (
     <div>
       <h1>WebHid Test</h1>
       <div className='box'>
-        <button onClick={handleGetAuthorizedKeyboardsClick}>Get authorized keyboards</button>
+        <button onClick={handleGetConnectedKeyboardsClick}>Get connected keyboards</button>
         <select value={selectedKeyboardValue} onChange={handleSelectedKeyboardValue}>
-          {authorizedKeyboards.map((k, i) => {
+          {connectedKeyboards.map((k, i) => {
             return <option key={i} value={i}>
               {k.getInformation().productName}
             </option>;
@@ -169,7 +198,7 @@ const Hid = () => {
         0x<input type='text' id='vendorId' value={vendorId} onChange={handleVendorIdChange} />
         <label htmlFor='productId'>Product ID: </label>
         0x<input type='text' id='productId' value={productId} onChange={handleProductIdChange} />
-        <button onClick={handleConnectClick}>Connect</button>
+        <button onClick={handleConnectClick}>Connect and open</button>
       </div>
       <div className='box'>
         <span>Product Name: {productName}</span>
