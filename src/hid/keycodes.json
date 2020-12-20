@@ -1,1237 +1,2162 @@
 [
   {
     "code": 0,
-    "name": "KC_NO",
+    "name": {
+      "long": "KC_NO",
+      "short": "KC_NO"
+    },
     "label": "NO"
   },
   {
     "code": 1,
-    "name": "KC_TRANSPARENT",
+    "name": {
+      "long": "KC_TRANSPARENT",
+      "short": "KC_TRNS"
+    },
     "label": "TRANSPARENT"
   },
   {
     "code": 2,
-    "name": "KC_POST_FAIL",
+    "name": {
+      "long": "KC_POST_FAIL",
+      "short": "KC_POST_FAIL"
+    },
     "label": "POST_FAIL"
   },
   {
     "code": 3,
-    "name": "KC_UNDEFINED",
+    "name": {
+      "long": "KC_UNDEFINED",
+      "short": "KC_UNDEFINED"
+    },
     "label": "UNDEFINED"
   },
   {
     "code": 4,
-    "name": "KC_A",
+    "name": {
+      "long": "KC_A",
+      "short": "KC_A"
+    },
     "label": "A"
   },
   {
     "code": 5,
-    "name": "KC_B",
+    "name": {
+      "long": "KC_B",
+      "short": "KC_B"
+    },
     "label": "B"
   },
   {
     "code": 6,
-    "name": "KC_C",
+    "name": {
+      "long": "KC_C",
+      "short": "KC_C"
+    },
     "label": "C"
   },
   {
     "code": 7,
-    "name": "KC_D",
+    "name": {
+      "long": "KC_D",
+      "short": "KC_D"
+    },
     "label": "D"
   },
   {
     "code": 8,
-    "name": "KC_E",
+    "name": {
+      "long": "KC_E",
+      "short": "KC_E"
+    },
     "label": "E"
   },
   {
     "code": 9,
-    "name": "KC_F",
+    "name": {
+      "long": "KC_F",
+      "short": "KC_F"
+    },
     "label": "F"
   },
   {
     "code": 10,
-    "name": "KC_G",
+    "name": {
+      "long": "KC_G",
+      "short": "KC_G"
+    },
     "label": "G"
   },
   {
     "code": 11,
-    "name": "KC_H",
+    "name": {
+      "long": "KC_H",
+      "short": "KC_H"
+    },
     "label": "H"
   },
   {
     "code": 12,
-    "name": "KC_I",
+    "name": {
+      "long": "KC_I",
+      "short": "KC_I"
+    },
     "label": "I"
   },
   {
     "code": 13,
-    "name": "KC_J",
+    "name": {
+      "long": "KC_J",
+      "short": "KC_J"
+    },
     "label": "J"
   },
   {
     "code": 14,
-    "name": "KC_K",
+    "name": {
+      "long": "KC_K",
+      "short": "KC_K"
+    },
     "label": "K"
   },
   {
     "code": 15,
-    "name": "KC_L",
+    "name": {
+      "long": "KC_L",
+      "short": "KC_L"
+    },
     "label": "L"
   },
   {
     "code": 16,
-    "name": "KC_M",
+    "name": {
+      "long": "KC_M",
+      "short": "KC_M"
+    },
     "label": "M"
   },
   {
     "code": 17,
-    "name": "KC_N",
+    "name": {
+      "long": "KC_N",
+      "short": "KC_N"
+    },
     "label": "N"
   },
   {
     "code": 18,
-    "name": "KC_O",
+    "name": {
+      "long": "KC_O",
+      "short": "KC_O"
+    },
     "label": "O"
   },
   {
     "code": 19,
-    "name": "KC_P",
+    "name": {
+      "long": "KC_P",
+      "short": "KC_P"
+    },
     "label": "P"
   },
   {
     "code": 20,
-    "name": "KC_Q",
+    "name": {
+      "long": "KC_Q",
+      "short": "KC_Q"
+    },
     "label": "Q"
   },
   {
     "code": 21,
-    "name": "KC_R",
+    "name": {
+      "long": "KC_R",
+      "short": "KC_R"
+    },
     "label": "R"
   },
   {
     "code": 22,
-    "name": "KC_S",
+    "name": {
+      "long": "KC_S",
+      "short": "KC_S"
+    },
     "label": "S"
   },
   {
     "code": 23,
-    "name": "KC_T",
+    "name": {
+      "long": "KC_T",
+      "short": "KC_T"
+    },
     "label": "T"
   },
   {
     "code": 24,
-    "name": "KC_U",
+    "name": {
+      "long": "KC_U",
+      "short": "KC_U"
+    },
     "label": "U"
   },
   {
     "code": 25,
-    "name": "KC_V",
+    "name": {
+      "long": "KC_V",
+      "short": "KC_V"
+    },
     "label": "V"
   },
   {
     "code": 26,
-    "name": "KC_W",
+    "name": {
+      "long": "KC_W",
+      "short": "KC_W"
+    },
     "label": "W"
   },
   {
     "code": 27,
-    "name": "KC_X",
+    "name": {
+      "long": "KC_X",
+      "short": "KC_X"
+    },
     "label": "X"
   },
   {
     "code": 28,
-    "name": "KC_Y",
+    "name": {
+      "long": "KC_Y",
+      "short": "KC_Y"
+    },
     "label": "Y"
   },
   {
     "code": 29,
-    "name": "KC_Z",
+    "name": {
+      "long": "KC_Z",
+      "short": "KC_Z"
+    },
     "label": "Z"
   },
   {
     "code": 30,
-    "name": "KC_1",
+    "name": {
+      "long": "KC_1",
+      "short": "KC_1"
+    },
     "label": "1"
   },
   {
     "code": 31,
-    "name": "KC_2",
+    "name": {
+      "long": "KC_2",
+      "short": "KC_2"
+    },
     "label": "2"
   },
   {
     "code": 32,
-    "name": "KC_3",
+    "name": {
+      "long": "KC_3",
+      "short": "KC_3"
+    },
     "label": "3"
   },
   {
     "code": 33,
-    "name": "KC_4",
+    "name": {
+      "long": "KC_4",
+      "short": "KC_4"
+    },
     "label": "4"
   },
   {
     "code": 34,
-    "name": "KC_5",
+    "name": {
+      "long": "KC_5",
+      "short": "KC_5"
+    },
     "label": "5"
   },
   {
     "code": 35,
-    "name": "KC_6",
+    "name": {
+      "long": "KC_6",
+      "short": "KC_6"
+    },
     "label": "6"
   },
   {
     "code": 36,
-    "name": "KC_7",
+    "name": {
+      "long": "KC_7",
+      "short": "KC_7"
+    },
     "label": "7"
   },
   {
     "code": 37,
-    "name": "KC_8",
+    "name": {
+      "long": "KC_8",
+      "short": "KC_8"
+    },
     "label": "8"
   },
   {
     "code": 38,
-    "name": "KC_9",
+    "name": {
+      "long": "KC_9",
+      "short": "KC_9"
+    },
     "label": "9"
   },
   {
     "code": 39,
-    "name": "KC_0",
+    "name": {
+      "long": "KC_0",
+      "short": "KC_0"
+    },
     "label": "0"
   },
   {
     "code": 40,
-    "name": "KC_ENTER",
+    "name": {
+      "long": "KC_ENTER",
+      "short": "KC_ENT"
+    },
     "label": "ENTER"
   },
   {
     "code": 41,
-    "name": "KC_ESCAPE",
+    "name": {
+      "long": "KC_ESCAPE",
+      "short": "KC_ESC"
+    },
     "label": "ESCAPE"
   },
   {
     "code": 42,
-    "name": "KC_BSPACE",
+    "name": {
+      "long": "KC_BSPACE",
+      "short": "KC_BSPC"
+    },
     "label": "BSPACE"
   },
   {
     "code": 43,
-    "name": "KC_TAB",
+    "name": {
+      "long": "KC_TAB",
+      "short": "KC_TAB"
+    },
     "label": "TAB"
   },
   {
     "code": 44,
-    "name": "KC_SPACE",
+    "name": {
+      "long": "KC_SPACE",
+      "short": "KC_SPC"
+    },
     "label": "SPACE"
   },
   {
     "code": 45,
-    "name": "KC_MINUS",
+    "name": {
+      "long": "KC_MINUS",
+      "short": "KC_MINS"
+    },
     "label": "MINUS"
   },
   {
     "code": 46,
-    "name": "KC_EQUAL",
+    "name": {
+      "long": "KC_EQUAL",
+      "short": "KC_EQL"
+    },
     "label": "EQUAL"
   },
   {
     "code": 47,
-    "name": "KC_LBRACKET",
+    "name": {
+      "long": "KC_LBRACKET",
+      "short": "KC_LBRC"
+    },
     "label": "LBRACKET"
   },
   {
     "code": 48,
-    "name": "KC_RBRACKET",
+    "name": {
+      "long": "KC_RBRACKET",
+      "short": "KC_RBRC"
+    },
     "label": "RBRACKET"
   },
   {
     "code": 49,
-    "name": "KC_BSLASH",
+    "name": {
+      "long": "KC_BSLASH",
+      "short": "KC_BSLS"
+    },
     "label": "BSLASH"
   },
   {
     "code": 50,
-    "name": "KC_NONUS_HASH",
+    "name": {
+      "long": "KC_NONUS_HASH",
+      "short": "KC_NUHS"
+    },
     "label": "NONUS_HASH"
   },
   {
     "code": 51,
-    "name": "KC_SCOLON",
+    "name": {
+      "long": "KC_SCOLON",
+      "short": "KC_SCLN"
+    },
     "label": "SCOLON"
   },
   {
     "code": 52,
-    "name": "KC_QUOTE",
+    "name": {
+      "long": "KC_QUOTE",
+      "short": "KC_QUOT"
+    },
     "label": "QUOTE"
   },
   {
     "code": 53,
-    "name": "KC_GRAVE",
+    "name": {
+      "long": "KC_GRAVE",
+      "short": "KC_ZKHK"
+    },
     "label": "GRAVE"
   },
   {
     "code": 54,
-    "name": "KC_COMMA",
+    "name": {
+      "long": "KC_COMMA",
+      "short": "KC_COMM"
+    },
     "label": "COMMA"
   },
   {
     "code": 55,
-    "name": "KC_DOT",
+    "name": {
+      "long": "KC_DOT",
+      "short": "KC_DOT"
+    },
     "label": "DOT"
   },
   {
     "code": 56,
-    "name": "KC_SLASH",
+    "name": {
+      "long": "KC_SLASH",
+      "short": "KC_SLSH"
+    },
     "label": "SLASH"
   },
   {
     "code": 57,
-    "name": "KC_CAPSLOCK",
+    "name": {
+      "long": "KC_CAPSLOCK",
+      "short": "KC_CAPS"
+    },
     "label": "CAPSLOCK"
   },
   {
     "code": 58,
-    "name": "KC_F1",
+    "name": {
+      "long": "KC_F1",
+      "short": "KC_F1"
+    },
     "label": "F1"
   },
   {
     "code": 59,
-    "name": "KC_F2",
+    "name": {
+      "long": "KC_F2",
+      "short": "KC_F2"
+    },
     "label": "F2"
   },
   {
     "code": 60,
-    "name": "KC_F3",
+    "name": {
+      "long": "KC_F3",
+      "short": "KC_F3"
+    },
     "label": "F3"
   },
   {
     "code": 61,
-    "name": "KC_F4",
+    "name": {
+      "long": "KC_F4",
+      "short": "KC_F4"
+    },
     "label": "F4"
   },
   {
     "code": 62,
-    "name": "KC_F5",
+    "name": {
+      "long": "KC_F5",
+      "short": "KC_F5"
+    },
     "label": "F5"
   },
   {
     "code": 63,
-    "name": "KC_F6",
+    "name": {
+      "long": "KC_F6",
+      "short": "KC_F6"
+    },
     "label": "F6"
   },
   {
     "code": 64,
-    "name": "KC_F7",
+    "name": {
+      "long": "KC_F7",
+      "short": "KC_F7"
+    },
     "label": "F7"
   },
   {
     "code": 65,
-    "name": "KC_F8",
+    "name": {
+      "long": "KC_F8",
+      "short": "KC_F8"
+    },
     "label": "F8"
   },
   {
     "code": 66,
-    "name": "KC_F9",
+    "name": {
+      "long": "KC_F9",
+      "short": "KC_F9"
+    },
     "label": "F9"
   },
   {
     "code": 67,
-    "name": "KC_F10",
+    "name": {
+      "long": "KC_F10",
+      "short": "KC_F10"
+    },
     "label": "F10"
   },
   {
     "code": 68,
-    "name": "KC_F11",
+    "name": {
+      "long": "KC_F11",
+      "short": "KC_F11"
+    },
     "label": "F11"
   },
   {
     "code": 69,
-    "name": "KC_F12",
+    "name": {
+      "long": "KC_F12",
+      "short": "KC_F12"
+    },
     "label": "F12"
   },
   {
     "code": 70,
-    "name": "KC_PSCREEN",
+    "name": {
+      "long": "KC_PSCREEN",
+      "short": "KC_PSCR"
+    },
     "label": "PSCREEN"
   },
   {
     "code": 71,
-    "name": "KC_SCROLLLOCK",
+    "name": {
+      "long": "KC_SCROLLLOCK",
+      "short": "KC_BRMD"
+    },
     "label": "SCROLLLOCK"
   },
   {
     "code": 72,
-    "name": "KC_PAUSE",
+    "name": {
+      "long": "KC_PAUSE",
+      "short": "KC_BRMU"
+    },
     "label": "PAUSE"
   },
   {
     "code": 73,
-    "name": "KC_INSERT",
+    "name": {
+      "long": "KC_INSERT",
+      "short": "KC_INS"
+    },
     "label": "INSERT"
   },
   {
     "code": 74,
-    "name": "KC_HOME",
+    "name": {
+      "long": "KC_HOME",
+      "short": "KC_HOME"
+    },
     "label": "HOME"
   },
   {
     "code": 75,
-    "name": "KC_PGUP",
+    "name": {
+      "long": "KC_PGUP",
+      "short": "KC_PGUP"
+    },
     "label": "PGUP"
   },
   {
     "code": 76,
-    "name": "KC_DELETE",
+    "name": {
+      "long": "KC_DELETE",
+      "short": "KC_DEL"
+    },
     "label": "DELETE"
   },
   {
     "code": 77,
-    "name": "KC_END",
+    "name": {
+      "long": "KC_END",
+      "short": "KC_END"
+    },
     "label": "END"
   },
   {
     "code": 78,
-    "name": "KC_PGDOWN",
+    "name": {
+      "long": "KC_PGDOWN",
+      "short": "KC_PGDN"
+    },
     "label": "PGDOWN"
   },
   {
     "code": 79,
-    "name": "KC_RIGHT",
+    "name": {
+      "long": "KC_RIGHT",
+      "short": "KC_RGHT"
+    },
     "label": "RIGHT"
   },
   {
     "code": 80,
-    "name": "KC_LEFT",
+    "name": {
+      "long": "KC_LEFT",
+      "short": "KC_LEFT"
+    },
     "label": "LEFT"
   },
   {
     "code": 81,
-    "name": "KC_DOWN",
+    "name": {
+      "long": "KC_DOWN",
+      "short": "KC_DOWN"
+    },
     "label": "DOWN"
   },
   {
     "code": 82,
-    "name": "KC_UP",
+    "name": {
+      "long": "KC_UP",
+      "short": "KC_UP"
+    },
     "label": "UP"
   },
   {
     "code": 83,
-    "name": "KC_NUMLOCK",
+    "name": {
+      "long": "KC_NUMLOCK",
+      "short": "KC_NLCK"
+    },
     "label": "NUMLOCK"
   },
   {
     "code": 84,
-    "name": "KC_KP_SLASH",
+    "name": {
+      "long": "KC_KP_SLASH",
+      "short": "KC_PSLS"
+    },
     "label": "KP_SLASH"
   },
   {
     "code": 85,
-    "name": "KC_KP_ASTERISK",
+    "name": {
+      "long": "KC_KP_ASTERISK",
+      "short": "KC_PAST"
+    },
     "label": "KP_ASTERISK"
   },
   {
     "code": 86,
-    "name": "KC_KP_MINUS",
+    "name": {
+      "long": "KC_KP_MINUS",
+      "short": "KC_PMNS"
+    },
     "label": "KP_MINUS"
   },
   {
     "code": 87,
-    "name": "KC_KP_PLUS",
+    "name": {
+      "long": "KC_KP_PLUS",
+      "short": "KC_PPLS"
+    },
     "label": "KP_PLUS"
   },
   {
     "code": 88,
-    "name": "KC_KP_ENTER",
+    "name": {
+      "long": "KC_KP_ENTER",
+      "short": "KC_PENT"
+    },
     "label": "KP_ENTER"
   },
   {
     "code": 89,
-    "name": "KC_KP_1",
+    "name": {
+      "long": "KC_KP_1",
+      "short": "KC_P1"
+    },
     "label": "KP_1"
   },
   {
     "code": 90,
-    "name": "KC_KP_2",
+    "name": {
+      "long": "KC_KP_2",
+      "short": "KC_P2"
+    },
     "label": "KP_2"
   },
   {
     "code": 91,
-    "name": "KC_KP_3",
+    "name": {
+      "long": "KC_KP_3",
+      "short": "KC_P3"
+    },
     "label": "KP_3"
   },
   {
     "code": 92,
-    "name": "KC_KP_4",
+    "name": {
+      "long": "KC_KP_4",
+      "short": "KC_P4"
+    },
     "label": "KP_4"
   },
   {
     "code": 93,
-    "name": "KC_KP_5",
+    "name": {
+      "long": "KC_KP_5",
+      "short": "KC_P5"
+    },
     "label": "KP_5"
   },
   {
     "code": 94,
-    "name": "KC_KP_6",
+    "name": {
+      "long": "KC_KP_6",
+      "short": "KC_P6"
+    },
     "label": "KP_6"
   },
   {
     "code": 95,
-    "name": "KC_KP_7",
+    "name": {
+      "long": "KC_KP_7",
+      "short": "KC_P7"
+    },
     "label": "KP_7"
   },
   {
     "code": 96,
-    "name": "KC_KP_8",
+    "name": {
+      "long": "KC_KP_8",
+      "short": "KC_P8"
+    },
     "label": "KP_8"
   },
   {
     "code": 97,
-    "name": "KC_KP_9",
+    "name": {
+      "long": "KC_KP_9",
+      "short": "KC_P9"
+    },
     "label": "KP_9"
   },
   {
     "code": 98,
-    "name": "KC_KP_0",
+    "name": {
+      "long": "KC_KP_0",
+      "short": "KC_P0"
+    },
     "label": "KP_0"
   },
   {
     "code": 99,
-    "name": "KC_KP_DOT",
+    "name": {
+      "long": "KC_KP_DOT",
+      "short": "KC_PDOT"
+    },
     "label": "KP_DOT"
   },
   {
     "code": 100,
-    "name": "KC_NONUS_BSLASH",
+    "name": {
+      "long": "KC_NONUS_BSLASH",
+      "short": "KC_NUBS"
+    },
     "label": "NONUS_BSLASH"
   },
   {
     "code": 101,
-    "name": "KC_APPLICATION",
+    "name": {
+      "long": "KC_APPLICATION",
+      "short": "KC_APP"
+    },
     "label": "APPLICATION"
   },
   {
     "code": 102,
-    "name": "KC_POWER",
+    "name": {
+      "long": "KC_POWER",
+      "short": "KC_POWER"
+    },
     "label": "POWER"
   },
   {
     "code": 103,
-    "name": "KC_KP_EQUAL",
+    "name": {
+      "long": "KC_KP_EQUAL",
+      "short": "KC_PEQL"
+    },
     "label": "KP_EQUAL"
   },
   {
     "code": 104,
-    "name": "KC_F13",
+    "name": {
+      "long": "KC_F13",
+      "short": "KC_F13"
+    },
     "label": "F13"
   },
   {
     "code": 105,
-    "name": "KC_F14",
+    "name": {
+      "long": "KC_F14",
+      "short": "KC_F14"
+    },
     "label": "F14"
   },
   {
     "code": 106,
-    "name": "KC_F15",
+    "name": {
+      "long": "KC_F15",
+      "short": "KC_F15"
+    },
     "label": "F15"
   },
   {
     "code": 107,
-    "name": "KC_F16",
+    "name": {
+      "long": "KC_F16",
+      "short": "KC_F16"
+    },
     "label": "F16"
   },
   {
     "code": 108,
-    "name": "KC_F17",
+    "name": {
+      "long": "KC_F17",
+      "short": "KC_F17"
+    },
     "label": "F17"
   },
   {
     "code": 109,
-    "name": "KC_F18",
+    "name": {
+      "long": "KC_F18",
+      "short": "KC_F18"
+    },
     "label": "F18"
   },
   {
     "code": 110,
-    "name": "KC_F19",
+    "name": {
+      "long": "KC_F19",
+      "short": "KC_F19"
+    },
     "label": "F19"
   },
   {
     "code": 111,
-    "name": "KC_F20",
+    "name": {
+      "long": "KC_F20",
+      "short": "KC_F20"
+    },
     "label": "F20"
   },
   {
     "code": 112,
-    "name": "KC_F21",
+    "name": {
+      "long": "KC_F21",
+      "short": "KC_F21"
+    },
     "label": "F21"
   },
   {
     "code": 113,
-    "name": "KC_F22",
+    "name": {
+      "long": "KC_F22",
+      "short": "KC_F22"
+    },
     "label": "F22"
   },
   {
     "code": 114,
-    "name": "KC_F23",
+    "name": {
+      "long": "KC_F23",
+      "short": "KC_F23"
+    },
     "label": "F23"
   },
   {
     "code": 115,
-    "name": "KC_F24",
+    "name": {
+      "long": "KC_F24",
+      "short": "KC_F24"
+    },
     "label": "F24"
   },
   {
     "code": 116,
-    "name": "KC_EXECUTE",
+    "name": {
+      "long": "KC_EXECUTE",
+      "short": "KC_EXEC"
+    },
     "label": "EXECUTE"
   },
   {
     "code": 117,
-    "name": "KC_HELP",
+    "name": {
+      "long": "KC_HELP",
+      "short": "KC_HELP"
+    },
     "label": "HELP"
   },
   {
     "code": 118,
-    "name": "KC_MENU",
+    "name": {
+      "long": "KC_MENU",
+      "short": "KC_MENU"
+    },
     "label": "MENU"
   },
   {
     "code": 119,
-    "name": "KC_SELECT",
+    "name": {
+      "long": "KC_SELECT",
+      "short": "KC_SLCT"
+    },
     "label": "SELECT"
   },
   {
     "code": 120,
-    "name": "KC_STOP",
+    "name": {
+      "long": "KC_STOP",
+      "short": "KC_STOP"
+    },
     "label": "STOP"
   },
   {
     "code": 121,
-    "name": "KC_AGAIN",
+    "name": {
+      "long": "KC_AGAIN",
+      "short": "KC_AGIN"
+    },
     "label": "AGAIN"
   },
   {
     "code": 122,
-    "name": "KC_UNDO",
+    "name": {
+      "long": "KC_UNDO",
+      "short": "KC_UNDO"
+    },
     "label": "UNDO"
   },
   {
     "code": 123,
-    "name": "KC_CUT",
+    "name": {
+      "long": "KC_CUT",
+      "short": "KC_CUT"
+    },
     "label": "CUT"
   },
   {
     "code": 124,
-    "name": "KC_COPY",
+    "name": {
+      "long": "KC_COPY",
+      "short": "KC_COPY"
+    },
     "label": "COPY"
   },
   {
     "code": 125,
-    "name": "KC_PASTE",
+    "name": {
+      "long": "KC_PASTE",
+      "short": "KC_PSTE"
+    },
     "label": "PASTE"
   },
   {
     "code": 126,
-    "name": "KC_FIND",
+    "name": {
+      "long": "KC_FIND",
+      "short": "KC_FIND"
+    },
     "label": "FIND"
   },
   {
     "code": 127,
-    "name": "KC__MUTE",
+    "name": {
+      "long": "KC__MUTE",
+      "short": "KC__MUTE"
+    },
     "label": "_MUTE"
   },
   {
     "code": 128,
-    "name": "KC__VOLUP",
+    "name": {
+      "long": "KC__VOLUP",
+      "short": "KC__VOLUP"
+    },
     "label": "_VOLUP"
   },
   {
     "code": 129,
-    "name": "KC__VOLDOWN",
+    "name": {
+      "long": "KC__VOLDOWN",
+      "short": "KC__VOLDOWN"
+    },
     "label": "_VOLDOWN"
   },
   {
     "code": 130,
-    "name": "KC_LOCKING_CAPS",
+    "name": {
+      "long": "KC_LOCKING_CAPS",
+      "short": "KC_LCAP"
+    },
     "label": "LOCKING_CAPS"
   },
   {
     "code": 131,
-    "name": "KC_LOCKING_NUM",
+    "name": {
+      "long": "KC_LOCKING_NUM",
+      "short": "KC_LNUM"
+    },
     "label": "LOCKING_NUM"
   },
   {
     "code": 132,
-    "name": "KC_LOCKING_SCROLL",
+    "name": {
+      "long": "KC_LOCKING_SCROLL",
+      "short": "KC_LSCR"
+    },
     "label": "LOCKING_SCROLL"
   },
   {
     "code": 133,
-    "name": "KC_KP_COMMA",
+    "name": {
+      "long": "KC_KP_COMMA",
+      "short": "KC_PCMM"
+    },
     "label": "KP_COMMA"
   },
   {
     "code": 134,
-    "name": "KC_KP_EQUAL_AS400",
+    "name": {
+      "long": "KC_KP_EQUAL_AS400",
+      "short": "KC_KP_EQUAL_AS400"
+    },
     "label": "KP_EQUAL_AS400"
   },
   {
     "code": 135,
-    "name": "KC_INT1",
+    "name": {
+      "long": "KC_INT1",
+      "short": "KC_RO"
+    },
     "label": "INT1"
   },
   {
     "code": 136,
-    "name": "KC_INT2",
+    "name": {
+      "long": "KC_INT2",
+      "short": "KC_KANA"
+    },
     "label": "INT2"
   },
   {
     "code": 137,
-    "name": "KC_INT3",
+    "name": {
+      "long": "KC_INT3",
+      "short": "KC_JYEN"
+    },
     "label": "INT3"
   },
   {
     "code": 138,
-    "name": "KC_INT4",
+    "name": {
+      "long": "KC_INT4",
+      "short": "KC_HENK"
+    },
     "label": "INT4"
   },
   {
     "code": 139,
-    "name": "KC_INT5",
+    "name": {
+      "long": "KC_INT5",
+      "short": "KC_MHEN"
+    },
     "label": "INT5"
   },
   {
     "code": 140,
-    "name": "KC_INT6",
+    "name": {
+      "long": "KC_INT6",
+      "short": "KC_INT6"
+    },
     "label": "INT6"
   },
   {
     "code": 141,
-    "name": "KC_INT7",
+    "name": {
+      "long": "KC_INT7",
+      "short": "KC_INT7"
+    },
     "label": "INT7"
   },
   {
     "code": 142,
-    "name": "KC_INT8",
+    "name": {
+      "long": "KC_INT8",
+      "short": "KC_INT8"
+    },
     "label": "INT8"
   },
   {
     "code": 143,
-    "name": "KC_INT9",
+    "name": {
+      "long": "KC_INT9",
+      "short": "KC_INT9"
+    },
     "label": "INT9"
   },
   {
     "code": 144,
-    "name": "KC_LANG1",
+    "name": {
+      "long": "KC_LANG1",
+      "short": "KC_HAEN"
+    },
     "label": "LANG1"
   },
   {
     "code": 145,
-    "name": "KC_LANG2",
+    "name": {
+      "long": "KC_LANG2",
+      "short": "KC_HANJ"
+    },
     "label": "LANG2"
   },
   {
     "code": 146,
-    "name": "KC_LANG3",
+    "name": {
+      "long": "KC_LANG3",
+      "short": "KC_LANG3"
+    },
     "label": "LANG3"
   },
   {
     "code": 147,
-    "name": "KC_LANG4",
+    "name": {
+      "long": "KC_LANG4",
+      "short": "KC_LANG4"
+    },
     "label": "LANG4"
   },
   {
     "code": 148,
-    "name": "KC_LANG5",
+    "name": {
+      "long": "KC_LANG5",
+      "short": "KC_LANG5"
+    },
     "label": "LANG5"
   },
   {
     "code": 149,
-    "name": "KC_LANG6",
+    "name": {
+      "long": "KC_LANG6",
+      "short": "KC_LANG6"
+    },
     "label": "LANG6"
   },
   {
     "code": 150,
-    "name": "KC_LANG7",
+    "name": {
+      "long": "KC_LANG7",
+      "short": "KC_LANG7"
+    },
     "label": "LANG7"
   },
   {
     "code": 151,
-    "name": "KC_LANG8",
+    "name": {
+      "long": "KC_LANG8",
+      "short": "KC_LANG8"
+    },
     "label": "LANG8"
   },
   {
     "code": 152,
-    "name": "KC_LANG9",
+    "name": {
+      "long": "KC_LANG9",
+      "short": "KC_LANG9"
+    },
     "label": "LANG9"
   },
   {
     "code": 153,
-    "name": "KC_ALT_ERASE",
+    "name": {
+      "long": "KC_ALT_ERASE",
+      "short": "KC_ERAS"
+    },
     "label": "ALT_ERASE"
   },
   {
     "code": 154,
-    "name": "KC_SYSREQ",
+    "name": {
+      "long": "KC_SYSREQ",
+      "short": "KC_SYSREQ"
+    },
     "label": "SYSREQ"
   },
   {
     "code": 155,
-    "name": "KC_CANCEL",
+    "name": {
+      "long": "KC_CANCEL",
+      "short": "KC_CANCEL"
+    },
     "label": "CANCEL"
   },
   {
     "code": 156,
-    "name": "KC_CLEAR",
+    "name": {
+      "long": "KC_CLEAR",
+      "short": "KC_CLR"
+    },
     "label": "CLEAR"
   },
   {
     "code": 157,
-    "name": "KC_PRIOR",
+    "name": {
+      "long": "KC_PRIOR",
+      "short": "KC_PRIOR"
+    },
     "label": "PRIOR"
   },
   {
     "code": 158,
-    "name": "KC_RETURN",
+    "name": {
+      "long": "KC_RETURN",
+      "short": "KC_RETURN"
+    },
     "label": "RETURN"
   },
   {
     "code": 159,
-    "name": "KC_SEPARATOR",
+    "name": {
+      "long": "KC_SEPARATOR",
+      "short": "KC_SEPARATOR"
+    },
     "label": "SEPARATOR"
   },
   {
     "code": 160,
-    "name": "KC_OUT",
+    "name": {
+      "long": "KC_OUT",
+      "short": "KC_OUT"
+    },
     "label": "OUT"
   },
   {
     "code": 161,
-    "name": "KC_OPER",
+    "name": {
+      "long": "KC_OPER",
+      "short": "KC_OPER"
+    },
     "label": "OPER"
   },
   {
     "code": 162,
-    "name": "KC_CLEAR_AGAIN",
+    "name": {
+      "long": "KC_CLEAR_AGAIN",
+      "short": "KC_CLEAR_AGAIN"
+    },
     "label": "CLEAR_AGAIN"
   },
   {
     "code": 163,
-    "name": "KC_CRSEL",
+    "name": {
+      "long": "KC_CRSEL",
+      "short": "KC_CRSEL"
+    },
     "label": "CRSEL"
   },
   {
     "code": 164,
-    "name": "KC_EXSEL",
+    "name": {
+      "long": "KC_EXSEL",
+      "short": "KC_EXSEL"
+    },
     "label": "EXSEL"
   },
   {
     "code": 165,
-    "name": "KC_SYSTEM_POWER",
+    "name": {
+      "long": "KC_SYSTEM_POWER",
+      "short": "KC_PWR"
+    },
     "label": "SYSTEM_POWER"
   },
   {
     "code": 166,
-    "name": "KC_SYSTEM_SLEEP",
+    "name": {
+      "long": "KC_SYSTEM_SLEEP",
+      "short": "KC_SLEP"
+    },
     "label": "SYSTEM_SLEEP"
   },
   {
     "code": 167,
-    "name": "KC_SYSTEM_WAKE",
+    "name": {
+      "long": "KC_SYSTEM_WAKE",
+      "short": "KC_WAKE"
+    },
     "label": "SYSTEM_WAKE"
   },
   {
     "code": 168,
-    "name": "KC_AUDIO_MUTE",
+    "name": {
+      "long": "KC_AUDIO_MUTE",
+      "short": "KC_MUTE"
+    },
     "label": "AUDIO_MUTE"
   },
   {
     "code": 169,
-    "name": "KC_AUDIO_VOL_UP",
+    "name": {
+      "long": "KC_AUDIO_VOL_UP",
+      "short": "KC_VOLU"
+    },
     "label": "AUDIO_VOL_UP"
   },
   {
     "code": 170,
-    "name": "KC_AUDIO_VOL_DOWN",
+    "name": {
+      "long": "KC_AUDIO_VOL_DOWN",
+      "short": "KC_VOLD"
+    },
     "label": "AUDIO_VOL_DOWN"
   },
   {
     "code": 171,
-    "name": "KC_MEDIA_NEXT_TRACK",
+    "name": {
+      "long": "KC_MEDIA_NEXT_TRACK",
+      "short": "KC_MNXT"
+    },
     "label": "MEDIA_NEXT_TRACK"
   },
   {
     "code": 172,
-    "name": "KC_MEDIA_PREV_TRACK",
+    "name": {
+      "long": "KC_MEDIA_PREV_TRACK",
+      "short": "KC_MPRV"
+    },
     "label": "MEDIA_PREV_TRACK"
   },
   {
     "code": 173,
-    "name": "KC_MEDIA_STOP",
+    "name": {
+      "long": "KC_MEDIA_STOP",
+      "short": "KC_MSTP"
+    },
     "label": "MEDIA_STOP"
   },
   {
     "code": 174,
-    "name": "KC_MEDIA_PLAY_PAUSE",
+    "name": {
+      "long": "KC_MEDIA_PLAY_PAUSE",
+      "short": "KC_MPLY"
+    },
     "label": "MEDIA_PLAY_PAUSE"
   },
   {
     "code": 175,
-    "name": "KC_MEDIA_SELECT",
+    "name": {
+      "long": "KC_MEDIA_SELECT",
+      "short": "KC_MSEL"
+    },
     "label": "MEDIA_SELECT"
   },
   {
     "code": 176,
-    "name": "KC_MEDIA_EJECT",
+    "name": {
+      "long": "KC_MEDIA_EJECT",
+      "short": "KC_EJCT"
+    },
     "label": "MEDIA_EJECT"
   },
   {
     "code": 177,
-    "name": "KC_MAIL",
+    "name": {
+      "long": "KC_MAIL",
+      "short": "KC_MAIL"
+    },
     "label": "MAIL"
   },
   {
     "code": 178,
-    "name": "KC_CALCULATOR",
+    "name": {
+      "long": "KC_CALCULATOR",
+      "short": "KC_CALC"
+    },
     "label": "CALCULATOR"
   },
   {
     "code": 179,
-    "name": "KC_MY_COMPUTER",
+    "name": {
+      "long": "KC_MY_COMPUTER",
+      "short": "KC_MYCM"
+    },
     "label": "MY_COMPUTER"
   },
   {
     "code": 180,
-    "name": "KC_WWW_SEARCH",
+    "name": {
+      "long": "KC_WWW_SEARCH",
+      "short": "KC_WSCH"
+    },
     "label": "WWW_SEARCH"
   },
   {
     "code": 181,
-    "name": "KC_WWW_HOME",
+    "name": {
+      "long": "KC_WWW_HOME",
+      "short": "KC_WHOM"
+    },
     "label": "WWW_HOME"
   },
   {
     "code": 182,
-    "name": "KC_WWW_BACK",
+    "name": {
+      "long": "KC_WWW_BACK",
+      "short": "KC_WBAK"
+    },
     "label": "WWW_BACK"
   },
   {
     "code": 183,
-    "name": "KC_WWW_FORWARD",
+    "name": {
+      "long": "KC_WWW_FORWARD",
+      "short": "KC_WFWD"
+    },
     "label": "WWW_FORWARD"
   },
   {
     "code": 184,
-    "name": "KC_WWW_STOP",
+    "name": {
+      "long": "KC_WWW_STOP",
+      "short": "KC_WSTP"
+    },
     "label": "WWW_STOP"
   },
   {
     "code": 185,
-    "name": "KC_WWW_REFRESH",
+    "name": {
+      "long": "KC_WWW_REFRESH",
+      "short": "KC_WREF"
+    },
     "label": "WWW_REFRESH"
   },
   {
     "code": 186,
-    "name": "KC_WWW_FAVORITES",
+    "name": {
+      "long": "KC_WWW_FAVORITES",
+      "short": "KC_WFAV"
+    },
     "label": "WWW_FAVORITES"
   },
   {
     "code": 187,
-    "name": "KC_MEDIA_FAST_FORWARD",
+    "name": {
+      "long": "KC_MEDIA_FAST_FORWARD",
+      "short": "KC_MFFD"
+    },
     "label": "MEDIA_FAST_FORWARD"
   },
   {
     "code": 188,
-    "name": "KC_MEDIA_REWIND",
+    "name": {
+      "long": "KC_MEDIA_REWIND",
+      "short": "KC_MRWD"
+    },
     "label": "MEDIA_REWIND"
   },
   {
     "code": 189,
-    "name": "KC_BRIGHTNESS_UP",
+    "name": {
+      "long": "KC_BRIGHTNESS_UP",
+      "short": "KC_BRIU"
+    },
     "label": "BRIGHTNESS_UP"
   },
   {
     "code": 190,
-    "name": "KC_BRIGHTNESS_DOWN",
+    "name": {
+      "long": "KC_BRIGHTNESS_DOWN",
+      "short": "KC_BRID"
+    },
     "label": "BRIGHTNESS_DOWN"
   },
   {
     "code": 192,
-    "name": "KC_FN0",
+    "name": {
+      "long": "KC_FN0",
+      "short": "KC_FN0"
+    },
     "label": "FN0"
   },
   {
     "code": 193,
-    "name": "KC_FN1",
+    "name": {
+      "long": "KC_FN1",
+      "short": "KC_FN1"
+    },
     "label": "FN1"
   },
   {
     "code": 194,
-    "name": "KC_FN2",
+    "name": {
+      "long": "KC_FN2",
+      "short": "KC_FN2"
+    },
     "label": "FN2"
   },
   {
     "code": 195,
-    "name": "KC_FN3",
+    "name": {
+      "long": "KC_FN3",
+      "short": "KC_FN3"
+    },
     "label": "FN3"
   },
   {
     "code": 196,
-    "name": "KC_FN4",
+    "name": {
+      "long": "KC_FN4",
+      "short": "KC_FN4"
+    },
     "label": "FN4"
   },
   {
     "code": 197,
-    "name": "KC_FN5",
+    "name": {
+      "long": "KC_FN5",
+      "short": "KC_FN5"
+    },
     "label": "FN5"
   },
   {
     "code": 198,
-    "name": "KC_FN6",
+    "name": {
+      "long": "KC_FN6",
+      "short": "KC_FN6"
+    },
     "label": "FN6"
   },
   {
     "code": 199,
-    "name": "KC_FN7",
+    "name": {
+      "long": "KC_FN7",
+      "short": "KC_FN7"
+    },
     "label": "FN7"
   },
   {
     "code": 200,
-    "name": "KC_FN8",
+    "name": {
+      "long": "KC_FN8",
+      "short": "KC_FN8"
+    },
     "label": "FN8"
   },
   {
     "code": 201,
-    "name": "KC_FN9",
+    "name": {
+      "long": "KC_FN9",
+      "short": "KC_FN9"
+    },
     "label": "FN9"
   },
   {
     "code": 202,
-    "name": "KC_FN10",
+    "name": {
+      "long": "KC_FN10",
+      "short": "KC_FN10"
+    },
     "label": "FN10"
   },
   {
     "code": 203,
-    "name": "KC_FN11",
+    "name": {
+      "long": "KC_FN11",
+      "short": "KC_FN11"
+    },
     "label": "FN11"
   },
   {
     "code": 204,
-    "name": "KC_FN12",
+    "name": {
+      "long": "KC_FN12",
+      "short": "KC_FN12"
+    },
     "label": "FN12"
   },
   {
     "code": 205,
-    "name": "KC_FN13",
+    "name": {
+      "long": "KC_FN13",
+      "short": "KC_FN13"
+    },
     "label": "FN13"
   },
   {
     "code": 206,
-    "name": "KC_FN14",
+    "name": {
+      "long": "KC_FN14",
+      "short": "KC_FN14"
+    },
     "label": "FN14"
   },
   {
     "code": 207,
-    "name": "KC_FN15",
+    "name": {
+      "long": "KC_FN15",
+      "short": "KC_FN15"
+    },
     "label": "FN15"
   },
   {
     "code": 208,
-    "name": "KC_FN16",
+    "name": {
+      "long": "KC_FN16",
+      "short": "KC_FN16"
+    },
     "label": "FN16"
   },
   {
     "code": 209,
-    "name": "KC_FN17",
+    "name": {
+      "long": "KC_FN17",
+      "short": "KC_FN17"
+    },
     "label": "FN17"
   },
   {
     "code": 210,
-    "name": "KC_FN18",
+    "name": {
+      "long": "KC_FN18",
+      "short": "KC_FN18"
+    },
     "label": "FN18"
   },
   {
     "code": 211,
-    "name": "KC_FN19",
+    "name": {
+      "long": "KC_FN19",
+      "short": "KC_FN19"
+    },
     "label": "FN19"
   },
   {
     "code": 212,
-    "name": "KC_FN20",
+    "name": {
+      "long": "KC_FN20",
+      "short": "KC_FN20"
+    },
     "label": "FN20"
   },
   {
     "code": 213,
-    "name": "KC_FN21",
+    "name": {
+      "long": "KC_FN21",
+      "short": "KC_FN21"
+    },
     "label": "FN21"
   },
   {
     "code": 214,
-    "name": "KC_FN22",
+    "name": {
+      "long": "KC_FN22",
+      "short": "KC_FN22"
+    },
     "label": "FN22"
   },
   {
     "code": 215,
-    "name": "KC_FN23",
+    "name": {
+      "long": "KC_FN23",
+      "short": "KC_FN23"
+    },
     "label": "FN23"
   },
   {
     "code": 216,
-    "name": "KC_FN24",
+    "name": {
+      "long": "KC_FN24",
+      "short": "KC_FN24"
+    },
     "label": "FN24"
   },
   {
     "code": 217,
-    "name": "KC_FN25",
+    "name": {
+      "long": "KC_FN25",
+      "short": "KC_FN25"
+    },
     "label": "FN25"
   },
   {
     "code": 218,
-    "name": "KC_FN26",
+    "name": {
+      "long": "KC_FN26",
+      "short": "KC_FN26"
+    },
     "label": "FN26"
   },
   {
     "code": 219,
-    "name": "KC_FN27",
+    "name": {
+      "long": "KC_FN27",
+      "short": "KC_FN27"
+    },
     "label": "FN27"
   },
   {
     "code": 220,
-    "name": "KC_FN28",
+    "name": {
+      "long": "KC_FN28",
+      "short": "KC_FN28"
+    },
     "label": "FN28"
   },
   {
     "code": 221,
-    "name": "KC_FN29",
+    "name": {
+      "long": "KC_FN29",
+      "short": "KC_FN29"
+    },
     "label": "FN29"
   },
   {
     "code": 222,
-    "name": "KC_FN30",
+    "name": {
+      "long": "KC_FN30",
+      "short": "KC_FN30"
+    },
     "label": "FN30"
   },
   {
     "code": 223,
-    "name": "KC_FN31",
+    "name": {
+      "long": "KC_FN31",
+      "short": "KC_FN31"
+    },
     "label": "FN31"
   },
   {
     "code": 224,
-    "name": "KC_LCTRL",
+    "name": {
+      "long": "KC_LCTRL",
+      "short": "KC_LCTL"
+    },
     "label": "LCTRL"
   },
   {
     "code": 225,
-    "name": "KC_LSHIFT",
+    "name": {
+      "long": "KC_LSHIFT",
+      "short": "KC_LSFT"
+    },
     "label": "LSHIFT"
   },
   {
     "code": 226,
-    "name": "KC_LALT",
+    "name": {
+      "long": "KC_LALT",
+      "short": "KC_LOPT"
+    },
     "label": "LALT"
   },
   {
     "code": 227,
-    "name": "KC_LGUI",
+    "name": {
+      "long": "KC_LGUI",
+      "short": "KC_LWIN"
+    },
     "label": "LGUI"
   },
   {
     "code": 228,
-    "name": "KC_RCTRL",
+    "name": {
+      "long": "KC_RCTRL",
+      "short": "KC_RCTL"
+    },
     "label": "RCTRL"
   },
   {
     "code": 229,
-    "name": "KC_RSHIFT",
+    "name": {
+      "long": "KC_RSHIFT",
+      "short": "KC_RSFT"
+    },
     "label": "RSHIFT"
   },
   {
     "code": 230,
-    "name": "KC_RALT",
+    "name": {
+      "long": "KC_RALT",
+      "short": "KC_ROPT"
+    },
     "label": "RALT"
   },
   {
     "code": 231,
-    "name": "KC_RGUI",
+    "name": {
+      "long": "KC_RGUI",
+      "short": "KC_RWIN"
+    },
     "label": "RGUI"
   },
   {
     "code": 240,
-    "name": "KC_MS_UP,",
+    "name": {
+      "long": "KC_MS_UP,",
+      "short": "KC_MS_UP,"
+    },
     "label": "MS_UP,"
   },
   {
     "code": 241,
-    "name": "KC_MS_DOWN",
+    "name": {
+      "long": "KC_MS_DOWN",
+      "short": "KC_MS_D"
+    },
     "label": "MS_DOWN"
   },
   {
     "code": 242,
-    "name": "KC_MS_LEFT",
+    "name": {
+      "long": "KC_MS_LEFT",
+      "short": "KC_MS_L"
+    },
     "label": "MS_LEFT"
   },
   {
     "code": 243,
-    "name": "KC_MS_RIGHT",
+    "name": {
+      "long": "KC_MS_RIGHT",
+      "short": "KC_MS_R"
+    },
     "label": "MS_RIGHT"
   },
   {
     "code": 244,
-    "name": "KC_MS_BTN1",
+    "name": {
+      "long": "KC_MS_BTN1",
+      "short": "KC_BTN1"
+    },
     "label": "MS_BTN1"
   },
   {
     "code": 245,
-    "name": "KC_MS_BTN2",
+    "name": {
+      "long": "KC_MS_BTN2",
+      "short": "KC_BTN2"
+    },
     "label": "MS_BTN2"
   },
   {
     "code": 246,
-    "name": "KC_MS_BTN3",
+    "name": {
+      "long": "KC_MS_BTN3",
+      "short": "KC_BTN3"
+    },
     "label": "MS_BTN3"
   },
   {
     "code": 247,
-    "name": "KC_MS_BTN4",
+    "name": {
+      "long": "KC_MS_BTN4",
+      "short": "KC_BTN4"
+    },
     "label": "MS_BTN4"
   },
   {
     "code": 248,
-    "name": "KC_MS_BTN5",
+    "name": {
+      "long": "KC_MS_BTN5",
+      "short": "KC_BTN5"
+    },
     "label": "MS_BTN5"
   },
   {
     "code": 249,
-    "name": "KC_MS_WH_UP",
+    "name": {
+      "long": "KC_MS_WH_UP",
+      "short": "KC_WH_U"
+    },
     "label": "MS_WH_UP"
   },
   {
     "code": 250,
-    "name": "KC_MS_WH_DOWN",
+    "name": {
+      "long": "KC_MS_WH_DOWN",
+      "short": "KC_WH_D"
+    },
     "label": "MS_WH_DOWN"
   },
   {
     "code": 251,
-    "name": "KC_MS_WH_LEFT",
+    "name": {
+      "long": "KC_MS_WH_LEFT",
+      "short": "KC_WH_L"
+    },
     "label": "MS_WH_LEFT"
   },
   {
     "code": 252,
-    "name": "KC_MS_WH_RIGHT",
+    "name": {
+      "long": "KC_MS_WH_RIGHT",
+      "short": "KC_WH_R"
+    },
     "label": "MS_WH_RIGHT"
   },
   {
     "code": 253,
-    "name": "KC_MS_ACCEL0",
+    "name": {
+      "long": "KC_MS_ACCEL0",
+      "short": "KC_ACL0"
+    },
     "label": "MS_ACCEL0"
   },
   {
     "code": 254,
-    "name": "KC_MS_ACCEL1",
+    "name": {
+      "long": "KC_MS_ACCEL1",
+      "short": "KC_ACL1"
+    },
     "label": "MS_ACCEL1"
   },
   {
     "code": 255,
-    "name": "KC_MS_ACCEL2",
+    "name": {
+      "long": "KC_MS_ACCEL2",
+      "short": "KC_ACL2"
+    },
     "label": "MS_ACCEL2"
+  },
+  {
+    "code": 23552,
+    "name": {
+      "long": "RESET",
+      "short": "RESET"
+    },
+    "label": "RESET"
+  },
+  {
+    "code": 23553,
+    "name": {
+      "long": "DEBUG",
+      "short": "DEBUG"
+    },
+    "label": "DEBUG"
+  },
+  {
+    "code": 23554,
+    "name": {
+      "long": "MAGIC_SWAP_CONTROL_CAPSLOCK",
+      "short": "CL_SWAP"
+    },
+    "label": "MAGIC_SWAP_CONTROL_CAPSLOCK"
+  },
+  {
+    "code": 23555,
+    "name": {
+      "long": "MAGIC_CAPSLOCK_TO_CONTROL",
+      "short": "CL_CTRL"
+    },
+    "label": "MAGIC_CAPSLOCK_TO_CONTROL"
+  },
+  {
+    "code": 23556,
+    "name": {
+      "long": "MAGIC_SWAP_LALT_LGUI",
+      "short": "LAG_SWP"
+    },
+    "label": "MAGIC_SWAP_LALT_LGUI"
+  },
+  {
+    "code": 23557,
+    "name": {
+      "long": "MAGIC_SWAP_RALT_RGUI",
+      "short": "RAG_SWP"
+    },
+    "label": "MAGIC_SWAP_RALT_RGUI"
+  },
+  {
+    "code": 23558,
+    "name": {
+      "long": "MAGIC_NO_GUI",
+      "short": "GUI_OFF"
+    },
+    "label": "MAGIC_NO_GUI"
+  },
+  {
+    "code": 23559,
+    "name": {
+      "long": "MAGIC_SWAP_GRAVE_ESC",
+      "short": "GE_SWAP"
+    },
+    "label": "MAGIC_SWAP_GRAVE_ESC"
+  },
+  {
+    "code": 23560,
+    "name": {
+      "long": "MAGIC_SWAP_BACKSLASH_BACKSPACE",
+      "short": "BS_SWAP"
+    },
+    "label": "MAGIC_SWAP_BACKSLASH_BACKSPACE"
+  },
+  {
+    "code": 23561,
+    "name": {
+      "long": "MAGIC_HOST_NKRO",
+      "short": "NK_ON"
+    },
+    "label": "MAGIC_HOST_NKRO"
+  },
+  {
+    "code": 23562,
+    "name": {
+      "long": "MAGIC_SWAP_ALT_GUI",
+      "short": "AG_SWAP"
+    },
+    "label": "MAGIC_SWAP_ALT_GUI"
+  },
+  {
+    "code": 23563,
+    "name": {
+      "long": "MAGIC_UNSWAP_CONTROL_CAPSLOCK",
+      "short": "CL_NORM"
+    },
+    "label": "MAGIC_UNSWAP_CONTROL_CAPSLOCK"
+  },
+  {
+    "code": 23564,
+    "name": {
+      "long": "MAGIC_UNCAPSLOCK_TO_CONTROL",
+      "short": "CL_CAPS"
+    },
+    "label": "MAGIC_UNCAPSLOCK_TO_CONTROL"
+  },
+  {
+    "code": 23565,
+    "name": {
+      "long": "MAGIC_UNSWAP_LALT_LGUI",
+      "short": "LAG_NRM"
+    },
+    "label": "MAGIC_UNSWAP_LALT_LGUI"
+  },
+  {
+    "code": 23566,
+    "name": {
+      "long": "MAGIC_UNSWAP_RALT_RGUI",
+      "short": "RAG_NRM"
+    },
+    "label": "MAGIC_UNSWAP_RALT_RGUI"
+  },
+  {
+    "code": 23567,
+    "name": {
+      "long": "MAGIC_UNNO_GUI",
+      "short": "GUI_ON"
+    },
+    "label": "MAGIC_UNNO_GUI"
+  },
+  {
+    "code": 23568,
+    "name": {
+      "long": "MAGIC_UNSWAP_GRAVE_ESC",
+      "short": "GE_NORM"
+    },
+    "label": "MAGIC_UNSWAP_GRAVE_ESC"
+  },
+  {
+    "code": 23569,
+    "name": {
+      "long": "MAGIC_UNSWAP_BACKSLASH_BACKSPACE",
+      "short": "BS_NORM"
+    },
+    "label": "MAGIC_UNSWAP_BACKSLASH_BACKSPACE"
+  },
+  {
+    "code": 23570,
+    "name": {
+      "long": "MAGIC_UNHOST_NKRO",
+      "short": "NK_OFF"
+    },
+    "label": "MAGIC_UNHOST_NKRO"
+  },
+  {
+    "code": 23571,
+    "name": {
+      "long": "MAGIC_UNSWAP_ALT_GUI",
+      "short": "AG_NORM"
+    },
+    "label": "MAGIC_UNSWAP_ALT_GUI"
+  },
+  {
+    "code": 23572,
+    "name": {
+      "long": "MAGIC_TOGGLE_NKRO",
+      "short": "NK_TOGG"
+    },
+    "label": "MAGIC_TOGGLE_NKRO"
+  },
+  {
+    "code": 23573,
+    "name": {
+      "long": "MAGIC_TOGGLE_ALT_GUI",
+      "short": "AG_TOGG"
+    },
+    "label": "MAGIC_TOGGLE_ALT_GUI"
+  },
+  {
+    "code": 23574,
+    "name": {
+      "long": "GRAVE_ESC",
+      "short": "KC_GESC"
+    },
+    "label": "GRAVE_ESC"
   }
 ]

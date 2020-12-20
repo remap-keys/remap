@@ -217,11 +217,15 @@ const Hid = () => {
         <input type='number' id='column' min={0} value={column} onChange={handleColumnChange} />
         <select value={code} onChange={handleCodeChange}>
           {keycodeArray.map(keycode => {
-            return <option key={keycode.code} value={keycode.code}>{keycode.name}</option>;
+            return <option key={keycode.code} value={keycode.code}>{keycode.name.short}</option>;
           })}
         </select>
         <button onClick={handleDynamicKeymapGetKeycodeClick}>Get keycode</button>
         <button onClick={handleDynamicKeymapSetKeycodeClick}>Set keycode</button>
+      </div>
+      <div className='box'>
+        <label htmlFor='Test'>Test</label>
+        <input type='text' style={{ width: '300px' }} />
       </div>
       <div>{message}</div>
     </div>
