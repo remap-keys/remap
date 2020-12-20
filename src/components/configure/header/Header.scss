@@ -1,0 +1,76 @@
+@import '../../../_variables.scss';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0 $space-m;
+  background: white;
+  height: 42px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  .logo {
+    height: 28px;
+  }
+  .kbd-name {
+    display: flex;
+    flex-direction: column;
+    margin-left: $space-m;
+    h2 {
+      margin: 0;
+    }
+    .ids {
+      font-size: $font-xs;
+      color: $color-gray;
+      margin-top: -4px;
+    }
+  }
+  .status {
+    display: flex;
+    .connection {
+      margin-left: $space-m;
+    }
+  }
+  .buttons {
+    display: flex;
+    margin-left: auto;
+    .flush-btn {
+      min-width: 80px !important;
+    }
+  }
+}
+
+.device-item {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  align-items: center;
+  .link-icon {
+    margin-right: $space-m;
+  }
+  .link-on {
+    color: $primary-light;
+  }
+  .link-off {
+    color: $color-gray;
+  }
+  .device-name {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    .device-ids {
+      font-weight: 400;
+      font-size: 40%;
+      margin-left: $space-m;
+    }
+  }
+}
+
+.another-device-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  .another-device {
+    text-align: center;
+  }
+}

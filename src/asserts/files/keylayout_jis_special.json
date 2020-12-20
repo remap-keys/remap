@@ -1,0 +1,573 @@
+[
+  {
+    "code": "KC_TILDE",
+    "label": "~",
+    "meta": ""
+  },
+  {
+    "code": "KC_EXCLAIM",
+    "label": "!",
+    "meta": ""
+  },
+  {
+    "code": "KC_AT",
+    "label": "@",
+    "meta": ""
+  },
+  {
+    "code": "KC_HASH",
+    "label": "#",
+    "meta": ""
+  },
+  {
+    "code": "KC_DOLLAR",
+    "label": "$",
+    "meta": ""
+  },
+  {
+    "code": "KC_PERCENT",
+    "label": "%",
+    "meta": ""
+  },
+  {
+    "code": "KC_CIRCUMFLEX",
+    "label": "^",
+    "meta": ""
+  },
+  {
+    "code": "KC_AMPERSAND",
+    "label": "&",
+    "meta": ""
+  },
+  {
+    "code": "KC_ASTERISK",
+    "label": "*",
+    "meta": ""
+  },
+  {
+    "code": "KC_LEFT_PAREN",
+    "label": "(",
+    "meta": ""
+  },
+  {
+    "code": "KC_RIGHT_PAREN",
+    "label": ")",
+    "meta": ""
+  },
+  {
+    "code": "KC_UNDERSCORE",
+    "label": "_",
+    "meta": ""
+  },
+  {
+    "code": "KC_PLUS",
+    "label": "+",
+    "meta": ""
+  },
+  {
+    "code": "KC_LEFT_CURLY_BRACE",
+    "label": "{",
+    "meta": ""
+  },
+  {
+    "code": "KC_RIGHT_CURLY_BRACE",
+    "label": "}",
+    "meta": ""
+  },
+  {
+    "code": "KC_PIPE",
+    "label": "|",
+    "meta": ""
+  },
+  {
+    "code": "KC_COLON",
+    "label": ":",
+    "meta": ""
+  },
+  {
+    "code": "KC_DOUBLE_QUOTE",
+    "label": "\"",
+    "meta": ""
+  },
+  {
+    "code": "KC_LEFT_ANGLE_BRACKET",
+    "label": "<",
+    "meta": ""
+  },
+  {
+    "code": "KC_RIGHT_ANGLE_BRACKET",
+    "label": ">",
+    "meta": ""
+  },
+  {
+    "code": "KC_QUESTION",
+    "label": "?",
+    "meta": ""
+  },
+  {
+    "code": "KC_NONUS_HASH",
+    "label": "NUHS",
+    "meta": ""
+  },
+  {
+    "code": "KC_NONUS_BSLASH",
+    "label": "NUBS",
+    "meta": ""
+  },
+  {
+    "code": "KC_INT1",
+    "label": "Ro",
+    "meta": ""
+  },
+  {
+    "code": "KC_INT2",
+    "label": "かな",
+    "meta": ""
+  },
+  {
+    "code": "KC_INT3",
+    "label": "¥",
+    "meta": ""
+  },
+  {
+    "code": "KC_INT4",
+    "label": "変換",
+    "meta": ""
+  },
+  {
+    "code": "KC_INT5",
+    "label": "無変換",
+    "meta": ""
+  },
+
+  {
+    "code": "KC_LANG1",
+    "label": "한영",
+    "meta": ""
+  },
+  {
+    "code": "KC_HANJ",
+    "label": "漢字",
+    "meta": ""
+  },
+  {
+    "code": "GRAVE_ESC",
+    "label": "Esc",
+    "meta": "'"
+  },
+  {
+    "code": "KC_LSPO",
+    "label": "LS(",
+    "meta": ""
+  },
+  {
+    "code": "KC_RSPC",
+    "label": "RS)",
+    "meta": ""
+  },
+  {
+    "code": "KC_LCPO",
+    "label": "LC(",
+    "meta": ""
+  },
+  {
+    "code": "KC_RCPC",
+    "label": "RC)",
+    "meta": ""
+  },
+  {
+    "code": "KC_LAPO",
+    "label": "LA(",
+    "meta": ""
+  },
+  {
+    "code": "KC_RAPC",
+    "label": "RA)",
+    "meta": ""
+  },
+  {
+    "code": "KC_SFTENT",
+    "label": "SftEnt",
+    "meta": ""
+  },
+  {
+    "code": "RESET",
+    "label": "Reset",
+    "meta": ""
+  },
+  {
+    "code": "DEBUG",
+    "label": "Debug",
+    "meta": ""
+  },
+  {
+    "code": "MAGIC_TOGGLE_NKRO",
+    "label": "Toggle NKRO",
+    "meta": ""
+  },
+  {
+    "code": "KC_LOCKING_NUM",
+    "label": "Locking Num Lock",
+    "meta": ""
+  },
+  {
+    "code": "KC_LOCKING_CAPS",
+    "label": "Locking Caps Lock",
+    "meta": ""
+  },
+  {
+    "code": "KC_LOCKING_SCROLL",
+    "label": "Locking Scroll Lock",
+    "meta": ""
+  },
+  {
+    "code": "KC_SYSTEM_POWER",
+    "label": "Power",
+    "meta": ""
+  },
+  {
+    "code": "KC_POWER",
+    "label": "Power macOS",
+    "meta": ""
+  },
+  {
+    "code": "KC_SYSTEM_SLEEP",
+    "label": "Sleep",
+    "meta": ""
+  },
+  {
+    "code": "KC_SYSTEM_WAKE",
+    "label": "Wake",
+    "meta": ""
+  },
+  {
+    "code": "KC_CALCULATOR",
+    "label": "Calc",
+    "meta": ""
+  },
+  {
+    "code": "KC_MAIL",
+    "label": "Mail",
+    "meta": ""
+  },
+  {
+    "code": "KC_HELP",
+    "label": "Help",
+    "meta": ""
+  },
+  {
+    "code": "KC_STOP",
+    "label": "Stop",
+    "meta": ""
+  },
+  {
+    "code": "KC_ALT_ERASE",
+    "label": "Alt Erase",
+    "meta": ""
+  },
+  {
+    "code": "KC_AGAIN",
+    "label": "Again",
+    "meta": ""
+  },
+  {
+    "code": "KC_MENU",
+    "label": "Menu",
+    "meta": ""
+  },
+  {
+    "code": "KC_UNDO",
+    "label": "Undo",
+    "meta": ""
+  },
+  {
+    "code": "KC_SELECT",
+    "label": "Select",
+    "meta": ""
+  },
+  {
+    "code": "KC_EXECUTE",
+    "label": "Exec",
+    "meta": ""
+  },
+  {
+    "code": "KC_CUT",
+    "label": "Cut",
+    "meta": ""
+  },
+  {
+    "code": "KC_COPY",
+    "label": "Copy",
+    "meta": ""
+  },
+  {
+    "code": "KC_PASTE",
+    "label": "Paste",
+    "meta": ""
+  },
+  {
+    "code": "KC_FIND",
+    "label": "Find",
+    "meta": ""
+  },
+  {
+    "code": "KC_MY_COMPUTER",
+    "label": "My Comp",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_HOME",
+    "label": "Home",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_BACK",
+    "label": "Back",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_FORWARD",
+    "label": "Forward",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_STOP",
+    "label": "Stop",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_REFRESH",
+    "label": "Refresh",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_FAVORITES",
+    "label": "Favorites",
+    "meta": ""
+  },
+  {
+    "code": "KC_WWW_SEARCH",
+    "label": "Search",
+    "meta": ""
+  },
+  {
+    "code": "KC_BRIGHTNESS_UP",
+    "label": "Screen +",
+    "meta": ""
+  },
+  {
+    "code": "KC_BRIGHTNESS_DOWN",
+    "label": "Screen -",
+    "meta": ""
+  },
+  {
+    "code": "KC_F13",
+    "label": "F13",
+    "meta": ""
+  },
+  {
+    "code": "KC_F14",
+    "label": "F14",
+    "meta": ""
+  },
+  {
+    "code": "KC_F15",
+    "label": "F15",
+    "meta": ""
+  },
+  {
+    "code": "KC_F16",
+    "label": "F16",
+    "meta": ""
+  },
+  {
+    "code": "KC_F17",
+    "label": "F17",
+    "meta": ""
+  },
+  {
+    "code": "KC_F18",
+    "label": "F18",
+    "meta": ""
+  },
+  {
+    "code": "KC_F19",
+    "label": "F19",
+    "meta": ""
+  },
+  {
+    "code": "KC_F20",
+    "label": "F20",
+    "meta": ""
+  },
+  {
+    "code": "KC_F21",
+    "label": "F21",
+    "meta": ""
+  },
+  {
+    "code": "KC_F22",
+    "label": "F22",
+    "meta": ""
+  },
+  {
+    "code": "KC_F23",
+    "label": "F23",
+    "meta": ""
+  },
+  {
+    "code": "KC_F24",
+    "label": "F24",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_UP",
+    "label": "Mouse ↑",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_DOWN",
+    "label": "Mouse ↓",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_LEFT",
+    "label": "Mouse ←",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_RIGHT",
+    "label": "Mouse →",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_BTN1",
+    "label": "Mouse Btn1",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_BTN2",
+    "label": "Mouse Btn2",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_BTN3",
+    "label": "Mouse Btn3",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_BTN4",
+    "label": "Mouse Btn4",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_BTN5",
+    "label": "Mouse Btn5",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_WH_UP",
+    "label": "Mouse Wh ↑",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_WH_DOWN",
+    "label": "Mouse Wh ↓",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_WH_LEFT",
+    "label": "Mouse Wh ←",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_WH_RIGHT",
+    "label": "Mouse Wh →",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_ACCEL0",
+    "label": "Mouse Acc0",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_ACCEL1",
+    "label": "Mouse Acc1",
+    "meta": ""
+  },
+  {
+    "code": "KC_MS_ACCEL2",
+    "label": "Mouse Acc2",
+    "meta": ""
+  },
+  {
+    "code": "AU_ON",
+    "label": "Audio On",
+    "meta": ""
+  },
+  {
+    "code": "AU_OFF",
+    "label": "Audio Off",
+    "meta": ""
+  },
+  {
+    "code": "AU_TOG",
+    "label": "Audio Toggle",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_TOGGLE",
+    "label": "Clicky Toggle",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_ENABLE",
+    "label": "Clicky Enable",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_DISABLE",
+    "label": "Clicky Disable",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_UP",
+    "label": "Clicky Up",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_DOWN",
+    "label": "Clicky Down",
+    "meta": ""
+  },
+  {
+    "code": "CLICKY_RESET",
+    "label": "Clicky Reset",
+    "meta": ""
+  },
+  {
+    "code": "MU_ON",
+    "label": "Music On",
+    "meta": ""
+  },
+  {
+    "code": "MU_OFF",
+    "label": "Music Off",
+    "meta": ""
+  },
+  {
+    "code": "MU_TOG",
+    "label": "Music Toggle",
+    "meta": ""
+  },
+  {
+    "code": "MU_MOD",
+    "label": "Music Mode",
+    "meta": ""
+  },
+  {
+    "code": "_ANY",
+    "label": "Any",
+    "meta": ""
+  }
+]

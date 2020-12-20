@@ -1,0 +1,42 @@
+@import '../../../variables';
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 780px;
+
+  .controller {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l;
+    background-color: white;
+    .switch {
+      display: flex;
+      margin-left: auto;
+    }
+  }
+  .keymap {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 32px;
+    background-color: white;
+    .keydiff-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .keyboards-wrapper {
+      display: flex;
+      flex-direction: row;
+
+      .balancer {
+        width: 140px;
+      }
+    }
+  }
+  .keycode {
+    display: flex;
+    flex-direction: column;
+    padding: $space-l;
+  }
+}

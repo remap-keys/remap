@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // Usage example:
 //
 // // Connect a device.
@@ -37,11 +38,10 @@ import {
   IDeviceInformation,
   IResult,
   IConnectResult,
-  IConnectionEventHandler
+  IConnectionEventHandler,
 } from './hid';
 
 export class Keyboard implements IKeyboard {
-
   private readonly device: any;
   private commandQueue: ICommand[];
 
@@ -66,8 +66,8 @@ export class Keyboard implements IKeyboard {
     try {
       this.getDevice().removeEventListener(
         'inputreport',
-        this.handleInputReport,
-      )
+        this.handleInputReport
+      );
       await this.device.close();
     } catch (error) {
       console.log(error);
@@ -89,11 +89,8 @@ export class Keyboard implements IKeyboard {
     const device = this.getDevice();
     try {
       await device.open();
-      device.addEventListener(
-        'inputreport',
-        this.handleInputReport
-      );
-    } catch(error) {
+      device.addEventListener('inputreport', this.handleInputReport);
+    } catch (error) {
       return {
         success: false,
         error: 'The device cannot be opened.',
@@ -130,22 +127,21 @@ export class Keyboard implements IKeyboard {
       return {
         success: false,
         error: 'Not connected or opened.',
-      }
+      };
     }
   }
 
   equals(keyboard: IKeyboard): boolean {
-    return (this.getInformation().vendorId === keyboard.getInformation().vendorId) &&
-      (this.getInformation().productId === keyboard.getInformation().productId);
+    return (
+      this.getInformation().vendorId === keyboard.getInformation().vendorId &&
+      this.getInformation().productId === keyboard.getInformation().productId
+    );
   }
-
 }
 
-export interface ICommandRequest {
-}
+export interface ICommandRequest {}
 
-export interface ICommandResponse {
-}
+export interface ICommandResponse {}
 
 export interface ICommandResult<T> {
   success: boolean;
@@ -158,15 +154,20 @@ export interface ICommandResponseHandler<T extends ICommandResponse> {
   (result: ICommandResult<T>): Promise<void>;
 }
 
-export abstract class AbstractCommand<TRequest extends ICommandRequest, TResponse extends ICommandResponse> implements ICommand {
-
+export abstract class AbstractCommand<
+  TRequest extends ICommandRequest,
+  TResponse extends ICommandResponse
+> implements ICommand {
   private readonly request: TRequest;
   private readonly responseHandler: ICommandResponseHandler<TResponse>;
 
   static OUTPUT_REPORT_ID: number = 0x00;
 
-  constructor(request: TRequest, responseHandler: ICommandResponseHandler<TResponse>) {
-    this.request = request
+  constructor(
+    request: TRequest,
+    responseHandler: ICommandResponseHandler<TResponse>
+  ) {
+    this.request = request;
     this.responseHandler = responseHandler;
   }
 
@@ -204,45 +205,48 @@ export abstract class AbstractCommand<TRequest extends ICommandRequest, TRespons
   }
 
   protected outputUint8Array(array: Uint8Array) {
-    let lines = "";
-    let out = "";
-    let ascii = "";
+    let lines = '';
+    let out = '';
+    let ascii = '';
     for (let i = 0; i < array.length; i++) {
       // out += String.fromCharCode(array[i]);
-      let value = (Number(array[i])).toString(16).toUpperCase();
+      let value = Number(array[i]).toString(16).toUpperCase();
       if (value.length === 1) {
-        value = "0" + value;
+        value = '0' + value;
       }
       out += value;
       if (i % 2 !== 0) {
-        out += " ";
+        out += ' ';
       }
       if (0x20 <= array[i] && array[i] <= 0x7e) {
         ascii += String.fromCharCode(array[i]);
       } else {
-        ascii += ".";
+        ascii += '.';
       }
-      if (((i + 1) % 16) === 0) {
-        lines += out + " " + ascii + "\n";
-        out = "";
-        ascii = "";
+      if ((i + 1) % 16 === 0) {
+        lines += out + ' ' + ascii + '\n';
+        out = '';
+        ascii = '';
       }
     }
     if (out) {
-      lines += out + " " + ascii + "\n";
+      lines += out + ' ' + ascii + '\n';
     }
     console.log(lines);
   }
-
 }
 
 export class WebHid implements IHid {
-
   async detectKeyboards(): Promise<IKeyboard[]> {
     const devices = await (navigator as any).hid.getDevices();
-    return devices.filter((device: any) => {
+    return devices
+      .filter((device: any) => {
         const collectionInfo = device.collections[0];
-        return collectionInfo && collectionInfo.usage === 0x61 && collectionInfo.usagePage === 0xFF60;
+        return (
+          collectionInfo &&
+          collectionInfo.usage === 0x61 &&
+          collectionInfo.usagePage === 0xff60
+        );
       })
       .map((device: any) => {
         return new Keyboard(device);
@@ -255,23 +259,27 @@ export class WebHid implements IHid {
       let devices;
       if (connectParams) {
         devices = await (navigator as any).hid.requestDevice({
-          filters: [{
-            vendorId: connectParams.vendorId,
-            productId: connectParams.productId,
-            usagePage: 0xFF60,
-            usage: 0x61,
-          }]
+          filters: [
+            {
+              vendorId: connectParams.vendorId,
+              productId: connectParams.productId,
+              usagePage: 0xff60,
+              usage: 0x61,
+            },
+          ],
         });
       } else {
         devices = await (navigator as any).hid.requestDevice({
-          filters: [{
-            usagePage: 0xFF60,
-            usage: 0x61,
-          }]
+          filters: [
+            {
+              usagePage: 0xff60,
+              usage: 0x61,
+            },
+          ],
         });
       }
       device = devices[0];
-    } catch(error) {
+    } catch (error) {
       return {
         success: false,
         error: 'The connection failed.',
@@ -293,7 +301,7 @@ export class WebHid implements IHid {
   checkViaSupportedDevice(device: any): boolean {
     const collection = device.collections[0];
     if (collection) {
-      return collection.usage === 0x61 && collection.usagePage === 0xFF60;
+      return collection.usage === 0x61 && collection.usagePage === 0xff60;
     } else {
       return false;
     }
@@ -311,6 +319,4 @@ export class WebHid implements IHid {
       }
     });
   }
-
 }
-
