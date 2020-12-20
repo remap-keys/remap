@@ -1,0 +1,133 @@
+[
+  {
+    "code": "BL_TOGG",
+    "label": "BL Toggle",
+    "meta": ""
+  },
+  {
+    "code": "BL_ON",
+    "label": "BL On",
+    "meta": ""
+  },
+  {
+    "code": "BL_OFF",
+    "label": "BL Off",
+    "meta": ""
+  },
+  {
+    "code": "BL_DEC",
+    "label": "BL -",
+    "meta": ""
+  },
+  {
+    "code": "BL_INC",
+    "label": "BL +",
+    "meta": ""
+  },
+  {
+    "code": "BL_STEP",
+    "label": "BL Cycle",
+    "meta": ""
+  },
+  {
+    "code": "BL_BRTG",
+    "label": "BR Toggle",
+    "meta": ""
+  },
+  {
+    "code": "RGB_TOG",
+    "label": "RGB Toggle",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_REVERSE",
+    "label": "RGB Mode -",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_FORWARD",
+    "label": "RGB Mode +",
+    "meta": ""
+  },
+  {
+    "code": "RGB_HUD",
+    "label": "Hue-",
+    "meta": ""
+  },
+  {
+    "code": "RGB_HUI",
+    "label": "Hue +",
+    "meta": ""
+  },
+  {
+    "code": "RGB_SAD",
+    "label": "Sat -",
+    "meta": ""
+  },
+  {
+    "code": "RGB_SAI",
+    "label": "Sat +",
+    "meta": ""
+  },
+  {
+    "code": "RGB_VAD",
+    "label": "Bright -",
+    "meta": ""
+  },
+  {
+    "code": "RGB_VAI",
+    "label": "Bright +",
+    "meta": ""
+  },
+  {
+    "code": "RGB_SPD",
+    "label": "Effect Speed -",
+    "meta": ""
+  },
+  {
+    "code": "RGB_SPI",
+    "label": "Effect Speed +",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_PLAIN",
+    "label": "RGB Mode P",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_BREATHE",
+    "label": "RGB Mode B",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_RAINBOW",
+    "label": "RGB Mode R",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_SWIRL",
+    "label": "RGB Mode SW",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_SNAKE",
+    "label": "RGB Mode SN",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_KNIGHT",
+    "label": "RGB Mode K",
+    "meta": ""
+  },
+
+  {
+    "code": "RGB_MODE_XMAS",
+    "label": "RGB Mode X",
+    "meta": ""
+  },
+  {
+    "code": "RGB_MODE_RGBTEST",
+    "label": "RGB Mode G",
+    "meta": ""
+  }
+]

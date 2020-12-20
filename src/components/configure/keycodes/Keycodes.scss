@@ -1,0 +1,55 @@
+@import '../../../variables';
+
+:root {
+  --switch-width: 140px;
+}
+
+.keycodes {
+  display: flex;
+  flex-wrap: wrap;
+}
+.key-categories {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  padding: $space-m 0;
+  .blank-category {
+    width: var(--switch-width);
+  }
+  :first-child {
+    margin-left: auto !important;
+  }
+  .key-category {
+    margin: 0 $space-m;
+    button {
+      font-weight: 400;
+      background-color: #ffffff00;
+      &:disabled,
+      &:hover {
+        background-color: $primary-pale;
+      }
+      &:disabled {
+        color: white;
+      }
+      &:hover {
+        transition: background-color 0.5s;
+      }
+    }
+  }
+  .keylayout-switch {
+    display: flex;
+    margin-left: auto;
+    width: var(--switch-width);
+  }
+}
+.keycode-desc {
+  width: 100%;
+  padding: $space-s $space-m;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  margin-left: -$space-l;
+  bottom: 0;
+  color: white;
+}

@@ -1,0 +1,60 @@
+@import '../../../variables';
+
+.layer-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  .layers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .layer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button {
+        width: 32px;
+        min-width: 32px;
+        padding: 4px 0;
+        box-shadow: none;
+        background-color: #ffffff00;
+        &:hover,
+        &:disabled {
+          background-color: $primary-pale;
+          color: white;
+        }
+        &:hover {
+          transition: background-color 0.5s;
+        }
+      }
+    }
+  }
+}
+
+.keyboards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .keyboard-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 5px solid #ececec;
+    border-right: 5px solid #ececec;
+    border-top: 1px solid #ececec;
+    border-bottom: 8px solid #f3f3f3;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+    -webkit-filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.2));
+    -moz-filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.2));
+    -ms-filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.2));
+    .keyboard-frame {
+      width: 100%;
+      position: relative;
+    }
+  }
+}

@@ -4,10 +4,10 @@ import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapGetLayerCountCommand,
-  DynamicKeymapSetKeycodeCommand
+  DynamicKeymapSetKeycodeCommand,
 } from '../commands';
 import { IKeyboard } from '../hid';
-import { keycodeArray, keycodeToNameMap } from '../keycode';
+import { Keycode } from '../keycode';
 
 const Hid = () => {
   const [webHid] = useState<WebHid>(new WebHid());
@@ -26,24 +26,29 @@ const Hid = () => {
   const [code, setCode] = useState<number>(0);
 
   useEffect(() => {
-    webHid.detectKeyboards()
-      .then(keyboards => setConnectedKeyboards(keyboards));
+    webHid
+      .detectKeyboards()
+      .then((keyboards) => setConnectedKeyboards(keyboards));
   }, [webHid]);
 
   useEffect(() => {
     webHid.setConnectionEventHandler({
-      connect: connectedKeyboard => {
+      connect: (connectedKeyboard) => {
         const newConnectedKeyboards = [...connectedKeyboards];
-        const found = newConnectedKeyboards.find(x => x.equals(connectedKeyboard));
+        const found = newConnectedKeyboards.find((x) =>
+          x.equals(connectedKeyboard)
+        );
         if (!found) {
           newConnectedKeyboards.push(connectedKeyboard);
         }
         setConnectedKeyboards(newConnectedKeyboards);
       },
-      disconnect: disconnectedKeyboard => {
-        const newConnectedKeyboards = connectedKeyboards.filter(x => !x.equals(disconnectedKeyboard));
+      disconnect: (disconnectedKeyboard) => {
+        const newConnectedKeyboards = connectedKeyboards.filter(
+          (x) => !x.equals(disconnectedKeyboard)
+        );
         setConnectedKeyboards(newConnectedKeyboards);
-      }
+      },
     });
   }, [webHid, connectedKeyboards]);
 
@@ -97,25 +102,35 @@ const Hid = () => {
     setVendorId(event.target.value);
   };
 
-  const handleProductIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProductIdChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setProductId(event.target.value);
   };
 
-  const handleUseFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUseFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setUseFilter(event.target.checked);
   };
 
-  const handleGetConnectedKeyboardsClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleGetConnectedKeyboardsClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const keyboards = await webHid.detectKeyboards();
     setConnectedKeyboards(keyboards);
     setSelectedKeyboardValue(0);
   };
 
-  const handleSelectedKeyboardValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectedKeyboardValue = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedKeyboardValue(Number(event.target.value));
   };
 
-  const handleOpenClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpenClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     const keyboard = connectedKeyboards[selectedKeyboardValue];
     const result = await keyboard.open();
     if (result.success) {
@@ -127,101 +142,172 @@ const Hid = () => {
     }
   };
 
-  const handleLayerChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLayerChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setLayer(Number(event.target.value));
   };
 
-  const handleRowChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRowChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRow(Number(event.target.value));
   };
 
-  const handleColumnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleColumnChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setColumn(Number(event.target.value));
   };
 
-  const handleCodeChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCodeChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setCode(Number(event.target.value));
   };
 
-  const handleDynamicKeymapGetKeycodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const command = new DynamicKeymapGetKeycodeCommand({
-      layer,
-      row,
-      column
-    }, async (result) => {
-      if (result.success) {
-        console.log(result.response!.code);
-        setCode(result.response!.code);
-      } else {
-        setMessage(result.error!);
-        console.log(result.cause);
+  const handleDynamicKeymapGetKeycodeClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const command = new DynamicKeymapGetKeycodeCommand(
+      {
+        layer,
+        row,
+        column,
+      },
+      async (result) => {
+        if (result.success) {
+          console.log(result.response!.code);
+          setCode(result.response!.code);
+        } else {
+          setMessage(result.error!);
+          console.log(result.cause);
+        }
       }
-    });
+    );
     await keyboard!.enqueue(command);
   };
 
-  const handleDynamicKeymapSetKeycodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const command = new DynamicKeymapSetKeycodeCommand({
-      layer,
-      row,
-      column,
-      code,
-    }, async (result) => {
-      if (result.success) {
-        setCode(result.response!.code);
-      } else {
-        setMessage(result.error!);
-        console.log(result.cause);
+  const handleDynamicKeymapSetKeycodeClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const command = new DynamicKeymapSetKeycodeCommand(
+      {
+        layer,
+        row,
+        column,
+        code,
+      },
+      async (result) => {
+        if (result.success) {
+          setCode(result.response!.code);
+        } else {
+          setMessage(result.error!);
+          console.log(result.cause);
+        }
       }
-    });
+    );
     await keyboard!.enqueue(command);
   };
 
   return (
-    <div>
+    <div className="hid">
       <h1>WebHid Test</h1>
-      <div className='box'>
-        <button onClick={handleGetConnectedKeyboardsClick}>Get connected keyboards</button>
-        <select value={selectedKeyboardValue} onChange={handleSelectedKeyboardValue}>
+      <div className="box">
+        <button onClick={handleGetConnectedKeyboardsClick}>
+          Get connected keyboards
+        </button>
+        <select
+          value={selectedKeyboardValue}
+          onChange={handleSelectedKeyboardValue}
+        >
           {connectedKeyboards.map((k, i) => {
-            return <option key={i} value={i}>
-              {k.getInformation().productName}
-            </option>;
+            return (
+              <option key={i} value={i}>
+                {k.getInformation().productName}
+              </option>
+            );
           })}
         </select>
         <button onClick={handleOpenClick}>Open</button>
       </div>
-      <div className='box'>
-        <input type='checkbox' id='useFilter' checked={useFilter} onChange={handleUseFilterChange} />
-        <label htmlFor='useFilter'>Use filter</label>
-        <label htmlFor='vendorId'>Vendor ID: </label>
-        0x<input type='text' id='vendorId' value={vendorId} onChange={handleVendorIdChange} />
-        <label htmlFor='productId'>Product ID: </label>
-        0x<input type='text' id='productId' value={productId} onChange={handleProductIdChange} />
+      <div className="box">
+        <input
+          type="checkbox"
+          id="useFilter"
+          checked={useFilter}
+          onChange={handleUseFilterChange}
+        />
+        <label htmlFor="useFilter">Use filter</label>
+        <label htmlFor="vendorId">Vendor ID: </label>
+        0x
+        <input
+          type="text"
+          id="vendorId"
+          value={vendorId}
+          onChange={handleVendorIdChange}
+        />
+        <label htmlFor="productId">Product ID: </label>
+        0x
+        <input
+          type="text"
+          id="productId"
+          value={productId}
+          onChange={handleProductIdChange}
+        />
         <button onClick={handleConnectClick}>Connect and open</button>
       </div>
-      <div className='box'>
+      <div className="box">
         <span>Product Name: {productName}</span>
         <button onClick={handleCloseClick}>Close</button>
       </div>
-      <div className='box'>
-        <button onClick={handleDynamicKeymapGetLayerCount}>Get layer count</button>
+      <div className="box">
+        <button onClick={handleDynamicKeymapGetLayerCount}>
+          Get layer count
+        </button>
         Layers: {layerCount}
       </div>
-      <div className='box'>
-        <label htmlFor='layer'>Layer</label>
-        <input type='number' id='layer' min={0} max={Math.max(layerCount - 1, 0)} value={layer} onChange={handleLayerChange} />
-        <label htmlFor='row'>Row</label>
-        <input type='number' id='row' min={0} value={row} onChange={handleRowChange} />
-        <label htmlFor='column'>Column</label>
-        <input type='number' id='column' min={0} value={column} onChange={handleColumnChange} />
+      <div className="box">
+        <label htmlFor="layer">Layer</label>
+        <input
+          type="number"
+          id="layer"
+          min={0}
+          max={Math.max(layerCount - 1, 0)}
+          value={layer}
+          onChange={handleLayerChange}
+        />
+        <label htmlFor="row">Row</label>
+        <input
+          type="number"
+          id="row"
+          min={0}
+          value={row}
+          onChange={handleRowChange}
+        />
+        <label htmlFor="column">Column</label>
+        <input
+          type="number"
+          id="column"
+          min={0}
+          value={column}
+          onChange={handleColumnChange}
+        />
         <select value={code} onChange={handleCodeChange}>
-          {keycodeArray.map(keycode => {
-            return <option key={keycode.code} value={keycode.code}>{keycode.name.short}</option>;
+          {Keycode.codeArray.map((keycode) => {
+            return (
+              <option key={keycode.code} value={keycode.code}>
+                {keycode.name.long}
+              </option>
+            );
           })}
         </select>
-        <button onClick={handleDynamicKeymapGetKeycodeClick}>Get keycode</button>
-        <button onClick={handleDynamicKeymapSetKeycodeClick}>Set keycode</button>
+        <button onClick={handleDynamicKeymapGetKeycodeClick}>
+          Get keycode
+        </button>
+        <button onClick={handleDynamicKeymapSetKeycodeClick}>
+          Set keycode
+        </button>
       </div>
       <div className='box'>
         <label htmlFor='Test'>Test</label>
