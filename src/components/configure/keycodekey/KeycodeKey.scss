@@ -1,0 +1,29 @@
+@import '../../../variables';
+
+.keycodekey {
+  width: calc(var(--key-width));
+  height: calc(var(--key-height));
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #333;
+  margin-right: 8px;
+  margin-top: 8px;
+  &:hover {
+    border-color: $primary-light;
+    transition: 1s;
+  }
+  .code-label {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 16px;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+    padding: $space-xs;
+  }
+}

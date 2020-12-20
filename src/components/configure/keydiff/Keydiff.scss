@@ -1,0 +1,24 @@
+.diff {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .diff-blank {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
+  .diff-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 104px;
+    margin-bottom: 32px;
+    .arrow {
+      margin: 0 16px;
+    }
+    .cancel-button {
+      margin-left: 8px;
+    }
+  }
+}

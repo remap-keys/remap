@@ -4,8 +4,10 @@ export interface ILightingGetValueResponse extends ICommandResponse {
   value: number;
 }
 
-export class LightingGetValueCommand extends AbstractCommand<ICommandRequest, ILightingGetValueResponse> {
-
+export class LightingGetValueCommand extends AbstractCommand<
+  ICommandRequest,
+  ILightingGetValueResponse
+> {
   createReport(): Uint8Array {
     return new Uint8Array([0x08, 0x81]);
   }
@@ -15,7 +17,6 @@ export class LightingGetValueCommand extends AbstractCommand<ICommandRequest, IL
       value: resultArray[2],
     };
   }
-
 }
 
 export interface ILightingSetValueRequest extends ICommandRequest {
@@ -26,8 +27,10 @@ export interface ILightingSetValueResponse extends ICommandResponse {
   value: number;
 }
 
-export class LightingSetValueCommand extends AbstractCommand<ILightingSetValueRequest, ILightingSetValueResponse> {
-
+export class LightingSetValueCommand extends AbstractCommand<
+  ILightingSetValueRequest,
+  ILightingSetValueResponse
+> {
   createReport(): Uint8Array {
     return new Uint8Array([0x07, 0x81, this.getRequest().value]);
   }
@@ -37,7 +40,6 @@ export class LightingSetValueCommand extends AbstractCommand<ILightingSetValueRe
       value: resultArray[2],
     };
   }
-
 }
 
 export interface IDynamicKeymapGetKeycodeRequest extends ICommandRequest {
@@ -53,8 +55,10 @@ export interface IDynamicKeymapGetKeycodeResponse extends ICommandResponse {
   code: number;
 }
 
-export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<IDynamicKeymapGetKeycodeRequest, IDynamicKeymapGetKeycodeResponse> {
-
+export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<
+  IDynamicKeymapGetKeycodeRequest,
+  IDynamicKeymapGetKeycodeResponse
+> {
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([0x04, req.layer, req.row, req.column]);
@@ -62,15 +66,14 @@ export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<IDynamicKeym
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapGetKeycodeResponse {
     const req = this.getRequest();
-    const code = (resultArray[4] << 8) | (resultArray[5]);
+    const code = (resultArray[4] << 8) | resultArray[5];
     return {
       layer: req.layer,
       row: req.row,
       column: req.column,
-      code
+      code,
     };
   }
-
 }
 
 export interface IDynamicKeymapSetKeycodeRequest extends ICommandRequest {
@@ -111,8 +114,10 @@ export interface IDynamicKeymapGetLayerCountResponse extends ICommandResponse {
   value: number;
 }
 
-export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<ICommandRequest, IDynamicKeymapGetLayerCountResponse> {
-
+export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<
+  ICommandRequest,
+  IDynamicKeymapGetLayerCountResponse
+> {
   createReport(): Uint8Array {
     return new Uint8Array([0x11]);
   }
@@ -122,5 +127,4 @@ export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<ICommandR
       value: resultArray[1],
     };
   }
-
 }

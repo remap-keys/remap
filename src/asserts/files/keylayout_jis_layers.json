@@ -1,0 +1,227 @@
+[
+  {
+    "code": "FN_MO13",
+    "label": "Fn1(Fn3)",
+    "meta": ""
+  },
+  {
+    "code": "FN_MO23",
+    "label": "Fn2(Fn3)",
+    "meta": ""
+  },
+  {
+    "code": "SPC_FN1",
+    "label": "Space Fn1",
+    "meta": ""
+  },
+  {
+    "code": "SPC_FN1",
+    "label": "Space Fn2",
+    "meta": ""
+  },
+  {
+    "code": "SPC_FN1",
+    "label": "Space Fn3",
+    "meta": ""
+  },
+  {
+    "code": "MO(0)",
+    "label": "MO(0)",
+    "meta": ""
+  },
+  {
+    "code": "MO(1)",
+    "label": "MO(1)",
+    "meta": ""
+  },
+  {
+    "code": "MO(2)",
+    "label": "MO(2)",
+    "meta": ""
+  },
+  {
+    "code": "MO(3)",
+    "label": "MO(3)",
+    "meta": ""
+  },
+  {
+    "code": "MO(4)",
+    "label": "MO(4)",
+    "meta": ""
+  },
+  {
+    "code": "MO(5)",
+    "label": "MO(5)",
+    "meta": ""
+  },
+  {
+    "code": "MO(6)",
+    "label": "MO(6)",
+    "meta": ""
+  },
+  {
+    "code": "MO(7)",
+    "label": "MO(7)",
+    "meta": ""
+  },
+  {
+    "code": "TG(0)",
+    "label": "TG(0)",
+    "meta": ""
+  },
+  {
+    "code": "TG(1)",
+    "label": "TG(1)",
+    "meta": ""
+  },
+  {
+    "code": "TG(2)",
+    "label": "TG(2)",
+    "meta": ""
+  },
+  {
+    "code": "TG(3)",
+    "label": "TG(3)",
+    "meta": ""
+  },
+  {
+    "code": "TG(4)",
+    "label": "TG(4)",
+    "meta": ""
+  },
+  {
+    "code": "TG(5)",
+    "label": "TG(5)",
+    "meta": ""
+  },
+  {
+    "code": "TG(6)",
+    "label": "TG(6)",
+    "meta": ""
+  },
+  {
+    "code": "TG(7)",
+    "label": "TG(7)",
+    "meta": ""
+  },
+  {
+    "code": "TT(0)",
+    "label": "TT(0)",
+    "meta": ""
+  },
+  {
+    "code": "TT(1)",
+    "label": "TT(1)",
+    "meta": ""
+  },
+  {
+    "code": "TT(2)",
+    "label": "TT(2)",
+    "meta": ""
+  },
+  {
+    "code": "TT(3)",
+    "label": "TT(3)",
+    "meta": ""
+  },
+  {
+    "code": "TT(4)",
+    "label": "TT(4)",
+    "meta": ""
+  },
+  {
+    "code": "TT(5)",
+    "label": "TT(5)",
+    "meta": ""
+  },
+  {
+    "code": "TT(6)",
+    "label": "TT(6)",
+    "meta": ""
+  },
+  {
+    "code": "TT(7)",
+    "label": "TT(7)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(0)",
+    "label": "OSL(0)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(1)",
+    "label": "OSL(1)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(2)",
+    "label": "OSL(2)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(3)",
+    "label": "OSL(3)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(4)",
+    "label": "OSL(4)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(5)",
+    "label": "OSL(5)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(6)",
+    "label": "OSL(6)",
+    "meta": ""
+  },
+  {
+    "code": "OSL(7)",
+    "label": "OSL(7)",
+    "meta": ""
+  },
+  {
+    "code": "TO(0)",
+    "label": "TO(0)",
+    "meta": ""
+  },
+  {
+    "code": "TO(1)",
+    "label": "TO(1)",
+    "meta": ""
+  },
+  {
+    "code": "TO(2)",
+    "label": "TO(2)",
+    "meta": ""
+  },
+  {
+    "code": "TO(3)",
+    "label": "TO(3)",
+    "meta": ""
+  },
+  {
+    "code": "TO(4)",
+    "label": "TO(4)",
+    "meta": ""
+  },
+  {
+    "code": "TO(5)",
+    "label": "TO(5)",
+    "meta": ""
+  },
+  {
+    "code": "TO(6)",
+    "label": "TO(6)",
+    "meta": ""
+  },
+  {
+    "code": "TO(7)",
+    "label": "TO(7)",
+    "meta": ""
+  }
+]
