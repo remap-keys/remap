@@ -90,24 +90,32 @@ export interface IDynamicKeymapSetKeycodeResponse extends ICommandResponse {
   code: number;
 }
 
-export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<IDynamicKeymapSetKeycodeRequest, IDynamicKeymapSetKeycodeResponse> {
-
+export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<
+  IDynamicKeymapSetKeycodeRequest,
+  IDynamicKeymapSetKeycodeResponse
+> {
   createReport(): Uint8Array {
     const req = this.getRequest();
-    return new Uint8Array([0x05, req.layer, req.row, req.column, req.code >> 8, req.code & 0xFF]);
+    return new Uint8Array([
+      0x05,
+      req.layer,
+      req.row,
+      req.column,
+      req.code >> 8,
+      req.code & 0xff,
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapSetKeycodeResponse {
     const req = this.getRequest();
-    const code = (resultArray[4] << 8) | (resultArray[5]);
+    const code = (resultArray[4] << 8) | resultArray[5];
     return {
       layer: req.layer,
       row: req.row,
       column: req.column,
-      code
+      code,
     };
   }
-
 }
 
 export interface IDynamicKeymapGetLayerCountResponse extends ICommandResponse {

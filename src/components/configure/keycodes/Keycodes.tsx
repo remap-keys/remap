@@ -36,9 +36,21 @@ type CodeType = {
   meta: string;
 };
 
+export interface Key {
+  code: string;
+  label: string;
+  meta: string;
+}
+
+interface MacroText {
+  [key: string]: string;
+}
+
 interface IKeycodeState {
   categoryIndex: number;
   hoverKey: string | null;
+  selectedKey: Key | null; // M0, M1, M2,...
+  macroTexts: MacroText;
 }
 
 export default class Keycodes extends React.Component<{}, IKeycodeState> {
@@ -47,10 +59,19 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
     this.state = {
       categoryIndex: 0,
       hoverKey: null,
+      macroTexts: { M0: '', M1: '', M2: '' },
+      selectedKey: null,
     };
   }
+  onChangeMacroText = (event: any) => {
+    console.log(event);
+  };
   onClickKeyCategory = (index: number) => {
     this.setState({ categoryIndex: index });
+    this.setState({ selectedKey: null });
+  };
+  onClickKeycodeKey = (key: Key) => {
+    this.setState({ selectedKey: key });
   };
   onHoverKey = (code: string) => {
     this.setState({ hoverKey: code });
@@ -58,6 +79,7 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
   offHoverKey = () => {
     this.setState({ hoverKey: null });
   };
+
   render() {
     return (
       <React.Fragment>
@@ -96,6 +118,34 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
             );
           })}
         </div>
+        {this.state.categoryIndex == KeycodeCategories.indexOf('Macro') ? (
+          <div className="macro-wrapper">
+            <div className="macro">
+              <hr />
+              <textarea
+                placeholder={'{KC_A,KC_NO,KC_A,KC_B}'}
+                onChange={this.onChangeMacroText}
+              >
+                {this.state.selectedKey
+                  ? this.state.macroTexts[this.state.selectedKey.code]
+                  : ''}
+              </textarea>
+              <div>
+                Enter text directry, or wrap{' '}
+                <a href="https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes_basic">
+                  Basic Keycodes
+                </a>{' '}
+                in {'{}'}.
+              </div>
+              <div>
+                Single tap: {'{KC_XXX}'}, Chord: {'{KC_XXX, KC_YYY, KC_ZZZ}'}.
+              </div>
+              <div>Type ? to search for keycodes.</div>
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
         {this.state.hoverKey ? (
           <div className="keycode-desc">{this.state.hoverKey}: Description</div>
         ) : (
