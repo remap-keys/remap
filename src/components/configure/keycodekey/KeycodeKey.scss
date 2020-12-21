@@ -3,7 +3,7 @@
 .keycodekey {
   width: calc(var(--key-width));
   height: calc(var(--key-height));
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -11,10 +11,22 @@
   color: #333;
   margin-right: 8px;
   margin-top: 8px;
-  &:hover {
+  cursor: grab;
+  &.selected {
+    border-width: 2px;
     border-color: $primary-light;
-    transition: 1s;
   }
+  &:hover {
+    transform: translateY(-4px);
+    transition: 0.3s;
+  }
+  &.clickable {
+    &:hover {
+      border-color: $primary-light;
+      transition: 0.3s;
+    }
+  }
+
   .code-label {
     display: flex;
     flex-grow: 1;

@@ -13,6 +13,7 @@
   border-radius: 5px;
   background-color: #e0e0e0;
   font-size: 12px;
+  cursor: pointer;
   &.keycap-selected {
     animation: blink 1s infinite alternate;
   }

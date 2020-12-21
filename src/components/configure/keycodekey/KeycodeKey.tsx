@@ -1,15 +1,18 @@
 import React from 'react';
+import { Key } from '../keycodes/Keycodes';
 import './KeycodeKey.scss';
 
 type OnHoverCallback = (code: string) => void;
 type OffHoverCallback = () => void;
+type OnClick = (key: Key) => void;
 
 interface ICodeProps {
-  code: string;
-  label: string;
-  meta: string;
+  keycode: Key;
+  clickable: boolean;
+  selected: boolean;
   onHover: OnHoverCallback;
   offHover: OffHoverCallback;
+  onClick: OnClick;
 }
 
 export default class KeycodeKey extends React.Component<ICodeProps, {}> {
@@ -19,16 +22,21 @@ export default class KeycodeKey extends React.Component<ICodeProps, {}> {
   render() {
     return (
       <div
-        className="keycodekey"
-        onMouseEnter={this.props.onHover.bind(this, this.props.code)}
+        className={[
+          'keycodekey',
+          this.props.selected ? 'selected' : '',
+          this.props.clickable ? 'clickable' : '',
+        ].join(' ')}
+        onMouseEnter={this.props.onHover.bind(this, this.props.keycode.code)}
         onMouseLeave={this.props.offHover}
+        onClick={this.props.onClick.bind(this, this.props.keycode)}
       >
-        {this.props.meta ? (
-          <div className="code-label">{this.props.meta}</div>
+        {this.props.keycode.meta ? (
+          <div className="code-label">{this.props.keycode.meta}</div>
         ) : (
           ''
         )}
-        <div className="code-label">{this.props.label}</div>
+        <div className="code-label">{this.props.keycode.label}</div>
       </div>
     );
   }
