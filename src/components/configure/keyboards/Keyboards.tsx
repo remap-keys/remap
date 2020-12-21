@@ -32,17 +32,21 @@ export default class Keyboards extends React.Component<
     };
   }
 
-  private setStateClickedKeyIndex(index: number) {
-    this.setState({ clickedKeyIndex: index });
+  private clearClickedKeyIndex() {
+    this.setState({ clickedKeyIndex: NaN });
   }
 
   onClickKeycap = (index: number) => {
-    this.setStateClickedKeyIndex(index);
+    if (this.state.clickedKeyIndex != index) {
+      this.setState({ clickedKeyIndex: index });
+    } else {
+      this.clearClickedKeyIndex(); // cancel clicked keycap
+    }
   };
 
   onClickLayer = (layer: number) => {
     this.setState({ selectedLayer: layer });
-    this.setStateClickedKeyIndex(NaN);
+    this.clearClickedKeyIndex();
   };
 
   render() {

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
 import { Button, MenuItem, Select } from '@material-ui/core';
@@ -20,6 +21,25 @@ const KeycodeCategories = [
   'QMK Lighting',
 ] as const;
 
+const MacroKeycode = [
+  'M0',
+  'M1',
+  'M2',
+  'M3',
+  'M4',
+  'M5',
+  'M6',
+  'M7',
+  'M8',
+  'M9',
+  'M10',
+  'M11',
+  'M12',
+  'M13',
+  'M14',
+  'M15',
+];
+
 const Keylayout = [
   KeylayoutBasic,
   KeylayoutNumber,
@@ -29,12 +49,6 @@ const Keylayout = [
   KeylatoutSpecial,
   KeylatoutQmkLighting,
 ];
-
-type CodeType = {
-  key: string;
-  label: string;
-  meta: string;
-};
 
 export interface Key {
   code: string;
@@ -50,6 +64,7 @@ interface IKeycodeState {
   categoryIndex: number;
   hoverKey: string | null;
   selectedKey: Key | null; // M0, M1, M2,...
+  macroText: string | null;
   macroTexts: MacroText;
 }
 
@@ -59,19 +74,45 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
     this.state = {
       categoryIndex: 0,
       hoverKey: null,
-      macroTexts: { M0: '', M1: '', M2: '' },
+      macroText: null,
+      macroTexts: {},
       selectedKey: null,
     };
   }
-  onChangeMacroText = (event: any) => {
-    console.log(event);
+  get macroText(): string {
+    const key = this.state.selectedKey;
+    if (!key || MacroKeycode.indexOf(key.code) < 0) {
+      return '';
+    }
+
+    return this.state.macroTexts[key.code];
+  }
+
+  private clearSelectedKey() {
+    this.setState({ selectedKey: null });
+  }
+
+  private isClickableKey(key: Key): boolean {
+    return 0 <= MacroKeycode.indexOf(key.code);
+  }
+
+  onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (!this.state.selectedKey) return;
+
+    const macroTexts = Object.assign({}, this.state.macroTexts);
+    macroTexts[this.state.selectedKey.code] = event.target.value;
+    this.setState({ macroTexts: macroTexts });
   };
   onClickKeyCategory = (index: number) => {
     this.setState({ categoryIndex: index });
-    this.setState({ selectedKey: null });
+    this.clearSelectedKey();
   };
   onClickKeycodeKey = (key: Key) => {
-    this.setState({ selectedKey: key });
+    if (this.state.selectedKey != key) {
+      this.setState({ selectedKey: key });
+    } else {
+      this.clearSelectedKey(); // cancel selected key
+    }
   };
   onHoverKey = (code: string) => {
     this.setState({ hoverKey: code });
@@ -109,11 +150,12 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
             return (
               <KeycodeKey
                 key={key.code}
-                code={key.code}
-                label={key.label}
-                meta={key.meta}
+                keycode={key}
                 onHover={this.onHoverKey}
                 offHover={this.offHoverKey}
+                onClick={this.onClickKeycodeKey}
+                clickable={this.isClickableKey(key)}
+                selected={this.state.selectedKey?.code == key.code}
               />
             );
           })}
@@ -122,14 +164,18 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
           <div className="macro-wrapper">
             <div className="macro">
               <hr />
+              {this.state.selectedKey ? (
+                <div>{this.state.selectedKey.label}</div>
+              ) : (
+                'Please click above key to input its macro'
+              )}
+
               <textarea
                 placeholder={'{KC_A,KC_NO,KC_A,KC_B}'}
                 onChange={this.onChangeMacroText}
-              >
-                {this.state.selectedKey
-                  ? this.state.macroTexts[this.state.selectedKey.code]
-                  : ''}
-              </textarea>
+                disabled={!this.state.selectedKey}
+                value={this.macroText}
+              ></textarea>
               <div>
                 Enter text directry, or wrap{' '}
                 <a href="https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes_basic">
