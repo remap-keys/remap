@@ -40,6 +40,10 @@
   }
 }
 
+.connected-device {
+  opacity: 1 !important;
+}
+
 .device-item {
   display: flex;
   flex-direction: row;
@@ -49,15 +53,18 @@
     margin-right: $space-m;
   }
   .link-on {
-    color: $primary-light;
+    color: $primary;
+    font-weight: 700;
   }
   .link-off {
-    color: $color-gray;
+    .device-name {
+      font-weight: 400;
+    }
   }
   .device-name {
     display: flex;
     align-items: center;
-    font-weight: 700;
+    color: black;
     .device-ids {
       font-weight: 400;
       font-size: 40%;
