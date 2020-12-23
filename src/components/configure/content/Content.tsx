@@ -14,8 +14,8 @@ interface IContentState {
 }
 
 export default class Content extends React.Component<{}, IContentState> {
-  private origKey = new KeyModel('@', 0, 0, 1, 1.5, 30, 2, 3);
-  private destKey = new KeyModel('Caps Lock', 0, 0, 2, 1, -15, 3, 4);
+  private origKey = new KeyModel('@', 0, 0, 1, 1.5, '#cccccc', 30, 2, 3);
+  private destKey = new KeyModel('Caps Lock', 0, 0, 2, 1, '#cccccc', -15, 3, 4);
   constructor(props: {} | Readonly<{}>) {
     super(props);
     this.state = {
