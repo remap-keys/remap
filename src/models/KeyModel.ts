@@ -17,6 +17,7 @@ export default class KeyModel {
   readonly left: number;
   readonly height: number;
   readonly width: number;
+  readonly color: string;
   readonly rotate: number;
   readonly originLeft: number;
   readonly originTop: number;
@@ -27,6 +28,7 @@ export default class KeyModel {
     y: number,
     w: number,
     h: number,
+    c: string,
     r: number = 0,
     rx: number = 0,
     ry: number = 0
@@ -36,6 +38,7 @@ export default class KeyModel {
     this.left = x * KEY_SIZE;
     this.height = h * KEY_SIZE;
     this.width = w * KEY_SIZE;
+    this.color = c;
     this.rotate = r;
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
@@ -46,6 +49,7 @@ export default class KeyModel {
     return {
       width: this.width,
       height: this.height,
+      background: this.color,
     };
   }
 
@@ -56,6 +60,7 @@ export default class KeyModel {
       left: this.left,
       width: this.width,
       height: this.height,
+      background: this.color,
     };
   }
   get styleTransform(): CSSProperties {

@@ -13,8 +13,8 @@
   .keycap {
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #e0e0e0;
     font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
     cursor: pointer;
     &.keycap-selected {
       animation: blink 1s infinite alternate;
@@ -26,7 +26,7 @@
 
     .keybase {
       border: 1px solid rgba(255, 255, 255, 0.9);
-      background-color: rgba(255, 255, 255, 0.68);
+      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 3px;
       margin: 3px 6px 6px 6px;
       .keyroof {
@@ -34,7 +34,6 @@
         width: 100%;
         height: 100%;
         flex-direction: column;
-        border-color: #000;
         box-sizing: border-box;
         background-clip: padding-box;
         .keylabel {
