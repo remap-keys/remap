@@ -2,23 +2,24 @@ import React from 'react';
 import './Content.scss';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import lunakey from '../../../asserts/files/lunakey-mini.json';
-import KeyboardModel from '../../../models/KeyboardModel';
+import kbdConfig from '../../../asserts/files/lunakey-mini.json';
+//import kbdConfig from '../../../asserts/files/lunakey-mini-test.json';
 import Keydiff from '../keydiff/Keydiff';
 import Keycodes from '../keycodes/Keycodes';
 import Keyboards from '../keyboards/Keyboards';
+import KeyModel from '../../../models/KeyModel';
 
 interface IContentState {
   selectedLayer: number;
-  keyboard: KeyboardModel;
 }
 
 export default class Content extends React.Component<{}, IContentState> {
+  private origKey = new KeyModel('@', 0, 0, 1, 1.5, '#cccccc', 30, 2, 3);
+  private destKey = new KeyModel('Caps Lock', 0, 0, 2, 1, '#cccccc', -15, 3, 4);
   constructor(props: {} | Readonly<{}>) {
     super(props);
     this.state = {
       selectedLayer: 1,
-      keyboard: new KeyboardModel(lunakey.layouts.keymap),
     };
   }
 
@@ -48,12 +49,12 @@ export default class Content extends React.Component<{}, IContentState> {
         <div className="keymap">
           <div className="keydiff-wrapper">
             <div className="spacer"></div>
-            <Keydiff />
+            <Keydiff origin={this.origKey} destination={this.destKey} />
             <div className="spacer"></div>
           </div>
           <div className="keyboards-wrapper">
             <div className="spacer"></div>
-            <Keyboards config={lunakey} />
+            <Keyboards config={kbdConfig} />
             <div className="balancer"></div>
             <div className="spacer"></div>
           </div>

@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  height: 54px;
+  margin-bottom: 32px;
   .diff-blank {
     display: flex;
     flex-direction: row;
@@ -12,8 +14,15 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-left: 104px;
-    margin-bottom: 32px;
+    .key-orig {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .key-dest {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
     .arrow {
       margin: 0 16px;
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Keyboards.scss';
 import KeyboardModel from '../../../models/KeyboardModel';
-import { Button } from '@material-ui/core';
+import { Button, Chip } from '@material-ui/core';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap';
 
@@ -32,17 +32,21 @@ export default class Keyboards extends React.Component<
     };
   }
 
-  private setStateClickedKeyIndex(index: number) {
-    this.setState({ clickedKeyIndex: index });
+  private clearClickedKeyIndex() {
+    this.setState({ clickedKeyIndex: NaN });
   }
 
   onClickKeycap = (index: number) => {
-    this.setStateClickedKeyIndex(index);
+    if (this.state.clickedKeyIndex != index) {
+      this.setState({ clickedKeyIndex: index });
+    } else {
+      this.clearClickedKeyIndex(); // cancel clicked keycap
+    }
   };
 
   onClickLayer = (layer: number) => {
     this.setState({ selectedLayer: layer });
-    this.setStateClickedKeyIndex(NaN);
+    this.clearClickedKeyIndex();
   };
 
   render() {
@@ -54,13 +58,22 @@ export default class Keyboards extends React.Component<
               <span>LAYER</span>
               {layers.map((layer) => {
                 return (
-                  <Button
+                  <Chip
                     key={layer}
+                    variant="outlined"
+                    size="medium"
+                    label={layer}
+                    color={
+                      this.state.selectedLayer == layer ? 'primary' : undefined
+                    }
+                    clickable={this.state.selectedLayer != layer}
                     onClick={this.onClickLayer.bind(this, layer)}
-                    disabled={this.state.selectedLayer == layer}
-                  >
-                    {layer}
-                  </Button>
+                    className={
+                      this.state.selectedLayer != layer
+                        ? 'unselected-layer'
+                        : 'selected-layer'
+                    }
+                  />
                 );
               })}
             </div>
@@ -85,15 +98,15 @@ export default class Keyboards extends React.Component<
             <div
               className="keyboard-frame"
               style={{
-                width: this.state.keyboard.width + BORDER_WIDTH * 2,
-                height: this.state.keyboard.height + BORDER_WIDTH * 2,
+                width: this.state.keyboard.width,
+                height: this.state.keyboard.height,
               }}
             >
               {this.state.keyboard.keymap.map(
                 (key: KeyModel, index: number) => {
                   return (
                     <Keycap
-                      key={key.label}
+                      key={index}
                       index={index}
                       labels={[
                         [key.label, '', ''],
@@ -101,7 +114,8 @@ export default class Keyboards extends React.Component<
                         ['', '', ''],
                       ]}
                       size="1u"
-                      style={key.abstructStyle}
+                      style={key.styleAbstruct}
+                      styleTransform={key.styleTransform}
                       selected={this.state.clickedKeyIndex == index}
                       onClick={this.onClickKeycap}
                     />

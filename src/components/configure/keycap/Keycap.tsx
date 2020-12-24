@@ -22,41 +22,54 @@ interface IKeycapProps {
   size: KeySize;
   selected?: boolean;
   style?: React.CSSProperties;
+  styleTransform?: React.CSSProperties;
   onClick?: OnClickKeycap;
 }
 
 export default class Keycap extends React.Component<IKeycapProps, {}> {
+  private innerWidth: number;
+  private innerHeight: number;
   constructor(props: IKeycapProps | Readonly<IKeycapProps>) {
     super(props);
+    this.innerHeight = (Number(this.props.style?.height) || KEY_SIZE) - 11; // width - {lelft|right}margin - border
+    this.innerWidth = (Number(this.props.style?.width) || KEY_SIZE) - 14; // height - {top|bottom}margin - border
   }
 
   render() {
     return (
-      <div
-        className={[
-          'keycap',
-          keyStyle[this.props.size],
-          this.props.selected ? 'keycap-selected' : '',
-        ].join(' ')}
-        style={this.props.style}
-        onClick={this.props.onClick?.bind(this, this.props.index)}
-      >
-        <div className="keybase">
-          <div className="keyroof">
-            <div className="keylabel">
-              <div className="label left top">{this.props.labels[0][0]}</div>
-              <div className="label center">{this.props.labels[0][1]}</div>
-              <div className="label right">{this.props.labels[0][2]}</div>
-            </div>
-            <div className="keylabel">
-              <div className="label left">{this.props.labels[1][0]}</div>
-              <div className="label center">{this.props.labels[1][1]}</div>
-              <div className="label right">{this.props.labels[1][2]}</div>
-            </div>
-            <div className="keylabel">
-              <div className="label left">{this.props.labels[2][0]}</div>
-              <div className="label center">{this.props.labels[2][1]}</div>
-              <div className="label right">{this.props.labels[2][2]}</div>
+      <div className="keycap-base" style={this.props.styleTransform}>
+        <div
+          className={[
+            'keycap',
+            keyStyle[this.props.size],
+            this.props.selected ? 'keycap-selected' : '',
+          ].join(' ')}
+          style={this.props.style}
+          onClick={this.props.onClick?.bind(this, this.props.index)}
+        >
+          <div
+            className="keybase"
+            style={{
+              width: this.innerWidth,
+              height: this.innerHeight,
+            }}
+          >
+            <div className="keyroof">
+              <div className="keylabel">
+                <div className="label left top">{this.props.labels[0][0]}</div>
+                <div className="label center">{this.props.labels[0][1]}</div>
+                <div className="label right">{this.props.labels[0][2]}</div>
+              </div>
+              <div className="keylabel">
+                <div className="label left">{this.props.labels[1][0]}</div>
+                <div className="label center">{this.props.labels[1][1]}</div>
+                <div className="label right">{this.props.labels[1][2]}</div>
+              </div>
+              <div className="keylabel">
+                <div className="label left">{this.props.labels[2][0]}</div>
+                <div className="label center">{this.props.labels[2][1]}</div>
+                <div className="label right">{this.props.labels[2][2]}</div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import KeyModel, { KeyOp } from './KeyModel';
 
 export default class KeyboardModel {
@@ -15,42 +14,62 @@ export default class KeyboardModel {
 
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
     const list: KeyModel[] = [];
-    let maxX = 0;
-    let maxY = 0;
-    let x = 0;
+    let width = 0;
+    let height = 0;
+    let r = 0;
+    let rx = 0;
+    let ry = 0;
     let y = -1;
+    let c: string = '#cccccc';
     for (let i = 0; i < keymap.length; i++) {
       const keys = keymap[i];
-      y += 1;
-      x = -1;
+      y = ry ? ry : y + 1; // inclement from the last key's y or set origin-y
+      let x = rx ? rx : 0;
       for (let j = 0; j < keys.length; j++) {
-        x += 1;
         const item: string | KeyOp = keys[j]; // KeyMapOp or string('rwo,col')
         let model = null;
+        let h = 1;
+        let w = 1;
+
         if (typeof item === 'string') {
-          model = new KeyModel(x, y, item);
+          model = new KeyModel(item, x, y, w, h, c, r, rx, ry); // no ops for this key
         } else {
           const op = item as KeyOp;
-          if (op) {
-            if (op.x) {
-              x += op.x;
-            }
-            if (op.y) {
-              y += op.y;
-            }
+
+          if (op.rx) {
+            rx = op.rx;
+            x = rx;
           }
+          if (op.ry) {
+            ry = op.ry;
+            y = ry;
+          }
+          if (op.x) {
+            x += op.x;
+          }
+          if (op.y) {
+            y += op.y;
+          }
+
+          h = op.h || h;
+          w = op.w || w;
+          r = op.r || r;
+          c = op.c || c;
+
           const label = keys[++j] as string; // next item should be string(row,col)
-          model = new KeyModel(x, y, label);
+          model = new KeyModel(label, x, y, w, h, c, r, rx, ry);
         }
+        x += w;
         list.push(model);
+        width = Math.max(width, model.endRight);
+        height = Math.max(height, model.endBottom);
       }
-      maxX = Math.max(maxX, x);
     }
-    maxY = y;
+
     return {
       keymap: list,
-      width: (maxX + 1) * KEY_SIZE,
-      height: (maxY + 1) * KEY_SIZE,
+      width: width,
+      height: height,
     };
   }
 }

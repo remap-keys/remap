@@ -87,13 +87,9 @@ export default class Header extends React.Component<
   onClickStatus = (event: React.MouseEvent) => {
     // TODO: change global connection status
     this.setState({ connectionStateEl: event.currentTarget });
-    if (this.props.connected) {
-      console.log('1. open a device list to reconnect another device');
-    } else {
-      console.log('2. open a device list to reconnect another device');
-    }
   };
   onClickConnectionMenuItem = (vid: number) => {
+    console.log(vid);
     this.onCloseConnectionStateMenu();
   };
 
@@ -103,7 +99,6 @@ export default class Header extends React.Component<
 
   onCloseConnectionModal = () => {
     this.setState({ openConnectionModal: false });
-    console.log('close');
   };
 
   openConnectionModal = () => {
@@ -145,7 +140,7 @@ export default class Header extends React.Component<
             >
               <div className="device-item">
                 <LinkOff fontSize="small" className="link-icon link-off" />
-                <div className="device-name">
+                <div className="device-name link-off">
                   Lunakey Pro
                   <span className="device-ids">
                     (VID: 0x9999 / PID: 0x0001)
@@ -156,10 +151,12 @@ export default class Header extends React.Component<
             <MenuItem
               key="2"
               onClick={this.onClickConnectionMenuItem.bind(this, 0x5954)}
+              disabled
+              className="connected-device"
             >
               <div className="device-item">
                 <Link fontSize="small" className="link-icon link-on" />
-                <div className="device-name">
+                <div className="device-name link-on">
                   Lunakey Mini
                   <span className="device-ids">
                     (VID: 0x5954 / PID: 0x0001)
