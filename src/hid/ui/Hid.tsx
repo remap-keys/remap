@@ -7,7 +7,7 @@ import {
   DynamicKeymapSetKeycodeCommand,
 } from '../commands';
 import { IKeyboard } from '../hid';
-import { Keycode } from '../keycode';
+import KeycodeArray from '../assets/keycodes.json';
 
 const Hid = () => {
   const [webHid] = useState<WebHid>(new WebHid());
@@ -24,6 +24,9 @@ const Hid = () => {
   const [row, setRow] = useState<number>(0);
   const [column, setColumn] = useState<number>(0);
   const [code, setCode] = useState<number>(0);
+  const [layer2, setLayer2] = useState<number>(0);
+  const [rowCount, setRowCount] = useState<number>(0);
+  const [columnCount, setColumnCount] = useState<number>(0);
 
   useEffect(() => {
     webHid
@@ -82,19 +85,16 @@ const Hid = () => {
   };
 
   const handleDynamicKeymapGetLayerCount = async () => {
-    const command = new DynamicKeymapGetLayerCountCommand(
-      {},
-      async (result) => {
-        if (result.success) {
-          setLayerCount(result.response!.value);
-        } else {
-          setMessage(result.error!);
-        }
+    if (keyboard) {
+      const result = await keyboard.fetchLayerCount();
+      if (result.success) {
+        setLayerCount(result.layerCount!);
+      } else {
+        setMessage(result.error!);
+        console.log(result.cause);
       }
-    );
-    const result = await keyboard!.enqueue(command);
-    if (!result.success) {
-      setMessage(result.error!);
+    } else {
+      setMessage('No any keyboards opened.');
     }
   };
 
@@ -148,10 +148,22 @@ const Hid = () => {
     setLayer(Number(event.target.value));
   };
 
+  const handleLayer2Change = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setLayer2(Number(event.target.value));
+  };
+
   const handleRowChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRow(Number(event.target.value));
+  };
+
+  const handleRowCountChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowCount(Number(event.target.value));
   };
 
   const handleColumnChange = async (
@@ -160,10 +172,36 @@ const Hid = () => {
     setColumn(Number(event.target.value));
   };
 
+  const handleColumnCountChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setColumnCount(Number(event.target.value));
+  };
+
   const handleCodeChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setCode(Number(event.target.value));
+  };
+
+  const handleFetchKeymapClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    if (keyboard) {
+      const fetchKeymapResult = await keyboard.fetchKeymaps(
+        layer2,
+        rowCount,
+        columnCount
+      );
+      if (fetchKeymapResult.success) {
+        console.log(fetchKeymapResult.keymap);
+      } else {
+        setMessage(fetchKeymapResult.error!);
+        console.log(fetchKeymapResult.cause);
+      }
+    } else {
+      setMessage('No any keyboard opened.');
+    }
   };
 
   const handleDynamicKeymapGetKeycodeClick = async (
@@ -294,7 +332,7 @@ const Hid = () => {
           onChange={handleColumnChange}
         />
         <select value={code} onChange={handleCodeChange}>
-          {Keycode.codeArray.map((keycode) => {
+          {KeycodeArray.map((keycode) => {
             return (
               <option key={keycode.code} value={keycode.code}>
                 {keycode.name.long}
@@ -309,9 +347,37 @@ const Hid = () => {
           Set keycode
         </button>
       </div>
-      <div className='box'>
-        <label htmlFor='Test'>Test</label>
-        <input type='text' style={{ width: '300px' }} />
+      <div className="box">
+        <label htmlFor="layer2">Layer</label>
+        <input
+          type="number"
+          id="layer2"
+          min={0}
+          max={layerCount}
+          value={layer2}
+          onChange={handleLayer2Change}
+        />
+        <label htmlFor="rowCount">Row count</label>
+        <input
+          type="number"
+          id="rowCount"
+          min={0}
+          value={rowCount}
+          onChange={handleRowCountChange}
+        />
+        <label htmlFor="columnCount">Column count</label>
+        <input
+          type="number"
+          id="columnCount"
+          min={0}
+          value={columnCount}
+          onChange={handleColumnCountChange}
+        />
+        <button onClick={handleFetchKeymapClick}>Fetch keymap</button>
+      </div>
+      <div className="box">
+        <label htmlFor="Test">Test</label>
+        <input type="text" style={{ width: '300px' }} />
       </div>
       <div>{message}</div>
     </div>

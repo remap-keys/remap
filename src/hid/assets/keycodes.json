@@ -1976,6 +1976,518 @@
     "label": "MS_ACCEL2"
   },
   {
+    "code": 542,
+    "name": {
+      "long": "KC_EXCLAIM",
+      "short": "KC_EXLM"
+    },
+    "label": "KC_EXLM"
+  },
+  {
+    "code": 543,
+    "name": {
+      "long": "KC_AT",
+      "short": "KC_AT"
+    },
+    "label": "KC_AT"
+  },
+  {
+    "code": 544,
+    "name": {
+      "long": "KC_HASH",
+      "short": "KC_HASH"
+    },
+    "label": "KC_HASH"
+  },
+  {
+    "code": 545,
+    "name": {
+      "long": "KC_DOLLAR",
+      "short": "KC_DLR"
+    },
+    "label": "KC_DLR"
+  },
+  {
+    "code": 546,
+    "name": {
+      "long": "KC_PERCENT",
+      "short": "KC_PERC"
+    },
+    "label": "KC_PERC"
+  },
+  {
+    "code": 547,
+    "name": {
+      "long": "KC_CIRCUMFLEX",
+      "short": "KC_CIRC"
+    },
+    "label": "KC_CIRC"
+  },
+  {
+    "code": 548,
+    "name": {
+      "long": "KC_AMPERSAND",
+      "short": "KC_AMPR"
+    },
+    "label": "KC_AMPR"
+  },
+  {
+    "code": 549,
+    "name": {
+      "long": "KC_ASTERISK",
+      "short": "KC_ASTR"
+    },
+    "label": "KC_ASTR"
+  },
+  {
+    "code": 550,
+    "name": {
+      "long": "KC_LEFT_PAREN",
+      "short": "KC_LPRN"
+    },
+    "label": "KC_LPRN"
+  },
+  {
+    "code": 551,
+    "name": {
+      "long": "KC_RIGHT_PAREN",
+      "short": "KC_RPRN"
+    },
+    "label": "KC_RPRN"
+  },
+  {
+    "code": 557,
+    "name": {
+      "long": "KC_UNDERSCORE",
+      "short": "KC_UNDS"
+    },
+    "label": "KC_UNDS"
+  },
+  {
+    "code": 558,
+    "name": {
+      "long": "KC_PLUS",
+      "short": "KC_PLUS"
+    },
+    "label": "KC_PLUS"
+  },
+  {
+    "code": 559,
+    "name": {
+      "long": "KC_LEFT_CURLY_BRACE",
+      "short": "KC_LCBR"
+    },
+    "label": "KC_LCBR"
+  },
+  {
+    "code": 560,
+    "name": {
+      "long": "KC_RIGHT_CURLY_BRACE",
+      "short": "KC_RCBR"
+    },
+    "label": "KC_RCBR"
+  },
+  {
+    "code": 561,
+    "name": {
+      "long": "KC_PIPE",
+      "short": "KC_PIPE"
+    },
+    "label": "KC_PIPE"
+  },
+  {
+    "code": 563,
+    "name": {
+      "long": "KC_COLON",
+      "short": "KC_COLN"
+    },
+    "label": "KC_COLN"
+  },
+  {
+    "code": 564,
+    "name": {
+      "long": "KC_DOUBLE_QUOTE",
+      "short": "KC_DQT"
+    },
+    "label": "KC_DQT"
+  },
+  {
+    "code": 565,
+    "name": {
+      "long": "KC_TILDE",
+      "short": "KC_TILD"
+    },
+    "label": "KC_TILD"
+  },
+  {
+    "code": 566,
+    "name": {
+      "long": "KC_LEFT_ANGLE_BRACKET",
+      "short": "KC_LABK"
+    },
+    "label": "KC_LABK"
+  },
+  {
+    "code": 567,
+    "name": {
+      "long": "KC_RIGHT_ANGLE_BRACKET",
+      "short": "KC_RABK"
+    },
+    "label": "KC_RABK"
+  },
+  {
+    "code": 568,
+    "name": {
+      "long": "KC_QUESTION",
+      "short": "KC_QUES"
+    },
+    "label": "KC_QUES"
+  },
+  {
+    "code": 16684,
+    "name": {
+      "long": "SPACE_FN1",
+      "short": "SPC_FN1"
+    },
+    "label": "SPC_FN1"
+  },
+  {
+    "code": 16940,
+    "name": {
+      "long": "SPACE_FN2",
+      "short": "SPC_FN2"
+    },
+    "label": "SPC_FN2"
+  },
+  {
+    "code": 17196,
+    "name": {
+      "long": "SPACE_FN3",
+      "short": "SPC_FN3"
+    },
+    "label": "SPC_FN3"
+  },
+  {
+    "code": 20496,
+    "name": {
+      "long": "TO(0)",
+      "short": "TO(0)"
+    },
+    "label": "TO(0)"
+  },
+  {
+    "code": 20497,
+    "name": {
+      "long": "TO(1)",
+      "short": "TO(1)"
+    },
+    "label": "TO(1)"
+  },
+  {
+    "code": 20498,
+    "name": {
+      "long": "TO(2)",
+      "short": "TO(2)"
+    },
+    "label": "TO(2)"
+  },
+  {
+    "code": 20499,
+    "name": {
+      "long": "TO(3)",
+      "short": "TO(3)"
+    },
+    "label": "TO(3)"
+  },
+  {
+    "code": 20500,
+    "name": {
+      "long": "TO(4)",
+      "short": "TO(4)"
+    },
+    "label": "TO(4)"
+  },
+  {
+    "code": 20501,
+    "name": {
+      "long": "TO(5)",
+      "short": "TO(5)"
+    },
+    "label": "TO(5)"
+  },
+  {
+    "code": 20502,
+    "name": {
+      "long": "TO(6)",
+      "short": "TO(6)"
+    },
+    "label": "TO(6)"
+  },
+  {
+    "code": 20503,
+    "name": {
+      "long": "TO(7)",
+      "short": "TO(7)"
+    },
+    "label": "TO(7)"
+  },
+  {
+    "code": 20736,
+    "name": {
+      "long": "MO(0)",
+      "short": "MO(0)"
+    },
+    "label": "MO(0)"
+  },
+  {
+    "code": 20737,
+    "name": {
+      "long": "MO(1)",
+      "short": "MO(1)"
+    },
+    "label": "MO(1)"
+  },
+  {
+    "code": 20738,
+    "name": {
+      "long": "MO(2)",
+      "short": "MO(2)"
+    },
+    "label": "MO(2)"
+  },
+  {
+    "code": 20739,
+    "name": {
+      "long": "MO(3)",
+      "short": "MO(3)"
+    },
+    "label": "MO(3)"
+  },
+  {
+    "code": 20740,
+    "name": {
+      "long": "MO(4)",
+      "short": "MO(4)"
+    },
+    "label": "MO(4)"
+  },
+  {
+    "code": 20741,
+    "name": {
+      "long": "MO(5)",
+      "short": "MO(5)"
+    },
+    "label": "MO(5)"
+  },
+  {
+    "code": 20742,
+    "name": {
+      "long": "MO(6)",
+      "short": "MO(6)"
+    },
+    "label": "MO(6)"
+  },
+  {
+    "code": 20743,
+    "name": {
+      "long": "MO(7)",
+      "short": "MO(7)"
+    },
+    "label": "MO(7)"
+  },
+  {
+    "code": 21248,
+    "name": {
+      "long": "TG(0)",
+      "short": "TG(0)"
+    },
+    "label": "TG(0)"
+  },
+  {
+    "code": 21249,
+    "name": {
+      "long": "TG(1)",
+      "short": "TG(1)"
+    },
+    "label": "TG(1)"
+  },
+  {
+    "code": 21250,
+    "name": {
+      "long": "TG(2)",
+      "short": "TG(2)"
+    },
+    "label": "TG(2)"
+  },
+  {
+    "code": 21251,
+    "name": {
+      "long": "TG(3)",
+      "short": "TG(3)"
+    },
+    "label": "TG(3)"
+  },
+  {
+    "code": 21252,
+    "name": {
+      "long": "TG(4)",
+      "short": "TG(4)"
+    },
+    "label": "TG(4)"
+  },
+  {
+    "code": 21253,
+    "name": {
+      "long": "TG(5)",
+      "short": "TG(5)"
+    },
+    "label": "TG(5)"
+  },
+  {
+    "code": 21254,
+    "name": {
+      "long": "TG(6)",
+      "short": "TG(6)"
+    },
+    "label": "TG(6)"
+  },
+  {
+    "code": 21255,
+    "name": {
+      "long": "TG(7)",
+      "short": "TG(7)"
+    },
+    "label": "TG(7)"
+  },
+  {
+    "code": 21504,
+    "name": {
+      "long": "OSL(0)",
+      "short": "OSL(0)"
+    },
+    "label": "OSL(0)"
+  },
+  {
+    "code": 21505,
+    "name": {
+      "long": "OSL(1)",
+      "short": "OSL(1)"
+    },
+    "label": "OSL(1)"
+  },
+  {
+    "code": 21506,
+    "name": {
+      "long": "OSL(2)",
+      "short": "OSL(2)"
+    },
+    "label": "OSL(2)"
+  },
+  {
+    "code": 21507,
+    "name": {
+      "long": "OSL(3)",
+      "short": "OSL(3)"
+    },
+    "label": "OSL(3)"
+  },
+  {
+    "code": 21508,
+    "name": {
+      "long": "OSL(4)",
+      "short": "OSL(4)"
+    },
+    "label": "OSL(4)"
+  },
+  {
+    "code": 21509,
+    "name": {
+      "long": "OSL(5)",
+      "short": "OSL(5)"
+    },
+    "label": "OSL(5)"
+  },
+  {
+    "code": 21510,
+    "name": {
+      "long": "OSL(6)",
+      "short": "OSL(6)"
+    },
+    "label": "OSL(6)"
+  },
+  {
+    "code": 21511,
+    "name": {
+      "long": "OSL(7)",
+      "short": "OSL(7)"
+    },
+    "label": "OSL(7)"
+  },
+  {
+    "code": 22528,
+    "name": {
+      "long": "TT(0)",
+      "short": "TT(0)"
+    },
+    "label": "TT(0)"
+  },
+  {
+    "code": 22529,
+    "name": {
+      "long": "TT(1)",
+      "short": "TT(1)"
+    },
+    "label": "TT(1)"
+  },
+  {
+    "code": 22530,
+    "name": {
+      "long": "TT(2)",
+      "short": "TT(2)"
+    },
+    "label": "TT(2)"
+  },
+  {
+    "code": 22531,
+    "name": {
+      "long": "TT(3)",
+      "short": "TT(3)"
+    },
+    "label": "TT(3)"
+  },
+  {
+    "code": 22532,
+    "name": {
+      "long": "TT(4)",
+      "short": "TT(4)"
+    },
+    "label": "TT(4)"
+  },
+  {
+    "code": 22533,
+    "name": {
+      "long": "TT(5)",
+      "short": "TT(5)"
+    },
+    "label": "TT(5)"
+  },
+  {
+    "code": 22534,
+    "name": {
+      "long": "TT(6)",
+      "short": "TT(6)"
+    },
+    "label": "TT(6)"
+  },
+  {
+    "code": 22535,
+    "name": {
+      "long": "TT(7)",
+      "short": "TT(7)"
+    },
+    "label": "TT(7)"
+  },
+  {
     "code": 23552,
     "name": {
       "long": "RESET",
@@ -2158,5 +2670,517 @@
       "short": "KC_GESC"
     },
     "label": "GRAVE_ESC"
+  },
+  {
+    "code": 23581,
+    "name": {
+      "long": "AU_ON",
+      "short": "AU_ON"
+    },
+    "label": "AU_ON"
+  },
+  {
+    "code": 23582,
+    "name": {
+      "long": "AU_OFF",
+      "short": "AU_OFF"
+    },
+    "label": "AU_OFF"
+  },
+  {
+    "code": 23583,
+    "name": {
+      "long": "AU_TOG",
+      "short": "AU_TOG"
+    },
+    "label": "AU_TOG"
+  },
+  {
+    "code": 23584,
+    "name": {
+      "long": "CLICKY_TOGGLE",
+      "short": "CLICKY_TOGGLE"
+    },
+    "label": "CLICKY_TOGGLE"
+  },
+  {
+    "code": 23585,
+    "name": {
+      "long": "CLICKY_ENABLE",
+      "short": "CLICKY_ENABLE"
+    },
+    "label": "CLICKY_ENABLE"
+  },
+  {
+    "code": 23586,
+    "name": {
+      "long": "CLICKY_DISABLE",
+      "short": "CLICKY_DISABLE"
+    },
+    "label": "CLICKY_DISABLE"
+  },
+  {
+    "code": 23587,
+    "name": {
+      "long": "CLICKY_UP",
+      "short": "CLICKY_UP"
+    },
+    "label": "CLICKY_UP"
+  },
+  {
+    "code": 23588,
+    "name": {
+      "long": "CLICKY_DOWN",
+      "short": "CLICKY_DOWN"
+    },
+    "label": "CLICKY_DOWN"
+  },
+  {
+    "code": 23589,
+    "name": {
+      "long": "CLICKY_RESET",
+      "short": "CLICKY_RESET"
+    },
+    "label": "CLICKY_RESET"
+  },
+  {
+    "code": 23590,
+    "name": {
+      "long": "MU_ON",
+      "short": "MU_ON"
+    },
+    "label": "MU_ON"
+  },
+  {
+    "code": 23591,
+    "name": {
+      "long": "MU_OFF",
+      "short": "MU_OFF"
+    },
+    "label": "MU_OFF"
+  },
+  {
+    "code": 23592,
+    "name": {
+      "long": "MU_TOG",
+      "short": "MU_TOG"
+    },
+    "label": "MU_TOG"
+  },
+  {
+    "code": 23593,
+    "name": {
+      "long": "MU_MOD",
+      "short": "MU_MOD"
+    },
+    "label": "MU_MOD"
+  },
+  {
+    "code": 23739,
+    "name": {
+      "long": "BL_ON",
+      "short": "BL_ON"
+    },
+    "label": "BL_ON"
+  },
+  {
+    "code": 23740,
+    "name": {
+      "long": "BL_OFF",
+      "short": "BL_OFF"
+    },
+    "label": "BL_OFF"
+  },
+  {
+    "code": 23741,
+    "name": {
+      "long": "BL_DEC",
+      "short": "BL_DEC"
+    },
+    "label": "BL_DEC"
+  },
+  {
+    "code": 23742,
+    "name": {
+      "long": "BL_INC",
+      "short": "BL_INC"
+    },
+    "label": "BL_INC"
+  },
+  {
+    "code": 23743,
+    "name": {
+      "long": "BL_TOGG",
+      "short": "BL_TOGG"
+    },
+    "label": "BL_TOGG"
+  },
+  {
+    "code": 23744,
+    "name": {
+      "long": "BL_STEP",
+      "short": "BL_STEP"
+    },
+    "label": "BL_STEP"
+  },
+  {
+    "code": 23745,
+    "name": {
+      "long": "BL_BRTG",
+      "short": "BL_BRTG"
+    },
+    "label": "BL_BRTG"
+  },
+  {
+    "code": 23746,
+    "name": {
+      "long": "RGB_TOG",
+      "short": "RGB_TOG"
+    },
+    "label": "RGB_TOG"
+  },
+  {
+    "code": 23747,
+    "name": {
+      "long": "RGB_MODE_FORWARD",
+      "short": "RGB_MODE_FORWARD"
+    },
+    "label": "RGB_MODE_FORWARD"
+  },
+  {
+    "code": 23748,
+    "name": {
+      "long": "RGB_MODE_REVERSE",
+      "short": "RGB_MODE_REVERSE"
+    },
+    "label": "RGB_MODE_REVERSE"
+  },
+  {
+    "code": 23749,
+    "name": {
+      "long": "RGB_HUI",
+      "short": "RGB_HUI"
+    },
+    "label": "RGB_HUI"
+  },
+  {
+    "code": 23750,
+    "name": {
+      "long": "RGB_HUD",
+      "short": "RGB_HUD"
+    },
+    "label": "RGB_HUD"
+  },
+  {
+    "code": 23751,
+    "name": {
+      "long": "RGB_SAI",
+      "short": "RGB_SAI"
+    },
+    "label": "RGB_SAI"
+  },
+  {
+    "code": 23752,
+    "name": {
+      "long": "RGB_SAD",
+      "short": "RGB_SAD"
+    },
+    "label": "RGB_SAD"
+  },
+  {
+    "code": 23753,
+    "name": {
+      "long": "RGB_VAI",
+      "short": "RGB_VAI"
+    },
+    "label": "RGB_VAI"
+  },
+  {
+    "code": 23754,
+    "name": {
+      "long": "RGB_VAD",
+      "short": "RGB_VAD"
+    },
+    "label": "RGB_VAD"
+  },
+  {
+    "code": 23755,
+    "name": {
+      "long": "RGB_SPI",
+      "short": "RGB_SPI"
+    },
+    "label": "RGB_SPI"
+  },
+  {
+    "code": 23756,
+    "name": {
+      "long": "RGB_SPD",
+      "short": "RGB_SPD"
+    },
+    "label": "RGB_SPD"
+  },
+  {
+    "code": 23757,
+    "name": {
+      "long": "RGB_MODE_PLAIN",
+      "short": "RGB_MODE_PLAIN"
+    },
+    "label": "RGB_MODE_PLAIN"
+  },
+  {
+    "code": 23758,
+    "name": {
+      "long": "RGB_MODE_BREATHE",
+      "short": "RGB_MODE_BREATHE"
+    },
+    "label": "RGB_MODE_BREATHE"
+  },
+  {
+    "code": 23759,
+    "name": {
+      "long": "RGB_MODE_RAINBOW",
+      "short": "RGB_MODE_RAINBOW"
+    },
+    "label": "RGB_MODE_RAINBOW"
+  },
+  {
+    "code": 23760,
+    "name": {
+      "long": "RGB_MODE_SWIRL",
+      "short": "RGB_MODE_SWIRL"
+    },
+    "label": "RGB_MODE_SWIRL"
+  },
+  {
+    "code": 23761,
+    "name": {
+      "long": "RGB_MODE_SNAKE",
+      "short": "RGB_MODE_SNAKE"
+    },
+    "label": "RGB_MODE_SNAKE"
+  },
+  {
+    "code": 23762,
+    "name": {
+      "long": "RGB_MODE_KNIGHT",
+      "short": "RGB_MODE_KNIGHT"
+    },
+    "label": "RGB_MODE_KNIGHT"
+  },
+  {
+    "code": 23763,
+    "name": {
+      "long": "RGB_MODE_XMAS",
+      "short": "RGB_MODE_XMAS"
+    },
+    "label": "RGB_MODE_XMAS"
+  },
+  {
+    "code": 23764,
+    "name": {
+      "long": "RGB_MODE_GRADIENT",
+      "short": "RGB_MODE_GRADIENT"
+    },
+    "label": "RGB_MODE_GRADIENT"
+  },
+  {
+    "code": 23767,
+    "name": {
+      "long": "KC_LSPO",
+      "short": "KC_LSPO"
+    },
+    "label": "KC_LSPO"
+  },
+  {
+    "code": 23768,
+    "name": {
+      "long": "KC_RSPC",
+      "short": "KC_RSPC"
+    },
+    "label": "KC_RSPC"
+  },
+  {
+    "code": 23769,
+    "name": {
+      "long": "KC_SFTENT",
+      "short": "KC_SFTENT"
+    },
+    "label": "KC_SFTENT"
+  },
+  {
+    "code": 23795,
+    "name": {
+      "long": "KC_LCPO",
+      "short": "KC_LCPO"
+    },
+    "label": "KC_LCPO"
+  },
+  {
+    "code": 23796,
+    "name": {
+      "long": "KC_RCPC",
+      "short": "KC_RCPC"
+    },
+    "label": "KC_RCPC"
+  },
+  {
+    "code": 23797,
+    "name": {
+      "long": "KC_LAPO",
+      "short": "KC_LAPO"
+    },
+    "label": "KC_LAPO"
+  },
+  {
+    "code": 23798,
+    "name": {
+      "long": "KC_RAPC",
+      "short": "KC_RAPC"
+    },
+    "label": "KC_RAPC"
+  },
+  {
+    "code": 24336,
+    "name": {
+      "long": "FN_MO13",
+      "short": "FN_MO13"
+    },
+    "label": "FN_MO13"
+  },
+  {
+    "code": 24337,
+    "name": {
+      "long": "FN_MO23",
+      "short": "FN_MO23"
+    },
+    "label": "FN_MO23"
+  },
+  {
+    "code": 24338,
+    "name": {
+      "long": "MACRO00",
+      "short": "M0"
+    },
+    "label": "M0"
+  },
+  {
+    "code": 24339,
+    "name": {
+      "long": "MACRO01",
+      "short": "M1"
+    },
+    "label": "M1"
+  },
+  {
+    "code": 24340,
+    "name": {
+      "long": "MACRO02",
+      "short": "M2"
+    },
+    "label": "M2"
+  },
+  {
+    "code": 24341,
+    "name": {
+      "long": "MACRO03",
+      "short": "M3"
+    },
+    "label": "M3"
+  },
+  {
+    "code": 24342,
+    "name": {
+      "long": "MACRO04",
+      "short": "M4"
+    },
+    "label": "M4"
+  },
+  {
+    "code": 24343,
+    "name": {
+      "long": "MACRO05",
+      "short": "M5"
+    },
+    "label": "M5"
+  },
+  {
+    "code": 24344,
+    "name": {
+      "long": "MACRO06",
+      "short": "M6"
+    },
+    "label": "M6"
+  },
+  {
+    "code": 24345,
+    "name": {
+      "long": "MACRO07",
+      "short": "M7"
+    },
+    "label": "M7"
+  },
+  {
+    "code": 24346,
+    "name": {
+      "long": "MACRO08",
+      "short": "M8"
+    },
+    "label": "M8"
+  },
+  {
+    "code": 24347,
+    "name": {
+      "long": "MACRO09",
+      "short": "M9"
+    },
+    "label": "M9"
+  },
+  {
+    "code": 24348,
+    "name": {
+      "long": "MACRO10",
+      "short": "M10"
+    },
+    "label": "M10"
+  },
+  {
+    "code": 24349,
+    "name": {
+      "long": "MACRO11",
+      "short": "M11"
+    },
+    "label": "M11"
+  },
+  {
+    "code": 24350,
+    "name": {
+      "long": "MACRO12",
+      "short": "M12"
+    },
+    "label": "M12"
+  },
+  {
+    "code": 24351,
+    "name": {
+      "long": "MACRO13",
+      "short": "M13"
+    },
+    "label": "M13"
+  },
+  {
+    "code": 24352,
+    "name": {
+      "long": "MACRO14",
+      "short": "M14"
+    },
+    "label": "M14"
+  },
+  {
+    "code": 24353,
+    "name": {
+      "long": "MACRO15",
+      "short": "M15"
+    },
+    "label": "M15"
   }
 ]

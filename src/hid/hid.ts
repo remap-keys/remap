@@ -20,13 +20,65 @@ export interface IConnectionEventHandler {
   disconnect: (keyboard: IKeyboard) => void;
 }
 
+export interface IKeycodeInfo {
+  code: number;
+  name: {
+    long: string;
+    short: string;
+  };
+  label: string;
+}
+
+export interface IKeycodeCategoryInfo {
+  category: string;
+  codes: number[];
+}
+
+const IKeycodeCategory: { [p: string]: string } = {
+  BASIC: 'basic',
+  LAYERS: 'layers',
+  LIGHTING: 'lighting',
+  MACRO: 'macro',
+  MEDIA: 'media',
+  NUMBER: 'kp',
+  SPECIAL: 'special',
+} as const;
+type IKeycodeCategory = typeof IKeycodeCategory[keyof typeof IKeycodeCategory];
+
+export interface IFetchLayerCountResult extends IResult {
+  layerCount?: number;
+}
+
+export interface IKeymap {
+  isAny: boolean;
+  code: number;
+  keycodeInfo?: IKeycodeInfo;
+}
+
+export interface IFetchKeymapResult extends IResult {
+  keymap?: { [pos: string]: IKeymap };
+}
+
 export interface IKeyboard {
+  getHid(): IHid;
   getInformation(): IDeviceInformation;
   open(): Promise<IResult>;
   isOpened(): boolean;
   enqueue(command: ICommand): Promise<IResult>;
   close(): Promise<void>;
   equals(keyboard: IKeyboard): boolean;
+  fetchLayerCount(): Promise<IFetchLayerCountResult>;
+  fetchKeymaps(
+    layer: number,
+    rowCount: number,
+    columnCount: number
+  ): Promise<IFetchKeymapResult>;
+  updateKeymap(
+    layer: number,
+    row: number,
+    column: number,
+    code: number
+  ): Promise<IResult>;
 }
 
 export interface ICommand {
@@ -42,4 +94,6 @@ export interface IHid {
   detectKeyboards(): Promise<IKeyboard[]>;
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
+  getKeycodeCandidatesByCategory(category: IKeycodeCategory): IKeycodeInfo[];
+  getKeycodeInfo(code: number): IKeycodeInfo | undefined;
 }
