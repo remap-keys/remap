@@ -1,4 +1,91 @@
-import { AbstractCommand, ICommandRequest, ICommandResponse } from './web-hid';
+import {
+  ICommandRequest,
+  ICommandResponse,
+  ICommandResponseHandler,
+} from './web-hid';
+import { ICommand } from './hid';
+
+export abstract class AbstractCommand<
+  TRequest extends ICommandRequest,
+  TResponse extends ICommandResponse
+> implements ICommand {
+  private readonly request: TRequest;
+  private readonly responseHandler: ICommandResponseHandler<TResponse>;
+
+  static OUTPUT_REPORT_ID: number = 0x00;
+
+  constructor(
+    request: TRequest,
+    responseHandler: ICommandResponseHandler<TResponse>
+  ) {
+    this.request = request;
+    this.responseHandler = responseHandler;
+  }
+
+  protected getRequest(): TRequest {
+    return this.request;
+  }
+
+  protected getResponseHandler(): ICommandResponseHandler<TResponse> {
+    return this.responseHandler;
+  }
+
+  abstract createReport(): Uint8Array;
+  abstract createResponse(resultArray: Uint8Array): TResponse;
+
+  async sendReport(device: any): Promise<void> {
+    try {
+      const outputReport = this.createReport();
+      await device.sendReport(AbstractCommand.OUTPUT_REPORT_ID, outputReport);
+    } catch (error) {
+      await this.getResponseHandler()({
+        success: false,
+        error: 'Sending report failed.',
+        cause: error,
+      });
+    }
+  }
+
+  async handleInputReport(data: any): Promise<void> {
+    const resultArray = new Uint8Array(data.data.buffer);
+    this.outputUint8Array(resultArray);
+    await this.getResponseHandler()({
+      success: true,
+      response: this.createResponse(resultArray),
+    });
+  }
+
+  protected outputUint8Array(array: Uint8Array) {
+    let lines = '';
+    let out = '';
+    let ascii = '';
+    for (let i = 0; i < array.length; i++) {
+      // out += String.fromCharCode(array[i]);
+      let value = Number(array[i]).toString(16).toUpperCase();
+      if (value.length === 1) {
+        value = '0' + value;
+      }
+      out += value;
+      if (i % 2 !== 0) {
+        out += ' ';
+      }
+      if (0x20 <= array[i] && array[i] <= 0x7e) {
+        ascii += String.fromCharCode(array[i]);
+      } else {
+        ascii += '.';
+      }
+      if ((i + 1) % 16 === 0) {
+        lines += out + ' ' + ascii + '\n';
+        out = '';
+        ascii = '';
+      }
+    }
+    if (out) {
+      lines += out + ' ' + ascii + '\n';
+    }
+    console.log(lines);
+  }
+}
 
 export interface ILightingGetValueResponse extends ICommandResponse {
   value: number;

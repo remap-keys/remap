@@ -1,0 +1,3186 @@
+[
+  {
+    "code": 0,
+    "name": {
+      "long": "KC_NO",
+      "short": "KC_NO"
+    },
+    "label": "NO"
+  },
+  {
+    "code": 1,
+    "name": {
+      "long": "KC_TRANSPARENT",
+      "short": "KC_TRNS"
+    },
+    "label": "TRANSPARENT"
+  },
+  {
+    "code": 2,
+    "name": {
+      "long": "KC_POST_FAIL",
+      "short": "KC_POST_FAIL"
+    },
+    "label": "POST_FAIL"
+  },
+  {
+    "code": 3,
+    "name": {
+      "long": "KC_UNDEFINED",
+      "short": "KC_UNDEFINED"
+    },
+    "label": "UNDEFINED"
+  },
+  {
+    "code": 4,
+    "name": {
+      "long": "KC_A",
+      "short": "KC_A"
+    },
+    "label": "A"
+  },
+  {
+    "code": 5,
+    "name": {
+      "long": "KC_B",
+      "short": "KC_B"
+    },
+    "label": "B"
+  },
+  {
+    "code": 6,
+    "name": {
+      "long": "KC_C",
+      "short": "KC_C"
+    },
+    "label": "C"
+  },
+  {
+    "code": 7,
+    "name": {
+      "long": "KC_D",
+      "short": "KC_D"
+    },
+    "label": "D"
+  },
+  {
+    "code": 8,
+    "name": {
+      "long": "KC_E",
+      "short": "KC_E"
+    },
+    "label": "E"
+  },
+  {
+    "code": 9,
+    "name": {
+      "long": "KC_F",
+      "short": "KC_F"
+    },
+    "label": "F"
+  },
+  {
+    "code": 10,
+    "name": {
+      "long": "KC_G",
+      "short": "KC_G"
+    },
+    "label": "G"
+  },
+  {
+    "code": 11,
+    "name": {
+      "long": "KC_H",
+      "short": "KC_H"
+    },
+    "label": "H"
+  },
+  {
+    "code": 12,
+    "name": {
+      "long": "KC_I",
+      "short": "KC_I"
+    },
+    "label": "I"
+  },
+  {
+    "code": 13,
+    "name": {
+      "long": "KC_J",
+      "short": "KC_J"
+    },
+    "label": "J"
+  },
+  {
+    "code": 14,
+    "name": {
+      "long": "KC_K",
+      "short": "KC_K"
+    },
+    "label": "K"
+  },
+  {
+    "code": 15,
+    "name": {
+      "long": "KC_L",
+      "short": "KC_L"
+    },
+    "label": "L"
+  },
+  {
+    "code": 16,
+    "name": {
+      "long": "KC_M",
+      "short": "KC_M"
+    },
+    "label": "M"
+  },
+  {
+    "code": 17,
+    "name": {
+      "long": "KC_N",
+      "short": "KC_N"
+    },
+    "label": "N"
+  },
+  {
+    "code": 18,
+    "name": {
+      "long": "KC_O",
+      "short": "KC_O"
+    },
+    "label": "O"
+  },
+  {
+    "code": 19,
+    "name": {
+      "long": "KC_P",
+      "short": "KC_P"
+    },
+    "label": "P"
+  },
+  {
+    "code": 20,
+    "name": {
+      "long": "KC_Q",
+      "short": "KC_Q"
+    },
+    "label": "Q"
+  },
+  {
+    "code": 21,
+    "name": {
+      "long": "KC_R",
+      "short": "KC_R"
+    },
+    "label": "R"
+  },
+  {
+    "code": 22,
+    "name": {
+      "long": "KC_S",
+      "short": "KC_S"
+    },
+    "label": "S"
+  },
+  {
+    "code": 23,
+    "name": {
+      "long": "KC_T",
+      "short": "KC_T"
+    },
+    "label": "T"
+  },
+  {
+    "code": 24,
+    "name": {
+      "long": "KC_U",
+      "short": "KC_U"
+    },
+    "label": "U"
+  },
+  {
+    "code": 25,
+    "name": {
+      "long": "KC_V",
+      "short": "KC_V"
+    },
+    "label": "V"
+  },
+  {
+    "code": 26,
+    "name": {
+      "long": "KC_W",
+      "short": "KC_W"
+    },
+    "label": "W"
+  },
+  {
+    "code": 27,
+    "name": {
+      "long": "KC_X",
+      "short": "KC_X"
+    },
+    "label": "X"
+  },
+  {
+    "code": 28,
+    "name": {
+      "long": "KC_Y",
+      "short": "KC_Y"
+    },
+    "label": "Y"
+  },
+  {
+    "code": 29,
+    "name": {
+      "long": "KC_Z",
+      "short": "KC_Z"
+    },
+    "label": "Z"
+  },
+  {
+    "code": 30,
+    "name": {
+      "long": "KC_1",
+      "short": "KC_1"
+    },
+    "label": "1"
+  },
+  {
+    "code": 31,
+    "name": {
+      "long": "KC_2",
+      "short": "KC_2"
+    },
+    "label": "2"
+  },
+  {
+    "code": 32,
+    "name": {
+      "long": "KC_3",
+      "short": "KC_3"
+    },
+    "label": "3"
+  },
+  {
+    "code": 33,
+    "name": {
+      "long": "KC_4",
+      "short": "KC_4"
+    },
+    "label": "4"
+  },
+  {
+    "code": 34,
+    "name": {
+      "long": "KC_5",
+      "short": "KC_5"
+    },
+    "label": "5"
+  },
+  {
+    "code": 35,
+    "name": {
+      "long": "KC_6",
+      "short": "KC_6"
+    },
+    "label": "6"
+  },
+  {
+    "code": 36,
+    "name": {
+      "long": "KC_7",
+      "short": "KC_7"
+    },
+    "label": "7"
+  },
+  {
+    "code": 37,
+    "name": {
+      "long": "KC_8",
+      "short": "KC_8"
+    },
+    "label": "8"
+  },
+  {
+    "code": 38,
+    "name": {
+      "long": "KC_9",
+      "short": "KC_9"
+    },
+    "label": "9"
+  },
+  {
+    "code": 39,
+    "name": {
+      "long": "KC_0",
+      "short": "KC_0"
+    },
+    "label": "0"
+  },
+  {
+    "code": 40,
+    "name": {
+      "long": "KC_ENTER",
+      "short": "KC_ENT"
+    },
+    "label": "ENTER"
+  },
+  {
+    "code": 41,
+    "name": {
+      "long": "KC_ESCAPE",
+      "short": "KC_ESC"
+    },
+    "label": "ESCAPE"
+  },
+  {
+    "code": 42,
+    "name": {
+      "long": "KC_BSPACE",
+      "short": "KC_BSPC"
+    },
+    "label": "BSPACE"
+  },
+  {
+    "code": 43,
+    "name": {
+      "long": "KC_TAB",
+      "short": "KC_TAB"
+    },
+    "label": "TAB"
+  },
+  {
+    "code": 44,
+    "name": {
+      "long": "KC_SPACE",
+      "short": "KC_SPC"
+    },
+    "label": "SPACE"
+  },
+  {
+    "code": 45,
+    "name": {
+      "long": "KC_MINUS",
+      "short": "KC_MINS"
+    },
+    "label": "MINUS"
+  },
+  {
+    "code": 46,
+    "name": {
+      "long": "KC_EQUAL",
+      "short": "KC_EQL"
+    },
+    "label": "EQUAL"
+  },
+  {
+    "code": 47,
+    "name": {
+      "long": "KC_LBRACKET",
+      "short": "KC_LBRC"
+    },
+    "label": "LBRACKET"
+  },
+  {
+    "code": 48,
+    "name": {
+      "long": "KC_RBRACKET",
+      "short": "KC_RBRC"
+    },
+    "label": "RBRACKET"
+  },
+  {
+    "code": 49,
+    "name": {
+      "long": "KC_BSLASH",
+      "short": "KC_BSLS"
+    },
+    "label": "BSLASH"
+  },
+  {
+    "code": 50,
+    "name": {
+      "long": "KC_NONUS_HASH",
+      "short": "KC_NUHS"
+    },
+    "label": "NONUS_HASH"
+  },
+  {
+    "code": 51,
+    "name": {
+      "long": "KC_SCOLON",
+      "short": "KC_SCLN"
+    },
+    "label": "SCOLON"
+  },
+  {
+    "code": 52,
+    "name": {
+      "long": "KC_QUOTE",
+      "short": "KC_QUOT"
+    },
+    "label": "QUOTE"
+  },
+  {
+    "code": 53,
+    "name": {
+      "long": "KC_GRAVE",
+      "short": "KC_ZKHK"
+    },
+    "label": "GRAVE"
+  },
+  {
+    "code": 54,
+    "name": {
+      "long": "KC_COMMA",
+      "short": "KC_COMM"
+    },
+    "label": "COMMA"
+  },
+  {
+    "code": 55,
+    "name": {
+      "long": "KC_DOT",
+      "short": "KC_DOT"
+    },
+    "label": "DOT"
+  },
+  {
+    "code": 56,
+    "name": {
+      "long": "KC_SLASH",
+      "short": "KC_SLSH"
+    },
+    "label": "SLASH"
+  },
+  {
+    "code": 57,
+    "name": {
+      "long": "KC_CAPSLOCK",
+      "short": "KC_CAPS"
+    },
+    "label": "CAPSLOCK"
+  },
+  {
+    "code": 58,
+    "name": {
+      "long": "KC_F1",
+      "short": "KC_F1"
+    },
+    "label": "F1"
+  },
+  {
+    "code": 59,
+    "name": {
+      "long": "KC_F2",
+      "short": "KC_F2"
+    },
+    "label": "F2"
+  },
+  {
+    "code": 60,
+    "name": {
+      "long": "KC_F3",
+      "short": "KC_F3"
+    },
+    "label": "F3"
+  },
+  {
+    "code": 61,
+    "name": {
+      "long": "KC_F4",
+      "short": "KC_F4"
+    },
+    "label": "F4"
+  },
+  {
+    "code": 62,
+    "name": {
+      "long": "KC_F5",
+      "short": "KC_F5"
+    },
+    "label": "F5"
+  },
+  {
+    "code": 63,
+    "name": {
+      "long": "KC_F6",
+      "short": "KC_F6"
+    },
+    "label": "F6"
+  },
+  {
+    "code": 64,
+    "name": {
+      "long": "KC_F7",
+      "short": "KC_F7"
+    },
+    "label": "F7"
+  },
+  {
+    "code": 65,
+    "name": {
+      "long": "KC_F8",
+      "short": "KC_F8"
+    },
+    "label": "F8"
+  },
+  {
+    "code": 66,
+    "name": {
+      "long": "KC_F9",
+      "short": "KC_F9"
+    },
+    "label": "F9"
+  },
+  {
+    "code": 67,
+    "name": {
+      "long": "KC_F10",
+      "short": "KC_F10"
+    },
+    "label": "F10"
+  },
+  {
+    "code": 68,
+    "name": {
+      "long": "KC_F11",
+      "short": "KC_F11"
+    },
+    "label": "F11"
+  },
+  {
+    "code": 69,
+    "name": {
+      "long": "KC_F12",
+      "short": "KC_F12"
+    },
+    "label": "F12"
+  },
+  {
+    "code": 70,
+    "name": {
+      "long": "KC_PSCREEN",
+      "short": "KC_PSCR"
+    },
+    "label": "PSCREEN"
+  },
+  {
+    "code": 71,
+    "name": {
+      "long": "KC_SCROLLLOCK",
+      "short": "KC_BRMD"
+    },
+    "label": "SCROLLLOCK"
+  },
+  {
+    "code": 72,
+    "name": {
+      "long": "KC_PAUSE",
+      "short": "KC_BRMU"
+    },
+    "label": "PAUSE"
+  },
+  {
+    "code": 73,
+    "name": {
+      "long": "KC_INSERT",
+      "short": "KC_INS"
+    },
+    "label": "INSERT"
+  },
+  {
+    "code": 74,
+    "name": {
+      "long": "KC_HOME",
+      "short": "KC_HOME"
+    },
+    "label": "HOME"
+  },
+  {
+    "code": 75,
+    "name": {
+      "long": "KC_PGUP",
+      "short": "KC_PGUP"
+    },
+    "label": "PGUP"
+  },
+  {
+    "code": 76,
+    "name": {
+      "long": "KC_DELETE",
+      "short": "KC_DEL"
+    },
+    "label": "DELETE"
+  },
+  {
+    "code": 77,
+    "name": {
+      "long": "KC_END",
+      "short": "KC_END"
+    },
+    "label": "END"
+  },
+  {
+    "code": 78,
+    "name": {
+      "long": "KC_PGDOWN",
+      "short": "KC_PGDN"
+    },
+    "label": "PGDOWN"
+  },
+  {
+    "code": 79,
+    "name": {
+      "long": "KC_RIGHT",
+      "short": "KC_RGHT"
+    },
+    "label": "RIGHT"
+  },
+  {
+    "code": 80,
+    "name": {
+      "long": "KC_LEFT",
+      "short": "KC_LEFT"
+    },
+    "label": "LEFT"
+  },
+  {
+    "code": 81,
+    "name": {
+      "long": "KC_DOWN",
+      "short": "KC_DOWN"
+    },
+    "label": "DOWN"
+  },
+  {
+    "code": 82,
+    "name": {
+      "long": "KC_UP",
+      "short": "KC_UP"
+    },
+    "label": "UP"
+  },
+  {
+    "code": 83,
+    "name": {
+      "long": "KC_NUMLOCK",
+      "short": "KC_NLCK"
+    },
+    "label": "NUMLOCK"
+  },
+  {
+    "code": 84,
+    "name": {
+      "long": "KC_KP_SLASH",
+      "short": "KC_PSLS"
+    },
+    "label": "KP_SLASH"
+  },
+  {
+    "code": 85,
+    "name": {
+      "long": "KC_KP_ASTERISK",
+      "short": "KC_PAST"
+    },
+    "label": "KP_ASTERISK"
+  },
+  {
+    "code": 86,
+    "name": {
+      "long": "KC_KP_MINUS",
+      "short": "KC_PMNS"
+    },
+    "label": "KP_MINUS"
+  },
+  {
+    "code": 87,
+    "name": {
+      "long": "KC_KP_PLUS",
+      "short": "KC_PPLS"
+    },
+    "label": "KP_PLUS"
+  },
+  {
+    "code": 88,
+    "name": {
+      "long": "KC_KP_ENTER",
+      "short": "KC_PENT"
+    },
+    "label": "KP_ENTER"
+  },
+  {
+    "code": 89,
+    "name": {
+      "long": "KC_KP_1",
+      "short": "KC_P1"
+    },
+    "label": "KP_1"
+  },
+  {
+    "code": 90,
+    "name": {
+      "long": "KC_KP_2",
+      "short": "KC_P2"
+    },
+    "label": "KP_2"
+  },
+  {
+    "code": 91,
+    "name": {
+      "long": "KC_KP_3",
+      "short": "KC_P3"
+    },
+    "label": "KP_3"
+  },
+  {
+    "code": 92,
+    "name": {
+      "long": "KC_KP_4",
+      "short": "KC_P4"
+    },
+    "label": "KP_4"
+  },
+  {
+    "code": 93,
+    "name": {
+      "long": "KC_KP_5",
+      "short": "KC_P5"
+    },
+    "label": "KP_5"
+  },
+  {
+    "code": 94,
+    "name": {
+      "long": "KC_KP_6",
+      "short": "KC_P6"
+    },
+    "label": "KP_6"
+  },
+  {
+    "code": 95,
+    "name": {
+      "long": "KC_KP_7",
+      "short": "KC_P7"
+    },
+    "label": "KP_7"
+  },
+  {
+    "code": 96,
+    "name": {
+      "long": "KC_KP_8",
+      "short": "KC_P8"
+    },
+    "label": "KP_8"
+  },
+  {
+    "code": 97,
+    "name": {
+      "long": "KC_KP_9",
+      "short": "KC_P9"
+    },
+    "label": "KP_9"
+  },
+  {
+    "code": 98,
+    "name": {
+      "long": "KC_KP_0",
+      "short": "KC_P0"
+    },
+    "label": "KP_0"
+  },
+  {
+    "code": 99,
+    "name": {
+      "long": "KC_KP_DOT",
+      "short": "KC_PDOT"
+    },
+    "label": "KP_DOT"
+  },
+  {
+    "code": 100,
+    "name": {
+      "long": "KC_NONUS_BSLASH",
+      "short": "KC_NUBS"
+    },
+    "label": "NONUS_BSLASH"
+  },
+  {
+    "code": 101,
+    "name": {
+      "long": "KC_APPLICATION",
+      "short": "KC_APP"
+    },
+    "label": "APPLICATION"
+  },
+  {
+    "code": 102,
+    "name": {
+      "long": "KC_POWER",
+      "short": "KC_POWER"
+    },
+    "label": "POWER"
+  },
+  {
+    "code": 103,
+    "name": {
+      "long": "KC_KP_EQUAL",
+      "short": "KC_PEQL"
+    },
+    "label": "KP_EQUAL"
+  },
+  {
+    "code": 104,
+    "name": {
+      "long": "KC_F13",
+      "short": "KC_F13"
+    },
+    "label": "F13"
+  },
+  {
+    "code": 105,
+    "name": {
+      "long": "KC_F14",
+      "short": "KC_F14"
+    },
+    "label": "F14"
+  },
+  {
+    "code": 106,
+    "name": {
+      "long": "KC_F15",
+      "short": "KC_F15"
+    },
+    "label": "F15"
+  },
+  {
+    "code": 107,
+    "name": {
+      "long": "KC_F16",
+      "short": "KC_F16"
+    },
+    "label": "F16"
+  },
+  {
+    "code": 108,
+    "name": {
+      "long": "KC_F17",
+      "short": "KC_F17"
+    },
+    "label": "F17"
+  },
+  {
+    "code": 109,
+    "name": {
+      "long": "KC_F18",
+      "short": "KC_F18"
+    },
+    "label": "F18"
+  },
+  {
+    "code": 110,
+    "name": {
+      "long": "KC_F19",
+      "short": "KC_F19"
+    },
+    "label": "F19"
+  },
+  {
+    "code": 111,
+    "name": {
+      "long": "KC_F20",
+      "short": "KC_F20"
+    },
+    "label": "F20"
+  },
+  {
+    "code": 112,
+    "name": {
+      "long": "KC_F21",
+      "short": "KC_F21"
+    },
+    "label": "F21"
+  },
+  {
+    "code": 113,
+    "name": {
+      "long": "KC_F22",
+      "short": "KC_F22"
+    },
+    "label": "F22"
+  },
+  {
+    "code": 114,
+    "name": {
+      "long": "KC_F23",
+      "short": "KC_F23"
+    },
+    "label": "F23"
+  },
+  {
+    "code": 115,
+    "name": {
+      "long": "KC_F24",
+      "short": "KC_F24"
+    },
+    "label": "F24"
+  },
+  {
+    "code": 116,
+    "name": {
+      "long": "KC_EXECUTE",
+      "short": "KC_EXEC"
+    },
+    "label": "EXECUTE"
+  },
+  {
+    "code": 117,
+    "name": {
+      "long": "KC_HELP",
+      "short": "KC_HELP"
+    },
+    "label": "HELP"
+  },
+  {
+    "code": 118,
+    "name": {
+      "long": "KC_MENU",
+      "short": "KC_MENU"
+    },
+    "label": "MENU"
+  },
+  {
+    "code": 119,
+    "name": {
+      "long": "KC_SELECT",
+      "short": "KC_SLCT"
+    },
+    "label": "SELECT"
+  },
+  {
+    "code": 120,
+    "name": {
+      "long": "KC_STOP",
+      "short": "KC_STOP"
+    },
+    "label": "STOP"
+  },
+  {
+    "code": 121,
+    "name": {
+      "long": "KC_AGAIN",
+      "short": "KC_AGIN"
+    },
+    "label": "AGAIN"
+  },
+  {
+    "code": 122,
+    "name": {
+      "long": "KC_UNDO",
+      "short": "KC_UNDO"
+    },
+    "label": "UNDO"
+  },
+  {
+    "code": 123,
+    "name": {
+      "long": "KC_CUT",
+      "short": "KC_CUT"
+    },
+    "label": "CUT"
+  },
+  {
+    "code": 124,
+    "name": {
+      "long": "KC_COPY",
+      "short": "KC_COPY"
+    },
+    "label": "COPY"
+  },
+  {
+    "code": 125,
+    "name": {
+      "long": "KC_PASTE",
+      "short": "KC_PSTE"
+    },
+    "label": "PASTE"
+  },
+  {
+    "code": 126,
+    "name": {
+      "long": "KC_FIND",
+      "short": "KC_FIND"
+    },
+    "label": "FIND"
+  },
+  {
+    "code": 127,
+    "name": {
+      "long": "KC__MUTE",
+      "short": "KC__MUTE"
+    },
+    "label": "_MUTE"
+  },
+  {
+    "code": 128,
+    "name": {
+      "long": "KC__VOLUP",
+      "short": "KC__VOLUP"
+    },
+    "label": "_VOLUP"
+  },
+  {
+    "code": 129,
+    "name": {
+      "long": "KC__VOLDOWN",
+      "short": "KC__VOLDOWN"
+    },
+    "label": "_VOLDOWN"
+  },
+  {
+    "code": 130,
+    "name": {
+      "long": "KC_LOCKING_CAPS",
+      "short": "KC_LCAP"
+    },
+    "label": "LOCKING_CAPS"
+  },
+  {
+    "code": 131,
+    "name": {
+      "long": "KC_LOCKING_NUM",
+      "short": "KC_LNUM"
+    },
+    "label": "LOCKING_NUM"
+  },
+  {
+    "code": 132,
+    "name": {
+      "long": "KC_LOCKING_SCROLL",
+      "short": "KC_LSCR"
+    },
+    "label": "LOCKING_SCROLL"
+  },
+  {
+    "code": 133,
+    "name": {
+      "long": "KC_KP_COMMA",
+      "short": "KC_PCMM"
+    },
+    "label": "KP_COMMA"
+  },
+  {
+    "code": 134,
+    "name": {
+      "long": "KC_KP_EQUAL_AS400",
+      "short": "KC_KP_EQUAL_AS400"
+    },
+    "label": "KP_EQUAL_AS400"
+  },
+  {
+    "code": 135,
+    "name": {
+      "long": "KC_INT1",
+      "short": "KC_RO"
+    },
+    "label": "INT1"
+  },
+  {
+    "code": 136,
+    "name": {
+      "long": "KC_INT2",
+      "short": "KC_KANA"
+    },
+    "label": "INT2"
+  },
+  {
+    "code": 137,
+    "name": {
+      "long": "KC_INT3",
+      "short": "KC_JYEN"
+    },
+    "label": "INT3"
+  },
+  {
+    "code": 138,
+    "name": {
+      "long": "KC_INT4",
+      "short": "KC_HENK"
+    },
+    "label": "INT4"
+  },
+  {
+    "code": 139,
+    "name": {
+      "long": "KC_INT5",
+      "short": "KC_MHEN"
+    },
+    "label": "INT5"
+  },
+  {
+    "code": 140,
+    "name": {
+      "long": "KC_INT6",
+      "short": "KC_INT6"
+    },
+    "label": "INT6"
+  },
+  {
+    "code": 141,
+    "name": {
+      "long": "KC_INT7",
+      "short": "KC_INT7"
+    },
+    "label": "INT7"
+  },
+  {
+    "code": 142,
+    "name": {
+      "long": "KC_INT8",
+      "short": "KC_INT8"
+    },
+    "label": "INT8"
+  },
+  {
+    "code": 143,
+    "name": {
+      "long": "KC_INT9",
+      "short": "KC_INT9"
+    },
+    "label": "INT9"
+  },
+  {
+    "code": 144,
+    "name": {
+      "long": "KC_LANG1",
+      "short": "KC_HAEN"
+    },
+    "label": "LANG1"
+  },
+  {
+    "code": 145,
+    "name": {
+      "long": "KC_LANG2",
+      "short": "KC_HANJ"
+    },
+    "label": "LANG2"
+  },
+  {
+    "code": 146,
+    "name": {
+      "long": "KC_LANG3",
+      "short": "KC_LANG3"
+    },
+    "label": "LANG3"
+  },
+  {
+    "code": 147,
+    "name": {
+      "long": "KC_LANG4",
+      "short": "KC_LANG4"
+    },
+    "label": "LANG4"
+  },
+  {
+    "code": 148,
+    "name": {
+      "long": "KC_LANG5",
+      "short": "KC_LANG5"
+    },
+    "label": "LANG5"
+  },
+  {
+    "code": 149,
+    "name": {
+      "long": "KC_LANG6",
+      "short": "KC_LANG6"
+    },
+    "label": "LANG6"
+  },
+  {
+    "code": 150,
+    "name": {
+      "long": "KC_LANG7",
+      "short": "KC_LANG7"
+    },
+    "label": "LANG7"
+  },
+  {
+    "code": 151,
+    "name": {
+      "long": "KC_LANG8",
+      "short": "KC_LANG8"
+    },
+    "label": "LANG8"
+  },
+  {
+    "code": 152,
+    "name": {
+      "long": "KC_LANG9",
+      "short": "KC_LANG9"
+    },
+    "label": "LANG9"
+  },
+  {
+    "code": 153,
+    "name": {
+      "long": "KC_ALT_ERASE",
+      "short": "KC_ERAS"
+    },
+    "label": "ALT_ERASE"
+  },
+  {
+    "code": 154,
+    "name": {
+      "long": "KC_SYSREQ",
+      "short": "KC_SYSREQ"
+    },
+    "label": "SYSREQ"
+  },
+  {
+    "code": 155,
+    "name": {
+      "long": "KC_CANCEL",
+      "short": "KC_CANCEL"
+    },
+    "label": "CANCEL"
+  },
+  {
+    "code": 156,
+    "name": {
+      "long": "KC_CLEAR",
+      "short": "KC_CLR"
+    },
+    "label": "CLEAR"
+  },
+  {
+    "code": 157,
+    "name": {
+      "long": "KC_PRIOR",
+      "short": "KC_PRIOR"
+    },
+    "label": "PRIOR"
+  },
+  {
+    "code": 158,
+    "name": {
+      "long": "KC_RETURN",
+      "short": "KC_RETURN"
+    },
+    "label": "RETURN"
+  },
+  {
+    "code": 159,
+    "name": {
+      "long": "KC_SEPARATOR",
+      "short": "KC_SEPARATOR"
+    },
+    "label": "SEPARATOR"
+  },
+  {
+    "code": 160,
+    "name": {
+      "long": "KC_OUT",
+      "short": "KC_OUT"
+    },
+    "label": "OUT"
+  },
+  {
+    "code": 161,
+    "name": {
+      "long": "KC_OPER",
+      "short": "KC_OPER"
+    },
+    "label": "OPER"
+  },
+  {
+    "code": 162,
+    "name": {
+      "long": "KC_CLEAR_AGAIN",
+      "short": "KC_CLEAR_AGAIN"
+    },
+    "label": "CLEAR_AGAIN"
+  },
+  {
+    "code": 163,
+    "name": {
+      "long": "KC_CRSEL",
+      "short": "KC_CRSEL"
+    },
+    "label": "CRSEL"
+  },
+  {
+    "code": 164,
+    "name": {
+      "long": "KC_EXSEL",
+      "short": "KC_EXSEL"
+    },
+    "label": "EXSEL"
+  },
+  {
+    "code": 165,
+    "name": {
+      "long": "KC_SYSTEM_POWER",
+      "short": "KC_PWR"
+    },
+    "label": "SYSTEM_POWER"
+  },
+  {
+    "code": 166,
+    "name": {
+      "long": "KC_SYSTEM_SLEEP",
+      "short": "KC_SLEP"
+    },
+    "label": "SYSTEM_SLEEP"
+  },
+  {
+    "code": 167,
+    "name": {
+      "long": "KC_SYSTEM_WAKE",
+      "short": "KC_WAKE"
+    },
+    "label": "SYSTEM_WAKE"
+  },
+  {
+    "code": 168,
+    "name": {
+      "long": "KC_AUDIO_MUTE",
+      "short": "KC_MUTE"
+    },
+    "label": "AUDIO_MUTE"
+  },
+  {
+    "code": 169,
+    "name": {
+      "long": "KC_AUDIO_VOL_UP",
+      "short": "KC_VOLU"
+    },
+    "label": "AUDIO_VOL_UP"
+  },
+  {
+    "code": 170,
+    "name": {
+      "long": "KC_AUDIO_VOL_DOWN",
+      "short": "KC_VOLD"
+    },
+    "label": "AUDIO_VOL_DOWN"
+  },
+  {
+    "code": 171,
+    "name": {
+      "long": "KC_MEDIA_NEXT_TRACK",
+      "short": "KC_MNXT"
+    },
+    "label": "MEDIA_NEXT_TRACK"
+  },
+  {
+    "code": 172,
+    "name": {
+      "long": "KC_MEDIA_PREV_TRACK",
+      "short": "KC_MPRV"
+    },
+    "label": "MEDIA_PREV_TRACK"
+  },
+  {
+    "code": 173,
+    "name": {
+      "long": "KC_MEDIA_STOP",
+      "short": "KC_MSTP"
+    },
+    "label": "MEDIA_STOP"
+  },
+  {
+    "code": 174,
+    "name": {
+      "long": "KC_MEDIA_PLAY_PAUSE",
+      "short": "KC_MPLY"
+    },
+    "label": "MEDIA_PLAY_PAUSE"
+  },
+  {
+    "code": 175,
+    "name": {
+      "long": "KC_MEDIA_SELECT",
+      "short": "KC_MSEL"
+    },
+    "label": "MEDIA_SELECT"
+  },
+  {
+    "code": 176,
+    "name": {
+      "long": "KC_MEDIA_EJECT",
+      "short": "KC_EJCT"
+    },
+    "label": "MEDIA_EJECT"
+  },
+  {
+    "code": 177,
+    "name": {
+      "long": "KC_MAIL",
+      "short": "KC_MAIL"
+    },
+    "label": "MAIL"
+  },
+  {
+    "code": 178,
+    "name": {
+      "long": "KC_CALCULATOR",
+      "short": "KC_CALC"
+    },
+    "label": "CALCULATOR"
+  },
+  {
+    "code": 179,
+    "name": {
+      "long": "KC_MY_COMPUTER",
+      "short": "KC_MYCM"
+    },
+    "label": "MY_COMPUTER"
+  },
+  {
+    "code": 180,
+    "name": {
+      "long": "KC_WWW_SEARCH",
+      "short": "KC_WSCH"
+    },
+    "label": "WWW_SEARCH"
+  },
+  {
+    "code": 181,
+    "name": {
+      "long": "KC_WWW_HOME",
+      "short": "KC_WHOM"
+    },
+    "label": "WWW_HOME"
+  },
+  {
+    "code": 182,
+    "name": {
+      "long": "KC_WWW_BACK",
+      "short": "KC_WBAK"
+    },
+    "label": "WWW_BACK"
+  },
+  {
+    "code": 183,
+    "name": {
+      "long": "KC_WWW_FORWARD",
+      "short": "KC_WFWD"
+    },
+    "label": "WWW_FORWARD"
+  },
+  {
+    "code": 184,
+    "name": {
+      "long": "KC_WWW_STOP",
+      "short": "KC_WSTP"
+    },
+    "label": "WWW_STOP"
+  },
+  {
+    "code": 185,
+    "name": {
+      "long": "KC_WWW_REFRESH",
+      "short": "KC_WREF"
+    },
+    "label": "WWW_REFRESH"
+  },
+  {
+    "code": 186,
+    "name": {
+      "long": "KC_WWW_FAVORITES",
+      "short": "KC_WFAV"
+    },
+    "label": "WWW_FAVORITES"
+  },
+  {
+    "code": 187,
+    "name": {
+      "long": "KC_MEDIA_FAST_FORWARD",
+      "short": "KC_MFFD"
+    },
+    "label": "MEDIA_FAST_FORWARD"
+  },
+  {
+    "code": 188,
+    "name": {
+      "long": "KC_MEDIA_REWIND",
+      "short": "KC_MRWD"
+    },
+    "label": "MEDIA_REWIND"
+  },
+  {
+    "code": 189,
+    "name": {
+      "long": "KC_BRIGHTNESS_UP",
+      "short": "KC_BRIU"
+    },
+    "label": "BRIGHTNESS_UP"
+  },
+  {
+    "code": 190,
+    "name": {
+      "long": "KC_BRIGHTNESS_DOWN",
+      "short": "KC_BRID"
+    },
+    "label": "BRIGHTNESS_DOWN"
+  },
+  {
+    "code": 192,
+    "name": {
+      "long": "KC_FN0",
+      "short": "KC_FN0"
+    },
+    "label": "FN0"
+  },
+  {
+    "code": 193,
+    "name": {
+      "long": "KC_FN1",
+      "short": "KC_FN1"
+    },
+    "label": "FN1"
+  },
+  {
+    "code": 194,
+    "name": {
+      "long": "KC_FN2",
+      "short": "KC_FN2"
+    },
+    "label": "FN2"
+  },
+  {
+    "code": 195,
+    "name": {
+      "long": "KC_FN3",
+      "short": "KC_FN3"
+    },
+    "label": "FN3"
+  },
+  {
+    "code": 196,
+    "name": {
+      "long": "KC_FN4",
+      "short": "KC_FN4"
+    },
+    "label": "FN4"
+  },
+  {
+    "code": 197,
+    "name": {
+      "long": "KC_FN5",
+      "short": "KC_FN5"
+    },
+    "label": "FN5"
+  },
+  {
+    "code": 198,
+    "name": {
+      "long": "KC_FN6",
+      "short": "KC_FN6"
+    },
+    "label": "FN6"
+  },
+  {
+    "code": 199,
+    "name": {
+      "long": "KC_FN7",
+      "short": "KC_FN7"
+    },
+    "label": "FN7"
+  },
+  {
+    "code": 200,
+    "name": {
+      "long": "KC_FN8",
+      "short": "KC_FN8"
+    },
+    "label": "FN8"
+  },
+  {
+    "code": 201,
+    "name": {
+      "long": "KC_FN9",
+      "short": "KC_FN9"
+    },
+    "label": "FN9"
+  },
+  {
+    "code": 202,
+    "name": {
+      "long": "KC_FN10",
+      "short": "KC_FN10"
+    },
+    "label": "FN10"
+  },
+  {
+    "code": 203,
+    "name": {
+      "long": "KC_FN11",
+      "short": "KC_FN11"
+    },
+    "label": "FN11"
+  },
+  {
+    "code": 204,
+    "name": {
+      "long": "KC_FN12",
+      "short": "KC_FN12"
+    },
+    "label": "FN12"
+  },
+  {
+    "code": 205,
+    "name": {
+      "long": "KC_FN13",
+      "short": "KC_FN13"
+    },
+    "label": "FN13"
+  },
+  {
+    "code": 206,
+    "name": {
+      "long": "KC_FN14",
+      "short": "KC_FN14"
+    },
+    "label": "FN14"
+  },
+  {
+    "code": 207,
+    "name": {
+      "long": "KC_FN15",
+      "short": "KC_FN15"
+    },
+    "label": "FN15"
+  },
+  {
+    "code": 208,
+    "name": {
+      "long": "KC_FN16",
+      "short": "KC_FN16"
+    },
+    "label": "FN16"
+  },
+  {
+    "code": 209,
+    "name": {
+      "long": "KC_FN17",
+      "short": "KC_FN17"
+    },
+    "label": "FN17"
+  },
+  {
+    "code": 210,
+    "name": {
+      "long": "KC_FN18",
+      "short": "KC_FN18"
+    },
+    "label": "FN18"
+  },
+  {
+    "code": 211,
+    "name": {
+      "long": "KC_FN19",
+      "short": "KC_FN19"
+    },
+    "label": "FN19"
+  },
+  {
+    "code": 212,
+    "name": {
+      "long": "KC_FN20",
+      "short": "KC_FN20"
+    },
+    "label": "FN20"
+  },
+  {
+    "code": 213,
+    "name": {
+      "long": "KC_FN21",
+      "short": "KC_FN21"
+    },
+    "label": "FN21"
+  },
+  {
+    "code": 214,
+    "name": {
+      "long": "KC_FN22",
+      "short": "KC_FN22"
+    },
+    "label": "FN22"
+  },
+  {
+    "code": 215,
+    "name": {
+      "long": "KC_FN23",
+      "short": "KC_FN23"
+    },
+    "label": "FN23"
+  },
+  {
+    "code": 216,
+    "name": {
+      "long": "KC_FN24",
+      "short": "KC_FN24"
+    },
+    "label": "FN24"
+  },
+  {
+    "code": 217,
+    "name": {
+      "long": "KC_FN25",
+      "short": "KC_FN25"
+    },
+    "label": "FN25"
+  },
+  {
+    "code": 218,
+    "name": {
+      "long": "KC_FN26",
+      "short": "KC_FN26"
+    },
+    "label": "FN26"
+  },
+  {
+    "code": 219,
+    "name": {
+      "long": "KC_FN27",
+      "short": "KC_FN27"
+    },
+    "label": "FN27"
+  },
+  {
+    "code": 220,
+    "name": {
+      "long": "KC_FN28",
+      "short": "KC_FN28"
+    },
+    "label": "FN28"
+  },
+  {
+    "code": 221,
+    "name": {
+      "long": "KC_FN29",
+      "short": "KC_FN29"
+    },
+    "label": "FN29"
+  },
+  {
+    "code": 222,
+    "name": {
+      "long": "KC_FN30",
+      "short": "KC_FN30"
+    },
+    "label": "FN30"
+  },
+  {
+    "code": 223,
+    "name": {
+      "long": "KC_FN31",
+      "short": "KC_FN31"
+    },
+    "label": "FN31"
+  },
+  {
+    "code": 224,
+    "name": {
+      "long": "KC_LCTRL",
+      "short": "KC_LCTL"
+    },
+    "label": "LCTRL"
+  },
+  {
+    "code": 225,
+    "name": {
+      "long": "KC_LSHIFT",
+      "short": "KC_LSFT"
+    },
+    "label": "LSHIFT"
+  },
+  {
+    "code": 226,
+    "name": {
+      "long": "KC_LALT",
+      "short": "KC_LOPT"
+    },
+    "label": "LALT"
+  },
+  {
+    "code": 227,
+    "name": {
+      "long": "KC_LGUI",
+      "short": "KC_LWIN"
+    },
+    "label": "LGUI"
+  },
+  {
+    "code": 228,
+    "name": {
+      "long": "KC_RCTRL",
+      "short": "KC_RCTL"
+    },
+    "label": "RCTRL"
+  },
+  {
+    "code": 229,
+    "name": {
+      "long": "KC_RSHIFT",
+      "short": "KC_RSFT"
+    },
+    "label": "RSHIFT"
+  },
+  {
+    "code": 230,
+    "name": {
+      "long": "KC_RALT",
+      "short": "KC_ROPT"
+    },
+    "label": "RALT"
+  },
+  {
+    "code": 231,
+    "name": {
+      "long": "KC_RGUI",
+      "short": "KC_RWIN"
+    },
+    "label": "RGUI"
+  },
+  {
+    "code": 240,
+    "name": {
+      "long": "KC_MS_UP,",
+      "short": "KC_MS_UP,"
+    },
+    "label": "MS_UP,"
+  },
+  {
+    "code": 241,
+    "name": {
+      "long": "KC_MS_DOWN",
+      "short": "KC_MS_D"
+    },
+    "label": "MS_DOWN"
+  },
+  {
+    "code": 242,
+    "name": {
+      "long": "KC_MS_LEFT",
+      "short": "KC_MS_L"
+    },
+    "label": "MS_LEFT"
+  },
+  {
+    "code": 243,
+    "name": {
+      "long": "KC_MS_RIGHT",
+      "short": "KC_MS_R"
+    },
+    "label": "MS_RIGHT"
+  },
+  {
+    "code": 244,
+    "name": {
+      "long": "KC_MS_BTN1",
+      "short": "KC_BTN1"
+    },
+    "label": "MS_BTN1"
+  },
+  {
+    "code": 245,
+    "name": {
+      "long": "KC_MS_BTN2",
+      "short": "KC_BTN2"
+    },
+    "label": "MS_BTN2"
+  },
+  {
+    "code": 246,
+    "name": {
+      "long": "KC_MS_BTN3",
+      "short": "KC_BTN3"
+    },
+    "label": "MS_BTN3"
+  },
+  {
+    "code": 247,
+    "name": {
+      "long": "KC_MS_BTN4",
+      "short": "KC_BTN4"
+    },
+    "label": "MS_BTN4"
+  },
+  {
+    "code": 248,
+    "name": {
+      "long": "KC_MS_BTN5",
+      "short": "KC_BTN5"
+    },
+    "label": "MS_BTN5"
+  },
+  {
+    "code": 249,
+    "name": {
+      "long": "KC_MS_WH_UP",
+      "short": "KC_WH_U"
+    },
+    "label": "MS_WH_UP"
+  },
+  {
+    "code": 250,
+    "name": {
+      "long": "KC_MS_WH_DOWN",
+      "short": "KC_WH_D"
+    },
+    "label": "MS_WH_DOWN"
+  },
+  {
+    "code": 251,
+    "name": {
+      "long": "KC_MS_WH_LEFT",
+      "short": "KC_WH_L"
+    },
+    "label": "MS_WH_LEFT"
+  },
+  {
+    "code": 252,
+    "name": {
+      "long": "KC_MS_WH_RIGHT",
+      "short": "KC_WH_R"
+    },
+    "label": "MS_WH_RIGHT"
+  },
+  {
+    "code": 253,
+    "name": {
+      "long": "KC_MS_ACCEL0",
+      "short": "KC_ACL0"
+    },
+    "label": "MS_ACCEL0"
+  },
+  {
+    "code": 254,
+    "name": {
+      "long": "KC_MS_ACCEL1",
+      "short": "KC_ACL1"
+    },
+    "label": "MS_ACCEL1"
+  },
+  {
+    "code": 255,
+    "name": {
+      "long": "KC_MS_ACCEL2",
+      "short": "KC_ACL2"
+    },
+    "label": "MS_ACCEL2"
+  },
+  {
+    "code": 542,
+    "name": {
+      "long": "KC_EXCLAIM",
+      "short": "KC_EXLM"
+    },
+    "label": "KC_EXLM"
+  },
+  {
+    "code": 543,
+    "name": {
+      "long": "KC_AT",
+      "short": "KC_AT"
+    },
+    "label": "KC_AT"
+  },
+  {
+    "code": 544,
+    "name": {
+      "long": "KC_HASH",
+      "short": "KC_HASH"
+    },
+    "label": "KC_HASH"
+  },
+  {
+    "code": 545,
+    "name": {
+      "long": "KC_DOLLAR",
+      "short": "KC_DLR"
+    },
+    "label": "KC_DLR"
+  },
+  {
+    "code": 546,
+    "name": {
+      "long": "KC_PERCENT",
+      "short": "KC_PERC"
+    },
+    "label": "KC_PERC"
+  },
+  {
+    "code": 547,
+    "name": {
+      "long": "KC_CIRCUMFLEX",
+      "short": "KC_CIRC"
+    },
+    "label": "KC_CIRC"
+  },
+  {
+    "code": 548,
+    "name": {
+      "long": "KC_AMPERSAND",
+      "short": "KC_AMPR"
+    },
+    "label": "KC_AMPR"
+  },
+  {
+    "code": 549,
+    "name": {
+      "long": "KC_ASTERISK",
+      "short": "KC_ASTR"
+    },
+    "label": "KC_ASTR"
+  },
+  {
+    "code": 550,
+    "name": {
+      "long": "KC_LEFT_PAREN",
+      "short": "KC_LPRN"
+    },
+    "label": "KC_LPRN"
+  },
+  {
+    "code": 551,
+    "name": {
+      "long": "KC_RIGHT_PAREN",
+      "short": "KC_RPRN"
+    },
+    "label": "KC_RPRN"
+  },
+  {
+    "code": 557,
+    "name": {
+      "long": "KC_UNDERSCORE",
+      "short": "KC_UNDS"
+    },
+    "label": "KC_UNDS"
+  },
+  {
+    "code": 558,
+    "name": {
+      "long": "KC_PLUS",
+      "short": "KC_PLUS"
+    },
+    "label": "KC_PLUS"
+  },
+  {
+    "code": 559,
+    "name": {
+      "long": "KC_LEFT_CURLY_BRACE",
+      "short": "KC_LCBR"
+    },
+    "label": "KC_LCBR"
+  },
+  {
+    "code": 560,
+    "name": {
+      "long": "KC_RIGHT_CURLY_BRACE",
+      "short": "KC_RCBR"
+    },
+    "label": "KC_RCBR"
+  },
+  {
+    "code": 561,
+    "name": {
+      "long": "KC_PIPE",
+      "short": "KC_PIPE"
+    },
+    "label": "KC_PIPE"
+  },
+  {
+    "code": 563,
+    "name": {
+      "long": "KC_COLON",
+      "short": "KC_COLN"
+    },
+    "label": "KC_COLN"
+  },
+  {
+    "code": 564,
+    "name": {
+      "long": "KC_DOUBLE_QUOTE",
+      "short": "KC_DQT"
+    },
+    "label": "KC_DQT"
+  },
+  {
+    "code": 565,
+    "name": {
+      "long": "KC_TILDE",
+      "short": "KC_TILD"
+    },
+    "label": "KC_TILD"
+  },
+  {
+    "code": 566,
+    "name": {
+      "long": "KC_LEFT_ANGLE_BRACKET",
+      "short": "KC_LABK"
+    },
+    "label": "KC_LABK"
+  },
+  {
+    "code": 567,
+    "name": {
+      "long": "KC_RIGHT_ANGLE_BRACKET",
+      "short": "KC_RABK"
+    },
+    "label": "KC_RABK"
+  },
+  {
+    "code": 568,
+    "name": {
+      "long": "KC_QUESTION",
+      "short": "KC_QUES"
+    },
+    "label": "KC_QUES"
+  },
+  {
+    "code": 16684,
+    "name": {
+      "long": "SPACE_FN1",
+      "short": "SPC_FN1"
+    },
+    "label": "SPC_FN1"
+  },
+  {
+    "code": 16940,
+    "name": {
+      "long": "SPACE_FN2",
+      "short": "SPC_FN2"
+    },
+    "label": "SPC_FN2"
+  },
+  {
+    "code": 17196,
+    "name": {
+      "long": "SPACE_FN3",
+      "short": "SPC_FN3"
+    },
+    "label": "SPC_FN3"
+  },
+  {
+    "code": 20496,
+    "name": {
+      "long": "TO(0)",
+      "short": "TO(0)"
+    },
+    "label": "TO(0)"
+  },
+  {
+    "code": 20497,
+    "name": {
+      "long": "TO(1)",
+      "short": "TO(1)"
+    },
+    "label": "TO(1)"
+  },
+  {
+    "code": 20498,
+    "name": {
+      "long": "TO(2)",
+      "short": "TO(2)"
+    },
+    "label": "TO(2)"
+  },
+  {
+    "code": 20499,
+    "name": {
+      "long": "TO(3)",
+      "short": "TO(3)"
+    },
+    "label": "TO(3)"
+  },
+  {
+    "code": 20500,
+    "name": {
+      "long": "TO(4)",
+      "short": "TO(4)"
+    },
+    "label": "TO(4)"
+  },
+  {
+    "code": 20501,
+    "name": {
+      "long": "TO(5)",
+      "short": "TO(5)"
+    },
+    "label": "TO(5)"
+  },
+  {
+    "code": 20502,
+    "name": {
+      "long": "TO(6)",
+      "short": "TO(6)"
+    },
+    "label": "TO(6)"
+  },
+  {
+    "code": 20503,
+    "name": {
+      "long": "TO(7)",
+      "short": "TO(7)"
+    },
+    "label": "TO(7)"
+  },
+  {
+    "code": 20736,
+    "name": {
+      "long": "MO(0)",
+      "short": "MO(0)"
+    },
+    "label": "MO(0)"
+  },
+  {
+    "code": 20737,
+    "name": {
+      "long": "MO(1)",
+      "short": "MO(1)"
+    },
+    "label": "MO(1)"
+  },
+  {
+    "code": 20738,
+    "name": {
+      "long": "MO(2)",
+      "short": "MO(2)"
+    },
+    "label": "MO(2)"
+  },
+  {
+    "code": 20739,
+    "name": {
+      "long": "MO(3)",
+      "short": "MO(3)"
+    },
+    "label": "MO(3)"
+  },
+  {
+    "code": 20740,
+    "name": {
+      "long": "MO(4)",
+      "short": "MO(4)"
+    },
+    "label": "MO(4)"
+  },
+  {
+    "code": 20741,
+    "name": {
+      "long": "MO(5)",
+      "short": "MO(5)"
+    },
+    "label": "MO(5)"
+  },
+  {
+    "code": 20742,
+    "name": {
+      "long": "MO(6)",
+      "short": "MO(6)"
+    },
+    "label": "MO(6)"
+  },
+  {
+    "code": 20743,
+    "name": {
+      "long": "MO(7)",
+      "short": "MO(7)"
+    },
+    "label": "MO(7)"
+  },
+  {
+    "code": 21248,
+    "name": {
+      "long": "TG(0)",
+      "short": "TG(0)"
+    },
+    "label": "TG(0)"
+  },
+  {
+    "code": 21249,
+    "name": {
+      "long": "TG(1)",
+      "short": "TG(1)"
+    },
+    "label": "TG(1)"
+  },
+  {
+    "code": 21250,
+    "name": {
+      "long": "TG(2)",
+      "short": "TG(2)"
+    },
+    "label": "TG(2)"
+  },
+  {
+    "code": 21251,
+    "name": {
+      "long": "TG(3)",
+      "short": "TG(3)"
+    },
+    "label": "TG(3)"
+  },
+  {
+    "code": 21252,
+    "name": {
+      "long": "TG(4)",
+      "short": "TG(4)"
+    },
+    "label": "TG(4)"
+  },
+  {
+    "code": 21253,
+    "name": {
+      "long": "TG(5)",
+      "short": "TG(5)"
+    },
+    "label": "TG(5)"
+  },
+  {
+    "code": 21254,
+    "name": {
+      "long": "TG(6)",
+      "short": "TG(6)"
+    },
+    "label": "TG(6)"
+  },
+  {
+    "code": 21255,
+    "name": {
+      "long": "TG(7)",
+      "short": "TG(7)"
+    },
+    "label": "TG(7)"
+  },
+  {
+    "code": 21504,
+    "name": {
+      "long": "OSL(0)",
+      "short": "OSL(0)"
+    },
+    "label": "OSL(0)"
+  },
+  {
+    "code": 21505,
+    "name": {
+      "long": "OSL(1)",
+      "short": "OSL(1)"
+    },
+    "label": "OSL(1)"
+  },
+  {
+    "code": 21506,
+    "name": {
+      "long": "OSL(2)",
+      "short": "OSL(2)"
+    },
+    "label": "OSL(2)"
+  },
+  {
+    "code": 21507,
+    "name": {
+      "long": "OSL(3)",
+      "short": "OSL(3)"
+    },
+    "label": "OSL(3)"
+  },
+  {
+    "code": 21508,
+    "name": {
+      "long": "OSL(4)",
+      "short": "OSL(4)"
+    },
+    "label": "OSL(4)"
+  },
+  {
+    "code": 21509,
+    "name": {
+      "long": "OSL(5)",
+      "short": "OSL(5)"
+    },
+    "label": "OSL(5)"
+  },
+  {
+    "code": 21510,
+    "name": {
+      "long": "OSL(6)",
+      "short": "OSL(6)"
+    },
+    "label": "OSL(6)"
+  },
+  {
+    "code": 21511,
+    "name": {
+      "long": "OSL(7)",
+      "short": "OSL(7)"
+    },
+    "label": "OSL(7)"
+  },
+  {
+    "code": 22528,
+    "name": {
+      "long": "TT(0)",
+      "short": "TT(0)"
+    },
+    "label": "TT(0)"
+  },
+  {
+    "code": 22529,
+    "name": {
+      "long": "TT(1)",
+      "short": "TT(1)"
+    },
+    "label": "TT(1)"
+  },
+  {
+    "code": 22530,
+    "name": {
+      "long": "TT(2)",
+      "short": "TT(2)"
+    },
+    "label": "TT(2)"
+  },
+  {
+    "code": 22531,
+    "name": {
+      "long": "TT(3)",
+      "short": "TT(3)"
+    },
+    "label": "TT(3)"
+  },
+  {
+    "code": 22532,
+    "name": {
+      "long": "TT(4)",
+      "short": "TT(4)"
+    },
+    "label": "TT(4)"
+  },
+  {
+    "code": 22533,
+    "name": {
+      "long": "TT(5)",
+      "short": "TT(5)"
+    },
+    "label": "TT(5)"
+  },
+  {
+    "code": 22534,
+    "name": {
+      "long": "TT(6)",
+      "short": "TT(6)"
+    },
+    "label": "TT(6)"
+  },
+  {
+    "code": 22535,
+    "name": {
+      "long": "TT(7)",
+      "short": "TT(7)"
+    },
+    "label": "TT(7)"
+  },
+  {
+    "code": 23552,
+    "name": {
+      "long": "RESET",
+      "short": "RESET"
+    },
+    "label": "RESET"
+  },
+  {
+    "code": 23553,
+    "name": {
+      "long": "DEBUG",
+      "short": "DEBUG"
+    },
+    "label": "DEBUG"
+  },
+  {
+    "code": 23554,
+    "name": {
+      "long": "MAGIC_SWAP_CONTROL_CAPSLOCK",
+      "short": "CL_SWAP"
+    },
+    "label": "MAGIC_SWAP_CONTROL_CAPSLOCK"
+  },
+  {
+    "code": 23555,
+    "name": {
+      "long": "MAGIC_CAPSLOCK_TO_CONTROL",
+      "short": "CL_CTRL"
+    },
+    "label": "MAGIC_CAPSLOCK_TO_CONTROL"
+  },
+  {
+    "code": 23556,
+    "name": {
+      "long": "MAGIC_SWAP_LALT_LGUI",
+      "short": "LAG_SWP"
+    },
+    "label": "MAGIC_SWAP_LALT_LGUI"
+  },
+  {
+    "code": 23557,
+    "name": {
+      "long": "MAGIC_SWAP_RALT_RGUI",
+      "short": "RAG_SWP"
+    },
+    "label": "MAGIC_SWAP_RALT_RGUI"
+  },
+  {
+    "code": 23558,
+    "name": {
+      "long": "MAGIC_NO_GUI",
+      "short": "GUI_OFF"
+    },
+    "label": "MAGIC_NO_GUI"
+  },
+  {
+    "code": 23559,
+    "name": {
+      "long": "MAGIC_SWAP_GRAVE_ESC",
+      "short": "GE_SWAP"
+    },
+    "label": "MAGIC_SWAP_GRAVE_ESC"
+  },
+  {
+    "code": 23560,
+    "name": {
+      "long": "MAGIC_SWAP_BACKSLASH_BACKSPACE",
+      "short": "BS_SWAP"
+    },
+    "label": "MAGIC_SWAP_BACKSLASH_BACKSPACE"
+  },
+  {
+    "code": 23561,
+    "name": {
+      "long": "MAGIC_HOST_NKRO",
+      "short": "NK_ON"
+    },
+    "label": "MAGIC_HOST_NKRO"
+  },
+  {
+    "code": 23562,
+    "name": {
+      "long": "MAGIC_SWAP_ALT_GUI",
+      "short": "AG_SWAP"
+    },
+    "label": "MAGIC_SWAP_ALT_GUI"
+  },
+  {
+    "code": 23563,
+    "name": {
+      "long": "MAGIC_UNSWAP_CONTROL_CAPSLOCK",
+      "short": "CL_NORM"
+    },
+    "label": "MAGIC_UNSWAP_CONTROL_CAPSLOCK"
+  },
+  {
+    "code": 23564,
+    "name": {
+      "long": "MAGIC_UNCAPSLOCK_TO_CONTROL",
+      "short": "CL_CAPS"
+    },
+    "label": "MAGIC_UNCAPSLOCK_TO_CONTROL"
+  },
+  {
+    "code": 23565,
+    "name": {
+      "long": "MAGIC_UNSWAP_LALT_LGUI",
+      "short": "LAG_NRM"
+    },
+    "label": "MAGIC_UNSWAP_LALT_LGUI"
+  },
+  {
+    "code": 23566,
+    "name": {
+      "long": "MAGIC_UNSWAP_RALT_RGUI",
+      "short": "RAG_NRM"
+    },
+    "label": "MAGIC_UNSWAP_RALT_RGUI"
+  },
+  {
+    "code": 23567,
+    "name": {
+      "long": "MAGIC_UNNO_GUI",
+      "short": "GUI_ON"
+    },
+    "label": "MAGIC_UNNO_GUI"
+  },
+  {
+    "code": 23568,
+    "name": {
+      "long": "MAGIC_UNSWAP_GRAVE_ESC",
+      "short": "GE_NORM"
+    },
+    "label": "MAGIC_UNSWAP_GRAVE_ESC"
+  },
+  {
+    "code": 23569,
+    "name": {
+      "long": "MAGIC_UNSWAP_BACKSLASH_BACKSPACE",
+      "short": "BS_NORM"
+    },
+    "label": "MAGIC_UNSWAP_BACKSLASH_BACKSPACE"
+  },
+  {
+    "code": 23570,
+    "name": {
+      "long": "MAGIC_UNHOST_NKRO",
+      "short": "NK_OFF"
+    },
+    "label": "MAGIC_UNHOST_NKRO"
+  },
+  {
+    "code": 23571,
+    "name": {
+      "long": "MAGIC_UNSWAP_ALT_GUI",
+      "short": "AG_NORM"
+    },
+    "label": "MAGIC_UNSWAP_ALT_GUI"
+  },
+  {
+    "code": 23572,
+    "name": {
+      "long": "MAGIC_TOGGLE_NKRO",
+      "short": "NK_TOGG"
+    },
+    "label": "MAGIC_TOGGLE_NKRO"
+  },
+  {
+    "code": 23573,
+    "name": {
+      "long": "MAGIC_TOGGLE_ALT_GUI",
+      "short": "AG_TOGG"
+    },
+    "label": "MAGIC_TOGGLE_ALT_GUI"
+  },
+  {
+    "code": 23574,
+    "name": {
+      "long": "GRAVE_ESC",
+      "short": "KC_GESC"
+    },
+    "label": "GRAVE_ESC"
+  },
+  {
+    "code": 23581,
+    "name": {
+      "long": "AU_ON",
+      "short": "AU_ON"
+    },
+    "label": "AU_ON"
+  },
+  {
+    "code": 23582,
+    "name": {
+      "long": "AU_OFF",
+      "short": "AU_OFF"
+    },
+    "label": "AU_OFF"
+  },
+  {
+    "code": 23583,
+    "name": {
+      "long": "AU_TOG",
+      "short": "AU_TOG"
+    },
+    "label": "AU_TOG"
+  },
+  {
+    "code": 23584,
+    "name": {
+      "long": "CLICKY_TOGGLE",
+      "short": "CLICKY_TOGGLE"
+    },
+    "label": "CLICKY_TOGGLE"
+  },
+  {
+    "code": 23585,
+    "name": {
+      "long": "CLICKY_ENABLE",
+      "short": "CLICKY_ENABLE"
+    },
+    "label": "CLICKY_ENABLE"
+  },
+  {
+    "code": 23586,
+    "name": {
+      "long": "CLICKY_DISABLE",
+      "short": "CLICKY_DISABLE"
+    },
+    "label": "CLICKY_DISABLE"
+  },
+  {
+    "code": 23587,
+    "name": {
+      "long": "CLICKY_UP",
+      "short": "CLICKY_UP"
+    },
+    "label": "CLICKY_UP"
+  },
+  {
+    "code": 23588,
+    "name": {
+      "long": "CLICKY_DOWN",
+      "short": "CLICKY_DOWN"
+    },
+    "label": "CLICKY_DOWN"
+  },
+  {
+    "code": 23589,
+    "name": {
+      "long": "CLICKY_RESET",
+      "short": "CLICKY_RESET"
+    },
+    "label": "CLICKY_RESET"
+  },
+  {
+    "code": 23590,
+    "name": {
+      "long": "MU_ON",
+      "short": "MU_ON"
+    },
+    "label": "MU_ON"
+  },
+  {
+    "code": 23591,
+    "name": {
+      "long": "MU_OFF",
+      "short": "MU_OFF"
+    },
+    "label": "MU_OFF"
+  },
+  {
+    "code": 23592,
+    "name": {
+      "long": "MU_TOG",
+      "short": "MU_TOG"
+    },
+    "label": "MU_TOG"
+  },
+  {
+    "code": 23593,
+    "name": {
+      "long": "MU_MOD",
+      "short": "MU_MOD"
+    },
+    "label": "MU_MOD"
+  },
+  {
+    "code": 23739,
+    "name": {
+      "long": "BL_ON",
+      "short": "BL_ON"
+    },
+    "label": "BL_ON"
+  },
+  {
+    "code": 23740,
+    "name": {
+      "long": "BL_OFF",
+      "short": "BL_OFF"
+    },
+    "label": "BL_OFF"
+  },
+  {
+    "code": 23741,
+    "name": {
+      "long": "BL_DEC",
+      "short": "BL_DEC"
+    },
+    "label": "BL_DEC"
+  },
+  {
+    "code": 23742,
+    "name": {
+      "long": "BL_INC",
+      "short": "BL_INC"
+    },
+    "label": "BL_INC"
+  },
+  {
+    "code": 23743,
+    "name": {
+      "long": "BL_TOGG",
+      "short": "BL_TOGG"
+    },
+    "label": "BL_TOGG"
+  },
+  {
+    "code": 23744,
+    "name": {
+      "long": "BL_STEP",
+      "short": "BL_STEP"
+    },
+    "label": "BL_STEP"
+  },
+  {
+    "code": 23745,
+    "name": {
+      "long": "BL_BRTG",
+      "short": "BL_BRTG"
+    },
+    "label": "BL_BRTG"
+  },
+  {
+    "code": 23746,
+    "name": {
+      "long": "RGB_TOG",
+      "short": "RGB_TOG"
+    },
+    "label": "RGB_TOG"
+  },
+  {
+    "code": 23747,
+    "name": {
+      "long": "RGB_MODE_FORWARD",
+      "short": "RGB_MODE_FORWARD"
+    },
+    "label": "RGB_MODE_FORWARD"
+  },
+  {
+    "code": 23748,
+    "name": {
+      "long": "RGB_MODE_REVERSE",
+      "short": "RGB_MODE_REVERSE"
+    },
+    "label": "RGB_MODE_REVERSE"
+  },
+  {
+    "code": 23749,
+    "name": {
+      "long": "RGB_HUI",
+      "short": "RGB_HUI"
+    },
+    "label": "RGB_HUI"
+  },
+  {
+    "code": 23750,
+    "name": {
+      "long": "RGB_HUD",
+      "short": "RGB_HUD"
+    },
+    "label": "RGB_HUD"
+  },
+  {
+    "code": 23751,
+    "name": {
+      "long": "RGB_SAI",
+      "short": "RGB_SAI"
+    },
+    "label": "RGB_SAI"
+  },
+  {
+    "code": 23752,
+    "name": {
+      "long": "RGB_SAD",
+      "short": "RGB_SAD"
+    },
+    "label": "RGB_SAD"
+  },
+  {
+    "code": 23753,
+    "name": {
+      "long": "RGB_VAI",
+      "short": "RGB_VAI"
+    },
+    "label": "RGB_VAI"
+  },
+  {
+    "code": 23754,
+    "name": {
+      "long": "RGB_VAD",
+      "short": "RGB_VAD"
+    },
+    "label": "RGB_VAD"
+  },
+  {
+    "code": 23755,
+    "name": {
+      "long": "RGB_SPI",
+      "short": "RGB_SPI"
+    },
+    "label": "RGB_SPI"
+  },
+  {
+    "code": 23756,
+    "name": {
+      "long": "RGB_SPD",
+      "short": "RGB_SPD"
+    },
+    "label": "RGB_SPD"
+  },
+  {
+    "code": 23757,
+    "name": {
+      "long": "RGB_MODE_PLAIN",
+      "short": "RGB_MODE_PLAIN"
+    },
+    "label": "RGB_MODE_PLAIN"
+  },
+  {
+    "code": 23758,
+    "name": {
+      "long": "RGB_MODE_BREATHE",
+      "short": "RGB_MODE_BREATHE"
+    },
+    "label": "RGB_MODE_BREATHE"
+  },
+  {
+    "code": 23759,
+    "name": {
+      "long": "RGB_MODE_RAINBOW",
+      "short": "RGB_MODE_RAINBOW"
+    },
+    "label": "RGB_MODE_RAINBOW"
+  },
+  {
+    "code": 23760,
+    "name": {
+      "long": "RGB_MODE_SWIRL",
+      "short": "RGB_MODE_SWIRL"
+    },
+    "label": "RGB_MODE_SWIRL"
+  },
+  {
+    "code": 23761,
+    "name": {
+      "long": "RGB_MODE_SNAKE",
+      "short": "RGB_MODE_SNAKE"
+    },
+    "label": "RGB_MODE_SNAKE"
+  },
+  {
+    "code": 23762,
+    "name": {
+      "long": "RGB_MODE_KNIGHT",
+      "short": "RGB_MODE_KNIGHT"
+    },
+    "label": "RGB_MODE_KNIGHT"
+  },
+  {
+    "code": 23763,
+    "name": {
+      "long": "RGB_MODE_XMAS",
+      "short": "RGB_MODE_XMAS"
+    },
+    "label": "RGB_MODE_XMAS"
+  },
+  {
+    "code": 23764,
+    "name": {
+      "long": "RGB_MODE_GRADIENT",
+      "short": "RGB_MODE_GRADIENT"
+    },
+    "label": "RGB_MODE_GRADIENT"
+  },
+  {
+    "code": 23767,
+    "name": {
+      "long": "KC_LSPO",
+      "short": "KC_LSPO"
+    },
+    "label": "KC_LSPO"
+  },
+  {
+    "code": 23768,
+    "name": {
+      "long": "KC_RSPC",
+      "short": "KC_RSPC"
+    },
+    "label": "KC_RSPC"
+  },
+  {
+    "code": 23769,
+    "name": {
+      "long": "KC_SFTENT",
+      "short": "KC_SFTENT"
+    },
+    "label": "KC_SFTENT"
+  },
+  {
+    "code": 23795,
+    "name": {
+      "long": "KC_LCPO",
+      "short": "KC_LCPO"
+    },
+    "label": "KC_LCPO"
+  },
+  {
+    "code": 23796,
+    "name": {
+      "long": "KC_RCPC",
+      "short": "KC_RCPC"
+    },
+    "label": "KC_RCPC"
+  },
+  {
+    "code": 23797,
+    "name": {
+      "long": "KC_LAPO",
+      "short": "KC_LAPO"
+    },
+    "label": "KC_LAPO"
+  },
+  {
+    "code": 23798,
+    "name": {
+      "long": "KC_RAPC",
+      "short": "KC_RAPC"
+    },
+    "label": "KC_RAPC"
+  },
+  {
+    "code": 24336,
+    "name": {
+      "long": "FN_MO13",
+      "short": "FN_MO13"
+    },
+    "label": "FN_MO13"
+  },
+  {
+    "code": 24337,
+    "name": {
+      "long": "FN_MO23",
+      "short": "FN_MO23"
+    },
+    "label": "FN_MO23"
+  },
+  {
+    "code": 24338,
+    "name": {
+      "long": "MACRO00",
+      "short": "M0"
+    },
+    "label": "M0"
+  },
+  {
+    "code": 24339,
+    "name": {
+      "long": "MACRO01",
+      "short": "M1"
+    },
+    "label": "M1"
+  },
+  {
+    "code": 24340,
+    "name": {
+      "long": "MACRO02",
+      "short": "M2"
+    },
+    "label": "M2"
+  },
+  {
+    "code": 24341,
+    "name": {
+      "long": "MACRO03",
+      "short": "M3"
+    },
+    "label": "M3"
+  },
+  {
+    "code": 24342,
+    "name": {
+      "long": "MACRO04",
+      "short": "M4"
+    },
+    "label": "M4"
+  },
+  {
+    "code": 24343,
+    "name": {
+      "long": "MACRO05",
+      "short": "M5"
+    },
+    "label": "M5"
+  },
+  {
+    "code": 24344,
+    "name": {
+      "long": "MACRO06",
+      "short": "M6"
+    },
+    "label": "M6"
+  },
+  {
+    "code": 24345,
+    "name": {
+      "long": "MACRO07",
+      "short": "M7"
+    },
+    "label": "M7"
+  },
+  {
+    "code": 24346,
+    "name": {
+      "long": "MACRO08",
+      "short": "M8"
+    },
+    "label": "M8"
+  },
+  {
+    "code": 24347,
+    "name": {
+      "long": "MACRO09",
+      "short": "M9"
+    },
+    "label": "M9"
+  },
+  {
+    "code": 24348,
+    "name": {
+      "long": "MACRO10",
+      "short": "M10"
+    },
+    "label": "M10"
+  },
+  {
+    "code": 24349,
+    "name": {
+      "long": "MACRO11",
+      "short": "M11"
+    },
+    "label": "M11"
+  },
+  {
+    "code": 24350,
+    "name": {
+      "long": "MACRO12",
+      "short": "M12"
+    },
+    "label": "M12"
+  },
+  {
+    "code": 24351,
+    "name": {
+      "long": "MACRO13",
+      "short": "M13"
+    },
+    "label": "M13"
+  },
+  {
+    "code": 24352,
+    "name": {
+      "long": "MACRO14",
+      "short": "M14"
+    },
+    "label": "M14"
+  },
+  {
+    "code": 24353,
+    "name": {
+      "long": "MACRO15",
+      "short": "M15"
+    },
+    "label": "M15"
+  }
+]

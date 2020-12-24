@@ -39,15 +39,78 @@ import {
   IResult,
   IConnectResult,
   IConnectionEventHandler,
+  IKeycodeInfo,
+  IKeycodeCategoryInfo,
+  IFetchKeymapResult,
+  IFetchLayerCountResult,
+  IKeymap,
 } from './hid';
+import keycodeArray from './assets/keycodes.json';
+import basic from './assets/keycodes-basic.json';
+import layers from './assets/keycodes-layers.json';
+import lighting from './assets/keycodes-lighting.json';
+import macro from './assets/keycodes-macro.json';
+import media from './assets/keycodes-media.json';
+import kp from './assets/keycodes-number.json';
+import special from './assets/keycodes-special.json';
+import {
+  DynamicKeymapGetKeycodeCommand,
+  DynamicKeymapGetLayerCountCommand,
+  IDynamicKeymapGetKeycodeResponse,
+} from './commands';
+
+const basicKeycodes: IKeycodeInfo[] = (basic as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const layersKeycodes: IKeycodeInfo[] = (layers as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const lightingKeycodes: IKeycodeInfo[] = (lighting as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const macroKeycodes: IKeycodeInfo[] = (macro as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const mediaKeycodes: IKeycodeInfo[] = (media as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const numberKeycodes: IKeycodeInfo[] = (kp as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+const specialKeycodes: IKeycodeInfo[] = (special as IKeycodeCategoryInfo).codes.map(
+  (code) =>
+    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+);
+
+const categoryToKeycodesMap: { [p: string]: IKeycodeInfo[] } = {
+  basic: basicKeycodes,
+  layers: layersKeycodes,
+  lighting: lightingKeycodes,
+  macro: macroKeycodes,
+  media: mediaKeycodes,
+  number: numberKeycodes,
+  special: specialKeycodes,
+};
 
 export class Keyboard implements IKeyboard {
+  private readonly hid: IHid;
   private readonly device: any;
   private commandQueue: ICommand[];
 
-  constructor(device: any) {
+  constructor(hid: IHid, device: any) {
+    this.hid = hid;
     this.commandQueue = [];
     this.device = device;
+  }
+
+  getHid(): IHid {
+    return this.hid;
   }
 
   getInformation(): IDeviceInformation {
@@ -137,6 +200,103 @@ export class Keyboard implements IKeyboard {
       this.getInformation().productId === keyboard.getInformation().productId
     );
   }
+
+  async fetchKeymaps(
+    layer: number,
+    rowCount: number,
+    columnCount: number
+  ): Promise<IFetchKeymapResult> {
+    const commandResults: Promise<IDynamicKeymapGetKeycodeResponse>[] = [];
+    for (let r = 0; r < rowCount; r++) {
+      for (let c = 0; c < columnCount; c++) {
+        commandResults.push(
+          new Promise<IDynamicKeymapGetKeycodeResponse>((resolve, reject) => {
+            const command = new DynamicKeymapGetKeycodeCommand(
+              {
+                layer,
+                row: r,
+                column: c,
+              },
+              async (result) => {
+                if (result.success) {
+                  resolve(result.response!);
+                } else {
+                  console.log(result.cause!);
+                  reject(result.error!);
+                }
+              }
+            );
+            return this.enqueue(command);
+          })
+        );
+      }
+    }
+    try {
+      const responses = await Promise.all<IDynamicKeymapGetKeycodeResponse>(
+        commandResults
+      );
+      return {
+        success: true,
+        keymap: responses.reduce((map, response) => {
+          const keycodeInfo = this.hid.getKeycodeInfo(response.code);
+          let keymap: IKeymap;
+          if (keycodeInfo) {
+            keymap = {
+              isAny: false,
+              code: response.code,
+              keycodeInfo,
+            };
+          } else {
+            keymap = {
+              isAny: true,
+              code: response.code,
+            };
+          }
+          map[`${response.row},${response.column}`] = keymap;
+          return map;
+        }, {} as { [pos: string]: IKeymap }),
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: 'Fetching keymaps failed.',
+        cause: error,
+      };
+    }
+  }
+
+  fetchLayerCount(): Promise<IFetchLayerCountResult> {
+    return new Promise<IFetchLayerCountResult>((resolve, reject) => {
+      const command = new DynamicKeymapGetLayerCountCommand(
+        {},
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              layerCount: result.response!.value,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateKeymap(
+    layer: number,
+    row: number,
+    column: number,
+    code: number
+  ): Promise<IResult> {
+    return new Promise<IResult>((resolve, reject) => {});
+  }
 }
 
 export interface ICommandRequest {}
@@ -154,88 +314,6 @@ export interface ICommandResponseHandler<T extends ICommandResponse> {
   (result: ICommandResult<T>): Promise<void>;
 }
 
-export abstract class AbstractCommand<
-  TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
-> implements ICommand {
-  private readonly request: TRequest;
-  private readonly responseHandler: ICommandResponseHandler<TResponse>;
-
-  static OUTPUT_REPORT_ID: number = 0x00;
-
-  constructor(
-    request: TRequest,
-    responseHandler: ICommandResponseHandler<TResponse>
-  ) {
-    this.request = request;
-    this.responseHandler = responseHandler;
-  }
-
-  protected getRequest(): TRequest {
-    return this.request;
-  }
-
-  protected getResponseHandler(): ICommandResponseHandler<TResponse> {
-    return this.responseHandler;
-  }
-
-  abstract createReport(): Uint8Array;
-  abstract createResponse(resultArray: Uint8Array): TResponse;
-
-  async sendReport(device: any): Promise<void> {
-    try {
-      const outputReport = this.createReport();
-      await device.sendReport(AbstractCommand.OUTPUT_REPORT_ID, outputReport);
-    } catch (error) {
-      await this.getResponseHandler()({
-        success: false,
-        error: 'Sending report failed.',
-        cause: error,
-      });
-    }
-  }
-
-  async handleInputReport(data: any): Promise<void> {
-    const resultArray = new Uint8Array(data.data.buffer);
-    this.outputUint8Array(resultArray);
-    await this.getResponseHandler()({
-      success: true,
-      response: this.createResponse(resultArray),
-    });
-  }
-
-  protected outputUint8Array(array: Uint8Array) {
-    let lines = '';
-    let out = '';
-    let ascii = '';
-    for (let i = 0; i < array.length; i++) {
-      // out += String.fromCharCode(array[i]);
-      let value = Number(array[i]).toString(16).toUpperCase();
-      if (value.length === 1) {
-        value = '0' + value;
-      }
-      out += value;
-      if (i % 2 !== 0) {
-        out += ' ';
-      }
-      if (0x20 <= array[i] && array[i] <= 0x7e) {
-        ascii += String.fromCharCode(array[i]);
-      } else {
-        ascii += '.';
-      }
-      if ((i + 1) % 16 === 0) {
-        lines += out + ' ' + ascii + '\n';
-        out = '';
-        ascii = '';
-      }
-    }
-    if (out) {
-      lines += out + ' ' + ascii + '\n';
-    }
-    console.log(lines);
-  }
-}
-
 export class WebHid implements IHid {
   async detectKeyboards(): Promise<IKeyboard[]> {
     const devices = await (navigator as any).hid.getDevices();
@@ -249,7 +327,7 @@ export class WebHid implements IHid {
         );
       })
       .map((device: any) => {
-        return new Keyboard(device);
+        return new Keyboard(this, device);
       });
   }
 
@@ -294,7 +372,7 @@ export class WebHid implements IHid {
     }
     return {
       success: true,
-      keyboard: new Keyboard(device),
+      keyboard: new Keyboard(this, device),
     };
   }
 
@@ -310,13 +388,21 @@ export class WebHid implements IHid {
   setConnectionEventHandler(handler: IConnectionEventHandler): void {
     (navigator as any).hid.addEventListener('connect', (e: any) => {
       if (this.checkViaSupportedDevice(e.device)) {
-        handler.connect(new Keyboard(e.device));
+        handler.connect(new Keyboard(this, e.device));
       }
     });
     (navigator as any).hid.addEventListener('disconnect', (e: any) => {
       if (this.checkViaSupportedDevice(e.device)) {
-        handler.disconnect(new Keyboard(e.device));
+        handler.disconnect(new Keyboard(this, e.device));
       }
     });
+  }
+
+  getKeycodeCandidatesByCategory(category: string): IKeycodeInfo[] {
+    return categoryToKeycodesMap[category];
+  }
+
+  getKeycodeInfo(code: number): IKeycodeInfo | undefined {
+    return keycodeArray.find((keycode) => keycode.code === code);
   }
 }
