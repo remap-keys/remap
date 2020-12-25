@@ -4,25 +4,17 @@
   justify-content: center;
   height: 54px;
   margin-bottom: 32px;
-  .diff-blank {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-  }
+
   .diff-frame {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    .key-orig {
-      display: flex;
-      justify-content: flex-end;
-    }
+    .key-orig,
     .key-dest {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      position: relative;
     }
+
     .arrow {
       margin: 0 16px;
     }

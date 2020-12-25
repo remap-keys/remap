@@ -55,9 +55,13 @@ export default class KeyboardModel {
           w = op.w || w;
           r = op.r || r;
           c = op.c || c;
+          let x2 = op.x2 ? x + op.x2 : x;
+          let y2 = op.y2 ? y + op.y2 : y;
+          let w2 = op.w2 || NaN;
+          let h2 = op.h2 || NaN;
 
           const label = keys[++j] as string; // next item should be string(row,col)
-          model = new KeyModel(label, x, y, w, h, c, r, rx, ry);
+          model = new KeyModel(label, x, y, w, h, c, r, rx, ry, x2, y2, w2, h2);
         }
         x += w;
         list.push(model);

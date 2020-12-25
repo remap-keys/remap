@@ -9,77 +9,72 @@
   }
 }
 .keycap-base {
-  //position: absolute;
   .keycap {
-    border: 1px solid #ccc;
+    cursor: pointer;
+
+    &.pointer-pass-through {
+      pointer-events: none;
+    }
+    &.keycap-border {
+      border: 1px solid rgba(0, 0, 0, 0.6);
+    }
     border-radius: 5px;
     font-size: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.6);
-    cursor: pointer;
+
     &.keycap-selected {
       animation: blink 1s infinite alternate;
     }
+  }
 
-    &:hover {
-      border-color: $primary-light;
-    }
+  .keycap:hover,
+  .keycap:hover ~ .keycap2 {
+    border-color: $primary-light;
+  }
 
-    .keybase {
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 3px;
-      margin: 3px 6px 6px 6px;
-      .keyroof {
-        display: flex;
+  .keycap2:hover {
+    border-color: $primary-light;
+  }
+
+  .keyroof-base {
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    pointer-events: none;
+    cursor: pointer;
+  }
+
+  .keyroof {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-clip: padding-box;
+    pointer-events: none;
+    cursor: pointer;
+
+    .keylabel {
+      pointer-events: none;
+      position: relative;
+      color: #333;
+      flex-grow: 1;
+      .label {
+        position: absolute;
+        font-size: 0.76rem;
         width: 100%;
-        height: 100%;
-        flex-direction: column;
-        box-sizing: border-box;
-        background-clip: padding-box;
-        .keylabel {
-          position: relative;
-          height: 13px;
-          color: #333;
-          flex-grow: 1;
-          .label {
-            position: absolute;
-            width: 100%;
-            left: 0;
-          }
-          .left {
-            text-align: left;
-          }
-          .center {
-            text-align: center;
-          }
-          .right {
-            text-align: right;
-          }
-        }
+      }
+      .left {
+        text-align: left;
+        padding-left: $space-xs;
+      }
+      .center {
+        text-align: center;
+      }
+      .right {
+        text-align: right;
+        padding-right: $space-xs;
       }
     }
   }
-}
-.key-05u {
-  width: calc(var(--key-width) * 0.5);
-  height: calc(var(--key-height) * 1);
-}
-.key-1u {
-  width: calc(var(--key-width) * 1);
-  height: calc(var(--key-height) * 1);
-}
-
-.key-15u {
-  width: calc(var(--key-width) * 1.5);
-  height: calc(var(--key-height) * 1);
-}
-
-.key-2u {
-  width: calc(var(--key-width) * 2);
-  height: calc(var(--key-height) * 1);
-}
-
-.key-4u {
-  width: calc(var(--key-width) * 4);
-  height: calc(var(--key-height) * 1);
 }
