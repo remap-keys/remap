@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
-  DynamicKeymapGetLayerCountCommand,
   DynamicKeymapSetKeycodeCommand,
 } from '../commands';
 import { IKeyboard } from '../hid';
