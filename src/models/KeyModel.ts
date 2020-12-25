@@ -9,6 +9,10 @@ export type KeyOp = {
   r?: number;
   rx?: number;
   ry?: number;
+  x2: number;
+  y2: number;
+  w2: number;
+  h2: number;
 };
 
 export default class KeyModel {
@@ -22,6 +26,10 @@ export default class KeyModel {
   readonly originLeft: number;
   readonly originTop: number;
   readonly transformOrigin: string;
+  readonly top2: number;
+  readonly left2: number;
+  readonly height2: number;
+  readonly width2: number;
   constructor(
     label: string,
     x: number,
@@ -31,7 +39,11 @@ export default class KeyModel {
     c: string,
     r: number = 0,
     rx: number = 0,
-    ry: number = 0
+    ry: number = 0,
+    x2: number = 0,
+    y2: number = 0,
+    w2: number = NaN,
+    h2: number = NaN
   ) {
     this.label = label;
     this.top = y * KEY_SIZE;
@@ -43,6 +55,19 @@ export default class KeyModel {
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
     this.transformOrigin = `${rx * KEY_SIZE}px ${ry * KEY_SIZE}px`;
+    this.top2 = y2 * KEY_SIZE;
+    this.left2 = x2 * KEY_SIZE;
+    this.height2 = h2 * KEY_SIZE;
+    this.width2 = w2 * KEY_SIZE;
+  }
+
+  get isOddly(): boolean {
+    return (
+      !Number.isNaN(this.top2) &&
+      !Number.isNaN(this.left2) &&
+      !Number.isNaN(this.height2) &&
+      !Number.isNaN(this.width2)
+    );
   }
 
   get style(): CSSProperties {
@@ -53,13 +78,23 @@ export default class KeyModel {
     };
   }
 
-  get styleAbstruct(): CSSProperties {
+  get styleAbsolute(): CSSProperties {
     return {
       position: 'absolute',
       top: this.top,
       left: this.left,
       width: this.width,
       height: this.height,
+      background: this.color,
+    };
+  }
+  get styleAbsolute2(): CSSProperties {
+    return {
+      position: 'absolute',
+      top: this.top2,
+      left: this.left2,
+      width: this.width2,
+      height: this.height2,
       background: this.color,
     };
   }
@@ -78,19 +113,27 @@ export default class KeyModel {
 
   get endRight(): number {
     const rad = this.rotate * (Math.PI / 180);
-    const x = this.left - this.originLeft;
-    const y = this.top - this.originTop;
-    const nextLeft = x * Math.cos(rad) - y * Math.sin(rad);
-    const right = this.width * Math.sin(rad);
-    return this.originLeft + nextLeft + this.width + right;
+    const x0 = this.left - this.originLeft;
+    const y0 = this.top - this.originTop;
+    const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+    const right = Math.max(this.width, this.width2 || 0) * Math.sin(rad);
+    return this.originLeft + x1 + this.width + right;
   }
 
   get endBottom(): number {
     const rad = this.rotate * (Math.PI / 180);
-    const x = this.left - this.originLeft;
-    const y = this.top - this.originTop;
-    const nextTop = x * Math.sin(rad) + y * Math.cos(rad);
-    const bottom = this.height * Math.cos(rad);
-    return this.originTop + nextTop + bottom;
+    const x0 = Math.min(this.left, this.left2) - this.originLeft; // left-top
+    const y0 = this.top - this.originTop;
+    const y1 = x0 * Math.sin(rad) + y0 * Math.cos(rad);
+    const leftBottom =
+      Math.max(this.height || 0, this.height2 || 0) * Math.cos(rad);
+
+    const rightBottom =
+      leftBottom +
+      Math.max(this.width, this.width2 + (this.left2 - this.left) || 0) *
+        Math.sin(rad);
+
+    const bottom = 0 < rad ? rightBottom : leftBottom;
+    return this.originTop + y1 + bottom;
   }
 }

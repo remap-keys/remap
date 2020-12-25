@@ -2,8 +2,9 @@ import React from 'react';
 import './Content.scss';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import kbdConfig from '../../../asserts/files/lunakey-mini.json';
-//import kbdConfig from '../../../asserts/files/lunakey-mini-test.json';
+//import kbdConfig from '../../../asserts/files/lunakey-mini.json';
+import kbdConfig from '../../../asserts/files/lunakey-mini-test.json';
+//import kbdConfig from '../../../asserts/files/iso60.json';
 import Keydiff from '../keydiff/Keydiff';
 import Keycodes from '../keycodes/Keycodes';
 import Keyboards from '../keyboards/Keyboards';
@@ -14,7 +15,21 @@ interface IContentState {
 }
 
 export default class Content extends React.Component<{}, IContentState> {
-  private origKey = new KeyModel('@', 0, 0, 1, 1.5, '#cccccc', 30, 2, 3);
+  private origKey = new KeyModel(
+    'Enter',
+    0,
+    0,
+    1.25,
+    2,
+    '#cccccc',
+    30,
+    2,
+    3,
+    -0.25,
+    0,
+    1.5,
+    1
+  );
   private destKey = new KeyModel('Caps Lock', 0, 0, 2, 1, '#cccccc', -15, 3, 4);
   constructor(props: {} | Readonly<{}>) {
     super(props);

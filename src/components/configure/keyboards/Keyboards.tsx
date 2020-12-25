@@ -114,7 +114,8 @@ export default class Keyboards extends React.Component<
                         ['', '', ''],
                       ]}
                       size="1u"
-                      style={key.styleAbstruct}
+                      style={key.styleAbsolute}
+                      style2={key.isOddly ? key.styleAbsolute2 : undefined}
                       styleTransform={key.styleTransform}
                       selected={this.state.clickedKeyIndex == index}
                       onClick={this.onClickKeycap}
