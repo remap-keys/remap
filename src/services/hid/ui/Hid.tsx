@@ -228,23 +228,11 @@ const Hid = () => {
   const handleDynamicKeymapSetKeycodeClick = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    const command = new DynamicKeymapSetKeycodeCommand(
-      {
-        layer,
-        row,
-        column,
-        code,
-      },
-      async (result) => {
-        if (result.success) {
-          setCode(result.response!.code);
-        } else {
-          setMessage(result.error!);
-          console.log(result.cause);
-        }
-      }
-    );
-    await keyboard!.enqueue(command);
+    const result = await keyboard!.updateKeymap(layer, row, column, code);
+    if (!result.success) {
+      setMessage(result.error!);
+      console.log(result.cause);
+    }
   };
 
   return (

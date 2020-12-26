@@ -216,3 +216,21 @@ if (fetchKeymapResult.success) {
   // Do something.
 }
 ```
+
+### 接続された認可済みキーボードの特定のキーの割り当ての変更
+
+取得した `IKeyboard` オブジェクトから、接続されたキーボードに対して、指定されたレイヤーのキー（列番号と行番号で特定される）のキーコード割り当てを変更することが可能です。その手順は以下となります。
+
+```ts
+const keyboard: IKeyboard = ...;
+const layer: number = ...;
+const row: number = ...;
+const column: number = ...;
+const code: number = ...;
+const result = await keyboard.updateKeymap(layer, row, column, code);
+if (!result.success) {
+  const errorMessage: string = result.error!;
+  const cause: any = result.cause!;
+  // Do something.
+}
+```

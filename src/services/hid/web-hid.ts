@@ -55,7 +55,7 @@ import kp from './assets/keycodes-number.json';
 import special from './assets/keycodes-special.json';
 import {
   DynamicKeymapGetKeycodeCommand,
-  DynamicKeymapGetLayerCountCommand,
+  DynamicKeymapGetLayerCountCommand, DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapGetKeycodeResponse,
 } from './commands';
 
@@ -295,7 +295,30 @@ export class Keyboard implements IKeyboard {
     column: number,
     code: number
   ): Promise<IResult> {
-    return new Promise<IResult>((resolve, reject) => {});
+    return new Promise<IResult>((resolve, reject) => {
+      const command = new DynamicKeymapSetKeycodeCommand(
+        {
+          layer,
+          row,
+          column,
+          code,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
   }
 }
 
