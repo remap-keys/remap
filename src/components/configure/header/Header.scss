@@ -12,19 +12,37 @@
   .logo {
     height: 28px;
   }
-  .kbd-name {
+  .kbd-select {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-left: $space-m;
-    h2 {
-      margin: 0;
+    align-items: center;
+    cursor: pointer;
+
+    .kbd-name {
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        margin: 0;
+      }
+      .ids {
+        font-size: $font-xs;
+        color: $color-gray;
+        margin-top: -4px;
+      }
     }
-    .ids {
-      font-size: $font-xs;
-      color: $color-gray;
-      margin-top: -4px;
+
+    &:hover {
+      color: $primary;
+      .kbd-name {
+        .ids {
+          color: $primary;
+        }
+      }
     }
   }
+
   .status {
     display: flex;
     .connection {
