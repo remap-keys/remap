@@ -3,7 +3,7 @@ import './Header.scss';
 import logo from '../../../asserts/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { Button, Chip, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { Link, LinkOff, MoreVert } from '@material-ui/icons';
+import { ArrowDropDown, Link, LinkOff, MoreVert } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 
 const langs = ['JA', 'EN'] as const;
@@ -109,12 +109,15 @@ export default class Header extends React.Component<
     return (
       <header className="header">
         <img src={logo} alt="logo" className="logo" />
-        <div className="kbd-name">
-          <h2>{this.props.keyboardName}</h2>
-          <div className="ids">
-            VID: {hexadecimal(this.props.vendorId, 4)} / PID:{' '}
-            {hexadecimal(this.props.productId, 4)}
+        <div className="kbd-select" onClick={this.onClickStatus}>
+          <div className="kbd-name">
+            <h2>{this.props.keyboardName}</h2>
+            <div className="ids">
+              VID: {hexadecimal(this.props.vendorId, 4)} / PID:{' '}
+              {hexadecimal(this.props.productId, 4)}
+            </div>
           </div>
+          <ArrowDropDown />
         </div>
         <div className="status">
           <Chip
@@ -122,10 +125,6 @@ export default class Header extends React.Component<
             size="small"
             label={this.props.connected ? 'Connected' : 'Disconnected'}
             color={this.props.connected ? 'primary' : 'secondary'}
-            clickable
-            onClick={this.onClickStatus}
-            onDelete={() => {}}
-            deleteIcon={this.props.connected ? <Link /> : <LinkOff />}
             className="connection"
           />
           <Menu
