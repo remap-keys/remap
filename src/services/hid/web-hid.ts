@@ -55,7 +55,8 @@ import kp from './assets/keycodes-number.json';
 import special from './assets/keycodes-special.json';
 import {
   DynamicKeymapGetKeycodeCommand,
-  DynamicKeymapGetLayerCountCommand, DynamicKeymapSetKeycodeCommand,
+  DynamicKeymapGetLayerCountCommand,
+  DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapGetKeycodeResponse,
 } from './commands';
 
