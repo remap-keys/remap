@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 import React from 'react';
+import { connect } from 'react-redux';
 import './Keycodes.scss';
+import actions from './Keycodes.action';
 import { Button, MenuItem, Select } from '@material-ui/core';
 import KeycodeKey from '../keycodekey/KeycodeKey';
 import KeylayoutBasic from '../../../asserts/files/keylayout_jis_basic.json';
@@ -10,6 +12,7 @@ import KeylatoutMacro from '../../../asserts/files/keylayout_jis_macro.json';
 import KeylatoutLayers from '../../../asserts/files/keylayout_jis_layers.json';
 import KeylatoutSpecial from '../../../asserts/files/keylayout_jis_special.json';
 import KeylatoutQmkLighting from '../../../asserts/files/keylayout_jis_qmklighting.json';
+import { StateType } from '../../../states/state';
 
 const KeycodeCategories = [
   'Basic',
@@ -60,19 +63,20 @@ interface MacroText {
   [key: string]: string;
 }
 
-interface IKeycodeState {
+export interface IKeycodesProps {
   categoryIndex: number;
+}
+interface IKeycodeState {
   hoverKey: string | null;
   selectedKey: Key | null; // M0, M1, M2,...
   macroText: string | null;
   macroTexts: MacroText;
 }
 
-export default class Keycodes extends React.Component<{}, IKeycodeState> {
-  constructor(props: {} | Readonly<{}>) {
+class Keycodes extends React.Component<IKeycodesProps, IKeycodeState> {
+  constructor(props: IKeycodesProps | Readonly<IKeycodesProps>) {
     super(props);
     this.state = {
-      categoryIndex: 0,
       hoverKey: null,
       macroText: null,
       macroTexts: {},
@@ -104,7 +108,8 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
     this.setState({ macroTexts: macroTexts });
   };
   onClickKeyCategory = (index: number) => {
-    this.setState({ categoryIndex: index });
+    actions.selectCategoryIndex(index);
+
     this.clearSelectedKey();
   };
   onClickKeycodeKey = (key: Key) => {
@@ -130,7 +135,7 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
             return (
               <div className="key-category" key={index}>
                 <Button
-                  disabled={this.state.categoryIndex === index}
+                  disabled={this.props.categoryIndex === index}
                   onClick={this.onClickKeyCategory.bind(this, index)}
                 >
                   {cat}
@@ -146,7 +151,7 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
           </div>
         </div>
         <div className="keycodes">
-          {Keylayout[this.state.categoryIndex].map((key) => {
+          {Keylayout[this.props.categoryIndex].map((key) => {
             return (
               <KeycodeKey
                 key={key.code}
@@ -160,7 +165,7 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
             );
           })}
         </div>
-        {this.state.categoryIndex == KeycodeCategories.indexOf('Macro') ? (
+        {this.props.categoryIndex == KeycodeCategories.indexOf('Macro') ? (
           <div className="macro-wrapper">
             <div className="macro">
               <hr />
@@ -201,3 +206,13 @@ export default class Keycodes extends React.Component<{}, IKeycodeState> {
     );
   }
 }
+
+const mapStateToProps = (state: StateType /*, ownProps*/) => {
+  return {
+    categoryIndex: state.keycodes.categoryIndex,
+  };
+};
+
+const mapDispatchToProps = actions;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Keycodes);
