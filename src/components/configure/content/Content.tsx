@@ -2,11 +2,11 @@ import React from 'react';
 import './Content.scss';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-//import kbdConfig from '../../../asserts/files/lunakey-mini.json';
-import kbdConfig from '../../../asserts/files/lunakey-mini-test.json';
-//import kbdConfig from '../../../asserts/files/iso60.json';
+//import kbdConfig from '../../../assets/files/lunakey-mini.json';
+import kbdConfig from '../../../assets/files/lunakey-mini-test.json';
+//import kbdConfig from '../../../assets/files/iso60.json';
 import Keydiff from '../keydiff/Keydiff';
-import Keycodes from '../keycodes/Keycodes';
+import Keycodes from '../keycodes/Keycodes.container';
 import Keyboards from '../keyboards/Keyboards';
 import KeyModel from '../../../models/KeyModel';
 

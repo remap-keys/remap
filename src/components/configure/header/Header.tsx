@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.scss';
-import logo from '../../../asserts/images/logo.png';
+import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { Button, Chip, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff, MoreVert } from '@material-ui/icons';
