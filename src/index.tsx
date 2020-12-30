@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import App from './App';
+import reducers from './store/reducers';
 import reportWebVitals from './reportWebVitals';
 
+const store = createStore(reducers);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
+  // eslint-disable-next-line no-undef
   document.getElementById('root')
 );
 
