@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
-import { StateType } from '../../../store/state';
-
-export const KEYCODES_ACTIONS = '@Keycodes';
-export const KEYCODES_UPDATE_CATEGORY_INDEX = `${KEYCODES_ACTIONS}/UpdateCategoryIndex`;
-
-export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
+import { RootState } from '../../../store/state';
+import { KeycodesActions } from '../../../actions/actions';
 
 export const MacroKeycode = [
   'M0',
@@ -33,24 +29,6 @@ export type Key = {
   meta: string;
 };
 
-export type KeycodesActionsType = typeof KeycodesActions;
-
-const KeycodesActions = {
-  selectCategoryIndex(value: number) {
-    return {
-      type: KEYCODES_UPDATE_CATEGORY_INDEX,
-      value: value,
-    };
-  },
-
-  setMacro(code: MacroKeycodeType, text: string) {
-    return {
-      type: KEYCODES_UPDATE_MACRO,
-      value: { code: code, text: text },
-    };
-  },
-};
-
 export type KeycodesStateType = {
   categoryIndex: number;
   selectedKey: Key | null;
@@ -58,20 +36,25 @@ export type KeycodesStateType = {
   macroText: string | null;
 };
 
-const mapStateToProps = (state: StateType): KeycodesStateType => {
-  const code: MacroKeycodeType = state.keycodekey.selectedKey
+const mapStateToProps = (state: RootState): KeycodesStateType => {
+  const code: MacroKeycodeType = state.keycodeKey.selectedKey
     ?.code as MacroKeycodeType;
   const macroText =
     0 <= MacroKeycode.indexOf(code) ? state.entities.macros[code] : null;
 
   return {
     categoryIndex: state.keycodes.categoryIndex,
-    hoverKey: state.keycodekey.hoverKey,
-    selectedKey: state.keycodekey.selectedKey,
+    hoverKey: state.keycodeKey.hoverKey,
+    selectedKey: state.keycodeKey.selectedKey,
     macroText: macroText,
   };
 };
 
-const mapDispatchToProps = KeycodesActions;
+const mapDispatchToProps = {
+  selectCategoryIndex: KeycodesActions.updateCategoryIndex,
+  setMacro: KeycodesActions.updateMacro,
+};
+
+export type KeycodesActionsType = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Keycodes);
