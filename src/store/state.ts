@@ -1,9 +1,12 @@
+import { Device } from '../actions/actions';
 import {
   Key,
   MacroKeycodeType,
 } from '../components/configure/keycodes/Keycodes.container';
+import { IHid, IKeyboard } from '../services/hid/hid';
+import { WebHid } from '../services/hid/web-hid';
 
-export type StateType = {
+export type RootState = {
   entities: {
     device: {
       vendorId: number;
@@ -14,16 +17,22 @@ export type StateType = {
       [id in MacroKeycodeType]: string;
     };
   };
+  hid: {
+    instance: IHid;
+    devices: { [id: number]: Device };
+    connectedDeviceId: number;
+    connectedKeyboard: IKeyboard | null;
+  };
   keycodes: {
     categoryIndex: number;
   };
-  keycodekey: {
+  keycodeKey: {
     selectedKey: Key | null;
     hoverKey: Key | null;
   };
 };
 
-export const INIT_STATE: StateType = {
+export const INIT_STATE: RootState = {
   entities: {
     device: {
       vendorId: NaN,
@@ -49,10 +58,20 @@ export const INIT_STATE: StateType = {
       M15: '',
     },
   },
+  hid: {
+    instance: new WebHid(),
+    devices: {
+      // TODO: get initial devices
+      0: { name: 'Lunakey Pro', vendorId: 39321, productId: 1 },
+      1: { name: 'Lunakey Mini', vendorId: 22868, productId: 1 },
+    },
+    connectedDeviceId: NaN, // id of hid.devices
+    connectedKeyboard: null,
+  },
   keycodes: {
     categoryIndex: 0,
   },
-  keycodekey: {
+  keycodeKey: {
     selectedKey: null,
     hoverKey: null,
   },

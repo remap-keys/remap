@@ -1,29 +1,54 @@
 import immer from 'immer';
 import {
+  Device,
   KEYCODEKEY_ACTIONS,
   KEYCODEKEY_UPDATE_HOVER_KEY,
   KEYCODEKEY_UPDATE_SELECTED_KEY,
-} from '../components/configure/keycodekey/KeycodeKey.container';
-import {
   KEYCODES_ACTIONS,
   KEYCODES_UPDATE_CATEGORY_INDEX,
   KEYCODES_UPDATE_MACRO,
-  MacroKeycodeType,
-} from '../components/configure/keycodes/Keycodes.container';
-import { INIT_STATE, StateType } from './state';
+} from '../actions/actions';
+import {
+  HID_ACTIONS,
+  HID_CONNECT_DEVICE,
+  HID_UPDATE_DEVICE_LIST,
+} from '../actions/hid.action';
+import { MacroKeycodeType } from '../components/configure/keycodes/Keycodes.container';
+
+import { INIT_STATE, RootState } from './state';
 
 export type Action = { type: string; value: any };
 
-const reducers = (state: StateType = INIT_STATE, action: Action) =>
+const reducers = (state: RootState = INIT_STATE, action: Action) =>
   immer(state, (draft) => {
     if (action.type.startsWith(KEYCODES_ACTIONS)) {
       keycodesReducer(action, draft);
     } else if (action.type.startsWith(KEYCODEKEY_ACTIONS)) {
       keycodekeyReducer(action, draft);
+    } else if (action.type.startsWith(HID_ACTIONS)) {
+      hidReducer(action, draft);
     }
   });
 
-const keycodesReducer = (action: Action, draft: StateType) => {
+const hidReducer = (action: Action, draft: RootState) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case HID_CONNECT_DEVICE: {
+      draft.hid.connectedDeviceId = action.value.id;
+      break;
+    }
+    case HID_UPDATE_DEVICE_LIST: {
+      // TODO: id SHOULD be keyboard id like uuid, NOT index.
+      const devices: Device[] = action.value.devices;
+      draft.hid.devices = devices.reduce((obj, device, index) => {
+        return { ...obj, [index]: device };
+      }, {});
+      break;
+    }
+  }
+};
+
+const keycodesReducer = (action: Action, draft: RootState) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYCODES_UPDATE_CATEGORY_INDEX: {
@@ -38,15 +63,15 @@ const keycodesReducer = (action: Action, draft: StateType) => {
   }
 };
 
-const keycodekeyReducer = (action: Action, draft: StateType) => {
+const keycodekeyReducer = (action: Action, draft: RootState) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYCODEKEY_UPDATE_SELECTED_KEY: {
-      draft.keycodekey.selectedKey = action.value;
+      draft.keycodeKey.selectedKey = action.value;
       break;
     }
     case KEYCODEKEY_UPDATE_HOVER_KEY: {
-      draft.keycodekey.hoverKey = action.value;
+      draft.keycodeKey.hoverKey = action.value;
       break;
     }
   }

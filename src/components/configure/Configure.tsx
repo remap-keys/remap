@@ -1,6 +1,6 @@
 import React from 'react';
 import './Configure.scss';
-import Header from './header/Header';
+import Header from './header/Header.container';
 import Content from './content/Content';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -9,12 +9,7 @@ export default class Configure extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <Header
-          connected={true}
-          keyboardName="Lunakey Mini"
-          productId={0x0001}
-          vendorId={0x5954}
-        />
+        <Header />
         <main>
           <Content />
         </main>
