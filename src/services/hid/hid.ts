@@ -10,8 +10,8 @@ export interface IConnectParams {
 }
 
 export interface IDeviceInformation {
-  readonly vendorId: string;
-  readonly productId: string;
+  readonly vendorId: number;
+  readonly productId: number;
   readonly productName: string;
 }
 
