@@ -37,22 +37,17 @@ const Hid = () => {
     webHid.setConnectionEventHandler({
       connect: (connectedKeyboard) => {
         const newConnectedKeyboards = [...connectedKeyboards];
-        const found = newConnectedKeyboards.find((x) =>
-          x.equals(connectedKeyboard)
-        );
-        if (!found) {
-          newConnectedKeyboards.push(connectedKeyboard);
-        }
+        newConnectedKeyboards.push(connectedKeyboard);
         setConnectedKeyboards(newConnectedKeyboards);
       },
       disconnect: (disconnectedKeyboard) => {
         const newConnectedKeyboards = connectedKeyboards.filter(
-          (x) => !x.equals(disconnectedKeyboard)
+          (x) => x !== disconnectedKeyboard
         );
         setConnectedKeyboards(newConnectedKeyboards);
       },
     });
-  }, [webHid, connectedKeyboards]);
+  }, []);
 
   const handleConnectClick = async () => {
     let result;

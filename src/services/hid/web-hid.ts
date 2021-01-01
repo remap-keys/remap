@@ -1,35 +1,4 @@
 /* eslint-disable no-undef */
-// Usage example:
-//
-// // Connect a device.
-// const hid = new WebHid();
-// const result = await hid.connect();
-// if (!result.success) {
-//    const errorMessage = result.error;
-//    const cause = result.cause;
-//    // Do something.
-// }
-// // Open the keyboard
-// const keyboard = result.keyboard;
-// await keyboard.open();
-// // Get the keycode.
-// const command = new DynamicKeymapGetKeycodeCommand(
-//   { layer: 0, row: 0, column: 1 },
-//   async (result): Promise<void> => {
-//     if (!result.success) {
-//       const errorMessage = result.error;
-//       const cause = result.cause;
-//       // Do something.
-//     } else {
-//       const keycode = result.response!.value;
-//       // Do something.
-//     }
-//   }
-// );
-// await keyboard.execute(command);
-// // Close the device.
-// await keyboard.close();
-
 import {
   ICommand,
   IConnectParams,
@@ -193,13 +162,6 @@ export class Keyboard implements IKeyboard {
         error: 'Not connected or opened.',
       };
     }
-  }
-
-  equals(keyboard: IKeyboard): boolean {
-    return (
-      this.getInformation().vendorId === keyboard.getInformation().vendorId &&
-      this.getInformation().productId === keyboard.getInformation().productId
-    );
   }
 
   async fetchKeymaps(
