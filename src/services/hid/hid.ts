@@ -66,7 +66,6 @@ export interface IKeyboard {
   isOpened(): boolean;
   enqueue(command: ICommand): Promise<IResult>;
   close(): Promise<void>;
-  equals(keyboard: IKeyboard): boolean;
   fetchLayerCount(): Promise<IFetchLayerCountResult>;
   fetchKeymaps(
     layer: number,
