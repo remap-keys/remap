@@ -4,7 +4,7 @@ import {
 } from '../components/configure/keycodes/Keycodes.container';
 
 export type Device = {
-  name: string;
+  productName: string;
   vendorId: number;
   productId: number;
 };

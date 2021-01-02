@@ -19,9 +19,10 @@ export type RootState = {
   };
   hid: {
     instance: IHid;
-    devices: { [id: number]: Device };
-    connectedDeviceId: number;
-    connectedKeyboard: IKeyboard | null;
+    devices: { [id: number]: Device }; // DEPRECTAED: use keyboards
+    keyboards: IKeyboard[]; // authorized keyboard list
+    openedDeviceId: number; // DEPRECATED: use openedKeyboard
+    openedKeyboard: IKeyboard | null;
   };
   keycodes: {
     categoryIndex: number;
@@ -62,14 +63,15 @@ export const INIT_STATE: RootState = {
     instance: new WebHid(),
     devices: {
       // TODO: get initial devices
-      0: { name: 'Lunakey Pro', vendorId: 39321, productId: 1 },
-      1: { name: 'Lunakey Mini', vendorId: 22868, productId: 1 },
+      0: { productName: 'Lunakey Pro', vendorId: 39321, productId: 1 },
+      1: { productName: 'Lunakey Mini', vendorId: 22868, productId: 1 },
     },
-    connectedDeviceId: NaN, // id of hid.devices
-    connectedKeyboard: null,
+    keyboards: [],
+    openedDeviceId: NaN, // id of hid.devices
+    openedKeyboard: null, // hid.keyboards[i]
   },
   keycodes: {
-    categoryIndex: 0,
+    categoryIndex: NaN,
   },
   keycodeKey: {
     selectedKey: null,

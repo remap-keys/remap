@@ -19,25 +19,19 @@
     flex-direction: column;
     padding-bottom: 32px;
     background-color: white;
-    .keydiff-wrapper {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      margin-top: -32px;
-    }
-
-    .keyboards-wrapper {
-      display: flex;
-      flex-direction: row;
-
-      .balancer {
-        width: 140px;
-      }
-    }
+    min-height: 400px;
   }
   .keycode {
     display: flex;
     flex-direction: column;
     padding: $space-l;
+    .disable {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      margin-left: -16px;
+      margin-top: -16px;
+    }
   }
 }

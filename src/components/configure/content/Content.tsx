@@ -2,38 +2,31 @@ import React from 'react';
 import './Content.scss';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-//import kbdConfig from '../../../assets/files/lunakey-mini.json';
-import kbdConfig from '../../../assets/files/lunakey-mini-test.json';
-//import kbdConfig from '../../../assets/files/iso60.json';
-import Keydiff from '../keydiff/Keydiff';
 import Keycodes from '../keycodes/Keycodes.container';
-import Keyboards from '../keyboards/Keyboards';
-import KeyModel from '../../../models/KeyModel';
+import Keymap from '../keymap/Keymap';
+import { ContentActionsType, ContentStateType } from './Content.container';
+import { Device } from '../../../actions/actions';
+import NoKeyboard from '../nokeyboard/NoKeyboard';
+import KeyboardList from '../keyboardlist/KeyboardList.container';
 
-interface IContentState {
+type ContentState = {
   selectedLayer: number;
-}
+};
 
-export default class Content extends React.Component<{}, IContentState> {
-  private origKey = new KeyModel(
-    'Enter',
-    0,
-    0,
-    1.25,
-    2,
-    '#cccccc',
-    30,
-    2,
-    3,
-    -0.25,
-    0,
-    1.5,
-    1
-  );
-  private destKey = new KeyModel('Caps Lock', 0, 0, 2, 1, '#cccccc', -15, 3, 4);
-  constructor(props: {} | Readonly<{}>) {
+type OwnProps = {};
+
+type ContentProps = OwnProps &
+  Partial<ContentActionsType> &
+  Partial<ContentStateType>;
+
+export default class Content extends React.Component<
+  ContentProps,
+  ContentState
+> {
+  constructor(props: ContentProps | Readonly<ContentProps>) {
     super(props);
     this.state = {
+      //TODO: redux
       selectedLayer: 1,
     };
   }
@@ -49,35 +42,53 @@ export default class Content extends React.Component<{}, IContentState> {
   render() {
     return (
       <div className="content">
-        <div className="controller">
-          <div className="switch">
-            <Select
-              id="keyboard-layout-switch"
-              value={'Choc'}
-              onChange={() => {}}
-            >
-              <MenuItem value="MX">MX</MenuItem>
-              <MenuItem value="Choc">Choc</MenuItem>
-            </Select>
+        {Number.isNaN(this.props.openedDeviceId) ? (
+          ''
+        ) : (
+          <div className="controller">
+            <div className="switch">
+              <Select
+                id="keyboard-layout-switch"
+                value={'Choc'}
+                onChange={() => {}}
+              >
+                <MenuItem value="MX">MX</MenuItem>
+                <MenuItem value="Choc">Choc</MenuItem>
+              </Select>
+            </div>
           </div>
-        </div>
+        )}
         <div className="keymap">
-          <div className="keydiff-wrapper">
-            <div className="spacer"></div>
-            <Keydiff origin={this.origKey} destination={this.destKey} />
-            <div className="spacer"></div>
-          </div>
-          <div className="keyboards-wrapper">
-            <div className="spacer"></div>
-            <Keyboards config={kbdConfig} />
-            <div className="balancer"></div>
-            <div className="spacer"></div>
-          </div>
+          <ConnectedKeyboard
+            openedDeviceId={this.props.openedDeviceId!}
+            devices={this.props.devices || {}}
+          />
         </div>
         <div className="keycode">
           <Keycodes />
+          {Number.isNaN(this.props.openedDeviceId) ? (
+            <div className="disable"></div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     );
+  }
+}
+
+type ConnectedKeyboardProps = {
+  openedDeviceId: number;
+  devices: { [id: number]: Device };
+};
+function ConnectedKeyboard(props: ConnectedKeyboardProps) {
+  if (Number.isNaN(props.openedDeviceId)) {
+    if (0 < Object.entries(props.devices).length) {
+      return <KeyboardList />;
+    } else {
+      return <NoKeyboard />;
+    }
+  } else {
+    return <Keymap />;
   }
 }
