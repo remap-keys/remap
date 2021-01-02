@@ -6,7 +6,6 @@ import { Button, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { Device } from '../../../actions/actions';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -36,7 +35,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   onClickDevice = (event: React.MouseEvent) => {
     this.setState({ connectionStateEl: event.currentTarget });
-    this.props.onClickDeviceMenu!();
   };
 
   onClickConnectionMenuItemNewDevice = () => {
@@ -50,7 +48,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         <div
           className={[
             'kbd-select',
-            Number.isNaN(this.props.openedDeviceId) ? 'hidden' : '',
+            this.props.showKeyboardList ? '' : 'hidden',
           ].join(' ')}
           onClick={this.onClickDevice}
         >
@@ -70,18 +68,17 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             open={this.openConnectionStateMenu}
             onClose={this.onCloseConnectionStateMenu}
           >
-            {Object.keys(this.props.devices!).map((key) => {
-              const id = Number(key);
-              const device: Device = this.props.devices![id];
-              const isOpenedDevice = this.props.openedDeviceId == id;
-              const linking = isOpenedDevice ? 'link-on' : 'link-off';
+            {this.props.keyboards!.map((kbd, index) => {
+              const info = kbd.getInformation();
+              const isOpenedKbd = this.props.openedKeyboard == kbd;
+              const linking = isOpenedKbd ? 'link-on' : 'link-off';
               return (
                 <MenuItem
-                  key={id}
-                  onClick={this.props.onClickDeviceMenuItem!.bind(this, id)}
+                  key={index}
+                  onClick={this.props.onClickKeyboardMenuItem!.bind(this, kbd)}
                 >
                   <div className="device-item">
-                    {isOpenedDevice ? (
+                    {isOpenedKbd ? (
                       <Link fontSize="small" className="link-icon link-on" />
                     ) : (
                       <LinkOff
@@ -90,10 +87,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                       />
                     )}
                     <div className={['device-name', linking].join(' ')}>
-                      {device.productName}
+                      {info.productName}
                       <span className="device-ids">
-                        (VID: {hexadecimal(device.vendorId, 4)} / PID:{' '}
-                        {hexadecimal(device.productId, 4)})
+                        (VID: {hexadecimal(info.vendorId, 4)} / PID:{' '}
+                        {hexadecimal(info.productId, 4)})
                       </span>
                     </div>
                   </div>
@@ -110,7 +107,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   size="small"
                   color="primary"
                   className="another-device"
-                  onClick={this.props.onClickAnotherDevice?.bind(this)}
+                  onClick={this.props.onClickAnotherKeyboard?.bind(this)}
                 >
                   + Connect another device
                 </Button>
@@ -121,7 +118,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         <div
           className={[
             'buttons',
-            Number.isNaN(this.props.openedDeviceId) ? 'hidden' : '',
+            this.props.openedKeyboard ? '' : 'hidden',
           ].join(' ')}
         >
           <Button

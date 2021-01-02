@@ -5,9 +5,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap';
 import { ContentActionsType, ContentStateType } from './Content.container';
-import { Device } from '../../../actions/actions';
 import NoKeyboard from '../nokeyboard/NoKeyboard';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
+import { IKeyboard } from '../../../services/hid/hid';
 
 type ContentState = {
   selectedLayer: number;
@@ -42,9 +42,7 @@ export default class Content extends React.Component<
   render() {
     return (
       <div className="content">
-        {Number.isNaN(this.props.openedDeviceId) ? (
-          ''
-        ) : (
+        {this.props.openedKeyboard ? (
           <div className="controller">
             <div className="switch">
               <Select
@@ -57,20 +55,18 @@ export default class Content extends React.Component<
               </Select>
             </div>
           </div>
+        ) : (
+          ''
         )}
         <div className="keymap">
           <ConnectedKeyboard
-            openedDeviceId={this.props.openedDeviceId!}
-            devices={this.props.devices || {}}
+            openedKeyboard={this.props.openedKeyboard!}
+            keyboards={this.props.keyboards || []}
           />
         </div>
         <div className="keycode">
           <Keycodes />
-          {Number.isNaN(this.props.openedDeviceId) ? (
-            <div className="disable"></div>
-          ) : (
-            ''
-          )}
+          {this.props.openedKeyboard ? '' : <div className="disable"></div>}
         </div>
       </div>
     );
@@ -78,17 +74,17 @@ export default class Content extends React.Component<
 }
 
 type ConnectedKeyboardProps = {
-  openedDeviceId: number;
-  devices: { [id: number]: Device };
+  openedKeyboard: IKeyboard;
+  keyboards: IKeyboard[];
 };
 function ConnectedKeyboard(props: ConnectedKeyboardProps) {
-  if (Number.isNaN(props.openedDeviceId)) {
-    if (0 < Object.entries(props.devices).length) {
+  if (props.openedKeyboard) {
+    return <Keymap />;
+  } else {
+    if (0 < props.keyboards.length) {
       return <KeyboardList />;
     } else {
       return <NoKeyboard />;
     }
-  } else {
-    return <Keymap />;
   }
 }

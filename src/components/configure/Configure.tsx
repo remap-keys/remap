@@ -17,7 +17,7 @@ export default class Configure extends React.Component<ConfigureProps, {}> {
     super(props);
   }
   componentDidMount() {
-    this.props.updateAuthorizedDeviceList!();
+    this.props.updateAuthorizedKeyboardList!();
   }
   render() {
     return (

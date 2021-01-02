@@ -1,6 +1,5 @@
 import immer from 'immer';
 import {
-  Device,
   KEYCODEKEY_ACTIONS,
   KEYCODEKEY_UPDATE_HOVER_KEY,
   KEYCODEKEY_UPDATE_SELECTED_KEY,
@@ -10,10 +9,13 @@ import {
 } from '../actions/actions';
 import {
   HID_ACTIONS,
-  HID_OPEN_DEVICE,
-  HID_UPDATE_DEVICE_LIST,
+  HID_CONNECT_KEYBOARD,
+  HID_DISCONNECT_KEYBOARD,
+  HID_OPEN_KEYBOARD,
+  HID_UPDATE_KEYBOARD_LIST,
 } from '../actions/hid.action';
 import { MacroKeycodeType } from '../components/configure/keycodes/Keycodes.container';
+import { IKeyboard } from '../services/hid/hid';
 
 import { INIT_STATE, RootState } from './state';
 
@@ -33,16 +35,29 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
 const hidReducer = (action: Action, draft: RootState) => {
   // TODO: type-safe
   switch (action.type) {
-    case HID_OPEN_DEVICE: {
-      draft.hid.openedDeviceId = action.value.id;
+    case HID_CONNECT_KEYBOARD: {
+      const keyboard: IKeyboard = action.value.keyboard;
+      draft.hid.keyboards.push(keyboard);
       break;
     }
-    case HID_UPDATE_DEVICE_LIST: {
-      // TODO: id SHOULD be keyboard id like uuid, NOT index.
-      const devices: Device[] = action.value.devices;
-      draft.hid.devices = devices.reduce((obj, device, index) => {
-        return { ...obj, [index]: device };
-      }, {});
+    case HID_DISCONNECT_KEYBOARD: {
+      const keyboard: IKeyboard = action.value.keyboard;
+      draft.hid.keyboards.filter((item) => {
+        return item != keyboard;
+      });
+      if (draft.hid.openedKeyboard == keyboard) {
+        draft.hid.openedKeyboard = null;
+      }
+      break;
+    }
+    case HID_OPEN_KEYBOARD: {
+      const keyboard: IKeyboard = action.value.keyboard;
+      draft.hid.openedKeyboard = keyboard;
+      break;
+    }
+    case HID_UPDATE_KEYBOARD_LIST: {
+      const keyboards: IKeyboard[] = action.value.keyboards;
+      draft.hid.keyboards = keyboards;
       break;
     }
   }

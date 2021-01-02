@@ -1,5 +1,5 @@
 import React from 'react';
-import { Device } from '../../../actions/actions';
+import { IKeyboard } from '../../../services/hid/hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
   KeyboardListActionsType,
@@ -24,23 +24,32 @@ export default class KeyboardList extends React.Component<
       <div className="keyboardlist-wrapper">
         <div className="message">Please select a keyboard</div>
         <div className="keyboardlist">
-          {Object.keys(this.props.devices!).map((key) => {
-            const id = Number(key);
-            const device: Device = this.props.devices![id];
+          {this.props.keyboards!.map((kbd: IKeyboard, index: number) => {
+            const info = kbd.getInformation();
             return (
               <div
-                key={id}
+                key={index}
                 className="keyboard-item"
-                onClick={this.props.onClickItem!.bind(this, id)}
+                onClick={this.props.onClickItem!.bind(this, kbd)}
               >
-                <h3>{device.productName}</h3>
+                <h3>{info.productName}</h3>
                 <div className="device-ids">
-                  VID: {hexadecimal(device.vendorId, 4)} / PID:{' '}
-                  {hexadecimal(device.productId, 4)}
+                  VID: {hexadecimal(info.vendorId, 4)} / PID:{' '}
+                  {hexadecimal(info.productId, 4)}
                 </div>
               </div>
             );
           })}
+          <div
+            key={-1}
+            className="keyboard-item"
+            onClick={this.props.onClickConnectAnotherKeyboard!.bind(this)}
+          >
+            <h3 className="another">+ ANOTHER KEYBOARD</h3>
+            <div className="device-ids">
+              Please add a new Web HID access permitted device
+            </div>
+          </div>
         </div>
       </div>
     );

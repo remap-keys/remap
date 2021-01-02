@@ -1,23 +1,38 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IDeviceInformation, IHid, IKeyboard } from '../services/hid/hid';
+import { IHid, IKeyboard } from '../services/hid/hid';
 import { RootState } from '../store/state';
-import { Device } from './actions';
 
 export const HID_ACTIONS = '@Hid';
-export const HID_OPEN_DEVICE = `${HID_ACTIONS}/OpenDevice`;
-export const HID_UPDATE_DEVICE_LIST = `${HID_ACTIONS}/UpdateDeviceList`;
+export const HID_CONNECT_KEYBOARD = `${HID_ACTIONS}/ConnectDevice`;
+export const HID_DISCONNECT_KEYBOARD = `${HID_ACTIONS}/DisconnectDevice`;
+export const HID_OPEN_KEYBOARD = `${HID_ACTIONS}/OpenKeyboard`;
+export const HID_UPDATE_KEYBOARD_LIST = `${HID_ACTIONS}/UpdateKeyboardList`;
 const hidActions = {
-  connectDevice: (id: number) => {
+  connectKeyboard: (keyboard: IKeyboard) => {
     return {
-      type: HID_OPEN_DEVICE,
-      value: { id: id },
+      type: HID_CONNECT_KEYBOARD,
+      value: { keyboard: keyboard },
     };
   },
 
-  updateDeviceList: (devices: Device[]) => {
+  disconnectKeyboard: (keyboard: IKeyboard) => {
     return {
-      type: HID_UPDATE_DEVICE_LIST,
-      value: { devices: devices },
+      type: HID_DISCONNECT_KEYBOARD,
+      value: { keyboard: keyboard },
+    };
+  },
+
+  openKeyboard: (keyboard: IKeyboard) => {
+    return {
+      type: HID_OPEN_KEYBOARD,
+      value: { keyboard: keyboard },
+    };
+  },
+
+  updateKeyboardList: (keyboards: IKeyboard[]) => {
+    return {
+      type: HID_UPDATE_KEYBOARD_LIST,
+      value: { keyboards: keyboards },
     };
   },
 };
@@ -30,24 +45,7 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const hidActionsThunk = {
-  updateAuthorizedDeviceList: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { hid } = getState();
-    const devices: Device[] = await getAuthorizedDevices(hid.instance);
-    dispatch(hidActions.updateDeviceList(devices));
-  },
-  connectDevice: (targetDeviceId: number): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(hidActions.connectDevice(targetDeviceId));
-    //TODO: close current connected keyboard if exist
-    //TODO: open the connected keyboard
-    //TODO: update state of connected keyboard
-  },
-  connectAnotherDevice: (): ThunkPromiseAction<void> => async (
+  connectAnotherKeyboard: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
@@ -58,16 +56,25 @@ export const hidActionsThunk = {
     //TODO: open the connected keyboard
     //TODO: update state of connected keyboard
   },
+
+  openKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(hidActions.openKeyboard(keyboard));
+  },
+
+  updateAuthorizedKeyboardList: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { hid } = getState();
+    const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
+    dispatch(hidActions.updateKeyboardList(keyboards));
+  },
 };
 
-const getAuthorizedDevices = async (hid: IHid): Promise<Device[]> => {
-  //TODO: this method should be called in app init
+const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {
   const keyboards: IKeyboard[] = await hid.detectKeyboards();
-
-  const devices: Device[] = keyboards.map((kbd) => {
-    const info: IDeviceInformation = kbd.getInformation();
-    const device: Device = info;
-    return device;
-  });
-  return devices;
+  return keyboards;
 };

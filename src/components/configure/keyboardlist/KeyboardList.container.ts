@@ -1,23 +1,27 @@
 import { connect } from 'react-redux';
 import KeyboardList from './KeyboardList';
 import { RootState } from '../../../store/state';
-import { Device, KeycodesActions } from '../../../actions/actions';
+import { KeycodesActions } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
+import { IKeyboard } from '../../../services/hid/hid';
 
 export type KeyboardListStateType = {
-  devices: { [id: number]: Device };
+  keyboards: IKeyboard[];
 };
 const mapStateToProps = (state: RootState): KeyboardListStateType => {
   return {
-    devices: state.hid.devices || [],
+    keyboards: state.hid.keyboards || [],
   };
 };
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    onClickItem: (id: number) => {
-      _dispatch(hidActionsThunk.connectDevice(id));
+    onClickItem: (keyboard: IKeyboard) => {
+      _dispatch(hidActionsThunk.openKeyboard(keyboard));
       _dispatch(KeycodesActions.updateCategoryIndex(0)); // init keycode categroy
+    },
+    onClickConnectAnotherKeyboard: () => {
+      _dispatch(hidActionsThunk.connectAnotherKeyboard());
     },
   };
 };

@@ -1,36 +1,36 @@
 import { connect } from 'react-redux';
 import Header from './Header';
 import { RootState } from '../../../store/state';
-import { Device } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
+import { IKeyboard } from '../../../services/hid/hid';
 
 export type HeaderStateType = {
-  openedDeviceId: number;
+  keyboards: IKeyboard[];
+  openedKeyboard: IKeyboard | null;
+  productId: number;
   productName: string;
   vendorId: number;
-  productId: number;
-  devices: { [id: number]: Device };
+  showKeyboardList: boolean;
 };
 const mapStateToProps = (state: RootState): HeaderStateType => {
-  const deviceId: number = state.hid.openedDeviceId;
-  const device: Device = state.hid.devices[deviceId];
+  const kbd = state.hid.openedKeyboard;
+  const info = kbd?.getInformation();
   return {
-    openedDeviceId: state.hid.openedDeviceId,
-    productName: device?.productName || '',
-    vendorId: device?.vendorId || NaN,
-    productId: device?.productId || NaN,
-    devices: state.hid.devices,
+    keyboards: state.hid.keyboards,
+    openedKeyboard: kbd,
+    productId: info?.productId || NaN,
+    productName: info?.productName || '',
+    vendorId: info?.vendorId || NaN,
+    showKeyboardList: !!kbd,
   };
 };
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    onClickDeviceMenuItem: (id: number) =>
-      _dispatch(hidActionsThunk.connectDevice(id)),
-    onClickAnotherDevice: () =>
-      _dispatch(hidActionsThunk.connectAnotherDevice()),
-    onClickDeviceMenu: () =>
-      _dispatch(hidActionsThunk.updateAuthorizedDeviceList()),
+    onClickKeyboardMenuItem: (kbd: IKeyboard) =>
+      _dispatch(hidActionsThunk.openKeyboard(kbd)),
+    onClickAnotherKeyboard: () =>
+      _dispatch(hidActionsThunk.connectAnotherKeyboard()),
   };
 };
 

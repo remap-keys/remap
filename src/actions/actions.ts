@@ -3,12 +3,6 @@ import {
   MacroKeycodeType,
 } from '../components/configure/keycodes/Keycodes.container';
 
-export type Device = {
-  productName: string;
-  vendorId: number;
-  productId: number;
-};
-
 export const KEYCODES_ACTIONS = '@Keycodes';
 export const KEYCODES_UPDATE_CATEGORY_INDEX = `${KEYCODES_ACTIONS}/UpdateCategoryIndex`;
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
