@@ -223,3 +223,32 @@ export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<
     };
   }
 }
+
+export interface IDynamicKeymapReadBufferRequest extends ICommandRequest {
+  offset: number;
+  size: number;
+}
+
+export interface IDynamicKeymapReadBufferResponse extends ICommandResponse {
+  offset: number;
+  size: number;
+  buffer: Uint8Array;
+}
+
+export class DynamicKeymapReadBufferCommand extends AbstractCommand<
+  IDynamicKeymapReadBufferRequest,
+  IDynamicKeymapReadBufferResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([0x12, req.offset >> 8, req.offset & 0xff, req.size]);
+  }
+
+  createResponse(resultArray: Uint8Array): IDynamicKeymapReadBufferResponse {
+    return {
+      offset: (resultArray[1] << 8) | resultArray[2],
+      size: resultArray[3],
+      buffer: resultArray.slice(4),
+    };
+  }
+}

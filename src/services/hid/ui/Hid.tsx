@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
+  DynamicKeymapReadBufferCommand,
   DynamicKeymapSetKeycodeCommand,
 } from '../commands';
 import { IKeyboard } from '../hid';
@@ -26,6 +27,8 @@ const Hid = () => {
   const [layer2, setLayer2] = useState<number>(0);
   const [rowCount, setRowCount] = useState<number>(0);
   const [columnCount, setColumnCount] = useState<number>(0);
+  const [bufferOffset, setBufferOffset] = useState<number>(0);
+  const [bufferSize, setBufferSize] = useState<number>(28);
 
   useEffect(() => {
     webHid
@@ -178,6 +181,18 @@ const Hid = () => {
     setCode(Number(event.target.value));
   };
 
+  const handleBufferOffsetChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBufferOffset(Number(event.target.value));
+  };
+
+  const handleBufferSizeChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBufferSize(Number(event.target.value));
+  };
+
   const handleFetchKeymapClick = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -228,6 +243,21 @@ const Hid = () => {
       setMessage(result.error!);
       console.log(result.cause);
     }
+  };
+
+  const handleReadBufferClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const command = new DynamicKeymapReadBufferCommand(
+      {
+        offset: bufferOffset,
+        size: bufferSize,
+      },
+      async (result) => {
+        console.log(result);
+      }
+    );
+    await keyboard!.enqueue(command);
   };
 
   return (
@@ -356,6 +386,25 @@ const Hid = () => {
           onChange={handleColumnCountChange}
         />
         <button onClick={handleFetchKeymapClick}>Fetch keymap</button>
+      </div>
+      <div className="box">
+        <label htmlFor="bufferOffset">Offset</label>
+        <input
+          type="number"
+          id="bufferOffset"
+          min={0}
+          value={bufferOffset}
+          onChange={handleBufferOffsetChange}
+        />
+        <label htmlFor="bufferSize">Size</label>
+        <input
+          type="number"
+          id="bufferSize"
+          min={0}
+          value={bufferSize}
+          onChange={handleBufferSizeChange}
+        />
+        <button onClick={handleReadBufferClick}>Read buffer</button>
       </div>
       <div className="box">
         <label htmlFor="Test">Test</label>
