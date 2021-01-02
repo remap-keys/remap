@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import KeycodeKey, { KeycodeKeyProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
-import { MacroKeycode, MacroKeycodeType } from '../keycodes/Keycodes.container';
 import { KeycodeKeyActions } from '../../../actions/actions';
+import { IKeycodeCategory } from '../../../services/hid/hid';
 
 export type KeycodeKeyStateType = {
   selected: boolean;
@@ -13,10 +13,13 @@ const mapStateToProps = (
   state: RootState,
   ownProps: KeycodeKeyProps
 ): KeycodeKeyStateType => {
+  const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
+  const clickable: boolean = !!(
+    keys && keys.find((key) => key.code === ownProps.value.code)
+  );
   return {
     selected: state.keycodeKey.selectedKey == ownProps.value,
-    clickable:
-      0 <= MacroKeycode.indexOf(ownProps.value.code as MacroKeycodeType),
+    clickable,
   };
 };
 

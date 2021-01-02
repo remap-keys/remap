@@ -3,7 +3,7 @@ import KeyboardList from './KeyboardList';
 import { RootState } from '../../../store/state';
 import { KeycodesActions } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
-import { IKeyboard } from '../../../services/hid/hid';
+import { IKeyboard, IKeycodeCategory } from '../../../services/hid/hid';
 
 export type KeyboardListStateType = {
   keyboards: IKeyboard[];
@@ -18,7 +18,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickItem: (keyboard: IKeyboard) => {
       _dispatch(hidActionsThunk.openKeyboard(keyboard));
-      _dispatch(KeycodesActions.updateCategoryIndex(0)); // init keycode categroy
+      _dispatch(KeycodesActions.updateCategory(IKeycodeCategory.BASIC)); // init keycode categroy
     },
     onClickConnectAnotherKeyboard: () => {
       _dispatch(hidActionsThunk.connectAnotherKeyboard());

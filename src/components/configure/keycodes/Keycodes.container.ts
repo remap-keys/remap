@@ -2,57 +2,48 @@ import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
 import { KeycodesActions } from '../../../actions/actions';
-
-export const MacroKeycode = [
-  'M0',
-  'M1',
-  'M2',
-  'M3',
-  'M4',
-  'M5',
-  'M6',
-  'M7',
-  'M8',
-  'M9',
-  'M10',
-  'M11',
-  'M12',
-  'M13',
-  'M14',
-  'M15',
-] as const;
-export type MacroKeycodeType = typeof MacroKeycode[number];
+import { IKeycodeCategory, IKeycodeInfo } from '../../../services/hid/hid';
 
 export type Key = {
-  code: string;
+  code: number;
   label: string;
   meta: string;
+  keycodeInfo: IKeycodeInfo;
 };
 
 export type KeycodesStateType = {
-  categoryIndex: number;
+  category: string;
+  keys: { [category: string]: Key[] };
   selectedKey: Key | null;
   hoverKey: Key | null;
   macroText: string | null;
 };
 
 const mapStateToProps = (state: RootState): KeycodesStateType => {
-  const code: MacroKeycodeType = state.keycodeKey.selectedKey
-    ?.code as MacroKeycodeType;
-  const macroText =
-    0 <= MacroKeycode.indexOf(code) ? state.entities.macros[code] : null;
+  const code = state.keycodeKey.selectedKey?.code;
+  let macroText: string | null;
+  const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
+  if (keys) {
+    const key = keys.find((key) => key.code === code);
+    macroText = key ? state.entities.macros[key.code] : null;
+  } else {
+    macroText = null;
+  }
 
   return {
-    categoryIndex: state.keycodes.categoryIndex,
+    category: state.keycodes.category,
+    keys: state.keycodes.keys,
     hoverKey: state.keycodeKey.hoverKey,
     selectedKey: state.keycodeKey.selectedKey,
-    macroText: macroText,
+    macroText,
   };
 };
 
 const mapDispatchToProps = {
-  selectCategoryIndex: KeycodesActions.updateCategoryIndex,
+  selectCategory: KeycodesActions.updateCategory,
   setMacro: KeycodesActions.updateMacro,
+  loadKeycodeInfoForAllCategories:
+    KeycodesActions.loadKeycodeInfoForAllCategories,
 };
 
 export type KeycodesActionsType = typeof mapDispatchToProps;

@@ -3,39 +3,22 @@ import React from 'react';
 import './Keycodes.scss';
 import { Button, MenuItem, Select } from '@material-ui/core';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
-import KeylayoutBasic from '../../../assets/files/keylayout_jis_basic.json';
-import KeylayoutNumber from '../../../assets/files/keylayout_jis_number.json';
-import KeylatoutMedia from '../../../assets/files/keylayout_jis_media.json';
-import KeylatoutMacro from '../../../assets/files/keylayout_jis_macro.json';
-import KeylatoutLayers from '../../../assets/files/keylayout_jis_layers.json';
-import KeylatoutSpecial from '../../../assets/files/keylayout_jis_special.json';
-import KeylatoutQmkLighting from '../../../assets/files/keylayout_jis_qmklighting.json';
 import {
   KeycodesActionsType,
   KeycodesStateType,
-  MacroKeycode,
-  MacroKeycodeType,
+  Key,
 } from './Keycodes.container';
+import { IKeycodeCategory } from '../../../services/hid/hid';
 
 const KeycodeCategories = [
-  'Basic',
-  'Number',
-  'Media',
-  'Macro',
-  'Layers',
-  'Special',
-  'QMK Lighting',
+  { name: IKeycodeCategory.BASIC, label: 'Basic' },
+  { name: IKeycodeCategory.NUMBER, label: 'Number' },
+  { name: IKeycodeCategory.MEDIA, label: 'Media' },
+  { name: IKeycodeCategory.MACRO, label: 'Macro' },
+  { name: IKeycodeCategory.LAYERS, label: 'Layers' },
+  { name: IKeycodeCategory.SPECIAL, label: 'Special' },
+  { name: IKeycodeCategory.LIGHTING, label: 'QMK Lighting' },
 ] as const;
-
-const Keylayout = [
-  KeylayoutBasic,
-  KeylayoutNumber,
-  KeylatoutMedia,
-  KeylatoutMacro,
-  KeylatoutLayers,
-  KeylatoutSpecial,
-  KeylatoutQmkLighting,
-];
 
 type OwnProps = {};
 
@@ -48,19 +31,24 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
     super(props);
   }
 
-  get keylayout() {
-    return Keylayout[this.props.categoryIndex || 0];
+  componentDidMount() {
+    this.props.loadKeycodeInfoForAllCategories!();
   }
 
   onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const code: MacroKeycodeType = this.props.selectedKey
-      ?.code as MacroKeycodeType;
-    if (MacroKeycode.indexOf(code) < 0) return;
-
-    this.props.setMacro!(code, event.target.value);
+    const macroKeys = this.props.keys![IKeycodeCategory.MACRO];
+    if (macroKeys.find((key) => key.code === this.props.selectedKey?.code)) {
+      this.props.setMacro!(this.props.selectedKey?.code, event.target.value);
+    }
   };
 
   render() {
+    let keys: Key[];
+    if (this.props.category && this.props.keys) {
+      keys = this.props.keys[this.props.category] || [];
+    } else {
+      keys = [];
+    }
     return (
       <React.Fragment>
         <div className="key-categories">
@@ -69,10 +57,10 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
             return (
               <div className="key-category" key={index}>
                 <Button
-                  disabled={this.props.categoryIndex === index}
-                  onClick={this.props.selectCategoryIndex!.bind(this, index)}
+                  disabled={this.props.category === cat.name}
+                  onClick={this.props.selectCategory!.bind(this, cat.name)}
                 >
-                  {cat}
+                  {cat.label}
                 </Button>
               </div>
             );
@@ -85,11 +73,11 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
           </div>
         </div>
         <div className="keycodes">
-          {this.keylayout.map((key) => {
+          {keys.map((key) => {
             return <KeycodeKey key={key.code} value={key} />;
           })}
         </div>
-        {this.props.categoryIndex == KeycodeCategories.indexOf('Macro') ? (
+        {this.props.category == IKeycodeCategory.MACRO ? (
           <div className="macro-wrapper">
             <div className="macro">
               <hr />
