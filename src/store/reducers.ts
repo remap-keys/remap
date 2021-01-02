@@ -10,7 +10,7 @@ import {
 } from '../actions/actions';
 import {
   HID_ACTIONS,
-  HID_CONNECT_DEVICE,
+  HID_OPEN_DEVICE,
   HID_UPDATE_DEVICE_LIST,
 } from '../actions/hid.action';
 import { MacroKeycodeType } from '../components/configure/keycodes/Keycodes.container';
@@ -33,8 +33,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
 const hidReducer = (action: Action, draft: RootState) => {
   // TODO: type-safe
   switch (action.type) {
-    case HID_CONNECT_DEVICE: {
-      draft.hid.connectedDeviceId = action.value.id;
+    case HID_OPEN_DEVICE: {
+      draft.hid.openedDeviceId = action.value.id;
       break;
     }
     case HID_UPDATE_DEVICE_LIST: {

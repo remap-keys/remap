@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.scss';
 import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { Button, Chip, Menu, MenuItem } from '@material-ui/core';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
@@ -47,9 +47,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     return (
       <header className="header">
         <img src={logo} alt="logo" className="logo" />
-        <div className="kbd-select" onClick={this.onClickDevice}>
+        <div
+          className={[
+            'kbd-select',
+            Number.isNaN(this.props.openedDeviceId) ? 'hidden' : '',
+          ].join(' ')}
+          onClick={this.onClickDevice}
+        >
           <div className="kbd-name">
-            <h2>{this.props.keyboardName}</h2>
+            <h2>{this.props.productName}</h2>
             <div className="ids">
               VID: {hexadecimal(this.props.vendorId!, 4)} / PID:{' '}
               {hexadecimal(this.props.productId!, 4)}
@@ -58,13 +64,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <ArrowDropDown />
         </div>
         <div className="status">
-          <Chip
-            variant="outlined"
-            size="small"
-            label={this.props.connected ? 'Connected' : 'Disconnected'}
-            color={this.props.connected ? 'primary' : 'secondary'}
-            className="connection"
-          />
           <Menu
             anchorEl={this.state.connectionStateEl}
             keepMounted
@@ -74,15 +73,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             {Object.keys(this.props.devices!).map((key) => {
               const id = Number(key);
               const device: Device = this.props.devices![id];
-              const isConnectedDevice = this.props.connectedDeviceId == id;
-              const linking = isConnectedDevice ? 'link-on' : 'link-off';
+              const isOpenedDevice = this.props.openedDeviceId == id;
+              const linking = isOpenedDevice ? 'link-on' : 'link-off';
               return (
                 <MenuItem
                   key={id}
                   onClick={this.props.onClickDeviceMenuItem!.bind(this, id)}
                 >
                   <div className="device-item">
-                    {isConnectedDevice ? (
+                    {isOpenedDevice ? (
                       <Link fontSize="small" className="link-icon link-on" />
                     ) : (
                       <LinkOff
@@ -91,7 +90,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                       />
                     )}
                     <div className={['device-name', linking].join(' ')}>
-                      {device.name}
+                      {device.productName}
                       <span className="device-ids">
                         (VID: {hexadecimal(device.vendorId, 4)} / PID:{' '}
                         {hexadecimal(device.productId, 4)})
@@ -119,7 +118,12 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             </MenuItem>
           </Menu>
         </div>
-        <div className="buttons">
+        <div
+          className={[
+            'buttons',
+            Number.isNaN(this.props.openedDeviceId) ? 'hidden' : '',
+          ].join(' ')}
+        >
           <Button
             size="small"
             color="primary"

@@ -1,0 +1,15 @@
+.keydiff-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: -32px;
+}
+
+.keyboards-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  .balancer {
+    width: 140px;
+  }
+}
