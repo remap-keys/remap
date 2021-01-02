@@ -5,8 +5,8 @@ export default class NoKeyboard extends React.Component {
   render() {
     return (
       <div>
-        no keyboard. Please connect a QMK compatible keyboard and give this app
-        permission for Web HID access
+        {`Couldn't find any keyboards. Please connect a QMK compatible keyboard and give
+        this app permission for Web HID access`}
       </div>
     );
   }

@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import Content from './Content';
 import { RootState } from '../../../store/state';
-import { Device } from '../../../actions/actions';
+import { IKeyboard } from '../../../services/hid/hid';
 
 export type ContentStateType = {
-  openedDeviceId: number;
-  devices: { [id: number]: Device };
+  openedKeyboard: IKeyboard | null;
+  keyboards: IKeyboard[];
 };
 const mapStateToProps = (state: RootState): ContentStateType => {
   return {
-    openedDeviceId: state.hid.openedDeviceId,
-    devices: state.hid.devices,
+    openedKeyboard: state.hid.openedKeyboard,
+    keyboards: state.hid.keyboards,
   };
 };
 

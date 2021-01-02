@@ -10,8 +10,8 @@ const mapStateToProps = (state: RootState): ConfigureStateType => {
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    updateAuthorizedDeviceList: () =>
-      _dispatch(hidActionsThunk.updateAuthorizedDeviceList()),
+    updateAuthorizedKeyboardList: () =>
+      _dispatch(hidActionsThunk.updateAuthorizedKeyboardList()),
   };
 };
 

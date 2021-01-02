@@ -1,4 +1,3 @@
-import { Device } from '../actions/actions';
 import {
   Key,
   MacroKeycodeType,
@@ -19,9 +18,7 @@ export type RootState = {
   };
   hid: {
     instance: IHid;
-    devices: { [id: number]: Device }; // DEPRECTAED: use keyboards
     keyboards: IKeyboard[]; // authorized keyboard list
-    openedDeviceId: number; // DEPRECATED: use openedKeyboard
     openedKeyboard: IKeyboard | null;
   };
   keycodes: {
@@ -32,6 +29,13 @@ export type RootState = {
     hoverKey: Key | null;
   };
 };
+
+const webHid: IHid = new WebHid();
+webHid.setConnectionEventHandler({
+  connect: (connectedKeyboard: IKeyboard) => {},
+
+  disconnect: (disconnectedKeyboard: IKeyboard) => {},
+});
 
 export const INIT_STATE: RootState = {
   entities: {
@@ -60,14 +64,8 @@ export const INIT_STATE: RootState = {
     },
   },
   hid: {
-    instance: new WebHid(),
-    devices: {
-      // TODO: get initial devices
-      0: { productName: 'Lunakey Pro', vendorId: 39321, productId: 1 },
-      1: { productName: 'Lunakey Mini', vendorId: 22868, productId: 1 },
-    },
+    instance: webHid,
     keyboards: [],
-    openedDeviceId: NaN, // id of hid.devices
     openedKeyboard: null, // hid.keyboards[i]
   },
   keycodes: {
