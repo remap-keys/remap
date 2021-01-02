@@ -25,9 +25,13 @@ import special from './assets/keycodes-special.json';
 import {
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapGetLayerCountCommand,
+  DynamicKeymapReadBufferCommand,
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapGetKeycodeResponse,
+  IDynamicKeymapReadBufferRequest,
+  IDynamicKeymapReadBufferResponse,
 } from './commands';
+import { off } from 'process';
 
 const basicKeycodes: IKeycodeInfo[] = (basic as IKeycodeCategoryInfo).codes.map(
   (code) =>
@@ -169,55 +173,85 @@ export class Keyboard implements IKeyboard {
     rowCount: number,
     columnCount: number
   ): Promise<IFetchKeymapResult> {
-    const commandResults: Promise<IDynamicKeymapGetKeycodeResponse>[] = [];
-    for (let r = 0; r < rowCount; r++) {
-      for (let c = 0; c < columnCount; c++) {
-        commandResults.push(
-          new Promise<IDynamicKeymapGetKeycodeResponse>((resolve, reject) => {
-            const command = new DynamicKeymapGetKeycodeCommand(
-              {
-                layer,
-                row: r,
-                column: c,
-              },
-              async (result) => {
-                if (result.success) {
-                  resolve(result.response!);
-                } else {
-                  console.log(result.cause!);
-                  reject(result.error!);
-                }
-              }
-            );
-            return this.enqueue(command);
-          })
-        );
+    const totalSize = rowCount * columnCount * 2;
+    let offset = layer * totalSize;
+    const commandResults: Promise<IDynamicKeymapReadBufferResponse>[] = [];
+    let remainingSize = totalSize;
+    do {
+      let size: number;
+      if (28 < remainingSize) {
+        size = 28;
+        remainingSize = remainingSize - 28;
+      } else {
+        size = remainingSize;
+        remainingSize = 0;
       }
-    }
+      commandResults.push(
+        new Promise<IDynamicKeymapReadBufferResponse>((resolve, reject) => {
+          const command = new DynamicKeymapReadBufferCommand(
+            {
+              offset,
+              size,
+            },
+            async (result) => {
+              if (result.success) {
+                resolve(result.response!);
+              } else {
+                console.log(result.cause!);
+                reject(result.error!);
+              }
+            }
+          );
+          return this.enqueue(command);
+        })
+      );
+      offset = offset + 28;
+    } while (remainingSize !== 0);
     try {
-      const responses = await Promise.all<IDynamicKeymapGetKeycodeResponse>(
+      const responses = await Promise.all<IDynamicKeymapReadBufferResponse>(
         commandResults
       );
-      return {
-        success: true,
-        keymap: responses.reduce((map, response) => {
-          const keycodeInfo = this.hid.getKeycodeInfo(response.code);
+      let row = 0;
+      let column = 0;
+      const keymapMap: { [pos: string]: IKeymap } = {};
+      responses.forEach((response) => {
+        if (rowCount === row) {
+          return;
+        }
+        const buffer = response.buffer;
+        if (buffer.length % 2 !== 0) {
+          throw new Error(`Invalid buffer size: ${buffer.length}`);
+        }
+        for (let i = 0; i < buffer.length; i += 2) {
+          const code = (buffer[i] << 8) | buffer[i + 1];
+          const keycodeInfo = this.hid.getKeycodeInfo(code);
           let keymap: IKeymap;
           if (keycodeInfo) {
             keymap = {
               isAny: false,
-              code: response.code,
+              code,
               keycodeInfo,
             };
           } else {
             keymap = {
               isAny: true,
-              code: response.code,
+              code,
             };
           }
-          map[`${response.row},${response.column}`] = keymap;
-          return map;
-        }, {} as { [pos: string]: IKeymap }),
+          keymapMap[`${row},${column}`] = keymap;
+          column = column + 1;
+          if (columnCount === column) {
+            column = 0;
+            row = row + 1;
+          }
+          if (rowCount === row) {
+            break;
+          }
+        }
+      });
+      return {
+        success: true,
+        keymap: keymapMap,
       };
     } catch (error) {
       console.log(error);
