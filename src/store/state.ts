@@ -1,8 +1,5 @@
-import {
-  Key,
-  MacroKeycodeType,
-} from '../components/configure/keycodes/Keycodes.container';
-import { IHid, IKeyboard } from '../services/hid/hid';
+import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { IHid, IKeyboard, IKeycodeCategory } from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
 
 export type RootState = {
@@ -13,7 +10,7 @@ export type RootState = {
       name: string | null;
     };
     macros: {
-      [id in MacroKeycodeType]: string;
+      [id: number]: string;
     };
   };
   hid: {
@@ -22,7 +19,8 @@ export type RootState = {
     openedKeyboard: IKeyboard | null;
   };
   keycodes: {
-    categoryIndex: number;
+    category: string;
+    keys: { [category: string]: Key[] };
   };
   keycodeKey: {
     selectedKey: Key | null;
@@ -44,24 +42,7 @@ export const INIT_STATE: RootState = {
       productId: NaN,
       name: null,
     },
-    macros: {
-      M0: '',
-      M1: '',
-      M2: '',
-      M3: '',
-      M4: '',
-      M5: '',
-      M6: '',
-      M7: '',
-      M8: '',
-      M9: '',
-      M10: '',
-      M11: '',
-      M12: '',
-      M13: '',
-      M14: '',
-      M15: '',
-    },
+    macros: {},
   },
   hid: {
     instance: webHid,
@@ -69,7 +50,8 @@ export const INIT_STATE: RootState = {
     openedKeyboard: null, // hid.keyboards[i]
   },
   keycodes: {
-    categoryIndex: NaN,
+    category: IKeycodeCategory.BASIC,
+    keys: {},
   },
   keycodeKey: {
     selectedKey: null,

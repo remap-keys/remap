@@ -34,16 +34,15 @@ export interface IKeycodeCategoryInfo {
   codes: number[];
 }
 
-const IKeycodeCategory: { [p: string]: string } = {
+export const IKeycodeCategory = {
   BASIC: 'basic',
   LAYERS: 'layers',
   LIGHTING: 'lighting',
   MACRO: 'macro',
   MEDIA: 'media',
-  NUMBER: 'kp',
+  NUMBER: 'number',
   SPECIAL: 'special',
 } as const;
-type IKeycodeCategory = typeof IKeycodeCategory[keyof typeof IKeycodeCategory];
 
 export interface IFetchLayerCountResult extends IResult {
   layerCount?: number;
@@ -93,6 +92,6 @@ export interface IHid {
   detectKeyboards(): Promise<IKeyboard[]>;
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
-  getKeycodeCandidatesByCategory(category: IKeycodeCategory): IKeycodeInfo[];
+  getKeycodeCandidatesByCategory(category: string): IKeycodeInfo[];
   getKeycodeInfo(code: number): IKeycodeInfo | undefined;
 }

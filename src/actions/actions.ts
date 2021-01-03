@@ -1,23 +1,25 @@
-import {
-  Key,
-  MacroKeycodeType,
-} from '../components/configure/keycodes/Keycodes.container';
+import { Key } from '../components/configure/keycodes/Keycodes.container';
 
 export const KEYCODES_ACTIONS = '@Keycodes';
-export const KEYCODES_UPDATE_CATEGORY_INDEX = `${KEYCODES_ACTIONS}/UpdateCategoryIndex`;
+export const KEYCODES_UPDATE_CATEGORY = `${KEYCODES_ACTIONS}/UpdateCategory`;
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
+export const KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES = `${KEYCODES_ACTIONS}/LoadKeycodeInfoForAllCategories`;
 export const KeycodesActions = {
-  updateCategoryIndex: (value: number) => {
+  updateCategory: (value: string) => {
     return {
-      type: KEYCODES_UPDATE_CATEGORY_INDEX,
+      type: KEYCODES_UPDATE_CATEGORY,
       value: value,
     };
   },
-
-  updateMacro: (code: MacroKeycodeType, text: string) => {
+  updateMacro: (code: number | undefined, text: string) => {
     return {
       type: KEYCODES_UPDATE_MACRO,
       value: { code: code, text: text },
+    };
+  },
+  loadKeycodeInfoForAllCategories: () => {
+    return {
+      type: KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
     };
   },
 };

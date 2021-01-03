@@ -13,6 +13,7 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
+  IKeycodeCategory,
 } from './hid';
 import keycodeArray from './assets/keycodes.json';
 import basic from './assets/keycodes-basic.json';
@@ -31,7 +32,6 @@ import {
   IDynamicKeymapReadBufferRequest,
   IDynamicKeymapReadBufferResponse,
 } from './commands';
-import { off } from 'process';
 
 const basicKeycodes: IKeycodeInfo[] = (basic as IKeycodeCategoryInfo).codes.map(
   (code) =>

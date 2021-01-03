@@ -4,8 +4,9 @@ import {
   KEYCODEKEY_UPDATE_HOVER_KEY,
   KEYCODEKEY_UPDATE_SELECTED_KEY,
   KEYCODES_ACTIONS,
-  KEYCODES_UPDATE_CATEGORY_INDEX,
+  KEYCODES_UPDATE_CATEGORY,
   KEYCODES_UPDATE_MACRO,
+  KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -14,8 +15,8 @@ import {
   HID_OPEN_KEYBOARD,
   HID_UPDATE_KEYBOARD_LIST,
 } from '../actions/hid.action';
-import { MacroKeycodeType } from '../components/configure/keycodes/Keycodes.container';
-import { IKeyboard } from '../services/hid/hid';
+import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
 
 import { INIT_STATE, RootState } from './state';
 
@@ -66,13 +67,35 @@ const hidReducer = (action: Action, draft: RootState) => {
 const keycodesReducer = (action: Action, draft: RootState) => {
   // TODO: type-safe
   switch (action.type) {
-    case KEYCODES_UPDATE_CATEGORY_INDEX: {
-      draft.keycodes.categoryIndex = action.value;
+    case KEYCODES_UPDATE_CATEGORY: {
+      draft.keycodes.category = action.value;
       break;
     }
     case KEYCODES_UPDATE_MACRO: {
-      const code = action.value.code as MacroKeycodeType;
+      const code = action.value.code;
       draft.entities.macros[code] = action.value.text;
+      break;
+    }
+    case KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES: {
+      const setKeycodeInfoByCategory = (category: string) => {
+        draft.keycodes.keys[
+          category
+        ] = draft.hid.instance
+          .getKeycodeCandidatesByCategory(category)
+          .map<Key>((keycodeInfo) => ({
+            code: keycodeInfo.code,
+            label: keycodeInfo.label,
+            meta: '',
+            keycodeInfo,
+          }));
+      };
+      setKeycodeInfoByCategory(IKeycodeCategory.BASIC);
+      setKeycodeInfoByCategory(IKeycodeCategory.LAYERS);
+      setKeycodeInfoByCategory(IKeycodeCategory.LIGHTING);
+      setKeycodeInfoByCategory(IKeycodeCategory.MEDIA);
+      setKeycodeInfoByCategory(IKeycodeCategory.NUMBER);
+      setKeycodeInfoByCategory(IKeycodeCategory.SPECIAL);
+      setKeycodeInfoByCategory(IKeycodeCategory.MACRO);
       break;
     }
   }
