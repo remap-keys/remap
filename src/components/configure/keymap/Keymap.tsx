@@ -1,6 +1,6 @@
 import React from 'react';
 import './Keymap.scss';
-import Keyboards from '../keyboards/Keyboards';
+import Keyboards from '../keyboards/Keyboards.container';
 import Keydiff from '../keydiff/Keydiff';
 
 //import kbdConfig from '../../../assets/files/lunakey-mini.json';

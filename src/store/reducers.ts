@@ -13,6 +13,7 @@ import {
   HID_CONNECT_KEYBOARD,
   HID_DISCONNECT_KEYBOARD,
   HID_OPEN_KEYBOARD,
+  HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
 } from '../actions/hid.action';
 import { Key } from '../components/configure/keycodes/Keycodes.container';
@@ -54,6 +55,11 @@ const hidReducer = (action: Action, draft: RootState) => {
     case HID_OPEN_KEYBOARD: {
       const keyboard: IKeyboard = action.value.keyboard;
       draft.hid.openedKeyboard = keyboard;
+      break;
+    }
+    case HID_UPDATE_KEYBOARD_LAYER_COUNT: {
+      const layerCount = action.value.layerCount;
+      draft.entities.device.layerCount = layerCount;
       break;
     }
     case HID_UPDATE_KEYBOARD_LIST: {

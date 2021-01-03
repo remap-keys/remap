@@ -8,6 +8,7 @@ export type RootState = {
       vendorId: number;
       productId: number;
       name: string | null;
+      layerCount: number;
     };
     macros: {
       [id: number]: string;
@@ -17,6 +18,9 @@ export type RootState = {
     instance: IHid;
     keyboards: IKeyboard[]; // authorized keyboard list
     openedKeyboard: IKeyboard | null;
+  };
+  keyboards: {
+    layerCount: number;
   };
   keycodes: {
     category: string;
@@ -41,6 +45,7 @@ export const INIT_STATE: RootState = {
       vendorId: NaN,
       productId: NaN,
       name: null,
+      layerCount: NaN,
     },
     macros: {},
   },
@@ -48,6 +53,9 @@ export const INIT_STATE: RootState = {
     instance: webHid,
     keyboards: [],
     openedKeyboard: null, // hid.keyboards[i]
+  },
+  keyboards: {
+    layerCount: NaN,
   },
   keycodes: {
     category: IKeycodeCategory.BASIC,

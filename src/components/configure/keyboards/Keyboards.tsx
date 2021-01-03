@@ -4,14 +4,21 @@ import KeyboardModel from '../../../models/KeyboardModel';
 import { Button, Chip } from '@material-ui/core';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap';
+import {
+  KeyboardsActionsType,
+  KeyboardsStateType,
+} from './Keyboards.container';
 
-const layers = [1, 2, 3, 4] as const;
 const BORDER_WIDTH = 4;
 const LAYOUT_PADDING = 16;
 
-interface IKeyboardsProps {
+type OwnProps = {
   config: any; // Keyboard Configuration File (.json)
-}
+};
+
+type KeyboardsProps = OwnProps &
+  Partial<KeyboardsActionsType> &
+  Partial<KeyboardsStateType>;
 
 interface IKeyboardsState {
   clickedKeyIndex: number;
@@ -20,10 +27,10 @@ interface IKeyboardsState {
 }
 
 export default class Keyboards extends React.Component<
-  IKeyboardsProps,
+  KeyboardsProps,
   IKeyboardsState
 > {
-  constructor(props: IKeyboardsProps | Readonly<IKeyboardsProps>) {
+  constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
     this.state = {
       keyboard: new KeyboardModel(this.props.config.layouts.keymap),
@@ -56,7 +63,7 @@ export default class Keyboards extends React.Component<
           <div className="layers">
             <div className="layer">
               <span>LAYER</span>
-              {layers.map((layer) => {
+              {this.props.layers!.map((layer) => {
                 return (
                   <Chip
                     key={layer}
