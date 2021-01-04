@@ -52,3 +52,21 @@ export const KeycodeKeyActions = {
     };
   },
 };
+
+export const NOTIFICATION_ACTIONS = '@Notification';
+export const NOTIFICATION_ADD_ERROR = `${NOTIFICATION_ACTIONS}/AddError`;
+export const NOTIFICATION_ADD_WARN = `${NOTIFICATION_ACTIONS}/AddWarn`;
+export const NotificationActions = {
+  addError: (message: string) => {
+    return {
+      type: NOTIFICATION_ADD_ERROR,
+      value: message,
+    };
+  },
+  addWarn: (message: string) => {
+    return {
+      type: NOTIFICATION_ADD_WARN,
+      value: message,
+    };
+  },
+};
