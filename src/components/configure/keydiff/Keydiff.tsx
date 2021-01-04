@@ -64,7 +64,7 @@ export default class Keydiff extends React.Component<IKeydiffProps, {}> {
                   index={0}
                   labels={[
                     ['', '', ''],
-                    ['', this.props.origin.label, ''],
+                    ['', this.props.origin.pos, ''],
                     ['', '', ''],
                   ]}
                   style={this.props.origin.styleAbsolute}
@@ -83,7 +83,7 @@ export default class Keydiff extends React.Component<IKeydiffProps, {}> {
                   index={1}
                   labels={[
                     ['', '', ''],
-                    ['', this.props.destination.label, ''],
+                    ['', this.props.destination.pos, ''],
                     ['', '', ''],
                   ]}
                   style={this.props.destination.styleAbsolute}

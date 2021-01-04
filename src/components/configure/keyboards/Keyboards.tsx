@@ -23,7 +23,6 @@ type KeyboardsProps = OwnProps &
 interface IKeyboardsState {
   clickedKeyIndex: number;
   keyboard: KeyboardModel;
-  selectedLayer: number;
 }
 
 export default class Keyboards extends React.Component<
@@ -34,7 +33,6 @@ export default class Keyboards extends React.Component<
     super(props);
     this.state = {
       keyboard: new KeyboardModel(this.props.config.layouts.keymap),
-      selectedLayer: 1,
       clickedKeyIndex: NaN,
     };
   }
@@ -52,7 +50,7 @@ export default class Keyboards extends React.Component<
   };
 
   onClickLayer = (layer: number) => {
-    this.setState({ selectedLayer: layer });
+    this.props.onClickLayerNumber!(layer);
     this.clearClickedKeyIndex();
   };
 
@@ -71,12 +69,12 @@ export default class Keyboards extends React.Component<
                     size="medium"
                     label={layer}
                     color={
-                      this.state.selectedLayer == layer ? 'primary' : undefined
+                      this.props.selectedLayer == layer ? 'primary' : undefined
                     }
-                    clickable={this.state.selectedLayer != layer}
+                    clickable={this.props.selectedLayer != layer}
                     onClick={this.onClickLayer.bind(this, layer)}
                     className={
-                      this.state.selectedLayer != layer
+                      this.props.selectedLayer != layer
                         ? 'unselected-layer'
                         : 'selected-layer'
                     }
@@ -111,14 +109,18 @@ export default class Keyboards extends React.Component<
             >
               {this.state.keyboard.keymap.map(
                 (key: KeyModel, index: number) => {
+                  const layer = this.props.selectedLayer!;
+                  const pos = key.pos;
+                  const info = this.props.keymaps![layer][pos].keycodeInfo!;
+                  const label = info.label;
                   return (
                     <Keycap
                       key={index}
                       index={index}
                       labels={[
-                        [key.label, '', ''],
+                        [label, '', ''],
                         ['', '', ''],
-                        ['', '', ''],
+                        ['', '', pos],
                       ]}
                       size="1u"
                       style={key.styleAbsolute}

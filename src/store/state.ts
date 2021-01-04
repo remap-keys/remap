@@ -1,5 +1,10 @@
 import { Key } from '../components/configure/keycodes/Keycodes.container';
-import { IHid, IKeyboard, IKeycodeCategory } from '../services/hid/hid';
+import {
+  IHid,
+  IKeyboard,
+  IKeycodeCategory,
+  IKeymap,
+} from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
 
 export type RootState = {
@@ -9,6 +14,11 @@ export type RootState = {
       productId: number;
       name: string | null;
       layerCount: number;
+      rowCount: number;
+      columnCount: number;
+      keymaps: {
+        [pos: string]: IKeymap;
+      }[];
     };
     macros: {
       [id: number]: string;
@@ -20,7 +30,7 @@ export type RootState = {
     openedKeyboard: IKeyboard | null;
   };
   keyboards: {
-    layerCount: number;
+    selectedLayer: number;
   };
   keycodes: {
     category: string;
@@ -46,6 +56,9 @@ export const INIT_STATE: RootState = {
       productId: NaN,
       name: null,
       layerCount: NaN,
+      rowCount: 8, // TODO: update by config file
+      columnCount: 6, // TODO: update by config file
+      keymaps: [],
     },
     macros: {},
   },
@@ -55,7 +68,7 @@ export const INIT_STATE: RootState = {
     openedKeyboard: null, // hid.keyboards[i]
   },
   keyboards: {
-    layerCount: NaN,
+    selectedLayer: NaN,
   },
   keycodes: {
     category: IKeycodeCategory.BASIC,

@@ -16,7 +16,7 @@ export type KeyOp = {
 };
 
 export default class KeyModel {
-  readonly label: string;
+  readonly pos: string;
   readonly top: number;
   readonly left: number;
   readonly height: number;
@@ -31,7 +31,7 @@ export default class KeyModel {
   readonly height2: number;
   readonly width2: number;
   constructor(
-    label: string,
+    location: string, // "col,row"
     x: number,
     y: number,
     w: number,
@@ -45,7 +45,7 @@ export default class KeyModel {
     w2: number = NaN,
     h2: number = NaN
   ) {
-    this.label = label;
+    this.pos = location;
     this.top = y * KEY_SIZE;
     this.left = x * KEY_SIZE;
     this.height = h * KEY_SIZE;

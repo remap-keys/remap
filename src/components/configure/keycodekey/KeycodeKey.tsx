@@ -6,11 +6,11 @@ import {
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
 
-type OwnProps = {
+export type KeycodeKeyOwnProps = {
   value: Key;
 };
 
-export type KeycodeKeyProps = OwnProps &
+export type KeycodeKeyProps = KeycodeKeyOwnProps &
   Partial<KeycodeKeyActionsType> &
   Partial<KeycodeKeyStateType>;
 

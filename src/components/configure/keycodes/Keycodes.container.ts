@@ -11,15 +11,7 @@ export type Key = {
   keycodeInfo: IKeycodeInfo;
 };
 
-export type KeycodesStateType = {
-  category: string;
-  keys: { [category: string]: Key[] };
-  selectedKey: Key | null;
-  hoverKey: Key | null;
-  macroText: string | null;
-};
-
-const mapStateToProps = (state: RootState): KeycodesStateType => {
+const mapStateToProps = (state: RootState) => {
   const code = state.keycodeKey.selectedKey?.code;
   let macroText: string | null;
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
@@ -38,6 +30,7 @@ const mapStateToProps = (state: RootState): KeycodesStateType => {
     macroText,
   };
 };
+export type KeycodesStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = {
   selectCategory: KeycodesActions.updateCategory,

@@ -7,6 +7,8 @@ import {
   KEYCODES_UPDATE_CATEGORY,
   KEYCODES_UPDATE_MACRO,
   KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
+  KEYBOARDS_UPDATE_SELECTED_LAYER,
+  KEYBOARDS_ACTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -15,6 +17,7 @@ import {
   HID_OPEN_KEYBOARD,
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
+  HID_UPDATE_KEYMAPS,
 } from '../actions/hid.action';
 import { Key } from '../components/configure/keycodes/Keycodes.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
@@ -27,6 +30,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
   immer(state, (draft) => {
     if (action.type.startsWith(KEYCODES_ACTIONS)) {
       keycodesReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_ACTIONS)) {
+      keyboardsReducer(action, draft);
     } else if (action.type.startsWith(KEYCODEKEY_ACTIONS)) {
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(HID_ACTIONS)) {
@@ -65,6 +70,20 @@ const hidReducer = (action: Action, draft: RootState) => {
     case HID_UPDATE_KEYBOARD_LIST: {
       const keyboards: IKeyboard[] = action.value.keyboards;
       draft.hid.keyboards = keyboards;
+      break;
+    }
+    case HID_UPDATE_KEYMAPS: {
+      draft.entities.device.keymaps = action.value.keymaps;
+      break;
+    }
+  }
+};
+
+const keyboardsReducer = (action: Action, draft: RootState) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case KEYBOARDS_UPDATE_SELECTED_LAYER: {
+      draft.keyboards.selectedLayer = action.value;
       break;
     }
   }

@@ -3,10 +3,10 @@ import Configure from './Configure';
 import { RootState } from '../../store/state';
 import { hidActionsThunk } from '../../actions/hid.action';
 
-export type ConfigureStateType = {};
-const mapStateToProps = (state: RootState): ConfigureStateType => {
+const mapStateToProps = (state: RootState) => {
   return {};
 };
+export type ConfigureStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {

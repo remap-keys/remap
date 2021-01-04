@@ -5,14 +5,12 @@ import { KeycodesActions } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard, IKeycodeCategory } from '../../../services/hid/hid';
 
-export type KeyboardListStateType = {
-  keyboards: IKeyboard[];
-};
-const mapStateToProps = (state: RootState): KeyboardListStateType => {
+const mapStateToProps = (state: RootState) => {
   return {
     keyboards: state.hid.keyboards || [],
   };
 };
+export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
@@ -25,7 +23,6 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
   };
 };
-
 export type KeyboardListActionsType = ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeyboardList);

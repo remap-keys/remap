@@ -4,15 +4,7 @@ import { RootState } from '../../../store/state';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard } from '../../../services/hid/hid';
 
-export type HeaderStateType = {
-  keyboards: IKeyboard[];
-  openedKeyboard: IKeyboard | null;
-  productId: number;
-  productName: string;
-  vendorId: number;
-  showKeyboardList: boolean;
-};
-const mapStateToProps = (state: RootState): HeaderStateType => {
+const mapStateToProps = (state: RootState) => {
   const kbd = state.hid.openedKeyboard;
   const info = kbd?.getInformation();
   return {
@@ -24,6 +16,7 @@ const mapStateToProps = (state: RootState): HeaderStateType => {
     showKeyboardList: !!kbd,
   };
 };
+export type HeaderStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
@@ -33,7 +26,6 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(hidActionsThunk.connectAnotherKeyboard()),
   };
 };
-
 export type HeaderActionsType = ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

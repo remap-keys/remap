@@ -54,8 +54,12 @@ export interface IKeymap {
   keycodeInfo?: IKeycodeInfo;
 }
 
+export type IKeymaps = {
+  [pos: string]: IKeymap;
+};
+
 export interface IFetchKeymapResult extends IResult {
-  keymap?: { [pos: string]: IKeymap };
+  keymap?: IKeymaps;
 }
 
 export interface IKeyboard {
