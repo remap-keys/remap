@@ -111,8 +111,14 @@ export default class Keyboards extends React.Component<
                 (key: KeyModel, index: number) => {
                   const layer = this.props.selectedLayer!;
                   const pos = key.pos;
-                  const info = this.props.keymaps![layer][pos].keycodeInfo!;
-                  const label = info.label;
+                  const keymap = this.props.keymaps![layer][pos];
+                  let label;
+                  if (keymap.isAny) {
+                    label = 'Any';
+                  } else {
+                    const info = this.props.keymaps![layer][pos].keycodeInfo!;
+                    label = info.label;
+                  }
                   return (
                     <Keycap
                       key={index}
