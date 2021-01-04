@@ -63,6 +63,7 @@ export interface IFetchKeymapResult extends IResult {
 }
 
 export interface IKeyboard {
+  getDevice(): any;
   getHid(): IHid;
   getInformation(): IDeviceInformation;
   open(): Promise<IResult>;

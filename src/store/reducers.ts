@@ -9,6 +9,9 @@ import {
   KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
   KEYBOARDS_UPDATE_SELECTED_LAYER,
   KEYBOARDS_ACTIONS,
+  NOTIFICATION_ACTIONS,
+  NOTIFICATION_ADD_ERROR,
+  NOTIFICATION_ADD_WARN,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -36,6 +39,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(HID_ACTIONS)) {
       hidReducer(action, draft);
+    } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
+      notificationReducer(action, draft);
     }
   });
 
@@ -139,4 +144,19 @@ const keycodekeyReducer = (action: Action, draft: RootState) => {
     }
   }
 };
+
+const notificationReducer = (action: Action, draft: RootState) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case NOTIFICATION_ADD_ERROR: {
+      // TODO: do something
+      break;
+    }
+    case NOTIFICATION_ADD_WARN: {
+      // TODO: do something
+      break;
+    }
+  }
+};
+
 export default reducers;
