@@ -1,5 +1,16 @@
 import { Key } from '../components/configure/keycodes/Keycodes.container';
 
+export const KEYBOARDS_ACTIONS = '@Keyboards';
+export const KEYBOARDS_UPDATE_SELECTED_LAYER = `${KEYBOARDS_ACTIONS}/UpdateSelectedLayer`;
+export const KeyboardsActions = {
+  updateSelectedLayer: (layer: number) => {
+    return {
+      type: KEYBOARDS_UPDATE_SELECTED_LAYER,
+      value: layer,
+    };
+  },
+};
+
 export const KEYCODES_ACTIONS = '@Keycodes';
 export const KEYCODES_UPDATE_CATEGORY = `${KEYCODES_ACTIONS}/UpdateCategory`;
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;

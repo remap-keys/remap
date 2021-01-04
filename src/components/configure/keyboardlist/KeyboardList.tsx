@@ -1,5 +1,5 @@
 import React from 'react';
-import { IKeyboard } from '../../../services/hid/hid';
+import { IKeyboard, IResult } from '../../../services/hid/hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
   KeyboardListActionsType,
@@ -19,6 +19,7 @@ export default class KeyboardList extends React.Component<
   constructor(props: KeyboardListProps | Readonly<KeyboardListProps>) {
     super(props);
   }
+
   render() {
     return (
       <div className="keyboardlist-wrapper">
@@ -30,7 +31,7 @@ export default class KeyboardList extends React.Component<
               <div
                 key={index}
                 className="keyboard-item"
-                onClick={this.props.onClickItem!.bind(this, kbd)}
+                onClick={this.props.onClickItem?.bind(this, kbd)}
               >
                 <h3>{info.productName}</h3>
                 <div className="device-ids">

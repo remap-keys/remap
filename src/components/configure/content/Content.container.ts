@@ -1,21 +1,16 @@
 import { connect } from 'react-redux';
 import Content from './Content';
 import { RootState } from '../../../store/state';
-import { IKeyboard } from '../../../services/hid/hid';
 
-export type ContentStateType = {
-  openedKeyboard: IKeyboard | null;
-  keyboards: IKeyboard[];
-};
-const mapStateToProps = (state: RootState): ContentStateType => {
+const mapStateToProps = (state: RootState) => {
   return {
     openedKeyboard: state.hid.openedKeyboard,
     keyboards: state.hid.keyboards,
   };
 };
+export type ContentStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = {};
-
 export type ContentActionsType = typeof mapDispatchToProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
