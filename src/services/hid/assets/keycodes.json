@@ -5,7 +5,7 @@
       "long": "KC_NO",
       "short": "KC_NO"
     },
-    "label": "NO"
+    "label": ""
   },
   {
     "code": 1,
@@ -13,7 +13,7 @@
       "long": "KC_TRANSPARENT",
       "short": "KC_TRNS"
     },
-    "label": "TRANSPARENT"
+    "label": "▽"
   },
   {
     "code": 2,
@@ -21,7 +21,7 @@
       "long": "KC_POST_FAIL",
       "short": "KC_POST_FAIL"
     },
-    "label": "POST_FAIL"
+    "label": "PFAIL"
   },
   {
     "code": 3,
@@ -29,7 +29,7 @@
       "long": "KC_UNDEFINED",
       "short": "KC_UNDEFINED"
     },
-    "label": "UNDEFINED"
+    "label": "UNDEF"
   },
   {
     "code": 4,
@@ -325,7 +325,7 @@
       "long": "KC_ENTER",
       "short": "KC_ENT"
     },
-    "label": "ENTER"
+    "label": "Enter"
   },
   {
     "code": 41,
@@ -333,7 +333,7 @@
       "long": "KC_ESCAPE",
       "short": "KC_ESC"
     },
-    "label": "ESCAPE"
+    "label": "Esc"
   },
   {
     "code": 42,
@@ -341,7 +341,7 @@
       "long": "KC_BSPACE",
       "short": "KC_BSPC"
     },
-    "label": "BSPACE"
+    "label": "Backspace"
   },
   {
     "code": 43,
@@ -349,7 +349,7 @@
       "long": "KC_TAB",
       "short": "KC_TAB"
     },
-    "label": "TAB"
+    "label": "Tab"
   },
   {
     "code": 44,
@@ -357,7 +357,7 @@
       "long": "KC_SPACE",
       "short": "KC_SPC"
     },
-    "label": "SPACE"
+    "label": "Space"
   },
   {
     "code": 45,
@@ -365,7 +365,7 @@
       "long": "KC_MINUS",
       "short": "KC_MINS"
     },
-    "label": "MINUS"
+    "label": "-"
   },
   {
     "code": 46,
@@ -373,7 +373,7 @@
       "long": "KC_EQUAL",
       "short": "KC_EQL"
     },
-    "label": "EQUAL"
+    "label": "="
   },
   {
     "code": 47,
@@ -381,7 +381,7 @@
       "long": "KC_LBRACKET",
       "short": "KC_LBRC"
     },
-    "label": "LBRACKET"
+    "label": "["
   },
   {
     "code": 48,
@@ -389,7 +389,7 @@
       "long": "KC_RBRACKET",
       "short": "KC_RBRC"
     },
-    "label": "RBRACKET"
+    "label": "]"
   },
   {
     "code": 49,
@@ -397,7 +397,7 @@
       "long": "KC_BSLASH",
       "short": "KC_BSLS"
     },
-    "label": "BSLASH"
+    "label": "\\"
   },
   {
     "code": 50,
@@ -405,7 +405,7 @@
       "long": "KC_NONUS_HASH",
       "short": "KC_NUHS"
     },
-    "label": "NONUS_HASH"
+    "label": "NUHS"
   },
   {
     "code": 51,
@@ -413,7 +413,7 @@
       "long": "KC_SCOLON",
       "short": "KC_SCLN"
     },
-    "label": "SCOLON"
+    "label": ";"
   },
   {
     "code": 52,
@@ -421,7 +421,7 @@
       "long": "KC_QUOTE",
       "short": "KC_QUOT"
     },
-    "label": "QUOTE"
+    "label": "'"
   },
   {
     "code": 53,
@@ -429,7 +429,7 @@
       "long": "KC_GRAVE",
       "short": "KC_ZKHK"
     },
-    "label": "GRAVE"
+    "label": "`"
   },
   {
     "code": 54,
@@ -437,7 +437,7 @@
       "long": "KC_COMMA",
       "short": "KC_COMM"
     },
-    "label": "COMMA"
+    "label": ","
   },
   {
     "code": 55,
@@ -445,7 +445,7 @@
       "long": "KC_DOT",
       "short": "KC_DOT"
     },
-    "label": "DOT"
+    "label": "."
   },
   {
     "code": 56,
@@ -453,7 +453,7 @@
       "long": "KC_SLASH",
       "short": "KC_SLSH"
     },
-    "label": "SLASH"
+    "label": "/"
   },
   {
     "code": 57,
@@ -461,7 +461,7 @@
       "long": "KC_CAPSLOCK",
       "short": "KC_CAPS"
     },
-    "label": "CAPSLOCK"
+    "label": "Caps Lock"
   },
   {
     "code": 58,
@@ -565,7 +565,7 @@
       "long": "KC_PSCREEN",
       "short": "KC_PSCR"
     },
-    "label": "PSCREEN"
+    "label": "Print Screen"
   },
   {
     "code": 71,
@@ -573,7 +573,7 @@
       "long": "KC_SCROLLLOCK",
       "short": "KC_BRMD"
     },
-    "label": "SCROLLLOCK"
+    "label": "Scroll Lock"
   },
   {
     "code": 72,
@@ -581,7 +581,7 @@
       "long": "KC_PAUSE",
       "short": "KC_BRMU"
     },
-    "label": "PAUSE"
+    "label": "Pause"
   },
   {
     "code": 73,
@@ -589,7 +589,7 @@
       "long": "KC_INSERT",
       "short": "KC_INS"
     },
-    "label": "INSERT"
+    "label": "Insert"
   },
   {
     "code": 74,
@@ -597,7 +597,7 @@
       "long": "KC_HOME",
       "short": "KC_HOME"
     },
-    "label": "HOME"
+    "label": "Home"
   },
   {
     "code": 75,
@@ -605,7 +605,7 @@
       "long": "KC_PGUP",
       "short": "KC_PGUP"
     },
-    "label": "PGUP"
+    "label": "Page Up"
   },
   {
     "code": 76,
@@ -613,7 +613,7 @@
       "long": "KC_DELETE",
       "short": "KC_DEL"
     },
-    "label": "DELETE"
+    "label": "Del"
   },
   {
     "code": 77,
@@ -621,7 +621,7 @@
       "long": "KC_END",
       "short": "KC_END"
     },
-    "label": "END"
+    "label": "End"
   },
   {
     "code": 78,
@@ -629,7 +629,7 @@
       "long": "KC_PGDOWN",
       "short": "KC_PGDN"
     },
-    "label": "PGDOWN"
+    "label": "Page Down"
   },
   {
     "code": 79,
@@ -637,7 +637,7 @@
       "long": "KC_RIGHT",
       "short": "KC_RGHT"
     },
-    "label": "RIGHT"
+    "label": "Right"
   },
   {
     "code": 80,
@@ -645,7 +645,7 @@
       "long": "KC_LEFT",
       "short": "KC_LEFT"
     },
-    "label": "LEFT"
+    "label": "Left"
   },
   {
     "code": 81,
@@ -653,7 +653,7 @@
       "long": "KC_DOWN",
       "short": "KC_DOWN"
     },
-    "label": "DOWN"
+    "label": "Down"
   },
   {
     "code": 82,
@@ -661,7 +661,7 @@
       "long": "KC_UP",
       "short": "KC_UP"
     },
-    "label": "UP"
+    "label": "Up"
   },
   {
     "code": 83,
@@ -669,7 +669,7 @@
       "long": "KC_NUMLOCK",
       "short": "KC_NLCK"
     },
-    "label": "NUMLOCK"
+    "label": "Num Lock"
   },
   {
     "code": 84,
@@ -677,7 +677,7 @@
       "long": "KC_KP_SLASH",
       "short": "KC_PSLS"
     },
-    "label": "KP_SLASH"
+    "label": "Num /"
   },
   {
     "code": 85,
@@ -685,7 +685,7 @@
       "long": "KC_KP_ASTERISK",
       "short": "KC_PAST"
     },
-    "label": "KP_ASTERISK"
+    "label": "Num *"
   },
   {
     "code": 86,
@@ -693,7 +693,7 @@
       "long": "KC_KP_MINUS",
       "short": "KC_PMNS"
     },
-    "label": "KP_MINUS"
+    "label": "Num -"
   },
   {
     "code": 87,
@@ -701,7 +701,7 @@
       "long": "KC_KP_PLUS",
       "short": "KC_PPLS"
     },
-    "label": "KP_PLUS"
+    "label": "Num +"
   },
   {
     "code": 88,
@@ -709,7 +709,7 @@
       "long": "KC_KP_ENTER",
       "short": "KC_PENT"
     },
-    "label": "KP_ENTER"
+    "label": "Num Enter"
   },
   {
     "code": 89,
@@ -717,7 +717,7 @@
       "long": "KC_KP_1",
       "short": "KC_P1"
     },
-    "label": "KP_1"
+    "label": "Num 1"
   },
   {
     "code": 90,
@@ -725,7 +725,7 @@
       "long": "KC_KP_2",
       "short": "KC_P2"
     },
-    "label": "KP_2"
+    "label": "Num 2"
   },
   {
     "code": 91,
@@ -733,7 +733,7 @@
       "long": "KC_KP_3",
       "short": "KC_P3"
     },
-    "label": "KP_3"
+    "label": "Num 3"
   },
   {
     "code": 92,
@@ -741,7 +741,7 @@
       "long": "KC_KP_4",
       "short": "KC_P4"
     },
-    "label": "KP_4"
+    "label": "Num 4"
   },
   {
     "code": 93,
@@ -749,7 +749,7 @@
       "long": "KC_KP_5",
       "short": "KC_P5"
     },
-    "label": "KP_5"
+    "label": "Num 5"
   },
   {
     "code": 94,
@@ -757,7 +757,7 @@
       "long": "KC_KP_6",
       "short": "KC_P6"
     },
-    "label": "KP_6"
+    "label": "Num 6"
   },
   {
     "code": 95,
@@ -765,7 +765,7 @@
       "long": "KC_KP_7",
       "short": "KC_P7"
     },
-    "label": "KP_7"
+    "label": "Num 7"
   },
   {
     "code": 96,
@@ -773,7 +773,7 @@
       "long": "KC_KP_8",
       "short": "KC_P8"
     },
-    "label": "KP_8"
+    "label": "Num 8"
   },
   {
     "code": 97,
@@ -781,7 +781,7 @@
       "long": "KC_KP_9",
       "short": "KC_P9"
     },
-    "label": "KP_9"
+    "label": "Num 9"
   },
   {
     "code": 98,
@@ -789,7 +789,7 @@
       "long": "KC_KP_0",
       "short": "KC_P0"
     },
-    "label": "KP_0"
+    "label": "Num 0"
   },
   {
     "code": 99,
@@ -797,7 +797,7 @@
       "long": "KC_KP_DOT",
       "short": "KC_PDOT"
     },
-    "label": "KP_DOT"
+    "label": "Num ."
   },
   {
     "code": 100,
@@ -805,7 +805,7 @@
       "long": "KC_NONUS_BSLASH",
       "short": "KC_NUBS"
     },
-    "label": "NONUS_BSLASH"
+    "label": "NUBS"
   },
   {
     "code": 101,
@@ -813,7 +813,7 @@
       "long": "KC_APPLICATION",
       "short": "KC_APP"
     },
-    "label": "APPLICATION"
+    "label": "App"
   },
   {
     "code": 102,
@@ -821,7 +821,7 @@
       "long": "KC_POWER",
       "short": "KC_POWER"
     },
-    "label": "POWER"
+    "label": "Power"
   },
   {
     "code": 103,
@@ -829,7 +829,7 @@
       "long": "KC_KP_EQUAL",
       "short": "KC_PEQL"
     },
-    "label": "KP_EQUAL"
+    "label": "Num ="
   },
   {
     "code": 104,
@@ -933,7 +933,7 @@
       "long": "KC_EXECUTE",
       "short": "KC_EXEC"
     },
-    "label": "EXECUTE"
+    "label": "Execute"
   },
   {
     "code": 117,
@@ -941,7 +941,7 @@
       "long": "KC_HELP",
       "short": "KC_HELP"
     },
-    "label": "HELP"
+    "label": "Help"
   },
   {
     "code": 118,
@@ -949,7 +949,7 @@
       "long": "KC_MENU",
       "short": "KC_MENU"
     },
-    "label": "MENU"
+    "label": "Menu"
   },
   {
     "code": 119,
@@ -957,7 +957,7 @@
       "long": "KC_SELECT",
       "short": "KC_SLCT"
     },
-    "label": "SELECT"
+    "label": "Select"
   },
   {
     "code": 120,
@@ -965,7 +965,7 @@
       "long": "KC_STOP",
       "short": "KC_STOP"
     },
-    "label": "STOP"
+    "label": "Stop"
   },
   {
     "code": 121,
@@ -973,7 +973,7 @@
       "long": "KC_AGAIN",
       "short": "KC_AGIN"
     },
-    "label": "AGAIN"
+    "label": "Again"
   },
   {
     "code": 122,
@@ -981,7 +981,7 @@
       "long": "KC_UNDO",
       "short": "KC_UNDO"
     },
-    "label": "UNDO"
+    "label": "Undo"
   },
   {
     "code": 123,
@@ -989,7 +989,7 @@
       "long": "KC_CUT",
       "short": "KC_CUT"
     },
-    "label": "CUT"
+    "label": "Cut"
   },
   {
     "code": 124,
@@ -997,7 +997,7 @@
       "long": "KC_COPY",
       "short": "KC_COPY"
     },
-    "label": "COPY"
+    "label": "Copy"
   },
   {
     "code": 125,
@@ -1005,7 +1005,7 @@
       "long": "KC_PASTE",
       "short": "KC_PSTE"
     },
-    "label": "PASTE"
+    "label": "Paste"
   },
   {
     "code": 126,
@@ -1013,7 +1013,7 @@
       "long": "KC_FIND",
       "short": "KC_FIND"
     },
-    "label": "FIND"
+    "label": "Find"
   },
   {
     "code": 127,
@@ -1021,7 +1021,7 @@
       "long": "KC__MUTE",
       "short": "KC__MUTE"
     },
-    "label": "_MUTE"
+    "label": "Mute"
   },
   {
     "code": 128,
@@ -1029,7 +1029,7 @@
       "long": "KC__VOLUP",
       "short": "KC__VOLUP"
     },
-    "label": "_VOLUP"
+    "label": "Vol +"
   },
   {
     "code": 129,
@@ -1037,7 +1037,7 @@
       "long": "KC__VOLDOWN",
       "short": "KC__VOLDOWN"
     },
-    "label": "_VOLDOWN"
+    "label": "Vol -"
   },
   {
     "code": 130,
@@ -1045,7 +1045,7 @@
       "long": "KC_LOCKING_CAPS",
       "short": "KC_LCAP"
     },
-    "label": "LOCKING_CAPS"
+    "label": "Locking Caps Lock"
   },
   {
     "code": 131,
@@ -1053,7 +1053,7 @@
       "long": "KC_LOCKING_NUM",
       "short": "KC_LNUM"
     },
-    "label": "LOCKING_NUM"
+    "label": "Locking Num Lock"
   },
   {
     "code": 132,
@@ -1061,7 +1061,7 @@
       "long": "KC_LOCKING_SCROLL",
       "short": "KC_LSCR"
     },
-    "label": "LOCKING_SCROLL"
+    "label": "Locking Scroll Lock"
   },
   {
     "code": 133,
@@ -1069,7 +1069,7 @@
       "long": "KC_KP_COMMA",
       "short": "KC_PCMM"
     },
-    "label": "KP_COMMA"
+    "label": "Num ,"
   },
   {
     "code": 134,
@@ -1077,7 +1077,7 @@
       "long": "KC_KP_EQUAL_AS400",
       "short": "KC_KP_EQUAL_AS400"
     },
-    "label": "KP_EQUAL_AS400"
+    "label": "Num = AS400"
   },
   {
     "code": 135,
@@ -1085,7 +1085,7 @@
       "long": "KC_INT1",
       "short": "KC_RO"
     },
-    "label": "INT1"
+    "label": "Ro"
   },
   {
     "code": 136,
@@ -1093,7 +1093,7 @@
       "long": "KC_INT2",
       "short": "KC_KANA"
     },
-    "label": "INT2"
+    "label": "JIS Katakana/Hiragana"
   },
   {
     "code": 137,
@@ -1101,7 +1101,7 @@
       "long": "KC_INT3",
       "short": "KC_JYEN"
     },
-    "label": "INT3"
+    "label": "JIS YEN"
   },
   {
     "code": 138,
@@ -1109,7 +1109,7 @@
       "long": "KC_INT4",
       "short": "KC_HENK"
     },
-    "label": "INT4"
+    "label": "JIS Henkan"
   },
   {
     "code": 139,
@@ -1117,7 +1117,7 @@
       "long": "KC_INT5",
       "short": "KC_MHEN"
     },
-    "label": "INT5"
+    "label": "JIS Muhenkan"
   },
   {
     "code": 140,
@@ -1125,7 +1125,7 @@
       "long": "KC_INT6",
       "short": "KC_INT6"
     },
-    "label": "INT6"
+    "label": "JIS Numpad ,"
   },
   {
     "code": 141,
@@ -1133,7 +1133,7 @@
       "long": "KC_INT7",
       "short": "KC_INT7"
     },
-    "label": "INT7"
+    "label": "International 7"
   },
   {
     "code": 142,
@@ -1141,7 +1141,7 @@
       "long": "KC_INT8",
       "short": "KC_INT8"
     },
-    "label": "INT8"
+    "label": "International 8"
   },
   {
     "code": 143,
@@ -1149,7 +1149,7 @@
       "long": "KC_INT9",
       "short": "KC_INT9"
     },
-    "label": "INT9"
+    "label": "International 9"
   },
   {
     "code": 144,
@@ -1157,7 +1157,7 @@
       "long": "KC_LANG1",
       "short": "KC_HAEN"
     },
-    "label": "LANG1"
+    "label": "Hangul/English"
   },
   {
     "code": 145,
@@ -1165,7 +1165,7 @@
       "long": "KC_LANG2",
       "short": "KC_HANJ"
     },
-    "label": "LANG2"
+    "label": "Hanja"
   },
   {
     "code": 146,
@@ -1173,7 +1173,7 @@
       "long": "KC_LANG3",
       "short": "KC_LANG3"
     },
-    "label": "LANG3"
+    "label": "JIS Katakana"
   },
   {
     "code": 147,
@@ -1181,7 +1181,7 @@
       "long": "KC_LANG4",
       "short": "KC_LANG4"
     },
-    "label": "LANG4"
+    "label": "JIS Hiragana"
   },
   {
     "code": 148,
@@ -1189,7 +1189,7 @@
       "long": "KC_LANG5",
       "short": "KC_LANG5"
     },
-    "label": "LANG5"
+    "label": "JIS Zenkaku/Hankaku"
   },
   {
     "code": 149,
@@ -1197,7 +1197,7 @@
       "long": "KC_LANG6",
       "short": "KC_LANG6"
     },
-    "label": "LANG6"
+    "label": "Language 6"
   },
   {
     "code": 150,
@@ -1205,7 +1205,7 @@
       "long": "KC_LANG7",
       "short": "KC_LANG7"
     },
-    "label": "LANG7"
+    "label": "Language 7"
   },
   {
     "code": 151,
@@ -1213,7 +1213,7 @@
       "long": "KC_LANG8",
       "short": "KC_LANG8"
     },
-    "label": "LANG8"
+    "label": "Language 8"
   },
   {
     "code": 152,
@@ -1221,7 +1221,7 @@
       "long": "KC_LANG9",
       "short": "KC_LANG9"
     },
-    "label": "LANG9"
+    "label": "Language 9"
   },
   {
     "code": 153,
@@ -1229,7 +1229,7 @@
       "long": "KC_ALT_ERASE",
       "short": "KC_ERAS"
     },
-    "label": "ALT_ERASE"
+    "label": "Alt Erase"
   },
   {
     "code": 154,
@@ -1237,7 +1237,7 @@
       "long": "KC_SYSREQ",
       "short": "KC_SYSREQ"
     },
-    "label": "SYSREQ"
+    "label": "SysReq"
   },
   {
     "code": 155,
@@ -1245,7 +1245,7 @@
       "long": "KC_CANCEL",
       "short": "KC_CANCEL"
     },
-    "label": "CANCEL"
+    "label": "Cancel"
   },
   {
     "code": 156,
@@ -1253,7 +1253,7 @@
       "long": "KC_CLEAR",
       "short": "KC_CLR"
     },
-    "label": "CLEAR"
+    "label": "Clear"
   },
   {
     "code": 157,
@@ -1261,7 +1261,7 @@
       "long": "KC_PRIOR",
       "short": "KC_PRIOR"
     },
-    "label": "PRIOR"
+    "label": "Prior"
   },
   {
     "code": 158,
@@ -1269,7 +1269,7 @@
       "long": "KC_RETURN",
       "short": "KC_RETURN"
     },
-    "label": "RETURN"
+    "label": "Return"
   },
   {
     "code": 159,
@@ -1277,7 +1277,7 @@
       "long": "KC_SEPARATOR",
       "short": "KC_SEPARATOR"
     },
-    "label": "SEPARATOR"
+    "label": "Separator"
   },
   {
     "code": 160,
@@ -1285,7 +1285,7 @@
       "long": "KC_OUT",
       "short": "KC_OUT"
     },
-    "label": "OUT"
+    "label": "Out"
   },
   {
     "code": 161,
@@ -1293,7 +1293,7 @@
       "long": "KC_OPER",
       "short": "KC_OPER"
     },
-    "label": "OPER"
+    "label": "Oper"
   },
   {
     "code": 162,
@@ -1301,7 +1301,7 @@
       "long": "KC_CLEAR_AGAIN",
       "short": "KC_CLEAR_AGAIN"
     },
-    "label": "CLEAR_AGAIN"
+    "label": "Clear/Again"
   },
   {
     "code": 163,
@@ -1309,7 +1309,7 @@
       "long": "KC_CRSEL",
       "short": "KC_CRSEL"
     },
-    "label": "CRSEL"
+    "label": "CrSel/Props"
   },
   {
     "code": 164,
@@ -1317,7 +1317,7 @@
       "long": "KC_EXSEL",
       "short": "KC_EXSEL"
     },
-    "label": "EXSEL"
+    "label": "ExSel"
   },
   {
     "code": 165,
@@ -1325,7 +1325,7 @@
       "long": "KC_SYSTEM_POWER",
       "short": "KC_PWR"
     },
-    "label": "SYSTEM_POWER"
+    "label": "System Power Down"
   },
   {
     "code": 166,
@@ -1333,7 +1333,7 @@
       "long": "KC_SYSTEM_SLEEP",
       "short": "KC_SLEP"
     },
-    "label": "SYSTEM_SLEEP"
+    "label": "Sleep"
   },
   {
     "code": 167,
@@ -1341,7 +1341,7 @@
       "long": "KC_SYSTEM_WAKE",
       "short": "KC_WAKE"
     },
-    "label": "SYSTEM_WAKE"
+    "label": "Wake"
   },
   {
     "code": 168,
@@ -1349,7 +1349,7 @@
       "long": "KC_AUDIO_MUTE",
       "short": "KC_MUTE"
     },
-    "label": "AUDIO_MUTE"
+    "label": "Audio Mute"
   },
   {
     "code": 169,
@@ -1357,7 +1357,7 @@
       "long": "KC_AUDIO_VOL_UP",
       "short": "KC_VOLU"
     },
-    "label": "AUDIO_VOL_UP"
+    "label": "Audio Vol +"
   },
   {
     "code": 170,
@@ -1365,7 +1365,7 @@
       "long": "KC_AUDIO_VOL_DOWN",
       "short": "KC_VOLD"
     },
-    "label": "AUDIO_VOL_DOWN"
+    "label": "Audio Vol -"
   },
   {
     "code": 171,
@@ -1373,7 +1373,7 @@
       "long": "KC_MEDIA_NEXT_TRACK",
       "short": "KC_MNXT"
     },
-    "label": "MEDIA_NEXT_TRACK"
+    "label": "Next"
   },
   {
     "code": 172,
@@ -1381,7 +1381,7 @@
       "long": "KC_MEDIA_PREV_TRACK",
       "short": "KC_MPRV"
     },
-    "label": "MEDIA_PREV_TRACK"
+    "label": "Previous"
   },
   {
     "code": 173,
@@ -1389,7 +1389,7 @@
       "long": "KC_MEDIA_STOP",
       "short": "KC_MSTP"
     },
-    "label": "MEDIA_STOP"
+    "label": "Media Stop"
   },
   {
     "code": 174,
@@ -1397,7 +1397,7 @@
       "long": "KC_MEDIA_PLAY_PAUSE",
       "short": "KC_MPLY"
     },
-    "label": "MEDIA_PLAY_PAUSE"
+    "label": "Play"
   },
   {
     "code": 175,
@@ -1405,7 +1405,7 @@
       "long": "KC_MEDIA_SELECT",
       "short": "KC_MSEL"
     },
-    "label": "MEDIA_SELECT"
+    "label": "Select"
   },
   {
     "code": 176,
@@ -1413,7 +1413,7 @@
       "long": "KC_MEDIA_EJECT",
       "short": "KC_EJCT"
     },
-    "label": "MEDIA_EJECT"
+    "label": "Eject"
   },
   {
     "code": 177,
@@ -1421,7 +1421,7 @@
       "long": "KC_MAIL",
       "short": "KC_MAIL"
     },
-    "label": "MAIL"
+    "label": "Mail"
   },
   {
     "code": 178,
@@ -1429,7 +1429,7 @@
       "long": "KC_CALCULATOR",
       "short": "KC_CALC"
     },
-    "label": "CALCULATOR"
+    "label": "Calculator"
   },
   {
     "code": 179,
@@ -1437,7 +1437,7 @@
       "long": "KC_MY_COMPUTER",
       "short": "KC_MYCM"
     },
-    "label": "MY_COMPUTER"
+    "label": "My Computer"
   },
   {
     "code": 180,
@@ -1445,7 +1445,7 @@
       "long": "KC_WWW_SEARCH",
       "short": "KC_WSCH"
     },
-    "label": "WWW_SEARCH"
+    "label": "WWW Search"
   },
   {
     "code": 181,
@@ -1453,7 +1453,7 @@
       "long": "KC_WWW_HOME",
       "short": "KC_WHOM"
     },
-    "label": "WWW_HOME"
+    "label": "WWW Home"
   },
   {
     "code": 182,
@@ -1461,7 +1461,7 @@
       "long": "KC_WWW_BACK",
       "short": "KC_WBAK"
     },
-    "label": "WWW_BACK"
+    "label": "WWW Back"
   },
   {
     "code": 183,
@@ -1469,7 +1469,7 @@
       "long": "KC_WWW_FORWARD",
       "short": "KC_WFWD"
     },
-    "label": "WWW_FORWARD"
+    "label": "WWW Forward"
   },
   {
     "code": 184,
@@ -1477,7 +1477,7 @@
       "long": "KC_WWW_STOP",
       "short": "KC_WSTP"
     },
-    "label": "WWW_STOP"
+    "label": "WWW Stop"
   },
   {
     "code": 185,
@@ -1485,7 +1485,7 @@
       "long": "KC_WWW_REFRESH",
       "short": "KC_WREF"
     },
-    "label": "WWW_REFRESH"
+    "label": "WWW Refresh"
   },
   {
     "code": 186,
@@ -1493,7 +1493,7 @@
       "long": "KC_WWW_FAVORITES",
       "short": "KC_WFAV"
     },
-    "label": "WWW_FAVORITES"
+    "label": "WWW Favorite"
   },
   {
     "code": 187,
@@ -1501,7 +1501,7 @@
       "long": "KC_MEDIA_FAST_FORWARD",
       "short": "KC_MFFD"
     },
-    "label": "MEDIA_FAST_FORWARD"
+    "label": "Fast Forward"
   },
   {
     "code": 188,
@@ -1509,7 +1509,7 @@
       "long": "KC_MEDIA_REWIND",
       "short": "KC_MRWD"
     },
-    "label": "MEDIA_REWIND"
+    "label": "Rewind"
   },
   {
     "code": 189,
@@ -1517,7 +1517,7 @@
       "long": "KC_BRIGHTNESS_UP",
       "short": "KC_BRIU"
     },
-    "label": "BRIGHTNESS_UP"
+    "label": "Screen +"
   },
   {
     "code": 190,
@@ -1525,7 +1525,7 @@
       "long": "KC_BRIGHTNESS_DOWN",
       "short": "KC_BRID"
     },
-    "label": "BRIGHTNESS_DOWN"
+    "label": "Screen -"
   },
   {
     "code": 192,
@@ -1789,7 +1789,7 @@
       "long": "KC_LCTRL",
       "short": "KC_LCTL"
     },
-    "label": "LCTRL"
+    "label": "Left Ctrl"
   },
   {
     "code": 225,
@@ -1797,7 +1797,7 @@
       "long": "KC_LSHIFT",
       "short": "KC_LSFT"
     },
-    "label": "LSHIFT"
+    "label": "Left Shift"
   },
   {
     "code": 226,
@@ -1805,7 +1805,7 @@
       "long": "KC_LALT",
       "short": "KC_LOPT"
     },
-    "label": "LALT"
+    "label": "Left Alt"
   },
   {
     "code": 227,
@@ -1813,7 +1813,7 @@
       "long": "KC_LGUI",
       "short": "KC_LWIN"
     },
-    "label": "LGUI"
+    "label": "Left Win"
   },
   {
     "code": 228,
@@ -1821,7 +1821,7 @@
       "long": "KC_RCTRL",
       "short": "KC_RCTL"
     },
-    "label": "RCTRL"
+    "label": "Right Ctrl"
   },
   {
     "code": 229,
@@ -1829,7 +1829,7 @@
       "long": "KC_RSHIFT",
       "short": "KC_RSFT"
     },
-    "label": "RSHIFT"
+    "label": "Right Shift"
   },
   {
     "code": 230,
@@ -1837,7 +1837,7 @@
       "long": "KC_RALT",
       "short": "KC_ROPT"
     },
-    "label": "RALT"
+    "label": "Right Alt"
   },
   {
     "code": 231,
@@ -1845,7 +1845,7 @@
       "long": "KC_RGUI",
       "short": "KC_RWIN"
     },
-    "label": "RGUI"
+    "label": "Right Win"
   },
   {
     "code": 240,
@@ -1853,7 +1853,7 @@
       "long": "KC_MS_UP,",
       "short": "KC_MS_UP,"
     },
-    "label": "MS_UP,"
+    "label": "Mouse ↑"
   },
   {
     "code": 241,
@@ -1861,7 +1861,7 @@
       "long": "KC_MS_DOWN",
       "short": "KC_MS_D"
     },
-    "label": "MS_DOWN"
+    "label": "Mouse ↓"
   },
   {
     "code": 242,
@@ -1869,7 +1869,7 @@
       "long": "KC_MS_LEFT",
       "short": "KC_MS_L"
     },
-    "label": "MS_LEFT"
+    "label": "Mouse ←"
   },
   {
     "code": 243,
@@ -1877,7 +1877,7 @@
       "long": "KC_MS_RIGHT",
       "short": "KC_MS_R"
     },
-    "label": "MS_RIGHT"
+    "label": "Mouse →"
   },
   {
     "code": 244,
@@ -1885,7 +1885,7 @@
       "long": "KC_MS_BTN1",
       "short": "KC_BTN1"
     },
-    "label": "MS_BTN1"
+    "label": "Mouse Btn1"
   },
   {
     "code": 245,
@@ -1893,7 +1893,7 @@
       "long": "KC_MS_BTN2",
       "short": "KC_BTN2"
     },
-    "label": "MS_BTN2"
+    "label": "Mouse Btn2"
   },
   {
     "code": 246,
@@ -1901,7 +1901,7 @@
       "long": "KC_MS_BTN3",
       "short": "KC_BTN3"
     },
-    "label": "MS_BTN3"
+    "label": "Mouse Btn3"
   },
   {
     "code": 247,
@@ -1909,7 +1909,7 @@
       "long": "KC_MS_BTN4",
       "short": "KC_BTN4"
     },
-    "label": "MS_BTN4"
+    "label": "Mouse Btn4"
   },
   {
     "code": 248,
@@ -1917,7 +1917,7 @@
       "long": "KC_MS_BTN5",
       "short": "KC_BTN5"
     },
-    "label": "MS_BTN5"
+    "label": "Mouse Btn5"
   },
   {
     "code": 249,
@@ -1925,7 +1925,7 @@
       "long": "KC_MS_WH_UP",
       "short": "KC_WH_U"
     },
-    "label": "MS_WH_UP"
+    "label": "Mouse Wh ↑"
   },
   {
     "code": 250,
@@ -1933,7 +1933,7 @@
       "long": "KC_MS_WH_DOWN",
       "short": "KC_WH_D"
     },
-    "label": "MS_WH_DOWN"
+    "label": "Mouse Wh ↓"
   },
   {
     "code": 251,
@@ -1941,7 +1941,7 @@
       "long": "KC_MS_WH_LEFT",
       "short": "KC_WH_L"
     },
-    "label": "MS_WH_LEFT"
+    "label": "Mouse Wh ←"
   },
   {
     "code": 252,
@@ -1949,7 +1949,7 @@
       "long": "KC_MS_WH_RIGHT",
       "short": "KC_WH_R"
     },
-    "label": "MS_WH_RIGHT"
+    "label": "Mouse Wh →"
   },
   {
     "code": 253,
@@ -1957,7 +1957,7 @@
       "long": "KC_MS_ACCEL0",
       "short": "KC_ACL0"
     },
-    "label": "MS_ACCEL0"
+    "label": "Mouse Acc0"
   },
   {
     "code": 254,
@@ -1965,7 +1965,7 @@
       "long": "KC_MS_ACCEL1",
       "short": "KC_ACL1"
     },
-    "label": "MS_ACCEL1"
+    "label": "Mouse Acc1"
   },
   {
     "code": 255,
@@ -1973,7 +1973,7 @@
       "long": "KC_MS_ACCEL2",
       "short": "KC_ACL2"
     },
-    "label": "MS_ACCEL2"
+    "label": "Mouse Acc2"
   },
   {
     "code": 542,
@@ -1981,7 +1981,7 @@
       "long": "KC_EXCLAIM",
       "short": "KC_EXLM"
     },
-    "label": "KC_EXLM"
+    "label": "!"
   },
   {
     "code": 543,
@@ -1989,7 +1989,7 @@
       "long": "KC_AT",
       "short": "KC_AT"
     },
-    "label": "KC_AT"
+    "label": "@"
   },
   {
     "code": 544,
@@ -1997,7 +1997,7 @@
       "long": "KC_HASH",
       "short": "KC_HASH"
     },
-    "label": "KC_HASH"
+    "label": "#"
   },
   {
     "code": 545,
@@ -2005,7 +2005,7 @@
       "long": "KC_DOLLAR",
       "short": "KC_DLR"
     },
-    "label": "KC_DLR"
+    "label": "$"
   },
   {
     "code": 546,
@@ -2013,7 +2013,7 @@
       "long": "KC_PERCENT",
       "short": "KC_PERC"
     },
-    "label": "KC_PERC"
+    "label": "%"
   },
   {
     "code": 547,
@@ -2021,7 +2021,7 @@
       "long": "KC_CIRCUMFLEX",
       "short": "KC_CIRC"
     },
-    "label": "KC_CIRC"
+    "label": "^"
   },
   {
     "code": 548,
@@ -2029,7 +2029,7 @@
       "long": "KC_AMPERSAND",
       "short": "KC_AMPR"
     },
-    "label": "KC_AMPR"
+    "label": "&"
   },
   {
     "code": 549,
@@ -2037,7 +2037,7 @@
       "long": "KC_ASTERISK",
       "short": "KC_ASTR"
     },
-    "label": "KC_ASTR"
+    "label": "*"
   },
   {
     "code": 550,
@@ -2045,7 +2045,7 @@
       "long": "KC_LEFT_PAREN",
       "short": "KC_LPRN"
     },
-    "label": "KC_LPRN"
+    "label": "("
   },
   {
     "code": 551,
@@ -2053,7 +2053,7 @@
       "long": "KC_RIGHT_PAREN",
       "short": "KC_RPRN"
     },
-    "label": "KC_RPRN"
+    "label": ")"
   },
   {
     "code": 557,
@@ -2061,7 +2061,7 @@
       "long": "KC_UNDERSCORE",
       "short": "KC_UNDS"
     },
-    "label": "KC_UNDS"
+    "label": "_"
   },
   {
     "code": 558,
@@ -2069,7 +2069,7 @@
       "long": "KC_PLUS",
       "short": "KC_PLUS"
     },
-    "label": "KC_PLUS"
+    "label": "+"
   },
   {
     "code": 559,
@@ -2077,7 +2077,7 @@
       "long": "KC_LEFT_CURLY_BRACE",
       "short": "KC_LCBR"
     },
-    "label": "KC_LCBR"
+    "label": "{"
   },
   {
     "code": 560,
@@ -2085,7 +2085,7 @@
       "long": "KC_RIGHT_CURLY_BRACE",
       "short": "KC_RCBR"
     },
-    "label": "KC_RCBR"
+    "label": "}"
   },
   {
     "code": 561,
@@ -2093,7 +2093,7 @@
       "long": "KC_PIPE",
       "short": "KC_PIPE"
     },
-    "label": "KC_PIPE"
+    "label": "|"
   },
   {
     "code": 563,
@@ -2101,7 +2101,7 @@
       "long": "KC_COLON",
       "short": "KC_COLN"
     },
-    "label": "KC_COLN"
+    "label": ":"
   },
   {
     "code": 564,
@@ -2109,7 +2109,7 @@
       "long": "KC_DOUBLE_QUOTE",
       "short": "KC_DQT"
     },
-    "label": "KC_DQT"
+    "label": "\""
   },
   {
     "code": 565,
@@ -2117,7 +2117,7 @@
       "long": "KC_TILDE",
       "short": "KC_TILD"
     },
-    "label": "KC_TILD"
+    "label": "~"
   },
   {
     "code": 566,
@@ -2125,7 +2125,7 @@
       "long": "KC_LEFT_ANGLE_BRACKET",
       "short": "KC_LABK"
     },
-    "label": "KC_LABK"
+    "label": "<"
   },
   {
     "code": 567,
@@ -2133,7 +2133,7 @@
       "long": "KC_RIGHT_ANGLE_BRACKET",
       "short": "KC_RABK"
     },
-    "label": "KC_RABK"
+    "label": ">"
   },
   {
     "code": 568,
@@ -2141,7 +2141,7 @@
       "long": "KC_QUESTION",
       "short": "KC_QUES"
     },
-    "label": "KC_QUES"
+    "label": "?"
   },
   {
     "code": 16684,
@@ -2149,7 +2149,7 @@
       "long": "SPACE_FN1",
       "short": "SPC_FN1"
     },
-    "label": "SPC_FN1"
+    "label": "Space Fn1"
   },
   {
     "code": 16940,
@@ -2157,7 +2157,7 @@
       "long": "SPACE_FN2",
       "short": "SPC_FN2"
     },
-    "label": "SPC_FN2"
+    "label": "Space Fn2"
   },
   {
     "code": 17196,
@@ -2165,7 +2165,7 @@
       "long": "SPACE_FN3",
       "short": "SPC_FN3"
     },
-    "label": "SPC_FN3"
+    "label": "Space Fn3"
   },
   {
     "code": 20496,
@@ -2493,7 +2493,7 @@
       "long": "RESET",
       "short": "RESET"
     },
-    "label": "RESET"
+    "label": "Reset"
   },
   {
     "code": 23553,
@@ -2501,7 +2501,7 @@
       "long": "DEBUG",
       "short": "DEBUG"
     },
-    "label": "DEBUG"
+    "label": "Debug"
   },
   {
     "code": 23554,
@@ -2653,7 +2653,7 @@
       "long": "MAGIC_TOGGLE_NKRO",
       "short": "NK_TOGG"
     },
-    "label": "MAGIC_TOGGLE_NKRO"
+    "label": "Toggle NKRO"
   },
   {
     "code": 23573,
@@ -2669,7 +2669,7 @@
       "long": "GRAVE_ESC",
       "short": "KC_GESC"
     },
-    "label": "GRAVE_ESC"
+    "label": "Esc `"
   },
   {
     "code": 23581,
@@ -2677,7 +2677,7 @@
       "long": "AU_ON",
       "short": "AU_ON"
     },
-    "label": "AU_ON"
+    "label": "Audio On"
   },
   {
     "code": 23582,
@@ -2685,7 +2685,7 @@
       "long": "AU_OFF",
       "short": "AU_OFF"
     },
-    "label": "AU_OFF"
+    "label": "Audio Off"
   },
   {
     "code": 23583,
@@ -2693,7 +2693,7 @@
       "long": "AU_TOG",
       "short": "AU_TOG"
     },
-    "label": "AU_TOG"
+    "label": "Audio Toggle"
   },
   {
     "code": 23584,
@@ -2701,7 +2701,7 @@
       "long": "CLICKY_TOGGLE",
       "short": "CLICKY_TOGGLE"
     },
-    "label": "CLICKY_TOGGLE"
+    "label": "Clicky Toggle"
   },
   {
     "code": 23585,
@@ -2709,7 +2709,7 @@
       "long": "CLICKY_ENABLE",
       "short": "CLICKY_ENABLE"
     },
-    "label": "CLICKY_ENABLE"
+    "label": "Clicky Enable"
   },
   {
     "code": 23586,
@@ -2717,7 +2717,7 @@
       "long": "CLICKY_DISABLE",
       "short": "CLICKY_DISABLE"
     },
-    "label": "CLICKY_DISABLE"
+    "label": "Clicky Disable"
   },
   {
     "code": 23587,
@@ -2725,7 +2725,7 @@
       "long": "CLICKY_UP",
       "short": "CLICKY_UP"
     },
-    "label": "CLICKY_UP"
+    "label": "Clicky Up"
   },
   {
     "code": 23588,
@@ -2733,7 +2733,7 @@
       "long": "CLICKY_DOWN",
       "short": "CLICKY_DOWN"
     },
-    "label": "CLICKY_DOWN"
+    "label": "Clicky Down"
   },
   {
     "code": 23589,
@@ -2741,7 +2741,7 @@
       "long": "CLICKY_RESET",
       "short": "CLICKY_RESET"
     },
-    "label": "CLICKY_RESET"
+    "label": "Clicky Reset"
   },
   {
     "code": 23590,
@@ -2749,7 +2749,7 @@
       "long": "MU_ON",
       "short": "MU_ON"
     },
-    "label": "MU_ON"
+    "label": "Music On"
   },
   {
     "code": 23591,
@@ -2757,7 +2757,7 @@
       "long": "MU_OFF",
       "short": "MU_OFF"
     },
-    "label": "MU_OFF"
+    "label": "Music Off"
   },
   {
     "code": 23592,
@@ -2765,7 +2765,7 @@
       "long": "MU_TOG",
       "short": "MU_TOG"
     },
-    "label": "MU_TOG"
+    "label": "Music Toggle"
   },
   {
     "code": 23593,
@@ -2773,7 +2773,7 @@
       "long": "MU_MOD",
       "short": "MU_MOD"
     },
-    "label": "MU_MOD"
+    "label": "Music Mode"
   },
   {
     "code": 23739,
@@ -2781,7 +2781,7 @@
       "long": "BL_ON",
       "short": "BL_ON"
     },
-    "label": "BL_ON"
+    "label": "BL On"
   },
   {
     "code": 23740,
@@ -2789,7 +2789,7 @@
       "long": "BL_OFF",
       "short": "BL_OFF"
     },
-    "label": "BL_OFF"
+    "label": "BL Off"
   },
   {
     "code": 23741,
@@ -2797,7 +2797,7 @@
       "long": "BL_DEC",
       "short": "BL_DEC"
     },
-    "label": "BL_DEC"
+    "label": "BL -"
   },
   {
     "code": 23742,
@@ -2805,7 +2805,7 @@
       "long": "BL_INC",
       "short": "BL_INC"
     },
-    "label": "BL_INC"
+    "label": "BL +"
   },
   {
     "code": 23743,
@@ -2813,7 +2813,7 @@
       "long": "BL_TOGG",
       "short": "BL_TOGG"
     },
-    "label": "BL_TOGG"
+    "label": "BL Toggle"
   },
   {
     "code": 23744,
@@ -2821,7 +2821,7 @@
       "long": "BL_STEP",
       "short": "BL_STEP"
     },
-    "label": "BL_STEP"
+    "label": "BL Cycle"
   },
   {
     "code": 23745,
@@ -2829,7 +2829,7 @@
       "long": "BL_BRTG",
       "short": "BL_BRTG"
     },
-    "label": "BL_BRTG"
+    "label": "BR Toggle"
   },
   {
     "code": 23746,
@@ -2837,7 +2837,7 @@
       "long": "RGB_TOG",
       "short": "RGB_TOG"
     },
-    "label": "RGB_TOG"
+    "label": "RGB Toggle"
   },
   {
     "code": 23747,
@@ -2845,7 +2845,7 @@
       "long": "RGB_MODE_FORWARD",
       "short": "RGB_MODE_FORWARD"
     },
-    "label": "RGB_MODE_FORWARD"
+    "label": "RGB Mode +"
   },
   {
     "code": 23748,
@@ -2853,7 +2853,7 @@
       "long": "RGB_MODE_REVERSE",
       "short": "RGB_MODE_REVERSE"
     },
-    "label": "RGB_MODE_REVERSE"
+    "label": "RGB Mode -"
   },
   {
     "code": 23749,
@@ -2861,7 +2861,7 @@
       "long": "RGB_HUI",
       "short": "RGB_HUI"
     },
-    "label": "RGB_HUI"
+    "label": "Hue +"
   },
   {
     "code": 23750,
@@ -2869,7 +2869,7 @@
       "long": "RGB_HUD",
       "short": "RGB_HUD"
     },
-    "label": "RGB_HUD"
+    "label": "Hue -"
   },
   {
     "code": 23751,
@@ -2877,7 +2877,7 @@
       "long": "RGB_SAI",
       "short": "RGB_SAI"
     },
-    "label": "RGB_SAI"
+    "label": "Sat +"
   },
   {
     "code": 23752,
@@ -2885,7 +2885,7 @@
       "long": "RGB_SAD",
       "short": "RGB_SAD"
     },
-    "label": "RGB_SAD"
+    "label": "Sat -"
   },
   {
     "code": 23753,
@@ -2893,7 +2893,7 @@
       "long": "RGB_VAI",
       "short": "RGB_VAI"
     },
-    "label": "RGB_VAI"
+    "label": "Bright +"
   },
   {
     "code": 23754,
@@ -2901,7 +2901,7 @@
       "long": "RGB_VAD",
       "short": "RGB_VAD"
     },
-    "label": "RGB_VAD"
+    "label": "Bright -"
   },
   {
     "code": 23755,
@@ -2909,7 +2909,7 @@
       "long": "RGB_SPI",
       "short": "RGB_SPI"
     },
-    "label": "RGB_SPI"
+    "label": "Effect Speed +"
   },
   {
     "code": 23756,
@@ -2917,7 +2917,7 @@
       "long": "RGB_SPD",
       "short": "RGB_SPD"
     },
-    "label": "RGB_SPD"
+    "label": "Effect Speed -"
   },
   {
     "code": 23757,
@@ -2925,7 +2925,7 @@
       "long": "RGB_MODE_PLAIN",
       "short": "RGB_MODE_PLAIN"
     },
-    "label": "RGB_MODE_PLAIN"
+    "label": "RGB Mode P"
   },
   {
     "code": 23758,
@@ -2933,7 +2933,7 @@
       "long": "RGB_MODE_BREATHE",
       "short": "RGB_MODE_BREATHE"
     },
-    "label": "RGB_MODE_BREATHE"
+    "label": "RGB Mode B"
   },
   {
     "code": 23759,
@@ -2941,7 +2941,7 @@
       "long": "RGB_MODE_RAINBOW",
       "short": "RGB_MODE_RAINBOW"
     },
-    "label": "RGB_MODE_RAINBOW"
+    "label": "RGB Mode R"
   },
   {
     "code": 23760,
@@ -2949,7 +2949,7 @@
       "long": "RGB_MODE_SWIRL",
       "short": "RGB_MODE_SWIRL"
     },
-    "label": "RGB_MODE_SWIRL"
+    "label": "RGB Mode SW"
   },
   {
     "code": 23761,
@@ -2957,7 +2957,7 @@
       "long": "RGB_MODE_SNAKE",
       "short": "RGB_MODE_SNAKE"
     },
-    "label": "RGB_MODE_SNAKE"
+    "label": "RGB Mode SN"
   },
   {
     "code": 23762,
@@ -2965,7 +2965,7 @@
       "long": "RGB_MODE_KNIGHT",
       "short": "RGB_MODE_KNIGHT"
     },
-    "label": "RGB_MODE_KNIGHT"
+    "label": "RGB Mode K"
   },
   {
     "code": 23763,
@@ -2973,7 +2973,7 @@
       "long": "RGB_MODE_XMAS",
       "short": "RGB_MODE_XMAS"
     },
-    "label": "RGB_MODE_XMAS"
+    "label": "RGB Mode X"
   },
   {
     "code": 23764,
@@ -2981,7 +2981,7 @@
       "long": "RGB_MODE_GRADIENT",
       "short": "RGB_MODE_GRADIENT"
     },
-    "label": "RGB_MODE_GRADIENT"
+    "label": "RGB Mode G"
   },
   {
     "code": 23767,
@@ -2989,7 +2989,7 @@
       "long": "KC_LSPO",
       "short": "KC_LSPO"
     },
-    "label": "KC_LSPO"
+    "label": "LS ("
   },
   {
     "code": 23768,
@@ -2997,7 +2997,7 @@
       "long": "KC_RSPC",
       "short": "KC_RSPC"
     },
-    "label": "KC_RSPC"
+    "label": "RS )"
   },
   {
     "code": 23769,
@@ -3005,7 +3005,7 @@
       "long": "KC_SFTENT",
       "short": "KC_SFTENT"
     },
-    "label": "KC_SFTENT"
+    "label": "SftEnt"
   },
   {
     "code": 23795,
@@ -3013,7 +3013,7 @@
       "long": "KC_LCPO",
       "short": "KC_LCPO"
     },
-    "label": "KC_LCPO"
+    "label": "LC ("
   },
   {
     "code": 23796,
@@ -3021,7 +3021,7 @@
       "long": "KC_RCPC",
       "short": "KC_RCPC"
     },
-    "label": "KC_RCPC"
+    "label": "RC )"
   },
   {
     "code": 23797,
@@ -3029,7 +3029,7 @@
       "long": "KC_LAPO",
       "short": "KC_LAPO"
     },
-    "label": "KC_LAPO"
+    "label": "LA ("
   },
   {
     "code": 23798,
@@ -3037,7 +3037,7 @@
       "long": "KC_RAPC",
       "short": "KC_RAPC"
     },
-    "label": "KC_RAPC"
+    "label": "RA )"
   },
   {
     "code": 24336,
@@ -3045,7 +3045,7 @@
       "long": "FN_MO13",
       "short": "FN_MO13"
     },
-    "label": "FN_MO13"
+    "label": "Fn1 (Fn3)"
   },
   {
     "code": 24337,
@@ -3053,7 +3053,7 @@
       "long": "FN_MO23",
       "short": "FN_MO23"
     },
-    "label": "FN_MO23"
+    "label": "Fn2 (Fn3)"
   },
   {
     "code": 24338,
