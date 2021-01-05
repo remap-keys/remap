@@ -1,5 +1,8 @@
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import React, { ReactNode } from 'react';
+import KeyModel from '../../../models/KeyModel';
+import { IKeycodeInfo } from '../../../services/hid/hid';
+import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';
 
 export const KEY_SIZE = 54;
@@ -12,9 +15,15 @@ type KeySize = typeof keysizes[number];
 
 type OnClickKeycap = (index: number) => void;
 
-interface IKeycapProps {
+type KeycapOwnState = {
+  onDragOver: boolean;
+};
+
+// TODO: refactoring properties, unify the model
+type KeycapOwnProps = {
   index: number;
   labels: string[][];
+  model: KeyModel;
   size?: KeySize;
   selected?: boolean;
   style?: React.CSSProperties;
@@ -22,17 +31,28 @@ interface IKeycapProps {
   style2?: React.CSSProperties;
   styleTransform2?: React.CSSProperties;
   onClick?: OnClickKeycap;
-}
+};
 
-export default class Keycap extends React.Component<IKeycapProps, {}> {
+type KeycapProps = KeycapOwnProps &
+  Partial<KeycapStateType> &
+  Partial<KeycapActionsType>;
+
+export default class Keycap extends React.Component<
+  KeycapProps,
+  KeycapOwnState
+> {
   private baseStyle2: CSSProperties;
   private coverStyle: CSSProperties;
   private roofStyle: CSSProperties;
   private roofStyle2: CSSProperties;
   private labelsStyle: CSSProperties;
 
-  constructor(props: IKeycapProps | Readonly<IKeycapProps>) {
+  constructor(props: KeycapProps | Readonly<KeycapProps>) {
     super(props);
+    this.state = {
+      onDragOver: false,
+    };
+
     const width = Number(this.props.style?.width) || KEY_SIZE;
     const height = Number(this.props.style?.height) || KEY_SIZE;
     const top = Number(this.props.style?.top) || 0;
@@ -89,14 +109,32 @@ export default class Keycap extends React.Component<IKeycapProps, {}> {
 
   render(): ReactNode {
     return (
-      <div className="keycap-base" style={this.props.styleTransform}>
+      <div
+        className={['keycap-base', this.state.onDragOver && 'drag-over'].join(
+          ' '
+        )}
+        style={this.props.styleTransform}
+        onDragOver={(event) => {
+          event.preventDefault();
+          if (!this.state.onDragOver) {
+            this.setState({ onDragOver: true });
+          }
+        }}
+        onDragLeave={() => {
+          this.setState({ onDragOver: false });
+        }}
+        onDrop={() => {
+          this.setState({ onDragOver: false });
+          this.props.onDropKeycode!(this.props.draggingKey!, this.props.model);
+        }}
+      >
         {/* base1 */}
         <div
           className={['keycap', 'keycap-border'].join(' ')}
           style={this.props.style}
           onClick={this.props.onClick?.bind(this, this.props.index)}
         ></div>
-        {this.isOddly ? (
+        {this.isOddly && (
           <React.Fragment>
             {/* base2 */}
             <div
@@ -117,8 +155,6 @@ export default class Keycap extends React.Component<IKeycapProps, {}> {
               onClick={this.props.onClick?.bind(this, this.props.index)}
             ></div>
           </React.Fragment>
-        ) : (
-          ''
         )}
         {/* roof1 */}
         <div
@@ -126,7 +162,7 @@ export default class Keycap extends React.Component<IKeycapProps, {}> {
           style={this.roofStyle}
           onClick={this.props.onClick?.bind(this, this.props.index)}
         ></div>
-        {this.isOddly ? (
+        {this.isOddly && (
           <React.Fragment>
             {/* roof2 */}
             <div
@@ -135,8 +171,6 @@ export default class Keycap extends React.Component<IKeycapProps, {}> {
               onClick={this.props.onClick?.bind(this, this.props.index)}
             ></div>
           </React.Fragment>
-        ) : (
-          ''
         )}
         {/* labels */}
         <div

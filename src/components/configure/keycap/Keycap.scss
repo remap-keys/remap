@@ -9,6 +9,20 @@
   }
 }
 .keycap-base {
+  &.drag-over {
+    border-color: $primary-pale;
+    .keycap {
+      background-color: $primary-light !important;
+      border-color: $primary !important;
+    }
+    .keyroof-base {
+      border-color: $primary-pale !important;
+      background-color: $primary-pale !important;
+    }
+    .keyroof {
+      background-color: $primary-pale !important;
+    }
+  }
   .keycap {
     cursor: pointer;
 

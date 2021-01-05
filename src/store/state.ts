@@ -1,4 +1,5 @@
 import { Key } from '../components/configure/keycodes/Keycodes.container';
+import KeyModel from '../models/KeyModel';
 import {
   IHid,
   IKeyboard,
@@ -43,6 +44,11 @@ export type RootState = {
   keycodeKey: {
     selectedKey: Key | null;
     hoverKey: Key | null;
+    draggingKey: Key | null;
+  };
+  keydiff: {
+    origin: KeyModel | null;
+    destination: KeyModel | null;
   };
 };
 
@@ -85,5 +91,10 @@ export const INIT_STATE: RootState = {
   keycodeKey: {
     selectedKey: null,
     hoverKey: null,
+    draggingKey: null,
+  },
+  keydiff: {
+    origin: null,
+    destination: null,
   },
 };

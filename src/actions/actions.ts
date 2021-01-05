@@ -1,4 +1,5 @@
 import { Key } from '../components/configure/keycodes/Keycodes.container';
+import KeyModel from '../models/KeyModel';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_UPDATE_SELECTED_LAYER = `${KEYBOARDS_ACTIONS}/UpdateSelectedLayer`;
@@ -36,9 +37,16 @@ export const KeycodesActions = {
 };
 
 export const KEYCODEKEY_ACTIONS = '@KeycodeKey';
+export const KEYCODEKEY_UPDATE_DRAGGING_KEY = `${KEYCODEKEY_ACTIONS}/UpdateDraggingKey`;
 export const KEYCODEKEY_UPDATE_SELECTED_KEY = `${KEYCODEKEY_ACTIONS}/UpdateSelectedKey`;
 export const KEYCODEKEY_UPDATE_HOVER_KEY = `${KEYCODEKEY_ACTIONS}/UpdateHoverKey`;
 export const KeycodeKeyActions = {
+  updateDraggingKey: (key: Key | null) => {
+    return {
+      type: KEYCODEKEY_UPDATE_DRAGGING_KEY,
+      value: key,
+    };
+  },
   updateSelectedKey: (key: Key) => {
     return {
       type: KEYCODEKEY_UPDATE_SELECTED_KEY,
@@ -49,6 +57,17 @@ export const KeycodeKeyActions = {
     return {
       type: KEYCODEKEY_UPDATE_HOVER_KEY,
       value: key,
+    };
+  },
+};
+
+export const KEYDIFF_ACTIONS = '@Keydiff';
+export const KEYDIFF_UPDATE_KEYDIFF = `${KEYCODEKEY_ACTIONS}/UpdateKeydiff`;
+export const KeydiffActions = {
+  updateKeydiff: (orig: KeyModel, dest: KeyModel) => {
+    return {
+      type: KEYDIFF_UPDATE_KEYDIFF,
+      value: { orig: orig, dest: dest },
     };
   },
 };

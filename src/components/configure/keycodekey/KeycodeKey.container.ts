@@ -3,6 +3,7 @@ import KeycodeKey, { KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
 import { KeycodeKeyActions } from '../../../actions/actions';
 import { IKeycodeCategory } from '../../../services/hid/hid';
+import { Key } from '../keycodes/Keycodes.container';
 
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
@@ -16,10 +17,22 @@ const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
 };
 export type KeycodeKeyStateType = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = {
-  clickKey: KeycodeKeyActions.updateSelectedKey,
-  hoverKey: KeycodeKeyActions.updateHoverKey,
+const mapDispatchToProps = (_dispatch: any) => {
+  return {
+    clickKey: (key: Key) => {
+      _dispatch(KeycodeKeyActions.updateSelectedKey(key));
+    },
+    hoverKey: (key: Key | null) => {
+      _dispatch(KeycodeKeyActions.updateHoverKey(key));
+    },
+    startDraggingKeycode: (key: Key) => {
+      _dispatch(KeycodeKeyActions.updateDraggingKey(key));
+    },
+    endDraggingKeycode: () => {
+      _dispatch(KeycodeKeyActions.updateDraggingKey(null));
+    },
+  };
 };
-export type KeycodeKeyActionsType = typeof mapDispatchToProps;
+export type KeycodeKeyActionsType = ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeycodeKey);

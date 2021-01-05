@@ -1,5 +1,7 @@
 import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
+import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { IKeycodeInfo } from '../services/hid/hid';
 export type KeyOp = {
   x?: number;
   y?: number;
@@ -30,6 +32,7 @@ export default class KeyModel {
   readonly left2: number;
   readonly height2: number;
   readonly width2: number;
+  private keycode: Key | null;
   constructor(
     location: string, // "col,row"
     x: number,
@@ -59,6 +62,13 @@ export default class KeyModel {
     this.left2 = x2 * KEY_SIZE;
     this.height2 = h2 * KEY_SIZE;
     this.width2 = w2 * KEY_SIZE;
+    this.keycode = null;
+  }
+
+  clone(keycode: Key): KeyModel {
+    const model: KeyModel = { ...this };
+    model.keycode = keycode;
+    return model;
   }
 
   get isOddly(): boolean {
@@ -135,5 +145,9 @@ export default class KeyModel {
 
     const bottom = 0 < rad ? rightBottom : leftBottom;
     return this.originTop + y1 + bottom;
+  }
+
+  setKeycode(keycode: Key) {
+    this.keycode = keycode;
   }
 }
