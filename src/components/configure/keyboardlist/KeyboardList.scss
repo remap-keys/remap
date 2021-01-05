@@ -1,6 +1,7 @@
 @import '../../../variables';
 
 .keyboardlist-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +40,20 @@
         font-weight: 400;
         font-size: 40%;
       }
+    }
+  }
+
+  .opening-keyboard {
+    position: absolute;
+    width: 320px;
+    height: 342px;
+    background: rgba(255, 255, 255, 0.8);
+    .progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
     }
   }
 }

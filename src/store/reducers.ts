@@ -12,6 +12,8 @@ import {
   NOTIFICATION_ACTIONS,
   NOTIFICATION_ADD_ERROR,
   NOTIFICATION_ADD_WARN,
+  HEADER_UPDATE_FLUSH_LOADING,
+  HEADER_ACTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -21,6 +23,7 @@ import {
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
+  HID_UPDATE_OPENING,
 } from '../actions/hid.action';
 import { Key } from '../components/configure/keycodes/Keycodes.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
@@ -41,6 +44,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       hidReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
+    } else if (action.type.startsWith(HEADER_ACTIONS)) {
+      headerReducer(action, draft);
     }
   });
 
@@ -79,6 +84,10 @@ const hidReducer = (action: Action, draft: RootState) => {
     }
     case HID_UPDATE_KEYMAPS: {
       draft.entities.device.keymaps = action.value.keymaps;
+      break;
+    }
+    case HID_UPDATE_OPENING: {
+      draft.hid.openingKeyboard = action.value;
       break;
     }
   }
@@ -154,6 +163,16 @@ const notificationReducer = (action: Action, draft: RootState) => {
     }
     case NOTIFICATION_ADD_WARN: {
       // TODO: do something
+      break;
+    }
+  }
+};
+
+const headerReducer = (action: Action, draft: RootState) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case HEADER_UPDATE_FLUSH_LOADING: {
+      draft.header.flushLoading = action.value;
       break;
     }
   }

@@ -24,9 +24,13 @@ export type RootState = {
       [id: number]: string;
     };
   };
+  header: {
+    flushLoading: boolean;
+  };
   hid: {
     instance: IHid;
     keyboards: IKeyboard[]; // authorized keyboard list
+    openingKeyboard: boolean; // loading status of open and init keyboard
     openedKeyboard: IKeyboard | null;
   };
   keyboards: {
@@ -62,10 +66,14 @@ export const INIT_STATE: RootState = {
     },
     macros: {},
   },
+  header: {
+    flushLoading: false,
+  },
   hid: {
     instance: webHid,
     keyboards: [],
     openedKeyboard: null, // hid.keyboards[i]
+    openingKeyboard: false,
   },
   keyboards: {
     selectedLayer: NaN,

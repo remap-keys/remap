@@ -8,6 +8,7 @@ import { ContentActionsType, ContentStateType } from './Content.container';
 import NoKeyboard from '../nokeyboard/NoKeyboard';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard } from '../../../services/hid/hid';
+import { CircularProgress } from '@material-ui/core';
 
 type ContentState = {
   selectedLayer: number;
@@ -42,27 +43,35 @@ export default class Content extends React.Component<
   render() {
     return (
       <div className="content">
-        {this.props.openedKeyboard ? (
-          <div className="controller">
-            <div className="switch">
-              <Select
-                id="keyboard-layout-switch"
-                value={'Choc'}
-                onChange={() => {}}
-              >
-                <MenuItem value="MX">MX</MenuItem>
-                <MenuItem value="Choc">Choc</MenuItem>
-              </Select>
+        <div className="keyboard-wrapper">
+          {this.props.openingKeyboard && (
+            <div className="opening-keyboard">
+              <div className="progress">
+                <CircularProgress size={24} />
+              </div>
             </div>
+          )}
+
+          {this.props.openedKeyboard && (
+            <div className="controller">
+              <div className="switch">
+                <Select
+                  id="keyboard-layout-switch"
+                  value={'Choc'}
+                  onChange={() => {}}
+                >
+                  <MenuItem value="MX">MX</MenuItem>
+                  <MenuItem value="Choc">Choc</MenuItem>
+                </Select>
+              </div>
+            </div>
+          )}
+          <div className="keymap">
+            <ConnectedKeyboard
+              openedKeyboard={this.props.openedKeyboard!}
+              keyboards={this.props.keyboards || []}
+            />
           </div>
-        ) : (
-          ''
-        )}
-        <div className="keymap">
-          <ConnectedKeyboard
-            openedKeyboard={this.props.openedKeyboard!}
-            keyboards={this.props.keyboards || []}
-          />
         </div>
         <div className="keycode">
           <Keycodes />

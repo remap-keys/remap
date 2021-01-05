@@ -51,9 +51,17 @@
   }
   .buttons {
     display: flex;
+    position: relative;
     margin-left: auto;
     .flush-btn {
       min-width: 80px !important;
+    }
+    .flush-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -12px;
+      margin-left: -12px;
     }
   }
 
@@ -71,6 +79,7 @@
   flex-direction: row;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   align-items: center;
+
   .link-icon {
     margin-right: $space-m;
   }

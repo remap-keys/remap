@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.scss';
 import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { Button, Menu, MenuItem } from '@material-ui/core';
+import { Button, CircularProgress, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
@@ -67,6 +67,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             keepMounted
             open={this.openConnectionStateMenu}
             onClose={this.onCloseConnectionStateMenu}
+            PaperProps={{
+              style: {
+                maxHeight: 250,
+              },
+            }}
           >
             {this.props.keyboards!.map((kbd, index) => {
               const info = kbd.getInformation();
@@ -75,7 +80,12 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               return (
                 <MenuItem
                   key={index}
-                  onClick={this.props.onClickKeyboardMenuItem!.bind(this, kbd)}
+                  onClick={
+                    isOpenedKbd
+                      ? undefined
+                      : this.props.onClickKeyboardMenuItem!.bind(this, kbd)
+                  }
+                  disabled={isOpenedKbd}
                 >
                   <div className="device-item">
                     {isOpenedKbd ? (
@@ -126,9 +136,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             color="primary"
             variant="contained"
             className="flush-btn"
+            disabled={this.props.flushLoading}
+            onClick={this.props.onClickFlushButton}
           >
             FLUSH
           </Button>
+          {this.props.flushLoading && (
+            <CircularProgress size={24} className="flush-loading" />
+          )}
         </div>
 
         <ConnectionModal open={false} onClose={() => {}} />
