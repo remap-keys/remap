@@ -3,7 +3,7 @@ import './Keyboards.scss';
 import KeyboardModel from '../../../models/KeyboardModel';
 import { Button, Chip } from '@material-ui/core';
 import KeyModel from '../../../models/KeyModel';
-import Keycap from '../keycap/Keycap';
+import Keycap from '../keycap/Keycap.container';
 import {
   KeyboardsActionsType,
   KeyboardsStateType,
@@ -108,9 +108,9 @@ export default class Keyboards extends React.Component<
               }}
             >
               {this.state.keyboard.keymap.map(
-                (key: KeyModel, index: number) => {
+                (model: KeyModel, index: number) => {
                   const layer = this.props.selectedLayer!;
-                  const pos = key.pos;
+                  const pos = model.pos;
                   const keymap = this.props.keymaps![layer][pos];
                   let label;
                   if (keymap.isAny) {
@@ -118,6 +118,14 @@ export default class Keyboards extends React.Component<
                   } else {
                     const info = this.props.keymaps![layer][pos].keycodeInfo!;
                     label = info.label;
+
+                    // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
+                    model.setKeycode({
+                      code: info.code,
+                      label: info.label,
+                      meta: '',
+                      keycodeInfo: info,
+                    });
                   }
                   return (
                     <Keycap
@@ -128,10 +136,11 @@ export default class Keyboards extends React.Component<
                         ['', '', ''],
                         ['', '', pos],
                       ]}
+                      model={model}
                       size="1u"
-                      style={key.styleAbsolute}
-                      style2={key.isOddly ? key.styleAbsolute2 : undefined}
-                      styleTransform={key.styleTransform}
+                      style={model.styleAbsolute}
+                      style2={model.isOddly ? model.styleAbsolute2 : undefined}
+                      styleTransform={model.styleTransform}
                       selected={this.state.clickedKeyIndex == index}
                       onClick={this.onClickKeycap}
                     />

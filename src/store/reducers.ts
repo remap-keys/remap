@@ -1,4 +1,5 @@
 import immer from 'immer';
+import { WritableDraft } from 'immer/dist/internal';
 import {
   KEYCODEKEY_ACTIONS,
   KEYCODEKEY_UPDATE_HOVER_KEY,
@@ -14,6 +15,9 @@ import {
   NOTIFICATION_ADD_WARN,
   HEADER_UPDATE_FLUSH_LOADING,
   HEADER_ACTIONS,
+  KEYCODEKEY_UPDATE_DRAGGING_KEY,
+  KEYDIFF_ACTIONS,
+  KEYDIFF_UPDATE_KEYDIFF,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -34,22 +38,24 @@ export type Action = { type: string; value: any };
 
 const reducers = (state: RootState = INIT_STATE, action: Action) =>
   immer(state, (draft) => {
-    if (action.type.startsWith(KEYCODES_ACTIONS)) {
+    if (action.type.startsWith(HID_ACTIONS)) {
+      hidReducer(action, draft);
+    } else if (action.type.startsWith(HEADER_ACTIONS)) {
+      headerReducer(action, draft);
+    } else if (action.type.startsWith(KEYCODES_ACTIONS)) {
       keycodesReducer(action, draft);
     } else if (action.type.startsWith(KEYBOARDS_ACTIONS)) {
       keyboardsReducer(action, draft);
     } else if (action.type.startsWith(KEYCODEKEY_ACTIONS)) {
       keycodekeyReducer(action, draft);
-    } else if (action.type.startsWith(HID_ACTIONS)) {
-      hidReducer(action, draft);
+    } else if (action.type.startsWith(KEYDIFF_ACTIONS)) {
+      keydiffReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
-    } else if (action.type.startsWith(HEADER_ACTIONS)) {
-      headerReducer(action, draft);
     }
   });
 
-const hidReducer = (action: Action, draft: RootState) => {
+const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case HID_CONNECT_KEYBOARD: {
@@ -93,7 +99,7 @@ const hidReducer = (action: Action, draft: RootState) => {
   }
 };
 
-const keyboardsReducer = (action: Action, draft: RootState) => {
+const keyboardsReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYBOARDS_UPDATE_SELECTED_LAYER: {
@@ -103,7 +109,7 @@ const keyboardsReducer = (action: Action, draft: RootState) => {
   }
 };
 
-const keycodesReducer = (action: Action, draft: RootState) => {
+const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYCODES_UPDATE_CATEGORY: {
@@ -140,9 +146,24 @@ const keycodesReducer = (action: Action, draft: RootState) => {
   }
 };
 
-const keycodekeyReducer = (action: Action, draft: RootState) => {
+const keydiffReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
+    case KEYDIFF_UPDATE_KEYDIFF: {
+      draft.keydiff.origin = action.value.origin;
+      draft.keydiff.destination = action.value.dest;
+      break;
+    }
+  }
+};
+
+const keycodekeyReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case KEYCODEKEY_UPDATE_DRAGGING_KEY: {
+      draft.keycodeKey.draggingKey = action.value;
+      break;
+    }
     case KEYCODEKEY_UPDATE_SELECTED_KEY: {
       draft.keycodeKey.selectedKey = action.value;
       break;
@@ -154,7 +175,10 @@ const keycodekeyReducer = (action: Action, draft: RootState) => {
   }
 };
 
-const notificationReducer = (action: Action, draft: RootState) => {
+const notificationReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
   // TODO: type-safe
   switch (action.type) {
     case NOTIFICATION_ADD_ERROR: {
@@ -168,7 +192,7 @@ const notificationReducer = (action: Action, draft: RootState) => {
   }
 };
 
-const headerReducer = (action: Action, draft: RootState) => {
+const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case HEADER_UPDATE_FLUSH_LOADING: {

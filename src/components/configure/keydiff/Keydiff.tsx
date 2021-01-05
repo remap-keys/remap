@@ -3,7 +3,7 @@ import './Keydiff.scss';
 import { Button } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 
-import Keycap from '../keycap/Keycap';
+import Keycap from '../keycap/Keycap.container';
 import KeyModel from '../../../models/KeyModel';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
@@ -67,6 +67,7 @@ export default class Keydiff extends React.Component<IKeydiffProps, {}> {
                     ['', this.props.origin.pos, ''],
                     ['', '', ''],
                   ]}
+                  model={this.props.origin}
                   style={this.props.origin.styleAbsolute}
                   style2={
                     this.props.origin.isOddly
@@ -86,6 +87,7 @@ export default class Keydiff extends React.Component<IKeydiffProps, {}> {
                     ['', this.props.destination.pos, ''],
                     ['', '', ''],
                   ]}
+                  model={this.props.destination}
                   style={this.props.destination.styleAbsolute}
                   style2={
                     this.props.destination.isOddly
