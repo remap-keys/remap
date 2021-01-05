@@ -6,22 +6,24 @@ import { Clear } from '@material-ui/icons';
 import Keycap from '../keycap/Keycap.container';
 import KeyModel from '../../../models/KeyModel';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 
 const CANCEL_BTN_WIDTH = 93.469;
 
-interface IKeydiffProps {
-  origin: KeyModel | null;
-  destination: KeyModel | null;
-}
+type KeydiffOwnProps = {};
 
-export default class Keydiff extends React.Component<IKeydiffProps, {}> {
+type KeydiffProps = KeydiffOwnProps &
+  Partial<KeydiffStateType> &
+  Partial<KeydiffActionsType>;
+
+export default class Keydiff extends React.Component<KeydiffProps, {}> {
   private origKeyBaseStyle: CSSProperties;
   private destKeyBaseStyle: CSSProperties;
   private origKeyPostionStyle: CSSProperties;
   private destKeyPostionStyle: CSSProperties;
   private maxHeight: number;
 
-  constructor(props: IKeydiffProps | Readonly<IKeydiffProps>) {
+  constructor(props: KeydiffProps | Readonly<KeydiffProps>) {
     super(props);
     if (this.props.origin && this.props.destination) {
       const origWidth = Number(this.props.origin.style.width) || 0;

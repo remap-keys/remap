@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Keycap from './Keycap';
 import { RootState } from '../../../store/state';
-import { KeyboardsActions } from '../../../actions/actions';
+import { KeydiffActions } from '../../../actions/actions';
 import { Key } from '../keycodes/Keycodes.container';
 import KeyModel from '../../../models/KeyModel';
 
@@ -14,10 +14,13 @@ export type KeycapStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    onDropKeycode: (draggingKey: Key, targetKeyModel: KeyModel) => {
-      console.log(targetKeyModel);
-      const dstModel: KeyModel = targetKeyModel.clone(draggingKey);
+    onDropKeycode: (draggingKey: Key, origModel: KeyModel) => {
+      console.log(origModel);
+      const dstModel: KeyModel = origModel.clone(draggingKey);
       console.log(dstModel);
+
+      // TODO: set histroy state
+      _dispatch(KeydiffActions.updateKeydiff(origModel, dstModel)); // TODO: update keydiff.container.ts
     },
   };
 };
