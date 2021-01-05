@@ -4,22 +4,39 @@
   flex-direction: column;
   min-width: 780px;
 
-  .controller {
-    display: flex;
-    flex-direction: row;
-    padding: $space-l;
-    background-color: white;
-    .switch {
+  .keyboard-wrapper {
+    position: relative;
+    .controller {
       display: flex;
-      margin-left: auto;
+      flex-direction: row;
+      padding: $space-l;
+      background-color: white;
+      .switch {
+        display: flex;
+        margin-left: auto;
+      }
     }
-  }
-  .keymap {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 32px;
-    background-color: white;
-    min-height: 400px;
+    .keymap {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 32px;
+      background-color: white;
+      min-height: 400px;
+    }
+    .opening-keyboard {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      z-index: 1;
+      .progress {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -12px;
+        margin-left: -12px;
+      }
+    }
   }
   .keycode {
     display: flex;

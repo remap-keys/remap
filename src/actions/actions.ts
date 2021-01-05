@@ -70,3 +70,14 @@ export const NotificationActions = {
     };
   },
 };
+
+export const HEADER_ACTIONS = '@Header';
+export const HEADER_UPDATE_FLUSH_LOADING = `${HEADER_ACTIONS}/UpdateFlushLoading`;
+export const HeaderActions = {
+  updateFlush: (loading: boolean) => {
+    return {
+      type: HEADER_UPDATE_FLUSH_LOADING,
+      value: loading,
+    };
+  },
+};

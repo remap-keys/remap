@@ -1,5 +1,6 @@
+import { CircularProgress } from '@material-ui/core';
 import React from 'react';
-import { IKeyboard, IResult } from '../../../services/hid/hid';
+import { IKeyboard } from '../../../services/hid/hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
   KeyboardListActionsType,
@@ -52,6 +53,13 @@ export default class KeyboardList extends React.Component<
             </div>
           </div>
         </div>
+        {this.props.openingKeyboard && (
+          <div className="opening-keyboard">
+            <div className="progress">
+              <CircularProgress size={24} />
+            </div>
+          </div>
+        )}
       </div>
     );
   }

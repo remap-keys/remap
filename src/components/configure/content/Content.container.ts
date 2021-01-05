@@ -5,6 +5,7 @@ import { RootState } from '../../../store/state';
 const mapStateToProps = (state: RootState) => {
   return {
     openedKeyboard: state.hid.openedKeyboard,
+    openingKeyboard: state.hid.openingKeyboard,
     keyboards: state.hid.keyboards,
   };
 };
