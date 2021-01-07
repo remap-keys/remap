@@ -52,20 +52,6 @@ export default class Content extends React.Component<
             </div>
           )}
 
-          {this.props.openedKeyboard && (
-            <div className="controller">
-              <div className="switch">
-                <Select
-                  id="keyboard-layout-switch"
-                  value={'Choc'}
-                  onChange={() => {}}
-                >
-                  <MenuItem value="MX">MX</MenuItem>
-                  <MenuItem value="Choc">Choc</MenuItem>
-                </Select>
-              </div>
-            </div>
-          )}
           <div className="keymap">
             <ConnectedKeyboard
               openedKeyboard={this.props.openedKeyboard!}

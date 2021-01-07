@@ -82,11 +82,6 @@ export default class Keyboards extends React.Component<
                 );
               })}
             </div>
-            <div className="lighting">
-              <Button size="small" color="primary">
-                Lighting
-              </Button>
-            </div>
           </div>
         </div>
         <div className="keyboards">
