@@ -14,7 +14,6 @@ const KeycodeCategories = [
   { name: IKeycodeCategory.BASIC, label: 'Basic' },
   { name: IKeycodeCategory.NUMBER, label: 'Number' },
   { name: IKeycodeCategory.MEDIA, label: 'Media' },
-  { name: IKeycodeCategory.MACRO, label: 'Macro' },
   { name: IKeycodeCategory.LAYERS, label: 'Layers' },
   { name: IKeycodeCategory.SPECIAL, label: 'Special' },
   { name: IKeycodeCategory.LIGHTING, label: 'QMK Lighting' },
@@ -65,12 +64,6 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
               </div>
             );
           })}
-          <div className="keylayout-switch">
-            <Select id="keylayout-switch" value={'JIS'} onChange={() => {}}>
-              <MenuItem value="US">US International</MenuItem>
-              <MenuItem value="JIS">JIS</MenuItem>
-            </Select>
-          </div>
         </div>
         <div className="keycodes">
           {keys.map((key) => {
