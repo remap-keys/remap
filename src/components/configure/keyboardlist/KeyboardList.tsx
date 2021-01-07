@@ -53,13 +53,13 @@ export default class KeyboardList extends React.Component<
             </div>
           </div>
         </div>
-        {this.props.openingKeyboard && (
+        {/* {this.props.openingKeyboard && (
           <div className="opening-keyboard">
             <div className="progress">
               <CircularProgress size={24} />
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   }

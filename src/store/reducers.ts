@@ -25,22 +25,28 @@ import {
   APP_REMAPS_SET_KEY,
   APP_REMAPS_INIT,
   APP_REMAPS_REMOVE_KEY,
-  APP_UPDATE_OPENING,
   APP_PACKAGE_INIT,
   NOTIFICATION_REMOVE,
   NOTIFICATION_ADD_INFO,
   NOTIFICATION_ADD_SUCCESS,
+  APP_UPDATE_SETUP_PHASE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
   HID_CONNECT_KEYBOARD,
   HID_DISCONNECT_KEYBOARD,
-  HID_OPEN_KEYBOARD,
+  HID_UPDATE_KEYBOARD,
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
 } from '../actions/hid.action';
-import { IKeyboard } from '../services/hid/hid';
+import {
+  STORAGE_ACTIONS,
+  STORAGE_UPDATE_KEYBOARD_DEFINITION,
+} from '../actions/storage.action';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
+
 import { INIT_STATE, RootState } from './state';
 
 export type Action = { type: string; value: any };
@@ -63,16 +69,26 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
       appReducer(action, draft);
+    } else if (action.type.startsWith(STORAGE_ACTIONS)) {
+      storageReducer(action, draft);
     }
   });
 
-const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
+const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {
-    case APP_UPDATE_OPENING: {
-      draft.app.openingKeyboard = action.value;
+    case STORAGE_UPDATE_KEYBOARD_DEFINITION: {
+      draft.entities.keyboardDefinition = action.value;
       break;
     }
+  }
+};
 
+const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  switch (action.type) {
+    case APP_UPDATE_SETUP_PHASE: {
+      draft.app.setupPhase = action.value;
+      break;
+    }
     case APP_REMAPS_INIT: {
       draft.app.remaps = action.value;
       break;
@@ -109,14 +125,14 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.keyboards.filter((item) => {
         return item != keyboard;
       });
-      if (draft.entities.openedKeyboard == keyboard) {
-        draft.entities.openedKeyboard = null;
+      if (draft.entities.keyboard == keyboard) {
+        draft.entities.keyboard = null;
       }
       break;
     }
-    case HID_OPEN_KEYBOARD: {
+    case HID_UPDATE_KEYBOARD: {
       const keyboard: IKeyboard = action.value.keyboard;
-      draft.entities.openedKeyboard = keyboard;
+      draft.entities.keyboard = keyboard;
       break;
     }
     case HID_UPDATE_KEYBOARD_LAYER_COUNT: {

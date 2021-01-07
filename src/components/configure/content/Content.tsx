@@ -7,6 +7,7 @@ import NoKeyboard from '../nokeyboard/NoKeyboard';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard } from '../../../services/hid/hid';
 import { CircularProgress } from '@material-ui/core';
+import { ISetupPhase, SetupPhase } from '../../../store/state';
 
 type ContentState = {
   selectedLayer: number;
@@ -42,8 +43,12 @@ export default class Content extends React.Component<
     return (
       <div className="content">
         <div className="keyboard-wrapper">
-          {this.props.openingKeyboard && (
-            <div className="opening-keyboard">
+          {[
+            SetupPhase.connectingKeyboard,
+            SetupPhase.fetchingKeyboardDefinition,
+            SetupPhase.openingKeyboard,
+          ].includes(this.props.setupPhase!) && (
+            <div className="in-progress">
               <div className="progress">
                 <CircularProgress size={24} />
               </div>
@@ -52,14 +57,18 @@ export default class Content extends React.Component<
 
           <div className="keymap">
             <ConnectedKeyboard
-              openedKeyboard={this.props.openedKeyboard!}
               keyboards={this.props.keyboards || []}
+              setupPhase={this.props.setupPhase!}
             />
           </div>
         </div>
         <div className="keycode">
           <Keycodes />
-          {this.props.openedKeyboard ? '' : <div className="disable"></div>}
+          {this.props.setupPhase === SetupPhase.openedKeyboard ? (
+            ''
+          ) : (
+            <div className="disable"></div>
+          )}
         </div>
       </div>
     );
@@ -67,17 +76,28 @@ export default class Content extends React.Component<
 }
 
 type ConnectedKeyboardProps = {
-  openedKeyboard: IKeyboard;
   keyboards: IKeyboard[];
+  setupPhase: ISetupPhase;
 };
 function ConnectedKeyboard(props: ConnectedKeyboardProps) {
-  if (props.openedKeyboard) {
-    return <Keymap />;
-  } else {
-    if (0 < props.keyboards.length) {
-      return <KeyboardList />;
-    } else {
-      return <NoKeyboard />;
-    }
+  switch (props.setupPhase) {
+    case SetupPhase.keyboardNotSelected:
+    case SetupPhase.connectingKeyboard:
+    case SetupPhase.openingKeyboard:
+      if (0 < props.keyboards.length) {
+        return <KeyboardList />;
+      } else {
+        return <NoKeyboard />;
+      }
+    case SetupPhase.fetchingKeyboardDefinition:
+    case SetupPhase.waitingKeyboardDefinitionUpload:
+      // TODO: Create a form UI component.
+      return <div>TODO: Keyboard Definition Upload Form</div>;
+    case SetupPhase.openedKeyboard:
+      return <Keymap />;
+    default:
+      throw new Error(
+        `Unknown state.app.setupPhase value: ${props.setupPhase}`
+      );
   }
 }
