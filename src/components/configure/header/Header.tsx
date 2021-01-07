@@ -6,6 +6,7 @@ import { Button, CircularProgress, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
+import { IKeycodeInfo } from '../../../services/hid/hid';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -42,6 +43,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   render() {
+    const hasKeysToFlush = this.props.remaps!.reduce((has, v) => {
+      return 0 < Object.values(v).length || has;
+    }, false);
+
     return (
       <header className="header">
         <img src={logo} alt="logo" className="logo" />
@@ -136,7 +141,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             color="primary"
             variant="contained"
             className="flush-btn"
-            disabled={this.props.flushLoading}
+            disabled={this.props.flushLoading || !hasKeysToFlush}
             onClick={this.props.onClickFlushButton}
           >
             FLUSH

@@ -1,9 +1,9 @@
 import React from 'react';
 import './Keyboards.scss';
 import KeyboardModel from '../../../models/KeyboardModel';
-import { Button, Chip } from '@material-ui/core';
+import { Badge, Button, Chip, withStyles } from '@material-ui/core';
 import KeyModel from '../../../models/KeyModel';
-import Keycap from '../keycap/Keycap';
+import Keycap from '../keycap/Keycap.container';
 import {
   KeyboardsActionsType,
   KeyboardsStateType,
@@ -55,6 +55,13 @@ export default class Keyboards extends React.Component<
   };
 
   render() {
+    const StyledBadge = withStyles((_) => ({
+      badge: {
+        right: 11,
+        top: 9,
+        border: `2px solid white`,
+      },
+    }))(Badge);
     return (
       <React.Fragment>
         <div className="layer-wrapper">
@@ -63,22 +70,33 @@ export default class Keyboards extends React.Component<
               <span>LAYER</span>
               {this.props.layers!.map((layer) => {
                 return (
-                  <Chip
+                  <StyledBadge
                     key={layer}
-                    variant="outlined"
-                    size="medium"
-                    label={layer}
-                    color={
-                      this.props.selectedLayer == layer ? 'primary' : undefined
+                    color="primary"
+                    variant="dot"
+                    invisible={
+                      0 == Object.values(this.props.remaps![layer]).length
                     }
-                    clickable={this.props.selectedLayer != layer}
-                    onClick={this.onClickLayer.bind(this, layer)}
-                    className={
-                      this.props.selectedLayer != layer
-                        ? 'unselected-layer'
-                        : 'selected-layer'
-                    }
-                  />
+                  >
+                    <Chip
+                      key={layer}
+                      variant="outlined"
+                      size="medium"
+                      label={layer}
+                      color={
+                        this.props.selectedLayer == layer
+                          ? 'primary'
+                          : undefined
+                      }
+                      clickable={this.props.selectedLayer != layer}
+                      onClick={this.onClickLayer.bind(this, layer)}
+                      className={
+                        this.props.selectedLayer != layer
+                          ? 'unselected-layer'
+                          : 'selected-layer'
+                      }
+                    />
+                  </StyledBadge>
                 );
               })}
             </div>
@@ -103,9 +121,9 @@ export default class Keyboards extends React.Component<
               }}
             >
               {this.state.keyboard.keymap.map(
-                (key: KeyModel, index: number) => {
+                (model: KeyModel, index: number) => {
                   const layer = this.props.selectedLayer!;
-                  const pos = key.pos;
+                  const pos = model.pos;
                   const keymap = this.props.keymaps![layer][pos];
                   let label;
                   if (keymap.isAny) {
@@ -113,20 +131,18 @@ export default class Keyboards extends React.Component<
                   } else {
                     const info = this.props.keymaps![layer][pos].keycodeInfo!;
                     label = info.label;
+
+                    // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
+                    model.setKeycode(info.label, '', info);
                   }
                   return (
                     <Keycap
                       key={index}
                       index={index}
-                      labels={[
-                        [label, '', ''],
-                        ['', '', ''],
-                        ['', '', pos],
-                      ]}
-                      size="1u"
-                      style={key.styleAbsolute}
-                      style2={key.isOddly ? key.styleAbsolute2 : undefined}
-                      styleTransform={key.styleTransform}
+                      model={model}
+                      style={model.styleAbsolute}
+                      style2={model.isOddly ? model.styleAbsolute2 : undefined}
+                      styleTransform={model.styleTransform}
                       selected={this.state.clickedKeyIndex == index}
                       onClick={this.onClickKeycap}
                     />

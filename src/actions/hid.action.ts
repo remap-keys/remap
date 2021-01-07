@@ -204,8 +204,9 @@ const initOpenedKeyboard = async (
     return;
   }
 
+  const layerCount = layerResult.layerCount!;
   const keymaps: IKeymaps[] = [];
-  for (let i = 0; i < layerResult.layerCount!; i++) {
+  for (let i = 0; i < layerCount; i++) {
     const keymapsResult = await keyboard.fetchKeymaps(i, rowCount, columnCount);
     if (!keymapsResult.success) {
       // TODO: show error message
@@ -215,8 +216,9 @@ const initOpenedKeyboard = async (
     keymaps.push(keymapsResult.keymap!);
   }
 
-  dispatch(hidActions.updateKeyboardLayerCount(layerResult.layerCount!));
+  dispatch(hidActions.updateKeyboardLayerCount(layerCount));
   dispatch(hidActions.updateKeymaps(keymaps));
+  dispatch(AppActions.remapsInit(layerCount));
   dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
   dispatch(hidActions.openKeyboard(keyboard));
 };

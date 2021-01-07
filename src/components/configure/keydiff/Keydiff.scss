@@ -1,15 +1,19 @@
+@import '../../../variables';
+
 .diff {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 54px;
-  margin-bottom: 32px;
+  margin-bottom: $space-l;
 
   .diff-frame {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    .spacer {
+      width: 94px;
+    }
     .key-orig,
     .key-dest {
       position: relative;

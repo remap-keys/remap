@@ -1,13 +1,9 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
-import { Button, MenuItem, Select } from '@material-ui/core';
-import KeycodeKey from '../keycodekey/KeycodeKey.container';
-import {
-  KeycodesActionsType,
-  KeycodesStateType,
-  Key,
-} from './Keycodes.container';
+import { Button } from '@material-ui/core';
+import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
+import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/hid';
 
 const KeycodeCategories = [
@@ -36,8 +32,16 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
 
   onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const macroKeys = this.props.keys![IKeycodeCategory.MACRO];
-    if (macroKeys.find((key) => key.code === this.props.selectedKey?.code)) {
-      this.props.setMacro!(this.props.selectedKey?.code, event.target.value);
+    if (
+      macroKeys.find(
+        (key) =>
+          key.keycodeInfo.code === this.props.selectedKey?.keycodeInfo.code
+      )
+    ) {
+      this.props.setMacro!(
+        this.props.selectedKey?.keycodeInfo.code,
+        event.target.value
+      );
     }
   };
 
@@ -67,7 +71,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         </div>
         <div className="keycodes">
           {keys.map((key) => {
-            return <KeycodeKey key={key.code} value={key} />;
+            return <KeycodeKey key={key.keycodeInfo.code} value={key} />;
           })}
         </div>
         {this.props.category == IKeycodeCategory.MACRO ? (
@@ -104,7 +108,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         )}
         {this.props.hoverKey ? (
           <div className="keycode-desc">
-            {this.props.hoverKey.code}: Description
+            {this.props.hoverKey.keycodeInfo.code}: Description
           </div>
         ) : (
           ''

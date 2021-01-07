@@ -1,8 +1,9 @@
-import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import {
   IHid,
   IKeyboard,
   IKeycodeCategory,
+  IKeycodeInfo,
   IKeymap,
 } from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
@@ -28,6 +29,10 @@ export type RootState = {
   };
   app: {
     openingKeyboard: boolean; // loading status of open and init keyboard
+    remaps: {
+      // remap candidates and show keydiff
+      [pos: string]: IKeycodeInfo;
+    }[];
   };
   header: {
     flushLoading: boolean;
@@ -36,6 +41,7 @@ export type RootState = {
     instance: IHid;
   };
   keyboards: {
+    selectedPos: string;
     selectedLayer: number;
   };
   keycodes: {
@@ -45,6 +51,11 @@ export type RootState = {
   keycodeKey: {
     selectedKey: Key | null;
     hoverKey: Key | null;
+    draggingKey: Key | null;
+  };
+  keydiff: {
+    origin: IKeycodeInfo | null;
+    destination: IKeycodeInfo | null;
   };
 };
 
@@ -72,6 +83,7 @@ export const INIT_STATE: RootState = {
   },
   app: {
     openingKeyboard: false,
+    remaps: [],
   },
   header: {
     flushLoading: false,
@@ -81,6 +93,7 @@ export const INIT_STATE: RootState = {
   },
   keyboards: {
     selectedLayer: NaN,
+    selectedPos: '',
   },
   keycodes: {
     category: IKeycodeCategory.BASIC,
@@ -89,5 +102,10 @@ export const INIT_STATE: RootState = {
   keycodeKey: {
     selectedKey: null,
     hoverKey: null,
+    draggingKey: null,
+  },
+  keydiff: {
+    origin: null,
+    destination: null,
   },
 };

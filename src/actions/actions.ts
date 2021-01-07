@@ -1,12 +1,27 @@
-import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import KeyModel from '../models/KeyModel';
+import { IKeycodeInfo } from '../services/hid/hid';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
+export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
 export const KEYBOARDS_UPDATE_SELECTED_LAYER = `${KEYBOARDS_ACTIONS}/UpdateSelectedLayer`;
+export const KEYBOARDS_UPDATE_SELECTED_POS = `${KEYBOARDS_ACTIONS}/UpdateSelectedPos`;
 export const KeyboardsActions = {
+  clearSelectedPos: () => {
+    return {
+      type: KEYBOARDS_UPDATE_SELECTED_POS,
+    };
+  },
   updateSelectedLayer: (layer: number) => {
     return {
       type: KEYBOARDS_UPDATE_SELECTED_LAYER,
       value: layer,
+    };
+  },
+  updateSelectedPos: (pos: string) => {
+    return {
+      type: KEYBOARDS_UPDATE_SELECTED_POS,
+      value: pos,
     };
   },
 };
@@ -36,9 +51,16 @@ export const KeycodesActions = {
 };
 
 export const KEYCODEKEY_ACTIONS = '@KeycodeKey';
+export const KEYCODEKEY_UPDATE_DRAGGING_KEY = `${KEYCODEKEY_ACTIONS}/UpdateDraggingKey`;
 export const KEYCODEKEY_UPDATE_SELECTED_KEY = `${KEYCODEKEY_ACTIONS}/UpdateSelectedKey`;
 export const KEYCODEKEY_UPDATE_HOVER_KEY = `${KEYCODEKEY_ACTIONS}/UpdateHoverKey`;
 export const KeycodeKeyActions = {
+  updateDraggingKey: (key: Key | null) => {
+    return {
+      type: KEYCODEKEY_UPDATE_DRAGGING_KEY,
+      value: key,
+    };
+  },
   updateSelectedKey: (key: Key) => {
     return {
       type: KEYCODEKEY_UPDATE_SELECTED_KEY,
@@ -49,6 +71,23 @@ export const KeycodeKeyActions = {
     return {
       type: KEYCODEKEY_UPDATE_HOVER_KEY,
       value: key,
+    };
+  },
+};
+
+export const KEYDIFF_ACTIONS = '@Keydiff';
+export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
+export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
+export const KeydiffActions = {
+  updateKeydiff: (orig: IKeycodeInfo, dest: IKeycodeInfo) => {
+    return {
+      type: KEYDIFF_UPDATE_KEYDIFF,
+      value: { origin: orig, destination: dest },
+    };
+  },
+  clearKeydiff: () => {
+    return {
+      type: KEYDIFF_CLEAR_KEYDIFF,
     };
   },
 };
@@ -84,6 +123,9 @@ export const HeaderActions = {
 
 export const APP_ACTIONS = '@App';
 export const APP_UPDATE_OPENING = `${APP_ACTIONS}/UpdateOpening`;
+export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
+export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
+export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const AppActions = {
   updateOpeningKeyboard: (opening: boolean) => {
     return {
@@ -91,4 +133,32 @@ export const AppActions = {
       value: opening,
     };
   },
-}
+  remapsInit: (layerCount: number) => {
+    const remaps: { [pos: string]: KeyModel }[] = new Array(layerCount).fill(
+      {}
+    );
+    return {
+      type: APP_REMAPS_INIT,
+      value: remaps,
+    };
+  },
+  remapsSetKey: (layer: number, pos: string, keyinfo: IKeycodeInfo) => {
+    return {
+      type: APP_REMAPS_SET_KEY,
+      value: {
+        layer: layer,
+        pos: pos,
+        keycode: keyinfo,
+      },
+    };
+  },
+  remapsRemoveKey: (layer: number, pos: string) => {
+    return {
+      type: APP_REMAPS_REMOVE_KEY,
+      value: {
+        pos: pos,
+        layer: layer,
+      },
+    };
+  },
+};
