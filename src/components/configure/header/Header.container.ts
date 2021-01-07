@@ -6,11 +6,11 @@ import { IKeyboard } from '../../../services/hid/hid';
 import { HeaderActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
-  const kbd = state.hid.openedKeyboard;
+  const kbd = state.entities.openedKeyboard;
   const info = kbd?.getInformation();
   return {
     flushLoading: state.header.flushLoading,
-    keyboards: state.hid.keyboards,
+    keyboards: state.entities.keyboards,
     openedKeyboard: kbd,
     productId: info?.productId || NaN,
     productName: info?.productName || '',

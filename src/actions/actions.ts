@@ -81,3 +81,14 @@ export const HeaderActions = {
     };
   },
 };
+
+export const APP_ACTIONS = '@App';
+export const APP_UPDATE_OPENING = `${APP_ACTIONS}/UpdateOpening`;
+export const AppActions = {
+  updateOpeningKeyboard: (opening: boolean) => {
+    return {
+      type: APP_UPDATE_OPENING,
+      value: opening,
+    };
+  },
+}

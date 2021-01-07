@@ -17,7 +17,7 @@ const mapStateToProps = (state: RootState) => {
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
   if (keys) {
     const key = keys.find((key) => key.code === code);
-    macroText = key ? state.entities.macros[key.code] : null;
+    macroText = key ? state.entities.device.macros[key.code] : null;
   } else {
     macroText = null;
   }
