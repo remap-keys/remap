@@ -4,9 +4,9 @@ import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    openedKeyboard: state.hid.openedKeyboard,
-    openingKeyboard: state.hid.openingKeyboard,
-    keyboards: state.hid.keyboards,
+    openedKeyboard: state.entities.openedKeyboard,
+    openingKeyboard: state.app.openingKeyboard,
+    keyboards: state.entities.keyboards,
   };
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;

@@ -7,8 +7,8 @@ import { IKeyboard, IKeycodeCategory } from '../../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    keyboards: state.hid.keyboards || [],
-    openingKeyboard: state.hid.openingKeyboard,
+    keyboards: state.entities.keyboards || [],
+    openingKeyboard: state.app.openingKeyboard,
   };
 };
 export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;

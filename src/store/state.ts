@@ -19,19 +19,21 @@ export type RootState = {
       keymaps: {
         [pos: string]: IKeymap;
       }[];
+      macros: {
+        [id: number]: string;
+      };
     };
-    macros: {
-      [id: number]: string;
-    };
+    keyboards: IKeyboard[]; // authorized keyboard list
+    openedKeyboard: IKeyboard | null;
+  };
+  app: {
+    openingKeyboard: boolean; // loading status of open and init keyboard
   };
   header: {
     flushLoading: boolean;
   };
   hid: {
     instance: IHid;
-    keyboards: IKeyboard[]; // authorized keyboard list
-    openingKeyboard: boolean; // loading status of open and init keyboard
-    openedKeyboard: IKeyboard | null;
   };
   keyboards: {
     selectedLayer: number;
@@ -63,17 +65,19 @@ export const INIT_STATE: RootState = {
       rowCount: 8, // TODO: update by config file
       columnCount: 6, // TODO: update by config file
       keymaps: [],
+      macros: {},
     },
-    macros: {},
+    keyboards: [],
+    openedKeyboard: null, // hid.keyboards[i]
+  },
+  app: {
+    openingKeyboard: false,
   },
   header: {
     flushLoading: false,
   },
   hid: {
     instance: webHid,
-    keyboards: [],
-    openedKeyboard: null, // hid.keyboards[i]
-    openingKeyboard: false,
   },
   keyboards: {
     selectedLayer: NaN,
