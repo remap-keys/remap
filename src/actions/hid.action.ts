@@ -2,6 +2,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IHid, IKeyboard, IKeymaps } from '../services/hid/hid';
 import { RootState } from '../store/state';
 import {
+  AppActions,
   KeyboardsActions,
   NotificationActions,
   RemapsActions,
@@ -14,7 +15,6 @@ export const HID_OPEN_KEYBOARD = `${HID_ACTIONS}/OpenKeyboard`;
 export const HID_UPDATE_KEYBOARD_LAYER_COUNT = `${HID_ACTIONS}/UpdateKeyboardLayerCount`;
 export const HID_UPDATE_KEYBOARD_LIST = `${HID_ACTIONS}/UpdateKeyboardList`;
 export const HID_UPDATE_KEYMAPS = `${HID_ACTIONS}/UpdateKeymaps`;
-export const HID_UPDATE_OPENING = `${HID_ACTIONS}/UpdateOpening`;
 const hidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -57,12 +57,6 @@ const hidActions = {
       value: { keymaps: keymaps },
     };
   },
-  updateOpeningKeyboard: (opening: boolean) => {
-    return {
-      type: HID_UPDATE_OPENING,
-      value: opening,
-    };
-  },
 };
 
 type ActionTypes = ReturnType<
@@ -70,6 +64,7 @@ type ActionTypes = ReturnType<
   | typeof KeyboardsActions[keyof typeof KeyboardsActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
   | typeof RemapsActions[keyof typeof RemapsActions]
+  | typeof AppActions[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -83,7 +78,7 @@ export const hidActionsThunk = {
     getState: () => RootState
   ) => {
     const { hid, entities } = getState();
-    const keyboards: IKeyboard[] = hid.keyboards;
+    const keyboards: IKeyboard[] = entities.keyboards;
 
     const _connectAndOpenKeyboard = async () => {
       const result = await hid.instance.connect();
@@ -119,8 +114,8 @@ export const hidActionsThunk = {
         dispatch(NotificationActions.addError('Could not open'));
         return;
       }
-      if (hid.openedKeyboard) {
-        await hid.openedKeyboard.close();
+      if (entities.openedKeyboard) {
+        await entities.openedKeyboard.close();
       }
 
       await initOpenedKeyboard(
@@ -135,7 +130,7 @@ export const hidActionsThunk = {
       }
     };
     await _connectAndOpenKeyboard();
-    dispatch(hidActions.updateOpeningKeyboard(false));
+    dispatch(AppActions.updateOpeningKeyboard(false));
   },
 
   openKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
@@ -151,7 +146,7 @@ export const hidActionsThunk = {
          * If this keyboard is opening by this app, do nothing.
          * If this keyboard is NOT opened by this app, show warning message.
          */
-        if (hid.openedKeyboard == keyboard) {
+        if (entities.openedKeyboard == keyboard) {
           return; // do nothing
         }
         const msg = 'This device has already opened by another application';
@@ -177,7 +172,7 @@ export const hidActionsThunk = {
 
     await _openKeyboard();
 
-    dispatch(hidActions.updateOpeningKeyboard(false));
+    dispatch(AppActions.updateOpeningKeyboard(false));
   },
 
   updateAuthorizedKeyboardList: (): ThunkPromiseAction<void> => async (
@@ -193,7 +188,7 @@ export const hidActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    dispatch(hidActions.updateOpeningKeyboard(opening));
+    dispatch(AppActions.updateOpeningKeyboard(opening));
   },
 };
 

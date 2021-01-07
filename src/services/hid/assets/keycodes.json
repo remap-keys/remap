@@ -1093,7 +1093,7 @@
       "long": "KC_INT2",
       "short": "KC_KANA"
     },
-    "label": "JIS Katakana/Hiragana"
+    "label": "かな"
   },
   {
     "code": 137,
@@ -1101,7 +1101,7 @@
       "long": "KC_INT3",
       "short": "KC_JYEN"
     },
-    "label": "JIS YEN"
+    "label": "¥"
   },
   {
     "code": 138,
@@ -1109,7 +1109,7 @@
       "long": "KC_INT4",
       "short": "KC_HENK"
     },
-    "label": "JIS Henkan"
+    "label": "変換"
   },
   {
     "code": 139,
@@ -1117,7 +1117,7 @@
       "long": "KC_INT5",
       "short": "KC_MHEN"
     },
-    "label": "JIS Muhenkan"
+    "label": "無変換"
   },
   {
     "code": 140,
@@ -1157,7 +1157,7 @@
       "long": "KC_LANG1",
       "short": "KC_HAEN"
     },
-    "label": "Hangul/English"
+    "label": "Ha/En"
   },
   {
     "code": 145,
@@ -1165,7 +1165,7 @@
       "long": "KC_LANG2",
       "short": "KC_HANJ"
     },
-    "label": "Hanja"
+    "label": "한자"
   },
   {
     "code": 146,
