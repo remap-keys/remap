@@ -1,8 +1,11 @@
+@import '../../../variables';
+
 .keydiff-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: -32px;
+  height: 78px;
+  margin-top: $space-s;
 }
 
 .keyboards-wrapper {

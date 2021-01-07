@@ -1,12 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IHid, IKeyboard, IKeymaps } from '../services/hid/hid';
 import { RootState } from '../store/state';
-import {
-  AppActions,
-  KeyboardsActions,
-  NotificationActions,
-  RemapsActions,
-} from './actions';
+import { AppActions, KeyboardsActions, NotificationActions } from './actions';
 
 export const HID_ACTIONS = '@Hid';
 export const HID_CONNECT_KEYBOARD = `${HID_ACTIONS}/ConnectDevice`;
@@ -63,7 +58,6 @@ type ActionTypes = ReturnType<
   | typeof hidActions[keyof typeof hidActions]
   | typeof KeyboardsActions[keyof typeof KeyboardsActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof RemapsActions[keyof typeof RemapsActions]
   | typeof AppActions[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
@@ -224,7 +218,7 @@ const initOpenedKeyboard = async (
 
   dispatch(hidActions.updateKeyboardLayerCount(layerCount));
   dispatch(hidActions.updateKeymaps(keymaps));
-  dispatch(RemapsActions.init(layerCount));
+  dispatch(AppActions.remapsInit(layerCount));
   dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
   dispatch(hidActions.openKeyboard(keyboard));
 };

@@ -23,12 +23,20 @@
       background-color: $primary-pale !important;
     }
   }
+  &.has-diff {
+    .keycap {
+      border-color: $primary-pale !important;
+    }
+    .keyroof-base {
+      background-color: $primary-pale !important;
+    }
+    .keyroof {
+      background-color: $primary-pale !important;
+    }
+  }
   .keycap {
     cursor: pointer;
 
-    &.pointer-pass-through {
-      pointer-events: none;
-    }
     &.keycap-border {
       border: 1px solid rgba(0, 0, 0, 0.6);
     }
@@ -36,7 +44,7 @@
     font-size: 12px;
 
     &.keycap-selected {
-      animation: blink 1s infinite alternate;
+      animation: blink 1.3s infinite alternate;
     }
   }
 
@@ -90,5 +98,8 @@
         padding-right: $space-xs;
       }
     }
+  }
+  .pointer-pass-through {
+    pointer-events: none;
   }
 }

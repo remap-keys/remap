@@ -1,5 +1,4 @@
-import { Key } from '../components/configure/keycodes/Keycodes.container';
-import KeyModel from '../models/KeyModel';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import {
   IHid,
   IKeyboard,
@@ -30,6 +29,10 @@ export type RootState = {
   };
   app: {
     openingKeyboard: boolean; // loading status of open and init keyboard
+    remaps: {
+      // remap candidates and show keydiff
+      [pos: string]: IKeycodeInfo;
+    }[];
   };
   header: {
     flushLoading: boolean;
@@ -51,13 +54,9 @@ export type RootState = {
     draggingKey: Key | null;
   };
   keydiff: {
-    origin: KeyModel | null;
-    destination: KeyModel | null;
+    origin: IKeycodeInfo | null;
+    destination: IKeycodeInfo | null;
   };
-  remaps: {
-    // remap candidates and show keydiff
-    [pos: string]: IKeycodeInfo;
-  }[];
 };
 
 const webHid: IHid = new WebHid();
@@ -84,6 +83,7 @@ export const INIT_STATE: RootState = {
   },
   app: {
     openingKeyboard: false,
+    remaps: [],
   },
   header: {
     flushLoading: false,
@@ -108,5 +108,4 @@ export const INIT_STATE: RootState = {
     origin: null,
     destination: null,
   },
-  remaps: [],
 };

@@ -1,6 +1,8 @@
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
+import { IKeycodeInfo } from '../../../services/hid/hid';
+import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';
 
@@ -9,9 +11,6 @@ const KEY_CAP_BORDER = 1;
 const KEY_CAP_MARGIN_HEIGHT = 5;
 const KEY_CAP_MARGIN_WIDTH = 6;
 
-const keysizes = ['0.5u', '1u', '1.5u', '2u', '4u'] as const;
-type KeySize = typeof keysizes[number];
-
 type OnClickKeycap = (index: number) => void;
 
 type KeycapOwnState = {
@@ -19,11 +18,10 @@ type KeycapOwnState = {
 };
 
 // TODO: refactoring properties, unify the model
-type KeycapOwnProps = {
+export type KeycapOwnProps = {
   index: number;
-  labels: string[][];
   model: KeyModel;
-  size?: KeySize;
+
   selected?: boolean;
   style?: React.CSSProperties;
   styleTransform?: React.CSSProperties;
@@ -100,11 +98,25 @@ export default class Keycap extends React.Component<
       left: left + KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER,
       background: '#F2F2F2',
     };
+
+    const selectedLayer = this.props.selectedLayer!;
+    const selectedPos = this.props.selectedPos!;
+    const pos = this.props.model.pos;
+    let dstKey: Key | null = null;
+    if (pos in this.props.remaps![selectedLayer]) {
+      const dstKeycode: IKeycodeInfo = this.props.remaps![selectedLayer][pos];
+      dstKey = genKey(dstKeycode);
+    }
+
+    const isSelected = selectedPos == pos;
+    const keycode: Key = dstKey ? dstKey : genKey(this.props.model.keycode);
     return (
       <div
-        className={['keycap-base', this.state.onDragOver && 'drag-over'].join(
-          ' '
-        )}
+        className={[
+          'keycap-base',
+          this.state.onDragOver && 'drag-over',
+          dstKey && 'has-diff',
+        ].join(' ')}
         style={this.props.styleTransform}
         onDragOver={(event) => {
           event.preventDefault();
@@ -117,17 +129,26 @@ export default class Keycap extends React.Component<
         }}
         onDrop={() => {
           this.setState({ onDragOver: false });
-          this.props.onDropKeycode!(this.props.inner!, this.props.model);
+          this.props.onDropKeycode!(
+            this.props.draggingKey!,
+            this.props.selectedLayer!,
+            this.props.model
+          );
         }}
       >
         {/* base1 */}
         <div
-          className={['keycap', 'keycap-border'].join(' ')}
+          className={[
+            'keycap',
+            'keycap-border',
+            isSelected && 'keycap-selected',
+          ].join(' ')}
           style={this.props.style}
           onClick={this.props.onClickKeycap!.bind(
             this,
-            this.props.inner!,
-            this.props.model
+            selectedPos,
+            this.props.model,
+            dstKey
           )}
         ></div>
         {this.isOddly && (
@@ -138,24 +159,36 @@ export default class Keycap extends React.Component<
                 'keycap',
                 'keycap-border',
                 'keycap2',
-                'pointer-pass-through',
+                isSelected && 'keycap-selected',
               ].join(' ')}
               style={baseStyle2}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                this.props.inner!,
-                this.props.model
+                selectedPos,
+                this.props.model,
+                dstKey
               )}
+              onDragOver={(event) => {
+                event.preventDefault();
+                if (!this.state.onDragOver) {
+                  this.setState({ onDragOver: true });
+                }
+              }}
             ></div>
 
             {/* cover1 */}
             <div
-              className={['keycap', 'pointer-pass-through'].join(' ')}
+              className={[
+                'keycap',
+                'pointer-pass-through',
+                isSelected && 'keycap-selected',
+              ].join(' ')}
               style={coverStyle}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                this.props.inner!,
-                this.props.model
+                selectedPos,
+                this.props.model,
+                dstKey
               )}
             ></div>
           </React.Fragment>
@@ -166,20 +199,22 @@ export default class Keycap extends React.Component<
           style={roofStyle}
           onClick={this.props.onClickKeycap?.bind(
             this,
-            this.props.inner!,
-            this.props.model
+            selectedPos,
+            this.props.model,
+            dstKey
           )}
         ></div>
         {this.isOddly && (
           <React.Fragment>
             {/* roof2 */}
             <div
-              className={['keyroof-base'].join(' ')}
+              className={['keyroof-base', 'pointer-pass-through'].join(' ')}
               style={roofStyle2}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                this.props.inner!,
-                this.props.model
+                selectedPos,
+                this.props.model,
+                dstKey
               )}
             ></div>
           </React.Fragment>
@@ -190,24 +225,25 @@ export default class Keycap extends React.Component<
           style={labelsStyle}
           onClick={this.props.onClickKeycap?.bind(
             this,
-            this.props.inner!,
-            this.props.model
+            selectedPos,
+            this.props.model,
+            dstKey
           )}
         >
           <div className="keylabel">
-            <div className="label left top">{this.props.labels[0][0]}</div>
-            <div className="label center">{this.props.labels[0][1]}</div>
-            <div className="label right">{this.props.labels[0][2]}</div>
+            <div className="label left top"></div>
+            <div className="label center"></div>
+            <div className="label right"></div>
           </div>
           <div className="keylabel">
-            <div className="label left">{this.props.labels[1][0]}</div>
-            <div className="label center">{this.props.labels[1][1]}</div>
-            <div className="label right">{this.props.labels[1][2]}</div>
+            <div className="label left"></div>
+            <div className="label center">{keycode.label}</div>
+            <div className="label right"></div>
           </div>
           <div className="keylabel">
-            <div className="label left">{this.props.labels[2][0]}</div>
-            <div className="label center">{this.props.labels[2][1]}</div>
-            <div className="label right">{this.props.labels[2][2]}</div>
+            <div className="label left"></div>
+            <div className="label center"></div>
+            <div className="label right">{this.props.model.pos}</div>
           </div>
         </div>
       </div>

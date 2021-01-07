@@ -18,15 +18,14 @@ import {
   KEYCODEKEY_UPDATE_DRAGGING_KEY,
   KEYDIFF_ACTIONS,
   KEYDIFF_UPDATE_KEYDIFF,
-  REMAPS_SET_KEY,
-  REMAPS_INIT,
-  REMAPS_ACTIONS,
-  REMAPS_REMOVE_KEY,
   KEYDIFF_CLEAR_KEYDIFF,
   KEYBOARDS_UPDATE_SELECTED_POS,
   KEYBOARDS_CLEAR_SELECTED_POS,
-  APP_UPDATE_OPENING,
   APP_ACTIONS,
+  APP_REMAPS_SET_KEY,
+  APP_REMAPS_INIT,
+  APP_REMAPS_REMOVE_KEY,
+  APP_UPDATE_OPENING,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -37,9 +36,8 @@ import {
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
 } from '../actions/hid.action';
-import { Key } from '../components/configure/keycodes/Keycodes.container';
-import KeyModel from '../models/KeyModel';
-import { IKeyboard, IKeycodeCategory, IKeycodeInfo } from '../services/hid/hid';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
 
 import { INIT_STATE, RootState } from './state';
 
@@ -63,8 +61,6 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
       appReducer(action, draft);
-    } else if (action.type.startsWith(REMAPS_ACTIONS)) {
-      remapsReducer(action, draft);
     }
   });
 
@@ -73,6 +69,21 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case APP_UPDATE_OPENING: {
       draft.app.openingKeyboard = action.value;
       break;
+    }
+
+    case APP_REMAPS_INIT: {
+      draft.app.remaps = action.value;
+      break;
+    }
+    case APP_REMAPS_SET_KEY: {
+      const layer = action.value.layer;
+      draft.app.remaps[layer][action.value.pos] = action.value.keycode;
+      break;
+    }
+    case APP_REMAPS_REMOVE_KEY: {
+      const layer = action.value.layer;
+      const pos = action.value.pos;
+      delete draft.app.remaps[layer][pos];
     }
   }
 };
@@ -229,26 +240,6 @@ const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case HEADER_UPDATE_FLUSH_LOADING: {
       draft.header.flushLoading = action.value;
       break;
-    }
-  }
-};
-
-const remapsReducer = (action: Action, draft: WritableDraft<RootState>) => {
-  // TODO: type-safe
-  switch (action.type) {
-    case REMAPS_INIT: {
-      draft.remaps = action.value;
-      break;
-    }
-    case REMAPS_SET_KEY: {
-      const layer = action.value.layer;
-      draft.remaps[layer][action.value.pos] = action.value.keycode;
-      break;
-    }
-    case REMAPS_REMOVE_KEY: {
-      const layer = action.value.layer;
-      const pos = action.value.pos;
-      delete draft.remaps[layer][pos];
     }
   }
 };

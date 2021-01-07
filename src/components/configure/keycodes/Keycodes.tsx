@@ -1,13 +1,9 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
-import { Button, MenuItem, Select } from '@material-ui/core';
-import KeycodeKey from '../keycodekey/KeycodeKey.container';
-import {
-  KeycodesActionsType,
-  KeycodesStateType,
-  Key,
-} from './Keycodes.container';
+import { Button } from '@material-ui/core';
+import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
+import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/hid';
 
 const KeycodeCategories = [

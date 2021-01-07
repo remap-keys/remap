@@ -1,5 +1,6 @@
-import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
+import { IKeycodeInfo } from '../services/hid/hid';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
@@ -78,7 +79,7 @@ export const KEYDIFF_ACTIONS = '@Keydiff';
 export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
 export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
 export const KeydiffActions = {
-  updateKeydiff: (orig: KeyModel, dest: KeyModel) => {
+  updateKeydiff: (orig: IKeycodeInfo, dest: IKeycodeInfo) => {
     return {
       type: KEYDIFF_UPDATE_KEYDIFF,
       value: { origin: orig, destination: dest },
@@ -120,47 +121,44 @@ export const HeaderActions = {
   },
 };
 
-export const REMAPS_ACTIONS = '_Remaps';
-export const REMAPS_INIT = `${REMAPS_ACTIONS}/Init`;
-export const REMAPS_SET_KEY = `${REMAPS_ACTIONS}/SetKey`;
-export const REMAPS_REMOVE_KEY = `${REMAPS_ACTIONS}/RemoveKey`;
-export const RemapsActions = {
-  init: (layerCount: number) => {
-    const remaps: { [pos: string]: KeyModel }[] = new Array(layerCount).fill(
-      {}
-    );
-    return {
-      type: REMAPS_INIT,
-      value: remaps,
-    };
-  },
-  setKey: (layer: number, keymodel: KeyModel) => {
-    return {
-      type: REMAPS_SET_KEY,
-      value: {
-        layer: layer,
-        pos: keymodel.pos,
-        keycode: keymodel.keycode,
-      },
-    };
-  },
-  removeKey: (layer: number, pos: string) => {
-    return {
-      type: REMAPS_REMOVE_KEY,
-      value: {
-        pos: pos,
-        layer: layer,
-      },
-    };
-  },
-};
 export const APP_ACTIONS = '@App';
 export const APP_UPDATE_OPENING = `${APP_ACTIONS}/UpdateOpening`;
+export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
+export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
+export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const AppActions = {
   updateOpeningKeyboard: (opening: boolean) => {
     return {
       type: APP_UPDATE_OPENING,
       value: opening,
+    };
+  },
+  remapsInit: (layerCount: number) => {
+    const remaps: { [pos: string]: KeyModel }[] = new Array(layerCount).fill(
+      {}
+    );
+    return {
+      type: APP_REMAPS_INIT,
+      value: remaps,
+    };
+  },
+  remapsSetKey: (layer: number, pos: string, keyinfo: IKeycodeInfo) => {
+    return {
+      type: APP_REMAPS_SET_KEY,
+      value: {
+        layer: layer,
+        pos: pos,
+        keycode: keyinfo,
+      },
+    };
+  },
+  remapsRemoveKey: (layer: number, pos: string) => {
+    return {
+      type: APP_REMAPS_REMOVE_KEY,
+      value: {
+        pos: pos,
+        layer: layer,
+      },
     };
   },
 };

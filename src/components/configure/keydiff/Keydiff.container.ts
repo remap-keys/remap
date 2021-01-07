@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
 import Keydiff from './Keydiff';
 import { RootState } from '../../../store/state';
-import { KeydiffActions, RemapsActions } from '../../../actions/actions';
+import {
+  KeydiffActions,
+  AppActions,
+  KeyboardsActions,
+} from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    origin: state.keydiff.origin,
-    destination: state.keydiff.destination,
+    keydiff: state.keydiff,
     selectedLayer: state.keyboards.selectedLayer,
+    selectedPos: state.keyboards.selectedPos,
   };
 };
 export type KeydiffStateType = ReturnType<typeof mapStateToProps>;
@@ -15,7 +19,8 @@ export type KeydiffStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickCancel: (layer: number, pos: string) => {
-      _dispatch(RemapsActions.removeKey(layer, pos));
+      _dispatch(AppActions.remapsRemoveKey(layer, pos));
+      _dispatch(KeyboardsActions.clearSelectedPos());
       _dispatch(KeydiffActions.clearKeydiff());
     },
   };

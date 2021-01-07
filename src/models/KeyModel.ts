@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
-import { Key } from '../components/configure/keycodes/Keycodes.container';
+import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import { IKeycodeInfo } from '../services/hid/hid';
 
 export type KeyOp = {
@@ -68,52 +68,6 @@ export default class KeyModel {
     this.height2 = h2 * KEY_SIZE;
     this.width2 = w2 * KEY_SIZE;
     this._keycode = null;
-  }
-
-  cloneWithLocalPosition(keycode: Key | null): KeyModel {
-    const c = this.color;
-    let keyOp = this.keyOp;
-    if (!keyOp) {
-      keyOp = {
-        x: 0,
-        y: 0,
-        c: c,
-        w: this.width / KEY_SIZE,
-        h: this.height / KEY_SIZE,
-        r: this.rotate,
-        rx: this.originLeft / KEY_SIZE,
-        ry: this.originTop / KEY_SIZE,
-        x2: 0,
-        y2: 0,
-        w2: 0,
-        h2: 0,
-      };
-    }
-
-    const { x, y, w, h, r, rx, ry, x2, y2, w2, h2 } = keyOp;
-    const model = new KeyModel(
-      this.keyOp,
-      this.pos,
-      0,
-      0,
-      w || this.width / KEY_SIZE,
-      h || this.height / KEY_SIZE,
-      c,
-      r || this.rotate,
-      rx || this.originLeft / KEY_SIZE,
-      ry || this.originTop / KEY_SIZE,
-      x2 || NaN,
-      y2 || NaN,
-      w2 || NaN,
-      h2 || NaN
-    );
-
-    if (keycode) {
-      model._keycode = keycode;
-    } else {
-      model._keycode = this._keycode;
-    }
-    return model;
   }
 
   get isOddly(): boolean {
