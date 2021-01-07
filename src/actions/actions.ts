@@ -2,12 +2,25 @@ import { Key } from '../components/configure/keycodes/Keycodes.container';
 import KeyModel from '../models/KeyModel';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
+export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
 export const KEYBOARDS_UPDATE_SELECTED_LAYER = `${KEYBOARDS_ACTIONS}/UpdateSelectedLayer`;
+export const KEYBOARDS_UPDATE_SELECTED_POS = `${KEYBOARDS_ACTIONS}/UpdateSelectedPos`;
 export const KeyboardsActions = {
+  clearSelectedPos: () => {
+    return {
+      type: KEYBOARDS_UPDATE_SELECTED_POS,
+    };
+  },
   updateSelectedLayer: (layer: number) => {
     return {
       type: KEYBOARDS_UPDATE_SELECTED_LAYER,
       value: layer,
+    };
+  },
+  updateSelectedPos: (pos: string) => {
+    return {
+      type: KEYBOARDS_UPDATE_SELECTED_POS,
+      value: pos,
     };
   },
 };
@@ -62,12 +75,18 @@ export const KeycodeKeyActions = {
 };
 
 export const KEYDIFF_ACTIONS = '@Keydiff';
-export const KEYDIFF_UPDATE_KEYDIFF = `${KEYCODEKEY_ACTIONS}/UpdateKeydiff`;
+export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
+export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
 export const KeydiffActions = {
   updateKeydiff: (orig: KeyModel, dest: KeyModel) => {
     return {
       type: KEYDIFF_UPDATE_KEYDIFF,
-      value: { orig: orig, dest: dest },
+      value: { origin: orig, destination: dest },
+    };
+  },
+  clearKeydiff: () => {
+    return {
+      type: KEYDIFF_CLEAR_KEYDIFF,
     };
   },
 };
@@ -97,6 +116,41 @@ export const HeaderActions = {
     return {
       type: HEADER_UPDATE_FLUSH_LOADING,
       value: loading,
+    };
+  },
+};
+
+export const REMAPS_ACTIONS = '_Remaps';
+export const REMAPS_INIT = `${REMAPS_ACTIONS}/Init`;
+export const REMAPS_SET_KEY = `${REMAPS_ACTIONS}/SetKey`;
+export const REMAPS_REMOVE_KEY = `${REMAPS_ACTIONS}/RemoveKey`;
+export const RemapsActions = {
+  init: (layerCount: number) => {
+    const remaps: { [pos: string]: KeyModel }[] = new Array(layerCount).fill(
+      {}
+    );
+    return {
+      type: REMAPS_INIT,
+      value: remaps,
+    };
+  },
+  setKey: (layer: number, keymodel: KeyModel) => {
+    return {
+      type: REMAPS_SET_KEY,
+      value: {
+        layer: layer,
+        pos: keymodel.pos,
+        keycode: keymodel.keycode,
+      },
+    };
+  },
+  removeKey: (layer: number, pos: string) => {
+    return {
+      type: REMAPS_REMOVE_KEY,
+      value: {
+        pos: pos,
+        layer: layer,
+      },
     };
   },
 };

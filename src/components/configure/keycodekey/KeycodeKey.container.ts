@@ -8,7 +8,8 @@ import { Key } from '../keycodes/Keycodes.container';
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
   const clickable: boolean = !!(
-    keys && keys.find((key) => key.code === ownProps.value.code)
+    keys &&
+    keys.find((key) => key.keycodeInfo.code === ownProps.value.keycodeInfo.code)
   );
   return {
     selected: state.keycodeKey.selectedKey == ownProps.value,

@@ -18,6 +18,13 @@ import {
   KEYCODEKEY_UPDATE_DRAGGING_KEY,
   KEYDIFF_ACTIONS,
   KEYDIFF_UPDATE_KEYDIFF,
+  REMAPS_SET_KEY,
+  REMAPS_INIT,
+  REMAPS_ACTIONS,
+  REMAPS_REMOVE_KEY,
+  KEYDIFF_CLEAR_KEYDIFF,
+  KEYBOARDS_UPDATE_SELECTED_POS,
+  KEYBOARDS_CLEAR_SELECTED_POS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -30,7 +37,8 @@ import {
   HID_UPDATE_OPENING,
 } from '../actions/hid.action';
 import { Key } from '../components/configure/keycodes/Keycodes.container';
-import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
+import KeyModel from '../models/KeyModel';
+import { IKeyboard, IKeycodeCategory, IKeycodeInfo } from '../services/hid/hid';
 
 import { INIT_STATE, RootState } from './state';
 
@@ -52,6 +60,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keydiffReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
+    } else if (action.type.startsWith(REMAPS_ACTIONS)) {
+      remapsReducer(action, draft);
     }
   });
 
@@ -102,8 +112,16 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
 const keyboardsReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
+    case KEYBOARDS_CLEAR_SELECTED_POS: {
+      draft.keyboards.selectedPos = '';
+      break;
+    }
     case KEYBOARDS_UPDATE_SELECTED_LAYER: {
       draft.keyboards.selectedLayer = action.value;
+      break;
+    }
+    case KEYBOARDS_UPDATE_SELECTED_POS: {
+      draft.keyboards.selectedPos = action.value;
       break;
     }
   }
@@ -151,7 +169,12 @@ const keydiffReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {
     case KEYDIFF_UPDATE_KEYDIFF: {
       draft.keydiff.origin = action.value.origin;
-      draft.keydiff.destination = action.value.dest;
+      draft.keydiff.destination = action.value.destination;
+      break;
+    }
+    case KEYDIFF_CLEAR_KEYDIFF: {
+      draft.keydiff.origin = null;
+      draft.keydiff.destination = null;
       break;
     }
   }
@@ -198,6 +221,26 @@ const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case HEADER_UPDATE_FLUSH_LOADING: {
       draft.header.flushLoading = action.value;
       break;
+    }
+  }
+};
+
+const remapsReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case REMAPS_INIT: {
+      draft.remaps = action.value;
+      break;
+    }
+    case REMAPS_SET_KEY: {
+      const layer = action.value.layer;
+      draft.remaps[layer][action.value.pos] = action.value.keycode;
+      break;
+    }
+    case REMAPS_REMOVE_KEY: {
+      const layer = action.value.layer;
+      const pos = action.value.pos;
+      delete draft.remaps[layer][pos];
     }
   }
 };

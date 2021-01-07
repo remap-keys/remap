@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import { Key } from '../components/configure/keycodes/Keycodes.container';
 import { IKeycodeInfo } from '../services/hid/hid';
+
 export type KeyOp = {
   x?: number;
   y?: number;
@@ -32,8 +33,10 @@ export default class KeyModel {
   readonly left2: number;
   readonly height2: number;
   readonly width2: number;
-  private keycode: Key | null;
+  readonly keyOp: KeyOp | null;
+  private _keycode: Key | null;
   constructor(
+    op: KeyOp | null,
     location: string, // "col,row"
     x: number,
     y: number,
@@ -48,26 +51,68 @@ export default class KeyModel {
     w2: number = NaN,
     h2: number = NaN
   ) {
+    this.keyOp = op;
     this.pos = location;
-    this.top = y * KEY_SIZE;
     this.left = x * KEY_SIZE;
-    this.height = h * KEY_SIZE;
+    this.top = y * KEY_SIZE;
     this.width = w * KEY_SIZE;
+    this.height = h * KEY_SIZE;
+
     this.color = c;
     this.rotate = r;
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
     this.transformOrigin = `${rx * KEY_SIZE}px ${ry * KEY_SIZE}px`;
-    this.top2 = y2 * KEY_SIZE;
     this.left2 = x2 * KEY_SIZE;
+    this.top2 = y2 * KEY_SIZE;
     this.height2 = h2 * KEY_SIZE;
     this.width2 = w2 * KEY_SIZE;
-    this.keycode = null;
+    this._keycode = null;
   }
 
-  clone(keycode: Key): KeyModel {
-    const model: KeyModel = { ...this };
-    model.keycode = keycode;
+  cloneWithLocalPosition(keycode: Key | null): KeyModel {
+    const c = this.color;
+    let keyOp = this.keyOp;
+    if (!keyOp) {
+      keyOp = {
+        x: 0,
+        y: 0,
+        c: c,
+        w: this.width / KEY_SIZE,
+        h: this.height / KEY_SIZE,
+        r: this.rotate,
+        rx: this.originLeft / KEY_SIZE,
+        ry: this.originTop / KEY_SIZE,
+        x2: 0,
+        y2: 0,
+        w2: 0,
+        h2: 0,
+      };
+    }
+
+    const { x, y, w, h, r, rx, ry, x2, y2, w2, h2 } = keyOp;
+    const model = new KeyModel(
+      this.keyOp,
+      this.pos,
+      0,
+      0,
+      w || this.width / KEY_SIZE,
+      h || this.height / KEY_SIZE,
+      c,
+      r || this.rotate,
+      rx || this.originLeft / KEY_SIZE,
+      ry || this.originTop / KEY_SIZE,
+      x2 || NaN,
+      y2 || NaN,
+      w2 || NaN,
+      h2 || NaN
+    );
+
+    if (keycode) {
+      model._keycode = keycode;
+    } else {
+      model._keycode = this._keycode;
+    }
     return model;
   }
 
@@ -78,6 +123,35 @@ export default class KeyModel {
       !Number.isNaN(this.height2) &&
       !Number.isNaN(this.width2)
     );
+  }
+
+  get keycode(): IKeycodeInfo {
+    return this._keycode!.keycodeInfo;
+  }
+
+  get label(): string {
+    return this.keycode ? this.keycode.label : this.pos;
+  }
+
+  get maxHeight(): number {
+    if (this.height2) {
+      return Math.max(
+        this.height,
+        (this.keyOp!.y2 || 0 + this.keyOp!.h2 || 0) * KEY_SIZE
+      );
+    } else {
+      return this.height;
+    }
+  }
+
+  get maxWidth(): number {
+    if (this.keyOp) {
+      const x2 = this.keyOp.x2 || 0;
+      const w2 = this.keyOp.w2 || 0;
+      return Math.max(this.width, (x2 + w2) * KEY_SIZE);
+    } else {
+      return this.width;
+    }
   }
 
   get style(): CSSProperties {
@@ -147,7 +221,11 @@ export default class KeyModel {
     return this.originTop + y1 + bottom;
   }
 
-  setKeycode(keycode: Key) {
-    this.keycode = keycode;
+  setKeycode(label: string, meta: string, info: IKeycodeInfo) {
+    this._keycode = {
+      label: label,
+      meta: meta,
+      keycodeInfo: info,
+    };
   }
 }

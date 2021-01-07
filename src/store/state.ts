@@ -4,6 +4,7 @@ import {
   IHid,
   IKeyboard,
   IKeycodeCategory,
+  IKeycodeInfo,
   IKeymap,
 } from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
@@ -35,6 +36,7 @@ export type RootState = {
     openedKeyboard: IKeyboard | null;
   };
   keyboards: {
+    selectedPos: string;
     selectedLayer: number;
   };
   keycodes: {
@@ -50,6 +52,10 @@ export type RootState = {
     origin: KeyModel | null;
     destination: KeyModel | null;
   };
+  remaps: {
+    // remap candidates and show keydiff
+    [pos: string]: IKeycodeInfo;
+  }[];
 };
 
 const webHid: IHid = new WebHid();
@@ -83,6 +89,7 @@ export const INIT_STATE: RootState = {
   },
   keyboards: {
     selectedLayer: NaN,
+    selectedPos: '',
   },
   keycodes: {
     category: IKeycodeCategory.BASIC,
@@ -97,4 +104,5 @@ export const INIT_STATE: RootState = {
     origin: null,
     destination: null,
   },
+  remaps: [],
 };

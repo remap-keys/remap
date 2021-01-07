@@ -32,7 +32,7 @@ export default class KeyboardModel {
         let w = 1;
 
         if (typeof item === 'string') {
-          model = new KeyModel(item, x, y, w, h, c, r, rx, ry); // no ops for this key
+          model = new KeyModel(null, item, x, y, w, h, c, r, rx, ry); // no ops for this key
         } else {
           const op = item as KeyOp;
 
@@ -61,7 +61,22 @@ export default class KeyboardModel {
           let h2 = op.h2 || NaN;
 
           const label = keys[++j] as string; // next item should be string(row,col)
-          model = new KeyModel(label, x, y, w, h, c, r, rx, ry, x2, y2, w2, h2);
+          model = new KeyModel(
+            op,
+            label,
+            x,
+            y,
+            w,
+            h,
+            c,
+            r,
+            rx,
+            ry,
+            x2,
+            y2,
+            w2,
+            h2
+          );
         }
         x += w;
         list.push(model);

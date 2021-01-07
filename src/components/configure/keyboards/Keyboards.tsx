@@ -120,12 +120,7 @@ export default class Keyboards extends React.Component<
                     label = info.label;
 
                     // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-                    model.setKeycode({
-                      code: info.code,
-                      label: info.label,
-                      meta: '',
-                      keycodeInfo: info,
-                    });
+                    model.setKeycode(info.label, '', info);
                   }
                   return (
                     <Keycap

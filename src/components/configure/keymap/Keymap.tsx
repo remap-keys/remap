@@ -5,7 +5,6 @@ import Keydiff from '../keydiff/Keydiff.container';
 
 //import kbdConfig from '../../../assets/files/lunakey-mini.json';
 import kbdConfig from '../../../assets/files/lunakey-mini-test.json';
-import KeyModel from '../../../models/KeyModel';
 //import kbdConfig from '../../../assets/files/iso60.json';
 
 export default class Keymap extends React.Component {
