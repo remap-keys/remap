@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/hid';
+import KEY_DESCRIPTIONS from '../../../assets/files/key_descriptions';
 
 const KeycodeCategories = [
   { name: IKeycodeCategory.BASIC, label: 'Basic' },
@@ -108,7 +109,15 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         )}
         {this.props.hoverKey ? (
           <div className="keycode-desc">
-            {this.props.hoverKey.keymap.code}: Description
+            {this.props.hoverKey.keymap.isAny
+              ? 'Any'
+              : this.props.hoverKey.keymap.keycodeInfo?.name.long}
+            :{' '}
+            {
+              KEY_DESCRIPTIONS[
+                this.props.hoverKey.keymap.keycodeInfo!.name.long
+              ]
+            }
           </div>
         ) : (
           ''
