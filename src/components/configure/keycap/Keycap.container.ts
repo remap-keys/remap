@@ -37,9 +37,7 @@ const mapDispatchToProps = (_dispatch: any) => {
 
       // set new selected Position and show key diff
       if (dstKey) {
-        _dispatch(
-          KeydiffActions.updateKeydiff(model.keycode, dstKey.keycodeInfo)
-        );
+        _dispatch(KeydiffActions.updateKeydiff(model.keymap, dstKey.keymap));
       } else {
         _dispatch(KeydiffActions.clearKeydiff());
       }
@@ -54,13 +52,10 @@ const mapDispatchToProps = (_dispatch: any) => {
       const pos = originalModel.pos;
 
       _dispatch(
-        AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keycodeInfo)
+        AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
       );
       _dispatch(
-        KeydiffActions.updateKeydiff(
-          originalModel.keycode,
-          draggingKey?.keycodeInfo
-        )
+        KeydiffActions.updateKeydiff(originalModel.keymap, draggingKey?.keymap)
       );
       _dispatch(KeyboardsActions.updateSelectedPos(originalModel.pos));
     },

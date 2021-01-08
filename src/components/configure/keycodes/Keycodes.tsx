@@ -34,12 +34,11 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
     const macroKeys = this.props.keys![IKeycodeCategory.MACRO];
     if (
       macroKeys.find(
-        (key) =>
-          key.keycodeInfo.code === this.props.selectedKey?.keycodeInfo.code
+        (key) => key.keymap.code === this.props.selectedKey?.keymap.code
       )
     ) {
       this.props.setMacro!(
-        this.props.selectedKey?.keycodeInfo.code,
+        this.props.selectedKey?.keymap.code,
         event.target.value
       );
     }
@@ -71,7 +70,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         </div>
         <div className="keycodes">
           {keys.map((key) => {
-            return <KeycodeKey key={key.keycodeInfo.code} value={key} />;
+            return <KeycodeKey key={key.keymap.code} value={key} />;
           })}
         </div>
         {this.props.category == IKeycodeCategory.MACRO ? (
@@ -108,7 +107,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         )}
         {this.props.hoverKey ? (
           <div className="keycode-desc">
-            {this.props.hoverKey.keycodeInfo.code}: Description
+            {this.props.hoverKey.keymap.code}: Description
           </div>
         ) : (
           ''

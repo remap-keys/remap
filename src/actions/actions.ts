@@ -1,6 +1,6 @@
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
-import { IKeycodeInfo } from '../services/hid/hid';
+import { IKeycodeInfo, IKeymap } from '../services/hid/hid';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
@@ -79,7 +79,7 @@ export const KEYDIFF_ACTIONS = '@Keydiff';
 export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
 export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
 export const KeydiffActions = {
-  updateKeydiff: (orig: IKeycodeInfo, dest: IKeycodeInfo) => {
+  updateKeydiff: (orig: IKeymap, dest: IKeymap) => {
     return {
       type: KEYDIFF_UPDATE_KEYDIFF,
       value: { origin: orig, destination: dest },
@@ -142,13 +142,13 @@ export const AppActions = {
       value: remaps,
     };
   },
-  remapsSetKey: (layer: number, pos: string, keyinfo: IKeycodeInfo) => {
+  remapsSetKey: (layer: number, pos: string, keymap: IKeymap) => {
     return {
       type: APP_REMAPS_SET_KEY,
       value: {
         layer: layer,
         pos: pos,
-        keycode: keyinfo,
+        keymap,
       },
     };
   },

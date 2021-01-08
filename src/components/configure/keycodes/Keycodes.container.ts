@@ -5,12 +5,12 @@ import { KeycodesActions } from '../../../actions/actions';
 import { IKeycodeCategory } from '../../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
-  const code = state.keycodeKey.selectedKey?.keycodeInfo.code;
+  const code = state.keycodeKey.selectedKey?.keymap.code;
   let macroText: string | null;
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
   if (keys) {
-    const key = keys.find((key) => key.keycodeInfo.code === code);
-    macroText = key ? state.entities.device.macros[key.keycodeInfo.code] : null;
+    const key = keys.find((key) => key.keymap.code === code);
+    macroText = key ? state.entities.device.macros[key.keymap.code] : null;
   } else {
     macroText = null;
   }

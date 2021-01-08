@@ -2,24 +2,28 @@ import { connect } from 'react-redux';
 import KeycodeKey, { KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
 import { KeycodeKeyActions } from '../../../actions/actions';
-import { IKeycodeCategory, IKeycodeInfo } from '../../../services/hid/hid';
+import { IKeycodeCategory, IKeymap } from '../../../services/hid/hid';
+import KeyModel from '../../../models/KeyModel';
 
 export type Key = {
   label: string;
   meta: string;
-  keycodeInfo: IKeycodeInfo;
+  keymap: IKeymap;
 };
 
-export const genKey = (keycodeInfo: IKeycodeInfo): Key => {
+export const genKey = (keymap: IKeymap): Key => {
   // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-  return { label: keycodeInfo.label, meta: '', keycodeInfo: keycodeInfo };
+  if (keymap.isAny) {
+    return { label: 'Any', meta: '', keymap };
+  } else {
+    return { label: keymap.keycodeInfo!.label, meta: '', keymap };
+  }
 };
 
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
   const clickable: boolean = !!(
-    keys &&
-    keys.find((key) => key.keycodeInfo.code === ownProps.value.keycodeInfo.code)
+    keys && keys.find((key) => key.keymap.code === ownProps.value.keymap.code)
   );
   return {
     selected: state.keycodeKey.selectedKey == ownProps.value,

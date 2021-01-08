@@ -33,43 +33,44 @@ import {
   IDynamicKeymapReadBufferResponse,
 } from './commands';
 
-const basicKeycodes: IKeycodeInfo[] = (basic as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const createKeymap = (code: number): IKeymap => ({
+  code,
+  isAny: false,
+  keycodeInfo: (keycodeArray as IKeycodeInfo[]).find(
+    (keycode) => keycode.code === code
+  )!,
+});
+
+const basicKeymaps: IKeymap[] = (basic as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const layersKeycodes: IKeycodeInfo[] = (layers as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const layersKeymaps: IKeymap[] = (layers as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const lightingKeycodes: IKeycodeInfo[] = (lighting as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const lightingKeymaps: IKeymap[] = (lighting as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const macroKeycodes: IKeycodeInfo[] = (macro as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const macroKeymaps: IKeymap[] = (macro as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const mediaKeycodes: IKeycodeInfo[] = (media as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const mediaKeymaps: IKeymap[] = (media as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const numberKeycodes: IKeycodeInfo[] = (kp as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const numberKeymaps: IKeymap[] = (kp as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
-const specialKeycodes: IKeycodeInfo[] = (special as IKeycodeCategoryInfo).codes.map(
-  (code) =>
-    (keycodeArray as IKeycodeInfo[]).find((keycode) => keycode.code === code)!
+const specialKeymaps: IKeymap[] = (special as IKeycodeCategoryInfo).codes.map(
+  (code) => createKeymap(code)
 );
 
-const categoryToKeycodesMap: { [p: string]: IKeycodeInfo[] } = {
-  basic: basicKeycodes,
-  layers: layersKeycodes,
-  lighting: lightingKeycodes,
-  macro: macroKeycodes,
-  media: mediaKeycodes,
-  number: numberKeycodes,
-  special: specialKeycodes,
+const categoryToKeymapsMap: { [p: string]: IKeymap[] } = {
+  basic: basicKeymaps,
+  layers: layersKeymaps,
+  lighting: lightingKeymaps,
+  macro: macroKeymaps,
+  media: mediaKeymaps,
+  number: numberKeymaps,
+  special: specialKeymaps,
 };
 
 export class Keyboard implements IKeyboard {
@@ -224,20 +225,7 @@ export class Keyboard implements IKeyboard {
         }
         for (let i = 0; i < buffer.length; i += 2) {
           const code = (buffer[i] << 8) | buffer[i + 1];
-          const keycodeInfo = this.hid.getKeycodeInfo(code);
-          let keymap: IKeymap;
-          if (keycodeInfo) {
-            keymap = {
-              isAny: false,
-              code,
-              keycodeInfo,
-            };
-          } else {
-            keymap = {
-              isAny: true,
-              code,
-            };
-          }
+          const keymap = this.hid.getKeymap(code);
           keymapMap[`${row},${column}`] = keymap;
           column = column + 1;
           if (columnCount === column) {
@@ -418,11 +406,25 @@ export class WebHid implements IHid {
     });
   }
 
-  getKeycodeCandidatesByCategory(category: string): IKeycodeInfo[] {
-    return categoryToKeycodesMap[category];
+  getKeymapCandidatesByCategory(category: string): IKeymap[] {
+    return categoryToKeymapsMap[category];
   }
 
-  getKeycodeInfo(code: number): IKeycodeInfo | undefined {
-    return keycodeArray.find((keycode) => keycode.code === code);
+  getKeymap(code: number): IKeymap {
+    const keycodeInfo = keycodeArray.find(
+      (keycodeInfo) => keycodeInfo.code === code
+    );
+    if (keycodeInfo) {
+      return {
+        code,
+        isAny: false,
+        keycodeInfo,
+      };
+    } else {
+      return {
+        code,
+        isAny: true,
+      };
+    }
   }
 }

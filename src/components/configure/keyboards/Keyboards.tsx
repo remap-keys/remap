@@ -125,16 +125,15 @@ export default class Keyboards extends React.Component<
                   const layer = this.props.selectedLayer!;
                   const pos = model.pos;
                   const keymap = this.props.keymaps![layer][pos];
+                  const info = this.props.keymaps![layer][pos].keycodeInfo!;
                   let label;
                   if (keymap.isAny) {
                     label = 'Any';
                   } else {
-                    const info = this.props.keymaps![layer][pos].keycodeInfo!;
                     label = info.label;
-
-                    // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-                    model.setKeycode(info.label, '', info);
                   }
+                  // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
+                  model.setKeycode(label, '', keymap);
                   return (
                     <Keycap
                       key={index}
