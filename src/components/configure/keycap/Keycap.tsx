@@ -1,7 +1,7 @@
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { IKeycodeInfo } from '../../../services/hid/hid';
+import { IKeycodeInfo, IKeymap } from '../../../services/hid/hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';
@@ -104,12 +104,12 @@ export default class Keycap extends React.Component<
     const pos = this.props.model.pos;
     let dstKey: Key | null = null;
     if (pos in this.props.remaps![selectedLayer]) {
-      const dstKeycode: IKeycodeInfo = this.props.remaps![selectedLayer][pos];
-      dstKey = genKey(dstKeycode);
+      const dstKeymap: IKeymap = this.props.remaps![selectedLayer][pos];
+      dstKey = genKey(dstKeymap);
     }
 
     const isSelected = selectedPos == pos;
-    const keycode: Key = dstKey ? dstKey : genKey(this.props.model.keycode);
+    const keycode: Key = dstKey ? dstKey : genKey(this.props.model.keymap);
     return (
       <div
         className={[

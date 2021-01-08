@@ -159,25 +159,27 @@ const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
       break;
     }
     case KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES: {
-      const setKeycodeInfoByCategory = (category: string) => {
+      const setKeymapByCategory = (category: string) => {
         draft.keycodes.keys[
           category
         ] = draft.hid.instance
-          .getKeycodeCandidatesByCategory(category)
-          .map<Key>((keycodeInfo) => ({
-            code: keycodeInfo.code,
-            label: keycodeInfo.label,
+          .getKeymapCandidatesByCategory(category)
+          .map<Key>((keymap) => ({
+            code: keymap.code,
+            label: keymap.keycodeInfo!.label,
             meta: '',
-            keycodeInfo,
+            keymap,
           }));
       };
-      setKeycodeInfoByCategory(IKeycodeCategory.BASIC);
-      setKeycodeInfoByCategory(IKeycodeCategory.LAYERS);
-      setKeycodeInfoByCategory(IKeycodeCategory.LIGHTING);
-      setKeycodeInfoByCategory(IKeycodeCategory.MEDIA);
-      setKeycodeInfoByCategory(IKeycodeCategory.NUMBER);
-      setKeycodeInfoByCategory(IKeycodeCategory.SPECIAL);
-      setKeycodeInfoByCategory(IKeycodeCategory.MACRO);
+      [
+        IKeycodeCategory.BASIC,
+        IKeycodeCategory.LAYERS,
+        IKeycodeCategory.LIGHTING,
+        IKeycodeCategory.MEDIA,
+        IKeycodeCategory.NUMBER,
+        IKeycodeCategory.SPECIAL,
+        IKeycodeCategory.MACRO,
+      ].forEach((category) => setKeymapByCategory(category));
       break;
     }
   }

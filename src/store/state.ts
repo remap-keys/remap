@@ -3,7 +3,6 @@ import {
   IHid,
   IKeyboard,
   IKeycodeCategory,
-  IKeycodeInfo,
   IKeymap,
 } from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
@@ -31,7 +30,7 @@ export type RootState = {
     openingKeyboard: boolean; // loading status of open and init keyboard
     remaps: {
       // remap candidates and show keydiff
-      [pos: string]: IKeycodeInfo;
+      [pos: string]: IKeymap;
     }[];
   };
   header: {
@@ -54,8 +53,8 @@ export type RootState = {
     draggingKey: Key | null;
   };
   keydiff: {
-    origin: IKeycodeInfo | null;
-    destination: IKeycodeInfo | null;
+    origin: IKeymap | null;
+    destination: IKeymap | null;
   };
 };
 

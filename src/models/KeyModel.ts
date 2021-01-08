@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
-import { IKeycodeInfo } from '../services/hid/hid';
+import { IKeycodeInfo, IKeymap } from '../services/hid/hid';
 
 export type KeyOp = {
   x?: number;
@@ -79,12 +79,12 @@ export default class KeyModel {
     );
   }
 
-  get keycode(): IKeycodeInfo {
-    return this._keycode!.keycodeInfo;
+  get keymap(): IKeymap {
+    return this._keycode!.keymap;
   }
 
   get label(): string {
-    return this.keycode ? this.keycode.label : this.pos;
+    return this.keymap.keycodeInfo ? this.keymap.keycodeInfo.label : this.pos;
   }
 
   get maxHeight(): number {
@@ -175,11 +175,11 @@ export default class KeyModel {
     return this.originTop + y1 + bottom;
   }
 
-  setKeycode(label: string, meta: string, info: IKeycodeInfo) {
+  setKeycode(label: string, meta: string, keymap: IKeymap) {
     this._keycode = {
       label: label,
       meta: meta,
-      keycodeInfo: info,
+      keymap,
     };
   }
 }

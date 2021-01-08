@@ -97,6 +97,6 @@ export interface IHid {
   detectKeyboards(): Promise<IKeyboard[]>;
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
-  getKeycodeCandidatesByCategory(category: string): IKeycodeInfo[];
-  getKeycodeInfo(code: number): IKeycodeInfo | undefined;
+  getKeymapCandidatesByCategory(category: string): IKeymap[];
+  getKeymap(code: number): IKeymap;
 }
