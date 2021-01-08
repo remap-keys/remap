@@ -38,6 +38,20 @@ export default class Keycap extends React.Component<
   }
 
   render(): ReactNode {
+    const color = this.props.model.color;
+    let roofColor;
+    let roofEdgeColor;
+    if (color === '#aaaaaa') {
+      roofColor = '#C8C8C8';
+      roofEdgeColor = '#E0E0E0';
+    } else if (color === '#777777') {
+      roofColor = '#8D8D8D';
+      roofEdgeColor = '#C0C0C0';
+    } else {
+      roofColor = '#F2F2F2';
+      roofEdgeColor = '#FDFDFD';
+    }
+
     const style = this.props.model.styleAbsolute;
     const style2 = this.props.model.isOddly
       ? this.props.model.styleAbsolute2
@@ -72,6 +86,7 @@ export default class Keycap extends React.Component<
       height: height - (KEY_CAP_MARGIN_HEIGHT + KEY_CAP_BORDER) * 2,
       top: top + KEY_CAP_MARGIN_HEIGHT,
       left: left + KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH,
+      borderColor: roofEdgeColor,
     };
 
     const roofStyle2 = {
@@ -80,7 +95,8 @@ export default class Keycap extends React.Component<
       height: height2 - (KEY_CAP_BORDER + KEY_CAP_MARGIN_HEIGHT) * 2,
       top: top2 + KEY_CAP_MARGIN_HEIGHT,
       left: left2 + KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER,
-      background: '#F2F2F2',
+      background: roofColor,
+      borderColor: roofEdgeColor,
     };
 
     const labelsStyle = {
@@ -90,7 +106,7 @@ export default class Keycap extends React.Component<
       height: height - KEY_CAP_MARGIN_HEIGHT * 2 - KEY_CAP_BORDER * 4,
       top: top + KEY_CAP_MARGIN_HEIGHT + KEY_CAP_BORDER,
       left: left + KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER,
-      background: '#F2F2F2',
+      background: roofColor,
     };
 
     const selectedLayer = this.props.selectedLayer!;
@@ -222,7 +238,7 @@ export default class Keycap extends React.Component<
         )}
         {/* labels */}
         <div
-          className="keyroof"
+          className={['keyroof'].join(' ')}
           style={labelsStyle}
           onClick={this.props.onClickKeycap?.bind(
             this,
