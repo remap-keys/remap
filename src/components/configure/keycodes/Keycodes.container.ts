@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
 import { KeycodesActions } from '../../../actions/actions';
-import { IKeycodeCategory } from '../../../services/hid/hid';
+import { IHid, IKeycodeCategory } from '../../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
   const code = state.keycodeKey.selectedKey?.keymap.code;
@@ -16,6 +16,7 @@ const mapStateToProps = (state: RootState) => {
   }
 
   return {
+    _hidInstance: state.hid.instance,
     category: state.keycodes.category,
     keys: state.keycodes.keys,
     hoverKey: state.keycodeKey.hoverKey,
@@ -25,13 +26,20 @@ const mapStateToProps = (state: RootState) => {
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = {
-  selectCategory: KeycodesActions.updateCategory,
-  setMacro: KeycodesActions.updateMacro,
-  loadKeycodeInfoForAllCategories:
-    KeycodesActions.loadKeycodeInfoForAllCategories,
+const mapDispatchToProps = (_dispatch: any) => {
+  return {
+    selectCategory: (value: string) => {
+      _dispatch(KeycodesActions.updateCategory(value));
+    },
+    setMacro: (code: number | undefined, text: string) => {
+      _dispatch(KeycodesActions.updateMacro(code, text));
+    },
+    loadKeycodeInfoForAllCategories: (hid: IHid) => {
+      _dispatch(KeycodesActions.loadKeycodeInfoForAllCategories(hid));
+    },
+  };
 };
 
-export type KeycodesActionsType = typeof mapDispatchToProps;
+export type KeycodesActionsType = ReturnType<typeof mapDispatchToProps>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Keycodes);

@@ -27,7 +27,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
   }
 
   componentDidMount() {
-    this.props.loadKeycodeInfoForAllCategories!();
+    this.props.loadKeycodeInfoForAllCategories!(this.props._hidInstance!);
   }
 
   onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -54,7 +54,6 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
     return (
       <React.Fragment>
         <div className="key-categories">
-          <div className="blank-category"></div>
           {KeycodeCategories.map((cat, index) => {
             return (
               <div className="key-category" key={index}>
@@ -70,7 +69,9 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
         </div>
         <div className="keycodes">
           {keys.map((key) => {
-            return <KeycodeKey key={key.keymap.code} value={key} />;
+            return (
+              <KeycodeKey key={key.keymap.code} value={key} draggable={true} />
+            );
           })}
         </div>
         {this.props.category == IKeycodeCategory.MACRO ? (

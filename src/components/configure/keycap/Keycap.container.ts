@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     draggingKey: state.keycodeKey.draggingKey,
     selectedPos: state.keyboards.selectedPos,
     selectedLayer: state.keyboards.selectedLayer,
+    keymaps: state.entities.device.keymaps,
     remaps: state.app.remaps,
   };
 };
@@ -22,11 +23,12 @@ export type KeycapStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickKeycap: (
-      selectedPos: string,
-      model: KeyModel,
+      pos: string,
+      isSelectedKey: boolean,
+      orgKey: Key,
       dstKey: Key | null
     ) => {
-      if (selectedPos == model.pos) {
+      if (isSelectedKey) {
         console.log('hoge');
         // toggle selected keycap
         _dispatch(KeydiffActions.clearKeydiff());
@@ -37,27 +39,29 @@ const mapDispatchToProps = (_dispatch: any) => {
 
       // set new selected Position and show key diff
       if (dstKey) {
-        _dispatch(KeydiffActions.updateKeydiff(model.keymap, dstKey.keymap));
+        _dispatch(KeydiffActions.updateKeydiff(orgKey.keymap, dstKey.keymap));
       } else {
         _dispatch(KeydiffActions.clearKeydiff());
       }
 
-      _dispatch(KeyboardsActions.updateSelectedPos(model.pos));
+      _dispatch(KeyboardsActions.updateSelectedPos(pos));
     },
     onDropKeycode: (
       draggingKey: Key,
       selectedLayer: number,
-      originalModel: KeyModel
+      pos: string,
+      orgKey: Key
     ) => {
-      const pos = originalModel.pos;
-
+      console.log(pos);
+      console.log(selectedLayer);
+      console.log(draggingKey);
       _dispatch(
         AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
       );
       _dispatch(
-        KeydiffActions.updateKeydiff(originalModel.keymap, draggingKey?.keymap)
+        KeydiffActions.updateKeydiff(orgKey.keymap, draggingKey?.keymap)
       );
-      _dispatch(KeyboardsActions.updateSelectedPos(originalModel.pos));
+      _dispatch(KeyboardsActions.updateSelectedPos(pos));
     },
   };
 };

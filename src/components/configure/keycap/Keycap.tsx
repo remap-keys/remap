@@ -1,7 +1,5 @@
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { IKeycodeInfo, IKeymap } from '../../../services/hid/hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';
@@ -11,23 +9,13 @@ const KEY_CAP_BORDER = 1;
 const KEY_CAP_MARGIN_HEIGHT = 5;
 const KEY_CAP_MARGIN_WIDTH = 6;
 
-type OnClickKeycap = (index: number) => void;
-
 type KeycapOwnState = {
   onDragOver: boolean;
 };
 
 // TODO: refactoring properties, unify the model
 export type KeycapOwnProps = {
-  index: number;
   model: KeyModel;
-
-  selected?: boolean;
-  style?: React.CSSProperties;
-  styleTransform?: React.CSSProperties;
-  style2?: React.CSSProperties;
-  styleTransform2?: React.CSSProperties;
-  onClick?: OnClickKeycap; // DEPRECATED
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -46,26 +34,32 @@ export default class Keycap extends React.Component<
   }
 
   get isOddly(): boolean {
-    return this.props.style2 != undefined;
+    return this.props.model.isOddly;
   }
 
   render(): ReactNode {
-    const width = Number(this.props.style?.width) || KEY_SIZE;
-    const height = Number(this.props.style?.height) || KEY_SIZE;
-    const top = Number(this.props.style?.top) || 0;
-    const left = Number(this.props.style?.left) || 0;
+    const style = this.props.model.styleAbsolute;
+    const style2 = this.props.model.isOddly
+      ? this.props.model.styleAbsolute2
+      : undefined;
+    const styleTransform = this.props.model.styleTransform;
 
-    const width2 = Number(this.props.style2?.width) || KEY_SIZE;
-    const height2 = Number(this.props.style2?.height) || KEY_SIZE;
-    const top2 = Number(this.props.style2?.top) || 0;
-    const left2 = Number(this.props.style2?.left) || 0;
+    const width = Number(style.width) || KEY_SIZE;
+    const height = Number(style.height) || KEY_SIZE;
+    const top = Number(style.top) || 0;
+    const left = Number(style.left) || 0;
+
+    const width2 = Number(style2?.width) || KEY_SIZE;
+    const height2 = Number(style2?.height) || KEY_SIZE;
+    const top2 = Number(style2?.top) || 0;
+    const left2 = Number(style2?.left) || 0;
 
     const baseStyle2 = {
-      ...this.props.style2,
+      ...style2,
       width: left2 < 0 ? width2 - KEY_CAP_MARGIN_WIDTH * 2 : width2,
     };
     const coverStyle = {
-      ...this.props.style,
+      ...style,
       width:
         left2 < 0 ? width - KEY_CAP_MARGIN_WIDTH : width - KEY_CAP_BORDER * 2,
       height: height - KEY_CAP_BORDER * 2,
@@ -73,7 +67,7 @@ export default class Keycap extends React.Component<
       left: left + KEY_CAP_BORDER,
     };
     const roofStyle = {
-      ...this.props.style,
+      ...style,
       width: width - (KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER) * 2,
       height: height - (KEY_CAP_MARGIN_HEIGHT + KEY_CAP_BORDER) * 2,
       top: top + KEY_CAP_MARGIN_HEIGHT,
@@ -81,7 +75,7 @@ export default class Keycap extends React.Component<
     };
 
     const roofStyle2 = {
-      ...this.props.style2,
+      ...style2,
       width: width2 - (KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH) * 2,
       height: height2 - (KEY_CAP_BORDER + KEY_CAP_MARGIN_HEIGHT) * 2,
       top: top2 + KEY_CAP_MARGIN_HEIGHT,
@@ -90,7 +84,7 @@ export default class Keycap extends React.Component<
     };
 
     const labelsStyle = {
-      ...this.props.style,
+      ...style,
       width: width - (KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER * 2) * 2,
       KEY_CAP_BORDER,
       height: height - KEY_CAP_MARGIN_HEIGHT * 2 - KEY_CAP_BORDER * 4,
@@ -102,14 +96,15 @@ export default class Keycap extends React.Component<
     const selectedLayer = this.props.selectedLayer!;
     const selectedPos = this.props.selectedPos!;
     const pos = this.props.model.pos;
+    const isSelectedKey = pos == selectedPos;
+
+    const orgKey: Key = genKey(this.props.keymaps![selectedLayer][pos]);
     let dstKey: Key | null = null;
     if (pos in this.props.remaps![selectedLayer]) {
-      const dstKeymap: IKeymap = this.props.remaps![selectedLayer][pos];
-      dstKey = genKey(dstKeymap);
+      console.log(this.props.remaps![selectedLayer][pos]);
+      dstKey = genKey(this.props.remaps![selectedLayer][pos]);
     }
 
-    const isSelected = selectedPos == pos;
-    const keycode: Key = dstKey ? dstKey : genKey(this.props.model.keymap);
     return (
       <div
         className={[
@@ -117,7 +112,7 @@ export default class Keycap extends React.Component<
           this.state.onDragOver && 'drag-over',
           dstKey && 'has-diff',
         ].join(' ')}
-        style={this.props.styleTransform}
+        style={styleTransform}
         onDragOver={(event) => {
           event.preventDefault();
           if (!this.state.onDragOver) {
@@ -132,7 +127,8 @@ export default class Keycap extends React.Component<
           this.props.onDropKeycode!(
             this.props.draggingKey!,
             this.props.selectedLayer!,
-            this.props.model
+            pos,
+            orgKey
           );
         }}
       >
@@ -141,13 +137,14 @@ export default class Keycap extends React.Component<
           className={[
             'keycap',
             'keycap-border',
-            isSelected && 'keycap-selected',
+            isSelectedKey && 'keycap-selected',
           ].join(' ')}
-          style={this.props.style}
+          style={style}
           onClick={this.props.onClickKeycap!.bind(
             this,
-            selectedPos,
-            this.props.model,
+            pos,
+            isSelectedKey,
+            orgKey,
             dstKey
           )}
         ></div>
@@ -159,13 +156,14 @@ export default class Keycap extends React.Component<
                 'keycap',
                 'keycap-border',
                 'keycap2',
-                isSelected && 'keycap-selected',
+                isSelectedKey && 'keycap-selected',
               ].join(' ')}
               style={baseStyle2}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                selectedPos,
-                this.props.model,
+                pos,
+                isSelectedKey,
+                orgKey,
                 dstKey
               )}
               onDragOver={(event) => {
@@ -181,13 +179,14 @@ export default class Keycap extends React.Component<
               className={[
                 'keycap',
                 'pointer-pass-through',
-                isSelected && 'keycap-selected',
+                isSelectedKey && 'keycap-selected',
               ].join(' ')}
               style={coverStyle}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                selectedPos,
-                this.props.model,
+                pos,
+                isSelectedKey,
+                orgKey,
                 dstKey
               )}
             ></div>
@@ -199,8 +198,9 @@ export default class Keycap extends React.Component<
           style={roofStyle}
           onClick={this.props.onClickKeycap?.bind(
             this,
-            selectedPos,
-            this.props.model,
+            pos,
+            isSelectedKey,
+            orgKey,
             dstKey
           )}
         ></div>
@@ -212,8 +212,9 @@ export default class Keycap extends React.Component<
               style={roofStyle2}
               onClick={this.props.onClickKeycap!.bind(
                 this,
-                selectedPos,
-                this.props.model,
+                pos,
+                isSelectedKey,
+                orgKey,
                 dstKey
               )}
             ></div>
@@ -225,8 +226,9 @@ export default class Keycap extends React.Component<
           style={labelsStyle}
           onClick={this.props.onClickKeycap?.bind(
             this,
-            selectedPos,
-            this.props.model,
+            pos,
+            isSelectedKey,
+            orgKey,
             dstKey
           )}
         >
@@ -237,13 +239,15 @@ export default class Keycap extends React.Component<
           </div>
           <div className="keylabel">
             <div className="label left"></div>
-            <div className="label center">{keycode.label}</div>
+            <div className="label center">
+              {dstKey ? dstKey.label : orgKey.label}
+            </div>
             <div className="label right"></div>
           </div>
           <div className="keylabel">
             <div className="label left"></div>
             <div className="label center"></div>
-            <div className="label right">{this.props.model.pos}</div>
+            <div className="label right">{pos}</div>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@ import KeycodeKey, { KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
 import { KeycodeKeyActions } from '../../../actions/actions';
 import { IKeycodeCategory, IKeymap } from '../../../services/hid/hid';
-import KeyModel from '../../../models/KeyModel';
 
 export type Key = {
   label: string;

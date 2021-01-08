@@ -26,6 +26,7 @@ import {
   APP_REMAPS_INIT,
   APP_REMAPS_REMOVE_KEY,
   APP_UPDATE_OPENING,
+  APP_PACKAGE_INIT,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -77,13 +78,19 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_REMAPS_SET_KEY: {
       const layer = action.value.layer;
-      draft.app.remaps[layer][action.value.pos] = action.value.keycode;
+      draft.app.remaps[layer][action.value.pos] = action.value.keymap;
       break;
     }
     case APP_REMAPS_REMOVE_KEY: {
       const layer = action.value.layer;
       const pos = action.value.pos;
       delete draft.app.remaps[layer][pos];
+      break;
+    }
+    case APP_PACKAGE_INIT: {
+      draft.app.package.name = action.value.name;
+      draft.app.package.version = action.value.version;
+      break;
     }
   }
 };
@@ -159,27 +166,7 @@ const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
       break;
     }
     case KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES: {
-      const setKeymapByCategory = (category: string) => {
-        draft.keycodes.keys[
-          category
-        ] = draft.hid.instance
-          .getKeymapCandidatesByCategory(category)
-          .map<Key>((keymap) => ({
-            code: keymap.code,
-            label: keymap.keycodeInfo!.label,
-            meta: '',
-            keymap,
-          }));
-      };
-      [
-        IKeycodeCategory.BASIC,
-        IKeycodeCategory.LAYERS,
-        IKeycodeCategory.LIGHTING,
-        IKeycodeCategory.MEDIA,
-        IKeycodeCategory.NUMBER,
-        IKeycodeCategory.SPECIAL,
-        IKeycodeCategory.MACRO,
-      ].forEach((category) => setKeymapByCategory(category));
+      draft.keycodes.keys = action.value;
       break;
     }
   }

@@ -32,11 +32,11 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
         <div className="diff-frame">
           <div className="spacer"></div>
           <div className="key-orig">
-            <KeycodeKey value={origKey!} />
+            <KeycodeKey value={origKey!} draggable={false} />
           </div>
           <div className="arrow">&gt;</div>
           <div className="key-dest">
-            <KeycodeKey value={dstKey!} />
+            <KeycodeKey value={dstKey!} draggable={false} />
           </div>
           <div className="cancel-button">
             <Button

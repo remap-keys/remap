@@ -1,7 +1,7 @@
 import React from 'react';
 import './Keyboards.scss';
 import KeyboardModel from '../../../models/KeyboardModel';
-import { Badge, Button, Chip, withStyles } from '@material-ui/core';
+import { Badge, Chip, withStyles } from '@material-ui/core';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap.container';
 import {
@@ -21,8 +21,7 @@ type KeyboardsProps = OwnProps &
   Partial<KeyboardsStateType>;
 
 interface IKeyboardsState {
-  clickedKeyIndex: number;
-  keyboard: KeyboardModel;
+  keyboard: KeyboardModel; // TODO: to be redux
 }
 
 export default class Keyboards extends React.Component<
@@ -33,25 +32,11 @@ export default class Keyboards extends React.Component<
     super(props);
     this.state = {
       keyboard: new KeyboardModel(this.props.config.layouts.keymap),
-      clickedKeyIndex: NaN,
     };
   }
 
-  private clearClickedKeyIndex() {
-    this.setState({ clickedKeyIndex: NaN });
-  }
-
-  onClickKeycap = (index: number) => {
-    if (this.state.clickedKeyIndex != index) {
-      this.setState({ clickedKeyIndex: index });
-    } else {
-      this.clearClickedKeyIndex(); // cancel clicked keycap
-    }
-  };
-
   onClickLayer = (layer: number) => {
     this.props.onClickLayerNumber!(layer);
-    this.clearClickedKeyIndex();
   };
 
   render() {
@@ -120,34 +105,9 @@ export default class Keyboards extends React.Component<
                 height: this.state.keyboard.height,
               }}
             >
-              {this.state.keyboard.keymap.map(
-                (model: KeyModel, index: number) => {
-                  const layer = this.props.selectedLayer!;
-                  const pos = model.pos;
-                  const keymap = this.props.keymaps![layer][pos];
-                  const info = this.props.keymaps![layer][pos].keycodeInfo!;
-                  let label;
-                  if (keymap.isAny) {
-                    label = 'Any';
-                  } else {
-                    label = info.label;
-                  }
-                  // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-                  model.setKeycode(label, '', keymap);
-                  return (
-                    <Keycap
-                      key={index}
-                      index={index}
-                      model={model}
-                      style={model.styleAbsolute}
-                      style2={model.isOddly ? model.styleAbsolute2 : undefined}
-                      styleTransform={model.styleTransform}
-                      selected={this.state.clickedKeyIndex == index}
-                      onClick={this.onClickKeycap}
-                    />
-                  );
-                }
-              )}
+              {this.state.keyboard.keymap.map((model: KeyModel) => {
+                return <Keycap key={model.pos} model={model} />;
+              })}
             </div>
           </div>
         </div>

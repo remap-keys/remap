@@ -1,6 +1,11 @@
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
-import { IKeycodeInfo, IKeymap } from '../services/hid/hid';
+import {
+  IHid,
+  IKeycodeCategory,
+  IKeycodeInfo,
+  IKeymap,
+} from '../services/hid/hid';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
@@ -43,9 +48,32 @@ export const KeycodesActions = {
       value: { code: code, text: text },
     };
   },
-  loadKeycodeInfoForAllCategories: () => {
+  loadKeycodeInfoForAllCategories: (hid: IHid) => {
+    const getKeysByCategory = (category: string): Key[] => {
+      return hid.getKeymapCandidatesByCategory(category).map<Key>((keymap) => ({
+        code: keymap.code,
+        label: keymap.keycodeInfo!.label,
+        meta: '',
+        keymap,
+      }));
+    };
+
+    let keys: { [category: string]: Key[] } = {};
+    [
+      IKeycodeCategory.BASIC,
+      IKeycodeCategory.LAYERS,
+      IKeycodeCategory.LIGHTING,
+      IKeycodeCategory.MEDIA,
+      IKeycodeCategory.NUMBER,
+      IKeycodeCategory.SPECIAL,
+      IKeycodeCategory.MACRO,
+    ].forEach((category) => {
+      keys[category] = getKeysByCategory(category);
+    });
+
     return {
       type: KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
+      value: keys,
     };
   },
 };
@@ -126,6 +154,7 @@ export const APP_UPDATE_OPENING = `${APP_ACTIONS}/UpdateOpening`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
 export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
+export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const AppActions = {
   updateOpeningKeyboard: (opening: boolean) => {
     return {
@@ -158,6 +187,15 @@ export const AppActions = {
       value: {
         pos: pos,
         layer: layer,
+      },
+    };
+  },
+  initAppPackage: (name: string, version: string) => {
+    return {
+      type: APP_PACKAGE_INIT,
+      value: {
+        name: name,
+        version: version,
       },
     };
   },

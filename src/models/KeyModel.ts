@@ -1,7 +1,5 @@
 import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
-import { IKeycodeInfo, IKeymap } from '../services/hid/hid';
 
 export type KeyOp = {
   x?: number;
@@ -34,7 +32,7 @@ export default class KeyModel {
   readonly height2: number;
   readonly width2: number;
   readonly keyOp: KeyOp | null;
-  private _keycode: Key | null;
+
   constructor(
     op: KeyOp | null,
     location: string, // "col,row"
@@ -67,7 +65,6 @@ export default class KeyModel {
     this.top2 = y2 * KEY_SIZE;
     this.height2 = h2 * KEY_SIZE;
     this.width2 = w2 * KEY_SIZE;
-    this._keycode = null;
   }
 
   get isOddly(): boolean {
@@ -77,35 +74,6 @@ export default class KeyModel {
       !Number.isNaN(this.height2) &&
       !Number.isNaN(this.width2)
     );
-  }
-
-  get keymap(): IKeymap {
-    return this._keycode!.keymap;
-  }
-
-  get label(): string {
-    return this.keymap.keycodeInfo ? this.keymap.keycodeInfo.label : this.pos;
-  }
-
-  get maxHeight(): number {
-    if (this.height2) {
-      return Math.max(
-        this.height,
-        (this.keyOp!.y2 || 0 + this.keyOp!.h2 || 0) * KEY_SIZE
-      );
-    } else {
-      return this.height;
-    }
-  }
-
-  get maxWidth(): number {
-    if (this.keyOp) {
-      const x2 = this.keyOp.x2 || 0;
-      const w2 = this.keyOp.w2 || 0;
-      return Math.max(this.width, (x2 + w2) * KEY_SIZE);
-    } else {
-      return this.width;
-    }
   }
 
   get style(): CSSProperties {
@@ -173,13 +141,5 @@ export default class KeyModel {
 
     const bottom = 0 < rad ? rightBottom : leftBottom;
     return this.originTop + y1 + bottom;
-  }
-
-  setKeycode(label: string, meta: string, keymap: IKeymap) {
-    this._keycode = {
-      label: label,
-      meta: meta,
-      keymap,
-    };
   }
 }

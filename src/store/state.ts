@@ -27,6 +27,10 @@ export type RootState = {
     openedKeyboard: IKeyboard | null;
   };
   app: {
+    package: {
+      name: string;
+      version: string;
+    };
     openingKeyboard: boolean; // loading status of open and init keyboard
     remaps: {
       // remap candidates and show keydiff
@@ -81,6 +85,10 @@ export const INIT_STATE: RootState = {
     openedKeyboard: null, // hid.keyboards[i]
   },
   app: {
+    package: {
+      name: '',
+      version: '',
+    },
     openingKeyboard: false,
     remaps: [],
   },
