@@ -12,6 +12,7 @@ type KeycodeKeyOwnState = {
 
 export type KeycodeKeyOwnProps = {
   value: Key;
+  draggable: boolean;
 };
 
 export type KeycodeKeyProps = KeycodeKeyOwnProps &
@@ -50,12 +51,13 @@ export default class KeycodeKey extends React.Component<
           'keycodekey',
           this.props.selected && 'selected',
           this.props.clickable && 'clickable',
+          this.props.draggable && 'grabbable',
           this.state.dragging && 'dragging',
         ].join(' ')}
         onMouseEnter={this.hoverKey.bind(this, this.props.value)}
         onMouseLeave={this.hoverKey.bind(this, null)}
         onClick={this.clickKey.bind(this, this.props.value)}
-        draggable="true"
+        draggable={this.props.draggable}
         onDragStart={() => {
           this.setState({ dragging: true });
           this.startDraggingKeycode(this.props.value);

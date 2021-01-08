@@ -7,6 +7,7 @@ import {
   ConfigureActionsType,
   ConfigureStateType,
 } from './Configure.container';
+import appPackage from '../../package.alias.json';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
@@ -17,6 +18,9 @@ export default class Configure extends React.Component<ConfigureProps, {}> {
     super(props);
   }
   componentDidMount() {
+    const version = appPackage.version;
+    const name = appPackage.name;
+    this.props.initAppPackage!(name, version);
     this.props.updateAuthorizedKeyboardList!();
   }
   render() {
