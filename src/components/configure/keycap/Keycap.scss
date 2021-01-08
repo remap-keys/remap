@@ -60,7 +60,6 @@
   .keyroof-base {
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 3px;
-    background-color: #f2f2f2;
     pointer-events: none;
     cursor: pointer;
   }
@@ -97,6 +96,12 @@
         text-align: right;
         padding-right: $space-xs;
       }
+    }
+    .color-modifier {
+      background-color: #c8c8c8 !important;
+    }
+    .color-accent {
+      background-color: #808080 !important;
     }
   }
   .pointer-pass-through {
