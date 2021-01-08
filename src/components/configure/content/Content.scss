@@ -41,7 +41,7 @@
   .keycode {
     display: flex;
     flex-direction: column;
-    padding: $space-l;
+    padding: $space-l $space-l $space-xl $space-l;
     .disable {
       position: absolute;
       width: 100%;
