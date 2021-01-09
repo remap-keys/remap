@@ -6,7 +6,6 @@ import { Button, CircularProgress, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { IKeycodeInfo } from '../../../services/hid/hid';
 
 type HeaderState = {
   connectionStateEl: any;

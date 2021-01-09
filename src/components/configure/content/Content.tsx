@@ -1,7 +1,5 @@
 import React from 'react';
 import './Content.scss';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap';
 import { ContentActionsType, ContentStateType } from './Content.container';

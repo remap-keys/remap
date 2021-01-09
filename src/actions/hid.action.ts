@@ -90,7 +90,6 @@ export const hidActionsThunk = {
         if (listedKbd) return;
 
         const msg = 'This device has already opened by another application';
-        console.log(msg);
         dispatch(NotificationActions.addWarn(msg));
         return;
       }
@@ -104,7 +103,6 @@ export const hidActionsThunk = {
       const targetKbd = listedKbd ? listedKbd : keyboard;
       const resultOpen = await targetKbd.open();
       if (!resultOpen.success) {
-        console.error('Could not open');
         dispatch(NotificationActions.addError('Could not open'));
         return;
       }

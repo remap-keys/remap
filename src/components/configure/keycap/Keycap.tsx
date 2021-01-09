@@ -117,7 +117,6 @@ export default class Keycap extends React.Component<
     const orgKey: Key = genKey(this.props.keymaps![selectedLayer][pos]);
     let dstKey: Key | null = null;
     if (pos in this.props.remaps![selectedLayer]) {
-      console.log(this.props.remaps![selectedLayer][pos]);
       dstKey = genKey(this.props.remaps![selectedLayer][pos]);
     }
 

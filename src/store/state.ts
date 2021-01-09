@@ -1,3 +1,4 @@
+import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import {
   IHid,
@@ -36,6 +37,7 @@ export type RootState = {
       // remap candidates and show keydiff
       [pos: string]: IKeymap;
     }[];
+    notifications: NotificationItem[];
   };
   header: {
     flushLoading: boolean;
@@ -91,6 +93,7 @@ export const INIT_STATE: RootState = {
     },
     openingKeyboard: false,
     remaps: [],
+    notifications: [],
   },
   header: {
     flushLoading: false,
