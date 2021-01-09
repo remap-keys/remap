@@ -27,6 +27,9 @@ import {
   APP_REMAPS_REMOVE_KEY,
   APP_UPDATE_OPENING,
   APP_PACKAGE_INIT,
+  NOTIFICATION_REMOVE,
+  NOTIFICATION_ADD_INFO,
+  NOTIFICATION_ADD_SUCCESS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -37,9 +40,7 @@ import {
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
 } from '../actions/hid.action';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
-import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
-
+import { IKeyboard } from '../services/hid/hid';
 import { INIT_STATE, RootState } from './state';
 
 export type Action = { type: string; value: any };
@@ -213,11 +214,54 @@ const notificationReducer = (
   // TODO: type-safe
   switch (action.type) {
     case NOTIFICATION_ADD_ERROR: {
-      // TODO: do something
+      draft.app.notifications = [
+        ...draft.app.notifications,
+        {
+          key: Date.now().toString(),
+          type: 'error',
+          message: action.value,
+        },
+      ];
       break;
     }
     case NOTIFICATION_ADD_WARN: {
-      // TODO: do something
+      draft.app.notifications = [
+        ...draft.app.notifications,
+        {
+          key: Date.now().toString(),
+          type: 'warning',
+          message: action.value,
+        },
+      ];
+      break;
+    }
+    case NOTIFICATION_ADD_INFO: {
+      draft.app.notifications = [
+        ...draft.app.notifications,
+        {
+          key: Date.now().toString(),
+          type: 'info',
+          message: action.value,
+        },
+      ];
+      break;
+    }
+    case NOTIFICATION_ADD_SUCCESS: {
+      draft.app.notifications = [
+        ...draft.app.notifications,
+        {
+          key: Date.now().toString(),
+          type: 'success',
+          message: action.value,
+        },
+      ];
+      break;
+    }
+    case NOTIFICATION_REMOVE: {
+      const key = action.value;
+      draft.app.notifications = draft.app.notifications.filter(
+        (item) => item.key != key
+      );
       break;
     }
   }

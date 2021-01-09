@@ -7,7 +7,6 @@ import {
   AppActions,
 } from '../../../actions/actions';
 import { Key } from '../keycodekey/KeycodeKey.container';
-import KeyModel from '../../../models/KeyModel';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -52,9 +51,6 @@ const mapDispatchToProps = (_dispatch: any) => {
       pos: string,
       orgKey: Key
     ) => {
-      console.log(pos);
-      console.log(selectedLayer);
-      console.log(draggingKey);
       _dispatch(
         AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
       );

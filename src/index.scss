@@ -28,3 +28,16 @@ h2 {
 .spacer {
   flex-grow: 1;
 }
+
+.notify-success {
+  background-color: $success;
+}
+.notify-error {
+  background-color: $error;
+}
+.notify-warning {
+  background-color: $warning !important;
+}
+.notify-info {
+  background-color: $info;
+}

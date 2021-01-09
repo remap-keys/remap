@@ -1,7 +1,6 @@
 import React from 'react';
 import './ConnectionModal.scss';
 import { Backdrop, Fade, Modal } from '@material-ui/core';
-import { ContactSupportOutlined } from '@material-ui/icons';
 
 type OnCloseHandler = () => void;
 
