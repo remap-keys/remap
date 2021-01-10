@@ -15,10 +15,10 @@
 
   .upload-form {
     width: 320px;
-    height: 300px;
     border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 8px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -27,6 +27,7 @@
       height: 280px;
       border-radius: 10px;
       border: 1px dashed rgba(0, 0, 0, 0.2);
+      margin-bottom: 8px;
       display: flex;
       flex-direction: row;
       justify-content: center;

@@ -1,3 +1,4 @@
+import { ContactsOutlined } from '@material-ui/icons';
 import React from 'react';
 import {
   KeyboardDefinitionFormActionsType,
@@ -38,12 +39,24 @@ export default class KeyboardDefinitionForm extends React.Component<
     this.props.onDragOverFile!();
   };
 
+  onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const files = event.target.files;
+    if (!files || files.length !== 1) {
+      return;
+    }
+    const file = files[0];
+    if (!file.type.endsWith('/json')) {
+      return;
+    }
+    this.props.onDropFile!(file);
+  };
+
   render() {
     return (
       <div className="keyboarddefinitionform-wrapper">
         <div className="message">
-          Please drag and drop your JSON file of this keyboard definition from
-          local.
+          Please upload your JSON file of this keyboard definition from local.
         </div>
         <div className="upload-form">
           <div
@@ -58,6 +71,7 @@ export default class KeyboardDefinitionForm extends React.Component<
           >
             <div className="place-holder">Drop here.</div>
           </div>
+          <input type="file" onChange={this.onChangeFile} />
         </div>
       </div>
     );
