@@ -29,6 +29,9 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
+    const { entities } = getState();
+    const keyboard = entities.keyboard;
+
     const loadTextFile = (file: File): Promise<string> => {
       return new Promise<string>((resolve, reject) => {
         const fileReader = new FileReader();
@@ -40,7 +43,34 @@ export const storageActionsThunk = {
     };
     const json = await loadTextFile(file);
     const keyboardDefinition = JSON.parse(json);
-    // TODO: Check whether the definition is valid or not.
+
+    const getNumber = (source: string): number => {
+      if (!source) {
+        return NaN;
+      } else if (source.startsWith('0x')) {
+        const target = source.substring(2);
+        return Number.parseInt(target, 16);
+      } else {
+        return Number.parseInt(source);
+      }
+    };
+
+    const vendorId = getNumber(keyboardDefinition.vendorId);
+    const productId = getNumber(keyboardDefinition.productId);
+
+    if (vendorId !== keyboard?.getInformation().vendorId) {
+      dispatch(
+        NotificationActions.addWarn(`Invalid the vendor ID: ${vendorId}`)
+      );
+      return;
+    }
+    if (productId !== keyboard?.getInformation().productId) {
+      dispatch(
+        NotificationActions.addWarn(`Invalid the product ID: ${productId}`)
+      );
+      return;
+    }
+
     dispatch(storageActions.updateKeyboardDefinition(keyboardDefinition));
     dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
     dispatch(hidActionsThunk.openKeyboard());
