@@ -5,7 +5,7 @@ import { hidActionsThunk } from './hid.action';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
-const storageActions = {
+export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION,
@@ -15,7 +15,7 @@ const storageActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof storageActions[keyof typeof storageActions]
+  | typeof StorageActions[keyof typeof StorageActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
@@ -71,7 +71,7 @@ export const storageActionsThunk = {
       return;
     }
 
-    dispatch(storageActions.updateKeyboardDefinition(keyboardDefinition));
+    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
     dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
     dispatch(hidActionsThunk.openKeyboard());
   },
@@ -100,7 +100,7 @@ export const storageActionsThunk = {
     }
     if (fetchKeyboardDefinitionResult.exists!) {
       dispatch(
-        storageActions.updateKeyboardDefinition(
+        StorageActions.updateKeyboardDefinition(
           JSON.parse(fetchKeyboardDefinitionResult.document!.json)
         )
       );

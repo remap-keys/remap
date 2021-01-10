@@ -32,6 +32,8 @@ import {
   APP_UPDATE_SETUP_PHASE,
   KEYBOARD_DEFINITION_FORM_UPDATE_DRAGGING,
   KEYBOARD_DEFINITION_FORM_ACTIONS,
+  APP_REMAPS_CLEAR,
+  KEYCODEKEY_CLEAR,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -119,6 +121,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       delete draft.app.remaps[layer][pos];
       break;
     }
+    case APP_REMAPS_CLEAR: {
+      draft.app.remaps = [];
+      break;
+    }
     case APP_PACKAGE_INIT: {
       draft.app.package.name = action.value.name;
       draft.app.package.version = action.value.version;
@@ -137,12 +143,9 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_DISCONNECT_KEYBOARD: {
       const keyboard: IKeyboard = action.value.keyboard;
-      draft.entities.keyboards.filter((item) => {
-        return item != keyboard;
+      draft.entities.keyboards = draft.entities.keyboards.filter((item) => {
+        return !item.isSameDevice(keyboard);
       });
-      if (draft.entities.keyboard == keyboard) {
-        draft.entities.keyboard = null;
-      }
       break;
     }
     case HID_UPDATE_KEYBOARD: {
@@ -233,6 +236,12 @@ const keycodekeyReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case KEYCODEKEY_UPDATE_HOVER_KEY: {
       draft.keycodeKey.hoverKey = action.value;
+      break;
+    }
+    case KEYCODEKEY_CLEAR: {
+      draft.keycodeKey.draggingKey = null;
+      draft.keycodeKey.selectedKey = null;
+      draft.keycodeKey.hoverKey = null;
       break;
     }
   }
