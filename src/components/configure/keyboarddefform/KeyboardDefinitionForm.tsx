@@ -50,6 +50,7 @@ export default class KeyboardDefinitionForm extends React.Component<
       return;
     }
     this.props.onDropFile!(file);
+    event.target.value = '';
   };
 
   render() {
