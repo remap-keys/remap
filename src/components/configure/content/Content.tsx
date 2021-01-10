@@ -85,11 +85,7 @@ function ConnectedKeyboard(props: ConnectedKeyboardProps) {
     case SetupPhase.keyboardNotSelected:
     case SetupPhase.connectingKeyboard:
     case SetupPhase.openingKeyboard:
-      if (0 < props.keyboards.length) {
-        return <KeyboardList />;
-      } else {
-        return <NoKeyboard />;
-      }
+      return <KeyboardList />;
     case SetupPhase.fetchingKeyboardDefinition:
     case SetupPhase.waitingKeyboardDefinitionUpload:
       return <KeyboardDefinitionForm />;
