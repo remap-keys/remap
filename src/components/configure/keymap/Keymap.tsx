@@ -3,10 +3,6 @@ import './Keymap.scss';
 import Keyboards from '../keyboards/Keyboards.container';
 import Keydiff from '../keydiff/Keydiff.container';
 
-//import kbdConfig from '../../../assets/files/lunakey-mini.json';
-import kbdConfig from '../../../assets/files/lunakey-mini-test.json';
-//import kbdConfig from '../../../assets/files/iso60.json';
-
 export default class Keymap extends React.Component {
   render() {
     return (
@@ -18,7 +14,7 @@ export default class Keymap extends React.Component {
         </div>
         <div className="keyboards-wrapper">
           <div className="spacer"></div>
-          <Keyboards config={kbdConfig} />
+          <Keyboards />
           <div className="balancer"></div>
           <div className="spacer"></div>
         </div>
