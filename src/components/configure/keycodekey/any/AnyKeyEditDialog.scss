@@ -1,0 +1,22 @@
+@import '../../../../variables';
+
+.anykey-dialog {
+  input {
+    padding-right: 18px;
+  }
+  .hex-code-wrapper {
+    display: flex;
+    position: relative;
+    margin-top: $space-l;
+    .hex-code {
+      position: absolute;
+      top: 21px;
+      font-size: 1rem;
+      color: $color-gray-500;
+    }
+    input {
+      padding-left: 18px;
+      padding-right: 0px;
+    }
+  }
+}

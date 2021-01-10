@@ -25,6 +25,7 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const storageActionsThunk = {
+  // eslint-disable-next-line no-undef
   uploadKeyboardDefinition: (file: File): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -32,8 +33,10 @@ export const storageActionsThunk = {
     const { entities } = getState();
     const keyboard = entities.keyboard;
 
+    // eslint-disable-next-line no-undef
     const loadTextFile = (file: File): Promise<string> => {
       return new Promise<string>((resolve, reject) => {
+        // eslint-disable-next-line no-undef
         const fileReader = new FileReader();
         fileReader.addEventListener('load', () => {
           resolve(fileReader.result as string);

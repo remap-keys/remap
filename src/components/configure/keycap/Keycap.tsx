@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
+import { IKeymap } from '../../../services/hid/hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';
@@ -113,12 +114,12 @@ export default class Keycap extends React.Component<
     const selectedPos = this.props.selectedPos!;
     const pos = this.props.model.pos;
     const isSelectedKey = pos == selectedPos;
-
-    const orgKey: Key = genKey(this.props.keymaps![selectedLayer][pos]);
-    let dstKey: Key | null = null;
-    if (pos in this.props.remaps![selectedLayer]) {
-      dstKey = genKey(this.props.remaps![selectedLayer][pos]);
-    }
+    const keymap: IKeymap = this.props.keymaps![selectedLayer][pos];
+    const orgKey: Key = genKey(keymap);
+    const dstKey: Key | null =
+      pos in this.props.remaps![selectedLayer]
+        ? genKey(this.props.remaps![selectedLayer][pos])
+        : null;
 
     return (
       <div

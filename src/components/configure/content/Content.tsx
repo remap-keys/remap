@@ -5,10 +5,12 @@ import Keymap from '../keymap/Keymap';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import NoKeyboard from '../nokeyboard/NoKeyboard';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
-import { IKeyboard } from '../../../services/hid/hid';
+import { IKeyboard, IKeymap } from '../../../services/hid/hid';
 import { CircularProgress } from '@material-ui/core';
 import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
+import KEY_DESCRIPTIONS from '../../../assets/files/key_descriptions';
+import { hexadecimal } from '../../../utils/StringUtils';
 
 type ContentState = {
   selectedLayer: number;
@@ -71,6 +73,7 @@ export default class Content extends React.Component<
             <div className="disable"></div>
           )}
         </div>
+        {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
       </div>
     );
   }
@@ -95,5 +98,26 @@ function ConnectedKeyboard(props: ConnectedKeyboardProps) {
       throw new Error(
         `Unknown state.app.setupPhase value: ${props.setupPhase}`
       );
+  }
+}
+
+type DescType = {
+  keymap: IKeymap;
+};
+function Desc(props: DescType) {
+  if (props.keymap.keycodeInfo) {
+    const info = props.keymap.keycodeInfo!;
+    const long = info.name.long;
+    const desc =
+      long in KEY_DESCRIPTIONS
+        ? KEY_DESCRIPTIONS[long]
+        : hexadecimal(info.code);
+    return (
+      <div className="keycode-desc">
+        {long}: {desc}
+      </div>
+    );
+  } else {
+    return <div className="keycode-desc">Any</div>;
   }
 }

@@ -1,4 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
+import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
 import {
@@ -73,6 +74,7 @@ export const KeycodesActions = {
     ].forEach((category) => {
       keys[category] = getKeysByCategory(category);
     });
+    keys[IKeycodeCategory.ANY] = [];
 
     return {
       type: KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
@@ -93,7 +95,7 @@ export const KeycodeKeyActions = {
       value: key,
     };
   },
-  updateSelectedKey: (key: Key) => {
+  updateSelectedKey: (key: Key | null) => {
     return {
       type: KEYCODEKEY_UPDATE_SELECTED_KEY,
       value: key,
@@ -108,6 +110,27 @@ export const KeycodeKeyActions = {
   clear: () => {
     return {
       type: KEYCODEKEY_CLEAR,
+    };
+  },
+};
+
+export const ANYKEYCODEKEY_ACTIONS = '@AnyKeycodeKey';
+export const ANYKEYCODEKEY_ADD_ANYKEY = `${ANYKEYCODEKEY_ACTIONS}/AddAnyKey`;
+export const ANYKEYCODEKEY_UPDATE_ANYKEY = `${ANYKEYCODEKEY_ACTIONS}/UpdateAnyKey`;
+export const AnyKeycodeKeyActions = {
+  addAnyKey: (anyKey: AnyKey) => {
+    return {
+      type: ANYKEYCODEKEY_ADD_ANYKEY,
+      value: anyKey,
+    };
+  },
+  updateAnyKey: (index: number, anyKey: AnyKey) => {
+    return {
+      type: ANYKEYCODEKEY_UPDATE_ANYKEY,
+      value: {
+        index,
+        anyKey,
+      },
     };
   },
 };

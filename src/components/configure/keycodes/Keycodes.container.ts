@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
-import { KeycodesActions } from '../../../actions/actions';
+import { KeycodeKeyActions, KeycodesActions } from '../../../actions/actions';
 import { IHid, IKeycodeCategory } from '../../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
@@ -19,7 +19,6 @@ const mapStateToProps = (state: RootState) => {
     _hidInstance: state.hid.instance,
     category: state.keycodes.category,
     keys: state.keycodes.keys,
-    hoverKey: state.keycodeKey.hoverKey,
     selectedKey: state.keycodeKey.selectedKey,
     macroText,
   };
@@ -36,6 +35,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     loadKeycodeInfoForAllCategories: (hid: IHid) => {
       _dispatch(KeycodesActions.loadKeycodeInfoForAllCategories(hid));
+    },
+    releaseSelectedKey: () => {
+      _dispatch(KeycodeKeyActions.updateSelectedKey(null));
     },
   };
 };
