@@ -30,6 +30,8 @@ import {
   NOTIFICATION_ADD_INFO,
   NOTIFICATION_ADD_SUCCESS,
   APP_UPDATE_SETUP_PHASE,
+  KEYBOARD_DEFINITION_FORM_UPDATE_DRAGGING,
+  KEYBOARD_DEFINITION_FORM_ACTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -71,8 +73,21 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       appReducer(action, draft);
     } else if (action.type.startsWith(STORAGE_ACTIONS)) {
       storageReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARD_DEFINITION_FORM_ACTIONS)) {
+      keyboardDefinitionFormReducer(action, draft);
     }
   });
+
+const keyboardDefinitionFormReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARD_DEFINITION_FORM_UPDATE_DRAGGING:
+      draft.keyboardDefinitionForm.dragging = action.value;
+      break;
+  }
+};
 
 const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {

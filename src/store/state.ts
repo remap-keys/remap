@@ -84,6 +84,9 @@ export type RootState = {
     origin: IKeymap | null;
     destination: IKeymap | null;
   };
+  keyboardDefinitionForm: {
+    dragging: boolean;
+  };
 };
 
 const webHid: IHid = new WebHid();
@@ -143,5 +146,8 @@ export const INIT_STATE: RootState = {
   keydiff: {
     origin: null,
     destination: null,
+  },
+  keyboardDefinitionForm: {
+    dragging: false,
   },
 };

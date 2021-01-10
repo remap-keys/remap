@@ -6,10 +6,10 @@ import { hidActionsThunk } from './hid.action';
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
 const storageActions = {
-  updateKeyboardDefinition: (json: string) => {
+  updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION,
-      value: JSON.parse(json),
+      value: keyboardDefinition,
     };
   },
 };
@@ -25,6 +25,26 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const storageActionsThunk = {
+  uploadKeyboardDefinition: (file: File): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const loadTextFile = (file: File): Promise<string> => {
+      return new Promise<string>((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', () => {
+          resolve(fileReader.result as string);
+        });
+        fileReader.readAsText(file);
+      });
+    };
+    const json = await loadTextFile(file);
+    const keyboardDefinition = JSON.parse(json);
+    // TODO: Check whether the definition is valid or not.
+    dispatch(storageActions.updateKeyboardDefinition(keyboardDefinition));
+    dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
+    dispatch(hidActionsThunk.openKeyboard());
+  },
   fetchKeyboardDefinition: (
     vendorId: number,
     productId: number
@@ -51,7 +71,7 @@ export const storageActionsThunk = {
     if (fetchKeyboardDefinitionResult.exists!) {
       dispatch(
         storageActions.updateKeyboardDefinition(
-          fetchKeyboardDefinitionResult.document!.json
+          JSON.parse(fetchKeyboardDefinitionResult.document!.json)
         )
       );
       dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));

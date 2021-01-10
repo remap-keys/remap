@@ -1,0 +1,38 @@
+import { connect } from 'react-redux';
+import { KeyboardDefinitionFormActions } from '../../../actions/actions';
+import { RootState } from '../../../store/state';
+import KeyboardDefinitionForm from './KeyboardDefinitionForm';
+import React from 'react';
+import { storageActionsThunk } from '../../../actions/storage.action';
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    dragging: state.keyboardDefinitionForm.dragging,
+  };
+};
+export type KeyboardDefinitionFormStateType = ReturnType<
+  typeof mapStateToProps
+>;
+
+const mapDispatchToProps = (_dispatch: any) => {
+  return {
+    onDragOverFile: () => {
+      _dispatch(KeyboardDefinitionFormActions.updateDragging(true));
+    },
+    onDropFile: (file: File) => {
+      _dispatch(KeyboardDefinitionFormActions.updateDragging(false));
+      _dispatch(storageActionsThunk.uploadKeyboardDefinition(file));
+    },
+    onDragLeaveFile: () => {
+      _dispatch(KeyboardDefinitionFormActions.updateDragging(false));
+    },
+  };
+};
+export type KeyboardDefinitionFormActionsType = ReturnType<
+  typeof mapDispatchToProps
+>;
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(KeyboardDefinitionForm);
