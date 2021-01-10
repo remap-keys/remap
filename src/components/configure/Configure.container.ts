@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import Configure from './Configure';
 import { RootState } from '../../store/state';
-import { hidActionsThunk } from '../../actions/hid.action';
+import { HidActions, hidActionsThunk } from '../../actions/hid.action';
 import { AppActions, NotificationActions } from '../../actions/actions';
+import { IKeyboard } from '../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
     remaps: state.app.remaps,
     notifications: state.app.notifications,
+    hid: state.hid,
   };
 };
 export type ConfigureStateType = ReturnType<typeof mapStateToProps>;
@@ -22,6 +24,13 @@ const mapDispatchToProps = (_dispatch: any) => {
     test: () => _dispatch(NotificationActions.addWarn('hoge')),
     removeNotification: (key: string) => {
       _dispatch(NotificationActions.removeNotification(key));
+    },
+    onConnectKeyboard: (keyboard: IKeyboard) => {
+      _dispatch(HidActions.connectKeyboard(keyboard));
+    },
+    onDisconnectKeyboard: (keyboard: IKeyboard) => {
+      _dispatch(hidActionsThunk.closeKeyboard(keyboard));
+      _dispatch(HidActions.disconnectKeyboard(keyboard));
     },
   };
 };

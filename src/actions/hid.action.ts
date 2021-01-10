@@ -1,8 +1,14 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IHid, IKeyboard, IKeymaps } from '../services/hid/hid';
 import { RootState, SetupPhase } from '../store/state';
-import { AppActions, KeyboardsActions, NotificationActions } from './actions';
-import { storageActionsThunk } from './storage.action';
+import {
+  AppActions,
+  KeyboardsActions,
+  KeycodeKeyActions,
+  KeydiffActions,
+  NotificationActions,
+} from './actions';
+import { StorageActions, storageActionsThunk } from './storage.action';
 
 export const HID_ACTIONS = '@Hid';
 export const HID_CONNECT_KEYBOARD = `${HID_ACTIONS}/ConnectDevice`;
@@ -12,7 +18,7 @@ export const HID_UPDATE_KEYBOARD_LAYER_COUNT = `${HID_ACTIONS}/UpdateKeyboardLay
 export const HID_UPDATE_KEYBOARD_LIST = `${HID_ACTIONS}/UpdateKeyboardList`;
 export const HID_UPDATE_KEYMAPS = `${HID_ACTIONS}/UpdateKeymaps`;
 export const HID_OPEN_KEYBOARD = `${HID_ACTIONS}/OpenKeyboard`;
-const hidActions = {
+export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
       type: HID_CONNECT_KEYBOARD,
@@ -27,7 +33,7 @@ const hidActions = {
     };
   },
 
-  updateKeyboard: (keyboard: IKeyboard) => {
+  updateKeyboard: (keyboard: IKeyboard | null) => {
     return {
       type: HID_UPDATE_KEYBOARD,
       value: { keyboard: keyboard },
@@ -57,7 +63,7 @@ const hidActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof hidActions[keyof typeof hidActions]
+  | typeof HidActions[keyof typeof HidActions]
   | typeof KeyboardsActions[keyof typeof KeyboardsActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
   | typeof AppActions[keyof typeof AppActions]
@@ -110,10 +116,10 @@ export const hidActionsThunk = {
     const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
     const targetKbd = listedKbd ? listedKbd : keyboard;
     if (!listedKbd) {
-      dispatch(hidActions.updateKeyboardList([...keyboards, keyboard]));
+      dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
     }
 
-    dispatch(hidActions.updateKeyboard(targetKbd));
+    dispatch(HidActions.updateKeyboard(targetKbd));
     const keyboardInfo = keyboard.getInformation();
     dispatch(
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
@@ -152,10 +158,10 @@ export const hidActionsThunk = {
     const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
     const targetKbd = listedKbd ? listedKbd : keyboard;
     if (!listedKbd) {
-      dispatch(hidActions.updateKeyboardList([...keyboards, keyboard]));
+      dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
     }
 
-    dispatch(hidActions.updateKeyboard(targetKbd));
+    dispatch(HidActions.updateKeyboard(targetKbd));
     const keyboardInfo = keyboard.getInformation();
     dispatch(
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
@@ -195,7 +201,23 @@ export const hidActionsThunk = {
   ) => {
     const { hid } = getState();
     const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
-    dispatch(hidActions.updateKeyboardList(keyboards));
+    dispatch(HidActions.updateKeyboardList(keyboards));
+  },
+
+  closeKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    if (!keyboard.isOpened()) {
+      return;
+    }
+    await keyboard.close();
+    dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+    dispatch(AppActions.remapsClear());
+    dispatch(KeydiffActions.clearKeydiff());
+    dispatch(KeycodeKeyActions.clear());
+    dispatch(StorageActions.updateKeyboardDefinition(null));
+    dispatch(HidActions.updateKeyboard(null));
   },
 };
 
@@ -229,9 +251,9 @@ const initOpenedKeyboard = async (
     keymaps.push(keymapsResult.keymap!);
   }
 
-  dispatch(hidActions.updateKeyboardLayerCount(layerCount));
-  dispatch(hidActions.updateKeymaps(keymaps));
+  dispatch(HidActions.updateKeyboardLayerCount(layerCount));
+  dispatch(HidActions.updateKeymaps(keymaps));
   dispatch(AppActions.remapsInit(layerCount));
   dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
-  dispatch(hidActions.updateKeyboard(keyboard));
+  dispatch(HidActions.updateKeyboard(keyboard));
 };

@@ -89,13 +89,6 @@ export type RootState = {
   };
 };
 
-const webHid: IHid = new WebHid();
-webHid.setConnectionEventHandler({
-  connect: (connectedKeyboard: IKeyboard) => {},
-
-  disconnect: (disconnectedKeyboard: IKeyboard) => {},
-});
-
 export const INIT_STATE: RootState = {
   entities: {
     device: {
@@ -125,7 +118,7 @@ export const INIT_STATE: RootState = {
     flushLoading: false,
   },
   hid: {
-    instance: webHid,
+    instance: new WebHid(),
   },
   storage: {
     instance: new FirestoreStorage(),

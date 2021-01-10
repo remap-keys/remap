@@ -85,6 +85,7 @@ export const KEYCODEKEY_ACTIONS = '@KeycodeKey';
 export const KEYCODEKEY_UPDATE_DRAGGING_KEY = `${KEYCODEKEY_ACTIONS}/UpdateDraggingKey`;
 export const KEYCODEKEY_UPDATE_SELECTED_KEY = `${KEYCODEKEY_ACTIONS}/UpdateSelectedKey`;
 export const KEYCODEKEY_UPDATE_HOVER_KEY = `${KEYCODEKEY_ACTIONS}/UpdateHoverKey`;
+export const KEYCODEKEY_CLEAR = `${KEYCODEKEY_ACTIONS}/Clear`;
 export const KeycodeKeyActions = {
   updateDraggingKey: (key: Key | null) => {
     return {
@@ -104,11 +105,16 @@ export const KeycodeKeyActions = {
       value: key,
     };
   },
+  clear: () => {
+    return {
+      type: KEYCODEKEY_CLEAR,
+    };
+  },
 };
 
 export const KEYDIFF_ACTIONS = '@Keydiff';
-export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
-export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
+export const KEYDIFF_CLEAR_KEYDIFF = `${KEYDIFF_ACTIONS}/ClearKeydiff`;
+export const KEYDIFF_UPDATE_KEYDIFF = `${KEYDIFF_ACTIONS}/UpdateKeydiff`;
 export const KeydiffActions = {
   updateKeydiff: (orig: IKeymap, dest: IKeymap) => {
     return {
@@ -196,6 +202,7 @@ export const APP_UPDATE_SETUP_PHASE = `${APP_ACTIONS}/UpdateSetupPhase`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
 export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
+export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
@@ -230,6 +237,11 @@ export const AppActions = {
         pos: pos,
         layer: layer,
       },
+    };
+  },
+  remapsClear: () => {
+    return {
+      type: APP_REMAPS_CLEAR,
     };
   },
   initAppPackage: (name: string, version: string) => {

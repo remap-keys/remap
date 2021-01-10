@@ -12,6 +12,7 @@ import {
 import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
+import { IKeyboard } from '../../services/hid/hid';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
@@ -70,6 +71,17 @@ class Configure extends React.Component<ConfigureProps, {}> {
     document.title = title;
   }
 
+  private initKeyboardConnectionEventHandler() {
+    this.props.hid!.instance.setConnectionEventHandler({
+      connect: (connectedKeyboard: IKeyboard) => {
+        this.props.onConnectKeyboard!(connectedKeyboard);
+      },
+      disconnect: (disconnectedKeyboard: IKeyboard) => {
+        this.props.onDisconnectKeyboard!(disconnectedKeyboard);
+      },
+    });
+  }
+
   componentDidMount() {
     const version = appPackage.version;
     const name = appPackage.name;
@@ -77,12 +89,14 @@ class Configure extends React.Component<ConfigureProps, {}> {
     this.props.updateAuthorizedKeyboardList!();
     this.updateTitle();
     this.updateNotifications();
+    this.initKeyboardConnectionEventHandler();
   }
 
   componentDidUpdate() {
     this.updateTitle();
     this.updateNotifications();
   }
+
   render() {
     return (
       <React.Fragment>
