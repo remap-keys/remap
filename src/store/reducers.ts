@@ -34,6 +34,9 @@ import {
   KEYBOARD_DEFINITION_FORM_ACTIONS,
   APP_REMAPS_CLEAR,
   KEYCODEKEY_CLEAR,
+  ANYKEYCODEKEY_ACTIONS,
+  ANYKEYCODEKEY_ADD_ANYKEY,
+  ANYKEYCODEKEY_UPDATE_ANYKEY,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -48,9 +51,12 @@ import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
 } from '../actions/storage.action';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
+import {
+  Key,
+  KeycodeInfo,
+} from '../components/configure/keycodekey/KeycodeKey.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
-
 import { INIT_STATE, RootState } from './state';
 
 export type Action = { type: string; value: any };
@@ -65,6 +71,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keycodesReducer(action, draft);
     } else if (action.type.startsWith(KEYBOARDS_ACTIONS)) {
       keyboardsReducer(action, draft);
+    } else if (action.type.startsWith(ANYKEYCODEKEY_ACTIONS)) {
+      keycodeAddKeyReducer(action, draft);
     } else if (action.type.startsWith(KEYCODEKEY_ACTIONS)) {
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(KEYDIFF_ACTIONS)) {
@@ -218,6 +226,53 @@ const keydiffReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case KEYDIFF_CLEAR_KEYDIFF: {
       draft.keydiff.origin = null;
       draft.keydiff.destination = null;
+      break;
+    }
+  }
+};
+
+const keycodeAddKeyReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case ANYKEYCODEKEY_ADD_ANYKEY: {
+      const anyKey: AnyKey = action.value;
+      const key: Key = {
+        label: anyKey.label,
+        meta: '',
+        keymap: {
+          isAny: true,
+          code: anyKey.code,
+          keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
+        },
+      };
+      draft.keycodes.keys[IKeycodeCategory.ANY] = [
+        ...draft.keycodes.keys[IKeycodeCategory.ANY],
+        key,
+      ];
+      break;
+    }
+    case ANYKEYCODEKEY_UPDATE_ANYKEY: {
+      const { index, anyKey } = action.value;
+      const key: Key = {
+        label: anyKey.label,
+        meta: '',
+        keymap: {
+          isAny: true,
+          code: anyKey.code,
+          keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
+        },
+      };
+      console.log(draft.keycodes.keys[IKeycodeCategory.ANY]);
+      draft.keycodes.keys[IKeycodeCategory.ANY] = draft.keycodes.keys[
+        IKeycodeCategory.ANY
+      ].map((k, i) => {
+        return i == index ? key : k;
+      });
+      console.log(draft.keycodes.keys[IKeycodeCategory.ANY]);
+
       break;
     }
   }

@@ -41,7 +41,7 @@
   .keycode {
     display: flex;
     flex-direction: column;
-    padding: $space-l $space-l $space-xl $space-l;
+    padding: $space-m $space-m $space-xl $space-m;
     .disable {
       position: absolute;
       width: 100%;
@@ -50,5 +50,15 @@
       margin-left: -16px;
       margin-top: -16px;
     }
+  }
+
+  .keycode-desc {
+    width: 100%;
+    padding: $space-s $space-l;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    bottom: 0;
+    color: white;
   }
 }

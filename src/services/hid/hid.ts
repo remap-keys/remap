@@ -44,6 +44,7 @@ export const IKeycodeCategory = {
   MEDIA: 'media',
   NUMBER: 'number',
   SPECIAL: 'special',
+  ANY: 'any',
 } as const;
 
 export interface IFetchLayerCountResult extends IResult {

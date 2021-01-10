@@ -19,6 +19,18 @@
     cursor: grabbing;
   }
 
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &.addkey {
+    border: 1px dashed #ccc;
+    &:hover {
+      background-color: $primary-pale;
+      transition: background-color 0.5s;
+    }
+  }
+
   .code-label {
     display: flex;
     flex-grow: 1;
@@ -28,6 +40,7 @@
     line-height: 16px;
     font-size: 0.76rem;
     overflow-wrap: anywhere;
+    overflow: hidden;
     padding: $space-xs;
   }
 }

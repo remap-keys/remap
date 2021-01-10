@@ -1,8 +1,15 @@
 import { connect } from 'react-redux';
-import KeycodeKey, { KeycodeKeyOwnProps } from './KeycodeKey';
+import KeycodeKey, { AnyKey, KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
-import { KeycodeKeyActions } from '../../../actions/actions';
-import { IKeycodeCategory, IKeymap } from '../../../services/hid/hid';
+import {
+  AnyKeycodeKeyActions,
+  KeycodeKeyActions,
+} from '../../../actions/actions';
+import {
+  IKeycodeCategory,
+  IKeycodeInfo,
+  IKeymap,
+} from '../../../services/hid/hid';
 
 export type Key = {
   label: string;
@@ -12,12 +19,26 @@ export type Key = {
 
 export const genKey = (keymap: IKeymap): Key => {
   // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-  if (keymap.isAny) {
-    return { label: 'Any', meta: '', keymap };
-  } else {
+  if (keymap.keycodeInfo) {
     return { label: keymap.keycodeInfo!.label, meta: '', keymap };
+  } else {
+    return { label: 'Any', meta: '', keymap };
   }
 };
+
+export class KeycodeInfo implements IKeycodeInfo {
+  readonly code: number;
+  readonly name: { long: string; short: string };
+  readonly label: string;
+  constructor(label: string, code: number) {
+    this.code = code;
+    this.name = {
+      long: label,
+      short: label,
+    };
+    this.label = label;
+  }
+}
 
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
   const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
@@ -33,7 +54,7 @@ export type KeycodeKeyStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    clickKey: (key: Key) => {
+    selectKey: (key: Key) => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(key));
     },
     hoverKey: (key: Key | null) => {
@@ -44,6 +65,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     endDraggingKeycode: () => {
       _dispatch(KeycodeKeyActions.updateDraggingKey(null));
+    },
+    updateAnyKey: (index: number, anyKey: AnyKey) => {
+      _dispatch(AnyKeycodeKeyActions.updateAnyKey(index, anyKey));
     },
   };
 };

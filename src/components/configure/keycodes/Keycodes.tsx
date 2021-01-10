@@ -1,11 +1,10 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
 import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/hid';
-import KEY_DESCRIPTIONS from '../../../assets/files/key_descriptions';
+import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 
 const KeycodeCategories = [
   { name: IKeycodeCategory.BASIC, label: 'Basic' },
@@ -14,6 +13,7 @@ const KeycodeCategories = [
   { name: IKeycodeCategory.LAYERS, label: 'Layers' },
   { name: IKeycodeCategory.SPECIAL, label: 'Special' },
   { name: IKeycodeCategory.LIGHTING, label: 'QMK Lighting' },
+  { name: IKeycodeCategory.ANY, label: 'Any' },
 ] as const;
 
 type OwnProps = {};
@@ -31,6 +31,7 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
     this.props.loadKeycodeInfoForAllCategories!(this.props._hidInstance!);
   }
 
+  // eslint-disable-next-line no-undef
   onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const macroKeys = this.props.keys![IKeycodeCategory.MACRO];
     if (
@@ -69,60 +70,69 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
           })}
         </div>
         <div className="keycodes">
-          {keys.map((key) => {
+          {keys.map((key, index) => {
             return (
-              <KeycodeKey key={key.keymap.code} value={key} draggable={true} />
+              <KeycodeKey
+                index={index}
+                key={`${this.props.category}${index}`}
+                value={key}
+                draggable={true}
+              />
             );
           })}
+          {this.props.category == IKeycodeCategory.ANY && (
+            <KeycodeAddKey key={'add'} />
+          )}
         </div>
-        {this.props.category == IKeycodeCategory.MACRO ? (
-          <div className="macro-wrapper">
-            <div className="macro">
-              <hr />
-              {this.props.selectedKey ? (
-                <div>{this.props.selectedKey!.label}</div>
-              ) : (
-                'Please click above key to input its macro'
-              )}
 
-              <textarea
-                placeholder={'{KC_A,KC_NO,KC_A,KC_B}'}
-                onChange={this.onChangeMacroText}
-                disabled={!this.props.selectedKey}
-                value={this.props.macroText || ''}
-              ></textarea>
-              <div>
-                Enter text directry, or wrap{' '}
-                <a href="https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes_basic">
-                  Basic Keycodes
-                </a>{' '}
-                in {'{}'}.
-              </div>
-              <div>
-                Single tap: {'{KC_XXX}'}, Chord: {'{KC_XXX, KC_YYY, KC_ZZZ}'}.
-              </div>
-              <div>Type ? to search for keycodes.</div>
-            </div>
-          </div>
-        ) : (
-          ''
-        )}
-        {this.props.hoverKey ? (
-          <div className="keycode-desc">
-            {this.props.hoverKey.keymap.isAny
-              ? 'Any'
-              : this.props.hoverKey.keymap.keycodeInfo?.name.long}
-            :{' '}
-            {
-              KEY_DESCRIPTIONS[
-                this.props.hoverKey.keymap.keycodeInfo!.name.long
-              ]
-            }
-          </div>
-        ) : (
-          ''
+        {this.props.category == IKeycodeCategory.MACRO && (
+          <Macro
+            selectedKey={this.props.selectedKey}
+            macroText={this.props.macroText}
+            onChangeMacroText={this.onChangeMacroText}
+          />
         )}
       </React.Fragment>
     );
   }
+}
+
+type MacroType = {
+  selectedKey?: Key | null;
+  macroText?: string | null;
+
+  // eslint-disable-next-line no-undef
+  onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
+function Macro(props: MacroType) {
+  return (
+    <div className="macro-wrapper">
+      <div className="macro">
+        <hr />
+        {props.selectedKey ? (
+          <div>{props.selectedKey!.label}</div>
+        ) : (
+          'Please click above key to input its macro'
+        )}
+
+        <textarea
+          placeholder={'{KC_A,KC_NO,KC_A,KC_B}'}
+          onChange={props.onChangeMacroText}
+          disabled={!props.selectedKey}
+          value={props.macroText || ''}
+        ></textarea>
+        <div>
+          Enter text directry, or wrap{' '}
+          <a href="https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes_basic">
+            Basic Keycodes
+          </a>{' '}
+          in {'{}'}.
+        </div>
+        <div>
+          Single tap: {'{KC_XXX}'}, Chord: {'{KC_XXX, KC_YYY, KC_ZZZ}'}.
+        </div>
+        <div>Type ? to search for keycodes.</div>
+      </div>
+    </div>
+  );
 }

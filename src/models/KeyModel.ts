@@ -50,7 +50,7 @@ export default class KeyModel {
     h2: number = NaN
   ) {
     this.keyOp = op;
-    this.pos = location;
+    this.pos = location.split('\n')[0]; // TODO: Need to support multiple legends?
     this.left = x * KEY_SIZE;
     this.top = y * KEY_SIZE;
     this.width = w * KEY_SIZE;
