@@ -47,7 +47,7 @@ export default class KeyboardList extends React.Component<
             className="keyboard-item"
             onClick={this.props.onClickConnectAnotherKeyboard!.bind(this)}
           >
-            <h3 className="another">+ ANOTHER KEYBOARD</h3>
+            <h3 className="another">+ KEYBOARD</h3>
             <div className="device-ids">
               Please add a new Web HID access permitted device
             </div>
