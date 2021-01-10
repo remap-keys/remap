@@ -117,6 +117,10 @@ export class Keyboard implements IKeyboard {
     return this.device;
   }
 
+  isSameDevice(target: IKeyboard): boolean {
+    return this.device === target.getDevice();
+  }
+
   async open(): Promise<IResult> {
     if (this.isOpened()) {
       return {

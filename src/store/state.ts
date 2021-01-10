@@ -7,6 +7,24 @@ import {
   IKeymap,
 } from '../services/hid/hid';
 import { WebHid } from '../services/hid/web-hid';
+import { FirestoreStorage } from '../services/storage/firebase';
+import { IStorage } from '../services/storage/storage';
+
+export type ISetupPhase =
+  | 'keyboardNotSelected'
+  | 'connectingKeyboard'
+  | 'fetchingKeyboardDefinition'
+  | 'waitingKeyboardDefinitionUpload'
+  | 'openingKeyboard'
+  | 'openedKeyboard';
+export const SetupPhase: { [p: string]: ISetupPhase } = {
+  keyboardNotSelected: 'keyboardNotSelected',
+  connectingKeyboard: 'connectingKeyboard',
+  fetchingKeyboardDefinition: 'fetchingKeyboardDefinition',
+  waitingKeyboardDefinitionUpload: 'waitingKeyboardDefinitionUpload',
+  openingKeyboard: 'openingKeyboard',
+  openedKeyboard: 'openedKeyboard',
+};
 
 export type RootState = {
   entities: {
@@ -25,14 +43,15 @@ export type RootState = {
       };
     };
     keyboards: IKeyboard[]; // authorized keyboard list
-    openedKeyboard: IKeyboard | null;
+    keyboard: IKeyboard | null;
+    keyboardDefinition: any;
   };
   app: {
     package: {
       name: string;
       version: string;
     };
-    openingKeyboard: boolean; // loading status of open and init keyboard
+    setupPhase: ISetupPhase;
     remaps: {
       // remap candidates and show keydiff
       [pos: string]: IKeymap;
@@ -44,6 +63,9 @@ export type RootState = {
   };
   hid: {
     instance: IHid;
+  };
+  storage: {
+    instance: IStorage;
   };
   keyboards: {
     selectedPos: string;
@@ -78,20 +100,21 @@ export const INIT_STATE: RootState = {
       productId: NaN,
       name: null,
       layerCount: NaN,
-      rowCount: 8, // TODO: update by config file
-      columnCount: 6, // TODO: update by config file
+      rowCount: 8,
+      columnCount: 6,
       keymaps: [],
       macros: {},
     },
     keyboards: [],
-    openedKeyboard: null, // hid.keyboards[i]
+    keyboard: null, // hid.keyboards[i]
+    keyboardDefinition: null,
   },
   app: {
     package: {
       name: '',
       version: '',
     },
-    openingKeyboard: false,
+    setupPhase: SetupPhase.keyboardNotSelected,
     remaps: [],
     notifications: [],
   },
@@ -100,6 +123,9 @@ export const INIT_STATE: RootState = {
   },
   hid: {
     instance: webHid,
+  },
+  storage: {
+    instance: new FirestoreStorage(),
   },
   keyboards: {
     selectedLayer: NaN,

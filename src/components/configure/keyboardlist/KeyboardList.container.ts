@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import KeyboardList from './KeyboardList';
-import { RootState } from '../../../store/state';
-import { KeycodesActions } from '../../../actions/actions';
+import { RootState, SetupPhase } from '../../../store/state';
+import { AppActions, KeycodesActions } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard, IKeycodeCategory } from '../../../services/hid/hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
     keyboards: state.entities.keyboards || [],
-    openingKeyboard: state.app.openingKeyboard,
   };
 };
 export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;
@@ -16,13 +15,14 @@ export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickItem: (keyboard: IKeyboard) => {
-      _dispatch(hidActionsThunk.updateOpeningKeyboard(true));
-      _dispatch(hidActionsThunk.openKeyboard(keyboard));
+      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+      _dispatch(hidActionsThunk.connectKeyboard(keyboard));
       _dispatch(KeycodesActions.updateCategory(IKeycodeCategory.BASIC)); // init keycode category
     },
     onClickConnectAnotherKeyboard: () => {
-      _dispatch(hidActionsThunk.updateOpeningKeyboard(true));
+      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
       _dispatch(hidActionsThunk.connectAnotherKeyboard());
+      _dispatch(KeycodesActions.updateCategory(IKeycodeCategory.BASIC)); // init keycode category
     },
   };
 };

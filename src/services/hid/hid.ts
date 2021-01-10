@@ -1,3 +1,5 @@
+import { IKeyboardDefinitionDocument } from '../storage/storage';
+
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
@@ -68,6 +70,7 @@ export interface IKeyboard {
   getInformation(): IDeviceInformation;
   open(): Promise<IResult>;
   isOpened(): boolean;
+  isSameDevice(target: IKeyboard): boolean;
   enqueue(command: ICommand): Promise<IResult>;
   close(): Promise<void>;
   fetchLayerCount(): Promise<IFetchLayerCountResult>;

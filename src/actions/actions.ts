@@ -1,3 +1,4 @@
+import { ThunkAction } from 'redux-thunk';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
 import {
@@ -6,6 +7,8 @@ import {
   IKeycodeInfo,
   IKeymap,
 } from '../services/hid/hid';
+import { ISetupPhase, RootState } from '../store/state';
+import { hidActionsThunk } from './hid.action';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
@@ -178,16 +181,16 @@ export const HeaderActions = {
 };
 
 export const APP_ACTIONS = '@App';
-export const APP_UPDATE_OPENING = `${APP_ACTIONS}/UpdateOpening`;
+export const APP_UPDATE_SETUP_PHASE = `${APP_ACTIONS}/UpdateSetupPhase`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
 export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const AppActions = {
-  updateOpeningKeyboard: (opening: boolean) => {
+  updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
-      type: APP_UPDATE_OPENING,
-      value: opening,
+      type: APP_UPDATE_SETUP_PHASE,
+      value: setupPhase,
     };
   },
   remapsInit: (layerCount: number) => {

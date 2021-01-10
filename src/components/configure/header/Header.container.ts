@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import Header from './Header';
-import { RootState } from '../../../store/state';
+import { RootState, SetupPhase } from '../../../store/state';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard } from '../../../services/hid/hid';
-import { HeaderActions } from '../../../actions/actions';
+import { AppActions, HeaderActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
-  const kbd = state.entities.openedKeyboard;
+  const kbd = state.entities.keyboard;
   const info = kbd?.getInformation();
   return {
     flushLoading: state.header.flushLoading,
@@ -24,11 +24,11 @@ export type HeaderStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickKeyboardMenuItem: (kbd: IKeyboard) => {
-      _dispatch(hidActionsThunk.updateOpeningKeyboard(true));
-      _dispatch(hidActionsThunk.openKeyboard(kbd));
+      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+      _dispatch(hidActionsThunk.connectKeyboard(kbd));
     },
     onClickAnotherKeyboard: () => {
-      _dispatch(hidActionsThunk.updateOpeningKeyboard(true));
+      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
       _dispatch(hidActionsThunk.connectAnotherKeyboard());
     },
     onClickFlushButton: () => {
