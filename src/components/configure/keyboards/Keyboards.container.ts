@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     selectedLayer: state.keyboards.selectedLayer,
     keymaps: state.entities.device.keymaps,
     remaps: state.app.remaps,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type KeyboardsStateType = ReturnType<typeof mapStateToProps>;

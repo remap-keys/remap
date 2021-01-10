@@ -12,9 +12,7 @@ import {
 const BORDER_WIDTH = 4;
 const LAYOUT_PADDING = 16;
 
-type OwnProps = {
-  config: any; // Keyboard Configuration File (.json)
-};
+type OwnProps = {};
 
 type KeyboardsProps = OwnProps &
   Partial<KeyboardsActionsType> &
@@ -31,7 +29,7 @@ export default class Keyboards extends React.Component<
   constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
     this.state = {
-      keyboard: new KeyboardModel(this.props.config.layouts.keymap),
+      keyboard: new KeyboardModel(this.props.keyboardDefinition.layouts.keymap),
     };
   }
 
