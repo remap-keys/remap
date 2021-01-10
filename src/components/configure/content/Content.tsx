@@ -8,6 +8,7 @@ import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard } from '../../../services/hid/hid';
 import { CircularProgress } from '@material-ui/core';
 import { ISetupPhase, SetupPhase } from '../../../store/state';
+import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
 
 type ContentState = {
   selectedLayer: number;
@@ -91,8 +92,7 @@ function ConnectedKeyboard(props: ConnectedKeyboardProps) {
       }
     case SetupPhase.fetchingKeyboardDefinition:
     case SetupPhase.waitingKeyboardDefinitionUpload:
-      // TODO: Create a form UI component.
-      return <div>TODO: Keyboard Definition Upload Form</div>;
+      return <KeyboardDefinitionForm />;
     case SetupPhase.openedKeyboard:
       return <Keymap />;
     default:

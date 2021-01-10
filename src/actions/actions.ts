@@ -180,6 +180,17 @@ export const HeaderActions = {
   },
 };
 
+export const KEYBOARD_DEFINITION_FORM_ACTIONS = '@KeyboardDefinitionForm';
+export const KEYBOARD_DEFINITION_FORM_UPDATE_DRAGGING = `${KEYBOARD_DEFINITION_FORM_ACTIONS}/UpdateDragging`;
+export const KeyboardDefinitionFormActions = {
+  updateDragging: (dragging: boolean) => {
+    return {
+      type: KEYBOARD_DEFINITION_FORM_UPDATE_DRAGGING,
+      value: dragging,
+    };
+  },
+};
+
 export const APP_ACTIONS = '@App';
 export const APP_UPDATE_SETUP_PHASE = `${APP_ACTIONS}/UpdateSetupPhase`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
