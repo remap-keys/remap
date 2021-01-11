@@ -19,11 +19,17 @@ type ConfigureProps = OwnProps &
   Partial<ConfigureStateType> &
   Partial<ConfigureActionsType> &
   ProviderContext;
+type OwnState = {
+  supportedBrowser: boolean;
+};
 
-class Configure extends React.Component<ConfigureProps, {}> {
+class Configure extends React.Component<ConfigureProps, OwnState> {
   private displayedNoficationIds: string[] = [];
   constructor(props: ConfigureProps) {
     super(props);
+    this.state = {
+      supportedBrowser: true,
+    };
   }
 
   private storeDisplayedNotification = (key: string) => {
@@ -83,6 +89,12 @@ class Configure extends React.Component<ConfigureProps, {}> {
   }
 
   componentDidMount() {
+    if ((navigator as any).hid === undefined) {
+      this.setState({
+        supportedBrowser: false,
+      });
+      return;
+    }
     const version = appPackage.version;
     const name = appPackage.name;
     this.props.initAppPackage!(name, version);
@@ -98,15 +110,38 @@ class Configure extends React.Component<ConfigureProps, {}> {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <Header />
-        <main>
-          <Content />
-        </main>
-      </React.Fragment>
-    );
+    if (this.state.supportedBrowser) {
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <Header />
+          <main>
+            <Content />
+          </main>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <div className="unsupported-browser-wrapper">
+            <div className="message-box">
+              <h1>Unsupported Web Browser</h1>
+              <p>
+                <a href="https://remap-keys.app">Remap</a> works on Web Browsers
+                which the{' '}
+                <a href="https://wicg.github.io/webhid/">WebHID API</a> is
+                supported.
+                <br />
+                For example,{' '}
+                <a href="https://www.google.com/chrome">Google Chrome</a>{' '}
+                version 86 or later supports the WebHID API.
+              </p>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
   }
 }
 
