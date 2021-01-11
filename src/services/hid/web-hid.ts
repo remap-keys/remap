@@ -13,7 +13,6 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
-  IKeycodeCategory,
 } from './hid';
 import keycodeArray from './assets/keycodes.json';
 import basic from './assets/keycodes-basic.json';
@@ -24,12 +23,9 @@ import media from './assets/keycodes-media.json';
 import kp from './assets/keycodes-number.json';
 import special from './assets/keycodes-special.json';
 import {
-  DynamicKeymapGetKeycodeCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapReadBufferCommand,
   DynamicKeymapSetKeycodeCommand,
-  IDynamicKeymapGetKeycodeResponse,
-  IDynamicKeymapReadBufferRequest,
   IDynamicKeymapReadBufferResponse,
 } from './commands';
 
@@ -256,7 +252,7 @@ export class Keyboard implements IKeyboard {
   }
 
   fetchLayerCount(): Promise<IFetchLayerCountResult> {
-    return new Promise<IFetchLayerCountResult>((resolve, reject) => {
+    return new Promise<IFetchLayerCountResult>((resolve) => {
       const command = new DynamicKeymapGetLayerCountCommand(
         {},
         async (result) => {
@@ -284,7 +280,7 @@ export class Keyboard implements IKeyboard {
     column: number,
     code: number
   ): Promise<IResult> {
-    return new Promise<IResult>((resolve, reject) => {
+    return new Promise<IResult>((resolve) => {
       const command = new DynamicKeymapSetKeycodeCommand(
         {
           layer,
@@ -323,6 +319,7 @@ export interface ICommandResult<T> {
 }
 
 export interface ICommandResponseHandler<T extends ICommandResponse> {
+  // eslint-disable-next-line
   (result: ICommandResult<T>): Promise<void>;
 }
 

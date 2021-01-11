@@ -1,15 +1,8 @@
-import { ThunkAction } from 'redux-thunk';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
-import {
-  IHid,
-  IKeycodeCategory,
-  IKeycodeInfo,
-  IKeymap,
-} from '../services/hid/hid';
-import { ISetupPhase, RootState } from '../store/state';
-import { hidActionsThunk } from './hid.action';
+import { IHid, IKeycodeCategory, IKeymap } from '../services/hid/hid';
+import { ISetupPhase } from '../store/state';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';
 export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;

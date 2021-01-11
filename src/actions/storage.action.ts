@@ -33,9 +33,9 @@ export const storageActionsThunk = {
     const { entities } = getState();
     const keyboard = entities.keyboard;
 
-    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line no-unused-vars
     const loadTextFile = (file: File): Promise<string> => {
-      return new Promise<string>((resolve, reject) => {
+      return new Promise<string>((resolve) => {
         // eslint-disable-next-line no-undef
         const fileReader = new FileReader();
         fileReader.addEventListener('load', () => {
@@ -79,7 +79,9 @@ export const storageActionsThunk = {
     dispatch(hidActionsThunk.openKeyboard());
   },
   fetchKeyboardDefinition: (
+    // eslint-disable-next-line no-unused-vars
     vendorId: number,
+    // eslint-disable-next-line no-unused-vars
     productId: number
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,

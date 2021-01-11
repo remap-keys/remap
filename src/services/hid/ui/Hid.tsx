@@ -4,7 +4,6 @@ import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapReadBufferCommand,
-  DynamicKeymapSetKeycodeCommand,
 } from '../commands';
 import { IKeyboard } from '../hid';
 import KeycodeArray from '../assets/keycodes.json';
@@ -111,9 +110,7 @@ const Hid = () => {
     setUseFilter(event.target.checked);
   };
 
-  const handleGetConnectedKeyboardsClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleGetConnectedKeyboardsClick = async () => {
     const keyboards = await webHid.detectKeyboards();
     setConnectedKeyboards(keyboards);
     setSelectedKeyboardValue(0);
@@ -125,9 +122,7 @@ const Hid = () => {
     setSelectedKeyboardValue(Number(event.target.value));
   };
 
-  const handleOpenClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleOpenClick = async () => {
     const keyboard = connectedKeyboards[selectedKeyboardValue];
     const result = await keyboard.open();
     if (result.success) {
@@ -193,9 +188,7 @@ const Hid = () => {
     setBufferSize(Number(event.target.value));
   };
 
-  const handleFetchKeymapClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleFetchKeymapClick = async () => {
     if (keyboard) {
       const fetchKeymapResult = await keyboard.fetchKeymaps(
         layer2,
@@ -213,9 +206,7 @@ const Hid = () => {
     }
   };
 
-  const handleDynamicKeymapGetKeycodeClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleDynamicKeymapGetKeycodeClick = async () => {
     const command = new DynamicKeymapGetKeycodeCommand(
       {
         layer,
@@ -235,9 +226,7 @@ const Hid = () => {
     await keyboard!.enqueue(command);
   };
 
-  const handleDynamicKeymapSetKeycodeClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleDynamicKeymapSetKeycodeClick = async () => {
     const result = await keyboard!.updateKeymap(layer, row, column, code);
     if (!result.success) {
       setMessage(result.error!);
@@ -245,9 +234,7 @@ const Hid = () => {
     }
   };
 
-  const handleReadBufferClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleReadBufferClick = async () => {
     const command = new DynamicKeymapReadBufferCommand(
       {
         offset: bufferOffset,

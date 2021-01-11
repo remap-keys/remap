@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { KeyboardDefinitionFormActions } from '../../../actions/actions';
 import { RootState } from '../../../store/state';
 import KeyboardDefinitionForm from './KeyboardDefinitionForm';
-import React from 'react';
 import { storageActionsThunk } from '../../../actions/storage.action';
 
 const mapStateToProps = (state: RootState) => {

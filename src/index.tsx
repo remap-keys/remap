@@ -8,7 +8,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import reducers from './store/reducers';
 import reportWebVitals from './reportWebVitals';
-import { makeStyles } from '@material-ui/core/styles';
 
 const store = createStore(
   reducers,

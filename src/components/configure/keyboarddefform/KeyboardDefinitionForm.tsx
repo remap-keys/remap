@@ -1,4 +1,3 @@
-import { ContactsOutlined } from '@material-ui/icons';
 import React from 'react';
 import {
   KeyboardDefinitionFormActionsType,

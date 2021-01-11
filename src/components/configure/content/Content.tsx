@@ -3,7 +3,6 @@ import './Content.scss';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap';
 import { ContentActionsType, ContentStateType } from './Content.container';
-import NoKeyboard from '../nokeyboard/NoKeyboard';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/hid';
 import { CircularProgress } from '@material-ui/core';

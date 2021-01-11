@@ -4,6 +4,7 @@ import { RootState } from '../../../../store/state';
 import { AnyKeycodeKeyActions } from '../../../../actions/actions';
 import { AnyKey } from '../KeycodeKey';
 
+// eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {};
 };

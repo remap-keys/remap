@@ -1,5 +1,4 @@
 import { NotificationItem } from '../actions/actions';
-import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import {
   IHid,

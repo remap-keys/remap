@@ -1,4 +1,3 @@
-import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { IKeyboard } from '../../../services/hid/hid';
 import { hexadecimal } from '../../../utils/StringUtils';
