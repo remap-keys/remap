@@ -51,6 +51,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       pos: string,
       orgKey: Key
     ) => {
+      if (draggingKey.keymap.code === orgKey.keymap.code) {
+        return;
+      }
       _dispatch(
         AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
       );
