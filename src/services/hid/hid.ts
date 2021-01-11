@@ -1,5 +1,5 @@
-import { IKeyboardDefinitionDocument } from '../storage/storage';
-
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;

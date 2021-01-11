@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
 } from '@material-ui/core';
@@ -23,6 +22,7 @@ type AnyKeyDialogOwnProps = {
   labelOk: string;
   value: AnyKey | null;
   onClickCancel: () => void;
+  // eslint-disable-next-line no-unused-vars
   onClickOk: (key: AnyKey) => void;
 };
 
