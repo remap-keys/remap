@@ -3,9 +3,8 @@ import './Keydiff.scss';
 import { Button } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
-import KeycodeKey from '../keycodekey/KeycodeKey';
 import { IKeymap } from '../../../services/hid/hid';
-import { genKey } from '../keycodekey/KeycodeKey.container';
+import KeycodeKey, { genKey } from '../keycodekey/KeycodeKey.container';
 
 type KeydiffOwnProps = {};
 
