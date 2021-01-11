@@ -21,6 +21,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
+      - name: Build and Deploy
+        run: yarn build-production
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
