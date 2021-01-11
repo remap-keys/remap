@@ -19,10 +19,14 @@ export type Key = {
 
 export const genKey = (keymap: IKeymap): Key => {
   // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-  if (keymap.keycodeInfo) {
-    return { label: keymap.keycodeInfo!.label, meta: '', keymap };
+  if (keymap.isAny) {
+    return {
+      label: Number(keymap.code).toString(16).toUpperCase(),
+      meta: '',
+      keymap,
+    };
   } else {
-    return { label: 'Any', meta: '', keymap };
+    return { label: keymap.keycodeInfo!.label, meta: '', keymap };
   }
 };
 
