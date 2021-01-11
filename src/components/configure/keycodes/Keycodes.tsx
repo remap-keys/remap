@@ -13,7 +13,7 @@ const KeycodeCategories = [
   { name: IKeycodeCategory.LAYERS, label: 'Layers' },
   { name: IKeycodeCategory.SPECIAL, label: 'Special' },
   { name: IKeycodeCategory.LIGHTING, label: 'QMK Lighting' },
-  { name: IKeycodeCategory.ANY, label: 'Any' },
+  { name: IKeycodeCategory.ANY, label: 'Custom' },
 ] as const;
 
 type OwnProps = {};
