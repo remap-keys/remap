@@ -98,10 +98,10 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     const version = appPackage.version;
     const name = appPackage.name;
     this.props.initAppPackage!(name, version);
-    this.props.updateAuthorizedKeyboardList!();
     this.updateTitle();
     this.updateNotifications();
     this.initKeyboardConnectionEventHandler();
+    this.props.updateAuthorizedKeyboardList!();
   }
 
   componentDidUpdate() {

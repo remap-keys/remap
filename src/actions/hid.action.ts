@@ -202,6 +202,20 @@ export const hidActionsThunk = {
     const { hid } = getState();
     const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
     dispatch(HidActions.updateKeyboardList(keyboards));
+    if (keyboards.length === 1) {
+      const keyboard = keyboards[0];
+      dispatch(HidActions.updateKeyboard(keyboard));
+      const keyboardInfo = keyboard.getInformation();
+      dispatch(
+        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+      );
+      dispatch(
+        storageActionsThunk.fetchKeyboardDefinition(
+          keyboardInfo.vendorId,
+          keyboardInfo.productId
+        )
+      );
+    }
   },
 
   closeKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
