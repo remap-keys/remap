@@ -268,8 +268,8 @@ export const hidActionsThunk = {
       dispatch,
       keyboard,
       entities.device.layerCount,
-      entities.keyboardDefinition.matrix.rows,
-      entities.keyboardDefinition.matrix.cols
+      entities.keyboardDefinition!.matrix.rows,
+      entities.keyboardDefinition!.matrix.cols
     );
     dispatch(AppActions.remapsInit(entities.device.layerCount));
     dispatch(KeydiffActions.clearKeydiff());
