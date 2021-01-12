@@ -1,0 +1,99 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "vendorId": {
+      "type": "string",
+      "pattern": "^0x[0-9a-zA-Z]{1,4}$"
+    },
+    "productId": {
+      "type": "string",
+      "pattern": "^0x[0-9a-zA-Z]{1,4}$"
+    },
+    "lighting": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "none",
+            "qmk_backlight",
+            "qmk_rgblight",
+            "qmk_backlight_rgblight",
+            "wt_rgb_backlight",
+            "wt_mono_backlight"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "extends": {
+              "type": "string"
+            },
+            "effects": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "keycodes": {
+              "type": "string",
+              "enum": ["qmk", "wt"]
+            },
+            "supportedBacklightValues": {
+              "type": "integer"
+            }
+          }
+        }
+      ]
+    },
+    "matrix": {
+      "type": "object",
+      "properties": {
+        "rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cols": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "layouts": {
+      "type": "object",
+      "properties": {
+        "keymap": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": ["string", "object"]
+            }
+          }
+        },
+        "labels": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      "required": ["keymap"]
+    }
+  },
+  "required": ["name", "vendorId", "productId", "matrix", "layouts"]
+}

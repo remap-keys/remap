@@ -27,9 +27,6 @@ export default class KeyboardDefinitionForm extends React.Component<
       return;
     }
     const file = files[0];
-    if (!file.type.endsWith('/json')) {
-      return;
-    }
     this.props.onDropFile!(file);
   };
 
@@ -45,9 +42,6 @@ export default class KeyboardDefinitionForm extends React.Component<
       return;
     }
     const file = files[0];
-    if (!file.type.endsWith('/json')) {
-      return;
-    }
     this.props.onDropFile!(file);
     event.target.value = '';
   };

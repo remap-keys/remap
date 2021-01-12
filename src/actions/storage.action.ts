@@ -2,6 +2,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootState, SetupPhase } from '../store/state';
 import { AppActions, NotificationActions } from './actions';
 import { hidActionsThunk } from './hid.action';
+import { validateKeyboardDefinition } from '../services/storage/Validator';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -33,6 +34,11 @@ export const storageActionsThunk = {
     const { entities } = getState();
     const keyboard = entities.keyboard;
 
+    if (!file.type.endsWith('/json')) {
+      dispatch(NotificationActions.addWarn('The file is not JSON format.'));
+      return;
+    }
+
     // eslint-disable-next-line no-unused-vars
     const loadTextFile = (file: File): Promise<string> => {
       return new Promise<string>((resolve) => {
@@ -45,6 +51,13 @@ export const storageActionsThunk = {
       });
     };
     const json = await loadTextFile(file);
+
+    const validateResult = validateKeyboardDefinition(json);
+    if (!validateResult.valid) {
+      dispatch(NotificationActions.addWarn(validateResult.errorMessage!));
+      return;
+    }
+
     const keyboardDefinition = JSON.parse(json);
 
     const getNumber = (source: string): number => {
