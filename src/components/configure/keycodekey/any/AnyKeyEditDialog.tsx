@@ -47,9 +47,13 @@ export default class AnyKeyDialog extends React.Component<
       this.setState({
         label: label,
         code: code,
-        disabled: 0 == label.length || 0 == code.length,
+        disabled: 0 == label.length || this.invalidateCode(code),
       });
     }
+  }
+
+  private invalidateCode(code: string) {
+    return 0 == code.length || 4 < code.length;
   }
 
   private onClickCancel() {
@@ -73,7 +77,7 @@ export default class AnyKeyDialog extends React.Component<
   // eslint-disable-next-line no-undef
   private onChangeCode(e: React.ChangeEvent<HTMLInputElement>) {
     const code = e.target.value.toUpperCase().replace(/[^0-9,A-F]/g, '');
-    this.setState({ code: code, disabled: code.length == 0 });
+    this.setState({ code: code, disabled: this.invalidateCode(code) });
   }
 
   // eslint-disable-next-line no-undef
