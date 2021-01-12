@@ -7,7 +7,7 @@ import {
   IKeymap,
 } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
-import { FirestoreStorage } from '../services/storage/Firebase';
+import { FirestoreStorage } from '../services/provider/Firebase';
 import { IStorage } from '../services/storage/Storage';
 
 export type ISetupPhase =

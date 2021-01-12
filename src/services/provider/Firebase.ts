@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
-import { IFetchKeyboardDefinitionResult, IStorage } from './Storage';
+import 'firebase/auth';
+import { IFetchKeyboardDefinitionResult, IStorage } from '../storage/Storage';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,11 +14,13 @@ const config = {
 
 export class FirestoreStorage implements IStorage {
   private db: firebase.firestore.Firestore;
+  private auth: firebase.auth.Auth;
 
   constructor() {
     firebase.initializeApp(config);
     const app = firebase.app();
     this.db = app.firestore();
+    this.auth = app.auth();
   }
 
   async fetchKeyboardDefinition(
