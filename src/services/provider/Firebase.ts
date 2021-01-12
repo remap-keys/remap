@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { IFetchKeyboardDefinitionResult, IStorage } from '../storage/Storage';
+import { IAuth } from '../auth/Auth';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,9 +13,10 @@ const config = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-export class FirestoreStorage implements IStorage {
+export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
   private auth: firebase.auth.Auth;
+  private unsubscribeAuthStateChanged?: firebase.Unsubscribe;
 
   constructor() {
     firebase.initializeApp(config);
@@ -63,5 +65,32 @@ export class FirestoreStorage implements IStorage {
         cause: error,
       };
     }
+  }
+
+  async fetchClosedBetaUsers(): Promise<string[]> {
+    const documentSnapshot = await this.db
+      .collection('configurations')
+      .doc('closedbeta')
+      .get();
+    if (documentSnapshot.exists) {
+      return documentSnapshot.data()!.users;
+    } else {
+      return [];
+    }
+  }
+
+  signInWithGitHubForClosedBeta(): Promise<void> {
+    const provider = new firebase.auth.GithubAuthProvider();
+    return this.auth.signInWithRedirect(provider);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  subscribeAuthStatus(callback: (user: firebase.User | null) => void): void {
+    this.unsubscribeAuthStateChanged && this.unsubscribeAuthStateChanged();
+    this.unsubscribeAuthStateChanged = this.auth.onAuthStateChanged(
+      (user: firebase.User | null) => {
+        callback(user);
+      }
+    );
   }
 }

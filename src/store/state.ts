@@ -7,8 +7,9 @@ import {
   IKeymap,
 } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
-import { FirestoreStorage } from '../services/provider/Firebase';
+import { FirebaseProvider } from '../services/provider/Firebase';
 import { IStorage } from '../services/storage/Storage';
+import { IAuth } from '../services/auth/Auth';
 
 export type ISetupPhase =
   | 'keyboardNotSelected'
@@ -67,6 +68,9 @@ export type RootState = {
   storage: {
     instance: IStorage;
   };
+  auth: {
+    instance: IAuth;
+  };
   keyboards: {
     selectedPos: string;
     selectedLayer: number;
@@ -88,6 +92,8 @@ export type RootState = {
     dragging: boolean;
   };
 };
+
+const firebaseProvider = new FirebaseProvider();
 
 export const INIT_STATE: RootState = {
   entities: {
@@ -121,7 +127,10 @@ export const INIT_STATE: RootState = {
     instance: new WebHid(),
   },
   storage: {
-    instance: new FirestoreStorage(),
+    instance: firebaseProvider,
+  },
+  auth: {
+    instance: firebaseProvider,
   },
   keyboards: {
     selectedLayer: NaN,
