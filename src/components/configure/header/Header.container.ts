@@ -33,9 +33,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     onClickFlushButton: () => {
       _dispatch(HeaderActions.updateFlush(true));
-      setTimeout(() => {
-        _dispatch(HeaderActions.updateFlush(false));
-      }, 2000);
+      _dispatch(hidActionsThunk.flush());
     },
   };
 };
