@@ -253,8 +253,14 @@ export const hidActionsThunk = {
         const code = key.code;
         const result = await keyboard.updateKeymap(layer, row, col, code);
         if (!result.success) {
-          // TODO: handle error.
           console.error(result.cause);
+          dispatch(
+            NotificationActions.addError(
+              `Flush error: [${pos}] ${result.error!}`
+            )
+          );
+          dispatch(HeaderActions.updateFlush(false));
+          return;
         }
       }
     }
