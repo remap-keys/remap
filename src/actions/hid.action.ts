@@ -3,6 +3,7 @@ import { IHid, IKeyboard, IKeymaps } from '../services/hid/Hid';
 import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
+  HeaderActions,
   KeyboardsActions,
   KeycodeKeyActions,
   KeydiffActions,
@@ -231,8 +232,44 @@ export const hidActionsThunk = {
     dispatch(AppActions.remapsClear());
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
+    dispatch(KeyboardsActions.clearSelectedPos());
     dispatch(StorageActions.updateKeyboardDefinition(null));
     dispatch(HidActions.updateKeyboard(null));
+  },
+
+  flush: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { app, entities } = getState();
+    const keyboard: IKeyboard = entities.keyboard!;
+    const remaps = app.remaps;
+    for (let layer = 0; layer < remaps.length; layer++) {
+      const remap = remaps[layer];
+      for (const pos of Object.keys(remap)) {
+        const key = remap[pos];
+        const row = Number(pos.substring(0, pos.indexOf(',')));
+        const col = Number(pos.substring(pos.indexOf(',') + 1));
+        const code = key.code;
+        const result = await keyboard.updateKeymap(layer, row, col, code);
+        if (!result.success) {
+          // TODO: handle error.
+          console.error(result.cause);
+        }
+      }
+    }
+    await loadKeymap(
+      dispatch,
+      keyboard,
+      entities.device.layerCount,
+      entities.keyboardDefinition.matrix.rows,
+      entities.keyboardDefinition.matrix.cols
+    );
+    dispatch(AppActions.remapsInit(entities.device.layerCount));
+    dispatch(KeydiffActions.clearKeydiff());
+    dispatch(KeycodeKeyActions.clear());
+    dispatch(KeyboardsActions.clearSelectedPos());
+    dispatch(HeaderActions.updateFlush(false));
   },
 };
 
@@ -253,8 +290,21 @@ const initOpenedKeyboard = async (
     console.log(layerResult);
     return;
   }
-
   const layerCount = layerResult.layerCount!;
+  dispatch(HidActions.updateKeyboardLayerCount(layerCount));
+  await loadKeymap(dispatch, keyboard, layerCount, rowCount, columnCount);
+  dispatch(AppActions.remapsInit(layerCount));
+  dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
+  dispatch(HidActions.updateKeyboard(keyboard));
+};
+
+const loadKeymap = async (
+  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+  keyboard: IKeyboard,
+  layerCount: number,
+  rowCount: number,
+  columnCount: number
+) => {
   const keymaps: IKeymaps[] = [];
   for (let i = 0; i < layerCount; i++) {
     const keymapsResult = await keyboard.fetchKeymaps(i, rowCount, columnCount);
@@ -265,10 +315,5 @@ const initOpenedKeyboard = async (
     }
     keymaps.push(keymapsResult.keymap!);
   }
-
-  dispatch(HidActions.updateKeyboardLayerCount(layerCount));
   dispatch(HidActions.updateKeymaps(keymaps));
-  dispatch(AppActions.remapsInit(layerCount));
-  dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
-  dispatch(HidActions.updateKeyboard(keyboard));
 };
