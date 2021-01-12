@@ -10,6 +10,8 @@ const mapStateToProps = (state: RootState) => {
     remaps: state.app.remaps,
     notifications: state.app.notifications,
     hid: state.hid,
+    auth: state.auth.instance,
+    storage: state.storage.instance,
   };
 };
 export type ConfigureStateType = ReturnType<typeof mapStateToProps>;

@@ -22,4 +22,5 @@ export interface IStorage {
     vendorId: number,
     productId: number
   ): Promise<IFetchKeyboardDefinitionResult>;
+  fetchClosedBetaUsers(): Promise<string[]>;
 }
