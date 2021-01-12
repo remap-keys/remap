@@ -48,6 +48,9 @@ const Hid = () => {
         );
         setConnectedKeyboards(newConnectedKeyboards);
       },
+      close: (keyboard: IKeyboard) => {
+        console.log(keyboard);
+      },
     });
   }, []);
 

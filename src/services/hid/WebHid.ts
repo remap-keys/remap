@@ -148,7 +148,10 @@ export class Keyboard implements IKeyboard {
         await this.commandQueue[0].sendReport(this.getDevice());
       }
     } else {
-      throw new Error('The command queue is empty.');
+      console.log(
+        'Bytes received but the command queue is empty. Close the keyboard.'
+      );
+      this.hid.close(this);
     }
   };
 
@@ -324,6 +327,8 @@ export interface ICommandResponseHandler<T extends ICommandResponse> {
 }
 
 export class WebHid implements IHid {
+  private handler?: IConnectionEventHandler;
+
   async detectKeyboards(): Promise<IKeyboard[]> {
     const devices = await (navigator as any).hid.getDevices();
     return devices
@@ -405,6 +410,7 @@ export class WebHid implements IHid {
         handler.disconnect(new Keyboard(this, e.device));
       }
     });
+    this.handler = handler;
   }
 
   getKeymapCandidatesByCategory(category: string): IKeymap[] {
@@ -427,5 +433,9 @@ export class WebHid implements IHid {
         isAny: true,
       };
     }
+  }
+
+  close(keyboard: IKeyboard): void {
+    this.handler!.close(keyboard);
   }
 }
