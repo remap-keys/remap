@@ -10,6 +10,7 @@ import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import { IStorage } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
+import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
 export type ISetupPhase =
   | 'keyboardNotSelected'
@@ -45,7 +46,7 @@ export type RootState = {
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
-    keyboardDefinition: any;
+    keyboardDefinition: KeyboardDefinitionSchema | null;
   };
   app: {
     package: {

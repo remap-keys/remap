@@ -20,6 +20,7 @@ export default class KeyboardDefinitionForm extends React.Component<
     super(props);
   }
 
+  // eslint-disable-next-line no-undef
   onDropFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const files = event.dataTransfer.files;
@@ -30,11 +31,13 @@ export default class KeyboardDefinitionForm extends React.Component<
     this.props.onDropFile!(file);
   };
 
+  // eslint-disable-next-line no-undef
   onDragOverFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     this.props.onDragOverFile!();
   };
 
+  // eslint-disable-next-line no-undef
   onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const files = event.target.files;

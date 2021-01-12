@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "x": { "type": "integer" },
+    "y": { "type": "integer" },
+    "c": { "type": "string" },
+    "w": { "type": "integer" },
+    "h": { "type": "integer" },
+    "r": { "type": "integer" },
+    "rx": { "type": "integer" },
+    "ry": { "type": "integer" },
+    "d": { "type": "boolean" },
+    "x2": { "type": "integer" },
+    "y2": { "type": "integer" },
+    "w2": { "type": "integer" },
+    "h2": { "type": "integer" }
+  },
+  "required": ["x2", "y2", "w2", "h2"]
+}

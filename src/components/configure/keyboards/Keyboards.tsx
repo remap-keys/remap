@@ -29,7 +29,9 @@ export default class Keyboards extends React.Component<
   constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
     this.state = {
-      keyboard: new KeyboardModel(this.props.keyboardDefinition.layouts.keymap),
+      keyboard: new KeyboardModel(
+        this.props.keyboardDefinition!.layouts.keymap
+      ),
     };
   }
 
