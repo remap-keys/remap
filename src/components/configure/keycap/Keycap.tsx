@@ -249,7 +249,7 @@ export default class Keycap extends React.Component<
           )}
         >
           <div className="keylabel">
-            <div className="label left top"></div>
+            <div className="label left top">{pos}</div>
             <div className="label center"></div>
             <div className="label right"></div>
           </div>
@@ -263,7 +263,7 @@ export default class Keycap extends React.Component<
           <div className="keylabel">
             <div className="label left"></div>
             <div className="label center"></div>
-            <div className="label right">{pos}</div>
+            <div className="label right"></div>
           </div>
         </div>
       </div>

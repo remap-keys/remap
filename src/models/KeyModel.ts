@@ -2,8 +2,13 @@ import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import { KeyOp } from '../gen/types/KeyOp';
 
+export const OPTION_DEFAULT = '-';
+
 export default class KeyModel {
+  readonly row: number;
   readonly pos: string;
+  readonly option: string;
+  readonly optionChoice: string;
   readonly top: number;
   readonly left: number;
   readonly height: number;
@@ -20,8 +25,9 @@ export default class KeyModel {
   readonly keyOp: KeyOp | null;
 
   constructor(
+    row: number,
     op: KeyOp | null,
-    location: string, // "col,row"
+    location: string, // "col,row[\n\n\nOption,OptionChoice]"
     x: number,
     y: number,
     w: number,
@@ -35,8 +41,13 @@ export default class KeyModel {
     w2: number = NaN,
     h2: number = NaN
   ) {
+    this.row = row;
     this.keyOp = op;
-    this.pos = location.split('\n')[0]; // TODO: Need to support multiple legends?
+    const locs = `${location}\n\n\n${OPTION_DEFAULT},0`.slice(0, 9);
+    this.pos = locs.slice(0, 3);
+    const options = locs.slice(6, 9).split(',');
+    this.option = options[0];
+    this.optionChoice = options[1];
     this.left = x * KEY_SIZE;
     this.top = y * KEY_SIZE;
     this.width = w * KEY_SIZE;
@@ -51,6 +62,14 @@ export default class KeyModel {
     this.top2 = y2 * KEY_SIZE;
     this.height2 = h2 * KEY_SIZE;
     this.width2 = w2 * KEY_SIZE;
+  }
+
+  get idDecal(): boolean {
+    return this.keyOp ? !!this.keyOp.d : false;
+  }
+
+  get isDefault(): boolean {
+    return this.option === OPTION_DEFAULT;
   }
 
   get isOddly(): boolean {

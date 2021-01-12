@@ -1,19 +1,28 @@
 import { KeyOp } from '../gen/types/KeyOp';
-import KeyModel from './KeyModel';
+import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 
 export default class KeyboardModel {
-  readonly keymap: KeyModel[];
+  private _keymap: KeyModel[];
   readonly width: number;
   readonly height: number;
+  private _keymaps: {
+    [option: string]: { [choice: string]: KeyModel[] };
+  };
 
   constructor(km: (string | KeyOp)[][]) {
-    const { keymap, width, height } = this.parseKeyMap(km);
-    this.keymap = keymap;
+    const { keymap, keymaps, width, height } = this.parseKeyMap(km);
+    this._keymap = keymap;
+    this._keymaps = keymaps;
     this.width = width;
     this.height = height;
   }
 
+  getKeymap(option: string = OPTION_DEFAULT, choice: number = 0): KeyModel[] {
+    return this._keymaps[option][choice];
+  }
+
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
+    const models: { [option: string]: { [choice: string]: KeyModel[] } } = {};
     const list: KeyModel[] = [];
     let width = 0;
     let height = 0;
@@ -23,17 +32,17 @@ export default class KeyboardModel {
     let y = -1;
     let c: string = '#cccccc';
     for (let i = 0; i < keymap.length; i++) {
-      const keys = keymap[i];
+      const keyRow = keymap[i];
       y = ry ? ry : y + 1; // inclement from the last key's y or set origin-y
       let x = rx ? rx : 0;
-      for (let j = 0; j < keys.length; j++) {
-        const item: string | KeyOp = keys[j]; // KeyMapOp or string('rwo,col')
+      for (let j = 0; j < keyRow.length; j++) {
+        const item: string | KeyOp = keyRow[j]; // KeyMapOp or string('rwo,col')
         let model = null;
         let h = 1;
         let w = 1;
 
         if (typeof item === 'string') {
-          model = new KeyModel(null, item, x, y, w, h, c, r, rx, ry); // no ops for this key
+          model = new KeyModel(i, null, item, x, y, w, h, c, r, rx, ry); // no ops for this key
         } else {
           const op = item as KeyOp;
 
@@ -61,8 +70,9 @@ export default class KeyboardModel {
           let w2 = op.w2 || NaN;
           let h2 = op.h2 || NaN;
 
-          const label = keys[++j] as string; // next item should be string(row,col)
+          const label = keyRow[++j] as string; // next item should be string(row,col)
           model = new KeyModel(
+            i,
             op,
             label,
             x,
@@ -81,15 +91,43 @@ export default class KeyboardModel {
         }
         x += w;
         list.push(model);
-        width = Math.max(width, model.endRight);
-        height = Math.max(height, model.endBottom);
+        if (!(model.option in models)) {
+          models[model.option] = {};
+        }
+        if (!(model.optionChoice in models[model.option])) {
+          models[model.option][model.optionChoice] = [];
+        }
+        models[model.option][model.optionChoice].push(model);
+
+        if (model.isDefault) {
+          width = Math.max(width, model.endRight);
+          height = Math.max(height, model.endBottom);
+        }
       }
     }
 
+    this.relocateOptions(models);
+
     return {
       keymap: list,
+      keymaps: models,
       width: width,
       height: height,
     };
+  }
+
+  private relocateOptions(models: {
+    [option: string]: { [choice: string]: KeyModel[] };
+  }) {
+    let optionIndex = 0;
+    let choiceIndex = 1;
+    while (optionIndex in models) {
+      const base: KeyModel[] = models[optionIndex][0];
+      while (choiceIndex in models[optionIndex]) {
+        const rows: KeyModel[] = models[optionIndex][choiceIndex];
+        choiceIndex++;
+      }
+      optionIndex++;
+    }
   }
 }
