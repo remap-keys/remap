@@ -1,0 +1,33 @@
+@import '../../../variables';
+
+.layout-options-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+  .layout-options {
+    display: flex;
+    flex-direction: column;
+    max-width: 444px;
+
+    .option-label,
+    .option-value {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+    }
+
+    .option-value {
+      justify-content: flex-end;
+      .option-value-select {
+        min-width: 180px;
+      }
+    }
+  }
+}

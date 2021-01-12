@@ -92,6 +92,9 @@ export type RootState = {
   keyboardDefinitionForm: {
     dragging: boolean;
   };
+  layoutOptions: {
+    selectedOptions: string[];
+  };
 };
 
 const firebaseProvider = new FirebaseProvider();
@@ -152,5 +155,8 @@ export const INIT_STATE: RootState = {
   },
   keyboardDefinitionForm: {
     dragging: false,
+  },
+  layoutOptions: {
+    selectedOptions: [],
   },
 };

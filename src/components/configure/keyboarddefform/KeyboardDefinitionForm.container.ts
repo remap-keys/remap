@@ -5,8 +5,12 @@ import KeyboardDefinitionForm from './KeyboardDefinitionForm';
 import { storageActionsThunk } from '../../../actions/storage.action';
 
 const mapStateToProps = (state: RootState) => {
+  const kbd = state.entities.keyboard;
+  const info = kbd?.getInformation();
+
   return {
     dragging: state.keyboardDefinitionForm.dragging,
+    productName: info?.productName,
   };
 };
 export type KeyboardDefinitionFormStateType = ReturnType<

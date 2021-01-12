@@ -276,3 +276,27 @@ export const AppActions = {
     };
   },
 };
+
+export const LAYOUT_OPTIONS_ACTIONS = '@LayoutOptions';
+export const LAYOUT_OPTIONS_INIT_SELECTED_OPTION = `${LAYOUT_OPTIONS_ACTIONS}/InitSelectedOption`;
+export const LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION = `${LAYOUT_OPTIONS_ACTIONS}/UpdateSelectedOption`;
+export const LayoutOptionsActions = {
+  updateSelectedOption: (optionIndex: number, option: string | null) => {
+    return {
+      type: LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
+      value: {
+        optionIndex,
+        option,
+      },
+    };
+  },
+  initSelectedOptions: (options: (string | string[])[]) => {
+    const list: (null | string)[] = options.map((item) => {
+      return typeof item == 'string' ? null : item[1]; // the default value should be off or 1st value
+    });
+    return {
+      type: LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
+      value: list,
+    };
+  },
+};

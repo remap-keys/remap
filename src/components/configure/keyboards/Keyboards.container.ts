@@ -10,6 +10,7 @@ const mapStateToProps = (state: RootState) => {
     appVersion: state.app.package.version,
     layers: [...Array(layerCount)].map((_, i) => i),
     selectedLayer: state.keyboards.selectedLayer,
+    selectedKeyboardOptions: state.layoutOptions.selectedOptions,
     keymaps: state.entities.device.keymaps,
     remaps: state.app.remaps,
     keyboardDefinition: state.entities.keyboardDefinition,

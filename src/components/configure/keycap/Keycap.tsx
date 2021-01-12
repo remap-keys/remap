@@ -8,7 +8,8 @@ import './Keycap.scss';
 export const KEY_SIZE = 54;
 const KEY_CAP_BORDER = 1;
 const KEY_CAP_MARGIN_HEIGHT = 5;
-const KEY_CAP_MARGIN_WIDTH = 6;
+const KEY_CAP_MARGIN_WIDTH = 5;
+const KEY_CAP_ROOF_TOP_MARGIN = 3;
 
 type KeycapOwnState = {
   onDragOver: boolean;
@@ -44,13 +45,13 @@ export default class Keycap extends React.Component<
     let roofEdgeColor;
     if (color === '#aaaaaa') {
       roofColor = '#C8C8C8';
-      roofEdgeColor = '#E0E0E0';
+      roofEdgeColor = '#D0D0D0';
     } else if (color === '#777777') {
       roofColor = '#8D8D8D';
-      roofEdgeColor = '#C0C0C0';
+      roofEdgeColor = '#939393';
     } else {
       roofColor = '#F2F2F2';
-      roofEdgeColor = '#FDFDFD';
+      roofEdgeColor = '#F8F8F8';
     }
 
     const style = this.props.model.styleAbsolute;
@@ -85,7 +86,7 @@ export default class Keycap extends React.Component<
       ...style,
       width: width - (KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER) * 2,
       height: height - (KEY_CAP_MARGIN_HEIGHT + KEY_CAP_BORDER) * 2,
-      top: top + KEY_CAP_MARGIN_HEIGHT,
+      top: top + KEY_CAP_ROOF_TOP_MARGIN,
       left: left + KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH,
       borderColor: roofEdgeColor,
     };
@@ -94,7 +95,7 @@ export default class Keycap extends React.Component<
       ...style2,
       width: width2 - (KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH) * 2,
       height: height2 - (KEY_CAP_BORDER + KEY_CAP_MARGIN_HEIGHT) * 2,
-      top: top2 + KEY_CAP_MARGIN_HEIGHT,
+      top: top2 + KEY_CAP_ROOF_TOP_MARGIN,
       left: left2 + KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER,
       background: roofColor,
       borderColor: roofEdgeColor,
@@ -105,7 +106,7 @@ export default class Keycap extends React.Component<
       width: width - (KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER * 2) * 2,
       KEY_CAP_BORDER,
       height: height - KEY_CAP_MARGIN_HEIGHT * 2 - KEY_CAP_BORDER * 4,
-      top: top + KEY_CAP_MARGIN_HEIGHT + KEY_CAP_BORDER,
+      top: top + KEY_CAP_ROOF_TOP_MARGIN + KEY_CAP_BORDER,
       left: left + KEY_CAP_BORDER + KEY_CAP_MARGIN_WIDTH + KEY_CAP_BORDER,
       background: roofColor,
     };
@@ -249,7 +250,7 @@ export default class Keycap extends React.Component<
           )}
         >
           <div className="keylabel">
-            <div className="label left top"></div>
+            <div className="label left top">{pos}</div>
             <div className="label center"></div>
             <div className="label right"></div>
           </div>
@@ -263,7 +264,7 @@ export default class Keycap extends React.Component<
           <div className="keylabel">
             <div className="label left"></div>
             <div className="label center"></div>
-            <div className="label right">{pos}</div>
+            <div className="label right"></div>
           </div>
         </div>
       </div>

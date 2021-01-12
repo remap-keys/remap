@@ -53,7 +53,8 @@ export default class KeyboardDefinitionForm extends React.Component<
     return (
       <div className="keyboarddefinitionform-wrapper">
         <div className="message">
-          Please upload your JSON file of this keyboard definition from local.
+          Please upload your JSON file of{' '}
+          <strong>{this.props.productName}</strong> definition from local.
         </div>
         <div className="upload-form">
           <div
