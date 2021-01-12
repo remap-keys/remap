@@ -20,6 +20,7 @@ export interface IDeviceInformation {
 export interface IConnectionEventHandler {
   connect: (keyboard: IKeyboard) => void;
   disconnect: (keyboard: IKeyboard) => void;
+  close: (keyboard: IKeyboard) => void;
 }
 
 export interface IKeycodeInfo {
@@ -103,4 +104,5 @@ export interface IHid {
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
   getKeymapCandidatesByCategory(category: string): IKeymap[];
   getKeymap(code: number): IKeymap;
+  close(keyboard: IKeyboard): void;
 }

@@ -34,6 +34,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(hidActionsThunk.closeKeyboard(keyboard));
       _dispatch(HidActions.disconnectKeyboard(keyboard));
     },
+    onCloseKeyboard: (keyboard: IKeyboard) => {
+      _dispatch(hidActionsThunk.closeKeyboard(keyboard));
+    },
   };
 };
 
