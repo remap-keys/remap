@@ -5,7 +5,6 @@ import { KeyOp } from '../gen/types/KeyOp';
 export const OPTION_DEFAULT = '-';
 
 export default class KeyModel {
-  readonly row: number;
   readonly pos: string;
   readonly option: string;
   readonly optionChoice: string;
@@ -23,45 +22,75 @@ export default class KeyModel {
   readonly height2: number;
   readonly width2: number;
   readonly keyOp: KeyOp | null;
+  private _x: number;
+  private _y: number;
 
   constructor(
-    row: number,
     op: KeyOp | null,
     location: string, // "col,row[\n\n\nOption,OptionChoice]"
     x: number,
     y: number,
-    w: number,
-    h: number,
     c: string,
     r: number = 0,
     rx: number = 0,
-    ry: number = 0,
-    x2: number = 0,
-    y2: number = 0,
-    w2: number = NaN,
-    h2: number = NaN
+    ry: number = 0
   ) {
-    this.row = row;
     this.keyOp = op;
-    const locs = `${location}\n\n\n${OPTION_DEFAULT},0`.slice(0, 9);
+    this._x = x;
+    this._y = y;
+    const locs = `${location}\n\n\n${OPTION_DEFAULT},${OPTION_DEFAULT}`.slice(
+      0,
+      9
+    );
     this.pos = locs.slice(0, 3);
     const options = locs.slice(6, 9).split(',');
     this.option = options[0];
     this.optionChoice = options[1];
     this.left = x * KEY_SIZE;
     this.top = y * KEY_SIZE;
-    this.width = w * KEY_SIZE;
-    this.height = h * KEY_SIZE;
 
     this.color = c;
     this.rotate = r;
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
     this.transformOrigin = `${rx * KEY_SIZE}px ${ry * KEY_SIZE}px`;
-    this.left2 = x2 * KEY_SIZE;
-    this.top2 = y2 * KEY_SIZE;
-    this.height2 = h2 * KEY_SIZE;
-    this.width2 = w2 * KEY_SIZE;
+
+    if (op) {
+      this.width = op.w ? op.w * KEY_SIZE : KEY_SIZE;
+      this.height = op.h ? op.h * KEY_SIZE : KEY_SIZE;
+      const x2 = op.x2 ? x + op.x2 : x;
+      const y2 = op.y2 ? y + op.y2 : y;
+      const w2 = op.w2 || NaN;
+      const h2 = op.h2 || NaN;
+
+      this.left2 = x2 * KEY_SIZE;
+      this.top2 = y2 * KEY_SIZE;
+      this.height2 = h2 * KEY_SIZE;
+      this.width2 = w2 * KEY_SIZE;
+    } else {
+      this.width = KEY_SIZE;
+      this.height = KEY_SIZE;
+      this.left2 = NaN;
+      this.top2 = NaN;
+      this.height2 = NaN;
+      this.width2 = NaN;
+    }
+  }
+
+  get x(): number {
+    return this._x;
+  }
+
+  get y(): number {
+    return this._y;
+  }
+
+  get w(): number {
+    if (this.keyOp) {
+      return this.keyOp.w ? this.keyOp.w : 1;
+    } else {
+      return 1;
+    }
   }
 
   get idDecal(): boolean {
@@ -70,6 +99,10 @@ export default class KeyModel {
 
   get isDefault(): boolean {
     return this.option === OPTION_DEFAULT;
+  }
+
+  get isDefaultChoice(): boolean {
+    return this.optionChoice == '0';
   }
 
   get isOddly(): boolean {
