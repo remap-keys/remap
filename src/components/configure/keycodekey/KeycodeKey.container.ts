@@ -9,7 +9,7 @@ import {
   IKeycodeCategory,
   IKeycodeInfo,
   IKeymap,
-} from '../../../services/hid/hid';
+} from '../../../services/hid/Hid';
 
 export type Key = {
   label: string;

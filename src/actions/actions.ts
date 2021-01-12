@@ -1,7 +1,7 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
-import { IHid, IKeycodeCategory, IKeymap } from '../services/hid/hid';
+import { IHid, IKeycodeCategory, IKeymap } from '../services/hid/Hid';
 import { ISetupPhase } from '../store/state';
 
 export const KEYBOARDS_ACTIONS = '@Keyboards';

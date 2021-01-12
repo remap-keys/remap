@@ -1,5 +1,5 @@
 import React from 'react';
-import { IKeyboard } from '../../../services/hid/hid';
+import { IKeyboard } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
   KeyboardListActionsType,

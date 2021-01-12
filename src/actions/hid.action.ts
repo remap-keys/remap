@@ -1,5 +1,5 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IHid, IKeyboard, IKeymaps } from '../services/hid/hid';
+import { IHid, IKeyboard, IKeymaps } from '../services/hid/Hid';
 import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,

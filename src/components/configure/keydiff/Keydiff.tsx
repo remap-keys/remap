@@ -3,7 +3,7 @@ import './Keydiff.scss';
 import { Button } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
-import { IKeymap } from '../../../services/hid/hid';
+import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey, { genKey } from '../keycodekey/KeycodeKey.container';
 
 type KeydiffOwnProps = {};

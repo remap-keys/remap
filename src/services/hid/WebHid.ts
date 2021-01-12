@@ -13,7 +13,7 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
-} from './hid';
+} from './Hid';
 import keycodeArray from './assets/keycodes.json';
 import basic from './assets/keycodes-basic.json';
 import layers from './assets/keycodes-layers.json';
@@ -27,7 +27,7 @@ import {
   DynamicKeymapReadBufferCommand,
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapReadBufferResponse,
-} from './commands';
+} from './Commands';
 
 const createKeymap = (code: number): IKeymap => ({
   code,
