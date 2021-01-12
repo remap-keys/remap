@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
 import { KeycodeKeyActions, KeycodesActions } from '../../../actions/actions';
-import { IHid, IKeycodeCategory } from '../../../services/hid/hid';
+import { IHid, IKeycodeCategory } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   const code = state.keycodeKey.selectedKey?.keymap.code;

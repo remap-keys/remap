@@ -56,7 +56,7 @@ import {
   Key,
   KeycodeInfo,
 } from '../components/configure/keycodekey/KeycodeKey.container';
-import { IKeyboard, IKeycodeCategory } from '../services/hid/hid';
+import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import { INIT_STATE, RootState } from './state';
 
 export type Action = { type: string; value: any };

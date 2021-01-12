@@ -3,7 +3,7 @@ import './Keycodes.scss';
 import { Button } from '@material-ui/core';
 import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
-import { IKeycodeCategory } from '../../../services/hid/hid';
+import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 
 const KeycodeCategories = [

@@ -4,7 +4,7 @@ import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
-import { IKeyboard, IKeymap } from '../../../services/hid/hid';
+import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import { CircularProgress } from '@material-ui/core';
 import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';

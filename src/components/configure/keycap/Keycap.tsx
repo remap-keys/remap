@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { IKeymap } from '../../../services/hid/hid';
+import { IKeymap } from '../../../services/hid/Hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import './Keycap.scss';

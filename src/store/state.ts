@@ -5,10 +5,10 @@ import {
   IKeyboard,
   IKeycodeCategory,
   IKeymap,
-} from '../services/hid/hid';
-import { WebHid } from '../services/hid/web-hid';
-import { FirestoreStorage } from '../services/storage/firebase';
-import { IStorage } from '../services/storage/storage';
+} from '../services/hid/Hid';
+import { WebHid } from '../services/hid/WebHid';
+import { FirestoreStorage } from '../services/storage/Firebase';
+import { IStorage } from '../services/storage/Storage';
 
 export type ISetupPhase =
   | 'keyboardNotSelected'

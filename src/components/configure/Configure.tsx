@@ -12,7 +12,7 @@ import {
 import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
-import { IKeyboard } from '../../services/hid/hid';
+import { IKeyboard } from '../../services/hid/Hid';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &

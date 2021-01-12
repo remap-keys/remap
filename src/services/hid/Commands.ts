@@ -2,8 +2,8 @@ import {
   ICommandRequest,
   ICommandResponse,
   ICommandResponseHandler,
-} from './web-hid';
-import { ICommand } from './hid';
+} from './WebHid';
+import { ICommand } from './Hid';
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,

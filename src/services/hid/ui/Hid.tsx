@@ -1,11 +1,11 @@
-import { WebHid } from '../web-hid';
+import { WebHid } from '../WebHid';
 import React, { useEffect, useState } from 'react';
 import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapReadBufferCommand,
-} from '../commands';
-import { IKeyboard } from '../hid';
+} from '../Commands';
+import { IKeyboard } from '../Hid';
 import KeycodeArray from '../assets/keycodes.json';
 
 const Hid = () => {

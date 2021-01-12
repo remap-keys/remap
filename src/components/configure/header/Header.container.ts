@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { RootState, SetupPhase } from '../../../store/state';
 import { hidActionsThunk } from '../../../actions/hid.action';
-import { IKeyboard } from '../../../services/hid/hid';
+import { IKeyboard } from '../../../services/hid/Hid';
 import { AppActions, HeaderActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {

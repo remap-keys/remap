@@ -3,7 +3,7 @@ import KeyboardList from './KeyboardList';
 import { RootState, SetupPhase } from '../../../store/state';
 import { AppActions, KeycodesActions } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
-import { IKeyboard, IKeycodeCategory } from '../../../services/hid/hid';
+import { IKeyboard, IKeycodeCategory } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   return {

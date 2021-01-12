@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
-import { IFetchKeyboardDefinitionResult, IStorage } from './storage';
+import { IFetchKeyboardDefinitionResult, IStorage } from './Storage';
 
 const config = {
   apiKey: 'AIzaSyDiEpH2Bbf1ZO63ZiJM3SeyD2LR0IeyM1s',

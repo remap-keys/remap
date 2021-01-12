@@ -3,7 +3,7 @@ import Configure from './Configure';
 import { RootState } from '../../store/state';
 import { HidActions, hidActionsThunk } from '../../actions/hid.action';
 import { AppActions, NotificationActions } from '../../actions/actions';
-import { IKeyboard } from '../../services/hid/hid';
+import { IKeyboard } from '../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
