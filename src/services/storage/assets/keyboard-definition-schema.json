@@ -49,7 +49,8 @@
             "supportedBacklightValues": {
               "type": "integer"
             }
-          }
+          },
+          "additionalProperties": false
         }
       ]
     },
@@ -64,7 +65,9 @@
           "type": "integer",
           "minimum": 0
         }
-      }
+      },
+      "required": ["rows", "cols"],
+      "additionalProperties": false
     },
     "layouts": {
       "type": "object",
@@ -74,8 +77,14 @@
           "items": {
             "type": "array",
             "items": {
-              "type": ["string", "object"]
-            }
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                { "$ref": "./src/services/storage/assets/KeyOp.json" }
+              ]
+            },
+            "additionalProperties": false
           }
         },
         "labels": {
@@ -92,8 +101,10 @@
           ]
         }
       },
-      "required": ["keymap"]
+      "required": ["keymap"],
+      "additionalProperties": false
     }
   },
-  "required": ["name", "vendorId", "productId", "matrix", "layouts"]
+  "required": ["name", "vendorId", "productId", "matrix", "layouts"],
+  "additionalProperties": false
 }

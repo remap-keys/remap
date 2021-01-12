@@ -21,16 +21,17 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start-env": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts start'",
+    "start-env": "sh -ac '. ./.env.${REACT_APP_ENV}; npm run gen-types; react-scripts start'",
     "start-dev": "REACT_APP_ENV=dev npm run start-env",
     "start": "npm run start-dev",
-    "build-env": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
+    "build-env": "sh -ac '. ./.env.${REACT_APP_ENV}; npm run gen-types; react-scripts build'",
     "build-dev": "REACT_APP_ENV=dev npm run build-env",
     "build": "npm run build-dev",
     "build-production": "REACT_APP_ENV=production npm run build-env",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write './src/**/*.{ts,tsx}'"
+    "format": "prettier --write './src/**/*.{ts,tsx}'",
+    "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts; json2ts src/services/storage/assets/KeyOp.json > src/gen/types/KeyOp.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +69,7 @@
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.21.5",
     "husky": "^4.3.6",
+    "json-schema-to-typescript": "^10.1.2",
     "lint-staged": "^10.5.3",
     "node-sass": "4.14.1",
     "prettier": "^2.2.1",

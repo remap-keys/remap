@@ -1,4 +1,5 @@
-import KeyModel, { KeyOp } from './KeyModel';
+import { KeyOp } from '../gen/types/KeyOp';
+import KeyModel from './KeyModel';
 
 export default class KeyboardModel {
   readonly keymap: KeyModel[];

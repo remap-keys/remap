@@ -18,6 +18,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     onDragOverFile: () => {
       _dispatch(KeyboardDefinitionFormActions.updateDragging(true));
     },
+    // eslint-disable-next-line no-undef
     onDropFile: (file: File) => {
       _dispatch(KeyboardDefinitionFormActions.updateDragging(false));
       _dispatch(storageActionsThunk.uploadKeyboardDefinition(file));

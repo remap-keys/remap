@@ -189,8 +189,8 @@ export const hidActionsThunk = {
     await initOpenedKeyboard(
       dispatch,
       keyboard,
-      entities.keyboardDefinition.matrix.rows,
-      entities.keyboardDefinition.matrix.cols
+      entities.keyboardDefinition!.matrix.rows,
+      entities.keyboardDefinition!.matrix.cols
     );
     dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
   },
