@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
+    "@types/ajv": "^1.0.0",
+    "ajv": "^7.0.3",
     "firebase": "^8.2.1",
     "immer": "^8.0.0",
     "notistack": "^1.0.3",
