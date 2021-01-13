@@ -106,9 +106,11 @@ export default class Keyboards extends React.Component<
                 height: this.state.keyboard.height,
               }}
             >
-              {this.state.keyboard.getKeymap().map((model: KeyModel) => {
-                return <Keycap key={model.pos} model={model} />;
-              })}
+              {this.state.keyboard
+                .getKeymap([{ option: '0', optionChoice: '1' }])
+                .map((model: KeyModel) => {
+                  return <Keycap key={model.pos} model={model} />;
+                })}
             </div>
           </div>
         </div>

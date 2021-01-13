@@ -3,74 +3,61 @@ import { KeyOp } from '../gen/types/KeyOp';
 import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 
 class Current {
-  private _x = 0;
-  private _y = 0;
-  private _c = '#cccccc';
-  private _r = 0;
-  private _rx = 0;
-  private _ry = 0;
+  x = 0;
+  y = 0;
+  c = '#cccccc';
+  r = 0;
+  rx = 0;
+  ry = 0;
 
-  get x() {
-    return this._x;
-  }
-
-  get y() {
-    return this._y;
-  }
-
-  get c() {
-    return this._c;
-  }
-
-  get r() {
-    return this._r;
-  }
-
-  get rx() {
-    return this._rx;
-  }
-
-  get ry() {
-    return this._ry;
+  constructor(curr?: Current) {
+    if (curr) {
+      this.x = curr.x;
+      this.y = curr.y;
+      this.c = curr.c;
+      this.r = curr.r;
+      this.rx = curr.rx;
+      this.ry = curr.ry;
+    }
   }
 
   minus(x: number, y: number) {
-    this._x -= x;
-    this._y -= y;
+    this.x -= x;
+    this.y -= y;
   }
 
   nextRow() {
-    this._x = this._rx ? this._rx : 0;
-    this._y = this._ry ? this._ry : this._y + 1;
+    this.x = this.rx ? this.rx : 0;
+    this.y = this.ry ? this.ry : this.y + 1;
   }
 
   setOp(op: KeyOp) {
     if (op.rx) {
-      this._rx = op.rx;
-      this._x = op.rx;
+      this.rx = op.rx;
+      this.x = op.rx;
     }
     if (op.ry) {
-      this._ry = op.ry;
-      this._y = op.ry;
+      this.ry = op.ry;
+      this.y = op.ry;
     }
     if (op.x) {
-      this._x += op.x;
+      this.x += op.x;
     }
     if (op.y) {
-      this._y += op.y;
+      this.y += op.y;
     }
 
     if (op.r) {
-      this._r = op.r;
+      this.r = op.r;
     }
 
     if (op.c) {
-      this._c = op.c;
+      this.c = op.c;
     }
   }
 
   next(w: number) {
-    this._x += w;
+    this.x += w;
   }
 }
 
@@ -81,8 +68,9 @@ class KeymapItem {
   private pos: string;
   readonly option: string;
   readonly choice: string;
+
   constructor(curr: Current, label: string, op: KeyOp | null = null) {
-    this._curr = Object.assign({}, curr);
+    this._curr = new Current(curr);
     this.op = op;
     this.label = label;
     const locs = `${label}\n\n\n${OPTION_DEFAULT},${OPTION_DEFAULT}`.slice(
@@ -93,6 +81,10 @@ class KeymapItem {
     const options = locs.slice(6, 9).split(',');
     this.option = options[0];
     this.choice = options[1];
+  }
+
+  get isDefault(): boolean {
+    return this.option == OPTION_DEFAULT;
   }
 
   get current(): Current {
@@ -143,30 +135,41 @@ export default class KeyboardModel {
   private _keymap: KeyModel[];
   readonly width: number;
   readonly height: number;
-  private _keymaps: {
-    [option: string]: { [choice: string]: KeyModel[] };
-  };
 
   constructor(km: (string | KeyOp)[][]) {
-    const { keymap, keymaps, width, height } = this.parseKeyMap(km);
+    const { keymap, width, height } = this.parseKeyMap(km);
     this._keymap = keymap;
-    this._keymaps = keymaps;
     this.width = width;
     this.height = height;
   }
 
-  getKeymap(option: string = OPTION_DEFAULT, choice: number = 0): KeyModel[] {
-    return this._keymaps[option][choice];
+  getKeymap(options?: { option: string; optionChoice: string }[]): KeyModel[] {
+    if (!options) return this._keymap;
+
+    return this._keymap.filter((item) => {
+      return (
+        item.isDefault ||
+        0 <=
+          options.findIndex(
+            (op) =>
+              op.option == item.option && op.optionChoice == item.optionChoice
+          )
+      );
+    });
   }
 
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
-    const layerKeymaps: {
-      [option: string]: { [choice: string]: { [row: string]: KeymapItem[] } };
+    const optionKeymaps: {
+      [row: string]: { [option: string]: { [choice: string]: KeymapItem[] } };
     } = {};
+    const keymapsList: KeymapItem[][] = [];
 
+    // STEP1: build  layerKeymaps
     const curr = new Current();
     for (let row = 0; row < keymap.length; row++) {
       const keyRow = keymap[row];
+      keymapsList.push([]);
+      optionKeymaps[row] = {};
 
       curr.nextRow();
       for (let col = 0; col < keyRow.length; col++) {
@@ -183,119 +186,94 @@ export default class KeyboardModel {
         }
         curr.next(keymapItem.w);
 
-        if (!(keymapItem.option in layerKeymaps)) {
-          layerKeymaps[keymapItem.option] = {};
+        keymapsList[row].push(keymapItem);
+        if (!keymapItem.isDefault && keymapItem.choice != '0') {
+          const option = keymapItem.option;
+          const choice = keymapItem.choice;
+          if (!Object.prototype.hasOwnProperty.call(optionKeymaps[row], option))
+            optionKeymaps[row][option] = {};
+          if (
+            !Object.prototype.hasOwnProperty.call(
+              optionKeymaps[row][option],
+              choice
+            )
+          )
+            optionKeymaps[row][option][choice] = [];
+          optionKeymaps[row][option][choice].push(keymapItem);
         }
-        if (!(keymapItem.choice in layerKeymaps[keymapItem.option])) {
-          layerKeymaps[keymapItem.option][keymapItem.choice] = {};
-        }
-
-        if (!(row in layerKeymaps[keymapItem.option][keymapItem.choice])) {
-          layerKeymaps[keymapItem.option][keymapItem.choice][row] = [];
-        }
-        layerKeymaps[keymapItem.option][keymapItem.choice][row].push(
-          keymapItem
-        );
       }
     }
 
-    // zero alignment
-    const minX = Object.keys(
-      layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT]
-    ).reduce((min: number, row: string) => {
-      const items = layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT][row];
-      return Math.min(min, items[0].x);
+    // STEP2: align default keymap to zero
+    const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
+      return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
     }, Infinity);
-    const topRow: string = Object.keys(
-      layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT]
-    )[0];
-    const minY = layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT][topRow].reduce(
-      (min: number, item: KeymapItem) => Math.min(min, item.y),
-      Infinity
-    );
-    Object.keys(layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT]).forEach((row) => {
-      const line: KeymapItem[] =
-        layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT][row];
-      line.forEach((item: KeymapItem) => {
-        item.align(minX, minY);
-      });
+    const minY = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
+      return keymaps.reduce((m, item) => Math.min(item.y, m), min);
+    }, Infinity);
+    keymapsList.forEach((keymaps: KeymapItem[]) => {
+      keymaps.forEach((item) => item.align(minX, minY));
     });
 
-    const searchOriginalPosition = (targetRow: string, option: string) => {
-      const rows = Object.keys(layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT]);
-      const rowIndex = rows.findIndex((row) => row == targetRow);
-
-      let item: KeymapItem | undefined;
-      for (let i = rowIndex; i < rows.length; i++) {
-        const row: string = rows[i];
-        item = layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT][row].find(
-          (item: KeymapItem) => {
-            return item.option == option;
-          }
+    const searchOriginalPosition = (targetRow: number, option: string) => {
+      // search same row
+      const findOrigin = (keymaps: KeymapItem[]): KeymapItem | undefined => {
+        return keymaps.find(
+          (item: KeymapItem) => item.option == option && item.choice == '0'
         );
-        if (item) return item.current;
+      };
+
+      let targetItem: KeymapItem | undefined = findOrigin(
+        keymapsList[targetRow]
+      );
+      if (targetItem) return targetItem.current;
+
+      // search below row
+      for (let i = targetRow + 1; i < keymapsList.length; i++) {
+        targetItem = findOrigin(keymapsList[i]);
+        if (targetItem) break;
       }
+      if (targetItem) return targetItem.current;
 
       // search above row
-      for (let i = rowIndex; i >= 0; i--) {
-        const row: string = rows[i];
-        item = layerKeymaps[OPTION_DEFAULT][OPTION_DEFAULT][row].find(
-          (item: KeymapItem) => {
-            return item.option == option;
-          }
-        );
-        if (item) return item.current;
+      for (let i = targetRow - 1; i >= 0; i--) {
+        targetItem = findOrigin(keymapsList[i]);
+        if (targetItem) break;
       }
+      if (targetItem) return targetItem.current;
     };
 
-    // relocate option layout
-    const options = Object.keys(layerKeymaps);
-    for (let i = 0; i < options.length; i++) {
-      const option = options[i];
-      if (option == OPTION_DEFAULT) continue;
-
-      const choices = Object.keys(layerKeymaps[option]);
-      for (let j = 0; j < choices.length; j++) {
-        const choice = choices[j];
-        if (choice == OPTION_DEFAULT) continue;
-
-        const rows = Object.keys(layerKeymaps[option][choice]);
-        for (let l = 0; l < rows.length; l++) {
-          const row = rows[l];
-          const items: KeymapItem[] = layerKeymaps[option][choice][row];
-          const origCurr = searchOriginalPosition(row, option);
-          const item = items[0];
-          const diffX = item.x - origCurr!.x;
-          const diffY = item.y - origCurr!.y;
-          items.forEach((item: KeymapItem) => {
+    // STEP3: relocate option layouts
+    Object.keys(optionKeymaps).forEach((row: string) => {
+      Object.keys(optionKeymaps[row]).forEach((option: string) => {
+        Object.keys(optionKeymaps[row][option]).forEach((choice: string) => {
+          const choices: KeymapItem[] = optionKeymaps[row][option][choice];
+          const origCurr = searchOriginalPosition(Number(row), option);
+          const diffX = choices[0].x - origCurr!.x;
+          const diffY = choices[0].y - origCurr!.y;
+          choices.forEach((item: KeymapItem) => {
             item.align(diffX, diffY);
           });
-        }
-      }
-    }
+        });
+      });
+    });
 
     let width = 0;
     let height = 0;
-    const models: {
-      [option: string]: { [choice: string]: KeyModel[] };
-    } = {};
-    Object.keys(layerKeymaps).forEach((option) => {
-      models[option] = {};
-      Object.keys(layerKeymaps[option]).forEach((choice) => {
-        models[option][choice] = Object.values(layerKeymaps[option][choice])
-          .flat()
-          .map((item: KeymapItem) => {
-            let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
-            width = Math.max(width, model.endRight);
-            height = Math.max(height, model.endBottom);
-            return model;
-          });
-      });
-    });
     const list: KeyModel[] = [];
+    keymapsList.flat().forEach((item: KeymapItem) => {
+      let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
+      list.push(model);
+      if (model.isDefault || model.optionChoice == '0') {
+        width = Math.max(width, model.endRight);
+        height = Math.max(height, model.endBottom);
+        if (Number.isNaN(height)) {
+          console.log(model.location);
+        }
+      }
+    });
     return {
       keymap: list,
-      keymaps: models,
       width: width,
       height: height,
     };
@@ -378,6 +356,8 @@ export default class KeyboardModel {
       optionIndex++;
     }
 
+    console.log(width);
+    console.log(height);
     return {
       keymap: list,
       keymaps: models,

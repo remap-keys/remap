@@ -5,6 +5,7 @@ import { KeyOp } from '../gen/types/KeyOp';
 export const OPTION_DEFAULT = '-';
 
 export default class KeyModel {
+  readonly location: string;
   readonly pos: string;
   readonly option: string;
   readonly optionChoice: string;
@@ -38,6 +39,7 @@ export default class KeyModel {
     this.keyOp = op;
     this._x = x;
     this._y = y;
+    this.location = location;
     const locs = `${location}\n\n\n${OPTION_DEFAULT},${OPTION_DEFAULT}`.slice(
       0,
       9
@@ -70,8 +72,8 @@ export default class KeyModel {
     } else {
       this.width = KEY_SIZE;
       this.height = KEY_SIZE;
-      this.left2 = NaN;
-      this.top2 = NaN;
+      this.left2 = x * KEY_SIZE;
+      this.top2 = y * KEY_SIZE;
       this.height2 = NaN;
       this.width2 = NaN;
     }

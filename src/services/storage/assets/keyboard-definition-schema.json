@@ -81,24 +81,27 @@
                 {
                   "type": "string"
                 },
-                { "$ref": "./src/services/storage/assets/KeyOp.json" }
+                { "type": "object" }
               ]
             },
             "additionalProperties": false
           }
         },
         "labels": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
                 "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
-            }
-          ]
+            ]
+          }
         }
       },
       "required": ["keymap"],

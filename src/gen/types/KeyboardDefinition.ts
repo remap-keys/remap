@@ -41,6 +41,6 @@ export interface KeyboardDefinitionSchema {
           [k: string]: unknown;
         }
     )[][];
-    labels?: string | string[];
+    labels?: (string | string[])[];
   };
 }
