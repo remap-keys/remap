@@ -1,0 +1,33 @@
+.hero-content {
+  background-color: white;
+  padding: 64px 0 48px;
+}
+
+.hero-buttons {
+  margin-top: 32px;
+}
+
+.card-grid {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-media {
+  height: 0;
+  padding-top: 56.25%; // 16.9
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.footer {
+  background-color: white;
+  padding: 48px;
+}
