@@ -21,7 +21,6 @@ import card5 from '../../assets/images/top/card-5.png';
 import './Top.scss';
 
 type IFeatureCardProps = {
-  key: number;
   image: any;
   imageTitle: string;
   title: string;
@@ -30,7 +29,7 @@ type IFeatureCardProps = {
 
 const FeatureCard = (props: IFeatureCardProps) => {
   return (
-    <Grid item key={props.key} xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4}>
       <Card className="card">
         <CardMedia
           className="card-media"
