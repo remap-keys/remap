@@ -114,6 +114,7 @@ export default class Keycap extends React.Component<
     const selectedLayer = this.props.selectedLayer!;
     const selectedPos = this.props.selectedPos!;
     const pos = this.props.model.pos;
+    const option = this.props.model.optionLabel;
     const isSelectedKey = pos == selectedPos;
     const keymap: IKeymap = this.props.keymaps![selectedLayer][pos];
     const orgKey: Key = genKey(keymap);
@@ -249,23 +250,52 @@ export default class Keycap extends React.Component<
             dstKey
           )}
         >
-          <div className="keylabel">
-            <div className="label left top">{pos}</div>
-            <div className="label center"></div>
-            <div className="label right"></div>
-          </div>
-          <div className="keylabel">
-            <div className="label left"></div>
-            <div className="label center">
-              {dstKey ? dstKey.label : orgKey.label}
-            </div>
-            <div className="label right"></div>
-          </div>
-          <div className="keylabel">
-            <div className="label left"></div>
-            <div className="label center"></div>
-            <div className="label right"></div>
-          </div>
+          <KeyLabel
+            label={dstKey ? dstKey.label : orgKey.label}
+            pos={pos}
+            option={option}
+            debug={false}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
+type KeyLabelType = {
+  label: string;
+  pos?: string;
+  option?: string;
+  debug?: boolean;
+};
+function KeyLabel(props: KeyLabelType) {
+  if (props.debug) {
+    return (
+      <React.Fragment>
+        <div className="keylabel">
+          <div className="label left top">{props.pos}</div>
+          <div className="label center"></div>
+          <div className="label right"></div>
+        </div>
+        <div className="keylabel">
+          <div className="label left"></div>
+          <div className="label center">{props.label}</div>
+          <div className="label right"></div>
+        </div>
+        <div className="keylabel vbottom">
+          <div className="label left"></div>
+          <div className="label center"></div>
+          <div className="label right">{props.option}</div>
+        </div>
+      </React.Fragment>
+    );
+  } else {
+    const length = props.label.split(' ').length;
+    const labelSize = length == 2 ? '_m' : length == 3 ? '_s' : '';
+    return (
+      <div className="keylabel vcenter">
+        <div className={['label', 'center', labelSize].join(' ')}>
+          {props.label}
         </div>
       </div>
     );

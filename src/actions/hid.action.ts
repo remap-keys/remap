@@ -287,13 +287,14 @@ export const hidActionsThunk = {
         }
       }
     }
-    await loadKeymap(
+    const keymaps: IKeymaps[] = await loadKeymap(
       dispatch,
       keyboard,
       entities.device.layerCount,
       entities.keyboardDefinition!.matrix.rows,
       entities.keyboardDefinition!.matrix.cols
     );
+    dispatch(HidActions.updateKeymaps(keymaps));
     dispatch(AppActions.remapsInit(entities.device.layerCount));
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
@@ -321,7 +322,14 @@ const initOpenedKeyboard = async (
   }
   const layerCount = layerResult.layerCount!;
   dispatch(HidActions.updateKeyboardLayerCount(layerCount));
-  await loadKeymap(dispatch, keyboard, layerCount, rowCount, columnCount);
+  const keymaps: IKeymaps[] = await loadKeymap(
+    dispatch,
+    keyboard,
+    layerCount,
+    rowCount,
+    columnCount
+  );
+  dispatch(HidActions.updateKeymaps(keymaps));
   dispatch(AppActions.remapsInit(layerCount));
   dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
   dispatch(HidActions.updateKeyboard(keyboard));
@@ -333,16 +341,17 @@ const loadKeymap = async (
   layerCount: number,
   rowCount: number,
   columnCount: number
-) => {
+): Promise<IKeymaps[]> => {
   const keymaps: IKeymaps[] = [];
   for (let i = 0; i < layerCount; i++) {
     const keymapsResult = await keyboard.fetchKeymaps(i, rowCount, columnCount);
     if (!keymapsResult.success) {
       // TODO: show error message
       console.log(keymapsResult);
-      return;
+      Promise.reject('something wrong in loading kerymaps');
     }
     keymaps.push(keymapsResult.keymap!);
   }
-  dispatch(HidActions.updateKeymaps(keymaps));
+  console.log(keymaps);
+  return keymaps;
 };
