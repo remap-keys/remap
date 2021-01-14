@@ -155,8 +155,12 @@ export default class KeyboardModel {
   readonly width: number;
   readonly height: number;
 
-  constructor(km: (string | KeyOp)[][]) {
-    const { keymap, width, height } = this.parseKeyMap(km);
+  constructor(km: ((string | KeyOp)[] | { name: string })[]) {
+    const _km = km.filter((item) => Array.isArray(item)) as (
+      | string
+      | KeyOp
+    )[][];
+    const { keymap, width, height } = this.parseKeyMap(_km);
     this.keymap = keymap;
     this.width = width;
     this.height = height;

@@ -10,14 +10,7 @@ export interface KeyboardDefinitionSchema {
   vendorId: string;
   productId: string;
   lighting?:
-    | (
-        | 'none'
-        | 'qmk_backlight'
-        | 'qmk_rgblight'
-        | 'qmk_backlight_rgblight'
-        | 'wt_rgb_backlight'
-        | 'wt_mono_backlight'
-      )
+    | ('none' | 'qmk_backlight' | 'qmk_rgblight' | 'qmk_backlight_rgblight' | 'wt_rgb_backlight' | 'wt_mono_backlight')
     | {
         extends?: string;
         effects?: [] | [string] | [string, number];
@@ -29,7 +22,12 @@ export interface KeyboardDefinitionSchema {
     cols: number;
   };
   layouts: {
-    keymap: (string | KeyOp)[][];
+    keymap: (
+      | (string | KeyOp)[]
+      | {
+          name: string;
+        }
+    )[];
     labels?: (string | string[])[];
   };
 }
