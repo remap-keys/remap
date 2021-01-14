@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { KEY_SIZE } from '../components/configure/keycap/Keycap';
-import { KeyOp } from '../gen/types/KeyOp';
+import { KeyOp } from '../gen/types/KeyboardDefinition';
 
 export default class KeyModel {
   readonly pos: string;

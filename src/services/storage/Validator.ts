@@ -18,6 +18,7 @@ export const validateKeyboardDefinition = (
       errorMessage: `JSON parse error: ${error}`,
     };
   }
+
   const ajv = new Ajv();
   const validate = ajv.compile(schema);
   const valid = validate(root);

@@ -1,4 +1,4 @@
-import { KeyOp } from '../gen/types/KeyOp';
+import { KeyOp } from '../gen/types/KeyboardDefinition';
 import KeyModel from './KeyModel';
 
 export default class KeyboardModel {

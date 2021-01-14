@@ -22,25 +22,23 @@ export interface KeyboardDefinitionSchema {
     cols: number;
   };
   layouts: {
-    keymap: (
-      | string
-      | {
-          x?: number;
-          y?: number;
-          c?: string;
-          w?: number;
-          h?: number;
-          r?: number;
-          rx?: number;
-          ry?: number;
-          d?: boolean;
-          x2: number;
-          y2: number;
-          w2: number;
-          h2: number;
-          [k: string]: unknown;
-        }
-    )[][];
+    keymap: (string | KeyOp)[][];
     labels?: string | string[];
   };
+}
+export interface KeyOp {
+  x?: number;
+  y?: number;
+  c?: string;
+  w?: number;
+  h?: number;
+  r?: number;
+  rx?: number;
+  ry?: number;
+  d?: boolean;
+  x2?: number;
+  y2?: number;
+  w2?: number;
+  h2?: number;
+  [k: string]: unknown;
 }
