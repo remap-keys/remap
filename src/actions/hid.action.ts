@@ -184,7 +184,7 @@ export const hidActionsThunk = {
     const result = await keyboard.open();
     if (!result.success) {
       console.error('Could not open');
-      dispatch(NotificationActions.addError('Could not open'));
+      dispatch(NotificationActions.addError('Could not open', result.cause));
       return;
     }
     await initOpenedKeyboard(
@@ -256,7 +256,8 @@ export const hidActionsThunk = {
           console.error(result.cause);
           dispatch(
             NotificationActions.addError(
-              `Flush error: [${pos}] ${result.error!}`
+              `Flush error: [${pos}] ${result.error!}`,
+              result.cause
             )
           );
           dispatch(HeaderActions.updateFlush(false));
