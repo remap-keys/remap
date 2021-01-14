@@ -8,6 +8,8 @@ class Current {
   r = 0;
   rx = 0;
   ry = 0;
+  x2 = 0;
+  y2 = 0;
 
   constructor(curr?: Current) {
     if (curr) {
@@ -17,6 +19,8 @@ class Current {
       this.r = curr.r;
       this.rx = curr.rx;
       this.ry = curr.ry;
+      this.x2 = curr.x2;
+      this.y2 = curr.y2;
     }
   }
 
@@ -50,6 +54,14 @@ class Current {
       this.r = op.r;
     }
 
+    if (op.x2) {
+      this.x2 = op.x2;
+    }
+
+    if (op.y2) {
+      this.y2 = op.y2;
+    }
+
     if (op.c) {
       this.c = op.c;
     }
@@ -57,6 +69,8 @@ class Current {
 
   next(w: number) {
     this.x += w;
+    this.x2 = 0;
+    this.y2 = 0;
   }
 }
 
@@ -110,6 +124,14 @@ class KeymapItem {
 
   get ry(): number {
     return this._curr.ry;
+  }
+
+  get x2(): number {
+    return this._curr.x2;
+  }
+
+  get y2(): number {
+    return this._curr.y2;
   }
 
   get w(): number {
@@ -246,8 +268,10 @@ export default class KeyboardModel {
         Object.keys(optionKeymaps[row][option]).forEach((choice: string) => {
           const choices: KeymapItem[] = optionKeymaps[row][option][choice];
           const origCurr = searchOriginalPosition(Number(row), option);
-          const diffX = choices[0].x - origCurr!.x;
-          const diffY = choices[0].y - origCurr!.y;
+          const diffX =
+            choices[0].x + choices[0].x2 - origCurr!.x + origCurr!.x2;
+          const diffY =
+            choices[0].y + choices[0].y2 - origCurr!.y + origCurr!.y2;
           choices.forEach((item: KeymapItem) => {
             item.align(diffX, diffY);
           });
