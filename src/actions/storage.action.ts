@@ -99,7 +99,7 @@ export const storageActionsThunk = {
       )
     );
     dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
-    dispatch(hidActionsThunk.openKeyboard());
+    await dispatch(hidActionsThunk.openKeyboard());
   },
 
   fetchKeyboardDefinition: (
@@ -153,7 +153,7 @@ export const storageActionsThunk = {
         )
       );
       dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
-      dispatch(hidActionsThunk.openKeyboard());
+      await dispatch(hidActionsThunk.openKeyboard());
     } else {
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)

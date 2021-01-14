@@ -83,6 +83,8 @@ export const hidActionsThunk = {
     const { hid, entities } = getState();
     const keyboards: IKeyboard[] = entities.keyboards;
 
+    await dispatch(hidActionsThunk.closeOpenedKeyboard());
+
     const result = await hid.instance.connect();
     if (!result.success) {
       // no selected device
@@ -125,7 +127,7 @@ export const hidActionsThunk = {
     dispatch(
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
     );
-    dispatch(
+    await dispatch(
       storageActionsThunk.fetchKeyboardDefinition(
         keyboardInfo.vendorId,
         keyboardInfo.productId
@@ -139,6 +141,8 @@ export const hidActionsThunk = {
   ) => {
     const { entities } = getState();
     const keyboards: IKeyboard[] = entities.keyboards;
+
+    await dispatch(hidActionsThunk.closeOpenedKeyboard());
 
     if (keyboard.isOpened()) {
       /**
@@ -167,7 +171,7 @@ export const hidActionsThunk = {
     dispatch(
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
     );
-    dispatch(
+    await dispatch(
       storageActionsThunk.fetchKeyboardDefinition(
         keyboardInfo.vendorId,
         keyboardInfo.productId
@@ -210,7 +214,7 @@ export const hidActionsThunk = {
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
       );
-      dispatch(
+      await dispatch(
         storageActionsThunk.fetchKeyboardDefinition(
           keyboardInfo.vendorId,
           keyboardInfo.productId
@@ -235,6 +239,24 @@ export const hidActionsThunk = {
     dispatch(KeyboardsActions.clearSelectedPos());
     dispatch(StorageActions.updateKeyboardDefinition(null));
     dispatch(HidActions.updateKeyboard(null));
+  },
+
+  closeOpenedKeyboard: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    const openedKeyboard = entities.keyboard;
+    if (openedKeyboard && openedKeyboard.isOpened()) {
+      await openedKeyboard.close();
+      dispatch(AppActions.remapsClear());
+      dispatch(KeydiffActions.clearKeydiff());
+      dispatch(KeycodeKeyActions.clear());
+      dispatch(KeyboardsActions.clearSelectedPos());
+      dispatch(StorageActions.updateKeyboardDefinition(null));
+      dispatch(HidActions.updateKeyboard(null));
+    }
   },
 
   flush: (): ThunkPromiseAction<void> => async (
