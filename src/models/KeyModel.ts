@@ -40,12 +40,10 @@ export default class KeyModel {
     this._x = x;
     this._y = y;
     this.location = location;
-    const locs = `${location}\n\n\n${OPTION_DEFAULT},${OPTION_DEFAULT}`.slice(
-      0,
-      9
-    );
-    this.pos = locs.slice(0, 3);
-    const options = locs.slice(6, 9).split(',');
+    const locs = location.split('\n\n\n');
+    this.pos = locs[0];
+    const options =
+      locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.optionChoice = options[1];
     this.left = x * KEY_SIZE;
