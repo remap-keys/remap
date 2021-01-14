@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
-    "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts; json2ts src/services/storage/assets/KeyOp.json > src/gen/types/KeyOp.ts"
+    "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;"
   },
   "eslintConfig": {
     "extends": [

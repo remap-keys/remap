@@ -39,7 +39,7 @@ export const storageActionsThunk = {
       return;
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-undef
     const loadTextFile = (file: File): Promise<string> => {
       return new Promise<string>((resolve) => {
         // eslint-disable-next-line no-undef
