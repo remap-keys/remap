@@ -79,6 +79,7 @@ export default class LayoutOptionsDialog extends React.Component<
 type OptionRowType = {
   options: string | string[];
   selectedOption: string | null;
+  // eslint-disable-next-line no-unused-vars
   onChange: (value: string | null) => void;
 };
 function OptionRowComponent(props: OptionRowType) {
