@@ -120,11 +120,18 @@ export const storageActionsThunk = {
       return;
     }
     if (fetchKeyboardDefinitionResult.exists!) {
-      dispatch(
-        StorageActions.updateKeyboardDefinition(
-          JSON.parse(fetchKeyboardDefinitionResult.document!.json)
-        )
-      );
+      const json = fetchKeyboardDefinitionResult.document!.json;
+      const validateResult = validateKeyboardDefinition(json);
+      if (!validateResult.valid) {
+        dispatch(NotificationActions.addError(validateResult.errorMessage!));
+        dispatch(
+          AppActions.updateSetupPhase(
+            SetupPhase.waitingKeyboardDefinitionUpload
+          )
+        );
+        return;
+      }
+      dispatch(StorageActions.updateKeyboardDefinition(JSON.parse(json)));
       dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
       dispatch(hidActionsThunk.openKeyboard());
     } else {
