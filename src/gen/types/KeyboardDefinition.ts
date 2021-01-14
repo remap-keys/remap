@@ -23,7 +23,7 @@ export interface KeyboardDefinitionSchema {
   };
   layouts: {
     keymap: (string | KeyOp)[][];
-    labels?: string | string[];
+    labels?: (string | string[])[];
   };
 }
 export interface KeyOp {
