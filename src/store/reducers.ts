@@ -314,7 +314,7 @@ const notificationReducer = (
         {
           key: Date.now().toString(),
           type: 'error',
-          message: action.value,
+          message: action.value.message,
         },
       ];
       break;
@@ -325,7 +325,7 @@ const notificationReducer = (
         {
           key: Date.now().toString(),
           type: 'warning',
-          message: action.value,
+          message: action.value.message,
         },
       ];
       break;

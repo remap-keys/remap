@@ -8,19 +8,14 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import reducers from './store/reducers';
 import reportWebVitals from './reportWebVitals';
-
-if (process.env.NODE_ENV === 'production') {
-  const StackdriverErrorReporter = require('stackdriver-errors-js/dist/stackdriver-errors-concat.min');
-  const errorHandler = new StackdriverErrorReporter();
-  errorHandler.start({
-    key: process.env.REACT_APP_ERROR_REPORTING_KEY,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  });
-}
+import { errorReportingLogger } from './utils/ErrorReportingLogger';
 
 const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(thunk),
+    applyMiddleware(errorReportingLogger)
+  )
 );
 
 ReactDOM.render(

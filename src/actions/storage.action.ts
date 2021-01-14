@@ -112,7 +112,10 @@ export const storageActionsThunk = {
     if (!fetchKeyboardDefinitionResult.success) {
       console.error(fetchKeyboardDefinitionResult.cause!);
       dispatch(
-        NotificationActions.addError(fetchKeyboardDefinitionResult.error!)
+        NotificationActions.addError(
+          fetchKeyboardDefinitionResult.error!,
+          fetchKeyboardDefinitionResult.cause
+        )
       );
       return;
     }

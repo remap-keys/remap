@@ -159,16 +159,22 @@ export const NOTIFICATION_ADD_INFO = `${NOTIFICATION_ACTIONS}/AddInfo`;
 export const NOTIFICATION_ADD_SUCCESS = `${NOTIFICATION_ACTIONS}/AddSuccess`;
 export const NOTIFICATION_REMOVE = `${NOTIFICATION_ACTIONS}/Remove`;
 export const NotificationActions = {
-  addError: (message: string) => {
+  addError: (message: string, cause?: any) => {
     return {
       type: NOTIFICATION_ADD_ERROR,
-      value: message,
+      value: {
+        message,
+        cause,
+      },
     };
   },
-  addWarn: (message: string) => {
+  addWarn: (message: string, cause?: any) => {
     return {
       type: NOTIFICATION_ADD_WARN,
-      value: message,
+      value: {
+        message,
+        cause,
+      },
     };
   },
   addInfo: (message: string) => {
