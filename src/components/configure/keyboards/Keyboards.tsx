@@ -2,12 +2,14 @@ import React from 'react';
 import './Keyboards.scss';
 import KeyboardModel from '../../../models/KeyboardModel';
 import { Badge, Chip, withStyles } from '@material-ui/core';
+import SettingsIcon from '@material-ui/icons/Settings';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap.container';
 import {
   KeyboardsActionsType,
   KeyboardsStateType,
 } from './Keyboards.container';
+import LayoutOptionsDialog from '../layoutoptions/LayoutOptionsDialog.container';
 
 const BORDER_WIDTH = 4;
 const LAYOUT_PADDING = 16;
@@ -18,13 +20,14 @@ type KeyboardsProps = OwnProps &
   Partial<KeyboardsActionsType> &
   Partial<KeyboardsStateType>;
 
-interface IKeyboardsState {
+type KeyboardsState = {
   keyboard: KeyboardModel; // TODO: to be redux
-}
+  openLayoutOptionDialog: boolean;
+};
 
 export default class Keyboards extends React.Component<
   KeyboardsProps,
-  IKeyboardsState
+  KeyboardsState
 > {
   constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
@@ -32,12 +35,21 @@ export default class Keyboards extends React.Component<
       keyboard: new KeyboardModel(
         this.props.keyboardDefinition!.layouts.keymap
       ),
+      openLayoutOptionDialog: false,
     };
   }
 
   onClickLayer = (layer: number) => {
     this.props.onClickLayerNumber!(layer);
   };
+
+  private openLayoutOptionDialog() {
+    this.setState({ openLayoutOptionDialog: true });
+  }
+
+  private closeLayoutOptionDialog() {
+    this.setState({ openLayoutOptionDialog: false });
+  }
 
   render() {
     // eslint-disable-next-line no-unused-vars
@@ -48,6 +60,28 @@ export default class Keyboards extends React.Component<
         border: `2px solid white`,
       },
     }))(Badge);
+
+    let layoutOptions = undefined;
+    const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
+    if (hasKeyboardOptions) {
+      const selectedKeyboardOptions: string[] = this.props
+        .selectedKeyboardOptions!;
+      const labels: (string | string[])[] = this.props.keyboardDefinition!
+        .layouts.labels!;
+
+      layoutOptions = labels.map((choices: string | string[], index) => {
+        if (typeof choices == 'string') {
+          const selected: string | null = selectedKeyboardOptions[index];
+          return selected
+            ? { option: '' + index, optionChoice: '1' }
+            : { option: '' + index, optionChoice: '0' };
+        } else {
+          const choice: string = selectedKeyboardOptions[index];
+          const choiceIndex = choices.indexOf(choice) - 1; // first item of choices is for choice's label
+          return { option: '' + index, optionChoice: '' + choiceIndex };
+        }
+      });
+    }
     return (
       <React.Fragment>
         <div className="layer-wrapper">
@@ -85,6 +119,12 @@ export default class Keyboards extends React.Component<
                   </StyledBadge>
                 );
               })}
+              {hasKeyboardOptions && (
+                <SettingsIcon
+                  className="option"
+                  onClick={this.openLayoutOptionDialog.bind(this)}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -106,12 +146,24 @@ export default class Keyboards extends React.Component<
                 height: this.state.keyboard.height,
               }}
             >
-              {this.state.keyboard.keymap.map((model: KeyModel) => {
-                return <Keycap key={model.pos} model={model} />;
-              })}
+              {this.state.keyboard
+                .getKeymap(layoutOptions)
+                .map((model: KeyModel) => {
+                  return model.isDecal ? (
+                    ''
+                  ) : (
+                    <Keycap key={model.pos} model={model} />
+                  );
+                })}
             </div>
           </div>
         </div>
+        {hasKeyboardOptions && (
+          <LayoutOptionsDialog
+            open={this.state.openLayoutOptionDialog}
+            onClose={this.closeLayoutOptionDialog.bind(this)}
+          />
+        )}
       </React.Fragment>
     );
   }

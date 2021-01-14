@@ -37,6 +37,9 @@ import {
   ANYKEYCODEKEY_ACTIONS,
   ANYKEYCODEKEY_ADD_ANYKEY,
   ANYKEYCODEKEY_UPDATE_ANYKEY,
+  LAYOUT_OPTIONS_ACTIONS,
+  LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
+  LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -77,6 +80,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(KEYDIFF_ACTIONS)) {
       keydiffReducer(action, draft);
+    } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
+      layoutOptionsReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
@@ -297,6 +302,27 @@ const keycodekeyReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.keycodeKey.draggingKey = null;
       draft.keycodeKey.selectedKey = null;
       draft.keycodeKey.hoverKey = null;
+      break;
+    }
+  }
+};
+
+const layoutOptionsReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION: {
+      const { optionIndex, option } = action.value;
+      draft.layoutOptions.selectedOptions = draft.layoutOptions.selectedOptions.map(
+        (value, index) => {
+          return index == optionIndex ? option : value;
+        }
+      );
+      break;
+    }
+    case LAYOUT_OPTIONS_INIT_SELECTED_OPTION: {
+      draft.layoutOptions.selectedOptions = action.value;
       break;
     }
   }

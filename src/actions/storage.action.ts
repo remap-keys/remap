@@ -1,8 +1,13 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootState, SetupPhase } from '../store/state';
-import { AppActions, NotificationActions } from './actions';
+import {
+  AppActions,
+  LayoutOptionsActions,
+  NotificationActions,
+} from './actions';
 import { hidActionsThunk } from './hid.action';
 import { validateKeyboardDefinition } from '../services/storage/Validator';
+import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -31,9 +36,6 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
-    const keyboard = entities.keyboard;
-
     if (!file.type.endsWith('/json')) {
       dispatch(NotificationActions.addWarn('The file is not JSON format.'));
       return;
@@ -59,7 +61,6 @@ export const storageActionsThunk = {
     }
 
     const keyboardDefinition = JSON.parse(json);
-
     const getNumber = (source: string): number => {
       if (!source) {
         return NaN;
@@ -71,6 +72,8 @@ export const storageActionsThunk = {
       }
     };
 
+    const { entities } = getState();
+    const keyboard = entities.keyboard;
     const vendorId = getNumber(keyboardDefinition.vendorId);
     const productId = getNumber(keyboardDefinition.productId);
 
@@ -88,9 +91,17 @@ export const storageActionsThunk = {
     }
 
     dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+    dispatch(
+      LayoutOptionsActions.initSelectedOptions(
+        keyboardDefinition.layouts.labels
+          ? keyboardDefinition.layouts.labels
+          : []
+      )
+    );
     dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
     dispatch(hidActionsThunk.openKeyboard());
   },
+
   fetchKeyboardDefinition: (
     // eslint-disable-next-line no-unused-vars
     vendorId: number,
@@ -131,7 +142,16 @@ export const storageActionsThunk = {
         );
         return;
       }
-      dispatch(StorageActions.updateKeyboardDefinition(JSON.parse(json)));
+
+      const keyboardDefinition: KeyboardDefinitionSchema = JSON.parse(json);
+      dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+      dispatch(
+        LayoutOptionsActions.initSelectedOptions(
+          keyboardDefinition.layouts.labels
+            ? keyboardDefinition.layouts.labels
+            : []
+        )
+      );
       dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
       dispatch(hidActionsThunk.openKeyboard());
     } else {

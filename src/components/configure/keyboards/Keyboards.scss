@@ -19,6 +19,13 @@
         border-width: 0;
       }
     }
+    .option {
+      color: $color-gray-600;
+      &:hover {
+        cursor: pointer;
+        color: $primary;
+      }
+    }
   }
 }
 
