@@ -1,11 +1,19 @@
 @import '../../../variables';
 
-@keyframes blink {
+@keyframes blink-primary {
   0% {
     background-color: $primary-pale;
   }
   100% {
     background-color: $primary-light;
+  }
+}
+@keyframes blink-border {
+  0% {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+  }
+  100% {
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
 .keycap-base {
@@ -44,17 +52,19 @@
     font-size: 12px;
 
     &.keycap-selected {
-      animation: blink 1.3s infinite alternate;
+      animation: blink-primary 1.3s infinite alternate;
     }
   }
 
   .keycap:hover,
   .keycap:hover ~ .keycap2 {
-    border-color: $primary-light;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    animation: blink-border 0.3s;
   }
 
   .keycap2:hover {
-    border-color: $primary-light;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    animation: blink-border 0.3s;
   }
 
   .keyroof-base {
@@ -76,13 +86,23 @@
     cursor: pointer;
 
     .keylabel {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
       pointer-events: none;
       position: relative;
       color: #333;
       flex-grow: 1;
+      &.vcenter {
+        align-items: center;
+      }
+      &.vbottom {
+        align-items: flex-end;
+      }
       .label {
         position: absolute;
         font-size: 0.76rem;
+        line-height: 1.1;
         width: 100%;
       }
       .left {
@@ -95,6 +115,12 @@
       .right {
         text-align: right;
         padding-right: $space-xs;
+      }
+      ._m {
+        font-size: 0.7rem;
+      }
+      ._s {
+        font-size: 0.65rem;
       }
     }
     .color-modifier {

@@ -7,6 +7,7 @@ export const OPTION_DEFAULT = '-';
 export default class KeyModel {
   readonly location: string;
   readonly pos: string;
+  readonly optionLabel: string;
   readonly option: string;
   readonly optionChoice: string;
   readonly top: number;
@@ -42,6 +43,7 @@ export default class KeyModel {
     this.location = location;
     const locs = location.split('\n\n\n');
     this.pos = locs[0];
+    this.optionLabel = locs.length == 2 ? locs[1] : '';
     const options =
       locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
