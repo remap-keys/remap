@@ -35,10 +35,15 @@
               "type": "array",
               "items": [
                 {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
                 }
               ]
             },
@@ -47,7 +52,30 @@
               "enum": ["qmk", "wt"]
             },
             "supportedBacklightValues": {
-              "type": "integer"
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "supportedLightingValues": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "underglowEffects": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
             }
           },
           "additionalProperties": false
@@ -92,6 +120,9 @@
                 "properties": {
                   "name": {
                     "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
                   }
                 },
                 "required": ["name"],
@@ -115,10 +146,38 @@
               }
             ]
           }
+        },
+        "presets": {
+          "type": "object"
         }
       },
       "required": ["keymap"],
       "additionalProperties": false
+    },
+    "customKeycodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "title", "shortName"],
+        "additionalProperties": false
+      }
+    },
+    "customFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": ["name", "vendorId", "productId", "matrix", "layouts"],
