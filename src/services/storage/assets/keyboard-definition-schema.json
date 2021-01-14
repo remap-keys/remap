@@ -115,6 +115,9 @@
               }
             ]
           }
+        },
+        "presets": {
+          "type": "object"
         }
       },
       "required": ["keymap"],
