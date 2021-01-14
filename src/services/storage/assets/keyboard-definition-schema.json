@@ -75,16 +75,29 @@
         "keymap": {
           "type": "array",
           "items": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    { "$ref": "#/definitions/KeyOp" }
+                  ]
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
                 },
-                { "$ref": "#/definitions/KeyOp" }
-              ]
-            },
-            "additionalProperties": false
+                "required": ["name"],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "labels": {
