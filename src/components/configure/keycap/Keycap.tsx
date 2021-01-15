@@ -3,6 +3,8 @@ import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
+import { Badge, withStyles } from '@material-ui/core';
+
 import './Keycap.scss';
 
 export const KEY_SIZE = 54;
@@ -129,6 +131,7 @@ export default class Keycap extends React.Component<
           'keycap-base',
           this.state.onDragOver && 'drag-over',
           dstKey && 'has-diff',
+          isSelectedKey && 'keycap-selected',
         ].join(' ')}
         style={styleTransform}
         onDragOver={(event) => {
@@ -152,11 +155,7 @@ export default class Keycap extends React.Component<
       >
         {/* base1 */}
         <div
-          className={[
-            'keycap',
-            'keycap-border',
-            isSelectedKey && 'keycap-selected',
-          ].join(' ')}
+          className={['keycap', 'keycap-border'].join(' ')}
           style={style}
           onClick={this.props.onClickKeycap!.bind(
             this,
@@ -253,6 +252,7 @@ export default class Keycap extends React.Component<
           <KeyLabel
             label={dstKey ? dstKey.label : orgKey.label}
             pos={pos}
+            hasDiff={dstKey != null}
             option={option}
             debug={false}
           />
@@ -264,6 +264,7 @@ export default class Keycap extends React.Component<
 
 type KeyLabelType = {
   label: string;
+  hasDiff: boolean;
   pos?: string;
   option?: string;
   debug?: boolean;
@@ -295,9 +296,22 @@ function KeyLabel(props: KeyLabelType) {
     return (
       <div className="keylabel vcenter">
         <div className={['label', 'center', labelSize].join(' ')}>
-          {props.label}
+          <StyledBadge color="primary" variant="dot" invisible={!props.hasDiff}>
+            {props.label}
+          </StyledBadge>
         </div>
       </div>
     );
   }
 }
+
+const StyledBadge = withStyles((_) => ({
+  badge: {
+    right: -2,
+    top: -2,
+    height: 4,
+    padding: 0,
+    minWidth: 4,
+    borderRadius: 2,
+  },
+}))(Badge);

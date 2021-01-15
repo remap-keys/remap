@@ -31,12 +31,17 @@ export default class Keyboards extends React.Component<
 > {
   constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
+    const kbd = new KeyboardModel(
+      this.props.keyboardDefinition!.layouts.keymap
+    );
     this.state = {
-      keyboard: new KeyboardModel(
-        this.props.keyboardDefinition!.layouts.keymap
-      ),
+      keyboard: kbd,
       openLayoutOptionDialog: false,
     };
+  }
+
+  componentDidUpdate() {
+    this.props.setKeyboardHeight!(this.state.keyboard.height);
   }
 
   onClickLayer = (layer: number) => {

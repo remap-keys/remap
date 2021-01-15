@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     hid: state.hid,
     auth: state.auth.instance,
     storage: state.storage.instance,
+    draggingKey: state.keycodeKey.draggingKey,
   };
 };
 export type ConfigureStateType = ReturnType<typeof mapStateToProps>;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Content.scss';
 import Keycodes from '../keycodes/Keycodes.container';
-import Keymap from '../keymap/Keymap';
+import Keymap from '../keymap/Keymap.container';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
@@ -43,37 +43,42 @@ export default class Content extends React.Component<
 
   render() {
     return (
-      <div className="content">
-        <div className="keyboard-wrapper">
-          {[
-            SetupPhase.connectingKeyboard,
-            SetupPhase.fetchingKeyboardDefinition,
-            SetupPhase.openingKeyboard,
-          ].includes(this.props.setupPhase!) && (
-            <div className="in-progress">
-              <div className="progress">
-                <CircularProgress size={24} />
+      <React.Fragment>
+        <div className="content">
+          <div className="keyboard-wrapper">
+            {[
+              SetupPhase.connectingKeyboard,
+              SetupPhase.fetchingKeyboardDefinition,
+              SetupPhase.openingKeyboard,
+            ].includes(this.props.setupPhase!) && (
+              <div className="in-progress">
+                <div className="progress">
+                  <CircularProgress size={24} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="keymap">
-            <ConnectedKeyboard
-              keyboards={this.props.keyboards || []}
-              setupPhase={this.props.setupPhase!}
-            />
+            <div className="keymap">
+              <ConnectedKeyboard
+                keyboards={this.props.keyboards || []}
+                setupPhase={this.props.setupPhase!}
+              />
+            </div>
           </div>
+          <div
+            className="keycode"
+            style={{ marginTop: 200 + this.props.keyboardHeight! }}
+          >
+            <Keycodes />
+            {this.props.setupPhase === SetupPhase.openedKeyboard ? (
+              ''
+            ) : (
+              <div className="disable"></div>
+            )}
+          </div>
+          {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
         </div>
-        <div className="keycode">
-          <Keycodes />
-          {this.props.setupPhase === SetupPhase.openedKeyboard ? (
-            ''
-          ) : (
-            <div className="disable"></div>
-          )}
-        </div>
-        {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
-      </div>
+      </React.Fragment>
     );
   }
 }

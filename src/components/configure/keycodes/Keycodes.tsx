@@ -92,6 +92,12 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
             onChangeMacroText={this.onChangeMacroText}
           />
         )}
+        {this.props.draggingKey && (
+          <div
+            className="dragMask"
+            style={{ marginLeft: -8, marginTop: -6 }}
+          ></div>
+        )}
       </React.Fragment>
     );
   }
@@ -101,7 +107,7 @@ type MacroType = {
   selectedKey?: Key | null;
   macroText?: string | null;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-undef
   onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 function Macro(props: MacroType) {

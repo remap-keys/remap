@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
   const kbd = state.entities.keyboard;
   const info = kbd?.getInformation();
   return {
+    draggingKey: state.keycodeKey.draggingKey,
     flushLoading: state.header.flushLoading,
     keyboards: state.entities.keyboards,
     openedKeyboard: kbd,

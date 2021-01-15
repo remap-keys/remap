@@ -59,6 +59,7 @@ export type RootState = {
       [pos: string]: IKeymap;
     }[];
     notifications: NotificationItem[];
+    keyboardHeight: number;
   };
   header: {
     flushLoading: boolean;
@@ -123,6 +124,7 @@ export const INIT_STATE: RootState = {
     setupPhase: SetupPhase.keyboardNotSelected,
     remaps: [],
     notifications: [],
+    keyboardHeight: 295,
   },
   header: {
     flushLoading: false,

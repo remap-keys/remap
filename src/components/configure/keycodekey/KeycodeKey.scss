@@ -17,6 +17,10 @@
 
   &.dragging {
     cursor: grabbing;
+    z-index: 2;
+  }
+
+  &.dragging-keycodekey {
   }
 
   &.clickable {

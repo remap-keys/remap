@@ -94,6 +94,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-undef
     if ((navigator as any).hid === undefined) {
       this.setState({
         supportedBrowser: false,

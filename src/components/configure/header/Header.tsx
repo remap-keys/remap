@@ -149,7 +149,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             <CircularProgress size={24} className="flush-loading" />
           )}
         </div>
-
+        {this.props.draggingKey && (
+          <div className="dragMask" style={{ marginLeft: -8 }}></div>
+        )}
         <ConnectionModal open={false} onClose={() => {}} />
       </header>
     );
