@@ -31,7 +31,6 @@ export abstract class AbstractCommand<
   }
 
   abstract createReport(): Uint8Array;
-  // eslint-disable-next-line
   abstract createResponse(resultArray: Uint8Array): TResponse;
 
   async sendReport(device: any): Promise<void> {
