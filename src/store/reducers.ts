@@ -40,6 +40,7 @@ import {
   LAYOUT_OPTIONS_ACTIONS,
   LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
   LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
+  APP_UPDATE_KEYBOARD_HEIGHT,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -141,6 +142,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case APP_PACKAGE_INIT: {
       draft.app.package.name = action.value.name;
       draft.app.package.version = action.value.version;
+      break;
+    }
+    case APP_UPDATE_KEYBOARD_HEIGHT: {
+      draft.app.keyboardHeight = action.value;
       break;
     }
   }

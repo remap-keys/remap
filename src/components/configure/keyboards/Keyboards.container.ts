@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Keyboards from './Keyboards';
 import { RootState } from '../../../store/state';
-import { KeyboardsActions } from '../../../actions/actions';
+import { AppActions, KeyboardsActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   const layerCount = state.entities.device.layerCount;
@@ -23,6 +23,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     onClickLayerNumber: (layer: number) => {
       _dispatch(KeyboardsActions.clearSelectedPos());
       _dispatch(KeyboardsActions.updateSelectedLayer(layer));
+    },
+    setKeyboardHeight: (height: number) => {
+      _dispatch(AppActions.updateKeyboardHeight(height));
     },
   };
 };

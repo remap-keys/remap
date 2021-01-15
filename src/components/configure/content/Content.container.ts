@@ -8,6 +8,7 @@ const mapStateToProps = (state: RootState) => {
     keyboard: state.entities.keyboard,
     setupPhase: state.app.setupPhase,
     keyboards: state.entities.keyboards,
+    keyboardHeight: state.app.keyboardHeight,
   };
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;

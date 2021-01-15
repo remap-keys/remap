@@ -1,4 +1,5 @@
 import React from 'react';
+import { IKeymap } from '../../../services/hid/Hid';
 import AnyKeyDialog from './any/AnyKeyEditDialog';
 import {
   Key,
@@ -48,6 +49,11 @@ export default class KeycodeKey extends React.Component<
     if (value.keymap.isAny && !!value.keymap.keycodeInfo) {
       const info = value.keymap.keycodeInfo;
       this.setState({ openDialog: true, selectedKey: { ...info } });
+    } else if (this.props.selectedKeycapPosition) {
+      const pos = this.props.selectedKeycapPosition!;
+      const layer = this.props.selectedLayer!;
+      const keymap: IKeymap = this.props.keymaps![layer][pos];
+      this.props.remapKey!(layer, pos, keymap, value.keymap);
     } else {
       this.props.selectKey!(value);
     }
@@ -64,26 +70,27 @@ export default class KeycodeKey extends React.Component<
     this.setState({ openDialog: false, selectedKey: null });
   }
   private clickOk(key: AnyKey) {
-    console.log(this.props.index);
-    console.log(key);
     this.props.updateAnyKey!(this.props.index!, key);
     this.setState({ openDialog: false, selectedKey: null });
   }
   render() {
+    const pos = this.props.selectedKeycapPosition;
+    const draggable = this.props.draggable && (pos == undefined || pos == '');
+
     return (
       <React.Fragment>
         <div
           className={[
             'keycodekey',
             this.props.selected && 'selected',
-            this.props.clickable && 'clickable',
-            this.props.draggable && 'grabbable',
+            (this.props.clickable || !draggable) && 'clickable',
+            draggable && 'grabbable',
             this.state.dragging && 'dragging',
           ].join(' ')}
           onMouseEnter={this.hoverKey.bind(this, this.props.value)}
           onMouseLeave={this.hoverKey.bind(this, null)}
           onClick={this.clickKey.bind(this, this.props.value)}
-          draggable={this.props.draggable}
+          draggable={draggable}
           onDragStart={() => {
             this.setState({ dragging: true });
             this.startDraggingKeycode(this.props.value);

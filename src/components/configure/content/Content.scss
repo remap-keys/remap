@@ -4,9 +4,13 @@
   position: relative;
   flex-direction: column;
   min-width: 780px;
+  height: 100vh;
 
   .keyboard-wrapper {
-    position: relative;
+    position: fixed;
+    width: 100%;
+    margin-top: calc(var(--key-height));
+    z-index: 1;
     .controller {
       display: flex;
       flex-direction: row;
@@ -44,6 +48,8 @@
     flex-direction: column;
     padding: $space-m $space-m $space-xl $space-m;
     background-color: #f3f3f3;
+    flex: 1;
+
     .disable {
       position: absolute;
       width: 100%;
@@ -55,22 +61,14 @@
   }
 
   .keycode-desc {
+    display: flex;
     width: 100%;
     padding: $space-s $space-l;
-    display: flex;
+
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     bottom: 0;
     color: white;
+    z-index: 3;
   }
-}
-
-.dragMask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  background-color: rgba(255, 0, 0, 0.2);
 }

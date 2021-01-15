@@ -3,7 +3,9 @@ import KeycodeKey, { AnyKey, KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
 import {
   AnyKeycodeKeyActions,
+  AppActions,
   KeycodeKeyActions,
+  KeydiffActions,
 } from '../../../actions/actions';
 import {
   IKeycodeCategory,
@@ -19,9 +21,12 @@ export type Key = {
 
 export const genKey = (keymap: IKeymap): Key => {
   // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
+
   if (keymap.isAny) {
     return {
-      label: `(${Number(keymap.code).toString(16).toUpperCase()})`,
+      label: keymap.keycodeInfo
+        ? keymap.keycodeInfo.label
+        : `(${Number(keymap.code).toString(16).toUpperCase()})`,
       meta: '',
       keymap,
     };
@@ -50,7 +55,10 @@ const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
     keys && keys.find((key) => key.keymap.code === ownProps.value.keymap.code)
   );
   return {
+    keymaps: state.entities.device.keymaps,
+    selectedLayer: state.keyboards.selectedLayer,
     selected: state.keycodeKey.selectedKey == ownProps.value,
+    selectedKeycapPosition: state.keyboards.selectedPos,
     clickable,
   };
 };
@@ -72,6 +80,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateAnyKey: (index: number, anyKey: AnyKey) => {
       _dispatch(AnyKeycodeKeyActions.updateAnyKey(index, anyKey));
+    },
+    remapKey: (layer: number, pos: string, orig: IKeymap, dest: IKeymap) => {
+      _dispatch(AppActions.remapsSetKey(layer, pos, dest));
+      _dispatch(KeydiffActions.updateKeydiff(orig, dest));
     },
   };
 };

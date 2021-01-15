@@ -18,6 +18,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     _hidInstance: state.hid.instance,
     category: state.keycodes.category,
+    draggingKey: state.keycodeKey.draggingKey,
     keys: state.keycodes.keys,
     selectedKey: state.keycodeKey.selectedKey,
     macroText,

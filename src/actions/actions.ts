@@ -226,6 +226,7 @@ export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
+export const APP_UPDATE_KEYBOARD_HEIGHT = `${APP_ACTIONS}/UpdateKeyboardHeight`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -273,6 +274,12 @@ export const AppActions = {
         name: name,
         version: version,
       },
+    };
+  },
+  updateKeyboardHeight: (height: number) => {
+    return {
+      type: APP_UPDATE_KEYBOARD_HEIGHT,
+      value: height,
     };
   },
 };

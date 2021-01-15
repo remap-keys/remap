@@ -57,10 +57,6 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
       );
-      _dispatch(
-        KeydiffActions.updateKeydiff(orgKey.keymap, draggingKey?.keymap)
-      );
-      _dispatch(KeyboardsActions.updateSelectedPos(pos));
     },
   };
 };

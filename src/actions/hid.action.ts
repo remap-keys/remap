@@ -352,6 +352,5 @@ const loadKeymap = async (
     }
     keymaps.push(keymapsResult.keymap!);
   }
-  console.log(keymaps);
   return keymaps;
 };

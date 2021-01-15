@@ -1,7 +1,7 @@
 import React from 'react';
 import './Content.scss';
 import Keycodes from '../keycodes/Keycodes.container';
-import Keymap from '../keymap/Keymap';
+import Keymap from '../keymap/Keymap.container';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
@@ -65,7 +65,10 @@ export default class Content extends React.Component<
               />
             </div>
           </div>
-          <div className="keycode">
+          <div
+            className="keycode"
+            style={{ marginTop: 200 + this.props.keyboardHeight! }}
+          >
             <Keycodes />
             {this.props.setupPhase === SetupPhase.openedKeyboard ? (
               ''
@@ -75,7 +78,6 @@ export default class Content extends React.Component<
           </div>
           {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
         </div>
-        <div className="dragMask"></div>
       </React.Fragment>
     );
   }

@@ -20,7 +20,7 @@
   &.drag-over {
     border-color: $primary-pale;
     .keycap {
-      background-color: $primary-light !important;
+      background-color: $primary-pale !important;
       border-color: $primary !important;
     }
     .keyroof-base {
@@ -31,7 +31,7 @@
       background-color: $primary-pale !important;
     }
   }
-  &.has-diff {
+  &.keycap-selected {
     .keycap {
       background: $primary-light !important;
       border-color: $primary-pale !important;
@@ -52,10 +52,6 @@
     }
     border-radius: 5px;
     font-size: 12px;
-
-    &.keycap-selected {
-      animation: blink-primary 1.3s infinite alternate;
-    }
   }
 
   .keycap:hover,
