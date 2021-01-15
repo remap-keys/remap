@@ -1,7 +1,7 @@
 name: Build for Pull Request
 on:
   pull_request:
-    types: [opened, syncronized]
+    types: [opened, synchronize]
 jobs:
   build:
     name: Build
@@ -20,5 +20,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Build and Deploy
+      - name: Build
         run: yarn build-production
