@@ -43,37 +43,40 @@ export default class Content extends React.Component<
 
   render() {
     return (
-      <div className="content">
-        <div className="keyboard-wrapper">
-          {[
-            SetupPhase.connectingKeyboard,
-            SetupPhase.fetchingKeyboardDefinition,
-            SetupPhase.openingKeyboard,
-          ].includes(this.props.setupPhase!) && (
-            <div className="in-progress">
-              <div className="progress">
-                <CircularProgress size={24} />
+      <React.Fragment>
+        <div className="content">
+          <div className="keyboard-wrapper">
+            {[
+              SetupPhase.connectingKeyboard,
+              SetupPhase.fetchingKeyboardDefinition,
+              SetupPhase.openingKeyboard,
+            ].includes(this.props.setupPhase!) && (
+              <div className="in-progress">
+                <div className="progress">
+                  <CircularProgress size={24} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="keymap">
-            <ConnectedKeyboard
-              keyboards={this.props.keyboards || []}
-              setupPhase={this.props.setupPhase!}
-            />
+            <div className="keymap">
+              <ConnectedKeyboard
+                keyboards={this.props.keyboards || []}
+                setupPhase={this.props.setupPhase!}
+              />
+            </div>
           </div>
+          <div className="keycode">
+            <Keycodes />
+            {this.props.setupPhase === SetupPhase.openedKeyboard ? (
+              ''
+            ) : (
+              <div className="disable"></div>
+            )}
+          </div>
+          {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
         </div>
-        <div className="keycode">
-          <Keycodes />
-          {this.props.setupPhase === SetupPhase.openedKeyboard ? (
-            ''
-          ) : (
-            <div className="disable"></div>
-          )}
-        </div>
-        {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
-      </div>
+        <div className="dragMask"></div>
+      </React.Fragment>
     );
   }
 }

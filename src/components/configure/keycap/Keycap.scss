@@ -33,9 +33,11 @@
   }
   &.has-diff {
     .keycap {
+      background: $primary-light !important;
       border-color: $primary-pale !important;
     }
     .keyroof-base {
+      border-color: $primary-pale !important;
       background-color: $primary-pale !important;
     }
     .keyroof {
