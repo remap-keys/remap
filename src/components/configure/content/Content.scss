@@ -45,10 +45,12 @@
   }
   .keycode {
     display: flex;
+    position: relative;
     flex-direction: column;
     padding: $space-m $space-m $space-xl $space-m;
     background-color: #f3f3f3;
     flex: 1;
+    overflow-y: scroll;
 
     .disable {
       position: absolute;

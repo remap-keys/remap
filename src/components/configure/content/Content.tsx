@@ -65,17 +65,19 @@ export default class Content extends React.Component<
               />
             </div>
           </div>
-          <div
-            className="keycode"
-            style={{ marginTop: 200 + this.props.keyboardHeight! }}
-          >
-            <Keycodes />
-            {this.props.setupPhase === SetupPhase.openedKeyboard ? (
-              ''
-            ) : (
-              <div className="disable"></div>
-            )}
-          </div>
+          {this.props.setupPhase! == SetupPhase.openedKeyboard && (
+            <div
+              className="keycode"
+              style={{ marginTop: 200 + this.props.keyboardHeight! }}
+            >
+              <Keycodes />
+              {this.props.setupPhase === SetupPhase.openedKeyboard ? (
+                ''
+              ) : (
+                <div className="disable"></div>
+              )}
+            </div>
+          )}
           {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
         </div>
       </React.Fragment>
