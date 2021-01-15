@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;
 
+// eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
   return {};
 };
