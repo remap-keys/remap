@@ -28,7 +28,6 @@ const mapDispatchToProps = (_dispatch: any) => {
       dstKey: Key | null
     ) => {
       if (isSelectedKey) {
-        console.log('hoge');
         // toggle selected keycap
         _dispatch(KeydiffActions.clearKeydiff());
         _dispatch(KeyboardsActions.clearSelectedPos());
