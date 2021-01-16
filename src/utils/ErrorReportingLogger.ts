@@ -22,9 +22,9 @@ export const errorReportingLogger = (store: { getState: () => RootState }) => (
   if ([NOTIFICATION_ADD_ERROR, NOTIFICATION_ADD_WARN].includes(action.type)) {
     if (process.env.NODE_ENV === 'production') {
       if (action.value.cause) {
-        errorHandler.report(action.cause);
+        errorHandler.report(action.value.cause);
       } else {
-        errorHandler.report(action.value);
+        errorHandler.report(action.value.message);
       }
     }
   }
