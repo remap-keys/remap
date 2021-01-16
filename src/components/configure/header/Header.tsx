@@ -135,19 +135,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             this.props.openedKeyboard ? '' : 'hidden',
           ].join(' ')}
         >
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            className="flush-btn"
-            disabled={this.props.flushLoading || !hasKeysToFlush}
-            onClick={this.props.onClickFlushButton}
-          >
-            FLUSH
-          </Button>
-          {this.props.flushLoading && (
-            <CircularProgress size={24} className="flush-loading" />
-          )}
+          <FlushButton status={'disable'} />
         </div>
         {this.props.draggingKey && (
           <div className="dragMask" style={{ marginLeft: -8 }}></div>
@@ -156,4 +144,13 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       </header>
     );
   }
+}
+
+const status = ['disable', 'enable', 'flushing'] as const;
+type FlushButtonStatus = typeof status[number];
+type FlushButtonPropsType = {
+  status: FlushButtonStatus;
+};
+function FlushButton(props: FlushButtonPropsType) {
+  return <button className={['flush-button'].join(' ')}>FLUSH</button>;
 }
