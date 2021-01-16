@@ -92,6 +92,7 @@ export interface IKeyboard {
 export interface ICommand {
   sendReport(device: any): Promise<void>;
   handleInputReport(data: any): Promise<void>;
+  canHandleInputReport(data: any): boolean;
 }
 
 export interface IConnectResult extends IResult {

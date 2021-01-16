@@ -31,8 +31,10 @@ export abstract class AbstractCommand<
   }
 
   abstract createReport(): Uint8Array;
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-unused-vars
   abstract createResponse(resultArray: Uint8Array): TResponse;
+  // eslint-disable-next-line no-unused-vars
+  abstract isSameRequest(resultArray: Uint8Array): boolean;
 
   async sendReport(device: any): Promise<void> {
     try {
@@ -49,42 +51,15 @@ export abstract class AbstractCommand<
 
   async handleInputReport(data: any): Promise<void> {
     const resultArray = new Uint8Array(data.data.buffer);
-    this.outputUint8Array(resultArray);
     await this.getResponseHandler()({
       success: true,
       response: this.createResponse(resultArray),
     });
   }
 
-  protected outputUint8Array(array: Uint8Array) {
-    let lines = '';
-    let out = '';
-    let ascii = '';
-    for (let i = 0; i < array.length; i++) {
-      // out += String.fromCharCode(array[i]);
-      let value = Number(array[i]).toString(16).toUpperCase();
-      if (value.length === 1) {
-        value = '0' + value;
-      }
-      out += value;
-      if (i % 2 !== 0) {
-        out += ' ';
-      }
-      if (0x20 <= array[i] && array[i] <= 0x7e) {
-        ascii += String.fromCharCode(array[i]);
-      } else {
-        ascii += '.';
-      }
-      if ((i + 1) % 16 === 0) {
-        lines += out + ' ' + ascii + '\n';
-        out = '';
-        ascii = '';
-      }
-    }
-    if (out) {
-      lines += out + ' ' + ascii + '\n';
-    }
-    console.log(lines);
+  canHandleInputReport(data: any): boolean {
+    const resultArray = new Uint8Array(data.data.buffer);
+    return this.isSameRequest(resultArray);
   }
 }
 
@@ -104,6 +79,10 @@ export class LightingGetValueCommand extends AbstractCommand<
     return {
       value: resultArray[2],
     };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x08 && resultArray[1] === 0x81;
   }
 }
 
@@ -127,6 +106,14 @@ export class LightingSetValueCommand extends AbstractCommand<
     return {
       value: resultArray[2],
     };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return (
+      resultArray[0] === 0x07 &&
+      resultArray[1] === 0x81 &&
+      resultArray[2] === this.getRequest().value
+    );
   }
 }
 
@@ -161,6 +148,16 @@ export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<
       column: req.column,
       code,
     };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x04 &&
+      resultArray[1] === req.layer &&
+      resultArray[2] === req.row &&
+      resultArray[3] === req.column
+    );
   }
 }
 
@@ -204,6 +201,18 @@ export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<
       code,
     };
   }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x05 &&
+      resultArray[1] === req.layer &&
+      resultArray[2] === req.row &&
+      resultArray[3] === req.column &&
+      resultArray[4] === req.code >> 8 &&
+      resultArray[5] === (req.code & 0xff)
+    );
+  }
 }
 
 export interface IDynamicKeymapGetLayerCountResponse extends ICommandResponse {
@@ -222,6 +231,10 @@ export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<
     return {
       value: resultArray[1],
     };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x11;
   }
 }
 
@@ -246,10 +259,22 @@ export class DynamicKeymapReadBufferCommand extends AbstractCommand<
   }
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapReadBufferResponse {
+    const offset = (resultArray[1] << 8) | resultArray[2];
+    const size = resultArray[3];
     return {
-      offset: (resultArray[1] << 8) | resultArray[2],
-      size: resultArray[3],
+      offset,
+      size,
       buffer: resultArray.slice(4),
     };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x12 &&
+      resultArray[1] === req.offset >> 8 &&
+      resultArray[2] === (req.offset & 0xff) &&
+      resultArray[3] === req.size
+    );
   }
 }
