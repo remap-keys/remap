@@ -12,6 +12,7 @@ import {
   IKeycodeInfo,
   IKeymap,
 } from '../../../services/hid/Hid';
+import { hexadecimal } from '../../../utils/StringUtils';
 
 export type Key = {
   label: string;
@@ -26,7 +27,7 @@ export const genKey = (keymap: IKeymap): Key => {
     return {
       label: keymap.keycodeInfo
         ? keymap.keycodeInfo.label
-        : `(${Number(keymap.code).toString(16).toUpperCase()})`,
+        : `${hexadecimal(keymap.code)}`,
       meta: '',
       keymap,
     };
