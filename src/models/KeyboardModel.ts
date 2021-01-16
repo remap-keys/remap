@@ -1,5 +1,4 @@
 import { KeyOp } from '../gen/types/KeyboardDefinition';
-import { IKeymap } from '../services/hid/Hid';
 import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 
 class Current {
