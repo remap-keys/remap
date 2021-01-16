@@ -3,7 +3,7 @@ import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 
 class Current {
   x = 0;
-  y = 0;
+  y = -1;
   c = '#cccccc';
   r = 0;
   rx = 0;
@@ -27,6 +27,8 @@ class Current {
   minus(x: number, y: number) {
     this.x -= x;
     this.y -= y;
+    this.rx -= x;
+    this.ry -= y;
   }
 
   nextRow() {
@@ -187,7 +189,7 @@ export default class KeyboardModel {
     } = {};
     const keymapsList: KeymapItem[][] = [];
 
-    // STEP1: build  layerKeymaps
+    // STEP1: build  optionKeymaps
     const curr = new Current();
     for (let row = 0; row < keymap.length; row++) {
       const keyRow = keymap[row];
@@ -231,9 +233,10 @@ export default class KeyboardModel {
     const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
       return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
     }, Infinity);
-    const minY = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
-      return keymaps.reduce((m, item) => Math.min(item.y, m), min);
-    }, Infinity);
+    const minY = keymapsList.filter(
+      (keymaps: KeymapItem[]) => keymaps[0].isDefault
+    )[0][0].y;
+
     keymapsList.forEach((keymaps: KeymapItem[]) => {
       keymaps.forEach((item) => item.align(minX, minY));
     });
