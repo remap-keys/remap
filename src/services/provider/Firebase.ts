@@ -28,10 +28,12 @@ export class FirebaseProvider implements IStorage, IAuth {
   async fetchKeyboardDefinition(
     vendorId: number,
     productId: number,
-    productName: string,
+    productName: string
   ): Promise<IFetchKeyboardDefinitionResult> {
     try {
-      const createResult = (querySnapshot: firebase.firestore.QuerySnapshot): IFetchKeyboardDefinitionResult => {
+      const createResult = (
+        querySnapshot: firebase.firestore.QuerySnapshot
+      ): IFetchKeyboardDefinitionResult => {
         return {
           success: true,
           exists: true,
@@ -43,7 +45,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             json: querySnapshot.docs[0].data().json,
           },
         };
-      }
+      };
       const querySnapshotByVidAndPid = await this.db
         .collection('keyboards')
         .where('vendor_id', '==', vendorId)
@@ -55,7 +57,9 @@ export class FirebaseProvider implements IStorage, IAuth {
           .where('product_name', 'array-contains', productName)
           .get();
         if (querySnapshotByProductName.empty) {
-          console.warn(`Keyboard definition not found: ${vendorId}:${productId}:${productName}`);
+          console.warn(
+            `Keyboard definition not found: ${vendorId}:${productId}:${productName}`
+          );
           return {
             success: true,
             exists: false,
@@ -65,11 +69,15 @@ export class FirebaseProvider implements IStorage, IAuth {
             `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`
           );
         } else {
-          console.log(`Keyboard definition found by product_name: ${vendorId}:${productId}:${productName}`);
+          console.log(
+            `Keyboard definition found by product_name: ${vendorId}:${productId}:${productName}`
+          );
           return createResult(querySnapshotByProductName);
         }
       } else {
-        console.log(`Keyboard definition found by vendor_id and product_id: ${vendorId}:${productId}:${productName}`);
+        console.log(
+          `Keyboard definition found by vendor_id and product_id: ${vendorId}:${productId}:${productName}`
+        );
         return createResult(querySnapshotByVidAndPid);
       }
     } catch (error) {

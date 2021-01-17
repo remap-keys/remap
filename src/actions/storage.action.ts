@@ -120,7 +120,7 @@ export const storageActionsThunk = {
     const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinition(
       vendorId,
       productId,
-      productName,
+      productName
     );
     if (!fetchKeyboardDefinitionResult.success) {
       console.error(fetchKeyboardDefinitionResult.cause!);
