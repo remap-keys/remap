@@ -231,7 +231,7 @@
     transform: scale(1, 1);
   }
 
-  70% {
+  80% {
     opacity: 1;
     width: 7rem;
     transform: scale(1, 1);
@@ -320,7 +320,7 @@
     text-indent: 0;
     color: transparent;
     background-color: white;
-    animation: button-success 1.8s forwards;
+    animation: button-success 2.5s forwards;
   }
 
   &.success:before {
