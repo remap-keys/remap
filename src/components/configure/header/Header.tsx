@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.scss';
 import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { Button, CircularProgress, Menu, MenuItem } from '@material-ui/core';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
