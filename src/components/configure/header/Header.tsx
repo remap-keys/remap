@@ -72,7 +72,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     ) {
       flashBtnState = 'success';
       setTimeout(() => {
-        this.forceUpdate();
+        this.flashButtonRef.current?.classList.remove('success');
+        this.flashButtonRef.current?.classList.add('disable');
       }, 1500);
     }
 
