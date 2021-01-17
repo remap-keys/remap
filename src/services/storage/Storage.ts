@@ -20,7 +20,8 @@ export interface IFetchKeyboardDefinitionResult extends IResult {
 export interface IStorage {
   fetchKeyboardDefinition(
     vendorId: number,
-    productId: number
+    productId: number,
+    productName: string,
   ): Promise<IFetchKeyboardDefinitionResult>;
   fetchClosedBetaUsers(): Promise<string[]>;
 }

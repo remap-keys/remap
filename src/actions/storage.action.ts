@@ -116,9 +116,11 @@ export const storageActionsThunk = {
     const keyboardInfo = keyboard.getInformation();
     const vendorId = keyboardInfo.vendorId;
     const productId = keyboardInfo.productId;
+    const productName = keyboardInfo.productName;
     const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinition(
       vendorId,
-      productId
+      productId,
+      productName,
     );
     if (!fetchKeyboardDefinitionResult.success) {
       console.error(fetchKeyboardDefinitionResult.cause!);
