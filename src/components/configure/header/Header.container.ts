@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => {
   const info = kbd?.getInformation();
   return {
     draggingKey: state.keycodeKey.draggingKey,
-    flushLoading: state.header.flushLoading,
+    flashing: state.header.flashing,
     keyboards: state.entities.keyboards,
     openedKeyboard: kbd,
     productId: info?.productId || NaN,
@@ -32,9 +32,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
       _dispatch(hidActionsThunk.connectAnotherKeyboard());
     },
-    onClickFlushButton: () => {
-      _dispatch(HeaderActions.updateFlush(true));
-      _dispatch(hidActionsThunk.flush());
+    onClickFlashButton: () => {
+      _dispatch(HeaderActions.updateFlashing(true));
+      _dispatch(hidActionsThunk.flash());
     },
   };
 };

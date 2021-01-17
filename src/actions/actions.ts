@@ -198,11 +198,11 @@ export const NotificationActions = {
 };
 
 export const HEADER_ACTIONS = '@Header';
-export const HEADER_UPDATE_FLUSH_LOADING = `${HEADER_ACTIONS}/UpdateFlushLoading`;
+export const HEADER_UPDATE_FLASHING = `${HEADER_ACTIONS}/UpdateFlashing`;
 export const HeaderActions = {
-  updateFlush: (loading: boolean) => {
+  updateFlashing: (loading: boolean) => {
     return {
-      type: HEADER_UPDATE_FLUSH_LOADING,
+      type: HEADER_UPDATE_FLASHING,
       value: loading,
     };
   },

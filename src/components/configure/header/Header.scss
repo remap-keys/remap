@@ -56,10 +56,12 @@
     display: flex;
     position: relative;
     margin-left: auto;
-    .flush-btn {
+    width: 120px;
+    justify-content: center;
+    .flash-btn {
       min-width: 80px !important;
     }
-    .flush-loading {
+    .flash-loading {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -113,5 +115,228 @@
   width: 100%;
   .another-device {
     text-align: center;
+  }
+}
+
+/*==== FLASH BUTTON ====*/
+@keyframes button-disable-intro {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes button-enable-intro {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    border-color: $primary;
+    background-color: $primary;
+    opacity: 1;
+  }
+}
+@keyframes button-flashing {
+  0% {
+  }
+
+  20% {
+    color: transparent;
+    transform: scale(1, 1);
+  }
+
+  40% {
+    border-color: $primary;
+    background-color: transparent;
+    transform: scale(1, 1);
+  }
+
+  60% {
+    transform: scale(0.7, 1.1);
+    margin-left: 1.25rem;
+    width: 2.5rem;
+    text-indent: -0.6125rem;
+    color: transparent;
+    border-color: $primary;
+    background-color: $primary;
+  }
+
+  80% {
+    transform: scale(1, 1);
+  }
+
+  100% {
+    margin-left: 1.25rem;
+    width: 2.5rem;
+    background-color: $primary;
+    border-color: $primary;
+    color: transparent;
+  }
+}
+
+@keyframes button-dot-intro {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 0.8;
+    transform: scale(1, 1);
+  }
+
+  100% {
+    transform: scale(0.75, 0.75);
+  }
+}
+
+@keyframes button-dot-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.75, 0.75);
+  }
+
+  15% {
+    transform: scale(0.85, 0.85);
+  }
+
+  45% {
+    transform: scale(0.75, 0.75);
+  }
+
+  75% {
+    transform: scale(0.95, 0.95);
+  }
+
+  100% {
+    opacity: 0.9;
+    transform: scale(0.75, 0.75);
+  }
+}
+
+@keyframes button-success {
+  0% {
+    margin-left: 1.25rem;
+    width: 2.5rem;
+  }
+
+  10% {
+    border-color: $primary;
+  }
+
+  20% {
+    opacity: 1;
+    margin: 0;
+    width: 7rem;
+    transform: scale(1, 1);
+  }
+
+  80% {
+    opacity: 1;
+    width: 7rem;
+    transform: scale(1, 1);
+    border-color: $primary;
+  }
+
+  100% {
+    border-color: $primary-pale;
+    opacity: 0;
+  }
+}
+
+@keyframes button-success-label {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.flash-button {
+  position: relative;
+  overflow: hidden;
+  width: 7rem;
+  color: $primary-pale;
+  border: 3px solid $primary-pale;
+  background-color: transparent;
+  cursor: pointer;
+  line-height: 2;
+  margin: 0;
+  padding: 0;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: transform 0.125s;
+
+  &.enable {
+    color: white;
+    animation: button-enable-intro 0.4s forwards;
+  }
+
+  &.disable {
+    cursor: not-allowed;
+    animation: button-disable-intro 0.5s forwards;
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    opacity: 0;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin-top: -1.125rem;
+    margin-left: -1.125rem;
+    width: 2.25rem;
+    height: 2.25rem;
+
+    content: '';
+    z-index: 1;
+  }
+
+  &.flashing {
+    height: 40px;
+    animation: button-flashing 0.5s forwards;
+  }
+
+  &.flashing:before,
+  &.flashing:after {
+    background-color: #fff;
+  }
+
+  &.flashing:before {
+    opacity: 1;
+    animation: button-dot-intro 2.5s forwards;
+  }
+
+  &.flashing:after {
+    opacity: 0;
+    animation: button-dot-pulse 2.5s infinite;
+  }
+
+  &.success {
+    text-indent: 0;
+    color: transparent;
+    background-color: white;
+    animation: button-success 2.5s forwards;
+  }
+
+  &.success:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background-color: transparent;
+    color: $primary;
+    content: 'success';
+    opacity: 0;
+    z-index: 2;
+    animation: button-success-label 0.3s forwards 0.275s;
   }
 }

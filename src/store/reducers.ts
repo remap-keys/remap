@@ -13,7 +13,7 @@ import {
   NOTIFICATION_ACTIONS,
   NOTIFICATION_ADD_ERROR,
   NOTIFICATION_ADD_WARN,
-  HEADER_UPDATE_FLUSH_LOADING,
+  HEADER_UPDATE_FLASHING,
   HEADER_ACTIONS,
   KEYCODEKEY_UPDATE_DRAGGING_KEY,
   KEYDIFF_ACTIONS,
@@ -396,8 +396,8 @@ const notificationReducer = (
 const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
-    case HEADER_UPDATE_FLUSH_LOADING: {
-      draft.header.flushLoading = action.value;
+    case HEADER_UPDATE_FLASHING: {
+      draft.header.flashing = action.value;
       break;
     }
   }
