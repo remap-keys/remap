@@ -6,6 +6,7 @@ import { Button, CircularProgress, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -18,11 +19,16 @@ type HeaderProps = OwnProps &
   Partial<HeaderStateType>;
 
 export default class Header extends React.Component<HeaderProps, HeaderState> {
+  private hasKeysToFlash: boolean = false;
+  // eslint-disable-next-line no-undef
+  flashButtonRef: React.RefObject<HTMLButtonElement>;
   constructor(props: HeaderProps | Readonly<HeaderProps>) {
     super(props);
     this.state = {
       connectionStateEl: null,
     };
+    // eslint-disable-next-line no-undef
+    this.flashButtonRef = React.createRef<HTMLButtonElement>();
   }
 
   get openConnectionStateMenu() {
@@ -41,10 +47,34 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     this.onCloseConnectionStateMenu();
   };
 
+  private onClickFlash() {
+    if (this.hasKeysToFlash) {
+      this.props.onClickFlashButton!();
+    }
+  }
+
   render() {
-    const hasKeysToFlush = this.props.remaps!.reduce((has, v) => {
-      return 0 < Object.values(v).length || has;
-    }, false);
+    this.hasKeysToFlash = this.props.remaps!.reduce(
+      (has: boolean, v: { [pos: string]: IKeymap }) => {
+        return 0 < Object.values(v).length || has;
+      },
+      false
+    );
+
+    let flashBtnState: FlashButtonState = this.hasKeysToFlash
+      ? 'enable'
+      : 'disable';
+    if (this.props.flashing) {
+      flashBtnState = 'flashing';
+    } else if (
+      flashBtnState == 'disable' &&
+      this.flashButtonRef.current?.classList.contains('flashing')
+    ) {
+      flashBtnState = 'success';
+      setTimeout(() => {
+        this.forceUpdate();
+      }, 1500);
+    }
 
     return (
       <header className="header">
@@ -135,7 +165,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             this.props.openedKeyboard ? '' : 'hidden',
           ].join(' ')}
         >
-          <FlushButton status={'disable'} />
+          <button
+            ref={this.flashButtonRef}
+            disabled={flashBtnState == 'disable'}
+            onClick={this.onClickFlash.bind(this)}
+            className={['flash-button', flashBtnState].join(' ')}
+          >
+            flash
+          </button>
         </div>
         {this.props.draggingKey && (
           <div className="dragMask" style={{ marginLeft: -8 }}></div>
@@ -146,11 +183,5 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   }
 }
 
-const status = ['disable', 'enable', 'flushing'] as const;
-type FlushButtonStatus = typeof status[number];
-type FlushButtonPropsType = {
-  status: FlushButtonStatus;
-};
-function FlushButton(props: FlushButtonPropsType) {
-  return <button className={['flush-button'].join(' ')}>FLUSH</button>;
-}
+const FlashButtonStates = ['disable', 'enable', 'flashing', 'success'] as const;
+type FlashButtonState = typeof FlashButtonStates[number];

@@ -56,10 +56,12 @@
     display: flex;
     position: relative;
     margin-left: auto;
-    .flush-btn {
+    width: 120px;
+    justify-content: center;
+    .flash-btn {
       min-width: 80px !important;
     }
-    .flush-loading {
+    .flash-loading {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -116,8 +118,26 @@
   }
 }
 
-/*==== FLUSH BUTTON ====*/
-@keyframes button-flushing {
+/*==== FLASH BUTTON ====*/
+@keyframes button-disable-intro {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes button-enable-intro {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    border-color: $primary;
+    background-color: $primary;
+    opacity: 1;
+  }
+}
+@keyframes button-flashing {
   0% {
   }
 
@@ -127,21 +147,19 @@
   }
 
   40% {
-    border-color: #5585ff;
+    border-color: $primary;
     background-color: transparent;
     transform: scale(1, 1);
   }
 
   60% {
     transform: scale(0.7, 1.1);
-
     margin-left: 1.25rem;
     width: 2.5rem;
     text-indent: -0.6125rem;
-
     color: transparent;
-    border-color: #5585ff;
-    background-color: #5585ff;
+    border-color: $primary;
+    background-color: $primary;
   }
 
   80% {
@@ -151,9 +169,8 @@
   100% {
     margin-left: 1.25rem;
     width: 2.5rem;
-
-    background-color: #5585ff;
-    border-color: #5585ff;
+    background-color: $primary;
+    border-color: $primary;
     color: transparent;
   }
 }
@@ -164,7 +181,7 @@
   }
 
   60% {
-    opacity: 1;
+    opacity: 0.8;
     transform: scale(1, 1);
   }
 
@@ -175,7 +192,7 @@
 
 @keyframes button-dot-pulse {
   0% {
-    opacity: 1;
+    opacity: 0.6;
     transform: scale(0.75, 0.75);
   }
 
@@ -187,58 +204,47 @@
     transform: scale(0.75, 0.75);
   }
 
-  55% {
+  75% {
     transform: scale(0.95, 0.95);
   }
 
-  85% {
-    transform: scale(0.75, 0.75);
-  }
-
   100% {
-    opacity: 1;
+    opacity: 0.9;
     transform: scale(0.75, 0.75);
   }
 }
 
-@keyframes button-ready {
+@keyframes button-success {
   0% {
     margin-left: 1.25rem;
     width: 2.5rem;
   }
 
   10% {
-    background-color: #5585ff;
-    border-color: #5585ff;
+    border-color: $primary;
+  }
+
+  20% {
+    opacity: 1;
+    margin: 0;
+    width: 7rem;
+    transform: scale(1, 1);
   }
 
   70% {
-    margin: 0;
-    width: 7.25rem;
-    background-color: #fff;
-    transform: scale(1.1, 1.1);
-  }
-
-  100% {
-    margin: 0;
+    opacity: 1;
     width: 7rem;
-    border-color: #8cce1e;
-    background-color: #fff;
-  }
-}
-
-@keyframes button-dot-outro {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
     transform: scale(1, 1);
+    border-color: $primary;
+  }
+
+  100% {
+    border-color: $primary-pale;
+    opacity: 0;
   }
 }
 
-@keyframes button-ready-label {
+@keyframes button-success-label {
   0% {
     opacity: 0;
   }
@@ -248,12 +254,12 @@
   }
 }
 
-.flush-button {
+.flash-button {
   position: relative;
   overflow: hidden;
   width: 7rem;
   color: $primary-pale;
-  border: 2px solid $primary-pale;
+  border: 3px solid $primary-pale;
   background-color: transparent;
   cursor: pointer;
   line-height: 2;
@@ -261,21 +267,24 @@
   padding: 0;
   border-radius: 1.5rem;
   font-size: 1rem;
-  text-transform: uppercase;
   outline: none;
   transition: transform 0.125s;
 
-  &:active {
-    transform: scale(0.9, 0.9);
+  &.enable {
+    color: white;
+    animation: button-enable-intro 0.4s forwards;
+  }
+
+  &.disable {
+    cursor: not-allowed;
+    animation: button-disable-intro 0.5s forwards;
   }
 
   &:before,
   &:after {
     position: absolute;
     opacity: 0;
-
     border-radius: 50%;
-    background-color: #fff;
     top: 50%;
     left: 50%;
     margin-top: -1.125rem;
@@ -287,28 +296,34 @@
     z-index: 1;
   }
 
-  &.flushing {
-    animation: button-flushing 0.5s forwards;
+  &.flashing {
+    height: 40px;
+    animation: button-flashing 0.5s forwards;
   }
 
-  &.flushing:before {
+  &.flashing:before,
+  &.flashing:after {
+    background-color: #fff;
+  }
+
+  &.flashing:before {
     opacity: 1;
-    animation: button-dot-intro 0.5s forwards;
+    animation: button-dot-intro 2.5s forwards;
   }
 
-  &.flushing:after {
+  &.flashing:after {
     opacity: 0;
-    animation: button-dot-pulse 1.5s infinite 0.5s;
+    animation: button-dot-pulse 2.5s infinite;
   }
 
-  &.ready {
+  &.success {
     text-indent: 0;
     color: transparent;
-    background-color: #5585ff;
-    animation: button-ready 0.333s forwards;
+    background-color: white;
+    animation: button-success 1.8s forwards;
   }
 
-  &.ready:before {
+  &.success:before {
     position: absolute;
     left: 0;
     right: 0;
@@ -318,15 +333,10 @@
     height: auto;
     border-radius: 0;
     background-color: transparent;
-    color: #8cce1e;
-    content: 'ready';
+    color: $primary;
+    content: 'success';
     opacity: 0;
     z-index: 2;
-    animation: button-ready-label 0.5s forwards 0.275s;
-  }
-
-  &.ready:after {
-    opacity: 1;
-    animation: button-dot-outro 0.333s;
+    animation: button-success-label 0.3s forwards 0.275s;
   }
 }

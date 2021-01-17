@@ -62,7 +62,7 @@ export type RootState = {
     keyboardHeight: number;
   };
   header: {
-    flushLoading: boolean;
+    flashing: boolean;
   };
   hid: {
     instance: IHid;
@@ -127,7 +127,7 @@ export const INIT_STATE: RootState = {
     keyboardHeight: 295,
   },
   header: {
-    flushLoading: false,
+    flashing: false,
   },
   hid: {
     instance: new WebHid(),

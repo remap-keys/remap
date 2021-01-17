@@ -259,7 +259,7 @@ export const hidActionsThunk = {
     }
   },
 
-  flush: (): ThunkPromiseAction<void> => async (
+  flash: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
@@ -282,7 +282,7 @@ export const hidActionsThunk = {
               result.cause
             )
           );
-          dispatch(HeaderActions.updateFlush(false));
+          dispatch(HeaderActions.updateFlashing(false));
           return;
         }
       }
@@ -299,7 +299,7 @@ export const hidActionsThunk = {
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
     dispatch(KeyboardsActions.clearSelectedPos());
-    dispatch(HeaderActions.updateFlush(false));
+    dispatch(HeaderActions.updateFlashing(false));
   },
 };
 
