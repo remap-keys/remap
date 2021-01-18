@@ -22,7 +22,16 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build and Deploy
-        run: yarn build-production
+        env:
+          REACT_APP_WEBHIDAPI_TOKEN: ${{ secrets.REACT_APP_WEBHIDAPI_TOKEN }}
+          REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGE_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGE_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_ERROR_REPORTING_KEY: ${{ secrets.REACT_APP_ERROR_REPORTING_KEY }}
+        run: yarn build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:

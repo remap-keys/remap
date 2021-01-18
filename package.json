@@ -23,13 +23,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start-env": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts start'",
-    "start-dev": "REACT_APP_ENV=dev npm run start-env",
-    "start": "npm run start-dev",
-    "build-env": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
-    "build-dev": "REACT_APP_ENV=dev npm run build-env",
-    "build": "npm run build-dev",
-    "build-production": "REACT_APP_ENV=production npm run build-env",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
