@@ -1,0 +1,55 @@
+@import '../../../variables';
+
+.keyboard-wrapper {
+  position: fixed;
+  width: 100%;
+  margin-top: calc(var(--key-height));
+  z-index: 1;
+  .controller {
+    display: flex;
+    flex-direction: row;
+    padding: $space-l;
+    background-color: white;
+    .switch {
+      display: flex;
+      margin-left: auto;
+    }
+  }
+  .keymap {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 32px;
+    background-color: white;
+    min-height: 400px;
+  }
+}
+.keycode {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  padding: $space-m $space-m $space-xl $space-m;
+  background-color: #f3f3f3;
+  flex: 1;
+  overflow-y: scroll;
+
+  .disable {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    margin-left: -16px;
+    margin-top: -16px;
+  }
+}
+
+.keycode-desc {
+  display: flex;
+  width: 100%;
+  padding: $space-s $space-l;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  bottom: 0;
+  color: white;
+  z-index: 3;
+}

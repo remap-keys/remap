@@ -32,64 +32,13 @@ type ThunkPromiseAction<T> = ThunkAction<
 >;
 export const storageActionsThunk = {
   // eslint-disable-next-line no-undef
-  uploadKeyboardDefinition: (file: File): ThunkPromiseAction<void> => async (
+  uploadKeyboardDefinition: (
+    keyboardDefinition: KeyboardDefinitionSchema
+  ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
     getState: () => RootState
   ) => {
-    if (!file.type.endsWith('/json')) {
-      dispatch(NotificationActions.addWarn('The file is not JSON format.'));
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    const loadTextFile = (file: File): Promise<string> => {
-      return new Promise<string>((resolve) => {
-        // eslint-disable-next-line no-undef
-        const fileReader = new FileReader();
-        fileReader.addEventListener('load', () => {
-          resolve(fileReader.result as string);
-        });
-        fileReader.readAsText(file);
-      });
-    };
-    const json = await loadTextFile(file);
-
-    const validateResult = validateKeyboardDefinition(json);
-    if (!validateResult.valid) {
-      dispatch(NotificationActions.addWarn(validateResult.errorMessage!));
-      return;
-    }
-
-    const keyboardDefinition = JSON.parse(json);
-    const getNumber = (source: string): number => {
-      if (!source) {
-        return NaN;
-      } else if (source.startsWith('0x')) {
-        const target = source.substring(2);
-        return Number.parseInt(target, 16);
-      } else {
-        return Number.parseInt(source);
-      }
-    };
-
-    const { entities } = getState();
-    const keyboard = entities.keyboard;
-    const vendorId = getNumber(keyboardDefinition.vendorId);
-    const productId = getNumber(keyboardDefinition.productId);
-
-    if (vendorId !== keyboard?.getInformation().vendorId) {
-      dispatch(
-        NotificationActions.addWarn(`Invalid the vendor ID: ${vendorId}`)
-      );
-      return;
-    }
-    if (productId !== keyboard?.getInformation().productId) {
-      dispatch(
-        NotificationActions.addWarn(`Invalid the product ID: ${productId}`)
-      );
-      return;
-    }
-
     dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
     dispatch(
       LayoutOptionsActions.initSelectedOptions(
@@ -98,25 +47,18 @@ export const storageActionsThunk = {
           : []
       )
     );
-    dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
     await dispatch(hidActionsThunk.openKeyboard());
   },
 
   fetchKeyboardDefinition: (
-    // eslint-disable-next-line no-unused-vars
     vendorId: number,
-    // eslint-disable-next-line no-unused-vars
-    productId: number
+    productId: number,
+    productName: string
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities, storage } = getState();
-    const keyboard = entities.keyboard!;
-    const keyboardInfo = keyboard.getInformation();
-    const vendorId = keyboardInfo.vendorId;
-    const productId = keyboardInfo.productId;
-    const productName = keyboardInfo.productName;
+    const { storage } = getState();
     const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinition(
       vendorId,
       productId,

@@ -1,12 +1,13 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Header.scss';
 import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { Button, Menu, MenuItem } from '@material-ui/core';
-import { ArrowDropDown, Link, LinkOff } from '@material-ui/icons';
+import { ArrowDropDown, Link } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { IKeymap } from '../../../services/hid/Hid';
+import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -20,15 +21,25 @@ type HeaderProps = OwnProps &
 
 export default class Header extends React.Component<HeaderProps, HeaderState> {
   private hasKeysToFlash: boolean = false;
-  // eslint-disable-next-line no-undef
   flashButtonRef: React.RefObject<HTMLButtonElement>;
+  deviceMenuRef: React.RefObject<HTMLDivElement>;
   constructor(props: HeaderProps | Readonly<HeaderProps>) {
     super(props);
     this.state = {
       connectionStateEl: null,
     };
-    // eslint-disable-next-line no-undef
     this.flashButtonRef = React.createRef<HTMLButtonElement>();
+    this.deviceMenuRef = React.createRef<HTMLDivElement>();
+  }
+
+  shouldComponentUpdate(nextProps: HeaderProps) {
+    if (
+      this.props.showKeyboardList &&
+      this.props.keyboards!.length < nextProps.keyboards!.length
+    ) {
+      this.onClickDevice();
+    }
+    return true;
   }
 
   get openConnectionStateMenu() {
@@ -39,8 +50,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     this.setState({ connectionStateEl: null });
   };
 
-  onClickDevice = (event: React.MouseEvent) => {
-    this.setState({ connectionStateEl: event.currentTarget });
+  onClickDevice = () => {
+    this.setState({ connectionStateEl: this.deviceMenuRef.current });
   };
 
   onClickConnectionMenuItemNewDevice = () => {
@@ -51,6 +62,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     if (this.hasKeysToFlash) {
       this.props.onClickFlashButton!();
     }
+  }
+
+  private onClickKeyboardMenuItem(kbd: IKeyboard) {
+    this.onCloseConnectionStateMenu();
+    this.props.onClickKeyboardMenuItem!(kbd);
   }
 
   render() {
@@ -81,6 +97,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       <header className="header">
         <img src={logo} alt="logo" className="logo" />
         <div
+          ref={this.deviceMenuRef}
           className={[
             'kbd-select',
             this.props.showKeyboardList ? '' : 'hidden',
@@ -118,18 +135,13 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   onClick={
                     isOpenedKbd
                       ? undefined
-                      : this.props.onClickKeyboardMenuItem!.bind(this, kbd)
+                      : this.onClickKeyboardMenuItem!.bind(this, kbd)
                   }
                   disabled={isOpenedKbd}
                 >
                   <div className="device-item">
-                    {isOpenedKbd ? (
+                    {isOpenedKbd && (
                       <Link fontSize="small" className="link-icon link-on" />
-                    ) : (
-                      <LinkOff
-                        fontSize="small"
-                        className="link-icon link-off"
-                      />
                     )}
                     <div className={['device-name', linking].join(' ')}>
                       {info.productName}
@@ -154,7 +166,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                   className="another-device"
                   onClick={this.props.onClickAnotherKeyboard?.bind(this)}
                 >
-                  + Connect another device
+                  + KEYBOARD
                 </Button>
               </div>
             </MenuItem>

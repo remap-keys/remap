@@ -13,6 +13,7 @@ import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
 export type ISetupPhase =
+  | 'init'
   | 'keyboardNotSelected'
   | 'connectingKeyboard'
   | 'fetchingKeyboardDefinition'
@@ -20,6 +21,7 @@ export type ISetupPhase =
   | 'openingKeyboard'
   | 'openedKeyboard';
 export const SetupPhase: { [p: string]: ISetupPhase } = {
+  init: 'init',
   keyboardNotSelected: 'keyboardNotSelected',
   connectingKeyboard: 'connectingKeyboard',
   fetchingKeyboardDefinition: 'fetchingKeyboardDefinition',
@@ -90,9 +92,6 @@ export type RootState = {
     origin: IKeymap | null;
     destination: IKeymap | null;
   };
-  keyboardDefinitionForm: {
-    dragging: boolean;
-  };
   layoutOptions: {
     selectedOptions: string[];
   };
@@ -121,7 +120,7 @@ export const INIT_STATE: RootState = {
       name: '',
       version: '',
     },
-    setupPhase: SetupPhase.keyboardNotSelected,
+    setupPhase: SetupPhase.init,
     remaps: [],
     notifications: [],
     keyboardHeight: 295,
@@ -154,9 +153,6 @@ export const INIT_STATE: RootState = {
   keydiff: {
     origin: null,
     destination: null,
-  },
-  keyboardDefinitionForm: {
-    dragging: false,
   },
   layoutOptions: {
     selectedOptions: [],

@@ -85,7 +85,10 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
         this.props.onConnectKeyboard!(connectedKeyboard);
       },
       disconnect: (disconnectedKeyboard: IKeyboard) => {
-        this.props.onDisconnectKeyboard!(disconnectedKeyboard);
+        this.props.onDisconnectKeyboard!(
+          disconnectedKeyboard,
+          this.props.keyboard!
+        );
       },
       close: (keyboard: IKeyboard) => {
         this.props.onCloseKeyboard!(keyboard);

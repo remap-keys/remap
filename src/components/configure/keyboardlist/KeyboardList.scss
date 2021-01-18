@@ -7,6 +7,8 @@
   align-items: center;
   justify-content: center;
   padding-top: $space-xl;
+  background: white;
+  flex: 1 1;
   .message {
     padding: $space-m 0;
     font-size: 1rem;
