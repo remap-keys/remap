@@ -83,30 +83,25 @@ export const hidActionsThunk = {
     const { hid, entities } = getState();
     const keyboards: IKeyboard[] = entities.keyboards;
 
-    await dispatch(hidActionsThunk.closeOpenedKeyboard());
-
     const result = await hid.instance.connect();
     if (!result.success) {
-      // no selected device
-      dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+      // cancel: do nothing
       return;
     }
+
     const keyboard: IKeyboard = result.keyboard!;
+
+    if (0 < keyboards.length) {
+      // If the connecting keyboard had already added Remap state, do nothing
+      const listed = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
+      if (listed) {
+        return;
+      }
+    }
 
     // Opened keyboard MUST had been authorized
     if (keyboard.isOpened()) {
-      /**
-       * If the connected device has opened by this app, do nothing.
-       * We should NOT do something except showing a message if another application has opened the device.
-       */
-      const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
-      if (listedKbd) {
-        dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
-        return;
-      }
-
       const msg = 'This device has already opened by another application';
-      console.log(msg);
       dispatch(NotificationActions.addWarn(msg));
       return;
     }
@@ -115,13 +110,15 @@ export const hidActionsThunk = {
      * If the connected device has already included in state, use the keyboard object in state in order not to effect the keyboard list state.
      * Unless the connected device has included in state, use it and add to the keyboard list in state.
      */
-
+    dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+    await dispatch(hidActionsThunk.closeOpenedKeyboard());
     const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
     const targetKbd = listedKbd ? listedKbd : keyboard;
     if (!listedKbd) {
       dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
     }
 
+    console.log(targetKbd);
     dispatch(HidActions.updateKeyboard(targetKbd));
     const keyboardInfo = keyboard.getInformation();
     dispatch(
@@ -130,7 +127,8 @@ export const hidActionsThunk = {
     await dispatch(
       storageActionsThunk.fetchKeyboardDefinition(
         keyboardInfo.vendorId,
-        keyboardInfo.productId
+        keyboardInfo.productId,
+        keyboardInfo.productName
       )
     );
   },
@@ -142,23 +140,21 @@ export const hidActionsThunk = {
     const { entities } = getState();
     const keyboards: IKeyboard[] = entities.keyboards;
 
-    await dispatch(hidActionsThunk.closeOpenedKeyboard());
-
     if (keyboard.isOpened()) {
       /**
        * If this keyboard is opening by this app, do nothing.
        * If this keyboard is NOT opened by this app, show warning message.
        */
       if (entities.keyboard?.isSameDevice(keyboard)) {
-        dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
         return; // do nothing
       }
 
       const msg = 'This device has already opened by another application';
-      console.log(msg);
       dispatch(NotificationActions.addWarn(msg));
       return;
     }
+    dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+    await dispatch(hidActionsThunk.closeOpenedKeyboard());
 
     const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
     const targetKbd = listedKbd ? listedKbd : keyboard;
@@ -174,7 +170,8 @@ export const hidActionsThunk = {
     await dispatch(
       storageActionsThunk.fetchKeyboardDefinition(
         keyboardInfo.vendorId,
-        keyboardInfo.productId
+        keyboardInfo.productId,
+        keyboardInfo.productName
       )
     );
   },
@@ -217,9 +214,12 @@ export const hidActionsThunk = {
       await dispatch(
         storageActionsThunk.fetchKeyboardDefinition(
           keyboardInfo.vendorId,
-          keyboardInfo.productId
+          keyboardInfo.productId,
+          keyboardInfo.productName
         )
       );
+    } else {
+      dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
     }
   },
 
@@ -228,9 +228,6 @@ export const hidActionsThunk = {
     // eslint-disable-next-line no-unused-vars
     getState: () => RootState
   ) => {
-    if (!keyboard.isOpened()) {
-      return;
-    }
     await keyboard.close();
     dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
     dispatch(AppActions.remapsClear());

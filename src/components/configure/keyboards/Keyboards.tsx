@@ -94,14 +94,15 @@ export default class Keyboards extends React.Component<
             <div className="layer">
               <span>LAYER</span>
               {this.props.layers!.map((layer) => {
+                const invisible =
+                  this.props.remaps![layer] == undefined ||
+                  0 == Object.values(this.props.remaps![layer]).length;
                 return (
                   <StyledBadge
                     key={layer}
                     color="primary"
                     variant="dot"
-                    invisible={
-                      0 == Object.values(this.props.remaps![layer]).length
-                    }
+                    invisible={invisible}
                   >
                     <Chip
                       key={layer}

@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Header from './Header';
-import { RootState, SetupPhase } from '../../../store/state';
+import { RootState } from '../../../store/state';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard } from '../../../services/hid/Hid';
-import { AppActions, HeaderActions } from '../../../actions/actions';
+import { HeaderActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   const kbd = state.entities.keyboard;
@@ -12,7 +12,7 @@ const mapStateToProps = (state: RootState) => {
     draggingKey: state.keycodeKey.draggingKey,
     flashing: state.header.flashing,
     keyboards: state.entities.keyboards,
-    openedKeyboard: kbd,
+    openedKeyboard: state.entities.keyboard,
     productId: info?.productId || NaN,
     productName: info?.productName || '',
     vendorId: info?.vendorId || NaN,
@@ -25,11 +25,9 @@ export type HeaderStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickKeyboardMenuItem: (kbd: IKeyboard) => {
-      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
       _dispatch(hidActionsThunk.connectKeyboard(kbd));
     },
     onClickAnotherKeyboard: () => {
-      _dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
       _dispatch(hidActionsThunk.connectAnotherKeyboard());
     },
     onClickFlashButton: () => {

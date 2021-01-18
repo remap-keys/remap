@@ -48,17 +48,10 @@ export default class KeyboardList extends React.Component<
           >
             <h3 className="another">+ KEYBOARD</h3>
             <div className="device-ids">
-              Please add a new Web HID access permitted device
+              Add a Web HID access permitted device
             </div>
           </div>
         </div>
-        {/* {this.props.openingKeyboard && (
-          <div className="opening-keyboard">
-            <div className="progress">
-              <CircularProgress size={24} />
-            </div>
-          </div>
-        )} */}
       </div>
     );
   }

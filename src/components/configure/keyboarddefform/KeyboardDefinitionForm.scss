@@ -7,6 +7,8 @@
   align-items: center;
   justify-content: center;
   padding-top: $space-xl;
+  background-color: white;
+  flex: 1 1;
 
   .message {
     padding: $space-m 0;
@@ -14,6 +16,7 @@
   }
 
   .upload-form {
+    position: relative;
     width: 320px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     padding: 8px;
@@ -40,6 +43,16 @@
         border: 2px dashed rgba(0, 0, 0, 0.2);
         font-weight: bold;
       }
+    }
+    .keyboarddefinitionform-loading {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
     }
   }
 }
