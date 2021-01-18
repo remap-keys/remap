@@ -85,26 +85,23 @@ export const hidActionsThunk = {
 
     const result = await hid.instance.connect();
     if (!result.success) {
-      // do nothing
+      // cancel: do nothing
       return;
     }
 
     const keyboard: IKeyboard = result.keyboard!;
 
-    // Opened keyboard MUST had been authorized
-    if (keyboard.isOpened()) {
-      /**
-       * If the connected device has opened by this app, do nothing.
-       * We should NOT do something except showing a message if another application has opened the device.
-       */
-      const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
-      if (listedKbd) {
-        // do nothing
+    if (0 < keyboards.length) {
+      // If the connecting keyboard had already added Remap state, do nothing
+      const listed = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
+      if (listed) {
         return;
       }
+    }
 
+    // Opened keyboard MUST had been authorized
+    if (keyboard.isOpened()) {
       const msg = 'This device has already opened by another application';
-      console.log(msg);
       dispatch(NotificationActions.addWarn(msg));
       return;
     }
@@ -113,7 +110,6 @@ export const hidActionsThunk = {
      * If the connected device has already included in state, use the keyboard object in state in order not to effect the keyboard list state.
      * Unless the connected device has included in state, use it and add to the keyboard list in state.
      */
-    //console.log(keyboard);
     dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
     await dispatch(hidActionsThunk.closeOpenedKeyboard());
     const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
