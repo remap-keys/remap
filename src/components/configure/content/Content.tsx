@@ -27,6 +27,9 @@ export default class Content extends React.Component<
     return (
       <div className="content">
         <Contents setupPhase={this.props.setupPhase!} />
+        <div className="app-version">
+          {this.props.package!.name}: {this.props.package!.version}
+        </div>
       </div>
     );
   }
