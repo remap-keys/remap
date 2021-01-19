@@ -7,6 +7,7 @@ const mapStateToProps = (state: RootState) => {
     hoverKey: state.keycodeKey.hoverKey,
     keyboard: state.entities.keyboard,
     keyboardHeight: state.app.keyboardHeight,
+    package: state.app.package,
   };
 };
 export type RemapStateType = ReturnType<typeof mapStateToProps>;
