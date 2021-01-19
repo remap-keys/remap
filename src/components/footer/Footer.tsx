@@ -36,7 +36,7 @@ export default class Footer extends React.Component<
             target={'_blank'}
             rel={'noreferrer'}
           >
-            Term of Use
+            Terms of Use
           </a>
         </div>
         <div className="app-version">{appPackage.version}</div>
