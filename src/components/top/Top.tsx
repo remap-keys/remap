@@ -102,15 +102,6 @@ class Top extends React.Component<RouteComponentProps, any> {
                   </Grid>
                 </Grid>
               </div>
-              <div className="hero-footer">
-                <a
-                  href="https://docs.google.com/document/d/1Fo2-cbPcTNkckwJOl-YqnBuVeyREuYtyoY8mecdiUxE/edit?usp=sharing"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Terms of Use
-                </a>
-              </div>
             </Container>
           </div>
           <Container className="card-grid" maxWidth="md">
