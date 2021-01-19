@@ -4,7 +4,6 @@ import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    package: state.app.package,
     setupPhase: state.app.setupPhase,
   };
 };

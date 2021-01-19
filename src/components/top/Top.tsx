@@ -7,7 +7,6 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -18,6 +17,7 @@ import card2 from '../../assets/images/top/card-2.png';
 import card3 from '../../assets/images/top/card-3.png';
 import card4 from '../../assets/images/top/card-4.png';
 import card5 from '../../assets/images/top/card-5.png';
+import Footer from '../footer/Footer.container';
 import './Top.scss';
 
 type IFeatureCardProps = {
@@ -157,32 +157,7 @@ class Top extends React.Component<RouteComponentProps, any> {
             </Grid>
           </Container>
         </main>
-        <footer className="footer">
-          <Typography variant="h6" align="center" gutterBottom>
-            Remap
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="textSecondary"
-            component="p"
-          >
-            Allow to customize your keyboard more easily.
-          </Typography>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="http://twitter.com/yoichiro">
-              @yoichiro
-            </Link>
-            ,{' '}
-            <Link color="inherit" href="http://twitter.com/adamrocker">
-              @adamrocker
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-            {'All rights reserved.'}
-          </Typography>
-        </footer>
+        <Footer />
       </React.Fragment>
     );
   }

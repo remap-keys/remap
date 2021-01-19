@@ -1,0 +1,37 @@
+@import '../../variables';
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  background-color: white;
+  padding: $space-s $space-m;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 0.8rem;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.14);
+
+  a {
+    color: $primary-light;
+  }
+  .dev-team {
+    flex-grow: 1;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: start;
+  }
+  .footer-contents {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .app-version {
+    flex-grow: 1;
+    align-items: flex-end;
+    justify-content: flex-end;
+    text-align: end;
+    color: $color-gray-400;
+  }
+}
