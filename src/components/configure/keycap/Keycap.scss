@@ -128,6 +128,11 @@
     .color-accent {
       background-color: #808080 !important;
     }
+    .diff-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
   }
   .pointer-pass-through {
     pointer-events: none;

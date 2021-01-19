@@ -294,13 +294,19 @@ function KeyLabel(props: KeyLabelType) {
     const length = props.label.split(' ').length;
     const labelSize = length == 2 ? '_m' : length == 3 ? '_s' : '';
     return (
-      <div className="keylabel vcenter">
-        <div className={['label', 'center', labelSize].join(' ')}>
-          <StyledBadge color="primary" variant="dot" invisible={!props.hasDiff}>
+      <React.Fragment>
+        <div className="keylabel vcenter">
+          <div className={['label', 'center', labelSize].join(' ')}>
             {props.label}
-          </StyledBadge>
+          </div>
         </div>
-      </div>
+        <StyledBadge
+          color="primary"
+          variant="dot"
+          invisible={!props.hasDiff}
+          className="diff-dot"
+        ></StyledBadge>
+      </React.Fragment>
     );
   }
 }
