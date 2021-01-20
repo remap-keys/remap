@@ -31,16 +31,17 @@ export default class Remap extends React.Component<RemapPropType, {}> {
         >
           <Keycodes />
         </div>
-        {this.props.hoverKey && <Desc keymap={this.props.hoverKey.keymap} />}
+        <Desc keymap={this.props.hoverKey?.keymap} />
       </React.Fragment>
     );
   }
 }
 
 type DescType = {
-  keymap: IKeymap;
+  keymap?: IKeymap;
 };
 function Desc(props: DescType) {
+  if (!props.keymap) return <div></div>;
   if (props.keymap.keycodeInfo) {
     const info = props.keymap.keycodeInfo!;
     const long = info.name.long;

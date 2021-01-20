@@ -20,6 +20,7 @@ const mapStateToProps = (state: RootState) => {
     category: state.keycodes.category,
     draggingKey: state.keycodeKey.draggingKey,
     keys: state.keycodes.keys,
+    keyboardWidth: state.app.keyboardWidth,
     selectedKey: state.keycodeKey.selectedKey,
     macroText,
   };

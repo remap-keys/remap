@@ -69,7 +69,13 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
             );
           })}
         </div>
-        <div className="keycodes">
+        <div
+          className="keycodes"
+          style={{
+            minWidth:
+              this.props.keyboardWidth! + 144 /* = (PADDING + KeycodeKey)*2 */,
+          }}
+        >
           {keys.map((key, index) => {
             return (
               <KeycodeKey
@@ -107,7 +113,7 @@ type MacroType = {
   selectedKey?: Key | null;
   macroText?: string | null;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-undef
   onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 function Macro(props: MacroType) {
