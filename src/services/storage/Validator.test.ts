@@ -4,6 +4,9 @@ import {
 } from './Validator';
 import actualSchema from './assets/keyboard-definition-schema.json';
 
+const KEYLABEL_LEGENDS_PATTERN =
+  '^([1-9][0-9]*|0),([1-9][0-9]*|0)((\n.*){2}?\n([1-9][0-9]*|0),([1-9][0-9]*|0)(\n.*){0,8}?|(\n.*){0,2}?)?$';
+
 describe('Validator', () => {
   describe('validateDetailKeyboardDefinition', () => {
     const schema = {
@@ -14,7 +17,7 @@ describe('Validator', () => {
         },
         label: {
           type: 'string',
-          pattern: '^[0-9]+,[0-9]+(\n.*){0,11}?$',
+          pattern: KEYLABEL_LEGENDS_PATTERN,
         },
       },
       required: ['name'],
@@ -58,32 +61,54 @@ describe('Validator', () => {
     );
 
     describe('string pattern', () => {
-      test.each(['0,1', '2,10', '01,10', '1,0\n\n\n10,1'])(
-        'success',
-        (label) => {
-          const obj = { name: 'hoge', label: label };
-          const result = validateKeyboardDefinitionSchema(obj, schema);
-          expect(result.valid).toBeTruthy();
-        }
-      );
+      test.each([
+        '0,1',
+        '2,10',
+        '1,10',
+        '0,0\n',
+        '0,0\n1',
+        '0,0\na\nb',
+        '1,0\n\n\n10,1',
+        '0,1\na\nb\n0,0',
+        '0,1\na\nb\n0,123',
+        '0,1\n1\n2\n2,0\n4',
+        '0,1\n1\n2\n2,0\n4\n5',
+        '0,1\n1\n2\n2,0\n4\n5\n6\n7\n8\n9\n10\n11',
+      ])('success', (label) => {
+        const obj = { name: 'hoge', label: label };
+        const result = validateKeyboardDefinitionSchema(obj, schema);
+        expect(result.valid).toBeTruthy();
+      });
 
-      test.each(['', '0', 'a,0', '0.1', '10.20'])(
-        'invalid string pattern',
-        (label) => {
-          const obj = { name: 'hoge', label: label };
-          const result = validateKeyboardDefinitionSchema(obj, schema);
-          const expected: SchemaValidateError = {
-            keyword: 'pattern',
-            dataPath: '/label',
-            schemaPath: '#/properties/label/pattern',
-            message: `should match pattern "${schema.properties.label.pattern}"`,
-            params: {
-              pattern: schema.properties.label.pattern,
-            },
-          };
-          expect(result.errors![0]).toEqual(expected);
-        }
-      );
+      test.each([
+        '',
+        '0',
+        'a,0',
+        '0.1',
+        '10.20',
+        '01,0',
+        '0,02',
+        '0,0\n1\n2\n',
+        '0,0\n1\n2\n3',
+        '0,0\n1\n2\n04,0',
+        '0,0\n1\n2\n0,04',
+        '0,0\n1\n2\n-,0',
+        '0,0\n1\n2\n3,0\n4\n5\n6\n7\n8\n9\n10\n11\n',
+        '0,0\n1\n2\n3,0\n4\n5\n6\n7\n8\n9\n10\n11\n12',
+      ])('invalid string pattern', (label) => {
+        const obj = { name: 'hoge', label: label };
+        const result = validateKeyboardDefinitionSchema(obj, schema);
+        const expected: SchemaValidateError = {
+          keyword: 'pattern',
+          dataPath: '/label',
+          schemaPath: '#/properties/label/pattern',
+          message: `should match pattern "${schema.properties.label.pattern}"`,
+          params: {
+            pattern: schema.properties.label.pattern,
+          },
+        };
+        expect(result.errors![0]).toEqual(expected);
+      });
     });
   });
 
@@ -104,7 +129,7 @@ describe('Validator', () => {
                       anyOf: [
                         {
                           type: 'string',
-                          pattern: '^[0-9]+,[0-9]+(\n.*){0,11}?$',
+                          pattern: KEYLABEL_LEGENDS_PATTERN,
                         },
                         { type: 'object' },
                       ],
@@ -167,26 +192,25 @@ describe('Validator', () => {
         layouts: {
           keymap: [
             ['0,0', { x: 1, y: 0 }, '0,1\n\n\n0,0'],
-            ['1.0', '1,1'],
+            ['1,0', '1.1'],
           ],
         },
       };
       const result = validateKeyboardDefinitionSchema(obj, schema);
       const expected: SchemaValidateError = {
         keyword: 'pattern',
-        dataPath: '/layouts/keymap/1/0',
+        dataPath: '/layouts/keymap/1/1',
         schemaPath:
           '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/pattern',
         message: `should match pattern "${
-          schema.properties.layouts.properties.keymap.items.anyOf[0].items!
+          schema.properties.layouts.properties.keymap.items!.anyOf[0].items!
             .anyOf[0].pattern
         }"`,
         params: {
-          pattern: schema.properties.layouts.properties.keymap.items.anyOf[0]
+          pattern: schema.properties.layouts.properties.keymap.items!.anyOf[0]
             .items!.anyOf[0].pattern,
         },
       };
-
       expect(result.errors![0]).toEqual(expected);
     });
   });
