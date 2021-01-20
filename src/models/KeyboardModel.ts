@@ -98,7 +98,7 @@ class KeymapItem {
   }
 
   get isDefault(): boolean {
-    return this.option == OPTION_DEFAULT || this.choice == '0';
+    return this.option == OPTION_DEFAULT || this.isOrigin;
   }
 
   get isOrigin(): boolean {
