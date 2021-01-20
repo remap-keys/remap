@@ -77,8 +77,7 @@
                 ]
               }
             }
-          },
-          "additionalProperties": false
+          }
         }
       ]
     },
@@ -94,8 +93,7 @@
           "minimum": 0
         }
       },
-      "required": ["rows", "cols"],
-      "additionalProperties": false
+      "required": ["rows", "cols"]
     },
     "layouts": {
       "type": "object",
@@ -125,8 +123,7 @@
                     "type": "string"
                   }
                 },
-                "required": ["name"],
-                "additionalProperties": false
+                "required": ["name"]
               }
             ]
           }
@@ -151,8 +148,7 @@
           "type": "object"
         }
       },
-      "required": ["keymap"],
-      "additionalProperties": false
+      "required": ["keymap"]
     },
     "customKeycodes": {
       "type": "array",
@@ -169,8 +165,7 @@
             "type": "string"
           }
         },
-        "required": ["name", "title", "shortName"],
-        "additionalProperties": false
+        "required": ["name", "title", "shortName"]
       }
     },
     "customFeatures": {
@@ -181,7 +176,6 @@
     }
   },
   "required": ["name", "vendorId", "productId", "matrix", "layouts"],
-  "additionalProperties": false,
   "definitions": {
     "KeyOp": {
       "type": "object",

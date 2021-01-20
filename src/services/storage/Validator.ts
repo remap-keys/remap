@@ -25,6 +25,7 @@ export const validateKeyboardDefinition = (
   if (valid) {
     return { valid: true };
   } else {
+    validate.errors!.map((error) => console.log(error));
     const errorMessage = validate
       .errors!.map(
         (error) =>
@@ -34,6 +35,34 @@ export const validateKeyboardDefinition = (
     return {
       valid: false,
       errorMessage,
+    };
+  }
+};
+
+export type SchemaValidateError = {
+  keyword: string;
+  dataPath: string;
+  schemaPath: string;
+  params: any;
+  message: string;
+};
+export type ValidateKeyboardDefinitionSchemaResult = {
+  valid: boolean;
+  errors?: SchemaValidateError[];
+};
+export const validateKeyboardDefinitionSchema = (
+  json: Object,
+  jsonSchema: Object
+): ValidateKeyboardDefinitionSchemaResult => {
+  const ajv = new Ajv();
+  const validate = ajv.compile(jsonSchema);
+  const valid = validate(json);
+  if (valid) {
+    return { valid: true };
+  } else {
+    return {
+      valid: false,
+      errors: validate.errors! as SchemaValidateError[],
     };
   }
 };

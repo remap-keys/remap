@@ -55,6 +55,7 @@ export default class KeyboardDefinitionForm extends React.Component<
     const json = await loadDefinitionFile(file);
     const validateResult = validateKeyboardDefinition(json);
     if (!validateResult.valid) {
+      console.log(validateResult);
       this.stopLoading(validateResult.errorMessage!);
       return;
     }
