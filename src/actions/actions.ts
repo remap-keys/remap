@@ -268,7 +268,7 @@ export const AppActions = {
   updateKeyboardSize: (width: number, height: number) => {
     return {
       type: APP_UPDATE_KEYBOARD_SIZE,
-      value: { height, width },
+      value: { width, height },
     };
   },
 };
