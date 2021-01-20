@@ -41,6 +41,7 @@ export default class Keyboards extends React.Component<
   }
 
   componentDidUpdate() {
+    console.log(this.state.keyboard);
     this.props.setKeyboardHeight!(this.state.keyboard.height);
   }
 
