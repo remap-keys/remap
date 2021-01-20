@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
@@ -113,7 +114,7 @@ type MacroType = {
   selectedKey?: Key | null;
   macroText?: string | null;
 
-  // eslint-disable-next-line no-undef
+  // eslint-disable-next-line no-unused-vars
   onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 function Macro(props: MacroType) {
