@@ -39,8 +39,8 @@ class Current {
 
   setOp(op: KeyOp) {
     if (op.rx || op.ry) {
-      this.rx = op.rx || 0;
-      this.ry = op.ry || 0;
+      this.rx = op.rx || this.rx;
+      this.ry = op.ry || this.ry;
       this.x = this.rx + (op.x || 0);
       this.y = this.ry + (op.y || 0);
     } else {
