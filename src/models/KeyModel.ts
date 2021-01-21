@@ -182,4 +182,20 @@ export default class KeyModel {
     const bottom = 0 < rad ? rightBottom : leftBottom;
     return this.originTop + y1 + bottom;
   }
+
+  get startLeft(): number {
+    const rad = this.rotate * (Math.PI / 180);
+    let x;
+    if (this.rotate <= 0) {
+      let x0 = this.left - this.originTop;
+      let y0 =
+        this.top - this.originTop + Math.max(this.height, this.height2 || 0);
+      x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+    } else {
+      let x0 = this.left - this.originTop;
+      let y0 = this.top - this.originTop;
+      x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+    }
+    return x;
+  }
 }

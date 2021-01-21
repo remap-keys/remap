@@ -38,36 +38,20 @@ class Current {
   }
 
   setOp(op: KeyOp) {
-    if (op.rx) {
-      this.rx = op.rx;
-      this.x = op.rx;
-    }
-    if (op.ry) {
-      this.ry = op.ry;
-      this.y = op.ry;
-    }
-    if (op.x) {
-      this.x += op.x;
-    }
-    if (op.y) {
-      this.y += op.y;
+    if (op.rx || op.ry) {
+      this.rx = op.rx || 0;
+      this.ry = op.ry || 0;
+      this.x = this.rx + (op.x || 0);
+      this.y = this.ry + (op.y || 0);
+    } else {
+      this.x += op.x || 0;
+      this.y += op.y || 0;
     }
 
-    if (op.r) {
-      this.r = op.r;
-    }
-
-    if (op.x2) {
-      this.x2 = op.x2;
-    }
-
-    if (op.y2) {
-      this.y2 = op.y2;
-    }
-
-    if (op.c) {
-      this.c = op.c;
-    }
+    this.r = op.r || this.r;
+    this.x2 = op.x2 || this.x2;
+    this.y2 = op.y2 || this.y2;
+    this.c = op.c || this.c;
   }
 
   next(w: number) {
@@ -191,11 +175,11 @@ export default class KeyboardModel {
     let bottom = 0;
     keymaps.forEach((model) => {
       right = Math.max(right, model.endRight);
-      left = Math.min(left, model.left);
+      left = Math.min(left, model.startLeft);
       bottom = Math.max(bottom, model.endBottom);
     });
 
-    const width = right;
+    const width = right + left;
     const height = bottom;
     return { keymaps, width, height, left };
   }
@@ -256,16 +240,18 @@ export default class KeyboardModel {
     }
 
     // STEP2: align default keymap to zero, shrink for optional keys' layout
-    const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
-      return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
-    }, Infinity);
-    const minY = keymapsList.filter(
-      (keymaps: KeymapItem[]) => keymaps[0].isDefault
-    )[0][0].y;
+    if (Object.keys(optionKeymaps).length != 0) {
+      const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
+        return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
+      }, Infinity);
+      const minY = keymapsList.filter(
+        (keymaps: KeymapItem[]) => keymaps[0].isDefault
+      )[0][0].y;
 
-    keymapsList.forEach((keymaps: KeymapItem[]) => {
-      keymaps.forEach((item) => item.align(minX, minY));
-    });
+      keymapsList.forEach((keymaps: KeymapItem[]) => {
+        keymaps.forEach((item) => item.align(minX, minY));
+      });
+    }
 
     /** STEP3: relocate option keys' position
      * 3.1. relocate for row direction
