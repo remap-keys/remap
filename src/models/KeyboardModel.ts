@@ -239,14 +239,16 @@ export default class KeyboardModel {
       }
     }
 
-    // STEP2: align default keymap to zero, shrink for optional keys' layout
+    // STEP2: shrink default keymap for optional keys' margin
     if (Object.keys(optionKeymaps).length != 0) {
       const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
         return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
       }, Infinity);
-      const minY = keymapsList.filter(
-        (keymaps: KeymapItem[]) => keymaps[0].isDefault
-      )[0][0].y;
+      const minY = keymapsList
+        .flat()
+        .reduce((min: number, keymap: KeymapItem) => {
+          return keymap.isDefault ? Math.min(min, keymap.y) : min;
+        }, Infinity);
 
       keymapsList.forEach((keymaps: KeymapItem[]) => {
         keymaps.forEach((item) => item.align(minX, minY));
