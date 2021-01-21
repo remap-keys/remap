@@ -213,5 +213,81 @@ describe('Validator', () => {
       };
       expect(result.errors![0]).toEqual(expected);
     });
+
+    describe('multi points error', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+          },
+          matrix: {
+            type: 'object',
+            properties: {
+              rows: {
+                type: 'integer',
+                minimum: 0,
+              },
+              cols: {
+                type: 'integer',
+                minimum: 0,
+              },
+            },
+            required: ['rows', 'cols'],
+          },
+          layouts: {
+            type: 'object',
+            properties: {
+              keymap: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'array',
+                      items: {
+                        anyOf: [
+                          {
+                            type: 'string',
+                            pattern: KEYLABEL_LEGENDS_PATTERN,
+                          },
+                          { type: 'object' },
+                        ],
+                      },
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        name: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                      },
+                      required: ['name'],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      };
+      test('invalid type, required and pattern', () => {
+        const obj = {
+          name: '123',
+          matrix: {
+            rows: 8,
+            cols: 10,
+          },
+          layouts: {
+            keymap: [['0,0', { x: 1, y: 0 }, '0.1']],
+          },
+        };
+        const result = validateKeyboardDefinitionSchema(obj, schema);
+
+        expect(result.errors!).toEqual({});
+      });
+    });
   });
 });
