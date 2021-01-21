@@ -185,13 +185,13 @@ export default class KeyModel {
 
   get startLeft(): number {
     const rad = this.rotate * (Math.PI / 180);
-    let x;
-    if (this.rotate <= 0) {
+    let x = 0;
+    if (this.rotate < 0) {
       let x0 = this.left - this.originTop;
       let y0 =
         this.top - this.originTop + Math.max(this.height, this.height2 || 0);
       x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
-    } else {
+    } else if (0 < this.rotate) {
       let x0 = this.left - this.originTop;
       let y0 = this.top - this.originTop;
       x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
