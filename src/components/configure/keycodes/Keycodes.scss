@@ -7,6 +7,8 @@
 .keycodes {
   display: flex;
   flex-wrap: wrap;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 .key-categories {
   display: flex;

@@ -24,8 +24,8 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(KeyboardsActions.clearSelectedPos());
       _dispatch(KeyboardsActions.updateSelectedLayer(layer));
     },
-    setKeyboardHeight: (height: number) => {
-      _dispatch(AppActions.updateKeyboardHeight(height));
+    setKeyboardSize: (width: number, height: number) => {
+      _dispatch(AppActions.updateKeyboardSize(width, height));
     },
   };
 };

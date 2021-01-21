@@ -40,11 +40,6 @@ export default class Keyboards extends React.Component<
     };
   }
 
-  componentDidUpdate() {
-    console.log(this.state.keyboard);
-    this.props.setKeyboardHeight!(this.state.keyboard.height);
-  }
-
   onClickLayer = (layer: number) => {
     this.props.onClickLayerNumber!(layer);
   };
@@ -88,6 +83,10 @@ export default class Keyboards extends React.Component<
         }
       });
     }
+    const { keymaps, width, height, left } = this.state.keyboard.getKeymap(
+      layoutOptions
+    );
+    this.props.setKeyboardSize!(width, height);
     return (
       <React.Fragment>
         <div className="layer-wrapper">
@@ -139,29 +138,21 @@ export default class Keyboards extends React.Component<
           <div
             className="keyboard-root"
             style={{
-              width:
-                this.state.keyboard.width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-              height:
-                this.state.keyboard.height +
-                (BORDER_WIDTH + LAYOUT_PADDING) * 2,
+              width: width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
+              height: height + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
             }}
           >
             <div
               className="keyboard-frame"
-              style={{
-                width: this.state.keyboard.width,
-                height: this.state.keyboard.height,
-              }}
+              style={{ width: width, height: height, marginLeft: -left }}
             >
-              {this.state.keyboard
-                .getKeymap(layoutOptions)
-                .map((model: KeyModel) => {
-                  return model.isDecal ? (
-                    ''
-                  ) : (
-                    <Keycap key={model.pos} model={model} />
-                  );
-                })}
+              {keymaps.map((model: KeyModel) => {
+                return model.isDecal ? (
+                  ''
+                ) : (
+                  <Keycap key={model.pos} model={model} />
+                );
+              })}
             </div>
           </div>
         </div>

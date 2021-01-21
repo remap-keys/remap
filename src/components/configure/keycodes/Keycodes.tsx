@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
@@ -69,7 +70,13 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
             );
           })}
         </div>
-        <div className="keycodes">
+        <div
+          className="keycodes"
+          style={{
+            minWidth:
+              this.props.keyboardWidth! + 144 /* = (PADDING + KeycodeKey)*2 */,
+          }}
+        >
           {keys.map((key, index) => {
             return (
               <KeycodeKey

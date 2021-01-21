@@ -38,7 +38,7 @@ import {
   LAYOUT_OPTIONS_ACTIONS,
   LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
   LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
-  APP_UPDATE_KEYBOARD_HEIGHT,
+  APP_UPDATE_KEYBOARD_SIZE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -129,8 +129,9 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.package.version = action.value.version;
       break;
     }
-    case APP_UPDATE_KEYBOARD_HEIGHT: {
-      draft.app.keyboardHeight = action.value;
+    case APP_UPDATE_KEYBOARD_SIZE: {
+      draft.app.keyboardHeight = action.value.height;
+      draft.app.keyboardWidth = action.value.width;
       break;
     }
   }

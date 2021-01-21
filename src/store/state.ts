@@ -62,6 +62,7 @@ export type RootState = {
     }[];
     notifications: NotificationItem[];
     keyboardHeight: number;
+    keyboardWidth: number;
   };
   header: {
     flashing: boolean;
@@ -123,7 +124,8 @@ export const INIT_STATE: RootState = {
     setupPhase: SetupPhase.init,
     remaps: [],
     notifications: [],
-    keyboardHeight: 295,
+    keyboardHeight: 0,
+    keyboardWidth: 0,
   },
   header: {
     flashing: false,
