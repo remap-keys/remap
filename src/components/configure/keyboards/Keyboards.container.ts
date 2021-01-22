@@ -4,16 +4,13 @@ import { RootState } from '../../../store/state';
 import { AppActions, KeyboardsActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
-  const layerCount = state.entities.device.layerCount;
   return {
-    appName: state.app.package.name,
-    appVersion: state.app.package.version,
-    layers: [...Array(layerCount)].map((_, i) => i),
+    layerCount: state.entities.device.layerCount,
     selectedLayer: state.keyboards.selectedLayer,
     selectedKeyboardOptions: state.layoutOptions.selectedOptions,
-    keymaps: state.entities.device.keymaps,
     remaps: state.app.remaps,
-    keyboardDefinition: state.entities.keyboardDefinition,
+    keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
+    keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
   };
 };
 export type KeyboardsStateType = ReturnType<typeof mapStateToProps>;

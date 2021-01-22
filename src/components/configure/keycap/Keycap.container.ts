@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Keycap from './Keycap';
-import { RootState } from '../../../store/state';
+
 import {
   KeyboardsActions,
   KeydiffActions,
@@ -8,7 +8,7 @@ import {
 } from '../../../actions/actions';
 import { Key } from '../keycodekey/KeycodeKey.container';
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: any) => {
   return {
     draggingKey: state.keycodeKey.draggingKey,
     selectedPos: state.keyboards.selectedPos,

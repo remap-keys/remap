@@ -11,8 +11,8 @@ import {
 } from './Keyboards.container';
 import LayoutOptionsDialog from '../layoutoptions/LayoutOptionsDialog.container';
 
-const BORDER_WIDTH = 4;
-const LAYOUT_PADDING = 16;
+export const BORDER_WIDTH = 4;
+export const LAYOUT_PADDING = 16;
 
 type OwnProps = {};
 
@@ -31,9 +31,7 @@ export default class Keyboards extends React.Component<
 > {
   constructor(props: KeyboardsProps | Readonly<KeyboardsProps>) {
     super(props);
-    const kbd = new KeyboardModel(
-      this.props.keyboardDefinition!.layouts.keymap
-    );
+    const kbd = new KeyboardModel(this.props.keyboardKeymap!);
     this.state = {
       keyboard: kbd,
       openLayoutOptionDialog: false,
@@ -62,13 +60,14 @@ export default class Keyboards extends React.Component<
       },
     }))(Badge);
 
+    const layers = [...Array(this.props.layerCount)].map((_, i) => i);
+
     let layoutOptions = undefined;
     const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
     if (hasKeyboardOptions) {
       const selectedKeyboardOptions: string[] = this.props
         .selectedKeyboardOptions!;
-      const labels: (string | string[])[] = this.props.keyboardDefinition!
-        .layouts.labels!;
+      const labels: (string | string[])[] = this.props.keyboardLabels!;
 
       layoutOptions = labels.map((choices: string | string[], index) => {
         if (typeof choices == 'string') {
@@ -93,7 +92,7 @@ export default class Keyboards extends React.Component<
           <div className="layers">
             <div className="layer">
               <span>LAYER</span>
-              {this.props.layers!.map((layer) => {
+              {layers!.map((layer) => {
                 const invisible =
                   this.props.remaps![layer] == undefined ||
                   0 == Object.values(this.props.remaps![layer]).length;
@@ -150,7 +149,7 @@ export default class Keyboards extends React.Component<
                 return model.isDecal ? (
                   ''
                 ) : (
-                  <Keycap key={model.pos} model={model} />
+                  <Keycap key={model.location} model={model} />
                 );
               })}
             </div>
