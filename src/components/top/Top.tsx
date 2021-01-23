@@ -52,6 +52,10 @@ class Top extends React.Component<RouteComponentProps, any> {
     this.props.history.push('/configure');
   };
 
+  onClickManageKeyboardDefinitions = () => {
+    this.props.history.push('/keyboards');
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -65,7 +69,7 @@ class Top extends React.Component<RouteComponentProps, any> {
         </AppBar>
         <main>
           <div className="hero-content">
-            <Container maxWidth="sm">
+            <Container maxWidth="xl">
               <Typography
                 component="h1"
                 variant="h2"
@@ -96,8 +100,12 @@ class Top extends React.Component<RouteComponentProps, any> {
                     </Button>
                   </Grid>
                   <Grid item>
-                    <Button variant="outlined" color="primary" disabled={true}>
-                      For Keyboard Developers
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={this.onClickManageKeyboardDefinitions}
+                    >
+                      Manage Keyboard Definitions
                     </Button>
                   </Grid>
                 </Grid>

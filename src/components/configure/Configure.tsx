@@ -25,7 +25,7 @@ type OwnState = {
 };
 
 class Configure extends React.Component<ConfigureProps, OwnState> {
-  private displayedNoficationIds: string[] = [];
+  private displayedNotificationIds: string[] = [];
   constructor(props: ConfigureProps) {
     super(props);
     this.state = {
@@ -35,18 +35,18 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
   }
 
   private storeDisplayedNotification = (key: string) => {
-    this.displayedNoficationIds = [...this.displayedNoficationIds, key];
+    this.displayedNotificationIds = [...this.displayedNotificationIds, key];
   };
 
   private removeDisplayedNotification = (key: string) => {
-    this.displayedNoficationIds = [
-      ...this.displayedNoficationIds.filter((k) => key !== k),
+    this.displayedNotificationIds = [
+      ...this.displayedNotificationIds.filter((k) => key !== k),
     ];
   };
 
   private updateNotifications() {
     this.props.notifications!.forEach((item: NotificationItem) => {
-      if (this.displayedNoficationIds.includes(item.key)) return;
+      if (this.displayedNotificationIds.includes(item.key)) return;
 
       this.props.enqueueSnackbar(item.message, {
         key: item.key,
@@ -121,7 +121,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
           }
         });
       } else {
-        this.props.auth!.signInWithGitHubForClosedBeta().then(() => {
+        this.props.auth!.signInWithGitHub().then(() => {
           // N/A
         });
       }

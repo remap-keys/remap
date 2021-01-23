@@ -6,6 +6,7 @@ import { StyledComponentProps, withStyles } from '@material-ui/core/styles';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top';
+import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -35,6 +36,11 @@ class App extends React.Component<StyledComponentProps, {}> {
           <Switch>
             <Route exact path="/hid" component={Hid} />
             <Route exact path="/configure" component={Configure} />
+            <Route
+              exact
+              path="/keyboards"
+              component={KeyboardDefinitionManagement}
+            />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>
