@@ -64,8 +64,30 @@ export type RootState = {
     keyboardHeight: number;
     keyboardWidth: number;
   };
-  header: {
-    flashing: boolean;
+  configure: {
+    header: {
+      flashing: boolean;
+    };
+    keyboards: {
+      selectedPos: string;
+      selectedLayer: number;
+    };
+    keycodes: {
+      category: string;
+      keys: { [category: string]: Key[] };
+    };
+    keycodeKey: {
+      selectedKey: Key | null;
+      hoverKey: Key | null;
+      draggingKey: Key | null;
+    };
+    keydiff: {
+      origin: IKeymap | null;
+      destination: IKeymap | null;
+    };
+    layoutOptions: {
+      selectedOptions: string[];
+    };
   };
   hid: {
     instance: IHid;
@@ -75,26 +97,6 @@ export type RootState = {
   };
   auth: {
     instance: IAuth;
-  };
-  keyboards: {
-    selectedPos: string;
-    selectedLayer: number;
-  };
-  keycodes: {
-    category: string;
-    keys: { [category: string]: Key[] };
-  };
-  keycodeKey: {
-    selectedKey: Key | null;
-    hoverKey: Key | null;
-    draggingKey: Key | null;
-  };
-  keydiff: {
-    origin: IKeymap | null;
-    destination: IKeymap | null;
-  };
-  layoutOptions: {
-    selectedOptions: string[];
   };
 };
 
@@ -127,8 +129,30 @@ export const INIT_STATE: RootState = {
     keyboardHeight: 0,
     keyboardWidth: 0,
   },
-  header: {
-    flashing: false,
+  configure: {
+    header: {
+      flashing: false,
+    },
+    keyboards: {
+      selectedLayer: NaN,
+      selectedPos: '',
+    },
+    keycodes: {
+      category: IKeycodeCategory.BASIC,
+      keys: {},
+    },
+    keycodeKey: {
+      selectedKey: null,
+      hoverKey: null,
+      draggingKey: null,
+    },
+    keydiff: {
+      origin: null,
+      destination: null,
+    },
+    layoutOptions: {
+      selectedOptions: [],
+    },
   },
   hid: {
     instance: new WebHid(),
@@ -138,25 +162,5 @@ export const INIT_STATE: RootState = {
   },
   auth: {
     instance: firebaseProvider,
-  },
-  keyboards: {
-    selectedLayer: NaN,
-    selectedPos: '',
-  },
-  keycodes: {
-    category: IKeycodeCategory.BASIC,
-    keys: {},
-  },
-  keycodeKey: {
-    selectedKey: null,
-    hoverKey: null,
-    draggingKey: null,
-  },
-  keydiff: {
-    origin: null,
-    destination: null,
-  },
-  layoutOptions: {
-    selectedOptions: [],
   },
 };
