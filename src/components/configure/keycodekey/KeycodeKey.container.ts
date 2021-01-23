@@ -51,15 +51,15 @@ export class KeycodeInfo implements IKeycodeInfo {
 }
 
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
-  const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
+  const keys = state.configure.keycodes.keys[IKeycodeCategory.MACRO];
   const clickable: boolean = !!(
     keys && keys.find((key) => key.keymap.code === ownProps.value.keymap.code)
   );
   return {
     keymaps: state.entities.device.keymaps,
-    selectedLayer: state.keyboards.selectedLayer,
-    selected: state.keycodeKey.selectedKey == ownProps.value,
-    selectedKeycapPosition: state.keyboards.selectedPos,
+    selectedLayer: state.configure.keyboards.selectedLayer,
+    selected: state.configure.keycodeKey.selectedKey == ownProps.value,
+    selectedKeycapPosition: state.configure.keyboards.selectedPos,
     clickable,
   };
 };

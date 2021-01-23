@@ -1,18 +1,19 @@
 import { connect } from 'react-redux';
 import Keycap from './Keycap';
-import { RootState } from '../../../store/state';
+
 import {
   KeyboardsActions,
   KeydiffActions,
   AppActions,
 } from '../../../actions/actions';
 import { Key } from '../keycodekey/KeycodeKey.container';
+import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    draggingKey: state.keycodeKey.draggingKey,
-    selectedPos: state.keyboards.selectedPos,
-    selectedLayer: state.keyboards.selectedLayer,
+    draggingKey: state.configure.keycodeKey.draggingKey,
+    selectedPos: state.configure.keyboards.selectedPos,
+    selectedLayer: state.configure.keyboards.selectedLayer,
     keymaps: state.entities.device.keymaps,
     remaps: state.app.remaps,
   };

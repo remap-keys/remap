@@ -5,7 +5,7 @@ import { LayoutOptionsActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    selectedKeyboardOptions: state.layoutOptions.selectedOptions,
+    selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
   };
 };

@@ -12,7 +12,7 @@ const mapStateToProps = (state: RootState) => {
     hid: state.hid,
     auth: state.auth.instance,
     storage: state.storage.instance,
-    draggingKey: state.keycodeKey.draggingKey,
+    draggingKey: state.configure.keycodeKey.draggingKey,
     keyboard: state.entities.keyboard,
   };
 };

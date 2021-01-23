@@ -9,9 +9,9 @@ import {
 
 const mapStateToProps = (state: RootState) => {
   return {
-    keydiff: state.keydiff,
-    selectedLayer: state.keyboards.selectedLayer,
-    selectedPos: state.keyboards.selectedPos,
+    keydiff: state.configure.keydiff,
+    selectedLayer: state.configure.keyboards.selectedLayer,
+    selectedPos: state.configure.keyboards.selectedPos,
   };
 };
 export type KeydiffStateType = ReturnType<typeof mapStateToProps>;

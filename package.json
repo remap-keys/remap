@@ -5,7 +5,6 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@types/ajv": "^1.0.0",
     "ajv": "^7.0.3",
     "firebase": "^8.2.1",
     "immer": "^8.0.0",
@@ -20,7 +19,7 @@
     "redux-thunk": "^2.3.0",
     "stackdriver-errors-js": "^0.8.0",
     "typescript": "^4.1.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,7 +27,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
-    "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;"
+    "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
@@ -49,13 +50,20 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.1.14",
+    "@storybook/addon-essentials": "^6.1.15",
+    "@storybook/addon-links": "^6.1.14",
+    "@storybook/node-logger": "^6.1.14",
+    "@storybook/preset-create-react-app": "^3.1.5",
+    "@storybook/react": "^6.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/ajv": "^1.0.0",
     "@types/jest": "^26.0.15",
     "@types/lodash": "^4.14.167",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
+    "@types/node": "^14.14.22",
+    "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-redux": "^7.1.14",
     "@types/react-router-dom": "^5.1.6",
@@ -70,7 +78,7 @@
     "lint-staged": "^10.5.3",
     "node-sass": "4.14.1",
     "prettier": "^2.2.1",
-    "react-scripts": "4.0.1"
+    "react-scripts": "^4.0.1"
   },
   "husky": {
     "hooks": {
