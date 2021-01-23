@@ -102,7 +102,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  signInWithGitHubForClosedBeta(): Promise<void> {
+  signInWithGitHub(): Promise<void> {
     const provider = new firebase.auth.GithubAuthProvider();
     return this.auth.signInWithRedirect(provider);
   }
