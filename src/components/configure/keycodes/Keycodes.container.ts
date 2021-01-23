@@ -5,9 +5,9 @@ import { KeycodeKeyActions, KeycodesActions } from '../../../actions/actions';
 import { IHid, IKeycodeCategory } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
-  const code = state.keycodeKey.selectedKey?.keymap.code;
+  const code = state.configure.keycodeKey.selectedKey?.keymap.code;
   let macroText: string | null;
-  const keys = state.keycodes.keys[IKeycodeCategory.MACRO];
+  const keys = state.configure.keycodes.keys[IKeycodeCategory.MACRO];
   if (keys) {
     const key = keys.find((key) => key.keymap.code === code);
     macroText = key ? state.entities.device.macros[key.keymap.code] : null;
@@ -17,11 +17,11 @@ const mapStateToProps = (state: RootState) => {
 
   return {
     _hidInstance: state.hid.instance,
-    category: state.keycodes.category,
-    draggingKey: state.keycodeKey.draggingKey,
-    keys: state.keycodes.keys,
+    category: state.configure.keycodes.category,
+    draggingKey: state.configure.keycodeKey.draggingKey,
+    keys: state.configure.keycodes.keys,
     keyboardWidth: state.app.keyboardWidth,
-    selectedKey: state.keycodeKey.selectedKey,
+    selectedKey: state.configure.keycodeKey.selectedKey,
     macroText,
   };
 };

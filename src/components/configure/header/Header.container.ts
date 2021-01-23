@@ -9,8 +9,8 @@ const mapStateToProps = (state: RootState) => {
   const kbd = state.entities.keyboard;
   const info = kbd?.getInformation();
   return {
-    draggingKey: state.keycodeKey.draggingKey,
-    flashing: state.header.flashing,
+    draggingKey: state.configure.keycodeKey.draggingKey,
+    flashing: state.configure.header.flashing,
     keyboards: state.entities.keyboards,
     openedKeyboard: state.entities.keyboard,
     productId: info?.productId || NaN,

@@ -4,7 +4,7 @@ import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    draggingKey: state.keycodeKey.draggingKey,
+    draggingKey: state.configure.keycodeKey.draggingKey,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;

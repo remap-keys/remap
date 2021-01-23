@@ -178,15 +178,15 @@ const keyboardsReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYBOARDS_CLEAR_SELECTED_POS: {
-      draft.keyboards.selectedPos = '';
+      draft.configure.keyboards.selectedPos = '';
       break;
     }
     case KEYBOARDS_UPDATE_SELECTED_LAYER: {
-      draft.keyboards.selectedLayer = action.value;
+      draft.configure.keyboards.selectedLayer = action.value;
       break;
     }
     case KEYBOARDS_UPDATE_SELECTED_POS: {
-      draft.keyboards.selectedPos = action.value;
+      draft.configure.keyboards.selectedPos = action.value;
       break;
     }
   }
@@ -196,7 +196,7 @@ const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYCODES_UPDATE_CATEGORY: {
-      draft.keycodes.category = action.value;
+      draft.configure.keycodes.category = action.value;
       break;
     }
     case KEYCODES_UPDATE_MACRO: {
@@ -205,7 +205,7 @@ const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
       break;
     }
     case KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES: {
-      draft.keycodes.keys = action.value;
+      draft.configure.keycodes.keys = action.value;
       break;
     }
   }
@@ -215,13 +215,13 @@ const keydiffReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYDIFF_UPDATE_KEYDIFF: {
-      draft.keydiff.origin = action.value.origin;
-      draft.keydiff.destination = action.value.destination;
+      draft.configure.keydiff.origin = action.value.origin;
+      draft.configure.keydiff.destination = action.value.destination;
       break;
     }
     case KEYDIFF_CLEAR_KEYDIFF: {
-      draft.keydiff.origin = null;
-      draft.keydiff.destination = null;
+      draft.configure.keydiff.origin = null;
+      draft.configure.keydiff.destination = null;
       break;
     }
   }
@@ -244,8 +244,8 @@ const keycodeAddKeyReducer = (
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };
-      draft.keycodes.keys[IKeycodeCategory.ANY] = [
-        ...draft.keycodes.keys[IKeycodeCategory.ANY],
+      draft.configure.keycodes.keys[IKeycodeCategory.ANY] = [
+        ...draft.configure.keycodes.keys[IKeycodeCategory.ANY],
         key,
       ];
       break;
@@ -261,13 +261,13 @@ const keycodeAddKeyReducer = (
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };
-      console.log(draft.keycodes.keys[IKeycodeCategory.ANY]);
-      draft.keycodes.keys[IKeycodeCategory.ANY] = draft.keycodes.keys[
+      console.log(draft.configure.keycodes.keys[IKeycodeCategory.ANY]);
+      draft.configure.keycodes.keys[
         IKeycodeCategory.ANY
-      ].map((k, i) => {
+      ] = draft.configure.keycodes.keys[IKeycodeCategory.ANY].map((k, i) => {
         return i == index ? key : k;
       });
-      console.log(draft.keycodes.keys[IKeycodeCategory.ANY]);
+      console.log(draft.configure.keycodes.keys[IKeycodeCategory.ANY]);
 
       break;
     }
@@ -278,21 +278,21 @@ const keycodekeyReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case KEYCODEKEY_UPDATE_DRAGGING_KEY: {
-      draft.keycodeKey.draggingKey = action.value;
+      draft.configure.keycodeKey.draggingKey = action.value;
       break;
     }
     case KEYCODEKEY_UPDATE_SELECTED_KEY: {
-      draft.keycodeKey.selectedKey = action.value;
+      draft.configure.keycodeKey.selectedKey = action.value;
       break;
     }
     case KEYCODEKEY_UPDATE_HOVER_KEY: {
-      draft.keycodeKey.hoverKey = action.value;
+      draft.configure.keycodeKey.hoverKey = action.value;
       break;
     }
     case KEYCODEKEY_CLEAR: {
-      draft.keycodeKey.draggingKey = null;
-      draft.keycodeKey.selectedKey = null;
-      draft.keycodeKey.hoverKey = null;
+      draft.configure.keycodeKey.draggingKey = null;
+      draft.configure.keycodeKey.selectedKey = null;
+      draft.configure.keycodeKey.hoverKey = null;
       break;
     }
   }
@@ -305,7 +305,7 @@ const layoutOptionsReducer = (
   switch (action.type) {
     case LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION: {
       const { optionIndex, option } = action.value;
-      draft.layoutOptions.selectedOptions = draft.layoutOptions.selectedOptions.map(
+      draft.configure.layoutOptions.selectedOptions = draft.configure.layoutOptions.selectedOptions.map(
         (value, index) => {
           return index == optionIndex ? option : value;
         }
@@ -313,7 +313,7 @@ const layoutOptionsReducer = (
       break;
     }
     case LAYOUT_OPTIONS_INIT_SELECTED_OPTION: {
-      draft.layoutOptions.selectedOptions = action.value;
+      draft.configure.layoutOptions.selectedOptions = action.value;
       break;
     }
   }
@@ -383,7 +383,7 @@ const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case HEADER_UPDATE_FLASHING: {
-      draft.header.flashing = action.value;
+      draft.configure.header.flashing = action.value;
       break;
     }
   }

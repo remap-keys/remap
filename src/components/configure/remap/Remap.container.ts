@@ -4,7 +4,7 @@ import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    hoverKey: state.keycodeKey.hoverKey,
+    hoverKey: state.configure.keycodeKey.hoverKey,
     keyboard: state.entities.keyboard,
     keyboardHeight: state.app.keyboardHeight,
     package: state.app.package,
