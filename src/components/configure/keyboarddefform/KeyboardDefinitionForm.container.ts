@@ -4,7 +4,6 @@ import { RootState } from '../../../store/state';
 import KeyboardDefinitionForm from './KeyboardDefinitionForm';
 import { storageActionsThunk } from '../../../actions/storage.action';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { IKeyboard } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   const kbd = state.entities.keyboard;
