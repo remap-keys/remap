@@ -1,19 +1,48 @@
-import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { validateKeyboardDefinition } from '../../../services/storage/Validator';
+
 import {
   isJsonFile,
+  SchemaValidateError,
+  validateIds,
+  validateKeyboardDefinitionSchema,
+} from '../../../services/storage/Validator';
+import {
   KeyboardDefinitionFormActionsType,
   KeyboardDefinitionFormStateType,
-  loadDefinitionFile,
-  validateIds,
 } from './KeyboardDefinitionForm.container';
 import './KeyboardDefinitionForm.scss';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  CircularProgress,
+  Typography,
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+// eslint-disable-next-line no-undef
+const loadDefinitionFile = async (file: File): Promise<string> => {
+  // eslint-disable-next-line no-undef
+  const loadTextFile = (file: File): Promise<string> => {
+    return new Promise<string>((resolve) => {
+      // eslint-disable-next-line no-undef
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        resolve(fileReader.result as string);
+      });
+      fileReader.readAsText(file);
+    });
+  };
+  const json = await loadTextFile(file);
+  return json;
+};
 
 type KeyboardDefinitionFormState = {
   dragging: boolean;
   loading: boolean;
+  errors: SchemaValidateError[];
 };
 
 type OwnProps = {};
@@ -32,6 +61,7 @@ export default class KeyboardDefinitionForm extends React.Component<
     this.state = {
       dragging: false,
       loading: false,
+      errors: [],
     };
   }
 
@@ -39,8 +69,12 @@ export default class KeyboardDefinitionForm extends React.Component<
     this.setState({ loading: false });
   }
 
-  private stopLoading(msg: string) {
+  private stopLoading() {
     this.setState({ loading: false });
+  }
+
+  private stopLoadingWithMessage(msg: string) {
+    this.stopLoading();
     this.props.warn!(msg);
   }
 
@@ -48,23 +82,28 @@ export default class KeyboardDefinitionForm extends React.Component<
   private async loadFile(file: File) {
     this.setState({ loading: true });
     if (!isJsonFile(file)) {
-      this.stopLoading('The file is not JSON format.');
+      this.stopLoadingWithMessage(`${file.name} MUST have .json extention`);
       return;
     }
 
-    const json = await loadDefinitionFile(file);
-    const validateResult = validateKeyboardDefinition(json);
+    const jsonStr = await loadDefinitionFile(file);
+    let keyboardDefinition: KeyboardDefinitionSchema;
+    try {
+      keyboardDefinition = JSON.parse(jsonStr);
+    } catch (error) {
+      this.stopLoadingWithMessage(`JSON parse error: ${file.name}`);
+      return;
+    }
+    const validateResult = validateKeyboardDefinitionSchema(keyboardDefinition);
     if (!validateResult.valid) {
-      console.log(validateResult);
-      this.stopLoading(validateResult.errorMessage!);
+      this.stopLoading();
+      this.setState({ errors: validateResult.errors! });
       return;
     }
-
-    const keyboardDefinition: KeyboardDefinitionSchema = JSON.parse(json);
 
     const msg = validateIds(keyboardDefinition, this.props.keyboard!);
     if (msg) {
-      this.stopLoading(msg);
+      this.stopLoadingWithMessage(msg);
       return;
     }
 
@@ -112,7 +151,7 @@ export default class KeyboardDefinitionForm extends React.Component<
       <React.Fragment>
         <div className="keyboarddefinitionform-wrapper">
           <div className="message">
-            Please upload your <strong>{this.props.productName}</strong>{' '}
+            Please import your <strong>{this.props.productName}</strong>{' '}
             definition file(.json).
           </div>
           <div className="upload-form">
@@ -142,8 +181,51 @@ export default class KeyboardDefinitionForm extends React.Component<
               </div>
             )}
           </div>
+          {0 < this.state.errors.length && (
+            <div className={'validation-errors'}>
+              <h2>Schema Error</h2>
+              <ValidationErrors errors={this.state.errors} />
+            </div>
+          )}
         </div>
       </React.Fragment>
     );
   }
+}
+
+function ValidationErrors(props: { errors: SchemaValidateError[] }) {
+  const error = props.errors[0];
+  const rest = props.errors.slice(1);
+  return (
+    <React.Fragment>
+      <ValidationError error={error} />
+      {0 < rest.length && (
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="other-possibilities"
+            id="panel-header"
+          >
+            <Typography>Other possibilities</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {rest.map((e, index) => (
+              <ValidationError key={index} error={e} />
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      )}
+    </React.Fragment>
+  );
+}
+
+function ValidationError(props: { error: SchemaValidateError }) {
+  return (
+    <Alert severity="error" className={'invalid-item'}>
+      <AlertTitle>
+        Invalid {props.error.keyword.toUpperCase()} at {props.error.dataPath}
+      </AlertTitle>
+      <div dangerouslySetInnerHTML={{ __html: props.error.message }}></div>
+    </Alert>
+  );
 }
