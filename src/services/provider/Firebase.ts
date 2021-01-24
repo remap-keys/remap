@@ -48,12 +48,16 @@ export class FirebaseProvider implements IStorage, IAuth {
       };
       const querySnapshotByVidAndPid = await this.db
         .collection('keyboards')
+        .doc('v1')
+        .collection('definitions')
         .where('vendor_id', '==', vendorId)
         .where('product_id', '==', productId)
         .get();
       if (querySnapshotByVidAndPid.empty || querySnapshotByVidAndPid.size > 1) {
         const querySnapshotByProductName = await this.db
           .collection('keyboards')
+          .doc('v1')
+          .collection('definitions')
           .where('product_name', 'array-contains', productName)
           .get();
         if (querySnapshotByProductName.empty) {
