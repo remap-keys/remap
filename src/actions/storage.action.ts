@@ -6,7 +6,7 @@ import {
   NotificationActions,
 } from './actions';
 import { hidActionsThunk } from './hid.action';
-import { validateKeyboardDefinition } from '../services/storage/Validator';
+import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
 export const STORAGE_ACTIONS = '@Storage';
@@ -74,11 +74,23 @@ export const storageActionsThunk = {
       );
       return;
     }
+
+    let keyboardDefinition: KeyboardDefinitionSchema;
     if (fetchKeyboardDefinitionResult.exists!) {
-      const json = fetchKeyboardDefinitionResult.document!.json;
-      const validateResult = validateKeyboardDefinition(json);
+      const jsonStr: string = fetchKeyboardDefinitionResult.document!.json;
+      try {
+        keyboardDefinition = JSON.parse(jsonStr);
+      } catch (error) {
+        dispatch(NotificationActions.addError('JSON parse error'));
+        return;
+      }
+      const validateResult = validateKeyboardDefinitionSchema(
+        keyboardDefinition
+      );
       if (!validateResult.valid) {
-        dispatch(NotificationActions.addError(validateResult.errorMessage!));
+        dispatch(
+          NotificationActions.addError(validateResult.errors![0].message)
+        );
         dispatch(
           AppActions.updateSetupPhase(
             SetupPhase.waitingKeyboardDefinitionUpload
@@ -87,7 +99,6 @@ export const storageActionsThunk = {
         return;
       }
 
-      const keyboardDefinition: KeyboardDefinitionSchema = JSON.parse(json);
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       dispatch(
         LayoutOptionsActions.initSelectedOptions(

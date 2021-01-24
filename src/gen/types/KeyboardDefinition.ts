@@ -10,33 +10,44 @@ export interface KeyboardDefinitionSchema {
   vendorId: string;
   productId: string;
   lighting?:
-    | (
-        | 'none'
-        | 'qmk_backlight'
-        | 'qmk_rgblight'
-        | 'qmk_backlight_rgblight'
-        | 'wt_rgb_backlight'
-        | 'wt_mono_backlight'
-      )
+    | ('none' | 'qmk_backlight' | 'qmk_rgblight' | 'qmk_backlight_rgblight' | 'wt_rgb_backlight' | 'wt_mono_backlight')
     | {
         extends?: string;
-        effects?: [] | [string] | [string, number];
+        effects?: [] | [[] | [string] | [string, number]];
         keycodes?: 'qmk' | 'wt';
-        supportedBacklightValues?: number;
+        supportedBacklightValues?: number[];
+        supportedLightingValues?: number[];
+        underglowEffects?: [] | [string] | [string, number][];
+        [k: string]: unknown;
       };
   matrix: {
     rows: number;
     cols: number;
+    [k: string]: unknown;
   };
   layouts: {
     keymap: (
       | (string | KeyOp)[]
       | {
           name: string;
+          author?: string;
+          [k: string]: unknown;
         }
     )[];
     labels?: (string | string[])[];
+    presets?: {
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
   };
+  customKeycodes?: {
+    name: string;
+    title: string;
+    shortName: string;
+    [k: string]: unknown;
+  }[];
+  customFeatures?: string[];
+  [k: string]: unknown;
 }
 export interface KeyOp {
   x?: number;
