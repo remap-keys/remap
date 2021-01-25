@@ -86,7 +86,7 @@ export type RootState = {
       destination: IKeymap | null;
     };
     layoutOptions: {
-      selectedOptions: string[];
+      selectedOptions: (string | null)[];
     };
   };
   hid: {

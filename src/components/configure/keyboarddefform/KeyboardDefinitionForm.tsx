@@ -22,6 +22,41 @@ import {
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+type KeyboardDefinitionFormState = {};
+
+type OwnProps = {};
+type KeyboardDefinitionFormProps = OwnProps &
+  Partial<KeyboardDefinitionFormStateType> &
+  Partial<KeyboardDefinitionFormActionsType>;
+
+export default class KeyboardDefinitionForm extends React.Component<
+  KeyboardDefinitionFormProps,
+  KeyboardDefinitionFormState
+> {
+  constructor(
+    props: KeyboardDefinitionFormProps | Readonly<KeyboardDefinitionFormProps>
+  ) {
+    super(props);
+    this.state = {};
+  }
+
+  private onLoadFile(keyboardDefinition: KeyboardDefinitionSchema) {
+    this.props.onDropFile!(keyboardDefinition);
+  }
+
+  render() {
+    const info = this.props.keyboard!.getInformation();
+    return (
+      <KeyboardDefinitionFormPart
+        messageHtml={`Please import your <strong>${info.productName}</strong> definition file(.json).`}
+        deviceVendorId={info.vendorId}
+        deviceProductId={info.productId}
+        onLoadFile={this.onLoadFile}
+      />
+    );
+  }
+}
+
 // eslint-disable-next-line no-undef
 const loadDefinitionFile = async (file: File): Promise<string> => {
   // eslint-disable-next-line no-undef
@@ -39,29 +74,40 @@ const loadDefinitionFile = async (file: File): Promise<string> => {
   return json;
 };
 
-type KeyboardDefinitionFormState = {
-  dragging: boolean;
-  loading: boolean;
-  errors: SchemaValidateError[];
+type invalidFileError = {
+  title: string;
+  message: string;
 };
 
-type OwnProps = {};
-type KeyboardDefinitionFormProps = OwnProps &
-  Partial<KeyboardDefinitionFormStateType> &
-  Partial<KeyboardDefinitionFormActionsType>;
+export type KeyboardDefinitionFormPartProps = {
+  messageHtml: string;
+  deviceVendorId: number;
+  deviceProductId: number;
+  // eslint-disable-next-line no-unused-vars
+  onLoadFile: (keyboardDefinition: KeyboardDefinitionSchema) => void;
+};
 
-export default class KeyboardDefinitionForm extends React.Component<
-  KeyboardDefinitionFormProps,
-  KeyboardDefinitionFormState
+type KeyboardDefinitionFormPartStates = {
+  dragging: boolean;
+  loading: boolean;
+  errors: SchemaValidateError[] | null;
+  invalidFileError: invalidFileError | null;
+};
+export class KeyboardDefinitionFormPart extends React.Component<
+  KeyboardDefinitionFormPartProps,
+  KeyboardDefinitionFormPartStates
 > {
   constructor(
-    props: KeyboardDefinitionFormProps | Readonly<KeyboardDefinitionFormProps>
+    props:
+      | KeyboardDefinitionFormPartProps
+      | Readonly<KeyboardDefinitionFormPartProps>
   ) {
     super(props);
     this.state = {
       dragging: false,
       loading: false,
-      errors: [],
+      errors: null,
+      invalidFileError: null,
     };
   }
 
@@ -69,21 +115,24 @@ export default class KeyboardDefinitionForm extends React.Component<
     this.setState({ loading: false });
   }
 
+  private showErrorMessage(title: string, message: string) {
+    this.setState({ invalidFileError: { title, message } });
+  }
+
   private stopLoading() {
     this.setState({ loading: false });
   }
 
-  private stopLoadingWithMessage(msg: string) {
-    this.stopLoading();
-    this.props.warn!(msg);
-  }
-
   // eslint-disable-next-line no-undef
-  private async loadFile(file: File) {
-    this.setState({ loading: true });
+  private async loadFile(file: File): Promise<KeyboardDefinitionSchema> {
+    this.setState({ loading: true, errors: null, invalidFileError: null });
     if (!isJsonFile(file)) {
-      this.stopLoadingWithMessage(`${file.name} MUST have .json extention`);
-      return;
+      this.stopLoading();
+      this.showErrorMessage(
+        'FILE TYPE ERROR',
+        `${file.name} MUST have .json extention.`
+      );
+      return Promise.reject(`${file.name} MUST have .json extention.`);
     }
 
     const jsonStr = await loadDefinitionFile(file);
@@ -91,23 +140,31 @@ export default class KeyboardDefinitionForm extends React.Component<
     try {
       keyboardDefinition = JSON.parse(jsonStr);
     } catch (error) {
-      this.stopLoadingWithMessage(`JSON parse error: ${file.name}`);
-      return;
+      this.stopLoading();
+      this.showErrorMessage(
+        'FILE PARSE ERROR',
+        `Could not parse ${file.name}. ${file.name} MUST be JSON format.`
+      );
+      return Promise.reject(`JSON parse error: ${file.name}.`);
     }
     const validateResult = validateKeyboardDefinitionSchema(keyboardDefinition);
     if (!validateResult.valid) {
       this.stopLoading();
       this.setState({ errors: validateResult.errors! });
-      return;
+      return Promise.reject(null);
     }
 
-    const msg = validateIds(keyboardDefinition, this.props.keyboard!);
+    const msg = validateIds(
+      keyboardDefinition,
+      this.props.deviceVendorId,
+      this.props.deviceProductId
+    );
     if (msg) {
-      this.stopLoadingWithMessage(msg);
-      return;
+      this.showErrorMessage('INVALID IDs', msg);
+      return Promise.reject(msg);
     }
 
-    this.props.onDropFile!(keyboardDefinition);
+    return keyboardDefinition;
   }
 
   // eslint-disable-next-line no-undef
@@ -150,10 +207,10 @@ export default class KeyboardDefinitionForm extends React.Component<
     return (
       <React.Fragment>
         <div className="keyboarddefinitionform-wrapper">
-          <div className="message">
-            Please import your <strong>{this.props.productName}</strong>{' '}
-            definition file(.json).
-          </div>
+          <div
+            className="message"
+            dangerouslySetInnerHTML={{ __html: this.props.messageHtml }}
+          ></div>
           <div className="upload-form">
             <div
               className={
@@ -181,11 +238,17 @@ export default class KeyboardDefinitionForm extends React.Component<
               </div>
             )}
           </div>
-          {0 < this.state.errors.length && (
+          {this.state.errors && (
             <div className={'validation-errors'}>
               <h2>Schema Error</h2>
               <ValidationErrors errors={this.state.errors} />
             </div>
+          )}
+          {this.state.invalidFileError && (
+            <Alert severity="error" className={'invalid-item'}>
+              <AlertTitle>{this.state.invalidFileError.title}</AlertTitle>
+              {this.state.invalidFileError.message}
+            </Alert>
           )}
         </div>
       </React.Fragment>

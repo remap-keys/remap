@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import Ajv from 'ajv';
 import { KeyboardDefinitionSchema } from '../../gen/types/KeyboardDefinition';
-import { IKeyboard } from '../hid/Hid';
 import schema from './assets/keyboard-definition-schema.json';
 
 export interface IValidateKeyboardDefinitionResult {
@@ -28,7 +27,8 @@ export const isJsonFile = (file: File): boolean => {
 
 export const validateIds = (
   keyboardDefinition: KeyboardDefinitionSchema,
-  keyboard: IKeyboard
+  deviceVendorId: number,
+  deviceProductId: number
 ): string | null => {
   const getNumber = (source: string): number => {
     if (!source) {
@@ -42,10 +42,10 @@ export const validateIds = (
   };
   const vendorId = getNumber(keyboardDefinition.vendorId);
   const productId = getNumber(keyboardDefinition.productId);
-  if (vendorId !== keyboard.getInformation().vendorId) {
+  if (vendorId !== deviceVendorId) {
     return `Invalid the vendor ID: ${vendorId}`;
   }
-  if (productId !== keyboard.getInformation().productId) {
+  if (productId !== deviceProductId) {
     return `Invalid the product ID: ${productId}`;
   }
   return null;

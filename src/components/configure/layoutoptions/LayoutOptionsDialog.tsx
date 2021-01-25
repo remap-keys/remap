@@ -16,10 +16,14 @@ import {
 } from './LayoutOptionsDialog.container';
 import Paper, { PaperProps } from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
+import { KeyboardDefinitionFormPart } from '../keyboarddefform/KeyboardDefinitionForm';
+import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 
 type OwnProps = {
   open: boolean;
   onClose: () => void;
+  vendorId: number;
+  productId: number;
 };
 
 type LayoutOptionsDialogProps = OwnProps &
@@ -38,6 +42,10 @@ export default class LayoutOptionsDialog extends React.Component<
     super(props);
     this.state = {};
   }
+
+  // eslint-disable-next-line no-unused-vars
+  private onLoadFile(keyboardDefinition: KeyboardDefinitionSchema) {}
+
   render() {
     const labels = this.props.keyboardLayoutOptions!;
     const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
@@ -70,6 +78,12 @@ export default class LayoutOptionsDialog extends React.Component<
               );
             })}
           </Grid>
+          <KeyboardDefinitionFormPart
+            messageHtml={''}
+            deviceVendorId={this.props.vendorId}
+            deviceProductId={this.props.productId}
+            onLoadFile={this.onLoadFile}
+          />
         </DialogContent>
       </Dialog>
     );
