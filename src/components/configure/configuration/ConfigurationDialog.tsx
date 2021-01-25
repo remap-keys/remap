@@ -1,10 +1,10 @@
 import React from 'react';
 import Draggable from 'react-draggable';
-import './LayoutOptionsDialog.scss';
+import './ConfigurationDialog.scss';
 import {
-  LayoutOptionsDialogActionsType,
-  LayoutOptionsDialogStateType,
-} from './LayoutOptionsDialog.container';
+  ConfigurationDialogActionsType,
+  ConfigurationDialogStateType,
+} from './ConfigurationDialog.container';
 import {
   Button,
   Dialog,
@@ -48,9 +48,9 @@ type OwnProps = {
   productName: string;
 };
 
-type LayoutOptionsDialogProps = OwnProps &
-  Partial<LayoutOptionsDialogActionsType> &
-  Partial<LayoutOptionsDialogStateType>;
+type ConfigurationDialogProps = OwnProps &
+  Partial<ConfigurationDialogActionsType> &
+  Partial<ConfigurationDialogStateType>;
 
 type OwnState = {
   selectedMenuIndex: number;
@@ -58,12 +58,12 @@ type OwnState = {
   keyboardDefinitionFile: string | null;
 };
 
-export default class LayoutOptionsDialog extends React.Component<
-  LayoutOptionsDialogProps,
+export default class ConfigurationDialog extends React.Component<
+  ConfigurationDialogProps,
   OwnState
 > {
   constructor(
-    props: LayoutOptionsDialogProps | Readonly<LayoutOptionsDialogProps>
+    props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>
   ) {
     super(props);
     this.state = {

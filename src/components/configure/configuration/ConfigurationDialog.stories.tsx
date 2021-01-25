@@ -1,11 +1,11 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import LayoutOptionsDialog from './LayoutOptionsDialog';
+import ConfigurationDialog from './ConfigurationDialog';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 
 export default {
-  title: 'LayoutOptionsDialog',
-  component: LayoutOptionsDialog,
+  title: 'ConfigurationDialog',
+  component: ConfigurationDialog,
   decorators: [
     (Story: any) => (
       <React.Fragment>
@@ -17,7 +17,7 @@ export default {
 };
 
 export const Default = () => (
-  <LayoutOptionsDialog
+  <ConfigurationDialog
     open={true}
     onClose={() => {}}
     vendorId={0x5954}
@@ -35,7 +35,7 @@ export const Default = () => (
 );
 
 export const NoOptions = () => (
-  <LayoutOptionsDialog
+  <ConfigurationDialog
     open={true}
     onClose={() => {}}
     vendorId={0x5954}
@@ -49,11 +49,11 @@ export const NoOptions = () => (
   />
 );
 
-class LayoutOptionsDialogAdapter extends React.Component<any, {}> {
-  private dialog: LayoutOptionsDialog;
+class ConfigurationDialogAdapter extends React.Component<any, {}> {
+  private dialog: ConfigurationDialog;
   constructor(props: any) {
     super(props);
-    this.dialog = new LayoutOptionsDialog(props);
+    this.dialog = new ConfigurationDialog(props);
     this.dialog.state = {
       selectedMenuIndex: 0,
       keyboardDefinition: {} as KeyboardDefinitionSchema,
@@ -66,7 +66,7 @@ class LayoutOptionsDialogAdapter extends React.Component<any, {}> {
 }
 
 export const ValidKeyboardDefinition = () => (
-  <LayoutOptionsDialogAdapter
+  <ConfigurationDialogAdapter
     open={true}
     onClose={() => {}}
     vendorId={0x5954}

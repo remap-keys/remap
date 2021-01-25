@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import LayoutOptionsDialog from './LayoutOptionsDialog';
+import ConfigurationDialog from './ConfigurationDialog';
 import { RootState } from '../../../store/state';
 import { LayoutOptionsActions } from '../../../actions/actions';
 import { storageActionsThunk } from '../../../actions/storage.action';
@@ -11,7 +11,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
   };
 };
-export type LayoutOptionsDialogStateType = ReturnType<typeof mapStateToProps>;
+export type ConfigurationDialogStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
@@ -28,11 +28,11 @@ const mapDispatchToProps = (_dispatch: any) => {
   };
 };
 
-export type LayoutOptionsDialogActionsType = ReturnType<
+export type ConfigurationDialogActionsType = ReturnType<
   typeof mapDispatchToProps
 >;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LayoutOptionsDialog);
+)(ConfigurationDialog);

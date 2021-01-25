@@ -9,7 +9,7 @@ import {
   KeyboardsActionsType,
   KeyboardsStateType,
 } from './Keyboards.container';
-import LayoutOptionsDialog from '../layoutoptions/LayoutOptionsDialog.container';
+import ConfigurationDialog from '../configuration/ConfigurationDialog.container';
 import { IKeymap } from '../../../services/hid/Hid';
 
 export const BORDER_WIDTH = 4;
@@ -29,7 +29,7 @@ type KeyboardsProps = OwnProps &
 
 type KeyboardsState = {
   keyboard: KeyboardModel; // TODO: to be redux
-  openLayoutOptionDialog: boolean;
+  configurationDialog: boolean;
 };
 
 export default class Keyboards extends React.Component<
@@ -41,7 +41,7 @@ export default class Keyboards extends React.Component<
     const kbd = new KeyboardModel(this.props.keyboardKeymap!);
     this.state = {
       keyboard: kbd,
-      openLayoutOptionDialog: false,
+      configurationDialog: false,
     };
   }
 
@@ -58,12 +58,12 @@ export default class Keyboards extends React.Component<
     this.props.onClickLayerNumber!(layer);
   };
 
-  private openLayoutOptionDialog() {
-    this.setState({ openLayoutOptionDialog: true });
+  private openConfigurationDialog() {
+    this.setState({ configurationDialog: true });
   }
 
-  private closeLayoutOptionDialog() {
-    this.setState({ openLayoutOptionDialog: false });
+  private closeConfigurationDialog() {
+    this.setState({ configurationDialog: false });
   }
 
   render() {
@@ -163,7 +163,7 @@ export default class Keyboards extends React.Component<
               })}
               <SettingsIcon
                 className="option"
-                onClick={this.openLayoutOptionDialog.bind(this)}
+                onClick={this.openConfigurationDialog.bind(this)}
               />
             </div>
           </div>
@@ -190,9 +190,9 @@ export default class Keyboards extends React.Component<
             </div>
           </div>
         </div>
-        <LayoutOptionsDialog
-          open={this.state.openLayoutOptionDialog}
-          onClose={this.closeLayoutOptionDialog.bind(this)}
+        <ConfigurationDialog
+          open={this.state.configurationDialog}
+          onClose={this.closeConfigurationDialog.bind(this)}
           vendorId={vendorId}
           productId={productId}
           productName={productName}
