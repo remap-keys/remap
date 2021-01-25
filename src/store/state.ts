@@ -8,7 +8,10 @@ import {
 } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
-import { IStorage } from '../services/storage/Storage';
+import {
+  IKeyboardDefinitionDocument,
+  IStorage,
+} from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
@@ -30,6 +33,14 @@ export const SetupPhase: { [p: string]: ISetupPhase } = {
   openedKeyboard: 'openedKeyboard',
 };
 
+export type IKeyboardsPhase = 'init' | 'list' | 'create' | 'edit';
+export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
+  init: 'init',
+  list: 'list',
+  create: 'create',
+  edit: 'edit',
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -49,6 +60,7 @@ export type RootState = {
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
     keyboardDefinition: KeyboardDefinitionSchema | null;
+    keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
   };
   app: {
     package: {
@@ -89,6 +101,11 @@ export type RootState = {
       selectedOptions: string[];
     };
   };
+  keyboards: {
+    app: {
+      phase: IKeyboardsPhase;
+    };
+  };
   hid: {
     instance: IHid;
   };
@@ -117,6 +134,7 @@ export const INIT_STATE: RootState = {
     keyboards: [],
     keyboard: null, // hid.keyboards[i]
     keyboardDefinition: null,
+    keyboardDefinitionDocuments: [],
   },
   app: {
     package: {
@@ -152,6 +170,11 @@ export const INIT_STATE: RootState = {
     },
     layoutOptions: {
       selectedOptions: [],
+    },
+  },
+  keyboards: {
+    app: {
+      phase: KeyboardsPhase.init,
     },
   },
   hid: {

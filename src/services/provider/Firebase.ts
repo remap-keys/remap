@@ -1,7 +1,12 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { IFetchKeyboardDefinitionResult, IStorage } from '../storage/Storage';
+import {
+  IFetchKeyboardDefinitionResult,
+  IFetchMyKeyboardDefinitionDocumentsResult,
+  IKeyboardDefinitionDocument,
+  IStorage,
+} from '../storage/Storage';
 import { IAuth } from '../auth/Auth';
 
 const config = {
@@ -25,27 +30,58 @@ export class FirebaseProvider implements IStorage, IAuth {
     this.auth = app.auth();
   }
 
+  createResult(
+    querySnapshot: firebase.firestore.QuerySnapshot
+  ): IFetchKeyboardDefinitionResult {
+    return {
+      success: true,
+      exists: true,
+      document: this.createKeyboardDefinitionDocument(querySnapshot.docs[0]),
+    };
+  }
+
+  createKeyboardDefinitionDocument(
+    queryDocumentSnapshot: firebase.firestore.QueryDocumentSnapshot
+  ): IKeyboardDefinitionDocument {
+    return {
+      id: queryDocumentSnapshot.id,
+      name: queryDocumentSnapshot.data().name,
+      vendorId: queryDocumentSnapshot.data().vendor_id,
+      productId: queryDocumentSnapshot.data().product_id,
+      json: queryDocumentSnapshot.data().json,
+    };
+  }
+
+  async fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .where('author_uid', '==', this.auth.currentUser!.uid)
+        .get();
+      return {
+        success: true,
+        documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
+          this.createKeyboardDefinitionDocument(queryDocumentSnapshot)
+        ),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching the keyboard definition document failed',
+        cause: error,
+      };
+    }
+  }
+
   async fetchKeyboardDefinition(
     vendorId: number,
     productId: number,
     productName: string
   ): Promise<IFetchKeyboardDefinitionResult> {
     try {
-      const createResult = (
-        querySnapshot: firebase.firestore.QuerySnapshot
-      ): IFetchKeyboardDefinitionResult => {
-        return {
-          success: true,
-          exists: true,
-          document: {
-            id: querySnapshot.docs[0].id,
-            name: querySnapshot.docs[0].data().name,
-            vendorId: querySnapshot.docs[0].data().vendor_id,
-            productId: querySnapshot.docs[0].data().product_id,
-            json: querySnapshot.docs[0].data().json,
-          },
-        };
-      };
       const querySnapshotByVidAndPid = await this.db
         .collection('keyboards')
         .doc('v1')
@@ -76,13 +112,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           console.log(
             `Keyboard definition found by product_name: ${vendorId}:${productId}:${productName}`
           );
-          return createResult(querySnapshotByProductName);
+          return this.createResult(querySnapshotByProductName);
         }
       } else {
         console.log(
           `Keyboard definition found by vendor_id and product_id: ${vendorId}:${productId}:${productName}`
         );
-        return createResult(querySnapshotByVidAndPid);
+        return this.createResult(querySnapshotByVidAndPid);
       }
     } catch (error) {
       console.error(error);

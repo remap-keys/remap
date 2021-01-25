@@ -52,6 +52,7 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
+  STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import {
@@ -60,6 +61,10 @@ import {
 } from '../components/configure/keycodekey/KeycodeKey.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import { INIT_STATE, RootState } from './state';
+import {
+  KEYBOARDS_APP_ACTIONS,
+  KEYBOARDS_APP_UPDATE_PHASE,
+} from '../actions/keyboards.actions';
 
 export type Action = { type: string; value: any };
 
@@ -87,13 +92,31 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       appReducer(action, draft);
     } else if (action.type.startsWith(STORAGE_ACTIONS)) {
       storageReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_APP_ACTIONS)) {
+      keyboardsAppReducer(action, draft);
     }
   });
+
+const keyboardsAppReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_APP_UPDATE_PHASE: {
+      draft.keyboards.app.phase = action.value;
+      break;
+    }
+  }
+};
 
 const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {
     case STORAGE_UPDATE_KEYBOARD_DEFINITION: {
       draft.entities.keyboardDefinition = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS: {
+      draft.entities.keyboardDefinitionDocuments = action.value;
       break;
     }
   }

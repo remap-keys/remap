@@ -17,6 +17,10 @@ export interface IFetchKeyboardDefinitionResult extends IResult {
   document?: IKeyboardDefinitionDocument;
 }
 
+export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
+  documents?: IKeyboardDefinitionDocument[];
+}
+
 export interface IStorage {
   fetchKeyboardDefinition(
     vendorId: number,
@@ -24,4 +28,5 @@ export interface IStorage {
     productName: string
   ): Promise<IFetchKeyboardDefinitionResult>;
   fetchClosedBetaUsers(): Promise<string[]>;
+  fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
 }

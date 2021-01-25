@@ -1,0 +1,19 @@
+@import '../../../variables';
+.content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-width: 780px;
+  height: 100vh;
+
+  .phase-processing-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: $space-xl;
+    background-color: white;
+    flex: 1 1;
+  }
+}

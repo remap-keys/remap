@@ -3,7 +3,9 @@ import { RootState } from '../../../store/state';
 import Content from './Content';
 
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    phase: state.keyboards.app.phase,
+  };
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;
 
