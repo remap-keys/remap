@@ -64,6 +64,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc('v2')
         .collection('definitions')
         .where('author_uid', '==', this.auth.currentUser!.uid)
+        .orderBy('updated_at', 'desc')
         .get();
       return {
         success: true,
@@ -93,6 +94,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('definitions')
         .where('vendor_id', '==', vendorId)
         .where('product_id', '==', productId)
+        .where('status', '==', 'approved')
         .get();
       let docs = querySnapshotByVidAndPid.docs;
       if (docs.length > 1) {

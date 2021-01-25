@@ -4,10 +4,16 @@ import {
   KeyboardListActionsType,
   KeyboardListStateType,
 } from './KeyboardList.container';
-import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import {
+  IKeyboardDefinitionDocument,
+  IKeyboardDefinitionStatus,
+  KeyboardDefinitionStatus,
+} from '../../../services/storage/Storage';
 import { Button, Card, CardContent, Chip, Typography } from '@material-ui/core';
 import { hexadecimal } from '../../../utils/StringUtils';
 import moment from 'moment-timezone';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { KeyboardsPhase } from '../../../store/state';
 
 type KeyboardListState = {};
 type OwnProps = {};
@@ -23,6 +29,10 @@ export default class KeyboardList extends React.Component<
     super(props);
   }
 
+  handleCreateButtonClick = () => {
+    this.props.updatePhase!(KeyboardsPhase.create);
+  };
+
   render() {
     return (
       <div className="keyboard-list-wrapper">
@@ -34,7 +44,11 @@ export default class KeyboardList extends React.Component<
           ))}
         </div>
         <div className="keyboard-list-buttons">
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleCreateButtonClick}
+          >
             +Keyboard
           </Button>
         </div>
@@ -48,6 +62,19 @@ type KeyboardProps = {
 };
 
 function Keyboard(props: KeyboardProps) {
+  const renderStatusBadge = (status: IKeyboardDefinitionStatus) => {
+    switch (status) {
+      case KeyboardDefinitionStatus.draft:
+      case KeyboardDefinitionStatus.in_review:
+        return <Chip label={props.doc.status} size="small" />;
+      case KeyboardDefinitionStatus.rejected:
+        return <Chip label={props.doc.status} size="small" color="secondary" />;
+      case KeyboardDefinitionStatus.approved:
+        return <Chip label={props.doc.status} size="small" color="primary" />;
+      default:
+        throw new Error(`Unknown Status: ${status}`);
+    }
+  };
   return (
     <Card>
       <CardContent>
@@ -55,7 +82,7 @@ function Keyboard(props: KeyboardProps) {
           <div className="keyboard-container-left">
             <div className="keyboard-header">
               <h2 className="keyboard-name">{props.doc.name}</h2>
-              <Chip label={props.doc.status} size="small" />
+              {renderStatusBadge(props.doc.status)}
             </div>
             <div className="keyboard-meta">
               <div className="keyboard-meta-info">
@@ -83,6 +110,10 @@ function Keyboard(props: KeyboardProps) {
             </div>
           </div>
           <div className="keyboard-container-right">
+            <Button color="primary">
+              <ArrowDownwardIcon />
+              JSON
+            </Button>
             <Button color="primary">Detail</Button>
           </div>
         </div>
