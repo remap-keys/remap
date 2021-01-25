@@ -5,7 +5,9 @@ import {
   KeyboardListStateType,
 } from './KeyboardList.container';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
-import { Card, CardContent, Chip, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, Chip, Typography } from '@material-ui/core';
+import { hexadecimal } from '../../../utils/StringUtils';
+import moment from 'moment-timezone';
 
 type KeyboardListState = {};
 type OwnProps = {};
@@ -26,8 +28,15 @@ export default class KeyboardList extends React.Component<
       <div className="keyboard-list-wrapper">
         <div className="keyboard-list">
           {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
-            <Keyboard key={index} doc={doc} />
+            <div key={index} className="keyboard">
+              <Keyboard doc={doc} />
+            </div>
           ))}
+        </div>
+        <div className="keyboard-list-buttons">
+          <Button variant="contained" color="primary">
+            +Keyboard
+          </Button>
         </div>
       </div>
     );
@@ -42,8 +51,41 @@ function Keyboard(props: KeyboardProps) {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5">{props.doc.name}</Typography>
-        <Chip label={props.doc.status} size="small" />
+        <div className="keyboard-container">
+          <div className="keyboard-container-left">
+            <div className="keyboard-header">
+              <h2 className="keyboard-name">{props.doc.name}</h2>
+              <Chip label={props.doc.status} size="small" />
+            </div>
+            <div className="keyboard-meta">
+              <div className="keyboard-meta-info">
+                <span className="keyboard-meta-info-label">Vendor ID:</span>
+                {hexadecimal(props.doc.vendorId, 4)}
+              </div>
+              <div className="keyboard-meta-info">
+                <span className="keyboard-meta-info-label">Product ID:</span>
+                {hexadecimal(props.doc.productId, 4)}
+              </div>
+              <div className="keyboard-meta-info">
+                <span className="keyboard-meta-info-label">Product Name:</span>
+                {props.doc.productName}
+              </div>
+            </div>
+            <div className="keyboard-meta">
+              <div className="keyboard-meta-info">
+                <span className="keyboard-meta-info-label">Created at:</span>
+                {moment(props.doc.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+              </div>
+              <div className="keyboard-meta-info">
+                <span className="keyboard-meta-info-label">Updated at: </span>
+                {moment(props.doc.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
+              </div>
+            </div>
+          </div>
+          <div className="keyboard-container-right">
+            <Button color="primary">Detail</Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
