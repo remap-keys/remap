@@ -5,6 +5,7 @@ import { ContentStateType } from './Content.container';
 import './Content.scss';
 import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
 import { CircularProgress } from '@material-ui/core';
+import KeyboardList from '../keyboardlist/KeyboardList.container';
 
 type ContentState = {};
 type OwnProps = {};
@@ -34,10 +35,11 @@ type ContentsProps = {
   phase: IKeyboardsPhase;
 };
 function Contents(props: ContentsProps) {
-  console.log(props.phase);
   switch (props.phase) {
     case KeyboardsPhase.init:
       return <PhaseProcessing phase={props.phase} />;
+    case KeyboardsPhase.list:
+      return <KeyboardList />;
     default:
       throw new Error(
         `Unknown state.keyboards.app.phase value: ${props.phase}`

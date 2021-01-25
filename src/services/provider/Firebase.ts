@@ -48,7 +48,12 @@ export class FirebaseProvider implements IStorage, IAuth {
       name: queryDocumentSnapshot.data().name,
       vendorId: queryDocumentSnapshot.data().vendor_id,
       productId: queryDocumentSnapshot.data().product_id,
+      productName: queryDocumentSnapshot.data().product_name,
+      authorUid: queryDocumentSnapshot.data().author_uid,
+      status: queryDocumentSnapshot.data().status,
       json: queryDocumentSnapshot.data().json,
+      createdAt: queryDocumentSnapshot.data().created_at,
+      updatedAt: queryDocumentSnapshot.data().updated_at,
     };
   }
 
@@ -84,40 +89,31 @@ export class FirebaseProvider implements IStorage, IAuth {
     try {
       const querySnapshotByVidAndPid = await this.db
         .collection('keyboards')
-        .doc('v1')
+        .doc('v2')
         .collection('definitions')
         .where('vendor_id', '==', vendorId)
         .where('product_id', '==', productId)
         .get();
-      if (querySnapshotByVidAndPid.empty || querySnapshotByVidAndPid.size > 1) {
-        const querySnapshotByProductName = await this.db
-          .collection('keyboards')
-          .doc('v1')
-          .collection('definitions')
-          .where('product_name', 'array-contains', productName)
-          .get();
-        if (querySnapshotByProductName.empty) {
-          console.warn(
-            `Keyboard definition not found: ${vendorId}:${productId}:${productName}`
-          );
-          return {
-            success: true,
-            exists: false,
-          };
-        } else if (querySnapshotByProductName.size !== 1) {
-          throw new Error(
-            `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`
-          );
-        } else {
-          console.log(
-            `Keyboard definition found by product_name: ${vendorId}:${productId}:${productName}`
-          );
-          return this.createResult(querySnapshotByProductName);
-        }
-      } else {
-        console.log(
-          `Keyboard definition found by vendor_id and product_id: ${vendorId}:${productId}:${productName}`
+      let docs = querySnapshotByVidAndPid.docs;
+      if (docs.length > 1) {
+        docs = docs.filter((doc) =>
+          doc.data().product_name.endsWith(productName)
         );
+      }
+      if (docs.length === 0) {
+        console.warn(
+          `Keyboard definition not found: ${vendorId}:${productId}:${productName}`
+        );
+        return {
+          success: true,
+          exists: false,
+        };
+      } else if (docs.length > 1) {
+        return {
+          success: false,
+          error: `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`,
+        };
+      } else {
         return this.createResult(querySnapshotByVidAndPid);
       }
     } catch (error) {
