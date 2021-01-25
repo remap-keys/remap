@@ -10,8 +10,7 @@ const mapStateToProps = (state: RootState) => {
   const info = kbd?.getInformation();
 
   return {
-    keyboard: state.entities.keyboard,
-    productName: info?.productName,
+    keyboardInfo: info,
   };
 };
 export type KeyboardDefinitionFormStateType = ReturnType<

@@ -1,6 +1,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import KeyboardDefinitionForm from './KeyboardDefinitionForm';
+import KeyboardDefinitionForm, {
+  KeyboardDefinitionFormPart,
+} from './KeyboardDefinitionForm';
 import {
   buildError,
   SchemaValidateError,
@@ -19,20 +21,13 @@ export default {
   ],
 };
 
-type Props = {
-  loading?: boolean;
-  dragging?: boolean;
-  errors?: SchemaValidateError[];
-};
-class KeyboardDefinitionFormStory extends React.Component<Props, {}> {
+class KeyboardDefinitionFormStory extends React.Component<any, {}> {
   private form: KeyboardDefinitionForm;
   constructor(props: any) {
     super(props);
     this.form = new KeyboardDefinitionForm(props);
     this.form.state = {
-      loading: !!props.loading,
-      dragging: !!props.dragging,
-      errors: props.errors || [],
+      initializingKeyboard: props.initializingKeyboard,
     };
   }
 
@@ -41,14 +36,71 @@ class KeyboardDefinitionFormStory extends React.Component<Props, {}> {
   }
 }
 
-export const Default = () => <KeyboardDefinitionForm />;
+const keyboardInfo = {
+  vendorId: 0,
+  productId: 0,
+  productName: 'Product Name',
+};
+
+type Props = {
+  loading?: boolean;
+  dragging?: boolean;
+  errors?: SchemaValidateError[];
+  keyboardInfo: any;
+  messageHtml: string;
+};
+class KeyboardDefinitionFormPartStory extends React.Component<Props, {}> {
+  private form: KeyboardDefinitionFormPart;
+  constructor(props: any) {
+    super(props);
+    this.form = new KeyboardDefinitionFormPart(props);
+    this.form.state = {
+      loading: !!props.loading,
+      dragging: !!props.dragging,
+      errors: props.errors || null,
+      invalidFileError: null,
+    };
+  }
+
+  render() {
+    return this.form.render();
+  }
+}
+
+export const Default = () => (
+  <KeyboardDefinitionFormStory
+    keyboardInfo={keyboardInfo}
+    initializingKeyboard={false}
+  />
+);
+
+export const InitializingKeyboard = () => (
+  <KeyboardDefinitionFormStory
+    keyboardInfo={keyboardInfo}
+    initializingKeyboard={true}
+  />
+);
 
 export const Loading = () => (
-  <KeyboardDefinitionFormStory loading={true} dragging={false} />
+  <KeyboardDefinitionFormPartStory
+    messageHtml={
+      'Please import your <strong>Product Name</strong> definition file(.json).'
+    }
+    keyboardInfo={keyboardInfo}
+    loading={true}
+    dragging={false}
+  />
 );
 
 export const Dragging = () => (
-  <KeyboardDefinitionFormStory loading={false} dragging={true} />
+  <KeyboardDefinitionFormPartStory
+    messageHtml={
+      'Please import your <strong>Product Name</strong> definition file(.json).'
+    }
+    keyboardInfo={keyboardInfo}
+    loading={false}
+    dragging={true}
+  />
 );
 
 const json = {
@@ -106,7 +158,11 @@ const errors = [
   },
 ];
 export const Errors = () => (
-  <KeyboardDefinitionFormStory
+  <KeyboardDefinitionFormPartStory
+    messageHtml={
+      'Please import your <strong>Product Name</strong> definition file(.json).'
+    }
+    keyboardInfo={keyboardInfo}
     errors={errors.map((err) => buildError(err, json))}
   />
 );

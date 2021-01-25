@@ -20,6 +20,8 @@ type KeycapOwnState = {
 // TODO: refactoring properties, unify the model
 export type KeycapOwnProps = {
   model: KeyModel;
+  keymap: IKeymap;
+  remap: IKeymap | null;
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -113,17 +115,14 @@ export default class Keycap extends React.Component<
       background: roofColor,
     };
 
-    const selectedLayer = this.props.selectedLayer!;
-    const selectedPos = this.props.selectedPos!;
     const pos = this.props.model.pos;
     const option = this.props.model.optionLabel;
-    const isSelectedKey = pos == selectedPos;
-    const keymap: IKeymap = this.props.keymaps![selectedLayer][pos];
+    const isSelectedKey = pos == this.props.selectedPos!;
+    const keymap: IKeymap = this.props.keymap;
     const orgKey: Key = genKey(keymap);
-    const dstKey: Key | null =
-      pos in this.props.remaps![selectedLayer]
-        ? genKey(this.props.remaps![selectedLayer][pos])
-        : null;
+    const dstKey: Key | null = this.props.remap
+      ? genKey(this.props.remap)
+      : null;
 
     return (
       <div
