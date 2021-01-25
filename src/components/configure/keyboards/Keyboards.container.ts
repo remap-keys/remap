@@ -5,10 +5,12 @@ import { AppActions, KeyboardsActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
+    keyboard: state.entities.keyboard,
     layerCount: state.entities.device.layerCount,
     selectedLayer: state.configure.keyboards.selectedLayer,
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     remaps: state.app.remaps,
+    keymaps: state.entities.device.keymaps,
     keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
   };

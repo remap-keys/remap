@@ -9,10 +9,17 @@ import {
   KeyboardsActionsType,
   KeyboardsStateType,
 } from './Keyboards.container';
-import LayoutOptionsDialog from '../layoutoptions/LayoutOptionsDialog.container';
+import ConfigurationDialog from '../configuration/ConfigurationDialog.container';
+import { IKeymap } from '../../../services/hid/Hid';
 
 export const BORDER_WIDTH = 4;
 export const LAYOUT_PADDING = 16;
+
+type KeycapData = {
+  model: KeyModel;
+  keymap: IKeymap;
+  remap: IKeymap | null;
+};
 
 type OwnProps = {};
 
@@ -22,7 +29,7 @@ type KeyboardsProps = OwnProps &
 
 type KeyboardsState = {
   keyboard: KeyboardModel; // TODO: to be redux
-  openLayoutOptionDialog: boolean;
+  configurationDialog: boolean;
 };
 
 export default class Keyboards extends React.Component<
@@ -34,20 +41,29 @@ export default class Keyboards extends React.Component<
     const kbd = new KeyboardModel(this.props.keyboardKeymap!);
     this.state = {
       keyboard: kbd,
-      openLayoutOptionDialog: false,
+      configurationDialog: false,
     };
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  shouldComponentUpdate(nextProps: KeyboardsProps, nextState: KeyboardsState) {
+    if (this.props.keyboardKeymap != nextProps.keyboardKeymap) {
+      const kbd = new KeyboardModel(nextProps.keyboardKeymap!);
+      this.setState({ keyboard: kbd });
+    }
+    return true;
   }
 
   onClickLayer = (layer: number) => {
     this.props.onClickLayerNumber!(layer);
   };
 
-  private openLayoutOptionDialog() {
-    this.setState({ openLayoutOptionDialog: true });
+  private openConfigurationDialog() {
+    this.setState({ configurationDialog: true });
   }
 
-  private closeLayoutOptionDialog() {
-    this.setState({ openLayoutOptionDialog: false });
+  private closeConfigurationDialog() {
+    this.setState({ configurationDialog: false });
   }
 
   render() {
@@ -65,7 +81,7 @@ export default class Keyboards extends React.Component<
     let layoutOptions = undefined;
     const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
     if (hasKeyboardOptions) {
-      const selectedKeyboardOptions: string[] = this.props
+      const selectedKeyboardOptions: (string | null)[] = this.props
         .selectedKeyboardOptions!;
       const labels: (string | string[])[] = this.props.keyboardLabels!;
 
@@ -76,16 +92,37 @@ export default class Keyboards extends React.Component<
             ? { option: '' + index, optionChoice: '1' }
             : { option: '' + index, optionChoice: '0' };
         } else {
-          const choice: string = selectedKeyboardOptions[index];
+          const choice: string = selectedKeyboardOptions[index] as string;
           const choiceIndex = choices.indexOf(choice) - 1; // first item of choices is for choice's label
           return { option: '' + index, optionChoice: '' + choiceIndex };
         }
       });
     }
+
     const { keymaps, width, height, left } = this.state.keyboard.getKeymap(
       layoutOptions
     );
     this.props.setKeyboardSize!(width, height);
+    const {
+      vendorId,
+      productId,
+      productName,
+    } = this.props.keyboard!.getInformation();
+
+    // TODO: performance tuning
+    const deviceKeymaps = this.props.keymaps![this.props.selectedLayer!];
+    const remaps = this.props.remaps![this.props.selectedLayer!];
+    const keycaps: KeycapData[] = [];
+    keymaps.forEach((model) => {
+      const pos = model.pos;
+      if (model.pos in deviceKeymaps) {
+        const keymap: IKeymap = deviceKeymaps[pos];
+        const remap: IKeymap | null = pos in remaps ? remaps[pos] : null;
+        keycaps.push({ model, keymap, remap });
+      } else {
+        console.log(`No keymap on device: ${model.location}`);
+      }
+    });
     return (
       <React.Fragment>
         <div className="layer-wrapper">
@@ -124,12 +161,10 @@ export default class Keyboards extends React.Component<
                   </StyledBadge>
                 );
               })}
-              {hasKeyboardOptions && (
-                <SettingsIcon
-                  className="option"
-                  onClick={this.openLayoutOptionDialog.bind(this)}
-                />
-              )}
+              <SettingsIcon
+                className="option"
+                onClick={this.openConfigurationDialog.bind(this)}
+              />
             </div>
           </div>
         </div>
@@ -145,22 +180,23 @@ export default class Keyboards extends React.Component<
               className="keyboard-frame"
               style={{ width: width, height: height, marginLeft: -left }}
             >
-              {keymaps.map((model: KeyModel) => {
-                return model.isDecal ? (
+              {keycaps.map((keycap: KeycapData) => {
+                return keycap.model.isDecal ? (
                   ''
                 ) : (
-                  <Keycap key={model.location} model={model} />
+                  <Keycap key={keycap.model.location} {...keycap} />
                 );
               })}
             </div>
           </div>
         </div>
-        {hasKeyboardOptions && (
-          <LayoutOptionsDialog
-            open={this.state.openLayoutOptionDialog}
-            onClose={this.closeLayoutOptionDialog.bind(this)}
-          />
-        )}
+        <ConfigurationDialog
+          open={this.state.configurationDialog}
+          onClose={this.closeConfigurationDialog.bind(this)}
+          vendorId={vendorId}
+          productId={productId}
+          productName={productName}
+        />
       </React.Fragment>
     );
   }

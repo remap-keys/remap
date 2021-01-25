@@ -2,7 +2,6 @@ import {
   SchemaValidateError,
   validateKeyboardDefinitionSchema,
 } from './Validator';
-import actualSchema from './assets/keyboard-definition-schema.json';
 
 const KEYLABEL_LEGENDS_PATTERN =
   '^([1-9][0-9]*|0),([1-9][0-9]*|0)((\n.*){2}?\n([1-9][0-9]*|0),([1-9][0-9]*|0)(\n.*){0,8}?|(\n.*){0,2}?)?$';
@@ -31,32 +30,20 @@ describe('Validator', () => {
     test.each([0, NaN, null, {}])('invalid type', (value) => {
       const obj = { name: value };
       const result = validateKeyboardDefinitionSchema(obj, schema);
-      const expected: SchemaValidateError = {
-        keyword: 'type',
-        dataPath: '/name',
-        schemaPath: '#/properties/name/type',
-        message: 'should be string',
-        params: {
-          type: 'string',
-        },
-      };
-      expect(result.errors![0]).toEqual(expected);
+      expect(result.errors![0].keyword).toEqual('type');
+      expect(result.errors![0].dataPath).toEqual('/name');
+      expect(result.errors![0].schemaPath).toEqual('#/properties/name/type');
+      expect(result.errors![0].params.type).toEqual('string');
     });
 
     test.each([{ names: 'hoge' }, { hoge: 'huga' }])(
       'invalid property',
       (obj) => {
         const result = validateKeyboardDefinitionSchema(obj, schema);
-        const expected: SchemaValidateError = {
-          keyword: 'required',
-          dataPath: '',
-          schemaPath: '#/required',
-          message: "should have required property 'name'",
-          params: {
-            missingProperty: 'name',
-          },
-        };
-        expect(result.errors![0]).toEqual(expected);
+        expect(result.errors![0].keyword).toEqual('required');
+        expect(result.errors![0].dataPath).toEqual('/');
+        expect(result.errors![0].schemaPath).toEqual('#/required');
+        expect(result.errors![0].params.missingProperty).toEqual('name');
       }
     );
 
@@ -98,16 +85,14 @@ describe('Validator', () => {
       ])('invalid string pattern', (label) => {
         const obj = { name: 'hoge', label: label };
         const result = validateKeyboardDefinitionSchema(obj, schema);
-        const expected: SchemaValidateError = {
-          keyword: 'pattern',
-          dataPath: '/label',
-          schemaPath: '#/properties/label/pattern',
-          message: `should match pattern "${schema.properties.label.pattern}"`,
-          params: {
-            pattern: schema.properties.label.pattern,
-          },
-        };
-        expect(result.errors![0]).toEqual(expected);
+        expect(result.errors![0].keyword).toEqual('pattern');
+        expect(result.errors![0].dataPath).toEqual('/label');
+        expect(result.errors![0].schemaPath).toEqual(
+          '#/properties/label/pattern'
+        );
+        expect(result.errors![0].params.pattern).toEqual(
+          schema.properties.label.pattern
+        );
       });
     });
   });
@@ -179,7 +164,7 @@ describe('Validator', () => {
         dataPath: '/layouts/keymap/0/0',
         schemaPath:
           '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/type',
-        message: `should be string`,
+        message: `<strong>0</strong> should be string`,
         params: {
           type: 'string',
         },
@@ -197,21 +182,15 @@ describe('Validator', () => {
         },
       };
       const result = validateKeyboardDefinitionSchema(obj, schema);
-      const expected: SchemaValidateError = {
-        keyword: 'pattern',
-        dataPath: '/layouts/keymap/1/1',
-        schemaPath:
-          '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/pattern',
-        message: `should match pattern "${
-          schema.properties.layouts.properties.keymap.items!.anyOf[0].items!
-            .anyOf[0].pattern
-        }"`,
-        params: {
-          pattern: schema.properties.layouts.properties.keymap.items!.anyOf[0]
-            .items!.anyOf[0].pattern,
-        },
-      };
-      expect(result.errors![0]).toEqual(expected);
+      expect(result.errors![0].keyword).toEqual('pattern');
+      expect(result.errors![0].dataPath).toEqual('/layouts/keymap/1/1');
+      expect(result.errors![0].schemaPath).toEqual(
+        '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/pattern'
+      );
+      expect(result.errors![0].params.pattern).toEqual(
+        schema.properties.layouts.properties.keymap.items!.anyOf[0].items!
+          .anyOf[0].pattern
+      );
     });
 
     describe('multi points error', () => {
@@ -273,20 +252,27 @@ describe('Validator', () => {
           },
         },
       };
-      test('invalid type, required and pattern', () => {
+      test('invalid type, required and pattern should be checked the first error ONLY', () => {
         const obj = {
-          name: '123',
+          name: 123, // INVALID(type)
           matrix: {
-            rows: 8,
-            cols: 10,
+            rows: 8, // INVALID(required)
           },
           layouts: {
-            keymap: [['0,0', { x: 1, y: 0 }, '0.1']],
+            keymap: [['0,0', { x: 1, y: 0 }, '0.1']], // INVALID(pattern)
           },
         };
         const result = validateKeyboardDefinitionSchema(obj, schema);
 
-        expect(result.errors!).toEqual({});
+        expect(result.errors!).toEqual([
+          {
+            dataPath: '/name',
+            keyword: 'type',
+            message: '<strong>123</strong> should be string',
+            params: { type: 'string' },
+            schemaPath: '#/properties/name/type',
+          },
+        ]);
       });
     });
   });

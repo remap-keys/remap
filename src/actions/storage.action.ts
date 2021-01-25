@@ -2,10 +2,13 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
+  KeyboardsActions,
+  KeycodeKeyActions,
+  KeydiffActions,
   LayoutOptionsActions,
   NotificationActions,
 } from './actions';
-import { hidActionsThunk } from './hid.action';
+import { HidActions, hidActionsThunk } from './hid.action';
 import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
@@ -21,8 +24,13 @@ export const StorageActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof StorageActions[keyof typeof StorageActions]
+  | typeof AppActions[keyof typeof AppActions]
+  | typeof KeyboardsActions[keyof typeof KeyboardsActions]
+  | typeof KeycodeKeyActions[keyof typeof KeycodeKeyActions]
+  | typeof KeydiffActions[keyof typeof KeydiffActions]
+  | typeof HidActions[keyof typeof HidActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
+  | typeof StorageActions[keyof typeof StorageActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -31,6 +39,29 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const storageActionsThunk = {
+  // eslint-disable-next-line no-undef
+  refreshKeyboardDefinition: (
+    keyboardDefinition: KeyboardDefinitionSchema
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    dispatch(
+      LayoutOptionsActions.initSelectedOptions(
+        keyboardDefinition.layouts.labels
+          ? keyboardDefinition.layouts.labels
+          : []
+      )
+    );
+    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+    dispatch(AppActions.remapsInit(entities.device.layerCount));
+    dispatch(KeydiffActions.clearKeydiff());
+    dispatch(KeycodeKeyActions.clear());
+    dispatch(KeyboardsActions.clearSelectedPos());
+  },
+
   // eslint-disable-next-line no-undef
   uploadKeyboardDefinition: (
     keyboardDefinition: KeyboardDefinitionSchema
@@ -47,7 +78,7 @@ export const storageActionsThunk = {
           : []
       )
     );
-    await dispatch(hidActionsThunk.openKeyboard());
+    dispatch(hidActionsThunk.openKeyboard());
   },
 
   fetchKeyboardDefinition: (
