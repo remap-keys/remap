@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 
@@ -16,13 +17,16 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   CircularProgress,
   Typography,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-type KeyboardDefinitionFormState = {};
+type KeyboardDefinitionFormState = {
+  initializingKeyboard: boolean;
+};
 
 type OwnProps = {};
 type KeyboardDefinitionFormProps = OwnProps &
@@ -37,23 +41,45 @@ export default class KeyboardDefinitionForm extends React.Component<
     props: KeyboardDefinitionFormProps | Readonly<KeyboardDefinitionFormProps>
   ) {
     super(props);
-    this.state = {};
+    this.state = {
+      initializingKeyboard: false,
+    };
+  }
+
+  componentWillUnmount() {
+    this.setState({ initializingKeyboard: false });
   }
 
   private onLoadFile(keyboardDefinition: KeyboardDefinitionSchema) {
+    this.setState({ initializingKeyboard: true });
     this.props.onDropFile!(keyboardDefinition);
   }
 
   render() {
-    const info = this.props.keyboard!.getInformation();
-    return (
-      <KeyboardDefinitionFormPart
-        messageHtml={`Please import your <strong>${info.productName}</strong> definition file(.json).`}
-        deviceVendorId={info.vendorId}
-        deviceProductId={info.productId}
-        onLoadFile={this.onLoadFile}
-      />
-    );
+    if (this.state.initializingKeyboard) {
+      return (
+        <div className="keyboarddefinitionform-wrapper">
+          <div className="initializing">
+            <div className="drop-target">
+              <CircularProgress size={24} />
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <KeyboardDefinitionFormPart
+          messageHtml={`Please import your <strong>${
+            this.props.keyboardInfo!.productName
+          }</strong> definition file(.json).`}
+          deviceVendorId={this.props.keyboardInfo!.vendorId}
+          deviceProductId={this.props.keyboardInfo!.productId}
+          onLoadFile={(kd) => {
+            this.onLoadFile(kd);
+          }}
+        />
+      );
+    }
   }
 }
 
@@ -83,8 +109,13 @@ export type KeyboardDefinitionFormPartProps = {
   messageHtml: string;
   deviceVendorId: number;
   deviceProductId: number;
-  // eslint-disable-next-line no-unused-vars
-  onLoadFile: (keyboardDefinition: KeyboardDefinitionSchema) => void;
+  size?: 'small' | 'normal';
+  onLoadFile: (
+    // eslint-disable-next-line no-unused-vars
+    keyboardDefinition: KeyboardDefinitionSchema,
+    // eslint-disable-next-line no-unused-vars
+    fileName: string
+  ) => void;
 };
 
 type KeyboardDefinitionFormPartStates = {
@@ -93,10 +124,12 @@ type KeyboardDefinitionFormPartStates = {
   errors: SchemaValidateError[] | null;
   invalidFileError: invalidFileError | null;
 };
+
 export class KeyboardDefinitionFormPart extends React.Component<
   KeyboardDefinitionFormPartProps,
   KeyboardDefinitionFormPartStates
 > {
+  dropTargetRef: React.RefObject<HTMLDivElement>;
   constructor(
     props:
       | KeyboardDefinitionFormPartProps
@@ -109,6 +142,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       errors: null,
       invalidFileError: null,
     };
+    this.dropTargetRef = React.createRef<HTMLDivElement>();
   }
 
   componentWillUnmount() {
@@ -123,7 +157,6 @@ export class KeyboardDefinitionFormPart extends React.Component<
     this.setState({ loading: false });
   }
 
-  // eslint-disable-next-line no-undef
   private async loadFile(file: File): Promise<KeyboardDefinitionSchema> {
     this.setState({ loading: true, errors: null, invalidFileError: null });
     if (!isJsonFile(file)) {
@@ -160,10 +193,13 @@ export class KeyboardDefinitionFormPart extends React.Component<
       this.props.deviceProductId
     );
     if (msg) {
+      this.stopLoading();
       this.showErrorMessage('INVALID IDs', msg);
       return Promise.reject(msg);
     }
 
+    this.stopLoading();
+    this.props.onLoadFile(keyboardDefinition, file.name);
     return keyboardDefinition;
   }
 
@@ -176,7 +212,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       return;
     }
     const file = files[0];
-    this.loadFile(file);
+    this.loadFile(file).catch(() => {});
   };
 
   // eslint-disable-next-line no-undef
@@ -188,7 +224,14 @@ export class KeyboardDefinitionFormPart extends React.Component<
   // eslint-disable-next-line no-undef
   private onDragLeaveFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    this.setState({ dragging: false });
+    const x = event.clientX;
+    const y = event.clientY;
+    const rect = this.dropTargetRef.current!.getBoundingClientRect();
+    const inHorizontal = 0 < x - rect.left && 0 < rect.right - x; //x position within the element.
+    const inVertical = 0 < y - rect.top && 0 < rect.bottom - y; //y position within the element.
+    if (!(inHorizontal && inVertical)) {
+      this.setState({ dragging: false });
+    }
   };
 
   // eslint-disable-next-line no-undef
@@ -199,7 +242,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       return;
     }
     const file = files[0];
-    this.loadFile(file);
+    this.loadFile(file).catch(() => {});
     event.target.value = '';
   };
 
@@ -208,10 +251,18 @@ export class KeyboardDefinitionFormPart extends React.Component<
       <React.Fragment>
         <div className="keyboarddefinitionform-wrapper">
           <div
-            className="message"
+            className={[
+              'message',
+              this.props.size && this.props.size == 'small' && 'message-small',
+            ].join(' ')}
             dangerouslySetInnerHTML={{ __html: this.props.messageHtml }}
           ></div>
-          <div className="upload-form">
+          <div
+            className={[
+              'upload-form',
+              this.props.size && this.props.size == 'small' && 'area-small',
+            ].join(' ')}
+          >
             <div
               className={
                 this.state.dragging
@@ -221,14 +272,39 @@ export class KeyboardDefinitionFormPart extends React.Component<
               onDragOver={this.onDragOverFile}
               onDrop={this.onDropFile}
               onDragLeave={this.onDragLeaveFile}
+              ref={this.dropTargetRef}
             >
-              <div className="place-holder">Drop here.</div>
+              <div className="place-holder">
+                <div>Drop here</div>
+                {!this.state.dragging && (
+                  <React.Fragment>
+                    <div>or</div>
+                    <div className="import-file">
+                      <input
+                        accept="application/json"
+                        id="contained-button-file"
+                        multiple
+                        type="file"
+                        onChange={this.onChangeFile}
+                      />
+                      <label htmlFor="contained-button-file">
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="primary"
+                          component="span"
+                          disabled={this.state.loading || this.state.dragging}
+                          disableElevation
+                        >
+                          Import(.json)
+                        </Button>
+                      </label>
+                    </div>
+                  </React.Fragment>
+                )}
+              </div>
             </div>
-            <input
-              type="file"
-              accept="application/json"
-              onChange={this.onChangeFile}
-            />
+
             {this.state.loading && (
               <div className="keyboarddefinitionform-loading">
                 <div>
@@ -240,7 +316,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
           </div>
           {this.state.errors && (
             <div className={'validation-errors'}>
-              <h2>Schema Error</h2>
+              <h2>Validation Error</h2>
               <ValidationErrors errors={this.state.errors} />
             </div>
           )}
