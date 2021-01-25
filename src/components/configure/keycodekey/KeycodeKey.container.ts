@@ -22,7 +22,6 @@ export type Key = {
 
 export const genKey = (keymap: IKeymap): Key => {
   // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo

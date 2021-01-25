@@ -1,7 +1,6 @@
 import React from 'react';
-
+import './Keyboards.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Keyboards, { BORDER_WIDTH, LAYOUT_PADDING } from './Keyboards';
 import KeyboardModel from '../../../models/KeyboardModel';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap';
@@ -18,11 +17,12 @@ import { OptionChoiceKeymap } from '../../../assets/keymaps/OptionChoiceKeymap';
 
 export default {
   title: 'Keyboards',
-  component: Keyboards,
-  decorators: [],
-  parameters: {},
 };
-
+type KeycapData = {
+  model: KeyModel;
+  keymap: IKeymap;
+  remap: IKeymap | null;
+};
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 const genKeyboardView = (
   km: KeymapType,
@@ -30,15 +30,16 @@ const genKeyboardView = (
 ) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
-  let obj: { [pos: string]: IKeymap } = {};
+  const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
-    obj[model.pos] = {
+    const keymap: IKeymap = {
       isAny: true,
       code: 0,
       keycodeInfo: { label: model.pos, code: 0, name: { long: '', short: '' } },
     };
+    const remap = null;
+    keycaps.push({ model, keymap, remap });
   });
-  const deviceKeymaps: { [pos: string]: IKeymap }[] = [obj];
   return (
     <React.Fragment>
       <CssBaseline />
@@ -46,25 +47,23 @@ const genKeyboardView = (
         <div
           className="keyboard-root"
           style={{
-            width: width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-            height: height + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
+            width: width + 40,
+            height: height + 40,
           }}
         >
           <div
             className="keyboard-frame"
             style={{ width: width, height: height, marginLeft: -left }}
           >
-            {keymaps.map((model: KeyModel) => {
-              return model.isDecal ? (
+            {keycaps.map((keycap: KeycapData) => {
+              return keycap.model.isDecal ? (
                 ''
               ) : (
                 <Keycap
-                  key={model.pos}
-                  model={model}
-                  keymaps={deviceKeymaps}
-                  remaps={[{}]}
+                  key={keycap.model.pos}
                   selectedLayer={0}
                   onClickKeycap={() => {}}
+                  {...keycap}
                 />
               );
             })}

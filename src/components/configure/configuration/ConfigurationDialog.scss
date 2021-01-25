@@ -11,10 +11,13 @@
       cursor: pointer;
     }
   }
+  .config-menu {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+  }
   .layout-options {
     display: flex;
-    flex-direction: column;
-    max-width: 444px;
+    flex-direction: row;
+    padding-left: $space-s;
 
     .option-label,
     .option-value {
@@ -27,6 +30,23 @@
       justify-content: flex-end;
       .option-value-select {
         min-width: 180px;
+      }
+    }
+  }
+  .tab-panel {
+    width: 400px;
+    height: 400px;
+    padding-left: $space-xl;
+
+    .import-success {
+      margin-top: $space-l;
+      .apply-definition {
+        padding: $space-m 0;
+        display: flex;
+        justify-content: flex-end;
+        button {
+          margin-left: $space-m;
+        }
       }
     }
   }

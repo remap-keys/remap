@@ -41,11 +41,11 @@ export default class KeyModel {
     this._x = x;
     this._y = y;
     this.location = location;
-    const locs = location.split('\n\n\n');
+    const locs = location.split('\n');
     this.pos = locs[0];
-    this.optionLabel = locs.length == 2 ? locs[1] : '';
-    const options =
-      locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
+    this.optionLabel =
+      4 <= locs.length ? locs[3] : `${OPTION_DEFAULT},${OPTION_DEFAULT}`;
+    const options = this.optionLabel.split(',');
     this.option = options[0];
     this.optionChoice = options[1];
     this.left = x * KEY_SIZE;
