@@ -86,7 +86,6 @@ class KeyboardDefinitionManagement extends React.Component<
 
   componentDidUpdate() {
     this.updateNotifications();
-    this.props.updateKeyboards!();
   }
 
   render() {
