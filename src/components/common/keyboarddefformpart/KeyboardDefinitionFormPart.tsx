@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import './KeyboardDefinitionFormPart.scss';
 
 // eslint-disable-next-line no-undef
 const loadDefinitionFile = async (file: File): Promise<string> => {
