@@ -37,14 +37,16 @@ const loadDefinitionFile = async (file: File): Promise<string> => {
 
 export type KeyboardDefinitionFormPartProps = {
   messageHtml: string;
-  deviceVendorId: number;
-  deviceProductId: number;
+  deviceVendorId?: number;
+  deviceProductId?: number;
+  validateDeviceIds: boolean;
   size?: 'small' | 'normal';
   onLoadFile: (
     // eslint-disable-next-line no-unused-vars
     keyboardDefinition: KeyboardDefinitionSchema,
     // eslint-disable-next-line no-unused-vars
-    fileName: string
+    fileName: string,
+    jsonStr: string
   ) => void;
 };
 
@@ -117,19 +119,21 @@ export class KeyboardDefinitionFormPart extends React.Component<
       return Promise.reject(null);
     }
 
-    const msg = validateIds(
-      keyboardDefinition,
-      this.props.deviceVendorId,
-      this.props.deviceProductId
-    );
-    if (msg) {
-      this.stopLoading();
-      this.showErrorMessage('INVALID IDs', msg);
-      return Promise.reject(msg);
+    if (this.props.validateDeviceIds) {
+      const msg = validateIds(
+        keyboardDefinition,
+        this.props.deviceVendorId!,
+        this.props.deviceProductId!
+      );
+      if (msg) {
+        this.stopLoading();
+        this.showErrorMessage('INVALID IDs', msg);
+        return Promise.reject(msg);
+      }
     }
 
     this.stopLoading();
-    this.props.onLoadFile(keyboardDefinition, file.name);
+    this.props.onLoadFile(keyboardDefinition, file.name, jsonStr);
     return keyboardDefinition;
   }
 

@@ -64,6 +64,12 @@ import { INIT_STATE, RootState } from './state';
 import {
   KEYBOARDS_APP_ACTIONS,
   KEYBOARDS_APP_UPDATE_PHASE,
+  KEYBOARDS_CREATE_KEYBOARD_ACTIONS,
+  KEYBOARDS_CREATE_KEYBOARD_CLEAR,
+  KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_FILENAME,
+  KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_STRING,
+  KEYBOARDS_CREATE_KEYBOARD_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_CREATE_KEYBOARD_UPDATE_PRODUCT_NAME,
 } from '../actions/keyboards.actions';
 
 export type Action = { type: string; value: any };
@@ -94,8 +100,36 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       storageReducer(action, draft);
     } else if (action.type.startsWith(KEYBOARDS_APP_ACTIONS)) {
       keyboardsAppReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_CREATE_KEYBOARD_ACTIONS)) {
+      keyboardsCreateKeyboardReducer(action, draft);
     }
   });
+
+const keyboardsCreateKeyboardReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_CREATE_KEYBOARD_CLEAR:
+      draft.keyboards.createKeyboard.keyboardDefinition = null;
+      draft.keyboards.createKeyboard.productName = '';
+      draft.keyboards.createKeyboard.jsonFilename = '';
+      draft.keyboards.createKeyboard.jsonString = '';
+      break;
+    case KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_FILENAME:
+      draft.keyboards.createKeyboard.jsonFilename = action.value;
+      break;
+    case KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_STRING:
+      draft.keyboards.createKeyboard.jsonString = action.value;
+      break;
+    case KEYBOARDS_CREATE_KEYBOARD_UPDATE_KEYBOARD_DEFINITION:
+      draft.keyboards.createKeyboard.keyboardDefinition = action.value;
+      break;
+    case KEYBOARDS_CREATE_KEYBOARD_UPDATE_PRODUCT_NAME:
+      draft.keyboards.createKeyboard.productName = action.value;
+      break;
+  }
+};
 
 const keyboardsAppReducer = (
   action: Action,

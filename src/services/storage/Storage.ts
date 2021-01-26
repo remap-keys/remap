@@ -1,3 +1,5 @@
+import { KeyboardDefinitionSchema } from '../../gen/types/KeyboardDefinition';
+
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
@@ -31,8 +33,11 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
-export interface IFetchKeyboardDefinitionResult extends IResult {
+export interface IExistsResult extends IResult {
   exists?: boolean;
+}
+
+export interface IFetchKeyboardDefinitionResult extends IExistsResult {
   document?: IKeyboardDefinitionDocument;
 }
 
@@ -48,4 +53,21 @@ export interface IStorage {
   ): Promise<IFetchKeyboardDefinitionResult>;
   fetchClosedBetaUsers(): Promise<string[]>;
   fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
+  createKeyboardDefinitionDocument(
+    authorUid: string,
+    name: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    jsonStr: string,
+    githubUid: string,
+    githubDisplayName: string,
+    githubEmail: string,
+    status: IKeyboardDefinitionStatus
+  ): Promise<IResult>;
+  isExistKeyboardDefinitionDocument(
+    vendorId: number,
+    productId: number,
+    productName: string
+  ): Promise<IExistsResult>;
 }

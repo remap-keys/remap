@@ -13,5 +13,47 @@
 
 .create-keyboard-card {
   width: 100%;
+  height: 100%;
   padding-top: 16px;
+}
+
+.create-keyboard-form-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.create-keyboard-upload-form {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex: none;
+  width: 400px;
+  height: 500px;
+  overflow-y: auto;
+}
+
+.create-keyboard-upload-msg {
+  font-weight: bold;
+  font-size: 140%;
+}
+
+.create-keyboard-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 64px 0 16px;
+
+  &-row {
+    margin-bottom: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }

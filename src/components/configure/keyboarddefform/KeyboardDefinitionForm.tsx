@@ -58,6 +58,7 @@ export default class KeyboardDefinitionForm extends React.Component<
           messageHtml={`Please import your <strong>${
             this.props.keyboardInfo!.productName
           }</strong> definition file(.json).`}
+          validateDeviceIds={true}
           deviceVendorId={this.props.keyboardInfo!.vendorId}
           deviceProductId={this.props.keyboardInfo!.productId}
           onLoadFile={(kd) => {

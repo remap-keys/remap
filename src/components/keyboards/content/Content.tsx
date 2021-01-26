@@ -1,12 +1,12 @@
 import React from 'react';
 import { ContentActionsType } from '../../configure/content/Content.container';
-import Footer from '../../footer/Footer';
 import { ContentStateType } from './Content.container';
 import './Content.scss';
-import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
 import { CircularProgress } from '@material-ui/core';
 import KeyboardList from '../keyboardlist/KeyboardList.container';
-import CreateKeyboard from '../createkeyboard/CreateKeyboard';
+import CreateKeyboard from '../createkeyboard/CreateKeyboard.container';
+import Footer from '../../common/footer/Footer';
+import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
 
 type ContentState = {};
 type OwnProps = {};
@@ -38,6 +38,7 @@ type ContentsProps = {
 function Contents(props: ContentsProps) {
   switch (props.phase) {
     case KeyboardsPhase.init:
+    case KeyboardsPhase.processing:
       return <PhaseProcessing phase={props.phase} />;
     case KeyboardsPhase.list:
       return <KeyboardList />;

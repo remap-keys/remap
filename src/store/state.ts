@@ -33,11 +33,17 @@ export const SetupPhase: { [p: string]: ISetupPhase } = {
   openedKeyboard: 'openedKeyboard',
 };
 
-export type IKeyboardsPhase = 'init' | 'list' | 'create' | 'edit';
+export type IKeyboardsPhase =
+  | 'init'
+  | 'list'
+  | 'create'
+  | 'processing'
+  | 'edit';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   init: 'init',
   list: 'list',
   create: 'create',
+  processing: 'processing',
   edit: 'edit',
 };
 
@@ -104,6 +110,12 @@ export type RootState = {
   keyboards: {
     app: {
       phase: IKeyboardsPhase;
+    };
+    createKeyboard: {
+      jsonFilename: string;
+      keyboardDefinition: KeyboardDefinitionSchema | null;
+      productName: string;
+      jsonString: string;
     };
   };
   hid: {
@@ -175,6 +187,12 @@ export const INIT_STATE: RootState = {
   keyboards: {
     app: {
       phase: KeyboardsPhase.init,
+    },
+    createKeyboard: {
+      jsonFilename: '',
+      keyboardDefinition: null,
+      productName: '',
+      jsonString: '',
     },
   },
   hid: {

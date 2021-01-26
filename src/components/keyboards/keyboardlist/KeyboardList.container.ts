@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
-import { IKeyboardsPhase, RootState } from '../../../store/state';
+import {
+  IKeyboardsPhase,
+  KeyboardsPhase,
+  RootState,
+} from '../../../store/state';
 import KeyboardList from './KeyboardList';
-import { KeyboardsAppActions } from '../../../actions/keyboards.actions';
+import {
+  KeyboardsAppActions,
+  KeyboardsCreateKeyboardActions,
+} from '../../../actions/keyboards.actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -12,8 +19,9 @@ export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    updatePhase: (phase: IKeyboardsPhase) => {
-      _dispatch(KeyboardsAppActions.updatePhase(phase));
+    createKeyboard: () => {
+      _dispatch(KeyboardsCreateKeyboardActions.clear());
+      _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
     },
   };
 };

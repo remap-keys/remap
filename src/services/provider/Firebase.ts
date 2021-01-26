@@ -2,12 +2,16 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import {
+  IExistsResult,
   IFetchKeyboardDefinitionResult,
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
+  IKeyboardDefinitionStatus,
+  IResult,
   IStorage,
 } from '../storage/Storage';
 import { IAuth } from '../auth/Auth';
+import { errorReportingLogger } from '../../utils/ErrorReportingLogger';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,17 +34,17 @@ export class FirebaseProvider implements IStorage, IAuth {
     this.auth = app.auth();
   }
 
-  createResult(
+  private createResult(
     querySnapshot: firebase.firestore.QuerySnapshot
   ): IFetchKeyboardDefinitionResult {
     return {
       success: true,
       exists: true,
-      document: this.createKeyboardDefinitionDocument(querySnapshot.docs[0]),
+      document: this.generateKeyboardDefinitionDocument(querySnapshot.docs[0]),
     };
   }
 
-  createKeyboardDefinitionDocument(
+  private generateKeyboardDefinitionDocument(
     queryDocumentSnapshot: firebase.firestore.QueryDocumentSnapshot
   ): IKeyboardDefinitionDocument {
     return {
@@ -69,7 +73,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: true,
         documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
-          this.createKeyboardDefinitionDocument(queryDocumentSnapshot)
+          this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
         ),
       };
     } catch (error) {
@@ -128,6 +132,96 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async createKeyboardDefinitionDocument(
+    authorUid: string,
+    name: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    jsonStr: string,
+    githubUid: string,
+    githubDisplayName: string,
+    githubEmail: string,
+    status: IKeyboardDefinitionStatus
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      const definitionDocumentReference = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .add({
+          author_uid: authorUid,
+          created_at: now,
+          updated_at: now,
+          json: jsonStr,
+          name,
+          product_id: productId,
+          vendor_id: vendorId,
+          product_name: productName,
+          status,
+        });
+      await definitionDocumentReference.collection('secure').doc('github').set({
+        github_display_name: githubDisplayName,
+        github_email: githubEmail,
+        github_uid: githubUid,
+      });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Creating a new Keyboard Definition failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async isExistKeyboardDefinitionDocument(
+    vendorId: number,
+    productId: number,
+    productName: string
+  ): Promise<IExistsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .where('vendor_id', '==', vendorId)
+        .where('product_id', '==', productId)
+        .where('status', '==', 'approved')
+        .get();
+      if (querySnapshot.empty) {
+        return {
+          success: true,
+          exists: false,
+        };
+      } else if (querySnapshot.size === 1) {
+        return {
+          success: true,
+          exists: true,
+        };
+      } else {
+        const exists = querySnapshot.docs.some((doc) =>
+          doc.data().product_name.endsWith(productName)
+        );
+        return {
+          success: true,
+          exists,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Checking the keyboard definition existance failed.',
+        cause: error,
+      };
+    }
+  }
+
   async fetchClosedBetaUsers(): Promise<string[]> {
     const documentSnapshot = await this.db
       .collection('configurations')
@@ -153,5 +247,9 @@ export class FirebaseProvider implements IStorage, IAuth {
         callback(user);
       }
     );
+  }
+
+  getCurrentAuthenticatedUser(): firebase.User {
+    return this.auth.currentUser!;
   }
 }

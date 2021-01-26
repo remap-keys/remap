@@ -30,7 +30,7 @@ export default class KeyboardList extends React.Component<
   }
 
   handleCreateButtonClick = () => {
-    this.props.updatePhase!(KeyboardsPhase.create);
+    this.props.createKeyboard!();
   };
 
   render() {
