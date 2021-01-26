@@ -1,15 +1,13 @@
 import React from 'react';
 import './Header.scss';
-import logo from '../../../assets/images/logo.png';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Logo } from '../../common/logo/Logo';
 
 type HeaderState = {};
 type OwnProps = {};
 type HeaderProps = OwnProps &
   Partial<HeaderActionsType> &
-  Partial<HeaderStateType> &
-  RouteComponentProps;
+  Partial<HeaderStateType>;
 
 class Header extends React.Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps | Readonly<HeaderProps>) {
@@ -19,15 +17,12 @@ class Header extends React.Component<HeaderProps, HeaderState> {
   render() {
     return (
       <header className="header">
-        <img
-          src={logo}
-          alt="logo"
-          className="logo"
-          onClick={() => this.props.history.push('/')}
-        />
+        <a href="/" className="header-logo">
+          <Logo width={100} />
+        </a>
       </header>
     );
   }
 }
 
-export default withRouter(Header);
+export default Header;

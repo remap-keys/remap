@@ -13,8 +13,9 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
 
-  .logo {
-    height: 28px;
-    cursor: pointer;
+  .header-logo {
+    position: absolute;
+    left: calc(50% - 50px);
+    top: 12px;
   }
 }
