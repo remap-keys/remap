@@ -6,7 +6,7 @@ import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
 import Remap from '../remap/Remap.container';
 import { CircularProgress } from '@material-ui/core';
-import Footer from '../../footer/Footer.container';
+import Footer from '../../common/footer/Footer.container';
 
 type ContentState = {};
 

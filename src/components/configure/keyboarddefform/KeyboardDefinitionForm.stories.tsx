@@ -1,12 +1,11 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import KeyboardDefinitionForm, {
-  KeyboardDefinitionFormPart,
-} from './KeyboardDefinitionForm';
+import KeyboardDefinitionForm from './KeyboardDefinitionForm';
 import {
   buildError,
   SchemaValidateError,
 } from '../../../services/storage/Validator';
+import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 
 export default {
   title: 'KeyboardDefinitionForm',
