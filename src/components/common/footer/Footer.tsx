@@ -1,7 +1,7 @@
 import React from 'react';
 import { FooterActionsType, FooterStateType } from './Footer.container';
 import './Footer.scss';
-import appPackage from '../../package.alias.json';
+import appPackage from '../../../package.alias.json';
 
 type FooterState = {};
 
