@@ -18,6 +18,7 @@ import card3 from '../../assets/images/top/card-3.png';
 import card4 from '../../assets/images/top/card-4.png';
 import card5 from '../../assets/images/top/card-5.png';
 import Footer from '../common/footer/Footer.container';
+import { Logo } from '../common/logo/Logo';
 import './Top.scss';
 
 type IFeatureCardProps = {
@@ -58,9 +59,7 @@ class Top extends React.Component<RouteComponentProps, any> {
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Remap
-            </Typography>
+            <Logo width={128} color={'white'} />
           </Toolbar>
         </AppBar>
         <main>
@@ -73,7 +72,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                 color="textPrimary"
                 gutterBottom
               >
-                Remap
+                <Logo width={256} color={'black'} />
               </Typography>
               <Typography
                 variant="h5"
