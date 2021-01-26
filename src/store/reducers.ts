@@ -8,8 +8,8 @@ import {
   KEYCODES_UPDATE_CATEGORY,
   KEYCODES_UPDATE_MACRO,
   KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
-  KEYBOARDS_UPDATE_SELECTED_LAYER,
-  KEYBOARDS_ACTIONS,
+  KEYMAP_UPDATE_SELECTED_LAYER,
+  KEYMAP_ACTIONS,
   NOTIFICATION_ACTIONS,
   NOTIFICATION_ADD_ERROR,
   NOTIFICATION_ADD_WARN,
@@ -19,8 +19,8 @@ import {
   KEYDIFF_ACTIONS,
   KEYDIFF_UPDATE_KEYDIFF,
   KEYDIFF_CLEAR_KEYDIFF,
-  KEYBOARDS_UPDATE_SELECTED_POS,
-  KEYBOARDS_CLEAR_SELECTED_POS,
+  KEYMAP_UPDATE_SELECTED_POS,
+  KEYMAP_CLEAR_SELECTED_POS,
   APP_ACTIONS,
   APP_REMAPS_SET_KEY,
   APP_REMAPS_INIT,
@@ -71,14 +71,14 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       headerReducer(action, draft);
     } else if (action.type.startsWith(KEYCODES_ACTIONS)) {
       keycodesReducer(action, draft);
-    } else if (action.type.startsWith(KEYBOARDS_ACTIONS)) {
-      keyboardsReducer(action, draft);
     } else if (action.type.startsWith(ANYKEYCODEKEY_ACTIONS)) {
       keycodeAddKeyReducer(action, draft);
     } else if (action.type.startsWith(KEYCODEKEY_ACTIONS)) {
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(KEYDIFF_ACTIONS)) {
       keydiffReducer(action, draft);
+    } else if (action.type.startsWith(KEYMAP_ACTIONS)) {
+      keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
       layoutOptionsReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
@@ -174,19 +174,19 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
   }
 };
 
-const keyboardsReducer = (action: Action, draft: WritableDraft<RootState>) => {
+const keymapReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
-    case KEYBOARDS_CLEAR_SELECTED_POS: {
-      draft.configure.keyboards.selectedPos = '';
+    case KEYMAP_CLEAR_SELECTED_POS: {
+      draft.configure.keymap.selectedPos = '';
       break;
     }
-    case KEYBOARDS_UPDATE_SELECTED_LAYER: {
-      draft.configure.keyboards.selectedLayer = action.value;
+    case KEYMAP_UPDATE_SELECTED_LAYER: {
+      draft.configure.keymap.selectedLayer = action.value;
       break;
     }
-    case KEYBOARDS_UPDATE_SELECTED_POS: {
-      draft.configure.keyboards.selectedPos = action.value;
+    case KEYMAP_UPDATE_SELECTED_POS: {
+      draft.configure.keymap.selectedPos = action.value;
       break;
     }
   }

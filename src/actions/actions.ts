@@ -4,25 +4,25 @@ import KeyModel from '../models/KeyModel';
 import { IHid, IKeycodeCategory, IKeymap } from '../services/hid/Hid';
 import { ISetupPhase } from '../store/state';
 
-export const KEYBOARDS_ACTIONS = '@Keyboards';
-export const KEYBOARDS_CLEAR_SELECTED_POS = `${KEYBOARDS_ACTIONS}/ClearSelectedLayer`;
-export const KEYBOARDS_UPDATE_SELECTED_LAYER = `${KEYBOARDS_ACTIONS}/UpdateSelectedLayer`;
-export const KEYBOARDS_UPDATE_SELECTED_POS = `${KEYBOARDS_ACTIONS}/UpdateSelectedPos`;
-export const KeyboardsActions = {
+export const KEYMAP_ACTIONS = '@Keymap';
+export const KEYMAP_CLEAR_SELECTED_POS = `${KEYMAP_ACTIONS}/ClearSelectedLayer`;
+export const KEYMAP_UPDATE_SELECTED_LAYER = `${KEYMAP_ACTIONS}/UpdateSelectedLayer`;
+export const KEYMAP_UPDATE_SELECTED_POS = `${KEYMAP_ACTIONS}/UpdateSelectedPos`;
+export const KeymapActions = {
   clearSelectedPos: () => {
     return {
-      type: KEYBOARDS_UPDATE_SELECTED_POS,
+      type: KEYMAP_UPDATE_SELECTED_POS,
     };
   },
   updateSelectedLayer: (layer: number) => {
     return {
-      type: KEYBOARDS_UPDATE_SELECTED_LAYER,
+      type: KEYMAP_UPDATE_SELECTED_LAYER,
       value: layer,
     };
   },
   updateSelectedPos: (pos: string) => {
     return {
-      type: KEYBOARDS_UPDATE_SELECTED_POS,
+      type: KEYMAP_UPDATE_SELECTED_POS,
       value: pos,
     };
   },
