@@ -24,10 +24,8 @@ type KeycapData = {
   remap: IKeymap | null;
 };
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
-const genKeyboardView = (
-  km: KeymapType,
-  options?: { option: string; optionChoice: string }[]
-) => {
+type OptionsType = { option: string; optionChoice: string }[];
+const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
   const keycaps: KeycapData[] = [];

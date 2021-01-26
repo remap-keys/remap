@@ -7,8 +7,8 @@ import { KeymapActionsType, KeymapStateType } from './Keymap.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
 import KeyboardModel from '../../../models/KeyboardModel';
-import Keycap from '../keycap/Keycap';
-import ConfigurationDialog from '../configuration/ConfigurationDialog';
+import Keycap from '../keycap/Keycap.container';
+import ConfigurationDialog from '../configuration/ConfigurationDialog.container';
 
 type OwnProp = {};
 
@@ -33,14 +33,6 @@ export default class Keymap extends React.Component<
     };
   }
 
-  private openConfigurationDialog() {
-    this.setState({ configurationDialog: true });
-  }
-
-  private closeConfigurationDialog() {
-    this.setState({ configurationDialog: false });
-  }
-
   // eslint-disable-next-line no-unused-vars
   shouldComponentUpdate(nextProps: KeymapPropsType) {
     if (this.props.keyboardKeymap != nextProps.keyboardKeymap) {
@@ -48,6 +40,14 @@ export default class Keymap extends React.Component<
       this.setState({ keyboardModel: kbd });
     }
     return true;
+  }
+
+  private openConfigurationDialog() {
+    this.setState({ configurationDialog: true });
+  }
+
+  private closeConfigurationDialog() {
+    this.setState({ configurationDialog: false });
   }
 
   render() {
@@ -74,9 +74,9 @@ export default class Keymap extends React.Component<
             onClickLayer={(layer) => {
               this.props.onClickLayerNumber!(layer);
             }}
-            onClickSettingIcon={this.openConfigurationDialog}
+            onClickSettingIcon={this.openConfigurationDialog.bind(this)}
           />
-          <Keyboard
+          <KeyboardView
             keyboardModel={this.state.keyboardModel}
             keyboardLabels={this.props.keyboardLabels!}
             keymaps={this.props.keymaps!}
@@ -110,7 +110,7 @@ type LayerProps = {
 };
 
 function Layer(props: LayerProps) {
-  const StyledBadge = withStyles((_) => ({
+  const StyledBadge = withStyles(() => ({
     badge: {
       right: 11,
       top: 9,
@@ -177,7 +177,7 @@ type KeyboardType = {
   setKeyboardSize: (width: number, height: number) => void;
 };
 
-function Keyboard(props: KeyboardType) {
+export function KeyboardView(props: KeyboardType) {
   const BORDER_WIDTH = 4;
   const LAYOUT_PADDING = 16;
   let layoutOptions = undefined;

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Keycap from './Keycap';
 
 import {
-  KeyboardsActions,
+  KeymapActions,
   KeydiffActions,
   AppActions,
 } from '../../../actions/actions';
@@ -12,8 +12,8 @@ import { RootState } from '../../../store/state';
 const mapStateToProps = (state: RootState) => {
   return {
     draggingKey: state.configure.keycodeKey.draggingKey,
-    selectedPos: state.configure.keyboards.selectedPos,
-    selectedLayer: state.configure.keyboards.selectedLayer,
+    selectedPos: state.configure.keymap.selectedPos,
+    selectedLayer: state.configure.keymap.selectedLayer,
   };
 };
 export type KeycapStateType = ReturnType<typeof mapStateToProps>;
@@ -29,7 +29,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       if (isSelectedKey) {
         // toggle selected keycap
         _dispatch(KeydiffActions.clearKeydiff());
-        _dispatch(KeyboardsActions.clearSelectedPos());
+        _dispatch(KeymapActions.clearSelectedPos());
 
         return;
       }
@@ -41,7 +41,7 @@ const mapDispatchToProps = (_dispatch: any) => {
         _dispatch(KeydiffActions.clearKeydiff());
       }
 
-      _dispatch(KeyboardsActions.updateSelectedPos(pos));
+      _dispatch(KeymapActions.updateSelectedPos(pos));
     },
     onDropKeycode: (
       draggingKey: Key,

@@ -56,9 +56,9 @@ const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
   );
   return {
     keymaps: state.entities.device.keymaps,
-    selectedLayer: state.configure.keyboards.selectedLayer,
+    selectedLayer: state.configure.keymap.selectedLayer,
     selected: state.configure.keycodeKey.selectedKey == ownProps.value,
-    selectedKeycapPosition: state.configure.keyboards.selectedPos,
+    selectedKeycapPosition: state.configure.keymap.selectedPos,
     clickable,
   };
 };
