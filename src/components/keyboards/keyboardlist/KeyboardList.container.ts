@@ -1,9 +1,5 @@
 import { connect } from 'react-redux';
-import {
-  IKeyboardsPhase,
-  KeyboardsPhase,
-  RootState,
-} from '../../../store/state';
+import { KeyboardsPhase, RootState } from '../../../store/state';
 import KeyboardList from './KeyboardList';
 import {
   KeyboardsAppActions,

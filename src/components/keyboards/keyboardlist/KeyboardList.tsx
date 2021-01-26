@@ -9,11 +9,10 @@ import {
   IKeyboardDefinitionStatus,
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
-import { Button, Card, CardContent, Chip, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, Chip } from '@material-ui/core';
 import { hexadecimal } from '../../../utils/StringUtils';
 import moment from 'moment-timezone';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { KeyboardsPhase } from '../../../store/state';
 
 type KeyboardListState = {};
 type OwnProps = {};

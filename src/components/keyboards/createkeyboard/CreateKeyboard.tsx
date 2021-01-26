@@ -109,7 +109,7 @@ export default class CreateKeyboard extends React.Component<
             <Card>
               <CardContent>
                 <Stepper>
-                  {statusSteps.map((label, index) => {
+                  {statusSteps.map((label) => {
                     const stepProps = {};
                     const labelProps = {};
                     return (

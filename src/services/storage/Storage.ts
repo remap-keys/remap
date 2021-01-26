@@ -1,5 +1,3 @@
-import { KeyboardDefinitionSchema } from '../../gen/types/KeyboardDefinition';
-
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
@@ -45,6 +43,7 @@ export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
   documents?: IKeyboardDefinitionDocument[];
 }
 
+/* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinition(
     vendorId: number,
@@ -71,3 +70,4 @@ export interface IStorage {
     productName: string
   ): Promise<IExistsResult>;
 }
+/* eslint-enable no-unused-vars */

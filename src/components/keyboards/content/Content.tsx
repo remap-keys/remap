@@ -39,7 +39,7 @@ function Contents(props: ContentsProps) {
   switch (props.phase) {
     case KeyboardsPhase.init:
     case KeyboardsPhase.processing:
-      return <PhaseProcessing phase={props.phase} />;
+      return <PhaseProcessing />;
     case KeyboardsPhase.list:
       return <KeyboardList />;
     case KeyboardsPhase.create:
@@ -51,23 +51,13 @@ function Contents(props: ContentsProps) {
   }
 }
 
-type PhaseProps = {
-  phase: IKeyboardsPhase;
-};
-function PhaseProcessing(props: PhaseProps) {
-  let label = 'Processing...';
-  // switch (props.phase) {
-  //   case SetupPhase.fetchingKeyboardDefinition:
-  //     label = 'Fetching keyboard definition';
-  //     break;
-  // }
-
+function PhaseProcessing() {
   return (
     <div className="phase-processing-wrapper">
       <div>
         <CircularProgress size={24} />
       </div>
-      <div>{label}</div>
+      <div>Processing...</div>
     </div>
   );
 }

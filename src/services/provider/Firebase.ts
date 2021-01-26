@@ -11,7 +11,6 @@ import {
   IStorage,
 } from '../storage/Storage';
 import { IAuth } from '../auth/Auth';
-import { errorReportingLogger } from '../../utils/ErrorReportingLogger';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

@@ -35,6 +35,7 @@ const loadDefinitionFile = async (file: File): Promise<string> => {
   return json;
 };
 
+/* eslint-disable no-unused-vars */
 export type KeyboardDefinitionFormPartProps = {
   messageHtml: string;
   deviceVendorId?: number;
@@ -42,13 +43,12 @@ export type KeyboardDefinitionFormPartProps = {
   validateDeviceIds: boolean;
   size?: 'small' | 'normal';
   onLoadFile: (
-    // eslint-disable-next-line no-unused-vars
     keyboardDefinition: KeyboardDefinitionSchema,
-    // eslint-disable-next-line no-unused-vars
     fileName: string,
     jsonStr: string
   ) => void;
 };
+/* eslint-enable no-unused-vars */
 
 type KeyboardDefinitionFormPartStates = {
   dragging: boolean;
