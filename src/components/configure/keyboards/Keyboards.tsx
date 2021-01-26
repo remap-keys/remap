@@ -67,17 +67,6 @@ export default class Keyboards extends React.Component<
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const StyledBadge = withStyles((_) => ({
-      badge: {
-        right: 11,
-        top: 9,
-        border: `2px solid white`,
-      },
-    }))(Badge);
-
-    const layers = [...Array(this.props.layerCount)].map((_, i) => i);
-
     let layoutOptions = undefined;
     const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
     if (hasKeyboardOptions) {
@@ -125,49 +114,6 @@ export default class Keyboards extends React.Component<
     });
     return (
       <React.Fragment>
-        <div className="layer-wrapper">
-          <div className="layers">
-            <div className="layer">
-              <span>LAYER</span>
-              {layers!.map((layer) => {
-                const invisible =
-                  this.props.remaps![layer] == undefined ||
-                  0 == Object.values(this.props.remaps![layer]).length;
-                return (
-                  <StyledBadge
-                    key={layer}
-                    color="primary"
-                    variant="dot"
-                    invisible={invisible}
-                  >
-                    <Chip
-                      key={layer}
-                      variant="outlined"
-                      size="medium"
-                      label={layer}
-                      color={
-                        this.props.selectedLayer == layer
-                          ? 'primary'
-                          : undefined
-                      }
-                      clickable={this.props.selectedLayer != layer}
-                      onClick={this.onClickLayer.bind(this, layer)}
-                      className={
-                        this.props.selectedLayer != layer
-                          ? 'unselected-layer'
-                          : 'selected-layer'
-                      }
-                    />
-                  </StyledBadge>
-                );
-              })}
-              <SettingsIcon
-                className="option"
-                onClick={this.openConfigurationDialog.bind(this)}
-              />
-            </div>
-          </div>
-        </div>
         <div className="keyboards">
           <div
             className="keyboard-root"
