@@ -7,8 +7,8 @@ import {
   KeyboardDefinitionFormStateType,
 } from './KeyboardDefinitionForm.container';
 import './KeyboardDefinitionForm.scss';
-import { CircularProgress } from '@material-ui/core';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
+import { Logo } from '../../common/logo/Logo';
 
 type KeyboardDefinitionFormState = {
   initializingKeyboard: boolean;
@@ -46,9 +46,7 @@ export default class KeyboardDefinitionForm extends React.Component<
       return (
         <div className="keyboarddefinitionform-wrapper">
           <div className="initializing">
-            <div className="drop-target">
-              <CircularProgress size={24} />
-            </div>
+            <Logo width={192} animation={true} color={'#3f51b5'} />
           </div>
         </div>
       );

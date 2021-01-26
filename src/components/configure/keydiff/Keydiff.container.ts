@@ -4,14 +4,14 @@ import { RootState } from '../../../store/state';
 import {
   KeydiffActions,
   AppActions,
-  KeyboardsActions,
+  KeymapActions,
 } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
     keydiff: state.configure.keydiff,
-    selectedLayer: state.configure.keyboards.selectedLayer,
-    selectedPos: state.configure.keyboards.selectedPos,
+    selectedLayer: state.configure.keymap.selectedLayer,
+    selectedPos: state.configure.keymap.selectedPos,
   };
 };
 export type KeydiffStateType = ReturnType<typeof mapStateToProps>;
@@ -20,7 +20,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickCancel: (layer: number, pos: string) => {
       _dispatch(AppActions.remapsRemoveKey(layer, pos));
-      _dispatch(KeyboardsActions.clearSelectedPos());
+      _dispatch(KeymapActions.clearSelectedPos());
       _dispatch(KeydiffActions.clearKeydiff());
     },
   };

@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Header.scss';
-import logo from '../../../assets/images/logo.png';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { Button, Menu, MenuItem } from '@material-ui/core';
 import { ArrowDropDown, Link } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
+import { Logo } from '../../common/logo/Logo';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -95,7 +95,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     return (
       <header className="header">
-        <img src={logo} alt="logo" className="logo" />
+        <a href="/" className="header-logo">
+          <Logo width={100} />
+        </a>
         <div
           ref={this.deviceMenuRef}
           className={[

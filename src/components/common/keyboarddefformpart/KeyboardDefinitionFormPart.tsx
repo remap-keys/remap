@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import {

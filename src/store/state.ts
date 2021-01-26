@@ -86,7 +86,7 @@ export type RootState = {
     header: {
       flashing: boolean;
     };
-    keyboards: {
+    keymap: {
       selectedPos: string;
       selectedLayer: number;
     };
@@ -163,7 +163,7 @@ export const INIT_STATE: RootState = {
     header: {
       flashing: false,
     },
-    keyboards: {
+    keymap: {
       selectedLayer: NaN,
       selectedPos: '',
     },

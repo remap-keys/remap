@@ -4,7 +4,7 @@ import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
   HeaderActions,
-  KeyboardsActions,
+  KeymapActions,
   KeycodeKeyActions,
   KeydiffActions,
   NotificationActions,
@@ -65,7 +65,7 @@ export const HidActions = {
 
 type ActionTypes = ReturnType<
   | typeof HidActions[keyof typeof HidActions]
-  | typeof KeyboardsActions[keyof typeof KeyboardsActions]
+  | typeof KeymapActions[keyof typeof KeymapActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
   | typeof AppActions[keyof typeof AppActions]
 >;
@@ -233,7 +233,7 @@ export const hidActionsThunk = {
     dispatch(AppActions.remapsClear());
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
-    dispatch(KeyboardsActions.clearSelectedPos());
+    dispatch(KeymapActions.clearSelectedPos());
     dispatch(StorageActions.updateKeyboardDefinition(null));
     dispatch(HidActions.updateKeyboard(null));
   },
@@ -250,7 +250,7 @@ export const hidActionsThunk = {
       dispatch(AppActions.remapsClear());
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeyboardsActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedPos());
       dispatch(StorageActions.updateKeyboardDefinition(null));
       dispatch(HidActions.updateKeyboard(null));
     }
@@ -295,7 +295,7 @@ export const hidActionsThunk = {
     dispatch(AppActions.remapsInit(entities.device.layerCount));
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
-    dispatch(KeyboardsActions.clearSelectedPos());
+    dispatch(KeymapActions.clearSelectedPos());
     dispatch(HeaderActions.updateFlashing(false));
   },
 };
@@ -328,7 +328,7 @@ const initOpenedKeyboard = async (
   );
   dispatch(HidActions.updateKeymaps(keymaps));
   dispatch(AppActions.remapsInit(layerCount));
-  dispatch(KeyboardsActions.updateSelectedLayer(0)); // initial selected layer
+  dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
   dispatch(HidActions.updateKeyboard(keyboard));
 };
 

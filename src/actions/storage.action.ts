@@ -2,7 +2,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { KeyboardsPhase, RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
-  KeyboardsActions,
+  KeymapActions,
   KeycodeKeyActions,
   KeydiffActions,
   LayoutOptionsActions,
@@ -39,7 +39,7 @@ export const StorageActions = {
 
 type ActionTypes = ReturnType<
   | typeof AppActions[keyof typeof AppActions]
-  | typeof KeyboardsActions[keyof typeof KeyboardsActions]
+  | typeof KeymapActions[keyof typeof KeymapActions]
   | typeof KeycodeKeyActions[keyof typeof KeycodeKeyActions]
   | typeof KeydiffActions[keyof typeof KeydiffActions]
   | typeof HidActions[keyof typeof HidActions]
@@ -73,7 +73,7 @@ export const storageActionsThunk = {
     dispatch(AppActions.remapsInit(entities.device.layerCount));
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
-    dispatch(KeyboardsActions.clearSelectedPos());
+    dispatch(KeymapActions.clearSelectedPos());
   },
 
   // eslint-disable-next-line no-undef

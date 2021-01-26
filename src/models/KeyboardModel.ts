@@ -142,7 +142,7 @@ class KeymapItem {
 }
 
 export default class KeyboardModel {
-  private keymap: KeyModel[];
+  private _keyModels: KeyModel[];
 
   constructor(km: ((string | KeyOp)[] | { name: string })[]) {
     const _km = km.filter((item) => Array.isArray(item)) as (
@@ -150,15 +150,19 @@ export default class KeyboardModel {
       | KeyOp
     )[][];
     const keymap = this.parseKeyMap(_km);
-    this.keymap = keymap;
+    this._keyModels = keymap;
+  }
+
+  get keyModels() {
+    return this._keyModels;
   }
 
   getKeymap(
     options?: { option: string; optionChoice: string }[]
   ): { keymaps: KeyModel[]; width: number; height: number; left: number } {
-    let keymaps = this.keymap;
+    let keymaps = this._keyModels;
     if (options) {
-      keymaps = this.keymap.filter((item) => {
+      keymaps = this._keyModels.filter((item) => {
         return (
           item.isDefault ||
           0 <=
