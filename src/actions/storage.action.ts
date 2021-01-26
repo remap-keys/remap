@@ -1,5 +1,5 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { RootState, SetupPhase } from '../store/state';
+import { KeyboardsPhase, RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
   KeyboardsActions,
@@ -11,14 +11,28 @@ import {
 import { HidActions, hidActionsThunk } from './hid.action';
 import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
+import {
+  IKeyboardDefinitionDocument,
+  KeyboardDefinitionStatus,
+} from '../services/storage/Storage';
+import { KeyboardsAppActions } from './keyboards.actions';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
+export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION,
       value: keyboardDefinition,
+    };
+  },
+  updateKeyboardDefinitionDocuments: (
+    keyboardDefinitionDocuments: IKeyboardDefinitionDocument[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
+      value: keyboardDefinitionDocuments,
     };
   },
 };
@@ -144,6 +158,112 @@ export const storageActionsThunk = {
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
       );
+    }
+  },
+
+  fetchMyKeyboardDefinitionDocuments: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const fetchMyKeyboardDefinitionsResult = await storage.instance.fetchMyKeyboardDefinitionDocuments();
+    if (!fetchMyKeyboardDefinitionsResult.success) {
+      console.error(fetchMyKeyboardDefinitionsResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          fetchMyKeyboardDefinitionsResult.error!,
+          fetchMyKeyboardDefinitionsResult.cause
+        )
+      );
+      return;
+    }
+    dispatch(
+      StorageActions.updateKeyboardDefinitionDocuments(
+        fetchMyKeyboardDefinitionsResult.documents!
+      )
+    );
+    dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
+  },
+
+  createKeyboardDefinitionAsDraft: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, auth, keyboards } = getState();
+    const keyboardDefinition = keyboards.createKeyboard.keyboardDefinition!;
+    const productName = keyboards.createKeyboard.productName;
+    const user = auth.instance.getCurrentAuthenticatedUser();
+    const github = user.providerData[0]!;
+    const jsonStr = keyboards.createKeyboard.jsonString;
+    const result = await storage.instance.createKeyboardDefinitionDocument(
+      user.uid,
+      keyboardDefinition.name,
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName,
+      jsonStr,
+      github.uid,
+      github.displayName || '',
+      github.email || '',
+      KeyboardDefinitionStatus.draft
+    );
+    if (result.success) {
+      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  createAndSubmitKeyboardDefinition: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, auth, keyboards } = getState();
+    const keyboardDefinition = keyboards.createKeyboard.keyboardDefinition!;
+    const productName = keyboards.createKeyboard.productName;
+
+    const existsResult = await storage.instance.isExistKeyboardDefinitionDocument(
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName
+    );
+    if (!existsResult.success) {
+      console.error(existsResult.cause!);
+      dispatch(
+        NotificationActions.addError(existsResult.error!, existsResult.cause)
+      );
+      return;
+    }
+
+    if (existsResult.exists!) {
+      dispatch(
+        NotificationActions.addWarn('The same keyboard already exists.')
+      );
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
+      return;
+    }
+
+    const user = auth.instance.getCurrentAuthenticatedUser();
+    const github = user.providerData[0]!;
+    const jsonStr = keyboards.createKeyboard.jsonString;
+    const result = await storage.instance.createKeyboardDefinitionDocument(
+      user.uid,
+      keyboardDefinition.name,
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName,
+      jsonStr,
+      github.uid,
+      github.displayName || '',
+      github.email || '',
+      KeyboardDefinitionStatus.in_review
+    );
+    if (result.success) {
+      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
     }
   },
 };

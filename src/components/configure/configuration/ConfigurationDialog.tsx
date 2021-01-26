@@ -21,8 +21,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-import { KeyboardDefinitionFormPart } from '../keyboarddefform/KeyboardDefinitionForm';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 
 function TabPanel(props: { value: number; index: number; children: any }) {
   const { children, value, index } = props;
@@ -161,6 +161,7 @@ export default class ConfigurationDialog extends React.Component<
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <KeyboardDefinitionFormPart
               messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
+              validateDeviceIds={true}
               deviceVendorId={this.props.vendorId}
               deviceProductId={this.props.productId}
               onLoadFile={(kd, name) => {

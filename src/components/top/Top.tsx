@@ -17,7 +17,7 @@ import card2 from '../../assets/images/top/card-2.png';
 import card3 from '../../assets/images/top/card-3.png';
 import card4 from '../../assets/images/top/card-4.png';
 import card5 from '../../assets/images/top/card-5.png';
-import Footer from '../footer/Footer.container';
+import Footer from '../common/footer/Footer.container';
 import './Top.scss';
 
 type IFeatureCardProps = {

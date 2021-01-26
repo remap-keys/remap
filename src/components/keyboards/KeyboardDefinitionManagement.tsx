@@ -8,7 +8,7 @@ import { NotificationItem } from '../../actions/actions';
 import { Button, CssBaseline } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Header from './header/Header';
-import Content from './content/Content';
+import Content from './content/Content.container';
 
 type OwnProps = {};
 type KeyboardDefinitionManagementProps = OwnProps &
@@ -74,6 +74,8 @@ class KeyboardDefinitionManagement extends React.Component<
         this.setState({
           signedIn: true,
         });
+        this.updateNotifications();
+        this.props.updateKeyboards!();
       } else {
         this.props.auth!.signInWithGitHub().then(() => {
           // N/A
@@ -84,10 +86,21 @@ class KeyboardDefinitionManagement extends React.Component<
 
   componentDidUpdate() {
     this.updateNotifications();
+    this.props.updateKeyboards!();
   }
 
   render() {
-    if (!this.state.signedIn) {
+    if (this.state.signedIn) {
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <Header />
+          <main>
+            <Content />
+          </main>
+        </React.Fragment>
+      );
+    } else {
       return (
         <React.Fragment>
           <CssBaseline />
@@ -102,15 +115,6 @@ class KeyboardDefinitionManagement extends React.Component<
         </React.Fragment>
       );
     }
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <Header />
-        <main>
-          <Content />
-        </main>
-      </React.Fragment>
-    );
   }
 }
 

@@ -1,8 +1,12 @@
 import React from 'react';
 import { ContentActionsType } from '../../configure/content/Content.container';
-import Footer from '../../footer/Footer';
 import { ContentStateType } from './Content.container';
 import './Content.scss';
+import { CircularProgress } from '@material-ui/core';
+import KeyboardList from '../keyboardlist/KeyboardList.container';
+import CreateKeyboard from '../createkeyboard/CreateKeyboard.container';
+import Footer from '../../common/footer/Footer';
+import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
 
 type ContentState = {};
 type OwnProps = {};
@@ -21,9 +25,39 @@ export default class Content extends React.Component<
   render() {
     return (
       <div className="content">
-        <div>Content</div>
+        <Contents phase={this.props.phase!} />
         <Footer />
       </div>
     );
   }
+}
+
+type ContentsProps = {
+  phase: IKeyboardsPhase;
+};
+function Contents(props: ContentsProps) {
+  switch (props.phase) {
+    case KeyboardsPhase.init:
+    case KeyboardsPhase.processing:
+      return <PhaseProcessing />;
+    case KeyboardsPhase.list:
+      return <KeyboardList />;
+    case KeyboardsPhase.create:
+      return <CreateKeyboard />;
+    default:
+      throw new Error(
+        `Unknown state.keyboards.app.phase value: ${props.phase}`
+      );
+  }
+}
+
+function PhaseProcessing() {
+  return (
+    <div className="phase-processing-wrapper">
+      <div>
+        <CircularProgress size={24} />
+      </div>
+      <div>Processing...</div>
+    </div>
+  );
 }
