@@ -1,5 +1,5 @@
 import React from 'react';
-import './Keyboards.scss';
+import './Keymap.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import KeyboardModel from '../../../models/KeyboardModel';
 import KeyModel from '../../../models/KeyModel';

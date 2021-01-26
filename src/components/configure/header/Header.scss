@@ -12,13 +12,14 @@
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
-  .logo {
-    height: 28px;
+  .header-logo {
+    position: absolute;
+    left: calc(50% - 50px);
+    top: 12px;
   }
   .kbd-select {
     display: flex;
     flex-direction: row;
-    margin-left: $space-m;
     align-items: center;
     cursor: pointer;
 
