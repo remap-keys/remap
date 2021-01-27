@@ -118,6 +118,12 @@ export type RootState = {
       productName: string;
       jsonString: string;
     };
+    editKeyboard: {
+      jsonFilename: string;
+      keyboardDefinition: KeyboardDefinitionSchema | null;
+      productName: string;
+      jsonString: string;
+    };
   };
   hid: {
     instance: IHid;
@@ -191,6 +197,12 @@ export const INIT_STATE: RootState = {
       phase: KeyboardsPhase.init,
     },
     createKeyboard: {
+      jsonFilename: '',
+      keyboardDefinition: null,
+      productName: '',
+      jsonString: '',
+    },
+    editKeyboard: {
       jsonFilename: '',
       keyboardDefinition: null,
       productName: '',

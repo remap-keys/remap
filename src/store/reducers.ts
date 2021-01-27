@@ -71,6 +71,13 @@ import {
   KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_STRING,
   KEYBOARDS_CREATE_KEYBOARD_UPDATE_KEYBOARD_DEFINITION,
   KEYBOARDS_CREATE_KEYBOARD_UPDATE_PRODUCT_NAME,
+  KEYBOARDS_EDIT_KEYBOARD_ACTIONS,
+  KEYBOARDS_EDIT_KEYBOARD_CLEAR,
+  KEYBOARDS_EDIT_KEYBOARD_INIT,
+  KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_FILENAME,
+  KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_STRING,
+  KEYBOARDS_EDIT_KEYBOARD_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_EDIT_KEYBOARD_UPDATE_PRODUCT_NAME,
 } from '../actions/keyboards.actions';
 
 export type Action = { type: string; value: any };
@@ -103,8 +110,44 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keyboardsAppReducer(action, draft);
     } else if (action.type.startsWith(KEYBOARDS_CREATE_KEYBOARD_ACTIONS)) {
       keyboardsCreateKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_EDIT_KEYBOARD_ACTIONS)) {
+      keyboardsEditKeyboardReducer(action, draft);
     }
   });
+
+const keyboardsEditKeyboardReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_EDIT_KEYBOARD_CLEAR:
+      draft.keyboards.editKeyboard.keyboardDefinition = null;
+      draft.keyboards.editKeyboard.productName = '';
+      draft.keyboards.editKeyboard.jsonFilename = '';
+      draft.keyboards.editKeyboard.jsonString = '';
+      break;
+    case KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_FILENAME:
+      draft.keyboards.editKeyboard.jsonFilename = action.value;
+      break;
+    case KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_STRING:
+      draft.keyboards.editKeyboard.jsonString = action.value;
+      break;
+    case KEYBOARDS_EDIT_KEYBOARD_UPDATE_KEYBOARD_DEFINITION:
+      draft.keyboards.editKeyboard.keyboardDefinition = action.value;
+      break;
+    case KEYBOARDS_EDIT_KEYBOARD_UPDATE_PRODUCT_NAME:
+      draft.keyboards.editKeyboard.productName = action.value;
+      break;
+    case KEYBOARDS_EDIT_KEYBOARD_INIT:
+      draft.keyboards.editKeyboard.keyboardDefinition = JSON.parse(
+        action.value.json
+      );
+      draft.keyboards.editKeyboard.productName = action.value.productName;
+      draft.keyboards.editKeyboard.jsonFilename = '';
+      draft.keyboards.editKeyboard.jsonString = action.value.json;
+      break;
+  }
+};
 
 const keyboardsCreateKeyboardReducer = (
   action: Action,

@@ -15,7 +15,10 @@ import {
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
 } from '../services/storage/Storage';
-import { KeyboardsAppActions } from './keyboards.actions';
+import {
+  KeyboardsAppActions,
+  KeyboardsEditKeyboardActions,
+} from './keyboards.actions';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -110,7 +113,7 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { storage, auth } = getState();
+    const { storage } = getState();
     const fetchKeyboardDefinitionResult = await storage.instance.fetchMyKeyboardDefinitionDocumentById(
       definitionId
     );
@@ -127,6 +130,12 @@ export const storageActionsThunk = {
     if (fetchKeyboardDefinitionResult.exists!) {
       dispatch(
         StorageActions.updateKeyboardDefinitionDocument(
+          fetchKeyboardDefinitionResult.document!
+        )
+      );
+      dispatch(KeyboardsEditKeyboardActions.clear());
+      dispatch(
+        KeyboardsEditKeyboardActions.init(
           fetchKeyboardDefinitionResult.document!
         )
       );
@@ -303,6 +312,105 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  updateKeyboardDefinitionAsDraft: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, keyboards, entities } = getState();
+    const definitionDoc = entities.keyboardDefinitionDocument;
+    const keyboardDefinition = keyboards.editKeyboard.keyboardDefinition!;
+    const productName = keyboards.editKeyboard.productName;
+    const jsonStr = keyboards.editKeyboard.jsonString;
+    const result = await storage.instance.updateKeyboardDefinitionDocument(
+      definitionDoc!.id,
+      keyboardDefinition.name,
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName,
+      jsonStr,
+      KeyboardDefinitionStatus.draft
+    );
+    if (result.success) {
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  updateAndSubmitKeyboardDefinition: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, keyboards, entities } = getState();
+    const keyboardDefinition = keyboards.editKeyboard.keyboardDefinition!;
+    const productName = keyboards.editKeyboard.productName;
+
+    const existsResult = await storage.instance.isExistKeyboardDefinitionDocument(
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName
+    );
+    if (!existsResult.success) {
+      console.error(existsResult.cause!);
+      dispatch(
+        NotificationActions.addError(existsResult.error!, existsResult.cause)
+      );
+      return;
+    }
+
+    if (existsResult.exists!) {
+      dispatch(
+        NotificationActions.addWarn('The same keyboard already exists.')
+      );
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
+      return;
+    }
+
+    const definitionDoc = entities.keyboardDefinitionDocument;
+    const jsonStr = keyboards.editKeyboard.jsonString;
+    const result = await storage.instance.updateKeyboardDefinitionDocument(
+      definitionDoc!.id,
+      keyboardDefinition.name,
+      parseInt(keyboardDefinition.vendorId, 16),
+      parseInt(keyboardDefinition.productId, 16),
+      productName,
+      jsonStr,
+      KeyboardDefinitionStatus.in_review
+    );
+    if (result.success) {
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  updateKeyboardDefinitionJsonFile: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, keyboards, entities } = getState();
+    const definitionDoc = entities.keyboardDefinitionDocument;
+    const jsonStr = keyboards.editKeyboard.jsonString;
+    const result = await storage.instance.updateKeyboardDefinitionJson(
+      definitionDoc!.id,
+      jsonStr
+    );
+    if (result.success) {
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));

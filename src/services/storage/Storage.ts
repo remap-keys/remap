@@ -72,5 +72,18 @@ export interface IStorage {
   fetchMyKeyboardDefinitionDocumentById(
     definitionId: string
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
+  updateKeyboardDefinitionDocument(
+    definitionId: string,
+    name: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    jsonStr: string,
+    status: IKeyboardDefinitionStatus
+  ): Promise<IResult>;
+  updateKeyboardDefinitionJson(
+    definitionId: string,
+    jsonStr: string
+  ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

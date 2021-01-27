@@ -166,6 +166,72 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async updateKeyboardDefinitionJson(
+    definitionId: string,
+    jsonStr: string
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          json: jsonStr,
+          updated_at: now,
+        });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating the Keyboard Definition JSON content failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async updateKeyboardDefinitionDocument(
+    definitionId: string,
+    name: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    jsonStr: string,
+    status: IKeyboardDefinitionStatus
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          updated_at: now,
+          json: jsonStr,
+          name,
+          product_id: productId,
+          vendor_id: vendorId,
+          product_name: productName,
+          status,
+        });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating the Keyboard Definition failed.',
+        cause: error,
+      };
+    }
+  }
+
   async createKeyboardDefinitionDocument(
     authorUid: string,
     name: string,
