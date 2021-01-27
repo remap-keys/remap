@@ -27,6 +27,7 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
+import { ArrowDownward } from '@material-ui/icons';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
@@ -278,16 +279,36 @@ export default class EditKeyboard extends React.Component<
     }
   }
 
+  renderJsonDownloadButton() {
+    if (this.props.keyboardDefinition) {
+      const jsonUrl = URL.createObjectURL(
+        new Blob([this.props.jsonStr!], { type: 'application/json' })
+      );
+      return (
+        <Button
+          color="primary"
+          href={jsonUrl}
+          download={this.props.keyboardDefinition.name}
+        >
+          <ArrowDownward />
+          JSON
+        </Button>
+      );
+    }
+  }
+
   renderInReviewMessage() {
     if (this.isStatus(KeyboardDefinitionStatus.in_review)) {
       const receivedDate = moment(
         this.props.definitionDocument!.updatedAt
       ).format('YYYY-MM-DD HH:mm:ss');
       return (
-        <Alert severity="info">
-          Thank you for registering your keyboard! We have received your request
-          at {receivedDate}.
-        </Alert>
+        <div className="edit-keyboard-form-alert">
+          <Alert severity="info">
+            Thank you for registering your keyboard! We have received your
+            request at {receivedDate}.
+          </Alert>
+        </div>
       );
     } else {
       return null;
@@ -342,9 +363,7 @@ export default class EditKeyboard extends React.Component<
                   {this.renderJsonUploadForm()}
                   <div className="edit-keyboard-form">
                     {this.renderInReviewMessage()}
-                    <div className="edit-keyboard-form-alert">
-                      {this.renderJsonFilenameRow()}
-                    </div>
+                    {this.renderJsonFilenameRow()}
                     <div className="edit-keyboard-form-row">
                       <TextField
                         id="edit-keyboard-name"
@@ -380,6 +399,7 @@ export default class EditKeyboard extends React.Component<
                     </div>
                     {this.renderProductNameRow()}
                     <div className="edit-keyboard-form-buttons">
+                      {this.renderJsonDownloadButton()}
                       {this.renderSaveAsDraftButton()}
                       {this.renderSubmitForReviewButton()}
                       {this.renderUpdateJsonButton()}
