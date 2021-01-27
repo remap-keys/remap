@@ -20,6 +20,7 @@ import { KeyboardsAppActions } from './keyboards.actions';
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
+export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -33,6 +34,14 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
       value: keyboardDefinitionDocuments,
+    };
+  },
+  updateKeyboardDefinitionDocument: (
+    keyboardDefinitionDocument: IKeyboardDefinitionDocument
+  ) => {
+    return {
+      type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
+      value: keyboardDefinitionDocument,
     };
   },
 };
@@ -95,7 +104,40 @@ export const storageActionsThunk = {
     dispatch(hidActionsThunk.openKeyboard());
   },
 
-  fetchKeyboardDefinition: (
+  fetchKeyboardDefinitionById: (
+    definitionId: string
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, auth } = getState();
+    const fetchKeyboardDefinitionResult = await storage.instance.fetchMyKeyboardDefinitionDocumentById(
+      definitionId
+    );
+    if (!fetchKeyboardDefinitionResult.success) {
+      console.error(fetchKeyboardDefinitionResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          fetchKeyboardDefinitionResult.error!,
+          fetchKeyboardDefinitionResult.cause
+        )
+      );
+      return;
+    }
+    if (fetchKeyboardDefinitionResult.exists!) {
+      dispatch(
+        StorageActions.updateKeyboardDefinitionDocument(
+          fetchKeyboardDefinitionResult.document!
+        )
+      );
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.edit));
+    } else {
+      dispatch(NotificationActions.addWarn('No such keyboard.'));
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
+    }
+  },
+
+  fetchKeyboardDefinitionByDeviceInfo: (
     vendorId: number,
     productId: number,
     productName: string
@@ -104,7 +146,7 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinition(
+    const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinitionDocumentByDeviceInfo(
       vendorId,
       productId,
       productName

@@ -52,6 +52,7 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
+  STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
@@ -151,6 +152,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS: {
       draft.entities.keyboardDefinitionDocuments = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT: {
+      draft.entities.keyboardDefinitionDocument = action.value;
       break;
     }
   }

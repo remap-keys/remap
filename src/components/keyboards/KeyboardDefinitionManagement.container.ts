@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import KeyboardDefinitionManagement from './KeyboardDefinitionManagement';
-import { RootState } from '../../store/state';
+import { KeyboardsPhase, RootState } from '../../store/state';
 import { NotificationActions } from '../../actions/actions';
 import { storageActionsThunk } from '../../actions/storage.action';
+import { KeyboardsAppActions } from '../../actions/keyboards.actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -21,6 +22,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateKeyboards: () => {
       _dispatch(storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+    },
+    updateKeyboard: (definitionId: string) => {
+      _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
+      _dispatch(storageActionsThunk.fetchKeyboardDefinitionById(definitionId));
     },
   };
 };

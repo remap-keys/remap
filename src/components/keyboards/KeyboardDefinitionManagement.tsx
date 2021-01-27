@@ -9,12 +9,17 @@ import { Button, CssBaseline } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Header from './header/Header';
 import Content from './content/Content.container';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
+type ParamsType = {
+  definitionId: string;
+};
 type OwnProps = {};
 type KeyboardDefinitionManagementProps = OwnProps &
   Partial<KeyboardDefinitionManagementStateType> &
   Partial<KeyboardDefinitionManagementActionsType> &
-  ProviderContext;
+  ProviderContext &
+  RouteComponentProps<ParamsType>;
 type OwnState = {
   signedIn: boolean;
 };
@@ -76,6 +81,10 @@ class KeyboardDefinitionManagement extends React.Component<
         });
         this.updateNotifications();
         this.props.updateKeyboards!();
+        const definitionId = this.props.match.params.definitionId;
+        if (definitionId) {
+          this.props.updateKeyboard!(definitionId);
+        }
       } else {
         this.props.auth!.signInWithGitHub().then(() => {
           // N/A
@@ -117,4 +126,4 @@ class KeyboardDefinitionManagement extends React.Component<
   }
 }
 
-export default withSnackbar(KeyboardDefinitionManagement);
+export default withSnackbar(withRouter(KeyboardDefinitionManagement));

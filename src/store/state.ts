@@ -67,6 +67,7 @@ export type RootState = {
     keyboard: IKeyboard | null;
     keyboardDefinition: KeyboardDefinitionSchema | null;
     keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
+    keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
   };
   app: {
     package: {
@@ -147,6 +148,7 @@ export const INIT_STATE: RootState = {
     keyboard: null, // hid.keyboards[i]
     keyboardDefinition: null,
     keyboardDefinitionDocuments: [],
+    keyboardDefinitionDocument: null,
   },
   app: {
     package: {

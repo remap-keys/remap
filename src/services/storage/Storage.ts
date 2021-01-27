@@ -35,7 +35,7 @@ export interface IExistsResult extends IResult {
   exists?: boolean;
 }
 
-export interface IFetchKeyboardDefinitionResult extends IExistsResult {
+export interface IFetchKeyboardDefinitionDocumentResult extends IExistsResult {
   document?: IKeyboardDefinitionDocument;
 }
 
@@ -45,11 +45,11 @@ export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
 
 /* eslint-disable no-unused-vars */
 export interface IStorage {
-  fetchKeyboardDefinition(
+  fetchKeyboardDefinitionDocumentByDeviceInfo(
     vendorId: number,
     productId: number,
     productName: string
-  ): Promise<IFetchKeyboardDefinitionResult>;
+  ): Promise<IFetchKeyboardDefinitionDocumentResult>;
   fetchClosedBetaUsers(): Promise<string[]>;
   fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
   createKeyboardDefinitionDocument(
@@ -69,5 +69,8 @@ export interface IStorage {
     productId: number,
     productName: string
   ): Promise<IExistsResult>;
+  fetchMyKeyboardDefinitionDocumentById(
+    definitionId: string
+  ): Promise<IFetchKeyboardDefinitionDocumentResult>;
 }
 /* eslint-enable no-unused-vars */
