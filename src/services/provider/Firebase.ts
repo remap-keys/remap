@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import {
+  ICreateKeyboardDefinitionDocumentResult,
   IExistsResult,
   IFetchKeyboardDefinitionDocumentResult,
   IFetchMyKeyboardDefinitionDocumentsResult,
@@ -243,7 +244,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     githubDisplayName: string,
     githubEmail: string,
     status: IKeyboardDefinitionStatus
-  ): Promise<IResult> {
+  ): Promise<ICreateKeyboardDefinitionDocumentResult> {
     try {
       const now = new Date();
       const definitionDocumentReference = await this.db
@@ -268,6 +269,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       });
       return {
         success: true,
+        definitionId: definitionDocumentReference.id,
       };
     } catch (error) {
       console.error(error);

@@ -28,7 +28,8 @@
   align-items: baseline;
   flex: none;
   width: 400px;
-  height: 500px;
+  height: 100%;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -55,5 +56,9 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+
+    button {
+      margin-left: $space-l;
+    }
   }
 }

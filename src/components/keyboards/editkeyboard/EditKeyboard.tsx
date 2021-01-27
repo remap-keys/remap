@@ -24,6 +24,8 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { Alert } from '@material-ui/lab';
+import moment from 'moment-timezone';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
@@ -63,7 +65,15 @@ export default class EditKeyboard extends React.Component<
   }
 
   private isFilledInAllField(): boolean {
-    return !!this.props.productName && !!this.props.keyboardDefinition;
+    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+      return (
+        !!this.props.productName &&
+        !!this.props.keyboardDefinition &&
+        !!this.props.jsonFilename
+      );
+    } else {
+      return !!this.props.productName && !!this.props.keyboardDefinition;
+    }
   }
 
   handleBackButtonClick = () => {
@@ -210,7 +220,6 @@ export default class EditKeyboard extends React.Component<
     ) {
       return (
         <Button
-          variant="contained"
           color="primary"
           style={{ marginRight: '16px' }}
           onClick={this.handleSaveAsDraftButtonClick}
@@ -233,7 +242,6 @@ export default class EditKeyboard extends React.Component<
         <Button
           variant="contained"
           color="primary"
-          style={{ marginRight: '16px' }}
           onClick={this.handleSubmitForReviewButtonClick}
           disabled={!this.isFilledInAllField()}
         >
@@ -251,12 +259,27 @@ export default class EditKeyboard extends React.Component<
         <Button
           variant="contained"
           color="primary"
-          style={{ marginRight: '16px' }}
           onClick={this.handleUpdateJsonFileButtonClick}
           disabled={!this.isFilledInAllField()}
         >
           Update JSON file
         </Button>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderInReviewMessage() {
+    if (this.isStatus(KeyboardDefinitionStatus.in_review)) {
+      const receivedDate = moment(
+        this.props.definitionDocument!.updatedAt
+      ).format('YYYY-MM-DD HH:mm:ss');
+      return (
+        <Alert severity="info">
+          Thank you for registering your keyboard! We were received your request
+          at {receivedDate}.
+        </Alert>
       );
     } else {
       return null;
@@ -288,6 +311,12 @@ export default class EditKeyboard extends React.Component<
           <div className="edit-keyboard-card">
             <Card>
               <CardContent>
+                <Button
+                  style={{ marginRight: '16px' }}
+                  onClick={this.handleBackButtonClick}
+                >
+                  &lt; Keyboard List
+                </Button>
                 <Stepper activeStep={activeStep}>
                   {statusSteps.map((label) => {
                     const stepProps = {
@@ -304,7 +333,10 @@ export default class EditKeyboard extends React.Component<
                 <div className="edit-keyboard-form-container">
                   {this.renderJsonUploadForm()}
                   <div className="edit-keyboard-form">
-                    {this.renderJsonFilenameRow()}
+                    {this.renderInReviewMessage()}
+                    <div className="edit-keyboard-form-alert">
+                      {this.renderJsonFilenameRow()}
+                    </div>
                     <div className="edit-keyboard-form-row">
                       <TextField
                         id="edit-keyboard-name"
@@ -340,13 +372,6 @@ export default class EditKeyboard extends React.Component<
                     </div>
                     {this.renderProductNameRow()}
                     <div className="edit-keyboard-form-buttons">
-                      <Button
-                        variant="contained"
-                        style={{ marginRight: '16px' }}
-                        onClick={this.handleBackButtonClick}
-                      >
-                        Back
-                      </Button>
                       {this.renderSaveAsDraftButton()}
                       {this.renderSubmitForReviewButton()}
                       {this.renderUpdateJsonButton()}
@@ -363,7 +388,7 @@ export default class EditKeyboard extends React.Component<
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'A New Keyboard Registration'}
+            {'Keyboard Registration'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

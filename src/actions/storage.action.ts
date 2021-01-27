@@ -311,7 +311,11 @@ export const storageActionsThunk = {
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {
-      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          result.definitionId!
+        )
+      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));

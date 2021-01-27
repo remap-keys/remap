@@ -43,6 +43,10 @@ export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
   documents?: IKeyboardDefinitionDocument[];
 }
 
+export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
+  definitionId?: string;
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -63,7 +67,7 @@ export interface IStorage {
     githubDisplayName: string,
     githubEmail: string,
     status: IKeyboardDefinitionStatus
-  ): Promise<IResult>;
+  ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   isExistKeyboardDefinitionDocument(
     vendorId: number,
     productId: number,

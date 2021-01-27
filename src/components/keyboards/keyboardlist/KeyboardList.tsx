@@ -34,13 +34,6 @@ export default class KeyboardList extends React.Component<
   render() {
     return (
       <div className="keyboard-list-wrapper">
-        <div className="keyboard-list">
-          {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
-            <div key={index} className="keyboard">
-              <KeyboardRow doc={doc} />
-            </div>
-          ))}
-        </div>
         <div className="keyboard-list-buttons">
           <Button
             variant="contained"
@@ -49,6 +42,13 @@ export default class KeyboardList extends React.Component<
           >
             +Keyboard
           </Button>
+        </div>
+        <div className="keyboard-list">
+          {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
+            <div key={index} className="keyboard">
+              <KeyboardRow doc={doc} />
+            </div>
+          ))}
         </div>
       </div>
     );
