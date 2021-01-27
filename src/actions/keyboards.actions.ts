@@ -13,84 +13,84 @@ export const KeyboardsAppActions = {
   },
 };
 
-export const KEYBOARDS_CREATE_KEYBOARD_ACTIONS = '@FIXME!CreateKeyboard'; // FIXME!
-export const KEYBOARDS_CREATE_KEYBOARD_CLEAR = `${KEYBOARDS_CREATE_KEYBOARD_ACTIONS}/Clear`;
-export const KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_FILENAME = `${KEYBOARDS_CREATE_KEYBOARD_ACTIONS}/UpdateJsonFilename`;
-export const KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_STRING = `${KEYBOARDS_CREATE_KEYBOARD_ACTIONS}/UpdateJsonString`;
-export const KEYBOARDS_CREATE_KEYBOARD_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_CREATE_KEYBOARD_ACTIONS}/UpdateKeyboardDefinition`;
-export const KEYBOARDS_CREATE_KEYBOARD_UPDATE_PRODUCT_NAME = `${KEYBOARDS_CREATE_KEYBOARD_ACTIONS}/UpdateProductName`;
-export const KeyboardsCreateKeyboardActions = {
+export const KEYBOARDS_CREATE_DEFINITION_ACTIONS = '@FIXME!CreateDefinition'; // FIXME!
+export const KEYBOARDS_CREATE_DEFINITION_CLEAR = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/Clear`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateJsonFilename`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateJsonString`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateKeyboardDefinition`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateProductName`;
+export const KeyboardsCreateDefinitionActions = {
   clear: () => {
     return {
-      type: KEYBOARDS_CREATE_KEYBOARD_CLEAR,
+      type: KEYBOARDS_CREATE_DEFINITION_CLEAR,
     };
   },
   updateJsonFilename: (jsonFilename: string) => {
     return {
-      type: KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_FILENAME,
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME,
       value: jsonFilename,
     };
   },
   updateJsonString: (jsonStr: string) => {
     return {
-      type: KEYBOARDS_CREATE_KEYBOARD_UPDATE_JSON_STRING,
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING,
       value: jsonStr,
     };
   },
   updateKeyboardDefinition: (keyboardDefinition: KeyboardDefinitionSchema) => {
     return {
-      type: KEYBOARDS_CREATE_KEYBOARD_UPDATE_KEYBOARD_DEFINITION,
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
       value: keyboardDefinition,
     };
   },
   updateProductName: (productName: string) => {
     return {
-      type: KEYBOARDS_CREATE_KEYBOARD_UPDATE_PRODUCT_NAME,
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME,
       value: productName,
     };
   },
 };
 
-export const KEYBOARDS_EDIT_KEYBOARD_ACTIONS = '@FIXME!EditKeyboard'; // FIXME!
-export const KEYBOARDS_EDIT_KEYBOARD_CLEAR = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/Clear`;
-export const KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_FILENAME = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/UpdateJsonFilename`;
-export const KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_STRING = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/UpdateJsonString`;
-export const KEYBOARDS_EDIT_KEYBOARD_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/UpdateKeyboardDefinition`;
-export const KEYBOARDS_EDIT_KEYBOARD_UPDATE_PRODUCT_NAME = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/UpdateProductName`;
-export const KEYBOARDS_EDIT_KEYBOARD_INIT = `${KEYBOARDS_EDIT_KEYBOARD_ACTIONS}/Init`;
-export const KeyboardsEditKeyboardActions = {
+export const KEYBOARDS_EDIT_DEFINITION_ACTIONS = '@FIXME!EditDefinition'; // FIXME!
+export const KEYBOARDS_EDIT_DEFINITION_CLEAR = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/Clear`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateJsonFilename`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateJsonString`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateKeyboardDefinition`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateProductName`;
+export const KEYBOARDS_EDIT_DEFINITION_INIT = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/Init`;
+export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_CLEAR,
+      type: KEYBOARDS_EDIT_DEFINITION_CLEAR,
     };
   },
   init: (keyboardDefinitionDocument: IKeyboardDefinitionDocument) => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_INIT,
+      type: KEYBOARDS_EDIT_DEFINITION_INIT,
       value: keyboardDefinitionDocument,
     };
   },
   updateJsonFilename: (jsonFilename: string) => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_FILENAME,
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME,
       value: jsonFilename,
     };
   },
   updateJsonString: (jsonStr: string) => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_UPDATE_JSON_STRING,
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING,
       value: jsonStr,
     };
   },
   updateKeyboardDefinition: (keyboardDefinition: KeyboardDefinitionSchema) => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_UPDATE_KEYBOARD_DEFINITION,
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
       value: keyboardDefinition,
     };
   },
   updateProductName: (productName: string) => {
     return {
-      type: KEYBOARDS_EDIT_KEYBOARD_UPDATE_PRODUCT_NAME,
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
       value: productName,
     };
   },

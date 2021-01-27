@@ -1,9 +1,9 @@
-import './KeyboardList.scss';
+import './DefinitionList.scss';
 import React from 'react';
 import {
   KeyboardListActionsType,
   KeyboardListStateType,
-} from './KeyboardList.container';
+} from './DefinitionList.container';
 import { Button, Card, CardContent, Chip } from '@material-ui/core';
 import {
   IKeyboardDefinitionDocument,
@@ -20,7 +20,7 @@ type KeyboardListProps = OwnProps &
   Partial<KeyboardListActionsType> &
   Partial<KeyboardListStateType>;
 
-export default class KeyboardList extends React.Component<
+export default class DefinitionList extends React.Component<
   KeyboardListProps,
   KeyboardListState
 > {
@@ -34,8 +34,8 @@ export default class KeyboardList extends React.Component<
 
   render() {
     return (
-      <div className="keyboard-list-wrapper">
-        <div className="keyboard-list-buttons">
+      <div className="definition-list-wrapper">
+        <div className="definition-list-buttons">
           <Button
             variant="contained"
             color="primary"
@@ -44,9 +44,9 @@ export default class KeyboardList extends React.Component<
             +Keyboard
           </Button>
         </div>
-        <div className="keyboard-list">
+        <div className="definition-list">
           {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
-            <div key={index} className="keyboard">
+            <div key={index} className="definition">
               <KeyboardRow doc={doc} />
             </div>
           ))}
@@ -96,44 +96,50 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
     return (
       <Card>
         <CardContent>
-          <div className="keyboard-container">
-            <div className="keyboard-container-left">
-              <div className="keyboard-header">
-                <h2 className="keyboard-name">{this.props.doc.name}</h2>
+          <div className="definition-container">
+            <div className="definition-container-left">
+              <div className="definition-header">
+                <h2 className="definition-name">{this.props.doc.name}</h2>
                 {renderStatusBadge(this.props.doc.status)}
               </div>
-              <div className="keyboard-meta">
-                <div className="keyboard-meta-info">
-                  <span className="keyboard-meta-info-label">Vendor ID:</span>
+              <div className="definition-meta">
+                <div className="definition-meta-info">
+                  <span className="definition-meta-info-label">Vendor ID:</span>
                   {hexadecimal(this.props.doc.vendorId, 4)}
                 </div>
-                <div className="keyboard-meta-info">
-                  <span className="keyboard-meta-info-label">Product ID:</span>
+                <div className="definition-meta-info">
+                  <span className="definition-meta-info-label">
+                    Product ID:
+                  </span>
                   {hexadecimal(this.props.doc.productId, 4)}
                 </div>
-                <div className="keyboard-meta-info">
-                  <span className="keyboard-meta-info-label">
+                <div className="definition-meta-info">
+                  <span className="definition-meta-info-label">
                     Product Name:
                   </span>
                   {this.props.doc.productName}
                 </div>
               </div>
-              <div className="keyboard-meta">
-                <div className="keyboard-meta-info">
-                  <span className="keyboard-meta-info-label">Created at:</span>
+              <div className="definition-meta">
+                <div className="definition-meta-info">
+                  <span className="definition-meta-info-label">
+                    Created at:
+                  </span>
                   {moment(this.props.doc.createdAt).format(
                     'YYYY-MM-DD HH:mm:ss'
                   )}
                 </div>
-                <div className="keyboard-meta-info">
-                  <span className="keyboard-meta-info-label">Updated at: </span>
+                <div className="definition-meta-info">
+                  <span className="definition-meta-info-label">
+                    Updated at:{' '}
+                  </span>
                   {moment(this.props.doc.updatedAt).format(
                     'YYYY-MM-DD HH:mm:ss'
                   )}
                 </div>
               </div>
             </div>
-            <div className="keyboard-container-right">
+            <div className="definition-container-right">
               <Button
                 color="primary"
                 href={jsonUrl}

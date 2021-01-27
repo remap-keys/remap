@@ -112,13 +112,13 @@ export type RootState = {
     app: {
       phase: IKeyboardsPhase;
     };
-    createKeyboard: {
+    createdefinition: {
       jsonFilename: string;
       keyboardDefinition: KeyboardDefinitionSchema | null;
       productName: string;
       jsonString: string;
     };
-    editKeyboard: {
+    editdefinition: {
       jsonFilename: string;
       keyboardDefinition: KeyboardDefinitionSchema | null;
       productName: string;
@@ -196,13 +196,13 @@ export const INIT_STATE: RootState = {
     app: {
       phase: KeyboardsPhase.init,
     },
-    createKeyboard: {
+    createdefinition: {
       jsonFilename: '',
       keyboardDefinition: null,
       productName: '',
       jsonString: '',
     },
-    editKeyboard: {
+    editdefinition: {
       jsonFilename: '',
       keyboardDefinition: null,
       productName: '',

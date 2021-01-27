@@ -16,8 +16,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
   render() {
     return (
-      <header className="header">
-        <a href="/" className="header-logo">
+      <header className="keyboards-header">
+        <a href="/" className="keyboards-header-logo">
           <Logo width={100} />
         </a>
       </header>

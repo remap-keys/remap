@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { KeyboardsPhase, RootState } from '../../../store/state';
-import KeyboardList from './KeyboardList';
+import DefinitionList from './DefinitionList';
 import {
   KeyboardsAppActions,
-  KeyboardsCreateKeyboardActions,
+  KeyboardsCreateDefinitionActions,
 } from '../../../actions/keyboards.actions';
 
 const mapStateToProps = (state: RootState) => {
@@ -16,11 +16,11 @@ export type KeyboardListStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     createKeyboard: () => {
-      _dispatch(KeyboardsCreateKeyboardActions.clear());
+      _dispatch(KeyboardsCreateDefinitionActions.clear());
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
     },
   };
 };
 export type KeyboardListActionsType = ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(KeyboardList);
+export default connect(mapStateToProps, mapDispatchToProps)(DefinitionList);

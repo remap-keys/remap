@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
 import { KeyboardsPhase, RootState } from '../../../store/state';
-import CreateKeyboard from './CreateKeyboard';
+import CreateDefinition from './CreateDefinition';
 import {
   KeyboardsAppActions,
-  KeyboardsCreateKeyboardActions,
+  KeyboardsCreateDefinitionActions,
 } from '../../../actions/keyboards.actions';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { storageActionsThunk } from '../../../actions/storage.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    jsonFilename: state.keyboards.createKeyboard.jsonFilename,
-    keyboardDefinition: state.keyboards.createKeyboard.keyboardDefinition,
-    productName: state.keyboards.createKeyboard.productName,
+    jsonFilename: state.keyboards.createdefinition.jsonFilename,
+    keyboardDefinition: state.keyboards.createdefinition.keyboardDefinition,
+    productName: state.keyboards.createdefinition.productName,
   };
 };
 export type CreateKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -21,23 +21,25 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateJsonFilename: (jsonFilename: string) => {
       _dispatch(
-        KeyboardsCreateKeyboardActions.updateJsonFilename(jsonFilename)
+        KeyboardsCreateDefinitionActions.updateJsonFilename(jsonFilename)
       );
     },
     updateJsonString: (jsonStr: string) => {
-      _dispatch(KeyboardsCreateKeyboardActions.updateJsonString(jsonStr));
+      _dispatch(KeyboardsCreateDefinitionActions.updateJsonString(jsonStr));
     },
     updateKeyboardDefinition: (
       keyboardDefinition: KeyboardDefinitionSchema
     ) => {
       _dispatch(
-        KeyboardsCreateKeyboardActions.updateKeyboardDefinition(
+        KeyboardsCreateDefinitionActions.updateKeyboardDefinition(
           keyboardDefinition
         )
       );
     },
     updateProductName: (productName: string) => {
-      _dispatch(KeyboardsCreateKeyboardActions.updateProductName(productName));
+      _dispatch(
+        KeyboardsCreateDefinitionActions.updateProductName(productName)
+      );
     },
     saveAsDraft: () => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
@@ -54,4 +56,4 @@ const mapDispatchToProps = (_dispatch: any) => {
 };
 export type CreateKeyboardActionsType = ReturnType<typeof mapDispatchToProps>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateKeyboard);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateDefinition);
