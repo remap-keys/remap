@@ -67,6 +67,7 @@ export type RootState = {
     keyboard: IKeyboard | null;
     keyboardDefinition: KeyboardDefinitionSchema | null;
     keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
+    keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
   };
   app: {
     package: {
@@ -117,6 +118,12 @@ export type RootState = {
       productName: string;
       jsonString: string;
     };
+    editKeyboard: {
+      jsonFilename: string;
+      keyboardDefinition: KeyboardDefinitionSchema | null;
+      productName: string;
+      jsonString: string;
+    };
   };
   hid: {
     instance: IHid;
@@ -147,6 +154,7 @@ export const INIT_STATE: RootState = {
     keyboard: null, // hid.keyboards[i]
     keyboardDefinition: null,
     keyboardDefinitionDocuments: [],
+    keyboardDefinitionDocument: null,
   },
   app: {
     package: {
@@ -189,6 +197,12 @@ export const INIT_STATE: RootState = {
       phase: KeyboardsPhase.init,
     },
     createKeyboard: {
+      jsonFilename: '',
+      keyboardDefinition: null,
+      productName: '',
+      jsonString: '',
+    },
+    editKeyboard: {
       jsonFilename: '',
       keyboardDefinition: null,
       productName: '',

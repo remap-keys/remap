@@ -125,7 +125,7 @@ export const hidActionsThunk = {
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
     );
     await dispatch(
-      storageActionsThunk.fetchKeyboardDefinition(
+      storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
         keyboardInfo.vendorId,
         keyboardInfo.productId,
         keyboardInfo.productName
@@ -168,7 +168,7 @@ export const hidActionsThunk = {
       AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
     );
     await dispatch(
-      storageActionsThunk.fetchKeyboardDefinition(
+      storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
         keyboardInfo.vendorId,
         keyboardInfo.productId,
         keyboardInfo.productName
@@ -212,7 +212,7 @@ export const hidActionsThunk = {
         AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
       );
       await dispatch(
-        storageActionsThunk.fetchKeyboardDefinition(
+        storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
           keyboardInfo.vendorId,
           keyboardInfo.productId,
           keyboardInfo.productName

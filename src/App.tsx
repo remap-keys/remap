@@ -41,6 +41,10 @@ class App extends React.Component<StyledComponentProps, {}> {
               path="/keyboards"
               component={KeyboardDefinitionManagement}
             />
+            <Route
+              path="/keyboards/:definitionId"
+              component={KeyboardDefinitionManagement}
+            />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>

@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import {
   IExistsResult,
-  IFetchKeyboardDefinitionResult,
+  IFetchKeyboardDefinitionDocumentResult,
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
@@ -35,7 +35,7 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   private createResult(
     querySnapshot: firebase.firestore.QuerySnapshot
-  ): IFetchKeyboardDefinitionResult {
+  ): IFetchKeyboardDefinitionDocumentResult {
     return {
       success: true,
       exists: true,
@@ -44,20 +44,55 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   private generateKeyboardDefinitionDocument(
-    queryDocumentSnapshot: firebase.firestore.QueryDocumentSnapshot
+    documentSnapshot: firebase.firestore.DocumentSnapshot
   ): IKeyboardDefinitionDocument {
     return {
-      id: queryDocumentSnapshot.id,
-      name: queryDocumentSnapshot.data().name,
-      vendorId: queryDocumentSnapshot.data().vendor_id,
-      productId: queryDocumentSnapshot.data().product_id,
-      productName: queryDocumentSnapshot.data().product_name,
-      authorUid: queryDocumentSnapshot.data().author_uid,
-      status: queryDocumentSnapshot.data().status,
-      json: queryDocumentSnapshot.data().json,
-      createdAt: queryDocumentSnapshot.data().created_at.toDate(),
-      updatedAt: queryDocumentSnapshot.data().updated_at.toDate(),
+      id: documentSnapshot.id,
+      name: documentSnapshot.data()!.name,
+      vendorId: documentSnapshot.data()!.vendor_id,
+      productId: documentSnapshot.data()!.product_id,
+      productName: documentSnapshot.data()!.product_name,
+      authorUid: documentSnapshot.data()!.author_uid,
+      status: documentSnapshot.data()!.status,
+      json: documentSnapshot.data()!.json,
+      createdAt: documentSnapshot.data()!.created_at.toDate(),
+      updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
+  }
+
+  async fetchMyKeyboardDefinitionDocumentById(
+    definitionId: string
+  ): Promise<IFetchKeyboardDefinitionDocumentResult> {
+    try {
+      const queryDocumentSnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .where('author_uid', '==', this.auth.currentUser!.uid)
+        .get();
+      const result = queryDocumentSnapshot.docs.find(
+        (value) => value.id === definitionId
+      );
+      if (result) {
+        return {
+          success: true,
+          exists: true,
+          document: this.generateKeyboardDefinitionDocument(result),
+        };
+      } else {
+        return {
+          success: true,
+          exists: false,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching the keyboard definition document failed',
+        cause: error,
+      };
+    }
   }
 
   async fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
@@ -85,11 +120,11 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async fetchKeyboardDefinition(
+  async fetchKeyboardDefinitionDocumentByDeviceInfo(
     vendorId: number,
     productId: number,
     productName: string
-  ): Promise<IFetchKeyboardDefinitionResult> {
+  ): Promise<IFetchKeyboardDefinitionDocumentResult> {
     try {
       const querySnapshotByVidAndPid = await this.db
         .collection('keyboards')
@@ -126,6 +161,72 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: 'Fetching the keyboard definition document failed',
+        cause: error,
+      };
+    }
+  }
+
+  async updateKeyboardDefinitionJson(
+    definitionId: string,
+    jsonStr: string
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          json: jsonStr,
+          updated_at: now,
+        });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating the Keyboard Definition JSON content failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async updateKeyboardDefinitionDocument(
+    definitionId: string,
+    name: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    jsonStr: string,
+    status: IKeyboardDefinitionStatus
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          updated_at: now,
+          json: jsonStr,
+          name,
+          product_id: productId,
+          vendor_id: vendorId,
+          product_name: productName,
+          status,
+        });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating the Keyboard Definition failed.',
         cause: error,
       };
     }

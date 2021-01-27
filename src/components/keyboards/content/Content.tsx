@@ -7,6 +7,7 @@ import KeyboardList from '../keyboardlist/KeyboardList.container';
 import CreateKeyboard from '../createkeyboard/CreateKeyboard.container';
 import Footer from '../../common/footer/Footer';
 import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
+import EditKeyboard from '../editkeyboard/EditKeyboard.container';
 
 type ContentState = {};
 type OwnProps = {};
@@ -44,6 +45,8 @@ function Contents(props: ContentsProps) {
       return <KeyboardList />;
     case KeyboardsPhase.create:
       return <CreateKeyboard />;
+    case KeyboardsPhase.edit:
+      return <EditKeyboard />;
     default:
       throw new Error(
         `Unknown state.keyboards.app.phase value: ${props.phase}`
