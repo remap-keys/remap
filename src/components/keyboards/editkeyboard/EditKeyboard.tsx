@@ -277,7 +277,7 @@ export default class EditKeyboard extends React.Component<
       ).format('YYYY-MM-DD HH:mm:ss');
       return (
         <Alert severity="info">
-          Thank you for registering your keyboard! We've received your request
+          Thank you for registering your keyboard! We have received your request
           at {receivedDate}.
         </Alert>
       );
