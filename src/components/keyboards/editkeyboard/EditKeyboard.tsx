@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton, Menu,
   Step,
   StepLabel,
   Stepper,
@@ -27,11 +28,12 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
-import { ArrowDownward } from '@material-ui/icons';
+import { ArrowDownward, Menu as MenuIcon } from '@material-ui/icons';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
   isSaveAsDraft: boolean;
+  menuAnchorEl: any;
 };
 type OwnProps = {};
 type EditKeyboardProps = OwnProps &
@@ -54,6 +56,7 @@ export default class EditKeyboard extends React.Component<
     this.state = {
       openConfirmDialog: false,
       isSaveAsDraft: true,
+      menuAnchorEl: null,
     };
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
@@ -123,6 +126,12 @@ export default class EditKeyboard extends React.Component<
       openConfirmDialog: false,
     });
   };
+
+  handleMenuIconClick = (event: React.MouseEvent) => {
+    this.setState({
+      menuAnchorEl: event.currentTarget,
+    });
+  }
 
   isStatus(status: IKeyboardDefinitionStatus): boolean {
     return this.props.definitionDocument!.status === status;
@@ -340,12 +349,23 @@ export default class EditKeyboard extends React.Component<
           <div className="edit-keyboard-card">
             <Card>
               <CardContent>
-                <Button
-                  style={{ marginRight: '16px' }}
-                  onClick={this.handleBackButtonClick}
-                >
-                  &lt; Keyboard List
-                </Button>
+                <div className="edit-keyboard-header">
+                  <Button
+                    style={{ marginRight: '16px' }}
+                    onClick={this.handleBackButtonClick}
+                  >
+                    &lt; Keyboard List
+                  </Button>
+                  <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleMenuIconClick}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu open={}
+                </div>
                 <Stepper activeStep={activeStep}>
                   {statusSteps.map((label) => {
                     const stepProps = {
