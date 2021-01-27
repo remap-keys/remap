@@ -12,6 +12,7 @@ import {
 } from '../../../services/storage/Storage';
 import { hexadecimal } from '../../../utils/StringUtils';
 import moment from 'moment-timezone';
+import { ArrowDownward } from '@material-ui/icons';
 
 type KeyboardListState = {};
 type OwnProps = {};
@@ -89,6 +90,9 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
           throw new Error(`Unknown Status: ${status}`);
       }
     };
+    const jsonUrl = URL.createObjectURL(
+      new Blob([this.props.doc.json], { type: 'application/json' })
+    );
     return (
       <Card>
         <CardContent>
@@ -130,6 +134,14 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
               </div>
             </div>
             <div className="keyboard-container-right">
+              <Button
+                color="primary"
+                href={jsonUrl}
+                download={`${this.props.doc.name}.json`}
+              >
+                <ArrowDownward />
+                JSON
+              </Button>
               <Button
                 color="primary"
                 onClick={() => {
