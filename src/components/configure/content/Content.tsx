@@ -28,7 +28,6 @@ export default class Content extends React.Component<
     return (
       <div className="content">
         <Contents setupPhase={this.props.setupPhase!} />
-        <Footer />
       </div>
     );
   }

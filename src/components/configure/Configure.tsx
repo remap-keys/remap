@@ -13,6 +13,7 @@ import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
 import { IKeyboard } from '../../services/hid/Hid';
+import Footer from '../common/footer/Footer';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
@@ -138,21 +139,11 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       return (
         <React.Fragment>
           <CssBaseline />
-          <div className="message-box-wrapper">
-            <div className="message-box">
-              <h1>Unsupported Web Browser</h1>
-              <p>
-                <a href="https://remap-keys.app">Remap</a> works on Web Browsers
-                which the{' '}
-                <a href="https://wicg.github.io/webhid/">WebHID API</a> is
-                supported.
-                <br />
-                For example,{' '}
-                <a href="https://www.google.com/chrome">Google Chrome</a>{' '}
-                version 86 or later supports the WebHID API.
-              </p>
-            </div>
-          </div>
+          <Header />
+          <main>
+            <UnsupportBrowser />
+          </main>
+          <Footer />
         </React.Fragment>
       );
     }
@@ -175,9 +166,30 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
         <main>
           <Content />
         </main>
+        <Footer />
       </React.Fragment>
     );
   }
 }
 
 export default withSnackbar(Configure);
+
+function UnsupportBrowser() {
+  return (
+    <div className="message-box-wrapper">
+      <div className="message-box">
+        <h1>Unsupported Web Browser</h1>
+        <p>
+          <a href="https://remap-keys.app">Remap</a> works on Web Browsers which
+          the <a href="https://wicg.github.io/webhid/">WebHID API</a> is
+          supported.
+          <br />
+          For example, <a href="https://www.google.com/chrome">
+            Google Chrome
+          </a>{' '}
+          version 86 or later supports the WebHID API.
+        </p>
+      </div>
+    </div>
+  );
+}
