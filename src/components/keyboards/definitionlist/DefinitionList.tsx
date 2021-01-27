@@ -12,7 +12,6 @@ import {
 } from '../../../services/storage/Storage';
 import { hexadecimal } from '../../../utils/StringUtils';
 import moment from 'moment-timezone';
-import { ArrowDownward } from '@material-ui/icons';
 
 type KeyboardListState = {};
 type OwnProps = {};

@@ -15,7 +15,6 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   Step,
@@ -31,9 +30,13 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
-import { ArrowDownward, Menu as MenuIcon } from '@material-ui/icons';
+import { Menu as MenuIcon } from '@material-ui/icons';
 
-type ConfirmDialogMode = 'save_as_draft' | 'submit_for_review';
+type ConfirmDialogMode =
+  | 'save_as_draft'
+  | 'submit_for_review'
+  | 'delete'
+  | 'upload_json';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
@@ -110,6 +113,7 @@ export default class EditDefinition extends React.Component<
   handleUpdateJsonFileButtonClick = () => {
     this.setState({
       openConfirmDialog: true,
+      confirmDialogMode: 'upload_json',
     });
   };
 
@@ -117,12 +121,14 @@ export default class EditDefinition extends React.Component<
     this.setState({
       openConfirmDialog: false,
     });
-    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+    if (this.state.confirmDialogMode === 'upload_json') {
       this.props.updateJsonFile!();
     } else if (this.state.confirmDialogMode === 'save_as_draft') {
       this.props.saveAsDraft!();
     } else if (this.state.confirmDialogMode === 'submit_for_review') {
       this.props.submitForReview!();
+    } else if (this.state.confirmDialogMode === 'delete') {
+      this.props.delete!();
     }
   };
 
@@ -162,6 +168,8 @@ export default class EditDefinition extends React.Component<
   handleDeleteMenuClick = () => {
     this.setState({
       menuAnchorEl: null,
+      openConfirmDialog: true,
+      confirmDialogMode: 'delete',
     });
   };
 
@@ -353,7 +361,7 @@ export default class EditDefinition extends React.Component<
     }
     if (!this.isStatus(KeyboardDefinitionStatus.in_review)) {
       menuItems.push(
-        <MenuItem key="2" onClick={this.handleDeleteMenuClick}>
+        <MenuItem key="2" onClick={this.handleDeleteMenuClick} button={true}>
           Delete
         </MenuItem>
       );
@@ -489,25 +497,34 @@ export default class EditDefinition extends React.Component<
             {'Keyboard Registration'}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.isStatus(KeyboardDefinitionStatus.approved)
+            <DialogContentText
+              id="alert-dialog-description"
+              color={
+                this.state.confirmDialogMode === 'delete'
+                  ? 'secondary'
+                  : 'initial'
+              }
+            >
+              {this.state.confirmDialogMode === 'upload_json'
                 ? 'Are you sure to update the JSON file?'
                 : this.state.confirmDialogMode === 'save_as_draft'
                 ? 'Are you sure to save this new keyboard as draft?'
                 : this.state.confirmDialogMode === 'submit_for_review'
                 ? 'Are you sure to register and submit this new keyboard for review?'
+                : this.state.confirmDialogMode === 'delete'
+                ? 'Are you sure to delete?'
                 : ''}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={this.handleConfirmNoClick}>
-              No
-            </Button>
             <Button
               color="primary"
               autoFocus
-              onClick={this.handleConfirmYesClick}
+              onClick={this.handleConfirmNoClick}
             >
+              No
+            </Button>
+            <Button color="primary" onClick={this.handleConfirmYesClick}>
               Yes
             </Button>
           </DialogActions>

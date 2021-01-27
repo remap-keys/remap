@@ -89,5 +89,6 @@ export interface IStorage {
     definitionId: string,
     jsonStr: string
   ): Promise<IResult>;
+  deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

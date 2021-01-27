@@ -56,6 +56,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     backToList: () => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
     },
+    delete: () => {
+      _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
+      _dispatch(storageActionsThunk.deleteKeyboardDefinition());
+    },
   };
 };
 export type EditKeyboardActionsType = ReturnType<typeof mapDispatchToProps>;

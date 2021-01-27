@@ -318,7 +318,38 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return {
         success: false,
-        error: 'Checking the keyboard definition existance failed.',
+        error: 'Checking the keyboard definition existence failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async deleteKeyboardDefinitionDocument(
+    definitionId: string
+  ): Promise<IResult> {
+    try {
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .collection('secure')
+        .doc('github')
+        .delete();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .delete();
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Deleting the keyboard definition failed.',
         cause: error,
       };
     }
