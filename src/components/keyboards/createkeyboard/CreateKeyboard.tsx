@@ -108,6 +108,12 @@ export default class CreateKeyboard extends React.Component<
           <div className="create-keyboard-card">
             <Card>
               <CardContent>
+                <Button
+                  style={{ marginRight: '16px' }}
+                  onClick={this.handleBackButtonClick}
+                >
+                  &lt; Keyboard List
+                </Button>
                 <Stepper>
                   {statusSteps.map((label) => {
                     const stepProps = {};
@@ -189,16 +195,7 @@ export default class CreateKeyboard extends React.Component<
                     </div>
                     <div className="create-keyboard-form-buttons">
                       <Button
-                        variant="contained"
-                        style={{ marginRight: '16px' }}
-                        onClick={this.handleBackButtonClick}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="contained"
                         color="primary"
-                        style={{ marginRight: '16px' }}
                         onClick={this.handleSaveAsDraftButtonClick}
                         disabled={!this.isFilledInAllField()}
                       >
@@ -207,7 +204,6 @@ export default class CreateKeyboard extends React.Component<
                       <Button
                         variant="contained"
                         color="primary"
-                        style={{ marginRight: '16px' }}
                         onClick={this.handleSubmitForReviewButtonClick}
                         disabled={!this.isFilledInAllField()}
                       >
@@ -226,7 +222,7 @@ export default class CreateKeyboard extends React.Component<
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'A New Keyboard Registration'}
+            {'Keyboard Registration'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
