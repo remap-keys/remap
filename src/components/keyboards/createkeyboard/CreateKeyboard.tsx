@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './CreateKeyboard.scss';
 import {
@@ -44,12 +45,14 @@ export default class CreateKeyboard extends React.Component<
   CreateKeyboardProps,
   CreateKeyboardState
 > {
+  private refInputProductName: React.RefObject<HTMLInputElement>;
   constructor(props: CreateKeyboardProps | Readonly<CreateKeyboardProps>) {
     super(props);
     this.state = {
       openConfirmDialog: false,
       isSaveAsDraft: true,
     };
+    this.refInputProductName = React.createRef<HTMLInputElement>();
   }
 
   private onLoadFile(
@@ -60,6 +63,7 @@ export default class CreateKeyboard extends React.Component<
     this.props.updateJsonFilename!(jsonFilename);
     this.props.updateKeyboardDefinition!(keyboardDefinition);
     this.props.updateJsonString!(jsonStr);
+    this.refInputProductName.current?.focus(); // TextField(Product Name) is the only editable field.
   }
 
   private isFilledInAllField(): boolean {
@@ -183,14 +187,18 @@ export default class CreateKeyboard extends React.Component<
                     </div>
                     <div className="create-keyboard-form-row">
                       <TextField
+                        inputRef={this.refInputProductName}
                         id="create-keyboard-product-name"
                         label="Product Name"
                         variant="outlined"
                         required={true}
                         value={this.props.productName}
-                        onChange={(event) =>
-                          this.props.updateProductName!(event.target.value)
-                        }
+                        onChange={(event) => {
+                          this.props.updateProductName!(event.target.value);
+                        }}
+                        onFocus={(event) => {
+                          event.target.select();
+                        }}
                       />
                     </div>
                     <div className="create-keyboard-form-buttons">

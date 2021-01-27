@@ -45,6 +45,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  .status-badge-in-review {
+    background-color: $primary-pale;
+  }
 }
 
 .keyboard-name {

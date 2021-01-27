@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './EditKeyboard.scss';
 import {
@@ -46,12 +47,14 @@ export default class EditKeyboard extends React.Component<
   EditKeyboardProps,
   EditKeyboardState
 > {
+  private refInputProductName: React.RefObject<HTMLInputElement>;
   constructor(props: EditKeyboardProps | Readonly<EditKeyboardProps>) {
     super(props);
     this.state = {
       openConfirmDialog: false,
       isSaveAsDraft: true,
     };
+    this.refInputProductName = React.createRef<HTMLInputElement>();
   }
 
   private onLoadFile(
@@ -62,6 +65,7 @@ export default class EditKeyboard extends React.Component<
     this.props.updateJsonFilename!(jsonFilename);
     this.props.updateKeyboardDefinition!(keyboardDefinition);
     this.props.updateJsonString!(jsonStr);
+    this.refInputProductName.current?.focus(); // TextField(Product Name) is the only editable field.
   }
 
   private isFilledInAllField(): boolean {
@@ -199,6 +203,7 @@ export default class EditKeyboard extends React.Component<
       return (
         <div className="edit-keyboard-form-row">
           <TextField
+            inputRef={this.refInputProductName}
             id="edit-keyboard-product-name"
             label="Product Name"
             variant="outlined"
@@ -207,6 +212,9 @@ export default class EditKeyboard extends React.Component<
             onChange={(event) =>
               this.props.updateProductName!(event.target.value)
             }
+            onFocus={(event) => {
+              event.target.select();
+            }}
           />
         </div>
       );

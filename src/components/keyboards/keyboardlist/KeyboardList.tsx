@@ -64,8 +64,15 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
     const renderStatusBadge = (status: IKeyboardDefinitionStatus) => {
       switch (status) {
         case KeyboardDefinitionStatus.draft:
-        case KeyboardDefinitionStatus.in_review:
           return <Chip label={this.props.doc.status} size="small" />;
+        case KeyboardDefinitionStatus.in_review:
+          return (
+            <Chip
+              label={this.props.doc.status}
+              size="small"
+              className="status-badge-in-review"
+            />
+          );
         case KeyboardDefinitionStatus.rejected:
           return (
             <Chip
