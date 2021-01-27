@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardDefinition: state.keyboards.editKeyboard.keyboardDefinition,
     productName: state.keyboards.editKeyboard.productName,
     definitionDocument: state.entities.keyboardDefinitionDocument,
+    jsonStr: state.keyboards.editKeyboard.jsonString,
   };
 };
 export type EditKeyboardStateType = ReturnType<typeof mapStateToProps>;
