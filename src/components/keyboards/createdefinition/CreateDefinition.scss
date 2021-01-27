@@ -1,6 +1,6 @@
 @import '../../../variables';
 
-.edit-keyboard-wrapper {
+.create-definition-wrapper {
   position: fixed;
   width: 100%;
   max-width: 960px;
@@ -11,18 +11,18 @@
   align-items: center;
 }
 
-.edit-keyboard-card {
+.create-definition-card {
   width: 100%;
   height: 100%;
   padding-top: 16px;
 }
 
-.edit-keyboard-form-container {
+.create-definition-form-container {
   display: flex;
   flex-direction: row;
 }
 
-.edit-keyboard-upload-form {
+.create-definition-upload-form {
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -33,12 +33,12 @@
   overflow-y: auto;
 }
 
-.edit-keyboard-upload-msg {
+.create-definition-upload-msg {
   font-weight: bold;
   font-size: 140%;
 }
 
-.edit-keyboard-form {
+.create-definition-form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -58,18 +58,7 @@
     justify-content: flex-end;
 
     button {
-      margin-left: $space-s;
+      margin-left: $space-l;
     }
   }
-
-  &-alert {
-    margin-bottom: 32px;
-  }
-}
-
-.edit-keyboard-header {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }

@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './EditKeyboard.scss';
+import './EditDefinition.scss';
 import {
   EditKeyboardActionsType,
   EditKeyboardStateType,
-} from './EditKeyboard.container';
+} from './EditDefinition.container';
 import {
   Button,
   Card,
@@ -46,7 +46,7 @@ const statusSteps: IKeyboardDefinitionStatus[] = [
   KeyboardDefinitionStatus.approved,
 ];
 
-export default class EditKeyboard extends React.Component<
+export default class EditDefinition extends React.Component<
   EditKeyboardProps,
   EditKeyboardState
 > {
@@ -142,9 +142,9 @@ export default class EditKeyboard extends React.Component<
       return null;
     } else if (this.isStatus(KeyboardDefinitionStatus.approved)) {
       return (
-        <div className="edit-keyboard-upload-form">
+        <div className="edit-definition-upload-form">
           <KeyboardDefinitionFormPart
-            messageHtml={`<span class="edit-keyboard-upload-msg">Please import your file (.json)</b>`}
+            messageHtml={`<span class="edit-definition-upload-msg">Please import your file (.json)</b>`}
             validateDeviceIds={true}
             deviceVendorId={this.props.definitionDocument!.vendorId}
             deviceProductId={this.props.definitionDocument!.productId}
@@ -157,9 +157,9 @@ export default class EditKeyboard extends React.Component<
       );
     } else {
       return (
-        <div className="edit-keyboard-upload-form">
+        <div className="edit-definition-upload-form">
           <KeyboardDefinitionFormPart
-            messageHtml={`<span class="edit-keyboard-upload-msg">Please import your file (.json)</b>`}
+            messageHtml={`<span class="edit-definition-upload-msg">Please import your file (.json)</b>`}
             validateDeviceIds={false}
             size="small"
             onLoadFile={(kd, name, jsonStr) => {
@@ -176,9 +176,9 @@ export default class EditKeyboard extends React.Component<
       return null;
     } else {
       return (
-        <div className="edit-keyboard-form-row">
+        <div className="edit-definition-form-row">
           <TextField
-            id="edit-keyboard-json-filename"
+            id="edit-definition-json-filename"
             label="JSON Filename"
             variant="outlined"
             value={this.props.jsonFilename}
@@ -197,9 +197,9 @@ export default class EditKeyboard extends React.Component<
       this.isStatus(KeyboardDefinitionStatus.approved)
     ) {
       return (
-        <div className="edit-keyboard-form-row">
+        <div className="edit-definition-form-row">
           <TextField
-            id="edit-keyboard-product-name"
+            id="edit-definition-product-name"
             label="Product Name"
             variant="outlined"
             value={this.props.productName}
@@ -211,10 +211,10 @@ export default class EditKeyboard extends React.Component<
       );
     } else {
       return (
-        <div className="edit-keyboard-form-row">
+        <div className="edit-definition-form-row">
           <TextField
             inputRef={this.refInputProductName}
-            id="edit-keyboard-product-name"
+            id="edit-definition-product-name"
             label="Product Name"
             variant="outlined"
             required={true}
@@ -312,7 +312,7 @@ export default class EditKeyboard extends React.Component<
         this.props.definitionDocument!.updatedAt
       ).format('YYYY-MM-DD HH:mm:ss');
       return (
-        <div className="edit-keyboard-form-alert">
+        <div className="edit-definition-form-alert">
           <Alert severity="info">
             Thank you for registering your keyboard! We have received your
             request at {receivedDate}.
@@ -345,8 +345,8 @@ export default class EditKeyboard extends React.Component<
     const completed = activeStep === 2;
     return (
       <React.Fragment>
-        <div className="edit-keyboard-wrapper">
-          <div className="edit-keyboard-card">
+        <div className="edit-definition-wrapper">
+          <div className="edit-definition-card">
             <Card>
               <CardContent>
                 <div className="edit-keyboard-header">
@@ -379,14 +379,14 @@ export default class EditKeyboard extends React.Component<
                     );
                   })}
                 </Stepper>
-                <div className="edit-keyboard-form-container">
+                <div className="edit-definition-form-container">
                   {this.renderJsonUploadForm()}
-                  <div className="edit-keyboard-form">
+                  <div className="edit-definition-form">
                     {this.renderInReviewMessage()}
                     {this.renderJsonFilenameRow()}
-                    <div className="edit-keyboard-form-row">
+                    <div className="edit-definition-form-row">
                       <TextField
-                        id="edit-keyboard-name"
+                        id="edit-definition-name"
                         label="Name"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.name || ''}
@@ -395,9 +395,9 @@ export default class EditKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="edit-keyboard-form-row">
+                    <div className="edit-definition-form-row">
                       <TextField
-                        id="edit-keyboard-vendor_id"
+                        id="edit-definition-vendor_id"
                         label="Vendor ID"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.vendorId || ''}
@@ -406,9 +406,9 @@ export default class EditKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="edit-keyboard-form-row">
+                    <div className="edit-definition-form-row">
                       <TextField
-                        id="edit-keyboard-product_id"
+                        id="edit-definition-product_id"
                         label="Product ID"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.productId || ''}
@@ -418,7 +418,7 @@ export default class EditKeyboard extends React.Component<
                       />
                     </div>
                     {this.renderProductNameRow()}
-                    <div className="edit-keyboard-form-buttons">
+                    <div className="edit-definition-form-buttons">
                       {this.renderJsonDownloadButton()}
                       {this.renderSaveAsDraftButton()}
                       {this.renderSubmitForReviewButton()}

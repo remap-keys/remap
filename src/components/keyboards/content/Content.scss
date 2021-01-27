@@ -1,5 +1,5 @@
 @import '../../../variables';
-.content {
+.keyboards-content {
   display: flex;
   position: relative;
   flex-direction: column;
@@ -7,7 +7,7 @@
   min-width: 780px;
   height: 100vh;
 
-  .phase-processing-wrapper {
+  .keyboards-phase-processing-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;

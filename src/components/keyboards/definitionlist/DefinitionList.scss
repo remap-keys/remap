@@ -1,6 +1,6 @@
 @import '../../../variables';
 
-.keyboard-list-wrapper {
+.definition-list-wrapper {
   position: fixed;
   width: 100%;
   max-width: 960px;
@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.keyboard-list {
+.definition-list {
   width: 100%;
   padding-top: 16px;
 
@@ -24,11 +24,11 @@
   }
 }
 
-.keyboard {
+.definition {
   margin-bottom: 16px;
 }
 
-.keyboard-container {
+.definition-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -41,7 +41,7 @@
   }
 }
 
-.keyboard-header {
+.definition-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -50,12 +50,12 @@
   }
 }
 
-.keyboard-name {
+.definition-name {
   margin: 0 16px 0 0;
   font-size: 2rem;
 }
 
-.keyboard-meta {
+.definition-meta {
   display: flex;
   flex-direction: row;
 
