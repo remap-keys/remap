@@ -3,11 +3,11 @@ import { ContentActionsType } from '../../configure/content/Content.container';
 import { ContentStateType } from './Content.container';
 import './Content.scss';
 import { CircularProgress } from '@material-ui/core';
-import KeyboardList from '../keyboardlist/KeyboardList.container';
-import CreateKeyboard from '../createkeyboard/CreateKeyboard.container';
+import KeyboardList from '../definitionlist/DefinitionList.container';
+import CreateKeyboard from '../createdefinition/CreateDefinition.container';
 import Footer from '../../common/footer/Footer';
 import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
-import EditKeyboard from '../editkeyboard/EditKeyboard.container';
+import EditKeyboard from '../editdefinition/EditDefinition.container';
 
 type ContentState = {};
 type OwnProps = {};
@@ -25,7 +25,7 @@ export default class Content extends React.Component<
 
   render() {
     return (
-      <div className="content">
+      <div className="keyboards-content">
         <Contents phase={this.props.phase!} />
         <Footer />
       </div>
@@ -56,7 +56,7 @@ function Contents(props: ContentsProps) {
 
 function PhaseProcessing() {
   return (
-    <div className="phase-processing-wrapper">
+    <div className="keyboards-phase-processing-wrapper">
       <div>
         <CircularProgress size={24} />
       </div>

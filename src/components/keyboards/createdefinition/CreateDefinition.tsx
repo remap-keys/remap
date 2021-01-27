@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './CreateKeyboard.scss';
+import './CreateDefinition.scss';
 import {
   CreateKeyboardActionsType,
   CreateKeyboardStateType,
-} from './CreateKeyboard.container';
+} from './CreateDefinition.container';
 import {
   Button,
   Card,
@@ -41,7 +41,7 @@ const statusSteps: IKeyboardDefinitionStatus[] = [
   KeyboardDefinitionStatus.approved,
 ];
 
-export default class CreateKeyboard extends React.Component<
+export default class CreateDefinition extends React.Component<
   CreateKeyboardProps,
   CreateKeyboardState
 > {
@@ -108,8 +108,8 @@ export default class CreateKeyboard extends React.Component<
   render() {
     return (
       <React.Fragment>
-        <div className="create-keyboard-wrapper">
-          <div className="create-keyboard-card">
+        <div className="create-definition-wrapper">
+          <div className="create-definition-card">
             <Card>
               <CardContent>
                 <Button
@@ -129,10 +129,10 @@ export default class CreateKeyboard extends React.Component<
                     );
                   })}
                 </Stepper>
-                <div className="create-keyboard-form-container">
-                  <div className="create-keyboard-upload-form">
+                <div className="create-definition-form-container">
+                  <div className="create-definition-upload-form">
                     <KeyboardDefinitionFormPart
-                      messageHtml={`<span class="create-keyboard-upload-msg">Please import your file (.json)</b>`}
+                      messageHtml={`<span class="create-definition-upload-msg">Please import your file (.json)</b>`}
                       validateDeviceIds={false}
                       size="small"
                       onLoadFile={(kd, name, jsonStr) => {
@@ -140,10 +140,10 @@ export default class CreateKeyboard extends React.Component<
                       }}
                     />
                   </div>
-                  <div className="create-keyboard-form">
-                    <div className="create-keyboard-form-row">
+                  <div className="create-definition-form">
+                    <div className="create-definition-form-row">
                       <TextField
-                        id="create-keyboard-json-filename"
+                        id="create-definition-json-filename"
                         label="JSON Filename"
                         variant="outlined"
                         value={this.props.jsonFilename}
@@ -152,9 +152,9 @@ export default class CreateKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="create-keyboard-form-row">
+                    <div className="create-definition-form-row">
                       <TextField
-                        id="create-keyboard-name"
+                        id="create-definition-name"
                         label="Name"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.name || ''}
@@ -163,9 +163,9 @@ export default class CreateKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="create-keyboard-form-row">
+                    <div className="create-definition-form-row">
                       <TextField
-                        id="create-keyboard-vendor_id"
+                        id="create-definition-vendor_id"
                         label="Vendor ID"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.vendorId || ''}
@@ -174,9 +174,9 @@ export default class CreateKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="create-keyboard-form-row">
+                    <div className="create-definition-form-row">
                       <TextField
-                        id="create-keyboard-product_id"
+                        id="create-definition-product_id"
                         label="Product ID"
                         variant="outlined"
                         value={this.props.keyboardDefinition?.productId || ''}
@@ -185,10 +185,10 @@ export default class CreateKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="create-keyboard-form-row">
+                    <div className="create-definition-form-row">
                       <TextField
                         inputRef={this.refInputProductName}
-                        id="create-keyboard-product-name"
+                        id="create-definition-product-name"
                         label="Product Name"
                         variant="outlined"
                         required={true}
@@ -201,7 +201,7 @@ export default class CreateKeyboard extends React.Component<
                         }}
                       />
                     </div>
-                    <div className="create-keyboard-form-buttons">
+                    <div className="create-definition-form-buttons">
                       <Button
                         color="primary"
                         onClick={this.handleSaveAsDraftButtonClick}

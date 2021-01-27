@@ -1,6 +1,6 @@
 @import '../../../_variables.scss';
 
-.header {
+.keyboards-header {
   display: flex;
   position: fixed;
   height: calc(var(--key-height));
@@ -13,7 +13,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
 
-  .header-logo {
+  .keyboards-header-logo {
     position: absolute;
     left: calc(50% - 50px);
     top: 12px;
