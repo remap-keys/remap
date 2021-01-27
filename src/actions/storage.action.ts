@@ -420,4 +420,21 @@ export const storageActionsThunk = {
       dispatch(NotificationActions.addError(result.error!, result.cause));
     }
   },
+
+  deleteKeyboardDefinition: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, entities } = getState();
+    const definitionDoc = entities.keyboardDefinitionDocument;
+    const result = await storage.instance.deleteKeyboardDefinitionDocument(
+      definitionDoc!.id
+    );
+    if (result.success) {
+      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
 };

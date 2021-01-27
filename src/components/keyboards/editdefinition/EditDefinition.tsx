@@ -14,6 +14,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
+  Menu,
+  MenuItem,
   Step,
   StepLabel,
   Stepper,
@@ -27,11 +30,18 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
-import { ArrowDownward } from '@material-ui/icons';
+import { Menu as MenuIcon } from '@material-ui/icons';
+
+type ConfirmDialogMode =
+  | 'save_as_draft'
+  | 'submit_for_review'
+  | 'delete'
+  | 'upload_json';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
-  isSaveAsDraft: boolean;
+  confirmDialogMode: ConfirmDialogMode | null;
+  menuAnchorEl: any;
 };
 type OwnProps = {};
 type EditKeyboardProps = OwnProps &
@@ -53,7 +63,8 @@ export default class EditDefinition extends React.Component<
     super(props);
     this.state = {
       openConfirmDialog: false,
-      isSaveAsDraft: true,
+      confirmDialogMode: null,
+      menuAnchorEl: null,
     };
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
@@ -88,20 +99,21 @@ export default class EditDefinition extends React.Component<
   handleSaveAsDraftButtonClick = () => {
     this.setState({
       openConfirmDialog: true,
-      isSaveAsDraft: true,
+      confirmDialogMode: 'save_as_draft',
     });
   };
 
   handleSubmitForReviewButtonClick = () => {
     this.setState({
       openConfirmDialog: true,
-      isSaveAsDraft: false,
+      confirmDialogMode: 'submit_for_review',
     });
   };
 
   handleUpdateJsonFileButtonClick = () => {
     this.setState({
       openConfirmDialog: true,
+      confirmDialogMode: 'upload_json',
     });
   };
 
@@ -109,18 +121,55 @@ export default class EditDefinition extends React.Component<
     this.setState({
       openConfirmDialog: false,
     });
-    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+    if (this.state.confirmDialogMode === 'upload_json') {
       this.props.updateJsonFile!();
-    } else if (this.state.isSaveAsDraft) {
+    } else if (this.state.confirmDialogMode === 'save_as_draft') {
       this.props.saveAsDraft!();
-    } else {
+    } else if (this.state.confirmDialogMode === 'submit_for_review') {
       this.props.submitForReview!();
+    } else if (this.state.confirmDialogMode === 'delete') {
+      this.props.delete!();
     }
   };
 
   handleConfirmNoClick = () => {
     this.setState({
       openConfirmDialog: false,
+    });
+  };
+
+  handleMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({
+      menuAnchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuClose = () => {
+    this.setState({
+      menuAnchorEl: null,
+    });
+  };
+
+  handleDownloadJsonMenuClick = () => {
+    this.setState({
+      menuAnchorEl: null,
+    });
+    const jsonUrl = URL.createObjectURL(
+      new Blob([this.props.jsonStr!], { type: 'application/json' })
+    );
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.download = `${this.props.definitionDocument!.name}.json`;
+    a.href = jsonUrl;
+    a.click();
+    a.remove();
+  };
+
+  handleDeleteMenuClick = () => {
+    this.setState({
+      menuAnchorEl: null,
+      openConfirmDialog: true,
+      confirmDialogMode: 'delete',
     });
   };
 
@@ -279,24 +328,6 @@ export default class EditDefinition extends React.Component<
     }
   }
 
-  renderJsonDownloadButton() {
-    if (this.props.keyboardDefinition) {
-      const jsonUrl = URL.createObjectURL(
-        new Blob([this.props.jsonStr!], { type: 'application/json' })
-      );
-      return (
-        <Button
-          color="primary"
-          href={jsonUrl}
-          download={this.props.keyboardDefinition.name}
-        >
-          <ArrowDownward />
-          JSON
-        </Button>
-      );
-    }
-  }
-
   renderInReviewMessage() {
     if (this.isStatus(KeyboardDefinitionStatus.in_review)) {
       const receivedDate = moment(
@@ -309,6 +340,51 @@ export default class EditDefinition extends React.Component<
             request at {receivedDate}.
           </Alert>
         </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderMenu() {
+    const menuItems = [];
+    if (this.props.keyboardDefinition) {
+      menuItems.push(
+        <MenuItem
+          key="1"
+          onClick={this.handleDownloadJsonMenuClick}
+          button={true}
+        >
+          Download JSON
+        </MenuItem>
+      );
+    }
+    if (!this.isStatus(KeyboardDefinitionStatus.in_review)) {
+      menuItems.push(
+        <MenuItem key="2" onClick={this.handleDeleteMenuClick} button={true}>
+          Delete
+        </MenuItem>
+      );
+    }
+    if (menuItems.length > 0) {
+      const { menuAnchorEl } = this.state;
+      return (
+        <React.Fragment>
+          <IconButton
+            aria-owns={menuAnchorEl ? 'edit-definition-menu' : undefined}
+            onClick={this.handleMenuIconClick}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="edit-definition-menu"
+            anchorEl={menuAnchorEl}
+            open={Boolean(menuAnchorEl)}
+            onClose={this.handleMenuClose}
+          >
+            {menuItems}
+          </Menu>
+        </React.Fragment>
       );
     } else {
       return null;
@@ -340,12 +416,15 @@ export default class EditDefinition extends React.Component<
           <div className="edit-definition-card">
             <Card>
               <CardContent>
-                <Button
-                  style={{ marginRight: '16px' }}
-                  onClick={this.handleBackButtonClick}
-                >
-                  &lt; Keyboard List
-                </Button>
+                <div className="edit-keyboard-header">
+                  <Button
+                    style={{ marginRight: '16px' }}
+                    onClick={this.handleBackButtonClick}
+                  >
+                    &lt; Keyboard List
+                  </Button>
+                  {this.renderMenu()}
+                </div>
                 <Stepper activeStep={activeStep}>
                   {statusSteps.map((label) => {
                     const stepProps = {
@@ -399,7 +478,6 @@ export default class EditDefinition extends React.Component<
                     </div>
                     {this.renderProductNameRow()}
                     <div className="edit-definition-form-buttons">
-                      {this.renderJsonDownloadButton()}
                       {this.renderSaveAsDraftButton()}
                       {this.renderSubmitForReviewButton()}
                       {this.renderUpdateJsonButton()}
@@ -419,23 +497,34 @@ export default class EditDefinition extends React.Component<
             {'Keyboard Registration'}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.isStatus(KeyboardDefinitionStatus.approved)
+            <DialogContentText
+              id="alert-dialog-description"
+              color={
+                this.state.confirmDialogMode === 'delete'
+                  ? 'secondary'
+                  : 'initial'
+              }
+            >
+              {this.state.confirmDialogMode === 'upload_json'
                 ? 'Are you sure to update the JSON file?'
-                : this.state.isSaveAsDraft
+                : this.state.confirmDialogMode === 'save_as_draft'
                 ? 'Are you sure to save this new keyboard as draft?'
-                : 'Are you sure to register and submit this new keyboard for review?'}
+                : this.state.confirmDialogMode === 'submit_for_review'
+                ? 'Are you sure to register and submit this new keyboard for review?'
+                : this.state.confirmDialogMode === 'delete'
+                ? 'Are you sure to delete?'
+                : ''}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={this.handleConfirmNoClick}>
-              No
-            </Button>
             <Button
               color="primary"
               autoFocus
-              onClick={this.handleConfirmYesClick}
+              onClick={this.handleConfirmNoClick}
             >
+              No
+            </Button>
+            <Button color="primary" onClick={this.handleConfirmYesClick}>
               Yes
             </Button>
           </DialogActions>
