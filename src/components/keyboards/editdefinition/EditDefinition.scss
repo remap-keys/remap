@@ -38,6 +38,10 @@
   font-size: 140%;
 }
 
+.edit-definition-alert {
+  margin: 0 32px 32px 32px;
+}
+
 .edit-definition-form {
   display: flex;
   flex-direction: column;
@@ -60,10 +64,6 @@
     button {
       margin-left: $space-s;
     }
-  }
-
-  &-alert {
-    margin-bottom: 32px;
   }
 
   &-notice {

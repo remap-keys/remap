@@ -330,16 +330,25 @@ export default class EditDefinition extends React.Component<
     }
   }
 
-  renderInReviewMessage() {
+  renderAlertMessage() {
+    const updatedAt = moment(this.props.definitionDocument!.updatedAt).format(
+      'YYYY-MM-DD HH:mm:ss'
+    );
     if (this.isStatus(KeyboardDefinitionStatus.in_review)) {
-      const receivedDate = moment(
-        this.props.definitionDocument!.updatedAt
-      ).format('YYYY-MM-DD HH:mm:ss');
       return (
-        <div className="edit-definition-form-alert">
+        <div className="edit-definition-alert">
           <Alert severity="info">
             Thank you for registering your keyboard! We have received your
-            request at {receivedDate}.
+            request at {updatedAt}.
+          </Alert>
+        </div>
+      );
+    } else if (this.isStatus(KeyboardDefinitionStatus.rejected)) {
+      return (
+        <div className="edit-definition-alert">
+          <Alert severity="error">
+            Your request was rejected at {updatedAt}. Reason:{' '}
+            {this.props.definitionDocument!.rejectReason}
           </Alert>
         </div>
       );
@@ -440,10 +449,10 @@ export default class EditDefinition extends React.Component<
                     );
                   })}
                 </Stepper>
+                {this.renderAlertMessage()}
                 <div className="edit-definition-form-container">
                   {this.renderJsonUploadForm()}
                   <div className="edit-definition-form">
-                    {this.renderInReviewMessage()}
                     {this.renderJsonFilenameRow()}
                     <div className="edit-definition-form-row">
                       <TextField
