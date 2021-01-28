@@ -190,6 +190,7 @@ export default class CreateDefinition extends React.Component<
                         inputRef={this.refInputProductName}
                         id="create-definition-product-name"
                         label="Product Name"
+                        helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
                         variant="outlined"
                         required={true}
                         value={this.props.productName}
@@ -217,6 +218,21 @@ export default class CreateDefinition extends React.Component<
                       >
                         Submit for Review
                       </Button>
+                    </div>
+                    <div className="create-definition-form-notice">
+                      <p>
+                        * You can submit the JSON file written by you only. Do
+                        NOT infringe of the right of person who created the
+                        original JSON file. We check whether you are valid
+                        author of the keyboard you request in our review
+                        process, but notice that we can&quot;t insure the
+                        validity completely.
+                      </p>
+                      <p>
+                        * We check whether the keyboard you request has a unique
+                        combination of the Vendor ID, Product ID and Product
+                        Name in our review process.
+                      </p>
                     </div>
                   </div>
                 </div>
