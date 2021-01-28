@@ -13,10 +13,14 @@ import {
   IKeymap,
 } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
+import { IMod, IModDirection } from '../../../services/hid/Composition';
 
 export type Key = {
   label: string;
   meta: string;
+  modifiers?: IMod[];
+  holds?: IMod[]; // TODO: deal with SwapHands LM and LT
+  direction?: IModDirection;
   keymap: IKeymap;
 };
 

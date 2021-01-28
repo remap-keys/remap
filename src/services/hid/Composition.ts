@@ -1,5 +1,7 @@
-import { IHid, IKeymap } from './Hid';
+import { IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
+import { KeycodeList } from './KeycodeList';
+import { keycodesBasicFunc } from './assets/KeycodesBasic';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -678,11 +680,9 @@ export interface IKeycodeCompositionFactory {
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   private readonly code: number;
-  private readonly hid: IHid;
 
-  constructor(code: number, hid: IHid) {
+  constructor(code: number) {
     this.code = code;
-    this.hid = hid;
   }
 
   getKind(): IKeycodeCompositionKind | null {
@@ -696,6 +696,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isBasic(): boolean {
     return this.getKind() === KeycodeCompositionKind.basic;
+  }
+
+  isBasicFunc(): boolean {
+    return keycodesBasicFunc.codes.includes(this.code);
   }
 
   isDefLayer(): boolean {
@@ -777,7 +781,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    return new BasicComposition(this.hid.getKeymap(keyCode));
+    return new BasicComposition(KeycodeList.getKeymap(keyCode));
   }
 
   createModsComposition(): IModsComposition {
@@ -798,7 +802,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     return new ModsComposition(
       modDirection,
       modifiers,
-      this.hid.getKeymap(keyCode)
+      KeycodeList.getKeymap(keyCode)
     );
   }
 
@@ -830,7 +834,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
-    return new LayerTapComposition(layer, this.hid.getKeymap(keyCode));
+    return new LayerTapComposition(layer, KeycodeList.getKeymap(keyCode));
   }
 
   createToComposition(): IToComposition {
@@ -958,7 +962,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     if (SWAP_HANDS_OPTIONS.includes(value as ISwapHandsOption)) {
       return new SwapHandsComposition(value as ISwapHandsOption);
     } else {
-      return new SwapHandsComposition(this.hid.getKeymap(value));
+      return new SwapHandsComposition(KeycodeList.getKeymap(value));
     }
   }
 
@@ -980,7 +984,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     return new ModTapComposition(
       modDirection,
       modifiers,
-      this.hid.getKeymap(keyCode)
+      KeycodeList.getKeymap(keyCode)
     );
   }
 
@@ -1003,6 +1007,6 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
-    return new LooseKeycodeComposition(this.hid.getKeymap(this.code));
+    return new LooseKeycodeComposition(KeycodeList.getKeymap(this.code));
   }
 }

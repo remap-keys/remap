@@ -1,6 +1,8 @@
-{
-  "categories": ["lighting"],
-  "codes": [
+import { IKeycodeCategoryInfo } from '../Hid';
+
+export const keycodesLighting: IKeycodeCategoryInfo = {
+  categories: ['Lighting'],
+  codes: [
     23743,
     23739,
     23740,
@@ -26,6 +28,6 @@
     23761,
     23762,
     23763,
-    23764
-  ]
-}
+    23764,
+  ],
+};

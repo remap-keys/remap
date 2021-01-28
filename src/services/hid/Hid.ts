@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import { IKeycodeCompositionFactory } from './Composition';
+import { IKeycodeCompositionFactory, IMod, IModDirection } from './Composition';
+import { KeymapCategory } from './KeycodeList';
 
 export interface IResult {
   readonly success: boolean;
@@ -35,7 +36,7 @@ export interface IKeycodeInfo {
 }
 
 export interface IKeycodeCategoryInfo {
-  category: string;
+  categories: KeymapCategory[];
   codes: number[];
 }
 
@@ -57,7 +58,12 @@ export interface IFetchLayerCountResult extends IResult {
 export interface IKeymap {
   isAny: boolean;
   code: number;
-  keycodeInfo?: IKeycodeInfo;
+  categories: KeymapCategory[];
+  direction?: IModDirection;
+  modifiers?: IMod[]; // Modifiers, layer
+  option?: number; // layer, functionID, SwapHand-code
+  desc?: string;
+  keycodeInfo?: IKeycodeInfo; // just kc
 }
 
 export type IKeymaps = {
@@ -106,7 +112,6 @@ export interface IHid {
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
   getKeymapCandidatesByCategory(category: string): IKeymap[];
-  getKeymap(code: number): IKeymap;
   close(keyboard: IKeyboard): void;
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory;
 }

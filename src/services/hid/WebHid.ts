@@ -8,20 +8,12 @@ import {
   IResult,
   IConnectResult,
   IConnectionEventHandler,
-  IKeycodeInfo,
-  IKeycodeCategoryInfo,
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
 } from './Hid';
-import keycodeArray from './assets/keycodes.json';
-import basic from './assets/keycodes-basic.json';
-import layers from './assets/keycodes-layers.json';
-import lighting from './assets/keycodes-lighting.json';
-import macro from './assets/keycodes-macro.json';
-import media from './assets/keycodes-media.json';
-import kp from './assets/keycodes-number.json';
-import special from './assets/keycodes-special.json';
+import { KeycodeList } from './KeycodeList';
+
 import {
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapReadBufferCommand,
@@ -33,44 +25,14 @@ import {
   KeycodeCompositionFactory,
 } from './Composition';
 
-const createKeymap = (code: number): IKeymap => ({
-  code,
-  isAny: false,
-  keycodeInfo: (keycodeArray as IKeycodeInfo[]).find(
-    (keycode) => keycode.code === code
-  )!,
-});
-
-const basicKeymaps: IKeymap[] = (basic as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const layersKeymaps: IKeymap[] = (layers as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const lightingKeymaps: IKeymap[] = (lighting as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const macroKeymaps: IKeymap[] = (macro as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const mediaKeymaps: IKeymap[] = (media as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const numberKeymaps: IKeymap[] = (kp as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-const specialKeymaps: IKeymap[] = (special as IKeycodeCategoryInfo).codes.map(
-  (code) => createKeymap(code)
-);
-
 const categoryToKeymapsMap: { [p: string]: IKeymap[] } = {
-  basic: basicKeymaps,
-  layers: layersKeymaps,
-  lighting: lightingKeymaps,
-  macro: macroKeymaps,
-  media: mediaKeymaps,
-  number: numberKeymaps,
-  special: specialKeymaps,
+  basic: KeycodeList.basicKeymaps,
+  layers: KeycodeList.layersKeymaps,
+  lighting: KeycodeList.lightingKeymaps,
+  macro: KeycodeList.macroKeymaps,
+  media: KeycodeList.mediaKeymaps,
+  number: KeycodeList.numberKeymaps,
+  special: KeycodeList.specialKeymaps,
 };
 
 export class Keyboard implements IKeyboard {
@@ -273,7 +235,7 @@ export class Keyboard implements IKeyboard {
         }
         for (let i = 0; i < buffer.length; i += 2) {
           const code = (buffer[i] << 8) | buffer[i + 1];
-          const keymap = this.hid.getKeymap(code);
+          const keymap = KeycodeList.getKeymap(code);
           keymapMap[`${row},${column}`] = keymap;
           column = column + 1;
           if (columnCount === column) {
@@ -462,29 +424,11 @@ export class WebHid implements IHid {
     return categoryToKeymapsMap[category];
   }
 
-  getKeymap(code: number): IKeymap {
-    const keycodeInfo = keycodeArray.find(
-      (keycodeInfo) => keycodeInfo.code === code
-    );
-    if (keycodeInfo) {
-      return {
-        code,
-        isAny: false,
-        keycodeInfo,
-      };
-    } else {
-      return {
-        code,
-        isAny: true,
-      };
-    }
-  }
-
   close(keyboard: IKeyboard): void {
     this.handler!.close(keyboard);
   }
 
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory {
-    return new KeycodeCompositionFactory(code, this);
+    return new KeycodeCompositionFactory(code);
   }
 }
