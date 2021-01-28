@@ -49,6 +49,16 @@ export default class DefinitionList extends React.Component<
               <KeyboardRow doc={doc} />
             </div>
           ))}
+          {this.props.keyboardDefinitionDocuments!.length == 0 && (
+            <div className="definition">
+              <div className="no-registered-keyboard">
+                {`
+                You don't have any registered keyboards. Please register your own keyboard from right-top
+                button.
+                `}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
