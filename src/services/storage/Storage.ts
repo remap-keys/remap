@@ -27,6 +27,7 @@ export interface IKeyboardDefinitionDocument {
   readonly productName: string;
   readonly status: IKeyboardDefinitionStatus;
   readonly json: string;
+  readonly rejectReason: string | undefined;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
