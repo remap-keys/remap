@@ -12,10 +12,5 @@
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
-
-  .keyboards-header-logo {
-    position: absolute;
-    left: calc(50% - 50px);
-    top: 12px;
-  }
+  justify-content: center;
 }

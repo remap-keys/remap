@@ -1,22 +1,18 @@
 @import '../../../_variables.scss';
 
 .header {
-  display: flex;
+  display: grid;
   position: fixed;
   height: calc(var(--key-height));
   width: 100%;
-  flex-direction: row;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   margin: 0;
   padding: 0 $space-m;
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
-  .header-logo {
-    position: absolute;
-    left: calc(50% - 50px);
-    top: 12px;
-  }
+
   .kbd-select {
     display: flex;
     flex-direction: row;
@@ -45,17 +41,20 @@
         }
       }
     }
-  }
 
-  .status {
-    display: flex;
-    .connection {
-      margin-left: $space-m;
+    .device-list {
+      display: flex;
     }
   }
+
+  .header-logo {
+    text-align: center;
+    height: 100%;
+    padding-top: 13px;
+  }
+
   .buttons {
     display: flex;
-    position: relative;
     margin-left: auto;
     width: 120px;
     justify-content: center;
@@ -74,10 +73,6 @@
   .hidden {
     visibility: hidden;
   }
-}
-
-.connected-device {
-  opacity: 1 !important;
 }
 
 .device-item {

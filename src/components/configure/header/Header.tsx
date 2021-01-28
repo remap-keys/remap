@@ -11,6 +11,7 @@ import { Logo } from '../../common/logo/Logo';
 
 type HeaderState = {
   connectionStateEl: any;
+  logoAnimation: boolean;
 };
 
 type OwnProps = {};
@@ -27,6 +28,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     super(props);
     this.state = {
       connectionStateEl: null,
+      logoAnimation: false,
     };
     this.flashButtonRef = React.createRef<HTMLButtonElement>();
     this.deviceMenuRef = React.createRef<HTMLDivElement>();
@@ -46,17 +48,18 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     return Boolean(this.state.connectionStateEl);
   }
 
-  onCloseConnectionStateMenu = () => {
+  private onCloseConnectionStateMenu() {
     this.setState({ connectionStateEl: null });
-  };
+  }
 
-  onClickDevice = () => {
+  private onClickDevice() {
     this.setState({ connectionStateEl: this.deviceMenuRef.current });
-  };
+  }
 
-  onClickConnectionMenuItemNewDevice = () => {
+  private onClickConnectionMenuItemNewDevice() {
     this.onCloseConnectionStateMenu();
-  };
+    this.props.onClickAnotherKeyboard!();
+  }
 
   private onClickFlash() {
     if (this.hasKeysToFlash) {
@@ -67,6 +70,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   private onClickKeyboardMenuItem(kbd: IKeyboard) {
     this.onCloseConnectionStateMenu();
     this.props.onClickKeyboardMenuItem!(kbd);
+  }
+
+  private endLogoAnim() {
+    this.setState({ logoAnimation: false });
+  }
+
+  private startLogoAnim() {
+    this.setState({ logoAnimation: true });
   }
 
   render() {
@@ -95,85 +106,91 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     return (
       <header className="header">
-        <a href="/" className="header-logo">
-          <Logo width={100} />
-        </a>
         <div
           ref={this.deviceMenuRef}
           className={[
             'kbd-select',
             this.props.showKeyboardList ? '' : 'hidden',
           ].join(' ')}
-          onClick={this.onClickDevice}
         >
-          <div className="kbd-name">
+          <div className="kbd-name" onClick={this.onClickDevice.bind(this)}>
             <h2>{this.props.productName}</h2>
             <div className="ids">
               VID: {hexadecimal(this.props.vendorId!, 4)} / PID:{' '}
               {hexadecimal(this.props.productId!, 4)}
             </div>
           </div>
-          <ArrowDropDown />
-        </div>
-        <div className="status">
-          <Menu
-            anchorEl={this.state.connectionStateEl}
-            keepMounted
-            open={this.openConnectionStateMenu}
-            onClose={this.onCloseConnectionStateMenu}
-            PaperProps={{
-              style: {
-                maxHeight: 250,
-              },
-            }}
-          >
-            {this.props.keyboards!.map((kbd, index) => {
-              const info = kbd.getInformation();
-              const isOpenedKbd = this.props.openedKeyboard == kbd;
-              const linking = isOpenedKbd ? 'link-on' : 'link-off';
-              return (
-                <MenuItem
-                  key={index}
-                  onClick={
-                    isOpenedKbd
-                      ? undefined
-                      : this.onClickKeyboardMenuItem!.bind(this, kbd)
-                  }
-                  disabled={isOpenedKbd}
-                >
-                  <div className="device-item">
-                    {isOpenedKbd && (
-                      <Link fontSize="small" className="link-icon link-on" />
-                    )}
-                    <div className={['device-name', linking].join(' ')}>
-                      {info.productName}
-                      <span className="device-ids">
-                        (VID: {hexadecimal(info.vendorId, 4)} / PID:{' '}
-                        {hexadecimal(info.productId, 4)})
-                      </span>
-                    </div>
-                  </div>
-                </MenuItem>
-              );
-            })}
-
-            <MenuItem
-              key="another"
-              onClick={this.onClickConnectionMenuItemNewDevice}
+          <ArrowDropDown onClick={this.onClickDevice.bind(this)} />
+          <div className="device-list">
+            <Menu
+              anchorEl={this.state.connectionStateEl}
+              keepMounted
+              open={this.openConnectionStateMenu}
+              onClose={this.onCloseConnectionStateMenu.bind(this)}
+              PaperProps={{
+                style: {
+                  maxHeight: 250,
+                },
+              }}
             >
-              <div className="another-device-wrapper">
-                <Button
-                  size="small"
-                  color="primary"
-                  className="another-device"
-                  onClick={this.props.onClickAnotherKeyboard?.bind(this)}
-                >
-                  + KEYBOARD
-                </Button>
-              </div>
-            </MenuItem>
-          </Menu>
+              {this.props.keyboards!.map((kbd, index) => {
+                const info = kbd.getInformation();
+                const isOpenedKbd = this.props.openedKeyboard == kbd;
+                const linking = isOpenedKbd ? 'link-on' : 'link-off';
+                return (
+                  <MenuItem
+                    key={index}
+                    onClick={
+                      isOpenedKbd
+                        ? undefined
+                        : this.onClickKeyboardMenuItem.bind(this, kbd)
+                    }
+                    disabled={isOpenedKbd}
+                  >
+                    <div className="device-item">
+                      {isOpenedKbd && (
+                        <Link fontSize="small" className="link-icon link-on" />
+                      )}
+                      <div className={['device-name', linking].join(' ')}>
+                        {info.productName}
+                        <span className="device-ids">
+                          (VID: {hexadecimal(info.vendorId, 4)} / PID:{' '}
+                          {hexadecimal(info.productId, 4)})
+                        </span>
+                      </div>
+                    </div>
+                  </MenuItem>
+                );
+              })}
+
+              <MenuItem
+                key="another"
+                onClick={this.onClickConnectionMenuItemNewDevice.bind(this)}
+              >
+                <div className="another-device-wrapper">
+                  <Button
+                    size="small"
+                    color="primary"
+                    className="another-device"
+                  >
+                    + KEYBOARD
+                  </Button>
+                </div>
+              </MenuItem>
+            </Menu>
+          </div>
         </div>
+
+        <div className="header-logo">
+          <a
+            href="/"
+            onMouseEnter={this.startLogoAnim.bind(this)}
+            onMouseLeave={this.endLogoAnim.bind(this)}
+          >
+            <Logo width={100} animation={this.state.logoAnimation} />
+          </a>
+        </div>
+
         <div
           className={[
             'buttons',
