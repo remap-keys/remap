@@ -4,7 +4,6 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, withStyles } from '@material-ui/core';
-
 import './Keycap.scss';
 
 export const KEY_SIZE = 54;
@@ -22,6 +21,10 @@ export type KeycapOwnProps = {
   model: KeyModel;
   keymap: IKeymap;
   remap: IKeymap | null;
+  // eslint-disable-next-line no-undef
+  anchorRef?: React.RefObject<HTMLDivElement>;
+  // eslint-disable-next-line no-unused-vars
+  onClick?: (key: Key) => void;
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -41,6 +44,18 @@ export default class Keycap extends React.Component<
 
   get isOddly(): boolean {
     return this.props.model.isOddly;
+  }
+
+  private onClick(
+    pos: string,
+    isSelectedKey: boolean,
+    orgKey: Key,
+    dstKey: Key | null
+  ) {
+    this.props.onClickKeycap!(pos, isSelectedKey, orgKey, dstKey);
+    if (this.props.onClick) {
+      this.props.onClick(dstKey ? dstKey : orgKey);
+    }
   }
 
   render(): ReactNode {
@@ -154,15 +169,12 @@ export default class Keycap extends React.Component<
       >
         {/* base1 */}
         <div
+          ref={this.props.anchorRef}
           className={['keycap', 'keycap-border'].join(' ')}
           style={style}
-          onClick={this.props.onClickKeycap!.bind(
-            this,
-            pos,
-            isSelectedKey,
-            orgKey,
-            dstKey
-          )}
+          onClick={() => {
+            this.onClick(pos, isSelectedKey, orgKey, dstKey);
+          }}
         ></div>
         {this.isOddly && (
           <React.Fragment>
@@ -175,13 +187,9 @@ export default class Keycap extends React.Component<
                 isSelectedKey && 'keycap-selected',
               ].join(' ')}
               style={baseStyle2}
-              onClick={this.props.onClickKeycap!.bind(
-                this,
-                pos,
-                isSelectedKey,
-                orgKey,
-                dstKey
-              )}
+              onClick={() => {
+                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+              }}
               onDragOver={(event) => {
                 event.preventDefault();
                 if (!this.state.onDragOver) {
@@ -198,13 +206,9 @@ export default class Keycap extends React.Component<
                 isSelectedKey && 'keycap-selected',
               ].join(' ')}
               style={coverStyle}
-              onClick={this.props.onClickKeycap!.bind(
-                this,
-                pos,
-                isSelectedKey,
-                orgKey,
-                dstKey
-              )}
+              onClick={() => {
+                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+              }}
             ></div>
           </React.Fragment>
         )}
@@ -226,13 +230,9 @@ export default class Keycap extends React.Component<
             <div
               className={['keyroof-base', 'pointer-pass-through'].join(' ')}
               style={roofStyle2}
-              onClick={this.props.onClickKeycap!.bind(
-                this,
-                pos,
-                isSelectedKey,
-                orgKey,
-                dstKey
-              )}
+              onClick={() => {
+                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+              }}
             ></div>
           </React.Fragment>
         )}
@@ -240,13 +240,9 @@ export default class Keycap extends React.Component<
         <div
           className={['keyroof'].join(' ')}
           style={labelsStyle}
-          onClick={this.props.onClickKeycap?.bind(
-            this,
-            pos,
-            isSelectedKey,
-            orgKey,
-            dstKey
-          )}
+          onClick={() => {
+            this.onClick(pos, isSelectedKey, orgKey, dstKey);
+          }}
         >
           <KeyLabel
             label={dstKey ? dstKey.label : orgKey.label}
