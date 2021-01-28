@@ -4,7 +4,7 @@ import {
 } from './Validator';
 
 const KEYLABEL_LEGENDS_PATTERN =
-  '^([1-9][0-9]*|0),([1-9][0-9]*|0)((\n.*){2}?\n([1-9][0-9]*|0),([1-9][0-9]*|0)(\n.*){0,8}?|(\n.*){0,2}?)?$';
+  '^(([1-9][0-9]*|0),([1-9][0-9]*|0))?((\n.*){2}?\n([1-9][0-9]*|0),([1-9][0-9]*|0)(\n.*){0,8}?|(\n.*){0,2}?)?$';
 
 describe('Validator', () => {
   describe('validateDetailKeyboardDefinition', () => {
@@ -61,6 +61,15 @@ describe('Validator', () => {
         '0,1\n1\n2\n2,0\n4',
         '0,1\n1\n2\n2,0\n4\n5',
         '0,1\n1\n2\n2,0\n4\n5\n6\n7\n8\n9\n10\n11',
+        '\n',
+        '\n1',
+        '\na\nb',
+        '\n\n\n10,1',
+        '\na\nb\n0,0',
+        '\na\nb\n0,123',
+        '\n1\n2\n2,0\n4',
+        '\n1\n2\n2,0\n4\n5',
+        '\n1\n2\n2,0\n4\n5\n6\n7\n8\n9\n10\n11',
       ])('success', (label) => {
         const obj = { name: 'hoge', label: label };
         const result = validateKeyboardDefinitionSchema(obj, schema);
@@ -68,7 +77,6 @@ describe('Validator', () => {
       });
 
       test.each([
-        '',
         '0',
         'a,0',
         '0.1',
