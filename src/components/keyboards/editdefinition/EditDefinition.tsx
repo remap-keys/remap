@@ -30,7 +30,7 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
-import { Menu as MenuIcon } from '@material-ui/icons';
+import { MoreVert } from '@material-ui/icons';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -385,7 +385,7 @@ export default class EditDefinition extends React.Component<
             aria-owns={menuAnchorEl ? 'edit-definition-menu' : undefined}
             onClick={this.handleMenuIconClick}
           >
-            <MenuIcon />
+            <MoreVert />
           </IconButton>
           <Menu
             id="edit-definition-menu"
