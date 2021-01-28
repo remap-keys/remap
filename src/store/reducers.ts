@@ -52,6 +52,8 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
+  STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
+  STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import {
@@ -60,6 +62,23 @@ import {
 } from '../components/configure/keycodekey/KeycodeKey.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import { INIT_STATE, RootState } from './state';
+import {
+  KEYBOARDS_APP_ACTIONS,
+  KEYBOARDS_APP_UPDATE_PHASE,
+  KEYBOARDS_CREATE_DEFINITION_ACTIONS,
+  KEYBOARDS_CREATE_DEFINITION_CLEAR,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME,
+  KEYBOARDS_EDIT_DEFINITION_ACTIONS,
+  KEYBOARDS_EDIT_DEFINITION_CLEAR,
+  KEYBOARDS_EDIT_DEFINITION_INIT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
+} from '../actions/keyboards.actions';
 
 export type Action = { type: string; value: any };
 
@@ -87,13 +106,99 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       appReducer(action, draft);
     } else if (action.type.startsWith(STORAGE_ACTIONS)) {
       storageReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_APP_ACTIONS)) {
+      keyboardsAppReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_CREATE_DEFINITION_ACTIONS)) {
+      keyboardsCreateKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(KEYBOARDS_EDIT_DEFINITION_ACTIONS)) {
+      keyboardsEditKeyboardReducer(action, draft);
     }
   });
+
+const keyboardsEditKeyboardReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_EDIT_DEFINITION_CLEAR:
+      draft.keyboards.editdefinition.keyboardDefinition = null;
+      draft.keyboards.editdefinition.productName = '';
+      draft.keyboards.editdefinition.jsonFilename = '';
+      draft.keyboards.editdefinition.jsonString = '';
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME:
+      draft.keyboards.editdefinition.jsonFilename = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING:
+      draft.keyboards.editdefinition.jsonString = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION:
+      draft.keyboards.editdefinition.keyboardDefinition = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME:
+      draft.keyboards.editdefinition.productName = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_INIT:
+      draft.keyboards.editdefinition.keyboardDefinition = JSON.parse(
+        action.value.json
+      );
+      draft.keyboards.editdefinition.productName = action.value.productName;
+      draft.keyboards.editdefinition.jsonFilename = '';
+      draft.keyboards.editdefinition.jsonString = action.value.json;
+      break;
+  }
+};
+
+const keyboardsCreateKeyboardReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_CREATE_DEFINITION_CLEAR:
+      draft.keyboards.createdefinition.keyboardDefinition = null;
+      draft.keyboards.createdefinition.productName = '';
+      draft.keyboards.createdefinition.jsonFilename = '';
+      draft.keyboards.createdefinition.jsonString = '';
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME:
+      draft.keyboards.createdefinition.jsonFilename = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING:
+      draft.keyboards.createdefinition.jsonString = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION:
+      draft.keyboards.createdefinition.keyboardDefinition = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME:
+      draft.keyboards.createdefinition.productName = action.value;
+      break;
+  }
+};
+
+const keyboardsAppReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case KEYBOARDS_APP_UPDATE_PHASE: {
+      draft.keyboards.app.phase = action.value;
+      break;
+    }
+  }
+};
 
 const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {
     case STORAGE_UPDATE_KEYBOARD_DEFINITION: {
       draft.entities.keyboardDefinition = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS: {
+      draft.entities.keyboardDefinitionDocuments = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT: {
+      draft.entities.keyboardDefinitionDocument = action.value;
       break;
     }
   }

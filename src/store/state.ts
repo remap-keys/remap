@@ -8,7 +8,10 @@ import {
 } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
-import { IStorage } from '../services/storage/Storage';
+import {
+  IKeyboardDefinitionDocument,
+  IStorage,
+} from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 
@@ -30,6 +33,20 @@ export const SetupPhase: { [p: string]: ISetupPhase } = {
   openedKeyboard: 'openedKeyboard',
 };
 
+export type IKeyboardsPhase =
+  | 'init'
+  | 'list'
+  | 'create'
+  | 'processing'
+  | 'edit';
+export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
+  init: 'init',
+  list: 'list',
+  create: 'create',
+  processing: 'processing',
+  edit: 'edit',
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -49,6 +66,8 @@ export type RootState = {
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
     keyboardDefinition: KeyboardDefinitionSchema | null;
+    keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
+    keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
   };
   app: {
     package: {
@@ -89,6 +108,23 @@ export type RootState = {
       selectedOptions: (string | null)[];
     };
   };
+  keyboards: {
+    app: {
+      phase: IKeyboardsPhase;
+    };
+    createdefinition: {
+      jsonFilename: string;
+      keyboardDefinition: KeyboardDefinitionSchema | null;
+      productName: string;
+      jsonString: string;
+    };
+    editdefinition: {
+      jsonFilename: string;
+      keyboardDefinition: KeyboardDefinitionSchema | null;
+      productName: string;
+      jsonString: string;
+    };
+  };
   hid: {
     instance: IHid;
   };
@@ -117,6 +153,8 @@ export const INIT_STATE: RootState = {
     keyboards: [],
     keyboard: null, // hid.keyboards[i]
     keyboardDefinition: null,
+    keyboardDefinitionDocuments: [],
+    keyboardDefinitionDocument: null,
   },
   app: {
     package: {
@@ -152,6 +190,23 @@ export const INIT_STATE: RootState = {
     },
     layoutOptions: {
       selectedOptions: [],
+    },
+  },
+  keyboards: {
+    app: {
+      phase: KeyboardsPhase.init,
+    },
+    createdefinition: {
+      jsonFilename: '',
+      keyboardDefinition: null,
+      productName: '',
+      jsonString: '',
+    },
+    editdefinition: {
+      jsonFilename: '',
+      keyboardDefinition: null,
+      productName: '',
+      jsonString: '',
     },
   },
   hid: {

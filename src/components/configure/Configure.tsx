@@ -13,6 +13,7 @@ import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
 import { IKeyboard } from '../../services/hid/Hid';
+import Footer from '../common/footer/Footer';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
@@ -25,7 +26,7 @@ type OwnState = {
 };
 
 class Configure extends React.Component<ConfigureProps, OwnState> {
-  private displayedNoficationIds: string[] = [];
+  private displayedNotificationIds: string[] = [];
   constructor(props: ConfigureProps) {
     super(props);
     this.state = {
@@ -35,18 +36,18 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
   }
 
   private storeDisplayedNotification = (key: string) => {
-    this.displayedNoficationIds = [...this.displayedNoficationIds, key];
+    this.displayedNotificationIds = [...this.displayedNotificationIds, key];
   };
 
   private removeDisplayedNotification = (key: string) => {
-    this.displayedNoficationIds = [
-      ...this.displayedNoficationIds.filter((k) => key !== k),
+    this.displayedNotificationIds = [
+      ...this.displayedNotificationIds.filter((k) => key !== k),
     ];
   };
 
   private updateNotifications() {
     this.props.notifications!.forEach((item: NotificationItem) => {
-      if (this.displayedNoficationIds.includes(item.key)) return;
+      if (this.displayedNotificationIds.includes(item.key)) return;
 
       this.props.enqueueSnackbar(item.message, {
         key: item.key,
@@ -121,7 +122,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
           }
         });
       } else {
-        this.props.auth!.signInWithGitHubForClosedBeta().then(() => {
+        this.props.auth!.signInWithGitHub().then(() => {
           // N/A
         });
       }
@@ -138,21 +139,11 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       return (
         <React.Fragment>
           <CssBaseline />
-          <div className="message-box-wrapper">
-            <div className="message-box">
-              <h1>Unsupported Web Browser</h1>
-              <p>
-                <a href="https://remap-keys.app">Remap</a> works on Web Browsers
-                which the{' '}
-                <a href="https://wicg.github.io/webhid/">WebHID API</a> is
-                supported.
-                <br />
-                For example,{' '}
-                <a href="https://www.google.com/chrome">Google Chrome</a>{' '}
-                version 86 or later supports the WebHID API.
-              </p>
-            </div>
-          </div>
+          <Header />
+          <main>
+            <UnsupportBrowser />
+          </main>
+          <Footer />
         </React.Fragment>
       );
     }
@@ -175,9 +166,30 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
         <main>
           <Content />
         </main>
+        <Footer />
       </React.Fragment>
     );
   }
 }
 
 export default withSnackbar(Configure);
+
+function UnsupportBrowser() {
+  return (
+    <div className="message-box-wrapper">
+      <div className="message-box">
+        <h1>Unsupported Web Browser</h1>
+        <p>
+          <a href="https://remap-keys.app">Remap</a> works on Web Browsers which
+          the <a href="https://wicg.github.io/webhid/">WebHID API</a> is
+          supported.
+          <br />
+          For example, <a href="https://www.google.com/chrome">
+            Google Chrome
+          </a>{' '}
+          version 86 or later supports the WebHID API.
+        </p>
+      </div>
+    </div>
+  );
+}

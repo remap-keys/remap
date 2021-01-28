@@ -1,0 +1,21 @@
+@import '../../../_variables.scss';
+
+.keyboards-header {
+  display: flex;
+  position: fixed;
+  height: calc(var(--key-height));
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  padding: 0 $space-m;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 2;
+
+  .keyboards-header-logo {
+    position: absolute;
+    left: calc(50% - 50px);
+    top: 12px;
+  }
+}

@@ -161,6 +161,7 @@ export default class ConfigurationDialog extends React.Component<
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <KeyboardDefinitionFormPart
               messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
+              validateDeviceIds={true}
               deviceVendorId={this.props.vendorId}
               deviceProductId={this.props.productId}
               onLoadFile={(kd, name) => {
