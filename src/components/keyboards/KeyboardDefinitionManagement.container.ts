@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     notifications: state.app.notifications,
     auth: state.auth.instance,
+    storage: state.storage.instance,
   };
 };
 export type KeyboardDefinitionManagementStateType = ReturnType<
