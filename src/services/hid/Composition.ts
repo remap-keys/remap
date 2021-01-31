@@ -1,15 +1,10 @@
+import { IHid, IKeycodeInfo, IKeymap } from './Hid';
+import { hexadecimal } from '../../utils/StringUtils';
+
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
 
 export const QK_MODS_MIN = 0b0000_0001_0000_0000;
-export const QK_LCTL = 0b0000_0001_0000_0000;
-export const QK_LSFT = 0b0000_0010_0000_0000;
-export const QK_LALT = 0b0000_0100_0000_0000;
-export const QK_LGUI = 0b0000_1000_0000_0000;
-export const QK_RCTL = 0b0001_0001_0000_0000;
-export const QK_RSFT = 0b0001_0010_0000_0000;
-export const QK_RALT = 0b0001_0100_0000_0000;
-export const QK_RGUI = 0b0001_1000_0000_0000;
 export const QK_MODS_MAX = 0b0001_1111_1111_1111;
 
 export const QK_FUNCTION_MIN = 0b0010_0000_0000_0000;
@@ -128,7 +123,112 @@ const keycodeCompositionKindRangeMap: {
   loose_keycode: { min: LOOSE_KEYCODE_MIN, max: LOOSE_KEYCODE_MAX },
 };
 
-export interface IKeycodeComposition {
+export const MOD_CTL = 0b0001;
+export const MOD_SFT = 0b0010;
+export const MOD_ALT = 0b0100;
+export const MOD_GUI = 0b1000;
+
+export const MOD_LEFT = 0b0_0000;
+export const MOD_RIGHT = 0b1_0000;
+
+export const MOD_LCTL = MOD_LEFT | MOD_CTL;
+export const MOD_LSFT = MOD_LEFT | MOD_SFT;
+export const MOD_LALT = MOD_LEFT | MOD_ALT;
+export const MOD_LGUI = MOD_LEFT | MOD_GUI;
+export const MOD_RCTL = MOD_RIGHT | MOD_CTL;
+export const MOD_RSFT = MOD_RIGHT | MOD_SFT;
+export const MOD_RALT = MOD_RIGHT | MOD_ALT;
+export const MOD_RGUI = MOD_RIGHT | MOD_GUI;
+
+export type IModifier = {
+  name: {
+    long: string;
+    short: string;
+  };
+  code: number;
+};
+
+export const ModLeftControl: IModifier = {
+  name: { long: 'LCTL', short: 'LC' },
+  code: MOD_LCTL,
+};
+export const ModLeftShift: IModifier = {
+  name: { long: 'LSFT', short: 'LS' },
+  code: MOD_LSFT,
+};
+export const ModLeftAlt: IModifier = {
+  name: { long: 'LALT', short: 'LA' },
+  code: MOD_LALT,
+};
+export const ModLeftGui: IModifier = {
+  name: { long: 'LGUI', short: 'LG' },
+  code: MOD_LGUI,
+};
+export const ModRightControl: IModifier = {
+  name: { long: 'RCTL', short: 'RC' },
+  code: MOD_RCTL,
+};
+export const ModRightShift: IModifier = {
+  name: { long: 'RSFT', short: 'RS' },
+  code: MOD_RSFT,
+};
+export const ModRightAlt: IModifier = {
+  name: { long: 'RALT', short: 'RA' },
+  code: MOD_RALT,
+};
+export const ModRightGui: IModifier = {
+  name: { long: 'RGUI', short: 'RG' },
+  code: MOD_RGUI,
+};
+export const LeftModifiers: IModifier[] = [
+  ModLeftControl,
+  ModLeftShift,
+  ModLeftAlt,
+  ModLeftGui,
+];
+
+export const RightModifiers: IModifier[] = [
+  ModRightControl,
+  ModRightShift,
+  ModRightAlt,
+  ModRightGui,
+];
+
+export interface IComposition {
+  getCode(): number;
+}
+
+export interface IModsComposition extends IComposition {
+  getModifiers(): IModifier[];
+  getKey(): IKeymap;
+}
+
+export class ModsComposition implements IModsComposition {
+  private readonly modifiers: IModifier[];
+  private readonly key: IKeymap;
+
+  constructor(modifiers: IModifier[], key: IKeymap) {
+    this.modifiers = modifiers;
+    this.key = key;
+  }
+
+  getCode(): number {
+    const code = this.modifiers.reduce<number>((result, current) => {
+      return result | (current.code << 8);
+    }, 0);
+    return code | (this.key.code & 0b1111_1111);
+  }
+
+  getKey(): IKeymap {
+    return this.key;
+  }
+
+  getModifiers(): IModifier[] {
+    return this.modifiers;
+  }
+}
+
+export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
   isFunction(): boolean;
@@ -149,13 +249,17 @@ export interface IKeycodeComposition {
   isLooseKeycode(): boolean;
   isUnknown(): boolean;
   getKind(): IKeycodeCompositionKind | null;
+  createBasicComposition(): IModsComposition;
+  createModsComposition(): IModsComposition;
 }
 
-export class KeycodeComposition implements IKeycodeComposition {
+export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   private readonly code: number;
+  private readonly hid: IHid;
 
-  constructor(code: number) {
+  constructor(code: number, hid: IHid) {
     this.code = code;
+    this.hid = hid;
   }
 
   getKind(): IKeycodeCompositionKind | null {
@@ -241,5 +345,35 @@ export class KeycodeComposition implements IKeycodeComposition {
 
   isUnknown(): boolean {
     return this.getKind() === null;
+  }
+
+  createBasicComposition(): IModsComposition {
+    if (!this.isBasic()) {
+      throw new Error(
+        `This code is not a basic key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const keyCode = this.code & 0b1111_1111;
+    return new ModsComposition([], this.hid.getKeymap(keyCode));
+  }
+
+  createModsComposition(): IModsComposition {
+    if (!this.isMods()) {
+      throw new Error(
+        `This code is not a mods key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const keyCode = this.code & 0b1111_1111;
+    const targetModifiers =
+      ((this.code >> 8) & MOD_RIGHT) === MOD_RIGHT
+        ? RightModifiers
+        : LeftModifiers;
+    const modifiers = targetModifiers.reduce<IModifier[]>((result, current) => {
+      if (((this.code >> 8) & current.code) === current.code) {
+        result.push(current);
+      }
+      return result;
+    }, []);
+    return new ModsComposition(modifiers, this.hid.getKeymap(keyCode));
   }
 }
