@@ -229,6 +229,10 @@ export interface IToComposition extends IComposition {
   getLayer(): number;
 }
 
+export interface IMomentaryComposition extends IComposition {
+  getLayer(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -347,6 +351,22 @@ export class ToComposition implements IToComposition {
   }
 }
 
+export class MomentaryComposition implements IMomentaryComposition {
+  private layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_MOMENTARY_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -374,6 +394,7 @@ export interface IKeycodeCompositionFactory {
   createMacroComposition(): IMacroComposition;
   createLayerTapComposition(): ILayerTapComposition;
   createToComposition(): IToComposition;
+  createMomentaryComposition(): IMomentaryComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -539,5 +560,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = this.code & 0b1111;
     return new ToComposition(layer);
+  }
+
+  createMomentaryComposition(): IMomentaryComposition {
+    if (!this.isMomentary()) {
+      throw new Error(
+        `This code is not a momentary key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const layer = this.code & 0b1111_1111;
+    return new MomentaryComposition(layer);
   }
 }
