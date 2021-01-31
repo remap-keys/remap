@@ -17,6 +17,7 @@ import {
   ModsComposition,
   MomentaryComposition,
   OneShotLayerComposition,
+  OneShotModComposition,
   ToComposition,
   ToggleLayerComposition,
 } from './Composition';
@@ -281,6 +282,29 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_0100_0000_1111);
       subject = new OneShotLayerComposition(0b1_0000_0000);
       expect(subject.getCode()).toEqual(0b0101_0100_0000_0000);
+    });
+  });
+
+  describe('OneShotModComposition', () => {
+    describe('getCode', () => {
+      let subject = new OneShotModComposition(ModDirection.right, [
+        MOD_CTL,
+        MOD_SFT,
+        MOD_ALT,
+        MOD_GUI,
+      ]);
+      expect(subject.getCode()).toEqual(0b0101_0101_0001_1111);
+      subject = new OneShotModComposition(ModDirection.left, [
+        MOD_CTL,
+        MOD_SFT,
+        MOD_ALT,
+        MOD_GUI,
+      ]);
+      expect(subject.getCode()).toEqual(0b0101_0101_0000_1111);
+      subject = new OneShotModComposition(ModDirection.right, []);
+      expect(subject.getCode()).toEqual(0b0101_0101_0001_0000);
+      subject = new OneShotModComposition(ModDirection.left, []);
+      expect(subject.getCode()).toEqual(0b0101_0101_0000_0000);
     });
   });
 
@@ -663,6 +687,55 @@ describe('Composition', () => {
         expect(subject.isOneShotLayer()).toBeFalsy();
         try {
           const actual = subject.createOneShotLayerComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createOneShotModComposition', () => {
+      test('valid - left', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0101_0001_1111,
+          hid
+        );
+        expect(subject.isOneShotMod()).toBeTruthy();
+        const actual = subject.createOneShotModComposition();
+        expect(actual.getModDirection()).toEqual(MOD_RIGHT);
+        expect(actual.getModifiers().length).toEqual(4);
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('valid - left', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0101_0000_1111,
+          hid
+        );
+        expect(subject.isOneShotMod()).toBeTruthy();
+        const actual = subject.createOneShotModComposition();
+        expect(actual.getModDirection()).toEqual(MOD_LEFT);
+        expect(actual.getModifiers().length).toEqual(4);
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('not mods', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0000,
+          hid
+        );
+        expect(subject.isOneShotMod()).toBeFalsy();
+        try {
+          const actual = subject.createOneShotModComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

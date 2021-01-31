@@ -203,6 +203,11 @@ export interface IOneShotLayerComposition extends IComposition {
   getLayer(): number;
 }
 
+export interface IOneShotModComposition extends IComposition {
+  getModDirection(): IModDirection;
+  getModifiers(): IMod[];
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -391,6 +396,31 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
   }
 }
 
+export class OneShotModComposition implements IOneShotModComposition {
+  private readonly modDirection: IModDirection;
+  private readonly modifiers: IMod[];
+
+  constructor(modDirection: IModDirection, modifiers: IMod[]) {
+    this.modDirection = modDirection;
+    this.modifiers = modifiers;
+  }
+
+  getCode(): number {
+    const mods = this.modifiers.reduce<number>((result, current) => {
+      return result | current;
+    }, 0);
+    return QK_ONE_SHOT_MOD_MIN | (this.modDirection << 4) | mods;
+  }
+
+  getModifiers(): IMod[] {
+    return this.modifiers;
+  }
+
+  getModDirection(): IModDirection {
+    return this.modDirection;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -422,6 +452,7 @@ export interface IKeycodeCompositionFactory {
   createDefLayerComposition(): IDefLayerComposition;
   createToggleLayerComposition(): IToggleLayerComposition;
   createOneShotLayerComposition(): IOneShotLayerComposition;
+  createOneShotModComposition(): IOneShotModComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -635,5 +666,25 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = this.code & 0b1111_1111;
     return new OneShotLayerComposition(layer);
+  }
+
+  createOneShotModComposition(): IOneShotModComposition {
+    if (!this.isOneShotMod()) {
+      throw new Error(
+        `This code is not an one shot mod key code: ${hexadecimal(
+          this.code,
+          16
+        )}`
+      );
+    }
+    const modDirection =
+      (this.code & 0b1_0000) >> 4 === 1 ? MOD_RIGHT : MOD_LEFT;
+    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
+      if ((this.code & 0b1111 & Mod[current]) === Mod[current]) {
+        result.push(Mod[current]);
+      }
+      return result;
+    }, []);
+    return new OneShotModComposition(modDirection, modifiers);
   }
 }
