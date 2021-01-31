@@ -233,6 +233,18 @@ export interface IMomentaryComposition extends IComposition {
   getLayer(): number;
 }
 
+export interface IDefLayerComposition extends IComposition {
+  getLayer(): number;
+}
+
+export interface IToggleLayerComposition extends IComposition {
+  getLayer(): number;
+}
+
+export interface IOneShotLayerComposition extends IComposition {
+  getLayer(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -336,7 +348,7 @@ export class LayerTapComposition implements ILayerTapComposition {
 }
 
 export class ToComposition implements IToComposition {
-  private layer: number;
+  private readonly layer: number;
 
   constructor(layer: number) {
     this.layer = layer;
@@ -352,7 +364,7 @@ export class ToComposition implements IToComposition {
 }
 
 export class MomentaryComposition implements IMomentaryComposition {
-  private layer: number;
+  private readonly layer: number;
 
   constructor(layer: number) {
     this.layer = layer;
@@ -364,6 +376,54 @@ export class MomentaryComposition implements IMomentaryComposition {
 
   getCode(): number {
     return QK_MOMENTARY_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
+export class DefLayerComposition implements IMomentaryComposition {
+  private readonly layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_DEF_LAYER_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
+export class ToggleLayerComposition implements IMomentaryComposition {
+  private readonly layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_TOGGLE_LAYER_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
+export class OneShotLayerComposition implements IOneShotLayerComposition {
+  private readonly layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_ONE_SHOT_LAYER_MIN | (this.layer & 0b1111_1111);
   }
 }
 
@@ -395,6 +455,9 @@ export interface IKeycodeCompositionFactory {
   createLayerTapComposition(): ILayerTapComposition;
   createToComposition(): IToComposition;
   createMomentaryComposition(): IMomentaryComposition;
+  createDefLayerComposition(): IDefLayerComposition;
+  createToggleLayerComposition(): IToggleLayerComposition;
+  createOneShotLayerComposition(): IOneShotLayerComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -570,5 +633,41 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = this.code & 0b1111_1111;
     return new MomentaryComposition(layer);
+  }
+
+  createDefLayerComposition(): IDefLayerComposition {
+    if (!this.isDefLayer()) {
+      throw new Error(
+        `This code is not a def layer key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const layer = this.code & 0b1111_1111;
+    return new DefLayerComposition(layer);
+  }
+
+  createToggleLayerComposition(): IToggleLayerComposition {
+    if (!this.isToggleLayer()) {
+      throw new Error(
+        `This code is not a toggle layer key code: ${hexadecimal(
+          this.code,
+          16
+        )}`
+      );
+    }
+    const layer = this.code & 0b1111_1111;
+    return new ToggleLayerComposition(layer);
+  }
+
+  createOneShotLayerComposition(): IOneShotLayerComposition {
+    if (!this.isOneShotLayer()) {
+      throw new Error(
+        `This code is not an one shot layer key code: ${hexadecimal(
+          this.code,
+          16
+        )}`
+      );
+    }
+    const layer = this.code & 0b1111_1111;
+    return new OneShotLayerComposition(layer);
   }
 }

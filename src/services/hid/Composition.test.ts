@@ -1,5 +1,6 @@
 import {
   BasicComposition,
+  DefLayerComposition,
   FunctionComposition,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
@@ -16,7 +17,9 @@ import {
   ModRightShift,
   ModsComposition,
   MomentaryComposition,
+  OneShotLayerComposition,
   ToComposition,
+  ToggleLayerComposition,
 } from './Composition';
 import { IHid, IKeymap } from './Hid';
 import * as sinon from 'sinon';
@@ -233,6 +236,45 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_0001_0000_1111);
       subject = new MomentaryComposition(0b1_0000_0000);
       expect(subject.getCode()).toEqual(0b0101_0001_0000_0000);
+    });
+  });
+
+  describe('DefLayerComposition', () => {
+    describe('getCode', () => {
+      let subject = new DefLayerComposition(0b0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_0100);
+      subject = new DefLayerComposition(0b0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_0000);
+      subject = new DefLayerComposition(0b1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_1111);
+      subject = new DefLayerComposition(0b1_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_0000);
+    });
+  });
+
+  describe('ToggleLayerComposition', () => {
+    describe('getCode', () => {
+      let subject = new ToggleLayerComposition(0b0100);
+      expect(subject.getCode()).toEqual(0b0101_0011_0000_0100);
+      subject = new ToggleLayerComposition(0b0000);
+      expect(subject.getCode()).toEqual(0b0101_0011_0000_0000);
+      subject = new ToggleLayerComposition(0b1111);
+      expect(subject.getCode()).toEqual(0b0101_0011_0000_1111);
+      subject = new ToggleLayerComposition(0b1_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0011_0000_0000);
+    });
+  });
+
+  describe('OneShotLayerComposition', () => {
+    describe('getCode', () => {
+      let subject = new OneShotLayerComposition(0b0100);
+      expect(subject.getCode()).toEqual(0b0101_0100_0000_0100);
+      subject = new OneShotLayerComposition(0b0000);
+      expect(subject.getCode()).toEqual(0b0101_0100_0000_0000);
+      subject = new OneShotLayerComposition(0b1111);
+      expect(subject.getCode()).toEqual(0b0101_0100_0000_1111);
+      subject = new OneShotLayerComposition(0b1_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0100_0000_0000);
     });
   });
 
@@ -529,6 +571,90 @@ describe('Composition', () => {
         expect(subject.isMomentary()).toBeFalsy();
         try {
           const actual = subject.createMomentaryComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createDefLayerComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0010_0000_0100,
+          hid
+        );
+        expect(subject.isDefLayer()).toBeTruthy();
+        const actual = subject.createDefLayerComposition();
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isDefLayer()).toBeFalsy();
+        try {
+          const actual = subject.createDefLayerComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createToggleLayerComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0011_0000_0100,
+          hid
+        );
+        expect(subject.isToggleLayer()).toBeTruthy();
+        const actual = subject.createToggleLayerComposition();
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isToggleLayer()).toBeFalsy();
+        try {
+          const actual = subject.createToggleLayerComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createOneShotLayerComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0100_0000_0100,
+          hid
+        );
+        expect(subject.isOneShotLayer()).toBeTruthy();
+        const actual = subject.createOneShotLayerComposition();
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isOneShotLayer()).toBeFalsy();
+        try {
+          const actual = subject.createOneShotLayerComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
