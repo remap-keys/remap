@@ -142,6 +142,8 @@ export const MOD_RSFT = MOD_RIGHT | MOD_SFT;
 export const MOD_RALT = MOD_RIGHT | MOD_ALT;
 export const MOD_RGUI = MOD_RIGHT | MOD_GUI;
 
+export const ON_PRESS = 0b0001;
+
 export type IModifier = {
   name: {
     long: string;
@@ -221,6 +223,10 @@ export interface IMacroComposition extends IComposition {
 export interface ILayerTapComposition extends IComposition {
   getLayer(): number;
   getKey(): IKeymap;
+}
+
+export interface IToComposition extends IComposition {
+  getLayer(): number;
 }
 
 export class BasicComposition implements IBasicComposition {
@@ -325,6 +331,22 @@ export class LayerTapComposition implements ILayerTapComposition {
   }
 }
 
+export class ToComposition implements IToComposition {
+  private layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_TO_MIN | ((ON_PRESS << 4) | (this.layer & 0b1111));
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -348,6 +370,10 @@ export interface IKeycodeCompositionFactory {
   getKind(): IKeycodeCompositionKind | null;
   createBasicComposition(): IBasicComposition;
   createModsComposition(): IModsComposition;
+  createFunctionComposition(): IFunctionComposition;
+  createMacroComposition(): IMacroComposition;
+  createLayerTapComposition(): ILayerTapComposition;
+  createToComposition(): IToComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -503,5 +529,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
     return new LayerTapComposition(layer, this.hid.getKeymap(keyCode));
+  }
+
+  createToComposition(): IToComposition {
+    if (!this.isTo()) {
+      throw new Error(
+        `This code is not a to key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const layer = this.code & 0b1111;
+    return new ToComposition(layer);
   }
 }

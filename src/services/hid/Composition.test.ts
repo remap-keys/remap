@@ -15,6 +15,7 @@ import {
   ModRightGui,
   ModRightShift,
   ModsComposition,
+  ToComposition,
 } from './Composition';
 import { IHid, IKeymap } from './Hid';
 import * as sinon from 'sinon';
@@ -205,6 +206,19 @@ describe('Composition', () => {
         isAny: false,
       });
       expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
+    });
+  });
+
+  describe('ToComposition', () => {
+    describe('getCode', () => {
+      let subject = new ToComposition(0b0100);
+      expect(subject.getCode()).toEqual(0b0101_0000_0001_0100);
+      subject = new ToComposition(0b0000);
+      expect(subject.getCode()).toEqual(0b0101_0000_0001_0000);
+      subject = new ToComposition(0b1111);
+      expect(subject.getCode()).toEqual(0b0101_0000_0001_1111);
+      subject = new ToComposition(0b1_0000);
+      expect(subject.getCode()).toEqual(0b0101_0000_0001_0000);
     });
   });
 
@@ -445,6 +459,34 @@ describe('Composition', () => {
         expect(subject.isLayerTap()).toBeFalsy();
         try {
           const actual = subject.createLayerTapComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createToComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0000_0001_0100,
+          hid
+        );
+        expect(subject.isTo()).toBeTruthy();
+        const actual = subject.createToComposition();
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isTo()).toBeFalsy();
+        try {
+          const actual = subject.createFunctionComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
