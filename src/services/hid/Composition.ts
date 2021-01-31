@@ -1,4 +1,4 @@
-import { IHid, IKeycodeInfo, IKeymap } from './Hid';
+import { IHid, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
@@ -75,6 +75,7 @@ export type IKeycodeCompositionKind =
   | 'unicode'
   | 'loose_keycode';
 export const KeycodeCompositionKind: {
+  // eslint-disable-next-line no-unused-vars
   [p in IKeycodeCompositionKind]: IKeycodeCompositionKind;
 } = {
   basic: 'basic',
@@ -98,6 +99,7 @@ export const KeycodeCompositionKind: {
 };
 
 const keycodeCompositionKindRangeMap: {
+  // eslint-disable-next-line no-unused-vars
   [p in keyof typeof KeycodeCompositionKind]: { min: number; max: number };
 } = {
   basic: { min: QK_BASIC_MIN, max: QK_BASIC_MAX },
