@@ -1,5 +1,6 @@
 import {
   BasicComposition,
+  FunctionComposition,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
@@ -148,6 +149,17 @@ describe('Composition', () => {
     });
   });
 
+  describe('FunctionComposition', () => {
+    describe('getCode', () => {
+      let subject = new FunctionComposition(0b0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0010_0000_0000_0000);
+      subject = new FunctionComposition(0b1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b0010_1111_1111_1111);
+      subject = new FunctionComposition(0b1_0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0010_0000_0000_0000);
+    });
+  });
+
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
@@ -270,6 +282,34 @@ describe('Composition', () => {
         expect(subject.isMods()).toBeFalsy();
         try {
           const actual = subject.createModsComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createFunctionComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0010_0000_0000_0100,
+          hid
+        );
+        expect(subject.isFunction()).toBeTruthy();
+        const actual = subject.createFunctionComposition();
+        expect(actual.getFunctionId()).toEqual(0b0000_0000_0100);
+      });
+
+      test('not function', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isFunction()).toBeFalsy();
+        try {
+          const actual = subject.createFunctionComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

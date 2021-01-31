@@ -418,4 +418,14 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }, []);
     return new ModsComposition(modifiers, this.hid.getKeymap(keyCode));
   }
+
+  createFunctionComposition(): IFunctionComposition {
+    if (!this.isFunction()) {
+      throw new Error(
+        `This code is not a function key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const functionId = this.code & 0b1111_1111_1111;
+    return new FunctionComposition(functionId);
+  }
 }
