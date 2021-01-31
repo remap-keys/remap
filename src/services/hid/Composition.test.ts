@@ -4,6 +4,7 @@ import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
+  MacroComposition,
   ModLeftAlt,
   ModLeftControl,
   ModLeftGui,
@@ -160,6 +161,19 @@ describe('Composition', () => {
     });
   });
 
+  describe('MacroComposition', () => {
+    describe('getCode', () => {
+      let subject = new MacroComposition(0b0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
+      expect(subject.isTap()).toBeFalsy();
+      subject = new MacroComposition(0b1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b0011_1111_1111_1111);
+      expect(subject.isTap()).toBeTruthy();
+      subject = new MacroComposition(0b1_0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
+    });
+  });
+
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
@@ -310,6 +324,47 @@ describe('Composition', () => {
         expect(subject.isFunction()).toBeFalsy();
         try {
           const actual = subject.createFunctionComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createMacroComposition', () => {
+      test('valid - not tap', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0011_0000_0000_0100,
+          hid
+        );
+        expect(subject.isMacro()).toBeTruthy();
+        const actual = subject.createMacroComposition();
+        expect(actual.getMacroId()).toEqual(0b0000_0000_0100);
+        expect(actual.isTap()).toBeFalsy();
+      });
+
+      test('valid - tap', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0011_1000_0000_0100,
+          hid
+        );
+        expect(subject.isMacro()).toBeTruthy();
+        const actual = subject.createMacroComposition();
+        expect(actual.getMacroId()).toEqual(0b1000_0000_0100);
+        expect(actual.isTap()).toBeTruthy();
+      });
+
+      test('not macro', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isMacro()).toBeFalsy();
+        try {
+          const actual = subject.createMacroComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

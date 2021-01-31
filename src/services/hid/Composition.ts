@@ -213,6 +213,11 @@ export interface IFunctionComposition extends IComposition {
   getFunctionId(): number;
 }
 
+export interface IMacroComposition extends IComposition {
+  getMacroId(): number;
+  isTap(): boolean;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -267,6 +272,26 @@ export class FunctionComposition implements IFunctionComposition {
 
   getFunctionId(): number {
     return this.functionId;
+  }
+}
+
+export class MacroComposition implements IMacroComposition {
+  private readonly macroId: number;
+
+  constructor(macroId: number) {
+    this.macroId = macroId;
+  }
+
+  getCode(): number {
+    return QK_MACRO_MIN | (this.macroId & 0b1111_1111_1111);
+  }
+
+  getMacroId(): number {
+    return this.macroId;
+  }
+
+  isTap(): boolean {
+    return (this.macroId & 0b1000_0000_0000) === 0b1000_0000_0000;
   }
 }
 
@@ -427,5 +452,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const functionId = this.code & 0b1111_1111_1111;
     return new FunctionComposition(functionId);
+  }
+
+  createMacroComposition(): IMacroComposition {
+    if (!this.isMacro()) {
+      throw new Error(
+        `This code is not a macro key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const macroId = this.code & 0b1111_1111_1111;
+    return new MacroComposition(macroId);
   }
 }
