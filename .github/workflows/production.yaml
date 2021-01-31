@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Build and Deploy
+      - name: Build and Test
         env:
           REACT_APP_WEBHIDAPI_TOKEN: ${{ secrets.REACT_APP_WEBHIDAPI_TOKEN }}
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
@@ -31,7 +31,7 @@ jobs:
           REACT_APP_FIREBASE_MESSAGE_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGE_SENDER_ID }}
           REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_ERROR_REPORTING_KEY: ${{ secrets.REACT_APP_ERROR_REPORTING_KEY }}
-        run: yarn build
+        run: yarn build && yarn test
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
