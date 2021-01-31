@@ -209,6 +209,10 @@ export interface IModsComposition extends IComposition {
   getKey(): IKeymap;
 }
 
+export interface IFunctionComposition extends IComposition {
+  getFunctionId(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -247,6 +251,22 @@ export class ModsComposition implements IModsComposition {
 
   getModifiers(): IModifier[] {
     return this.modifiers;
+  }
+}
+
+export class FunctionComposition implements IFunctionComposition {
+  private readonly functionId: number;
+
+  constructor(functionId: number) {
+    this.functionId = functionId;
+  }
+
+  getCode(): number {
+    return QK_FUNCTION_MIN | (this.functionId & 0b1111_1111_1111);
+  }
+
+  getFunctionId(): number {
+    return this.functionId;
   }
 }
 
