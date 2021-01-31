@@ -7,14 +7,13 @@ import {
   KeycodeCompositionKind,
   LayerTapComposition,
   MacroComposition,
-  ModLeftAlt,
-  ModLeftControl,
-  ModLeftGui,
-  ModLeftShift,
-  ModRightAlt,
-  ModRightControl,
-  ModRightGui,
-  ModRightShift,
+  MOD_ALT,
+  MOD_CTL,
+  MOD_GUI,
+  MOD_LEFT,
+  MOD_RIGHT,
+  MOD_SFT,
+  ModDirection,
   ModsComposition,
   MomentaryComposition,
   OneShotLayerComposition,
@@ -90,7 +89,8 @@ describe('Composition', () => {
   describe('ModsComposition', () => {
     describe('getCode', () => {
       let subject = new ModsComposition(
-        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b0000_0100,
           isAny: false,
@@ -106,7 +106,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0001_1111_0000_0100);
       subject = new ModsComposition(
-        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b0000_0000,
           isAny: false,
@@ -114,7 +115,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
       subject = new ModsComposition(
-        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b0000_0000,
           isAny: false,
@@ -122,7 +124,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
       subject = new ModsComposition(
-        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b1111_1111,
           isAny: false,
@@ -130,7 +133,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0000_1111_1111_1111);
       subject = new ModsComposition(
-        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b1111_1111,
           isAny: false,
@@ -138,7 +142,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0001_1111_1111_1111);
       subject = new ModsComposition(
-        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b1_0000_0000,
           isAny: false,
@@ -146,7 +151,8 @@ describe('Composition', () => {
       );
       expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
       subject = new ModsComposition(
-        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
         {
           code: 0b1_0000_0000,
           isAny: false,
@@ -351,11 +357,12 @@ describe('Composition', () => {
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
-        expect(actual.getModifiers().includes(ModLeftControl)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModLeftShift)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModLeftAlt)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModLeftGui)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
       });
 
       test('valid - right', () => {
@@ -384,11 +391,12 @@ describe('Composition', () => {
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
-        expect(actual.getModifiers().includes(ModRightControl)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModRightShift)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModRightAlt)).toBeTruthy();
-        expect(actual.getModifiers().includes(ModRightGui)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
       });
 
       test('not mods', () => {

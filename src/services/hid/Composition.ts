@@ -130,73 +130,30 @@ export const MOD_SFT = 0b0010;
 export const MOD_ALT = 0b0100;
 export const MOD_GUI = 0b1000;
 
-export const MOD_LEFT = 0b0_0000;
-export const MOD_RIGHT = 0b1_0000;
+export type IMod =
+  | typeof MOD_CTL
+  | typeof MOD_SFT
+  | typeof MOD_ALT
+  | typeof MOD_GUI;
+export const Mod: { [p: string]: IMod } = {
+  CTRL: MOD_CTL,
+  SFT: MOD_SFT,
+  ALT: MOD_ALT,
+  GUI: MOD_GUI,
+};
 
-export const MOD_LCTL = MOD_LEFT | MOD_CTL;
-export const MOD_LSFT = MOD_LEFT | MOD_SFT;
-export const MOD_LALT = MOD_LEFT | MOD_ALT;
-export const MOD_LGUI = MOD_LEFT | MOD_GUI;
-export const MOD_RCTL = MOD_RIGHT | MOD_CTL;
-export const MOD_RSFT = MOD_RIGHT | MOD_SFT;
-export const MOD_RALT = MOD_RIGHT | MOD_ALT;
-export const MOD_RGUI = MOD_RIGHT | MOD_GUI;
+export const MOD_LEFT = 0b0;
+export const MOD_RIGHT = 0b1;
+
+export type IModDirectionLabel = 'left' | 'right';
+export type IModDirection = typeof MOD_LEFT | typeof MOD_RIGHT;
+// eslint-disable-next-line no-unused-vars
+export const ModDirection: { [p in IModDirectionLabel]: IModDirection } = {
+  left: MOD_LEFT,
+  right: MOD_RIGHT,
+};
 
 export const ON_PRESS = 0b0001;
-
-export type IModifier = {
-  name: {
-    long: string;
-    short: string;
-  };
-  code: number;
-};
-
-export const ModLeftControl: IModifier = {
-  name: { long: 'LCTL', short: 'LC' },
-  code: MOD_LCTL,
-};
-export const ModLeftShift: IModifier = {
-  name: { long: 'LSFT', short: 'LS' },
-  code: MOD_LSFT,
-};
-export const ModLeftAlt: IModifier = {
-  name: { long: 'LALT', short: 'LA' },
-  code: MOD_LALT,
-};
-export const ModLeftGui: IModifier = {
-  name: { long: 'LGUI', short: 'LG' },
-  code: MOD_LGUI,
-};
-export const ModRightControl: IModifier = {
-  name: { long: 'RCTL', short: 'RC' },
-  code: MOD_RCTL,
-};
-export const ModRightShift: IModifier = {
-  name: { long: 'RSFT', short: 'RS' },
-  code: MOD_RSFT,
-};
-export const ModRightAlt: IModifier = {
-  name: { long: 'RALT', short: 'RA' },
-  code: MOD_RALT,
-};
-export const ModRightGui: IModifier = {
-  name: { long: 'RGUI', short: 'RG' },
-  code: MOD_RGUI,
-};
-export const LeftModifiers: IModifier[] = [
-  ModLeftControl,
-  ModLeftShift,
-  ModLeftAlt,
-  ModLeftGui,
-];
-
-export const RightModifiers: IModifier[] = [
-  ModRightControl,
-  ModRightShift,
-  ModRightAlt,
-  ModRightGui,
-];
 
 export interface IComposition {
   getCode(): number;
@@ -207,7 +164,8 @@ export interface IBasicComposition extends IComposition {
 }
 
 export interface IModsComposition extends IComposition {
-  getModifiers(): IModifier[];
+  getModDirection(): IModDirection;
+  getModifiers(): IMod[];
   getKey(): IKeymap;
 }
 
@@ -262,27 +220,33 @@ export class BasicComposition implements IBasicComposition {
 }
 
 export class ModsComposition implements IModsComposition {
-  private readonly modifiers: IModifier[];
+  private readonly modDirection: IModDirection;
+  private readonly modifiers: IMod[];
   private readonly key: IKeymap;
 
-  constructor(modifiers: IModifier[], key: IKeymap) {
+  constructor(modDirection: IModDirection, modifiers: IMod[], key: IKeymap) {
+    this.modDirection = modDirection;
     this.modifiers = modifiers;
     this.key = key;
   }
 
   getCode(): number {
     const code = this.modifiers.reduce<number>((result, current) => {
-      return result | (current.code << 8);
+      return result | (current << 8);
     }, 0);
-    return code | (this.key.code & 0b1111_1111);
+    return code | (this.modDirection << 12) | (this.key.code & 0b1111_1111);
   }
 
   getKey(): IKeymap {
     return this.key;
   }
 
-  getModifiers(): IModifier[] {
+  getModifiers(): IMod[] {
     return this.modifiers;
+  }
+
+  getModDirection(): IModDirection {
+    return this.modDirection;
   }
 }
 
@@ -571,17 +535,19 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    const targetModifiers =
-      ((this.code >> 8) & MOD_RIGHT) === MOD_RIGHT
-        ? RightModifiers
-        : LeftModifiers;
-    const modifiers = targetModifiers.reduce<IModifier[]>((result, current) => {
-      if (((this.code >> 8) & current.code) === current.code) {
-        result.push(current);
+    const modDirection =
+      (this.code & 0b1_0000_0000_0000) >> 12 === 1 ? MOD_RIGHT : MOD_LEFT;
+    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
+      if (((this.code >> 8) & 0b1111 & Mod[current]) === Mod[current]) {
+        result.push(Mod[current]);
       }
       return result;
     }, []);
-    return new ModsComposition(modifiers, this.hid.getKeymap(keyCode));
+    return new ModsComposition(
+      modDirection,
+      modifiers,
+      this.hid.getKeymap(keyCode)
+    );
   }
 
   createFunctionComposition(): IFunctionComposition {
