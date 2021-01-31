@@ -200,9 +200,29 @@ export interface IComposition {
   getCode(): number;
 }
 
+export interface IBasicComposition extends IComposition {
+  getKey(): IKeymap;
+}
+
 export interface IModsComposition extends IComposition {
   getModifiers(): IModifier[];
   getKey(): IKeymap;
+}
+
+export class BasicComposition implements IBasicComposition {
+  private readonly key: IKeymap;
+
+  constructor(key: IKeymap) {
+    this.key = key;
+  }
+
+  getCode(): number {
+    return this.key.code & 0b1111_1111;
+  }
+
+  getKey(): IKeymap {
+    return this.key;
+  }
 }
 
 export class ModsComposition implements IModsComposition {
@@ -251,7 +271,7 @@ export interface IKeycodeCompositionFactory {
   isLooseKeycode(): boolean;
   isUnknown(): boolean;
   getKind(): IKeycodeCompositionKind | null;
-  createBasicComposition(): IModsComposition;
+  createBasicComposition(): IBasicComposition;
   createModsComposition(): IModsComposition;
 }
 
@@ -349,14 +369,14 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     return this.getKind() === null;
   }
 
-  createBasicComposition(): IModsComposition {
+  createBasicComposition(): IBasicComposition {
     if (!this.isBasic()) {
       throw new Error(
         `This code is not a basic key code: ${hexadecimal(this.code, 16)}`
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    return new ModsComposition([], this.hid.getKeymap(keyCode));
+    return new BasicComposition(this.hid.getKeymap(keyCode));
   }
 
   createModsComposition(): IModsComposition {

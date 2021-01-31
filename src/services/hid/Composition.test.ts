@@ -1,4 +1,5 @@
 import {
+  BasicComposition,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
@@ -45,10 +46,44 @@ const EXPECT_LOOSE_KEYCODE_LIST = [
 const EXPECT_UNKNOWN_LIST = [0b0101_0110_0000_0000_0000];
 
 describe('Composition', () => {
+  describe('BasicComposition', () => {
+    describe('getCode', () => {
+      let subject = new BasicComposition({
+        code: 0b0000_0100,
+        isAny: false,
+        keycodeInfo: {
+          code: 0b0000_0100,
+          name: {
+            long: 'KC_A',
+            short: 'KC_A',
+          },
+          label: 'A',
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0000_0000_0000_0100);
+      subject = new BasicComposition({
+        code: 0b0000_0000,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
+      subject = new BasicComposition({
+        code: 0b1111_1111,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0000_0000_1111_1111);
+      subject = new BasicComposition({
+        code: 0b1_0000_0000,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
+    });
+  });
+
   describe('ModsComposition', () => {
     describe('getCode', () => {
-      test('basic', () => {
-        let subject = new ModsComposition([], {
+      let subject = new ModsComposition(
+        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        {
           code: 0b0000_0100,
           isAny: false,
           keycodeInfo: {
@@ -59,90 +94,57 @@ describe('Composition', () => {
             },
             label: 'A',
           },
-        });
-        expect(subject.getCode()).toEqual(0b0000_0000_0000_0100);
-        subject = new ModsComposition([], {
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0001_1111_0000_0100);
+      subject = new ModsComposition(
+        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        {
           code: 0b0000_0000,
           isAny: false,
-        });
-        expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
-        subject = new ModsComposition([], {
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
+      subject = new ModsComposition(
+        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        {
+          code: 0b0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
+      subject = new ModsComposition(
+        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        {
           code: 0b1111_1111,
           isAny: false,
-        });
-        expect(subject.getCode()).toEqual(0b0000_0000_1111_1111);
-        subject = new ModsComposition([], {
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0000_1111_1111_1111);
+      subject = new ModsComposition(
+        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        {
+          code: 0b1111_1111,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0001_1111_1111_1111);
+      subject = new ModsComposition(
+        [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
+        {
           code: 0b1_0000_0000,
           isAny: false,
-        });
-        expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
-      });
-      test('mods', () => {
-        let subject = new ModsComposition(
-          [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
-          {
-            code: 0b0000_0100,
-            isAny: false,
-            keycodeInfo: {
-              code: 0b0000_0100,
-              name: {
-                long: 'KC_A',
-                short: 'KC_A',
-              },
-              label: 'A',
-            },
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0001_1111_0000_0100);
-        subject = new ModsComposition(
-          [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
-          {
-            code: 0b0000_0000,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
-        subject = new ModsComposition(
-          [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
-          {
-            code: 0b0000_0000,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
-        subject = new ModsComposition(
-          [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
-          {
-            code: 0b1111_1111,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0000_1111_1111_1111);
-        subject = new ModsComposition(
-          [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
-          {
-            code: 0b1111_1111,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0001_1111_1111_1111);
-        subject = new ModsComposition(
-          [ModLeftControl, ModLeftAlt, ModLeftShift, ModLeftGui],
-          {
-            code: 0b1_0000_0000,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
-        subject = new ModsComposition(
-          [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
-          {
-            code: 0b1_0000_0000,
-            isAny: false,
-          }
-        );
-        expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
-      });
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
+      subject = new ModsComposition(
+        [ModRightControl, ModRightAlt, ModRightShift, ModRightGui],
+        {
+          code: 0b1_0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
     });
   });
 
@@ -173,7 +175,7 @@ describe('Composition', () => {
         );
         expect(subject.isBasic()).toBeTruthy();
         const actual = subject.createBasicComposition();
-        expect(actual.getModifiers().length).toEqual(0);
+        expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
       });
 
       test('not basic', () => {
