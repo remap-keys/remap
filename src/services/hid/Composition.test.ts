@@ -171,6 +171,7 @@ describe('Composition', () => {
           0b0000_0000_0000_0100,
           hid
         );
+        expect(subject.isBasic()).toBeTruthy();
         const actual = subject.createBasicComposition();
         expect(actual.getModifiers().length).toEqual(0);
       });
@@ -181,6 +182,7 @@ describe('Composition', () => {
           0b0000_0001_0000_0000,
           hid
         );
+        expect(subject.isBasic()).toBeFalsy();
         try {
           const actual = subject.createBasicComposition();
           fail('An exception must be thrown.');
@@ -214,6 +216,7 @@ describe('Composition', () => {
           0b0000_1111_0000_0100,
           hid
         );
+        expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
         expect(actual.getModifiers().length).toEqual(4);
@@ -246,6 +249,7 @@ describe('Composition', () => {
           0b0001_1111_0000_0100,
           hid
         );
+        expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
         expect(actual.getModifiers().length).toEqual(4);
@@ -261,6 +265,7 @@ describe('Composition', () => {
           0b0000_0000_0000_0000,
           hid
         );
+        expect(subject.isMods()).toBeFalsy();
         try {
           const actual = subject.createModsComposition();
           fail('An exception must be thrown.');
