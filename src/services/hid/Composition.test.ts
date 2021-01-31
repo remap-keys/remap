@@ -4,6 +4,7 @@ import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
+  LayerTapComposition,
   MacroComposition,
   ModLeftAlt,
   ModLeftControl,
@@ -171,6 +172,39 @@ describe('Composition', () => {
       expect(subject.isTap()).toBeTruthy();
       subject = new MacroComposition(0b1_0000_0000_0000);
       expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
+    });
+  });
+
+  describe('LayerTapComposition', () => {
+    describe('getCode', () => {
+      let subject = new LayerTapComposition(2, {
+        code: 0b0000_0100,
+        isAny: false,
+        keycodeInfo: {
+          code: 0b0000_0100,
+          name: {
+            long: 'KC_A',
+            short: 'KC_A',
+          },
+          label: 'A',
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0100_0010_0000_0100);
+      subject = new LayerTapComposition(0, {
+        code: 0b0000_0000,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
+      subject = new LayerTapComposition(15, {
+        code: 0b1111_1111,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0100_1111_1111_1111);
+      subject = new LayerTapComposition(16, {
+        code: 0b1_0000_0000,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
     });
   });
 
@@ -365,6 +399,52 @@ describe('Composition', () => {
         expect(subject.isMacro()).toBeFalsy();
         try {
           const actual = subject.createMacroComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createLayerTapComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {
+          getKeymap(code: number): IKeymap {
+            return {} as IKeymap;
+          },
+        } as IHid;
+        const stub = sinon.stub(hid, 'getKeymap');
+        stub.onCall(0).returns({
+          code: 0b0000_0100,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0000_0100,
+            name: {
+              long: 'KC_A',
+              short: 'KC_A',
+            },
+            label: 'A',
+          },
+        });
+        const subject = new KeycodeCompositionFactory(
+          0b0100_0100_0000_0100,
+          hid
+        );
+        expect(subject.isLayerTap()).toBeTruthy();
+        const actual = subject.createLayerTapComposition();
+        expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not layer tap', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isLayerTap()).toBeFalsy();
+        try {
+          const actual = subject.createLayerTapComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

@@ -218,6 +218,11 @@ export interface IMacroComposition extends IComposition {
   isTap(): boolean;
 }
 
+export interface ILayerTapComposition extends IComposition {
+  getLayer(): number;
+  getKey(): IKeymap;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -292,6 +297,31 @@ export class MacroComposition implements IMacroComposition {
 
   isTap(): boolean {
     return (this.macroId & 0b1000_0000_0000) === 0b1000_0000_0000;
+  }
+}
+
+export class LayerTapComposition implements ILayerTapComposition {
+  private readonly layer: number;
+  private readonly key: IKeymap;
+
+  constructor(layer: number, key: IKeymap) {
+    this.key = key;
+    this.layer = layer;
+  }
+
+  getCode(): number {
+    return (
+      QK_LAYER_TAP_MIN |
+      (((this.layer & 0b1111) << 8) | (this.key.code & 0b1111_1111))
+    );
+  }
+
+  getKey(): IKeymap {
+    return this.key;
+  }
+
+  getLayer(): number {
+    return this.layer;
   }
 }
 
@@ -462,5 +492,16 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const macroId = this.code & 0b1111_1111_1111;
     return new MacroComposition(macroId);
+  }
+
+  createLayerTapComposition(): ILayerTapComposition {
+    if (!this.isLayerTap()) {
+      throw new Error(
+        `This code is not a layer tap key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const layer = (this.code >> 8) & 0b1111;
+    const keyCode = this.code & 0b1111_1111;
+    return new LayerTapComposition(layer, this.hid.getKeymap(keyCode));
   }
 }
