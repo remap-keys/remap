@@ -135,12 +135,7 @@ export type IMod =
   | typeof MOD_SFT
   | typeof MOD_ALT
   | typeof MOD_GUI;
-export const Mod: { [p: string]: IMod } = {
-  CTRL: MOD_CTL,
-  SFT: MOD_SFT,
-  ALT: MOD_ALT,
-  GUI: MOD_GUI,
-};
+export const MODIFIERS: IMod[] = [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI];
 
 export const MOD_LEFT = 0b0;
 export const MOD_RIGHT = 0b1;
@@ -154,6 +149,32 @@ export const ModDirection: { [p in IModDirectionLabel]: IModDirection } = {
 };
 
 export const ON_PRESS = 0b0001;
+
+export const OP_SH_TOGGLE = 0b1111_0000;
+export const OP_SH_TAP_TOGGLE = 0b1111_0001;
+export const OP_SH_ON_OFF = 0b1111_0010;
+export const OP_SH_OFF_ON = 0b1111_0011;
+export const OP_SH_OFF = 0b1111_0100;
+export const OP_SH_ON = 0b1111_0101;
+export const OP_SH_ONESHOT = 0b1111_0110;
+
+export type ISwapHandsOption =
+  | typeof OP_SH_TOGGLE
+  | typeof OP_SH_TAP_TOGGLE
+  | typeof OP_SH_ON_OFF
+  | typeof OP_SH_OFF_ON
+  | typeof OP_SH_OFF
+  | typeof OP_SH_ON
+  | typeof OP_SH_ONESHOT;
+export const SWAP_HANDS_OPTIONS: ISwapHandsOption[] = [
+  OP_SH_TOGGLE,
+  OP_SH_TAP_TOGGLE,
+  OP_SH_ON_OFF,
+  OP_SH_OFF_ON,
+  OP_SH_OFF,
+  OP_SH_ON,
+  OP_SH_ONESHOT,
+];
 
 export interface IComposition {
   getCode(): number;
@@ -219,6 +240,12 @@ export interface ILayerTapToggleComposition extends IComposition {
 export interface ILayerModComposition extends IComposition {
   getLayer(): number;
   getModifiers(): IMod[];
+}
+
+export interface ISwapHandsComposition extends IComposition {
+  getKey(): IKeymap | null;
+  getSwapHandsOption(): ISwapHandsOption | null;
+  isSwapHandsOption(): boolean;
 }
 
 export class BasicComposition implements IBasicComposition {
@@ -491,6 +518,41 @@ export class LayerModComposition implements ILayerModComposition {
   }
 }
 
+export class SwapHandsComposition implements ISwapHandsComposition {
+  private readonly key: IKeymap | null;
+  private readonly swapHandsOption: ISwapHandsOption | null;
+
+  constructor(value: IKeymap | ISwapHandsOption) {
+    if (typeof value === 'number') {
+      this.key = null;
+      this.swapHandsOption = value as ISwapHandsOption;
+    } else {
+      this.key = value as IKeymap;
+      this.swapHandsOption = null;
+    }
+  }
+
+  getCode(): number {
+    if (this.isSwapHandsOption()) {
+      return QK_SWAP_HANDS_MIN | (this.swapHandsOption! & 0b1111_1111);
+    } else {
+      return QK_SWAP_HANDS_MIN | (this.key!.code & 0b1111_1111);
+    }
+  }
+
+  getKey(): IKeymap | null {
+    return this.key;
+  }
+
+  getSwapHandsOption(): ISwapHandsOption | null {
+    return this.swapHandsOption;
+  }
+
+  isSwapHandsOption(): boolean {
+    return this.swapHandsOption !== null;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -526,6 +588,7 @@ export interface IKeycodeCompositionFactory {
   createTapDanceComposition(): ITapDanceComposition;
   createLayerTapToggleComposition(): ILayerTapToggleComposition;
   createLayerModComposition(): ILayerModComposition;
+  createSwapHandsComposition(): ISwapHandsComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -641,9 +704,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     const keyCode = this.code & 0b1111_1111;
     const modDirection =
       (this.code & 0b1_0000_0000_0000) >> 12 === 1 ? MOD_RIGHT : MOD_LEFT;
-    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
-      if (((this.code >> 8) & 0b1111 & Mod[current]) === Mod[current]) {
-        result.push(Mod[current]);
+    const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
+      if (((this.code >> 8) & 0b1111 & current) === current) {
+        result.push(current);
       }
       return result;
     }, []);
@@ -752,9 +815,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const modDirection =
       (this.code & 0b1_0000) >> 4 === 1 ? MOD_RIGHT : MOD_LEFT;
-    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
-      if ((this.code & 0b1111 & Mod[current]) === Mod[current]) {
-        result.push(Mod[current]);
+    const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
+      if ((this.code & 0b1111 & current) === current) {
+        result.push(current);
       }
       return result;
     }, []);
@@ -791,12 +854,26 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const layer = (this.code >> 4) & 0b1111;
-    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
-      if ((this.code & 0b1111 & Mod[current]) === Mod[current]) {
-        result.push(Mod[current]);
+    const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
+      if ((this.code & 0b1111 & current) === current) {
+        result.push(current);
       }
       return result;
     }, []);
     return new LayerModComposition(layer, modifiers);
+  }
+
+  createSwapHandsComposition(): ISwapHandsComposition {
+    if (!this.isSwapHands()) {
+      throw new Error(
+        `This code is not a swap hands key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const value = this.code & 0b1111_1111;
+    if (SWAP_HANDS_OPTIONS.includes(value as ISwapHandsOption)) {
+      return new SwapHandsComposition(value as ISwapHandsOption);
+    } else {
+      return new SwapHandsComposition(this.hid.getKeymap(value));
+    }
   }
 }

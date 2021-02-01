@@ -9,7 +9,6 @@ import {
   LayerTapComposition,
   LayerTapToggleComposition,
   MacroComposition,
-  Mod,
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
@@ -21,6 +20,14 @@ import {
   MomentaryComposition,
   OneShotLayerComposition,
   OneShotModComposition,
+  OP_SH_OFF,
+  OP_SH_OFF_ON,
+  OP_SH_ON,
+  OP_SH_ON_OFF,
+  OP_SH_ONESHOT,
+  OP_SH_TAP_TOGGLE,
+  OP_SH_TOGGLE,
+  SwapHandsComposition,
   TapDanceComposition,
   ToComposition,
   ToggleLayerComposition,
@@ -353,6 +360,43 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_1001_1111_1111);
       subject = new LayerModComposition(0b1_0000_0000, []);
       expect(subject.getCode()).toEqual(0b0101_1001_0000_0000);
+    });
+  });
+
+  describe('SwapHandsComposition', () => {
+    describe('getCode', () => {
+      let subject = new SwapHandsComposition({
+        code: 0b0000_0100,
+        isAny: false,
+        keycodeInfo: {
+          code: 0b0000_0100,
+          name: {
+            long: 'KC_A',
+            short: 'KC_A',
+          },
+          label: 'A',
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0101_1011_0000_0100);
+      subject = new SwapHandsComposition({
+        code: 0b0000_0000,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0101_1011_0000_0000);
+      subject = new SwapHandsComposition(OP_SH_TOGGLE);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0000);
+      subject = new SwapHandsComposition(OP_SH_TAP_TOGGLE);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0001);
+      subject = new SwapHandsComposition(OP_SH_ON_OFF);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0010);
+      subject = new SwapHandsComposition(OP_SH_OFF_ON);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0011);
+      subject = new SwapHandsComposition(OP_SH_OFF);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0100);
+      subject = new SwapHandsComposition(OP_SH_ON);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0101);
+      subject = new SwapHandsComposition(OP_SH_ONESHOT);
+      expect(subject.getCode()).toEqual(0b0101_1011_1111_0110);
     });
   });
 
@@ -861,6 +905,68 @@ describe('Composition', () => {
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
         expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
         expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isLayerMod()).toBeFalsy();
+        try {
+          const actual = subject.createLayerModComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createSwapHandsComposition', () => {
+      test('valid - key', () => {
+        const hid: IHid = {
+          getKeymap(code: number): IKeymap {
+            return {} as IKeymap;
+          },
+        } as IHid;
+        const stub = sinon.stub(hid, 'getKeymap');
+        stub.onCall(0).returns({
+          code: 0b0000_0100,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0000_0100,
+            name: {
+              long: 'KC_A',
+              short: 'KC_A',
+            },
+            label: 'A',
+          },
+        });
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1011_0000_0100,
+          hid
+        );
+        expect(subject.isSwapHands()).toBeTruthy();
+        const actual = subject.createSwapHandsComposition();
+        expect(actual.isSwapHandsOption()).toBeFalsy();
+        expect(actual.getKey()).not.toBeNull();
+        expect(actual.getKey()!.code).toEqual(0b0000_0100);
+        expect(actual.getSwapHandsOption()).toBeNull();
+      });
+
+      test('valid - swap hands option', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1011_1111_0001,
+          hid
+        );
+        expect(subject.isSwapHands()).toBeTruthy();
+        const actual = subject.createSwapHandsComposition();
+        expect(actual.isSwapHandsOption()).toBeTruthy();
+        expect(actual.getKey()).toBeNull();
+        expect(actual.getSwapHandsOption()).not.toBeNull();
+        expect(actual.getSwapHandsOption()).toEqual(OP_SH_TAP_TOGGLE);
       });
 
       test('not to', () => {
