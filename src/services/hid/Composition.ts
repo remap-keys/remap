@@ -212,6 +212,10 @@ export interface ITapDanceComposition extends IComposition {
   getNo(): number;
 }
 
+export interface ILayerTapToggleComposition extends IComposition {
+  getLayer(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -441,6 +445,22 @@ export class TapDanceComposition implements ITapDanceComposition {
   }
 }
 
+export class LayerTapToggleComposition implements IMomentaryComposition {
+  private readonly layer: number;
+
+  constructor(layer: number) {
+    this.layer = layer;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getCode(): number {
+    return QK_LAYER_TAP_TOGGLE_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -474,6 +494,7 @@ export interface IKeycodeCompositionFactory {
   createOneShotLayerComposition(): IOneShotLayerComposition;
   createOneShotModComposition(): IOneShotModComposition;
   createTapDanceComposition(): ITapDanceComposition;
+  createLayerTapToggleComposition(): ILayerTapToggleComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -717,5 +738,18 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const no = this.code & 0b1111_1111;
     return new TapDanceComposition(no);
+  }
+
+  createLayerTapToggleComposition(): ILayerTapToggleComposition {
+    if (!this.isLayerTapToggle()) {
+      throw new Error(
+        `This code is not a layer tap toggle key code: ${hexadecimal(
+          this.code,
+          16
+        )}`
+      );
+    }
+    const layer = this.code & 0b1111_1111;
+    return new LayerTapToggleComposition(layer);
   }
 }

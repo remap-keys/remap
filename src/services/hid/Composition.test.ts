@@ -6,6 +6,7 @@ import {
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
   LayerTapComposition,
+  LayerTapToggleComposition,
   MacroComposition,
   MOD_ALT,
   MOD_CTL,
@@ -319,6 +320,19 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_0111_1111_1111);
       subject = new TapDanceComposition(0b1_0000_0000);
       expect(subject.getCode()).toEqual(0b0101_0111_0000_0000);
+    });
+  });
+
+  describe('LayerTapToggleComposition', () => {
+    describe('getCode', () => {
+      let subject = new LayerTapToggleComposition(0b0100);
+      expect(subject.getCode()).toEqual(0b0101_1000_0000_0100);
+      subject = new LayerTapToggleComposition(0b0000);
+      expect(subject.getCode()).toEqual(0b0101_1000_0000_0000);
+      subject = new LayerTapToggleComposition(0b1111);
+      expect(subject.getCode()).toEqual(0b0101_1000_0000_1111);
+      subject = new LayerTapToggleComposition(0b1_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_1000_0000_0000);
     });
   });
 
@@ -778,6 +792,34 @@ describe('Composition', () => {
         expect(subject.isTapDance()).toBeFalsy();
         try {
           const actual = subject.createTapDanceComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createLayerTapToggleComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1000_0000_0100,
+          hid
+        );
+        expect(subject.isLayerTapToggle()).toBeTruthy();
+        const actual = subject.createLayerTapToggleComposition();
+        expect(actual.getLayer()).toEqual(4);
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isLayerTapToggle()).toBeFalsy();
+        try {
+          const actual = subject.createLayerTapToggleComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
