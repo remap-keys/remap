@@ -45,6 +45,14 @@
           padding-left: $space-xs;
         }
       }
+      .customkey-bcode {
+        color: $color-gray-400;
+        font-size: 0.7rem;
+        justify-content: flex-end;
+        display: flex;
+        margin-top: -34px;
+        margin-right: 8px;
+      }
     }
     .modifiers-label {
       font-weight: 700;
