@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+import { IKeycodeCompositionFactory } from './Composition';
+
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
@@ -106,4 +108,5 @@ export interface IHid {
   getKeymapCandidatesByCategory(category: string): IKeymap[];
   getKeymap(code: number): IKeymap;
   close(keyboard: IKeyboard): void;
+  createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory;
 }

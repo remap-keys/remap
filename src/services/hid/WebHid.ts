@@ -28,6 +28,10 @@ import {
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapReadBufferResponse,
 } from './Commands';
+import {
+  IKeycodeCompositionFactory,
+  KeycodeCompositionFactory,
+} from './Composition';
 
 const createKeymap = (code: number): IKeymap => ({
   code,
@@ -478,5 +482,9 @@ export class WebHid implements IHid {
 
   close(keyboard: IKeyboard): void {
     this.handler!.close(keyboard);
+  }
+
+  createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory {
+    return new KeycodeCompositionFactory(code, this);
   }
 }
