@@ -216,6 +216,11 @@ export interface ILayerTapToggleComposition extends IComposition {
   getLayer(): number;
 }
 
+export interface ILayerModComposition extends IComposition {
+  getLayer(): number;
+  getModifiers(): IMod[];
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -445,7 +450,7 @@ export class TapDanceComposition implements ITapDanceComposition {
   }
 }
 
-export class LayerTapToggleComposition implements IMomentaryComposition {
+export class LayerTapToggleComposition implements ILayerTapToggleComposition {
   private readonly layer: number;
 
   constructor(layer: number) {
@@ -458,6 +463,31 @@ export class LayerTapToggleComposition implements IMomentaryComposition {
 
   getCode(): number {
     return QK_LAYER_TAP_TOGGLE_MIN | (this.layer & 0b1111_1111);
+  }
+}
+
+export class LayerModComposition implements ILayerModComposition {
+  private readonly layer: number;
+  private readonly modifiers: IMod[];
+
+  constructor(layer: number, modifiers: IMod[]) {
+    this.layer = layer;
+    this.modifiers = modifiers;
+  }
+
+  getLayer(): number {
+    return this.layer;
+  }
+
+  getModifiers(): IMod[] {
+    return this.modifiers;
+  }
+
+  getCode(): number {
+    const mods = this.modifiers.reduce<number>((result, current) => {
+      return result | current;
+    }, 0);
+    return QK_LAYER_MOD_MIN | ((this.layer & 0b1111) << 4) | mods;
   }
 }
 
@@ -495,6 +525,7 @@ export interface IKeycodeCompositionFactory {
   createOneShotModComposition(): IOneShotModComposition;
   createTapDanceComposition(): ITapDanceComposition;
   createLayerTapToggleComposition(): ILayerTapToggleComposition;
+  createLayerModComposition(): ILayerModComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -751,5 +782,21 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = this.code & 0b1111_1111;
     return new LayerTapToggleComposition(layer);
+  }
+
+  createLayerModComposition(): ILayerModComposition {
+    if (!this.isLayerMod()) {
+      throw new Error(
+        `This code is not a layer mod key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const layer = (this.code >> 4) & 0b1111;
+    const modifiers = Object.keys(Mod).reduce<IMod[]>((result, current) => {
+      if ((this.code & 0b1111 & Mod[current]) === Mod[current]) {
+        result.push(Mod[current]);
+      }
+      return result;
+    }, []);
+    return new LayerModComposition(layer, modifiers);
   }
 }

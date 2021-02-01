@@ -5,9 +5,11 @@ import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
+  LayerModComposition,
   LayerTapComposition,
   LayerTapToggleComposition,
   MacroComposition,
+  Mod,
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
@@ -333,6 +335,24 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_1000_0000_1111);
       subject = new LayerTapToggleComposition(0b1_0000_0000);
       expect(subject.getCode()).toEqual(0b0101_1000_0000_0000);
+    });
+  });
+
+  describe('LayerModComposition', () => {
+    describe('getCode', () => {
+      let subject = new LayerModComposition(0b0100, [MOD_CTL, MOD_ALT]);
+      expect(subject.getCode()).toEqual(0b0101_1001_0100_0101);
+      subject = new LayerModComposition(0b0000, []);
+      expect(subject.getCode()).toEqual(0b0101_1001_0000_0000);
+      subject = new LayerModComposition(0b1111, [
+        MOD_CTL,
+        MOD_ALT,
+        MOD_GUI,
+        MOD_SFT,
+      ]);
+      expect(subject.getCode()).toEqual(0b0101_1001_1111_1111);
+      subject = new LayerModComposition(0b1_0000_0000, []);
+      expect(subject.getCode()).toEqual(0b0101_1001_0000_0000);
     });
   });
 
@@ -820,6 +840,38 @@ describe('Composition', () => {
         expect(subject.isLayerTapToggle()).toBeFalsy();
         try {
           const actual = subject.createLayerTapToggleComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createLayerModComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1001_0010_0111,
+          hid
+        );
+        expect(subject.isLayerMod()).toBeTruthy();
+        const actual = subject.createLayerModComposition();
+        expect(actual.getLayer()).toEqual(2);
+        expect(actual.getModifiers().length).toEqual(3);
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('not to', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isLayerMod()).toBeFalsy();
+        try {
+          const actual = subject.createLayerModComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
