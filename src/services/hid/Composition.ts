@@ -254,6 +254,10 @@ export interface IModTapComposition extends IComposition {
   getModDirection(): IModDirection;
 }
 
+export interface IUnicodeComposition extends IComposition {
+  getCharCode(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -595,6 +599,22 @@ export class ModTapComposition implements IModTapComposition {
   }
 }
 
+export class UnicodeComposition implements IUnicodeComposition {
+  private readonly charCode: number;
+
+  constructor(charCode: number) {
+    this.charCode = charCode;
+  }
+
+  getCode(): number {
+    return QK_UNICODE_MIN | (this.charCode & 0b111_1111_1111_1111);
+  }
+
+  getCharCode(): number {
+    return this.charCode;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -632,6 +652,7 @@ export interface IKeycodeCompositionFactory {
   createLayerModComposition(): ILayerModComposition;
   createSwapHandsComposition(): ISwapHandsComposition;
   createModTapComposition(): IModTapComposition;
+  createUnicodeComposition(): IUnicodeComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -940,5 +961,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       modifiers,
       this.hid.getKeymap(keyCode)
     );
+  }
+
+  createUnicodeComposition(): IUnicodeComposition {
+    if (!this.isUnicode()) {
+      throw new Error(
+        `This code is not a unicode key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const charCode = this.code & 0b111_1111_1111_1111;
+    return new UnicodeComposition(charCode);
   }
 }

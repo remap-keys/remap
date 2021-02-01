@@ -32,6 +32,7 @@ import {
   TapDanceComposition,
   ToComposition,
   ToggleLayerComposition,
+  UnicodeComposition,
 } from './Composition';
 import { IHid, IKeymap } from './Hid';
 import * as sinon from 'sinon';
@@ -484,6 +485,19 @@ describe('Composition', () => {
         isAny: false,
       });
       expect(subject.getCode()).toEqual(0b0111_0000_1111_1111);
+    });
+  });
+
+  describe('UnicodeComposition', () => {
+    describe('getCode', () => {
+      let subject = new UnicodeComposition(0b000_0000_0000);
+      expect(subject.getCode()).toEqual(0b1000_0000_0000_0000);
+      subject = new UnicodeComposition(0b111_1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b1111_1111_1111_1111);
+      subject = new UnicodeComposition(0b1000_0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b1000_0000_0000_0000);
+      subject = new UnicodeComposition(0b1111_1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b1111_1111_1111_1111);
     });
   });
 
@@ -1150,6 +1164,34 @@ describe('Composition', () => {
         expect(subject.isModTap()).toBeFalsy();
         try {
           const actual = subject.createModTapComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createUnicodeComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b1011_0000_0100_0010,
+          hid
+        );
+        expect(subject.isUnicode()).toBeTruthy();
+        const actual = subject.createUnicodeComposition();
+        expect(actual.getCharCode()).toEqual(0b0011_0000_0100_0010);
+      });
+
+      test('not function', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isUnicode()).toBeFalsy();
+        try {
+          const actual = subject.createUnicodeComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
