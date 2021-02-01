@@ -17,6 +17,7 @@ import {
   MOD_SFT,
   ModDirection,
   ModsComposition,
+  ModTapComposition,
   MomentaryComposition,
   OneShotLayerComposition,
   OneShotModComposition,
@@ -397,6 +398,92 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_1011_1111_0101);
       subject = new SwapHandsComposition(OP_SH_ONESHOT);
       expect(subject.getCode()).toEqual(0b0101_1011_1111_0110);
+    });
+  });
+
+  describe('ModTapComposition', () => {
+    describe('getCode', () => {
+      let subject = new ModTapComposition(
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b0000_0100,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0000_0100,
+            name: {
+              long: 'KC_A',
+              short: 'KC_A',
+            },
+            label: 'A',
+          },
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0111_1111_0000_0100);
+      subject = new ModTapComposition(
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
+      subject = new ModTapComposition(
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
+      subject = new ModTapComposition(
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b1111_1111,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0110_1111_1111_1111);
+      subject = new ModTapComposition(
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b1111_1111,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0111_1111_1111_1111);
+      subject = new ModTapComposition(
+        ModDirection.left,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b1_0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
+      subject = new ModTapComposition(
+        ModDirection.right,
+        [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+        {
+          code: 0b1_0000_0000,
+          isAny: false,
+        }
+      );
+      expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
+      subject = new ModTapComposition(ModDirection.left, [], {
+        code: 0b1111_1111,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0110_0000_1111_1111);
+      subject = new ModTapComposition(ModDirection.right, [], {
+        code: 0b1111_1111,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0111_0000_1111_1111);
     });
   });
 
@@ -978,6 +1065,91 @@ describe('Composition', () => {
         expect(subject.isLayerMod()).toBeFalsy();
         try {
           const actual = subject.createLayerModComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createModTapComposition', () => {
+      test('valid - left', () => {
+        const hid: IHid = {
+          getKeymap(code: number): IKeymap {
+            return {} as IKeymap;
+          },
+        } as IHid;
+        const stub = sinon.stub(hid, 'getKeymap');
+        stub.onCall(0).returns({
+          code: 0b0000_0100,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0000_0100,
+            name: {
+              long: 'KC_A',
+              short: 'KC_A',
+            },
+            label: 'A',
+          },
+        });
+        const subject = new KeycodeCompositionFactory(
+          0b0110_1111_0000_0100,
+          hid
+        );
+        expect(subject.isModTap()).toBeTruthy();
+        const actual = subject.createModTapComposition();
+        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.getModDirection()).toEqual(MOD_LEFT);
+        expect(actual.getModifiers().length).toEqual(4);
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('valid - right', () => {
+        const hid: IHid = {
+          getKeymap(code: number): IKeymap {
+            return {} as IKeymap;
+          },
+        } as IHid;
+        const stub = sinon.stub(hid, 'getKeymap');
+        stub.onCall(0).returns({
+          code: 0b0000_0100,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0000_0100,
+            name: {
+              long: 'KC_A',
+              short: 'KC_A',
+            },
+            label: 'A',
+          },
+        });
+        const subject = new KeycodeCompositionFactory(
+          0b0111_1111_0000_0100,
+          hid
+        );
+        expect(subject.isModTap()).toBeTruthy();
+        const actual = subject.createModTapComposition();
+        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.getModDirection()).toEqual(MOD_RIGHT);
+        expect(actual.getModifiers().length).toEqual(4);
+        expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_GUI)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();
+        expect(actual.getModifiers().includes(MOD_ALT)).toBeTruthy();
+      });
+
+      test('not mods', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0000,
+          hid
+        );
+        expect(subject.isModTap()).toBeFalsy();
+        try {
+          const actual = subject.createModTapComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

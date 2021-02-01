@@ -248,6 +248,12 @@ export interface ISwapHandsComposition extends IComposition {
   isSwapHandsOption(): boolean;
 }
 
+export interface IModTapComposition extends IComposition {
+  getKey(): IKeymap;
+  getModifiers(): IMod[];
+  getModDirection(): IModDirection;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -553,6 +559,42 @@ export class SwapHandsComposition implements ISwapHandsComposition {
   }
 }
 
+export class ModTapComposition implements IModTapComposition {
+  private readonly modDirection: IModDirection;
+  private readonly modifiers: IMod[];
+  private readonly key: IKeymap;
+
+  constructor(modDirection: IModDirection, modifiers: IMod[], key: IKeymap) {
+    this.modDirection = modDirection;
+    this.modifiers = modifiers;
+    this.key = key;
+  }
+
+  getCode(): number {
+    const mods = this.modifiers.reduce<number>((result, current) => {
+      return result | (current << 8);
+    }, 0);
+    return (
+      QK_MOD_TAP_MIN |
+      (this.modDirection << 12) |
+      mods |
+      (this.key.code & 0b1111_1111)
+    );
+  }
+
+  getKey(): IKeymap {
+    return this.key;
+  }
+
+  getModifiers(): IMod[] {
+    return this.modifiers;
+  }
+
+  getModDirection(): IModDirection {
+    return this.modDirection;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -589,6 +631,7 @@ export interface IKeycodeCompositionFactory {
   createLayerTapToggleComposition(): ILayerTapToggleComposition;
   createLayerModComposition(): ILayerModComposition;
   createSwapHandsComposition(): ISwapHandsComposition;
+  createModTapComposition(): IModTapComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -875,5 +918,27 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     } else {
       return new SwapHandsComposition(this.hid.getKeymap(value));
     }
+  }
+
+  createModTapComposition(): IModTapComposition {
+    if (!this.isModTap()) {
+      throw new Error(
+        `This code is not a mod tap key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const keyCode = this.code & 0b1111_1111;
+    const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
+      if (((this.code >> 8) & 0b1111 & current) === current) {
+        result.push(current);
+      }
+      return result;
+    }, []);
+    const modDirection =
+      ((this.code >> 12) & 0b0001) === MOD_RIGHT ? MOD_RIGHT : MOD_LEFT;
+    return new ModTapComposition(
+      modDirection,
+      modifiers,
+      this.hid.getKeymap(keyCode)
+    );
   }
 }
