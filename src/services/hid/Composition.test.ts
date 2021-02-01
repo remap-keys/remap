@@ -18,6 +18,7 @@ import {
   MomentaryComposition,
   OneShotLayerComposition,
   OneShotModComposition,
+  TapDanceComposition,
   ToComposition,
   ToggleLayerComposition,
 } from './Composition';
@@ -305,6 +306,19 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b0101_0101_0001_0000);
       subject = new OneShotModComposition(ModDirection.left, []);
       expect(subject.getCode()).toEqual(0b0101_0101_0000_0000);
+    });
+  });
+
+  describe('TapDanceComposition', () => {
+    describe('getCode', () => {
+      let subject = new TapDanceComposition(2);
+      expect(subject.getCode()).toEqual(0b0101_0111_0000_0010);
+      subject = new TapDanceComposition(0b0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0111_0000_0000);
+      subject = new TapDanceComposition(0b1111_1111);
+      expect(subject.getCode()).toEqual(0b0101_0111_1111_1111);
+      subject = new TapDanceComposition(0b1_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0111_0000_0000);
     });
   });
 
@@ -736,6 +750,34 @@ describe('Composition', () => {
         expect(subject.isOneShotMod()).toBeFalsy();
         try {
           const actual = subject.createOneShotModComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createTapDanceComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0111_0000_0100,
+          hid
+        );
+        expect(subject.isTapDance()).toBeTruthy();
+        const actual = subject.createTapDanceComposition();
+        expect(actual.getNo()).toEqual(0b0000_0100);
+      });
+
+      test('not function', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isTapDance()).toBeFalsy();
+        try {
+          const actual = subject.createTapDanceComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A

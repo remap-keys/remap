@@ -208,6 +208,10 @@ export interface IOneShotModComposition extends IComposition {
   getModifiers(): IMod[];
 }
 
+export interface ITapDanceComposition extends IComposition {
+  getNo(): number;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -421,6 +425,22 @@ export class OneShotModComposition implements IOneShotModComposition {
   }
 }
 
+export class TapDanceComposition implements ITapDanceComposition {
+  private readonly no: number;
+
+  constructor(no: number) {
+    this.no = no;
+  }
+
+  getCode(): number {
+    return QK_TAP_DANCE_MIN | (this.no & 0b1111_1111);
+  }
+
+  getNo(): number {
+    return this.no;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -453,6 +473,7 @@ export interface IKeycodeCompositionFactory {
   createToggleLayerComposition(): IToggleLayerComposition;
   createOneShotLayerComposition(): IOneShotLayerComposition;
   createOneShotModComposition(): IOneShotModComposition;
+  createTapDanceComposition(): ITapDanceComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -686,5 +707,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       return result;
     }, []);
     return new OneShotModComposition(modDirection, modifiers);
+  }
+
+  createTapDanceComposition(): ITapDanceComposition {
+    if (!this.isTapDance()) {
+      throw new Error(
+        `This code is not a tap dance key code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    const no = this.code & 0b1111_1111;
+    return new TapDanceComposition(no);
   }
 }
