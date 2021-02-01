@@ -258,6 +258,10 @@ export interface IUnicodeComposition extends IComposition {
   getCharCode(): number;
 }
 
+export interface ILooseKeycodeComposition extends IComposition {
+  getKey(): IKeymap;
+}
+
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
 
@@ -615,6 +619,22 @@ export class UnicodeComposition implements IUnicodeComposition {
   }
 }
 
+export class LooseKeycodeComposition implements ILooseKeycodeComposition {
+  private readonly key: IKeymap;
+
+  constructor(key: IKeymap) {
+    this.key = key;
+  }
+
+  getCode(): number {
+    return LOOSE_KEYCODE_MIN | this.key.code;
+  }
+
+  getKey(): IKeymap {
+    return this.key;
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -653,6 +673,7 @@ export interface IKeycodeCompositionFactory {
   createSwapHandsComposition(): ISwapHandsComposition;
   createModTapComposition(): IModTapComposition;
   createUnicodeComposition(): IUnicodeComposition;
+  createLooseKeycodeComposition(): ILooseKeycodeComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -971,5 +992,17 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const charCode = this.code & 0b111_1111_1111_1111;
     return new UnicodeComposition(charCode);
+  }
+
+  createLooseKeycodeComposition(): ILooseKeycodeComposition {
+    if (!this.isLooseKeycode()) {
+      throw new Error(
+        `This code is not a loose key code key code: ${hexadecimal(
+          this.code,
+          16
+        )}`
+      );
+    }
+    return new LooseKeycodeComposition(this.hid.getKeymap(this.code));
   }
 }

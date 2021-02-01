@@ -8,6 +8,7 @@ import {
   LayerModComposition,
   LayerTapComposition,
   LayerTapToggleComposition,
+  LooseKeycodeComposition,
   MacroComposition,
   MOD_ALT,
   MOD_CTL,
@@ -498,6 +499,29 @@ describe('Composition', () => {
       expect(subject.getCode()).toEqual(0b1000_0000_0000_0000);
       subject = new UnicodeComposition(0b1111_1111_1111_1111);
       expect(subject.getCode()).toEqual(0b1111_1111_1111_1111);
+    });
+  });
+
+  describe('LooseKeycodeComposition', () => {
+    describe('getCode', () => {
+      let subject = new LooseKeycodeComposition({
+        code: 0b0101_1100_0000_0000,
+        isAny: false,
+        keycodeInfo: {
+          code: 0b0101_1100_0000_0000,
+          name: {
+            long: 'RESET',
+            short: 'RESET',
+          },
+          label: 'RESET',
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0101_1100_0000_0000);
+      subject = new LooseKeycodeComposition({
+        code: 0b0101_1111_1111_1111,
+        isAny: false,
+      });
+      expect(subject.getCode()).toEqual(0b0101_1111_1111_1111);
     });
   });
 
@@ -1192,6 +1216,51 @@ describe('Composition', () => {
         expect(subject.isUnicode()).toBeFalsy();
         try {
           const actual = subject.createUnicodeComposition();
+          fail('An exception must be thrown.');
+        } catch (error) {
+          // N/A
+        }
+      });
+    });
+
+    describe('createLooseKeycodeComposition', () => {
+      test('valid', () => {
+        const hid: IHid = {
+          getKeymap(code: number): IKeymap {
+            return {} as IKeymap;
+          },
+        } as IHid;
+        const stub = sinon.stub(hid, 'getKeymap');
+        stub.onCall(0).returns({
+          code: 0b0101_1100_0000_0000,
+          isAny: false,
+          keycodeInfo: {
+            code: 0b0101_1100_0000_0000,
+            name: {
+              long: 'RESET',
+              short: 'RESET',
+            },
+            label: 'RESET',
+          },
+        });
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1100_0000_0000,
+          hid
+        );
+        expect(subject.isLooseKeycode()).toBeTruthy();
+        const actual = subject.createLooseKeycodeComposition();
+        expect(actual.getKey().code).toEqual(0b0101_1100_0000_0000);
+      });
+
+      test('not function', () => {
+        const hid: IHid = {} as IHid;
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          hid
+        );
+        expect(subject.isLooseKeycode()).toBeFalsy();
+        try {
+          const actual = subject.createLooseKeycodeComposition();
           fail('An exception must be thrown.');
         } catch (error) {
           // N/A
