@@ -16,6 +16,7 @@ import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
 import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
+import DualFunctionsKey from './DualFunctionsKey';
 
 type OwnProps = {
   id: string;
@@ -28,16 +29,19 @@ type OwnProps = {
 };
 
 type OwnState = {
-  value: KeycodeOption | null;
-  value2: KeycodeOption | null;
-  valueMT: KeycodeOption | null;
+  selectedTabIndex: number;
+
+  // Keys TAB
+  value: KeycodeOption | null; // Keys
   modifiers: number; // 0b1_1111
-  inputValue: string;
-  inputValue2: string;
-  inputValueMT: string;
+
+  // 2 FUNCS TAB
+  holdKey: KeycodeOption | null;
+  tapKey: KeycodeOption | null;
+
+  // Custom TAB
   label: string;
   hexCode: string; // support to show 001.
-  selectedTabIndex: number;
 };
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
@@ -46,12 +50,9 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     super(props);
     this.state = {
       value: null,
-      value2: null,
-      valueMT: null,
+      holdKey: null,
+      tapKey: null,
       modifiers: 0,
-      inputValue: '',
-      inputValue2: '',
-      inputValueMT: '',
       selectedTabIndex: 0,
       label: '',
       hexCode: '',
@@ -169,12 +170,12 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({ hexCode: Number(code).toString(16), modifiers: modCode });
   }
 
-  private updateValue2(value2: KeycodeOption | null) {
-    this.setState({ value2 });
+  private onChangeHoldKey(holdKey: KeycodeOption | null) {
+    this.setState({ holdKey });
   }
 
-  private updateValueMT(valueMT: KeycodeOption | null) {
-    this.setState({ valueMT });
+  private onChangeTapKey(tapKey: KeycodeOption | null) {
+    this.setState({ tapKey });
   }
 
   private updateLabel(label: string) {
@@ -192,14 +193,6 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       code = (modCode << 8) | keycode;
     }
     return code;
-  }
-
-  private setInputValue2(inputValue2: string) {
-    this.setState({ inputValue2 });
-  }
-
-  private setInputValueMT(inputValueMT: string) {
-    this.setState({ inputValueMT });
   }
 
   private selectTab(event: React.ChangeEvent<{}>, selectedTabIndex: number) {
@@ -247,13 +240,14 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </AppBar>
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <AutocompleteKeys
-              className={'customkey-field'}
+              label="Keycode"
               keycodeOptions={keycodeOptions}
               keycodeInfo={this.state.value}
               onChange={(opt) => {
                 this.onChangeKeys(opt);
               }}
             />
+            <div className="customkey-desc">{this.state.value?.desc || ''}</div>
             <Modifiers
               disabled={this.disabledModifiers}
               code={this.state.modifiers}
@@ -264,112 +258,19 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={1}>
             <div className="customkey-description">
-              Hold to function [Modifiers], tap to send [Keycode].
+              {'Hold to activate [Function], tap to send [Command].'}
             </div>
-            <Autocomplete
-              id="customkey-autocomplete"
-              className="customkey-field"
-              autoHighlight
-              freeSolo
-              size="small"
-              options={dualFunctionalKeycodeOptions as KeycodeOption[]}
-              value={this.state.value2}
-              onChange={(
-                event: any,
-                newValue: string | KeycodeOption | null
-              ) => {
-                this.updateValueMT(newValue as KeycodeOption);
+            <DualFunctionsKey
+              value={this.props.value}
+              layerCount={4}
+              onChange={(info) => {
+                console.log(info);
               }}
-              inputValue={this.state.inputValue2}
-              onInputChange={(event, newInputValue) => {
-                this.setInputValueMT(newInputValue.split('::')[0]);
-              }}
-              getOptionLabel={(option) =>
-                `${option.label}::${option.category}::${option.subcategory}`
-              }
-              renderOption={(option) => (
-                <div className="customkey-select-item">
-                  <div className="keycode-label-wrapper">
-                    <div className="keycode-label">{option.label}</div>
-                    <div className="keycode-category">
-                      {option.category}
-                      {option.subcategory && ` / ${option.subcategory}`}
-                    </div>
-                  </div>
-                  {option.desc && (
-                    <div className="keycode-desc">{option.desc}</div>
-                  )}
-                </div>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Hold to function modifiers"
-                  variant="outlined"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
-            />
-            <Autocomplete
-              id="customkey-autocomplete"
-              className="customkey-field"
-              autoHighlight
-              freeSolo
-              size="small"
-              options={
-                keycodeOptions.filter(
-                  (op) => op.category == 'Basic'
-                ) as KeycodeOption[]
-              }
-              value={this.state.value2}
-              onChange={(
-                event: any,
-                newValue: string | KeycodeOption | null
-              ) => {
-                console.log('onChange2');
-                console.log(newValue);
-                this.updateValue2(newValue as KeycodeOption);
-              }}
-              inputValue={this.state.inputValue2}
-              onInputChange={(event, newInputValue) => {
-                console.log('onInputChange2');
-                console.log(newInputValue);
-                this.setInputValue2(newInputValue.split('::')[0]);
-              }}
-              getOptionLabel={(option) =>
-                `${option.label}::${option.category}::${option.subcategory}`
-              }
-              renderOption={(option) => (
-                <div className="customkey-select-item">
-                  <div className="keycode-label-wrapper">
-                    <div className="keycode-label">{option.label}</div>
-                    <div className="keycode-category">
-                      {option.category}
-                      {option.subcategory && ` / ${option.subcategory}`}
-                    </div>
-                  </div>
-                  {option.desc && (
-                    <div className="keycode-desc">{option.desc}</div>
-                  )}
-                </div>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Tap to send keycode"
-                  variant="outlined"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
             />
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={2}>
             <div className="customkey-description">
-              You can assign a keycode(hex) directly.
+              You can set a key label and assign its keycode(hex) manually.
             </div>
             <TextField
               variant="outlined"
@@ -528,7 +429,7 @@ const keycodeOptions: KeycodeOption[] = [
   },
 ];
 
-const dualFunctionalKeycodeOptions: KeycodeOption[] = [
+const dualFunctionalKeyOptions: KeycodeOption[] = [
   {
     code: 0b0110_0001,
     name: { long: 'MT(CTRL|kc)', short: 'MT(CTRL|kc)' },

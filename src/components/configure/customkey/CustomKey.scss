@@ -24,18 +24,25 @@
     }
     .customkey-body {
       width: 400px;
-      min-height: 260px;
+      min-height: 272px;
 
       .customkey-field {
+        margin-bottom: $space-l;
+      }
+
+      .customkey-desc {
+        font-size: 0.9rem;
+        color: $color-gray-600;
         margin-bottom: $space-l;
       }
 
       .customkey-label {
         width: 100%;
       }
+
       .customkey-description {
         margin-bottom: $space-l;
-        font-size: 0.96rem;
+        font-size: 0.9rem;
       }
       .customkey-code {
         div::before {
