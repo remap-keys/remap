@@ -6,18 +6,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   AppBar,
   Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Radio,
-  RadioGroup,
   Tab,
   Tabs,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { hexadecimal } from '../../../utils/StringUtils';
 import { Key } from '../keycodekey/KeycodeKey.container';
+import AutocompleteKeys from './AutocompleteKeys';
+import Modifiers from './Modifiers';
 
 type OwnProps = {
   id: string;
@@ -37,12 +33,7 @@ type OwnState = {
   inputValue2: string;
   inputValueMT: string;
   label: string;
-  code: string;
-  rl: number; // 0:left, 1:right
-  shift: boolean;
-  ctrl: boolean;
-  alt: boolean;
-  gui: boolean;
+  code: number;
   selectedTabIndex: number;
 };
 
@@ -59,14 +50,15 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       inputValueMT: '',
       selectedTabIndex: 0,
       label: '',
-      code: '0',
-      rl: 0,
-      shift: false,
-      ctrl: false,
-      alt: false,
-      gui: false,
+      code: 0,
     };
     this.arrowRef = React.createRef();
+  }
+
+  get modCode(): number {
+    const code = this.props.value.keymap.keycodeInfo!.code;
+    const modCode = (code & 0xff00) >> 8;
+    return modCode;
   }
 
   private onEnter() {
@@ -79,20 +71,17 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({
       value: value,
       label: value.label,
-      code: value.code.toString(16),
+      code: value.code,
     });
   }
 
   private emitKeyChange(args: {
     value?: KeycodeOption;
     label?: string;
-    code?: string;
+    code?: number;
   }) {
     let label = args.label == undefined ? this.state.label : args.label;
-    let code =
-      args.code == undefined
-        ? parseInt(this.state.code, 16)
-        : parseInt(args.code, 16);
+    let code = args.code == undefined ? this.state.code : args.code;
     let value = this.state.value!;
     if (args.value) {
       label = args.value.label;
@@ -113,13 +102,11 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.props.onChange(key);
   }
 
-  private updateValue(value: KeycodeOption | null) {
-    this.setState({ value });
-    if (value) {
-      const label = value.label;
-      const code = this.getFullCode({ keycode: value.code });
-      this.setState({ label: label, code: code });
-      this.emitKeyChange({ value });
+  private onChangeKeys(opt: KeycodeOption | null) {
+    if (opt) {
+      this.setState({ value: opt, label: opt.label, code: opt.code });
+    } else {
+      this.setState({ value: opt, label: '', code: 0 });
     }
   }
 
@@ -137,100 +124,15 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.emitKeyChange({ label });
   }
 
-  private updateCode(code: string) {
+  private updateCode(code: number) {
     if (this.state.code != code) {
       this.setState({ code });
       this.emitKeyChange({ code });
     }
   }
 
-  private getFullCode(args: {
-    ctrl?: boolean;
-    shift?: boolean;
-    alt?: boolean;
-    gui?: boolean;
-    keycode?: number;
-    rl?: number;
-  }): string {
-    let mod = 0b0000;
-    if (args.ctrl || (args.ctrl == undefined && this.state.ctrl)) {
-      mod |= 0b0001;
-    }
-
-    if (args.shift || (args.shift == undefined && this.state.shift)) {
-      mod |= 0b0010;
-    }
-
-    if (args.alt || (args.alt == undefined && this.state.alt)) {
-      mod |= 0b0100;
-    }
-
-    if (args.gui || (args.gui == undefined && this.state.gui)) {
-      mod |= 0b1000;
-    }
-
-    if (0 < mod) {
-      if (args.rl == undefined) {
-        if (this.state.rl == 1) {
-          mod |= 0b1_0000;
-        } else {
-          mod |= 0b0_0000;
-        }
-      } else {
-        if (args.rl == 1) {
-          console.log('right');
-          mod |= 0b1_0000;
-        } else {
-          console.log('left');
-          mod |= 0b0_0000;
-        }
-      }
-    }
-    let codeNum =
-      args.keycode == undefined ? this.state.value!.code : args.keycode;
-    console.log(`codeNum: ${codeNum}`);
-    console.log(`mode: ${mod << 8}`);
-    if (codeNum <= 0xff) {
-      codeNum = (mod << 8) | codeNum;
-    }
-    const code = Number(codeNum).toString(16).toUpperCase();
-    return code;
-  }
-
-  private updateCtrl(ctrl: boolean) {
-    const code = this.getFullCode({ ctrl });
-    console.log(code);
-    this.updateCode(code);
-    this.setState({ ctrl });
-  }
-
-  private updateShift(shift: boolean) {
-    const code = this.getFullCode({ shift });
-    this.updateCode(code);
-    this.setState({ shift });
-  }
-
-  private updateAlt(alt: boolean) {
-    const code = this.getFullCode({ alt });
-    this.updateCode(code);
-    this.setState({ alt });
-  }
-
-  private updateGui(gui: boolean) {
-    const code = this.getFullCode({ gui });
-    this.updateCode(code);
-    this.setState({ gui });
-  }
-
-  private updateRL(_rl: string) {
-    const rl = parseInt(_rl);
-    const code = this.getFullCode({ rl });
-    this.updateCode(code);
-    this.setState({ rl });
-  }
-
-  private setInputValue(inputValue: string) {
-    this.setState({ inputValue });
+  private updateModCode(modeCode: number) {
+    this.setState({ code: this.state.code | modeCode });
   }
 
   private setInputValue2(inputValue2: string) {
@@ -285,136 +187,23 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.selectedTabIndex} index={0}>
-            <Autocomplete
-              id="customkey-autocomplete"
-              className="customkey-field"
-              autoHighlight
-              freeSolo
-              size="small"
-              options={keycodeOptions as KeycodeOption[]}
-              value={this.state.value}
-              onChange={(
-                event: any,
-                newValue: string | KeycodeOption | null
-              ) => {
-                console.log('onChange');
-                console.log(newValue);
-                this.updateValue(newValue as KeycodeOption);
+            <AutocompleteKeys
+              keycodeOptions={keycodeOptions}
+              keycodeInfo={{
+                ...this.props.value.keymap.keycodeInfo!,
+                category: 'Basic',
+                subcategory: '',
               }}
-              inputValue={this.state.inputValue}
-              onInputChange={(event, newInputValue) => {
-                console.log('onInputChange');
-                console.log(newInputValue);
-                this.setInputValue(newInputValue.split('::')[0]);
+              onChange={(opt) => {
+                this.onChangeKeys(opt);
               }}
-              getOptionLabel={(option) =>
-                `${option.label}::${option.category}::${option.subcategory}`
-              }
-              renderOption={(option) => (
-                <div className="customkey-select-item">
-                  <div className="keycode-label-wrapper">
-                    <div className="keycode-label">{option.label}</div>
-                    <div className="keycode-category">
-                      {option.category}
-                      {option.subcategory && ` / ${option.subcategory}`}
-                    </div>
-                  </div>
-                  {option.desc && (
-                    <div className="keycode-desc">{option.desc}</div>
-                  )}
-                </div>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Keycode"
-                  variant="outlined"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
             />
-            <div className="modifiers-label">Modifiers</div>
-            <RadioGroup
-              row
-              aria-label="position"
-              name="left-right"
-              defaultValue={'0'}
-              value={'' + this.state.rl}
-              onChange={(e) => {
-                this.updateRL(e.target.value);
+            <Modifiers
+              code={this.modCode}
+              onChange={(code) => {
+                this.updateModCode(code);
               }}
-            >
-              <FormControlLabel
-                value="0"
-                control={<Radio color="primary" />}
-                label="Left"
-              />
-              <FormControlLabel
-                value="1"
-                control={<Radio color="primary" />}
-                label="Right"
-              />
-            </RadioGroup>
-            <FormGroup
-              aria-label="position"
-              row
-              style={{ justifyContent: 'space-between' }}
-            >
-              <FormControlLabel
-                value="shift"
-                control={
-                  <Checkbox
-                    color="primary"
-                    onChange={(e) => {
-                      this.updateShift(e.target.checked);
-                    }}
-                    checked={this.state.shift}
-                  />
-                }
-                label="Shift"
-              />
-              <FormControlLabel
-                value="control"
-                control={
-                  <Checkbox
-                    color="primary"
-                    onChange={(e) => {
-                      this.updateCtrl(e.target.checked);
-                    }}
-                    checked={this.state.ctrl}
-                  />
-                }
-                label="Ctrl"
-              />
-              <FormControlLabel
-                value="alt"
-                control={
-                  <Checkbox
-                    color="primary"
-                    onChange={(e) => {
-                      this.updateAlt(e.target.checked);
-                    }}
-                    checked={this.state.alt}
-                  />
-                }
-                label="Alt"
-              />
-              <FormControlLabel
-                value="gui"
-                control={
-                  <Checkbox
-                    color="primary"
-                    onChange={(e) => {
-                      this.updateGui(e.target.checked);
-                    }}
-                    checked={this.state.gui}
-                  />
-                }
-                label="Win/Cmd"
-              />
-            </FormGroup>
+            />
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={1}>
             <div className="customkey-description">
@@ -542,16 +331,16 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               className="customkey-field customkey-label customkey-code"
               size="small"
               onChange={(e) => {
-                const code = e.target.value
+                const hexCode = e.target.value
                   .toUpperCase()
                   .replace(/[^0-9,A-F]/g, '')
                   .slice(0, 4);
-                this.updateCode(code);
+                this.updateCode(parseInt(hexCode, 16));
               }}
               value={this.state.code}
             />
             <div className="customkey-bcode">
-              {('0000000000000000' + parseInt(this.state.code, 16).toString(2))
+              {('0000000000000000' + Number(this.state.code).toString(2))
                 .slice(-16)
                 .replace(/([0-1]{4}?)/g, '$1 ')}
             </div>
