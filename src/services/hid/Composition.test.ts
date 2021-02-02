@@ -36,7 +36,6 @@ import {
   UnicodeComposition,
 } from './Composition';
 import { IHid, IKeymap } from './Hid';
-import * as sinon from 'sinon';
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
 const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];
@@ -528,73 +527,24 @@ describe('Composition', () => {
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0000_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0100);
         expect(subject.isBasic()).toBeTruthy();
         const actual = subject.createBasicComposition();
         expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
       });
 
       test('not basic', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isBasic()).toBeFalsy();
-        try {
-          const actual = subject.createBasicComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createBasicComposition();
+        }).toThrowError();
       });
     });
 
     describe('createModsComposition', () => {
       test('valid - left', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0000_1111_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_1111_0000_0100);
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
@@ -607,28 +557,7 @@ describe('Composition', () => {
       });
 
       test('valid - right', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0001_1111_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0001_1111_0000_0100);
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
@@ -641,56 +570,34 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0000_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
         expect(subject.isMods()).toBeFalsy();
-        try {
-          const actual = subject.createModsComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createModsComposition();
+        }).toThrowError();
       });
     });
 
     describe('createFunctionComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0010_0000_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0010_0000_0000_0100);
         expect(subject.isFunction()).toBeTruthy();
         const actual = subject.createFunctionComposition();
         expect(actual.getFunctionId()).toEqual(0b0000_0000_0100);
       });
 
       test('not function', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isFunction()).toBeFalsy();
-        try {
-          const actual = subject.createFunctionComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createFunctionComposition();
+        }).toThrowError();
       });
     });
 
     describe('createMacroComposition', () => {
       test('valid - not tap', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0011_0000_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0011_0000_0000_0100);
         expect(subject.isMacro()).toBeTruthy();
         const actual = subject.createMacroComposition();
         expect(actual.getMacroId()).toEqual(0b0000_0000_0100);
@@ -698,11 +605,7 @@ describe('Composition', () => {
       });
 
       test('valid - tap', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0011_1000_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0011_1000_0000_0100);
         expect(subject.isMacro()).toBeTruthy();
         const actual = subject.createMacroComposition();
         expect(actual.getMacroId()).toEqual(0b1000_0000_0100);
@@ -710,45 +613,17 @@ describe('Composition', () => {
       });
 
       test('not macro', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isMacro()).toBeFalsy();
-        try {
-          const actual = subject.createMacroComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createMacroComposition();
+        }).toThrowError();
       });
     });
 
     describe('createLayerTapComposition', () => {
       test('valid', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0100_0100_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0100_0100_0000_0100);
         expect(subject.isLayerTap()).toBeTruthy();
         const actual = subject.createLayerTapComposition();
         expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
@@ -756,168 +631,102 @@ describe('Composition', () => {
       });
 
       test('not layer tap', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isLayerTap()).toBeFalsy();
-        try {
-          const actual = subject.createLayerTapComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createLayerTapComposition();
+        }).toThrowError();
       });
     });
 
     describe('createToComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0000_0001_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0000_0001_0100);
         expect(subject.isTo()).toBeTruthy();
         const actual = subject.createToComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isTo()).toBeFalsy();
-        try {
-          const actual = subject.createFunctionComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createFunctionComposition();
+        }).toThrowError();
       });
     });
 
     describe('createMomentaryComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0001_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0001_0000_0100);
         expect(subject.isMomentary()).toBeTruthy();
         const actual = subject.createMomentaryComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isMomentary()).toBeFalsy();
-        try {
-          const actual = subject.createMomentaryComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createMomentaryComposition();
+        }).toThrowError();
       });
     });
 
     describe('createDefLayerComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0010_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0010_0000_0100);
         expect(subject.isDefLayer()).toBeTruthy();
         const actual = subject.createDefLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isDefLayer()).toBeFalsy();
-        try {
-          const actual = subject.createDefLayerComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createDefLayerComposition();
+        }).toThrowError();
       });
     });
 
     describe('createToggleLayerComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0011_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0011_0000_0100);
         expect(subject.isToggleLayer()).toBeTruthy();
         const actual = subject.createToggleLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isToggleLayer()).toBeFalsy();
-        try {
-          const actual = subject.createToggleLayerComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createToggleLayerComposition();
+        }).toThrowError();
       });
     });
 
     describe('createOneShotLayerComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0100_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0100_0000_0100);
         expect(subject.isOneShotLayer()).toBeTruthy();
         const actual = subject.createOneShotLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isOneShotLayer()).toBeFalsy();
-        try {
-          const actual = subject.createOneShotLayerComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createOneShotLayerComposition();
+        }).toThrowError();
       });
     });
 
     describe('createOneShotModComposition', () => {
       test('valid - left', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0101_0001_1111,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0101_0001_1111);
         expect(subject.isOneShotMod()).toBeTruthy();
         const actual = subject.createOneShotModComposition();
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
@@ -929,11 +738,7 @@ describe('Composition', () => {
       });
 
       test('valid - left', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0101_0000_1111,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0101_0000_1111);
         expect(subject.isOneShotMod()).toBeTruthy();
         const actual = subject.createOneShotModComposition();
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
@@ -945,84 +750,51 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0000_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
         expect(subject.isOneShotMod()).toBeFalsy();
-        try {
-          const actual = subject.createOneShotModComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createOneShotModComposition();
+        }).toThrowError();
       });
     });
 
     describe('createTapDanceComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_0111_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_0111_0000_0100);
         expect(subject.isTapDance()).toBeTruthy();
         const actual = subject.createTapDanceComposition();
         expect(actual.getNo()).toEqual(0b0000_0100);
       });
 
       test('not function', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isTapDance()).toBeFalsy();
-        try {
-          const actual = subject.createTapDanceComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createTapDanceComposition();
+        }).toThrowError();
       });
     });
 
     describe('createLayerTapToggleComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_1000_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_1000_0000_0100);
         expect(subject.isLayerTapToggle()).toBeTruthy();
         const actual = subject.createLayerTapToggleComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isLayerTapToggle()).toBeFalsy();
-        try {
-          const actual = subject.createLayerTapToggleComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createLayerTapToggleComposition();
+        }).toThrowError();
       });
     });
 
     describe('createLayerModComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_1001_0010_0111,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_1001_0010_0111);
         expect(subject.isLayerMod()).toBeTruthy();
         const actual = subject.createLayerModComposition();
         expect(actual.getLayer()).toEqual(2);
@@ -1033,45 +805,17 @@ describe('Composition', () => {
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isLayerMod()).toBeFalsy();
-        try {
-          const actual = subject.createLayerModComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createLayerModComposition();
+        }).toThrowError();
       });
     });
 
     describe('createSwapHandsComposition', () => {
       test('valid - key', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0101_1011_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_1011_0000_0100);
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeFalsy();
@@ -1081,11 +825,7 @@ describe('Composition', () => {
       });
 
       test('valid - swap hands option', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0101_1011_1111_0001,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_1011_1111_0001);
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeTruthy();
@@ -1095,45 +835,17 @@ describe('Composition', () => {
       });
 
       test('not to', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isLayerMod()).toBeFalsy();
-        try {
-          const actual = subject.createLayerModComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createLayerModComposition();
+        }).toThrowError();
       });
     });
 
     describe('createModTapComposition', () => {
       test('valid - left', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0110_1111_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0110_1111_0000_0100);
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
@@ -1146,28 +858,7 @@ describe('Composition', () => {
       });
 
       test('valid - right', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0000_0100,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0000_0100,
-            name: {
-              long: 'KC_A',
-              short: 'KC_A',
-            },
-            label: 'A',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0111_1111_0000_0100,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0111_1111_0000_0100);
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
         expect(actual.getKey().code).toEqual(0b0000_0100);
@@ -1180,101 +871,55 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0000_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
         expect(subject.isModTap()).toBeFalsy();
-        try {
-          const actual = subject.createModTapComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createModTapComposition();
+        }).toThrowError();
       });
     });
 
     describe('createUnicodeComposition', () => {
       test('valid', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b1011_0000_0100_0010,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b1011_0000_0100_0010);
         expect(subject.isUnicode()).toBeTruthy();
         const actual = subject.createUnicodeComposition();
         expect(actual.getCharCode()).toEqual(0b0011_0000_0100_0010);
       });
 
       test('not function', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isUnicode()).toBeFalsy();
-        try {
-          const actual = subject.createUnicodeComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createUnicodeComposition();
+        }).toThrowError();
       });
     });
 
     describe('createLooseKeycodeComposition', () => {
       test('valid', () => {
-        const hid: IHid = {
-          getKeymap(code: number): IKeymap {
-            return {} as IKeymap;
-          },
-        } as IHid;
-        const stub = sinon.stub(hid, 'getKeymap');
-        stub.onCall(0).returns({
-          code: 0b0101_1100_0000_0000,
-          isAny: false,
-          keycodeInfo: {
-            code: 0b0101_1100_0000_0000,
-            name: {
-              long: 'RESET',
-              short: 'RESET',
-            },
-            label: 'RESET',
-          },
-        });
-        const subject = new KeycodeCompositionFactory(
-          0b0101_1100_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0101_1100_0000_0000);
         expect(subject.isLooseKeycode()).toBeTruthy();
         const actual = subject.createLooseKeycodeComposition();
         expect(actual.getKey().code).toEqual(0b0101_1100_0000_0000);
       });
 
       test('not function', () => {
-        const hid: IHid = {} as IHid;
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          hid
-        );
+        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
         expect(subject.isLooseKeycode()).toBeFalsy();
-        try {
-          const actual = subject.createLooseKeycodeComposition();
-          fail('An exception must be thrown.');
-        } catch (error) {
-          // N/A
-        }
+        expect(() => {
+          subject.createLooseKeycodeComposition();
+        }).toThrowError();
       });
     });
 
     describe('getKind', () => {
       const toEqual = (code: number, expected: IKeycodeCompositionKind) => {
-        const subject = new KeycodeCompositionFactory(code, {} as IHid);
+        const subject = new KeycodeCompositionFactory(code);
         expect(subject.getKind()).toEqual(expected);
       };
       const notToEqual = (code: number, expected: IKeycodeCompositionKind) => {
-        const subject = new KeycodeCompositionFactory(code, {} as IHid);
+        const subject = new KeycodeCompositionFactory(code);
         expect(subject.getKind()).not.toEqual(expected);
       };
       const checkKind = (
@@ -1715,7 +1360,7 @@ describe('Composition', () => {
       });
       describe('unknown', () => {
         test.each(EXPECT_UNKNOWN_LIST)(`unknown`, (value) => {
-          const subject = new KeycodeCompositionFactory(value, {} as IHid);
+          const subject = new KeycodeCompositionFactory(value);
           expect(subject.getKind()).toBeNull();
         });
       });

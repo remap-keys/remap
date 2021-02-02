@@ -6,7 +6,8 @@ import { KeycodeOption } from './CustomKey';
 
 type OwnProps = {
   keycodeOptions: KeycodeOption[];
-  keycodeInfo: KeycodeOption;
+  keycodeInfo: KeycodeOption | null;
+  className?: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (keycodeInfo: KeycodeOption | null) => void;
 };
@@ -39,7 +40,7 @@ export default class AutocompleteKeys extends React.Component<
   render() {
     return (
       <Autocomplete
-        className="customkey-field"
+        className={this.props.className || undefined}
         autoHighlight
         freeSolo
         size="small"

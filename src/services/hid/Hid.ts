@@ -106,7 +106,6 @@ export interface IHid {
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
   getKeymapCandidatesByCategory(category: string): IKeymap[];
-  getKeymap(code: number): IKeymap;
   close(keyboard: IKeyboard): void;
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory;
 }

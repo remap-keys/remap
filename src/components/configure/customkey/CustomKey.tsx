@@ -14,6 +14,8 @@ import {
 import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
+import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {
   id: string;
@@ -29,11 +31,12 @@ type OwnState = {
   value: KeycodeOption | null;
   value2: KeycodeOption | null;
   valueMT: KeycodeOption | null;
+  modifiers: number; // 0b1_1111
   inputValue: string;
   inputValue2: string;
   inputValueMT: string;
   label: string;
-  code: number;
+  hexCode: string; // support to show 001.
   selectedTabIndex: number;
 };
 
@@ -45,20 +48,22 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       value: null,
       value2: null,
       valueMT: null,
+      modifiers: 0,
       inputValue: '',
       inputValue2: '',
       inputValueMT: '',
       selectedTabIndex: 0,
       label: '',
-      code: 0,
+      hexCode: '',
     };
     this.arrowRef = React.createRef();
   }
 
-  get modCode(): number {
-    const code = this.props.value.keymap.keycodeInfo!.code;
-    const modCode = (code & 0xff00) >> 8;
-    return modCode;
+  get disabledModifiers() {
+    const factory = new KeycodeCompositionFactory(
+      parseInt(this.state.hexCode, 16)
+    );
+    return !(factory.isBasic() || factory.isMods());
   }
 
   private onEnter() {
@@ -71,7 +76,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({
       value: value,
       label: value.label,
-      code: value.code,
+      hexCode: Number(value.code).toString(16),
     });
   }
 
@@ -81,7 +86,8 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     code?: number;
   }) {
     let label = args.label == undefined ? this.state.label : args.label;
-    let code = args.code == undefined ? this.state.code : args.code;
+    let code =
+      args.code == undefined ? parseInt(this.state.hexCode, 16) : args.code;
     let value = this.state.value!;
     if (args.value) {
       label = args.value.label;
@@ -103,11 +109,64 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   private onChangeKeys(opt: KeycodeOption | null) {
-    if (opt) {
-      this.setState({ value: opt, label: opt.label, code: opt.code });
-    } else {
-      this.setState({ value: opt, label: '', code: 0 });
+    if (opt == null) {
+      this.setState({ value: opt, label: '', hexCode: '' });
+      return;
     }
+
+    const factory = new KeycodeCompositionFactory(opt.code);
+    if (factory.isBasic()) {
+      const code = this.buildKeycodeWithModifier(
+        opt.code,
+        this.state.modifiers
+      );
+      this.setState({
+        value: opt,
+        label: opt.label,
+        hexCode: Number(code).toString(16),
+      });
+    } else {
+      this.setState({
+        value: opt,
+        label: opt.label,
+        hexCode: Number(opt.code).toString(16),
+      });
+    }
+  }
+
+  private onChangeHexCode(value: string) {
+    const hexCode = value
+      .toUpperCase()
+      .replace(/[^0-9,A-F]/g, '')
+      .slice(0, 4);
+    const code = parseInt(hexCode, 16);
+    const factory = new KeycodeCompositionFactory(code);
+    if (factory.isBasic() || factory.isMods()) {
+      const keycode = code & 0x00ff;
+      const keymap = KeycodeList.getKeymap(keycode);
+      if (!keymap.isAny) {
+        const modCode = (code & 0xff00) >> 8;
+        this.setState({ modifiers: modCode });
+        const opt: KeycodeOption = {
+          ...keymap.keycodeInfo!,
+          category: 'Basic',
+          subcategory: '',
+        };
+        console.log(opt);
+        this.setState({ value: opt });
+      }
+    } else {
+      this.setState({ modifiers: 0 });
+    }
+    this.setState({ hexCode });
+  }
+
+  private onChangeModifiers(modCode: number) {
+    let code = this.buildKeycodeWithModifier(
+      parseInt(this.state.hexCode, 16),
+      modCode
+    );
+    this.setState({ hexCode: Number(code).toString(16), modifiers: modCode });
   }
 
   private updateValue2(value2: KeycodeOption | null) {
@@ -124,15 +183,15 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.emitKeyChange({ label });
   }
 
-  private updateCode(code: number) {
-    if (this.state.code != code) {
-      this.setState({ code });
-      this.emitKeyChange({ code });
+  private buildKeycodeWithModifier(code: number, modCode: number): number {
+    const keycode = code & 0x00ff;
+    if ((modCode & 0x0f) == 0) {
+      // no modifier
+      code = keycode;
+    } else {
+      code = (modCode << 8) | keycode;
     }
-  }
-
-  private updateModCode(modeCode: number) {
-    this.setState({ code: this.state.code | modeCode });
+    return code;
   }
 
   private setInputValue2(inputValue2: string) {
@@ -188,20 +247,18 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </AppBar>
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <AutocompleteKeys
+              className={'customkey-field'}
               keycodeOptions={keycodeOptions}
-              keycodeInfo={{
-                ...this.props.value.keymap.keycodeInfo!,
-                category: 'Basic',
-                subcategory: '',
-              }}
+              keycodeInfo={this.state.value}
               onChange={(opt) => {
                 this.onChangeKeys(opt);
               }}
             />
             <Modifiers
-              code={this.modCode}
-              onChange={(code) => {
-                this.updateModCode(code);
+              disabled={this.disabledModifiers}
+              code={this.state.modifiers}
+              onChange={(mod) => {
+                this.onChangeModifiers(mod);
               }}
             />
           </TabPanel>
@@ -331,16 +388,15 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               className="customkey-field customkey-label customkey-code"
               size="small"
               onChange={(e) => {
-                const hexCode = e.target.value
-                  .toUpperCase()
-                  .replace(/[^0-9,A-F]/g, '')
-                  .slice(0, 4);
-                this.updateCode(parseInt(hexCode, 16));
+                this.onChangeHexCode(e.target.value);
               }}
-              value={this.state.code}
+              value={this.state.hexCode.toUpperCase()}
             />
             <div className="customkey-bcode">
-              {('0000000000000000' + Number(this.state.code).toString(2))
+              {(
+                '0000000000000000' +
+                parseInt(this.state.hexCode || '0', 16).toString(2)
+              )
                 .slice(-16)
                 .replace(/([0-1]{4}?)/g, '$1 ')}
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Modifiers.scss';
 import {
@@ -15,92 +16,84 @@ type OwnProps = {
   onChange: (code: number) => void;
 };
 
-type OwnState = {
-  ctrl: boolean;
-  shift: boolean;
-  alt: boolean;
-  gui: boolean;
-  direction: '0' | '1'; // 0: left, 1: right
-};
+type OwnState = {};
 
 export default class Modifiers extends React.Component<OwnProps, OwnState> {
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
-    const code = this.props.code;
-    this.state = {
-      ctrl: 0 < (code & 0b0001),
-      shift: 0 < (code & 0b0010),
-      alt: 0 < (code & 0b0100),
-      gui: 0 < (code & 0b1000),
-      direction: 0 < (code & 0b1_0000) ? '1' : '0',
-    };
+    this.state = {};
   }
 
-  shouldComponentUpdate(nextProps: OwnProps, nextState: OwnState) {
-    const currentModCode = this.buildModCode(this.state);
-    const nextModCode = this.buildModCode(nextState);
-    if (this.state.direction != nextState.direction) {
-      if (0 < nextModCode) {
-        const direction = nextState.direction == '0' ? 0b0_0000 : 0b1_0000;
-        this.props.onChange(nextModCode | direction);
-      }
-    } else if (currentModCode != nextModCode) {
-      let code = nextModCode;
-      if (0 < code) {
-        const direction = nextState.direction == '0' ? 0b0_0000 : 0b1_0000;
-        code |= direction;
-      }
-      this.props.onChange(code);
+  private updateRadioState(value: string) {
+    this.setState({ direction: value as '0' | '1' });
+    let code = this.props.code & 0b1111;
+    const right = value == '1';
+    if (right) {
+      code = code | 0b1_0000;
     }
-    return true;
+
+    this.props.onChange(code);
   }
 
-  private buildModCode(args: {
-    ctrl: boolean;
-    shift: boolean;
-    alt: boolean;
-    gui: boolean;
-  }): number {
-    const { ctrl, shift, alt, gui } = args;
-    let code: number = 0b0000;
-    if (ctrl) {
-      code |= 0b0001;
-    }
-    if (shift) {
-      code |= 0b0010;
-    }
-    if (alt) {
-      code |= 0b0100;
-    }
-    if (gui) {
-      code |= 0b1000;
+  private updateCheckboxState(
+    type: 'shift' | 'ctrl' | 'alt' | 'gui',
+    checked: boolean
+  ) {
+    let code = this.props.code;
+    switch (type) {
+      case 'ctrl':
+        code = (code & 0b1_1110) | (checked ? 0b0_0001 : 0b0_0000);
+        break;
+      case 'shift':
+        code = (code & 0b1_1101) | (checked ? 0b0_0010 : 0b0_0000);
+        break;
+      case 'alt':
+        code = (code & 0b1_1011) | (checked ? 0b0_0100 : 0b0_0000);
+        break;
+      case 'gui':
+        code = (code & 0b1_0111) | (checked ? 0b0_1000 : 0b0_0000);
+        break;
     }
 
-    return code;
+    this.props.onChange(code);
   }
 
   render() {
+    const code = this.props.code;
+    const ctrl = 0 < (code & 0b0001);
+    const shift = 0 < (code & 0b0010);
+    const alt = 0 < (code & 0b0100);
+    const gui = 0 < (code & 0b1000);
+    const direction = 0 < (code & 0b1_0000) ? '1' : '0';
     return (
       <React.Fragment>
-        <div className="modifiers-label">Modifiers</div>
+        <div
+          className={[
+            'modifiers-label',
+            this.props.disabled && 'modifiers-label-disabled',
+          ].join(' ')}
+        >
+          Modifiers
+        </div>
         <RadioGroup
           row
           aria-label="position"
           name="left-right"
           defaultValue={'0'}
-          value={this.state.direction}
-          onChange={(e) => {
-            const direction: '0' | '1' = e.target.value as '0' | '1';
-            this.setState({ direction });
+          value={direction}
+          onChange={(e, value) => {
+            this.updateRadioState(value);
           }}
         >
           <FormControlLabel
             value="0"
+            disabled={this.props.disabled == true}
             control={<Radio color="primary" />}
             label="Left"
           />
           <FormControlLabel
             value="1"
+            disabled={this.props.disabled == true}
             control={<Radio color="primary" />}
             label="Right"
           />
@@ -111,55 +104,43 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
           style={{ justifyContent: 'space-between' }}
         >
           <FormControlLabel
-            value="shift"
-            control={
-              <Checkbox
-                color="primary"
-                onChange={(e) => {
-                  this.setState({ shift: e.target.checked });
-                }}
-                checked={this.state.shift}
-              />
-            }
-            label="Shift"
-          />
-          <FormControlLabel
             value="control"
-            control={
-              <Checkbox
-                color="primary"
-                onChange={(e) => {
-                  this.setState({ ctrl: e.target.checked });
-                }}
-                checked={this.state.ctrl}
-              />
-            }
+            disabled={this.props.disabled == true}
+            checked={ctrl}
+            onChange={(e, checked) => {
+              this.updateCheckboxState('ctrl', checked);
+            }}
+            control={<Checkbox color="primary" />}
             label="Ctrl"
           />
           <FormControlLabel
+            value="shift"
+            disabled={this.props.disabled == true}
+            checked={shift}
+            onChange={(e, checked) => {
+              this.updateCheckboxState('shift', checked);
+            }}
+            control={<Checkbox color="primary" />}
+            label="Shift"
+          />
+          <FormControlLabel
             value="alt"
-            control={
-              <Checkbox
-                color="primary"
-                onChange={(e) => {
-                  this.setState({ alt: e.target.checked });
-                }}
-                checked={this.state.alt}
-              />
-            }
+            disabled={this.props.disabled == true}
+            onChange={(e, checked) => {
+              this.updateCheckboxState('alt', checked);
+            }}
+            checked={alt}
+            control={<Checkbox color="primary" />}
             label="Alt"
           />
           <FormControlLabel
             value="gui"
-            control={
-              <Checkbox
-                color="primary"
-                onChange={(e) => {
-                  this.setState({ gui: e.target.checked });
-                }}
-                checked={this.state.gui}
-              />
-            }
+            disabled={this.props.disabled == true}
+            onChange={(e, checked) => {
+              this.updateCheckboxState('gui', checked);
+            }}
+            checked={gui}
+            control={<Checkbox color="primary" />}
             label="Win/Cmd"
           />
         </FormGroup>
