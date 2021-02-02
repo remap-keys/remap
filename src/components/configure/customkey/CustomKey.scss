@@ -22,9 +22,12 @@
       border-right: 15px solid transparent;
       border-left: 15px solid transparent;
     }
+    .customkey-tabpanel {
+      padding: $space-l;
+    }
     .customkey-body {
       width: 400px;
-      min-height: 272px;
+      min-height: 240px;
 
       .customkey-field {
         margin-bottom: $space-l;

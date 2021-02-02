@@ -2,16 +2,29 @@
 import React from 'react';
 import './DualFunctionsKey.scss';
 import { FormControl, InputLabel, Select } from '@material-ui/core';
-import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
+import {
+  IComposition,
+  IMod,
+  KeycodeCompositionFactory,
+  LayerModComposition,
+  LayerTapComposition,
+  ModTapComposition,
+  MOD_ALT,
+  MOD_CTL,
+  MOD_GUI,
+  MOD_RIGHT,
+  MOD_SFT,
+} from '../../../services/hid/Composition';
 import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeOption } from './CustomKey';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type OwnProps = {
   value: Key;
   layerCount: number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (keycodeInfo: KeycodeOption | null) => void;
+  onChange: (composition: IComposition | null) => void;
 };
 
 type OwnState = {
@@ -33,13 +46,44 @@ export default class DualFunctionsKey extends React.Component<
     };
   }
 
-  get isLayerMod() {
-    if (this.state.holdKey == null) {
+  get enableLayerSelect() {
+    return this.isLayerMod(this.state.holdKey);
+  }
+
+  private genKeymap(tapKey: KeycodeOption): IKeymap {
+    const km: IKeymap = {
+      code: tapKey.code,
+      isAny: false,
+      keycodeInfo: tapKey,
+    };
+    return km;
+  }
+
+  private isLayerMod(holdKey: KeycodeOption | null) {
+    if (holdKey == null) {
       return false;
     }
-    const code = this.state.holdKey.code;
+    const code = holdKey.code;
     const factory = new KeycodeCompositionFactory(code);
     return factory.isLayerMod(); // == (factory.isLayerTap() || factory.isModTap() || factory.isSwapHands())
+  }
+
+  private emitOnChange(holdKey: KeycodeOption, tapKey: KeycodeOption) {
+    const fact = new KeycodeCompositionFactory(holdKey.code);
+    let comp: IComposition;
+    if (fact.isLayerTap()) {
+      comp = new LayerTapComposition(
+        holdKey.option as number,
+        this.genKeymap(tapKey)
+      );
+    } else if (fact.isModTap()) {
+      comp = new ModTapComposition(
+        holdKey.direction!,
+        holdKey.option! as IMod[],
+        this.genKeymap(tapKey)
+      );
+    }
+    return comp;
   }
 
   private onChangeHoldKey(holdKey: KeycodeOption | null) {
@@ -51,6 +95,13 @@ export default class DualFunctionsKey extends React.Component<
       return;
     }
     this.setState({ holdKey });
+
+    // if same [Command], the [Command] is used as selected.
+    if (this.isLayerMod(this.state.holdKey) == this.isLayerMod(holdKey)) {
+      if (this.state.tapKey != null) {
+        this.emitOnChange(holdKey, this.state.tapKey);
+      }
+    }
   }
 
   private onChangeTapKey(tapKey: KeycodeOption | null) {
@@ -58,7 +109,17 @@ export default class DualFunctionsKey extends React.Component<
   }
 
   private onChangeLayer(selectedLayer: number) {
+    if (this.state.holdKey == null) {
+      // NOT TO BE HERE
+      return;
+    }
+
     this.setState({ selectedLayer });
+    const comp = new LayerModComposition(
+      selectedLayer,
+      this.state.holdKey.option! as IMod[]
+    );
+    this.props.onChange(comp);
   }
 
   render() {
@@ -73,7 +134,7 @@ export default class DualFunctionsKey extends React.Component<
           }}
         />
         <div className="holdkey-desc">{this.state.holdKey?.desc || ''}</div>
-        {this.isLayerMod ? (
+        {this.enableLayerSelect ? (
           <FormControl
             variant="outlined"
             size="small"
@@ -201,12 +262,13 @@ const keycodeOptions: KeycodeOption[] = [
 
 const dualFunctionalKeyOptions: KeycodeOption[] = [
   {
-    code: 0b0110_0001,
+    code: 0b0110_0001_0000,
     name: { long: 'MT(CTRL|kc)', short: 'MT(CTRL|kc)' },
     label: 'MT(Ctrl)',
     category: 'Mod-Tap',
     subcategory: '',
     desc: 'Acts a Ctrl when held, and a regular keycode when tapped.',
+    option: [MOD_CTL],
   },
   {
     code: 0b0110_0010,
@@ -215,6 +277,7 @@ const dualFunctionalKeyOptions: KeycodeOption[] = [
     category: 'Mod-Tap',
     subcategory: '',
     desc: 'Acts a Shift when held, and a regular keycode when tapped.',
+    option: [MOD_SFT],
   },
   {
     code: 0b0110_0100,
@@ -223,6 +286,7 @@ const dualFunctionalKeyOptions: KeycodeOption[] = [
     category: 'Mod-Tap',
     subcategory: '',
     desc: 'Acts a Alt when held, and a regular keycode when tapped.',
+    option: [MOD_ALT],
   },
   {
     code: 0b0110_1000,
@@ -231,6 +295,47 @@ const dualFunctionalKeyOptions: KeycodeOption[] = [
     category: 'Mod-Tap',
     subcategory: '',
     desc: 'Acts a Win/Cmd when held, and a regular keycode when tapped.',
+    option: [MOD_GUI],
+  },
+  {
+    code: 0b0110_0001_0000,
+    name: { long: 'MT(CTRL|kc)', short: 'MT(CTRL|kc)' },
+    label: 'MT(Ctrl)',
+    category: 'Mod-Tap',
+    subcategory: '',
+    desc: 'Acts a Ctrl when held, and a regular keycode when tapped.',
+    option: [MOD_CTL],
+    direction: MOD_RIGHT,
+  },
+  {
+    code: 0b0110_0010,
+    name: { long: 'MT(Shift|kc)', short: 'MT(Shift|kc)' },
+    label: 'MT(Shift)',
+    category: 'Mod-Tap',
+    subcategory: '',
+    desc: 'Acts a Shift when held, and a regular keycode when tapped.',
+    option: [MOD_SFT],
+    direction: MOD_RIGHT,
+  },
+  {
+    code: 0b0110_0100,
+    name: { long: 'MT(Alt|kc)', short: 'MT(Alt|kc)' },
+    label: 'MT(Alt)',
+    category: 'Mod-Tap',
+    subcategory: '',
+    desc: 'Acts a Alt when held, and a regular keycode when tapped.',
+    option: [MOD_ALT],
+    direction: MOD_RIGHT,
+  },
+  {
+    code: 0b0110_1000,
+    name: { long: 'MT(GUI|kc)', short: 'MT(GUI|kc)' },
+    label: 'MT(Win/Cmd)',
+    category: 'Mod-Tap',
+    subcategory: '',
+    desc: 'Acts a Win/Cmd when held, and a regular keycode when tapped.',
+    option: [MOD_GUI],
+    direction: MOD_RIGHT,
   },
   {
     code: 0b0101_1001_0001_0000,
@@ -239,5 +344,6 @@ const dualFunctionalKeyOptions: KeycodeOption[] = [
     category: 'Layer Mod',
     subcategory: '',
     desc: 'Momentarily activates layer, but with Ctrl mod active.',
+    option: [MOD_CTL],
   },
 ];

@@ -14,7 +14,11 @@ import {
 import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
-import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
+import {
+  IMod,
+  IModDirection,
+  KeycodeCompositionFactory,
+} from '../../../services/hid/Composition';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import DualFunctionsKey from './DualFunctionsKey';
 
@@ -318,17 +322,14 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div
+      className="customkey-tabpanel"
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <React.Fragment>{children}</React.Fragment>}
     </div>
   );
 }
@@ -350,6 +351,8 @@ export type KeycodeOption = {
   category: string;
   subcategory: string;
   desc?: string;
+  option?: IMod[] | number; // Modifiers, layer
+  direction?: IModDirection;
 };
 
 const keycodeOptions: KeycodeOption[] = [
