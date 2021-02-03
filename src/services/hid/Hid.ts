@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { IKeycodeCompositionFactory } from './Composition';
+import { KeymapCategory } from './KeycodeList';
 
 export interface IResult {
   readonly success: boolean;
@@ -35,7 +36,7 @@ export interface IKeycodeInfo {
 }
 
 export interface IKeycodeCategoryInfo {
-  category: string;
+  categories: KeymapCategory[];
   codes: number[];
 }
 
@@ -57,6 +58,7 @@ export interface IFetchLayerCountResult extends IResult {
 export interface IKeymap {
   isAny: boolean;
   code: number;
+  categories: KeymapCategory[];
   keycodeInfo?: IKeycodeInfo;
 }
 

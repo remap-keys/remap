@@ -41,6 +41,7 @@ class CustomKeyStory extends React.Component<{}, State> {
         keymap: {
           isAny: false,
           code: 1,
+          categories: ['Basic'],
           keycodeInfo: {
             code: 1,
             name: {
@@ -77,7 +78,6 @@ class CustomKeyStory extends React.Component<{}, State> {
           keymap={this.state.key.keymap}
           remap={null}
           onClick={(key: Key) => {
-            console.log('onClick');
             this.openPopover(key);
           }}
           onClickKeycap={() => {}}
@@ -86,6 +86,7 @@ class CustomKeyStory extends React.Component<{}, State> {
           id="customkey-popover"
           value={this.state.key}
           open={this.state.open}
+          layerCount={4}
           anchorRef={this.anchorRef}
           onClose={this.onClose.bind(this)}
           onChange={(key: Key) => {

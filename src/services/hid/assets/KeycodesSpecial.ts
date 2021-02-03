@@ -1,6 +1,8 @@
-{
-  "categories": ["special"],
-  "codes": [
+import { IKeycodeCategoryInfo } from '../Hid';
+
+export const keycodesSpecial: IKeycodeCategoryInfo = {
+  categories: ['Special'],
+  codes: [
     565,
     542,
     543,
@@ -111,6 +113,6 @@
     23590,
     23591,
     23592,
-    23593
-  ]
-}
+    23593,
+  ],
+};

@@ -2,15 +2,7 @@
 import React from 'react';
 import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import {
-  AppBar,
-  Box,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
 import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
@@ -21,10 +13,12 @@ import {
 } from '../../../services/hid/Composition';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import DualFunctionsKey from './DualFunctionsKey';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type OwnProps = {
   id: string;
   value: Key;
+  layerCount: number;
   open: boolean;
   anchorRef: React.RefObject<any> | null;
   onClose: () => void;
@@ -50,6 +44,7 @@ type OwnState = {
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
   arrowRef: React.RefObject<unknown>;
+  basicKeymaps: IKeymap[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
@@ -62,6 +57,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       hexCode: '',
     };
     this.arrowRef = React.createRef();
+    this.basicKeymaps = KeycodeList.basicKeymaps;
   }
 
   get disabledModifiers() {
@@ -73,15 +69,11 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
 
   private onEnter() {
     //TODO: initialize input status
-    const value: KeycodeOption = {
-      category: 'Basic',
-      subcategory: '',
-      ...this.props.value.keymap.keycodeInfo!,
-    };
+    const keymap: KeycodeOption = this.props.value.keymap;
     this.setState({
-      value: value,
-      label: value.label,
-      hexCode: Number(value.code).toString(16),
+      value: this.props.value.keymap,
+      label: this.props.value.keymap.keycodeInfo!.label,
+      hexCode: Number(keymap.code).toString(16),
     });
   }
 
@@ -95,19 +87,20 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       args.code == undefined ? parseInt(this.state.hexCode, 16) : args.code;
     let value = this.state.value!;
     if (args.value) {
-      label = args.value.label;
+      label = args.value.keycodeInfo!.label;
       code = args.value.code;
       value = args.value;
     }
 
+    const keymap: IKeymap = {
+      ...value,
+      keycodeInfo: { ...value.keycodeInfo!, ...{ label: label, code: code } },
+    };
+
     const key: Key = {
       label: label,
       meta: '',
-      keymap: {
-        isAny: false,
-        code: code,
-        keycodeInfo: { ...value, ...{ label: label, code: code } },
-      },
+      keymap: keymap,
     };
     console.log(key);
     this.props.onChange(key);
@@ -127,13 +120,13 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       );
       this.setState({
         value: opt,
-        label: opt.label,
+        label: opt.keycodeInfo!.label,
         hexCode: Number(code).toString(16),
       });
     } else {
       this.setState({
         value: opt,
-        label: opt.label,
+        label: opt.keycodeInfo!.label,
         hexCode: Number(opt.code).toString(16),
       });
     }
@@ -152,13 +145,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       if (!keymap.isAny) {
         const modCode = (code & 0xff00) >> 8;
         this.setState({ modifiers: modCode });
-        const opt: KeycodeOption = {
-          ...keymap.keycodeInfo!,
-          category: 'Basic',
-          subcategory: '',
-        };
-        console.log(opt);
-        this.setState({ value: opt });
+        this.setState({ value: keymap });
       }
     } else {
       this.setState({ modifiers: 0 });
@@ -245,7 +232,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <AutocompleteKeys
               label="Keycode"
-              keycodeOptions={keycodeOptions}
+              keycodeOptions={this.basicKeymaps}
               keycodeInfo={this.state.value}
               onChange={(opt) => {
                 this.onChangeKeys(opt);
@@ -266,7 +253,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             </div>
             <DualFunctionsKey
               value={this.props.value}
-              layerCount={4}
+              layerCount={this.props.layerCount}
               onChange={(info) => {
                 console.log(info);
               }}
@@ -341,128 +328,8 @@ function a11yProps(index: any) {
   };
 }
 
-export type KeycodeOption = {
-  code: number;
-  label: string;
-  name: {
-    long: string;
-    short: string;
-  };
-  category: string;
-  subcategory: string;
+export type KeycodeOption = IKeymap & {
   desc?: string;
   option?: IMod[] | number; // Modifiers, layer
   direction?: IModDirection;
 };
-
-const keycodeOptions: KeycodeOption[] = [
-  {
-    code: 1,
-    name: {
-      long: 'KC_TRANSPARENT',
-      short: 'KC_TRNS',
-    },
-    label: '▽',
-    category: 'Basic',
-    subcategory: '',
-  },
-  {
-    code: 4,
-    name: { long: 'KC_A', short: 'KC_A' },
-    label: 'A',
-    category: 'Basic',
-    subcategory: 'Letter',
-  },
-  {
-    code: 5,
-    name: { long: 'KC_B', short: 'KC_B' },
-    label: 'B',
-    category: 'Basic',
-    subcategory: 'Letter',
-  },
-  {
-    code: 6,
-    name: { long: 'KC_C', short: 'KC_C' },
-    label: 'C',
-    category: 'Basic',
-    subcategory: 'Letter',
-  },
-  {
-    code: 7,
-    name: { long: 'KC_D', short: 'KC_D' },
-    label: 'D',
-    category: 'Basic',
-    subcategory: 'Letter',
-  },
-  {
-    code: 8,
-    name: { long: 'KC_E', short: 'KC_E' },
-    label: 'E',
-    category: 'Basic',
-    subcategory: 'Letter',
-  },
-  {
-    code: 39,
-    name: { long: 'KC_0', short: 'KC_0' },
-    label: '0',
-    category: 'Basic',
-    subcategory: 'Digit',
-  },
-  {
-    code: 225,
-    name: { long: 'KC_LSHIFT', short: 'KC_LSFT' },
-    label: 'Left Shift',
-    category: 'Modifier',
-    subcategory: '',
-  },
-  {
-    code: 135,
-    name: { long: 'KC_INT1', short: 'KC_RO' },
-    label: 'Ro',
-    category: 'Special',
-    subcategory: 'INT',
-  },
-  {
-    code: 23552,
-    name: { long: 'RESET', short: 'RESET' },
-    label: 'Reset',
-    category: 'Special',
-    subcategory: 'Firmware',
-    desc: 'Resets the keyboard back to the bootloader, to flash new firmware.',
-  },
-];
-
-const dualFunctionalKeyOptions: KeycodeOption[] = [
-  {
-    code: 0b0110_0001,
-    name: { long: 'MT(CTRL|kc)', short: 'MT(CTRL|kc)' },
-    label: 'Ctrl',
-    category: '2 Functions',
-    subcategory: '',
-    desc: '',
-  },
-  {
-    code: 0b0110_0010,
-    name: { long: 'MT(SHIFT|kc)', short: 'MT(SHIFT|kc)' },
-    label: 'Shift',
-    category: '2 Functions',
-    subcategory: '',
-    desc: '',
-  },
-  {
-    code: 0b0110_0100,
-    name: { long: 'MT(ALT|kc)', short: 'MT(ALT|kc)' },
-    label: 'Alt',
-    category: '2 Functions',
-    subcategory: '',
-    desc: '',
-  },
-  {
-    code: 0b0110_1000,
-    name: { long: 'MT(GUI|kc)', short: 'MT(GUI|kc)' },
-    label: 'Win/Cmd',
-    category: '2 Functions',
-    subcategory: '',
-    desc: '',
-  },
-];

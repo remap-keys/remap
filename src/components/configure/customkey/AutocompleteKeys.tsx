@@ -47,7 +47,7 @@ export default class AutocompleteKeys extends React.Component<
         autoHighlight
         freeSolo
         size="small"
-        options={this.props.keycodeOptions as KeycodeOption[]}
+        options={this.props.keycodeOptions}
         value={this.state.value}
         onChange={(event: any, newValue: string | KeycodeOption | null) => {
           this.updateValue(newValue as KeycodeOption);
@@ -56,16 +56,17 @@ export default class AutocompleteKeys extends React.Component<
         onInputChange={(event, newInputValue) => {
           this.setInputValue(newInputValue.split('::')[0]);
         }}
-        getOptionLabel={(option) =>
-          `${option.label}::${option.category}::${option.subcategory}`
-        }
+        getOptionLabel={(option) => {
+          return `${option.keycodeInfo!.label}::${option.categories.join(
+            '::'
+          )}`;
+        }}
         renderOption={(option) => (
           <div className="customkey-select-item">
             <div className="keycode-label-wrapper">
-              <div className="keycode-label">{option.label}</div>
+              <div className="keycode-label">{option.keycodeInfo!.label}</div>
               <div className="keycode-category">
-                {option.category}
-                {option.subcategory && ` / ${option.subcategory}`}
+                {option.categories.join(' / ')}
               </div>
             </div>
             {option.desc && <div className="keycode-desc">{option.desc}</div>}

@@ -1,79 +1,190 @@
 import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
-import basic from './assets/keycodes-basic.json';
-import layers from './assets/keycodes-layers.json';
-import lighting from './assets/keycodes-lighting.json';
-import macro from './assets/keycodes-macro.json';
-import media from './assets/keycodes-media.json';
-import kp from './assets/keycodes-number.json';
-import special from './assets/keycodes-special.json';
+import {
+  keycodesBasic,
+  keycodesBasicF,
+  keycodesBasicLetter,
+  keycodesBasicLock,
+  keycodesBasicModifier,
+  keycodesBasicNumber,
+  keycodesBasicPunctuation,
+  keycodesBasicSpacing,
+  keycodesBasicAll,
+} from './assets/KeycodesBasic';
+import { keycodesLayers } from './assets/KeycodesLayers';
+import { keycodesLighing } from './assets/KeycodesLighting';
+import { keycodesMacro } from './assets/KeycodesMacro';
+import { keycodesMedia } from './assets/KeycodesMedia';
+import { keycodesNumber } from './assets/KeycodesNumber';
+import { keycodesSpecial } from './assets/KeycodesSpecial';
+export type KeymapCategory =
+  | 'Basic'
+  | 'Fn'
+  | 'Letter'
+  | 'Lock'
+  | 'Modifier'
+  | 'Number'
+  | 'Punctuation'
+  | 'Spacing'
+  | 'Layers'
+  | 'Lighting'
+  | 'Macro'
+  | 'Media'
+  | 'Special'
+  | 'Mod-Tap'
+  | 'Layer-Tap';
 
 export class KeycodeList {
-  private static createKeymap(code: number): IKeymap {
+  private static _basicKeymaps: IKeymap[];
+  private static _keycodesLayers: IKeymap[];
+  private static _keycodesLighting: IKeymap[];
+  private static _keycodesMacro: IKeymap[];
+  private static _keycodesMedia: IKeymap[];
+  private static _keycodesNumber: IKeymap[];
+  private static _keycodesSpecial: IKeymap[];
+
+  private static createKeymap(
+    code: number,
+    categories: KeymapCategory[]
+  ): IKeymap {
     return {
       code,
       isAny: false,
+      categories: categories,
       keycodeInfo: KeycodeList.keycodeArray.find(
         (keycode) => keycode.code === code
       )!,
     };
   }
 
-  static get basicKeymaps(): IKeymap[] {
-    return (basic as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+  // DEPRECATED
+  static get basicAllKeymaps(): IKeymap[] {
+    return keycodesBasicAll.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesBasicAll.categories)
     );
+  }
+
+  static get basicKeymaps(): IKeymap[] {
+    if (this._basicKeymaps) return this._basicKeymaps;
+
+    const list: IKeycodeCategoryInfo[] = [
+      keycodesBasic,
+      keycodesBasicLetter,
+      keycodesBasicNumber,
+      keycodesBasicPunctuation,
+      keycodesBasicModifier,
+      keycodesBasicSpacing,
+      keycodesBasicLock,
+      keycodesBasicF,
+    ];
+    this._basicKeymaps = [];
+    list.forEach((info) => {
+      const categories = info.categories;
+      info.codes.forEach((code) => {
+        this._basicKeymaps.push(KeycodeList.createKeymap(code, categories));
+      });
+    });
+
+    return this._basicKeymaps;
   }
 
   static get layersKeymaps(): IKeymap[] {
-    return (layers as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesLayers) return this._keycodesLayers;
+
+    this._keycodesLayers = keycodesLayers.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesLayers.categories)
     );
+    return this._keycodesLayers;
   }
 
   static get lightingKeymaps(): IKeymap[] {
-    return (lighting as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesLighting) return this._keycodesLighting;
+
+    this._keycodesLighting = keycodesLighing.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesLighing.categories)
     );
+    return this._keycodesLighting;
   }
 
   static get macroKeymaps(): IKeymap[] {
-    return (macro as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesMacro) return this._keycodesMacro;
+
+    this._keycodesMacro = keycodesMacro.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesMacro.categories)
     );
+
+    return this._keycodesMacro;
   }
 
   static get mediaKeymaps(): IKeymap[] {
-    return (media as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesMedia) return this._keycodesMedia;
+
+    this._keycodesMedia = keycodesMedia.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesMedia.categories)
     );
+    return this._keycodesMedia;
   }
 
   static get numberKeymaps(): IKeymap[] {
-    return (kp as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesNumber) return this._keycodesNumber;
+
+    this._keycodesNumber = keycodesNumber.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesNumber.categories)
     );
+    return this._keycodesNumber;
   }
 
   static get specialKeymaps(): IKeymap[] {
-    return (special as IKeycodeCategoryInfo).codes.map((code) =>
-      KeycodeList.createKeymap(code)
+    if (this._keycodesSpecial) return this._keycodesSpecial;
+
+    this._keycodesSpecial = keycodesSpecial.codes.map((code) =>
+      KeycodeList.createKeymap(code, keycodesSpecial.categories)
     );
+    return this._keycodesSpecial;
   }
 
   static getKeymap(code: number): IKeymap {
     const keycodeInfo = KeycodeList.keycodeArray.find(
       (keycodeInfo) => keycodeInfo.code === code
     );
+
+    const findCategories = (code: number) => {
+      const list: IKeycodeCategoryInfo[] = [
+        keycodesBasicF,
+        keycodesBasicLetter,
+        keycodesBasicLock,
+        keycodesBasicModifier,
+        keycodesBasicNumber,
+        keycodesBasicPunctuation,
+        keycodesBasicSpacing,
+        keycodesLayers,
+        keycodesLighing,
+        keycodesMacro,
+        keycodesMedia,
+        keycodesNumber,
+        keycodesSpecial,
+      ];
+      return list.find((kci) => {
+        return kci.codes.includes(code);
+      });
+    };
+
     if (keycodeInfo) {
+      const category: IKeycodeCategoryInfo | undefined = findCategories(
+        keycodeInfo?.code
+      );
+      const categories: KeymapCategory[] = category ? category.categories : [];
+
       return {
         code,
         isAny: false,
+        categories,
         keycodeInfo,
       };
     } else {
       return {
         code,
         isAny: true,
+        categories: [],
       };
     }
   }
