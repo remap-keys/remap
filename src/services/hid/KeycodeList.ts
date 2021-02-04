@@ -18,20 +18,21 @@ import { keycodesNumber } from './assets/KeycodesNumber';
 import { keycodesSpecial } from './assets/KeycodesSpecial';
 export type KeymapCategory =
   | 'Basic'
-  | 'Fn'
+  | 'F'
+  | 'Func'
+  | 'Layers'
+  | 'Layer-Tap'
   | 'Letter'
+  | 'Lighting'
   | 'Lock'
+  | 'Macro'
+  | 'Media'
+  | 'Mod-Tap'
   | 'Modifier'
   | 'Number'
   | 'Punctuation'
   | 'Spacing'
-  | 'Layers'
-  | 'Lighting'
-  | 'Macro'
-  | 'Media'
-  | 'Special'
-  | 'Mod-Tap'
-  | 'Layer-Tap';
+  | 'Special';
 
 export class KeycodeList {
   private static _basicKeymaps: IKeymap[];
@@ -72,7 +73,6 @@ export class KeycodeList {
       keycodesBasicNumber,
       keycodesBasicPunctuation,
       keycodesBasicModifier,
-      keycodesBasicSpacing,
       keycodesBasicLock,
       keycodesBasicF,
     ];
@@ -1726,7 +1726,7 @@ export class KeycodeList {
         long: 'KC_FN0',
         short: 'KC_FN0',
       },
-      label: 'FN0',
+      label: 'Func0',
     },
     {
       code: 193,
@@ -1734,7 +1734,7 @@ export class KeycodeList {
         long: 'KC_FN1',
         short: 'KC_FN1',
       },
-      label: 'FN1',
+      label: 'Func1',
     },
     {
       code: 194,
@@ -1742,7 +1742,7 @@ export class KeycodeList {
         long: 'KC_FN2',
         short: 'KC_FN2',
       },
-      label: 'FN2',
+      label: 'Func2',
     },
     {
       code: 195,
@@ -1750,7 +1750,7 @@ export class KeycodeList {
         long: 'KC_FN3',
         short: 'KC_FN3',
       },
-      label: 'FN3',
+      label: 'Func3',
     },
     {
       code: 196,
@@ -1758,7 +1758,7 @@ export class KeycodeList {
         long: 'KC_FN4',
         short: 'KC_FN4',
       },
-      label: 'FN4',
+      label: 'Func4',
     },
     {
       code: 197,
@@ -1766,7 +1766,7 @@ export class KeycodeList {
         long: 'KC_FN5',
         short: 'KC_FN5',
       },
-      label: 'FN5',
+      label: 'Func5',
     },
     {
       code: 198,
@@ -1774,7 +1774,7 @@ export class KeycodeList {
         long: 'KC_FN6',
         short: 'KC_FN6',
       },
-      label: 'FN6',
+      label: 'Func6',
     },
     {
       code: 199,
@@ -1782,7 +1782,7 @@ export class KeycodeList {
         long: 'KC_FN7',
         short: 'KC_FN7',
       },
-      label: 'FN7',
+      label: 'Func7',
     },
     {
       code: 200,
@@ -1790,7 +1790,7 @@ export class KeycodeList {
         long: 'KC_FN8',
         short: 'KC_FN8',
       },
-      label: 'FN8',
+      label: 'Func8',
     },
     {
       code: 201,
@@ -1798,7 +1798,7 @@ export class KeycodeList {
         long: 'KC_FN9',
         short: 'KC_FN9',
       },
-      label: 'FN9',
+      label: 'Func9',
     },
     {
       code: 202,
@@ -1806,7 +1806,7 @@ export class KeycodeList {
         long: 'KC_FN10',
         short: 'KC_FN10',
       },
-      label: 'FN10',
+      label: 'Func10',
     },
     {
       code: 203,
@@ -1814,7 +1814,7 @@ export class KeycodeList {
         long: 'KC_FN11',
         short: 'KC_FN11',
       },
-      label: 'FN11',
+      label: 'Func11',
     },
     {
       code: 204,
@@ -1822,7 +1822,7 @@ export class KeycodeList {
         long: 'KC_FN12',
         short: 'KC_FN12',
       },
-      label: 'FN12',
+      label: 'Func12',
     },
     {
       code: 205,
@@ -1830,7 +1830,7 @@ export class KeycodeList {
         long: 'KC_FN13',
         short: 'KC_FN13',
       },
-      label: 'FN13',
+      label: 'Func13',
     },
     {
       code: 206,
@@ -1838,7 +1838,7 @@ export class KeycodeList {
         long: 'KC_FN14',
         short: 'KC_FN14',
       },
-      label: 'FN14',
+      label: 'Func14',
     },
     {
       code: 207,
@@ -1846,7 +1846,7 @@ export class KeycodeList {
         long: 'KC_FN15',
         short: 'KC_FN15',
       },
-      label: 'FN15',
+      label: 'Func15',
     },
     {
       code: 208,
@@ -1854,7 +1854,7 @@ export class KeycodeList {
         long: 'KC_FN16',
         short: 'KC_FN16',
       },
-      label: 'FN16',
+      label: 'Func16',
     },
     {
       code: 209,
@@ -1862,7 +1862,7 @@ export class KeycodeList {
         long: 'KC_FN17',
         short: 'KC_FN17',
       },
-      label: 'FN17',
+      label: 'Func17',
     },
     {
       code: 210,
@@ -1870,7 +1870,7 @@ export class KeycodeList {
         long: 'KC_FN18',
         short: 'KC_FN18',
       },
-      label: 'FN18',
+      label: 'Func18',
     },
     {
       code: 211,
@@ -1878,7 +1878,7 @@ export class KeycodeList {
         long: 'KC_FN19',
         short: 'KC_FN19',
       },
-      label: 'FN19',
+      label: 'Func19',
     },
     {
       code: 212,
@@ -1886,7 +1886,7 @@ export class KeycodeList {
         long: 'KC_FN20',
         short: 'KC_FN20',
       },
-      label: 'FN20',
+      label: 'Func20',
     },
     {
       code: 213,
@@ -1894,7 +1894,7 @@ export class KeycodeList {
         long: 'KC_FN21',
         short: 'KC_FN21',
       },
-      label: 'FN21',
+      label: 'Func21',
     },
     {
       code: 214,
@@ -1902,7 +1902,7 @@ export class KeycodeList {
         long: 'KC_FN22',
         short: 'KC_FN22',
       },
-      label: 'FN22',
+      label: 'Func22',
     },
     {
       code: 215,
@@ -1910,7 +1910,7 @@ export class KeycodeList {
         long: 'KC_FN23',
         short: 'KC_FN23',
       },
-      label: 'FN23',
+      label: 'Func23',
     },
     {
       code: 216,
@@ -1918,7 +1918,7 @@ export class KeycodeList {
         long: 'KC_FN24',
         short: 'KC_FN24',
       },
-      label: 'FN24',
+      label: 'Func24',
     },
     {
       code: 217,
@@ -1926,7 +1926,7 @@ export class KeycodeList {
         long: 'KC_FN25',
         short: 'KC_FN25',
       },
-      label: 'FN25',
+      label: 'Func25',
     },
     {
       code: 218,
@@ -1934,7 +1934,7 @@ export class KeycodeList {
         long: 'KC_FN26',
         short: 'KC_FN26',
       },
-      label: 'FN26',
+      label: 'Func26',
     },
     {
       code: 219,
@@ -1942,7 +1942,7 @@ export class KeycodeList {
         long: 'KC_FN27',
         short: 'KC_FN27',
       },
-      label: 'FN27',
+      label: 'Func27',
     },
     {
       code: 220,
@@ -1950,7 +1950,7 @@ export class KeycodeList {
         long: 'KC_FN28',
         short: 'KC_FN28',
       },
-      label: 'FN28',
+      label: 'Func28',
     },
     {
       code: 221,
@@ -1958,7 +1958,7 @@ export class KeycodeList {
         long: 'KC_FN29',
         short: 'KC_FN29',
       },
-      label: 'FN29',
+      label: 'Func29',
     },
     {
       code: 222,
@@ -1966,7 +1966,7 @@ export class KeycodeList {
         long: 'KC_FN30',
         short: 'KC_FN30',
       },
-      label: 'FN30',
+      label: 'Func30',
     },
     {
       code: 223,
@@ -1974,7 +1974,7 @@ export class KeycodeList {
         long: 'KC_FN31',
         short: 'KC_FN31',
       },
-      label: 'FN31',
+      label: 'Func31',
     },
     {
       code: 224,

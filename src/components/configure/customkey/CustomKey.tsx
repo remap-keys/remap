@@ -225,7 +225,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               textColor="primary"
             >
               <Tab label="KEYS" {...a11yProps(0)} />
-              <Tab label="2 FUNCS" {...a11yProps(1)} />
+              <Tab label="HOLD/TAP" {...a11yProps(1)} />
               <Tab label="CUSTOM" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
@@ -249,7 +249,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={1}>
             <div className="customkey-description">
-              {'Hold to activate [Function], tap to send [Command].'}
+              {'Please select each key code when Hold / Tap'}
             </div>
             <DualFunctionsKey
               value={this.props.value}
