@@ -21,7 +21,7 @@ import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeOption } from './CustomKey';
 import { IKeymap } from '../../../services/hid/Hid';
-import { KeycodeList, KeymapCategory } from '../../../services/hid/KeycodeList';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {
   value: Key;
@@ -52,33 +52,35 @@ export default class DualFunctionsKey extends React.Component<
       selectedLayer: NaN,
     };
     this.basicKeycodeOptions = KeycodeList.basicKeymaps;
-    this.dualFunctionalKeyOptions = [...genModTapKeyOptions()];
+    this.dualFunctionalKeyOptions = [
+      ...Object.keys(holdKeys).map((hold) =>
+        genHoldMod(hold, holdKeys[hold], MOD_LEFT)
+      ),
+      ...Object.keys(holdKeys).map((hold) =>
+        genHoldMod(hold, holdKeys[hold], MOD_RIGHT)
+      ),
+      ...genHoldLayers(this.props.layerCount),
+      swapHandsKeyOption,
+    ];
   }
 
-  get enableLayerSelect() {
-    return this.isLayerMod(this.state.holdKey);
-  }
-
-  private isLayerMod(holdKey: KeycodeOption | null) {
-    if (holdKey == null) {
-      return false;
-    }
-    const code = holdKey.code;
-    const factory = new KeycodeCompositionFactory(code);
-    return factory.isLayerMod(); // == (factory.isLayerTap() || factory.isModTap() || factory.isSwapHands())
+  get enableLayerSelect(): boolean {
+    return this.state.holdKey?.categories[0] == 'Hold-Layer';
   }
 
   private emitOnChange(holdKey: KeycodeOption, tapKey: KeycodeOption) {
     let comp: IComposition | null = null;
     console.log('emitOnChange');
-    if (holdKey.categories.includes('Layer-Tap')) {
+    if (holdKey.categories.includes('Hold-Layer')) {
       comp = new LayerTapComposition(holdKey.option as number, tapKey);
-    } else if (holdKey.categories.includes('Mod-Tap')) {
+    } else if (holdKey.categories.includes('Hold-Mod')) {
       comp = new ModTapComposition(
         holdKey.direction!,
         holdKey.option! as IMod[],
         tapKey
       );
+    } else if (holdKey.categories.includes('Swap-Hands')) {
+      // TODO
     }
 
     if (comp) {
@@ -91,17 +93,15 @@ export default class DualFunctionsKey extends React.Component<
       this.setState({ holdKey: null, tapKey: null });
       return;
     }
-    if (this.state.holdKey?.code == holdKey.code) {
-      return;
-    }
-    this.setState({ holdKey });
-
-    // if same [Command], the [Command] is used as selected.
-    if (this.isLayerMod(this.state.holdKey) == this.isLayerMod(holdKey)) {
+    // if same type of the HOLD, use its keycode/layer
+    if (this.state.holdKey?.categories[0] == holdKey.categories[0]) {
       if (this.state.tapKey != null) {
         this.emitOnChange(holdKey, this.state.tapKey);
       }
+    } else {
+      this.setState({ tapKey: null });
     }
+    this.setState({ holdKey });
   }
 
   private onChangeTapKey(tapKey: KeycodeOption | null) {
@@ -131,6 +131,7 @@ export default class DualFunctionsKey extends React.Component<
       <React.Fragment>
         <AutocompleteKeys
           label="Hold"
+          showCategory={false}
           keycodeOptions={this.dualFunctionalKeyOptions}
           keycodeInfo={this.state.holdKey}
           onChange={(opt) => {
@@ -184,27 +185,47 @@ export default class DualFunctionsKey extends React.Component<
   }
 }
 
-type DualFunctionalKey = {
-  label: string;
-  categories: KeymapCategory[];
-  desc: string;
-  option: IMod[] | number;
-  direction?: IModDirection;
-};
-
-const genDualFunctionalKeyOption = (dkey: DualFunctionalKey): KeycodeOption => {
+const DIRECTION = ['Left', 'Right'];
+const genHoldMod = (
+  hold: string,
+  option: IMod[],
+  direction: IModDirection
+): KeycodeOption => {
   return {
     code: 0,
     isAny: false,
-    keycodeInfo: { code: 0, label: dkey.label, name: { short: '', long: '' } },
-    categories: dkey.categories,
-    desc: dkey.desc,
-    option: dkey.option,
-    direction: dkey.direction,
+    keycodeInfo: {
+      code: 0,
+      label: `(${DIRECTION[direction]}) ${hold}`,
+      name: { short: '', long: '' },
+    },
+    categories: ['Hold-Mod'],
+    desc: '',
+    option: option,
+    direction: direction,
   };
 };
 
-const holdCombinations: { [key: string]: IMod[] } = {
+const genHoldLayers = (layer: number): KeycodeOption[] => {
+  return Array(layer)
+    .fill(0)
+    .map((_, index) => {
+      return {
+        code: 0,
+        isAny: false,
+        keycodeInfo: {
+          code: 0,
+          label: `Layer(${index})`,
+          name: { short: '', long: '' },
+        },
+        categories: ['Hold-Layer'],
+        desc: '',
+        option: -1,
+      };
+    });
+};
+
+const holdKeys: { [key: string]: IMod[] } = {
   Ctrl: [MOD_CTL],
   Shift: [MOD_SFT],
   Alt: [MOD_ALT],
@@ -216,50 +237,21 @@ const holdCombinations: { [key: string]: IMod[] } = {
   'Shift+Win/Cmd': [MOD_SFT, MOD_GUI],
   'Alt+Win/Cmd': [MOD_ALT, MOD_GUI],
   'Ctrl+Shift+Alt': [MOD_CTL, MOD_SFT, MOD_ALT],
-  'Ctrl+Shift+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT],
-  'Ctrl+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT],
+  'Ctrl+Shift+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_GUI],
+  'Ctrl+Alt+Win/Cmd': [MOD_CTL, MOD_ALT, MOD_GUI],
   'Shift+Alt+Win/Cmd': [MOD_SFT, MOD_ALT, MOD_GUI],
   'Ctrl+Shift+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
 };
 
-const _genDualFunctionalKeyOption = (
-  direction: IModDirection,
-  holdKey: string,
-  option: IMod[] | number,
-  categories: KeymapCategory[],
-  desc: string
-): KeycodeOption => {
-  return genDualFunctionalKeyOption({
-    option: option,
-    label: `(${direction}) ${holdKey}`,
-    categories: categories,
-    desc: desc,
-    direction: direction,
-  });
-};
-
-const genModTapKeyOptions = (): KeycodeOption[] => {
-  const desc = (holdKey: string): string =>
-    `Acts a left ${holdKey} when held, and a regular keycode when tapped.`;
-  const categories: KeymapCategory[] = ['Mod-Tap'];
-  return [MOD_LEFT, MOD_RIGHT]
-    .map((d) => {
-      return Object.entries(holdCombinations).map((item) =>
-        _genDualFunctionalKeyOption(d, ...item, categories, desc(item[0]))
-      );
-    })
-    .flat();
-};
-
-const genLayerModKeyOptions = (): KeycodeOption[] => {
-  const desc = (holdKey: string): string =>
-    `Momentarily activates layer, but with ${holdKey} mod active.`;
-  const categories: KeymapCategory[] = ['Layer-Mod'];
-  return [MOD_LEFT, MOD_RIGHT]
-    .map((d) => {
-      return Object.entries(holdCombinations).map((item) =>
-        _genDualFunctionalKeyOption(d, ...item, categories, desc(item[0]))
-      );
-    })
-    .flat();
+const swapHandsKeyOption: KeycodeOption = {
+  code: 0,
+  isAny: false,
+  keycodeInfo: {
+    code: 0,
+    label: `Swap-Hands`,
+    name: { short: '', long: '' },
+  },
+  categories: ['Swap-Hands'],
+  desc: '',
+  option: -1,
 };

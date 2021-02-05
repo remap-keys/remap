@@ -21,19 +21,19 @@ export type KeymapCategory =
   | 'F'
   | 'Func'
   | 'Layers'
-  | 'Layer-Mod'
-  | 'Layer-Tap'
+  | 'Hold-Layer'
   | 'Letter'
   | 'Lighting'
   | 'Lock'
   | 'Macro'
   | 'Media'
-  | 'Mod-Tap'
+  | 'Hold-Mod'
   | 'Modifier'
   | 'Number'
   | 'Punctuation'
   | 'Spacing'
-  | 'Special';
+  | 'Special'
+  | 'Swap-Hands';
 
 export class KeycodeList {
   private static _basicKeymaps: IKeymap[];

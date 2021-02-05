@@ -8,6 +8,7 @@ type OwnProps = {
   keycodeOptions: KeycodeOption[];
   keycodeInfo: KeycodeOption | null;
   label: string;
+  showCategory?: boolean;
   disabled?: boolean;
   className?: string;
   // eslint-disable-next-line no-unused-vars
@@ -65,9 +66,11 @@ export default class AutocompleteKeys extends React.Component<
           <div className="customkey-select-item">
             <div className="keycode-label-wrapper">
               <div className="keycode-label">{option.keycodeInfo!.label}</div>
-              <div className="keycode-category">
-                {option.categories.join(' / ')}
-              </div>
+              {this.props.showCategory != false && (
+                <div className="keycode-category">
+                  {option.categories.join(' / ')}
+                </div>
+              )}
             </div>
             {option.desc && <div className="keycode-desc">{option.desc}</div>}
           </div>
