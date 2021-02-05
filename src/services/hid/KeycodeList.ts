@@ -21,6 +21,7 @@ export type KeymapCategory =
   | 'F'
   | 'Func'
   | 'Layers'
+  | 'Layer-Mod'
   | 'Layer-Tap'
   | 'Letter'
   | 'Lighting'

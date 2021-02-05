@@ -13,6 +13,7 @@ import {
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
+  MOD_LEFT,
   MOD_RIGHT,
   MOD_SFT,
 } from '../../../services/hid/Composition';
@@ -51,9 +52,7 @@ export default class DualFunctionsKey extends React.Component<
       selectedLayer: NaN,
     };
     this.basicKeycodeOptions = KeycodeList.basicKeymaps;
-    this.dualFunctionalKeyOptions = dualFunctionalKeys.map((dkey) =>
-      genDualFunctionalKeyOptions(dkey)
-    );
+    this.dualFunctionalKeyOptions = [...genModTapKeyOptions()];
   }
 
   get enableLayerSelect() {
@@ -193,9 +192,7 @@ type DualFunctionalKey = {
   direction?: IModDirection;
 };
 
-const genDualFunctionalKeyOptions = (
-  dkey: DualFunctionalKey
-): KeycodeOption => {
+const genDualFunctionalKeyOption = (dkey: DualFunctionalKey): KeycodeOption => {
   return {
     code: 0,
     isAny: false,
@@ -207,228 +204,62 @@ const genDualFunctionalKeyOptions = (
   };
 };
 
-const dualFunctionalKeys: DualFunctionalKey[] = [
-  {
-    label: '(Left) Ctrl',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Ctrl when held, and a regular keycode when tapped.',
-    option: [MOD_CTL],
-  },
-  {
-    label: '(Left) Shift',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Shift when held, and a regular keycode when tapped.',
-    option: [MOD_SFT],
-  },
-  {
-    label: '(Left) Alt',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Alt when held, and a regular keycode when tapped.',
-    option: [MOD_ALT],
-  },
-  {
-    label: '(Left) Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_GUI],
-  },
-  {
-    label: '(Left) Ctrl+Shift',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Shift when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT],
-  },
-  {
-    label: '(Left) Ctrl+Alt',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Ctrl+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_ALT],
-  },
-  {
-    label: '(Left) Ctrl+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_GUI],
-  },
-  {
-    label: '(Left) Shift+Alt',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a left Shift+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_ALT],
-  },
-  {
-    label: '(Left) Shift+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Shift+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_GUI],
-  },
-  {
-    label: '(Left) Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_ALT, MOD_GUI],
-  },
-  {
-    label: '(Left) Ctrl+Shift+Alt',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Shift+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_ALT],
-  },
-  {
-    label: '(Left) Ctrl+Shift+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Shift+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_GUI],
-  },
-  {
-    label: '(Left) Ctrl+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_ALT, MOD_GUI],
-  },
-  {
-    label: '(Left) Shift+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Shift+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_ALT, MOD_GUI],
-  },
-  {
-    label: '(Left) Ctrl+Shift+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a left Ctrl+Shift+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
-  },
+const holdCombinations: { [key: string]: IMod[] } = {
+  Ctrl: [MOD_CTL],
+  Shift: [MOD_SFT],
+  Alt: [MOD_ALT],
+  'Win/Cmd': [MOD_GUI],
+  'Ctrl+Shift': [MOD_CTL, MOD_SFT],
+  'Ctrl+Alt': [MOD_CTL, MOD_ALT],
+  'Ctrl+Win/Cmd': [MOD_CTL, MOD_GUI],
+  'Shift+Alt': [MOD_SFT, MOD_ALT],
+  'Shift+Win/Cmd': [MOD_SFT, MOD_GUI],
+  'Alt+Win/Cmd': [MOD_ALT, MOD_GUI],
+  'Ctrl+Shift+Alt': [MOD_CTL, MOD_SFT, MOD_ALT],
+  'Ctrl+Shift+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT],
+  'Ctrl+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT],
+  'Shift+Alt+Win/Cmd': [MOD_SFT, MOD_ALT, MOD_GUI],
+  'Ctrl+Shift+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+};
 
-  {
-    label: '(Right) Ctrl',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a right Ctrl when held, and a regular keycode when tapped.',
-    option: [MOD_CTL],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Shift',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a right Shift when held, and a regular keycode when tapped.',
-    option: [MOD_SFT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Alt',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a right Alt when held, and a regular keycode when tapped.',
-    option: [MOD_ALT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a right Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Shift',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Shift when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Alt',
-    categories: ['Mod-Tap'],
-    desc: 'Acts a right Ctrl+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_ALT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Shift+Alt',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Shift+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_ALT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Shift+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Shift+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_ALT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Shift+Alt',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Shift+Alt when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_ALT],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Shift+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Shift+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_ALT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Shift+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Shift+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_SFT, MOD_ALT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
-  {
-    label: '(Right) Ctrl+Shift+Alt+Win/Cmd',
-    categories: ['Mod-Tap'],
-    desc:
-      'Acts a right Ctrl+Shift+Alt+Win/Cmd when held, and a regular keycode when tapped.',
-    option: [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
-    direction: MOD_RIGHT,
-  },
+const _genDualFunctionalKeyOption = (
+  direction: IModDirection,
+  holdKey: string,
+  option: IMod[] | number,
+  categories: KeymapCategory[],
+  desc: string
+): KeycodeOption => {
+  return genDualFunctionalKeyOption({
+    option: option,
+    label: `(${direction}) ${holdKey}`,
+    categories: categories,
+    desc: desc,
+    direction: direction,
+  });
+};
 
-  {
-    label: 'LM Ctrl',
-    categories: ['Mod-Tap'],
-    desc: 'Momentarily activates layer, but with Ctrl mod active.',
-    option: [MOD_CTL],
-    direction: MOD_RIGHT,
-  },
-];
+const genModTapKeyOptions = (): KeycodeOption[] => {
+  const desc = (holdKey: string): string =>
+    `Acts a left ${holdKey} when held, and a regular keycode when tapped.`;
+  const categories: KeymapCategory[] = ['Mod-Tap'];
+  return [MOD_LEFT, MOD_RIGHT]
+    .map((d) => {
+      return Object.entries(holdCombinations).map((item) =>
+        _genDualFunctionalKeyOption(d, ...item, categories, desc(item[0]))
+      );
+    })
+    .flat();
+};
+
+const genLayerModKeyOptions = (): KeycodeOption[] => {
+  const desc = (holdKey: string): string =>
+    `Momentarily activates layer, but with ${holdKey} mod active.`;
+  const categories: KeymapCategory[] = ['Layer-Mod'];
+  return [MOD_LEFT, MOD_RIGHT]
+    .map((d) => {
+      return Object.entries(holdCombinations).map((item) =>
+        _genDualFunctionalKeyOption(d, ...item, categories, desc(item[0]))
+      );
+    })
+    .flat();
+};
