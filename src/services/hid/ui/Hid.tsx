@@ -4,6 +4,8 @@ import './Hid.scss';
 import {
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapReadBufferCommand,
+  LightingGetValueCommand,
+  LightingSetValueCommand,
 } from '../Commands';
 import { IKeyboard } from '../Hid';
 import KeycodeArray from '../assets/keycodes.json';
@@ -28,6 +30,7 @@ const Hid = () => {
   const [columnCount, setColumnCount] = useState<number>(0);
   const [bufferOffset, setBufferOffset] = useState<number>(0);
   const [bufferSize, setBufferSize] = useState<number>(28);
+  const [lightingKind, setLightingKind] = useState<number>(0);
 
   useEffect(() => {
     webHid
@@ -250,6 +253,25 @@ const Hid = () => {
     await keyboard!.enqueue(command);
   };
 
+  const handleLightingKindChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = Number(event.target.value);
+    const command = new LightingSetValueCommand({ value }, async (result) => {
+      console.log(result);
+      setLightingKind(result.response!.value);
+    });
+    await keyboard!.enqueue(command);
+  };
+
+  const handleGetLightingKindClick = async () => {
+    const command = new LightingGetValueCommand({}, async (result) => {
+      console.log(result);
+      setLightingKind(result.response!.value);
+    });
+    await keyboard!.enqueue(command);
+  };
+
   return (
     <div className="hid">
       <h1>WebHid Test</h1>
@@ -395,6 +417,59 @@ const Hid = () => {
           onChange={handleBufferSizeChange}
         />
         <button onClick={handleReadBufferClick}>Read buffer</button>
+      </div>
+      <div className="box">
+        <label htmlFor="lightingKind">Lighting kind</label>
+        <select
+          value={lightingKind}
+          onChange={handleLightingKindChange}
+          className="uk-select"
+        >
+          <option value={0}>OFF</option>
+          <option value={1}>Solid color</option>
+          <option value={2}>Solid color breathing 1</option>
+          <option value={3}>Solid color breathing 2</option>
+          <option value={4}>Solid color breathing 3</option>
+          <option value={5}>Solid color breathing 4</option>
+          <option value={6}>Cycling rainbow 1</option>
+          <option value={7}>Cycling rainbow 2</option>
+          <option value={8}>Cycling rainbow 3</option>
+          <option value={9}>Swirling rainbow 1</option>
+          <option value={10}>Swirling rainbow 2</option>
+          <option value={11}>Swirling rainbow 3</option>
+          <option value={12}>Swirling rainbow 4</option>
+          <option value={13}>Swirling rainbow 5</option>
+          <option value={14}>Swirling rainbow 6</option>
+          <option value={15}>Snake 1</option>
+          <option value={16}>Snake 2</option>
+          <option value={17}>Snake 3</option>
+          <option value={18}>Snake 4</option>
+          <option value={19}>Snake 5</option>
+          <option value={20}>Snake 6</option>
+          <option value={21}>Knight 1</option>
+          <option value={22}>Knight 2</option>
+          <option value={23}>Knight 3</option>
+          <option value={24}>Christmas</option>
+          <option value={25}>Static gradient 1</option>
+          <option value={26}>Static gradient 2</option>
+          <option value={27}>Static gradient 3</option>
+          <option value={28}>Static gradient 4</option>
+          <option value={29}>Static gradient 5</option>
+          <option value={30}>Static gradient 6</option>
+          <option value={31}>Static gradient 7</option>
+          <option value={32}>Static gradient 8</option>
+          <option value={33}>Static gradient 9</option>
+          <option value={34}>Static gradient 10</option>
+          <option value={35}>RGB Test</option>
+          <option value={36}>Alternating</option>
+          <option value={37}>Twinkle 1</option>
+          <option value={38}>Twinkle 2</option>
+          <option value={39}>Twinkle 3</option>
+          <option value={40}>Twinkle 4</option>
+          <option value={41}>Twinkle 5</option>
+          <option value={42}>Twinkle 6</option>
+        </select>
+        <button onClick={handleGetLightingKindClick}>Read Lighting kind</button>
       </div>
       <div className="box">
         <label htmlFor="Test">Test</label>
