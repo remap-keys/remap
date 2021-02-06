@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Build and Deploy
+      - name: Build
         env:
           REACT_APP_WEBHIDAPI_TOKEN: ${{ secrets.REACT_APP_WEBHIDAPI_TOKEN }}
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}

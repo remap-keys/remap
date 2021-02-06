@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "user-site",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
