@@ -10,10 +10,26 @@ import {
   IMod,
   IModDirection,
   KeycodeCompositionFactory,
+  LayerModComposition,
+  LayerTapComposition,
+  ModsComposition,
+  ModTapComposition,
+  SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
-import DualFunctionsKey from './DualFunctionsKey';
+import HoldTapKey from './HoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
+import {
+  findDefLayers,
+  findFunctionKeycode,
+  findLooseKey,
+  findMomentaryLayers,
+  findOneShotLayers,
+  findOneShotMod,
+  findToggleLayers,
+  findToKeycode,
+  genFunctions,
+} from './Keys';
 
 type OwnProps = {
   id: string;
@@ -44,7 +60,7 @@ type OwnState = {
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
   arrowRef: React.RefObject<unknown>;
-  basicKeymaps: IKeymap[];
+
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
@@ -57,7 +73,6 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       hexCode: '',
     };
     this.arrowRef = React.createRef();
-    this.basicKeymaps = KeycodeList.basicKeymaps;
   }
 
   get disabledModifiers() {
@@ -132,6 +147,14 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     }
   }
 
+  private onChangeHoldTap(
+    comp:
+      | ModTapComposition
+      | LayerModComposition
+      | LayerTapComposition
+      | SwapHandsComposition
+  ) {}
+
   private onChangeHexCode(value: string) {
     const hexCode = value
       .toUpperCase()
@@ -139,14 +162,17 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       .slice(0, 4);
     const code = parseInt(hexCode, 16);
     const factory = new KeycodeCompositionFactory(code);
-    if (factory.isBasic() || factory.isMods()) {
-      const keycode = code & 0x00ff;
-      const keymap = KeycodeList.getKeymap(keycode);
-      if (!keymap.isAny) {
-        const modCode = (code & 0xff00) >> 8;
-        this.setState({ modifiers: modCode });
-        this.setState({ value: keymap });
-      }
+    if (factory.isBasic()) {
+      const comp = factory.createBasicComposition();
+      const keymap = comp.getKey();
+      this.setState({ value: keymap, modifiers: 0 });
+    } else if (factory.isMods()) {
+      const comp = factory.createModsComposition();
+      const keymap = comp.getKey();
+      const modCode = (code & 0xff00) >> 8;
+      this.setState({ modifiers: modCode });
+      this.setState({ value: keymap });
+    } else if (factory.isOneShotMod()) {
     } else {
       this.setState({ modifiers: 0 });
     }
@@ -159,14 +185,6 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       modCode
     );
     this.setState({ hexCode: Number(code).toString(16), modifiers: modCode });
-  }
-
-  private onChangeHoldKey(holdKey: KeycodeOption | null) {
-    this.setState({ holdKey });
-  }
-
-  private onChangeTapKey(tapKey: KeycodeOption | null) {
-    this.setState({ tapKey });
   }
 
   private updateLabel(label: string) {
@@ -251,11 +269,11 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             <div className="customkey-description">
               {'Please select each key code when Hold / Tap'}
             </div>
-            <DualFunctionsKey
+            <HoldTapKey
               value={this.props.value}
               layerCount={this.props.layerCount}
-              onChange={(info) => {
-                console.log(info);
+              onChange={(comp) => {
+                this.onChangeHoldTap(comp);
               }}
             />
           </TabPanel>
@@ -332,4 +350,78 @@ export type KeycodeOption = IKeymap & {
   desc?: string;
   option?: IMod[] | number; // Modifiers, layer
   direction?: IModDirection;
+};
+
+const hexToKeycodeOption = (hex: number, layerCount: number) => {
+  const factory = new KeycodeCompositionFactory(hex);
+  if (factory.isBasic()) {
+    const comp = factory.createBasicComposition();
+    return comp.getKey();
+  } else if (factory.isMods()) {
+    const comp = factory.createModsComposition();
+    const opt: KeycodeOption = {
+      ...comp.getKey(),
+      option: comp.getModifiers(),
+      direction: comp.getModDirection(),
+    };
+    return opt;
+  } else if (factory.isFunction()) {
+    const comp = factory.createFunctionComposition();
+    const opt = findFunctionKeycode(comp.getFunctionId());
+    opt.code = comp.getCode();
+    opt.keycodeInfo!.code = comp.getCode();
+    return opt;
+  } else if (factory.isTo()) {
+    const comp = factory.createToComposition();
+    const code = comp.getCode();
+    const layer = comp.getLayer();
+    const opt = findToKeycode(layer, layerCount);
+    opt.code = code;
+    opt.option = layer;
+    return opt;
+  } else if (factory.isMomentary()) {
+    const comp = factory.createMomentaryComposition();
+    const code = comp.getCode();
+    const layer = comp.getLayer();
+    const opt = findMomentaryLayers(layer, layerCount);
+    opt.code = code;
+    opt.option = layer;
+    return opt;
+  } else if (factory.isDefLayer()) {
+    const comp = factory.createDefLayerComposition();
+    const code = comp.getCode();
+    const layer = comp.getLayer();
+    const opt = findDefLayers(layer, layerCount);
+    opt.code = code;
+    opt.option = layer;
+    return opt;
+  } else if (factory.isToggleLayer()) {
+    const comp = factory.createToggleLayerComposition();
+    const code = comp.getCode();
+    const layer = comp.getLayer();
+    const opt = findToggleLayers(layer, layerCount);
+    opt.code = code;
+    opt.option = layer;
+  } else if (factory.isOneShotLayer()) {
+    const comp = factory.createOneShotLayerComposition();
+    const code = comp.getCode();
+    const layer = comp.getLayer();
+    const opt = findOneShotLayers(layer, layerCount);
+    opt.code = code;
+    opt.option = layer;
+  } else if (factory.isOneShotMod()) {
+    const comp = factory.createOneShotModComposition();
+    const code = comp.getCode();
+    const mods = comp.getModifiers();
+    const direction = comp.getModDirection();
+    const opt = findOneShotMod(mods, direction);
+    opt.code = code;
+    return opt;
+  } else if (factory.isLooseKeycode()) {
+    const comp = factory.createLooseKeycodeComposition();
+    return comp.getKey();
+  } else if (factory.isSwapHands()) {
+    const comp = factory.createSwapHandsComposition();
+    return comp.getKey();
+  }
 };

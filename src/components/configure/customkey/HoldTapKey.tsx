@@ -1,12 +1,10 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './DualFunctionsKey.scss';
-import { FormControl, InputLabel, Select } from '@material-ui/core';
+import './HoldTapKey.scss';
 import {
   IComposition,
   IMod,
   IModDirection,
-  KeycodeCompositionFactory,
   LayerModComposition,
   LayerTapComposition,
   ModTapComposition,
@@ -16,43 +14,43 @@ import {
   MOD_LEFT,
   MOD_RIGHT,
   MOD_SFT,
+  SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeOption } from './CustomKey';
-import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {
   value: Key;
   layerCount: number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (composition: IComposition) => void;
+  onChange: (opt: KeycodeOption) => void;
 };
 
 type OwnState = {
   holdKey: KeycodeOption | null;
   tapKey: KeycodeOption | null;
-  tapLabel: 'Keycode' | 'Layer';
   selectedLayer: number;
+  tapKeycodeOptions: KeycodeOption[];
 };
 
-export default class DualFunctionsKey extends React.Component<
-  OwnProps,
-  OwnState
-> {
-  private basicKeycodeOptions: IKeymap[];
-  private dualFunctionalKeyOptions: KeycodeOption[];
+export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
+  private holdKeyOptions: KeycodeOption[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
+
     this.state = {
       holdKey: null,
       tapKey: null,
-      tapLabel: 'Keycode',
       selectedLayer: NaN,
+      tapKeycodeOptions: [
+        ...KeycodeList.basicKeymaps,
+        ...genLayerNumberOptions(this.props.layerCount),
+      ],
     };
-    this.basicKeycodeOptions = KeycodeList.basicKeymaps;
-    this.dualFunctionalKeyOptions = [
+
+    this.holdKeyOptions = [
       ...Object.keys(holdKeys).map((hold) =>
         genHoldMod(hold, holdKeys[hold], MOD_LEFT)
       ),
@@ -64,43 +62,74 @@ export default class DualFunctionsKey extends React.Component<
     ];
   }
 
-  get enableLayerSelect(): boolean {
-    return this.state.holdKey?.categories[0] == 'Hold-Layer';
+  get tapKeycodeOptions(): KeycodeOption[] {
+    const holdKey: KeycodeOption | null = this.state.holdKey;
+    if (holdKey == null) {
+      return [];
+    }
+    const category = holdKey.categories[0];
+    if (category === 'Hold-Layer' || category === 'Swap-Hands') {
+      return this.state.tapKeycodeOptions.filter((op) => {
+        return op.categories[0] != 'Layer-Mod';
+      });
+    }
+
+    return this.state.tapKeycodeOptions;
   }
 
   private emitOnChange(holdKey: KeycodeOption, tapKey: KeycodeOption) {
-    let comp: IComposition | null = null;
-    console.log('emitOnChange');
-    if (holdKey.categories.includes('Hold-Layer')) {
+    let comp:
+      | ModTapComposition
+      | LayerModComposition
+      | LayerTapComposition
+      | SwapHandsComposition
+      | null = null;
+    const category = holdKey.categories[0];
+    let opt: KeycodeOption;
+    if (category === 'Hold-Layer') {
       comp = new LayerTapComposition(holdKey.option as number, tapKey);
-    } else if (holdKey.categories.includes('Hold-Mod')) {
-      comp = new ModTapComposition(
-        holdKey.direction!,
-        holdKey.option! as IMod[],
-        tapKey
+      opt = comp.getKey();
+    } else if (category === 'Hold-Mod') {
+      if (tapKey.categories[0] === 'Layer-Mod') {
+        comp = new LayerModComposition(
+          tapKey.option as number,
+          holdKey.option as IMod[]
+        );
+        opt = { ...holdKey, code: comp.getCode(), option: comp.getLayer() };
+      } else {
+        comp = new ModTapComposition(
+          holdKey.direction!,
+          holdKey.option! as IMod[],
+          tapKey
+        );
+        opt = comp.getKey();
+      }
+    } else if (category === 'Swap-Hands') {
+      comp = new SwapHandsComposition(tapKey);
+      opt = comp.getKey();
+    } else {
+      throw new Error(
+        `NOT TO BE HERE. holdKey.category:${category}, tapKey.category: ${tapKey.categories}`
       );
-    } else if (holdKey.categories.includes('Swap-Hands')) {
-      // TODO
     }
 
-    if (comp) {
-      this.props.onChange(comp);
-    }
+    this.props.onChange(opt);
   }
 
   private onChangeHoldKey(holdKey: KeycodeOption | null) {
-    if (holdKey == null) {
+    if (holdKey === null) {
       this.setState({ holdKey: null, tapKey: null });
       return;
     }
     // if same type of the HOLD, use its keycode/layer
-    if (this.state.holdKey?.categories[0] == holdKey.categories[0]) {
+    if (this.state.holdKey?.categories[0] === holdKey.categories[0]) {
       if (this.state.tapKey != null) {
         this.emitOnChange(holdKey, this.state.tapKey);
       }
     } else {
       this.setState({ tapKey: null });
     }
+    console.log(holdKey);
     this.setState({ holdKey });
   }
 
@@ -112,79 +141,35 @@ export default class DualFunctionsKey extends React.Component<
     }
   }
 
-  private onChangeLayer(selectedLayer: number) {
-    if (this.state.holdKey == null) {
-      // NOT TO BE HERE
-      return;
-    }
-
-    this.setState({ selectedLayer });
-    const comp = new LayerModComposition(
-      selectedLayer,
-      this.state.holdKey.option! as IMod[]
-    );
-    this.props.onChange(comp);
-  }
-
   render() {
     return (
       <React.Fragment>
         <AutocompleteKeys
           label="Hold"
           showCategory={false}
-          keycodeOptions={this.dualFunctionalKeyOptions}
+          keycodeOptions={this.holdKeyOptions}
           keycodeInfo={this.state.holdKey}
           onChange={(opt) => {
             this.onChangeHoldKey(opt);
           }}
         />
         <div className="holdkey-desc">{this.state.holdKey?.desc || ''}</div>
-        {this.enableLayerSelect ? (
-          <FormControl
-            variant="outlined"
-            size="small"
-            style={{ width: '100%' }}
-          >
-            <InputLabel htmlFor="outlined-age-native-simple">Layer</InputLabel>
-            <Select
-              native
-              value={this.state.selectedLayer}
-              onChange={(e) => {
-                this.onChangeLayer(e.target.value as number);
-              }}
-              label="Tap(Layer)"
-              inputProps={{
-                name: 'label',
-                id: 'outlined-age-native-simple',
-              }}
-            >
-              {Array(this.props.layerCount)
-                .fill(0)
-                .map((_, i) => {
-                  return (
-                    <option key={i} value={i}>
-                      {i}
-                    </option>
-                  );
-                })}
-            </Select>
-          </FormControl>
-        ) : (
-          <AutocompleteKeys
-            disabled={this.state.holdKey == null}
-            label="Tap(Keycode)"
-            keycodeOptions={this.basicKeycodeOptions}
-            keycodeInfo={this.state.tapKey}
-            onChange={(opt) => {
-              this.onChangeTapKey(opt);
-            }}
-          />
-        )}
+
+        <AutocompleteKeys
+          disabled={this.state.holdKey == null}
+          label="Tap"
+          keycodeOptions={this.tapKeycodeOptions}
+          keycodeInfo={this.state.tapKey}
+          onChange={(opt) => {
+            this.onChangeTapKey(opt);
+          }}
+        />
       </React.Fragment>
     );
   }
 }
 
+const NO_KEYCODE = -1;
 const DIRECTION = ['Left', 'Right'];
 const genHoldMod = (
   hold: string,
@@ -192,10 +177,10 @@ const genHoldMod = (
   direction: IModDirection
 ): KeycodeOption => {
   return {
-    code: 0,
+    code: NO_KEYCODE,
     isAny: false,
     keycodeInfo: {
-      code: 0,
+      code: NO_KEYCODE,
       label: `(${DIRECTION[direction]}) ${hold}`,
       name: { short: '', long: '' },
     },
@@ -206,21 +191,22 @@ const genHoldMod = (
   };
 };
 
-const genHoldLayers = (layer: number): KeycodeOption[] => {
-  return Array(layer)
+const genHoldLayers = (layerCount: number): KeycodeOption[] => {
+  return Array(layerCount)
     .fill(0)
     .map((_, index) => {
+      const label = `Layer(${index})`;
       return {
-        code: 0,
+        code: NO_KEYCODE,
         isAny: false,
         keycodeInfo: {
-          code: 0,
-          label: `Layer(${index})`,
+          code: NO_KEYCODE,
+          label: label,
           name: { short: '', long: '' },
         },
         categories: ['Hold-Layer'],
-        desc: '',
-        option: -1,
+        desc: `Momentarily activates Layer(${index}) when held, and sends keycode when tapped.`,
+        option: index,
       };
     });
 };
@@ -244,14 +230,34 @@ const holdKeys: { [key: string]: IMod[] } = {
 };
 
 const swapHandsKeyOption: KeycodeOption = {
-  code: 0,
+  code: NO_KEYCODE,
   isAny: false,
   keycodeInfo: {
-    code: 0,
+    code: NO_KEYCODE,
     label: `Swap-Hands`,
     name: { short: '', long: '' },
   },
   categories: ['Swap-Hands'],
-  desc: '',
+  desc:
+    'Sends key with a tap; momentary swap when held. Depends on your keyboard whether this function is available.',
   option: -1,
+};
+
+const genLayerNumberOptions = (layerCount: number): KeycodeOption[] => {
+  return Array(layerCount)
+    .fill(0)
+    .map((_, index) => {
+      return {
+        code: NO_KEYCODE,
+        isAny: false,
+        keycodeInfo: {
+          code: NO_KEYCODE,
+          label: `Layer(${index})`,
+          name: { short: '', long: '' },
+        },
+        categories: ['Layer-Mod'],
+        desc: '',
+        option: index,
+      };
+    });
 };

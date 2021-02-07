@@ -16,7 +16,6 @@ type OwnProps = {
 };
 
 type OwnState = {
-  value: KeycodeOption | null;
   inputValue: string;
 };
 
@@ -27,13 +26,11 @@ export default class AutocompleteKeys extends React.Component<
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
-      value: this.props.keycodeInfo,
       inputValue: '',
     };
   }
 
   private updateValue(value: KeycodeOption | null) {
-    this.setState({ value });
     this.props.onChange(value);
   }
 
@@ -49,7 +46,7 @@ export default class AutocompleteKeys extends React.Component<
         freeSolo
         size="small"
         options={this.props.keycodeOptions}
-        value={this.state.value}
+        value={this.props.keycodeInfo}
         onChange={(event: any, newValue: string | KeycodeOption | null) => {
           this.updateValue(newValue as KeycodeOption);
         }}

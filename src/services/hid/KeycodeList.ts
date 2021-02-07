@@ -18,22 +18,30 @@ import { keycodesNumber } from './assets/KeycodesNumber';
 import { keycodesSpecial } from './assets/KeycodesSpecial';
 export type KeymapCategory =
   | 'Basic'
+  | 'Def-Layer'
   | 'F'
-  | 'Func'
+  | 'Function'
   | 'Layers'
   | 'Hold-Layer'
+  | 'Layer-Mod'
+  | 'Layer-Tap-Toggle'
   | 'Letter'
   | 'Lighting'
+  | 'Loose'
   | 'Lock'
   | 'Macro'
   | 'Media'
   | 'Hold-Mod'
   | 'Modifier'
+  | 'Momentary-Layer'
   | 'Number'
+  | 'One-Shot-Layer'
+  | 'One-Shot-Mod'
   | 'Punctuation'
   | 'Spacing'
   | 'Special'
-  | 'Swap-Hands';
+  | 'Swap-Hands'
+  | 'To';
 
 export class KeycodeList {
   private static _basicKeymaps: IKeymap[];

@@ -8,6 +8,16 @@ import {
   Radio,
   RadioGroup,
 } from '@material-ui/core';
+import {
+  IMod,
+  IModDirection,
+  MOD_ALT,
+  MOD_CTL,
+  MOD_GUI,
+  MOD_LEFT,
+  MOD_RIGHT,
+  MOD_SFT,
+} from '../../../services/hid/Composition';
 
 type OwnProps = {
   code: number;
@@ -24,6 +34,24 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
     this.state = {};
   }
 
+  static decode(code: number): { direction: IModDirection; mods: IMod[] } {
+    const direction: IModDirection =
+      0 < (code & 0b1_0000) ? MOD_RIGHT : MOD_LEFT;
+    const mods: IMod[] = [];
+    if (code & 0b0001) {
+      mods.push(MOD_CTL);
+    }
+    if (code & 0b0010) {
+      mods.push(MOD_SFT);
+    }
+    if (code & 0b0100) {
+      mods.push(MOD_ALT);
+    }
+    if (code & 0b1000) {
+      mods.push(MOD_GUI);
+    }
+    return { direction, mods };
+  }
   private updateRadioState(value: string) {
     this.setState({ direction: value as '0' | '1' });
     let code = this.props.code & 0b1111;
