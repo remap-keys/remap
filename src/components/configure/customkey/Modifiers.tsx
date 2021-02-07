@@ -20,10 +20,11 @@ import {
 } from '../../../services/hid/Composition';
 
 type OwnProps = {
-  code: number;
+  mods: IMod[];
+  direction: IModDirection;
   disabled?: boolean;
   // eslint-disable-next-line no-unused-vars
-  onChange: (code: number) => void;
+  onChange: (direction: IModDirection, mods: IMod[]) => void;
 };
 
 type OwnState = {};
@@ -52,47 +53,62 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
     }
     return { direction, mods };
   }
-  private updateRadioState(value: string) {
-    this.setState({ direction: value as '0' | '1' });
-    let code = this.props.code & 0b1111;
-    const right = value == '1';
-    if (right) {
-      code = code | 0b1_0000;
-    }
 
-    this.props.onChange(code);
+  private emitOnChange(direction: IModDirection, mods: IMod[]) {
+    this.props.onChange(direction, mods);
+  }
+
+  private updateRadioState(value: string) {
+    const direction = value == '1' ? MOD_RIGHT : MOD_LEFT;
+    this.emitOnChange(direction, this.props.mods);
   }
 
   private updateCheckboxState(
     type: 'shift' | 'ctrl' | 'alt' | 'gui',
     checked: boolean
   ) {
-    let code = this.props.code;
+    let mods: IMod[] = [...this.props.mods];
     switch (type) {
       case 'ctrl':
-        code = (code & 0b1_1110) | (checked ? 0b0_0001 : 0b0_0000);
+        if (checked) {
+          mods.push(MOD_CTL);
+        } else {
+          mods = mods.filter((item) => item != MOD_CTL);
+        }
         break;
       case 'shift':
-        code = (code & 0b1_1101) | (checked ? 0b0_0010 : 0b0_0000);
+        if (checked) {
+          mods.push(MOD_SFT);
+        } else {
+          mods = mods.filter((item) => item != MOD_SFT);
+        }
         break;
       case 'alt':
-        code = (code & 0b1_1011) | (checked ? 0b0_0100 : 0b0_0000);
+        if (checked) {
+          mods.push(MOD_ALT);
+        } else {
+          mods = mods.filter((item) => item != MOD_ALT);
+        }
         break;
       case 'gui':
-        code = (code & 0b1_0111) | (checked ? 0b0_1000 : 0b0_0000);
+        if (checked) {
+          mods.push(MOD_GUI);
+        } else {
+          mods = mods.filter((item) => item != MOD_GUI);
+        }
         break;
     }
 
-    this.props.onChange(code);
+    this.emitOnChange(this.props.direction, mods);
   }
 
   render() {
-    const code = this.props.code;
-    const ctrl = 0 < (code & 0b0001);
-    const shift = 0 < (code & 0b0010);
-    const alt = 0 < (code & 0b0100);
-    const gui = 0 < (code & 0b1000);
-    const direction = 0 < (code & 0b1_0000) ? '1' : '0';
+    const mods = this.props.mods;
+    const ctrl = mods.includes(MOD_CTL);
+    const shift = mods.includes(MOD_SFT);
+    const alt = mods.includes(MOD_ALT);
+    const gui = mods.includes(MOD_GUI);
+    const direction = '' + this.props.direction;
     return (
       <React.Fragment>
         <div
@@ -176,3 +192,20 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
     );
   }
 }
+
+export const buildModCode = (mods: IMod[]): number => {
+  let code = 0b0000;
+  if (mods.includes(MOD_CTL)) {
+    code |= 0b0001;
+  }
+  if (mods.includes(MOD_SFT)) {
+    code |= 0b0010;
+  }
+  if (mods.includes(MOD_ALT)) {
+    code |= 0b0100;
+  }
+  if (mods.includes(MOD_GUI)) {
+    code |= 0b1000;
+  }
+  return code;
+};

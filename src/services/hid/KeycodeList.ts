@@ -41,7 +41,8 @@ export type KeymapCategory =
   | 'Spacing'
   | 'Special'
   | 'Swap-Hands'
-  | 'To';
+  | 'To'
+  | 'Toggle-Layer';
 
 export class KeycodeList {
   private static _basicKeymaps: IKeymap[];

@@ -2,7 +2,6 @@
 import React from 'react';
 import './HoldTapKey.scss';
 import {
-  IComposition,
   IMod,
   IModDirection,
   LayerModComposition,
@@ -16,22 +15,20 @@ import {
   MOD_SFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
-import { Key } from '../keycodekey/KeycodeKey.container';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeOption } from './CustomKey';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
+import { buildModCode } from './Modifiers';
 
 type OwnProps = {
-  value: Key;
+  holdKey: KeycodeOption | null;
+  tapKey: KeycodeOption | null;
   layerCount: number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (opt: KeycodeOption) => void;
+  onChange: (hold: KeycodeOption | null, tap: KeycodeOption | null) => void;
 };
 
 type OwnState = {
-  holdKey: KeycodeOption | null;
-  tapKey: KeycodeOption | null;
-  selectedLayer: number;
   tapKeycodeOptions: KeycodeOption[];
 };
 
@@ -41,29 +38,18 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     super(props);
 
     this.state = {
-      holdKey: null,
-      tapKey: null,
-      selectedLayer: NaN,
-      tapKeycodeOptions: [
-        ...KeycodeList.basicKeymaps,
-        ...genLayerNumberOptions(this.props.layerCount),
-      ],
+      tapKeycodeOptions: [...KeycodeList.basicKeymaps],
     };
 
     this.holdKeyOptions = [
-      ...Object.keys(holdKeys).map((hold) =>
-        genHoldMod(hold, holdKeys[hold], MOD_LEFT)
-      ),
-      ...Object.keys(holdKeys).map((hold) =>
-        genHoldMod(hold, holdKeys[hold], MOD_RIGHT)
-      ),
+      ...holdModKeys,
       ...genHoldLayers(this.props.layerCount),
       swapHandsKeyOption,
     ];
   }
 
   get tapKeycodeOptions(): KeycodeOption[] {
-    const holdKey: KeycodeOption | null = this.state.holdKey;
+    const holdKey: KeycodeOption | null = this.props.holdKey;
     if (holdKey == null) {
       return [];
     }
@@ -77,67 +63,35 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     return this.state.tapKeycodeOptions;
   }
 
-  private emitOnChange(holdKey: KeycodeOption, tapKey: KeycodeOption) {
-    let comp:
-      | ModTapComposition
-      | LayerModComposition
-      | LayerTapComposition
-      | SwapHandsComposition
-      | null = null;
-    const category = holdKey.categories[0];
-    let opt: KeycodeOption;
-    if (category === 'Hold-Layer') {
-      comp = new LayerTapComposition(holdKey.option as number, tapKey);
-      opt = comp.getKey();
-    } else if (category === 'Hold-Mod') {
-      if (tapKey.categories[0] === 'Layer-Mod') {
-        comp = new LayerModComposition(
-          tapKey.option as number,
-          holdKey.option as IMod[]
-        );
-        opt = { ...holdKey, code: comp.getCode(), option: comp.getLayer() };
-      } else {
-        comp = new ModTapComposition(
-          holdKey.direction!,
-          holdKey.option! as IMod[],
-          tapKey
-        );
-        opt = comp.getKey();
-      }
-    } else if (category === 'Swap-Hands') {
-      comp = new SwapHandsComposition(tapKey);
-      opt = comp.getKey();
-    } else {
-      throw new Error(
-        `NOT TO BE HERE. holdKey.category:${category}, tapKey.category: ${tapKey.categories}`
-      );
+  private emitOnChange(
+    holdKey: KeycodeOption | null,
+    tapKey: KeycodeOption | null
+  ) {
+    if (holdKey === null || tapKey === null) {
+      this.props.onChange(null, null);
+      return;
     }
 
-    this.props.onChange(opt);
+    this.props.onChange(holdKey, tapKey);
   }
 
   private onChangeHoldKey(holdKey: KeycodeOption | null) {
     if (holdKey === null) {
-      this.setState({ holdKey: null, tapKey: null });
+      this.emitOnChange(null, null);
       return;
     }
     // if same type of the HOLD, use its keycode/layer
-    if (this.state.holdKey?.categories[0] === holdKey.categories[0]) {
-      if (this.state.tapKey != null) {
-        this.emitOnChange(holdKey, this.state.tapKey);
-      }
+    if (this.props.holdKey?.categories[0] === holdKey.categories[0]) {
+      this.emitOnChange(holdKey, this.props.tapKey);
     } else {
-      this.setState({ tapKey: null });
+      this.emitOnChange(holdKey, null);
     }
-    console.log(holdKey);
-    this.setState({ holdKey });
   }
 
   private onChangeTapKey(tapKey: KeycodeOption | null) {
-    this.setState({ tapKey });
     console.log(tapKey);
     if (tapKey) {
-      this.emitOnChange(this.state.holdKey!, tapKey);
+      this.emitOnChange(this.props.holdKey!, tapKey);
     }
   }
 
@@ -148,18 +102,18 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
           label="Hold"
           showCategory={false}
           keycodeOptions={this.holdKeyOptions}
-          keycodeInfo={this.state.holdKey}
+          keycodeInfo={this.props.holdKey}
           onChange={(opt) => {
             this.onChangeHoldKey(opt);
           }}
         />
-        <div className="holdkey-desc">{this.state.holdKey?.desc || ''}</div>
+        <div className="holdkey-desc">{this.props.holdKey?.desc || ''}</div>
 
         <AutocompleteKeys
-          disabled={this.state.holdKey == null}
+          disabled={this.props.holdKey == null}
           label="Tap"
           keycodeOptions={this.tapKeycodeOptions}
-          keycodeInfo={this.state.tapKey}
+          keycodeInfo={this.props.tapKey}
           onChange={(opt) => {
             this.onChangeTapKey(opt);
           }}
@@ -202,13 +156,21 @@ const genHoldLayers = (layerCount: number): KeycodeOption[] => {
         keycodeInfo: {
           code: NO_KEYCODE,
           label: label,
-          name: { short: '', long: '' },
+          name: { short: `LT(${index})`, long: `LT(${index})` },
         },
         categories: ['Hold-Layer'],
         desc: `Momentarily activates Layer(${index}) when held, and sends keycode when tapped.`,
         option: index,
       };
     });
+};
+
+export const findHoldLayer = (
+  layer: number,
+  layerCount: number
+): KeycodeOption => {
+  const list = genHoldLayers(layerCount);
+  return list.find((item) => item.option === layer)!;
 };
 
 const holdKeys: { [key: string]: IMod[] } = {
@@ -229,7 +191,30 @@ const holdKeys: { [key: string]: IMod[] } = {
   'Ctrl+Shift+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
 };
 
-const swapHandsKeyOption: KeycodeOption = {
+const holdLeftModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
+  genHoldMod(hold, holdKeys[hold], MOD_LEFT)
+);
+
+const holdRightModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
+  genHoldMod(hold, holdKeys[hold], MOD_RIGHT)
+);
+
+const holdModKeys: KeycodeOption[] = [...holdLeftModKeys, ...holdRightModKeys];
+
+export const findHoldModKey = (
+  mods: IMod[],
+  direction: IModDirection
+): KeycodeOption => {
+  return holdModKeys.find((item) => {
+    const modCode = buildModCode(mods);
+    return (
+      item.direction === direction &&
+      buildModCode(item.option as IMod[]) === modCode
+    );
+  })!;
+};
+
+export const swapHandsKeyOption: KeycodeOption = {
   code: NO_KEYCODE,
   isAny: false,
   keycodeInfo: {
@@ -241,23 +226,4 @@ const swapHandsKeyOption: KeycodeOption = {
   desc:
     'Sends key with a tap; momentary swap when held. Depends on your keyboard whether this function is available.',
   option: -1,
-};
-
-const genLayerNumberOptions = (layerCount: number): KeycodeOption[] => {
-  return Array(layerCount)
-    .fill(0)
-    .map((_, index) => {
-      return {
-        code: NO_KEYCODE,
-        isAny: false,
-        keycodeInfo: {
-          code: NO_KEYCODE,
-          label: `Layer(${index})`,
-          name: { short: '', long: '' },
-        },
-        categories: ['Layer-Mod'],
-        desc: '',
-        option: index,
-      };
-    });
 };
