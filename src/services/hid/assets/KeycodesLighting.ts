@@ -1,6 +1,6 @@
 import { IKeycodeCategoryInfo } from '../Hid';
 
-export const keycodesLighing: IKeycodeCategoryInfo = {
+export const keycodesLighting: IKeycodeCategoryInfo = {
   categories: ['Lighting'],
   codes: [
     23743,

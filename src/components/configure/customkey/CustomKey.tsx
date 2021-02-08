@@ -46,11 +46,11 @@ type OwnState = {
   selectedTabIndex: number;
 
   // Keys TAB
-  value: KeycodeOption | null; // Keys
+  value: IKeymap | null; // Keys
 
   // 2 FUNCS TAB
-  holdKey: KeycodeOption | null;
-  tapKey: KeycodeOption | null;
+  holdKey: IKeymap | null;
+  tapKey: IKeymap | null;
 
   // Custom TAB
   label: string;
@@ -82,7 +82,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
 
   private onEnter() {
     //TODO: initialize input status
-    const keymap: KeycodeOption = this.props.value.keymap;
+    const keymap: IKeymap = this.props.value.keymap;
     this.setState({
       value: this.props.value.keymap,
       label: this.props.value.keymap.keycodeInfo!.label,
@@ -91,7 +91,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   private emitKeyChange(args: {
-    value?: KeycodeOption;
+    value?: IKeymap;
     label?: string;
     code?: number;
   }) {
@@ -123,14 +123,14 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   private fromHex(hex: number) {
     const layerCount = this.props.layerCount;
     const factory = new KeycodeCompositionFactory(hex);
-    const setKeysState = (value: KeycodeOption) => {
+    const setKeysState = (value: IKeymap) => {
       this.setState({
         value: value,
         holdKey: null,
         tapKey: null,
       });
     };
-    const setHoldTapState = (hold: KeycodeOption, tap: KeycodeOption) => {
+    const setHoldTapState = (hold: IKeymap, tap: IKeymap) => {
       this.setState({
         value: null,
         holdKey: hold,
@@ -143,7 +143,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       setKeysState(opt);
     } else if (factory.isMods()) {
       const comp = factory.createModsComposition();
-      const opt: KeycodeOption = {
+      const opt: IKeymap = {
         ...comp.getKey(),
         modifiers: comp.getModifiers(),
         direction: comp.getModDirection(),
@@ -250,7 +250,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     }
   }
 
-  private onChangeKeys(value: KeycodeOption | null) {
+  private onChangeKeys(value: IKeymap | null) {
     if (value == null) {
       this.setState({ value: value, label: '', hexCode: '' });
       return;
@@ -266,10 +266,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.emitKeyChange({ value, label });
   }
 
-  private onChangeHoldTap(
-    holdKey: KeycodeOption | null,
-    tapKey: KeycodeOption | null
-  ) {
+  private onChangeHoldTap(holdKey: IKeymap | null, tapKey: IKeymap | null) {
     this.setState({ holdKey, tapKey });
     if (holdKey === null || tapKey === null) {
       this.setState({ label: '', hexCode: '' });
@@ -301,18 +298,14 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     const code = comp.getCode();
     const hexCode: string = Number(code).toString(16);
     this.setState({ label, hexCode });
-    const value: KeycodeOption = {
+    const value: IKeymap = {
       code: code,
       isAny: false,
       categories: holdKey.categories,
       modifiers: holdKey.modifiers,
       direction: holdKey.direction,
       option: holdKey.option,
-      keycodeInfo: {
-        code: code,
-        label: label,
-        name: tapKey.keycodeInfo!.name,
-      },
+      keycodeInfo: tapKey.keycodeInfo!,
     };
     this.emitKeyChange({ value });
   }
@@ -379,7 +372,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               value={this.state.value}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
-              onChangeKey={(opt: KeycodeOption) => {
+              onChangeKey={(opt: IKeymap) => {
                 this.onChangeKeys(opt);
               }}
             />
@@ -465,10 +458,3 @@ function a11yProps(index: any) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
-export type KeycodeOption = IKeymap & {
-  desc?: string;
-  modifiers?: IMod[]; // Modifiers, layer
-  option?: number; // layer, functionID, SwapHand-code
-  direction?: IModDirection;
-};

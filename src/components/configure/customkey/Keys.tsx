@@ -35,21 +35,21 @@ import {
 
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AutocompleteKeys from './AutocompleteKeys';
-import { KeycodeOption } from './CustomKey';
 import Modifiers, { buildModCode } from './Modifiers';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type OwnProps = {
-  value: KeycodeOption | null; // Keys
+  value: IKeymap | null; // Keys
   layerCount: number;
   hexCode: string;
   onChangeKey: (
     // eslint-disable-next-line no-unused-vars
-    opt: KeycodeOption
+    opt: IKeymap
   ) => void;
 };
 type OwnState = {};
 export default class Keys extends React.Component<OwnProps, OwnState> {
-  private basicKeymaps: KeycodeOption[];
+  private basicKeymaps: IKeymap[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {};
@@ -104,11 +104,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
     return factory.isLayerMod();
   }
 
-  private emitOnChange(
-    opt: KeycodeOption,
-    direction: IModDirection,
-    mods: IMod[]
-  ) {
+  private emitOnChange(opt: IKeymap, direction: IModDirection, mods: IMod[]) {
     let comp:
       | BasicComposition
       | DefLayerComposition
@@ -174,12 +170,10 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
 
     const code: number = comp.getCode();
     opt.code = code;
-    opt.keycodeInfo!.code = code;
-
     this.props.onChangeKey(opt);
   }
 
-  private onChangeKeycode(opt: KeycodeOption | null) {
+  private onChangeKeycode(opt: IKeymap | null) {
     if (opt === null) return;
 
     const direction =
@@ -218,7 +212,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
 }
 
 const NO_KEYCODE = -1;
-const genFunctions = (): KeycodeOption[] => {
+const genFunctions = (): IKeymap[] => {
   return Array(32)
     .fill(0)
     .map((_, index) => {
@@ -238,12 +232,12 @@ const genFunctions = (): KeycodeOption[] => {
     });
 };
 
-export const findFunctionKeycode = (functionId: number): KeycodeOption => {
+export const findFunctionKeymap = (functionId: number): IKeymap => {
   const list = genFunctions();
   return list.find((item) => item.option === functionId)!;
 };
 
-const genTos = (layerCount: number): KeycodeOption[] => {
+const genTos = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -263,15 +257,12 @@ const genTos = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findToKeycode = (
-  layer: number,
-  layerCount: number
-): KeycodeOption => {
+export const findToKeymap = (layer: number, layerCount: number): IKeymap => {
   const list = genTos(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genLayerMods = (layerCount: number): KeycodeOption[] => {
+const genLayerMods = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -291,15 +282,15 @@ const genLayerMods = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findLayerMod = (
+export const findLayerModKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genLayerMods(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genMomentaryLayers = (layerCount: number): KeycodeOption[] => {
+const genMomentaryLayers = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -319,15 +310,15 @@ const genMomentaryLayers = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findMomentaryLayers = (
+export const findMomentaryLayerKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genMomentaryLayers(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genDefLayers = (layerCount: number): KeycodeOption[] => {
+const genDefLayers = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -347,15 +338,15 @@ const genDefLayers = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findDefLayers = (
+export const findDefLayerKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genDefLayers(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genLayerTapToggles = (layerCount: number): KeycodeOption[] => {
+const genLayerTapToggles = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -375,15 +366,15 @@ const genLayerTapToggles = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findLayerTapToggle = (
+export const findLayerTapToggleKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genLayerTapToggles(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genToggleLayers = (layerCount: number): KeycodeOption[] => {
+const genToggleLayers = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -403,15 +394,15 @@ const genToggleLayers = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findToggleLayer = (
+export const findToggleLayerKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genToggleLayers(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genOneShotLayers = (layerCount: number): KeycodeOption[] => {
+const genOneShotLayers = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -431,15 +422,15 @@ const genOneShotLayers = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findOneShotLayers = (
+export const findOneShotLayerKeymap = (
   layer: number,
   layerCount: number
-): KeycodeOption => {
+): IKeymap => {
   const list = genOneShotLayers(layerCount);
   return list.find((item) => item.option === layer)!;
 };
 
-const genOneShotMods = (): KeycodeOption[] => {
+const genOneShotMods = (): IKeymap[] => {
   const DIRECTION = ['Left', 'Right'];
   const holdKeys: { [key: string]: IMod[] } = {
     Ctrl: [MOD_CTL],
@@ -463,7 +454,7 @@ const genOneShotMods = (): KeycodeOption[] => {
     hold: string,
     direction: IModDirection,
     mods: IMod[]
-  ): KeycodeOption => {
+  ): IKeymap => {
     return {
       code: NO_KEYCODE,
       isAny: false,
@@ -489,10 +480,10 @@ const genOneShotMods = (): KeycodeOption[] => {
   return [...left, ...right];
 };
 
-export const findOneShotMod = (
+export const findOneShotModKeymap = (
   mods: IMod[],
   direction: IModDirection
-): KeycodeOption => {
+): IKeymap => {
   const modsCode = buildModCode(mods);
   const list = genOneShotMods();
   return list.find((item) => {
@@ -556,7 +547,7 @@ const looseList: LooseType[] = [
     desc: 'Toggle Alt and Win/Cmd swap on both sides.',
   },
 ];
-const looseKeys: KeycodeOption[] = looseList.map((item: LooseType) => {
+const looseKeys: IKeymap[] = looseList.map((item: LooseType) => {
   return {
     code: item.code,
     isAny: false,
@@ -570,7 +561,7 @@ const looseKeys: KeycodeOption[] = looseList.map((item: LooseType) => {
   };
 });
 
-const swapHandsKeys: KeycodeOption[] = [
+const swapHandsKeys: IKeymap[] = [
   {
     option: OP_SH_TOGGLE,
     label: 'SH_TG',
@@ -623,9 +614,9 @@ const swapHandsKeys: KeycodeOption[] = [
   };
 });
 
-export const findSwapHandsOption = (
+export const findSwapHandsOptionKeymap = (
   option: ISwapHandsOption
-): KeycodeOption => {
+): IKeymap => {
   const list = swapHandsKeys;
   return list.find((item) => {
     return item.option === option;

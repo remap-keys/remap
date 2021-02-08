@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import { IKeycodeCompositionFactory } from './Composition';
+import { IKeycodeCompositionFactory, IMod, IModDirection } from './Composition';
 import { KeymapCategory } from './KeycodeList';
 
 export interface IResult {
@@ -59,7 +59,11 @@ export interface IKeymap {
   isAny: boolean;
   code: number;
   categories: KeymapCategory[];
-  keycodeInfo?: IKeycodeInfo;
+  direction?: IModDirection;
+  modifiers?: IMod[]; // Modifiers, layer
+  option?: number; // layer, functionID, SwapHand-code
+  desc?: string;
+  keycodeInfo?: IKeycodeInfo; // just kc
 }
 
 export type IKeymaps = {

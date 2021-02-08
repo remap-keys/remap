@@ -12,24 +12,24 @@ import {
   MOD_SFT,
 } from '../../../services/hid/Composition';
 import AutocompleteKeys from './AutocompleteKeys';
-import { KeycodeOption } from './CustomKey';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModCode } from './Modifiers';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type OwnProps = {
-  holdKey: KeycodeOption | null;
-  tapKey: KeycodeOption | null;
+  holdKey: IKeymap | null;
+  tapKey: IKeymap | null;
   layerCount: number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (hold: KeycodeOption | null, tap: KeycodeOption | null) => void;
+  onChange: (hold: IKeymap | null, tap: IKeymap | null) => void;
 };
 
 type OwnState = {
-  tapKeycodeOptions: KeycodeOption[];
+  tapKeycodeOptions: IKeymap[];
 };
 
 export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
-  private holdKeyOptions: KeycodeOption[];
+  private holdKeyOptions: IKeymap[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
 
@@ -44,8 +44,8 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     ];
   }
 
-  get tapKeycodeOptions(): KeycodeOption[] {
-    const holdKey: KeycodeOption | null = this.props.holdKey;
+  get tapKeycodeOptions(): IKeymap[] {
+    const holdKey: IKeymap | null = this.props.holdKey;
     if (holdKey == null) {
       return [];
     }
@@ -59,10 +59,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     return this.state.tapKeycodeOptions;
   }
 
-  private emitOnChange(
-    holdKey: KeycodeOption | null,
-    tapKey: KeycodeOption | null
-  ) {
+  private emitOnChange(holdKey: IKeymap | null, tapKey: IKeymap | null) {
     if (holdKey === null) {
       this.props.onChange(null, null);
       return;
@@ -71,7 +68,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     this.props.onChange(holdKey, tapKey);
   }
 
-  private onChangeHoldKey(holdKey: KeycodeOption | null) {
+  private onChangeHoldKey(holdKey: IKeymap | null) {
     if (holdKey === null) {
       this.emitOnChange(null, null);
       return;
@@ -84,7 +81,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     }
   }
 
-  private onChangeTapKey(tapKey: KeycodeOption | null) {
+  private onChangeTapKey(tapKey: IKeymap | null) {
     if (tapKey) {
       this.emitOnChange(this.props.holdKey!, tapKey);
     }
@@ -124,7 +121,7 @@ const genModTap = (
   hold: string,
   mods: IMod[],
   direction: IModDirection
-): KeycodeOption => {
+): IKeymap => {
   return {
     code: NO_KEYCODE,
     isAny: false,
@@ -140,7 +137,7 @@ const genModTap = (
   };
 };
 
-const genHoldLayers = (layerCount: number): KeycodeOption[] => {
+const genHoldLayers = (layerCount: number): IKeymap[] => {
   return Array(layerCount)
     .fill(0)
     .map((_, index) => {
@@ -160,10 +157,7 @@ const genHoldLayers = (layerCount: number): KeycodeOption[] => {
     });
 };
 
-export const findHoldLayer = (
-  layer: number,
-  layerCount: number
-): KeycodeOption => {
+export const findHoldLayer = (layer: number, layerCount: number): IKeymap => {
   const list = genHoldLayers(layerCount);
   return list.find((item) => item.option === layer)!;
 };
@@ -186,20 +180,20 @@ const holdKeys: { [key: string]: IMod[] } = {
   'Ctrl+Shift+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
 };
 
-const holdLeftModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
+const holdLeftModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) =>
   genModTap(hold, holdKeys[hold], MOD_LEFT)
 );
 
-const holdRightModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
+const holdRightModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) =>
   genModTap(hold, holdKeys[hold], MOD_RIGHT)
 );
 
-const modTapKeys: KeycodeOption[] = [...holdLeftModKeys, ...holdRightModKeys];
+const modTapKeys: IKeymap[] = [...holdLeftModKeys, ...holdRightModKeys];
 
 export const findModTapKey = (
   mods: IMod[],
   direction: IModDirection
-): KeycodeOption => {
+): IKeymap => {
   return modTapKeys.find((item) => {
     const modCode = buildModCode(mods);
     return (
@@ -208,7 +202,7 @@ export const findModTapKey = (
   })!;
 };
 
-export const swapHandsKeyOption: KeycodeOption = {
+export const swapHandsKeyOption: IKeymap = {
   code: NO_KEYCODE,
   isAny: false,
   keycodeInfo: {
