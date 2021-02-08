@@ -9,6 +9,7 @@ import {
   keycodesBasicPunctuation,
   keycodesBasicSpacing,
   keycodesBasicAll,
+  keycodesBasicFunc,
 } from './assets/KeycodesBasic';
 import { keycodesLayers } from './assets/KeycodesLayers';
 import { keycodesLighing } from './assets/KeycodesLighting';
@@ -20,6 +21,7 @@ export type KeymapCategory =
   | 'Basic'
   | 'Def-Layer'
   | 'F'
+  | 'Func'
   | 'Function'
   | 'Layers'
   | 'Hold-Layer'
@@ -27,11 +29,11 @@ export type KeymapCategory =
   | 'Layer-Tap-Toggle'
   | 'Letter'
   | 'Lighting'
-  | 'Loose'
+  | 'Loose-Keycode'
   | 'Lock'
   | 'Macro'
   | 'Media'
-  | 'Hold-Mod'
+  | 'Mod-Tap'
   | 'Modifier'
   | 'Momentary-Layer'
   | 'Number'
@@ -85,6 +87,7 @@ export class KeycodeList {
       keycodesBasicModifier,
       keycodesBasicLock,
       keycodesBasicF,
+      keycodesBasicFunc,
     ];
     this._basicKeymaps = [];
     list.forEach((info) => {

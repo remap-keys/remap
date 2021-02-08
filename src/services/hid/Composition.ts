@@ -1,6 +1,7 @@
 import { IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 import { KeycodeList } from './KeycodeList';
+import { keycodesBasicFunc } from './assets/KeycodesBasic';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -695,6 +696,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isBasic(): boolean {
     return this.getKind() === KeycodeCompositionKind.basic;
+  }
+
+  isBasicFunc(): boolean {
+    return keycodesBasicFunc.codes.includes(this.code);
   }
 
   isDefLayer(): boolean {

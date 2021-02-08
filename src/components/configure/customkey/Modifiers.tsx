@@ -23,6 +23,7 @@ type OwnProps = {
   mods: IMod[];
   direction: IModDirection;
   disabled?: boolean;
+  disableDirection?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (direction: IModDirection, mods: IMod[]) => void;
 };
@@ -131,13 +132,19 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
         >
           <FormControlLabel
             value="0"
-            disabled={this.props.disabled == true}
+            disabled={
+              this.props.disabled === true ||
+              this.props.disableDirection === true
+            }
             control={<Radio color="primary" />}
             label="Left"
           />
           <FormControlLabel
             value="1"
-            disabled={this.props.disabled == true}
+            disabled={
+              this.props.disabled == true ||
+              this.props.disableDirection === true
+            }
             control={<Radio color="primary" />}
             label="Right"
           />

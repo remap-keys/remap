@@ -55,7 +55,6 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
     this.state = {};
     this.basicKeymaps = [
       ...KeycodeList.basicKeymaps,
-      ...genFunctions(),
       ...genTos(this.props.layerCount),
       ...genMomentaryLayers(this.props.layerCount),
       ...genDefLayers(this.props.layerCount),
@@ -81,11 +80,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
       return [];
     }
 
-    if (typeof this.props.value.option === 'number') {
-      return [];
-    }
-
-    return this.props.value.option || [];
+    return this.props.value.modifiers || [];
   }
 
   get disabledModifiers() {
@@ -93,14 +88,20 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
       parseInt(this.props.hexCode, 16)
     );
     const flag = !(
-      factory.isBasic() ||
+      (factory.isBasic() && !factory.isBasicFunc()) ||
       factory.isMods() ||
+      factory.isLayerMod() ||
       factory.isOneShotMod()
     );
-    console.log(
-      `modifiers.disabled:${flag}, basic:${factory.isBasic()}, mod: ${factory.isMods()}, OSM: ${factory.isOneShotMod()}`
-    );
+
     return flag;
+  }
+
+  get disabledDirection() {
+    const factory = new KeycodeCompositionFactory(
+      parseInt(this.props.hexCode, 16)
+    );
+    return factory.isLayerMod();
   }
 
   private emitOnChange(
@@ -125,58 +126,68 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
 
     opt.direction = direction;
     const category = opt.categories[0];
-    if (category === 'Basic' || category === 'Modifier') {
+    if (category === 'Basic') {
       if (mods.length === 0) {
         comp = new BasicComposition(opt);
+      } else if (opt.categories.includes('Func')) {
+        // KC_FN* key is not allowed to add modifier(s)
+        opt.modifiers = [];
+        opt.direction = MOD_LEFT;
+        comp = new BasicComposition(opt);
       } else {
-        opt.option = mods;
+        opt.modifiers = mods;
         comp = new ModsComposition(direction, mods, opt);
       }
+    } else if (category === 'Modifier') {
+      opt.modifiers = mods;
+      comp = new ModsComposition(direction, mods, opt);
     } else if (category === 'Function') {
-      comp = new FunctionComposition(opt.option as number);
+      comp = new FunctionComposition(opt.option!);
     } else if (category === 'To') {
-      comp = new ToComposition(opt.option as number);
+      comp = new ToComposition(opt.option!);
     } else if (category === 'Momentary-Layer') {
-      comp = new MomentaryComposition(opt.option as number);
+      comp = new MomentaryComposition(opt.option!);
     } else if (category === 'Def-Layer') {
-      comp = new DefLayerComposition(opt.option as number);
+      comp = new DefLayerComposition(opt.option!);
     } else if (category === 'Layer-Tap-Toggle') {
-      comp = new LayerTapToggleComposition(opt.option as number);
+      comp = new LayerTapToggleComposition(opt.option!);
     } else if (category === 'One-Shot-Layer') {
-      comp = new OneShotLayerComposition(opt.option as number);
+      comp = new OneShotLayerComposition(opt.option!);
     } else if (category === 'One-Shot-Mod') {
-      opt.option = mods;
-      comp = new OneShotModComposition(opt.direction!, opt.option as IMod[]);
-    } else if (category === 'Loose') {
+      opt.modifiers = mods;
+      comp = new OneShotModComposition(opt.direction!, opt.modifiers!);
+    } else if (category === 'Loose-Keycode') {
       comp = new LooseKeycodeComposition(opt);
     } else if (category === 'Swap-Hands') {
       comp = new SwapHandsComposition(opt.option as ISwapHandsOption);
     } else if (category === 'Toggle-Layer') {
-      comp = new ToggleLayerComposition(opt.option as number);
+      comp = new ToggleLayerComposition(opt.option!);
     } else if (category === 'Layer-Mod') {
-      comp = new LayerModComposition(MOD_LEFT, mods);
+      const layer = opt.option!;
+      opt.modifiers = mods;
+      comp = new LayerModComposition(layer, mods);
     } else {
       throw new Error(
-        `NOT TO BE HERE. code: ${opt.code}, categories: ${opt.categories}, direction: ${opt.direction}, option: ${opt.option}`
+        `NOT TO BE HERE. code: ${opt.code}, categories: ${opt.categories}, direction: ${opt.direction}, modifiers: ${opt.modifiers}`
       );
     }
 
     const code: number = comp.getCode();
     opt.code = code;
     opt.keycodeInfo!.code = code;
-    console.log(opt);
+
     this.props.onChangeKey(opt);
   }
 
   private onChangeKeycode(opt: KeycodeOption | null) {
     if (opt === null) return;
 
-    console.log(opt);
-    this.emitOnChange(opt, this.direction, this.modifiers);
+    const direction =
+      opt.categories[0] === 'Layer-Mod' ? MOD_LEFT : this.direction;
+    this.emitOnChange(opt, direction, this.modifiers);
   }
 
   private onChangeModifiers(direction: IModDirection, mods: IMod[]) {
-    console.log(direction);
     this.emitOnChange(this.props.value!, direction, mods);
   }
 
@@ -194,6 +205,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
         <div className="customkey-desc">{this.props.value?.desc || ''}</div>
         <Modifiers
           disabled={this.disabledModifiers}
+          disableDirection={this.disabledDirection}
           mods={this.modifiers}
           direction={this.direction}
           onChange={(direction, mod) => {
@@ -450,7 +462,7 @@ const genOneShotMods = (): KeycodeOption[] => {
   const gen = (
     hold: string,
     direction: IModDirection,
-    option: IMod[]
+    mods: IMod[]
   ): KeycodeOption => {
     return {
       code: NO_KEYCODE,
@@ -462,7 +474,7 @@ const genOneShotMods = (): KeycodeOption[] => {
       },
       categories: ['One-Shot-Mod'],
       desc: `Momentarily activates ${hold} until the next key is pressed.`,
-      option: option,
+      modifiers: mods,
       direction: direction,
     };
   };
@@ -485,8 +497,7 @@ export const findOneShotMod = (
   const list = genOneShotMods();
   return list.find((item) => {
     return (
-      item.direction === direction &&
-      buildModCode(item.option as IMod[]) === modsCode
+      item.direction === direction && buildModCode(item.modifiers!) === modsCode
     );
   })!;
 };
@@ -554,7 +565,7 @@ const looseKeys: KeycodeOption[] = looseList.map((item: LooseType) => {
       label: item.label,
       name: { short: '', long: '' },
     },
-    categories: ['Loose'],
+    categories: ['Loose-Keycode'],
     desc: item.desc,
   };
 });

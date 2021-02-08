@@ -1,11 +1,9 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import CustomKey, { KeycodeOption } from './CustomKey';
-import { Button } from '@material-ui/core';
+import CustomKey from './CustomKey';
 import Keycap from '../keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';
-import { IKeymap } from '../../../services/hid/Hid';
 import { Key } from '../keycodekey/KeycodeKey.container';
 
 export default {

@@ -4,16 +4,12 @@ import './HoldTapKey.scss';
 import {
   IMod,
   IModDirection,
-  LayerModComposition,
-  LayerTapComposition,
-  ModTapComposition,
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
   MOD_LEFT,
   MOD_RIGHT,
   MOD_SFT,
-  SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeOption } from './CustomKey';
@@ -42,7 +38,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     };
 
     this.holdKeyOptions = [
-      ...holdModKeys,
+      ...modTapKeys,
       ...genHoldLayers(this.props.layerCount),
       swapHandsKeyOption,
     ];
@@ -67,7 +63,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     holdKey: KeycodeOption | null,
     tapKey: KeycodeOption | null
   ) {
-    if (holdKey === null || tapKey === null) {
+    if (holdKey === null) {
       this.props.onChange(null, null);
       return;
     }
@@ -89,7 +85,6 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
   }
 
   private onChangeTapKey(tapKey: KeycodeOption | null) {
-    console.log(tapKey);
     if (tapKey) {
       this.emitOnChange(this.props.holdKey!, tapKey);
     }
@@ -110,7 +105,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
         <div className="holdkey-desc">{this.props.holdKey?.desc || ''}</div>
 
         <AutocompleteKeys
-          disabled={this.props.holdKey == null}
+          disabled={this.props.holdKey === null}
           label="Tap"
           keycodeOptions={this.tapKeycodeOptions}
           keycodeInfo={this.props.tapKey}
@@ -125,9 +120,9 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
 
 const NO_KEYCODE = -1;
 const DIRECTION = ['Left', 'Right'];
-const genHoldMod = (
+const genModTap = (
   hold: string,
-  option: IMod[],
+  mods: IMod[],
   direction: IModDirection
 ): KeycodeOption => {
   return {
@@ -138,9 +133,9 @@ const genHoldMod = (
       label: `(${DIRECTION[direction]}) ${hold}`,
       name: { short: '', long: '' },
     },
-    categories: ['Hold-Mod'],
+    categories: ['Mod-Tap'],
     desc: '',
-    option: option,
+    modifiers: mods,
     direction: direction,
   };
 };
@@ -192,24 +187,23 @@ const holdKeys: { [key: string]: IMod[] } = {
 };
 
 const holdLeftModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
-  genHoldMod(hold, holdKeys[hold], MOD_LEFT)
+  genModTap(hold, holdKeys[hold], MOD_LEFT)
 );
 
 const holdRightModKeys: KeycodeOption[] = Object.keys(holdKeys).map((hold) =>
-  genHoldMod(hold, holdKeys[hold], MOD_RIGHT)
+  genModTap(hold, holdKeys[hold], MOD_RIGHT)
 );
 
-const holdModKeys: KeycodeOption[] = [...holdLeftModKeys, ...holdRightModKeys];
+const modTapKeys: KeycodeOption[] = [...holdLeftModKeys, ...holdRightModKeys];
 
-export const findHoldModKey = (
+export const findModTapKey = (
   mods: IMod[],
   direction: IModDirection
 ): KeycodeOption => {
-  return holdModKeys.find((item) => {
+  return modTapKeys.find((item) => {
     const modCode = buildModCode(mods);
     return (
-      item.direction === direction &&
-      buildModCode(item.option as IMod[]) === modCode
+      item.direction === direction && buildModCode(item.modifiers!) === modCode
     );
   })!;
 };
