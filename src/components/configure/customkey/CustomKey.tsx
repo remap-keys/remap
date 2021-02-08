@@ -4,32 +4,17 @@ import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
 import { Key } from '../keycodekey/KeycodeKey.container';
-import Keys, { findLayerMod, findToggleLayer } from './Keys';
+import Keys from './Keys';
 import {
-  IMod,
-  IModDirection,
   KeycodeCompositionFactory,
   LayerTapComposition,
   ModTapComposition,
   MOD_LEFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
-import HoldTapKey, {
-  findHoldLayer,
-  findModTapKey,
-  swapHandsKeyOption,
-} from './HoldTapKey';
+import HoldTapKey from './HoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
-import {
-  findDefLayers,
-  findFunctionKeycode,
-  findMomentaryLayers,
-  findOneShotLayers,
-  findOneShotMod,
-  findSwapHandsOption,
-  findLayerTapToggle,
-  findToKeycode,
-} from './Keys';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {
   id: string;
@@ -151,7 +136,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       setKeysState(opt);
     } else if (factory.isFunction()) {
       const comp = factory.createFunctionComposition();
-      const opt = findFunctionKeycode(comp.getFunctionId());
+      const opt = KeycodeList.findFunctionKeymap(comp.getFunctionId());
       opt.code = comp.getCode();
       opt.keycodeInfo!.code = comp.getCode();
       setKeysState(opt);
@@ -159,7 +144,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createToComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findToKeycode(layer, layerCount);
+      const opt = KeycodeList.findToKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -167,7 +152,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createMomentaryComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findMomentaryLayers(layer, layerCount);
+      const opt = KeycodeList.findMomentaryLayerKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -175,7 +160,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createDefLayerComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findDefLayers(layer, layerCount);
+      const opt = KeycodeList.findDefLayerKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -183,7 +168,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createLayerTapToggleComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findLayerTapToggle(layer, layerCount);
+      const opt = KeycodeList.findLayerTapToggleKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -191,7 +176,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createToggleLayerComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findToggleLayer(layer, layerCount);
+      const opt = KeycodeList.findToggleLayerKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -200,7 +185,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const layer = comp.getLayer();
       const mods = comp.getModifiers();
       const direction = MOD_LEFT;
-      const opt = findLayerMod(layer, layerCount);
+      const opt = KeycodeList.findLayerModKeymap(layer, layerCount);
       opt.modifiers = mods;
       opt.direction = direction;
       setKeysState(opt);
@@ -208,7 +193,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createOneShotLayerComposition();
       const code = comp.getCode();
       const layer = comp.getLayer();
-      const opt = findOneShotLayers(layer, layerCount);
+      const opt = KeycodeList.findOneShotLayerKeymap(layer, layerCount);
       opt.code = code;
       opt.option = layer;
       setKeysState(opt);
@@ -217,7 +202,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const code = comp.getCode();
       const mods = comp.getModifiers();
       const direction = comp.getModDirection();
-      const opt = findOneShotMod(mods, direction);
+      const opt = KeycodeList.findOneShotModKeymap(mods, direction);
       opt.code = code;
       setKeysState(opt);
     } else if (factory.isLooseKeycode()) {
@@ -228,21 +213,27 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const comp = factory.createSwapHandsComposition();
       if (comp.isSwapHandsOption()) {
         const op = comp.getSwapHandsOption();
-        const opt = findSwapHandsOption(op!);
+        const opt = KeycodeList.findSwapHandsOptionKeymap(op!);
         setKeysState(opt);
       } else {
-        const hold = swapHandsKeyOption;
+        const hold = KeycodeList.getSwapHandsKeyOptionKeymap();
         const tap = comp.getKey()!;
         setHoldTapState(hold, tap);
       }
     } else if (factory.isModTap()) {
       const comp = factory.createModTapComposition();
-      const hold = findModTapKey(comp.getModifiers(), comp.getModDirection());
+      const hold = KeycodeList.findModTapKeymap(
+        comp.getModifiers(),
+        comp.getModDirection()
+      );
       const tap = comp.getKey();
       setHoldTapState(hold, tap);
     } else if (factory.isLayerTap()) {
       const comp = factory.createLayerTapComposition();
-      const hold = findHoldLayer(comp.getLayer(), this.props.layerCount);
+      const hold = KeycodeList.findHoldLayerKeymap(
+        comp.getLayer(),
+        this.props.layerCount
+      );
       const tap = comp.getKey();
       setHoldTapState(hold, tap);
     } else {
