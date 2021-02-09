@@ -2,17 +2,17 @@ import React from 'react';
 import './AutocompleteKeys.scss';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-import { KeycodeOption } from './CustomKey';
+import { IKeymap } from '../../../services/hid/Hid';
 
 type OwnProps = {
-  keycodeOptions: KeycodeOption[];
-  keycodeInfo: KeycodeOption | null;
+  keycodeOptions: IKeymap[];
+  keycodeInfo: IKeymap | null;
   label: string;
   showCategory?: boolean;
   disabled?: boolean;
   className?: string;
   // eslint-disable-next-line no-unused-vars
-  onChange: (keycodeInfo: KeycodeOption | null) => void;
+  onChange: (keycodeInfo: IKeymap | null) => void;
 };
 
 type OwnState = {
@@ -30,7 +30,7 @@ export default class AutocompleteKeys extends React.Component<
     };
   }
 
-  private updateValue(value: KeycodeOption | null) {
+  private updateValue(value: IKeymap | null) {
     this.props.onChange(value);
   }
 
@@ -47,8 +47,8 @@ export default class AutocompleteKeys extends React.Component<
         size="small"
         options={this.props.keycodeOptions}
         value={this.props.keycodeInfo}
-        onChange={(event: any, newValue: string | KeycodeOption | null) => {
-          this.updateValue(newValue as KeycodeOption);
+        onChange={(event: any, newValue: string | IKeymap | null) => {
+          this.updateValue(newValue as IKeymap);
         }}
         inputValue={this.state.inputValue}
         onInputChange={(event, newInputValue) => {
