@@ -12,10 +12,7 @@ import { errorReportingLogger } from './utils/ErrorReportingLogger';
 
 const store = createStore(
   reducers,
-  composeWithDevTools(
-    applyMiddleware(thunk),
-    applyMiddleware(errorReportingLogger)
-  )
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
