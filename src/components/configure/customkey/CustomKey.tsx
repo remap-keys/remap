@@ -4,24 +4,32 @@ import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
 import { Key } from '../keycodekey/KeycodeKey.container';
-import Keys from './Keys';
+import TabKey from './TabKey';
 import {
   KeycodeCompositionFactory,
   LayerTapComposition,
   ModTapComposition,
-  MOD_LEFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
-import HoldTapKey from './HoldTapKey';
+import TabHoldTapKey from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
+
+export const CUSTOMKEY_POPOVER_WIDTH = 400;
+export const CUSTOMKEY_POPOVER_HEIGHT = 240;
+export const CUSTOMKEY_POPOVER_TRIANGLE = 15;
+export type PopoverPosition = {
+  left: number;
+  top: number;
+  side: 'left' | 'above' | 'below' | 'right';
+};
 
 type OwnProps = {
   id: string;
   value: Key;
   layerCount: number;
   open: boolean;
-  anchorRef: React.RefObject<any> | null;
+  position: PopoverPosition;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
@@ -43,8 +51,6 @@ type OwnState = {
 };
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
-  arrowRef: React.RefObject<unknown>;
-
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
@@ -55,7 +61,6 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       label: '',
       hexCode: '',
     };
-    this.arrowRef = React.createRef();
   }
 
   get disabledModifiers() {
@@ -85,7 +90,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       args.code == undefined ? parseInt(this.state.hexCode, 16) : args.code;
     let value = this.state.value!;
     if (args.value) {
-      label = args.value.keycodeInfo!.label;
+      label = args.label ? args.label : args.value.keycodeInfo!.label;
       code = args.value.code;
       value = args.value;
     }
@@ -101,144 +106,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       keymap: keymap,
     };
 
-    console.log(key);
     this.props.onChange(key);
-  }
-
-  private fromHex(hex: number) {
-    const layerCount = this.props.layerCount;
-    const factory = new KeycodeCompositionFactory(hex);
-    const setKeysState = (value: IKeymap) => {
-      this.setState({
-        value: value,
-        holdKey: null,
-        tapKey: null,
-      });
-    };
-    const setHoldTapState = (hold: IKeymap, tap: IKeymap) => {
-      this.setState({
-        value: null,
-        holdKey: hold,
-        tapKey: tap,
-      });
-    };
-    if (factory.isBasic()) {
-      const comp = factory.createBasicComposition();
-      const opt = comp.getKey();
-      setKeysState(opt);
-    } else if (factory.isMods()) {
-      const comp = factory.createModsComposition();
-      const opt: IKeymap = {
-        ...comp.getKey(),
-        modifiers: comp.getModifiers(),
-        direction: comp.getModDirection(),
-      };
-      setKeysState(opt);
-    } else if (factory.isFunction()) {
-      const comp = factory.createFunctionComposition();
-      const opt = KeycodeList.findFunctionKeymap(comp.getFunctionId());
-      opt.code = comp.getCode();
-      opt.keycodeInfo!.code = comp.getCode();
-      setKeysState(opt);
-    } else if (factory.isTo()) {
-      const comp = factory.createToComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findToKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isMomentary()) {
-      const comp = factory.createMomentaryComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findMomentaryLayerKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isDefLayer()) {
-      const comp = factory.createDefLayerComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findDefLayerKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isLayerTapToggle()) {
-      const comp = factory.createLayerTapToggleComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findLayerTapToggleKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isToggleLayer()) {
-      const comp = factory.createToggleLayerComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findToggleLayerKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isLayerMod()) {
-      const comp = factory.createLayerModComposition();
-      const layer = comp.getLayer();
-      const mods = comp.getModifiers();
-      const direction = MOD_LEFT;
-      const opt = KeycodeList.findLayerModKeymap(layer, layerCount);
-      opt.modifiers = mods;
-      opt.direction = direction;
-      setKeysState(opt);
-    } else if (factory.isOneShotLayer()) {
-      const comp = factory.createOneShotLayerComposition();
-      const code = comp.getCode();
-      const layer = comp.getLayer();
-      const opt = KeycodeList.findOneShotLayerKeymap(layer, layerCount);
-      opt.code = code;
-      opt.option = layer;
-      setKeysState(opt);
-    } else if (factory.isOneShotMod()) {
-      const comp = factory.createOneShotModComposition();
-      const code = comp.getCode();
-      const mods = comp.getModifiers();
-      const direction = comp.getModDirection();
-      const opt = KeycodeList.findOneShotModKeymap(mods, direction);
-      opt.code = code;
-      setKeysState(opt);
-    } else if (factory.isLooseKeycode()) {
-      const comp = factory.createLooseKeycodeComposition();
-      const opt = comp.getKey();
-      setKeysState(opt);
-    } else if (factory.isSwapHands()) {
-      const comp = factory.createSwapHandsComposition();
-      if (comp.isSwapHandsOption()) {
-        const op = comp.getSwapHandsOption();
-        const opt = KeycodeList.findSwapHandsOptionKeymap(op!);
-        setKeysState(opt);
-      } else {
-        const hold = KeycodeList.getSwapHandsKeyOptionKeymap();
-        const tap = comp.getKey()!;
-        setHoldTapState(hold, tap);
-      }
-    } else if (factory.isModTap()) {
-      const comp = factory.createModTapComposition();
-      const hold = KeycodeList.findModTapKeymap(
-        comp.getModifiers(),
-        comp.getModDirection()
-      );
-      const tap = comp.getKey();
-      setHoldTapState(hold, tap);
-    } else if (factory.isLayerTap()) {
-      const comp = factory.createLayerTapComposition();
-      const hold = KeycodeList.findHoldLayerKeymap(
-        comp.getLayer(),
-        this.props.layerCount
-      );
-      const tap = comp.getKey();
-      setHoldTapState(hold, tap);
-    } else {
-      throw new Error(`NOT TO BE HERE. code:${hex}, layerCount: ${layerCount}`);
-    }
   }
 
   private onChangeKeys(value: IKeymap | null) {
@@ -268,36 +136,28 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       | LayerTapComposition
       | SwapHandsComposition
       | null = null;
-    const category = holdKey.categories[0];
-    if (category === 'Hold-Layer') {
+    const kinds = holdKey.kinds;
+    if (kinds.includes('layer_tap')) {
       comp = new LayerTapComposition(holdKey.option!, tapKey);
-    } else if (category === 'Mod-Tap') {
+    } else if (kinds.includes('mod_tap')) {
       comp = new ModTapComposition(
         holdKey.direction!,
         holdKey.modifiers!,
         tapKey
       );
-    } else if (category === 'Swap-Hands') {
+    } else if (kinds.includes('swap_hands')) {
       comp = new SwapHandsComposition(tapKey);
     } else {
       throw new Error(
-        `NOT TO BE HERE. holdKey.category:${category}, tapKey.category: ${tapKey.categories}`
+        `NOT TO BE HERE. holdKey.kind:${kinds}, tapKey.kind: ${tapKey.kinds}`
       );
     }
 
-    const label: string = comp.getKey()!.keycodeInfo!.label;
+    const label: string = comp.genTapKey().keycodeInfo!.label;
     const code = comp.getCode();
     const hexCode: string = Number(code).toString(16);
     this.setState({ label, hexCode });
-    const value: IKeymap = {
-      code: code,
-      isAny: false,
-      categories: holdKey.categories,
-      modifiers: holdKey.modifiers,
-      direction: holdKey.direction,
-      option: holdKey.option,
-      keycodeInfo: tapKey.keycodeInfo!,
-    };
+    const value: IKeymap = genHoldTapKeymap(code, holdKey, tapKey);
     this.emitKeyChange({ value });
   }
 
@@ -307,8 +167,21 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       .replace(/[^0-9,A-F]/g, '')
       .slice(0, 4);
     const code = parseInt(hexCode, 16);
-    this.fromHex(code);
-    this.setState({ hexCode });
+    const ret = KeycodeList.getKeymaps(code);
+    this.setState({
+      ...ret,
+      hexCode,
+      label: ret.value
+        ? ret.value.keycodeInfo!.label
+        : ret.tapKey!.keycodeInfo!.label,
+    });
+
+    if (ret.value) {
+      this.emitKeyChange({ value: ret.value });
+    } else if (ret.holdKey && ret.tapKey) {
+      const value = genHoldTapKeymap(code, ret.holdKey, ret.tapKey);
+      this.emitKeyChange({ value });
+    }
   }
 
   private updateLabel(label: string) {
@@ -321,27 +194,21 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
-    if (this.props.anchorRef?.current == null) {
-      return <div></div>;
-    }
     return (
       <Popover
         id={this.props.id}
         open={this.props.open}
-        anchorEl={this.props.anchorRef.current}
+        anchorReference="anchorPosition"
+        anchorPosition={this.props.position}
         onEnter={this.onEnter.bind(this)}
         onClose={() => {
           this.props.onClose();
         }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
         transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: 'top',
+          horizontal: 'left',
         }}
-        className="customkey-popover"
+        className={`customkey-popover popover-${this.props.position.side}`}
       >
         <div className="customkey-body">
           <AppBar position="static" color="transparent" elevation={0}>
@@ -353,13 +220,13 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               indicatorColor="primary"
               textColor="primary"
             >
-              <Tab label="KEYS" {...a11yProps(0)} />
+              <Tab label="KEY" {...a11yProps(0)} />
               <Tab label="HOLD/TAP" {...a11yProps(1)} />
               <Tab label="CUSTOM" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.selectedTabIndex} index={0}>
-            <Keys
+            <TabKey
               value={this.state.value}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
@@ -372,7 +239,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             <div className="customkey-description">
               {'Please select each key code when Hold / Tap'}
             </div>
-            <HoldTapKey
+            <TabHoldTapKey
               holdKey={this.state.holdKey}
               tapKey={this.state.tapKey}
               layerCount={this.props.layerCount}
@@ -390,6 +257,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               label="Label"
               className="customkey-field customkey-label"
               size="small"
+              disabled={true}
               onChange={(e) => {
                 this.updateLabel(e.target.value);
               }}
@@ -448,4 +316,21 @@ function a11yProps(index: any) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
+}
+
+function genHoldTapKeymap(
+  code: number,
+  holdKey: IKeymap,
+  tapKey: IKeymap
+): IKeymap {
+  const keymap = {
+    code: code,
+    isAny: false,
+    kinds: holdKey.kinds,
+    modifiers: holdKey.modifiers,
+    direction: holdKey.direction,
+    option: holdKey.option,
+    keycodeInfo: tapKey.keycodeInfo!,
+  };
+  return keymap;
 }

@@ -1,7 +1,7 @@
 import { IKeycodeCategoryInfo } from '../Hid';
 
 export const keycodesMacro: IKeycodeCategoryInfo = {
-  categories: ['Macro'],
+  kinds: ['macro'],
   codes: [
     24338,
     24339,

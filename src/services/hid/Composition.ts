@@ -2,6 +2,7 @@ import { IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 import { KeycodeList } from './KeycodeList';
 import { keycodesBasicFunc } from './assets/KeycodesBasic';
+import { loosekeycodeList } from './LooseKeycodeList';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -178,18 +179,26 @@ export const SWAP_HANDS_OPTIONS: ISwapHandsOption[] = [
   OP_SH_ONESHOT,
 ];
 
+const NO_KEYCODE = -1;
+const ANY_KEYMAP: IKeymap = {
+  code: NO_KEYCODE,
+  isAny: true,
+  kinds: ['any'],
+};
+const DIRECTION_LABELS = ['Left', 'Right'];
+
+interface ITapKey {
+  genTapKey(): IKeymap;
+}
 export interface IComposition {
   getCode(): number;
+  genKeymap(): IKeymap;
 }
 
-export interface IBasicComposition extends IComposition {
-  getKey(): IKeymap;
-}
-
+export interface IBasicComposition extends IComposition {}
 export interface IModsComposition extends IComposition {
   getModDirection(): IModDirection;
   getModifiers(): IMod[];
-  getKey(): IKeymap;
 }
 
 export interface IFunctionComposition extends IComposition {
@@ -201,9 +210,8 @@ export interface IMacroComposition extends IComposition {
   isTap(): boolean;
 }
 
-export interface ILayerTapComposition extends IComposition {
+export interface ILayerTapComposition extends IComposition, ITapKey {
   getLayer(): number;
-  getKey(): IKeymap;
 }
 
 export interface IToComposition extends IComposition {
@@ -212,6 +220,7 @@ export interface IToComposition extends IComposition {
 
 export interface IMomentaryComposition extends IComposition {
   getLayer(): number;
+  genKeymap(): IKeymap;
 }
 
 export interface IDefLayerComposition extends IComposition {
@@ -244,14 +253,12 @@ export interface ILayerModComposition extends IComposition {
   getModifiers(): IMod[];
 }
 
-export interface ISwapHandsComposition extends IComposition {
-  getKey(): IKeymap | null;
+export interface ISwapHandsComposition extends IComposition, ITapKey {
   getSwapHandsOption(): ISwapHandsOption | null;
   isSwapHandsOption(): boolean;
 }
 
-export interface IModTapComposition extends IComposition {
-  getKey(): IKeymap;
+export interface IModTapComposition extends IComposition, ITapKey {
   getModifiers(): IMod[];
   getModDirection(): IModDirection;
 }
@@ -260,9 +267,7 @@ export interface IUnicodeComposition extends IComposition {
   getCharCode(): number;
 }
 
-export interface ILooseKeycodeComposition extends IComposition {
-  getKey(): IKeymap;
-}
+export interface ILooseKeycodeComposition extends IComposition {}
 
 export class BasicComposition implements IBasicComposition {
   private readonly key: IKeymap;
@@ -275,7 +280,7 @@ export class BasicComposition implements IBasicComposition {
     return this.key.code & 0b1111_1111;
   }
 
-  getKey(): IKeymap {
+  genKeymap(): IKeymap {
     return this.key;
   }
 }
@@ -298,8 +303,12 @@ export class ModsComposition implements IModsComposition {
     return code | (this.modDirection << 12) | (this.key.code & 0b1111_1111);
   }
 
-  getKey(): IKeymap {
-    return this.key;
+  genKeymap(): IKeymap {
+    return {
+      ...this.key,
+      direction: this.modDirection,
+      modifiers: this.modifiers,
+    };
   }
 
   getModifiers(): IMod[] {
@@ -325,6 +334,25 @@ export class FunctionComposition implements IFunctionComposition {
   getFunctionId(): number {
     return this.functionId;
   }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    const id = this.functionId;
+    const label = `Func${id}`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: '', long: '' },
+      },
+      kinds: ['function'],
+      desc: ``,
+      option: id,
+    };
+    return keymap;
+  }
 }
 
 export class MacroComposition implements IMacroComposition {
@@ -345,6 +373,16 @@ export class MacroComposition implements IMacroComposition {
   isTap(): boolean {
     return (this.macroId & 0b1000_0000_0000) === 0b1000_0000_0000;
   }
+
+  genKeymap(): IKeymap {
+    // TODO
+    const keymap: IKeymap = {
+      code: -1,
+      isAny: false,
+      kinds: ['macro'],
+    };
+    return keymap;
+  }
 }
 
 export class LayerTapComposition implements ILayerTapComposition {
@@ -363,12 +401,39 @@ export class LayerTapComposition implements ILayerTapComposition {
     );
   }
 
-  getKey(): IKeymap {
+  getLayer(): number {
+    return this.layer;
+  }
+
+  genTapKey(): IKeymap {
     return this.key;
   }
 
-  getLayer(): number {
-    return this.layer;
+  genKeymap(): IKeymap {
+    const layer = this.layer;
+    const code = this.getCode();
+    const label = `Layer(${layer})`;
+    return {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: this.key.code,
+        label: label,
+        name: this.key.keycodeInfo!.name,
+      },
+      kinds: ['layer_tap'],
+      desc: `Momentarily activates Layer(${layer}) when held, and sends keycode when tapped.`,
+      option: layer,
+    };
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new LayerTapComposition(index, ANY_KEYMAP);
+        return comp.genKeymap();
+      });
   }
 }
 
@@ -386,6 +451,34 @@ export class ToComposition implements IToComposition {
   getCode(): number {
     return QK_TO_MIN | ((ON_PRESS << 4) | (this.layer & 0b1111));
   }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    const layer = this.getLayer();
+    const label = `TO(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: '', long: '' },
+      },
+      kinds: ['layers', 'to'],
+      desc: `Activates layer(${layer}) and de-activates all other layers (except your default layer).`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new ToComposition(index);
+        return comp.genKeymap();
+      });
+  }
 }
 
 export class MomentaryComposition implements IMomentaryComposition {
@@ -401,6 +494,34 @@ export class MomentaryComposition implements IMomentaryComposition {
 
   getCode(): number {
     return QK_MOMENTARY_MIN | (this.layer & 0b1111_1111);
+  }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    const layer = this.getLayer();
+    const label = `MO(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: label, long: label },
+      },
+      kinds: ['layers', 'momentary'],
+      desc: `Momentarily activates layer(${layer}). As soon as you let go of the key, the layer is deactivated.`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new MomentaryComposition(index);
+        return comp.genKeymap();
+      });
   }
 }
 
@@ -418,6 +539,34 @@ export class DefLayerComposition implements IMomentaryComposition {
   getCode(): number {
     return QK_DEF_LAYER_MIN | (this.layer & 0b1111_1111);
   }
+
+  genKeymap(): IKeymap {
+    const layer = this.getLayer();
+    const code = this.getCode();
+    const label = `DF(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: label, long: label },
+      },
+      kinds: ['def_layer'],
+      desc: `Switches the default layer(${layer}). The default layer is the always-active base layer that other layers stack on top of.`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new DefLayerComposition(index);
+        return comp.genKeymap();
+      });
+  }
 }
 
 export class ToggleLayerComposition implements IMomentaryComposition {
@@ -434,6 +583,34 @@ export class ToggleLayerComposition implements IMomentaryComposition {
   getCode(): number {
     return QK_TOGGLE_LAYER_MIN | (this.layer & 0b1111_1111);
   }
+
+  genKeymap(): IKeymap {
+    const layer = this.getLayer();
+    const code = this.getCode();
+    const label = `TG(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: label, long: label },
+      },
+      kinds: ['layers', 'toggle_layer'],
+      desc: `Toggles layer(${layer}), activating it if it's inactive and vice versa.`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new ToggleLayerComposition(index);
+        return comp.genKeymap();
+      });
+  }
 }
 
 export class OneShotLayerComposition implements IOneShotLayerComposition {
@@ -449,6 +626,33 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
 
   getCode(): number {
     return QK_ONE_SHOT_LAYER_MIN | (this.layer & 0b1111_1111);
+  }
+
+  genKeymap(): IKeymap {
+    const layer = this.layer;
+    const code = this.getCode();
+    const label = `OSL(${layer})`;
+    return {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: label, long: label },
+      },
+      kinds: ['layers', 'one_shot_layer'],
+      desc: `Momentarily activates layer(${layer}) until the next key is pressed.`,
+      option: layer,
+    };
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new OneShotLayerComposition(index);
+        return comp.genKeymap();
+      });
   }
 }
 
@@ -475,6 +679,39 @@ export class OneShotModComposition implements IOneShotModComposition {
   getModDirection(): IModDirection {
     return this.modDirection;
   }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    return {
+      code: code,
+      isAny: false,
+      modifiers: this.modifiers,
+      direction: this.modDirection,
+      keycodeInfo: {
+        code: code,
+        label: `OSM`,
+        name: { short: 'OSM', long: 'OSM' },
+      },
+      kinds: ['one_shot_mod'],
+      desc: `Momentarily activates modifier(s) until the next key is pressed.`,
+    };
+  }
+
+  static genKeymaps(): IKeymap[] {
+    return [
+      {
+        code: NO_KEYCODE,
+        isAny: false,
+        keycodeInfo: {
+          code: NO_KEYCODE,
+          label: `OSM`,
+          name: { short: 'OSM', long: 'OSM' },
+        },
+        kinds: ['one_shot_mod'],
+        desc: `Momentarily activates modifier(s) until the next key is pressed.`,
+      },
+    ];
+  }
 }
 
 export class TapDanceComposition implements ITapDanceComposition {
@@ -491,6 +728,10 @@ export class TapDanceComposition implements ITapDanceComposition {
   getNo(): number {
     return this.no;
   }
+
+  genKeymap(): IKeymap {
+    return ANY_KEYMAP;
+  }
 }
 
 export class LayerTapToggleComposition implements ILayerTapToggleComposition {
@@ -506,6 +747,34 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
 
   getCode(): number {
     return QK_LAYER_TAP_TOGGLE_MIN | (this.layer & 0b1111_1111);
+  }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    const layer = this.getLayer();
+    const label = `TT(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: '', long: '' },
+      },
+      kinds: ['layers', 'layer_tap_toggle'],
+      desc: `If you hold the key down, layer(${layer}) is activated, and then is de-activated when you let go.`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new LayerTapToggleComposition(index);
+        return comp.genKeymap();
+      });
   }
 }
 
@@ -532,9 +801,82 @@ export class LayerModComposition implements ILayerModComposition {
     }, 0);
     return QK_LAYER_MOD_MIN | ((this.layer & 0b1111) << 4) | mods;
   }
+
+  genKeymap(): IKeymap {
+    const layer = this.layer;
+    const code = this.getCode();
+    const label = `LM(${layer})`;
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: code,
+        label: label,
+        name: { short: 'LM', long: 'LM' },
+      },
+      kinds: ['layer_mod'],
+      desc: `Momentarily activates Layer(${layer}), but with modifier(s) mod active.`,
+      option: layer,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(layerCount: number): IKeymap[] {
+    return Array(layerCount)
+      .fill(0)
+      .map((_, index) => {
+        const comp = new LayerModComposition(index, []);
+        return comp.genKeymap();
+      });
+  }
 }
 
 export class SwapHandsComposition implements ISwapHandsComposition {
+  private static _swapHandsOptionKeymaps: IKeymap[];
+  private static _swapHandsOptionItems: {
+    option: ISwapHandsOption;
+    label: string;
+    desc: string;
+  }[] = [
+    {
+      option: OP_SH_TOGGLE,
+      label: 'SH TG',
+      desc: 'Toggles swap on and off with every key press.',
+    },
+    {
+      option: OP_SH_TAP_TOGGLE,
+      label: 'SH TT',
+      desc: 'Toggles with a tap; momentary when held.',
+    },
+    {
+      option: OP_SH_ON_OFF,
+      label: 'SH_MON',
+      desc:
+        'Swaps hands when pressed, returns to normal when released (momentary).',
+    },
+    {
+      option: OP_SH_OFF_ON,
+      label: 'SH MOFF',
+      desc: 'Momentarily turns off swap.',
+    },
+    {
+      option: OP_SH_OFF,
+      label: 'SH OFF',
+      desc:
+        'Turn off swapping and leaves it off. Good for returning to a known state.',
+    },
+    {
+      option: OP_SH_ON,
+      label: 'SH ON',
+      desc: 'Turns on swapping and leaves it on.',
+    },
+    {
+      option: OP_SH_ONESHOT,
+      label: 'SH ON',
+      desc:
+        'One shot swap hands: toggles while pressed or until next key press.',
+    },
+  ];
   private readonly key: IKeymap | null;
   private readonly swapHandsOption: ISwapHandsOption | null;
 
@@ -556,8 +898,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     }
   }
 
-  getKey(): IKeymap | null {
-    return this.key;
+  genTapKey(): IKeymap {
+    return this.key!;
   }
 
   getSwapHandsOption(): ISwapHandsOption | null {
@@ -567,9 +909,101 @@ export class SwapHandsComposition implements ISwapHandsComposition {
   isSwapHandsOption(): boolean {
     return this.swapHandsOption !== null;
   }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    let keymap: IKeymap;
+    if (this.isSwapHandsOption()) {
+      const opt = this.getSwapHandsOption();
+      const item = SwapHandsComposition._swapHandsOptionItems.find(
+        (item) => item.option === opt
+      )!;
+      keymap = {
+        code: code,
+        isAny: false,
+        keycodeInfo: {
+          code: code,
+          label: item.label,
+          name: { short: 'SH', long: 'SH' },
+        },
+        kinds: ['swap_hands'],
+        option: item.option,
+        desc: item.desc,
+      };
+    } else {
+      keymap = {
+        code: code,
+        isAny: false,
+        keycodeInfo: {
+          code: this.key!.code,
+          label: `Swap-Hands`,
+          name: { short: 'SH', long: 'SH' },
+        },
+        kinds: ['swap_hands'],
+        desc:
+          'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+      };
+    }
+    return keymap;
+  }
+
+  static genSwapHandsOptionKeymaps(): IKeymap[] {
+    if (SwapHandsComposition._swapHandsOptionKeymaps)
+      return SwapHandsComposition._swapHandsOptionKeymaps;
+
+    SwapHandsComposition._swapHandsOptionKeymaps = SwapHandsComposition._swapHandsOptionItems.map(
+      (item) => {
+        const comp = new SwapHandsComposition(item.option);
+        const code = comp.getCode();
+        const keymap: IKeymap = {
+          code: code,
+          isAny: false,
+          keycodeInfo: {
+            code: code,
+            label: item.label,
+            name: { short: 'SH', long: 'SH' },
+          },
+          kinds: ['swap_hands'],
+          option: item.option,
+          desc: item.desc,
+        };
+        return keymap;
+      }
+    );
+
+    return SwapHandsComposition._swapHandsOptionKeymaps;
+  }
+
+  static genKeymaps(): IKeymap[] {
+    const keymap: IKeymap = {
+      code: NO_KEYCODE,
+      isAny: false,
+      keycodeInfo: {
+        code: NO_KEYCODE,
+        label: `Swap-Hands`,
+        name: { short: 'SH', long: 'SH' },
+      },
+      kinds: ['swap_hands'],
+      desc:
+        'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+    };
+    return [keymap];
+  }
 }
 
 export class ModTapComposition implements IModTapComposition {
+  private static _modTapKeymaps: IKeymap[];
+  private static _holdLabels = [
+    '0',
+    'Ctrl',
+    'Shift',
+    '3',
+    'Alt',
+    '5',
+    '6',
+    '7',
+    'Win/Cmd',
+  ];
   private readonly modDirection: IModDirection;
   private readonly modifiers: IMod[];
   private readonly key: IKeymap;
@@ -592,7 +1026,7 @@ export class ModTapComposition implements IModTapComposition {
     );
   }
 
-  getKey(): IKeymap {
+  genTapKey(): IKeymap {
     return this.key;
   }
 
@@ -602,6 +1036,68 @@ export class ModTapComposition implements IModTapComposition {
 
   getModDirection(): IModDirection {
     return this.modDirection;
+  }
+
+  genKeymap(): IKeymap {
+    const code = this.getCode();
+    const direction = this.modDirection;
+    const mods = this.modifiers;
+    const hold = mods
+      .map((mod) => ModTapComposition._holdLabels[mod])
+      .join('+');
+    const keymap: IKeymap = {
+      code: code,
+      isAny: false,
+      keycodeInfo: {
+        code: this.key.code,
+        label: `(${DIRECTION_LABELS[direction]}) ${hold}`,
+        name: this.key.keycodeInfo!.name,
+      },
+      kinds: ['mod_tap'],
+      desc: `Momentarily activates ${hold} when held, and sends keycode when tapped.`,
+      modifiers: mods,
+      direction: direction,
+    };
+    return keymap;
+  }
+
+  static genKeymaps(): IKeymap[] {
+    if (ModTapComposition._modTapKeymaps)
+      return ModTapComposition._modTapKeymaps;
+
+    const holdKeys: { [key: string]: IMod[] } = {
+      Ctrl: [MOD_CTL],
+      Shift: [MOD_SFT],
+      Alt: [MOD_ALT],
+      'Win/Cmd': [MOD_GUI],
+      'Ctrl+Shift': [MOD_CTL, MOD_SFT],
+      'Ctrl+Alt': [MOD_CTL, MOD_ALT],
+      'Ctrl+Win/Cmd': [MOD_CTL, MOD_GUI],
+      'Shift+Alt': [MOD_SFT, MOD_ALT],
+      'Shift+Win/Cmd': [MOD_SFT, MOD_GUI],
+      'Alt+Win/Cmd': [MOD_ALT, MOD_GUI],
+      'Ctrl+Shift+Alt': [MOD_CTL, MOD_SFT, MOD_ALT],
+      'Ctrl+Shift+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_GUI],
+      'Ctrl+Alt+Win/Cmd': [MOD_CTL, MOD_ALT, MOD_GUI],
+      'Shift+Alt+Win/Cmd': [MOD_SFT, MOD_ALT, MOD_GUI],
+      'Ctrl+Shift+Alt+Win/Cmd': [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
+    };
+
+    const holdLeftModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) => {
+      const comp = new ModTapComposition(MOD_LEFT, holdKeys[hold], ANY_KEYMAP);
+      return comp.genKeymap();
+    });
+
+    const holdRightModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) => {
+      const comp = new ModTapComposition(MOD_RIGHT, holdKeys[hold], ANY_KEYMAP);
+      return comp.genKeymap();
+    });
+
+    ModTapComposition._modTapKeymaps = [
+      ...holdLeftModKeys,
+      ...holdRightModKeys,
+    ];
+    return ModTapComposition._modTapKeymaps;
   }
 }
 
@@ -619,21 +1115,44 @@ export class UnicodeComposition implements IUnicodeComposition {
   getCharCode(): number {
     return this.charCode;
   }
+  genKeymap(): IKeymap {
+    // TODO
+    return ANY_KEYMAP;
+  }
 }
 
 export class LooseKeycodeComposition implements ILooseKeycodeComposition {
+  private static _looseKeycodeKeymaps: IKeymap[];
   private readonly key: IKeymap;
 
-  constructor(key: IKeymap) {
-    this.key = key;
+  constructor(keymap: IKeymap) {
+    this.key = keymap;
   }
 
   getCode(): number {
     return LOOSE_KEYCODE_MIN | this.key.code;
   }
 
-  getKey(): IKeymap {
+  genKeymap(): IKeymap {
     return this.key;
+  }
+
+  static genKeymaps(): IKeymap[] {
+    if (LooseKeycodeComposition._looseKeycodeKeymaps)
+      return LooseKeycodeComposition._looseKeycodeKeymaps;
+
+    LooseKeycodeComposition._looseKeycodeKeymaps = loosekeycodeList.map(
+      (item) => {
+        return {
+          code: item.code,
+          isAny: false,
+          keycodeInfo: item.keycodeInfo,
+          kinds: ['loose_keycode'],
+          desc: item.desc,
+        };
+      }
+    );
+    return LooseKeycodeComposition._looseKeycodeKeymaps;
   }
 }
 
@@ -781,7 +1300,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    return new BasicComposition(KeycodeList.getKeymap(keyCode));
+    return new BasicComposition(KeycodeList.getBasicKeymap(keyCode));
   }
 
   createModsComposition(): IModsComposition {
@@ -802,7 +1321,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     return new ModsComposition(
       modDirection,
       modifiers,
-      KeycodeList.getKeymap(keyCode)
+      KeycodeList.getBasicKeymap(keyCode)
     );
   }
 
@@ -834,7 +1353,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
-    return new LayerTapComposition(layer, KeycodeList.getKeymap(keyCode));
+    return new LayerTapComposition(layer, KeycodeList.getBasicKeymap(keyCode));
   }
 
   createToComposition(): IToComposition {
@@ -962,7 +1481,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     if (SWAP_HANDS_OPTIONS.includes(value as ISwapHandsOption)) {
       return new SwapHandsComposition(value as ISwapHandsOption);
     } else {
-      return new SwapHandsComposition(KeycodeList.getKeymap(value));
+      return new SwapHandsComposition(KeycodeList.getBasicKeymap(value));
     }
   }
 
@@ -984,7 +1503,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     return new ModTapComposition(
       modDirection,
       modifiers,
-      KeycodeList.getKeymap(keyCode)
+      KeycodeList.getBasicKeymap(keyCode)
     );
   }
 
@@ -1007,6 +1526,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
-    return new LooseKeycodeComposition(KeycodeList.getKeymap(this.code));
+    const keymap: IKeymap = LooseKeycodeComposition.genKeymaps().find(
+      (km) => km.code === this.code
+    )!;
+    return new LooseKeycodeComposition(keymap);
   }
 }

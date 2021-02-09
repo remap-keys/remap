@@ -1,6 +1,5 @@
 import React from 'react';
 import './Remap.scss';
-import KEY_DESCRIPTIONS from '../../../assets/files/key_descriptions';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import Keycodes from '../keycodes/Keycodes.container';
@@ -27,7 +26,7 @@ export default class Remap extends React.Component<RemapPropType, {}> {
         </div>
         <div
           className="keycode"
-          style={{ marginTop: 200 + this.props.keyboardHeight! }}
+          style={{ marginTop: 206 + this.props.keyboardHeight! }}
         >
           <Keycodes />
         </div>
@@ -42,19 +41,16 @@ type DescType = {
 };
 function Desc(props: DescType) {
   if (!props.keymap) return <div></div>;
-  if (props.keymap.keycodeInfo) {
+  if (props.keymap.isAny) return <div className="keycode-desc">Any</div>;
+  if (props.keymap.keycodeInfo && props.keymap.desc) {
     const info = props.keymap.keycodeInfo!;
-    const long = info.name.long;
-    const desc =
-      long in KEY_DESCRIPTIONS
-        ? KEY_DESCRIPTIONS[long]
-        : hexadecimal(info.code);
+    const hex = hexadecimal(info.code);
     return (
       <div className="keycode-desc">
-        {long}: {desc}
+        {props.keymap.keycodeInfo.label}({hex}): {props.keymap.desc}
       </div>
     );
   } else {
-    return <div className="keycode-desc">Any</div>;
+    return <div></div>;
   }
 }

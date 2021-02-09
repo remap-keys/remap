@@ -1,7 +1,7 @@
 :root {
   --header-height: 42px;
-  --key-height: 52px;
-  --key-width: 52px;
+  --key-height: 56px;
+  --key-width: 56px;
 }
 
 $font-xl: 140%;
@@ -21,6 +21,7 @@ $color-gray-600: #757575;
 $primary: #3f51b5;
 $primary-light: #7986cb;
 $primary-pale: #c5cae9;
+$primary-thin: #e8eaf6;
 $success: $primary;
 $error: #f44336;
 $warning: #ff9800;

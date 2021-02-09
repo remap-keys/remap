@@ -5,7 +5,6 @@ import {
   KEYCODEKEY_UPDATE_HOVER_KEY,
   KEYCODEKEY_UPDATE_SELECTED_KEY,
   KEYCODES_ACTIONS,
-  KEYCODES_UPDATE_CATEGORY,
   KEYCODES_UPDATE_MACRO,
   KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
   KEYMAP_UPDATE_SELECTED_LAYER,
@@ -300,10 +299,6 @@ const keymapReducer = (action: Action, draft: WritableDraft<RootState>) => {
 const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
-    case KEYCODES_UPDATE_CATEGORY: {
-      draft.configure.keycodes.category = action.value;
-      break;
-    }
     case KEYCODES_UPDATE_MACRO: {
       const code = action.value.code;
       draft.entities.device.macros[code] = action.value.text;
@@ -346,7 +341,7 @@ const keycodeAddKeyReducer = (
         keymap: {
           isAny: true,
           code: anyKey.code,
-          categories: [],
+          kinds: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };
@@ -364,7 +359,7 @@ const keycodeAddKeyReducer = (
         keymap: {
           isAny: true,
           code: anyKey.code,
-          categories: [],
+          kinds: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };

@@ -8,7 +8,7 @@ type OwnProps = {
   keycodeOptions: IKeymap[];
   keycodeInfo: IKeymap | null;
   label: string;
-  showCategory?: boolean;
+  showKinds?: boolean;
   disabled?: boolean;
   className?: string;
   // eslint-disable-next-line no-unused-vars
@@ -55,21 +55,33 @@ export default class AutocompleteKeys extends React.Component<
           this.setInputValue(newInputValue.split('::')[0]);
         }}
         getOptionLabel={(option) => {
-          return `${option.keycodeInfo!.label}::${option.categories.join(
-            '::'
-          )}`;
+          return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
         renderOption={(option) => (
-          <div className="customkey-select-item">
-            <div className="keycode-label-wrapper">
-              <div className="keycode-label">{option.keycodeInfo!.label}</div>
-              {this.props.showCategory != false && (
-                <div className="keycode-category">
-                  {option.categories.join(' / ')}
+          <div className="customkey-auto-select-item">
+            <div className="keycode-auto-label-wrapper">
+              <div className="keycode-auto-label">
+                {option.keycodeInfo!.label}
+              </div>
+              {this.props.showKinds != false && (
+                <div className="keycode-auto-category">
+                  {option.kinds
+                    .map((k) => {
+                      return k
+                        .split('_')
+                        .map(
+                          (text) => text.charAt(0).toUpperCase() + text.slice(1)
+                        )
+                        .flat()
+                        .join('-');
+                    })
+                    .join('/')}
                 </div>
               )}
             </div>
-            {option.desc && <div className="keycode-desc">{option.desc}</div>}
+            {option.desc && (
+              <div className="keycode-auto-desc">{option.desc}</div>
+            )}
           </div>
         )}
         renderInput={(params) => (

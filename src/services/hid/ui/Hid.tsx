@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { WebHid } from '../WebHid';
 import React, { useEffect, useState } from 'react';
 import './Hid.scss';

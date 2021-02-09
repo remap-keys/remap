@@ -11,6 +11,7 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
+  IKeycodeCategory,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 
@@ -24,16 +25,6 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
-
-const categoryToKeymapsMap: { [p: string]: IKeymap[] } = {
-  basic: KeycodeList.basicKeymaps,
-  layers: KeycodeList.layersKeymaps,
-  lighting: KeycodeList.lightingKeymaps,
-  macro: KeycodeList.macroKeymaps,
-  media: KeycodeList.mediaKeymaps,
-  number: KeycodeList.numberKeymaps,
-  special: KeycodeList.specialKeymaps,
-};
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -420,8 +411,37 @@ export class WebHid implements IHid {
     this.handler = handler;
   }
 
-  getKeymapCandidatesByCategory(category: string): IKeymap[] {
-    return categoryToKeymapsMap[category];
+  getKeymapCandidatesByCategory(
+    category: string,
+    layerCount: number
+  ): IKeymap[] {
+    let keymaps: IKeymap[] = [];
+    switch (category) {
+      case IKeycodeCategory.BASIC:
+        keymaps = KeycodeList.basicKeymaps;
+        break;
+      case IKeycodeCategory.LIGHTING:
+        keymaps = KeycodeList.lightingKeymaps;
+        break;
+      case IKeycodeCategory.MEDIA:
+        keymaps = KeycodeList.mediaKeymaps;
+        break;
+      case IKeycodeCategory.NUMBER:
+        keymaps = [];
+        break;
+      case IKeycodeCategory.SPECIAL:
+        keymaps = KeycodeList.specialKeymaps;
+        break;
+      case IKeycodeCategory.MACRO:
+        keymaps = [];
+        break;
+      case IKeycodeCategory.LAYERS:
+        // generate every time in case of changing keyboard which has different layerCount.
+        keymaps = KeycodeList.getLayersKeymaps(layerCount);
+        break;
+    }
+
+    return keymaps;
   }
 
   close(keyboard: IKeyboard): void {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Keys.scss';
+import './TabKey.scss';
 import {
   BasicComposition,
   DefLayerComposition,
@@ -36,24 +36,27 @@ type OwnProps = {
   ) => void;
 };
 type OwnState = {};
-export default class Keys extends React.Component<OwnProps, OwnState> {
-  private basicKeymaps: IKeymap[];
+export default class TabKey extends React.Component<OwnProps, OwnState> {
+  private static basicKeymaps: IKeymap[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {};
-    this.basicKeymaps = [
-      ...KeycodeList.basicKeymaps,
-      ...KeycodeList.getLooseKeycodeKeymaps(),
-      ...KeycodeList.getToKeymaps(this.props.layerCount),
-      ...KeycodeList.getToggleLayerKeymaps(this.props.layerCount),
-      ...KeycodeList.getLayerTapToggleKeymaps(this.props.layerCount),
-      ...KeycodeList.getMomentaryLayerKeymaps(this.props.layerCount),
-      ...KeycodeList.getOneShotLayerKeymaps(this.props.layerCount),
-      KeycodeList.getOneShotModKeymap(),
-      ...KeycodeList.getDefLayerKeymaps(this.props.layerCount),
-      ...KeycodeList.getLayerModKeymaps(this.props.layerCount),
-      ...KeycodeList.getSwapHnadsOptionKeymaps(),
-    ];
+    if (!TabKey.basicKeymaps) {
+      const layerCount = this.props.layerCount;
+      TabKey.basicKeymaps = [
+        ...KeycodeList.basicKeymaps,
+        ...LooseKeycodeComposition.genKeymaps(),
+        ...ToComposition.genKeymaps(layerCount),
+        ...ToggleLayerComposition.genKeymaps(layerCount),
+        ...LayerTapToggleComposition.genKeymaps(layerCount),
+        ...MomentaryComposition.genKeymaps(layerCount),
+        ...OneShotLayerComposition.genKeymaps(layerCount),
+        ...OneShotModComposition.genKeymaps(),
+        ...DefLayerComposition.genKeymaps(layerCount),
+        ...LayerModComposition.genKeymaps(layerCount),
+        ...SwapHandsComposition.genSwapHandsOptionKeymaps(),
+      ];
+    }
   }
   get direction(): IModDirection {
     if (this.props.value === null) {
@@ -108,13 +111,14 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
       | ToComposition
       | ToggleLayerComposition;
 
-    const keymap = JSON.parse(JSON.stringify(opt));
+    const keymap: IKeymap = JSON.parse(JSON.stringify(opt));
     keymap.direction = direction;
-    const category = keymap.categories[0];
-    if (category === 'Basic') {
+    const kinds = keymap.kinds;
+    if (kinds.includes('basic') || kinds.includes('special')) {
       if (mods.length === 0) {
+        keymap.modifiers = [];
         comp = new BasicComposition(keymap);
-      } else if (keymap.categories.includes('Func')) {
+      } else if (keymap.kinds.includes('func')) {
         // KC_FN* key is not allowed to add modifier(s)
         keymap.modifiers = [];
         keymap.direction = MOD_LEFT;
@@ -123,37 +127,37 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
         keymap.modifiers = mods;
         comp = new ModsComposition(direction, mods, keymap);
       }
-    } else if (category === 'Modifier') {
+    } else if (kinds.includes('mods')) {
       keymap.modifiers = mods;
       comp = new ModsComposition(direction, mods, keymap);
-    } else if (category === 'Function') {
+    } else if (kinds.includes('function')) {
       comp = new FunctionComposition(keymap.option!);
-    } else if (category === 'To') {
+    } else if (kinds.includes('to')) {
       comp = new ToComposition(keymap.option!);
-    } else if (category === 'Momentary-Layer') {
+    } else if (kinds.includes('momentary')) {
       comp = new MomentaryComposition(keymap.option!);
-    } else if (category === 'Def-Layer') {
+    } else if (kinds.includes('def_layer')) {
       comp = new DefLayerComposition(keymap.option!);
-    } else if (category === 'Layer-Tap-Toggle') {
+    } else if (kinds.includes('layer_tap_toggle')) {
       comp = new LayerTapToggleComposition(keymap.option!);
-    } else if (category === 'One-Shot-Layer') {
+    } else if (kinds.includes('one_shot_layer')) {
       comp = new OneShotLayerComposition(keymap.option!);
-    } else if (category === 'One-Shot-Mod') {
+    } else if (kinds.includes('one_shot_mod')) {
       keymap.modifiers = mods;
       comp = new OneShotModComposition(keymap.direction!, keymap.modifiers!);
-    } else if (category === 'Loose-Keycode') {
+    } else if (kinds.includes('loose_keycode')) {
       comp = new LooseKeycodeComposition(keymap);
-    } else if (category === 'Swap-Hands') {
+    } else if (kinds.includes('swap_hands')) {
       comp = new SwapHandsComposition(keymap.option as ISwapHandsOption);
-    } else if (category === 'Toggle-Layer') {
+    } else if (kinds.includes('toggle_layer')) {
       comp = new ToggleLayerComposition(keymap.option!);
-    } else if (category === 'Layer-Mod') {
+    } else if (kinds.includes('layer_mod')) {
       const layer = keymap.option!;
       keymap.modifiers = mods;
       comp = new LayerModComposition(layer, mods);
     } else {
       throw new Error(
-        `NOT TO BE HERE. code: ${keymap.code}, categories: ${keymap.categories}, direction: ${keymap.direction}, modifiers: ${keymap.modifiers}`
+        `NOT TO BE HERE. code: ${keymap.code}, categories: ${keymap.kinds}, direction: ${keymap.direction}, modifiers: ${keymap.modifiers}`
       );
     }
 
@@ -165,8 +169,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
   private onChangeKeycode(opt: IKeymap | null) {
     if (opt === null) return;
 
-    const direction =
-      opt.categories[0] === 'Layer-Mod' ? MOD_LEFT : this.direction;
+    const direction = opt.kinds[0] === 'layer_mod' ? MOD_LEFT : this.direction;
     this.emitOnChange(opt, direction, this.modifiers);
   }
 
@@ -179,7 +182,7 @@ export default class Keys extends React.Component<OwnProps, OwnState> {
       <React.Fragment>
         <AutocompleteKeys
           label="Keycode"
-          keycodeOptions={this.basicKeymaps}
+          keycodeOptions={TabKey.basicKeymaps}
           keycodeInfo={this.props.value}
           onChange={(opt) => {
             this.onChangeKeycode(opt);

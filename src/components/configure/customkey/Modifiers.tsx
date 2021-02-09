@@ -216,3 +216,25 @@ export const buildModCode = (mods: IMod[]): number => {
   }
   return code;
 };
+
+const MOD_LABELS = [
+  ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+  ['0', 'Ctrl', 'Shift', '3', 'Alt', '5', '6', '7', 'Win/Cmd'],
+  ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'],
+  ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'],
+  ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'],
+];
+
+export const buildModLabel = (modifiers: IMod[] | null): string => {
+  if (modifiers === null || modifiers.length === 0) {
+    return '';
+  }
+  const len = modifiers.length;
+  const mods = modifiers
+    .slice()
+    .sort()
+    .map((mod: IMod) => {
+      return MOD_LABELS[len][mod];
+    });
+  return mods.join('+');
+};
