@@ -1,6 +1,8 @@
-{
-  "categories": ["layers"],
-  "codes": [
+import { IKeycodeCategoryInfo } from '../Hid';
+
+export const keycodesLayers: IKeycodeCategoryInfo = {
+  categories: ['Layers'],
+  codes: [
     24336,
     24337,
     16684,
@@ -45,6 +47,6 @@
     20500,
     20501,
     20502,
-    20503
-  ]
-}
+    20503,
+  ],
+};

@@ -346,6 +346,7 @@ const keycodeAddKeyReducer = (
         keymap: {
           isAny: true,
           code: anyKey.code,
+          categories: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };
@@ -363,6 +364,7 @@ const keycodeAddKeyReducer = (
         keymap: {
           isAny: true,
           code: anyKey.code,
+          categories: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };

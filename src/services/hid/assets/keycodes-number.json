@@ -1,5 +1,5 @@
 {
-  "category": "number",
+  "categories": ["number"],
   "codes": [
     89,
     90,
