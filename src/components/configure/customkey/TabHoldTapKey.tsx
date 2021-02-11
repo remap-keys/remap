@@ -5,6 +5,7 @@ import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { IKeymap } from '../../../services/hid/Hid';
 import {
+  KeycodeCompositionFactory,
   LayerTapComposition,
   ModTapComposition,
   SwapHandsComposition,
@@ -36,6 +37,41 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
       ...LayerTapComposition.genKeymaps(this.props.layerCount),
       ...SwapHandsComposition.genKeymaps(),
     ];
+  }
+
+  static isAvailable(code: number): boolean {
+    const f = new KeycodeCompositionFactory(code);
+    return (
+      f.isModTap() ||
+      f.isLayerTap() ||
+      (f.isSwapHands() && !SwapHandsComposition.isSwapHandsOptions(code))
+    );
+  }
+
+  static genHoldTapKeys(code: number): { holdKey: IKeymap; tapKey: IKeymap } {
+    const f = new KeycodeCompositionFactory(code);
+    let holdKey: IKeymap | null = null;
+    let tapKey: IKeymap | null = null;
+    if (f.isModTap()) {
+      const comp = f.createModTapComposition();
+      holdKey = comp.genKeymap();
+      tapKey = comp.genTapKey();
+    } else if (f.isLayerTap()) {
+      const comp = f.createLayerTapComposition();
+      holdKey = comp.genKeymap();
+      tapKey = comp.genTapKey();
+    } else if (
+      f.isSwapHands() &&
+      !SwapHandsComposition.isSwapHandsOptions(code)
+    ) {
+      const comp = f.createSwapHandsComposition();
+      holdKey = comp.genKeymap();
+      tapKey = comp.genTapKey();
+    } else {
+      throw new Error(`NOT available code(${code}) in Hold/Tap tab`);
+    }
+
+    return { holdKey, tapKey };
   }
 
   get tapKeycodeOptions(): IKeymap[] {

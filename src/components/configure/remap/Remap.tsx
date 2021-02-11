@@ -42,12 +42,13 @@ type DescType = {
 function Desc(props: DescType) {
   if (!props.keymap) return <div></div>;
   if (props.keymap.isAny) return <div className="keycode-desc">Any</div>;
-  if (props.keymap.keycodeInfo && props.keymap.desc) {
+  if (props.keymap.keycodeInfo) {
     const info = props.keymap.keycodeInfo!;
     const hex = hexadecimal(info.code);
+    const desc = props.keymap.desc ? props.keymap.desc : '';
     return (
       <div className="keycode-desc">
-        {props.keymap.keycodeInfo.label}({hex}): {props.keymap.desc}
+        {props.keymap.keycodeInfo.label}: [{hex}] {desc}
       </div>
     );
   } else {

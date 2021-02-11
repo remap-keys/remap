@@ -1,5 +1,4 @@
 import React from 'react';
-import { IKeymap } from '../../../services/hid/Hid';
 import { buildModLabel } from '../customkey/Modifiers';
 import AnyKeyDialog from './any/AnyKeyEditDialog';
 import {
@@ -50,11 +49,6 @@ export default class KeycodeKey extends React.Component<
     if (value.keymap.isAny && !!value.keymap.keycodeInfo) {
       const info = value.keymap.keycodeInfo;
       this.setState({ openDialog: true, selectedKey: { ...info } });
-    } else if (this.props.selectedKeycapPosition) {
-      const pos = this.props.selectedKeycapPosition!;
-      const layer = this.props.selectedLayer!;
-      const keymap: IKeymap = this.props.keymaps![layer][pos];
-      this.props.remapKey!(layer, pos, keymap, value.keymap);
     } else {
       this.props.selectKey!(value);
     }
@@ -75,8 +69,7 @@ export default class KeycodeKey extends React.Component<
     this.setState({ openDialog: false, selectedKey: null });
   }
   render() {
-    const pos = this.props.selectedKeycapPosition;
-    const draggable = this.props.draggable && (pos == undefined || pos == '');
+    const draggable = this.props.draggable;
     const km = this.props.value.keymap;
 
     let modifierLabel = '';
@@ -97,7 +90,6 @@ export default class KeycodeKey extends React.Component<
           className={[
             'keycodekey',
             this.props.selected && 'selected',
-            (this.props.clickable || !draggable) && 'clickable',
             draggable && 'grabbable',
             this.state.dragging && 'dragging',
           ].join(' ')}

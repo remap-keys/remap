@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     keyboard: state.entities.keyboard,
     keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
+    keydiff: state.configure.keydiff,
     keymaps: state.entities.device.keymaps,
     layerCount: state.entities.device.layerCount,
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
@@ -41,6 +42,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     ) => {
       _dispatch(AppActions.remapsSetKey(selectedLayer, pos, dstKeymap));
       _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
+    },
+    clearSelectedPos: () => {
+      _dispatch(KeymapActions.clearSelectedPos());
     },
   };
 };
