@@ -5,8 +5,10 @@ import { Key, genKey } from '../keycodekey/KeycodeKey.container';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, withStyles } from '@material-ui/core';
 import './Keycap.scss';
+import { buildModLabel } from '../customkey/Modifiers';
+import { hexadecimal } from '../../../utils/StringUtils';
 
-export const KEY_SIZE = 54;
+export const KEY_SIZE = 56;
 const KEY_CAP_BORDER = 1;
 const KEY_CAP_MARGIN_HEIGHT = 5;
 const KEY_CAP_MARGIN_WIDTH = 5;
@@ -24,7 +26,7 @@ export type KeycapOwnProps = {
   // eslint-disable-next-line no-undef
   anchorRef?: React.RefObject<HTMLDivElement>;
   // eslint-disable-next-line no-unused-vars
-  onClick?: (key: Key) => void;
+  onClick?: (pos: string, key: Key) => void;
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -53,8 +55,8 @@ export default class Keycap extends React.Component<
     dstKey: Key | null
   ) {
     this.props.onClickKeycap!(pos, isSelectedKey, orgKey, dstKey);
-    if (this.props.onClick) {
-      this.props.onClick(dstKey ? dstKey : orgKey);
+    if (!isSelectedKey && this.props.onClick) {
+      this.props.onClick(pos, dstKey ? dstKey : orgKey);
     }
   }
 
@@ -131,7 +133,7 @@ export default class Keycap extends React.Component<
     };
 
     const pos = this.props.model.pos;
-    const option = this.props.model.optionLabel;
+    const optionLabel = this.props.model.optionLabel;
     const isSelectedKey = pos == this.props.selectedPos!;
     const keymap: IKeymap = this.props.keymap;
     const orgKey: Key = genKey(keymap);
@@ -139,6 +141,20 @@ export default class Keycap extends React.Component<
       ? genKey(this.props.remap)
       : null;
 
+    const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
+    let modifierLabel = '';
+    let holdLabel = '';
+    if (km.kinds.includes('mod_tap')) {
+      holdLabel = buildModLabel(km.modifiers || null);
+    } else if (km.kinds.includes('layer_tap')) {
+      holdLabel = km.option === undefined ? '' : `Layer(${km.option})`;
+    } else if (km.kinds.includes('swap_hands')) {
+      holdLabel = 'SWAP';
+    } else if (km.isAny) {
+      holdLabel = hexadecimal(km.code, 4);
+    } else {
+      modifierLabel = buildModLabel(km.modifiers || null);
+    }
     return (
       <div
         className={[
@@ -246,9 +262,11 @@ export default class Keycap extends React.Component<
         >
           <KeyLabel
             label={dstKey ? dstKey.label : orgKey.label}
+            modifierLabel={modifierLabel}
+            holdLabel={holdLabel}
             pos={pos}
             hasDiff={dstKey != null}
-            option={option}
+            optionChoiceLabel={optionLabel}
             debug={false}
           />
         </div>
@@ -259,9 +277,11 @@ export default class Keycap extends React.Component<
 
 type KeyLabelType = {
   label: string;
+  modifierLabel: string;
+  holdLabel: string;
   hasDiff: boolean;
   pos?: string;
-  option?: string;
+  optionChoiceLabel?: string;
   debug?: boolean;
 };
 function KeyLabel(props: KeyLabelType) {
@@ -270,39 +290,63 @@ function KeyLabel(props: KeyLabelType) {
       <React.Fragment>
         <div className="keylabel">
           <div className="label left top">{props.pos}</div>
-          <div className="label center"></div>
+          <div className={`label center modifier`}>{props.modifierLabel}</div>
           <div className="label right"></div>
         </div>
         <div className="keylabel">
           <div className="label left"></div>
-          <div className="label center">{props.label}</div>
+          <div className="label center keycode">{props.label}</div>
           <div className="label right"></div>
         </div>
         <div className="keylabel vbottom">
           <div className="label left"></div>
-          <div className="label center"></div>
-          <div className="label right">{props.option}</div>
+          <div className={`label center modifier`}>{props.holdLabel}</div>
+          <div className="label right">{props.optionChoiceLabel}</div>
         </div>
       </React.Fragment>
     );
   } else {
     const length = props.label.split(' ').length;
     const labelSize = length == 2 ? '_m' : length == 3 ? '_s' : '';
-    return (
-      <React.Fragment>
-        <div className="keylabel vcenter">
-          <div className={['label', 'center', labelSize].join(' ')}>
-            {props.label}
+    if (props.modifierLabel.length === 0 && props.holdLabel.length === 0) {
+      return (
+        <React.Fragment>
+          <div className="keylabel vcenter">
+            <div className={`label center keycode-label ${labelSize}`}>
+              {props.label}
+            </div>
           </div>
-        </div>
-        <StyledBadge
-          color="primary"
-          variant="dot"
-          invisible={!props.hasDiff}
-          className="diff-dot"
-        ></StyledBadge>
-      </React.Fragment>
-    );
+          <StyledBadge
+            color="primary"
+            variant="dot"
+            invisible={!props.hasDiff}
+            className="diff-dot"
+          ></StyledBadge>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <div className="keylabel">
+            <div className={`label center modifier`}>{props.modifierLabel}</div>
+          </div>
+          <div className="keylabel">
+            <div className={`label center keycode-label ${labelSize}`}>
+              {props.label}
+            </div>
+          </div>
+          <div className="keylabel">
+            <div className={`label center modifier`}>{props.holdLabel}</div>
+          </div>
+          <StyledBadge
+            color="primary"
+            variant="dot"
+            invisible={!props.hasDiff}
+            className="diff-dot"
+          ></StyledBadge>
+        </React.Fragment>
+      );
+    }
   }
 }
 

@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
 import Keymap from './Keymap';
 import { RootState } from '../../../store/state';
-import { AppActions, KeymapActions } from '../../../actions/actions';
+import {
+  AppActions,
+  KeydiffActions,
+  KeymapActions,
+} from '../../../actions/actions';
+import { IKeymap } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -27,6 +32,15 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     setKeyboardSize: (width: number, height: number) => {
       _dispatch(AppActions.updateKeyboardSize(width, height));
+    },
+    updateKeymap: (
+      selectedLayer: number,
+      pos: string,
+      orgKeymap: IKeymap,
+      dstKeymap: IKeymap
+    ) => {
+      _dispatch(AppActions.remapsSetKey(selectedLayer, pos, dstKeymap));
+      _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
     },
   };
 };

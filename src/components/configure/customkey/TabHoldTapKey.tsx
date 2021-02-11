@@ -1,9 +1,14 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './HoldTapKey.scss';
+import './TabHoldTapKey.scss';
 import AutocompleteKeys from './AutocompleteKeys';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { IKeymap } from '../../../services/hid/Hid';
+import {
+  LayerTapComposition,
+  ModTapComposition,
+  SwapHandsComposition,
+} from '../../../services/hid/Composition';
 
 type OwnProps = {
   holdKey: IKeymap | null;
@@ -17,7 +22,7 @@ type OwnState = {
   tapKeycodeOptions: IKeymap[];
 };
 
-export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
+export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
   private holdKeyOptions: IKeymap[];
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
@@ -27,9 +32,9 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     };
 
     this.holdKeyOptions = [
-      ...KeycodeList.getModTapKeymaps(),
-      ...KeycodeList.getHoldLayerKeymaps(this.props.layerCount),
-      KeycodeList.getSwapHandsKeyOptionKeymap(),
+      ...ModTapComposition.genKeymaps(),
+      ...LayerTapComposition.genKeymaps(this.props.layerCount),
+      ...SwapHandsComposition.genKeymaps(),
     ];
   }
 
@@ -38,10 +43,10 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
     if (holdKey == null) {
       return [];
     }
-    const category = holdKey.categories[0];
-    if (category === 'Hold-Layer' || category === 'Swap-Hands') {
+    const kinds = holdKey.kinds;
+    if (kinds.includes('layer_tap') || kinds.includes('swap_hands')) {
       return this.state.tapKeycodeOptions.filter((op) => {
-        return op.categories[0] != 'Layer-Mod';
+        return !op.kinds.includes('layer_mod');
       });
     }
 
@@ -64,7 +69,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
       return;
     }
     // if same type of the HOLD, use its keycode/layer
-    if (this.props.holdKey?.categories[0] === holdKey.categories[0]) {
+    if (this.props.holdKey?.kinds[0] === holdKey.kinds[0]) {
       this.emitOnChange(holdKey, this.props.tapKey);
     } else {
       this.emitOnChange(holdKey, null);
@@ -82,7 +87,7 @@ export default class HoldTapKey extends React.Component<OwnProps, OwnState> {
       <React.Fragment>
         <AutocompleteKeys
           label="Hold"
-          showCategory={false}
+          showKinds={false}
           keycodeOptions={this.holdKeyOptions}
           keycodeInfo={this.props.holdKey}
           onChange={(opt) => {

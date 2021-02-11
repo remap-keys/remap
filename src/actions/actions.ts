@@ -29,30 +29,25 @@ export const KeymapActions = {
 };
 
 export const KEYCODES_ACTIONS = '@Keycodes';
-export const KEYCODES_UPDATE_CATEGORY = `${KEYCODES_ACTIONS}/UpdateCategory`;
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
 export const KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES = `${KEYCODES_ACTIONS}/LoadKeycodeInfoForAllCategories`;
 export const KeycodesActions = {
-  updateCategory: (value: string) => {
-    return {
-      type: KEYCODES_UPDATE_CATEGORY,
-      value: value,
-    };
-  },
   updateMacro: (code: number | undefined, text: string) => {
     return {
       type: KEYCODES_UPDATE_MACRO,
       value: { code: code, text: text },
     };
   },
-  loadKeycodeInfoForAllCategories: (hid: IHid) => {
+  loadKeycodeInfoForAllCategories: (hid: IHid, layerCount: number) => {
     const getKeysByCategory = (category: string): Key[] => {
-      return hid.getKeymapCandidatesByCategory(category).map<Key>((keymap) => ({
-        code: keymap.code,
-        label: keymap.keycodeInfo!.label,
-        meta: '',
-        keymap,
-      }));
+      return hid
+        .getKeymapCandidatesByCategory(category, layerCount)
+        .map<Key>((keymap) => ({
+          code: keymap.code,
+          label: keymap.keycodeInfo!.label,
+          meta: '',
+          keymap,
+        }));
     };
 
     let keys: { [category: string]: Key[] } = {};

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
 import { Badge, Chip, withStyles } from '@material-ui/core';
@@ -9,6 +10,13 @@ import KeyModel from '../../../models/KeyModel';
 import KeyboardModel from '../../../models/KeyboardModel';
 import Keycap from '../keycap/Keycap.container';
 import ConfigurationDialog from '../configuration/ConfigurationDialog.container';
+import CustomKey, {
+  CUSTOMKEY_POPOVER_HEIGHT,
+  CUSTOMKEY_POPOVER_TRIANGLE,
+  CUSTOMKEY_POPOVER_WIDTH,
+  PopoverPosition,
+} from '../customkey/CustomKey';
+import { Key } from '../keycodekey/KeycodeKey.container';
 
 type OwnProp = {};
 
@@ -19,6 +27,9 @@ type KeymapPropsType = OwnProp &
 type OwnKeymapStateType = {
   configurationDialog: boolean;
   keyboardModel: KeyboardModel;
+  selectedPos: string | null; // 0,1
+  selectedKey: Key | null;
+  customKeyPopoverPosition: PopoverPosition;
 };
 
 export default class Keymap extends React.Component<
@@ -30,6 +41,9 @@ export default class Keymap extends React.Component<
     this.state = {
       configurationDialog: false,
       keyboardModel: new KeyboardModel(this.props.keyboardKeymap!),
+      selectedPos: null,
+      selectedKey: null,
+      customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
     };
   }
 
@@ -40,6 +54,79 @@ export default class Keymap extends React.Component<
       this.setState({ keyboardModel: kbd });
     }
     return true;
+  }
+
+  private onCloseCustomKeyPopup() {
+    this.setState({
+      selectedPos: null,
+      selectedKey: null,
+      customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
+    });
+  }
+  private onClickKeycap(
+    selectedPos: string,
+    selectedKey: Key,
+    selectedKeyRef: React.RefObject<HTMLDivElement>
+  ) {
+    const div: HTMLDivElement = selectedKeyRef.current!;
+    const rect = div.getBoundingClientRect();
+    const { left, top, right, height, width } = rect;
+    const center = left + width / 2;
+    const maxTop = top - CUSTOMKEY_POPOVER_HEIGHT;
+    const maxBottom =
+      top + height + CUSTOMKEY_POPOVER_TRIANGLE + CUSTOMKEY_POPOVER_HEIGHT;
+    const isThin = maxTop < 0 && window.innerHeight < maxBottom;
+    const isLeftSideKey = center < window.innerWidth / 2;
+    let position: PopoverPosition = { left: 0, top: 0, side: 'above' };
+
+    if (left < 200 || (isThin && isLeftSideKey)) {
+      // show right
+      position.left = left + width + CUSTOMKEY_POPOVER_TRIANGLE / 2;
+      position.top =
+        top +
+        height / 2 +
+        CUSTOMKEY_POPOVER_TRIANGLE -
+        CUSTOMKEY_POPOVER_HEIGHT / 2;
+      position.side = 'right';
+    } else if (window.innerWidth - 200 < right || (isThin && !isLeftSideKey)) {
+      // show left
+      position.left =
+        left - CUSTOMKEY_POPOVER_WIDTH - CUSTOMKEY_POPOVER_TRIANGLE / 2;
+      position.top =
+        top +
+        height / 2 +
+        CUSTOMKEY_POPOVER_TRIANGLE -
+        CUSTOMKEY_POPOVER_HEIGHT / 2;
+      position.side = 'left';
+    } else if (top < 255) {
+      // show below
+      position.left = left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2;
+      position.top = top + height + CUSTOMKEY_POPOVER_TRIANGLE;
+      position.side = 'below';
+    } else {
+      // show above
+      position.left = left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2;
+      position.top = top - CUSTOMKEY_POPOVER_HEIGHT;
+      position.side = 'above';
+    }
+
+    this.setState({
+      selectedPos,
+      selectedKey,
+      customKeyPopoverPosition: position,
+    });
+  }
+
+  private onChangeKeymap(dstKey: Key) {
+    const orgKeymap: IKeymap = this.props.keymaps![this.props.selectedLayer!][
+      this.state.selectedPos!
+    ];
+    this.props.updateKeymap!(
+      this.props.selectedLayer!,
+      this.state.selectedPos!,
+      orgKeymap,
+      dstKey.keymap
+    );
   }
 
   private openConfigurationDialog() {
@@ -84,9 +171,23 @@ export default class Keymap extends React.Component<
             selectedLayer={this.props.selectedLayer!}
             remaps={this.props.remaps!}
             setKeyboardSize={this.props.setKeyboardSize!}
+            onClickKeycap={(pos, key, ref) => {
+              this.onClickKeycap(pos, key, ref);
+            }}
           />
           <div className="balancer"></div>
           <div className="spacer"></div>
+          <CustomKey
+            id="customkey-popover"
+            open={Boolean(this.state.selectedKey)}
+            position={this.state.customKeyPopoverPosition}
+            value={this.state.selectedKey!}
+            layerCount={this.props.layerCount!}
+            onClose={this.onCloseCustomKeyPopup.bind(this)}
+            onChange={(key: Key) => {
+              this.onChangeKeymap(key);
+            }}
+          />
         </div>
         <ConfigurationDialog
           open={this.state.configurationDialog}
@@ -173,6 +274,14 @@ type KeyboardType = {
   selectedKeyboardOptions: (string | null)[];
   selectedLayer: number;
   remaps: { [pos: string]: IKeymap }[];
+  onClickKeycap: (
+    // eslint-disable-next-line no-unused-vars
+    pos: string,
+    // eslint-disable-next-line no-unused-vars
+    key: Key,
+    // eslint-disable-next-line no-unused-vars
+    ref: React.RefObject<HTMLDivElement>
+  ) => void;
   // eslint-disable-next-line no-unused-vars
   setKeyboardSize: (width: number, height: number) => void;
 };
@@ -237,10 +346,18 @@ export function KeyboardView(props: KeyboardType) {
           style={{ width: width, height: height, marginLeft: -left }}
         >
           {keycaps.map((keycap: KeycapData) => {
+            const anchorRef = React.createRef<HTMLDivElement>();
             return keycap.model.isDecal ? (
               ''
             ) : (
-              <Keycap key={keycap.model.location} {...keycap} />
+              <Keycap
+                anchorRef={anchorRef}
+                key={keycap.model.location}
+                {...keycap}
+                onClick={(pos: string, key: Key) => {
+                  props.onClickKeycap(pos, key, anchorRef);
+                }}
+              />
             );
           })}
         </div>

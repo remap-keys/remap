@@ -33,7 +33,7 @@ const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
     const keymap: IKeymap = {
       isAny: true,
       code: 0,
-      categories: [],
+      kinds: [],
       keycodeInfo: { label: model.pos, code: 0, name: { long: '', short: '' } },
     };
     const remap = null;

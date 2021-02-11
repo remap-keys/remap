@@ -1,11 +1,6 @@
 import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
-import {
-  IHid,
-  IKeyboard,
-  IKeycodeCategory,
-  IKeymap,
-} from '../services/hid/Hid';
+import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
@@ -92,7 +87,6 @@ export type RootState = {
       selectedLayer: number;
     };
     keycodes: {
-      category: string;
       keys: { [category: string]: Key[] };
     };
     keycodeKey: {
@@ -176,7 +170,6 @@ export const INIT_STATE: RootState = {
       selectedPos: '',
     },
     keycodes: {
-      category: IKeycodeCategory.BASIC,
       keys: {},
     },
     keycodeKey: {

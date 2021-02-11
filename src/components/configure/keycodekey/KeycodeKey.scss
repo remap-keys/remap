@@ -38,7 +38,6 @@
 
   .code-label {
     display: flex;
-    flex-grow: 1;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -47,5 +46,16 @@
     overflow-wrap: anywhere;
     overflow: hidden;
     padding: $space-xs;
+    height: 40%;
+  }
+
+  .code-label-expand {
+    flex-grow: 1;
+  }
+
+  .modifier-label {
+    height: 30%;
+    color: $color-gray-600;
+    font-size: 0.6rem;
   }
 }

@@ -17,11 +17,11 @@ const mapStateToProps = (state: RootState) => {
 
   return {
     _hidInstance: state.hid.instance,
-    category: state.configure.keycodes.category,
     draggingKey: state.configure.keycodeKey.draggingKey,
     keys: state.configure.keycodes.keys,
     keyboardWidth: state.app.keyboardWidth,
     selectedKey: state.configure.keycodeKey.selectedKey,
+    layerCount: state.entities.device.layerCount,
     macroText,
   };
 };
@@ -29,14 +29,13 @@ export type KeycodesStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    selectCategory: (value: string) => {
-      _dispatch(KeycodesActions.updateCategory(value));
-    },
     setMacro: (code: number | undefined, text: string) => {
       _dispatch(KeycodesActions.updateMacro(code, text));
     },
-    loadKeycodeInfoForAllCategories: (hid: IHid) => {
-      _dispatch(KeycodesActions.loadKeycodeInfoForAllCategories(hid));
+    loadKeycodeInfoForAllCategories: (hid: IHid, layerCount: number) => {
+      _dispatch(
+        KeycodesActions.loadKeycodeInfoForAllCategories(hid, layerCount)
+      );
     },
     releaseSelectedKey: () => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(null));

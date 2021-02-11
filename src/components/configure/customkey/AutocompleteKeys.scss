@@ -1,23 +1,23 @@
 @import '../../../variables';
 
-.customkey-select-item {
+.customkey-auto-select-item {
   position: relative;
   display: flex;
   flex-direction: column;
   padding: $space-s 0;
   font-size: 0.87rem;
   width: 100%;
-  .keycode-label-wrapper {
+  .keycode-auto-label-wrapper {
     display: flex;
     flex-direction: row;
-    .keycode-label {
+    .keycode-auto-label {
       flex-grow: 1;
     }
-    .keycode-category {
+    .keycode-auto-category {
       color: $color-gray-600;
     }
   }
-  .keycode-desc {
+  .keycode-auto-desc {
     font-size: 0.8rem;
     color: $color-gray-600;
   }

@@ -72,6 +72,7 @@ describe('Composition', () => {
       let subject = new BasicComposition({
         code: 0b0000_0100,
         isAny: false,
+        kinds: ['basic'],
         keycodeInfo: {
           code: 0b0000_0100,
           name: {
@@ -85,16 +86,19 @@ describe('Composition', () => {
       subject = new BasicComposition({
         code: 0b0000_0000,
         isAny: false,
+        kinds: ['basic'],
       });
       expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
       subject = new BasicComposition({
         code: 0b1111_1111,
         isAny: false,
+        kinds: ['basic'],
       });
       expect(subject.getCode()).toEqual(0b0000_0000_1111_1111);
       subject = new BasicComposition({
         code: 0b1_0000_0000,
         isAny: false,
+        kinds: ['basic'],
       });
       expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
     });
@@ -108,6 +112,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0100,
           isAny: false,
+          kinds: ['mods'],
           keycodeInfo: {
             code: 0b0000_0100,
             name: {
@@ -125,6 +130,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0000,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
@@ -134,6 +140,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0000,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
@@ -143,6 +150,7 @@ describe('Composition', () => {
         {
           code: 0b1111_1111,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0000_1111_1111_1111);
@@ -152,6 +160,7 @@ describe('Composition', () => {
         {
           code: 0b1111_1111,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0001_1111_1111_1111);
@@ -161,6 +170,7 @@ describe('Composition', () => {
         {
           code: 0b1_0000_0000,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
@@ -170,6 +180,7 @@ describe('Composition', () => {
         {
           code: 0b1_0000_0000,
           isAny: false,
+          kinds: ['mods'],
         }
       );
       expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
@@ -205,6 +216,7 @@ describe('Composition', () => {
       let subject = new LayerTapComposition(2, {
         code: 0b0000_0100,
         isAny: false,
+        kinds: ['layer_tap'],
         keycodeInfo: {
           code: 0b0000_0100,
           name: {
@@ -218,16 +230,19 @@ describe('Composition', () => {
       subject = new LayerTapComposition(0, {
         code: 0b0000_0000,
         isAny: false,
+        kinds: ['layer_tap'],
       });
       expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
       subject = new LayerTapComposition(15, {
         code: 0b1111_1111,
         isAny: false,
+        kinds: ['layer_tap'],
       });
       expect(subject.getCode()).toEqual(0b0100_1111_1111_1111);
       subject = new LayerTapComposition(16, {
         code: 0b1_0000_0000,
         isAny: false,
+        kinds: ['layer_tap'],
       });
       expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
     });
@@ -370,6 +385,7 @@ describe('Composition', () => {
       let subject = new SwapHandsComposition({
         code: 0b0000_0100,
         isAny: false,
+        kinds: ['swap_hands'],
         keycodeInfo: {
           code: 0b0000_0100,
           name: {
@@ -383,6 +399,7 @@ describe('Composition', () => {
       subject = new SwapHandsComposition({
         code: 0b0000_0000,
         isAny: false,
+        kinds: ['swap_hands'],
       });
       expect(subject.getCode()).toEqual(0b0101_1011_0000_0000);
       subject = new SwapHandsComposition(OP_SH_TOGGLE);
@@ -410,6 +427,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0100,
           isAny: false,
+          kinds: ['mod_tap'],
           keycodeInfo: {
             code: 0b0000_0100,
             name: {
@@ -427,6 +445,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0000,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
@@ -436,6 +455,7 @@ describe('Composition', () => {
         {
           code: 0b0000_0000,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
@@ -445,6 +465,7 @@ describe('Composition', () => {
         {
           code: 0b1111_1111,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0110_1111_1111_1111);
@@ -454,6 +475,7 @@ describe('Composition', () => {
         {
           code: 0b1111_1111,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0111_1111_1111_1111);
@@ -463,6 +485,7 @@ describe('Composition', () => {
         {
           code: 0b1_0000_0000,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
@@ -472,17 +495,20 @@ describe('Composition', () => {
         {
           code: 0b1_0000_0000,
           isAny: false,
+          kinds: ['mod_tap'],
         }
       );
       expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
       subject = new ModTapComposition(ModDirection.left, [], {
         code: 0b1111_1111,
         isAny: false,
+        kinds: ['mod_tap'],
       });
       expect(subject.getCode()).toEqual(0b0110_0000_1111_1111);
       subject = new ModTapComposition(ModDirection.right, [], {
         code: 0b1111_1111,
         isAny: false,
+        kinds: ['mod_tap'],
       });
       expect(subject.getCode()).toEqual(0b0111_0000_1111_1111);
     });
@@ -506,6 +532,7 @@ describe('Composition', () => {
       let subject = new LooseKeycodeComposition({
         code: 0b0101_1100_0000_0000,
         isAny: false,
+        kinds: ['loose_keycode'],
         keycodeInfo: {
           code: 0b0101_1100_0000_0000,
           name: {
@@ -519,6 +546,7 @@ describe('Composition', () => {
       subject = new LooseKeycodeComposition({
         code: 0b0101_1111_1111_1111,
         isAny: false,
+        kinds: ['loose_keycode'],
       });
       expect(subject.getCode()).toEqual(0b0101_1111_1111_1111);
     });
@@ -530,7 +558,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0100);
         expect(subject.isBasic()).toBeTruthy();
         const actual = subject.createBasicComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
+        expect(actual.genKeymap().code).toEqual(0b0000_0000_0000_0100);
       });
 
       test('not basic', () => {
@@ -547,7 +575,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0000_1111_0000_0100);
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.genKeymap().code).toEqual(0b0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -560,7 +588,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0001_1111_0000_0100);
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.genKeymap().code).toEqual(0b0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -626,7 +654,9 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0100_0100_0000_0100);
         expect(subject.isLayerTap()).toBeTruthy();
         const actual = subject.createLayerTapComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0000_0000_0100);
+        expect(actual.genKeymap().keycodeInfo!.code).toEqual(
+          0b0000_0000_0000_0100
+        );
         expect(actual.getLayer()).toEqual(4);
       });
 
@@ -819,8 +849,8 @@ describe('Composition', () => {
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeFalsy();
-        expect(actual.getKey()).not.toBeNull();
-        expect(actual.getKey()!.code).toEqual(0b0000_0100);
+        expect(actual.genKeymap()).not.toBeNull();
+        expect(actual.genKeymap().keycodeInfo!.code).toEqual(0b0000_0100);
         expect(actual.getSwapHandsOption()).toBeNull();
       });
 
@@ -829,7 +859,7 @@ describe('Composition', () => {
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeTruthy();
-        expect(actual.getKey()).toBeNull();
+        expect(actual.genKeymap().code).toEqual(0b0101_1011_1111_0001);
         expect(actual.getSwapHandsOption()).not.toBeNull();
         expect(actual.getSwapHandsOption()).toEqual(OP_SH_TAP_TOGGLE);
       });
@@ -848,7 +878,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0110_1111_0000_0100);
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.genKeymap().keycodeInfo!.code).toEqual(0b0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -861,7 +891,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0111_1111_0000_0100);
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.getKey().code).toEqual(0b0000_0100);
+        expect(actual.genKeymap().code).toEqual(0b0111_1111_0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -901,7 +931,7 @@ describe('Composition', () => {
         const subject = new KeycodeCompositionFactory(0b0101_1100_0000_0000);
         expect(subject.isLooseKeycode()).toBeTruthy();
         const actual = subject.createLooseKeycodeComposition();
-        expect(actual.getKey().code).toEqual(0b0101_1100_0000_0000);
+        expect(actual.genKeymap().code).toEqual(0b0101_1100_0000_0000);
       });
 
       test('not function', () => {
