@@ -75,14 +75,16 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
   }
 
   get disabledModifiers() {
-    const factory = new KeycodeCompositionFactory(
-      parseInt(this.props.hexCode, 16)
-    );
+    const code = parseInt(this.props.hexCode, 16);
+    const factory = new KeycodeCompositionFactory(code);
     const flag = !(
       (factory.isBasic() && !factory.isBasicFunc()) ||
       factory.isMods() ||
       factory.isLayerMod() ||
-      factory.isOneShotMod()
+      factory.isOneShotMod() ||
+      factory.isModTap() ||
+      factory.isLayerTap() ||
+      (factory.isSwapHands() && !SwapHandsComposition.isSwapHandsOptions(code))
     );
 
     return flag;

@@ -419,7 +419,9 @@ export class LayerTapComposition implements ILayerTapComposition {
       keycodeInfo: {
         code: this.key.code,
         label: label,
-        name: this.key.keycodeInfo!.name,
+        name: this.key.keycodeInfo
+          ? this.key.keycodeInfo.name
+          : { short: 'LT', long: 'LT' },
       },
       kinds: ['layer_tap'],
       desc: `Momentarily activates Layer(${layer}) when held, and sends keycode when tapped.`,
@@ -934,17 +936,19 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       keymap = {
         code: code,
         isAny: false,
-        keycodeInfo: {
-          code: this.key!.code,
-          label: `Swap-Hands`,
-          name: { short: 'SH', long: 'SH' },
-        },
+        keycodeInfo: this.key!.keycodeInfo,
         kinds: ['swap_hands'],
         desc:
           'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
       };
     }
     return keymap;
+  }
+
+  static isSwapHandsOptions(code: number): boolean {
+    return (
+      0 <= SwapHandsComposition.genKeymaps().findIndex((km) => km.code === code)
+    );
   }
 
   static genSwapHandsOptionKeymaps(): IKeymap[] {
@@ -1051,7 +1055,9 @@ export class ModTapComposition implements IModTapComposition {
       keycodeInfo: {
         code: this.key.code,
         label: `(${DIRECTION_LABELS[direction]}) ${hold}`,
-        name: this.key.keycodeInfo!.name,
+        name: this.key.keycodeInfo
+          ? this.key.keycodeInfo.name
+          : { short: 'MT', long: 'MT' },
       },
       kinds: ['mod_tap'],
       desc: `Momentarily activates ${hold} when held, and sends keycode when tapped.`,
