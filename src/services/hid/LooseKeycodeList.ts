@@ -1,6 +1,5 @@
 type T = {
   code: number;
-  label: string;
   desc?: string;
   keycodeInfo: {
     code: number;
@@ -11,7 +10,6 @@ type T = {
 export const loosekeycodeList: T[] = [
   {
     code: 23552,
-    label: 'Reset',
     desc: 'Put the keyboard into bootloader mode for flashing.',
     keycodeInfo: {
       code: 23552,
@@ -24,7 +22,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23553,
-    label: 'DEBUG',
     desc: 'Toggle debug mode.',
     keycodeInfo: {
       code: 23553,
@@ -37,7 +34,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23554,
-    label: 'CL SWAP',
     desc: 'Swap Caps Lock and Left Control.',
     keycodeInfo: {
       code: 23554,
@@ -45,12 +41,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_CONTROL_CAPSLOCK',
         short: 'CL_SWAP',
       },
-      label: 'MAGIC_SWAP_CONTROL_CAPSLOCK',
+      label: 'CL SWAP',
     },
   },
   {
     code: 23555,
-    label: 'CL CTRL',
     desc: 'Treat Caps Lock as Control.',
     keycodeInfo: {
       code: 23555,
@@ -58,12 +53,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_CAPSLOCK_TO_CONTROL',
         short: 'CL_CTRL',
       },
-      label: 'MAGIC_CAPSLOCK_TO_CONTROL',
+      label: 'CL CTRL',
     },
   },
   {
     code: 23556,
-    label: 'LAG SWP',
     desc: 'Swap Left Alt and GUI.',
     keycodeInfo: {
       code: 23556,
@@ -71,12 +65,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_LALT_LGUI',
         short: 'LAG_SWP',
       },
-      label: 'MAGIC_SWAP_LALT_LGUI',
+      label: 'LAG SWP',
     },
   },
   {
     code: 23557,
-    label: 'RAG SWP',
     desc: 'Swap Right Alt and GUI.',
     keycodeInfo: {
       code: 23557,
@@ -84,13 +77,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_RALT_RGUI',
         short: 'RAG_SWP',
       },
-      label: 'MAGIC_SWAP_RALT_RGUI',
+      label: 'RAG SWP',
     },
   },
 
   {
     code: 23558,
-    label: 'GUI OFF',
     desc: 'Disable the GUI keys.',
     keycodeInfo: {
       code: 23558,
@@ -98,13 +90,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_NO_GUI',
         short: 'GUI_OFF',
       },
-      label: 'MAGIC_NO_GUI',
+      label: 'GUI OFF',
     },
   },
 
   {
     code: 23559,
-    label: 'GE SWAP',
     desc: 'Swap ` and Escape.',
     keycodeInfo: {
       code: 23559,
@@ -112,12 +103,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_GRAVE_ESC',
         short: 'GE_SWAP',
       },
-      label: 'MAGIC_SWAP_GRAVE_ESC',
+      label: 'GE SWAP',
     },
   },
   {
     code: 23560,
-    label: 'BS SWAP',
     desc: 'Swap  and Backspace.',
     keycodeInfo: {
       code: 23560,
@@ -125,12 +115,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_BACKSLASH_BACKSPACE',
         short: 'BS_SWAP',
       },
-      label: 'MAGIC_SWAP_BACKSLASH_BACKSPACE',
+      label: 'BS SWAP',
     },
   },
   {
     code: 23561,
-    label: 'NK ON',
     desc: 'Enable N-key rollover.',
     keycodeInfo: {
       code: 23561,
@@ -138,12 +127,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_HOST_NKRO',
         short: 'NK_ON',
       },
-      label: 'MAGIC_HOST_NKRO',
+      label: 'NK ON',
     },
   },
   {
     code: 23562,
-    label: 'AG SWAP',
     desc: 'Swap Alt and Win/Cmd on both sides.',
     keycodeInfo: {
       code: 23562,
@@ -151,12 +139,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_ALT_GUI',
         short: 'AG_SWAP',
       },
-      label: 'MAGIC_SWAP_ALT_GUI',
+      label: 'AG SWAP',
     },
   },
   {
     code: 23563,
-    label: 'CL NORM',
     desc: 'Unswap Caps Lock and Left Control.',
     keycodeInfo: {
       code: 23563,
@@ -164,13 +151,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNSWAP_CONTROL_CAPSLOCK',
         short: 'CL_NORM',
       },
-      label: 'MAGIC_UNSWAP_CONTROL_CAPSLOCK',
+      label: 'CL NORM',
     },
   },
 
   {
     code: 23564,
-    label: 'CL CAPS',
     desc: 'Stop treating Caps Lock as Control.',
     keycodeInfo: {
       code: 23564,
@@ -178,13 +164,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNCAPSLOCK_TO_CONTROL',
         short: 'CL_CAPS',
       },
-      label: 'MAGIC_UNCAPSLOCK_TO_CONTROL',
+      label: 'CL CAPS',
     },
   },
 
   {
     code: 23565,
-    label: 'LAG NRM',
     desc: 'Unswap Left Alt and Win/Cmd.',
     keycodeInfo: {
       code: 23565,
@@ -192,13 +177,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNSWAP_LALT_LGUI',
         short: 'LAG_NRM',
       },
-      label: 'MAGIC_UNSWAP_LALT_LGUI',
+      label: 'LAG NRM',
     },
   },
 
   {
     code: 23566,
-    label: 'RAG NRM',
     desc: 'Unswap Right Alt and Win/Cmd.',
     keycodeInfo: {
       code: 23566,
@@ -206,12 +190,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNSWAP_RALT_RGUI',
         short: 'RAG_NRM',
       },
-      label: 'MAGIC_UNSWAP_RALT_RGUI',
+      label: 'RAG NRM',
     },
   },
   {
     code: 23567,
-    label: 'GUI ON',
     desc: 'Enable the Win/Cmd keys.',
     keycodeInfo: {
       code: 23567,
@@ -219,13 +202,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNNO_GUI',
         short: 'GUI_ON',
       },
-      label: 'MAGIC_UNNO_GUI',
+      label: 'GUI ON',
     },
   },
 
   {
     code: 23568,
-    label: 'GE NORM',
     desc: 'Unswap ` and Escape.',
     keycodeInfo: {
       code: 23568,
@@ -233,13 +215,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_SWAP_GRAVE_ESC',
         short: 'GE_SWAP',
       },
-      label: 'MAGIC_SWAP_GRAVE_ESC',
+      label: 'GE NORM',
     },
   },
 
   {
     code: 23569,
-    label: 'BS NORM',
     desc: 'Unswap  and Backspace.',
     keycodeInfo: {
       code: 23569,
@@ -247,12 +228,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
         short: 'BS_NORM',
       },
-      label: 'MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
+      label: 'BS NORM',
     },
   },
   {
     code: 23570,
-    label: 'NK OFF',
     desc: 'Disable N-key rollover.',
     keycodeInfo: {
       code: 23570,
@@ -260,12 +240,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNHOST_NKRO',
         short: 'NK_OFF',
       },
-      label: 'MAGIC_UNHOST_NKRO',
+      label: 'NK OFF',
     },
   },
   {
     code: 23571,
-    label: 'AG NORM',
     desc: 'Unswap Alt and GUI on both sides.',
     keycodeInfo: {
       code: 23571,
@@ -273,12 +252,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_UNSWAP_ALT_GUI',
         short: 'AG_NORM',
       },
-      label: 'MAGIC_UNSWAP_ALT_GUI',
+      label: 'AG NORM',
     },
   },
   {
     code: 23572,
-    label: 'NK TOGG',
     desc: 'Toggle N-key rollover.',
     keycodeInfo: {
       code: 23572,
@@ -286,12 +264,12 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_TOGGLE_NKRO',
         short: 'NK_TOGG',
       },
-      label: 'Toggle NKRO',
+      label: 'NK TOGG',
     },
   },
   {
     code: 23573,
-    label: 'AG TOGG',
+
     desc: 'Toggle Alt and Win/Cmd swap on both sides.',
     keycodeInfo: {
       code: 23573,
@@ -299,12 +277,11 @@ export const loosekeycodeList: T[] = [
         long: 'MAGIC_TOGGLE_ALT_GUI',
         short: 'AG_TOGG',
       },
-      label: 'MAGIC_TOGGLE_ALT_GUI',
+      label: 'AG TOGG',
     },
   },
   {
     code: 23574,
-    label: 'GRAVE ESC',
     desc: 'Share the grave key (` and ~) with Escape.',
     keycodeInfo: {
       code: 23574,
@@ -317,7 +294,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23581,
-    label: 'Audio on',
     desc: 'Audio mode on.',
     keycodeInfo: {
       code: 23581,
@@ -330,7 +306,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23582,
-    label: 'Audio Off',
     desc: 'Audio mode off.',
     keycodeInfo: {
       code: 23582,
@@ -343,7 +318,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23583,
-    label: 'Audio Toggle',
     desc: 'Toggles Audio mode.',
     keycodeInfo: {
       code: 23583,
@@ -356,8 +330,7 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23584,
-    label: '',
-    desc: '',
+    desc: 'Toggles Audio clicky mode.',
     keycodeInfo: {
       code: 23584,
       name: {
@@ -369,7 +342,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23585,
-    label: '',
     desc: '',
     keycodeInfo: {
       code: 23585,
@@ -382,7 +354,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23586,
-    label: '',
     desc: '',
     keycodeInfo: {
       code: 23586,
@@ -395,7 +366,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23587,
-    label: 'Clicky Up',
     desc: 'Increases frequency of the clicks.',
     keycodeInfo: {
       code: 23587,
@@ -408,7 +378,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23588,
-    label: 'Clicky Down',
     desc: 'Decreases frequency of the clicks.',
     keycodeInfo: {
       code: 23588,
@@ -421,7 +390,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23589,
-    label: 'Clicky Reset',
     desc: 'Resets frequency to default.',
     keycodeInfo: {
       code: 23589,
@@ -434,7 +402,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23590,
-    label: 'Music On',
     desc: 'Turn music mode on.',
     keycodeInfo: {
       code: 23590,
@@ -447,7 +414,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23591,
-    label: 'Music Off',
     desc: 'Music Toggle.',
     keycodeInfo: {
       code: 23591,
@@ -460,7 +426,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23592,
-    label: 'Music Toggle',
     desc: 'Toggle music mode.',
     keycodeInfo: {
       code: 23592,
@@ -473,7 +438,6 @@ export const loosekeycodeList: T[] = [
   },
   {
     code: 23593,
-    label: 'Music Mode',
     desc: 'Cycle through the music modes.',
     keycodeInfo: {
       code: 23593,
@@ -487,8 +451,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23739,
-    label: 'BL On',
-    desc: '',
+    desc: 'Set the backlight to max brightness.',
     keycodeInfo: {
       code: 23739,
       name: {
@@ -501,8 +464,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23740,
-    label: 'BL Off',
-    desc: '',
+    desc: 'Turn the backlight off.',
     keycodeInfo: {
       code: 23740,
       name: {
@@ -515,8 +477,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23741,
-    label: 'BL -',
-    desc: '',
+    desc: 'Decrease the backlight level.',
     keycodeInfo: {
       code: 23741,
       name: {
@@ -529,8 +490,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23742,
-    label: 'BL +',
-    desc: '',
+    desc: 'Increase the backlight level.',
     keycodeInfo: {
       code: 23742,
       name: {
@@ -543,8 +503,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23743,
-    label: 'BL Toggle',
-    desc: '',
+    desc: 'Turn the backlight on or off.',
     keycodeInfo: {
       code: 23743,
       name: {
@@ -557,8 +516,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23744,
-    label: 'BL Cycle',
-    desc: '',
+    desc: 'Cycle through backlight levels.',
     keycodeInfo: {
       code: 23744,
       name: {
@@ -571,8 +529,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23745,
-    label: 'BR Toggle',
-    desc: '',
+    desc: 'Toggle backlight breathing',
     keycodeInfo: {
       code: 23745,
       name: {
@@ -585,8 +542,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23746,
-    label: 'RGB Toggle',
-    desc: '',
+    desc: 'Toggle RGB lighting on or off.',
     keycodeInfo: {
       code: 23746,
       name: {
@@ -599,8 +555,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23747,
-    label: 'RGB Mode +',
-    desc: '',
+    desc: 'Cycle through modes, reverse direction when Shift is held.',
     keycodeInfo: {
       code: 23747,
       name: {
@@ -613,8 +568,8 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23748,
-    label: 'RGB Mode -',
-    desc: '',
+    desc:
+      'Cycle through modes in reverse, forward direction when Shift is held.',
     keycodeInfo: {
       code: 23748,
       name: {
@@ -627,8 +582,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23749,
-    label: 'Hue +',
-    desc: '',
+    desc: 'Increase hue, decrease hue when Shift is held.',
     keycodeInfo: {
       code: 23749,
       name: {
@@ -641,8 +595,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23750,
-    label: 'Hue -',
-    desc: '',
+    desc: 'Decrease hue, increase hue when Shift is held.',
     keycodeInfo: {
       code: 23750,
       name: {
@@ -655,8 +608,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23751,
-    label: 'Sat +',
-    desc: '',
+    desc: 'Increase saturation, decrease saturation when Shift is held.',
     keycodeInfo: {
       code: 23751,
       name: {
@@ -669,8 +621,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23752,
-    label: 'Sat -',
-    desc: '',
+    desc: 'Decrease saturation, increase saturation when Shift is held.',
     keycodeInfo: {
       code: 23752,
       name: {
@@ -683,8 +634,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23753,
-    label: 'Bright +',
-    desc: '',
+    desc: 'Increase value (brightness), decrease value when Shift is held.',
     keycodeInfo: {
       code: 23753,
       name: {
@@ -697,8 +647,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23754,
-    label: 'Bright -',
-    desc: '',
+    desc: 'Decrease value (brightness), increase value when Shift is held.',
     keycodeInfo: {
       code: 23754,
       name: {
@@ -711,8 +660,8 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23755,
-    label: 'Effect Speed +',
-    desc: '',
+    desc:
+      'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held.',
     keycodeInfo: {
       code: 23755,
       name: {
@@ -725,8 +674,8 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23756,
-    label: 'Effect Speed -',
-    desc: '',
+    desc:
+      'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held.',
     keycodeInfo: {
       code: 23756,
       name: {
@@ -739,8 +688,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23757,
-    label: 'RGB Mode P',
-    desc: '',
+    desc: 'Static (no animation) mode.',
     keycodeInfo: {
       code: 23757,
       name: {
@@ -753,8 +701,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23758,
-    label: 'RGB Mode B',
-    desc: '',
+    desc: 'Breathing animation mode.',
     keycodeInfo: {
       code: 23758,
       name: {
@@ -767,8 +714,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23759,
-    label: 'RGB Mode R',
-    desc: '',
+    desc: 'Rainbow animation mode.',
     keycodeInfo: {
       code: 23759,
       name: {
@@ -781,8 +727,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23760,
-    label: 'RGB Mode SW',
-    desc: '',
+    desc: 'Swirl animation mode.',
     keycodeInfo: {
       code: 23760,
       name: {
@@ -795,8 +740,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23761,
-    label: 'RGB Mode SN',
-    desc: '',
+    desc: 'Snake animation mode.',
     keycodeInfo: {
       code: 23761,
       name: {
@@ -809,8 +753,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23762,
-    label: 'RGB Mode K',
-    desc: '',
+    desc: '"Knight Rider" animation mode.',
     keycodeInfo: {
       code: 23762,
       name: {
@@ -823,8 +766,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23763,
-    label: 'RGB Mode X',
-    desc: '',
+    desc: 'Christmas animation mode.',
     keycodeInfo: {
       code: 23763,
       name: {
@@ -837,8 +779,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23764,
-    label: 'RGB Mode G',
-    desc: '',
+    desc: 'Static gradient animation mode.',
     keycodeInfo: {
       code: 23764,
       name: {
@@ -851,8 +792,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23767,
-    label: 'LS (',
-    desc: '',
+    desc: 'Left Shift when held, ( when tapped.',
     keycodeInfo: {
       code: 23767,
       name: {
@@ -865,8 +805,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23768,
-    label: 'RS )',
-    desc: '',
+    desc: 'Right Shift when held, ) when tapped.',
     keycodeInfo: {
       code: 23768,
       name: {
@@ -879,8 +818,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23769,
-    label: 'SftEnt',
-    desc: '',
+    desc: 'Right Shift when held, Enter when tapped.',
     keycodeInfo: {
       code: 23769,
       name: {
@@ -893,8 +831,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23795,
-    label: 'LC (',
-    desc: '',
+    desc: 'Left Control when held, ( when tapped',
     keycodeInfo: {
       code: 23795,
       name: {
@@ -907,8 +844,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23796,
-    label: 'RC )',
-    desc: '',
+    desc: 'Right Control when held, ) when tapped.',
     keycodeInfo: {
       code: 23796,
       name: {
@@ -921,8 +857,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23797,
-    label: 'LA (',
-    desc: '',
+    desc: 'Left Alt when held, ( when tapped.',
     keycodeInfo: {
       code: 23797,
       name: {
@@ -935,8 +870,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 23798,
-    label: 'RA )',
-    desc: '',
+    desc: 'Right Alt when held, ) when tapped.',
     keycodeInfo: {
       code: 23798,
       name: {
@@ -949,7 +883,6 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24336,
-    label: 'Fn1 (Fn3)',
     desc: '',
     keycodeInfo: {
       code: 24336,
@@ -963,7 +896,6 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24337,
-    label: 'Fn2 (Fn3)',
     desc: '',
     keycodeInfo: {
       code: 24337,
@@ -977,8 +909,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24338,
-    label: 'M0',
-    desc: '',
+    desc: 'Macro 0',
     keycodeInfo: {
       code: 24338,
       name: {
@@ -991,8 +922,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24339,
-    label: 'M1',
-    desc: '',
+    desc: 'Macro 1',
     keycodeInfo: {
       code: 24339,
       name: {
@@ -1005,8 +935,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24340,
-    label: 'M2',
-    desc: '',
+    desc: 'Macro 2',
     keycodeInfo: {
       code: 24340,
       name: {
@@ -1019,8 +948,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24341,
-    label: 'M3',
-    desc: '',
+    desc: 'Macro 3',
     keycodeInfo: {
       code: 24341,
       name: {
@@ -1033,8 +961,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24342,
-    label: 'M4',
-    desc: '',
+    desc: 'Macro 4',
     keycodeInfo: {
       code: 24342,
       name: {
@@ -1047,8 +974,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24343,
-    label: 'M5',
-    desc: '',
+    desc: 'Macro 5',
     keycodeInfo: {
       code: 24343,
       name: {
@@ -1061,8 +987,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24344,
-    label: 'M6',
-    desc: '',
+    desc: 'Macro 6',
     keycodeInfo: {
       code: 24344,
       name: {
@@ -1075,8 +1000,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24345,
-    label: 'M7',
-    desc: '',
+    desc: 'Macro 7',
     keycodeInfo: {
       code: 24345,
       name: {
@@ -1089,8 +1013,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24346,
-    label: 'M8',
-    desc: '',
+    desc: 'Macro 8',
     keycodeInfo: {
       code: 24346,
       name: {
@@ -1103,8 +1026,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24347,
-    label: 'M9',
-    desc: '',
+    desc: 'Macro 9',
     keycodeInfo: {
       code: 24347,
       name: {
@@ -1117,8 +1039,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24348,
-    label: 'M10',
-    desc: '',
+    desc: 'Macro 10',
     keycodeInfo: {
       code: 24348,
       name: {
@@ -1131,8 +1052,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24349,
-    label: 'M11',
-    desc: '',
+    desc: 'Macro 11',
     keycodeInfo: {
       code: 24349,
       name: {
@@ -1145,8 +1065,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24350,
-    label: 'M12',
-    desc: '',
+    desc: 'Macro 12',
     keycodeInfo: {
       code: 24350,
       name: {
@@ -1159,8 +1078,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24351,
-    label: 'M13',
-    desc: '',
+    desc: 'Macro 13',
     keycodeInfo: {
       code: 24351,
       name: {
@@ -1173,8 +1091,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24352,
-    label: 'M14',
-    desc: '',
+    desc: 'Macro 14',
     keycodeInfo: {
       code: 24352,
       name: {
@@ -1187,8 +1104,7 @@ export const loosekeycodeList: T[] = [
 
   {
     code: 24353,
-    label: 'M15',
-    desc: '',
+    desc: 'Macro 15',
     keycodeInfo: {
       code: 24353,
       name: {
