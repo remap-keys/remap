@@ -39,7 +39,7 @@ type OwnState = {
   selectedTabIndex: number;
 
   // Keys TAB
-  value: IKeymap | null; // Keys
+  value: IKeymap | null;
 
   // 2 FUNCS TAB
   holdKey: IKeymap | null;
@@ -47,7 +47,7 @@ type OwnState = {
 
   // Custom TAB
   label: string;
-  hexCode: string; // support to show 001.
+  hexCode: string; // MUST be hexadecimal but not number to support to show 001.
 };
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
@@ -73,10 +73,31 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   private onEnter() {
     //TODO: initialize input status
     const keymap: IKeymap = this.props.value.keymap;
+    const code = keymap.code;
+    const hexCode = Number(code).toString(16);
+    const label = keymap.keycodeInfo ? keymap.keycodeInfo.label : 'Any';
+    let selectedTabIndex = 0;
+    let value = null;
+    let holdKey = null;
+    let tapKey = null;
+    if (TabKey.isAvailable(code)) {
+      value = keymap;
+      selectedTabIndex = 0;
+    } else if (TabHoldTapKey.isAvailable(code)) {
+      const keys = TabHoldTapKey.genHoldTapKeys(code);
+      holdKey = keys.holdKey;
+      tapKey = keys.tapKey;
+      selectedTabIndex = 1;
+    } else {
+      selectedTabIndex = 2;
+    }
     this.setState({
-      value: this.props.value.keymap,
-      label: this.props.value.keymap.keycodeInfo!.label,
-      hexCode: Number(keymap.code).toString(16),
+      selectedTabIndex,
+      value,
+      holdKey,
+      tapKey,
+      label,
+      hexCode,
     });
   }
 
@@ -131,11 +152,8 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       this.setState({ label: '', hexCode: '' });
       return;
     }
-    let comp:
-      | ModTapComposition
-      | LayerTapComposition
-      | SwapHandsComposition
-      | null = null;
+    let comp: ModTapComposition | LayerTapComposition | SwapHandsComposition;
+
     const kinds = holdKey.kinds;
     if (kinds.includes('layer_tap')) {
       comp = new LayerTapComposition(holdKey.option!, tapKey);

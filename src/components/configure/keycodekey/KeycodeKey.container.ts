@@ -3,15 +3,9 @@ import KeycodeKey, { AnyKey, KeycodeKeyOwnProps } from './KeycodeKey';
 import { RootState } from '../../../store/state';
 import {
   AnyKeycodeKeyActions,
-  AppActions,
   KeycodeKeyActions,
-  KeydiffActions,
 } from '../../../actions/actions';
-import {
-  IKeycodeCategory,
-  IKeycodeInfo,
-  IKeymap,
-} from '../../../services/hid/Hid';
+import { IKeycodeInfo, IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { IMod, IModDirection } from '../../../services/hid/Composition';
 
@@ -54,16 +48,10 @@ export class KeycodeInfo implements IKeycodeInfo {
 }
 
 const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
-  const keys = state.configure.keycodes.keys[IKeycodeCategory.MACRO];
-  const clickable: boolean = !!(
-    keys && keys.find((key) => key.keymap.code === ownProps.value.keymap.code)
-  );
   return {
     keymaps: state.entities.device.keymaps,
     selectedLayer: state.configure.keymap.selectedLayer,
     selected: state.configure.keycodeKey.selectedKey == ownProps.value,
-    selectedKeycapPosition: state.configure.keymap.selectedPos,
-    clickable,
   };
 };
 export type KeycodeKeyStateType = ReturnType<typeof mapStateToProps>;
@@ -84,10 +72,6 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateAnyKey: (index: number, anyKey: AnyKey) => {
       _dispatch(AnyKeycodeKeyActions.updateAnyKey(index, anyKey));
-    },
-    remapKey: (layer: number, pos: string, orig: IKeymap, dest: IKeymap) => {
-      _dispatch(AppActions.remapsSetKey(layer, pos, dest));
-      _dispatch(KeydiffActions.updateKeydiff(orig, dest));
     },
   };
 };

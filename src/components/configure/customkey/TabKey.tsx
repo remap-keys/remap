@@ -58,6 +58,26 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       ];
     }
   }
+
+  static isAvailable(code: number): boolean {
+    const f = new KeycodeCompositionFactory(code);
+    return (
+      f.isBasic() ||
+      f.isMods() ||
+      f.isFunction() ||
+      f.isTo() ||
+      f.isMomentary() ||
+      f.isDefLayer() ||
+      f.isLayerTapToggle() ||
+      f.isOneShotLayer() ||
+      f.isOneShotMod() ||
+      f.isLooseKeycode() ||
+      (f.isSwapHands() && SwapHandsComposition.isSwapHandsOptions(code)) ||
+      f.isToggleLayer() ||
+      f.isLayerMod()
+    );
+  }
+
   get direction(): IModDirection {
     if (this.props.value === null) {
       return MOD_LEFT;
@@ -75,6 +95,8 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
   }
 
   get disabledModifiers() {
+    if (this.props.value === null) return true;
+
     const code = parseInt(this.props.hexCode, 16);
     const factory = new KeycodeCompositionFactory(code);
     const flag = !(

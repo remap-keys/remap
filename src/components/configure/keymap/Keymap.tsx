@@ -62,6 +62,10 @@ export default class Keymap extends React.Component<
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
     });
+
+    if (this.props.keydiff!.destination === null) {
+      this.props.clearSelectedPos!();
+    }
   }
   private onClickKeycap(
     selectedPos: string,
