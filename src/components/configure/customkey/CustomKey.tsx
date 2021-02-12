@@ -147,7 +147,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     return true;
   }
 
-  private onChangeKeys(value: IKeymap | null) {
+  private onChangeKey(value: IKeymap | null) {
     if (value == null) {
       this.setState({ value: value, label: '', hexCode: '' });
       return;
@@ -199,7 +199,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   private onChangeHexCode(value: string) {
-    const hexCode = value
+    const hexCode: string = value
       .toUpperCase()
       .replace(/[^0-9,A-F]/g, '')
       .slice(0, 4);
@@ -211,7 +211,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     } else {
       const ret = KeycodeList.getKeymaps(code);
       if (ret.value) {
-        this.onChangeKeys(ret.value);
+        this.onChangeKey(ret.value);
       } else if (ret.holdKey && ret.tapKey) {
         this.onChangeHoldTap(ret.holdKey, ret.tapKey);
       }
@@ -245,15 +245,13 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   private selectTab(event: React.ChangeEvent<{}>, selectedTabIndex: number) {
     this.setState({ selectedTabIndex });
     if (selectedTabIndex === 0 && this.state.value) {
-      this.onChangeKeys(this.state.value);
+      this.onChangeKey(this.state.value);
     } else if (
       selectedTabIndex === 1 &&
       this.state.holdKey &&
       this.state.tapKey
     ) {
       this.onChangeHoldTap(this.state.holdKey, this.state.tapKey);
-    } else if (selectedTabIndex === 2) {
-      this.onChangeHexCode(this.state.hexCode);
     }
   }
 
@@ -295,7 +293,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
               onChangeKey={(opt: IKeymap) => {
-                this.onChangeKeys(opt);
+                this.onChangeKey(opt);
               }}
             />
           </TabPanel>

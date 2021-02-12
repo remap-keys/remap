@@ -291,7 +291,7 @@ export class BasicComposition implements IBasicComposition {
   }
 
   genKeymap(): IKeymap {
-    return this.key;
+    return JSON.parse(JSON.stringify(this.key));
   }
 }
 
@@ -321,8 +321,24 @@ export class ModsComposition implements IModsComposition {
   }
 
   genKeymap(): IKeymap {
+    const modLabels = [
+      '0',
+      'Ctrl',
+      'Shift',
+      '3',
+      'Alt',
+      '5',
+      '6',
+      '7',
+      'Win/Cmd',
+    ];
+    const modLabel = this.modifiers.map((m) => modLabels[m]).join('+');
     return {
-      ...this.key,
+      code: this.getCode(),
+      kinds: ['basic', 'mods'],
+      isAny: false,
+      desc: `${modLabel} + ${this.key.desc || this.key.keycodeInfo.label}`,
+      keycodeInfo: this.key.keycodeInfo,
       direction: this.modDirection,
       modifiers: this.modifiers,
     };
@@ -775,7 +791,7 @@ export class TapDanceComposition implements ITapDanceComposition {
   }
 
   genKeymap(): IKeymap {
-    return ANY_KEYMAP;
+    return JSON.parse(JSON.stringify(ANY_KEYMAP));
   }
 }
 
@@ -1178,7 +1194,7 @@ export class UnicodeComposition implements IUnicodeComposition {
   }
   genKeymap(): IKeymap {
     // TODO
-    return ANY_KEYMAP;
+    return JSON.parse(JSON.stringify(ANY_KEYMAP));
   }
 }
 
@@ -1195,7 +1211,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
   }
 
   genKeymap(): IKeymap {
-    return this.key;
+    return JSON.parse(JSON.stringify(this.key));
   }
 
   static genKeymaps(): IKeymap[] {
