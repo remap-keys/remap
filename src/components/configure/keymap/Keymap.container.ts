@@ -46,6 +46,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     clearSelectedPos: () => {
       _dispatch(KeymapActions.clearSelectedPos());
     },
+    revertKeymap: (selectedLayer: number, pos: string) => {
+      _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
+      _dispatch(KeydiffActions.clearKeydiff());
+    },
   };
 };
 

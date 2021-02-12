@@ -225,7 +225,10 @@ const MOD_LABELS = [
   ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'],
 ];
 
-export const buildModLabel = (modifiers: IMod[] | null): string => {
+export const buildModLabel = (
+  modifiers: IMod[] | null,
+  direction: IModDirection
+): string => {
   if (modifiers === null || modifiers.length === 0) {
     return '';
   }
@@ -236,5 +239,10 @@ export const buildModLabel = (modifiers: IMod[] | null): string => {
     .map((mod: IMod) => {
       return MOD_LABELS[len][mod];
     });
-  return mods.join('+');
+  const modLabel = mods.join('+');
+  if (direction === MOD_LEFT) {
+    return '*' + modLabel;
+  } else {
+    return modLabel + '*';
+  }
 };

@@ -6,7 +6,7 @@ import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, withStyles } from '@material-ui/core';
 import './Keycap.scss';
 import { buildModLabel } from '../customkey/Modifiers';
-import { hexadecimal } from '../../../utils/StringUtils';
+import { buildHoldKeyLabel } from '../customkey/TabHoldTapKey';
 
 export const KEY_SIZE = 56;
 const KEY_CAP_BORDER = 1;
@@ -142,19 +142,12 @@ export default class Keycap extends React.Component<
       : null;
 
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
-    let modifierLabel = '';
-    let holdLabel = '';
-    if (km.kinds.includes('mod_tap')) {
-      holdLabel = buildModLabel(km.modifiers || null);
-    } else if (km.kinds.includes('layer_tap')) {
-      holdLabel = km.option === undefined ? '' : `Layer(${km.option})`;
-    } else if (km.kinds.includes('swap_hands')) {
-      holdLabel = 'SWAP';
-    } else if (km.isAny) {
-      holdLabel = hexadecimal(km.code, 4);
-    } else {
-      modifierLabel = buildModLabel(km.modifiers || null);
-    }
+    let holdLabel = buildHoldKeyLabel(km, km.isAny);
+    let modifierLabel =
+      holdLabel === ''
+        ? buildModLabel(km.modifiers || null, km.direction!)
+        : '';
+
     return (
       <div
         className={[

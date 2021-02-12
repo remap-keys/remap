@@ -30,8 +30,10 @@ export default class AutocompleteKeys extends React.Component<
     };
   }
 
-  private updateValue(value: IKeymap | null) {
-    this.props.onChange(value);
+  private updateValue(value: IKeymap | string | null) {
+    if (typeof value != 'string') {
+      this.props.onChange(value);
+    }
   }
 
   private setInputValue(inputValue: string) {
@@ -55,7 +57,11 @@ export default class AutocompleteKeys extends React.Component<
           this.setInputValue(newInputValue.split('::')[0]);
         }}
         getOptionLabel={(option) => {
-          return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
+          if (typeof option === 'string') {
+            return option;
+          } else {
+            return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
+          }
         }}
         renderOption={(option) => (
           <div className="customkey-auto-select-item">

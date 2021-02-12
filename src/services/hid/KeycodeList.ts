@@ -5,6 +5,7 @@ import {
   KeycodeCompositionFactory,
   LayerTapToggleComposition,
   LooseKeycodeComposition,
+  MOD_LEFT,
   MomentaryComposition,
   OneShotLayerComposition,
   ToComposition,
@@ -63,6 +64,8 @@ export class KeycodeList {
       code,
       isAny: false,
       kinds: kinds,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: keycodeInfoList.find((keycode) => keycode.code === code)!,
     };
   }
@@ -151,6 +154,8 @@ export class KeycodeList {
         code: hex,
         isAny: true,
         kinds: ['any'],
+        direction: MOD_LEFT,
+        modifiers: [],
         keycodeInfo: {
           code: hex,
           label: 'Any',

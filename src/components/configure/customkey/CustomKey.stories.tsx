@@ -5,6 +5,7 @@ import CustomKey from './CustomKey';
 import Keycap from '../keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';
 import { Key } from '../keycodekey/KeycodeKey.container';
+import { MOD_LEFT } from '../../../services/hid/Composition';
 
 export default {
   title: 'CustomKey',
@@ -39,6 +40,8 @@ class CustomKeyStory extends React.Component<{}, State> {
         keymap: {
           isAny: false,
           code: 1,
+          direction: MOD_LEFT,
+          modifiers: [],
           kinds: ['basic'],
           keycodeInfo: {
             code: 1,
