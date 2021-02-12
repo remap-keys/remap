@@ -14,6 +14,7 @@ import { CorneliusKeymap } from '../../../assets/keymaps/CorneliusKeymap';
 import { ZincKeymap } from '../../../assets/keymaps/ZincKeymap';
 import { Aleth42Keymap } from '../../../assets/keymaps/Aleth42Keymap';
 import { OptionChoiceKeymap } from '../../../assets/keymaps/OptionChoiceKeymap';
+import { MOD_LEFT } from '../../../services/hid/Composition';
 
 export default {
   title: 'Keyboards',
@@ -34,6 +35,8 @@ const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
       isAny: true,
       code: 0,
       kinds: [],
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: { label: model.pos, code: 0, name: { long: '', short: '' } },
     };
     const remap = null;

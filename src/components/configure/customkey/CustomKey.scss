@@ -2,7 +2,8 @@
 
 .customkey-popover {
   .MuiTab-root {
-    min-width: 90px !important;
+    min-width: 95px !important;
+    width: 95px !important;
   }
   .MuiPopover-paper {
     overflow-x: visible;
@@ -49,6 +50,19 @@
         }
         input {
           padding-left: $space-xs;
+        }
+      }
+      .customkey-meta {
+        color: $color-gray-400;
+        font-size: 0.7rem;
+        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-top: -52px;
+        margin-right: 8px;
+        div {
+          height: 16px;
         }
       }
       .customkey-bcode {

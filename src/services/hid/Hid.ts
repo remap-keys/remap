@@ -64,11 +64,11 @@ export interface IKeymap {
   isAny: boolean;
   code: number;
   kinds: KeymapCategory[];
-  direction?: IModDirection;
-  modifiers?: IMod[]; // Modifiers
+  direction: IModDirection;
+  modifiers: IMod[]; // Modifiers
   option?: number | ISwapHandsOption; // layer, functionID, SwapHand-code
   desc?: string;
-  keycodeInfo?: IKeycodeInfo; // just kc
+  keycodeInfo: IKeycodeInfo; // just kc
 }
 
 export type IKeymaps = {

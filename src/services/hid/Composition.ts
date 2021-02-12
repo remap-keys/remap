@@ -184,6 +184,16 @@ const ANY_KEYMAP: IKeymap = {
   code: NO_KEYCODE,
   isAny: true,
   kinds: ['any'],
+  direction: MOD_LEFT,
+  modifiers: [],
+  keycodeInfo: {
+    code: NO_KEYCODE,
+    name: {
+      long: 'Any',
+      short: 'Any',
+    },
+    label: 'Any',
+  },
 };
 const DIRECTION_LABELS = ['Left', 'Right'];
 
@@ -296,11 +306,18 @@ export class ModsComposition implements IModsComposition {
     this.key = key;
   }
 
-  getCode(): number {
-    const code = this.modifiers.reduce<number>((result, current) => {
-      return result | (current << 8);
+  static genBinary(mods: IMod[]): number {
+    const bin = mods.reduce<number>((result, current) => {
+      return result | current;
     }, 0);
-    return code | (this.modDirection << 12) | (this.key.code & 0b1111_1111);
+    return bin;
+  }
+
+  getCode(): number {
+    const code = ModsComposition.genBinary(this.modifiers);
+    return (
+      (this.modDirection << 12) | (code << 8) | (this.key.code & 0b1111_1111)
+    );
   }
 
   genKeymap(): IKeymap {
@@ -342,6 +359,8 @@ export class FunctionComposition implements IFunctionComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -380,6 +399,16 @@ export class MacroComposition implements IMacroComposition {
       code: -1,
       isAny: false,
       kinds: ['macro'],
+      direction: MOD_LEFT,
+      modifiers: [],
+      keycodeInfo: {
+        code: -1,
+        name: {
+          short: 'Macro?',
+          long: 'M?',
+        },
+        label: 'Macro',
+      },
     };
     return keymap;
   }
@@ -416,6 +445,8 @@ export class LayerTapComposition implements ILayerTapComposition {
     return {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: this.key.code,
         label: label,
@@ -461,6 +492,8 @@ export class ToComposition implements IToComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -505,6 +538,8 @@ export class MomentaryComposition implements IMomentaryComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -549,6 +584,8 @@ export class DefLayerComposition implements IMomentaryComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -593,6 +630,8 @@ export class ToggleLayerComposition implements IMomentaryComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -637,6 +676,8 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
     return {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -704,6 +745,8 @@ export class OneShotModComposition implements IOneShotModComposition {
       {
         code: NO_KEYCODE,
         isAny: false,
+        direction: MOD_LEFT,
+        modifiers: [],
         keycodeInfo: {
           code: NO_KEYCODE,
           label: `OSM`,
@@ -758,6 +801,8 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -811,6 +856,8 @@ export class LayerModComposition implements ILayerModComposition {
     const keymap: IKeymap = {
       code: code,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: code,
         label: label,
@@ -923,6 +970,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       keymap = {
         code: code,
         isAny: false,
+        direction: MOD_LEFT,
+        modifiers: [],
         keycodeInfo: {
           code: code,
           label: item.label,
@@ -936,6 +985,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       keymap = {
         code: code,
         isAny: false,
+        direction: MOD_LEFT,
+        modifiers: [],
         keycodeInfo: this.key!.keycodeInfo,
         kinds: ['swap_hands'],
         desc:
@@ -962,6 +1013,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
         const keymap: IKeymap = {
           code: code,
           isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
           keycodeInfo: {
             code: code,
             label: item.label,
@@ -982,6 +1035,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     const keymap: IKeymap = {
       code: NO_KEYCODE,
       isAny: false,
+      direction: MOD_LEFT,
+      modifiers: [],
       keycodeInfo: {
         code: NO_KEYCODE,
         label: `Swap-Hands`,
@@ -1152,6 +1207,8 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
         return {
           code: item.code,
           isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
           keycodeInfo: item.keycodeInfo,
           kinds: ['loose_keycode'],
           desc: item.desc,
@@ -1220,7 +1277,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   }
 
   isBasic(): boolean {
-    return this.getKind() === KeycodeCompositionKind.basic;
+    //return this.getKind() === KeycodeCompositionKind.basic;
+    const km = KeycodeList.basicKeymaps.find((k) => k.code === this.code);
+    return Boolean(km);
   }
 
   isBasicFunc(): boolean {

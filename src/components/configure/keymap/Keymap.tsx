@@ -17,6 +17,7 @@ import CustomKey, {
   PopoverPosition,
 } from '../customkey/CustomKey';
 import { Key } from '../keycodekey/KeycodeKey.container';
+import { ModsComposition } from '../../../services/hid/Composition';
 
 type OwnProp = {};
 
@@ -122,15 +123,31 @@ export default class Keymap extends React.Component<
   }
 
   private onChangeKeymap(dstKey: Key) {
-    const orgKeymap: IKeymap = this.props.keymaps![this.props.selectedLayer!][
+    const orgKm: IKeymap = this.props.keymaps![this.props.selectedLayer!][
       this.state.selectedPos!
     ];
-    this.props.updateKeymap!(
-      this.props.selectedLayer!,
-      this.state.selectedPos!,
-      orgKeymap,
-      dstKey.keymap
-    );
+    const dstKm = dstKey.keymap;
+
+    if (
+      orgKm.code != dstKm.code ||
+      ModsComposition.genBinary(orgKm.modifiers || []) !=
+        ModsComposition.genBinary(dstKm.modifiers || []) ||
+      orgKm.direction != dstKm.direction ||
+      orgKm.option != dstKm.option
+    ) {
+      this.props.updateKeymap!(
+        this.props.selectedLayer!,
+        this.state.selectedPos!,
+        orgKm,
+        dstKey.keymap
+      );
+    } else {
+      // clear diff
+      this.props.revertKeymap!(
+        this.props.selectedLayer!,
+        this.state.selectedPos!
+      );
+    }
   }
 
   private openConfigurationDialog() {

@@ -78,6 +78,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
 } from '../actions/keyboards.actions';
+import { MOD_LEFT } from '../services/hid/Composition';
 
 export type Action = { type: string; value: any };
 
@@ -342,6 +343,8 @@ const keycodeAddKeyReducer = (
           isAny: true,
           code: anyKey.code,
           kinds: [],
+          direction: MOD_LEFT,
+          modifiers: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };
@@ -360,6 +363,8 @@ const keycodeAddKeyReducer = (
           isAny: true,
           code: anyKey.code,
           kinds: [],
+          direction: MOD_LEFT,
+          modifiers: [],
           keycodeInfo: new KeycodeInfo(anyKey.label, anyKey.code),
         },
       };

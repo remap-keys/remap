@@ -6,14 +6,16 @@ import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
 import { Key } from '../keycodekey/KeycodeKey.container';
 import TabKey from './TabKey';
 import {
-  KeycodeCompositionFactory,
   LayerTapComposition,
+  ModsComposition,
   ModTapComposition,
+  MOD_LEFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
-import TabHoldTapKey from './TabHoldTapKey';
+import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
+import { buildModLabel } from './Modifiers';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -48,6 +50,8 @@ type OwnState = {
   // Custom TAB
   label: string;
   hexCode: string; // MUST be hexadecimal but not number to support to show 001.
+  modsLabel: string;
+  holdLabel: string;
 };
 
 export default class CustomKey extends React.Component<OwnProps, OwnState> {
@@ -60,14 +64,9 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       selectedTabIndex: 0,
       label: '',
       hexCode: '',
+      modsLabel: '',
+      holdLabel: '',
     };
-  }
-
-  get disabledModifiers() {
-    const factory = new KeycodeCompositionFactory(
-      parseInt(this.state.hexCode, 16)
-    );
-    return !(factory.isBasic() || factory.isMods());
   }
 
   private onEnter() {
@@ -92,13 +91,15 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       selectedTabIndex = 2;
     }
     this.setState({
-      selectedTabIndex,
       value,
       holdKey,
       tapKey,
       label,
       hexCode,
     });
+    setTimeout(() => {
+      this.setState({ selectedTabIndex }); // for collecting css animation
+    }, 180);
   }
 
   private emitKeyChange(args: {
@@ -118,16 +119,32 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
 
     const keymap: IKeymap = {
       ...value,
+      code,
       keycodeInfo: { ...value.keycodeInfo!, ...{ label: label, code: code } },
     };
+
+    if (keymap.modifiers.length === 0) {
+      // direction is fixed to LEFT if no modifiers.
+      keymap.direction = MOD_LEFT;
+    }
 
     const key: Key = {
       label: label,
       meta: '',
       keymap: keymap,
     };
-
     this.props.onChange(key);
+  }
+
+  private isMeaningfulChange(km: IKeymap): boolean {
+    const dstMods = ModsComposition.genBinary(km.modifiers);
+
+    if (km.kinds.includes('one_shot_mod') && dstMods === 0) {
+      // OneShotMods without any modifiers
+      return false;
+    }
+
+    return true;
   }
 
   private onChangeKeys(value: IKeymap | null) {
@@ -136,18 +153,20 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       return;
     }
 
+    const hexCode = value.code ? Number(value.code).toString(16) : '';
     const label = value.keycodeInfo!.label;
-    this.setState({
-      value: value,
-      label: label,
-      hexCode: Number(value.code).toString(16),
-    });
+    this.setState({ value, label, hexCode });
 
-    this.emitKeyChange({ value, label });
+    this.updateCustomMetaLabels({ value });
+
+    if (this.isMeaningfulChange(value)) {
+      this.emitKeyChange({ value, label });
+    }
   }
 
   private onChangeHoldTap(holdKey: IKeymap | null, tapKey: IKeymap | null) {
     this.setState({ holdKey, tapKey });
+    this.updateCustomMetaLabels({ holdKey });
     if (holdKey === null || tapKey === null) {
       this.setState({ label: '', hexCode: '' });
       return;
@@ -184,31 +203,58 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       .toUpperCase()
       .replace(/[^0-9,A-F]/g, '')
       .slice(0, 4);
+    this.setState({ hexCode });
     const code = parseInt(hexCode, 16);
-    const ret = KeycodeList.getKeymaps(code);
-    this.setState({
-      ...ret,
-      hexCode,
-      label: ret.value
-        ? ret.value.keycodeInfo!.label
-        : ret.tapKey!.keycodeInfo!.label,
-    });
-
-    if (ret.value) {
-      this.emitKeyChange({ value: ret.value });
-    } else if (ret.holdKey && ret.tapKey) {
-      const value = genHoldTapKeymap(code, ret.holdKey, ret.tapKey);
-      this.emitKeyChange({ value });
+    if (Number.isNaN(code)) {
+      const km = KeycodeList.getKeymap(0);
+      this.setState({ value: km });
+    } else {
+      const ret = KeycodeList.getKeymaps(code);
+      if (ret.value) {
+        this.onChangeKeys(ret.value);
+      } else if (ret.holdKey && ret.tapKey) {
+        this.onChangeHoldTap(ret.holdKey, ret.tapKey);
+      }
     }
   }
 
-  private updateLabel(label: string) {
+  private onChangeLabel(label: string) {
     this.setState({ label });
     this.emitKeyChange({ label });
   }
 
+  private updateCustomMetaLabels(args: {
+    value?: IKeymap | null;
+    holdKey?: IKeymap | null;
+  }) {
+    const km: IKeymap | null | undefined = args.value
+      ? args.value
+      : args.holdKey;
+    if (km) {
+      const holdLabel = buildHoldKeyLabel(km);
+      const modsLabel =
+        holdLabel === ''
+          ? buildModLabel(km.modifiers || null, km.direction!)
+          : '';
+      this.setState({ modsLabel, holdLabel });
+    } else {
+      this.setState({ modsLabel: '', holdLabel: '' });
+    }
+  }
+
   private selectTab(event: React.ChangeEvent<{}>, selectedTabIndex: number) {
     this.setState({ selectedTabIndex });
+    if (selectedTabIndex === 0 && this.state.value) {
+      this.onChangeKeys(this.state.value);
+    } else if (
+      selectedTabIndex === 1 &&
+      this.state.holdKey &&
+      this.state.tapKey
+    ) {
+      this.onChangeHoldTap(this.state.holdKey, this.state.tapKey);
+    } else if (selectedTabIndex === 2) {
+      this.onChangeHexCode(this.state.hexCode);
+    }
   }
 
   render() {
@@ -277,15 +323,22 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               size="small"
               disabled={true}
               onChange={(e) => {
-                this.updateLabel(e.target.value);
+                this.onChangeLabel(e.target.value);
               }}
               value={this.state.label}
             />
-
+            <div className="customkey-field customkey-meta">
+              <div>{this.state.modsLabel}</div>
+              <div>{this.state.holdLabel}</div>
+            </div>
             <TextField
               variant="outlined"
               label="Code(hex)"
-              className="customkey-field customkey-label customkey-code"
+              className={[
+                'customkey-field',
+                'customkey-label',
+                0 < this.state.hexCode.length && 'customkey-code',
+              ].join(' ')}
               size="small"
               onChange={(e) => {
                 this.onChangeHexCode(e.target.value);

@@ -10,6 +10,8 @@ import {
   ModTapComposition,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
+import { buildModLabel } from './Modifiers';
+import { hexadecimal } from '../../../utils/StringUtils';
 
 type OwnProps = {
   holdKey: IKeymap | null;
@@ -145,3 +147,23 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     );
   }
 }
+
+export const buildHoldKeyLabel = (
+  km: IKeymap,
+  withHex: boolean = false
+): string => {
+  const f = new KeycodeCompositionFactory(km.code);
+  if (f.isLayerTap()) {
+    return `Layer(${km.option})`;
+  } else if (f.isModTap()) {
+    return buildModLabel(km.modifiers || null, km.direction);
+  } else if (
+    f.isSwapHands() &&
+    !SwapHandsComposition.isSwapHandsOptions(km.code)
+  ) {
+    return 'SWAP';
+  } else if (withHex) {
+    return hexadecimal(km.code, 4);
+  }
+  return '';
+};
