@@ -117,12 +117,14 @@ export type RootState = {
       keyboardDefinition: KeyboardDefinitionSchema | null;
       productName: string;
       jsonString: string;
+      agreement: boolean;
     };
     editdefinition: {
       jsonFilename: string;
       keyboardDefinition: KeyboardDefinitionSchema | null;
       productName: string;
       jsonString: string;
+      agreement: boolean;
     };
   };
   hid: {
@@ -201,12 +203,14 @@ export const INIT_STATE: RootState = {
       keyboardDefinition: null,
       productName: '',
       jsonString: '',
+      agreement: false,
     },
     editdefinition: {
       jsonFilename: '',
       keyboardDefinition: null,
       productName: '',
       jsonString: '',
+      agreement: false,
     },
   },
   hid: {

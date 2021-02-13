@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
     jsonFilename: state.keyboards.createdefinition.jsonFilename,
     keyboardDefinition: state.keyboards.createdefinition.keyboardDefinition,
     productName: state.keyboards.createdefinition.productName,
+    agreement: state.keyboards.createdefinition.agreement,
   };
 };
 export type CreateKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -51,6 +52,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     backToList: () => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
+    },
+    updateAgreement: (agreement: boolean) => {
+      _dispatch(KeyboardsCreateDefinitionActions.updateAgreement(agreement));
     },
   };
 };

@@ -67,6 +67,7 @@ import {
   KEYBOARDS_APP_UPDATE_PHASE,
   KEYBOARDS_CREATE_DEFINITION_ACTIONS,
   KEYBOARDS_CREATE_DEFINITION_CLEAR,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
@@ -74,6 +75,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_ACTIONS,
   KEYBOARDS_EDIT_DEFINITION_CLEAR,
   KEYBOARDS_EDIT_DEFINITION_INIT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
@@ -146,6 +148,9 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.jsonFilename = '';
       draft.keyboards.editdefinition.jsonString = action.value.json;
       break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT:
+      draft.keyboards.editdefinition.agreement = action.value;
+      break;
   }
 };
 
@@ -171,6 +176,9 @@ const keyboardsCreateKeyboardReducer = (
       break;
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME:
       draft.keyboards.createdefinition.productName = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT:
+      draft.keyboards.createdefinition.agreement = action.value;
       break;
   }
 };

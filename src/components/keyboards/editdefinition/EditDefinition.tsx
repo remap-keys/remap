@@ -31,6 +31,7 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
 import { MoreVert } from '@material-ui/icons';
+import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -89,6 +90,22 @@ export default class EditDefinition extends React.Component<
       );
     } else {
       return !!this.props.productName && !!this.props.keyboardDefinition;
+    }
+  }
+
+  private isFilledInAllFieldAndAgreed(): boolean {
+    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+      return (
+        !!this.props.productName &&
+        !!this.props.keyboardDefinition &&
+        !!this.props.jsonFilename
+      );
+    } else {
+      return (
+        !!this.props.productName &&
+        !!this.props.keyboardDefinition &&
+        this.props.agreement!
+      );
     }
   }
 
@@ -231,6 +248,24 @@ export default class EditDefinition extends React.Component<
     }
   }
 
+  renderAgreementRow() {
+    if (
+      this.isStatus(KeyboardDefinitionStatus.draft) ||
+      this.isStatus(KeyboardDefinitionStatus.rejected)
+    ) {
+      return (
+        <div className="edit-definition-form-row">
+          <AgreementCheckbox
+            agreement={this.props.agreement!}
+            updateAgreement={this.props.updateAgreement!}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderProductNameRow() {
     if (
       this.isStatus(KeyboardDefinitionStatus.in_review) ||
@@ -303,7 +338,7 @@ export default class EditDefinition extends React.Component<
           variant="contained"
           color="primary"
           onClick={this.handleSubmitForReviewButtonClick}
-          disabled={!this.isFilledInAllField()}
+          disabled={!this.isFilledInAllFieldAndAgreed()}
         >
           Submit for Review
         </Button>
@@ -488,6 +523,7 @@ export default class EditDefinition extends React.Component<
                       />
                     </div>
                     {this.renderProductNameRow()}
+                    {this.renderAgreementRow()}
                     <div className="edit-definition-form-buttons">
                       {this.renderSaveAsDraftButton()}
                       {this.renderSubmitForReviewButton()}
