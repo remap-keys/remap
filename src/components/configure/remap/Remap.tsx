@@ -54,7 +54,7 @@ function Desc(props: DescType) {
         <div className="keycode-desc-label">
           {`/${categories}/${props.value.label}${desc}`}
         </div>
-        <div className="keycode-desc-detail">{`${keycodeName} | ${hex}`}</div>
+        <div className="keycode-desc-detail">{`${keycodeName} | ${hex}(${info.code})`}</div>
       </div>
     );
   } else {
