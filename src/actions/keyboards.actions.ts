@@ -19,6 +19,7 @@ export const KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME = `${KEYBOARDS_CRE
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateJsonString`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateKeyboardDefinition`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateProductName`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateAgreement`;
 export const KeyboardsCreateDefinitionActions = {
   clear: () => {
     return {
@@ -49,6 +50,12 @@ export const KeyboardsCreateDefinitionActions = {
       value: productName,
     };
   },
+  updateAgreement: (agreement: boolean) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT,
+      value: agreement,
+    };
+  },
 };
 
 export const KEYBOARDS_EDIT_DEFINITION_ACTIONS = '@FIXME!EditDefinition'; // FIXME!
@@ -58,6 +65,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING = `${KEYBOARDS_EDIT_DE
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateKeyboardDefinition`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateProductName`;
 export const KEYBOARDS_EDIT_DEFINITION_INIT = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/Init`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAgreement`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -92,6 +100,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
       value: productName,
+    };
+  },
+  updateAgreement: (agreement: boolean) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
+      value: agreement,
     };
   },
 };

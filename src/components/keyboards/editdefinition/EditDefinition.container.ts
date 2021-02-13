@@ -15,6 +15,7 @@ const mapStateToProps = (state: RootState) => {
     productName: state.keyboards.editdefinition.productName,
     definitionDocument: state.entities.keyboardDefinitionDocument,
     jsonStr: state.keyboards.editdefinition.jsonString,
+    agreement: state.keyboards.editdefinition.agreement,
   };
 };
 export type EditKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -59,6 +60,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     delete: () => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
       _dispatch(storageActionsThunk.deleteKeyboardDefinition());
+    },
+    updateAgreement: (agreement: boolean) => {
+      _dispatch(KeyboardsEditDefinitionActions.updateAgreement(agreement));
     },
   };
 };

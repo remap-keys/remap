@@ -9,15 +9,20 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
   Step,
   StepLabel,
   Stepper,
   TextField,
+  Theme,
+  Tooltip,
+  Typography,
 } from '@material-ui/core';
 import {
   IKeyboardDefinitionStatus,
@@ -25,6 +30,8 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { withStyles } from '@material-ui/core/styles';
+import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 
 type CreateKeyboardState = {
   openConfirmDialog: boolean;
@@ -68,6 +75,14 @@ export default class CreateDefinition extends React.Component<
 
   private isFilledInAllField(): boolean {
     return !!this.props.productName && !!this.props.keyboardDefinition;
+  }
+
+  private isFilledInAllFieldAndAgreed(): boolean {
+    return (
+      !!this.props.productName &&
+      !!this.props.keyboardDefinition &&
+      this.props.agreement!
+    );
   }
 
   handleBackButtonClick = () => {
@@ -202,6 +217,12 @@ export default class CreateDefinition extends React.Component<
                         }}
                       />
                     </div>
+                    <div className="create-definition-form-row">
+                      <AgreementCheckbox
+                        agreement={this.props.agreement!}
+                        updateAgreement={this.props.updateAgreement!}
+                      />
+                    </div>
                     <div className="create-definition-form-buttons">
                       <Button
                         color="primary"
@@ -214,7 +235,7 @@ export default class CreateDefinition extends React.Component<
                         variant="contained"
                         color="primary"
                         onClick={this.handleSubmitForReviewButtonClick}
-                        disabled={!this.isFilledInAllField()}
+                        disabled={!this.isFilledInAllFieldAndAgreed()}
                       >
                         Submit for Review
                       </Button>
