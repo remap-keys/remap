@@ -405,7 +405,7 @@
       "long": "KC_NONUS_HASH",
       "short": "KC_NUHS"
     },
-    "label": "NUHS"
+    "label": "#"
   },
   {
     "code": 51,
@@ -1813,7 +1813,7 @@
       "long": "KC_LGUI",
       "short": "KC_LWIN"
     },
-    "label": "Left Win"
+    "label": "Left Win/Cmd"
   },
   {
     "code": 228,
@@ -1845,7 +1845,7 @@
       "long": "KC_RGUI",
       "short": "KC_RWIN"
     },
-    "label": "Right Win"
+    "label": "Right Win/Cmd"
   },
   {
     "code": 240,

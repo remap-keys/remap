@@ -2,20 +2,15 @@
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
-import KeycodeKey, { Key } from '../keycodekey/KeycodeKey.container';
+import KeycodeKey, { genKey, Key } from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
-import { IKeycodeCategory } from '../../../services/hid/Hid';
+import { IKeycodeCategory, IKeymap } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
+import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 
-const KeycodeCategories = [
-  { name: IKeycodeCategory.BASIC, label: 'Basic' },
-  { name: IKeycodeCategory.NUMBER, label: 'Number' },
-  { name: IKeycodeCategory.MEDIA, label: 'Media' },
-  { name: IKeycodeCategory.LAYERS, label: 'Layers' },
-  { name: IKeycodeCategory.SPECIAL, label: 'Special' },
-  { name: IKeycodeCategory.LIGHTING, label: 'QMK Lighting' },
-  { name: IKeycodeCategory.ANY, label: 'Custom' },
-] as const;
+const genKeys = (keymaps: IKeymap[]): Key[] => {
+  return keymaps.map<Key>((keymap) => genKey(keymap));
+};
 
 type OwnProps = {};
 
@@ -23,48 +18,59 @@ type KeycodesProps = OwnProps &
   Partial<KeycodesActionsType> &
   Partial<KeycodesStateType>;
 
-export default class Keycodes extends React.Component<KeycodesProps, {}> {
+type OwnState = {
+  category: string;
+};
+
+export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
+  private categoryKeys: { [category: string]: Key[] } = {};
   constructor(props: KeycodesProps | Readonly<KeycodesProps>) {
     super(props);
+    this.state = {
+      category: 'Basic',
+    };
+    this.categoryKeys = {
+      Basic: genKeys(KeyCategory.basic()),
+      Symbol: genKeys(KeyCategory.symbol()),
+      Functions: genKeys(KeyCategory.functions()),
+      Layer: genKeys(KeyCategory.layer(this.props.layerCount!)),
+      Device: genKeys(KeyCategory.device()),
+      // Macro: genKeys(KeyCategory.macro()),
+      Special: genKeys(KeyCategory.special()),
+    };
   }
 
-  componentDidMount() {
-    this.props.loadKeycodeInfoForAllCategories!(this.props._hidInstance!);
-  }
-
-  // eslint-disable-next-line no-undef
-  onChangeMacroText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const macroKeys = this.props.keys![IKeycodeCategory.MACRO];
-    if (
-      macroKeys.find(
-        (key) => key.keymap.code === this.props.selectedKey?.keymap.code
-      )
-    ) {
-      this.props.setMacro!(
-        this.props.selectedKey?.keymap.code,
-        event.target.value
-      );
+  // eslint-disable-next-line no-unused-vars
+  shouldComponentUpdate(nextProps: KeycodesProps, _nextState: OwnState) {
+    if (this.props.layerCount != nextProps.layerCount) {
+      const keys: Key[] = genKeys(KeyCategory.layer(nextProps.layerCount!));
+      this.categoryKeys['Layer'] = keys;
     }
+    return true;
+  }
+
+  selectCategory = (category: string) => {
+    this.setState({ category });
   };
 
   render() {
     let keys: Key[];
-    if (this.props.category && this.props.keys) {
-      keys = this.props.keys[this.props.category] || [];
+    if (this.state.category) {
+      keys = this.categoryKeys[this.state.category] || [];
     } else {
       keys = [];
     }
     return (
       <React.Fragment>
         <div className="key-categories">
-          {KeycodeCategories.map((cat, index) => {
+          {Object.keys(this.categoryKeys).map((cat, index) => {
             return (
               <div className="key-category" key={index}>
                 <Button
-                  disabled={this.props.category === cat.name}
-                  onClick={this.props.selectCategory!.bind(this, cat.name)}
+                  disabled={this.state.category === cat}
+                  onClick={this.selectCategory.bind(this, cat)}
                 >
-                  {cat.label}
+                  {cat}
                 </Button>
               </div>
             );
@@ -81,24 +87,17 @@ export default class Keycodes extends React.Component<KeycodesProps, {}> {
             return (
               <KeycodeKey
                 index={index}
-                key={`${this.props.category}${index}`}
+                key={`${this.state.category}${index}`}
                 value={key}
                 draggable={true}
               />
             );
           })}
-          {this.props.category == IKeycodeCategory.ANY && (
+          {this.state.category == IKeycodeCategory.ANY && (
             <KeycodeAddKey key={'add'} />
           )}
         </div>
 
-        {this.props.category == IKeycodeCategory.MACRO && (
-          <Macro
-            selectedKey={this.props.selectedKey}
-            macroText={this.props.macroText}
-            onChangeMacroText={this.onChangeMacroText}
-          />
-        )}
         {this.props.draggingKey && (
           <div
             className="dragMask"
@@ -117,6 +116,8 @@ type MacroType = {
   // eslint-disable-next-line no-unused-vars
   onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
+
+// eslint-disable-next-line no-unused-vars
 function Macro(props: MacroType) {
   return (
     <div className="macro-wrapper">

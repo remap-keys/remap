@@ -1,0 +1,131 @@
+@import '../../../variables';
+
+.customkey-popover {
+  .MuiTab-root {
+    min-width: 95px !important;
+    width: 95px !important;
+  }
+  .MuiPopover-paper {
+    overflow-x: visible;
+    overflow-y: visible;
+    margin-top: -12px;
+  }
+  .MuiPaper-root {
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      left: 185px;
+      bottom: -15px;
+      border-top: 15px solid #ffffff;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+    }
+    .customkey-tabpanel {
+      padding: $space-l;
+    }
+    .customkey-body {
+      width: 400px;
+      min-height: 240px;
+
+      .customkey-field {
+        margin-bottom: $space-l;
+      }
+
+      .customkey-label {
+        width: 100%;
+      }
+
+      .customkey-description {
+        margin-bottom: $space-l;
+        font-size: 0.9rem;
+      }
+      .customkey-code {
+        div::before {
+          content: '0x';
+          margin-left: $space-l;
+          color: $color-gray-500;
+        }
+        input {
+          padding-left: $space-xs;
+        }
+      }
+      .customkey-meta {
+        color: $color-gray-400;
+        font-size: 0.7rem;
+        align-items: flex-end;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-top: -52px;
+        margin-right: 8px;
+        div {
+          height: 16px;
+        }
+      }
+      .customkey-bcode {
+        color: $color-gray-400;
+        font-size: 0.7rem;
+        justify-content: flex-end;
+        display: flex;
+        margin-top: -34px;
+        margin-right: 8px;
+      }
+    }
+    .modifiers-label {
+      font-weight: 700;
+    }
+  }
+}
+
+.popover-below {
+  .MuiPaper-root {
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      left: 185px;
+      bottom: 240px;
+      border-bottom: 15px solid #ffffff;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 0;
+    }
+  }
+}
+
+.popover-right {
+  .MuiPaper-root {
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      left: -22px;
+      bottom: 120px;
+      border-top: 15px solid #ffffff;
+      transform: rotateZ(90deg);
+    }
+  }
+}
+
+.popover-left {
+  .MuiPaper-root {
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      left: 392px;
+      bottom: 120px;
+      border-top: 15px solid #ffffff;
+      transform: rotateZ(270deg);
+    }
+  }
+}

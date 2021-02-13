@@ -1,5 +1,6 @@
 import React from 'react';
-import { IKeymap } from '../../../services/hid/Hid';
+import { hexadecimal } from '../../../utils/StringUtils';
+import { buildModLabel } from '../customkey/Modifiers';
 import AnyKeyDialog from './any/AnyKeyEditDialog';
 import {
   Key,
@@ -49,11 +50,6 @@ export default class KeycodeKey extends React.Component<
     if (value.keymap.isAny && !!value.keymap.keycodeInfo) {
       const info = value.keymap.keycodeInfo;
       this.setState({ openDialog: true, selectedKey: { ...info } });
-    } else if (this.props.selectedKeycapPosition) {
-      const pos = this.props.selectedKeycapPosition!;
-      const layer = this.props.selectedLayer!;
-      const keymap: IKeymap = this.props.keymaps![layer][pos];
-      this.props.remapKey!(layer, pos, keymap, value.keymap);
     } else {
       this.props.selectKey!(value);
     }
@@ -74,8 +70,22 @@ export default class KeycodeKey extends React.Component<
     this.setState({ openDialog: false, selectedKey: null });
   }
   render() {
-    const pos = this.props.selectedKeycapPosition;
-    const draggable = this.props.draggable && (pos == undefined || pos == '');
+    const draggable = this.props.draggable;
+    const km = this.props.value.keymap;
+
+    let modifierLabel = '';
+    let holdLabel = '';
+    if (km.kinds.includes('mod_tap')) {
+      holdLabel = buildModLabel(km.modifiers || null, km.direction!);
+    } else if (km.kinds.includes('layer_tap')) {
+      holdLabel = km.option === undefined ? '' : `Layer(${km.option})`;
+    } else if (km.kinds.includes('swap_hands')) {
+      holdLabel = 'SWAP';
+    } else if (km.isAny) {
+      holdLabel = hexadecimal(km.code, 4);
+    } else {
+      modifierLabel = buildModLabel(km.modifiers || null, km.direction!);
+    }
 
     return (
       <React.Fragment>
@@ -83,7 +93,6 @@ export default class KeycodeKey extends React.Component<
           className={[
             'keycodekey',
             this.props.selected && 'selected',
-            (this.props.clickable || !draggable) && 'clickable',
             draggable && 'grabbable',
             this.state.dragging && 'dragging',
           ].join(' ')}
@@ -100,10 +109,15 @@ export default class KeycodeKey extends React.Component<
             this.endDraggingKeycode();
           }}
         >
-          {this.props.value.meta && (
-            <div className="code-label">{this.props.value.meta}</div>
+          {0 === modifierLabel.length && 0 === holdLabel.length ? (
+            <KeycodeKeyView label={this.props.value.label} />
+          ) : (
+            <KeycodeModifiersKeyView
+              label={this.props.value.label}
+              holdLabel={holdLabel}
+              modifierLabel={modifierLabel}
+            />
           )}
-          <div className="code-label">{this.props.value.label}</div>
         </div>
         <AnyKeyDialog
           open={this.state.openDialog}
@@ -116,4 +130,22 @@ export default class KeycodeKey extends React.Component<
       </React.Fragment>
     );
   }
+}
+
+function KeycodeKeyView(props: { label: string }) {
+  return <div className="code-label code-label-expand">{props.label}</div>;
+}
+
+function KeycodeModifiersKeyView(props: {
+  label: string;
+  modifierLabel: string;
+  holdLabel: string;
+}) {
+  return (
+    <React.Fragment>
+      <div className="code-label modifier-label">{props.modifierLabel}</div>
+      <div className="code-label">{props.label}</div>
+      <div className="code-label modifier-label">{props.holdLabel}</div>
+    </React.Fragment>
+  );
 }

@@ -1,5 +1,5 @@
 {
-  "category": "basic",
+  "categories": ["basic"],
   "codes": [
     0,
     1,

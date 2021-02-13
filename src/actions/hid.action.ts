@@ -345,6 +345,9 @@ const loadKeymap = async (
     if (!keymapsResult.success) {
       // TODO: show error message
       console.log(keymapsResult);
+      console.log(
+        `layer:${i}, rowCount:${rowCount}, colCount: ${columnCount}, layerCount: ${layerCount}`
+      );
       Promise.reject('something wrong in loading kerymaps');
     }
     keymaps.push(keymapsResult.keymap!);
