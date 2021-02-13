@@ -2,9 +2,9 @@
 import React from 'react';
 import './TabHoldTapKey.scss';
 import AutocompleteKeys from './AutocompleteKeys';
-import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { IKeymap } from '../../../services/hid/Hid';
 import {
+  BasicComposition,
   KeycodeCompositionFactory,
   LayerTapComposition,
   ModTapComposition,
@@ -21,20 +21,17 @@ type OwnProps = {
   onChange: (hold: IKeymap | null, tap: IKeymap | null) => void;
 };
 
-type OwnState = {
-  tapKeycodeOptions: IKeymap[];
-};
+type OwnState = {};
 
 export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
-  private holdKeyOptions: IKeymap[];
+  private _holdKeyOptions: IKeymap[];
+  private _tapKeycodeOptions: IKeymap[];
+
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
 
-    this.state = {
-      tapKeycodeOptions: [...KeycodeList.basicKeymaps],
-    };
-
-    this.holdKeyOptions = [
+    this._tapKeycodeOptions = BasicComposition.genKeymaps();
+    this._holdKeyOptions = [
       ...ModTapComposition.genKeymaps(),
       ...LayerTapComposition.genKeymaps(this.props.layerCount),
       ...SwapHandsComposition.genKeymaps(),
@@ -83,12 +80,12 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     }
     const kinds = holdKey.kinds;
     if (kinds.includes('layer_tap') || kinds.includes('swap_hands')) {
-      return this.state.tapKeycodeOptions.filter((op) => {
+      return this._tapKeycodeOptions.filter((op) => {
         return !op.kinds.includes('layer_mod');
       });
     }
 
-    return this.state.tapKeycodeOptions;
+    return this._tapKeycodeOptions;
   }
 
   private emitOnChange(holdKey: IKeymap | null, tapKey: IKeymap | null) {
@@ -126,7 +123,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
         <AutocompleteKeys
           label="Hold"
           showKinds={false}
-          keycodeOptions={this.holdKeyOptions}
+          keycodeOptions={this._holdKeyOptions}
           keycodeInfo={this.props.holdKey}
           onChange={(opt) => {
             this.onChangeHoldKey(opt);

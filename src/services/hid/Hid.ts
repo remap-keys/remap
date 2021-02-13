@@ -48,10 +48,10 @@ export interface IKeycodeCategoryInfo {
 export const IKeycodeCategory = {
   BASIC: 'basic',
   LAYERS: 'layers',
-  LIGHTING: 'lighting',
+  DEVICE: 'device',
   MACRO: 'macro',
-  MEDIA: 'media',
-  NUMBER: 'number',
+  FUNCTIONS: 'function',
+  SYMBOL: 'symbol',
   SPECIAL: 'special',
   ANY: 'any',
 } as const;

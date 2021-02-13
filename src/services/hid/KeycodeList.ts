@@ -1,83 +1,47 @@
-import { IKeycodeCategoryInfo, IKeymap } from './Hid';
-import { keycodeInfoList } from './KeycodeInfoList';
+import { IKeymap } from './Hid';
+
 import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
-  LayerTapToggleComposition,
-  LooseKeycodeComposition,
   MOD_LEFT,
-  MomentaryComposition,
-  OneShotLayerComposition,
-  ToComposition,
-  ToggleLayerComposition,
 } from './Composition';
-
-import {
-  keycodesBasic,
-  keycodesBasicApp,
-  keycodesBasicF,
-  keycodesBasicInt,
-  keycodesBasicLang,
-  keycodesBasicLetter,
-  keycodesBasicCommand,
-  keycodesBasicMedia,
-  keycodesBasicMouse,
-  keycodesBasicNumber,
-  keycodesBasicNumpad,
-  keycodesBasicPunctuation,
-  keycodesBasicSpacing,
-  keycodesBasicFunc,
-  keycodesBasicModifier,
-} from './assets/KeycodesBasic';
-import { keycodesLighting } from './assets/KeycodesLighting';
 
 export type KeymapCategory =
   | IKeycodeCompositionKind
   | 'any'
   | 'app'
+  | 'backlight'
+  | 'bootmagic'
+  | 'cadet'
   | 'command'
+  | 'device'
+  | 'edit'
   | 'f'
-  | 'func'
+  | 'embed_function'
+  | 'grave_escape'
+  | 'gui'
   | 'int'
+  | 'keyboard'
   | 'lang'
   | 'layers'
   | 'letter'
   | 'lighting'
+  | 'lock'
   | 'media'
   | 'mods'
+  | 'move'
   | 'mouse'
   | 'number'
   | 'numpad'
   | 'punctuation'
+  | 'sound'
   | 'spacing'
   | 'special'
+  | 'symbol'
+  | 'underglow'
   | 'us-symbol';
 
 export class KeycodeList {
-  private static _basicKeymaps: IKeymap[];
-  private static _layerKeymaps: IKeymap[];
-  private static _lightingKeymaps: IKeymap[];
-  private static _mediaKeymaps: IKeymap[];
-
-  private static createKeymap(code: number, kinds: KeymapCategory[]): IKeymap {
-    return {
-      code,
-      isAny: false,
-      kinds: kinds,
-      direction: MOD_LEFT,
-      modifiers: [],
-      keycodeInfo: keycodeInfoList.find((keycode) => keycode.code === code)!,
-    };
-  }
-  static getBasicKeymap(code: number): IKeymap {
-    const basic = KeycodeList.basicKeymaps.find((km) => km.code === code);
-    if (basic) {
-      return basic;
-    } else {
-      throw new Error(`No such basic keycode: ${code}`);
-    }
-  }
-
   static getKeymaps(
     hex: number
   ): {
@@ -179,72 +143,5 @@ export class KeycodeList {
     const tapKeymap = JSON.parse(JSON.stringify(tapKey));
     holdKeymap.keycodeInfo = tapKeymap.keycodeInfo;
     return holdKeymap;
-  }
-
-  static get basicKeymaps(): IKeymap[] {
-    if (KeycodeList._basicKeymaps) return KeycodeList._basicKeymaps;
-
-    const list: IKeycodeCategoryInfo[] = [
-      keycodesBasic,
-      keycodesBasicLetter,
-      keycodesBasicPunctuation,
-      keycodesBasicNumber,
-      keycodesBasicModifier,
-      keycodesBasicSpacing,
-      keycodesBasicCommand,
-      keycodesBasicF,
-      keycodesBasicFunc,
-      keycodesBasicNumpad,
-      keycodesBasicMedia,
-      keycodesBasicApp,
-      keycodesBasicMouse,
-      keycodesBasicInt,
-      keycodesBasicLang,
-    ];
-
-    KeycodeList._basicKeymaps = [];
-    list.forEach((info) => {
-      const kinds = info.kinds;
-      info.codes.forEach((code) => {
-        KeycodeList._basicKeymaps.push(KeycodeList.createKeymap(code, kinds));
-      });
-    });
-
-    return KeycodeList._basicKeymaps;
-  }
-
-  static getLayersKeymaps(layerCount: number): IKeymap[] {
-    if (KeycodeList._layerKeymaps) return KeycodeList._layerKeymaps;
-
-    KeycodeList._layerKeymaps = [
-      ...MomentaryComposition.genKeymaps(layerCount),
-      ...ToggleLayerComposition.genKeymaps(layerCount),
-      ...LayerTapToggleComposition.genKeymaps(layerCount),
-      ...OneShotLayerComposition.genKeymaps(layerCount),
-      ...ToComposition.genKeymaps(layerCount),
-    ];
-    return KeycodeList._layerKeymaps;
-  }
-
-  static get lightingKeymaps(): IKeymap[] {
-    if (KeycodeList._lightingKeymaps) return KeycodeList._lightingKeymaps;
-
-    KeycodeList._lightingKeymaps = keycodesLighting.codes.map((code) =>
-      KeycodeList.createKeymap(code, keycodesLighting.kinds)
-    );
-    return KeycodeList._lightingKeymaps;
-  }
-
-  static get mediaKeymaps(): IKeymap[] {
-    if (KeycodeList._mediaKeymaps) return KeycodeList._mediaKeymaps;
-
-    KeycodeList._mediaKeymaps = keycodesBasicMedia.codes.map((code) =>
-      KeycodeList.createKeymap(code, keycodesBasicMedia.kinds)
-    );
-    return KeycodeList._mediaKeymaps;
-  }
-
-  static get specialKeymaps(): IKeymap[] {
-    return LooseKeycodeComposition.genKeymaps();
   }
 }

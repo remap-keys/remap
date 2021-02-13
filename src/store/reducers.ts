@@ -6,7 +6,6 @@ import {
   KEYCODEKEY_UPDATE_SELECTED_KEY,
   KEYCODES_ACTIONS,
   KEYCODES_UPDATE_MACRO,
-  KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
   KEYMAP_UPDATE_SELECTED_LAYER,
   KEYMAP_ACTIONS,
   NOTIFICATION_ACTIONS,
@@ -303,10 +302,6 @@ const keycodesReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case KEYCODES_UPDATE_MACRO: {
       const code = action.value.code;
       draft.entities.device.macros[code] = action.value.text;
-      break;
-    }
-    case KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES: {
-      draft.configure.keycodes.keys = action.value;
       break;
     }
   }
