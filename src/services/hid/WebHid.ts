@@ -25,6 +25,7 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
+import { KeyCategory } from './KeyCategoryList';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -418,26 +419,25 @@ export class WebHid implements IHid {
     let keymaps: IKeymap[] = [];
     switch (category) {
       case IKeycodeCategory.BASIC:
-        keymaps = KeycodeList.basicKeymaps;
+        keymaps = KeyCategory.basic();
         break;
-      case IKeycodeCategory.LIGHTING:
-        keymaps = KeycodeList.lightingKeymaps;
+      case IKeycodeCategory.SYMBOL:
+        keymaps = KeyCategory.symbol();
         break;
-      case IKeycodeCategory.MEDIA:
-        keymaps = KeycodeList.mediaKeymaps;
-        break;
-      case IKeycodeCategory.NUMBER:
-        keymaps = [];
-        break;
-      case IKeycodeCategory.SPECIAL:
-        keymaps = KeycodeList.specialKeymaps;
-        break;
-      case IKeycodeCategory.MACRO:
-        keymaps = [];
+      case IKeycodeCategory.FUNCTIONS:
+        keymaps = KeyCategory.functions();
         break;
       case IKeycodeCategory.LAYERS:
-        // generate every time in case of changing keyboard which has different layerCount.
-        keymaps = KeycodeList.getLayersKeymaps(layerCount);
+        keymaps = KeyCategory.layer(layerCount);
+        break;
+      case IKeycodeCategory.SPECIAL:
+        keymaps = KeyCategory.special();
+        break;
+      case IKeycodeCategory.DEVICE:
+        keymaps = KeyCategory.device();
+        break;
+      case IKeycodeCategory.MACRO:
+        keymaps = KeyCategory.macro();
         break;
     }
 

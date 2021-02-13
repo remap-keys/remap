@@ -1,8 +1,37 @@
-import { IKeymap } from './Hid';
+import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
-import { KeycodeList } from './KeycodeList';
-import { keycodesBasicFunc } from './assets/KeycodesBasic';
+import { KeymapCategory } from './KeycodeList';
 import { loosekeycodeList } from './LooseKeycodeList';
+import {
+  KEY_SUB_CATEGORY_APPLICATION,
+  KEY_SUB_CATEGORY_BACKLIGHT,
+  KEY_SUB_CATEGORY_BLANK,
+  KEY_SUB_CATEGORY_BOOTMAGIC,
+  KEY_SUB_CATEGORY_COMMAND,
+  KEY_SUB_CATEGORY_DEVICE,
+  KEY_SUB_CATEGORY_EDIT,
+  KEY_SUB_CATEGORY_EMBED_FUNCTION,
+  KEY_SUB_CATEGORY_F,
+  KEY_SUB_CATEGORY_GRAVE_ESCAPE,
+  KEY_SUB_CATEGORY_GUI,
+  KEY_SUB_CATEGORY_INTERNATIONAL,
+  KEY_SUB_CATEGORY_KEYBOARD,
+  KEY_SUB_CATEGORY_LANGUAGE,
+  KEY_SUB_CATEGORY_LETTER,
+  KEY_SUB_CATEGORY_LOCK,
+  KEY_SUB_CATEGORY_MACRO,
+  KEY_SUB_CATEGORY_MEDIA,
+  KEY_SUB_CATEGORY_MODIFIER,
+  KEY_SUB_CATEGORY_MOUSE,
+  KEY_SUB_CATEGORY_MOVE,
+  KEY_SUB_CATEGORY_NUMBER,
+  KEY_SUB_CATEGORY_NUMPAD,
+  KEY_SUB_CATEGORY_PUNCTUATION,
+  KEY_SUB_CATEGORY_SOUND,
+  KEY_SUB_CATEGORY_SPACE_CADET,
+  KEY_SUB_CATEGORY_UNDERGLOW,
+} from './KeyCategoryList';
+import { keycodeInfoList } from './KeycodeInfoList';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -280,6 +309,7 @@ export interface IUnicodeComposition extends IComposition {
 export interface ILooseKeycodeComposition extends IComposition {}
 
 export class BasicComposition implements IBasicComposition {
+  private static _keymaps: IKeymap[];
   private readonly key: IKeymap;
 
   constructor(key: IKeymap) {
@@ -292,6 +322,63 @@ export class BasicComposition implements IBasicComposition {
 
   genKeymap(): IKeymap {
     return JSON.parse(JSON.stringify(this.key));
+  }
+
+  static genKeymaps(): IKeymap[] {
+    if (BasicComposition._keymaps) return this._keymaps;
+
+    const list: IKeycodeCategoryInfo[] = [
+      // basic
+      KEY_SUB_CATEGORY_LETTER,
+      KEY_SUB_CATEGORY_NUMBER,
+      KEY_SUB_CATEGORY_NUMPAD,
+      KEY_SUB_CATEGORY_MODIFIER,
+      KEY_SUB_CATEGORY_EDIT,
+      KEY_SUB_CATEGORY_MOVE,
+      // symbol
+      KEY_SUB_CATEGORY_BLANK,
+      KEY_SUB_CATEGORY_PUNCTUATION,
+      // function
+      KEY_SUB_CATEGORY_F,
+      KEY_SUB_CATEGORY_INTERNATIONAL,
+      KEY_SUB_CATEGORY_LANGUAGE,
+      KEY_SUB_CATEGORY_LOCK,
+      // special
+      KEY_SUB_CATEGORY_GUI,
+      KEY_SUB_CATEGORY_COMMAND,
+      KEY_SUB_CATEGORY_EMBED_FUNCTION,
+      KEY_SUB_CATEGORY_MEDIA,
+      KEY_SUB_CATEGORY_APPLICATION,
+      // device
+      KEY_SUB_CATEGORY_DEVICE,
+      KEY_SUB_CATEGORY_MOUSE,
+    ];
+
+    const normalKeymaps: IKeymap[] = [];
+    list.forEach((category) => {
+      const kinds = category.kinds;
+      category.codes.forEach((code) => {
+        const km: IKeymap = {
+          code,
+          kinds,
+          isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
+          keycodeInfo: keycodeInfoList.find(
+            (keycode) => keycode.code === code
+          )!,
+        };
+        normalKeymaps.push(km);
+      });
+    });
+    BasicComposition._keymaps = normalKeymaps;
+    return BasicComposition._keymaps;
+  }
+
+  static findKeymap(code: number): IKeymap | undefined {
+    const list: IKeymap[] = BasicComposition.genKeymaps();
+    const basic = list.find((km) => km.code === code);
+    return basic;
   }
 }
 
@@ -1218,6 +1305,30 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
     if (LooseKeycodeComposition._looseKeycodeKeymaps)
       return LooseKeycodeComposition._looseKeycodeKeymaps;
 
+    const getKinds = (code: number): KeymapCategory[] => {
+      const list: IKeycodeCategoryInfo[] = [
+        KEY_SUB_CATEGORY_GRAVE_ESCAPE,
+        KEY_SUB_CATEGORY_SPACE_CADET,
+        KEY_SUB_CATEGORY_KEYBOARD,
+        KEY_SUB_CATEGORY_BOOTMAGIC,
+        KEY_SUB_CATEGORY_SOUND,
+        KEY_SUB_CATEGORY_BACKLIGHT,
+        KEY_SUB_CATEGORY_UNDERGLOW,
+        KEY_SUB_CATEGORY_MACRO,
+      ];
+
+      let kinds: KeymapCategory[] = [];
+      for (let i = 0; i < list.length; i++) {
+        const cat = list[i];
+        const index = cat.codes.indexOf(code);
+        if (0 <= index) {
+          kinds = cat.kinds;
+          break;
+        }
+      }
+      return kinds;
+    };
+
     LooseKeycodeComposition._looseKeycodeKeymaps = loosekeycodeList.map(
       (item) => {
         return {
@@ -1226,12 +1337,17 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
           direction: MOD_LEFT,
           modifiers: [],
           keycodeInfo: item.keycodeInfo,
-          kinds: ['loose_keycode'],
+          kinds: getKinds(item.code),
           desc: item.desc,
         };
       }
     );
     return LooseKeycodeComposition._looseKeycodeKeymaps;
+  }
+
+  static findKeymap(code: number): IKeymap | undefined {
+    const list: IKeymap[] = LooseKeycodeComposition.genKeymaps();
+    return list.find((km) => km.code === code);
   }
 }
 
@@ -1294,12 +1410,12 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isBasic(): boolean {
     //return this.getKind() === KeycodeCompositionKind.basic;
-    const km = KeycodeList.basicKeymaps.find((k) => k.code === this.code);
+    const km = BasicComposition.findKeymap(this.code);
     return Boolean(km);
   }
 
   isBasicFunc(): boolean {
-    return keycodesBasicFunc.codes.includes(this.code);
+    return KEY_SUB_CATEGORY_EMBED_FUNCTION.codes.includes(this.code);
   }
 
   isDefLayer(): boolean {
@@ -1381,7 +1497,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    return new BasicComposition(KeycodeList.getBasicKeymap(keyCode));
+    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
+    return new BasicComposition(keymap);
   }
 
   createModsComposition(): IModsComposition {
@@ -1390,7 +1507,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a mods key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const keyCode = this.code & 0b1111_1111;
+    const basicCode = this.code & 0b1111_1111;
+    const basicKeymap: IKeymap = BasicComposition.findKeymap(basicCode)!;
     const modDirection =
       (this.code & 0b1_0000_0000_0000) >> 12 === 1 ? MOD_RIGHT : MOD_LEFT;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
@@ -1399,11 +1517,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       }
       return result;
     }, []);
-    return new ModsComposition(
-      modDirection,
-      modifiers,
-      KeycodeList.getBasicKeymap(keyCode)
-    );
+    return new ModsComposition(modDirection, modifiers, basicKeymap);
   }
 
   createFunctionComposition(): IFunctionComposition {
@@ -1434,7 +1548,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
-    return new LayerTapComposition(layer, KeycodeList.getBasicKeymap(keyCode));
+    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
+    return new LayerTapComposition(layer, keymap);
   }
 
   createToComposition(): IToComposition {
@@ -1562,7 +1677,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     if (SWAP_HANDS_OPTIONS.includes(value as ISwapHandsOption)) {
       return new SwapHandsComposition(value as ISwapHandsOption);
     } else {
-      return new SwapHandsComposition(KeycodeList.getBasicKeymap(value));
+      const keymap = BasicComposition.findKeymap(value)!;
+      return new SwapHandsComposition(keymap);
     }
   }
 
@@ -1573,6 +1689,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
+    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
       if (((this.code >> 8) & 0b1111 & current) === current) {
         result.push(current);
@@ -1581,11 +1698,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }, []);
     const modDirection =
       ((this.code >> 12) & 0b0001) === MOD_RIGHT ? MOD_RIGHT : MOD_LEFT;
-    return new ModTapComposition(
-      modDirection,
-      modifiers,
-      KeycodeList.getBasicKeymap(keyCode)
-    );
+    return new ModTapComposition(modDirection, modifiers, keymap);
   }
 
   createUnicodeComposition(): IUnicodeComposition {

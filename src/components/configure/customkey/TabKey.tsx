@@ -21,10 +21,10 @@ import {
   ToggleLayerComposition,
 } from '../../../services/hid/Composition';
 
-import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
+import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 
 type OwnProps = {
   value: IKeymap | null; // Keys
@@ -44,17 +44,15 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     if (!TabKey.basicKeymaps) {
       const layerCount = this.props.layerCount;
       TabKey.basicKeymaps = [
-        ...KeycodeList.basicKeymaps,
-        ...LooseKeycodeComposition.genKeymaps(),
-        ...ToComposition.genKeymaps(layerCount),
-        ...ToggleLayerComposition.genKeymaps(layerCount),
-        ...LayerTapToggleComposition.genKeymaps(layerCount),
-        ...MomentaryComposition.genKeymaps(layerCount),
-        ...OneShotLayerComposition.genKeymaps(layerCount),
-        ...OneShotModComposition.genKeymaps(),
-        ...DefLayerComposition.genKeymaps(layerCount),
+        ...KeyCategory.basic(),
+        ...KeyCategory.symbol(),
+        ...KeyCategory.functions(),
+        ...KeyCategory.layer(layerCount),
         ...LayerModComposition.genKeymaps(layerCount),
-        ...SwapHandsComposition.genSwapHandsOptionKeymaps(),
+        ...OneShotModComposition.genKeymaps(),
+        ...KeyCategory.special(),
+        ...KeyCategory.device(),
+        ...KeyCategory.macro(),
       ];
     }
   }
@@ -142,7 +140,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       if (mods.length === 0) {
         keymap.modifiers = [];
         comp = new BasicComposition(keymap);
-      } else if (keymap.kinds.includes('func')) {
+      } else if (keymap.kinds.includes('embed_function')) {
         // KC_FN* key is not allowed to add modifier(s)
         keymap.modifiers = [];
         keymap.direction = MOD_LEFT;

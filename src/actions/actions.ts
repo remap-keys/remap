@@ -1,7 +1,7 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
 import KeyModel from '../models/KeyModel';
-import { IHid, IKeycodeCategory, IKeymap } from '../services/hid/Hid';
+import { IKeymap } from '../services/hid/Hid';
 import { ISetupPhase } from '../store/state';
 
 export const KEYMAP_ACTIONS = '@Keymap';
@@ -30,43 +30,11 @@ export const KeymapActions = {
 
 export const KEYCODES_ACTIONS = '@Keycodes';
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
-export const KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES = `${KEYCODES_ACTIONS}/LoadKeycodeInfoForAllCategories`;
 export const KeycodesActions = {
   updateMacro: (code: number | undefined, text: string) => {
     return {
       type: KEYCODES_UPDATE_MACRO,
       value: { code: code, text: text },
-    };
-  },
-  loadKeycodeInfoForAllCategories: (hid: IHid, layerCount: number) => {
-    const getKeysByCategory = (category: string): Key[] => {
-      return hid
-        .getKeymapCandidatesByCategory(category, layerCount)
-        .map<Key>((keymap) => ({
-          code: keymap.code,
-          label: keymap.keycodeInfo!.label,
-          meta: '',
-          keymap,
-        }));
-    };
-
-    let keys: { [category: string]: Key[] } = {};
-    [
-      IKeycodeCategory.BASIC,
-      IKeycodeCategory.LAYERS,
-      IKeycodeCategory.LIGHTING,
-      IKeycodeCategory.MEDIA,
-      IKeycodeCategory.NUMBER,
-      IKeycodeCategory.SPECIAL,
-      IKeycodeCategory.MACRO,
-    ].forEach((category) => {
-      keys[category] = getKeysByCategory(category);
-    });
-    keys[IKeycodeCategory.ANY] = [];
-
-    return {
-      type: KEYCODES_LOAD_KEYCODE_INFO_FOR_ALL_CATEGORIES,
-      value: keys,
     };
   },
 };
