@@ -52,7 +52,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
         ...OneShotModComposition.genKeymaps(),
         ...KeyCategory.special(),
         ...KeyCategory.device(),
-        ...KeyCategory.macro(),
+        // ...KeyCategory.macro(),
       ];
     }
   }

@@ -16,7 +16,7 @@ export class KeyCategory {
   private static _symbol: IKeymap[];
   private static _functions: IKeymap[];
   private static _layer: { [layerCount: number]: IKeymap[] } = {};
-  private static _sepcial: IKeymap[];
+  private static _special: IKeymap[];
   private static _device: IKeymap[];
   private static _macro: IKeymap[];
 
@@ -93,7 +93,7 @@ export class KeyCategory {
   }
 
   static special(): IKeymap[] {
-    if (KeyCategory._sepcial) return KeyCategory._sepcial;
+    if (KeyCategory._special) return KeyCategory._special;
 
     const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_GUI.codes,
@@ -106,8 +106,8 @@ export class KeyCategory {
       (code) => BasicComposition.findKeymap(code)!
     );
     const shKeymaps: IKeymap[] = SwapHandsComposition.genSwapHandsOptionKeymaps();
-    KeyCategory._sepcial = [...basicKeymaps, ...shKeymaps];
-    return KeyCategory._sepcial;
+    KeyCategory._special = [...basicKeymaps, ...shKeymaps];
+    return KeyCategory._special;
   }
 
   static device(): IKeymap[] {

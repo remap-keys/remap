@@ -35,7 +35,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       Functions: genKeys(KeyCategory.functions()),
       Layer: genKeys(KeyCategory.layer(this.props.layerCount!)),
       Device: genKeys(KeyCategory.device()),
-      Macro: genKeys(KeyCategory.macro()),
+      // Macro: genKeys(KeyCategory.macro()),
       Special: genKeys(KeyCategory.special()),
     };
   }
