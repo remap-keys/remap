@@ -3,6 +3,7 @@ import './AutocompleteKeys.scss';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 import { IKeymap } from '../../../services/hid/Hid';
+import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {
   keycodeOptions: IKeymap[];
@@ -71,17 +72,7 @@ export default class AutocompleteKeys extends React.Component<
               </div>
               {this.props.showKinds != false && (
                 <div className="keycode-auto-category">
-                  {option.kinds
-                    .map((k) => {
-                      return k
-                        .split('_')
-                        .map(
-                          (text) => text.charAt(0).toUpperCase() + text.slice(1)
-                        )
-                        .flat()
-                        .join('-');
-                    })
-                    .join('/')}
+                  {kinds2CategoriyLabel(option.kinds)}
                 </div>
               )}
             </div>
@@ -104,3 +95,16 @@ export default class AutocompleteKeys extends React.Component<
     );
   }
 }
+
+export const kinds2CategoriyLabel = (kinds: KeymapCategory[]): string => {
+  const cat = kinds
+    .map((k) => {
+      return k
+        .split('_')
+        .map((text) => text.charAt(0).toUpperCase() + text.slice(1))
+        .flat()
+        .join('-');
+    })
+    .join('/');
+  return cat;
+};

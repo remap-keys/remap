@@ -1066,24 +1066,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     const code = this.getCode();
     let keymap: IKeymap;
     if (this.isSwapHandsOption()) {
-      const opt = this.getSwapHandsOption();
-      const item = SwapHandsComposition._swapHandsOptionItems.find(
-        (item) => item.option === opt
-      )!;
-      keymap = {
-        code: code,
-        isAny: false,
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: {
-          code: code,
-          label: item.label,
-          name: { short: 'SH', long: 'SH' },
-        },
-        kinds: ['swap_hands'],
-        option: item.option,
-        desc: item.desc,
-      };
+      return SwapHandsComposition.findKeymap(code)!;
     } else {
       keymap = {
         code: code,
@@ -1097,6 +1080,14 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       };
     }
     return keymap;
+  }
+
+  static findKeymap(code: number): IKeymap | undefined {
+    if (!SwapHandsComposition.isSwapHandsOptions(code)) return undefined;
+
+    return SwapHandsComposition.genSwapHandsOptionKeymaps().find(
+      (km) => km.code === code
+    );
   }
 
   static isSwapHandsOptions(code: number): boolean {
@@ -1123,7 +1114,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
             label: item.label,
             name: { short: 'SH', long: 'SH' },
           },
-          kinds: ['swap_hands'],
+          kinds: ['special', 'swap_hands'],
           option: item.option,
           desc: item.desc,
         };

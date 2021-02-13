@@ -1,10 +1,11 @@
 import React from 'react';
 import './Remap.scss';
-import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap.container';
 import { RemapActionsType, RemapStateType } from './Remap.container';
+import { Key } from '../keycodekey/KeycodeKey.container';
+import { kinds2CategoriyLabel } from '../customkey/AutocompleteKeys';
 
 type OwnProp = {};
 type RemapPropType = OwnProp &
@@ -30,25 +31,30 @@ export default class Remap extends React.Component<RemapPropType, {}> {
         >
           <Keycodes />
         </div>
-        <Desc keymap={this.props.hoverKey?.keymap} />
+        <Desc value={this.props.hoverKey} />
       </React.Fragment>
     );
   }
 }
 
 type DescType = {
-  keymap?: IKeymap;
+  value: Key | null | undefined;
 };
 function Desc(props: DescType) {
-  if (!props.keymap) return <div></div>;
-  if (props.keymap.isAny) return <div className="keycode-desc">Any</div>;
-  if (props.keymap.keycodeInfo) {
-    const info = props.keymap.keycodeInfo!;
+  if (!props.value) return <div></div>;
+  if (props.value.keymap.isAny) return <div className="keycode-desc">Any</div>;
+  if (props.value.keymap.keycodeInfo) {
+    const info = props.value.keymap.keycodeInfo!;
     const hex = hexadecimal(info.code);
-    const desc = props.keymap.desc ? props.keymap.desc : '';
+    const categories = kinds2CategoriyLabel(props.value.keymap.kinds);
+    const desc = props.value.keymap.desc ? ': ' + props.value.keymap.desc : '';
+    const keycodeName = props.value.keymap.keycodeInfo.name.long;
     return (
       <div className="keycode-desc">
-        {props.keymap.keycodeInfo.label}: [{hex}] {desc}
+        <div className="keycode-desc-label">
+          {`/${categories}/${props.value.label}${desc}`}
+        </div>
+        <div className="keycode-desc-detail">{`${keycodeName} | ${hex}`}</div>
       </div>
     );
   } else {
