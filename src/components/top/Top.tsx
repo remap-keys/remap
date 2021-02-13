@@ -95,7 +95,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                       color="primary"
                       onClick={this.onClickStartRemap}
                     >
-                      Start Remap for your keyboard!
+                      Start Remap for your keyboard
                     </Button>
                   </Grid>
                   <Grid item>
