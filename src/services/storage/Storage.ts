@@ -28,6 +28,8 @@ export interface IKeyboardDefinitionDocument {
   readonly status: IKeyboardDefinitionStatus;
   readonly json: string;
   readonly rejectReason: string | undefined;
+  readonly githubDisplayName: string;
+  readonly githubUrl: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -67,6 +69,7 @@ export interface IStorage {
     githubUid: string,
     githubDisplayName: string,
     githubEmail: string,
+    githubUrl: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   isExistKeyboardDefinitionDocument(
