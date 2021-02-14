@@ -40,7 +40,7 @@ export default class Footer extends React.Component<
             Terms of Use
           </a>
         </div>
-        <div className="app-version">{appPackage.version}</div>
+        <div className="app-version">v{appPackage.version}</div>
       </footer>
     );
   }

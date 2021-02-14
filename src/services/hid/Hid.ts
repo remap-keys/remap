@@ -116,10 +116,6 @@ export interface IHid {
   detectKeyboards(): Promise<IKeyboard[]>;
   setConnectionEventHandler(handler: IConnectionEventHandler): void;
   connect(connectParams?: IConnectParams): Promise<IConnectResult>;
-  getKeymapCandidatesByCategory(
-    category: string,
-    layerCount: number
-  ): IKeymap[];
   close(keyboard: IKeyboard): void;
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory;
 }
