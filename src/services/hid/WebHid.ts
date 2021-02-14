@@ -11,7 +11,6 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
-  IKeycodeCategory,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 
@@ -25,7 +24,6 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
-import { KeyCategory } from './KeyCategoryList';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
