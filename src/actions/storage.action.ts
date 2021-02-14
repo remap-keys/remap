@@ -195,6 +195,11 @@ export const storageActionsThunk = {
         return;
       }
 
+      dispatch(
+        StorageActions.updateKeyboardDefinitionDocument(
+          fetchKeyboardDefinitionResult.document!
+        )
+      );
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       dispatch(
         LayoutOptionsActions.initSelectedOptions(

@@ -231,6 +231,18 @@ export default class ConfigurationDialog extends React.Component<
                 label="Col x Row"
                 value={`${keyboardDef.matrix.cols} x ${keyboardDef.matrix.rows}`}
               />
+              <InfoRow
+                label="Registered by"
+                value={
+                  <a
+                    href={this.props.keyboardDefinitionDocument!.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {this.props.keyboardDefinitionDocument!.githubDisplayName}
+                  </a>
+                }
+              />
             </Grid>
           </TabPanel>
         </DialogContent>
@@ -296,7 +308,7 @@ function OptionRowComponent(props: OptionRowType) {
   );
 }
 
-function InfoRow(props: { label: string; value: string }) {
+function InfoRow(props: { label: string; value: string | React.ReactNode }) {
   return (
     <React.Fragment>
       <Grid item xs={6} className="option-info-label">
