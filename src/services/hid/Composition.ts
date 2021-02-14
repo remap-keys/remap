@@ -1,7 +1,7 @@
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 import { KeymapCategory } from './KeycodeList';
-import { loosekeycodeList } from './LooseKeycodeList';
+
 import {
   KEY_SUB_CATEGORY_APPLICATION,
   KEY_SUB_CATEGORY_BACKLIGHT,
@@ -31,7 +31,7 @@ import {
   KEY_SUB_CATEGORY_SPACE_CADET,
   KEY_SUB_CATEGORY_UNDERGLOW,
 } from './KeyCategoryList';
-import { keycodeInfoList } from './KeycodeInfoList';
+import { keyInfoList } from './KeycodeInfoList';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -357,16 +357,21 @@ export class BasicComposition implements IBasicComposition {
     const normalKeymaps: IKeymap[] = [];
     list.forEach((category) => {
       const kinds = category.kinds;
+
       category.codes.forEach((code) => {
+        const keyInfo = keyInfoList.find(
+          (info) => info.keycodeInfo.code === code
+        )!;
+        const desc = keyInfo.desc;
+        const keycodeInfo = keyInfo.keycodeInfo;
         const km: IKeymap = {
           code,
           kinds,
+          desc,
+          keycodeInfo,
           isAny: false,
           direction: MOD_LEFT,
           modifiers: [],
-          keycodeInfo: keycodeInfoList.find(
-            (keycode) => keycode.code === code
-          )!,
         };
         normalKeymaps.push(km);
       });
@@ -1066,24 +1071,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     const code = this.getCode();
     let keymap: IKeymap;
     if (this.isSwapHandsOption()) {
-      const opt = this.getSwapHandsOption();
-      const item = SwapHandsComposition._swapHandsOptionItems.find(
-        (item) => item.option === opt
-      )!;
-      keymap = {
-        code: code,
-        isAny: false,
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: {
-          code: code,
-          label: item.label,
-          name: { short: 'SH', long: 'SH' },
-        },
-        kinds: ['swap_hands'],
-        option: item.option,
-        desc: item.desc,
-      };
+      return SwapHandsComposition.findKeymap(code)!;
     } else {
       keymap = {
         code: code,
@@ -1099,9 +1087,20 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     return keymap;
   }
 
+  static findKeymap(code: number): IKeymap | undefined {
+    if (!SwapHandsComposition.isSwapHandsOptions(code)) return undefined;
+
+    return SwapHandsComposition.genSwapHandsOptionKeymaps().find(
+      (km) => km.code === code
+    );
+  }
+
   static isSwapHandsOptions(code: number): boolean {
     return (
-      0 <= SwapHandsComposition.genKeymaps().findIndex((km) => km.code === code)
+      0 <=
+      SwapHandsComposition.genSwapHandsOptionKeymaps().findIndex(
+        (km) => km.code === code
+      )
     );
   }
 
@@ -1123,7 +1122,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
             label: item.label,
             name: { short: 'SH', long: 'SH' },
           },
-          kinds: ['swap_hands'],
+          kinds: ['special', 'swap_hands'],
           option: item.option,
           desc: item.desc,
         };
@@ -1329,19 +1328,18 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       return kinds;
     };
 
-    LooseKeycodeComposition._looseKeycodeKeymaps = loosekeycodeList.map(
-      (item) => {
-        return {
-          code: item.code,
-          isAny: false,
-          direction: MOD_LEFT,
-          modifiers: [],
-          keycodeInfo: item.keycodeInfo,
-          kinds: getKinds(item.code),
-          desc: item.desc,
-        };
-      }
-    );
+    LooseKeycodeComposition._looseKeycodeKeymaps = keyInfoList.map((item) => {
+      const code = item.keycodeInfo.code;
+      return {
+        code: code,
+        isAny: false,
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: item.keycodeInfo,
+        kinds: getKinds(code),
+        desc: item.desc,
+      };
+    });
     return LooseKeycodeComposition._looseKeycodeKeymaps;
   }
 

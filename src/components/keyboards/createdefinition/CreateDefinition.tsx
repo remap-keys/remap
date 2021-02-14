@@ -9,20 +9,15 @@ import {
   Button,
   Card,
   CardContent,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControlLabel,
   Step,
   StepLabel,
   Stepper,
   TextField,
-  Theme,
-  Tooltip,
-  Typography,
 } from '@material-ui/core';
 import {
   IKeyboardDefinitionStatus,
@@ -30,7 +25,6 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { withStyles } from '@material-ui/core/styles';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 
 type CreateKeyboardState = {

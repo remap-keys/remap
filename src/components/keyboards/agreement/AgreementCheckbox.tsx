@@ -14,6 +14,7 @@ const HtmlTooltip = withStyles((theme: Theme) => ({
 
 export type IProps = {
   agreement: boolean;
+  // eslint-disable-next-line no-unused-vars
   updateAgreement: (agreed: boolean) => void;
 };
 
