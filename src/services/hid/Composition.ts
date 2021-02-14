@@ -1097,7 +1097,10 @@ export class SwapHandsComposition implements ISwapHandsComposition {
 
   static isSwapHandsOptions(code: number): boolean {
     return (
-      0 <= SwapHandsComposition.genKeymaps().findIndex((km) => km.code === code)
+      0 <=
+      SwapHandsComposition.genSwapHandsOptionKeymaps().findIndex(
+        (km) => km.code === code
+      )
     );
   }
 

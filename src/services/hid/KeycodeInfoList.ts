@@ -475,7 +475,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_BSPACE',
         short: 'KC_BSPC',
       },
-      label: 'Back space',
+      label: 'BS',
     },
   },
   {
@@ -875,47 +875,47 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Right',
     keycodeInfo: {
       code: 79,
       name: {
         long: 'KC_RIGHT',
         short: 'KC_RGHT',
       },
-      label: 'Right',
+      label: '→',
     },
   },
   {
-    desc: '',
+    desc: 'Left',
     keycodeInfo: {
       code: 80,
       name: {
         long: 'KC_LEFT',
         short: 'KC_LEFT',
       },
-      label: 'Left',
+      label: '←',
     },
   },
   {
-    desc: '',
+    desc: 'Down',
     keycodeInfo: {
       code: 81,
       name: {
         long: 'KC_DOWN',
         short: 'KC_DOWN',
       },
-      label: 'Down',
+      label: '↓',
     },
   },
   {
-    desc: '',
+    desc: 'Up',
     keycodeInfo: {
       code: 82,
       name: {
         long: 'KC_UP',
         short: 'KC_UP',
       },
-      label: 'Up',
+      label: '↑',
     },
   },
   {
@@ -2459,25 +2459,25 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Left Ctrl',
     keycodeInfo: {
       code: 224,
       name: {
         long: 'KC_LCTRL',
         short: 'KC_LCTL',
       },
-      label: 'Left Ctrl',
+      label: '*Ctrl',
     },
   },
   {
-    desc: '',
+    desc: 'Left Shift',
     keycodeInfo: {
       code: 225,
       name: {
         long: 'KC_LSHIFT',
         short: 'KC_LSFT',
       },
-      label: 'Left Shift',
+      label: '*Shift',
     },
   },
   {
@@ -2499,40 +2499,40 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_LGUI',
         short: 'KC_LWIN',
       },
-      label: 'Left Win',
+      label: '*Win',
     },
   },
   {
-    desc: '',
+    desc: 'Right Ctrl',
     keycodeInfo: {
       code: 228,
       name: {
         long: 'KC_RCTRL',
         short: 'KC_RCTL',
       },
-      label: 'Right Ctrl',
+      label: 'Ctrl*',
     },
   },
   {
-    desc: '',
+    desc: 'Right Shift',
     keycodeInfo: {
       code: 229,
       name: {
         long: 'KC_RSHIFT',
         short: 'KC_RSFT',
       },
-      label: 'Right Shift',
+      label: 'Shift*',
     },
   },
   {
-    desc: '',
+    desc: 'Right Alt',
     keycodeInfo: {
       code: 230,
       name: {
         long: 'KC_RALT',
         short: 'KC_ROPT',
       },
-      label: 'Right Alt',
+      label: 'Alt*',
     },
   },
   {
@@ -2543,7 +2543,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_RGUI',
         short: 'KC_RWIN',
       },
-      label: 'Right Win',
+      label: 'Win*',
     },
   },
   {
