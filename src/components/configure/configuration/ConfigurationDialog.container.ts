@@ -9,6 +9,8 @@ const mapStateToProps = (state: RootState) => {
   return {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
+    keyboard: state.entities.keyboard,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type ConfigurationDialogStateType = ReturnType<typeof mapStateToProps>;

@@ -412,38 +412,6 @@ export class WebHid implements IHid {
     this.handler = handler;
   }
 
-  getKeymapCandidatesByCategory(
-    category: string,
-    layerCount: number
-  ): IKeymap[] {
-    let keymaps: IKeymap[] = [];
-    switch (category) {
-      case IKeycodeCategory.BASIC:
-        keymaps = KeyCategory.basic();
-        break;
-      case IKeycodeCategory.SYMBOL:
-        keymaps = KeyCategory.symbol();
-        break;
-      case IKeycodeCategory.FUNCTIONS:
-        keymaps = KeyCategory.functions();
-        break;
-      case IKeycodeCategory.LAYERS:
-        keymaps = KeyCategory.layer(layerCount);
-        break;
-      case IKeycodeCategory.SPECIAL:
-        keymaps = KeyCategory.special();
-        break;
-      case IKeycodeCategory.DEVICE:
-        keymaps = KeyCategory.device();
-        break;
-      case IKeycodeCategory.MACRO:
-        keymaps = KeyCategory.macro();
-        break;
-    }
-
-    return keymaps;
-  }
-
   close(keyboard: IKeyboard): void {
     this.handler!.close(keyboard);
   }

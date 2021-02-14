@@ -23,6 +23,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
+import { hexadecimal } from '../../../utils/StringUtils';
 
 function TabPanel(props: { value: number; index: number; children: any }) {
   const { children, value, index } = props;
@@ -100,8 +101,13 @@ export default class ConfigurationDialog extends React.Component<
     const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
     const labels = this.props.keyboardLayoutOptions!;
     const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
+
+    const deviceInfo = this.props.keyboard!.getInformation();
+    const keyboardDef = this.props.keyboardDefinition!;
+
     let menuIndex = 0;
     let panelIndex = 0;
+
     return (
       <Dialog
         open={this.props.open}
@@ -138,6 +144,11 @@ export default class ConfigurationDialog extends React.Component<
               id={`vertical-tab-${menuIndex++}`}
               aria-controls={`vertical-tabpanel-${menuIndex++}`}
               label="Import"
+            />
+            <Tab
+              id={`vertical-tab-${menuIndex++}`}
+              aria-controls={`vertical-tabpanel-${menuIndex++}`}
+              label="Info"
             />
           </Tabs>
           {hasKeyboardOptions && (
@@ -195,6 +206,32 @@ export default class ConfigurationDialog extends React.Component<
                 </div>
               </Alert>
             )}
+          </TabPanel>
+          <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} className="option-info-label">
+                <h4>CONNECTED DEVICE</h4>
+              </Grid>
+              <InfoRow label="Product Name" value={deviceInfo.productName} />
+              <InfoRow
+                label="Vendor ID"
+                value={hexadecimal(deviceInfo.vendorId, 4)}
+              />
+              <InfoRow
+                label="Product ID"
+                value={hexadecimal(deviceInfo.productId, 4)}
+              />
+              <Grid item xs={12} className="option-info-label">
+                <h4>KEYBOARD DEFINITION</h4>
+              </Grid>
+              <InfoRow label="Name" value={keyboardDef.name} />
+              <InfoRow label="Vendor ID" value={keyboardDef.vendorId} />
+              <InfoRow label="Product ID" value={keyboardDef.productId} />
+              <InfoRow
+                label="Col x Row"
+                value={`${keyboardDef.matrix.cols} x ${keyboardDef.matrix.rows}`}
+              />
+            </Grid>
           </TabPanel>
         </DialogContent>
       </Dialog>
@@ -254,6 +291,19 @@ function OptionRowComponent(props: OptionRowType) {
             );
           })}
         </Select>
+      </Grid>
+    </React.Fragment>
+  );
+}
+
+function InfoRow(props: { label: string; value: string }) {
+  return (
+    <React.Fragment>
+      <Grid item xs={6} className="option-info-label">
+        {props.label}
+      </Grid>
+      <Grid item xs={6} className="option-info-value">
+        {props.value}
       </Grid>
     </React.Fragment>
   );
