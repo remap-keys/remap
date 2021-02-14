@@ -2481,14 +2481,14 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Left Alt',
     keycodeInfo: {
       code: 226,
       name: {
         long: 'KC_LALT',
         short: 'KC_LOPT',
       },
-      label: 'Left Alt',
+      label: '*Alt',
     },
   },
   {
