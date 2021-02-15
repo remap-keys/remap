@@ -9,6 +9,7 @@ import {
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
+import { GitHub, IGitHub } from '../services/github/GitHub';
 
 export type ISetupPhase =
   | 'init'
@@ -130,9 +131,13 @@ export type RootState = {
   auth: {
     instance: IAuth;
   };
+  github: {
+    instance: IGitHub;
+  };
 };
 
 const firebaseProvider = new FirebaseProvider();
+const gitHub = new GitHub();
 
 export const INIT_STATE: RootState = {
   entities: {
@@ -214,5 +219,8 @@ export const INIT_STATE: RootState = {
   },
   auth: {
     instance: firebaseProvider,
+  },
+  github: {
+    instance: gitHub,
   },
 };

@@ -195,6 +195,11 @@ export const storageActionsThunk = {
         return;
       }
 
+      dispatch(
+        StorageActions.updateKeyboardDefinitionDocument(
+          fetchKeyboardDefinitionResult.document!
+        )
+      );
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       dispatch(
         LayoutOptionsActions.initSelectedOptions(
@@ -240,11 +245,27 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { storage, auth, keyboards } = getState();
+    const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const productName = keyboards.createdefinition.productName;
     const user = auth.instance.getCurrentAuthenticatedUser();
-    const github = user.providerData[0]!;
+    const githubProviderData = user.providerData[0]!;
+
+    const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
+      githubProviderData.uid
+    );
+    if (!fetchAccountInfoResult.success) {
+      console.error(fetchAccountInfoResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          fetchAccountInfoResult.error!,
+          fetchAccountInfoResult.cause
+        )
+      );
+      return;
+    }
+    const githubAccountInfo = fetchAccountInfoResult.info!;
+
     const jsonStr = keyboards.createdefinition.jsonString;
     const result = await storage.instance.createKeyboardDefinitionDocument(
       user.uid,
@@ -253,9 +274,10 @@ export const storageActionsThunk = {
       parseInt(keyboardDefinition.productId, 16),
       productName,
       jsonStr,
-      github.uid,
-      github.displayName || '',
-      github.email || '',
+      githubProviderData.uid,
+      githubProviderData.displayName || '',
+      githubProviderData.email || '',
+      githubAccountInfo.html_url,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -270,7 +292,7 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { storage, auth, keyboards } = getState();
+    const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const productName = keyboards.createdefinition.productName;
 
@@ -296,7 +318,23 @@ export const storageActionsThunk = {
     }
 
     const user = auth.instance.getCurrentAuthenticatedUser();
-    const github = user.providerData[0]!;
+    const githubProviderData = user.providerData[0]!;
+
+    const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
+      githubProviderData.uid
+    );
+    if (!fetchAccountInfoResult.success) {
+      console.error(fetchAccountInfoResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          fetchAccountInfoResult.error!,
+          fetchAccountInfoResult.cause
+        )
+      );
+      return;
+    }
+    const githubAccountInfo = fetchAccountInfoResult.info!;
+
     const jsonStr = keyboards.createdefinition.jsonString;
     const result = await storage.instance.createKeyboardDefinitionDocument(
       user.uid,
@@ -305,9 +343,10 @@ export const storageActionsThunk = {
       parseInt(keyboardDefinition.productId, 16),
       productName,
       jsonStr,
-      github.uid,
-      github.displayName || '',
-      github.email || '',
+      githubProviderData.uid,
+      githubProviderData.displayName || '',
+      githubProviderData.email || '',
+      githubAccountInfo.html_url,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {

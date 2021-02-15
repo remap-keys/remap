@@ -118,141 +118,143 @@ export default class CreateDefinition extends React.Component<
     return (
       <React.Fragment>
         <div className="create-definition-wrapper">
-          <div className="create-definition-card">
-            <Card>
-              <CardContent>
-                <Button
-                  style={{ marginRight: '16px' }}
-                  onClick={this.handleBackButtonClick}
-                >
-                  &lt; Keyboard List
-                </Button>
-                <Stepper>
-                  {statusSteps.map((label) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    return (
-                      <Step key={label} {...stepProps}>
-                        <StepLabel {...labelProps}>{label}</StepLabel>
-                      </Step>
-                    );
-                  })}
-                </Stepper>
-                <div className="create-definition-form-container">
-                  <div className="create-definition-upload-form">
-                    <KeyboardDefinitionFormPart
-                      messageHtml={`<span class="create-definition-upload-msg">Please import your file (.json)</b>`}
-                      validateDeviceIds={false}
-                      size="small"
-                      onLoadFile={(kd, name, jsonStr) => {
-                        this.onLoadFile(kd, name, jsonStr);
-                      }}
-                    />
+          <div className="create-definition-container">
+            <div className="create-definition-card">
+              <Card>
+                <CardContent>
+                  <Button
+                    style={{ marginRight: '16px' }}
+                    onClick={this.handleBackButtonClick}
+                  >
+                    &lt; Keyboard List
+                  </Button>
+                  <Stepper>
+                    {statusSteps.map((label) => {
+                      const stepProps = {};
+                      const labelProps = {};
+                      return (
+                        <Step key={label} {...stepProps}>
+                          <StepLabel {...labelProps}>{label}</StepLabel>
+                        </Step>
+                      );
+                    })}
+                  </Stepper>
+                  <div className="create-definition-form-container">
+                    <div className="create-definition-upload-form">
+                      <KeyboardDefinitionFormPart
+                        messageHtml={`<span class="create-definition-upload-msg">Please import your file (.json)</b>`}
+                        validateDeviceIds={false}
+                        size="small"
+                        onLoadFile={(kd, name, jsonStr) => {
+                          this.onLoadFile(kd, name, jsonStr);
+                        }}
+                      />
+                    </div>
+                    <div className="create-definition-form">
+                      <div className="create-definition-form-row">
+                        <TextField
+                          id="create-definition-json-filename"
+                          label="JSON Filename"
+                          variant="outlined"
+                          value={this.props.jsonFilename}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <TextField
+                          id="create-definition-name"
+                          label="Name"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.name || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <TextField
+                          id="create-definition-vendor_id"
+                          label="Vendor ID"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.vendorId || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <TextField
+                          id="create-definition-product_id"
+                          label="Product ID"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.productId || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <TextField
+                          inputRef={this.refInputProductName}
+                          id="create-definition-product-name"
+                          label="Product Name"
+                          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+                          variant="outlined"
+                          required={true}
+                          value={this.props.productName}
+                          onChange={(event) => {
+                            this.props.updateProductName!(event.target.value);
+                          }}
+                          onFocus={(event) => {
+                            event.target.select();
+                          }}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <AgreementCheckbox
+                          agreement={this.props.agreement!}
+                          updateAgreement={this.props.updateAgreement!}
+                        />
+                      </div>
+                      <div className="create-definition-form-buttons">
+                        <Button
+                          color="primary"
+                          onClick={this.handleSaveAsDraftButtonClick}
+                          disabled={!this.isFilledInAllField()}
+                        >
+                          Save as Draft
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={this.handleSubmitForReviewButtonClick}
+                          disabled={!this.isFilledInAllFieldAndAgreed()}
+                        >
+                          Submit for Review
+                        </Button>
+                      </div>
+                      <div className="create-definition-form-notice">
+                        <p>
+                          * You can submit the JSON file written by you only. Do
+                          NOT infringe of the right of person who created the
+                          original JSON file. We check whether you are valid
+                          author of the keyboard you request in our review
+                          process, but notice that we can&quot;t insure the
+                          validity completely.
+                        </p>
+                        <p>
+                          * We check whether the keyboard you request has a
+                          unique combination of the Vendor ID, Product ID and
+                          Product Name in our review process.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="create-definition-form">
-                    <div className="create-definition-form-row">
-                      <TextField
-                        id="create-definition-json-filename"
-                        label="JSON Filename"
-                        variant="outlined"
-                        value={this.props.jsonFilename}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="create-definition-form-row">
-                      <TextField
-                        id="create-definition-name"
-                        label="Name"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.name || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="create-definition-form-row">
-                      <TextField
-                        id="create-definition-vendor_id"
-                        label="Vendor ID"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.vendorId || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="create-definition-form-row">
-                      <TextField
-                        id="create-definition-product_id"
-                        label="Product ID"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.productId || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="create-definition-form-row">
-                      <TextField
-                        inputRef={this.refInputProductName}
-                        id="create-definition-product-name"
-                        label="Product Name"
-                        helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
-                        variant="outlined"
-                        required={true}
-                        value={this.props.productName}
-                        onChange={(event) => {
-                          this.props.updateProductName!(event.target.value);
-                        }}
-                        onFocus={(event) => {
-                          event.target.select();
-                        }}
-                      />
-                    </div>
-                    <div className="create-definition-form-row">
-                      <AgreementCheckbox
-                        agreement={this.props.agreement!}
-                        updateAgreement={this.props.updateAgreement!}
-                      />
-                    </div>
-                    <div className="create-definition-form-buttons">
-                      <Button
-                        color="primary"
-                        onClick={this.handleSaveAsDraftButtonClick}
-                        disabled={!this.isFilledInAllField()}
-                      >
-                        Save as Draft
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleSubmitForReviewButtonClick}
-                        disabled={!this.isFilledInAllFieldAndAgreed()}
-                      >
-                        Submit for Review
-                      </Button>
-                    </div>
-                    <div className="create-definition-form-notice">
-                      <p>
-                        * You can submit the JSON file written by you only. Do
-                        NOT infringe of the right of person who created the
-                        original JSON file. We check whether you are valid
-                        author of the keyboard you request in our review
-                        process, but notice that we can&quot;t insure the
-                        validity completely.
-                      </p>
-                      <p>
-                        * We check whether the keyboard you request has a unique
-                        combination of the Vendor ID, Product ID and Product
-                        Name in our review process.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
         <Dialog

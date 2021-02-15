@@ -25,6 +25,9 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
 
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
+
 function TabPanel(props: { value: number; index: number; children: any }) {
   const { children, value, index } = props;
 
@@ -107,6 +110,11 @@ export default class ConfigurationDialog extends React.Component<
 
     let menuIndex = 0;
     let panelIndex = 0;
+
+    const googleFormUrl = GOOGLE_FORM_URL.replace(
+      '${keyboard_name}',
+      this.props.keyboardDefinitionDocument!.name
+    ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument!.id);
 
     return (
       <Dialog
@@ -231,6 +239,30 @@ export default class ConfigurationDialog extends React.Component<
                 label="Col x Row"
                 value={`${keyboardDef.matrix.cols} x ${keyboardDef.matrix.rows}`}
               />
+              <InfoRow
+                label="Registered by"
+                value={
+                  <a
+                    href={this.props.keyboardDefinitionDocument!.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {this.props.keyboardDefinitionDocument!.githubDisplayName}
+                  </a>
+                }
+              />
+              <Grid item xs={12} className="option-info-label">
+                <div className="option-warning-message">
+                  If you think that the person above does not have any rights
+                  for the keyboard and the keyboard definition (in the case of
+                  the person is not original keyboard designer or etc.), please
+                  report it to the Remap team from{' '}
+                  <a href={googleFormUrl} target="_blank" rel="noreferrer">
+                    this form
+                  </a>
+                  .
+                </div>
+              </Grid>
             </Grid>
           </TabPanel>
         </DialogContent>
@@ -296,7 +328,7 @@ function OptionRowComponent(props: OptionRowType) {
   );
 }
 
-function InfoRow(props: { label: string; value: string }) {
+function InfoRow(props: { label: string; value: string | React.ReactNode }) {
   return (
     <React.Fragment>
       <Grid item xs={6} className="option-info-label">

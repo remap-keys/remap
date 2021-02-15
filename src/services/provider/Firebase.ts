@@ -57,6 +57,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       status: documentSnapshot.data()!.status,
       json: documentSnapshot.data()!.json,
       rejectReason: documentSnapshot.data()!.reject_reason,
+      githubDisplayName: documentSnapshot.data()!.github_display_name,
+      githubUrl: documentSnapshot.data()!.github_url,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -244,6 +246,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     githubUid: string,
     githubDisplayName: string,
     githubEmail: string,
+    githubUrl: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult> {
     try {
@@ -262,6 +265,8 @@ export class FirebaseProvider implements IStorage, IAuth {
           vendor_id: vendorId,
           product_name: productName,
           status,
+          github_display_name: githubDisplayName,
+          github_url: githubUrl,
         });
       await definitionDocumentReference.collection('secure').doc('github').set({
         github_display_name: githubDisplayName,

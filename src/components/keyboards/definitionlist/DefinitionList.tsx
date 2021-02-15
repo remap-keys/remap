@@ -34,31 +34,33 @@ export default class DefinitionList extends React.Component<
   render() {
     return (
       <div className="definition-list-wrapper">
-        <div className="definition-list-buttons">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleCreateButtonClick}
-          >
-            +Keyboard
-          </Button>
-        </div>
-        <div className="definition-list">
-          {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
-            <div key={index} className="definition">
-              <KeyboardRow doc={doc} />
-            </div>
-          ))}
-          {this.props.keyboardDefinitionDocuments!.length == 0 && (
-            <div className="definition">
-              <div className="no-registered-keyboard">
-                {`
-                You don't have any registered keyboards. Please register your own keyboard from right-top
-                button.
-                `}
+        <div className="definition-list-container">
+          <div className="definition-list-buttons">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleCreateButtonClick}
+            >
+              +Keyboard
+            </Button>
+          </div>
+          <div className="definition-list">
+            {this.props.keyboardDefinitionDocuments!.map((doc, index) => (
+              <div key={index} className="definition">
+                <KeyboardRow doc={doc} />
               </div>
-            </div>
-          )}
+            ))}
+            {this.props.keyboardDefinitionDocuments!.length == 0 && (
+              <div className="definition">
+                <div className="no-registered-keyboard">
+                  {`
+                  You don't have any registered keyboards. Please register your own keyboard from right-top
+                  button.
+                  `}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
