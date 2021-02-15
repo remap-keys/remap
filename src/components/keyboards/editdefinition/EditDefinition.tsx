@@ -474,95 +474,97 @@ export default class EditDefinition extends React.Component<
     return (
       <React.Fragment>
         <div className="edit-definition-wrapper">
-          <div className="edit-definition-card">
-            <Card>
-              <CardContent>
-                <div className="edit-keyboard-header">
-                  <Button
-                    style={{ marginRight: '16px' }}
-                    onClick={this.handleBackButtonClick}
-                  >
-                    &lt; Keyboard List
-                  </Button>
-                  {this.renderMenu()}
-                </div>
-                <Stepper activeStep={activeStep}>
-                  {statusSteps.map((label) => {
-                    const stepProps = {
-                      completed,
-                    };
-                    const labelProps = {};
-                    return (
-                      <Step key={label} {...stepProps}>
-                        <StepLabel {...labelProps}>{label}</StepLabel>
-                      </Step>
-                    );
-                  })}
-                </Stepper>
-                {this.renderAlertMessage()}
-                <div className="edit-definition-form-container">
-                  {this.renderJsonUploadForm()}
-                  <div className="edit-definition-form">
-                    {this.renderJsonFilenameRow()}
-                    <div className="edit-definition-form-row">
-                      <TextField
-                        id="edit-definition-name"
-                        label="Name"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.name || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="edit-definition-form-row">
-                      <TextField
-                        id="edit-definition-vendor_id"
-                        label="Vendor ID"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.vendorId || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    <div className="edit-definition-form-row">
-                      <TextField
-                        id="edit-definition-product_id"
-                        label="Product ID"
-                        variant="outlined"
-                        value={this.props.keyboardDefinition?.productId || ''}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-                    {this.renderProductNameRow()}
-                    {this.renderAgreementRow()}
-                    <div className="edit-definition-form-buttons">
-                      {this.renderSaveAsDraftButton()}
-                      {this.renderSubmitForReviewButton()}
-                      {this.renderUpdateJsonButton()}
-                    </div>
-                    <div className="edit-definition-form-notice">
-                      <p>
-                        * You can submit the JSON file written by you only. Do
-                        NOT infringe of the right of person who created the
-                        original JSON file. We check whether you are valid
-                        author of the keyboard you request in our review
-                        process, but notice that we can&quot;t insure the
-                        validity completely.
-                      </p>
-                      <p>
-                        * We check whether the keyboard you request has a unique
-                        combination of the Vendor ID, Product ID and Product
-                        Name in our review process.
-                      </p>
+          <div className="edit-definition-container">
+            <div className="edit-definition-card">
+              <Card>
+                <CardContent>
+                  <div className="edit-keyboard-header">
+                    <Button
+                      style={{ marginRight: '16px' }}
+                      onClick={this.handleBackButtonClick}
+                    >
+                      &lt; Keyboard List
+                    </Button>
+                    {this.renderMenu()}
+                  </div>
+                  <Stepper activeStep={activeStep}>
+                    {statusSteps.map((label) => {
+                      const stepProps = {
+                        completed,
+                      };
+                      const labelProps = {};
+                      return (
+                        <Step key={label} {...stepProps}>
+                          <StepLabel {...labelProps}>{label}</StepLabel>
+                        </Step>
+                      );
+                    })}
+                  </Stepper>
+                  {this.renderAlertMessage()}
+                  <div className="edit-definition-form-container">
+                    {this.renderJsonUploadForm()}
+                    <div className="edit-definition-form">
+                      {this.renderJsonFilenameRow()}
+                      <div className="edit-definition-form-row">
+                        <TextField
+                          id="edit-definition-name"
+                          label="Name"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.name || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="edit-definition-form-row">
+                        <TextField
+                          id="edit-definition-vendor_id"
+                          label="Vendor ID"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.vendorId || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      <div className="edit-definition-form-row">
+                        <TextField
+                          id="edit-definition-product_id"
+                          label="Product ID"
+                          variant="outlined"
+                          value={this.props.keyboardDefinition?.productId || ''}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </div>
+                      {this.renderProductNameRow()}
+                      {this.renderAgreementRow()}
+                      <div className="edit-definition-form-buttons">
+                        {this.renderSaveAsDraftButton()}
+                        {this.renderSubmitForReviewButton()}
+                        {this.renderUpdateJsonButton()}
+                      </div>
+                      <div className="edit-definition-form-notice">
+                        <p>
+                          * You can submit the JSON file written by you only. Do
+                          NOT infringe of the right of person who created the
+                          original JSON file. We check whether you are valid
+                          author of the keyboard you request in our review
+                          process, but notice that we can&quot;t insure the
+                          validity completely.
+                        </p>
+                        <p>
+                          * We check whether the keyboard you request has a
+                          unique combination of the Vendor ID, Product ID and
+                          Product Name in our review process.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
         <Dialog

@@ -11,9 +11,19 @@
   align-items: center;
 }
 
+.definition-list-container {
+  width: 100%;
+  height: calc(100vh - var(--key-height) - 26px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .definition-list {
   width: 100%;
   padding-top: 16px;
+  padding-bottom: 16px;
 
   &-buttons {
     width: 100%;
