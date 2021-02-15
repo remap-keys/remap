@@ -32,13 +32,24 @@ export default class Footer extends React.Component<
           </a>
         </div>
         <div className="footer-contents">
-          <a
-            href="https://docs.google.com/document/d/1Fo2-cbPcTNkckwJOl-YqnBuVeyREuYtyoY8mecdiUxE/edit"
-            target={'_blank'}
-            rel={'noreferrer'}
-          >
-            Terms of Use
-          </a>
+          <span className="footer-content">
+            <a
+              href="https://docs.google.com/document/d/1Fo2-cbPcTNkckwJOl-YqnBuVeyREuYtyoY8mecdiUxE/edit"
+              target={'_blank'}
+              rel={'noreferrer'}
+            >
+              Terms of Use
+            </a>
+          </span>
+          <span className="footer-content">
+            <a
+              href="https://discord.gg/uf7v5DruMB"
+              target={'_blank'}
+              rel={'noreferrer'}
+            >
+              User Community
+            </a>
+          </span>
         </div>
         <div className="app-version">v{appPackage.version}</div>
       </footer>

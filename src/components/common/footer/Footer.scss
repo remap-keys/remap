@@ -21,6 +21,14 @@
   }
   .footer-contents {
     text-align: center;
+
+    .footer-content {
+      display: inline-block;
+
+      &:not(:first-child) {
+        margin-left: 16px;
+      }
+    }
   }
   .app-version {
     text-align: end;
