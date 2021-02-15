@@ -55,6 +55,9 @@ const statusSteps: IKeyboardDefinitionStatus[] = [
   KeyboardDefinitionStatus.approved,
 ];
 
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
+
 export default class EditDefinition extends React.Component<
   EditKeyboardProps,
   EditKeyboardState
@@ -379,11 +382,23 @@ export default class EditDefinition extends React.Component<
         </div>
       );
     } else if (this.isStatus(KeyboardDefinitionStatus.rejected)) {
+      const googleFormUrl = GOOGLE_FORM_URL.replace(
+        '${keyboard_name}',
+        this.props.definitionDocument!.name
+      ).replace('${keyboard_id}', this.props.definitionDocument!.id);
       return (
         <div className="edit-definition-alert">
           <Alert severity="error">
             Your request was rejected at {updatedAt}. Reason:{' '}
             {this.props.definitionDocument!.rejectReason}
+            <br />
+            If the review request submitted by you was rejected by the reason
+            that the same keyboard definition has already been registered by the
+            incorrect applicant, please report it from{' '}
+            <a href={googleFormUrl} target="_blank" rel="noreferrer">
+              this form
+            </a>
+            .
           </Alert>
         </div>
       );
