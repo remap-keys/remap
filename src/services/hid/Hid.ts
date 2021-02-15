@@ -127,6 +127,12 @@ export interface IKeyboard {
   fetchRGBLightEffect(): Promise<IFetchRGBLightEffectResult>;
   fetchRGBLightEffectSpeed(): Promise<IFetchRGBLightEffectSpeedResult>;
   fetchRGBLightColor(): Promise<IFetchRGBLightColorResult>;
+  updateBacklightBrightness(brightness: number): Promise<IResult>;
+  updateBacklightEffect(isBreathing: boolean): Promise<IResult>;
+  updateRGBLightBrightness(brightness: number): Promise<IResult>;
+  updateRGBLightEffect(mode: number): Promise<IResult>;
+  updateRGBLightEffectSpeed(speed: number): Promise<IResult>;
+  updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
 }
 
 export interface ICommand {

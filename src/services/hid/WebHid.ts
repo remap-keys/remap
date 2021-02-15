@@ -25,6 +25,7 @@ import {
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapReadBufferResponse,
   LightingGetValueCommand,
+  LightingSetValueCommand,
 } from './Commands';
 import {
   IKeycodeCompositionFactory,
@@ -449,6 +450,162 @@ export class Keyboard implements IKeyboard {
             resolve({
               success: true,
               speed: result.response!.value1,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateBacklightBrightness(brightness: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkBacklightBrightness',
+          value1: brightness,
+          value2: 0,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateBacklightEffect(isBreathing: boolean): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkBacklightEffect',
+          value1: isBreathing ? 1 : 0,
+          value2: 0,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateRGBLightBrightness(brightness: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkRgblightBrightness',
+          value1: brightness,
+          value2: 0,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateRGBLightColor(hue: number, sat: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkRgblightColor',
+          value1: hue,
+          value2: sat,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateRGBLightEffect(mode: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkRgblightEffect',
+          value1: mode,
+          value2: 0,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateRGBLightEffectSpeed(speed: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new LightingSetValueCommand(
+        {
+          lightingValue: 'qmkRgblightEffectSpeed',
+          value1: speed,
+          value2: 0,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
             });
           } else {
             resolve({
