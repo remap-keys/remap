@@ -3,7 +3,6 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import {
   ICreateKeyboardDefinitionDocumentResult,
-  IExistsResult,
   IFetchKeyboardDefinitionDocumentResult,
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
@@ -282,49 +281,6 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: 'Creating a new Keyboard Definition failed.',
-        cause: error,
-      };
-    }
-  }
-
-  async isExistKeyboardDefinitionDocument(
-    vendorId: number,
-    productId: number,
-    productName: string
-  ): Promise<IExistsResult> {
-    try {
-      const querySnapshot = await this.db
-        .collection('keyboards')
-        .doc('v2')
-        .collection('definitions')
-        .where('vendor_id', '==', vendorId)
-        .where('product_id', '==', productId)
-        .where('status', '==', 'approved')
-        .get();
-      if (querySnapshot.empty) {
-        return {
-          success: true,
-          exists: false,
-        };
-      } else if (querySnapshot.size === 1) {
-        return {
-          success: true,
-          exists: true,
-        };
-      } else {
-        const exists = querySnapshot.docs.some((doc) =>
-          doc.data().product_name.endsWith(productName)
-        );
-        return {
-          success: true,
-          exists,
-        };
-      }
-    } catch (error) {
-      console.error(error);
-      return {
-        success: false,
-        error: 'Checking the keyboard definition existence failed.',
         cause: error,
       };
     }
