@@ -1,0 +1,47 @@
+@import '../../../variables';
+
+.underglow-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+  .underglow-settings {
+    .underglow-label {
+      font-size: 0.87rem;
+    }
+    .underglow-value-inner {
+    }
+    .underglow-slider-value {
+      position: absolute;
+      margin-left: 8px;
+    }
+
+    .underglow-color-wrapper {
+      cursor: pointer;
+      .underglow-color {
+        padding: $space-s;
+        border-radius: 2px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.color-picker-popover {
+  position: absolute;
+  z-index: 2000;
+  .color-picker-cover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}

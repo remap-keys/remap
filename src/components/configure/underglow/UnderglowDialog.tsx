@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import React from 'react';
+import './UnderglowDialog.scss';
 import Draggable from 'react-draggable';
 import {
   Dialog,
@@ -8,8 +10,10 @@ import {
   Paper,
   PaperProps,
   Select,
+  Slider,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import { ChromePicker, ColorResult } from 'react-color';
 
 type Props = {
   open: boolean;
@@ -17,6 +21,10 @@ type Props = {
 };
 type State = {
   underglowType: string;
+  underglowSpeed: number;
+  underglowBrightness: number;
+  underglowColor: string;
+  colorPickerPosition: { left: number; top: number } | null;
 };
 
 const UnderglowEffects: {
@@ -76,72 +84,161 @@ const UnderglowEffects: {
 ];
 
 export default class UnderglowDialog extends React.Component<Props, State> {
+  private colorPickerRef: React.RefObject<HTMLDivElement>;
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = {
       underglowType: '',
+      underglowSpeed: 10,
+      underglowBrightness: 10,
+      underglowColor: '#FFFFFF',
+      colorPickerPosition: null,
     };
+    this.colorPickerRef = React.createRef<HTMLDivElement>();
   }
 
-  private onChangeUnderglowType(name: string) {}
+  private onChangeUnderglowType(name: string) {
+    console.log(name);
+  }
+
+  private onChangeUnderglowSpeed(speed: number) {
+    this.setState({ underglowSpeed: speed });
+  }
+
+  private onChangeUnderglowBrightness(brightness: number) {
+    this.setState({ underglowBrightness: brightness });
+  }
+
+  private onChangeUnderglowColor(color: ColorResult) {
+    this.setState({ underglowColor: color.hex });
+  }
+
+  private openColorPicker() {
+    const rect = this.colorPickerRef.current?.getBoundingClientRect();
+    if (rect) {
+      console.log(rect);
+      this.setState({
+        colorPickerPosition: { left: rect.left, top: rect.top + rect.height },
+      });
+    }
+  }
+
+  private closeColorPicker() {
+    this.setState({ colorPickerPosition: null });
+  }
+
   render() {
     return (
-      <Dialog
-        open={this.props.open}
-        onClose={() => {}}
-        onEnter={() => {}}
-        PaperComponent={PaperComponent}
-        className="underglow-dialog"
-      >
-        <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-          Configuration
-          <div className="close-dialog">
-            <CloseIcon onClick={this.props.onClose} />
-          </div>
-        </DialogTitle>
-        <DialogContent dividers className="underglow-settings">
-          <Grid container spacing={1}>
-            <Grid
-              item
-              xs={4}
-              className="underglow-label underglow-effect-type-label"
-            >
-              Underglow Effect Type
+      <React.Fragment>
+        <Dialog
+          open={this.props.open}
+          onClose={() => {}}
+          onEnter={() => {}}
+          PaperComponent={PaperComponent}
+          className="underglow-dialog"
+        >
+          <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
+            Underglow Settings
+            <div className="close-dialog">
+              <CloseIcon onClick={this.props.onClose} />
+            </div>
+          </DialogTitle>
+          <DialogContent dividers className="underglow-settings">
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <div className="underglow-label underglow-effect-type-label">
+                  Effect Type
+                </div>
+                <div className="underglow-value underglow-effect-type-value">
+                  <Select
+                    native
+                    className="underglow-value-inner"
+                    value={this.state.underglowType}
+                    onChange={(e) => {
+                      this.onChangeUnderglowType(e.target.value as string);
+                    }}
+                  >
+                    {UnderglowEffects.map((effect) => {
+                      if (effect.values) {
+                        const arr = effect.values.map((v) => {
+                          const value = `${effect.symbol}_${v}`;
+                          return (
+                            <option
+                              key={value}
+                              value={value}
+                            >{`${effect.label} ${v}`}</option>
+                          );
+                        });
+                        return arr;
+                      } else {
+                        return (
+                          <option value={effect.symbol}>{effect.label}</option>
+                        );
+                      }
+                    })}
+                  </Select>
+                </div>
+                <div className="underglow-label underglow-effect-speed-label">
+                  Effect Speed
+                </div>
+                <div className="underglow-value underglow-effect-speed-value">
+                  <div>
+                    <Slider
+                      className="underglow-value-inner"
+                      value={this.state.underglowSpeed}
+                      onChange={(event: any, newValue: number | number[]) => {
+                        this.onChangeUnderglowSpeed(newValue as number);
+                      }}
+                      aria-labelledby="continuous-slider"
+                      min={0}
+                      max={100}
+                    />
+                    <span className="underglow-slider-value">
+                      {this.state.underglowSpeed}
+                    </span>
+                  </div>
+                </div>
+                <div className="underglow-label underglow-effect-speed-label">
+                  Brightness
+                </div>
+                <div className="underglow-value underglow-effect-speed-value">
+                  <div>
+                    <Slider
+                      className="underglow-value-inner"
+                      value={this.state.underglowBrightness}
+                      onChange={(event: any, newValue: number | number[]) => {
+                        this.onChangeUnderglowBrightness(newValue as number);
+                      }}
+                      aria-labelledby="continuous-slider"
+                      min={0}
+                      max={255}
+                    />
+                    <span className="underglow-slider-value">
+                      {this.state.underglowBrightness}
+                    </span>
+                  </div>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div
+                  ref={this.colorPickerRef}
+                  className="underglow-value-inner underglow-color-wrapper"
+                  onClick={this.openColorPicker.bind(this)}
+                >
+                  <ChromePicker
+                    disableAlpha={true}
+                    color={this.state.underglowColor}
+                    onChange={(color: ColorResult, event: any) => {
+                      event.preventDefault();
+                      this.onChangeUnderglowColor(color);
+                    }}
+                  />
+                </div>
+              </Grid>
             </Grid>
-            <Grid
-              item
-              xs={8}
-              className="underglow-value underglow-effect-type-value"
-            >
-              <Select
-                native
-                value={this.state.underglowType}
-                onChange={(e) => {
-                  this.onChangeUnderglowType(e.target.value as string);
-                }}
-              >
-                {UnderglowEffects.map((effect) => {
-                  if (effect.values) {
-                    return effect.values.map((v) => {
-                      const value = `${effect.symbol}_${v}`;
-                      return (
-                        <option
-                          key={value}
-                          value={value}
-                        >{`${effect.label}`}</option>
-                      );
-                    });
-                  } else {
-                    return (
-                      <option value={effect.symbol}>{`${effect.label}`}</option>
-                    );
-                  }
-                }).flat()}
-              </Select>
-            </Grid>
-          </Grid>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+      </React.Fragment>
     );
   }
 }
@@ -154,5 +251,38 @@ function PaperComponent(props: PaperProps) {
     >
       <Paper {...props} />
     </Draggable>
+  );
+}
+
+type ColorPickerType = {
+  left: number;
+  top: number;
+  onClose: () => void;
+  onChange: (color: ColorResult) => void;
+  color: string; // hex color code
+};
+function ColorPicker(props: ColorPickerType) {
+  return (
+    <div className="color-picker-popover">
+      <div className="color-picker-cover" onClick={props.onClose}>
+        <div
+          style={{
+            position: 'fixed',
+            left: props.left,
+            top: props.top,
+            pointerEvents: 'none',
+          }}
+        >
+          <ChromePicker
+            disableAlpha={true}
+            color={props.color}
+            onChange={(color: ColorResult, event: any) => {
+              event.preventDefault();
+              props.onChange(color);
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
