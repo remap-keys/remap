@@ -258,19 +258,29 @@ const Hid = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const value = Number(event.target.value);
-    const command = new LightingSetValueCommand({ value }, async (result) => {
-      console.log(result);
-      setLightingKind(result.response!.value);
-    });
+    const command = new LightingSetValueCommand(
+      { lightingValue: 'qmkRgblightEffect', value1: value, value2: 0 },
+      async (result) => {
+        console.log(result);
+        setLightingKind(result.response!.value1);
+      }
+    );
     await keyboard!.enqueue(command);
   };
 
   const handleGetLightingKindClick = async () => {
-    const command = new LightingGetValueCommand({}, async (result) => {
-      console.log(result);
-      setLightingKind(result.response!.value);
-    });
+    const command = new LightingGetValueCommand(
+      { lightingValue: 'qmkRgblightEffect' },
+      async (result) => {
+        console.log(result);
+        setLightingKind(result.response!.value1);
+      }
+    );
     await keyboard!.enqueue(command);
+  };
+
+  const handleGetLightingTestClick = async () => {
+    console.log(await keyboard!.fetchRGBLightEffectSpeed());
   };
 
   return (
@@ -471,6 +481,7 @@ const Hid = () => {
           <option value={42}>Twinkle 6</option>
         </select>
         <button onClick={handleGetLightingKindClick}>Read Lighting kind</button>
+        <button onClick={handleGetLightingTestClick}>Test</button>
       </div>
       <div className="box">
         <label htmlFor="Test">Test</label>
