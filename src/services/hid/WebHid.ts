@@ -11,6 +11,11 @@ import {
   IFetchKeymapResult,
   IFetchLayerCountResult,
   IKeymap,
+  IFetchBrightnessResult,
+  IFetchBacklightEffectResult,
+  IFetchRGBLightColorResult,
+  IFetchRGBLightEffectSpeedResult,
+  IFetchRGBLightEffectResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 
@@ -19,6 +24,7 @@ import {
   DynamicKeymapReadBufferCommand,
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapReadBufferResponse,
+  LightingGetValueCommand,
 } from './Commands';
 import {
   IKeycodeCompositionFactory,
@@ -292,6 +298,157 @@ export class Keyboard implements IKeyboard {
           if (result.success) {
             resolve({
               success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchBacklightBrightness(): Promise<IFetchBrightnessResult> {
+    return new Promise<IFetchBrightnessResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkBacklightBrightness',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              brightness: result.response!.value1,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchBacklightEffect(): Promise<IFetchBacklightEffectResult> {
+    return new Promise<IFetchBacklightEffectResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkBacklightEffect',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              isBreathing: result.response!.value1 !== 0,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchRGBLightBrightness(): Promise<IFetchBrightnessResult> {
+    return new Promise<IFetchBrightnessResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkRgblightBrightness',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              brightness: result.response!.value1,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchRGBLightColor(): Promise<IFetchRGBLightColorResult> {
+    return new Promise<IFetchRGBLightColorResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkRgblightColor',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              hue: result.response!.value1,
+              sat: result.response!.value2,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchRGBLightEffect(): Promise<IFetchRGBLightEffectResult> {
+    return new Promise<IFetchRGBLightEffectResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkRgblightEffect',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              mode: result.response!.value1,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchRGBLightEffectSpeed(): Promise<IFetchRGBLightEffectSpeedResult> {
+    return new Promise<IFetchRGBLightEffectSpeedResult>((resolve) => {
+      const command = new LightingGetValueCommand(
+        {
+          lightingValue: 'qmkRgblightEffectSpeed',
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              speed: result.response!.value1,
             });
           } else {
             resolve({

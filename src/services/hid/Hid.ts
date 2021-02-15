@@ -79,6 +79,27 @@ export interface IFetchKeymapResult extends IResult {
   keymap?: IKeymaps;
 }
 
+export interface IFetchBrightnessResult extends IResult {
+  brightness?: number;
+}
+
+export interface IFetchBacklightEffectResult extends IResult {
+  isBreathing?: boolean;
+}
+
+export interface IFetchRGBLightEffectResult extends IResult {
+  mode?: number;
+}
+
+export interface IFetchRGBLightEffectSpeedResult extends IResult {
+  speed?: number;
+}
+
+export interface IFetchRGBLightColorResult extends IResult {
+  hue?: number;
+  sat?: number;
+}
+
 export interface IKeyboard {
   getDevice(): any;
   getHid(): IHid;
@@ -100,6 +121,12 @@ export interface IKeyboard {
     column: number,
     code: number
   ): Promise<IResult>;
+  fetchBacklightBrightness(): Promise<IFetchBrightnessResult>;
+  fetchBacklightEffect(): Promise<IFetchBacklightEffectResult>;
+  fetchRGBLightBrightness(): Promise<IFetchBrightnessResult>;
+  fetchRGBLightEffect(): Promise<IFetchRGBLightEffectResult>;
+  fetchRGBLightEffectSpeed(): Promise<IFetchRGBLightEffectSpeedResult>;
+  fetchRGBLightColor(): Promise<IFetchRGBLightColorResult>;
 }
 
 export interface ICommand {

@@ -63,35 +63,66 @@ export abstract class AbstractCommand<
   }
 }
 
+export type ILightingValue =
+  | 'qmkBacklightBrightness'
+  | 'qmkBacklightEffect'
+  | 'qmkRgblightBrightness'
+  | 'qmkRgblightEffect'
+  | 'qmkRgblightEffectSpeed'
+  | 'qmkRgblightColor';
+
+// eslint-disable-next-line no-unused-vars
+export const LightingValue: { [p in ILightingValue]: number } = {
+  qmkBacklightBrightness: 0x09,
+  qmkBacklightEffect: 0x0a,
+  qmkRgblightBrightness: 0x80,
+  qmkRgblightEffect: 0x81,
+  qmkRgblightEffectSpeed: 0x82,
+  qmkRgblightColor: 0x83,
+};
+
+export interface ILightingGetValueRequest extends ICommandRequest {
+  lightingValue: ILightingValue;
+}
+
 export interface ILightingGetValueResponse extends ICommandResponse {
-  value: number;
+  value1: number;
+  value2: number;
 }
 
 export class LightingGetValueCommand extends AbstractCommand<
-  ICommandRequest,
+  ILightingGetValueRequest,
   ILightingGetValueResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([0x08, 0x81]);
+    const lightingValue = LightingValue[this.getRequest().lightingValue];
+    return new Uint8Array([0x08, lightingValue]);
   }
 
   createResponse(resultArray: Uint8Array): ILightingGetValueResponse {
     return {
-      value: resultArray[2],
+      value1: resultArray[2],
+      value2: resultArray[3],
     };
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === 0x08 && resultArray[1] === 0x81;
+    return (
+      resultArray[0] === 0x08 &&
+      resultArray[1] === LightingValue[this.getRequest().lightingValue]
+    );
   }
 }
 
 export interface ILightingSetValueRequest extends ICommandRequest {
-  value: number;
+  lightingValue: ILightingValue;
+  value1: number;
+  value2: number;
 }
 
 export interface ILightingSetValueResponse extends ICommandResponse {
-  value: number;
+  value1: number;
+  value2: number;
 }
 
 export class LightingSetValueCommand extends AbstractCommand<
@@ -99,20 +130,29 @@ export class LightingSetValueCommand extends AbstractCommand<
   ILightingSetValueResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([0x07, 0x81, this.getRequest().value]);
+    const lightingValue = LightingValue[this.getRequest().lightingValue];
+    return new Uint8Array([
+      0x07,
+      lightingValue,
+      this.getRequest().value1,
+      this.getRequest().value2,
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): ILightingSetValueResponse {
     return {
-      value: resultArray[2],
+      value1: resultArray[2],
+      value2: resultArray[3],
     };
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
+    const lightingValue = LightingValue[this.getRequest().lightingValue];
     return (
       resultArray[0] === 0x07 &&
-      resultArray[1] === 0x81 &&
-      resultArray[2] === this.getRequest().value
+      resultArray[1] === lightingValue &&
+      resultArray[2] === this.getRequest().value1 &&
+      resultArray[3] === this.getRequest().value2
     );
   }
 }
