@@ -72,11 +72,6 @@ export interface IStorage {
     githubUrl: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
-  isExistKeyboardDefinitionDocument(
-    vendorId: number,
-    productId: number,
-    productName: string
-  ): Promise<IExistsResult>;
   fetchMyKeyboardDefinitionDocumentById(
     definitionId: string
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;

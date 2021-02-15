@@ -296,27 +296,6 @@ export const storageActionsThunk = {
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const productName = keyboards.createdefinition.productName;
 
-    const existsResult = await storage.instance.isExistKeyboardDefinitionDocument(
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      productName
-    );
-    if (!existsResult.success) {
-      console.error(existsResult.cause!);
-      dispatch(
-        NotificationActions.addError(existsResult.error!, existsResult.cause)
-      );
-      return;
-    }
-
-    if (existsResult.exists!) {
-      dispatch(
-        NotificationActions.addWarn('The same keyboard already exists.')
-      );
-      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
-      return;
-    }
-
     const user = auth.instance.getCurrentAuthenticatedUser();
     const githubProviderData = user.providerData[0]!;
 
@@ -396,27 +375,6 @@ export const storageActionsThunk = {
     const { storage, keyboards, entities } = getState();
     const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
     const productName = keyboards.editdefinition.productName;
-
-    const existsResult = await storage.instance.isExistKeyboardDefinitionDocument(
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      productName
-    );
-    if (!existsResult.success) {
-      console.error(existsResult.cause!);
-      dispatch(
-        NotificationActions.addError(existsResult.error!, existsResult.cause)
-      );
-      return;
-    }
-
-    if (existsResult.exists!) {
-      dispatch(
-        NotificationActions.addWarn('The same keyboard already exists.')
-      );
-      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
-      return;
-    }
 
     const definitionDoc = entities.keyboardDefinitionDocument;
     const jsonStr = keyboards.editdefinition.jsonString;
