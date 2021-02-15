@@ -113,6 +113,10 @@ export default class UnderglowDialog extends React.Component<Props, State> {
     this.setState({ underglowColor: color.hex });
   }
 
+  private onChangeColorInput(v: any) {
+    console.log(v);
+  }
+
   private openColorPicker() {
     const rect = this.colorPickerRef.current?.getBoundingClientRect();
     if (rect) {
@@ -138,7 +142,7 @@ export default class UnderglowDialog extends React.Component<Props, State> {
           className="underglow-dialog"
         >
           <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-            Underglow Settings
+            Light Settings
             <div className="close-dialog">
               <CloseIcon onClick={this.props.onClose} />
             </div>
@@ -146,94 +150,133 @@ export default class UnderglowDialog extends React.Component<Props, State> {
           <DialogContent dividers className="underglow-settings">
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <div className="underglow-label underglow-effect-type-label">
-                  Effect Type
-                </div>
-                <div className="underglow-value underglow-effect-type-value">
-                  <Select
-                    native
-                    className="underglow-value-inner"
-                    value={this.state.underglowType}
-                    onChange={(e) => {
-                      this.onChangeUnderglowType(e.target.value as string);
-                    }}
+                <Grid
+                  container
+                  justify="center"
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-label underglow-effect-type-label"
                   >
-                    {UnderglowEffects.map((effect) => {
-                      if (effect.values) {
-                        const arr = effect.values.map((v) => {
-                          const value = `${effect.symbol}_${v}`;
+                    Effect Type
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-value underglow-effect-type-value"
+                  >
+                    <Select
+                      native
+                      className="underglow-value-inner"
+                      value={this.state.underglowType}
+                      onChange={(e) => {
+                        this.onChangeUnderglowType(e.target.value as string);
+                      }}
+                    >
+                      {UnderglowEffects.map((effect) => {
+                        if (effect.values) {
+                          const arr = effect.values.map((v) => {
+                            const value = `${effect.symbol}_${v}`;
+                            return (
+                              <option
+                                key={value}
+                                value={value}
+                              >{`${effect.label} ${v}`}</option>
+                            );
+                          });
+                          return arr;
+                        } else {
                           return (
-                            <option
-                              key={value}
-                              value={value}
-                            >{`${effect.label} ${v}`}</option>
+                            <option value={effect.symbol}>
+                              {effect.label}
+                            </option>
                           );
-                        });
-                        return arr;
-                      } else {
-                        return (
-                          <option value={effect.symbol}>{effect.label}</option>
-                        );
-                      }
-                    })}
-                  </Select>
-                </div>
-                <div className="underglow-label underglow-effect-speed-label">
-                  Effect Speed
-                </div>
-                <div className="underglow-value underglow-effect-speed-value">
-                  <div>
-                    <Slider
-                      className="underglow-value-inner"
-                      value={this.state.underglowSpeed}
-                      onChange={(event: any, newValue: number | number[]) => {
-                        this.onChangeUnderglowSpeed(newValue as number);
-                      }}
-                      aria-labelledby="continuous-slider"
-                      min={0}
-                      max={100}
-                    />
-                    <span className="underglow-slider-value">
-                      {this.state.underglowSpeed}
-                    </span>
-                  </div>
-                </div>
-                <div className="underglow-label underglow-effect-speed-label">
-                  Brightness
-                </div>
-                <div className="underglow-value underglow-effect-speed-value">
-                  <div>
-                    <Slider
-                      className="underglow-value-inner"
-                      value={this.state.underglowBrightness}
-                      onChange={(event: any, newValue: number | number[]) => {
-                        this.onChangeUnderglowBrightness(newValue as number);
-                      }}
-                      aria-labelledby="continuous-slider"
-                      min={0}
-                      max={255}
-                    />
-                    <span className="underglow-slider-value">
-                      {this.state.underglowBrightness}
-                    </span>
-                  </div>
-                </div>
+                        }
+                      })}
+                    </Select>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-label underglow-effect-speed-label"
+                  >
+                    Effect Speed
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-value underglow-effect-speed-value"
+                  >
+                    <div>
+                      <Slider
+                        className="underglow-value-inner"
+                        value={this.state.underglowSpeed}
+                        onChange={(event: any, newValue: number | number[]) => {
+                          this.onChangeUnderglowSpeed(newValue as number);
+                        }}
+                        aria-labelledby="continuous-slider"
+                        min={0}
+                        max={100}
+                      />
+                      <span className="underglow-slider-value">
+                        {this.state.underglowSpeed}
+                      </span>
+                    </div>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-label underglow-effect-speed-label"
+                  >
+                    Brightness
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-value underglow-effect-speed-value"
+                  >
+                    <div>
+                      <Slider
+                        className="underglow-value-inner"
+                        value={this.state.underglowBrightness}
+                        onChange={(event: any, newValue: number | number[]) => {
+                          this.onChangeUnderglowBrightness(newValue as number);
+                        }}
+                        aria-labelledby="continuous-slider"
+                        min={0}
+                        max={255}
+                      />
+                      <span className="underglow-slider-value">
+                        {this.state.underglowBrightness}
+                      </span>
+                    </div>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={6}>
-                <div
-                  ref={this.colorPickerRef}
-                  className="underglow-value-inner underglow-color-wrapper"
-                  onClick={this.openColorPicker.bind(this)}
-                >
-                  <ChromePicker
-                    disableAlpha={true}
-                    color={this.state.underglowColor}
-                    onChange={(color: ColorResult, event: any) => {
-                      event.preventDefault();
-                      this.onChangeUnderglowColor(color);
-                    }}
-                  />
-                </div>
+                <Grid container spacing={1}>
+                  <Grid
+                    item
+                    xs={12}
+                    justify="center"
+                    alignItems="center"
+                    ref={this.colorPickerRef}
+                    className="underglow-value-inner underglow-color-wrapper"
+                    onClick={this.openColorPicker.bind(this)}
+                  >
+                    <ChromePicker
+                      disableAlpha={true}
+                      color={this.state.underglowColor}
+                      onChange={(color: ColorResult, event: any) => {
+                        event.preventDefault();
+                        this.onChangeUnderglowColor(color);
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </DialogContent>

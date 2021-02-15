@@ -16,6 +16,7 @@
       font-size: 0.87rem;
     }
     .underglow-value-inner {
+      width: 240px;
     }
     .underglow-slider-value {
       position: absolute;
@@ -23,12 +24,10 @@
     }
 
     .underglow-color-wrapper {
-      cursor: pointer;
-      .underglow-color {
-        padding: $space-s;
-        border-radius: 2px;
-        text-align: center;
-        text-transform: uppercase;
+      .chrome-picker {
+        margin: auto;
+        box-shadow: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
     }
   }
