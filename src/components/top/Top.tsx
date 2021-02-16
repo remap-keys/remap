@@ -148,9 +148,8 @@ class Top extends React.Component<RouteComponentProps, any> {
                 key={5}
                 image={card4}
                 imageTitle="card-4"
-                title="Define Own Key"
-                description="Direct definition of keycode for complex keybindings with
-                      a free label."
+                title="Easy key assign"
+                description="Allow you to assign complex keymap easily including Hold/Tap and etc."
               />
             </Grid>
           </Container>
