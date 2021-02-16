@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './UnderglowDialog.scss';
+import '../../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import Draggable from 'react-draggable';
 import {
   Dialog,
@@ -14,6 +15,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { ChromePicker, ColorResult } from 'react-color';
+import ReinventedColorWheel from 'reinvented-color-wheel';
 
 type Props = {
   open: boolean;
@@ -85,6 +87,8 @@ const UnderglowEffects: {
 
 export default class UnderglowDialog extends React.Component<Props, State> {
   private colorPickerRef: React.RefObject<HTMLDivElement>;
+  private colorWheelRef: React.RefObject<HTMLDivElement>;
+  private colorWheel: ReinventedColorWheel | null = null;
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = {
@@ -95,6 +99,52 @@ export default class UnderglowDialog extends React.Component<Props, State> {
       colorPickerPosition: null,
     };
     this.colorPickerRef = React.createRef<HTMLDivElement>();
+    this.colorWheelRef = React.createRef<HTMLDivElement>();
+    this.buildColorWheel();
+  }
+
+  onEnter() {
+    console.log('onEnter');
+    this.buildColorWheel();
+  }
+
+  private buildColorWheel() {
+    if (this.colorWheelRef.current === null) {
+      console.log('here');
+      this.colorWheel = null;
+      return;
+    }
+    console.log('there');
+    console.log(this.colorWheelRef.current);
+    this.colorWheel = new ReinventedColorWheel({
+      // appendTo is the only required property. specify the parent element of the color wheel.
+      appendTo: this.colorWheelRef.current!,
+
+      // followings are optional properties and their default values.
+
+      // initial color (can be specified in hsv / hsl / rgb / hex)
+      hsv: [0, 100, 100],
+      // hsl: [0, 100, 50],
+      // rgb: [255, 0, 0],
+      // hex: "#ff0000",
+
+      // appearance
+      wheelDiameter: 180,
+      wheelThickness: 20,
+      handleDiameter: 16,
+      wheelReflectsSaturation: true,
+
+      // handler
+      onChange: (color) => {
+        this.onChangeColorWheel(color);
+      },
+    });
+    //this.colorWheel.redraw();
+  }
+
+  private onChangeColorWheel(color: ReinventedColorWheel) {
+    console.log(color.rgb);
+    this.setState({ underglowColor: color.hex });
   }
 
   private onChangeUnderglowType(name: string) {
@@ -132,12 +182,15 @@ export default class UnderglowDialog extends React.Component<Props, State> {
   }
 
   render() {
+    const useWheel = true;
     return (
       <React.Fragment>
         <Dialog
           open={this.props.open}
           onClose={() => {}}
-          onEnter={() => {}}
+          onEnter={() => {
+            this.onEnter();
+          }}
           PaperComponent={PaperComponent}
           className="underglow-dialog"
         >
@@ -203,7 +256,7 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                     xs={12}
                     className="underglow-label underglow-effect-speed-label"
                   >
-                    Effect Speed
+                    Effect Speed ({this.state.underglowSpeed})
                   </Grid>
                   <Grid
                     item
@@ -221,37 +274,6 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                         min={0}
                         max={100}
                       />
-                      <span className="underglow-slider-value">
-                        {this.state.underglowSpeed}
-                      </span>
-                    </div>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    className="underglow-label underglow-effect-speed-label"
-                  >
-                    Brightness
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    className="underglow-value underglow-effect-speed-value"
-                  >
-                    <div>
-                      <Slider
-                        className="underglow-value-inner"
-                        value={this.state.underglowBrightness}
-                        onChange={(event: any, newValue: number | number[]) => {
-                          this.onChangeUnderglowBrightness(newValue as number);
-                        }}
-                        aria-labelledby="continuous-slider"
-                        min={0}
-                        max={255}
-                      />
-                      <span className="underglow-slider-value">
-                        {this.state.underglowBrightness}
-                      </span>
                     </div>
                   </Grid>
                 </Grid>
@@ -265,16 +287,22 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                     alignItems="center"
                     ref={this.colorPickerRef}
                     className="underglow-value-inner underglow-color-wrapper"
-                    onClick={this.openColorPicker.bind(this)}
                   >
-                    <ChromePicker
-                      disableAlpha={true}
-                      color={this.state.underglowColor}
-                      onChange={(color: ColorResult, event: any) => {
-                        event.preventDefault();
-                        this.onChangeUnderglowColor(color);
-                      }}
-                    />
+                    {useWheel ? (
+                      <div
+                        ref={this.colorWheelRef}
+                        className="color-wheel"
+                      ></div>
+                    ) : (
+                      <ChromePicker
+                        disableAlpha={true}
+                        color={this.state.underglowColor}
+                        onChange={(color: ColorResult, event: any) => {
+                          event.preventDefault();
+                          this.onChangeUnderglowColor(color);
+                        }}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
