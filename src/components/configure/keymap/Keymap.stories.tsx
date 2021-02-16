@@ -14,6 +14,9 @@ import { CorneliusKeymap } from '../../../assets/keymaps/CorneliusKeymap';
 import { ZincKeymap } from '../../../assets/keymaps/ZincKeymap';
 import { Aleth42Keymap } from '../../../assets/keymaps/Aleth42Keymap';
 import { OptionChoiceKeymap } from '../../../assets/keymaps/OptionChoiceKeymap';
+import { CrkbdKeymap } from '../../../assets/keymaps/CrkbdKeymap';
+import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
+import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 
 export default {
@@ -29,6 +32,8 @@ type OptionsType = { option: string; optionChoice: string }[];
 const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
+
+  const marginLeft = left != 0 ? Math.abs(left) + 20 : 0;
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     const keymap: IKeymap = {
@@ -51,11 +56,19 @@ const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
           style={{
             width: width + 40,
             height: height + 40,
+            padding: 20,
+            borderWidth: 1,
+            borderColor: 'gray',
+            borderStyle: 'solid',
           }}
         >
           <div
             className="keyboard-frame"
-            style={{ width: width, height: height, marginLeft: -left }}
+            style={{
+              width: width,
+              height: height,
+              marginLeft: marginLeft,
+            }}
           >
             {keycaps.map((keycap: KeycapData) => {
               return keycap.model.isDecal ? (
@@ -103,6 +116,9 @@ const format = (text: string): string => {
 };
 
 export const LunakeyMini = () => genKeyboardView(LunakeyMiniKeymap);
+export const Crkbd = () => genKeyboardView(CrkbdKeymap);
+export const Jisplit89 = () => genKeyboardView(Jisplit89Keymap);
+export const Naked64SF = () => genKeyboardView(Naked64SFKeymap);
 export const SilverBullet44Kai = () => genKeyboardView(SilverBullet44KaiKeymap);
 export const Cornelius = () => genKeyboardView(CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView(Aleth42Keymap);

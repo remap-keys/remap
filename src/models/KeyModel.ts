@@ -159,11 +159,29 @@ export default class KeyModel {
 
   get endRight(): number {
     const rad = this.rotate * (Math.PI / 180);
-    const x0 = this.left - this.originLeft;
-    const y0 = this.top - this.originTop;
-    const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
-    const right = Math.max(this.width, this.width2 || 0) * Math.sin(rad);
-    return this.originLeft + x1 + this.width + right;
+    if (this.rotate < 0) {
+      const x0 = this.left - this.originLeft;
+      const y0 =
+        this.top - this.originTop + Math.max(this.height, this.height2 || 0);
+      const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+      const right = Math.max(this.width, this.width2 || 0) * Math.cos(rad);
+      return this.originLeft + x1 + this.width + right;
+    } else {
+      const x0 = this.left - this.originLeft;
+      const y0 = this.top - this.originTop;
+      const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+      let right = this.width * Math.cos(rad);
+      if (this.width2) {
+        let right2;
+        if (this.keyOp && this.keyOp.x2) {
+          right2 = (this.width2 + this.keyOp.x2 * KEY_SIZE) * Math.cos(rad);
+        } else {
+          right2 = this.width2 * Math.cos(rad);
+        }
+        right = Math.max(right, right2);
+      }
+      return this.originLeft + x1 + right;
+    }
   }
 
   get endBottom(): number {
@@ -187,14 +205,14 @@ export default class KeyModel {
     const rad = this.rotate * (Math.PI / 180);
     let x = 0;
     if (this.rotate < 0) {
-      let x0 = this.left - this.originTop;
+      let x0 = this.left - this.originLeft;
+      let y0 = this.top - this.originTop;
+      x = this.originLeft + x0 * Math.cos(rad) - y0 * Math.sin(rad);
+    } else if (0 < this.rotate) {
+      let x0 = this.left - this.originLeft;
       let y0 =
         this.top - this.originTop + Math.max(this.height, this.height2 || 0);
-      x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
-    } else if (0 < this.rotate) {
-      let x0 = this.left - this.originTop;
-      let y0 = this.top - this.originTop;
-      x = x0 * Math.cos(rad) - y0 * Math.sin(rad);
+      x = this.originLeft + x0 * Math.cos(rad) - y0 * Math.sin(rad);
     }
     return x;
   }

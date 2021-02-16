@@ -66,6 +66,9 @@ export default class ConfigurationDialog extends React.Component<
   ConfigurationDialogProps,
   OwnState
 > {
+  private googleFormUrl: string = '';
+  private githubUrl: string = '';
+  private githubDisplayName: string = '';
   constructor(
     props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>
   ) {
@@ -75,6 +78,17 @@ export default class ConfigurationDialog extends React.Component<
       keyboardDefinition: null,
       keyboardDefinitionFile: null,
     };
+  }
+  private onEnter() {
+    if (this.props.keyboardDefinitionDocument) {
+      this.googleFormUrl = GOOGLE_FORM_URL.replace(
+        '${keyboard_name}',
+        this.props.keyboardDefinitionDocument.name
+      ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument.id);
+
+      this.githubUrl = this.props.keyboardDefinitionDocument.githubUrl;
+      this.githubDisplayName = this.props.keyboardDefinitionDocument.githubDisplayName;
+    }
   }
 
   private clearKeyboardDefinition() {
@@ -111,16 +125,13 @@ export default class ConfigurationDialog extends React.Component<
     let menuIndex = 0;
     let panelIndex = 0;
 
-    const googleFormUrl = GOOGLE_FORM_URL.replace(
-      '${keyboard_name}',
-      this.props.keyboardDefinitionDocument!.name
-    ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument!.id);
-
     return (
       <Dialog
         open={this.props.open}
         onClose={() => {}}
-        onEnter={() => {}}
+        onEnter={() => {
+          this.onEnter();
+        }}
         PaperComponent={PaperComponent}
         className="layout-options-dialog"
       >
@@ -242,12 +253,8 @@ export default class ConfigurationDialog extends React.Component<
               <InfoRow
                 label="Registered by"
                 value={
-                  <a
-                    href={this.props.keyboardDefinitionDocument!.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {this.props.keyboardDefinitionDocument!.githubDisplayName}
+                  <a href={this.githubUrl} target="_blank" rel="noreferrer">
+                    {this.githubDisplayName}
                   </a>
                 }
               />
@@ -257,7 +264,7 @@ export default class ConfigurationDialog extends React.Component<
                   for the keyboard and the keyboard definition (in the case of
                   the person is not original keyboard designer or etc.), please
                   report it to the Remap team from{' '}
-                  <a href={googleFormUrl} target="_blank" rel="noreferrer">
+                  <a href={this.googleFormUrl} target="_blank" rel="noreferrer">
                     this form
                   </a>
                   .
