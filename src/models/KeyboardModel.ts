@@ -177,14 +177,16 @@ export default class KeyboardModel {
     let right = 0;
     let left = Infinity;
     let bottom = 0;
+    let top = Infinity;
     keymaps.forEach((model) => {
       right = Math.max(right, model.endRight);
       left = Math.min(left, model.startLeft);
       bottom = Math.max(bottom, model.endBottom);
+      top = Math.min(top, model.top);
     });
 
-    const width = right + left;
-    const height = bottom;
+    const width = right - left;
+    const height = bottom - top;
     return { keymaps, width, height, left };
   }
 
@@ -244,20 +246,18 @@ export default class KeyboardModel {
     }
 
     // STEP2: shrink default keymap for optional keys' margin
-    if (Object.keys(optionKeymaps).length != 0) {
-      const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
-        return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
+    const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
+      return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
+    }, Infinity);
+    const minY = keymapsList
+      .flat()
+      .reduce((min: number, keymap: KeymapItem) => {
+        return keymap.isDefault ? Math.min(min, keymap.y) : min;
       }, Infinity);
-      const minY = keymapsList
-        .flat()
-        .reduce((min: number, keymap: KeymapItem) => {
-          return keymap.isDefault ? Math.min(min, keymap.y) : min;
-        }, Infinity);
 
-      keymapsList.forEach((keymaps: KeymapItem[]) => {
-        keymaps.forEach((item) => item.align(minX, minY));
-      });
-    }
+    keymapsList.forEach((keymaps: KeymapItem[]) => {
+      keymaps.forEach((item) => item.align(minX, minY));
+    });
 
     /** STEP3: relocate option keys' position
      * 3.1. relocate for row direction

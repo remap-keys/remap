@@ -309,7 +309,7 @@ type KeyboardType = {
 
 export function KeyboardView(props: KeyboardType) {
   const BORDER_WIDTH = 4;
-  const LAYOUT_PADDING = 16;
+  const LAYOUT_PADDING = 8;
   let layoutOptions = undefined;
   const hasKeyboardOptions = 0 < props.selectedKeyboardOptions!.length;
   if (hasKeyboardOptions) {
@@ -337,6 +337,8 @@ export function KeyboardView(props: KeyboardType) {
   const { keymaps, width, height, left } = props.keyboardModel.getKeymap(
     layoutOptions
   );
+  const marginLeft = left != 0 ? Math.abs(left) + 20 : 0;
+
   props.setKeyboardSize(width, height);
 
   // TODO: performance tuning
@@ -360,11 +362,12 @@ export function KeyboardView(props: KeyboardType) {
         style={{
           width: width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
           height: height + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
+          padding: LAYOUT_PADDING,
         }}
       >
         <div
           className="keyboard-frame"
-          style={{ width: width, height: height, marginLeft: -left }}
+          style={{ width: width, height: height, marginLeft: marginLeft }}
         >
           {keycaps.map((keycap: KeycapData) => {
             const anchorRef = React.createRef<HTMLDivElement>();
