@@ -22,7 +22,6 @@ type ConfigureProps = OwnProps &
   ProviderContext;
 type OwnState = {
   supportedBrowser: boolean;
-  signedInForClosedBeta: boolean;
 };
 
 class Configure extends React.Component<ConfigureProps, OwnState> {
@@ -31,7 +30,6 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     super(props);
     this.state = {
       supportedBrowser: true,
-      signedInForClosedBeta: true,
     };
   }
 
@@ -105,28 +103,13 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       });
       return;
     }
-    this.props.auth!.subscribeAuthStatus((user) => {
-      if (user) {
-        this.props.storage!.fetchClosedBetaUsers().then((users) => {
-          if (users.includes(user.email!)) {
-            this.setState({ signedInForClosedBeta: true });
-            const version = appPackage.version;
-            const name = appPackage.name;
-            this.props.initAppPackage!(name, version);
-            this.updateTitle();
-            this.updateNotifications();
-            this.initKeyboardConnectionEventHandler();
-            this.props.updateAuthorizedKeyboardList!();
-          } else {
-            this.setState({ signedInForClosedBeta: false });
-          }
-        });
-      } else {
-        this.props.auth!.signInWithGitHub().then(() => {
-          // N/A
-        });
-      }
-    });
+    const version = appPackage.version;
+    const name = appPackage.name;
+    this.props.initAppPackage!(name, version);
+    this.updateTitle();
+    this.updateNotifications();
+    this.initKeyboardConnectionEventHandler();
+    this.props.updateAuthorizedKeyboardList!();
   }
 
   componentDidUpdate() {
@@ -144,18 +127,6 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
             <UnsupportBrowser />
           </main>
           <Footer />
-        </React.Fragment>
-      );
-    }
-    if (!this.state.signedInForClosedBeta) {
-      return (
-        <React.Fragment>
-          <CssBaseline />
-          <div className="message-box-wrapper">
-            <div className="message-box">
-              <p>You are not allow to access to Remap Closed Beta.</p>
-            </div>
-          </div>
         </React.Fragment>
       );
     }
