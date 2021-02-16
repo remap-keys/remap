@@ -31,7 +31,7 @@ import {
   KEY_SUB_CATEGORY_SPACE_CADET,
   KEY_SUB_CATEGORY_UNDERGLOW,
 } from './KeyCategoryList';
-import { keyInfoList } from './KeycodeInfoList';
+import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -225,6 +225,17 @@ const ANY_KEYMAP: IKeymap = {
   },
 };
 const DIRECTION_LABELS = ['Left', 'Right'];
+
+const LOOSE_KEYCODE_KEY_INFO_MAP: { [p: number]: KeyInfo } = keyInfoList
+  .filter(
+    (keyInfo) =>
+      LOOSE_KEYCODE_MIN <= keyInfo.keycodeInfo.code &&
+      keyInfo.keycodeInfo.code <= LOOSE_KEYCODE_MAX
+  )
+  .reduce((result, current) => {
+    result[current.keycodeInfo.code] = current;
+    return result;
+  }, {} as { [p: number]: KeyInfo });
 
 interface ITapKey {
   genTapKey(): IKeymap;
@@ -1403,6 +1414,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         keycodeCompositionKindRangeMap[kind as IKeycodeCompositionKind];
       return range.min <= this.code && this.code <= range.max;
     }) as IKeycodeCompositionKind;
+    if (result === KeycodeCompositionKind.loose_keycode) {
+      return LOOSE_KEYCODE_KEY_INFO_MAP[this.code] ? result : null;
+    }
     return result || null;
   }
 
