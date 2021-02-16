@@ -11,7 +11,41 @@
   flex: 1 1;
   .message {
     padding: $space-m 0;
+    margin-bottom: $space-m;
     font-size: 1rem;
+    text-align: center;
+
+    .arrow-animation {
+      width: 50px;
+      animation: fluffy 3s ease infinite;
+    }
+
+    @keyframes fluffy {
+      0% {
+        transform: translateX(0);
+      }
+      5% {
+        transform: translateX(0);
+      }
+      10% {
+        transform: translateX(0);
+      }
+      20% {
+        transform: translateX(-7px);
+      }
+      25% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(7px);
+      }
+      50% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
   }
   .keyboardlist {
     width: 320px;

@@ -6,6 +6,9 @@ import {
   KeyboardListStateType,
 } from './KeyboardList.container';
 import './KeyboardList.scss';
+import KeyboardIcon from '@material-ui/icons/Keyboard';
+import ForwardIcon from '@material-ui/icons/Forward';
+import LaptopChromebookIcon from '@material-ui/icons/LaptopChromebook';
 
 type OwnProps = {};
 type KeyboardListProps = OwnProps &
@@ -23,7 +26,15 @@ export default class KeyboardList extends React.Component<
   render() {
     return (
       <div className="keyboardlist-wrapper">
-        <div className="message">Please select a keyboard</div>
+        <div className="message">
+          Connect your keyboard supporting the VIA feature to this PC.
+          <br />
+          <KeyboardIcon fontSize="large" />
+          <ForwardIcon fontSize="large" className="arrow-animation" />
+          <LaptopChromebookIcon fontSize="large" />
+          <br />
+          Then, press the &quot;+KEYBOARD&quot; below.
+        </div>
         <div className="keyboardlist">
           {this.props.keyboards!.map((kbd: IKeyboard, index: number) => {
             const info = kbd.getInformation();
