@@ -12,21 +12,21 @@ import {
   PaperProps,
   Select,
   Slider,
+  TextField,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { ChromePicker, ColorResult } from 'react-color';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 
 type Props = {
   open: boolean;
+  underglowColor: { h: number; s: number; v: number };
   onClose: () => void;
 };
 type State = {
   underglowType: string;
   underglowSpeed: number;
   underglowBrightness: number;
-  underglowColor: string;
-  colorPickerPosition: { left: number; top: number } | null;
+  underglowColor: { hex: string; h: number; s: number; v: number };
 };
 
 const UnderglowEffects: {
@@ -95,8 +95,7 @@ export default class UnderglowDialog extends React.Component<Props, State> {
       underglowType: '',
       underglowSpeed: 10,
       underglowBrightness: 10,
-      underglowColor: '#FFFFFF',
-      colorPickerPosition: null,
+      underglowColor: { hex: '#FFFFFF', h: 0, s: 0, v: 0 },
     };
     this.colorPickerRef = React.createRef<HTMLDivElement>();
     this.colorWheelRef = React.createRef<HTMLDivElement>();
@@ -123,7 +122,11 @@ export default class UnderglowDialog extends React.Component<Props, State> {
       // followings are optional properties and their default values.
 
       // initial color (can be specified in hsv / hsl / rgb / hex)
-      hsv: [0, 100, 100],
+      hsv: [
+        this.props.underglowColor.h,
+        this.props.underglowColor.s,
+        this.props.underglowColor.v,
+      ],
       // hsl: [0, 100, 50],
       // rgb: [255, 0, 0],
       // hex: "#ff0000",
@@ -139,12 +142,20 @@ export default class UnderglowDialog extends React.Component<Props, State> {
         this.onChangeColorWheel(color);
       },
     });
+    const hex = this.colorWheel.hex;
+    this.setState({ underglowColor: { hex, ...this.props.underglowColor } });
     //this.colorWheel.redraw();
   }
 
   private onChangeColorWheel(color: ReinventedColorWheel) {
-    console.log(color.rgb);
-    this.setState({ underglowColor: color.hex });
+    this.setState({
+      underglowColor: {
+        hex: color.hex,
+        h: color.hsv[0],
+        s: color.hsv[1],
+        v: color.hsv[2],
+      },
+    });
   }
 
   private onChangeUnderglowType(name: string) {
@@ -159,30 +170,11 @@ export default class UnderglowDialog extends React.Component<Props, State> {
     this.setState({ underglowBrightness: brightness });
   }
 
-  private onChangeUnderglowColor(color: ColorResult) {
-    this.setState({ underglowColor: color.hex });
-  }
-
   private onChangeColorInput(v: any) {
     console.log(v);
   }
 
-  private openColorPicker() {
-    const rect = this.colorPickerRef.current?.getBoundingClientRect();
-    if (rect) {
-      console.log(rect);
-      this.setState({
-        colorPickerPosition: { left: rect.left, top: rect.top + rect.height },
-      });
-    }
-  }
-
-  private closeColorPicker() {
-    this.setState({ colorPickerPosition: null });
-  }
-
   render() {
-    const useWheel = true;
     return (
       <React.Fragment>
         <Dialog
@@ -276,6 +268,42 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                       />
                     </div>
                   </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-label underglow-effect-color-label"
+                  >
+                    Color
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    className="underglow-value underglow-color"
+                  >
+                    <TextField
+                      label="RGB"
+                      className="underglow-color-value color-rgb"
+                      value={this.state.underglowColor.hex}
+                    />
+                    <TextField
+                      label="Hue"
+                      className="underglow-color-value color-hue"
+                      type="number"
+                      value={this.state.underglowColor.h}
+                    />
+                    <TextField
+                      label="Saturation"
+                      className="underglow-color-value color-saturation"
+                      type="number"
+                      value={this.state.underglowColor.s}
+                    />
+                    <TextField
+                      label="Brightness"
+                      className="underglow-color-value color-brightness"
+                      type="number"
+                      value={this.state.underglowColor.v}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={6}>
@@ -288,21 +316,7 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                     ref={this.colorPickerRef}
                     className="underglow-value-inner underglow-color-wrapper"
                   >
-                    {useWheel ? (
-                      <div
-                        ref={this.colorWheelRef}
-                        className="color-wheel"
-                      ></div>
-                    ) : (
-                      <ChromePicker
-                        disableAlpha={true}
-                        color={this.state.underglowColor}
-                        onChange={(color: ColorResult, event: any) => {
-                          event.preventDefault();
-                          this.onChangeUnderglowColor(color);
-                        }}
-                      />
-                    )}
+                    <div ref={this.colorWheelRef} className="color-wheel"></div>
                   </Grid>
                 </Grid>
               </Grid>
@@ -322,38 +336,5 @@ function PaperComponent(props: PaperProps) {
     >
       <Paper {...props} />
     </Draggable>
-  );
-}
-
-type ColorPickerType = {
-  left: number;
-  top: number;
-  onClose: () => void;
-  onChange: (color: ColorResult) => void;
-  color: string; // hex color code
-};
-function ColorPicker(props: ColorPickerType) {
-  return (
-    <div className="color-picker-popover">
-      <div className="color-picker-cover" onClick={props.onClose}>
-        <div
-          style={{
-            position: 'fixed',
-            left: props.left,
-            top: props.top,
-            pointerEvents: 'none',
-          }}
-        >
-          <ChromePicker
-            disableAlpha={true}
-            color={props.color}
-            onChange={(color: ColorResult, event: any) => {
-              event.preventDefault();
-              props.onChange(color);
-            }}
-          />
-        </div>
-      </div>
-    </div>
   );
 }

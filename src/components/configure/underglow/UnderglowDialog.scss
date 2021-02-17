@@ -14,7 +14,7 @@
   .underglow-settings {
     .underglow-label {
       font-size: 0.87rem;
-      margin-top: $space-l;
+      margin-top: $space-m;
     }
     .underglow-value-inner {
       width: 240px;
@@ -35,8 +35,35 @@
         justify-content: center;
         text-align: center;
         padding: $space-l;
-        .reinvented-color-wheel {
-        }
+      }
+    }
+    .underglow-effect-type-label {
+      margin-top: 0px;
+    }
+    .underglow-color {
+      display: flex;
+
+      .underglow-color-value {
+        display: flex;
+      }
+      .underglow-color-value:not(:last-child) {
+        margin-right: $space-s;
+      }
+      .color-rgb {
+        flex-grow: 4;
+        contain: size;
+      }
+      .color-hue {
+        flex-grow: 3;
+        contain: size;
+      }
+      .color-saturation {
+        flex-grow: 3;
+        contain: size;
+      }
+      .color-brightness {
+        flex-grow: 3;
+        contain: size;
       }
     }
   }
