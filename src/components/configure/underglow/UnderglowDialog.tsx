@@ -187,7 +187,7 @@ export default class UnderglowDialog extends React.Component<Props, State> {
           className="underglow-dialog"
         >
           <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-            Light Settings
+            Lighting
             <div className="close-dialog">
               <CloseIcon onClick={this.props.onClose} />
             </div>
@@ -214,7 +214,6 @@ export default class UnderglowDialog extends React.Component<Props, State> {
                     className="underglow-value underglow-effect-type-value"
                   >
                     <Select
-                      native
                       className="underglow-value-inner"
                       value={this.state.underglowType}
                       onChange={(e) => {

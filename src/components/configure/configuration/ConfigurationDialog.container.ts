@@ -9,7 +9,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
-    keyboard: state.entities.keyboard,
+    keyboardInfo: state.entities.keyboard?.getInformation(),
     keyboardDefinition: state.entities.keyboardDefinition,
     keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
   };

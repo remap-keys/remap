@@ -27,14 +27,14 @@
     }
 
     .option-value {
-      justify-content: flex-end;
+      justify-content: flex-start;
       .option-value-select {
         min-width: 180px;
       }
     }
   }
   .tab-panel {
-    width: 400px;
+    width: 540px;
     height: 400px;
     padding-left: $space-xl;
 

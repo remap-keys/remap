@@ -2,6 +2,8 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ConfigurationDialog from './ConfigurationDialog';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { IDeviceInformation, IKeyboard } from '../../../services/hid/Hid';
+import { hexadecimal } from '../../../utils/StringUtils';
 
 export default {
   title: 'ConfigurationDialog',
@@ -14,6 +16,25 @@ export default {
       </React.Fragment>
     ),
   ],
+};
+
+const keyboardInfo: IDeviceInformation = {
+  productName: 'Product Name',
+  vendorId: 1,
+  productId: 1,
+};
+
+const keyboardDefinition: KeyboardDefinitionSchema = {
+  name: keyboardInfo.productName,
+  vendorId: hexadecimal(keyboardInfo.vendorId),
+  productId: hexadecimal(keyboardInfo.productId),
+  matrix: {
+    rows: 1,
+    cols: 1,
+  },
+  layouts: {
+    keymap: [],
+  },
 };
 
 export const Default = () => (
@@ -31,6 +52,8 @@ export const Default = () => (
     ]}
     selectedKeyboardOptions={[null, 'Option2-2', 'Option3', 'Option4-1']}
     refreshKeyboardDefinition={() => {}}
+    keyboardInfo={keyboardInfo}
+    keyboardDefinition={keyboardDefinition}
   />
 );
 
@@ -46,6 +69,8 @@ export const NoOptions = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
+    keyboardInfo={keyboardInfo}
+    keyboardDefinition={keyboardDefinition}
   />
 );
 
@@ -55,7 +80,7 @@ class ConfigurationDialogAdapter extends React.Component<any, {}> {
     super(props);
     this.dialog = new ConfigurationDialog(props);
     this.dialog.state = {
-      selectedMenuIndex: 0,
+      selectedMenuIndex: 1,
       keyboardDefinition: {} as KeyboardDefinitionSchema,
       keyboardDefinitionFile: 'keyboard_def.json',
     };
@@ -77,5 +102,7 @@ export const ValidKeyboardDefinition = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
+    keyboardInfo={keyboardInfo}
+    keyboardDefinition={keyboardDefinition}
   />
 );

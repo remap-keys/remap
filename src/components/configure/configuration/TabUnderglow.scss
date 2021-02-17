@@ -1,0 +1,54 @@
+@import '../../../variables';
+
+.lighting-settings {
+  h4 {
+    margin: 0;
+    padding: 8px 0 0 0;
+  }
+  .lighting-divider {
+    margin: $space-l;
+  }
+  .lighting-label {
+    font-size: 0.87rem;
+  }
+  .lighting-value {
+    width: 246px;
+  }
+  .underglow-label-speed {
+    margin-top: 12px;
+  }
+  .underglow-label-color {
+    margin-top: -8px;
+  }
+
+  .color-wheel {
+    text-align: center;
+  }
+
+  .underglow-color {
+    display: flex;
+
+    .underglow-color-value {
+      display: flex;
+    }
+    .underglow-color-value:not(:last-child) {
+      margin-right: $space-s;
+    }
+    .color-rgb {
+      flex-grow: 4;
+      contain: size;
+    }
+    .color-hue {
+      flex-grow: 3;
+      contain: size;
+    }
+    .color-saturation {
+      flex-grow: 3;
+      contain: size;
+    }
+    .color-brightness {
+      flex-grow: 3;
+      contain: size;
+    }
+  }
+}

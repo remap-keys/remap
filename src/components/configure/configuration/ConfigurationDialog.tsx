@@ -24,6 +24,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
+import TabUnderglow from './TabUnderglow';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -119,15 +120,17 @@ export default class ConfigurationDialog extends React.Component<
     const labels = this.props.keyboardLayoutOptions!;
     const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
 
-    const deviceInfo = this.props.keyboard!.getInformation();
+    const deviceInfo = this.props.keyboardInfo!;
     const keyboardDef = this.props.keyboardDefinition!;
 
     let menuIndex = 0;
+    let areaIndex = 0;
     let panelIndex = 0;
 
     return (
       <Dialog
         open={this.props.open}
+        maxWidth={'md'}
         onClose={() => {}}
         onEnter={() => {
           this.onEnter();
@@ -149,26 +152,12 @@ export default class ConfigurationDialog extends React.Component<
             onChange={(_, newValue) => {
               this.setState({ selectedMenuIndex: newValue });
             }}
-            aria-label="Vertical tabs example"
             className="config-menu"
           >
-            {hasKeyboardOptions && (
-              <Tab
-                id={`vertical-tab-${menuIndex++}`}
-                aria-controls={`vertical-tabpanel-${menuIndex++}`}
-                label="Layout options"
-              />
-            )}
-            <Tab
-              id={`vertical-tab-${menuIndex++}`}
-              aria-controls={`vertical-tabpanel-${menuIndex++}`}
-              label="Import"
-            />
-            <Tab
-              id={`vertical-tab-${menuIndex++}`}
-              aria-controls={`vertical-tabpanel-${menuIndex++}`}
-              label="Info"
-            />
+            {hasKeyboardOptions && <Tab label="Layout options" />}
+            <Tab label="Lighting" />
+            <Tab label="Import" />
+            <Tab label="Info" />
           </Tabs>
           {hasKeyboardOptions && (
             <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
@@ -189,6 +178,14 @@ export default class ConfigurationDialog extends React.Component<
             </TabPanel>
           )}
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
+            <TabUnderglow
+              hsv={{ h: 240, s: 200, v: 150 }}
+              speed={100}
+              backlightOn={true}
+              backlightBrightness={200}
+            />
+          </TabPanel>
+          <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <KeyboardDefinitionFormPart
               messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
               validateDeviceIds={true}
@@ -199,6 +196,7 @@ export default class ConfigurationDialog extends React.Component<
               }}
               size="small"
             />
+
             {this.state.keyboardDefinition && (
               <Alert severity="success" className="import-success">
                 <AlertTitle>{`Valid (${this.state.keyboardDefinitionFile})`}</AlertTitle>
@@ -226,6 +224,7 @@ export default class ConfigurationDialog extends React.Component<
               </Alert>
             )}
           </TabPanel>
+
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <Grid container spacing={1}>
               <Grid item xs={12} className="option-info-label">
