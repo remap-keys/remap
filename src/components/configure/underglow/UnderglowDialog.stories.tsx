@@ -28,6 +28,7 @@ class Story extends React.Component<{}, State> {
         </Button>
         <UnderglowDialog
           open={this.state.open}
+          underglowColor={{ h: 200, s: 100, v: 100 }}
           onClose={() => {
             this.setState({ open: false });
           }}
