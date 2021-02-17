@@ -77,6 +77,9 @@ export class Keyboard implements IKeyboard {
   }
 
   isSameDevice(target: IKeyboard): boolean {
+    if (target === null) {
+      return false;
+    }
     return this.device === target.getDevice();
   }
 
