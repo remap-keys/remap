@@ -233,10 +233,10 @@ export const KEY_SUB_CATEGORY_F: IKeycodeCategoryInfo = {
     115,
   ],
 };
-// Ro, かな, ¥, 変換, 無変換, JIS Numpad,, International 7, International 8, International 9
+// Ro, かな, ¥, 変換, 無変換, International 7, International 8, International 9
 export const KEY_SUB_CATEGORY_INTERNATIONAL: IKeycodeCategoryInfo = {
   kinds: ['function', 'int'],
-  codes: [135, 136, 137, 138, 139, 140, 141, 142, 143],
+  codes: [135, 136, 137, 138, 139, 141, 142, 143],
 };
 // Ha/En, 한자, JIS Katakana, JIS Hiragana, JIS Zenkaku/Hankaku, Language 6, Language 7, Language 8, Language 9
 export const KEY_SUB_CATEGORY_LANGUAGE: IKeycodeCategoryInfo = {
