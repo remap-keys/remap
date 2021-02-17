@@ -344,6 +344,9 @@ const loadKeymap = async (
     const keymapsResult = await keyboard.fetchKeymaps(i, rowCount, columnCount);
     if (!keymapsResult.success) {
       // TODO: show error message
+      dispatch(
+        NotificationActions.addError(keymapsResult.error!, keymapsResult.cause!)
+      );
       console.log(keymapsResult);
       console.log(
         `layer:${i}, rowCount:${rowCount}, colCount: ${columnCount}, layerCount: ${layerCount}`
