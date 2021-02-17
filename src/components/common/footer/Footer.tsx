@@ -24,7 +24,7 @@ export default class Footer extends React.Component<
         <div className="dev-team">
           ©2020-{moment().format('YYYY')}{' '}
           <a
-            href="https://github.com/orgs/remap-keys/teams/remap-team/members"
+            href="https://github.com/remap-keys"
             target={'_blank'}
             rel={'noreferrer'}
           >
