@@ -32,9 +32,18 @@ class Current {
     this.ry -= y;
   }
 
-  nextRow() {
+  nextRow(item: string | KeyOp) {
     this.x = this.rx ? this.rx : 0;
-    this.y = this.ry ? this.ry : this.y + 1;
+
+    if (typeof item === 'string') {
+      this.y = this.y + 1;
+    } else {
+      if (item.ry) {
+        this.y = item.ry;
+      } else {
+        this.y = this.y + 1;
+      }
+    }
   }
 
   setOp(op: KeyOp) {
@@ -203,7 +212,7 @@ export default class KeyboardModel {
       const keyRow = keymap[row];
       keymapsList.push([]);
 
-      curr.nextRow();
+      curr.nextRow(keyRow[0]);
       for (let col = 0; col < keyRow.length; col++) {
         const item: string | KeyOp = keyRow[col]; // KeyMapOp or string('rwo,col')
         let keymapItem = null;
