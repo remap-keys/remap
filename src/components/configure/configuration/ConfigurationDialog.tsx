@@ -24,26 +24,11 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
-import TabUnderglow from './TabUnderglow';
+import TabUnderglow, { defaultUnderglowEffects, Hsv } from './TabUnderglow';
+import { IKeyboard } from '../../../services/hid/Hid';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
-
-function TabPanel(props: { value: number; index: number; children: any }) {
-  const { children, value, index } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      className="tab-panel"
-    >
-      {value === index && <React.Fragment>{children}</React.Fragment>}
-    </div>
-  );
-}
 
 type OwnProps = {
   open: boolean;
@@ -63,6 +48,26 @@ type OwnState = {
   keyboardDefinitionFile: string | null;
 };
 
+type LightingType =
+  | undefined
+  | (
+      | 'none'
+      | 'qmk_backlight'
+      | 'qmk_rgblight'
+      | 'qmk_backlight_rgblight'
+      | 'wt_rgb_backlight'
+      | 'wt_mono_backlight'
+    )
+  | {
+      extends?: string;
+      effects?: [] | [[] | [string] | [string, number]];
+      keycodes?: 'qmk' | 'wt';
+      supportedBacklightValues?: number[];
+      supportedLightingValues?: number[];
+      underglowEffects?: [] | [string] | [string, number][];
+      [k: string]: unknown;
+    };
+
 export default class ConfigurationDialog extends React.Component<
   ConfigurationDialogProps,
   OwnState
@@ -70,6 +75,10 @@ export default class ConfigurationDialog extends React.Component<
   private googleFormUrl: string = '';
   private githubUrl: string = '';
   private githubDisplayName: string = '';
+  private showUnderglow: boolean = true;
+  private showBacklight: boolean = true;
+  private underglowEffects: [string, number][] = [];
+
   constructor(
     props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>
   ) {
@@ -79,7 +88,51 @@ export default class ConfigurationDialog extends React.Component<
       keyboardDefinition: null,
       keyboardDefinitionFile: null,
     };
+    this.initLighting();
   }
+
+  private initLighting() {
+    const lighting: LightingType = this.props.keyboardDefinition?.lighting;
+    this.showUnderglow = false;
+    if (!lighting) {
+      this.showUnderglow = false;
+      this.showBacklight = false;
+      return;
+    }
+
+    if (typeof lighting === 'string') {
+      this.showUnderglow = 0 <= lighting.indexOf('rgblight');
+      this.showBacklight = 0 <= lighting.indexOf('backlight');
+      this.underglowEffects = defaultUnderglowEffects;
+      return;
+    }
+
+    if (!lighting.extends) {
+      /**
+       * lighting object MUST be contains 'extends' property.
+       * ref. https://caniusevia.com/docs/optional#lighting
+       */
+      throw new Error(
+        `lighting properties whose type is NOT 'string' MUST contain 'extends'.`
+      );
+    }
+    this.showUnderglow = 0 <= lighting.extends.indexOf('rgblight');
+    this.showBacklight = 0 <= lighting.extends.indexOf('backlight');
+
+    if (!lighting.underglowEffects || lighting.underglowEffects.length === 0) {
+      // use default effects if no overridden effects
+      this.underglowEffects = defaultUnderglowEffects;
+      return;
+    }
+
+    if (typeof lighting.underglowEffects[0] === 'string') {
+      const label: string = lighting.underglowEffects[0];
+      this.underglowEffects = [[label, 0]];
+    } else {
+      this.underglowEffects = lighting.underglowEffects as [string, number][];
+    }
+  }
+
   private onEnter() {
     if (this.props.keyboardDefinitionDocument) {
       this.googleFormUrl = GOOGLE_FORM_URL.replace(
@@ -104,6 +157,42 @@ export default class ConfigurationDialog extends React.Component<
     this.clearKeyboardDefinition();
   }
 
+  private onChangeBacklight(backlight: {
+    isBreathing?: boolean;
+    brightness?: number;
+  }) {
+    if (typeof backlight.isBreathing != 'undefined') {
+      this.props.keyboard!.updateBacklightEffect(backlight.isBreathing);
+    }
+
+    if (typeof backlight.brightness != 'undefined') {
+      this.props.keyboard!.updateBacklightBrightness(backlight.brightness);
+    }
+  }
+
+  private onChangeUnderglow(underglow: {
+    mode?: number;
+    speed?: number /* 0-3 */;
+    color?: Hsv; // h: 0-360, s: 0-100, v: 0-100
+  }) {
+    if (typeof underglow.mode != 'undefined') {
+      this.props.keyboard!.updateRGBLightEffect(underglow.mode);
+    }
+    if (typeof underglow.speed != 'undefined') {
+      this.props.keyboard!.updateRGBLightEffectSpeed(underglow.speed);
+    }
+
+    if (typeof underglow.color != 'undefined') {
+      const hsv: Hsv = underglow.color;
+      const hue = Math.round(255 * (hsv.h / 360));
+      const sat = Math.round(255 * (hsv.s / 100));
+      const brightness = Math.round(255 * (hsv.v / 100));
+
+      this.props.keyboard!.updateRGBLightColor(hue, sat);
+      this.props.keyboard!.updateRGBLightBrightness(brightness);
+    }
+  }
+
   // eslint-disable-next-line no-unused-vars
   private onLoadFile(
     keyboardDefinition: KeyboardDefinitionSchema,
@@ -120,13 +209,9 @@ export default class ConfigurationDialog extends React.Component<
     const labels = this.props.keyboardLayoutOptions!;
     const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
 
-    const deviceInfo = this.props.keyboardInfo!;
+    const deviceInfo = this.props.keyboard!.getInformation();
     const keyboardDef = this.props.keyboardDefinition!;
-
-    let menuIndex = 0;
-    let areaIndex = 0;
     let panelIndex = 0;
-
     return (
       <Dialog
         open={this.props.open}
@@ -179,10 +264,16 @@ export default class ConfigurationDialog extends React.Component<
           )}
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <TabUnderglow
-              hsv={{ h: 240, s: 200, v: 150 }}
-              speed={3}
-              backlightOn={true}
-              backlightBrightness={200}
+              underglowEffects={this.underglowEffects}
+              keyboard={this.props.keyboard!}
+              showBacklight={this.showBacklight}
+              showUnderglow={this.showUnderglow}
+              onChangeUnderglow={(underglow) => {
+                this.onChangeUnderglow(underglow);
+              }}
+              onChangeBacklight={(backlight) => {
+                this.onChangeBacklight(backlight);
+              }}
             />
           </TabPanel>
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
@@ -275,6 +366,22 @@ export default class ConfigurationDialog extends React.Component<
       </Dialog>
     );
   }
+}
+
+function TabPanel(props: { value: number; index: number; children: any }) {
+  const { children, value, index } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      className="tab-panel"
+    >
+      {value === index && <React.Fragment>{children}</React.Fragment>}
+    </div>
+  );
 }
 
 type OptionRowType = {

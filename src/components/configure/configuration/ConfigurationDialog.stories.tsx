@@ -2,8 +2,8 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ConfigurationDialog from './ConfigurationDialog';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { IDeviceInformation, IKeyboard } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
+import { mockIKeyboad } from '../../../services/hid/Hid.mock';
 
 export default {
   title: 'ConfigurationDialog',
@@ -18,16 +18,40 @@ export default {
   ],
 };
 
-const keyboardInfo: IDeviceInformation = {
-  productName: 'Product Name',
-  vendorId: 1,
-  productId: 1,
-};
-
 const keyboardDefinition: KeyboardDefinitionSchema = {
-  name: keyboardInfo.productName,
-  vendorId: hexadecimal(keyboardInfo.vendorId),
-  productId: hexadecimal(keyboardInfo.productId),
+  name: 'Dummy',
+  vendorId: hexadecimal(777),
+  productId: hexadecimal(1),
+  lighting: {
+    extends: 'qmk_rgblight',
+    underglowEffects: [
+      ['ON/OFF', 0],
+      ['Solid Color', 1],
+      ['Solid - Highlighted Mods', 1],
+      ['Vertical Gradient', 1],
+      ['Horizontal Gradient', 1],
+      ['Breathing', 1],
+      ['Colorband - Saturation', 1],
+      ['Colorband - Brightness', 1],
+      ['Pinwheel - Saturation', 1],
+      ['Pinwheel - Brightness', 1],
+      ['Spiral - Saturation', 1],
+      ['Spiral - Brightness', 1],
+      ['Cycle All', 0],
+      ['Cycle Horizontal', 1],
+      ['Cycle Vertical', 1],
+      ['Rainbow Chevron', 1],
+      ['Cycle - In/Out', 1],
+      ['Cycle - In/Out Dual', 1],
+      ['Cycle - Pinwheel', 1],
+      ['Cycle - Spiral', 1],
+      ['Dual Beacon', 1],
+      ['Rainbow Beacon', 1],
+      ['Rainbow Pinwheels', 1],
+      ['Raindrops', 1],
+      ['Jellybean Raindrops', 1],
+    ],
+  },
   matrix: {
     rows: 1,
     cols: 1,
@@ -52,7 +76,7 @@ export const Default = () => (
     ]}
     selectedKeyboardOptions={[null, 'Option2-2', 'Option3', 'Option4-1']}
     refreshKeyboardDefinition={() => {}}
-    keyboardInfo={keyboardInfo}
+    keyboard={mockIKeyboad}
     keyboardDefinition={keyboardDefinition}
   />
 );
@@ -69,7 +93,7 @@ export const NoOptions = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
-    keyboardInfo={keyboardInfo}
+    keyboard={mockIKeyboad}
     keyboardDefinition={keyboardDefinition}
   />
 );
@@ -102,7 +126,7 @@ export const ValidKeyboardDefinition = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
-    keyboardInfo={keyboardInfo}
+    keyboard={mockIKeyboad}
     keyboardDefinition={keyboardDefinition}
   />
 );

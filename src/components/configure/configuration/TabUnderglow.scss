@@ -5,6 +5,9 @@
     margin: 0;
     padding: 8px 0 0 0;
   }
+  .lighting-label-disabled {
+    color: $color-gray;
+  }
   .lighting-divider {
     margin: $space-l;
   }
@@ -22,7 +25,17 @@
   }
 
   .color-wheel {
+    position: relative;
     text-align: center;
+  }
+  .color-wheel-disabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
   }
 
   .underglow-color {

@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './TabUnderglow.scss';
+import '../../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import {
   Grid,
   MenuItem,
@@ -10,58 +11,117 @@ import {
   TextField,
 } from '@material-ui/core';
 import ReinventedColorWheel from 'reinvented-color-wheel';
-import { percent } from '../../../utils/NumberUtils';
+import { IKeyboard } from '../../../services/hid/Hid';
+
+export type Hsv = {
+  h: number;
+  s: number;
+  v: number;
+};
 
 type Props = {
-  hsv: { h: number /* 0-360 */; s: number /* 0-255 */; v: number /* 0-255 */ };
-  speed: number;
-  backlightOn: boolean;
-  backlightBrightness: number; // 0-255
+  underglowEffects: [string, number][];
+  keyboard: IKeyboard;
+  showBacklight: boolean;
+  showUnderglow: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onChangeUnderglow: (underglow: {
+    typeIndex?: number;
+    speed?: number /* 0-3 */;
+    color?: Hsv; // h: 0-360, s: 0-100, v: 0-100
+  }) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeBacklight: (backlight: {
+    isBreathing?: boolean;
+    brightness?: number /* 0-255 */;
+  }) => void;
 };
 
 type State = {
-  underglowType: string;
-  underglowSpeed: number;
-  underglowColor: { h: number; s: number; v: number };
+  underglowColorCount: number; // Num of colors that the underglow type can use.
+  underglowColor: Hsv;
   underglowHex: string;
-  backlightOn: boolean;
-  backlightBrightness: number;
+  underglowEffectMode: number;
+  underglowEffectSpeed: number;
+  backlightBreathing: boolean;
+  backlightBrightness: number; // 0-255
 };
 
 export default class TabUnderglow extends React.Component<Props, State> {
+  private readonly UPDATE_VALUE_DURATION = 400;
   private colorWheelRef: React.RefObject<HTMLDivElement>;
   private colorWheel: ReinventedColorWheel | null = null;
+  private underglowEffects: [string, number][];
+  private initializing = true;
+  private updateUnderglowValueMsec = 0;
+  private updateBackgroundValueMsec = 0;
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.colorWheelRef = React.createRef<HTMLDivElement>();
+    this.underglowEffects = this.props.underglowEffects
+      ? this.props.underglowEffects
+      : [];
+
     this.state = {
-      underglowType: 'RGBLIGHT_MODE_STATIC_LIGHT',
-      underglowSpeed: this.props.speed,
-      underglowColor: {
-        h: this.props.hsv.h,
-        s: percent(this.props.hsv.s, 255),
-        v: percent(this.props.hsv.v, 255),
-      },
-      underglowHex: '#FFFFFF',
-      backlightOn: true,
-      backlightBrightness: percent(this.props.backlightBrightness, 255),
+      underglowColorCount: 0,
+      underglowColor: { h: 0, s: 0, v: 0 },
+      underglowHex: '#',
+      underglowEffectMode: 0,
+      underglowEffectSpeed: 0,
+      backlightBreathing: false,
+      backlightBrightness: 0,
     };
   }
 
+  private async fetchKeyboardLightValues() {
+    // device lighting values
+    const kbd: IKeyboard = this.props.keyboard!;
+    const bkb = await kbd.fetchBacklightBrightness();
+    const backlightBrightness =
+      bkb.success && bkb.brightness ? bkb.brightness : 0;
+
+    const bke = await kbd.fetchBacklightEffect();
+    const backlightBreathing = bke.success ? Boolean(bke.isBreathing) : false;
+
+    const le = await kbd.fetchRGBLightEffect();
+    const underglowEffectMode = le.success && le.mode ? le.mode : 0;
+
+    const les = await kbd.fetchRGBLightEffectSpeed();
+    const underglowEffectSpeed = les.success && les.speed ? les.speed : 0;
+
+    const lb = await kbd.fetchRGBLightBrightness();
+    const v =
+      lb.success && lb.brightness ? Math.round(100 * (lb.brightness / 255)) : 0;
+
+    const lc = await kbd.fetchRGBLightColor();
+    const hs =
+      lc.success && typeof lc.hue != 'undefined' && typeof lc.sat != 'undefined'
+        ? {
+            h: Math.round(360 * (lc.hue / 255)),
+            s: Math.round(100 * (lc.sat / 255)),
+          }
+        : { h: 0, s: 0 };
+
+    const hex = ReinventedColorWheel.rgb2hex(
+      ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v])
+    );
+    const value = {
+      underglowColor: { ...hs, v },
+      underglowHex: hex,
+      underglowEffectSpeed,
+      underglowEffectMode,
+      backlightBreathing,
+      backlightBrightness,
+    };
+    return value;
+  }
+
   private buildColorWheel() {
-    const saturation = percent(this.props.hsv.s, 255);
-    const brightness = percent(this.props.hsv.v, 255);
-    this.colorWheel = new ReinventedColorWheel({
-      // appendTo is the only required property. specify the parent element of the color wheel.
+    const { h, s, v } = this.state.underglowColor;
+    const colorWheel = new ReinventedColorWheel({
       appendTo: this.colorWheelRef.current!,
-
-      // followings are optional properties and their default values.
-
-      // initial color (can be specified in hsv / hsl / rgb / hex)
-      hsv: [this.props.hsv.h, saturation, brightness],
-      // hsl: [0, 100, 50],
-      // rgb: [255, 0, 0],
-      // hex: "#ff0000",
+      hsv: [h, s, v],
 
       // appearance
       wheelDiameter: 180,
@@ -69,46 +129,107 @@ export default class TabUnderglow extends React.Component<Props, State> {
       handleDiameter: 16,
       wheelReflectsSaturation: true,
 
-      // handler
       onChange: (color) => {
         this.onChangeColorWheel(color);
       },
     });
-    const underglowHex = this.colorWheel.hex.toUpperCase();
+    const underglowHex = colorWheel.hex.toUpperCase();
     this.setState({
-      underglowColor: { h: this.props.hsv.h, s: saturation, v: brightness },
+      underglowColor: { h, s, v },
       underglowHex,
     });
-    //this.colorWheel.redraw();
+    return colorWheel;
   }
 
   componentDidMount() {
     if (this.colorWheelRef.current === null) {
       this.colorWheel = null;
       return;
+    } else if (this.colorWheel === null) {
+      this.colorWheel = this.buildColorWheel();
+      this.fetchKeyboardLightValues().then((value) => {
+        const {
+          underglowColor,
+          underglowEffectSpeed,
+          underglowEffectMode,
+          backlightBreathing,
+          backlightBrightness,
+        } = value;
+        const numOfColors =
+          0 < this.props.underglowEffects.length
+            ? this.props.underglowEffects[underglowEffectMode][1]
+            : 0;
+        this.setState({
+          underglowColorCount: numOfColors,
+          underglowEffectMode,
+          underglowEffectSpeed,
+          backlightBreathing,
+          backlightBrightness,
+        });
+
+        this.colorWheel!.hsv = [
+          underglowColor.h,
+          underglowColor.s,
+          underglowColor.v,
+        ];
+      });
     }
-    this.buildColorWheel();
   }
 
-  private emitUnderglowValue() {}
-
-  private onChangeUnderglowType(underglowType: string) {
-    this.setState({ underglowType });
+  private emitUnderglowValue(underglow: {
+    mode?: number;
+    speed?: number;
+    color?: Hsv;
+  }) {
+    this.props.onChangeUnderglow(underglow);
   }
 
-  private onChangeUnderglowSpeed(underglowSpeed: number) {
-    this.setState({ underglowSpeed });
+  private emitBacklightValue(backlight: {
+    isBreathing?: boolean;
+    brightness?: number;
+  }) {
+    this.props.onChangeBacklight(backlight);
   }
 
-  private onChangeColorWheel(color: ReinventedColorWheel) {
+  private onChangeColorWheel(_color: ReinventedColorWheel) {
+    const color: Hsv = {
+      h: Math.round(_color.hsv[0]),
+      s: Math.round(_color.hsv[1]),
+      v: Math.round(_color.hsv[2]),
+    };
     this.setState({
-      underglowColor: {
-        h: color.hsv[0],
-        s: color.hsv[1],
-        v: color.hsv[2],
-      },
-      underglowHex: color.hex.toUpperCase(),
+      underglowColor: color,
+      underglowHex: _color.hex.toUpperCase(),
     });
+    if (this.initializing) {
+      // Ignore the initial color setting from componentDidMount()
+      this.initializing = false;
+    } else {
+      const msec = new Date().getTime();
+      if (this.UPDATE_VALUE_DURATION < msec - this.updateUnderglowValueMsec) {
+        // need to set duration to update hardware configuration because of its network performance.
+        this.emitUnderglowValue({ color });
+        this.updateUnderglowValueMsec = new Date().getTime();
+      }
+    }
+  }
+
+  private onChangeUnderglowMode(underglowEffectMode: number) {
+    const numOfColors = this.underglowEffects[underglowEffectMode][1];
+    this.setState({
+      underglowEffectMode,
+      underglowColorCount: numOfColors,
+    });
+    const msec = new Date().getTime();
+    if (this.UPDATE_VALUE_DURATION < msec - this.updateUnderglowValueMsec) {
+      this.emitUnderglowValue({ mode: underglowEffectMode });
+      this.updateUnderglowValueMsec = new Date().getTime();
+    }
+  }
+
+  private onChangeUnderglowSpeed(underglowEffectSpeed: number) {
+    this.setState({ underglowEffectSpeed });
+    this.emitUnderglowValue({ speed: underglowEffectSpeed });
   }
 
   private onChangeColorHex(hex: string) {
@@ -123,64 +244,70 @@ export default class TabUnderglow extends React.Component<Props, State> {
     const underglowHex = `#${hexNumber}`;
     if (hex.length === 7) {
       this.colorWheel.hex = underglowHex;
-      const hsv = this.colorWheel.hsv;
-      this.setState({
-        underglowColor: {
-          h: hsv[0],
-          s: hsv[1],
-          v: hsv[2],
-        },
-        underglowHex,
-      });
     } else {
       this.setState({ underglowHex });
     }
   }
 
-  private onChangeColor(underglowColor: { h: number; s: number; v: number }) {
-    this.setState({ underglowColor });
-    this.colorWheel!.hsv = [
-      underglowColor.h,
-      underglowColor.s,
-      underglowColor.v,
-    ];
+  private onChangeColor(color: Hsv) {
+    this.colorWheel!.hsv = [color.h, color.s, color.v];
   }
 
+  private onChangeBacklightBreathing(isBreathing: boolean) {
+    this.setState({ backlightBreathing: isBreathing });
+    this.emitBacklightValue({ isBreathing });
+  }
   private onChangeBacklightBrightness(brightness: number) {
     this.setState({ backlightBrightness: brightness });
+    const msec = new Date().getTime();
+    if (this.UPDATE_VALUE_DURATION < msec - this.updateBackgroundValueMsec) {
+      // need to set duration to update hardware configuration because of its network performance.
+      this.emitBacklightValue({ brightness });
+      this.updateBackgroundValueMsec = new Date().getTime();
+    }
   }
 
   render() {
     return (
       <Grid container spacing={1} className="lighting-settings">
-        <Underglow
-          colorWheelRef={this.colorWheelRef}
-          underglowType={this.state.underglowType}
-          underglowSpeed={this.state.underglowSpeed}
-          underglowHex={this.state.underglowHex}
-          underglowColor={this.state.underglowColor}
-          onChangeUnderglowType={(type) => this.onChangeUnderglowType(type)}
-          onChangeUnderglowSpeed={(speed) => {
-            this.onChangeUnderglowSpeed(speed);
-          }}
-          onChangeColorHex={(hex) => {
-            this.onChangeColorHex(hex);
-          }}
-          onChangeColor={(color) => {
-            this.onChangeColor(color);
-          }}
-        />
-        <hr className="lighting-divider" />
-        <Brightness
-          backlightOn={this.state.backlightOn}
-          value={this.state.backlightBrightness}
-          onChangeValue={(v) => {
-            this.onChangeBacklightBrightness(v);
-          }}
-          onChangeEnable={(flag) => {
-            this.setState({ backlightOn: flag });
-          }}
-        />
+        {this.props.showUnderglow && (
+          <Underglow
+            colorWheelRef={this.colorWheelRef}
+            disabledColorWheel={this.state.underglowColorCount === 0}
+            underglowEffects={this.underglowEffects}
+            underglowEffectIndex={this.state.underglowEffectMode}
+            underglowSpeed={this.state.underglowEffectSpeed}
+            underglowHex={this.state.underglowHex}
+            underglowColor={this.state.underglowColor}
+            onChangeUnderglowTypeIndex={(index) =>
+              this.onChangeUnderglowMode(index)
+            }
+            onChangeUnderglowSpeed={(speed) => {
+              this.onChangeUnderglowSpeed(speed);
+            }}
+            onChangeColorHex={(hex) => {
+              this.onChangeColorHex(hex);
+            }}
+            onChangeColor={(color) => {
+              this.onChangeColor(color);
+            }}
+          />
+        )}
+        {this.props.showBacklight && this.props.showUnderglow && (
+          <hr className="lighting-divider" />
+        )}
+        {this.props.showBacklight && (
+          <Brightness
+            backlightBreathingMode={this.state.backlightBreathing}
+            value={this.state.backlightBrightness}
+            onChangeValue={(v) => {
+              this.onChangeBacklightBrightness(v);
+            }}
+            onChangeBreathingMode={(flag) => {
+              this.onChangeBacklightBreathing(flag);
+            }}
+          />
+        )}
       </Grid>
     );
   }
@@ -188,20 +315,24 @@ export default class TabUnderglow extends React.Component<Props, State> {
 
 type UnderglowProps = {
   colorWheelRef: React.RefObject<HTMLDivElement>;
-  underglowType: string;
+  disabledColorWheel: boolean;
+  underglowEffects: [string, number][];
+  underglowEffectIndex: number;
   underglowSpeed: number;
   underglowHex: string; // #FF11AA
-  underglowColor: { h: number; s: number; v: number };
+  underglowColor: Hsv;
   // eslint-disable-next-line no-unused-vars
-  onChangeUnderglowType: (type: string) => void;
+  onChangeUnderglowTypeIndex: (typeIndex: number) => void;
   // eslint-disable-next-line no-unused-vars
   onChangeUnderglowSpeed: (speed: number) => void;
   // eslint-disable-next-line no-unused-vars
   onChangeColorHex: (hex: string) => void;
   // eslint-disable-next-line no-unused-vars
-  onChangeColor: (color: { h: number; s: number; v: number }) => void;
+  onChangeColor: (color: Hsv) => void;
 };
 function Underglow(props: UnderglowProps) {
+  const isUnderglowOff = props.underglowEffectIndex === 0;
+
   return (
     <React.Fragment>
       <Grid item xs={12}>
@@ -210,45 +341,40 @@ function Underglow(props: UnderglowProps) {
       <Grid item xs={6}>
         <Grid container spacing={1} justify="center" alignItems="center">
           <Grid item xs={12}>
-            <div className="lighting-label">Effect Type</div>
+            <div className="lighting-label">Effect Mode</div>
             <div>
               <Select
                 className="lighting-value"
-                value={props.underglowType}
+                defaultValue={props.underglowEffectIndex}
+                value={props.underglowEffectIndex}
                 onChange={(e) => {
-                  props.onChangeUnderglowType(e.target.value as string);
+                  props.onChangeUnderglowTypeIndex(Number(e.target.value));
                 }}
               >
-                {UnderglowEffects.map((effect) => {
-                  if (effect.values) {
-                    const arr = effect.values.map((v) => {
-                      const value = `${effect.symbol}_${v}`;
-                      return (
-                        <MenuItem
-                          key={value}
-                          value={value}
-                        >{`${effect.label} ${v}`}</MenuItem>
-                      );
-                    });
-                    return arr;
-                  } else {
-                    return (
-                      <MenuItem key={effect.symbol} value={effect.symbol}>
-                        {effect.label}
-                      </MenuItem>
-                    );
-                  }
+                {props.underglowEffects.map((effect, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      value={index}
+                    >{`${effect[0]}`}</MenuItem>
+                  );
                 })}
               </Select>
             </div>
           </Grid>
           <Grid item xs={12}>
-            <div className="lighting-label underglow-label-speed">
+            <div
+              className={`lighting-label underglow-label-speed ${
+                isUnderglowOff && 'lighting-label-disabled'
+              }`}
+            >
               Effect Speed ({props.underglowSpeed})
             </div>
             <Slider
               className="lighting-value"
+              defaultValue={props.underglowSpeed}
               value={props.underglowSpeed}
+              disabled={isUnderglowOff}
               onChange={(event: any, newValue: number | number[]) => {
                 props.onChangeUnderglowSpeed(newValue as number);
               }}
@@ -259,12 +385,19 @@ function Underglow(props: UnderglowProps) {
             />
           </Grid>
           <Grid item xs={12}>
-            <div className="lighting-label underglow-label-color">Color</div>
+            <div
+              className={`lighting-label underglow-label-color ${
+                props.disabledColorWheel && 'lighting-label-disabled'
+              }`}
+            >
+              Color
+            </div>
             <div className="underglow-color">
               <TextField
                 label="RGB"
                 className="underglow-color-value color-rgb"
                 value={props.underglowHex}
+                disabled={props.disabledColorWheel}
                 onChange={(e) => props.onChangeColorHex(e.target.value)}
               />
               <TextField
@@ -273,12 +406,13 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '360' }}
                 value={props.underglowColor.h}
-                onChange={(e) =>
+                disabled={props.disabledColorWheel}
+                onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
                     h: Number(e.target.value),
-                  })
-                }
+                  });
+                }}
               />
               <TextField
                 label="Saturation"
@@ -286,12 +420,13 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
                 value={props.underglowColor.s}
-                onChange={(e) =>
+                disabled={props.disabledColorWheel}
+                onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
                     s: Number(e.target.value),
-                  })
-                }
+                  });
+                }}
               />
               <TextField
                 label="Brightness"
@@ -299,12 +434,13 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
                 value={props.underglowColor.v}
-                onChange={(e) =>
+                disabled={props.disabledColorWheel}
+                onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
                     v: Number(e.target.value),
-                  })
-                }
+                  });
+                }}
               />
             </div>
           </Grid>
@@ -313,7 +449,11 @@ function Underglow(props: UnderglowProps) {
       <Grid item xs={6}>
         <Grid container>
           <Grid item xs={12}>
-            <div ref={props.colorWheelRef} className="color-wheel"></div>
+            <div ref={props.colorWheelRef} className="color-wheel">
+              {props.disabledColorWheel && (
+                <div className="color-wheel-disabled"></div>
+              )}
+            </div>
           </Grid>
         </Grid>
       </Grid>
@@ -322,10 +462,10 @@ function Underglow(props: UnderglowProps) {
 }
 
 type BrightnessProps = {
-  backlightOn: boolean;
+  backlightBreathingMode: boolean;
   value: number;
   // eslint-disable-next-line no-unused-vars
-  onChangeEnable: (f: boolean) => void;
+  onChangeBreathingMode: (f: boolean) => void;
   // eslint-disable-next-line no-unused-vars
   onChangeValue: (v: number) => void;
 };
@@ -333,20 +473,20 @@ function Brightness(props: BrightnessProps) {
   return (
     <React.Fragment>
       <Grid item xs={12}>
-        <h4>
-          BACKLIGHT
+        <h4>BACKLIGHT</h4>
+      </Grid>
+      <Grid item xs={6}>
+        <div className="lighting-label">Breathing Mode</div>
+        <div>
           <Switch
-            checked={props.backlightOn}
+            checked={props.backlightBreathingMode}
             onChange={(e) => {
-              props.onChangeEnable(e.target.checked);
+              props.onChangeBreathingMode(e.target.checked);
             }}
             color="primary"
             name="brightness"
-            size="small"
           />
-        </h4>
-      </Grid>
-      <Grid item xs={6}>
+        </div>
         <div className="lighting-label">Brightness ({props.value})</div>
         <div>
           <Slider
@@ -357,7 +497,7 @@ function Brightness(props: BrightnessProps) {
             }}
             aria-labelledby="continuous-slider"
             min={0}
-            max={100}
+            max={255}
           />
         </div>
       </Grid>
@@ -365,58 +505,42 @@ function Brightness(props: BrightnessProps) {
   );
 }
 
-const UnderglowEffects: {
-  label: string;
-  symbol: string;
-  values?: number[];
-}[] = [
-  { label: 'All Off', symbol: 'all-off' },
-  { label: 'Solid Color', symbol: 'RGBLIGHT_MODE_STATIC_LIGHT' },
-  {
-    label: 'Solid Breathing',
-    symbol: 'RGBLIGHT_MODE_BREATHING',
-    values: [0, 1, 2, 3],
-  },
-  {
-    label: 'Cycling Rainbow',
-    symbol: 'RGBLIGHT_MODE_RAINBOW_MOOD',
-    values: [0, 1, 2],
-  },
-  {
-    label: 'Swirling Rainbow',
-    symbol: 'RGBLIGHT_MODE_RAINBOW_SWIRL',
-    values: [0, 1, 2, 3, 4, 5],
-  },
-  {
-    label: 'Snake',
-    symbol: 'RGBLIGHT_MODE_SNAKE',
-    values: [0, 1, 2, 3, 4, 5],
-  },
-  {
-    label: 'Knight',
-    symbol: 'RGBLIGHT_MODE_KNIGHT',
-    values: [0, 1, 2],
-  },
-  {
-    label: 'Christmas',
-    symbol: 'RGBLIGHT_MODE_CHRISTMAS',
-  },
-  {
-    label: 'Gradient',
-    symbol: 'RGBLIGHT_MODE_STATIC_GRADIENT',
-    values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  },
-  {
-    label: 'Twinkle',
-    symbol: 'RGBLIGHT_MODE_TWINKLE',
-    values: [0, 1, 2, 3, 4, 5],
-  },
-  {
-    label: 'RGB Test',
-    symbol: 'RGBLIGHT_MODE_RGB_TEST',
-  },
-  {
-    label: 'Alternating',
-    symbol: 'RGBLIGHT_MODE_ALTERNATING',
-  },
+export const defaultUnderglowEffects: [string, number][] = [
+  ['All Off', 0],
+  ['Solid Color', 1],
+  ['Breathing 1', 1],
+  ['Breathing 2', 1],
+  ['Breathing 3', 1],
+  ['Breathing 4', 1],
+  ['Rainbow Mood 1', 0],
+  ['Rainbow Mood 2', 0],
+  ['Rainbow Mood 3', 0],
+  ['Rainbow Swirl 1', 0],
+  ['Rainbow Swirl 2', 0],
+  ['Rainbow Swirl 3', 0],
+  ['Rainbow Swirl 4', 0],
+  ['Rainbow Swirl 5', 0],
+  ['Rainbow Swirl 6', 0],
+  ['Snake 1', 1],
+  ['Snake 2', 1],
+  ['Snake 3', 1],
+  ['Snake 4', 1],
+  ['Snake 5', 1],
+  ['Snake 6', 1],
+  ['Knight 1', 1],
+  ['Knight 2', 1],
+  ['Knight 3', 1],
+  ['Christmas', 1],
+  ['Gradient 1', 1],
+  ['Gradient 2', 1],
+  ['Gradient 3', 1],
+  ['Gradient 4', 1],
+  ['Gradient 5', 1],
+  ['Gradient 6', 1],
+  ['Gradient 7', 1],
+  ['Gradient 8', 1],
+  ['Gradient 9', 1],
+  ['Gradient 10', 1],
+  ['RGB Test', 1],
+  ['Alternating', 1],
 ];
