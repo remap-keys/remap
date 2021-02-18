@@ -41,6 +41,28 @@ export type KeymapCategory =
   | 'underglow'
   | 'us-symbol';
 
+function anyKeymap(hex: number): IKeymap {
+  return {
+    code: hex,
+    isAny: true,
+    kinds: ['any'],
+    direction: MOD_LEFT,
+    modifiers: [],
+    keycodeInfo: {
+      code: hex,
+      label: 'Any',
+      name: {
+        short: 'any',
+        long: 'any',
+      },
+    },
+  };
+}
+
+function isNoValue(value: any) {
+  return value === null || value === undefined;
+}
+
 export class KeycodeList {
   static getKeymaps(
     hex: number
@@ -113,22 +135,16 @@ export class KeycodeList {
       const comp = factory.createLayerTapComposition();
       ret.holdKey = comp.genKeymap();
       ret.tapKey = comp.genTapKey();
-    } else {
-      ret.value = {
-        code: hex,
-        isAny: true,
-        kinds: ['any'],
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: {
-          code: hex,
-          label: 'Any',
-          name: {
-            short: 'any',
-            long: 'any',
-          },
-        },
-      };
+    }
+
+    if (isNoValue(ret.value)) {
+      if (isNoValue(ret.holdKey) && isNoValue(ret.tapKey)) {
+        ret.value = anyKeymap(hex);
+      } else if (!isNoValue(ret.holdKey) && isNoValue(ret.tapKey)) {
+        ret.tapKey = anyKeymap(hex);
+      } else {
+        throw new Error(`no keymap(${hex})`);
+      }
     }
 
     return ret;
