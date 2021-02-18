@@ -18,6 +18,7 @@ import { CrkbdKeymap } from '../../../assets/keymaps/CrkbdKeymap';
 import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
 import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
 import { MOD_LEFT } from '../../../services/hid/Composition';
+import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 
 export default {
   title: 'Keyboards',
@@ -122,6 +123,7 @@ export const Naked64SF = () => genKeyboardView(Naked64SFKeymap);
 export const SilverBullet44Kai = () => genKeyboardView(SilverBullet44KaiKeymap);
 export const Cornelius = () => genKeyboardView(CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView(Aleth42Keymap);
+export const Hotdox = () => genKeyboardView(HotdoxKeymap);
 export const Zinc = () =>
   genKeyboardView(ZincKeymap, [{ option: '0', optionChoice: '0' }]);
 export const ZincSymmetrical = () =>
