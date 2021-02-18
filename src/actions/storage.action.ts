@@ -114,7 +114,7 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const fetchKeyboardDefinitionResult = await storage.instance.fetchMyKeyboardDefinitionDocumentById(
+    const fetchKeyboardDefinitionResult = await storage.instance!.fetchMyKeyboardDefinitionDocumentById(
       definitionId
     );
     if (!fetchKeyboardDefinitionResult.success) {
@@ -155,7 +155,18 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const fetchKeyboardDefinitionResult = await storage.instance.fetchKeyboardDefinitionDocumentByDeviceInfo(
+
+    if (storage.instance === null) {
+      console.warn(
+        'To work Remap locally, skip accessing to Firebase and move to the uploading phase.'
+      );
+      dispatch(
+        AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
+      );
+      return;
+    }
+
+    const fetchKeyboardDefinitionResult = await storage.instance!.fetchKeyboardDefinitionDocumentByDeviceInfo(
       vendorId,
       productId,
       productName
@@ -222,7 +233,7 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const fetchMyKeyboardDefinitionsResult = await storage.instance.fetchMyKeyboardDefinitionDocuments();
+    const fetchMyKeyboardDefinitionsResult = await storage.instance!.fetchMyKeyboardDefinitionDocuments();
     if (!fetchMyKeyboardDefinitionsResult.success) {
       console.error(fetchMyKeyboardDefinitionsResult.cause!);
       dispatch(
@@ -248,7 +259,7 @@ export const storageActionsThunk = {
     const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const productName = keyboards.createdefinition.productName;
-    const user = auth.instance.getCurrentAuthenticatedUser();
+    const user = auth.instance!.getCurrentAuthenticatedUser();
     const githubProviderData = user.providerData[0]!;
 
     const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
@@ -267,7 +278,7 @@ export const storageActionsThunk = {
     const githubAccountInfo = fetchAccountInfoResult.info!;
 
     const jsonStr = keyboards.createdefinition.jsonString;
-    const result = await storage.instance.createKeyboardDefinitionDocument(
+    const result = await storage.instance!.createKeyboardDefinitionDocument(
       user.uid,
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
@@ -296,7 +307,7 @@ export const storageActionsThunk = {
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const productName = keyboards.createdefinition.productName;
 
-    const user = auth.instance.getCurrentAuthenticatedUser();
+    const user = auth.instance!.getCurrentAuthenticatedUser();
     const githubProviderData = user.providerData[0]!;
 
     const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
@@ -315,7 +326,7 @@ export const storageActionsThunk = {
     const githubAccountInfo = fetchAccountInfoResult.info!;
 
     const jsonStr = keyboards.createdefinition.jsonString;
-    const result = await storage.instance.createKeyboardDefinitionDocument(
+    const result = await storage.instance!.createKeyboardDefinitionDocument(
       user.uid,
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
@@ -349,7 +360,7 @@ export const storageActionsThunk = {
     const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
     const productName = keyboards.editdefinition.productName;
     const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance.updateKeyboardDefinitionDocument(
+    const result = await storage.instance!.updateKeyboardDefinitionDocument(
       definitionDoc!.id,
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
@@ -378,7 +389,7 @@ export const storageActionsThunk = {
 
     const definitionDoc = entities.keyboardDefinitionDocument;
     const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance.updateKeyboardDefinitionDocument(
+    const result = await storage.instance!.updateKeyboardDefinitionDocument(
       definitionDoc!.id,
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
@@ -404,7 +415,7 @@ export const storageActionsThunk = {
     const { storage, keyboards, entities } = getState();
     const definitionDoc = entities.keyboardDefinitionDocument;
     const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance.updateKeyboardDefinitionJson(
+    const result = await storage.instance!.updateKeyboardDefinitionJson(
       definitionDoc!.id,
       jsonStr
     );
@@ -424,7 +435,7 @@ export const storageActionsThunk = {
   ) => {
     const { storage, entities } = getState();
     const definitionDoc = entities.keyboardDefinitionDocument;
-    const result = await storage.instance.deleteKeyboardDefinitionDocument(
+    const result = await storage.instance!.deleteKeyboardDefinitionDocument(
       definitionDoc!.id
     );
     if (result.success) {

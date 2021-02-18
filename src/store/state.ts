@@ -126,17 +126,30 @@ export type RootState = {
     instance: IHid;
   };
   storage: {
-    instance: IStorage;
+    instance: IStorage | null;
   };
   auth: {
-    instance: IAuth;
+    instance: IAuth | null;
   };
   github: {
     instance: IGitHub;
   };
 };
 
-const firebaseProvider = new FirebaseProvider();
+let firebaseProvider;
+try {
+  firebaseProvider = new FirebaseProvider();
+} catch (cause) {
+  if (process.env.NODE_ENV === 'production') {
+    throw cause;
+  } else {
+    console.warn(
+      `To work Remap locally, ignore the situation which Firebase cannot be initialized. ${cause}`
+    );
+    firebaseProvider = null;
+  }
+}
+
 const gitHub = new GitHub();
 
 export const INIT_STATE: RootState = {
