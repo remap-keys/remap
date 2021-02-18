@@ -180,7 +180,7 @@ export default class ConfigurationDialog extends React.Component<
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <TabUnderglow
               hsv={{ h: 240, s: 200, v: 150 }}
-              speed={100}
+              speed={3}
               backlightOn={true}
               backlightBrightness={200}
             />

@@ -42,7 +42,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
         s: percent(this.props.hsv.s, 255),
         v: percent(this.props.hsv.v, 255),
       },
-      underglowHex: 'FFFFFF',
+      underglowHex: '#FFFFFF',
       backlightOn: true,
       backlightBrightness: percent(this.props.backlightBrightness, 255),
     };
@@ -74,7 +74,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
         this.onChangeColorWheel(color);
       },
     });
-    const underglowHex = this.colorWheel.hex.slice(1).toUpperCase();
+    const underglowHex = this.colorWheel.hex.toUpperCase();
     this.setState({
       underglowColor: { h: this.props.hsv.h, s: saturation, v: brightness },
       underglowHex,
@@ -107,18 +107,23 @@ export default class TabUnderglow extends React.Component<Props, State> {
         s: color.hsv[1],
         v: color.hsv[2],
       },
-      underglowHex: color.hex.slice(1).toUpperCase(),
+      underglowHex: color.hex.toUpperCase(),
     });
   }
 
   private onChangeColorHex(hex: string) {
-    const underglowHex = hex
+    if (this.colorWheel === null) {
+      return;
+    }
+
+    const hexNumber = hex
       .toUpperCase()
       .replace(/[^0-9,A-F]/g, '')
       .slice(0, 6);
-    if (hex.length === 6) {
-      this.colorWheel!.hex = `#${underglowHex}`;
-      const hsv = this.colorWheel!.hsv;
+    const underglowHex = `#${hexNumber}`;
+    if (hex.length === 7) {
+      this.colorWheel.hex = underglowHex;
+      const hsv = this.colorWheel.hsv;
       this.setState({
         underglowColor: {
           h: hsv[0],
@@ -132,25 +137,13 @@ export default class TabUnderglow extends React.Component<Props, State> {
     }
   }
 
-  private changeColor(underglowColor: { h: number; s: number; v: number }) {
+  private onChangeColor(underglowColor: { h: number; s: number; v: number }) {
     this.setState({ underglowColor });
     this.colorWheel!.hsv = [
       underglowColor.h,
       underglowColor.s,
       underglowColor.v,
     ];
-  }
-
-  private onChangeColorHue(hue: number) {
-    this.changeColor({ ...this.state.underglowColor, h: hue });
-  }
-
-  private onChangeColorSaturation(saturation: number) {
-    this.changeColor({ ...this.state.underglowColor, s: saturation });
-  }
-
-  private onChangeColorBrightness(brightness: number) {
-    this.changeColor({ ...this.state.underglowColor, v: brightness });
   }
 
   private onChangeBacklightBrightness(brightness: number) {
@@ -160,145 +153,216 @@ export default class TabUnderglow extends React.Component<Props, State> {
   render() {
     return (
       <Grid container spacing={1} className="lighting-settings">
-        <Grid item xs={12}>
-          <h4>UNDERGLOW</h4>
-        </Grid>
-        <Grid item xs={6}>
-          <Grid container spacing={1} justify="center" alignItems="center">
-            <Grid item xs={12}>
-              <div className="lighting-label">Effect Type</div>
-              <div>
-                <Select
-                  className="lighting-value"
-                  value={this.state.underglowType}
-                  onChange={(e) => {
-                    this.onChangeUnderglowType(e.target.value as string);
-                  }}
-                >
-                  {UnderglowEffects.map((effect) => {
-                    if (effect.values) {
-                      const arr = effect.values.map((v) => {
-                        const value = `${effect.symbol}_${v}`;
-                        return (
-                          <MenuItem
-                            key={value}
-                            value={value}
-                          >{`${effect.label} ${v}`}</MenuItem>
-                        );
-                      });
-                      return arr;
-                    } else {
-                      return (
-                        <MenuItem key={effect.symbol} value={effect.symbol}>
-                          {effect.label}
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </Select>
-              </div>
-            </Grid>
-            <Grid item xs={12}>
-              <div className="lighting-label underglow-label-speed">
-                Effect Speed ({this.state.underglowSpeed})
-              </div>
-              <Slider
-                className="lighting-value"
-                value={this.state.underglowSpeed}
-                onChange={(event: any, newValue: number | number[]) => {
-                  this.onChangeUnderglowSpeed(newValue as number);
-                }}
-                aria-labelledby="continuous-slider"
-                min={0}
-                max={100}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <div className="lighting-label underglow-label-color">Color</div>
-              <div className="underglow-color">
-                <TextField
-                  label="RGB"
-                  className="underglow-color-value color-rgb"
-                  value={this.state.underglowHex}
-                  onChange={(e) => this.onChangeColorHex(e.target.value)}
-                />
-                <TextField
-                  label="Hue"
-                  className="underglow-color-value color-hue"
-                  type="number"
-                  inputProps={{ min: '0', max: '360' }}
-                  value={this.state.underglowColor.h}
-                  onChange={(e) =>
-                    this.onChangeColorHue(Number(e.target.value))
-                  }
-                />
-                <TextField
-                  label="Saturation"
-                  className="underglow-color-value color-saturation"
-                  type="number"
-                  inputProps={{ min: '0', max: '100' }}
-                  value={this.state.underglowColor.s}
-                  onChange={(e) =>
-                    this.onChangeColorSaturation(Number(e.target.value))
-                  }
-                />
-                <TextField
-                  label="Brightness"
-                  className="underglow-color-value color-brightness"
-                  type="number"
-                  inputProps={{ min: '0', max: '100' }}
-                  value={this.state.underglowColor.v}
-                  onChange={(e) =>
-                    this.onChangeColorBrightness(Number(e.target.value))
-                  }
-                />
-              </div>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={6}>
-          <Grid container>
-            <Grid item xs={12}>
-              <div ref={this.colorWheelRef} className="color-wheel"></div>
-            </Grid>
-          </Grid>
-        </Grid>
+        <Underglow
+          colorWheelRef={this.colorWheelRef}
+          underglowType={this.state.underglowType}
+          underglowSpeed={this.state.underglowSpeed}
+          underglowHex={this.state.underglowHex}
+          underglowColor={this.state.underglowColor}
+          onChangeUnderglowType={(type) => this.onChangeUnderglowType(type)}
+          onChangeUnderglowSpeed={(speed) => {
+            this.onChangeUnderglowSpeed(speed);
+          }}
+          onChangeColorHex={(hex) => {
+            this.onChangeColorHex(hex);
+          }}
+          onChangeColor={(color) => {
+            this.onChangeColor(color);
+          }}
+        />
         <hr className="lighting-divider" />
-        <Grid item xs={12}>
-          <h4>
-            BACKLIGHT
-            <Switch
-              checked={this.state.backlightOn}
-              onChange={(e) => {
-                this.setState({ backlightOn: e.target.checked });
-              }}
-              color="primary"
-              name="brightness"
-              size="small"
-            />
-          </h4>
-        </Grid>
-        <Grid item xs={6}>
-          <div className="lighting-label">
-            Brightness ({this.state.backlightBrightness})
-          </div>
-          <div>
-            <Slider
-              className="lighting-value"
-              value={this.state.backlightBrightness}
-              onChange={(event: any, newValue: number | number[]) => {
-                this.onChangeBacklightBrightness(newValue as number);
-              }}
-              aria-labelledby="continuous-slider"
-              min={0}
-              max={100}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={6}></Grid>
+        <Brightness
+          backlightOn={this.state.backlightOn}
+          value={this.state.backlightBrightness}
+          onChangeValue={(v) => {
+            this.onChangeBacklightBrightness(v);
+          }}
+          onChangeEnable={(flag) => {
+            this.setState({ backlightOn: flag });
+          }}
+        />
       </Grid>
     );
   }
+}
+
+type UnderglowProps = {
+  colorWheelRef: React.RefObject<HTMLDivElement>;
+  underglowType: string;
+  underglowSpeed: number;
+  underglowHex: string; // #FF11AA
+  underglowColor: { h: number; s: number; v: number };
+  // eslint-disable-next-line no-unused-vars
+  onChangeUnderglowType: (type: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeUnderglowSpeed: (speed: number) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeColorHex: (hex: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeColor: (color: { h: number; s: number; v: number }) => void;
+};
+function Underglow(props: UnderglowProps) {
+  return (
+    <React.Fragment>
+      <Grid item xs={12}>
+        <h4>UNDERGLOW</h4>
+      </Grid>
+      <Grid item xs={6}>
+        <Grid container spacing={1} justify="center" alignItems="center">
+          <Grid item xs={12}>
+            <div className="lighting-label">Effect Type</div>
+            <div>
+              <Select
+                className="lighting-value"
+                value={props.underglowType}
+                onChange={(e) => {
+                  props.onChangeUnderglowType(e.target.value as string);
+                }}
+              >
+                {UnderglowEffects.map((effect) => {
+                  if (effect.values) {
+                    const arr = effect.values.map((v) => {
+                      const value = `${effect.symbol}_${v}`;
+                      return (
+                        <MenuItem
+                          key={value}
+                          value={value}
+                        >{`${effect.label} ${v}`}</MenuItem>
+                      );
+                    });
+                    return arr;
+                  } else {
+                    return (
+                      <MenuItem key={effect.symbol} value={effect.symbol}>
+                        {effect.label}
+                      </MenuItem>
+                    );
+                  }
+                })}
+              </Select>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div className="lighting-label underglow-label-speed">
+              Effect Speed ({props.underglowSpeed})
+            </div>
+            <Slider
+              className="lighting-value"
+              value={props.underglowSpeed}
+              onChange={(event: any, newValue: number | number[]) => {
+                props.onChangeUnderglowSpeed(newValue as number);
+              }}
+              aria-labelledby="continuous-slider"
+              min={0}
+              max={3}
+              marks={true}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <div className="lighting-label underglow-label-color">Color</div>
+            <div className="underglow-color">
+              <TextField
+                label="RGB"
+                className="underglow-color-value color-rgb"
+                value={props.underglowHex}
+                onChange={(e) => props.onChangeColorHex(e.target.value)}
+              />
+              <TextField
+                label="Hue"
+                className="underglow-color-value color-hue"
+                type="number"
+                inputProps={{ min: '0', max: '360' }}
+                value={props.underglowColor.h}
+                onChange={(e) =>
+                  props.onChangeColor({
+                    ...props.underglowColor,
+                    h: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Saturation"
+                className="underglow-color-value color-saturation"
+                type="number"
+                inputProps={{ min: '0', max: '100' }}
+                value={props.underglowColor.s}
+                onChange={(e) =>
+                  props.onChangeColor({
+                    ...props.underglowColor,
+                    s: Number(e.target.value),
+                  })
+                }
+              />
+              <TextField
+                label="Brightness"
+                className="underglow-color-value color-brightness"
+                type="number"
+                inputProps={{ min: '0', max: '100' }}
+                value={props.underglowColor.v}
+                onChange={(e) =>
+                  props.onChangeColor({
+                    ...props.underglowColor,
+                    v: Number(e.target.value),
+                  })
+                }
+              />
+            </div>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={6}>
+        <Grid container>
+          <Grid item xs={12}>
+            <div ref={props.colorWheelRef} className="color-wheel"></div>
+          </Grid>
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
+}
+
+type BrightnessProps = {
+  backlightOn: boolean;
+  value: number;
+  // eslint-disable-next-line no-unused-vars
+  onChangeEnable: (f: boolean) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChangeValue: (v: number) => void;
+};
+function Brightness(props: BrightnessProps) {
+  return (
+    <React.Fragment>
+      <Grid item xs={12}>
+        <h4>
+          BACKLIGHT
+          <Switch
+            checked={props.backlightOn}
+            onChange={(e) => {
+              props.onChangeEnable(e.target.checked);
+            }}
+            color="primary"
+            name="brightness"
+            size="small"
+          />
+        </h4>
+      </Grid>
+      <Grid item xs={6}>
+        <div className="lighting-label">Brightness ({props.value})</div>
+        <div>
+          <Slider
+            className="lighting-value"
+            value={props.value}
+            onChange={(event: any, newValue: number | number[]) => {
+              props.onChangeValue(newValue as number);
+            }}
+            aria-labelledby="continuous-slider"
+            min={0}
+            max={100}
+          />
+        </div>
+      </Grid>
+    </React.Fragment>
+  );
 }
 
 const UnderglowEffects: {
