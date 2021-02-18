@@ -21,11 +21,31 @@ export const errorReportingLogger = (store: { getState: () => RootState }) => (
 ) => (action: AnyAction) => {
   if ([NOTIFICATION_ADD_ERROR, NOTIFICATION_ADD_WARN].includes(action.type)) {
     if (process.env.NODE_ENV === 'production') {
+      let message;
       if (action.value.cause) {
-        errorHandler.report(action.value.cause);
+        message = `${action.value.message}: ${action.value.cause.message}`;
       } else {
-        errorHandler.report(action.value.message);
+        message = action.value.message;
       }
+      const { entities, app } = store.getState();
+      const additional: any = {
+        version: app.package.version,
+        setupPhase: app.setupPhase,
+      };
+      if (entities.keyboard) {
+        additional.keyboard = {
+          vendorId: entities.keyboard.getInformation().vendorId,
+          productId: entities.keyboard.getInformation().productId,
+          productName: entities.keyboard.getInformation().productName,
+        };
+      }
+      const err = new Error(message);
+      if (action.value.cause) {
+        err.stack = additional + '\n' + action.value.cause.stack;
+      } else {
+        err.stack = additional;
+      }
+      errorHandler.report(err);
     }
   }
   next(action);
