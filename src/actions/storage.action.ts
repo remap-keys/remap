@@ -156,7 +156,7 @@ export const storageActionsThunk = {
   ) => {
     const { storage } = getState();
 
-    if (process.env.NODE_ENV !== 'production' && storage.instance === null) {
+    if (storage.instance === null) {
       console.warn(
         'To work Remap locally, skip accessing to Firebase and move to the uploading phase.'
       );
