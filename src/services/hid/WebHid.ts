@@ -32,6 +32,7 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
+import { outputUint8Array } from '../../utils/ArrayUtils';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -108,12 +109,12 @@ export class Keyboard implements IKeyboard {
   }
 
   handleInputReport = async (e: any): Promise<void> => {
-    this.outputUint8Array(new Uint8Array(e.data.buffer));
+    outputUint8Array('Received data', new Uint8Array(e.data.buffer));
     if (this.commandQueue.length > 0) {
       const command = this.commandQueue[0];
       if (command!.canHandleInputReport(e)) {
-        this.commandQueue.shift();
         await command!.handleInputReport(e);
+        this.commandQueue.shift();
         if (this.commandQueue.length > 0) {
           await this.commandQueue[0].sendReport(this.getDevice());
           return;
@@ -131,37 +132,6 @@ export class Keyboard implements IKeyboard {
       this.hid.close(this);
     }
   };
-
-  protected outputUint8Array(array: Uint8Array) {
-    let lines = '';
-    let out = '';
-    let ascii = '';
-    for (let i = 0; i < array.length; i++) {
-      // out += String.fromCharCode(array[i]);
-      let value = Number(array[i]).toString(16).toUpperCase();
-      if (value.length === 1) {
-        value = '0' + value;
-      }
-      out += value;
-      if (i % 2 !== 0) {
-        out += ' ';
-      }
-      if (0x20 <= array[i] && array[i] <= 0x7e) {
-        ascii += String.fromCharCode(array[i]);
-      } else {
-        ascii += '.';
-      }
-      if ((i + 1) % 16 === 0) {
-        lines += out + ' ' + ascii + '\n';
-        out = '';
-        ascii = '';
-      }
-    }
-    if (out) {
-      lines += out + ' ' + ascii + '\n';
-    }
-    console.log(lines);
-  }
 
   async enqueue(command: ICommand): Promise<IResult> {
     if (this.isOpened()) {
