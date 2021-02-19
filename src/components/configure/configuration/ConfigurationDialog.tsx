@@ -25,7 +25,6 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
 import TabUnderglow, { defaultUnderglowEffects, Hsv } from './TabUnderglow';
-import { IKeyboard } from '../../../services/hid/Hid';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -159,14 +158,15 @@ export default class ConfigurationDialog extends React.Component<
 
   private onChangeBacklight(backlight: {
     isBreathing?: boolean;
-    brightness?: number;
+    brightness?: number /* 0-100 */;
   }) {
-    if (typeof backlight.isBreathing != 'undefined') {
+    if (backlight.isBreathing != undefined) {
       this.props.keyboard!.updateBacklightEffect(backlight.isBreathing);
     }
 
-    if (typeof backlight.brightness != 'undefined') {
-      this.props.keyboard!.updateBacklightBrightness(backlight.brightness);
+    if (backlight.brightness != undefined) {
+      const brightness = Math.round(255 * (backlight.brightness / 100));
+      this.props.keyboard!.updateBacklightBrightness(brightness);
     }
   }
 
@@ -175,14 +175,14 @@ export default class ConfigurationDialog extends React.Component<
     speed?: number /* 0-3 */;
     color?: Hsv; // h: 0-360, s: 0-100, v: 0-100
   }) {
-    if (typeof underglow.mode != 'undefined') {
+    if (underglow.mode != undefined) {
       this.props.keyboard!.updateRGBLightEffect(underglow.mode);
     }
-    if (typeof underglow.speed != 'undefined') {
+    if (underglow.speed != undefined) {
       this.props.keyboard!.updateRGBLightEffectSpeed(underglow.speed);
     }
 
-    if (typeof underglow.color != 'undefined') {
+    if (underglow.color != undefined) {
       const hsv: Hsv = underglow.color;
       const hue = Math.round(255 * (hsv.h / 360));
       const sat = Math.round(255 * (hsv.s / 100));

@@ -23,7 +23,7 @@ const keyboardDefinition: KeyboardDefinitionSchema = {
   vendorId: hexadecimal(777),
   productId: hexadecimal(1),
   lighting: {
-    extends: 'qmk_rgblight',
+    extends: 'qmk_backlight_rgblight',
     underglowEffects: [
       ['ON/OFF', 0],
       ['Solid Color', 1],

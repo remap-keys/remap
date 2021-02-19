@@ -79,7 +79,9 @@ export default class TabUnderglow extends React.Component<Props, State> {
     const kbd: IKeyboard = this.props.keyboard!;
     const bkb = await kbd.fetchBacklightBrightness();
     const backlightBrightness =
-      bkb.success && bkb.brightness ? bkb.brightness : 0;
+      bkb.success && bkb.brightness
+        ? Math.round(100 * (bkb.brightness / 255))
+        : 0;
 
     const bke = await kbd.fetchBacklightEffect();
     const backlightBreathing = bke.success ? Boolean(bke.isBreathing) : false;
@@ -476,8 +478,8 @@ function Brightness(props: BrightnessProps) {
         <h4>BACKLIGHT</h4>
       </Grid>
       <Grid item xs={6}>
-        <div className="lighting-label">Breathing Mode</div>
-        <div>
+        <div className="lighting-label">
+          Breathing Mode
           <Switch
             checked={props.backlightBreathingMode}
             onChange={(e) => {
@@ -487,6 +489,7 @@ function Brightness(props: BrightnessProps) {
             name="brightness"
           />
         </div>
+
         <div className="lighting-label">Brightness ({props.value})</div>
         <div>
           <Slider
@@ -497,7 +500,7 @@ function Brightness(props: BrightnessProps) {
             }}
             aria-labelledby="continuous-slider"
             min={0}
-            max={255}
+            max={100}
           />
         </div>
       </Grid>
