@@ -45,6 +45,7 @@ type OwnState = {
   selectedMenuIndex: number;
   keyboardDefinition: KeyboardDefinitionSchema | null;
   keyboardDefinitionFile: string | null;
+  needToInit: boolean;
 };
 
 type LightingType =
@@ -86,8 +87,22 @@ export default class ConfigurationDialog extends React.Component<
       selectedMenuIndex: 0,
       keyboardDefinition: null,
       keyboardDefinitionFile: null,
+      needToInit: false,
     };
     this.initLighting();
+  }
+
+  shouldComponentUpdate(
+    // eslint-disable-next-line no-unused-vars
+    nextProps: ConfigurationDialogProps,
+    // eslint-disable-next-line no-unused-vars
+    nextState: OwnState
+  ) {
+    if (this.state.needToInit) {
+      this.initLighting();
+      this.setState({ needToInit: false });
+    }
+    return true;
   }
 
   private initLighting() {
@@ -152,6 +167,7 @@ export default class ConfigurationDialog extends React.Component<
   }
 
   private onClickApplyKeyboardDefinition() {
+    this.setState({ needToInit: true });
     this.props.refreshKeyboardDefinition!(this.state.keyboardDefinition!);
     this.clearKeyboardDefinition();
   }
@@ -236,7 +252,9 @@ export default class ConfigurationDialog extends React.Component<
             className="config-menu"
           >
             {hasKeyboardOptions && <Tab label="Layout options" />}
-            <Tab label="Lighting" />
+            {(this.showUnderglow || this.showBacklight) && (
+              <Tab label="Lighting" />
+            )}
             <Tab label="Import" />
             <Tab label="Info" />
           </Tabs>
@@ -258,20 +276,22 @@ export default class ConfigurationDialog extends React.Component<
               </Grid>
             </TabPanel>
           )}
-          <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
-            <TabUnderglow
-              underglowEffects={this.underglowEffects}
-              keyboard={this.props.keyboard!}
-              showBacklight={this.showBacklight}
-              showUnderglow={this.showUnderglow}
-              onChangeUnderglow={(underglow) => {
-                this.onChangeUnderglow(underglow);
-              }}
-              onChangeBacklight={(backlight) => {
-                this.onChangeBacklight(backlight);
-              }}
-            />
-          </TabPanel>
+          {(this.showUnderglow || this.showBacklight) && (
+            <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
+              <TabUnderglow
+                underglowEffects={this.underglowEffects}
+                keyboard={this.props.keyboard!}
+                showBacklight={this.showBacklight}
+                showUnderglow={this.showUnderglow}
+                onChangeUnderglow={(underglow) => {
+                  this.onChangeUnderglow(underglow);
+                }}
+                onChangeBacklight={(backlight) => {
+                  this.onChangeBacklight(backlight);
+                }}
+              />
+            </TabPanel>
+          )}
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <KeyboardDefinitionFormPart
               messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
