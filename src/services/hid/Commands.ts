@@ -157,6 +157,24 @@ export class LightingSetValueCommand extends AbstractCommand<
   }
 }
 
+export class LightingSaveCommand extends AbstractCommand<
+  ICommandRequest,
+  ICommandResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x09]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x09;
+  }
+}
+
 export interface IDynamicKeymapGetKeycodeRequest extends ICommandRequest {
   layer: number;
   row: number;

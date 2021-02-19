@@ -12759,6 +12759,11 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+pure-color@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/pure-color/-/pure-color-1.3.0.tgz#1fe064fb0ac851f0de61320a8bf796836422f33e"
+  integrity sha1-H+Bk+wrIUfDeYTIKi/eWg2Qi8z4=
+
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
@@ -13453,6 +13458,13 @@ regjsparser@^0.6.4:
   integrity sha512-jjyuCp+IEMIm3N1H1LLTJW1EISEJV9+5oHdEyrt43Pg9cDSb6rrLZei2cVWpl0xTjmmlpec/lEQGYgM7xfpGCQ==
   dependencies:
     jsesc "~0.5.0"
+
+reinvented-color-wheel@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/reinvented-color-wheel/-/reinvented-color-wheel-0.2.10.tgz#bee6bef8f64007aba1b1802697ee76f2dd6755d2"
+  integrity sha512-0UOBSGfhMUwYM+BtdbwzGMPz6IDOLrN5RJFUPMK2aV/S6eKxORafnRZN6mKV49+R18FbpQhnaPHxiee2DLQ7Pg==
+  dependencies:
+    pure-color "^1.3.0"
 
 relateurl@^0.2.7:
   version "0.2.7"
