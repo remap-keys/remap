@@ -4,6 +4,7 @@ import {
   ICommandResponseHandler,
 } from './WebHid';
 import { ICommand } from './Hid';
+import { outputUint8Array } from '../../utils/ArrayUtils';
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
@@ -39,6 +40,7 @@ export abstract class AbstractCommand<
   async sendReport(device: any): Promise<void> {
     try {
       const outputReport = this.createReport();
+      outputUint8Array('Send data', outputReport);
       await device.sendReport(AbstractCommand.OUTPUT_REPORT_ID, outputReport);
     } catch (error) {
       await this.getResponseHandler()({
