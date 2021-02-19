@@ -137,7 +137,6 @@ export class Keyboard implements IKeyboard {
     if (this.isOpened()) {
       this.commandQueue.push(command);
       if (this.commandQueue.length === 1) {
-        console.log('sendReport from enqueue');
         await this.commandQueue[0].sendReport(this.getDevice());
       }
       return {
