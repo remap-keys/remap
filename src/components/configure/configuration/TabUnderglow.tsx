@@ -27,7 +27,6 @@ type Props = {
   // eslint-disable-next-line no-unused-vars
   onChangeUnderglow: (underglow: {
     typeIndex?: number;
-    speed?: number /* 0-3 */;
     color?: Hsv; // h: 0-360, s: 0-100, v: 0-100
   }) => void;
   // eslint-disable-next-line no-unused-vars
@@ -42,7 +41,6 @@ type State = {
   underglowColor: Hsv;
   underglowHex: string;
   underglowEffectMode: number;
-  underglowEffectSpeed: number;
   backlightBreathing: boolean;
   backlightBrightness: number; // 0-255
 };
@@ -68,7 +66,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
       underglowColor: { h: 0, s: 0, v: 0 },
       underglowHex: '#',
       underglowEffectMode: 0,
-      underglowEffectSpeed: 0,
       backlightBreathing: false,
       backlightBrightness: 0,
     };
@@ -89,9 +86,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
     const le = await kbd.fetchRGBLightEffect();
     const underglowEffectMode = le.success && le.mode ? le.mode : 0;
 
-    const les = await kbd.fetchRGBLightEffectSpeed();
-    const underglowEffectSpeed = les.success && les.speed ? les.speed : 0;
-
     const lb = await kbd.fetchRGBLightBrightness();
     const v =
       lb.success && lb.brightness ? Math.round(100 * (lb.brightness / 255)) : 0;
@@ -111,7 +105,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
     const value = {
       underglowColor: { ...hs, v },
       underglowHex: hex,
-      underglowEffectSpeed,
       underglowEffectMode,
       backlightBreathing,
       backlightBrightness,
@@ -152,7 +145,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
       this.fetchKeyboardLightValues().then((value) => {
         const {
           underglowColor,
-          underglowEffectSpeed,
           underglowEffectMode,
           backlightBreathing,
           backlightBrightness,
@@ -164,7 +156,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
         this.setState({
           underglowColorCount: numOfColors,
           underglowEffectMode,
-          underglowEffectSpeed,
           backlightBreathing,
           backlightBrightness,
         });
@@ -178,11 +169,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
     }
   }
 
-  private emitUnderglowValue(underglow: {
-    mode?: number;
-    speed?: number;
-    color?: Hsv;
-  }) {
+  private emitUnderglowValue(underglow: { mode?: number; color?: Hsv }) {
     this.props.onChangeUnderglow(underglow);
   }
 
@@ -229,11 +216,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
     }
   }
 
-  private onChangeUnderglowSpeed(underglowEffectSpeed: number) {
-    this.setState({ underglowEffectSpeed });
-    this.emitUnderglowValue({ speed: underglowEffectSpeed });
-  }
-
   private onChangeColorHex(hex: string) {
     if (this.colorWheel === null) {
       return;
@@ -278,15 +260,11 @@ export default class TabUnderglow extends React.Component<Props, State> {
             disabledColorWheel={this.state.underglowColorCount === 0}
             underglowEffects={this.underglowEffects}
             underglowEffectIndex={this.state.underglowEffectMode}
-            underglowSpeed={this.state.underglowEffectSpeed}
             underglowHex={this.state.underglowHex}
             underglowColor={this.state.underglowColor}
             onChangeUnderglowTypeIndex={(index) =>
               this.onChangeUnderglowMode(index)
             }
-            onChangeUnderglowSpeed={(speed) => {
-              this.onChangeUnderglowSpeed(speed);
-            }}
             onChangeColorHex={(hex) => {
               this.onChangeColorHex(hex);
             }}
@@ -294,9 +272,6 @@ export default class TabUnderglow extends React.Component<Props, State> {
               this.onChangeColor(color);
             }}
           />
-        )}
-        {this.props.showBacklight && this.props.showUnderglow && (
-          <hr className="lighting-divider" />
         )}
         {this.props.showBacklight && (
           <Brightness
@@ -320,21 +295,16 @@ type UnderglowProps = {
   disabledColorWheel: boolean;
   underglowEffects: [string, number][];
   underglowEffectIndex: number;
-  underglowSpeed: number;
   underglowHex: string; // #FF11AA
   underglowColor: Hsv;
   // eslint-disable-next-line no-unused-vars
   onChangeUnderglowTypeIndex: (typeIndex: number) => void;
-  // eslint-disable-next-line no-unused-vars
-  onChangeUnderglowSpeed: (speed: number) => void;
   // eslint-disable-next-line no-unused-vars
   onChangeColorHex: (hex: string) => void;
   // eslint-disable-next-line no-unused-vars
   onChangeColor: (color: Hsv) => void;
 };
 function Underglow(props: UnderglowProps) {
-  const isUnderglowOff = props.underglowEffectIndex === 0;
-
   return (
     <React.Fragment>
       <Grid item xs={12}>
@@ -363,28 +333,6 @@ function Underglow(props: UnderglowProps) {
                 })}
               </Select>
             </div>
-          </Grid>
-          <Grid item xs={12}>
-            <div
-              className={`lighting-label underglow-label-speed ${
-                isUnderglowOff && 'lighting-label-disabled'
-              }`}
-            >
-              Effect Speed ({props.underglowSpeed})
-            </div>
-            <Slider
-              className="lighting-value"
-              defaultValue={props.underglowSpeed}
-              value={props.underglowSpeed}
-              disabled={isUnderglowOff}
-              onChange={(event: any, newValue: number | number[]) => {
-                props.onChangeUnderglowSpeed(newValue as number);
-              }}
-              aria-labelledby="continuous-slider"
-              min={0}
-              max={3}
-              marks={true}
-            />
           </Grid>
           <Grid item xs={12}>
             <div

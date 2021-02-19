@@ -172,14 +172,10 @@ export default class ConfigurationDialog extends React.Component<
 
   private onChangeUnderglow(underglow: {
     mode?: number;
-    speed?: number /* 0-3 */;
     color?: Hsv; // h: 0-360, s: 0-100, v: 0-100
   }) {
     if (underglow.mode != undefined) {
       this.props.keyboard!.updateRGBLightEffect(underglow.mode);
-    }
-    if (underglow.speed != undefined) {
-      this.props.keyboard!.updateRGBLightEffectSpeed(underglow.speed);
     }
 
     if (underglow.color != undefined) {

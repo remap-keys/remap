@@ -5,29 +5,25 @@
     margin: 0;
     padding: 8px 0 0 0;
   }
+
   .lighting-label-disabled {
     color: $color-gray;
   }
-  .lighting-divider {
-    margin: $space-l;
-  }
+
   .lighting-label {
     font-size: 0.87rem;
-  }
-  .lighting-value {
-    width: 246px;
-  }
-  .underglow-label-speed {
     margin-top: 12px;
   }
-  .underglow-label-color {
-    margin-top: -8px;
+
+  .lighting-value {
+    width: 246px;
   }
 
   .color-wheel {
     position: relative;
     text-align: center;
   }
+
   .color-wheel-disabled {
     position: absolute;
     width: 100%;
