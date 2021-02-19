@@ -92,6 +92,10 @@ export default class ConfigurationDialog extends React.Component<
     this.initLighting();
   }
 
+  get showLighting() {
+    return this.showBacklight || this.showUnderglow;
+  }
+
   shouldComponentUpdate(
     // eslint-disable-next-line no-unused-vars
     nextProps: ConfigurationDialogProps,
@@ -252,9 +256,7 @@ export default class ConfigurationDialog extends React.Component<
             className="config-menu"
           >
             {hasKeyboardOptions && <Tab label="Layout options" />}
-            {(this.showUnderglow || this.showBacklight) && (
-              <Tab label="Lighting" />
-            )}
+            {this.showLighting && <Tab label="Lighting" />}
             <Tab label="Import" />
             <Tab label="Info" />
           </Tabs>
@@ -276,7 +278,7 @@ export default class ConfigurationDialog extends React.Component<
               </Grid>
             </TabPanel>
           )}
-          {(this.showUnderglow || this.showBacklight) && (
+          {this.showLighting && (
             <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
               <TabUnderglow
                 underglowEffects={this.underglowEffects}
