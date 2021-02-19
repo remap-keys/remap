@@ -53,19 +53,19 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     let tapKey: IKeymap | null = null;
     if (f.isModTap()) {
       const comp = f.createModTapComposition();
-      holdKey = comp.genKeymap();
-      tapKey = comp.genTapKey();
+      holdKey = comp.genKeymap()!;
+      tapKey = comp.genTapKey()!;
     } else if (f.isLayerTap()) {
       const comp = f.createLayerTapComposition();
-      holdKey = comp.genKeymap();
-      tapKey = comp.genTapKey();
+      holdKey = comp.genKeymap()!;
+      tapKey = comp.genTapKey()!;
     } else if (
       f.isSwapHands() &&
       !SwapHandsComposition.isSwapHandsOptions(code)
     ) {
       const comp = f.createSwapHandsComposition();
-      holdKey = comp.genKeymap();
-      tapKey = comp.genTapKey();
+      holdKey = comp.genKeymap()!;
+      tapKey = comp.genTapKey()!;
     } else {
       throw new Error(`NOT available code(${code}) in Hold/Tap tab`);
     }

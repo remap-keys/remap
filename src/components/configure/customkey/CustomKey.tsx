@@ -190,7 +190,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       );
     }
 
-    const label: string = comp.genTapKey().keycodeInfo!.label;
+    const label: string = comp.genTapKey()!.keycodeInfo!.label;
     const code = comp.getCode();
     const hexCode: string = Number(code).toString(16);
     this.setState({ label, hexCode });
