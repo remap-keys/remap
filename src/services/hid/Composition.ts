@@ -226,8 +226,9 @@ export function anyKeymap(hex: number): IKeymap {
   };
 }
 
-const NO_KEYCODE = -1;
-const ANY_KEYMAP: IKeymap = anyKeymap(NO_KEYCODE);
+const WILL_BE_REPLACED_KEYCODE = -1;
+const WILL_BE_REPLACED_KEYMAP: IKeymap = anyKeymap(WILL_BE_REPLACED_KEYCODE);
+const DUMMY_KEYMAP: IKeymap = anyKeymap(0);
 
 const DIRECTION_LABELS = ['Left', 'Right'];
 
@@ -595,7 +596,7 @@ export class LayerTapComposition implements ILayerTapComposition {
     return Array(layerCount)
       .fill(0)
       .map((_, index) => {
-        const comp = new LayerTapComposition(index, ANY_KEYMAP);
+        const comp = new LayerTapComposition(index, WILL_BE_REPLACED_KEYMAP);
         return comp.genKeymap();
       });
   }
@@ -874,12 +875,12 @@ export class OneShotModComposition implements IOneShotModComposition {
   static genKeymaps(): IKeymap[] {
     return [
       {
-        code: NO_KEYCODE,
+        code: WILL_BE_REPLACED_KEYCODE,
         isAny: false,
         direction: MOD_LEFT,
         modifiers: [],
         keycodeInfo: {
-          code: NO_KEYCODE,
+          code: WILL_BE_REPLACED_KEYCODE,
           label: `OSM`,
           name: { short: 'OSM', long: 'OSM' },
         },
@@ -906,7 +907,8 @@ export class TapDanceComposition implements ITapDanceComposition {
   }
 
   genKeymap(): IKeymap {
-    return JSON.parse(JSON.stringify(ANY_KEYMAP));
+    //TODO: will develope?
+    return JSON.parse(JSON.stringify(DUMMY_KEYMAP));
   }
 }
 
@@ -1158,12 +1160,12 @@ export class SwapHandsComposition implements ISwapHandsComposition {
 
   static genKeymaps(): IKeymap[] {
     const keymap: IKeymap = {
-      code: NO_KEYCODE,
+      code: WILL_BE_REPLACED_KEYCODE,
       isAny: false,
       direction: MOD_LEFT,
       modifiers: [],
       keycodeInfo: {
-        code: NO_KEYCODE,
+        code: WILL_BE_REPLACED_KEYCODE,
         label: `Swap-Hands`,
         name: { short: 'SH', long: 'SH' },
       },
@@ -1270,12 +1272,20 @@ export class ModTapComposition implements IModTapComposition {
     };
 
     const holdLeftModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) => {
-      const comp = new ModTapComposition(MOD_LEFT, holdKeys[hold], ANY_KEYMAP);
+      const comp = new ModTapComposition(
+        MOD_LEFT,
+        holdKeys[hold],
+        WILL_BE_REPLACED_KEYMAP
+      );
       return comp.genKeymap();
     });
 
     const holdRightModKeys: IKeymap[] = Object.keys(holdKeys).map((hold) => {
-      const comp = new ModTapComposition(MOD_RIGHT, holdKeys[hold], ANY_KEYMAP);
+      const comp = new ModTapComposition(
+        MOD_RIGHT,
+        holdKeys[hold],
+        WILL_BE_REPLACED_KEYMAP
+      );
       return comp.genKeymap();
     });
 
@@ -1302,8 +1312,8 @@ export class UnicodeComposition implements IUnicodeComposition {
     return this.charCode;
   }
   genKeymap(): IKeymap {
-    // TODO
-    return JSON.parse(JSON.stringify(ANY_KEYMAP));
+    // TODO: will develop
+    return JSON.parse(JSON.stringify(DUMMY_KEYMAP));
   }
 }
 
