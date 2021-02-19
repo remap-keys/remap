@@ -149,13 +149,18 @@ export default class TabUnderglow extends React.Component<Props, State> {
           backlightBreathing,
           backlightBrightness,
         } = value;
-        const numOfColors =
-          0 < this.props.underglowEffects.length
-            ? this.props.underglowEffects[underglowEffectMode][1]
-            : 0;
+
+        let numOfColors = 0;
+        let effectMode = 0;
+        const len = this.props.underglowEffects.length;
+        if (0 < len && underglowEffectMode < len) {
+          effectMode = underglowEffectMode;
+          numOfColors = this.props.underglowEffects[effectMode][1];
+        }
+
         this.setState({
           underglowColorCount: numOfColors,
-          underglowEffectMode,
+          underglowEffectMode: effectMode,
           backlightBreathing,
           backlightBrightness,
         });
@@ -494,4 +499,10 @@ export const defaultUnderglowEffects: [string, number][] = [
   ['Gradient 10', 1],
   ['RGB Test', 1],
   ['Alternating', 1],
+  ['Twinkle 1', 1],
+  ['Twinkle 2', 1],
+  ['Twinkle 3', 1],
+  ['Twinkle 4', 1],
+  ['Twinkle 5', 1],
+  ['Twinkle 6', 1],
 ];
