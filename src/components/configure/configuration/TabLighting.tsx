@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './TabUnderglow.scss';
+import './TabLighting.scss';
 import '../../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import {
   Grid,
@@ -45,7 +45,7 @@ type State = {
   backlightBrightness: number; // 0-255
 };
 
-export default class TabUnderglow extends React.Component<Props, State> {
+export default class TabLighting extends React.Component<Props, State> {
   private readonly UPDATE_VALUE_DURATION = 400;
   private colorWheelRef: React.RefObject<HTMLDivElement>;
   private colorWheel: ReinventedColorWheel | null = null;
@@ -69,6 +69,10 @@ export default class TabUnderglow extends React.Component<Props, State> {
       backlightBreathing: false,
       backlightBrightness: 0,
     };
+  }
+
+  get disabledColorChange() {
+    return this.state.underglowColorCount === 0;
   }
 
   private async fetchKeyboardLightValues() {
@@ -262,7 +266,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
         {this.props.showUnderglow && (
           <Underglow
             colorWheelRef={this.colorWheelRef}
-            disabledColorWheel={this.state.underglowColorCount === 0}
+            disabledColorChange={this.disabledColorChange}
             underglowEffects={this.underglowEffects}
             underglowEffectIndex={this.state.underglowEffectMode}
             underglowHex={this.state.underglowHex}
@@ -279,7 +283,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
           />
         )}
         {this.props.showBacklight && (
-          <Brightness
+          <Backlight
             backlightBreathingMode={this.state.backlightBreathing}
             value={this.state.backlightBrightness}
             onChangeValue={(v) => {
@@ -297,7 +301,7 @@ export default class TabUnderglow extends React.Component<Props, State> {
 
 type UnderglowProps = {
   colorWheelRef: React.RefObject<HTMLDivElement>;
-  disabledColorWheel: boolean;
+  disabledColorChange: boolean;
   underglowEffects: [string, number][];
   underglowEffectIndex: number;
   underglowHex: string; // #FF11AA
@@ -342,7 +346,7 @@ function Underglow(props: UnderglowProps) {
           <Grid item xs={12}>
             <div
               className={`lighting-label underglow-label-color ${
-                props.disabledColorWheel && 'lighting-label-disabled'
+                props.disabledColorChange && 'lighting-label-disabled'
               }`}
             >
               Color
@@ -352,7 +356,7 @@ function Underglow(props: UnderglowProps) {
                 label="RGB"
                 className="underglow-color-value color-rgb"
                 value={props.underglowHex}
-                disabled={props.disabledColorWheel}
+                disabled={props.disabledColorChange}
                 onChange={(e) => props.onChangeColorHex(e.target.value)}
               />
               <TextField
@@ -361,7 +365,7 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '360' }}
                 value={props.underglowColor.h}
-                disabled={props.disabledColorWheel}
+                disabled={props.disabledColorChange}
                 onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
@@ -375,7 +379,7 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
                 value={props.underglowColor.s}
-                disabled={props.disabledColorWheel}
+                disabled={props.disabledColorChange}
                 onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
@@ -389,7 +393,6 @@ function Underglow(props: UnderglowProps) {
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
                 value={props.underglowColor.v}
-                disabled={props.disabledColorWheel}
                 onChange={(e) => {
                   props.onChangeColor({
                     ...props.underglowColor,
@@ -403,12 +406,23 @@ function Underglow(props: UnderglowProps) {
       </Grid>
       <Grid item xs={6}>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={10}>
             <div ref={props.colorWheelRef} className="color-wheel">
-              {props.disabledColorWheel && (
+              {props.disabledColorChange && (
                 <div className="color-wheel-disabled"></div>
               )}
             </div>
+          </Grid>
+          <Grid item xs={2}>
+            <BrightnessSlider
+              brightness={props.underglowColor.v}
+              onChange={(brightness) => {
+                props.onChangeColor({
+                  ...props.underglowColor,
+                  v: brightness,
+                });
+              }}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -416,7 +430,121 @@ function Underglow(props: UnderglowProps) {
   );
 }
 
-type BrightnessProps = {
+type BrightnessSliderProps = {
+  brightness: number;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (brightness: number) => void;
+};
+type BrightnessSliderState = {
+  isDragging: boolean;
+  rect: { top: number };
+};
+class BrightnessSlider extends React.Component<
+  BrightnessSliderProps,
+  BrightnessSliderState
+> {
+  private readonly HEIGHT = 180;
+  private readonly WIDTH = 16;
+  private readonly CIRCLE_R = 7;
+  private readonly STROKE_WIDTH = 1;
+  private readonly MIN_HEIGHT = this.CIRCLE_R + this.STROKE_WIDTH;
+  private readonly MAX_HEIGHT = this.HEIGHT - this.CIRCLE_R - this.STROKE_WIDTH;
+  private readonly RANGE = this.MAX_HEIGHT - this.MIN_HEIGHT;
+
+  private rectRef: React.RefObject<SVGRectElement>;
+  constructor(props: BrightnessSliderProps) {
+    super(props);
+    this.state = {
+      isDragging: false,
+      rect: { top: 0 },
+    };
+    this.rectRef = React.createRef<SVGRectElement>();
+  }
+
+  get y() {
+    return this.RANGE * ((100 - this.props.brightness) / 100) + this.MIN_HEIGHT;
+  }
+
+  private emitBrightness(y: number) {
+    const brightness =
+      100 - Math.round((100 * (y - this.MIN_HEIGHT)) / this.RANGE);
+
+    this.props.onChange(brightness);
+  }
+
+  private onMouseDown(e: React.MouseEvent<SVGRectElement, MouseEvent>) {
+    const rect = this.rectRef.current!.getBoundingClientRect();
+    this.setState({ isDragging: true, rect });
+    let y = e.clientY - rect.top;
+    this.emitBrightness(y);
+  }
+
+  private onMouseUp() {
+    this.setState({ isDragging: false });
+  }
+
+  private onMouseMove(e: React.MouseEvent<SVGRectElement, MouseEvent>) {
+    if (this.state.isDragging) {
+      e.preventDefault();
+      let y = e.clientY - this.state.rect.top;
+      if (y < this.MIN_HEIGHT) {
+        y = this.MIN_HEIGHT;
+      } else if (this.MAX_HEIGHT < y) {
+        y = this.MAX_HEIGHT;
+      }
+      this.emitBrightness(y);
+    }
+  }
+
+  render() {
+    return (
+      <svg width="16" height={this.HEIGHT}>
+        <defs>
+          <linearGradient id="brightness" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="5%" stopColor="#fff"></stop>
+            <stop offset="95%" stopColor="#000"></stop>
+          </linearGradient>
+        </defs>
+        <rect
+          rx={this.WIDTH / 2}
+          ry={this.WIDTH / 2}
+          x="0"
+          y="0"
+          width={this.WIDTH}
+          height={this.HEIGHT}
+          strokeWidth="0"
+          fill="url(#brightness)"
+          ref={this.rectRef}
+          onMouseDown={(e) => {
+            this.onMouseDown(e);
+          }}
+          onMouseMove={(e) => {
+            this.onMouseMove(e);
+          }}
+          onMouseUp={() => {
+            this.onMouseUp();
+          }}
+        ></rect>
+        <svg x={this.WIDTH / 2} y={this.y} style={{ overflow: 'visible' }}>
+          <circle
+            r={this.CIRCLE_R - 1}
+            fill="none"
+            strokeWidth={this.STROKE_WIDTH}
+            stroke="#000"
+          ></circle>
+          <circle
+            r={this.CIRCLE_R}
+            fill="none"
+            strokeWidth={this.STROKE_WIDTH * 2}
+            stroke="#fff"
+          ></circle>
+        </svg>
+      </svg>
+    );
+  }
+}
+
+type BacklightProps = {
   backlightBreathingMode: boolean;
   value: number;
   // eslint-disable-next-line no-unused-vars
@@ -424,7 +552,7 @@ type BrightnessProps = {
   // eslint-disable-next-line no-unused-vars
   onChangeValue: (v: number) => void;
 };
-function Brightness(props: BrightnessProps) {
+function Backlight(props: BacklightProps) {
   return (
     <React.Fragment>
       <Grid item xs={12}>
