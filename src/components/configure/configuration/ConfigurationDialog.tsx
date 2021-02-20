@@ -24,7 +24,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
-import TabUnderglow, { defaultUnderglowEffects, Hsv } from './TabUnderglow';
+import TabLighting, { defaultUnderglowEffects, Hsv } from './TabLighting';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -280,7 +280,7 @@ export default class ConfigurationDialog extends React.Component<
           )}
           {this.showLighting && (
             <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
-              <TabUnderglow
+              <TabLighting
                 underglowEffects={this.underglowEffects}
                 keyboard={this.props.keyboard!}
                 showBacklight={this.showBacklight}
