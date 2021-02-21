@@ -17,6 +17,7 @@ import card2 from '../../assets/images/top/card-2.png';
 import card3 from '../../assets/images/top/card-3.png';
 import card4 from '../../assets/images/top/card-4.png';
 import card5 from '../../assets/images/top/card-5.png';
+import card6 from '../../assets/images/top/card-6.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -150,6 +151,13 @@ class Top extends React.Component<RouteComponentProps, any> {
                 imageTitle="card-4"
                 title="Easy key assign"
                 description="Allow you to assign complex keymap easily including Hold/Tap and etc."
+              />
+              <FeatureCard
+                key={6}
+                image={card6}
+                imageTitle="card-6"
+                title="Lighting Control"
+                description="Can control Backlight and Underglow LED lighting easily."
               />
             </Grid>
           </Container>
