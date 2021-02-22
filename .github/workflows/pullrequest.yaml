@@ -19,8 +19,8 @@ jobs:
         with:
           target_directory: 'src/assets/files'
           target_file: 'build-info.json'
-          prefix: '{"buildNumber": '
-          suffix: '}'
+          prefix: '{ "buildNumber": '
+          suffix: ' }'
           commit_message: 'Increment the build number to '
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_YOICHIRO }}
