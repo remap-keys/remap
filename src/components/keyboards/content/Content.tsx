@@ -5,7 +5,7 @@ import './Content.scss';
 import { CircularProgress } from '@material-ui/core';
 import KeyboardList from '../definitionlist/DefinitionList.container';
 import CreateKeyboard from '../createdefinition/CreateDefinition.container';
-import Footer from '../../common/footer/Footer';
+import Footer from '../../common/footer/Footer.container';
 import { IKeyboardsPhase, KeyboardsPhase } from '../../../store/state';
 import EditKeyboard from '../editdefinition/EditDefinition.container';
 
