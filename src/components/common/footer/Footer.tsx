@@ -1,6 +1,7 @@
 import React from 'react';
 import { FooterActionsType, FooterStateType } from './Footer.container';
 import './Footer.scss';
+import appPackage from '../../../package.alias.json';
 import moment from 'moment-timezone';
 
 type FooterState = {};
@@ -50,7 +51,7 @@ export default class Footer extends React.Component<
             </a>
           </span>
         </div>
-        <div className="build-number">Build: {this.props.buildNumber}</div>
+        <div className="app-version">v{appPackage.version}</div>
       </footer>
     );
   }
