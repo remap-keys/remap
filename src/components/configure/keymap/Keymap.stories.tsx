@@ -19,6 +19,8 @@ import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
 import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
+import { Button } from '@material-ui/core';
+import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 
 export default {
   title: 'Keyboards',
@@ -30,7 +32,11 @@ type KeycapData = {
 };
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 type OptionsType = { option: string; optionChoice: string }[];
-const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
+const genKeyboardView = (
+  name: string,
+  km: KeymapType,
+  options?: OptionsType
+) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
 
@@ -51,40 +57,52 @@ const genKeyboardView = (km: KeymapType, options?: OptionsType) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <div className="keyboards">
-        <div
-          className="keyboard-root"
-          style={{
-            width: width + 40,
-            height: height + 40,
-            padding: 20,
-            borderWidth: 1,
-            borderColor: 'gray',
-            borderStyle: 'solid',
-          }}
-        >
+      <div style={{ display: 'flex' }}>
+        <div className="keyboards" style={{ margin: '0 auto' }}>
           <div
-            className="keyboard-frame"
+            className="keyboard-root"
             style={{
-              width: width,
-              height: height,
-              marginLeft: marginLeft,
+              width: width + 40,
+              height: height + 40,
+              padding: 20,
+              borderWidth: 1,
+              borderColor: 'gray',
+              borderStyle: 'solid',
             }}
           >
-            {keycaps.map((keycap: KeycapData) => {
-              return keycap.model.isDecal ? (
-                ''
-              ) : (
-                <Keycap
-                  key={keycap.model.pos}
-                  selectedLayer={0}
-                  onClickKeycap={() => {}}
-                  {...keycap}
-                />
-              );
-            })}
+            <div
+              className="keyboard-frame"
+              style={{
+                width: width,
+                height: height,
+                marginLeft: marginLeft,
+              }}
+            >
+              {keycaps.map((keycap: KeycapData) => {
+                return keycap.model.isDecal ? (
+                  ''
+                ) : (
+                  <Keycap
+                    key={keycap.model.pos}
+                    selectedLayer={0}
+                    onClickKeycap={() => {}}
+                    {...keycap}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Button
+          onClick={() => {
+            const pdf = new KeymapPdfGenerator(km);
+            pdf.genPdf(name);
+          }}
+        >
+          PDF
+        </Button>
       </div>
       <div
         style={{
@@ -116,20 +134,22 @@ const format = (text: string): string => {
   return text;
 };
 
-export const LunakeyMini = () => genKeyboardView(LunakeyMiniKeymap);
-export const Crkbd = () => genKeyboardView(CrkbdKeymap);
-export const Jisplit89 = () => genKeyboardView(Jisplit89Keymap);
-export const Naked64SF = () => genKeyboardView(Naked64SFKeymap);
-export const SilverBullet44Kai = () => genKeyboardView(SilverBullet44KaiKeymap);
-export const Cornelius = () => genKeyboardView(CorneliusKeymap);
-export const Aleth42 = () => genKeyboardView(Aleth42Keymap);
-export const Hotdox = () => genKeyboardView(HotdoxKeymap);
+export const LunakeyMini = () =>
+  genKeyboardView('Lunakey Mini', LunakeyMiniKeymap);
+export const Crkbd = () => genKeyboardView('Crkbd', CrkbdKeymap);
+export const Jisplit89 = () => genKeyboardView('Jisplit89', Jisplit89Keymap);
+export const Naked64SF = () => genKeyboardView('Naked64SF', Naked64SFKeymap);
+export const SilverBullet44Kai = () =>
+  genKeyboardView('', SilverBullet44KaiKeymap);
+export const Cornelius = () => genKeyboardView('Cornelius', CorneliusKeymap);
+export const Aleth42 = () => genKeyboardView('Aleth42', Aleth42Keymap);
+export const Hotdox = () => genKeyboardView('Hotdox', HotdoxKeymap);
 export const Zinc = () =>
-  genKeyboardView(ZincKeymap, [{ option: '0', optionChoice: '0' }]);
+  genKeyboardView('Zinc0', ZincKeymap, [{ option: '0', optionChoice: '0' }]);
 export const ZincSymmetrical = () =>
-  genKeyboardView(ZincKeymap, [{ option: '0', optionChoice: '1' }]);
+  genKeyboardView('Zinc1', ZincKeymap, [{ option: '0', optionChoice: '1' }]);
 export const OptionChoice0 = () =>
-  genKeyboardView(OptionChoiceKeymap, [
+  genKeyboardView('OptionChoice0', OptionChoiceKeymap, [
     { option: '0', optionChoice: '0' },
     { option: '1', optionChoice: '0' },
     { option: '2', optionChoice: '0' },
@@ -137,7 +157,7 @@ export const OptionChoice0 = () =>
     { option: '4', optionChoice: '0' },
   ]);
 export const OptionChoice1 = () =>
-  genKeyboardView(OptionChoiceKeymap, [
+  genKeyboardView('OptionChoice1', OptionChoiceKeymap, [
     { option: '0', optionChoice: '1' },
     { option: '1', optionChoice: '1' },
     { option: '2', optionChoice: '1' },
@@ -145,7 +165,7 @@ export const OptionChoice1 = () =>
     { option: '4', optionChoice: '1' },
   ]);
 export const OptionChoice2 = () =>
-  genKeyboardView(OptionChoiceKeymap, [
+  genKeyboardView('OptionChoice2', OptionChoiceKeymap, [
     { option: '0', optionChoice: '1' },
     { option: '1', optionChoice: '1' },
     { option: '2', optionChoice: '1' },
@@ -153,12 +173,12 @@ export const OptionChoice2 = () =>
     { option: '4', optionChoice: '2' },
   ]);
 export const OptionChoice3 = () =>
-  genKeyboardView(OptionChoiceKeymap, [
+  genKeyboardView('OptionChoice3', OptionChoiceKeymap, [
     { option: '0', optionChoice: '1' },
     { option: '1', optionChoice: '1' },
     { option: '2', optionChoice: '1' },
     { option: '3', optionChoice: '1' },
     { option: '4', optionChoice: '3' },
   ]);
-export const Iso105 = () => genKeyboardView(Iso105Keymap);
-export const ErgoDox = () => genKeyboardView(ErgoDoxKeymap);
+export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
+export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);
