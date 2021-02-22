@@ -23,6 +23,8 @@ jobs:
           prefix: '{"buildNumber": '
           suffix: '}'
           commit_message: 'Increment the build number to '
+        env:
+          GITHUB_TOKEN: ${secrets.PAT_YOICHIRO}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
