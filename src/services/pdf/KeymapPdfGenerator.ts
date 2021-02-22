@@ -35,7 +35,7 @@ export class KeymapPdfGenerator {
     name: string,
     options?: { option: string; optionChoice: string }[]
   ) {
-    const { keymaps, width, height, left } = this.model.getKeymap();
+    const { keymaps, width, height, left } = this.model.getKeymap(options);
     const keyboardHeight = height + this.kbdR * 2;
     console.log(`w: ${width}, h: ${height}, left: ${left}`);
     this.doc = await PDFDocument.create();
@@ -123,6 +123,7 @@ export class KeymapPdfGenerator {
     const keymapX = x + this.kbdR;
     const keymapY = y - this.kbdR;
     keymaps.forEach((km: KeyModel) => {
+      if (km.isDecal) return;
       this.drawKeycap(page, km, keymapX, keymapY);
     });
   }
