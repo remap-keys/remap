@@ -4,7 +4,9 @@ import Footer from './Footer';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    buildNumber: state.app.buildNumber,
+  };
 };
 export type FooterStateType = ReturnType<typeof mapStateToProps>;
 

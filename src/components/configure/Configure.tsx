@@ -13,7 +13,7 @@ import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
 import { IKeyboard } from '../../services/hid/Hid';
-import Footer from '../common/footer/Footer';
+import Footer from '../common/footer/Footer.container';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
