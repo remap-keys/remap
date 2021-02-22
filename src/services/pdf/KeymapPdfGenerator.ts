@@ -11,6 +11,7 @@ import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
 import download from 'downloadjs';
+import { mkdir } from 'fs';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
@@ -24,9 +25,10 @@ export class KeymapPdfGenerator {
   readonly kbdR = 8;
   readonly contentTopMargin = 16;
   readonly layerHeaderHeight = 16;
-  model: KeyboardModel;
-  doc: PDFDocument | null = null;
-  font: PDFFont | null = null;
+  private model: KeyboardModel;
+  private doc: PDFDocument | null = null;
+  private font: PDFFont | null = null;
+  private alignLeft: number = 0;
   constructor(keymap: KeymapType) {
     this.model = new KeyboardModel(keymap);
   }
@@ -36,10 +38,12 @@ export class KeymapPdfGenerator {
     options?: { option: string; optionChoice: string }[]
   ) {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
+
     const keyboardHeight = height + this.kbdR * 2;
     console.log(`w: ${width}, h: ${height}, left: ${left}`);
     this.doc = await PDFDocument.create();
     this.font = await this.doc.embedFont(StandardFonts.Courier);
+    this.alignLeft = left;
     const layer = 1; // num of layers
     const W = width + (this.blank + this.keyboardMarginWidth + this.kbdR) * 2;
     const H =
@@ -68,7 +72,7 @@ export class KeymapPdfGenerator {
     const pdfBytes = await this.doc.save();
     download(
       pdfBytes,
-      `${name.replace(/\s+/g, '_').toLocaleLowerCase()}_keymap_cheatsheet.pdf`,
+      `keymap_cheatsheet_${name.replace(/\s+/g, '_').toLocaleLowerCase()}.pdf`,
       'application/pdf'
     );
   }
@@ -108,7 +112,7 @@ export class KeymapPdfGenerator {
     keyboardWidth: number,
     keyboardHeight: number
   ) {
-    // keyboard base
+    // keyboard frame
     const kbdW = keyboardWidth;
     const kbdH = keyboardHeight;
     const keyboardPath = `M${this.kbdR},0 h${kbdW} a${this.kbdR},${this.kbdR} 0 0 1 ${this.kbdR},${this.kbdR} v${kbdH} a${this.kbdR},${this.kbdR} 0 0 1 -${this.kbdR},${this.kbdR} h-${kbdW} a${this.kbdR},${this.kbdR} 0 0 1 -${this.kbdR},-${this.kbdR} v-${kbdH} a${this.kbdR},${this.kbdR} 0 0 1 ${this.kbdR},-${this.kbdR} Z`;
@@ -120,7 +124,7 @@ export class KeymapPdfGenerator {
     });
 
     // keycaps
-    const keymapX = x + this.kbdR;
+    const keymapX = x + this.kbdR - this.alignLeft;
     const keymapY = y - this.kbdR;
     keymaps.forEach((km: KeyModel) => {
       if (km.isDecal) return;
@@ -138,11 +142,50 @@ export class KeymapPdfGenerator {
     const margin = 2;
     const r = 4;
 
-    const lenW = box * km.w - (r + margin) * 2;
-    const lenH = box * km.h - (r + margin) * 2;
-    const path = `M${
-      margin + r
-    },${margin} h${lenW} a${r},${r} 0 0 1 ${r},${r} v${lenH} a${r},${r} 0 0 1 -${r},${r} h-${lenW} a${r},${r} 0 0 1 -${r},-${r} v-${lenH} a${r},${r} 0 0 1 ${r},-${r} Z`;
+    const ccw = (x: '' | '-', y: '' | '-') => {
+      return `a${r},${r} 0 0 0 ${x}${r} ${y}${r}`;
+    };
+    const cw = (x: '' | '-', y: '' | '-') => {
+      return `a${r},${r} 0 0 1 ${x}${r},${y}${r}`;
+    };
+    const roofWidth = box * km.w - (r + margin) * 2;
+    const roofHeight = box * km.h - (r + margin) * 2;
+    let path = '';
+    if (km.isJisEnter) {
+      /**
+       *       lenW6 lenW0
+       *         __ _______
+       *       /            \
+       * lenH5|             |
+       *       \__          |
+       *     lenW4\         | lenH1
+       *          |         |
+       *     lenH3|         |
+       *           \_______/
+       *            lenW2
+       */
+      const lenW0 = box * km.w - (r + margin) * 2;
+      const lenH1 = box * km.h - (r + margin) * 2;
+      const lenW2 = box * km.w - 2.5 * r - margin;
+      const lenH3 = box * (km.h - km.h2) - 1.5 * r - margin;
+      const lenW4 = box * (km.w2 - km.w) - 1.5 * r - margin;
+      const lenH5 = box * km.h2 - 2.5 * r - margin;
+      const lenW6 = box * (km.w2 - km.w);
+      path = `M${margin + r},${margin} h${lenW0} ${cw('', '')} v${lenH1} ${cw(
+        '-',
+        ''
+      )} h-${lenW2} ${cw('-', '-')} v-${lenH3} ${ccw('-', '-')} h-${lenW4} ${cw(
+        '-',
+        '-'
+      )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
+    } else {
+      const lenW = roofWidth;
+      const lenH = roofHeight;
+      path = `M${margin + r},${margin} h${lenW} ${cw('', '')} v${lenH} ${cw(
+        '-',
+        ''
+      )} h-${lenW} ${cw('-', '-')} v-${lenH} ${cw('', '-')} Z`;
+    }
 
     let x = rootX + km.x * box;
     let y = rootY - km.y * box;
@@ -156,11 +199,6 @@ export class KeymapPdfGenerator {
       y = rootY - (xa * sin + yb * cos + km.ry) * box;
     }
 
-    console.log(
-      `${km.pos} / km.x, km.y, km.rx, km.ry, km.r = ${km.x}, ${km.y}, ${km.rx}, ${km.ry}, ${km.rotate}`
-    );
-    console.log(`${km.pos} / x, y = ${x}, ${y}`);
-
     const rotate = degrees(-km.rotate);
     page.drawSvgPath(path, {
       x: x,
@@ -172,8 +210,8 @@ export class KeymapPdfGenerator {
 
     const keycapX = x + margin;
     const keycapY = y - margin;
-    const labelW = lenW + r * 2;
-    const labelH = (lenH + r * 2) / 3;
+    const labelW = roofWidth + r * 2;
+    const labelH = (roofHeight + r * 2) / 3;
     this.drawLabels(
       page,
       '@',
