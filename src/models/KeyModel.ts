@@ -16,6 +16,7 @@ export default class KeyModel {
   readonly width: number;
   readonly color: string;
   readonly rotate: number;
+  readonly rad: number;
   readonly originLeft: number;
   readonly originTop: number;
   readonly transformOrigin: string;
@@ -24,8 +25,12 @@ export default class KeyModel {
   readonly height2: number;
   readonly width2: number;
   readonly keyOp: KeyOp | null;
-  private _x: number;
-  private _y: number;
+  readonly x: number;
+  readonly y: number;
+  readonly rx: number;
+  readonly ry: number;
+  readonly w: number;
+  readonly h: number;
 
   constructor(
     op: KeyOp | null,
@@ -38,8 +43,10 @@ export default class KeyModel {
     ry: number = 0
   ) {
     this.keyOp = op;
-    this._x = x;
-    this._y = y;
+    this.x = x;
+    this.y = y;
+    this.rx = rx;
+    this.ry = ry;
     this.location = location;
     const locs = location.split('\n');
     this.pos = locs[0];
@@ -53,13 +60,16 @@ export default class KeyModel {
 
     this.color = c;
     this.rotate = r;
+    this.rad = (r * Math.PI) / 180;
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
     this.transformOrigin = `${rx * KEY_SIZE}px ${ry * KEY_SIZE}px`;
 
     if (op) {
-      this.width = op.w ? op.w * KEY_SIZE : KEY_SIZE;
-      this.height = op.h ? op.h * KEY_SIZE : KEY_SIZE;
+      this.w = op.w || 1;
+      this.h = op.h || 1;
+      this.width = this.w * KEY_SIZE;
+      this.height = this.h * KEY_SIZE;
       const x2 = op.x2 ? x + op.x2 : x;
       const y2 = op.y2 ? y + op.y2 : y;
       const w2 = op.w2 || NaN;
@@ -70,28 +80,14 @@ export default class KeyModel {
       this.height2 = h2 * KEY_SIZE;
       this.width2 = w2 * KEY_SIZE;
     } else {
+      this.w = 1;
+      this.h = 1;
       this.width = KEY_SIZE;
       this.height = KEY_SIZE;
       this.left2 = x * KEY_SIZE;
       this.top2 = y * KEY_SIZE;
       this.height2 = NaN;
       this.width2 = NaN;
-    }
-  }
-
-  get x(): number {
-    return this._x;
-  }
-
-  get y(): number {
-    return this._y;
-  }
-
-  get w(): number {
-    if (this.keyOp) {
-      return this.keyOp.w ? this.keyOp.w : 1;
-    } else {
-      return 1;
     }
   }
 
@@ -158,7 +154,7 @@ export default class KeyModel {
   }
 
   get endRight(): number {
-    const rad = this.rotate * (Math.PI / 180);
+    const rad = this.rad;
     if (this.rotate < 0) {
       const x0 = this.left - this.originLeft;
       const y0 =
@@ -185,7 +181,7 @@ export default class KeyModel {
   }
 
   get endBottom(): number {
-    const rad = this.rotate * (Math.PI / 180);
+    const rad = this.rad;
     const x0 = Math.min(this.left, this.left2) - this.originLeft; // left-top
     const y0 = this.top - this.originTop;
     const y1 = x0 * Math.sin(rad) + y0 * Math.cos(rad);
@@ -202,7 +198,7 @@ export default class KeyModel {
   }
 
   get startLeft(): number {
-    const rad = this.rotate * (Math.PI / 180);
+    const rad = this.rad;
     let x = 0;
     if (this.rotate < 0) {
       let x0 = this.left - this.originLeft;
