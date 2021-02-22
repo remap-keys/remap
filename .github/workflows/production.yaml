@@ -15,6 +15,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+      - name: Increment the build number
+        uses: yoichiro/gh-action-increment-value@main
+        with:
+          target_directory: 'src/assets/files/build-info.json'
+          target_file: 'build-info.json'
+          prefix: '{"buildNumber": '
+          suffix: '}'
+          commit_message: 'Increment the build number to '
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
