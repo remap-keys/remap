@@ -197,50 +197,54 @@ export class KeymapPdfGenerator {
     height: number,
     rotate: Degrees // degrees(deg)
   ) {
-    let x = rootX;
-    let y = rootY;
+    const rad = rotate.angle * (Math.PI / 180);
+    const sin = Math.sin(rad);
+    const cos = Math.cos(rad);
+    const baseline = 2; // up from bottom line
+    let x = [rootX, rootX, rootX];
+    let y = [
+      rootY - (height - baseline),
+      rootY - (height - baseline) * 2,
+      rootY - (height - baseline) * 3,
+    ];
     if (rotate.angle != 0) {
-      const r = rotate.angle;
-      const rad = r * (Math.PI / 180);
-      const xa = width / 2 - rootX;
-      const yb = height / 2 - rootY;
-      const sin = Math.sin(rad);
-      const cos = Math.cos(rad);
-      x = rootX + (xa * cos - yb * sin + rootX);
-      y = rootY - (xa * sin + yb * cos + rootY);
+      // calc the start position of drawText (left-bottom)
+      x[0] = rootX + (height - baseline) * sin;
+      x[1] = rootX + (height - baseline) * 2 * sin;
+      x[2] = rootX + (height - baseline) * 3 * sin;
+      y[0] = rootY - (height - baseline) * cos;
+      y[1] = rootY - (height - baseline) * 2 * cos;
+      y[2] = rootY - (height - baseline) * 3 * cos;
     }
     // TOP label
-    const topY = rootY;
-    this.drawLabel(page, topLabel, x, y, width, height, rotate);
+    this.drawLabel(page, topLabel, x[0], y[0], width, rotate, sin, cos);
 
     // MID label
-    const midY = rootY - height;
-    this.drawLabel(page, midLabel, rootX, midY, width, height, rotate);
+    this.drawLabel(page, midLabel, x[1], y[1], width, rotate, sin, cos);
 
     // BOTTOM label
-    const bottomY = rootY - height * 2;
-    this.drawLabel(page, btmLabel, rootX, bottomY, width, height, rotate);
+    this.drawLabel(page, btmLabel, x[2], y[2], width, rotate, sin, cos);
   }
 
   private drawLabel(
     page: PDFPage,
     label: string,
-    x: number,
-    y: number,
+    x: number, // left
+    y: number, // bottom
     width: number,
-    height: number,
-    rotate: Degrees
+    rotate: Degrees,
+    sin: number,
+    cos: number
   ) {
     const { fontSize, fontPx } =
       3 < label.length
         ? { fontSize: 9, fontPx: 5.5 }
         : { fontSize: 12, fontPx: 8 };
-    const bottomX = (width - label.length * fontPx) / 2;
-    const baseLineSmall = (height + fontPx) / 2;
+    const centringX = (width - label.length * fontPx) / 2;
 
     page.drawText(label, {
-      x: x + bottomX,
-      y: y - baseLineSmall,
+      x: x + centringX * cos,
+      y: y + centringX * sin,
       size: fontSize,
       color: this.gray,
       font: this.font!,
