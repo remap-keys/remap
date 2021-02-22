@@ -10,7 +10,6 @@ import {
 import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
-import buildInfo from '../assets/files/build-info.json';
 
 export type ISetupPhase =
   | 'init'
@@ -71,7 +70,6 @@ export type RootState = {
       name: string;
       version: string;
     };
-    buildNumber: number;
     setupPhase: ISetupPhase;
     remaps: {
       // remap candidates and show keydiff
@@ -177,7 +175,6 @@ export const INIT_STATE: RootState = {
       name: '',
       version: '',
     },
-    buildNumber: buildInfo.buildNumber,
     setupPhase: SetupPhase.init,
     remaps: [],
     notifications: [],
