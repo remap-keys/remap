@@ -44,6 +44,7 @@ export class KeymapPdfGenerator {
     options?: { option: string; optionChoice: string }[]
   ) {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
+
     const keyboardHeight = height + this.kbdR * 2;
 
     const url = './assets/fonts/RictyDiminished-Regular.ttf';
