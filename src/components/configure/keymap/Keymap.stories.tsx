@@ -21,6 +21,7 @@ import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 import { Button } from '@material-ui/core';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
+import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 
 export default {
   title: 'Keyboards',
@@ -182,3 +183,5 @@ export const OptionChoice3 = () =>
   ]);
 export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
 export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);
+export const BigAssEnter = () =>
+  genKeyboardView('BigAssEnter', BigAssEnterKeymap);

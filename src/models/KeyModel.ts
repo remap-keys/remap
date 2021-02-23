@@ -122,6 +122,10 @@ export default class KeyModel {
     return this.isOddly && this.top == this.top2;
   }
 
+  get isBackwardsEnter(): boolean {
+    return this.isOddly && this.top != this.top2;
+  }
+
   get style(): CSSProperties {
     return {
       width: this.width,

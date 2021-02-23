@@ -39,7 +39,6 @@ export class KeymapPdfGenerator {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
 
     const keyboardHeight = height + this.kbdR * 2;
-    console.log(`w: ${width}, h: ${height}, left: ${left}`);
     this.doc = await PDFDocument.create();
     this.font = await this.doc.embedFont(StandardFonts.Courier);
     this.alignLeft = left;
@@ -51,7 +50,6 @@ export class KeymapPdfGenerator {
       this.blank +
       this.headerH;
 
-    console.log(`(W, H)=(${W}, ${H})`);
     const page = this.doc.addPage([W, H]);
 
     // header
@@ -175,6 +173,33 @@ export class KeymapPdfGenerator {
         ''
       )} h-${lenW2} ${cw('-', '-')} v-${lenH3} ${ccw('-', '-')} h-${lenW4} ${cw(
         '-',
+        '-'
+      )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
+    } else if (km.isBackwardsEnter) {
+      /**
+       *         lenW6 lenW0
+       *            __ ____
+       *           /        \
+       *     lenH5|         |
+       *          |         |
+       *     lenW4|         | lenH1
+       *       /            |
+       * lenH3|             |
+       *       \____________/
+       *            lenW2
+       */
+      const lenW0 = box * km.w - (r + margin) * 2;
+      const lenH1 = box * km.h - (r + margin) * 2;
+      const lenW2 = box * km.w2 - (r + margin) * 2;
+      const lenH3 = box * km.h2 - 2.5 * r - margin;
+      const lenW4 = box * (km.w2 - km.w) - 1.5 * r - margin;
+      const lenH5 = box * (km.h - km.h2) - 1.5 * r - margin;
+      const lenW6 = box * (km.w2 - km.w);
+      path = `M${margin + r},${margin} h${lenW0} ${cw('', '')} v${lenH1} ${cw(
+        '-',
+        ''
+      )} h-${lenW2} ${cw('-', '-')} v-${lenH3} ${cw('', '-')} h${lenW4} ${ccw(
+        '',
         '-'
       )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
     } else {
