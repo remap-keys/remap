@@ -26,10 +26,12 @@ class Current {
   }
 
   minus(x: number, y: number) {
-    this.x -= x;
-    this.y -= y;
-    this.rx -= x;
-    this.ry -= y;
+    this.x = this.x - x;
+    this.y = this.y - y;
+    if (this.r != 0) {
+      this.rx = this.rx - x;
+      this.ry = this.ry - y;
+    }
   }
 
   nextRow(item: string | KeyOp) {
@@ -265,7 +267,9 @@ export default class KeyboardModel {
       }, Infinity);
 
     keymapsList.forEach((keymaps: KeymapItem[]) => {
-      keymaps.forEach((item) => item.align(minX, minY));
+      keymaps.forEach((item) => {
+        item.align(minX, minY);
+      });
     });
 
     /** STEP3: relocate option keys' position
