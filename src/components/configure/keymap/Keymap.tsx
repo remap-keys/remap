@@ -378,7 +378,7 @@ export function KeyboardView(props: KeyboardType) {
   const { keymaps, width, height, left } = props.keyboardModel.getKeymap(
     layoutOptions
   );
-  const marginLeft = left != 0 ? Math.abs(left) + 20 : 0;
+  const marginLeft = left != 0 ? -left : 0;
 
   props.setKeyboardSize(width, height);
 
