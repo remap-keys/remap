@@ -40,7 +40,7 @@ const genKeyboardView = (
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
 
-  const marginLeft = left != 0 ? Math.abs(left) + 20 : 0;
+  const marginLeft = left != 0 ? -left : 0;
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     const keymap: IKeymap = {

@@ -11,7 +11,6 @@ import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
 import download from 'downloadjs';
-import { mkdir } from 'fs';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
@@ -151,7 +150,7 @@ export class KeymapPdfGenerator {
     const roofWidth = box * km.w - (r + margin) * 2;
     const roofHeight = box * km.h - (r + margin) * 2;
     let path = '';
-    if (km.isJisEnter) {
+    if (km.isIsoEnter) {
       /**
        *       lenW6 lenW0
        *         __ _______
