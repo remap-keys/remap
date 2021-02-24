@@ -59,25 +59,39 @@ import {
   KeycodeInfo,
 } from '../components/configure/keycodekey/KeycodeKey.container';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
-import { INIT_STATE, RootState } from './state';
+import { FirmwareCodePlace, INIT_STATE, RootState } from './state';
 import {
   KEYBOARDS_APP_ACTIONS,
   KEYBOARDS_APP_UPDATE_PHASE,
   KEYBOARDS_CREATE_DEFINITION_ACTIONS,
   KEYBOARDS_CREATE_DEFINITION_CLEAR,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_FIRMWARE_CODE_PLACE,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_FORKED_REPOSITORY_EVIDENCE,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_FORKED_REPOSITORY_URL,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_STRING,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
   KEYBOARDS_EDIT_DEFINITION_ACTIONS,
   KEYBOARDS_EDIT_DEFINITION_CLEAR,
   KEYBOARDS_EDIT_DEFINITION_INIT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_CODE_PLACE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_EVIDENCE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_STRING,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_DEFINITION,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 
@@ -126,6 +140,13 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.productName = '';
       draft.keyboards.editdefinition.jsonFilename = '';
       draft.keyboards.editdefinition.jsonString = '';
+      draft.keyboards.editdefinition.firmwareCodePlace = FirmwareCodePlace.qmk;
+      draft.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl = '';
+      draft.keyboards.editdefinition.forkedRepositoryUrl = '';
+      draft.keyboards.editdefinition.forkedRepositoryEvidence = '';
+      draft.keyboards.editdefinition.otherPlaceHowToGet = '';
+      draft.keyboards.editdefinition.otherPlaceSourceCodeEvidence = '';
+      draft.keyboards.editdefinition.otherPlacePublisherEvidence = '';
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_JSON_FILENAME:
       draft.keyboards.editdefinition.jsonFilename = action.value;
@@ -146,9 +167,46 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.productName = action.value.productName;
       draft.keyboards.editdefinition.jsonFilename = '';
       draft.keyboards.editdefinition.jsonString = action.value.json;
+      draft.keyboards.editdefinition.firmwareCodePlace =
+        action.value.firmwareCodePlace;
+      draft.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl =
+        action.value.qmkRepositoryFirstPullRequestUrl;
+      draft.keyboards.editdefinition.forkedRepositoryUrl =
+        action.value.forkedRepositoryUrl;
+      draft.keyboards.editdefinition.forkedRepositoryEvidence =
+        action.value.forkedRepositoryEvidence;
+      draft.keyboards.editdefinition.otherPlaceHowToGet =
+        action.value.otherPlaceHowToGet;
+      draft.keyboards.editdefinition.otherPlaceSourceCodeEvidence =
+        action.value.otherPlaceSourceCodeEvidence;
+      draft.keyboards.editdefinition.otherPlacePublisherEvidence =
+        action.value.otherPlacePublisherEvidence;
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT:
       draft.keyboards.editdefinition.agreement = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_CODE_PLACE:
+      draft.keyboards.editdefinition.firmwareCodePlace = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_URL:
+      draft.keyboards.editdefinition.forkedRepositoryUrl = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_EVIDENCE:
+      draft.keyboards.editdefinition.forkedRepositoryEvidence = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET:
+      draft.keyboards.editdefinition.otherPlaceHowToGet = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE:
+      draft.keyboards.editdefinition.otherPlaceSourceCodeEvidence =
+        action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE:
+      draft.keyboards.editdefinition.otherPlacePublisherEvidence = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL:
+      draft.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl =
+        action.value;
       break;
   }
 };
@@ -163,6 +221,14 @@ const keyboardsCreateKeyboardReducer = (
       draft.keyboards.createdefinition.productName = '';
       draft.keyboards.createdefinition.jsonFilename = '';
       draft.keyboards.createdefinition.jsonString = '';
+      draft.keyboards.createdefinition.firmwareCodePlace =
+        FirmwareCodePlace.qmk;
+      draft.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl = '';
+      draft.keyboards.createdefinition.forkedRepositoryUrl = '';
+      draft.keyboards.createdefinition.forkedRepositoryEvidence = '';
+      draft.keyboards.createdefinition.otherPlaceHowToGet = '';
+      draft.keyboards.createdefinition.otherPlaceSourceCodeEvidence = '';
+      draft.keyboards.createdefinition.otherPlacePublisherEvidence = '';
       break;
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME:
       draft.keyboards.createdefinition.jsonFilename = action.value;
@@ -178,6 +244,30 @@ const keyboardsCreateKeyboardReducer = (
       break;
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_AGREEMENT:
       draft.keyboards.createdefinition.agreement = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_FIRMWARE_CODE_PLACE:
+      draft.keyboards.createdefinition.firmwareCodePlace = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_FORKED_REPOSITORY_URL:
+      draft.keyboards.createdefinition.forkedRepositoryUrl = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_FORKED_REPOSITORY_EVIDENCE:
+      draft.keyboards.createdefinition.forkedRepositoryEvidence = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET:
+      draft.keyboards.createdefinition.otherPlaceHowToGet = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE:
+      draft.keyboards.createdefinition.otherPlaceSourceCodeEvidence =
+        action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE:
+      draft.keyboards.createdefinition.otherPlacePublisherEvidence =
+        action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL:
+      draft.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl =
+        action.value;
       break;
   }
 };

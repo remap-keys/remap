@@ -1,3 +1,5 @@
+import { IFirmwareCodePlace } from '../../store/state';
+
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
@@ -30,6 +32,13 @@ export interface IKeyboardDefinitionDocument {
   readonly rejectReason: string | undefined;
   readonly githubDisplayName: string;
   readonly githubUrl: string;
+  readonly firmwareCodePlace: IFirmwareCodePlace;
+  readonly qmkRepositoryFirstPullRequestUrl: string;
+  readonly forkedRepositoryUrl: string;
+  readonly forkedRepositoryEvidence: string;
+  readonly otherPlaceHowToGet: string;
+  readonly otherPlaceSourceCodeEvidence: string;
+  readonly otherPlacePublisherEvidence: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -70,6 +79,13 @@ export interface IStorage {
     githubDisplayName: string,
     githubEmail: string,
     githubUrl: string,
+    firmwareCodePlace: IFirmwareCodePlace,
+    qmkRepositoryFirstPullRequestUrl: string,
+    forkedRepositoryUrl: string,
+    forkedRepositoryEvidence: string,
+    otherPlaceHowToGet: string,
+    otherPlaceSourceCodeEvidence: string,
+    otherPlacePublisherEvidence: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocumentById(
@@ -82,6 +98,13 @@ export interface IStorage {
     productId: number,
     productName: string,
     jsonStr: string,
+    firmwareCodePlace: IFirmwareCodePlace,
+    qmkRepositoryFirstPullRequestUrl: string,
+    forkedRepositoryUrl: string,
+    forkedRepositoryEvidence: string,
+    otherPlaceHowToGet: string,
+    otherPlaceSourceCodeEvidence: string,
+    otherPlacePublisherEvidence: string,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult>;
   updateKeyboardDefinitionJson(

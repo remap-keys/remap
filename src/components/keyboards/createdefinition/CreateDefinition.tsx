@@ -14,6 +14,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Step,
   StepLabel,
   Stepper,
@@ -26,6 +30,7 @@ import {
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
+import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
 
 type CreateKeyboardState = {
   openConfirmDialog: boolean;
@@ -64,7 +69,9 @@ export default class CreateDefinition extends React.Component<
     this.props.updateJsonFilename!(jsonFilename);
     this.props.updateKeyboardDefinition!(keyboardDefinition);
     this.props.updateJsonString!(jsonStr);
-    this.refInputProductName.current?.focus(); // TextField(Product Name) is the only editable field.
+    // TextField(Product Name) is the only editable field.
+    this.refInputProductName.current &&
+      (this.refInputProductName.current as any).focus();
   }
 
   private isFilledInAllField(): boolean {
@@ -75,7 +82,16 @@ export default class CreateDefinition extends React.Component<
     return (
       !!this.props.productName &&
       !!this.props.keyboardDefinition &&
-      this.props.agreement!
+      this.props.agreement! &&
+      ((this.props.firmwareCodePlace === 'qmk' &&
+        !!this.props.qmkRepositoryFirstPullRequestUrl) ||
+        (this.props.firmwareCodePlace === 'forked' &&
+          !!this.props.forkedRepositoryUrl &&
+          !!this.props.forkedRepositoryEvidence) ||
+        (this.props.firmwareCodePlace === 'other' &&
+          !!this.props.otherPlaceHowToGet &&
+          !!this.props.otherPlaceSourceCodeEvidence &&
+          !!this.props.otherPlacePublisherEvidence))
     );
   }
 
@@ -100,6 +116,7 @@ export default class CreateDefinition extends React.Component<
   handleConfirmYesClick = () => {
     this.setState({
       openConfirmDialog: false,
+      isSaveAsDraft: this.state.isSaveAsDraft,
     });
     if (this.state.isSaveAsDraft) {
       this.props.saveAsDraft!();
@@ -111,8 +128,148 @@ export default class CreateDefinition extends React.Component<
   handleConfirmNoClick = () => {
     this.setState({
       openConfirmDialog: false,
+      isSaveAsDraft: this.state.isSaveAsDraft,
     });
   };
+
+  renderEvidenceForQmkRepository() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.qmk) {
+      return (
+        <div className="create-definition-form-row">
+          <TextField
+            id="create-definition-qmk-repository-pull-request-url"
+            label="1st Pull Request URL"
+            variant="outlined"
+            helperText="Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers."
+            value={this.props.qmkRepositoryFirstPullRequestUrl || ''}
+            onChange={(e) =>
+              this.props.updateQmkRepositoryFirstPullRequestUrl!(e.target.value)
+            }
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderEvidenceForForkedRepository() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.forked) {
+      return (
+        <React.Fragment>
+          <div className="create-definition-form-row">
+            <TextField
+              id="create-definition-forked-repository-url"
+              label="Forked Repository URL"
+              variant="outlined"
+              value={this.props.forkedRepositoryUrl || ''}
+              onChange={(e) =>
+                this.props.updateForkedRepositoryUrl!(e.target.value)
+              }
+            />
+          </div>
+          <div className="create-definition-form-row">
+            <TextField
+              id="create-definition-forked-repository-evidence"
+              label="Evidence Information"
+              variant="outlined"
+              multiline
+              rows={4}
+              helperText="Fill in the information to evidence whether the forked repository is the original and authentic firmware. This information will be confirmed by reviewers."
+              value={this.props.forkedRepositoryEvidence || ''}
+              onChange={(e) =>
+                this.props.updateForkedRepositoryEvidence!(e.target.value)
+              }
+            />
+          </div>
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderEvidenceForOtherPlace() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.other) {
+      return (
+        <React.Fragment>
+          <div className="create-definition-form-row">
+            <TextField
+              id="create-definition-other-place-how-to-get"
+              label="How to Get the Source Code"
+              variant="outlined"
+              multiline
+              rows={4}
+              helperText="Fill in how to get the source code of this keyboard's firmware."
+              value={this.props.otherPlaceHowToGet || ''}
+              onChange={(e) =>
+                this.props.updateOtherPlaceHowToGet!(e.target.value)
+              }
+            />
+          </div>
+          <div className="create-definition-form-row">
+            <TextField
+              id="create-definition-other-place-source-code-evidence"
+              label="Evidence Information for Source Code"
+              variant="outlined"
+              multiline
+              rows={4}
+              helperText="Fill in the information to evidence whether the source code is the original and authentic firmware. This information will be confirmed by reviewers."
+              value={this.props.otherPlaceSourceCodeEvidence || ''}
+              onChange={(e) =>
+                this.props.updateOtherPlaceSourceCodeEvidence!(e.target.value)
+              }
+            />
+          </div>
+          <div className="create-definition-form-row">
+            <TextField
+              id="create-definition-other-place-publisher-evidence"
+              label="Evidence Information for Publisher"
+              variant="outlined"
+              multiline
+              rows={4}
+              helperText="Fill in the information to evidence whether you are the publisher of the source code of the keyboard's firmware. This information will be confirmed by reviewers."
+              value={this.props.otherPlacePublisherEvidence || ''}
+              onChange={(e) =>
+                this.props.updateOtherPlacePublisherEvidence!(e.target.value)
+              }
+            />
+          </div>
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderFirmwareCodePlace() {
+    return (
+      <div className="create-definition-form-row">
+        <FormControl>
+          <InputLabel id="create-definition-firmware-code-place">
+            Where is the source code of this keyboard&apos;s firmware?
+          </InputLabel>
+          <Select
+            labelId="create-definition-firmware-code-place"
+            value={this.props.firmwareCodePlace}
+            onChange={(e) =>
+              this.props.updateFirmwareCodePlace!(
+                e.target.value as IFirmwareCodePlace
+              )
+            }
+          >
+            <MenuItem value={FirmwareCodePlace.qmk}>
+              GitHub: qmk/qmk_firmware
+            </MenuItem>
+            <MenuItem value={FirmwareCodePlace.forked}>
+              GitHub: Your forked repository from qmk/qmk_firmware
+            </MenuItem>
+            <MenuItem value={FirmwareCodePlace.other}>Other</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+    );
+  }
 
   render() {
     return (
@@ -212,6 +369,10 @@ export default class CreateDefinition extends React.Component<
                           }}
                         />
                       </div>
+                      {this.renderFirmwareCodePlace()}
+                      {this.renderEvidenceForQmkRepository()}
+                      {this.renderEvidenceForForkedRepository()}
+                      {this.renderEvidenceForOtherPlace()}
                       <div className="create-definition-form-row">
                         <AgreementCheckbox
                           agreement={this.props.agreement!}
