@@ -142,8 +142,8 @@ export default class Keycap extends React.Component<
       : null;
 
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
-    let holdLabel = buildHoldKeyLabel(km, km.isAny);
-    let modifierLabel =
+    const holdLabel = buildHoldKeyLabel(km, km.isAny);
+    const modifierLabel =
       holdLabel === ''
         ? buildModLabel(km.modifiers || null, km.direction!)
         : '';

@@ -7,11 +7,13 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 
 const mapStateToProps = (state: RootState) => {
   return {
-    selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
+    layerCount: state.entities.device.layerCount,
+    keymaps: state.entities.device.keymaps,
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
     keyboard: state.entities.keyboard!,
     keyboardDefinition: state.entities.keyboardDefinition,
     keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
+    selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
   };
 };
 export type ConfigurationDialogStateType = ReturnType<typeof mapStateToProps>;

@@ -184,6 +184,7 @@ export default class Keymap extends React.Component<
             }}
             onClickSettingIcon={this.openConfigurationDialog.bind(this)}
           />
+
           <KeyboardView
             keyboardModel={this.state.keyboardModel}
             keyboardLabels={this.props.keyboardLabels!}
