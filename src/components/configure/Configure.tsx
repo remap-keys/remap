@@ -158,7 +158,7 @@ function UnsupportBrowser() {
           For example, <a href="https://www.google.com/chrome">
             Google Chrome
           </a>{' '}
-          version 86 or later supports the WebHID API.
+          version 89 or later supports the WebHID API.
         </p>
         <p style={{ color: 'red' }}>
           *
@@ -167,7 +167,7 @@ function UnsupportBrowser() {
             target="_blank"
             rel="noreferrer"
           >
-            Trial for WebHID on Google Chrome (ver. 88)
+            Trial for WebHID on Google Chrome (ver. 86-88)
           </a>{' '}
           has been completed. Please use the version 89 of Google Chrome stable
           which will be{' '}
