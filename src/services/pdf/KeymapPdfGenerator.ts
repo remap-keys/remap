@@ -1,15 +1,6 @@
 /* eslint-disable no-undef */
-import {
-  PDFDocument,
-  StandardFonts,
-  rgb,
-  PDFPage,
-  PDFFont,
-  degrees,
-  Degrees,
-} from 'pdf-lib';
+import { PDFDocument, rgb, PDFPage, PDFFont, degrees, Degrees } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import * as axios from 'axios';
 import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
@@ -17,6 +8,7 @@ import download from 'downloadjs';
 import { Key } from '../../components/configure/keycodekey/KeycodeKey.container';
 import { buildHoldKeyLabel } from '../../components/configure/customkey/TabHoldTapKey';
 import { buildModLabel } from '../../components/configure/customkey/Modifiers';
+import { isDoubleWidthString } from '../../utils/StringUtils';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
@@ -54,8 +46,7 @@ export class KeymapPdfGenerator {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
     const keyboardHeight = height + this.kbdR * 2;
 
-    //const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
-    const url = 'http://localhost:3000/assets/fonts/VL-Gothic-Regular.ttf';
+    const url = './assets/fonts/RictyDiminished-Regular.ttf';
     const fontBytes = await fetch(url).then((res) => res.arrayBuffer());
     this.doc = await PDFDocument.create();
     this.doc.registerFontkit(fontkit);
@@ -331,19 +322,32 @@ export class KeymapPdfGenerator {
     sin: number,
     cos: number
   ) {
-    const { fontSize, fontPx } =
-      3 < label.length
-        ? { fontSize: 9, fontPx: 5.5 }
-        : { fontSize: 12, fontPx: 8 };
-    const centringX = (width - label.length * fontPx) / 2;
+    const labelLength = isDoubleWidthString(label)
+      ? label.length * 2.1 // 2 characters of double width string should be small font size
+      : label.length;
 
-    page.drawText(label, {
-      x: x + centringX * cos,
-      y: y + centringX * sin,
-      size: fontSize,
-      color: this.gray,
-      font: this.font!,
-      rotate: rotate,
+    const fontSize = 4 < labelLength ? 10 : 12;
+    const labelPadding = 2;
+    const fontHeight = this.font!.heightAtSize(fontSize);
+    let labels: string[] = this.splitLabel(
+      label,
+      fontSize,
+      width - labelPadding * 2 /* padding for both sides  */
+    );
+
+    const verticalAlign = ((labels.length - 1) * fontHeight) / 2;
+    labels.forEach((text, index) => {
+      const fontWidth = this.font!.widthOfTextAtSize(text, fontSize);
+      const centringX = (width - fontWidth) / 2;
+
+      page.drawText(text, {
+        x: x + centringX * cos,
+        y: y + verticalAlign - index * fontHeight + centringX * sin,
+        size: fontSize,
+        color: this.gray,
+        font: this.font!,
+        rotate: rotate,
+      });
     });
   }
 
@@ -373,5 +377,34 @@ export class KeymapPdfGenerator {
       thickness: 0.5,
       color: this.gray,
     });
+  }
+
+  private splitLabel(
+    label: string,
+    fontSize: number,
+    limitWidth: number
+  ): string[] {
+    const list: string[] = [];
+
+    const _split = (str: string) => {
+      const fontWidth = this.font!.widthOfTextAtSize(str, fontSize);
+      if (limitWidth < fontWidth) {
+        const index =
+          0 <= str.indexOf(' ') ? str.indexOf(' ') : str.indexOf('/');
+        if (index < 0) {
+          list.push(str);
+        } else {
+          const head = str.slice(0, index + 1).trimEnd(); // include '/', exclude ' '
+          list.push(head);
+          const tail = str.slice(index + 1);
+          _split(tail);
+        }
+      } else {
+        list.push(str);
+      }
+    };
+
+    _split(label);
+    return list;
   }
 }
