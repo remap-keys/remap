@@ -98,7 +98,7 @@ const genKeyboardView = (
       <div>
         <Button
           onClick={() => {
-            const pdf = new KeymapPdfGenerator(km);
+            const pdf = new KeymapPdfGenerator(km, [{}], 1);
             pdf.genPdf(name, options);
           }}
         >

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   PDFDocument,
   StandardFonts,
@@ -7,10 +8,15 @@ import {
   degrees,
   Degrees,
 } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
+import * as axios from 'axios';
 import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
 import download from 'downloadjs';
+import { Key } from '../../components/configure/keycodekey/KeycodeKey.container';
+import { buildHoldKeyLabel } from '../../components/configure/customkey/TabHoldTapKey';
+import { buildModLabel } from '../../components/configure/customkey/Modifiers';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
@@ -25,11 +31,20 @@ export class KeymapPdfGenerator {
   readonly contentTopMargin = 16;
   readonly layerHeaderHeight = 16;
   private model: KeyboardModel;
+  private keys: { [pos: string]: Key }[];
+  private layerCount: number;
   private doc: PDFDocument | null = null;
   private font: PDFFont | null = null;
   private alignLeft: number = 0;
-  constructor(keymap: KeymapType) {
+
+  constructor(
+    keymap: KeymapType,
+    keys: { [pos: string]: Key }[],
+    layerCount: number
+  ) {
     this.model = new KeyboardModel(keymap);
+    this.keys = keys;
+    this.layerCount = layerCount;
   }
 
   async genPdf(
@@ -37,16 +52,20 @@ export class KeymapPdfGenerator {
     options?: { option: string; optionChoice: string }[]
   ) {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
-
     const keyboardHeight = height + this.kbdR * 2;
+
+    //const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
+    const url = 'http://localhost:3000/assets/fonts/VL-Gothic-Regular.ttf';
+    const fontBytes = await fetch(url).then((res) => res.arrayBuffer());
     this.doc = await PDFDocument.create();
-    this.font = await this.doc.embedFont(StandardFonts.Courier);
+    this.doc.registerFontkit(fontkit);
+    this.font = await this.doc.embedFont(fontBytes, { subset: true });
+    //this.font = await this.doc.embedFont(StandardFonts.Courier);
     this.alignLeft = left;
-    const layer = 1; // num of layers
     const W = width + (this.blank + this.keyboardMarginWidth + this.kbdR) * 2;
     const H =
       (this.contentTopMargin + this.layerHeaderHeight + keyboardHeight) *
-        layer +
+        this.layerCount +
       this.blank +
       this.headerH;
 
@@ -59,7 +78,7 @@ export class KeymapPdfGenerator {
     const contentY = H - this.headerH;
 
     let y = contentY;
-    for (let i = 0; i < layer; i++) {
+    for (let i = 0; i < this.layerCount; i++) {
       const keyboardContentHeight = keyboardHeight + this.layerHeaderHeight;
       y -= this.contentTopMargin;
       this.drawLayerContent(page, i, keymaps, contentX, y, width, height);
@@ -94,6 +113,7 @@ export class KeymapPdfGenerator {
     this.drawLayer(
       page,
       keymaps,
+      layer,
       x,
       layerHeaderY,
       keyboardWidth,
@@ -104,6 +124,7 @@ export class KeymapPdfGenerator {
   private drawLayer(
     page: PDFPage,
     keymaps: KeyModel[],
+    layer: number,
     x: number,
     y: number,
     keyboardWidth: number,
@@ -125,12 +146,15 @@ export class KeymapPdfGenerator {
     const keymapY = y - this.kbdR;
     keymaps.forEach((km: KeyModel) => {
       if (km.isDecal) return;
-      this.drawKeycap(page, km, keymapX, keymapY);
+
+      const key: Key = this.keys[layer][km.pos];
+      this.drawKeycap(page, key, km, keymapX, keymapY);
     });
   }
 
   private drawKeycap(
     page: PDFPage,
+    key: Key,
     km: KeyModel,
     rootX: number,
     rootY: number
@@ -236,11 +260,19 @@ export class KeymapPdfGenerator {
     const keycapY = y - margin;
     const labelW = roofWidth + r * 2;
     const labelH = (roofHeight + r * 2) / 3;
+
+    const label = key.label;
+    const holdLabel = buildHoldKeyLabel(key.keymap, key.keymap.isAny);
+    const modifierLabel =
+      holdLabel === ''
+        ? buildModLabel(key.keymap.modifiers || null, key.keymap.direction!)
+        : '';
+
     this.drawLabels(
       page,
-      '@',
-      'A',
-      '0xFFFFFF',
+      modifierLabel,
+      label,
+      holdLabel,
       keycapX,
       keycapY,
       labelW,
