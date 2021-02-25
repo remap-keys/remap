@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { KeyboardsPhase, RootState } from '../../../store/state';
+import {
+  IFirmwareCodePlace,
+  KeyboardsPhase,
+  RootState,
+} from '../../../store/state';
 import EditDefinition from './EditDefinition';
 import {
   KeyboardsAppActions,
@@ -16,6 +20,17 @@ const mapStateToProps = (state: RootState) => {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     jsonStr: state.keyboards.editdefinition.jsonString,
     agreement: state.keyboards.editdefinition.agreement,
+    firmwareCodePlace: state.keyboards.editdefinition.firmwareCodePlace,
+    forkedRepositoryUrl: state.keyboards.editdefinition.forkedRepositoryUrl,
+    forkedRepositoryEvidence:
+      state.keyboards.editdefinition.forkedRepositoryEvidence,
+    otherPlaceHowToGet: state.keyboards.editdefinition.otherPlaceHowToGet,
+    otherPlaceSourceCodeEvidence:
+      state.keyboards.editdefinition.otherPlaceSourceCodeEvidence,
+    otherPlacePublisherEvidence:
+      state.keyboards.editdefinition.otherPlacePublisherEvidence,
+    qmkRepositoryFirstPullRequestUrl:
+      state.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
   };
 };
 export type EditKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -63,6 +78,61 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateAgreement: (agreement: boolean) => {
       _dispatch(KeyboardsEditDefinitionActions.updateAgreement(agreement));
+    },
+    updateFirmwareCodePlace: (firmwareCodePlace: IFirmwareCodePlace) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateFirmwareCodePlace(
+          firmwareCodePlace
+        )
+      );
+    },
+    updateForkedRepositoryUrl: (forkedRepositoryUrl: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateForkedRepositoryUrl(
+          forkedRepositoryUrl
+        )
+      );
+    },
+    updateForkedRepositoryEvidence: (forkedRepositoryEvidence: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateForkedRepositoryEvidence(
+          forkedRepositoryEvidence
+        )
+      );
+    },
+    updateOtherPlaceHowToGet: (otherPlaceHowToGet: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateOtherPlaceHowToGet(
+          otherPlaceHowToGet
+        )
+      );
+    },
+    updateOtherPlaceSourceCodeEvidence: (
+      otherPlaceSourceCodeEvidence: string
+    ) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateOtherPlaceSourceCodeEvidence(
+          otherPlaceSourceCodeEvidence
+        )
+      );
+    },
+    updateOtherPlacePublisherEvidence: (
+      otherPlacePublisherEvidence: string
+    ) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateOtherPlacePublisherEvidence(
+          otherPlacePublisherEvidence
+        )
+      );
+    },
+    updateQmkRepositoryFirstPullRequestUrl: (
+      qmkRepositoryFirstPullRequest: string
+    ) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateQmkRepositoryFirstPullRequestUrl(
+          qmkRepositoryFirstPullRequest
+        )
+      );
     },
   };
 };

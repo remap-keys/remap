@@ -258,7 +258,6 @@ export const storageActionsThunk = {
   ) => {
     const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
-    const productName = keyboards.createdefinition.productName;
     const user = auth.instance!.getCurrentAuthenticatedUser();
     const githubProviderData = user.providerData[0]!;
 
@@ -283,12 +282,19 @@ export const storageActionsThunk = {
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
       parseInt(keyboardDefinition.productId, 16),
-      productName,
+      keyboards.createdefinition.productName,
       jsonStr,
       githubProviderData.uid,
       githubProviderData.displayName || '',
       githubProviderData.email || '',
       githubAccountInfo.html_url,
+      keyboards.createdefinition.firmwareCodePlace,
+      keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
+      keyboards.createdefinition.forkedRepositoryUrl,
+      keyboards.createdefinition.forkedRepositoryEvidence,
+      keyboards.createdefinition.otherPlaceHowToGet,
+      keyboards.createdefinition.otherPlaceSourceCodeEvidence,
+      keyboards.createdefinition.otherPlacePublisherEvidence,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -305,7 +311,6 @@ export const storageActionsThunk = {
   ) => {
     const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
-    const productName = keyboards.createdefinition.productName;
 
     const user = auth.instance!.getCurrentAuthenticatedUser();
     const githubProviderData = user.providerData[0]!;
@@ -331,12 +336,19 @@ export const storageActionsThunk = {
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
       parseInt(keyboardDefinition.productId, 16),
-      productName,
+      keyboards.createdefinition.productName,
       jsonStr,
       githubProviderData.uid,
       githubProviderData.displayName || '',
       githubProviderData.email || '',
       githubAccountInfo.html_url,
+      keyboards.createdefinition.firmwareCodePlace,
+      keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
+      keyboards.createdefinition.forkedRepositoryUrl,
+      keyboards.createdefinition.forkedRepositoryEvidence,
+      keyboards.createdefinition.otherPlaceHowToGet,
+      keyboards.createdefinition.otherPlaceSourceCodeEvidence,
+      keyboards.createdefinition.otherPlacePublisherEvidence,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {
@@ -358,15 +370,21 @@ export const storageActionsThunk = {
     const { storage, keyboards, entities } = getState();
     const definitionDoc = entities.keyboardDefinitionDocument;
     const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
-    const productName = keyboards.editdefinition.productName;
     const jsonStr = keyboards.editdefinition.jsonString;
     const result = await storage.instance!.updateKeyboardDefinitionDocument(
       definitionDoc!.id,
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
       parseInt(keyboardDefinition.productId, 16),
-      productName,
+      keyboards.editdefinition.productName,
       jsonStr,
+      keyboards.editdefinition.firmwareCodePlace!,
+      keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
+      keyboards.editdefinition.forkedRepositoryUrl,
+      keyboards.editdefinition.forkedRepositoryEvidence,
+      keyboards.editdefinition.otherPlaceHowToGet,
+      keyboards.editdefinition.otherPlaceSourceCodeEvidence,
+      keyboards.editdefinition.otherPlacePublisherEvidence,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -385,7 +403,6 @@ export const storageActionsThunk = {
   ) => {
     const { storage, keyboards, entities } = getState();
     const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
-    const productName = keyboards.editdefinition.productName;
 
     const definitionDoc = entities.keyboardDefinitionDocument;
     const jsonStr = keyboards.editdefinition.jsonString;
@@ -394,8 +411,15 @@ export const storageActionsThunk = {
       keyboardDefinition.name,
       parseInt(keyboardDefinition.vendorId, 16),
       parseInt(keyboardDefinition.productId, 16),
-      productName,
+      keyboards.editdefinition.productName,
       jsonStr,
+      keyboards.editdefinition.firmwareCodePlace!,
+      keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
+      keyboards.editdefinition.forkedRepositoryUrl,
+      keyboards.editdefinition.forkedRepositoryEvidence,
+      keyboards.editdefinition.otherPlaceHowToGet,
+      keyboards.editdefinition.otherPlaceSourceCodeEvidence,
+      keyboards.editdefinition.otherPlacePublisherEvidence,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {

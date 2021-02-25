@@ -44,9 +44,15 @@ export function AgreementCheckbox(props: IProps) {
                 as the author of the keyboard definition.
               </li>
               <li>
-                If the set of the vendor ID, the product ID and the product name
-                for your review request does not exist in the Remap database,
-                your review request will be approved immediately.
+                The applicant must have a right for the target keyboard
+                definition file the applicant registers to the Remap. The
+                applicant has to provide information which is necessary for the
+                review by the Remap team. In the review process, reviewers
+                confirm whether the applicant actually is a person who has a
+                right for the keyboard definition file based on submitted
+                information. If reviewers determine that the submitted
+                information is valid, the review request is approved and the
+                keyboard definition file becomes available.
               </li>
               <li>
                 If the set of the vendor ID, the product ID and the product name
@@ -78,6 +84,11 @@ export function AgreementCheckbox(props: IProps) {
                 rejected by the reason that the same keyboard definition has
                 already been registered by the incorrect applicant, the
                 applicant can request the investigation to the Remap team.
+              </li>
+              <li>
+                This review policy was updated on February 25th, 2021. The Remap
+                team can update the statements of this review policy without any
+                announcements.
               </li>
             </ol>
           }

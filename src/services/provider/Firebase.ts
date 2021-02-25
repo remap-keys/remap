@@ -11,6 +11,7 @@ import {
   IStorage,
 } from '../storage/Storage';
 import { IAuth } from '../auth/Auth';
+import { IFirmwareCodePlace } from '../../store/state';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -58,6 +59,17 @@ export class FirebaseProvider implements IStorage, IAuth {
       rejectReason: documentSnapshot.data()!.reject_reason,
       githubDisplayName: documentSnapshot.data()!.github_display_name,
       githubUrl: documentSnapshot.data()!.github_url,
+      firmwareCodePlace: documentSnapshot.data()!.firmware_code_place,
+      qmkRepositoryFirstPullRequestUrl: documentSnapshot.data()!
+        .qmk_repository_first_pull_request_url,
+      forkedRepositoryUrl: documentSnapshot.data()!.forked_repository_url,
+      forkedRepositoryEvidence: documentSnapshot.data()!
+        .forked_repository_evidence,
+      otherPlaceHowToGet: documentSnapshot.data()!.other_place_how_to_get,
+      otherPlaceSourceCodeEvidence: documentSnapshot.data()!
+        .other_place_source_code_evidence,
+      otherPlacePublisherEvidence: documentSnapshot.data()!
+        .other_place_publisher_evidence,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -204,6 +216,13 @@ export class FirebaseProvider implements IStorage, IAuth {
     productId: number,
     productName: string,
     jsonStr: string,
+    firmwareCodePlace: IFirmwareCodePlace,
+    qmkRepositoryFirstPullRequestUrl: string,
+    forkedRepositoryUrl: string,
+    forkedRepositoryEvidence: string,
+    otherPlaceHowToGet: string,
+    otherPlaceSourceCodeEvidence: string,
+    otherPlacePublisherEvidence: string,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult> {
     try {
@@ -220,6 +239,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           product_id: productId,
           vendor_id: vendorId,
           product_name: productName,
+          firmware_code_place: firmwareCodePlace,
+          qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
+          forked_repository_url: forkedRepositoryUrl,
+          forked_repository_evidence: forkedRepositoryEvidence,
+          other_place_how_to_get: otherPlaceHowToGet,
+          other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
+          other_place_publisher_evidence: otherPlacePublisherEvidence,
           status,
         });
       return {
@@ -246,6 +272,13 @@ export class FirebaseProvider implements IStorage, IAuth {
     githubDisplayName: string,
     githubEmail: string,
     githubUrl: string,
+    firmwareCodePlace: IFirmwareCodePlace,
+    qmkRepositoryFirstPullRequestUrl: string,
+    forkedRepositoryUrl: string,
+    forkedRepositoryEvidence: string,
+    otherPlaceHowToGet: string,
+    otherPlaceSourceCodeEvidence: string,
+    otherPlacePublisherEvidence: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult> {
     try {
@@ -266,6 +299,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           status,
           github_display_name: githubDisplayName,
           github_url: githubUrl,
+          firmware_code_place: firmwareCodePlace,
+          qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
+          forked_repository_url: forkedRepositoryUrl,
+          forked_repository_evidence: forkedRepositoryEvidence,
+          other_place_how_to_get: otherPlaceHowToGet,
+          other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
+          other_place_publisher_evidence: otherPlacePublisherEvidence,
         });
       await definitionDocumentReference.collection('secure').doc('github').set({
         github_display_name: githubDisplayName,

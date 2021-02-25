@@ -44,6 +44,13 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   edit: 'edit',
 };
 
+export type IFirmwareCodePlace = 'qmk' | 'forked' | 'other';
+export const FirmwareCodePlace: { [p: string]: IFirmwareCodePlace } = {
+  qmk: 'qmk',
+  forked: 'forked',
+  other: 'other',
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -115,6 +122,13 @@ export type RootState = {
       productName: string;
       jsonString: string;
       agreement: boolean;
+      firmwareCodePlace: IFirmwareCodePlace;
+      qmkRepositoryFirstPullRequestUrl: string;
+      forkedRepositoryUrl: string;
+      forkedRepositoryEvidence: string;
+      otherPlaceHowToGet: string;
+      otherPlaceSourceCodeEvidence: string;
+      otherPlacePublisherEvidence: string;
     };
     editdefinition: {
       jsonFilename: string;
@@ -122,6 +136,13 @@ export type RootState = {
       productName: string;
       jsonString: string;
       agreement: boolean;
+      firmwareCodePlace: IFirmwareCodePlace | undefined;
+      qmkRepositoryFirstPullRequestUrl: string;
+      forkedRepositoryUrl: string;
+      forkedRepositoryEvidence: string;
+      otherPlaceHowToGet: string;
+      otherPlaceSourceCodeEvidence: string;
+      otherPlacePublisherEvidence: string;
     };
   };
   hid: {
@@ -218,6 +239,13 @@ export const INIT_STATE: RootState = {
       productName: '',
       jsonString: '',
       agreement: false,
+      firmwareCodePlace: 'qmk',
+      qmkRepositoryFirstPullRequestUrl: '',
+      forkedRepositoryUrl: '',
+      forkedRepositoryEvidence: '',
+      otherPlaceHowToGet: '',
+      otherPlaceSourceCodeEvidence: '',
+      otherPlacePublisherEvidence: '',
     },
     editdefinition: {
       jsonFilename: '',
@@ -225,6 +253,13 @@ export const INIT_STATE: RootState = {
       productName: '',
       jsonString: '',
       agreement: false,
+      firmwareCodePlace: 'qmk',
+      qmkRepositoryFirstPullRequestUrl: '',
+      forkedRepositoryUrl: '',
+      forkedRepositoryEvidence: '',
+      otherPlaceHowToGet: '',
+      otherPlaceSourceCodeEvidence: '',
+      otherPlacePublisherEvidence: '',
     },
   },
   hid: {

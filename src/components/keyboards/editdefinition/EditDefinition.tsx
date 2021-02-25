@@ -14,9 +14,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
   IconButton,
+  InputLabel,
   Menu,
   MenuItem,
+  Select,
   Step,
   StepLabel,
   Stepper,
@@ -32,6 +35,7 @@ import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
 import { MoreVert } from '@material-ui/icons';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
+import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -452,6 +456,276 @@ export default class EditDefinition extends React.Component<
     }
   }
 
+  renderFirmwareCodePlace() {
+    if (
+      this.isStatus(KeyboardDefinitionStatus.draft) ||
+      this.isStatus(KeyboardDefinitionStatus.rejected)
+    ) {
+      return (
+        <div className="edit-definition-form-row">
+          <FormControl>
+            <InputLabel id="edit-definition-firmware-code-place">
+              Where is the source code of this keyboard&apos;s firmware?
+            </InputLabel>
+            <Select
+              labelId="edit-definition-firmware-code-place"
+              value={this.props.firmwareCodePlace}
+              onChange={(e) =>
+                this.props.updateFirmwareCodePlace!(
+                  e.target.value as IFirmwareCodePlace
+                )
+              }
+            >
+              <MenuItem value={FirmwareCodePlace.qmk}>
+                GitHub: qmk/qmk_firmware
+              </MenuItem>
+              <MenuItem value={FirmwareCodePlace.forked}>
+                GitHub: Your forked repository from qmk/qmk_firmware
+              </MenuItem>
+              <MenuItem value={FirmwareCodePlace.other}>Other</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+      );
+    } else {
+      const value =
+        this.props.firmwareCodePlace === FirmwareCodePlace.qmk
+          ? 'GitHub: qmk/qmk_firmware'
+          : this.props.firmwareCodePlace === FirmwareCodePlace.forked
+          ? 'GitHub: Your forked repository from qmk/qmk_firmware'
+          : this.props.firmwareCodePlace === FirmwareCodePlace.other
+          ? 'Other'
+          : 'Unknown';
+      return (
+        <div className="edit-definition-form-row">
+          <TextField
+            id="edit-definition-firmware-code-place"
+            label="Where is the source code of this keyboard's firmware?"
+            variant="outlined"
+            value={value}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+      );
+    }
+  }
+
+  renderEvidenceForQmkRepository() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.qmk) {
+      if (
+        this.isStatus(KeyboardDefinitionStatus.draft) ||
+        this.isStatus(KeyboardDefinitionStatus.rejected)
+      ) {
+        return (
+          <div className="edit-definition-form-row">
+            <TextField
+              id="edit-definition-qmk-repository-pull-request-url"
+              label="1st Pull Request URL"
+              variant="outlined"
+              helperText="Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers."
+              value={this.props.qmkRepositoryFirstPullRequestUrl || ''}
+              onChange={(e) =>
+                this.props.updateQmkRepositoryFirstPullRequestUrl!(
+                  e.target.value
+                )
+              }
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div className="edit-definition-form-row">
+            <TextField
+              id="edit-definition-qmk-repository-pull-request-url"
+              label="1st Pull Request URL"
+              variant="outlined"
+              value={this.props.qmkRepositoryFirstPullRequestUrl || ''}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
+  renderEvidenceForForkedRepository() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.forked) {
+      if (
+        this.isStatus(KeyboardDefinitionStatus.draft) ||
+        this.isStatus(KeyboardDefinitionStatus.rejected)
+      ) {
+        return (
+          <React.Fragment>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-forked-repository-url"
+                label="Forked Repository URL"
+                variant="outlined"
+                value={this.props.forkedRepositoryUrl || ''}
+                onChange={(e) =>
+                  this.props.updateForkedRepositoryUrl!(e.target.value)
+                }
+              />
+            </div>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-forked-repository-evidence"
+                label="Evidence Information"
+                variant="outlined"
+                multiline
+                rows={4}
+                helperText="Fill in the information to evidence whether the forked repository is the original and authentic firmware. This information will be confirmed by reviewers."
+                value={this.props.forkedRepositoryEvidence || ''}
+                onChange={(e) =>
+                  this.props.updateForkedRepositoryEvidence!(e.target.value)
+                }
+              />
+            </div>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-forked-repository-url"
+                label="Forked Repository URL"
+                variant="outlined"
+                value={this.props.forkedRepositoryUrl || ''}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </div>
+            <div className="create-definition-form-row">
+              <TextField
+                id="create-definition-forked-repository-evidence"
+                label="Evidence Information"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={this.props.forkedRepositoryEvidence || ''}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </div>
+          </React.Fragment>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
+  renderEvidenceForOtherPlace() {
+    if (this.props.firmwareCodePlace === FirmwareCodePlace.other) {
+      if (
+        this.isStatus(KeyboardDefinitionStatus.draft) ||
+        this.isStatus(KeyboardDefinitionStatus.rejected)
+      ) {
+        return (
+          <React.Fragment>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-how-to-get"
+                label="How to Get the Source Code"
+                variant="outlined"
+                multiline
+                rows={4}
+                helperText="Fill in how to get the source code of this keyboard's firmware."
+                value={this.props.otherPlaceHowToGet || ''}
+                onChange={(e) =>
+                  this.props.updateOtherPlaceHowToGet!(e.target.value)
+                }
+              />
+            </div>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-source-code-evidence"
+                label="Evidence Information for Source Code"
+                variant="outlined"
+                multiline
+                rows={4}
+                helperText="Fill in the information to evidence whether the source code is the original and authentic firmware. This information will be confirmed by reviewers."
+                value={this.props.otherPlaceSourceCodeEvidence || ''}
+                onChange={(e) =>
+                  this.props.updateOtherPlaceSourceCodeEvidence!(e.target.value)
+                }
+              />
+            </div>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-publisher-evidence"
+                label="Evidence Information for Publisher"
+                variant="outlined"
+                multiline
+                rows={4}
+                helperText="Fill in the information to evidence whether you are the publisher of the source code of the keyboard's firmware. This information will be confirmed by reviewers."
+                value={this.props.otherPlacePublisherEvidence || ''}
+                onChange={(e) =>
+                  this.props.updateOtherPlacePublisherEvidence!(e.target.value)
+                }
+              />
+            </div>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-how-to-get"
+                label="How to Get the Source Code"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={this.props.otherPlaceHowToGet || ''}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </div>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-source-code-evidence"
+                label="Evidence Information for Source Code"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={this.props.otherPlaceSourceCodeEvidence || ''}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </div>
+            <div className="edit-definition-form-row">
+              <TextField
+                id="edit-definition-other-place-publisher-evidence"
+                label="Evidence Information for Publisher"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={this.props.otherPlacePublisherEvidence || ''}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </div>
+          </React.Fragment>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let activeStep;
     switch (this.props.definitionDocument!.status) {
@@ -539,6 +813,10 @@ export default class EditDefinition extends React.Component<
                         />
                       </div>
                       {this.renderProductNameRow()}
+                      {this.renderFirmwareCodePlace()}
+                      {this.renderEvidenceForQmkRepository()}
+                      {this.renderEvidenceForForkedRepository()}
+                      {this.renderEvidenceForOtherPlace()}
                       {this.renderAgreementRow()}
                       <div className="edit-definition-form-buttons">
                         {this.renderSaveAsDraftButton()}
