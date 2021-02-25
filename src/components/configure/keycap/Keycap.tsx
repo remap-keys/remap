@@ -136,12 +136,9 @@ export default class Keycap extends React.Component<
     const optionLabel = this.props.model.optionLabel;
     const isSelectedKey = pos == this.props.selectedPos!;
     const keymap: IKeymap = this.props.keymap;
-    const orgKey: Key = genKey(keymap);
-    keymap.code === 30 && console.log(orgKey);
-    keymap.code === 542 && console.log(orgKey);
-
+    const orgKey: Key = genKey(keymap, this.props.labelLang!);
     const dstKey: Key | null = this.props.remap
-      ? genKey(this.props.remap)
+      ? genKey(this.props.remap, this.props.labelLang!)
       : null;
 
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;

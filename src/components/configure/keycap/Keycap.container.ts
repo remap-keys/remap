@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     draggingKey: state.configure.keycodeKey.draggingKey,
     selectedPos: state.configure.keymap.selectedPos,
     selectedLayer: state.configure.keymap.selectedLayer,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeycapStateType = ReturnType<typeof mapStateToProps>;

@@ -7,6 +7,7 @@ import {
   KeymapActions,
 } from '../../../actions/actions';
 import { IKeymap } from '../../../services/hid/Hid';
+import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -20,6 +21,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     selectedLayer: state.configure.keymap.selectedLayer,
     remaps: state.app.remaps,
+    langLabel: state.app.labelLang,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;
@@ -30,6 +32,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     onClickLayerNumber: (layer: number) => {
       _dispatch(KeymapActions.clearSelectedPos());
       _dispatch(KeymapActions.updateSelectedLayer(layer));
+    },
+    onChangeLangLabel: (label: KeyboardLabelLang) => {
+      _dispatch(AppActions.updateLangLabel(label));
     },
     setKeyboardSize: (width: number, height: number) => {
       _dispatch(AppActions.updateKeyboardSize(width, height));

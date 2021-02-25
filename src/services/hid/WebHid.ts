@@ -33,6 +33,7 @@ import {
   KeycodeCompositionFactory,
 } from './Composition';
 import { outputUint8Array } from '../../utils/ArrayUtils';
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -153,7 +154,8 @@ export class Keyboard implements IKeyboard {
   async fetchKeymaps(
     layer: number,
     rowCount: number,
-    columnCount: number
+    columnCount: number,
+    labelLang: KeyboardLabelLang
   ): Promise<IFetchKeymapResult> {
     const totalSize = rowCount * columnCount * 2;
     let offset = layer * totalSize;
@@ -206,7 +208,7 @@ export class Keyboard implements IKeyboard {
         }
         for (let i = 0; i < buffer.length; i += 2) {
           const code = (buffer[i] << 8) | buffer[i + 1];
-          const keymap = KeycodeList.getKeymap(code);
+          const keymap = KeycodeList.getKeymap(code, labelLang);
           keymapMap[`${row},${column}`] = keymap;
           column = column + 1;
           if (columnCount === column) {
@@ -742,6 +744,6 @@ export class WebHid implements IHid {
   }
 
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory {
-    return new KeycodeCompositionFactory(code);
+    return new KeycodeCompositionFactory(code, 'us');
   }
 }

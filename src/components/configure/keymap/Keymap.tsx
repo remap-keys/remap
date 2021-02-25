@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import { Badge, Chip, withStyles } from '@material-ui/core';
+import { Badge, Chip, MenuItem, Select, withStyles } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
@@ -16,8 +16,13 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
 } from '../customkey/CustomKey';
-import { Key } from '../keycodekey/KeyGen';
+import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
+
+const LabelLangMenuItem: { [key: string]: string } = {
+  jp: 'JP(JIS) Keyboard',
+  us: 'US Keyboard',
+};
 
 type OwnProp = {};
 
@@ -168,6 +173,24 @@ export default class Keymap extends React.Component<
     return (
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
+        <div className="label-lang">
+          <Select
+            value={this.props.langLabel!}
+            onChange={(e) => {
+              this.props.onChangeLangLabel!(
+                e.target.value as KeyboardLabelLang
+              );
+            }}
+          >
+            {Object.keys(LabelLangMenuItem).map((key, index) => {
+              return (
+                <MenuItem key={`${key}${index}`} value={key}>
+                  {LabelLangMenuItem[key]}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div>
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
           <Keydiff />
@@ -204,6 +227,7 @@ export default class Keymap extends React.Component<
             position={this.state.customKeyPopoverPosition}
             value={this.state.selectedKey!}
             layerCount={this.props.layerCount!}
+            labelLang={this.props.langLabel!}
             onClose={this.onCloseCustomKeyPopup.bind(this)}
             onChange={(key: Key) => {
               this.onChangeKeymap(key);

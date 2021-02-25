@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     keydiff: state.configure.keydiff,
     selectedLayer: state.configure.keymap.selectedLayer,
     selectedPos: state.configure.keymap.selectedPos,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeydiffStateType = ReturnType<typeof mapStateToProps>;

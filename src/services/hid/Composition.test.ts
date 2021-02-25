@@ -791,14 +791,20 @@ describe('Composition', () => {
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0100,
+          'us'
+        );
         expect(subject.isBasic()).toBeTruthy();
         const actual = subject.createBasicComposition();
-        expect(actual.genKeymap().code).toEqual(0b0000_0000_0000_0100);
+        expect(actual.genKeymap()!.code).toEqual(0b0000_0000_0000_0100);
       });
 
       test('not basic', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isBasic()).toBeFalsy();
         expect(() => {
           subject.createBasicComposition();
@@ -808,10 +814,13 @@ describe('Composition', () => {
 
     describe('createModsComposition', () => {
       test('valid - left', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_1111_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_1111_0000_0100,
+          'us'
+        );
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
-        expect(actual.genKeymap().keycodeInfo.code).toEqual(0b0000_0100);
+        expect(actual.genKeymap()!.keycodeInfo.code).toEqual(0b0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -821,10 +830,13 @@ describe('Composition', () => {
       });
 
       test('valid - right', () => {
-        const subject = new KeycodeCompositionFactory(0b0001_1111_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0001_1111_0000_0100,
+          'us'
+        );
         expect(subject.isMods()).toBeTruthy();
         const actual = subject.createModsComposition();
-        expect(actual.genKeymap().code).toEqual(0b0001_1111_0000_0100);
+        expect(actual.genKeymap()!.code).toEqual(0b0001_1111_0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -834,7 +846,10 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0000,
+          'us'
+        );
         expect(subject.isMods()).toBeFalsy();
         expect(() => {
           subject.createModsComposition();
@@ -844,14 +859,20 @@ describe('Composition', () => {
 
     describe('createFunctionComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0010_0000_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0010_0000_0000_0100,
+          'us'
+        );
         expect(subject.isFunction()).toBeTruthy();
         const actual = subject.createFunctionComposition();
         expect(actual.getFunctionId()).toEqual(0b0000_0000_0100);
       });
 
       test('not function', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isFunction()).toBeFalsy();
         expect(() => {
           subject.createFunctionComposition();
@@ -861,7 +882,10 @@ describe('Composition', () => {
 
     describe('createMacroComposition', () => {
       test('valid - not tap', () => {
-        const subject = new KeycodeCompositionFactory(0b0011_0000_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0011_0000_0000_0100,
+          'us'
+        );
         expect(subject.isMacro()).toBeTruthy();
         const actual = subject.createMacroComposition();
         expect(actual.getMacroId()).toEqual(0b0000_0000_0100);
@@ -869,7 +893,10 @@ describe('Composition', () => {
       });
 
       test('valid - tap', () => {
-        const subject = new KeycodeCompositionFactory(0b0011_1000_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0011_1000_0000_0100,
+          'us'
+        );
         expect(subject.isMacro()).toBeTruthy();
         const actual = subject.createMacroComposition();
         expect(actual.getMacroId()).toEqual(0b1000_0000_0100);
@@ -877,7 +904,10 @@ describe('Composition', () => {
       });
 
       test('not macro', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isMacro()).toBeFalsy();
         expect(() => {
           subject.createMacroComposition();
@@ -887,17 +917,23 @@ describe('Composition', () => {
 
     describe('createLayerTapComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0100_0100_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0100_0100_0000_0100,
+          'us'
+        );
         expect(subject.isLayerTap()).toBeTruthy();
         const actual = subject.createLayerTapComposition();
-        expect(actual.genKeymap().keycodeInfo!.code).toEqual(
+        expect(actual.genKeymap()!.keycodeInfo!.code).toEqual(
           0b0000_0000_0000_0100
         );
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not layer tap', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isLayerTap()).toBeFalsy();
         expect(() => {
           subject.createLayerTapComposition();
@@ -907,14 +943,20 @@ describe('Composition', () => {
 
     describe('createToComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0000_0001_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0000_0001_0100,
+          'us'
+        );
         expect(subject.isTo()).toBeTruthy();
         const actual = subject.createToComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isTo()).toBeFalsy();
         expect(() => {
           subject.createFunctionComposition();
@@ -924,14 +966,20 @@ describe('Composition', () => {
 
     describe('createMomentaryComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0001_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0001_0000_0100,
+          'us'
+        );
         expect(subject.isMomentary()).toBeTruthy();
         const actual = subject.createMomentaryComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isMomentary()).toBeFalsy();
         expect(() => {
           subject.createMomentaryComposition();
@@ -941,14 +989,20 @@ describe('Composition', () => {
 
     describe('createDefLayerComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0010_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0010_0000_0100,
+          'us'
+        );
         expect(subject.isDefLayer()).toBeTruthy();
         const actual = subject.createDefLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isDefLayer()).toBeFalsy();
         expect(() => {
           subject.createDefLayerComposition();
@@ -958,14 +1012,20 @@ describe('Composition', () => {
 
     describe('createToggleLayerComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0011_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0011_0000_0100,
+          'us'
+        );
         expect(subject.isToggleLayer()).toBeTruthy();
         const actual = subject.createToggleLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isToggleLayer()).toBeFalsy();
         expect(() => {
           subject.createToggleLayerComposition();
@@ -975,14 +1035,20 @@ describe('Composition', () => {
 
     describe('createOneShotLayerComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0100_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0100_0000_0100,
+          'us'
+        );
         expect(subject.isOneShotLayer()).toBeTruthy();
         const actual = subject.createOneShotLayerComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isOneShotLayer()).toBeFalsy();
         expect(() => {
           subject.createOneShotLayerComposition();
@@ -992,7 +1058,10 @@ describe('Composition', () => {
 
     describe('createOneShotModComposition', () => {
       test('valid - left', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0101_0001_1111);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0101_0001_1111,
+          'us'
+        );
         expect(subject.isOneShotMod()).toBeTruthy();
         const actual = subject.createOneShotModComposition();
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
@@ -1004,7 +1073,10 @@ describe('Composition', () => {
       });
 
       test('valid - left', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0101_0000_1111);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0101_0000_1111,
+          'us'
+        );
         expect(subject.isOneShotMod()).toBeTruthy();
         const actual = subject.createOneShotModComposition();
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
@@ -1016,7 +1088,10 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0000,
+          'us'
+        );
         expect(subject.isOneShotMod()).toBeFalsy();
         expect(() => {
           subject.createOneShotModComposition();
@@ -1026,14 +1101,20 @@ describe('Composition', () => {
 
     describe('createTapDanceComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_0111_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_0111_0000_0100,
+          'us'
+        );
         expect(subject.isTapDance()).toBeTruthy();
         const actual = subject.createTapDanceComposition();
         expect(actual.getNo()).toEqual(0b0000_0100);
       });
 
       test('not function', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isTapDance()).toBeFalsy();
         expect(() => {
           subject.createTapDanceComposition();
@@ -1043,14 +1124,20 @@ describe('Composition', () => {
 
     describe('createLayerTapToggleComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_1000_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1000_0000_0100,
+          'us'
+        );
         expect(subject.isLayerTapToggle()).toBeTruthy();
         const actual = subject.createLayerTapToggleComposition();
         expect(actual.getLayer()).toEqual(4);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isLayerTapToggle()).toBeFalsy();
         expect(() => {
           subject.createLayerTapToggleComposition();
@@ -1060,7 +1147,10 @@ describe('Composition', () => {
 
     describe('createLayerModComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_1001_0010_0111);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1001_0010_0111,
+          'us'
+        );
         expect(subject.isLayerMod()).toBeTruthy();
         const actual = subject.createLayerModComposition();
         expect(actual.getLayer()).toEqual(2);
@@ -1071,7 +1161,10 @@ describe('Composition', () => {
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isLayerMod()).toBeFalsy();
         expect(() => {
           subject.createLayerModComposition();
@@ -1081,27 +1174,36 @@ describe('Composition', () => {
 
     describe('createSwapHandsComposition', () => {
       test('valid - key', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_1011_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1011_0000_0100,
+          'us'
+        );
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeFalsy();
         expect(actual.genKeymap()).not.toBeNull();
-        expect(actual.genKeymap().keycodeInfo!.code).toEqual(0b0000_0100);
+        expect(actual.genKeymap()!.keycodeInfo!.code).toEqual(0b0000_0100);
         expect(actual.getSwapHandsOption()).toBeNull();
       });
 
       test('valid - swap hands option', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_1011_1111_0001);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1011_1111_0001,
+          'us'
+        );
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeTruthy();
-        expect(actual.genKeymap().code).toEqual(0b0101_1011_1111_0001);
+        expect(actual.genKeymap()!.code).toEqual(0b0101_1011_1111_0001);
         expect(actual.getSwapHandsOption()).not.toBeNull();
         expect(actual.getSwapHandsOption()).toEqual(OP_SH_TAP_TOGGLE);
       });
 
       test('not to', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isLayerMod()).toBeFalsy();
         expect(() => {
           subject.createLayerModComposition();
@@ -1111,10 +1213,13 @@ describe('Composition', () => {
 
     describe('createModTapComposition', () => {
       test('valid - left', () => {
-        const subject = new KeycodeCompositionFactory(0b0110_1111_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0110_1111_0000_0100,
+          'us'
+        );
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.genKeymap().keycodeInfo!.code).toEqual(0b0000_0100);
+        expect(actual.genKeymap()!.keycodeInfo!.code).toEqual(0b0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -1124,10 +1229,13 @@ describe('Composition', () => {
       });
 
       test('valid - right', () => {
-        const subject = new KeycodeCompositionFactory(0b0111_1111_0000_0100);
+        const subject = new KeycodeCompositionFactory(
+          0b0111_1111_0000_0100,
+          'us'
+        );
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.genKeymap().code).toEqual(0b0111_1111_0000_0100);
+        expect(actual.genKeymap()!.code).toEqual(0b0111_1111_0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -1137,7 +1245,10 @@ describe('Composition', () => {
       });
 
       test('not mods', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0000_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0000,
+          'us'
+        );
         expect(subject.isModTap()).toBeFalsy();
         expect(() => {
           subject.createModTapComposition();
@@ -1147,14 +1258,20 @@ describe('Composition', () => {
 
     describe('createUnicodeComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b1011_0000_0100_0010);
+        const subject = new KeycodeCompositionFactory(
+          0b1011_0000_0100_0010,
+          'us'
+        );
         expect(subject.isUnicode()).toBeTruthy();
         const actual = subject.createUnicodeComposition();
         expect(actual.getCharCode()).toEqual(0b0011_0000_0100_0010);
       });
 
       test('not function', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isUnicode()).toBeFalsy();
         expect(() => {
           subject.createUnicodeComposition();
@@ -1164,14 +1281,20 @@ describe('Composition', () => {
 
     describe('createLooseKeycodeComposition', () => {
       test('valid', () => {
-        const subject = new KeycodeCompositionFactory(0b0101_1100_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1100_0000_0000,
+          'us'
+        );
         expect(subject.isLooseKeycode()).toBeTruthy();
         const actual = subject.createLooseKeycodeComposition();
-        expect(actual.genKeymap().code).toEqual(0b0101_1100_0000_0000);
+        expect(actual.genKeymap()!.code).toEqual(0b0101_1100_0000_0000);
       });
 
       test('not function', () => {
-        const subject = new KeycodeCompositionFactory(0b0000_0001_0000_0000);
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'us'
+        );
         expect(subject.isLooseKeycode()).toBeFalsy();
         expect(() => {
           subject.createLooseKeycodeComposition();
@@ -1181,11 +1304,11 @@ describe('Composition', () => {
 
     describe('getKind', () => {
       const toEqual = (code: number, expected: IKeycodeCompositionKind) => {
-        const subject = new KeycodeCompositionFactory(code);
+        const subject = new KeycodeCompositionFactory(code, 'us');
         expect(subject.getKind()).toEqual(expected);
       };
       const notToEqual = (code: number, expected: IKeycodeCompositionKind) => {
-        const subject = new KeycodeCompositionFactory(code);
+        const subject = new KeycodeCompositionFactory(code, 'us');
         expect(subject.getKind()).not.toEqual(expected);
       };
       const checkKind = (
@@ -1626,7 +1749,7 @@ describe('Composition', () => {
       });
       describe('unknown', () => {
         test.each(EXPECT_UNKNOWN_LIST)(`unknown`, (value) => {
-          const subject = new KeycodeCompositionFactory(value);
+          const subject = new KeycodeCompositionFactory(value, 'us');
           expect(subject.getKind()).toBeNull();
         });
       });

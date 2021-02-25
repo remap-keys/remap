@@ -1,5 +1,4 @@
-import { KeyLabel } from '../../../assets/keylabels/KeyLabel';
-import { KeyLabelJp } from '../../../assets/keylabels/KeyLabelJp';
+import { KeyLabel, KeyLabelLangMap } from '../../../assets/keylabels/KeyLabel';
 import { IMod, MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
@@ -10,7 +9,7 @@ export type Key = {
   keymap: IKeymap;
 };
 
-type KeyboardLabelLang = 'us' | 'jp';
+export type KeyboardLabelLang = 'us' | 'jp';
 
 type Keytop2Lines = {
   label: string;
@@ -43,10 +42,11 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
   );
 
   if (keyLabel) {
-    keytop.label = keyLabel.label;
     if (keyLabel.meta) {
+      keytop.label = keyLabel.label;
       keytop.meta = keyLabel.meta[0].label;
     } else {
+      keytop.label = keyLabel.label;
       keytop.meta = buildOriginKeyCombination(keymap);
     }
   }
@@ -54,10 +54,7 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
   return keytop;
 }
 
-export const genKey = (
-  keymap: IKeymap,
-  lang: KeyboardLabelLang = 'us'
-): Key => {
+export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
@@ -68,7 +65,10 @@ export const genKey = (
     };
   } else {
     if (Ketop2LinesLangs.includes(lang)) {
-      const keytop: Keytop2Lines = findKeytop2Lines(keymap, KeyLabelJp);
+      const keytop: Keytop2Lines = findKeytop2Lines(
+        keymap,
+        KeyLabelLangMap[lang]
+      );
       return { label: keytop.label, meta: keytop.meta, keymap };
     } else {
       return {
@@ -82,6 +82,9 @@ export const genKey = (
   }
 };
 
-export const genKeys = (keymaps: IKeymap[]): Key[] => {
-  return keymaps.map<Key>((keymap) => genKey(keymap));
+export const genKeys = (
+  keymaps: IKeymap[],
+  labelLang: KeyboardLabelLang
+): Key[] => {
+  return keymaps.map<Key>((keymap) => genKey(keymap, labelLang));
 };

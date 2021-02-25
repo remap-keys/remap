@@ -15,11 +15,13 @@ import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
+import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 
 type OwnProps = {
   value: IKeymap | null; // Keys
   layerCount: number;
   hexCode: string;
+  labelLang: KeyboardLabelLang;
   onChangeKey: (
     // eslint-disable-next-line no-unused-vars
     opt: IKeymap
@@ -34,21 +36,21 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     if (!TabKey.basicKeymaps) {
       const layerCount = this.props.layerCount;
       TabKey.basicKeymaps = [
-        ...KeyCategory.basic(),
-        ...KeyCategory.symbol(),
-        ...KeyCategory.functions(),
+        ...KeyCategory.basic(props.labelLang),
+        ...KeyCategory.symbol(props.labelLang),
+        ...KeyCategory.functions(props.labelLang),
         ...KeyCategory.layer(layerCount),
         ...LayerModComposition.genKeymaps(layerCount),
         ...OneShotModComposition.genKeymaps(),
-        ...KeyCategory.special(),
-        ...KeyCategory.device(),
+        ...KeyCategory.special(props.labelLang),
+        ...KeyCategory.device(props.labelLang),
         // ...KeyCategory.macro(),
       ];
     }
   }
 
   static isAvailable(code: number): boolean {
-    const f = new KeycodeCompositionFactory(code);
+    const f = new KeycodeCompositionFactory(code, 'us');
     return (
       f.isBasic() ||
       f.isMods() ||
@@ -86,7 +88,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     if (this.props.value === null) return true;
 
     function isAvailableModifiers(code: number) {
-      const factory = new KeycodeCompositionFactory(code);
+      const factory = new KeycodeCompositionFactory(code, 'us');
       const flag =
         (factory.isBasic() && !factory.isBasicFunc()) ||
         factory.isMods() ||
@@ -101,7 +103,8 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
 
   get disabledDirection() {
     const factory = new KeycodeCompositionFactory(
-      parseInt(this.props.hexCode, 16)
+      parseInt(this.props.hexCode, 16),
+      'us'
     );
     return factory.isLayerMod();
   }
@@ -123,7 +126,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       keymap.direction = MOD_LEFT;
       keymap.code = new LayerModComposition(layer, mods).getCode();
     } else {
-      const f = new KeycodeCompositionFactory(opt.code);
+      const f = new KeycodeCompositionFactory(opt.code, 'us');
       if (f.isBasic() || f.isMods()) {
         keymap.code = new ModsComposition(direction, mods, opt).getCode();
       } else {

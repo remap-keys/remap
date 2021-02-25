@@ -200,7 +200,8 @@ const Hid = () => {
       const fetchKeymapResult = await keyboard.fetchKeymaps(
         layer2,
         rowCount,
-        columnCount
+        columnCount,
+        'us'
       );
       if (fetchKeymapResult.success) {
         console.log(fetchKeymapResult.keymap);

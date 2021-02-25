@@ -1,3 +1,6 @@
+import { KeyLabelJp } from './KeyLabelJp';
+import { KeyLabelUs } from './KeyLabelUs';
+
 type KeyModifier =
   | 'LeftShift'
   | 'RightShift'
@@ -13,4 +16,9 @@ export type KeyLabel = {
     label: string;
     modifiers: KeyModifier[];
   }[];
+};
+
+export const KeyLabelLangMap: { [lang: string]: KeyLabel[] } = {
+  jp: KeyLabelJp,
+  us: KeyLabelUs,
 };

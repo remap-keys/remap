@@ -12,11 +12,13 @@ import {
 } from '../../../services/hid/Composition';
 import { buildModLabel } from './Modifiers';
 import { hexadecimal } from '../../../utils/StringUtils';
+import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 
 type OwnProps = {
   holdKey: IKeymap | null;
   tapKey: IKeymap | null;
   layerCount: number;
+  labelLang: KeyboardLabelLang;
   // eslint-disable-next-line no-unused-vars
   onChange: (hold: IKeymap | null, tap: IKeymap | null) => void;
 };
@@ -30,7 +32,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
 
-    this._tapKeycodeOptions = BasicComposition.genKeymaps();
+    this._tapKeycodeOptions = BasicComposition.genKeymaps(props.labelLang);
     this._holdKeyOptions = [
       ...ModTapComposition.genKeymaps(),
       ...LayerTapComposition.genKeymaps(this.props.layerCount),
@@ -39,7 +41,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
   }
 
   static isAvailable(code: number): boolean {
-    const f = new KeycodeCompositionFactory(code);
+    const f = new KeycodeCompositionFactory(code, 'us');
     return (
       f.isModTap() ||
       f.isLayerTap() ||
@@ -47,8 +49,11 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     );
   }
 
-  static genHoldTapKeys(code: number): { holdKey: IKeymap; tapKey: IKeymap } {
-    const f = new KeycodeCompositionFactory(code);
+  static genHoldTapKeys(
+    code: number,
+    labelLang: KeyboardLabelLang
+  ): { holdKey: IKeymap; tapKey: IKeymap } {
+    const f = new KeycodeCompositionFactory(code, labelLang);
     let holdKey: IKeymap | null = null;
     let tapKey: IKeymap | null = null;
     if (f.isModTap()) {
@@ -149,7 +154,7 @@ export const buildHoldKeyLabel = (
   km: IKeymap,
   withHex: boolean = false
 ): string => {
-  const f = new KeycodeCompositionFactory(km.code);
+  const f = new KeycodeCompositionFactory(km.code, 'us');
   if (f.isLayerTap()) {
     return `Layer(${km.option})`;
   } else if (f.isModTap()) {

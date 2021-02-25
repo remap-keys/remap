@@ -1,4 +1,5 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { KeyboardLabelLang } from '../components/configure/keycodekey/KeyGen';
 import { IHid, IKeyboard, IKeymaps } from '../services/hid/Hid';
 import { RootState, SetupPhase } from '../store/state';
 import {
@@ -180,7 +181,7 @@ export const hidActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
+    const { app, entities } = getState();
     const keyboard = entities.keyboard!;
     const result = await keyboard.open();
     if (!result.success) {
@@ -192,7 +193,8 @@ export const hidActionsThunk = {
       dispatch,
       keyboard,
       entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols
+      entities.keyboardDefinition!.matrix.cols,
+      app.labelLang
     );
     dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
   },
@@ -289,7 +291,8 @@ export const hidActionsThunk = {
       keyboard,
       entities.device.layerCount,
       entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols
+      entities.keyboardDefinition!.matrix.cols,
+      app.labelLang
     );
     dispatch(HidActions.updateKeymaps(keymaps));
     dispatch(AppActions.remapsInit(entities.device.layerCount));
@@ -309,7 +312,8 @@ const initOpenedKeyboard = async (
   dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
   keyboard: IKeyboard,
   rowCount: number,
-  columnCount: number
+  columnCount: number,
+  labelLang: KeyboardLabelLang
 ) => {
   const layerResult = await keyboard.fetchLayerCount();
   if (!layerResult.success) {
@@ -324,7 +328,8 @@ const initOpenedKeyboard = async (
     keyboard,
     layerCount,
     rowCount,
-    columnCount
+    columnCount,
+    labelLang
   );
   dispatch(HidActions.updateKeymaps(keymaps));
   dispatch(AppActions.remapsInit(layerCount));
@@ -337,11 +342,17 @@ const loadKeymap = async (
   keyboard: IKeyboard,
   layerCount: number,
   rowCount: number,
-  columnCount: number
+  columnCount: number,
+  labelLang: KeyboardLabelLang
 ): Promise<IKeymaps[]> => {
   const keymaps: IKeymaps[] = [];
   for (let i = 0; i < layerCount; i++) {
-    const keymapsResult = await keyboard.fetchKeymaps(i, rowCount, columnCount);
+    const keymapsResult = await keyboard.fetchKeymaps(
+      i,
+      rowCount,
+      columnCount,
+      labelLang
+    );
     if (!keymapsResult.success) {
       // TODO: show error message
       dispatch(

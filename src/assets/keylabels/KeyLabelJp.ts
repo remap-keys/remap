@@ -292,6 +292,20 @@ export const KeyLabelJp: KeyLabel[] = [
     ],
   },
   {
+    code: 49,
+    label: ']',
+    meta: [
+      {
+        label: '}',
+        modifiers: ['LeftShift'],
+      },
+      {
+        label: '}',
+        modifiers: ['RightShift'],
+      },
+    ],
+  },
+  {
     code: 50,
     label: ']',
     meta: [
@@ -395,7 +409,7 @@ export const KeyLabelJp: KeyLabel[] = [
   },
   {
     code: 135,
-    label: '_',
+    label: '¥',
     meta: [
       {
         label: '_',
@@ -492,6 +506,10 @@ export const KeyLabelJp: KeyLabel[] = [
   {
     code: 560,
     label: '{',
+  },
+  {
+    code: 560,
+    label: '}',
   },
   {
     code: 562,

@@ -23,8 +23,8 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     if (!origin || !destination) {
       return <div className="diff"></div>;
     }
-    const origKey = genKey(origin);
-    const dstKey = genKey(destination);
+    const origKey = genKey(origin, this.props.labelLang!);
+    const dstKey = genKey(destination, this.props.labelLang!);
 
     return (
       <div className="diff">

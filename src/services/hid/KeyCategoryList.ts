@@ -1,3 +1,4 @@
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 import {
   BasicComposition,
   DefLayerComposition,
@@ -20,7 +21,7 @@ export class KeyCategory {
   private static _device: IKeymap[];
   private static _macro: IKeymap[];
 
-  static basic(): IKeymap[] {
+  static basic(labelLang: KeyboardLabelLang): IKeymap[] {
     if (KeyCategory._basic) return KeyCategory._basic;
 
     const codes: number[] = [
@@ -32,13 +33,13 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_NUMPAD.codes,
     ];
     const keymaps: IKeymap[] = codes.map(
-      (code) => BasicComposition.findKeymap(code)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     KeyCategory._basic = keymaps;
     return keymaps;
   }
 
-  static symbol(): IKeymap[] {
+  static symbol(labelLang: KeyboardLabelLang): IKeymap[] {
     if (KeyCategory._symbol) return KeyCategory._symbol;
     const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_BLANK.codes,
@@ -50,7 +51,7 @@ export class KeyCategory {
     ];
 
     const basicKeymaps: IKeymap[] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     const looseKeymaps: IKeymap[] = looseCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
@@ -59,7 +60,7 @@ export class KeyCategory {
     return KeyCategory._symbol;
   }
 
-  static functions(): IKeymap[] {
+  static functions(labelLang: KeyboardLabelLang): IKeymap[] {
     if (KeyCategory._functions) return KeyCategory._functions;
 
     const codes: number[] = [
@@ -69,7 +70,7 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
     const keymaps: IKeymap[] = codes.map(
-      (code) => BasicComposition.findKeymap(code)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     KeyCategory._functions = keymaps;
     return keymaps;
@@ -92,7 +93,7 @@ export class KeyCategory {
     return keymaps;
   }
 
-  static special(): IKeymap[] {
+  static special(labelLang: KeyboardLabelLang): IKeymap[] {
     if (KeyCategory._special) return KeyCategory._special;
 
     const basicCodes: number[] = [
@@ -103,14 +104,14 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_EMBED_FUNCTION.codes,
     ];
     const basicKeymaps: IKeymap[] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     const shKeymaps: IKeymap[] = SwapHandsComposition.genSwapHandsOptionKeymaps();
     KeyCategory._special = [...basicKeymaps, ...shKeymaps];
     return KeyCategory._special;
   }
 
-  static device(): IKeymap[] {
+  static device(labelLang: KeyboardLabelLang): IKeymap[] {
     if (KeyCategory._device) return KeyCategory._device;
 
     const basicCodes: number[] = [
@@ -127,7 +128,7 @@ export class KeyCategory {
     ];
 
     const basicKeymaps: IKeymap[] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     const looseKeymaps: IKeymap[] = looseCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!

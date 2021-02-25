@@ -3,7 +3,7 @@ import React from 'react';
 import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
-import { Key } from '../keycodekey/KeyGen';
+import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
   LayerTapComposition,
@@ -32,6 +32,7 @@ type OwnProps = {
   layerCount: number;
   open: boolean;
   position: PopoverPosition;
+  labelLang: KeyboardLabelLang;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
@@ -83,7 +84,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       value = keymap;
       selectedTabIndex = 0;
     } else if (TabHoldTapKey.isAvailable(code)) {
-      const keys = TabHoldTapKey.genHoldTapKeys(code);
+      const keys = TabHoldTapKey.genHoldTapKeys(code, this.props.labelLang);
       holdKey = keys.holdKey;
       tapKey = keys.tapKey;
       selectedTabIndex = 1;
@@ -206,10 +207,10 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({ hexCode });
     const code = parseInt(hexCode, 16);
     if (Number.isNaN(code)) {
-      const km = KeycodeList.getKeymap(0);
+      const km = KeycodeList.getKeymap(0, this.props.labelLang);
       this.setState({ value: km });
     } else {
-      const ret = KeycodeList.getKeymaps(code);
+      const ret = KeycodeList.getKeymaps(code, this.props.labelLang);
       if (ret.value) {
         this.onChangeKey(ret.value);
       } else if (ret.holdKey && ret.tapKey) {
@@ -292,6 +293,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               value={this.state.value}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
+              labelLang={this.props.labelLang}
               onChangeKey={(opt: IKeymap) => {
                 this.onChangeKey(opt);
               }}
@@ -305,6 +307,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               holdKey={this.state.holdKey}
               tapKey={this.state.tapKey}
               layerCount={this.props.layerCount}
+              labelLang={'us'}
               onChange={(hold, tap) => {
                 this.onChangeHoldTap(hold, tap);
               }}

@@ -1,5 +1,8 @@
 import { NotificationItem } from '../actions/actions';
-import { Key } from '../components/configure/keycodekey/KeyGen';
+import {
+  Key,
+  KeyboardLabelLang,
+} from '../components/configure/keycodekey/KeyGen';
 import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
@@ -80,6 +83,7 @@ export type RootState = {
     notifications: NotificationItem[];
     keyboardHeight: number;
     keyboardWidth: number;
+    labelLang: KeyboardLabelLang;
   };
   configure: {
     header: {
@@ -183,6 +187,7 @@ export const INIT_STATE: RootState = {
     notifications: [],
     keyboardHeight: 0,
     keyboardWidth: 0,
+    labelLang: 'us',
   },
   configure: {
     header: {

@@ -1,5 +1,14 @@
 @import '../../../variables';
 
+.label-lang {
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 8px 16px;
+}
+
 .keydiff-wrapper {
   display: flex;
   flex-direction: row;

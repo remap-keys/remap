@@ -27,6 +27,7 @@ const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
     keymaps: state.entities.device.keymaps,
     selectedLayer: state.configure.keymap.selectedLayer,
     selected: state.configure.keycodeKey.selectedKey == ownProps.value,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeycodeKeyStateType = ReturnType<typeof mapStateToProps>;
