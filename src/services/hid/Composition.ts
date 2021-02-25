@@ -396,7 +396,6 @@ export class BasicComposition implements IBasicComposition {
             return keyLabel.code === keyInfo!.keycodeInfo.code;
           });
           if (keyLabelLang) {
-            console.log(`${keyLabelLang.code} = ${keyLabelLang.label}`);
             keycodeInfo = { ...keyInfo.keycodeInfo, label: keyLabelLang.label };
           } else {
             keycodeInfo = keyInfo.keycodeInfo;
