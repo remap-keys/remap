@@ -304,8 +304,9 @@ function KeyLabel(props: KeyLabelType) {
       </React.Fragment>
     );
   } else {
-    const length = props.label.split(' ').length;
-    const labelSize = length == 2 ? '_m' : length == 3 ? '_s' : '';
+    const points = props.label.match(/[\s\\/]/g);
+    const breakPoints = points ? points.length : 0;
+    const labelSize = breakPoints == 1 ? '_m' : breakPoints == 2 ? '_s' : '';
     if (0 < props.meta.length) {
       return (
         <MetaKeyLabel

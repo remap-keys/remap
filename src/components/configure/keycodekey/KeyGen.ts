@@ -1,5 +1,5 @@
 import { KeyLabel } from '../../../assets/keylabels/KeyLabel';
-import { KEY_LABELS_JIS } from '../../../assets/keylabels/KeyLabelJis';
+import { KeyLabelJp } from '../../../assets/keylabels/KeyLabelJp';
 import { IMod, MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
@@ -10,12 +10,13 @@ export type Key = {
   keymap: IKeymap;
 };
 
-type KEYBOARD_LABEL_LANG = 'us' | 'jis';
+type KeyboardLabelLang = 'us' | 'jp';
 
 type Keytop2Lines = {
   label: string;
   meta: string;
 };
+const Ketop2LinesLangs: KeyboardLabelLang[] = ['us', 'jp'];
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
 
@@ -55,9 +56,8 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
 
 export const genKey = (
   keymap: IKeymap,
-  lang: KEYBOARD_LABEL_LANG = 'us'
+  lang: KeyboardLabelLang = 'us'
 ): Key => {
-  // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
@@ -67,8 +67,18 @@ export const genKey = (
       keymap,
     };
   } else {
-    const keytop: Keytop2Lines = findKeytop2Lines(keymap, KEY_LABELS_JIS);
-    return { label: keytop.label, meta: keytop.meta, keymap };
+    if (Ketop2LinesLangs.includes(lang)) {
+      const keytop: Keytop2Lines = findKeytop2Lines(keymap, KeyLabelJp);
+      return { label: keytop.label, meta: keytop.meta, keymap };
+    } else {
+      return {
+        label: keymap.keycodeInfo
+          ? keymap.keycodeInfo.label
+          : `${hexadecimal(keymap.code)}`,
+        meta: '',
+        keymap,
+      };
+    }
   }
 };
 
