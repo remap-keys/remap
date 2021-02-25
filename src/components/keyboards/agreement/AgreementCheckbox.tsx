@@ -86,9 +86,8 @@ export function AgreementCheckbox(props: IProps) {
                 applicant can request the investigation to the Remap team.
               </li>
               <li>
-                This review policy was updated on February 25th, 2021. The Remap
-                team can update the statements of this review policy without any
-                announcements.
+                The Remap team can update the statements of this review policy
+                without any announcements.
               </li>
             </ol>
           }
