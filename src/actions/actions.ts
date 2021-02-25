@@ -1,5 +1,5 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { ISetupPhase } from '../store/state';

@@ -3,11 +3,11 @@ import { hexadecimal } from '../../../utils/StringUtils';
 import { buildModLabel } from '../customkey/Modifiers';
 import AnyKeyDialog from './any/AnyKeyEditDialog';
 import {
-  Key,
   KeycodeKeyActionsType,
   KeycodeKeyStateType,
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
+import { Key } from './KeyGen';
 
 export type AnyKey = {
   label: string;

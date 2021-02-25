@@ -16,7 +16,7 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
 } from '../customkey/CustomKey';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
 
 type OwnProp = {};

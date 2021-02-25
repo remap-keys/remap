@@ -54,10 +54,8 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import {
-  Key,
-  KeycodeInfo,
-} from '../components/configure/keycodekey/KeycodeKey.container';
+import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import { INIT_STATE, RootState } from './state';
 import {

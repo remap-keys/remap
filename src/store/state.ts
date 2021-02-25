@@ -1,5 +1,5 @@
 import { NotificationItem } from '../actions/actions';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';

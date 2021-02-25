@@ -3,7 +3,7 @@ import React from 'react';
 import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
   LayerTapComposition,

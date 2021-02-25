@@ -2,15 +2,12 @@
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
-import KeycodeKey, { genKey, Key } from '../keycodekey/KeycodeKey.container';
+import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
-import { IKeycodeCategory, IKeymap } from '../../../services/hid/Hid';
+import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
-
-const genKeys = (keymaps: IKeymap[]): Key[] => {
-  return keymaps.map<Key>((keymap) => genKey(keymap));
-};
+import { genKeys, Key } from '../keycodekey/KeyGen';
 
 type OwnProps = {};
 

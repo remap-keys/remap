@@ -6,7 +6,7 @@ import {
   KeydiffActions,
   AppActions,
 } from '../../../actions/actions';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {

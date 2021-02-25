@@ -4,7 +4,7 @@ import { hexadecimal } from '../../../utils/StringUtils';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap.container';
 import { RemapActionsType, RemapStateType } from './Remap.container';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import { kinds2CategoriyLabel } from '../customkey/AutocompleteKeys';
 
 type OwnProp = {};
