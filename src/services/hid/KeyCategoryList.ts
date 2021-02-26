@@ -13,16 +13,18 @@ import {
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 
 export class KeyCategory {
-  private static _basic: IKeymap[];
-  private static _symbol: IKeymap[];
-  private static _functions: IKeymap[];
+  private static _basic: { [pos: string]: IKeymap[] } = {};
+  private static _symbol: { [pos: string]: IKeymap[] } = {};
+  private static _functions: { [pos: string]: IKeymap[] } = {};
   private static _layer: { [layerCount: number]: IKeymap[] } = {};
-  private static _special: IKeymap[];
-  private static _device: IKeymap[];
+  private static _special: { [pos: string]: IKeymap[] } = {};
+  private static _device: { [pos: string]: IKeymap[] } = {};
   private static _macro: IKeymap[];
 
   static basic(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (KeyCategory._basic) return KeyCategory._basic;
+    if (Object.prototype.hasOwnProperty.call(KeyCategory._basic, labelLang)) {
+      return KeyCategory._basic[labelLang];
+    }
 
     const codes: number[] = [
       ...KEY_SUB_CATEGORY_LETTER.codes,
@@ -35,12 +37,14 @@ export class KeyCategory {
     const keymaps: IKeymap[] = codes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    KeyCategory._basic = keymaps;
+    KeyCategory._basic[labelLang] = keymaps;
     return keymaps;
   }
 
   static symbol(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (KeyCategory._symbol) return KeyCategory._symbol;
+    if (Object.prototype.hasOwnProperty.call(KeyCategory._symbol, labelLang)) {
+      return KeyCategory._symbol[labelLang];
+    }
     const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_BLANK.codes,
       ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
@@ -53,15 +57,20 @@ export class KeyCategory {
     const basicKeymaps: IKeymap[] = basicCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
+    console.log(basicKeymaps);
     const looseKeymaps: IKeymap[] = looseCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
-    KeyCategory._symbol = [...basicKeymaps, ...looseKeymaps];
-    return KeyCategory._symbol;
+    KeyCategory._symbol[labelLang] = [...basicKeymaps, ...looseKeymaps];
+    return KeyCategory._symbol[labelLang];
   }
 
   static functions(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (KeyCategory._functions) return KeyCategory._functions;
+    if (
+      Object.prototype.hasOwnProperty.call(KeyCategory._functions, labelLang)
+    ) {
+      return KeyCategory._functions[labelLang];
+    }
 
     const codes: number[] = [
       ...KEY_SUB_CATEGORY_F.codes,
@@ -72,7 +81,7 @@ export class KeyCategory {
     const keymaps: IKeymap[] = codes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    KeyCategory._functions = keymaps;
+    KeyCategory._functions[labelLang] = keymaps;
     return keymaps;
   }
 
@@ -94,7 +103,9 @@ export class KeyCategory {
   }
 
   static special(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (KeyCategory._special) return KeyCategory._special;
+    if (Object.prototype.hasOwnProperty.call(KeyCategory._special, labelLang)) {
+      return KeyCategory._special[labelLang];
+    }
 
     const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_GUI.codes,
@@ -107,12 +118,14 @@ export class KeyCategory {
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
     const shKeymaps: IKeymap[] = SwapHandsComposition.genSwapHandsOptionKeymaps();
-    KeyCategory._special = [...basicKeymaps, ...shKeymaps];
-    return KeyCategory._special;
+    KeyCategory._special[labelLang] = [...basicKeymaps, ...shKeymaps];
+    return KeyCategory._special[labelLang];
   }
 
   static device(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (KeyCategory._device) return KeyCategory._device;
+    if (Object.prototype.hasOwnProperty.call(KeyCategory._device, labelLang)) {
+      return KeyCategory._device[labelLang];
+    }
 
     const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_DEVICE.codes,
@@ -133,8 +146,8 @@ export class KeyCategory {
     const looseKeymaps: IKeymap[] = looseCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
-    KeyCategory._device = [...basicKeymaps, ...looseKeymaps];
-    return KeyCategory._device;
+    KeyCategory._device[labelLang] = [...basicKeymaps, ...looseKeymaps];
+    return KeyCategory._device[labelLang];
   }
 
   static macro(): IKeymap[] {

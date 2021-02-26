@@ -18,8 +18,8 @@ import {
 import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
-import { buildModLabel } from './Modifiers';
-import { findKeyLabel } from '../../../assets/keylabels/KeyLabel';
+import { buildModLabel, mods2Number } from './Modifiers';
+import { findKeyLabel, getMetaLabel } from '../../../assets/keylabels/KeyLabel';
 import { findLabelLangLabel } from '../keymap/Keymap';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
@@ -103,6 +103,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       label,
       hexCode,
     });
+    this.updateCustomMetaLabels({ value, holdKey });
     setTimeout(() => {
       this.setState({ selectedTabIndex }); // for collecting css animation
     }, 180);
@@ -264,26 +265,28 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   render() {
     let desc = this.state.value?.desc || '';
     if (this.state.value && this.state.value.modifiers.length) {
+      const mods = mods2Number(
+        this.state.value.modifiers,
+        this.state.value.direction
+      );
       const keyLabel = findKeyLabel(
         this.state.value.keycodeInfo.code,
-        this.state.value.modifiers.reduce((val: number, mod: IMod) => {
-          return val | mod;
-        }, this.state.value.direction << 4),
+        mods,
         this.props.labelLang
       );
-      console.log(this.state.value);
-      console.log(keyLabel);
+
       if (keyLabel) {
         const labelLangLabel = findLabelLangLabel(this.props.labelLang);
         const directionLabel = DIRECTION_LABELS[this.state.value.direction];
         const modLabels = this.state.value.modifiers
           .map((m) => MOD_LABELS[m])
           .join('+');
-        desc = `(${labelLangLabel}) ${directionLabel} ${modLabels} + ${
-          keyLabel.label
-        } → ${keyLabel.meta![0].label}`;
+        const metaLabel = getMetaLabel(keyLabel, mods);
+
+        desc = `(${labelLangLabel}) ${directionLabel} ${modLabels} + ${keyLabel.label} → ${metaLabel}`;
       }
     }
+
     return (
       <Popover
         id={this.props.id}
@@ -348,7 +351,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             <TextField
               variant="outlined"
               label="Label"
-              className="customkey-field customkey-label"
+              className="customkey-label"
               size="small"
               disabled={true}
               onChange={(e) => {
@@ -356,15 +359,18 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               }}
               value={this.state.label}
             />
-            <div className="customkey-field customkey-meta">
+            <div className="customkey-meta">
               <div>{this.state.modsLabel}</div>
               <div>{this.state.holdLabel}</div>
             </div>
+            <div className="customkey-desc">{desc}</div>
+
             <TextField
               variant="outlined"
               label="Code(hex)"
               className={[
                 'customkey-field',
+                'customkey-field-hex',
                 'customkey-label',
                 0 < this.state.hexCode.length && 'customkey-code',
               ].join(' ')}
@@ -374,6 +380,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               }}
               value={this.state.hexCode.toUpperCase()}
             />
+
             <div className="customkey-bcode">
               {(
                 '0000000000000000' +

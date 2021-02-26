@@ -467,12 +467,11 @@ export class ModsComposition implements IModsComposition {
   }
 
   genKeymap(): IKeymap {
-    const modLabel = this.modifiers.map((m) => MOD_LABELS[m]).join('+');
     return {
       code: this.getCode(),
       kinds: ['basic', 'mods'],
       isAny: false,
-      desc: `${modLabel} + ${this.key.desc || this.key.keycodeInfo.label}`,
+      desc: '',
       keycodeInfo: this.key.keycodeInfo,
       direction: this.modDirection,
       modifiers: this.modifiers,

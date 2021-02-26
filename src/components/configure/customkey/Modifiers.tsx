@@ -246,3 +246,15 @@ export const buildModLabel = (
     return modLabel + '*';
   }
 };
+
+export const mods2Number = (
+  modifiers: IMod[],
+  direction: IModDirection
+): number => {
+  return (
+    (direction << 4) |
+    modifiers.reduce((val, mod) => {
+      return val | mod;
+    }, 0)
+  );
+};

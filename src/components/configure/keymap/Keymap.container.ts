@@ -8,6 +8,8 @@ import {
 } from '../../../actions/actions';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { hidActionsThunk } from '../../../actions/hid.action';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -33,8 +35,19 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(KeymapActions.clearSelectedPos());
       _dispatch(KeymapActions.updateSelectedLayer(layer));
     },
-    onChangeLangLabel: (label: KeyboardLabelLang) => {
-      _dispatch(AppActions.updateLangLabel(label));
+    onChangeLangLabel: (
+      labelLang: KeyboardLabelLang,
+      orgKeymap: IKeymap | null,
+      dstKeymap: IKeymap | null
+    ) => {
+      _dispatch(AppActions.updateLangLabel(labelLang));
+      _dispatch(hidActionsThunk.updateKeymaps(labelLang));
+
+      if (orgKeymap && dstKeymap) {
+        const newOrgKeymap = KeycodeList.getKeymap(orgKeymap.code, labelLang);
+        const newDstKeymap = KeycodeList.getKeymap(dstKeymap.code, labelLang);
+        _dispatch(KeydiffActions.updateKeydiff(newOrgKeymap, newDstKeymap));
+      }
     },
     setKeyboardSize: (width: number, height: number) => {
       _dispatch(AppActions.updateKeyboardSize(width, height));

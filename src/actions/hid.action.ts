@@ -78,7 +78,7 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const hidActionsThunk = {
-  updateKeymapsLang: (
+  updateKeymaps: (
     labelLang: KeyboardLabelLang
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,

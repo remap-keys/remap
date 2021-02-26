@@ -30,24 +30,10 @@ type OwnProps = {
 };
 type OwnState = {};
 export default class TabKey extends React.Component<OwnProps, OwnState> {
-  private static basicKeymaps: IKeymap[];
+  private static basicKeymaps: { [pos: string]: IKeymap[] } = {};
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {};
-    if (!TabKey.basicKeymaps) {
-      const layerCount = this.props.layerCount;
-      TabKey.basicKeymaps = [
-        ...KeyCategory.basic(props.labelLang),
-        ...KeyCategory.symbol(props.labelLang),
-        ...KeyCategory.functions(props.labelLang),
-        ...KeyCategory.layer(layerCount),
-        ...LayerModComposition.genKeymaps(layerCount),
-        ...OneShotModComposition.genKeymaps(),
-        ...KeyCategory.special(props.labelLang),
-        ...KeyCategory.device(props.labelLang),
-        // ...KeyCategory.macro(),
-      ];
-    }
   }
 
   static isAvailable(code: number): boolean {
@@ -110,6 +96,27 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     return factory.isLayerMod();
   }
 
+  get basicKeymaps() {
+    const labelLang = this.props.labelLang;
+    if (Object.prototype.hasOwnProperty.call(TabKey.basicKeymaps, labelLang)) {
+      return TabKey.basicKeymaps[labelLang];
+    }
+    const layerCount = this.props.layerCount;
+    const keymaps = [
+      ...KeyCategory.basic(labelLang),
+      ...KeyCategory.symbol(labelLang),
+      ...KeyCategory.functions(labelLang),
+      ...KeyCategory.layer(layerCount),
+      ...LayerModComposition.genKeymaps(layerCount),
+      ...OneShotModComposition.genKeymaps(),
+      ...KeyCategory.special(labelLang),
+      ...KeyCategory.device(labelLang),
+      // ...KeyCategory.macro(),
+    ];
+    TabKey.basicKeymaps[labelLang] = keymaps;
+    return keymaps;
+  }
+
   private emitOnChange(opt: IKeymap, direction: IModDirection, mods: IMod[]) {
     const keymap: IKeymap = JSON.parse(JSON.stringify(opt));
     keymap.modifiers = mods;
@@ -154,7 +161,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       <React.Fragment>
         <AutocompleteKeys
           label="Keycode"
-          keycodeOptions={TabKey.basicKeymaps}
+          keycodeOptions={this.basicKeymaps}
           keycodeInfo={this.props.value}
           onChange={(opt) => {
             this.onChangeKeycode(opt);

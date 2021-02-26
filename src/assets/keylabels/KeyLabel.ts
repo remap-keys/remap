@@ -21,9 +21,6 @@ export const findKeyLabel = (
   mods: number,
   labelLang: KeyboardLabelLang
 ): KeyLabel | undefined => {
-  console.log(
-    `findKeyLabel: code=${code}, mods=${mods}, labelLang=${labelLang}`
-  );
   const labelLangs = KeyLabelLangMap[labelLang];
   const keyLabel = labelLangs.find((ll) => {
     return (
@@ -33,4 +30,16 @@ export const findKeyLabel = (
     );
   });
   return keyLabel;
+};
+
+export const getMetaLabel = (keyLabel: KeyLabel, mods: number): string => {
+  if (!keyLabel.meta) return '';
+
+  const meta = keyLabel.meta.find((m) => {
+    m.modifiers === mods;
+  });
+  if (meta) {
+    return meta.label;
+  }
+  return '';
 };

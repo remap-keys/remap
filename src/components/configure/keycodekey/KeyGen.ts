@@ -66,7 +66,6 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
     };
   } else {
     if (Ketop2LinesLangs.includes(lang)) {
-      console.log(`${lang}: ${keymap.code} = ${keymap.keycodeInfo.label}`);
       const keytop: Keytop2Lines = findKeytop2Lines(
         keymap,
         KeyLabelLangMap[lang]

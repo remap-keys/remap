@@ -172,7 +172,11 @@ export default class Keymap extends React.Component<
           <LabelLang
             labelLang={this.props.labelLang!}
             onChangeLangLabel={(labelLang) => {
-              this.props.onChangeLangLabel!(labelLang);
+              this.props.onChangeLangLabel!(
+                labelLang,
+                this.props.keydiff!.origin,
+                this.props.keydiff!.destination
+              );
             }}
           />
         </div>
