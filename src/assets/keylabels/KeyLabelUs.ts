@@ -358,6 +358,20 @@ export const KeyLabelUs: KeyLabel[] = [
     ],
   },
   {
+    code: 53,
+    label: '`',
+    meta: [
+      {
+        label: '~',
+        modifiers: ['LeftShift'],
+      },
+      {
+        label: '~',
+        modifiers: ['RightShift'],
+      },
+    ],
+  },
+  {
     code: 54,
     label: ',',
     meta: [
@@ -472,6 +486,10 @@ export const KeyLabelUs: KeyLabel[] = [
     label: '"',
   },
   {
+    code: 565,
+    label: '~',
+  },
+  {
     code: 566,
     label: '<',
   },
@@ -550,6 +568,10 @@ export const KeyLabelUs: KeyLabel[] = [
   {
     code: 4660,
     label: '"',
+  },
+  {
+    code: 4661,
+    label: '~',
   },
   {
     code: 4662,
