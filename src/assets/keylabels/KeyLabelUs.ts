@@ -1,5 +1,12 @@
 import { KeyLabel } from './KeyLabel';
 
+// define here because of avoiding the recursive reference
+const MOD_RIGHT = 0b10000;
+//const MOD_CTL = 0b0001;
+const MOD_SFT = 0b0010;
+//const MOD_ALT = 0b0100;
+//const MOD_GUI = 0b1000;
+
 export const KeyLabelUs: KeyLabel[] = [
   {
     code: 4,
@@ -111,11 +118,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '!',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '!',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -125,11 +132,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '@',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '@',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -139,11 +146,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '#',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '#',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -153,11 +160,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '$',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '$',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -167,11 +174,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '%',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '%',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -181,11 +188,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '^',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '^',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -195,11 +202,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '&',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '&',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -209,11 +216,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '*',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '*',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -223,11 +230,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '(',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '(',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -237,11 +244,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: ')',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: ')',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -251,11 +258,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '_',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '_',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -265,11 +272,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '+',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '+',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -279,11 +286,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '{',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '{',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -293,11 +300,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '}',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '}',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -307,11 +314,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '|',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '|',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -321,11 +328,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '|',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '|',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -335,11 +342,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: ':',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: ':',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -349,11 +356,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '"',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '"',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -363,11 +370,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '~',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '~',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -377,11 +384,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '<',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '<',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -391,11 +398,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '>',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '>',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },
@@ -405,11 +412,11 @@ export const KeyLabelUs: KeyLabel[] = [
     meta: [
       {
         label: '?',
-        modifiers: ['LeftShift'],
+        modifiers: MOD_SFT,
       },
       {
         label: '?',
-        modifiers: ['RightShift'],
+        modifiers: MOD_RIGHT | MOD_SFT,
       },
     ],
   },

@@ -1,6 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { KeyboardLabelLang } from '../components/configure/keycodekey/KeyGen';
-import { IHid, IKeyboard, IKeymaps } from '../services/hid/Hid';
+import { IHid, IKeyboard, IKeymap, IKeymaps } from '../services/hid/Hid';
+import { KeycodeList } from '../services/hid/KeycodeList';
 import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
@@ -77,6 +78,29 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const hidActionsThunk = {
+  updateKeymapsLang: (
+    labelLang: KeyboardLabelLang
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    const layerCount = entities.device.layerCount;
+    const keymaps: { [pos: string]: IKeymap }[] = entities.device.keymaps;
+    let newKeymaps: { [pos: string]: IKeymap }[] = [];
+    for (let i = 0; i < layerCount; i++) {
+      const keymap = keymaps[i];
+      let kmap: { [pos: string]: IKeymap } = {};
+      Object.keys(keymap).forEach((pos) => {
+        const km = keymap[pos];
+        const newKm = KeycodeList.getKeymap(km.code, labelLang);
+        kmap[pos] = newKm;
+      });
+      newKeymaps.push(kmap);
+    }
+
+    dispatch(HidActions.updateKeymaps(newKeymaps));
+  },
   connectAnotherKeyboard: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState

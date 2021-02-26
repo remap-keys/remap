@@ -6,9 +6,12 @@ import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
 import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
+  DIRECTION_LABELS,
+  IMod,
   LayerTapComposition,
   ModsComposition,
   ModTapComposition,
+  MOD_LABELS,
   MOD_LEFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
@@ -17,6 +20,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModLabel } from './Modifiers';
 import { findKeyLabel } from '../../../assets/keylabels/KeyLabel';
+import { findLabelLangLabel } from '../keymap/Keymap';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -262,10 +266,22 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     if (this.state.value && this.state.value.modifiers.length) {
       const keyLabel = findKeyLabel(
         this.state.value.keycodeInfo.code,
-        this.state.value.modifiers,
+        this.state.value.modifiers.reduce((val: number, mod: IMod) => {
+          return val | mod;
+        }, this.state.value.direction << 4),
         this.props.labelLang
       );
+      console.log(this.state.value);
+      console.log(keyLabel);
       if (keyLabel) {
+        const labelLangLabel = findLabelLangLabel(this.props.labelLang);
+        const directionLabel = DIRECTION_LABELS[this.state.value.direction];
+        const modLabels = this.state.value.modifiers
+          .map((m) => MOD_LABELS[m])
+          .join('+');
+        desc = `(${labelLangLabel}) ${directionLabel} ${modLabels} + ${
+          keyLabel.label
+        } → ${keyLabel.meta![0].label}`;
       }
     }
     return (
@@ -302,7 +318,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <TabKey
               value={this.state.value}
-              desc={this.state.value?.desc || ''}
+              desc={desc}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
               labelLang={this.props.labelLang}

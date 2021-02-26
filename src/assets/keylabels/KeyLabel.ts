@@ -1,22 +1,13 @@
 import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
-import { IMod } from '../../services/hid/Composition';
 import { KeyLabelJp } from './KeyLabelJp';
 import { KeyLabelUs } from './KeyLabelUs';
-
-type KeyModifier =
-  | 'LeftShift'
-  | 'RightShift'
-  | 'LeftAlt'
-  | 'RightAlt'
-  | 'LeftCtrl'
-  | 'RightCtrl';
 
 export type KeyLabel = {
   code: number;
   label: string;
   meta?: {
     label: string;
-    modifiers: KeyModifier[];
+    modifiers: number;
   }[];
 };
 
@@ -27,12 +18,19 @@ export const KeyLabelLangMap: { [lang: string]: KeyLabel[] } = {
 
 export const findKeyLabel = (
   code: number,
-  mods: IMod[],
+  mods: number,
   labelLang: KeyboardLabelLang
 ): KeyLabel | undefined => {
+  console.log(
+    `findKeyLabel: code=${code}, mods=${mods}, labelLang=${labelLang}`
+  );
   const labelLangs = KeyLabelLangMap[labelLang];
   const keyLabel = labelLangs.find((ll) => {
-    ll.code === code;
+    return (
+      ll.code === code &&
+      ll.meta &&
+      Boolean(ll.meta.find((m) => m.modifiers === mods))
+    );
   });
   return keyLabel;
 };

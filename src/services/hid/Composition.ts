@@ -232,7 +232,18 @@ const WILL_BE_REPLACED_KEYCODE = -1;
 const WILL_BE_REPLACED_KEYMAP: IKeymap = anyKeymap(WILL_BE_REPLACED_KEYCODE);
 const DUMMY_KEYMAP: IKeymap = anyKeymap(0);
 
-const DIRECTION_LABELS = ['Left', 'Right'];
+export const DIRECTION_LABELS = ['Left', 'Right'] as const;
+export const MOD_LABELS = [
+  '0',
+  'Ctrl',
+  'Shift',
+  '3',
+  'Alt',
+  '5',
+  '6',
+  '7',
+  'Win/Cmd',
+] as const;
 
 const LOOSE_KEYCODE_KEY_INFO_MAP: { [p: number]: KeyInfo } = keyInfoList
   .filter(
@@ -456,18 +467,7 @@ export class ModsComposition implements IModsComposition {
   }
 
   genKeymap(): IKeymap {
-    const modLabels = [
-      '0',
-      'Ctrl',
-      'Shift',
-      '3',
-      'Alt',
-      '5',
-      '6',
-      '7',
-      'Win/Cmd',
-    ];
-    const modLabel = this.modifiers.map((m) => modLabels[m]).join('+');
+    const modLabel = this.modifiers.map((m) => MOD_LABELS[m]).join('+');
     return {
       code: this.getCode(),
       kinds: ['basic', 'mods'],

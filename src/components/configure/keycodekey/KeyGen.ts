@@ -1,4 +1,5 @@
-import { KeyLabel, KeyLabelLangMap } from '../../../assets/keylabels/KeyLabel';
+import { KeyLabel } from '../../../assets/keylabels/KeyLabel';
+import { KeyLabelLangMap } from '../../../assets/keylabels/KeyLabel';
 import { IMod, MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
@@ -65,6 +66,7 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
     };
   } else {
     if (Ketop2LinesLangs.includes(lang)) {
+      console.log(`${lang}: ${keymap.code} = ${keymap.keycodeInfo.label}`);
       const keytop: Keytop2Lines = findKeytop2Lines(
         keymap,
         KeyLabelLangMap[lang]

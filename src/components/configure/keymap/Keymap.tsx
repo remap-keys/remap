@@ -302,6 +302,11 @@ const LabelLangMenuItems: {
   { labelLang: 'jp', menuLabel: 'JIS' },
 ];
 
+export function findLabelLangLabel(labelLang: KeyboardLabelLang): string {
+  const item = LabelLangMenuItems.find((item) => item.labelLang === labelLang);
+  return item?.menuLabel || '';
+}
+
 type LabelLangProps = {
   labelLang: KeyboardLabelLang;
   // eslint-disable-next-line no-unused-vars
