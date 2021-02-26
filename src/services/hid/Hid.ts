@@ -110,6 +110,20 @@ export interface IFetchLayoutOptionsResult extends IResult {
   value?: number;
 }
 
+export interface IGetMacroCountResult extends IResult {
+  count?: number;
+}
+
+export interface IGetMacroBufferSizeResult extends IResult {
+  bufferSize?: number;
+}
+
+export interface IGetMacroGetBufferResult extends IResult {}
+
+export interface IFetchMacroBufferResult extends IResult {
+  buffer?: Uint8Array;
+}
+
 export interface IKeyboard {
   getDevice(): HIDDevice;
   getHid(): IHid;
@@ -149,6 +163,10 @@ export interface IKeyboard {
   fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
   fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
   updateLayoutOptions(value: number): Promise<IResult>;
+  getMacroCount(): Promise<IGetMacroCountResult>;
+  getMacroBufferSize(): Promise<IGetMacroBufferSizeResult>;
+  fetchMacroBuffer(bufferSize: number): Promise<IFetchMacroBufferResult>;
+  updateMacroBuffer(offset: number, buffer: Uint8Array): Promise<IResult>;
 }
 
 export interface ICommand {

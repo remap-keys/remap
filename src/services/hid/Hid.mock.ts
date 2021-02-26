@@ -6,6 +6,7 @@ import {
   IConnectionEventHandler,
   IConnectParams,
   IFetchLayoutOptionsResult,
+  IGetMacroCountResult,
   IHid,
   IKeyboard,
   IResult,
@@ -189,6 +190,26 @@ export const mockIKeyboad: IKeyboard = {
     });
   },
   updateLayoutOptions: (value: number) => {
+    return new Promise((resolve) => {
+      resolve({ success: true });
+    });
+  },
+  getMacroCount: () => {
+    return new Promise((resolve) => {
+      resolve({ success: true, count: 0 });
+    });
+  },
+  getMacroBufferSize: () => {
+    return new Promise((resolve) => {
+      resolve({ success: true, bufferSize: 0 });
+    });
+  },
+  fetchMacroBuffer: (bufferSize: number) => {
+    return new Promise((resolve) => {
+      resolve({ success: true, buffer: new Uint8Array(0) });
+    });
+  },
+  updateMacroBuffer: (offset: number, buffer: Uint8Array) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });

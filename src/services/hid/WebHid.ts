@@ -17,15 +17,24 @@ import {
   IFetchRGBLightEffectResult,
   IFetchSwitchMatrixStateResult,
   IFetchLayoutOptionsResult,
+  IGetMacroCountResult,
+  IGetMacroBufferSizeResult,
+  IFetchMacroBufferResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
   BleMicroProStoreKeymapPersistentlyCommand,
   DynamicKeymapGetLayerCountCommand,
+  DynamicKeymapMacroGetBufferCommand,
+  DynamicKeymapMacroGetBufferSizeCommand,
+  DynamicKeymapMacroGetCountCommand,
+  DynamicKeymapMacroSetBufferCommand,
   DynamicKeymapReadBufferCommand,
   DynamicKeymapResetCommand,
   DynamicKeymapSetKeycodeCommand,
   GetLayoutOptionsCommand,
+  IDynamicKeymapMacroGetBufferResponse,
+  IDynamicKeymapMacroSetBufferResponse,
   IDynamicKeymapReadBufferResponse,
   LightingGetValueCommand,
   LightingSaveCommand,
@@ -690,6 +699,29 @@ export class Keyboard implements IKeyboard {
     });
   }
 
+  getMacroCount(): Promise<IGetMacroCountResult> {
+    return new Promise<IGetMacroCountResult>((resolve) => {
+      const command = new DynamicKeymapMacroGetCountCommand(
+        {},
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              count: result.response!.count,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
   fetchSwitchMatrixState(): Promise<IResult> {
     return new Promise<IFetchSwitchMatrixStateResult>((resolve) => {
       const command = new SwitchMatrixStateCommand({}, async (result) => {
@@ -747,6 +779,144 @@ export class Keyboard implements IKeyboard {
       });
       return this.enqueue(command);
     });
+  }
+
+  getMacroBufferSize(): Promise<IGetMacroBufferSizeResult> {
+    return new Promise<IGetMacroBufferSizeResult>((resolve) => {
+      const command = new DynamicKeymapMacroGetBufferSizeCommand(
+        {},
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+              bufferSize: result.response!.bufferSize,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  async fetchMacroBuffer(bufferSize: number): Promise<IFetchMacroBufferResult> {
+    let offset = 0;
+    const commandResults: Promise<IDynamicKeymapMacroGetBufferResponse>[] = [];
+    let remainingSize = bufferSize;
+    do {
+      let size: number;
+      if (28 < remainingSize) {
+        size = 28;
+        remainingSize = remainingSize - 28;
+      } else {
+        size = remainingSize;
+        remainingSize = 0;
+      }
+      commandResults.push(
+        new Promise<IDynamicKeymapMacroGetBufferResponse>((resolve, reject) => {
+          const command = new DynamicKeymapMacroGetBufferCommand(
+            {
+              offset,
+              size,
+            },
+            async (result) => {
+              if (result.success) {
+                resolve(result.response!);
+              } else {
+                console.log(result.cause!);
+                reject(result.error!);
+              }
+            }
+          );
+          return this.enqueue(command);
+        })
+      );
+      offset = offset + 28;
+    } while (remainingSize !== 0);
+    try {
+      const responses = await Promise.all<IDynamicKeymapMacroGetBufferResponse>(
+        commandResults
+      );
+      const buffer = new Uint8Array(bufferSize);
+      let pos = 0;
+      responses.forEach((response) => {
+        if (bufferSize <= pos + 28) {
+          buffer.set(response.buffer.slice(4, bufferSize - pos + 4), pos);
+        } else {
+          buffer.set(response.buffer.slice(4, 32), pos);
+        }
+        pos += 28;
+      });
+      return {
+        success: true,
+        buffer,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: 'Fetching macro buffer failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async updateMacroBuffer(
+    offset: number,
+    buffer: Uint8Array
+  ): Promise<IResult> {
+    let pos = 0;
+    const commandResults: Promise<IDynamicKeymapMacroSetBufferResponse>[] = [];
+    let remainingSize = buffer.length;
+    do {
+      let size: number;
+      if (28 < remainingSize) {
+        size = 28;
+        remainingSize = remainingSize - 28;
+      } else {
+        size = remainingSize;
+        remainingSize = 0;
+      }
+      commandResults.push(
+        new Promise<IDynamicKeymapMacroSetBufferResponse>((resolve, reject) => {
+          const command = new DynamicKeymapMacroSetBufferCommand(
+            {
+              offset: offset + pos,
+              size,
+              buffer: buffer.slice(pos, pos + size),
+            },
+            async (result) => {
+              if (result.success) {
+                resolve(result.response!);
+              } else {
+                console.log(result.cause!);
+                reject(result.error!);
+              }
+            }
+          );
+          return this.enqueue(command);
+        })
+      );
+      pos = pos + 28;
+    } while (remainingSize !== 0);
+    try {
+      await Promise.all<IDynamicKeymapMacroSetBufferResponse>(commandResults);
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: 'Fetching macro buffer failed.',
+        cause: error,
+      };
+    }
   }
 }
 
