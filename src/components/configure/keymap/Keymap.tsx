@@ -19,11 +19,6 @@ import CustomKey, {
 import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
 
-const LabelLangMenuItem: { [key: string]: string } = {
-  us: 'US',
-  jp: 'JIS',
-};
-
 type OwnProp = {};
 
 type KeymapPropsType = OwnProp &
@@ -174,22 +169,12 @@ export default class Keymap extends React.Component<
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
         <div className="label-lang">
-          <Select
-            value={this.props.langLabel!}
-            onChange={(e) => {
-              this.props.onChangeLangLabel!(
-                e.target.value as KeyboardLabelLang
-              );
+          <LabelLang
+            labelLang={this.props.labelLang!}
+            onChangeLangLabel={(labelLang) => {
+              this.props.onChangeLangLabel!(labelLang);
             }}
-          >
-            {Object.keys(LabelLangMenuItem).map((key, index) => {
-              return (
-                <MenuItem key={`${key}${index}`} value={key}>
-                  {LabelLangMenuItem[key]}
-                </MenuItem>
-              );
-            })}
-          </Select>
+          />
         </div>
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
@@ -227,7 +212,7 @@ export default class Keymap extends React.Component<
             position={this.state.customKeyPopoverPosition}
             value={this.state.selectedKey!}
             layerCount={this.props.layerCount!}
-            labelLang={this.props.langLabel!}
+            labelLang={this.props.labelLang!}
             onClose={this.onCloseCustomKeyPopup.bind(this)}
             onChange={(key: Key) => {
               this.onChangeKeymap(key);
@@ -303,6 +288,41 @@ function Layer(props: LayerProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+const LabelLangMenuItems: {
+  labelLang: KeyboardLabelLang;
+  menuLabel: string;
+}[] = [
+  {
+    labelLang: 'us',
+    menuLabel: 'US',
+  },
+  { labelLang: 'jp', menuLabel: 'JIS' },
+];
+
+type LabelLangProps = {
+  labelLang: KeyboardLabelLang;
+  // eslint-disable-next-line no-unused-vars
+  onChangeLangLabel: (labelLang: KeyboardLabelLang) => void;
+};
+function LabelLang(props: LabelLangProps) {
+  return (
+    <Select
+      value={props.labelLang!}
+      onChange={(e) => {
+        props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);
+      }}
+    >
+      {LabelLangMenuItems.map((item, index) => {
+        return (
+          <MenuItem key={`${item.labelLang}${index}`} value={item.labelLang}>
+            {item.menuLabel}
+          </MenuItem>
+        );
+      })}
+    </Select>
   );
 }
 

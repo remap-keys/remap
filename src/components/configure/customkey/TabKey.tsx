@@ -19,6 +19,7 @@ import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 
 type OwnProps = {
   value: IKeymap | null; // Keys
+  desc: string;
   layerCount: number;
   hexCode: string;
   labelLang: KeyboardLabelLang;
@@ -159,7 +160,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
             this.onChangeKeycode(opt);
           }}
         />
-        <div className="customkey-desc">{this.props.value?.desc || ''}</div>
+        <div className="customkey-desc">{this.props.desc}</div>
         <Modifiers
           disabled={this.disabledModifiers}
           disableDirection={this.disabledDirection}

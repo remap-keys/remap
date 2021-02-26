@@ -21,7 +21,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     selectedLayer: state.configure.keymap.selectedLayer,
     remaps: state.app.remaps,
-    langLabel: state.app.labelLang,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;

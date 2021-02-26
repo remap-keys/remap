@@ -16,6 +16,7 @@ import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModLabel } from './Modifiers';
+import { findKeyLabel } from '../../../assets/keylabels/KeyLabel';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -257,6 +258,16 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
+    let desc = this.state.value?.desc || '';
+    if (this.state.value && this.state.value.modifiers.length) {
+      const keyLabel = findKeyLabel(
+        this.state.value.keycodeInfo.code,
+        this.state.value.modifiers,
+        this.props.labelLang
+      );
+      if (keyLabel) {
+      }
+    }
     return (
       <Popover
         id={this.props.id}
@@ -291,6 +302,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <TabKey
               value={this.state.value}
+              desc={this.state.value?.desc || ''}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
               labelLang={this.props.labelLang}
@@ -315,7 +327,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={2}>
             <div className="customkey-description">
-              You can set a key label and assign its keycode(hex) manually.
+              You can assign a keycode(hex) manually.
             </div>
             <TextField
               variant="outlined"
