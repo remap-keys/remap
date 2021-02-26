@@ -20,8 +20,8 @@ import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
 
 const LabelLangMenuItem: { [key: string]: string } = {
-  jp: 'JP(JIS) Keyboard',
-  us: 'US Keyboard',
+  us: 'US',
+  jp: 'JIS',
 };
 
 type OwnProp = {};
