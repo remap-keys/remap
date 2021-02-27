@@ -55,8 +55,9 @@ export const getMetaLabel = (keyLabel: KeyLabel, mods: number): string => {
   if (!keyLabel.meta) return '';
 
   const meta = keyLabel.meta.find((m) => {
-    m.modifiers === mods;
+    return m.modifiers === mods;
   });
+
   if (meta) {
     return meta.label;
   }

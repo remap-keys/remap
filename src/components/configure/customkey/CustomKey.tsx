@@ -7,7 +7,6 @@ import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
   DIRECTION_LABELS,
-  IMod,
   LayerTapComposition,
   ModsComposition,
   ModTapComposition,
