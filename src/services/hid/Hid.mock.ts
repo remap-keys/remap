@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 import { MOD_LEFT } from './Composition';
 import {
   ICommand,
@@ -68,7 +69,12 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true, layerCount: 4 });
     });
   },
-  fetchKeymaps: (layer: number, rowCount: number, columnCount: number) => {
+  fetchKeymaps: (
+    layer: number,
+    rowCount: number,
+    columnCount: number,
+    labelLang: KeyboardLabelLang
+  ) => {
     return new Promise((resolve) => {
       resolve({
         success: true,

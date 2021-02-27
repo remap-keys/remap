@@ -5,29 +5,8 @@ import {
   AnyKeycodeKeyActions,
   KeycodeKeyActions,
 } from '../../../actions/actions';
-import { IKeycodeInfo, IKeymap } from '../../../services/hid/Hid';
-import { hexadecimal } from '../../../utils/StringUtils';
-
-export type Key = {
-  label: string;
-  meta: string;
-  keymap: IKeymap;
-};
-
-export const genKey = (keymap: IKeymap): Key => {
-  // TODO: change the keytop label according to the platform, like JIS keyboard, mac US keyboard
-  if (keymap.isAny) {
-    return {
-      label: keymap.keycodeInfo
-        ? keymap.keycodeInfo.label
-        : `${hexadecimal(keymap.code)}`,
-      meta: '',
-      keymap,
-    };
-  } else {
-    return { label: keymap.keycodeInfo!.label, meta: '', keymap };
-  }
-};
+import { IKeycodeInfo } from '../../../services/hid/Hid';
+import { Key } from './KeyGen';
 
 export class KeycodeInfo implements IKeycodeInfo {
   readonly code: number;
@@ -48,6 +27,7 @@ const mapStateToProps = (state: RootState, ownProps: KeycodeKeyOwnProps) => {
     keymaps: state.entities.device.keymaps,
     selectedLayer: state.configure.keymap.selectedLayer,
     selected: state.configure.keycodeKey.selectedKey == ownProps.value,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeycodeKeyStateType = ReturnType<typeof mapStateToProps>;

@@ -10,6 +10,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardWidth: state.app.keyboardWidth,
     selectedKey: state.configure.keycodeKey.selectedKey,
     layerCount: state.entities.device.layerCount,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

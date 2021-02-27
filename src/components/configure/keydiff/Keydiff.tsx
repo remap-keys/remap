@@ -4,7 +4,8 @@ import { Button } from '@material-ui/core';
 import { Clear } from '@material-ui/icons';
 import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
-import KeycodeKey, { genKey } from '../keycodekey/KeycodeKey.container';
+import KeycodeKey from '../keycodekey/KeycodeKey.container';
+import { genKey, Key } from '../keycodekey/KeyGen';
 
 type KeydiffOwnProps = {};
 
@@ -22,8 +23,9 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     if (!origin || !destination) {
       return <div className="diff"></div>;
     }
-    const origKey = genKey(origin);
-    const dstKey = genKey(destination);
+    const labelLang = this.props.labelLang!;
+    const origKey: Key = genKey(origin, labelLang);
+    const dstKey: Key = genKey(destination, labelLang);
 
     return (
       <div className="diff">

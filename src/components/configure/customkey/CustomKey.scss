@@ -24,14 +24,19 @@
       border-left: 15px solid transparent;
     }
     .customkey-tabpanel {
+      position: relative;
       padding: $space-l;
     }
     .customkey-body {
       width: 400px;
-      min-height: 240px;
+      height: 254px;
 
       .customkey-field {
         margin-bottom: $space-l;
+      }
+
+      .customkey-field-hex {
+        margin-top: $space-m;
       }
 
       .customkey-label {
@@ -59,7 +64,7 @@
         display: flex;
         flex-direction: column;
         position: relative;
-        margin-top: -52px;
+        margin-top: -36px;
         margin-right: 8px;
         div {
           height: 16px;
@@ -89,7 +94,7 @@
       width: 0;
       height: 0;
       left: 185px;
-      bottom: 240px;
+      bottom: 254px;
       border-bottom: 15px solid #ffffff;
       border-right: 15px solid transparent;
       border-left: 15px solid transparent;

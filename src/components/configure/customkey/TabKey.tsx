@@ -15,11 +15,14 @@ import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
+import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 
 type OwnProps = {
   value: IKeymap | null; // Keys
+  desc: string;
   layerCount: number;
   hexCode: string;
+  labelLang: KeyboardLabelLang;
   onChangeKey: (
     // eslint-disable-next-line no-unused-vars
     opt: IKeymap
@@ -27,28 +30,14 @@ type OwnProps = {
 };
 type OwnState = {};
 export default class TabKey extends React.Component<OwnProps, OwnState> {
-  private static basicKeymaps: IKeymap[];
+  private static basicKeymaps: { [pos: string]: IKeymap[] } = {};
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {};
-    if (!TabKey.basicKeymaps) {
-      const layerCount = this.props.layerCount;
-      TabKey.basicKeymaps = [
-        ...KeyCategory.basic(),
-        ...KeyCategory.symbol(),
-        ...KeyCategory.functions(),
-        ...KeyCategory.layer(layerCount),
-        ...LayerModComposition.genKeymaps(layerCount),
-        ...OneShotModComposition.genKeymaps(),
-        ...KeyCategory.special(),
-        ...KeyCategory.device(),
-        // ...KeyCategory.macro(),
-      ];
-    }
   }
 
   static isAvailable(code: number): boolean {
-    const f = new KeycodeCompositionFactory(code);
+    const f = new KeycodeCompositionFactory(code, 'us');
     return (
       f.isBasic() ||
       f.isMods() ||
@@ -86,7 +75,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     if (this.props.value === null) return true;
 
     function isAvailableModifiers(code: number) {
-      const factory = new KeycodeCompositionFactory(code);
+      const factory = new KeycodeCompositionFactory(code, 'us');
       const flag =
         (factory.isBasic() && !factory.isBasicFunc()) ||
         factory.isMods() ||
@@ -101,9 +90,31 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
 
   get disabledDirection() {
     const factory = new KeycodeCompositionFactory(
-      parseInt(this.props.hexCode, 16)
+      parseInt(this.props.hexCode, 16),
+      'us'
     );
     return factory.isLayerMod();
+  }
+
+  get basicKeymaps() {
+    const labelLang = this.props.labelLang;
+    if (Object.prototype.hasOwnProperty.call(TabKey.basicKeymaps, labelLang)) {
+      return TabKey.basicKeymaps[labelLang];
+    }
+    const layerCount = this.props.layerCount;
+    const keymaps = [
+      ...KeyCategory.basic(labelLang),
+      ...KeyCategory.symbol(labelLang),
+      ...KeyCategory.functions(labelLang),
+      ...KeyCategory.layer(layerCount),
+      ...LayerModComposition.genKeymaps(layerCount),
+      ...OneShotModComposition.genKeymaps(),
+      ...KeyCategory.special(labelLang),
+      ...KeyCategory.device(labelLang),
+      // ...KeyCategory.macro(),
+    ];
+    TabKey.basicKeymaps[labelLang] = keymaps;
+    return keymaps;
   }
 
   private emitOnChange(opt: IKeymap, direction: IModDirection, mods: IMod[]) {
@@ -123,7 +134,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       keymap.direction = MOD_LEFT;
       keymap.code = new LayerModComposition(layer, mods).getCode();
     } else {
-      const f = new KeycodeCompositionFactory(opt.code);
+      const f = new KeycodeCompositionFactory(opt.code, 'us');
       if (f.isBasic() || f.isMods()) {
         keymap.code = new ModsComposition(direction, mods, opt).getCode();
       } else {
@@ -150,13 +161,13 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       <React.Fragment>
         <AutocompleteKeys
           label="Keycode"
-          keycodeOptions={TabKey.basicKeymaps}
+          keycodeOptions={this.basicKeymaps}
           keycodeInfo={this.props.value}
           onChange={(opt) => {
             this.onChangeKeycode(opt);
           }}
         />
-        <div className="customkey-desc">{this.props.value?.desc || ''}</div>
+        <div className="customkey-desc">{this.props.desc}</div>
         <Modifiers
           disabled={this.disabledModifiers}
           disableDirection={this.disabledDirection}

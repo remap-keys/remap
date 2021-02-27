@@ -1,13 +1,11 @@
 import React from 'react';
-import { hexadecimal } from '../../../utils/StringUtils';
-import { buildModLabel } from '../customkey/Modifiers';
 import AnyKeyDialog from './any/AnyKeyEditDialog';
 import {
-  Key,
   KeycodeKeyActionsType,
   KeycodeKeyStateType,
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
+import { genKey, Key } from './KeyGen';
 
 export type AnyKey = {
   label: string;
@@ -73,19 +71,10 @@ export default class KeycodeKey extends React.Component<
     const draggable = this.props.draggable;
     const km = this.props.value.keymap;
 
-    let modifierLabel = '';
-    let holdLabel = '';
-    if (km.kinds.includes('mod_tap')) {
-      holdLabel = buildModLabel(km.modifiers || null, km.direction!);
-    } else if (km.kinds.includes('layer_tap')) {
-      holdLabel = km.option === undefined ? '' : `Layer(${km.option})`;
-    } else if (km.kinds.includes('swap_hands')) {
-      holdLabel = 'SWAP';
-    } else if (km.isAny) {
-      holdLabel = hexadecimal(km.code, 4);
-    } else {
-      modifierLabel = buildModLabel(km.modifiers || null, km.direction!);
-    }
+    const key: Key = genKey(km, this.props.labelLang!);
+    const label = key.label;
+    const modifierLabel = key.meta;
+    const holdLabel = '';
 
     return (
       <React.Fragment>
@@ -110,10 +99,10 @@ export default class KeycodeKey extends React.Component<
           }}
         >
           {0 === modifierLabel.length && 0 === holdLabel.length ? (
-            <KeycodeKeyView label={this.props.value.label} />
+            <KeycodeKeyView label={label} />
           ) : (
             <KeycodeModifiersKeyView
-              label={this.props.value.label}
+              label={label}
               holdLabel={holdLabel}
               modifierLabel={modifierLabel}
             />

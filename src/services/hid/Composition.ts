@@ -1,4 +1,4 @@
-import { IKeycodeCategoryInfo, IKeymap } from './Hid';
+import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 import { KeymapCategory } from './KeycodeList';
 
@@ -32,6 +32,9 @@ import {
   KEY_SUB_CATEGORY_UNDERGLOW,
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
+import { KeyLabel } from '../labellang/KeyLabel';
+import { KeyLabelLangs } from '../labellang/KeyLabelLangs';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -230,7 +233,18 @@ const WILL_BE_REPLACED_KEYCODE = -1;
 const WILL_BE_REPLACED_KEYMAP: IKeymap = anyKeymap(WILL_BE_REPLACED_KEYCODE);
 const DUMMY_KEYMAP: IKeymap = anyKeymap(0);
 
-const DIRECTION_LABELS = ['Left', 'Right'];
+export const DIRECTION_LABELS = ['Left', 'Right'] as const;
+export const MOD_LABELS = [
+  '0',
+  'Ctrl',
+  'Shift',
+  '3',
+  'Alt',
+  '5',
+  '6',
+  '7',
+  'Win/Cmd',
+] as const;
 
 const LOOSE_KEYCODE_KEY_INFO_MAP: { [p: number]: KeyInfo } = keyInfoList
   .filter(
@@ -326,7 +340,7 @@ export interface IUnicodeComposition extends IComposition {
 export interface ILooseKeycodeComposition extends IComposition {}
 
 export class BasicComposition implements IBasicComposition {
-  private static _keymaps: IKeymap[];
+  private static _keymaps: { [lang: string]: IKeymap[] } = {};
   private readonly key: IKeymap;
 
   constructor(key: IKeymap) {
@@ -345,8 +359,11 @@ export class BasicComposition implements IBasicComposition {
     }
   }
 
-  static genKeymaps(): IKeymap[] {
-    if (BasicComposition._keymaps) return this._keymaps;
+  static genKeymaps(labelLang: KeyboardLabelLang): IKeymap[] {
+    if (
+      Object.prototype.hasOwnProperty.call(BasicComposition._keymaps, labelLang)
+    )
+      return this._keymaps[labelLang];
 
     const list: IKeycodeCategoryInfo[] = [
       // basic
@@ -375,19 +392,30 @@ export class BasicComposition implements IBasicComposition {
       KEY_SUB_CATEGORY_MOUSE,
     ];
 
+    const keyLabels: KeyLabel[] = KeyLabelLangs.getKeyLabels(labelLang) || [];
     const normalKeymaps: IKeymap[] = [];
     list.forEach((category) => {
       const kinds = category.kinds;
-
       category.codes.forEach((code) => {
         let keyInfo = keyInfoList.find(
           (info) => info.keycodeInfo.code === code
         );
 
         const desc = keyInfo ? keyInfo.desc : 'Unknown';
-        const keycodeInfo = keyInfo
-          ? keyInfo.keycodeInfo
-          : anyKeymap(code).keycodeInfo;
+        let keycodeInfo: IKeycodeInfo;
+        if (keyInfo) {
+          const keyLabelLang = keyLabels.find((keyLabel: KeyLabel) => {
+            return keyLabel.code === keyInfo!.keycodeInfo.code;
+          });
+          if (keyLabelLang) {
+            keycodeInfo = { ...keyInfo.keycodeInfo, label: keyLabelLang.label };
+          } else {
+            keycodeInfo = keyInfo.keycodeInfo;
+          }
+        } else {
+          keycodeInfo = anyKeymap(code).keycodeInfo;
+        }
+
         const km: IKeymap = {
           code,
           kinds,
@@ -400,12 +428,15 @@ export class BasicComposition implements IBasicComposition {
         normalKeymaps.push(km);
       });
     });
-    BasicComposition._keymaps = normalKeymaps;
-    return BasicComposition._keymaps;
+    BasicComposition._keymaps[labelLang] = normalKeymaps;
+    return BasicComposition._keymaps[labelLang];
   }
 
-  static findKeymap(code: number): IKeymap | undefined {
-    const list: IKeymap[] = BasicComposition.genKeymaps();
+  static findKeymap(
+    code: number,
+    labelLang: KeyboardLabelLang
+  ): IKeymap | undefined {
+    const list: IKeymap[] = BasicComposition.genKeymaps(labelLang);
     const basic = list.find((km) => km.code === code);
     return basic;
   }
@@ -437,23 +468,11 @@ export class ModsComposition implements IModsComposition {
   }
 
   genKeymap(): IKeymap {
-    const modLabels = [
-      '0',
-      'Ctrl',
-      'Shift',
-      '3',
-      'Alt',
-      '5',
-      '6',
-      '7',
-      'Win/Cmd',
-    ];
-    const modLabel = this.modifiers.map((m) => modLabels[m]).join('+');
     return {
       code: this.getCode(),
       kinds: ['basic', 'mods'],
       isAny: false,
-      desc: `${modLabel} + ${this.key.desc || this.key.keycodeInfo.label}`,
+      desc: '',
       keycodeInfo: this.key.keycodeInfo,
       direction: this.modDirection,
       modifiers: this.modifiers,
@@ -1059,6 +1078,21 @@ export class SwapHandsComposition implements ISwapHandsComposition {
         'One shot swap hands: toggles while pressed or until next key press.',
     },
   ];
+  static readonly holdKey: IKeymap = {
+    code: WILL_BE_REPLACED_KEYCODE,
+    isAny: false,
+    direction: MOD_LEFT,
+    modifiers: [],
+    keycodeInfo: {
+      code: WILL_BE_REPLACED_KEYCODE,
+      label: `Swap-Hands`,
+      name: { short: 'SH', long: 'SH' },
+    },
+    kinds: ['swap_hands'],
+    desc:
+      'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+  };
+
   private readonly key: IKeymap | undefined;
   private readonly swapHandsOption: ISwapHandsOption | null;
 
@@ -1156,24 +1190,6 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     );
 
     return SwapHandsComposition._swapHandsOptionKeymaps;
-  }
-
-  static genKeymaps(): IKeymap[] {
-    const keymap: IKeymap = {
-      code: WILL_BE_REPLACED_KEYCODE,
-      isAny: false,
-      direction: MOD_LEFT,
-      modifiers: [],
-      keycodeInfo: {
-        code: WILL_BE_REPLACED_KEYCODE,
-        label: `Swap-Hands`,
-        name: { short: 'SH', long: 'SH' },
-      },
-      kinds: ['swap_hands'],
-      desc:
-        'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
-    };
-    return [keymap];
   }
 }
 
@@ -1425,9 +1441,11 @@ export interface IKeycodeCompositionFactory {
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   private readonly code: number;
+  private readonly labelLang: KeyboardLabelLang;
 
-  constructor(code: number) {
+  constructor(code: number, labelLang: KeyboardLabelLang) {
     this.code = code;
+    this.labelLang = labelLang;
   }
 
   getKind(): IKeycodeCompositionKind | null {
@@ -1444,7 +1462,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isBasic(): boolean {
     //return this.getKind() === KeycodeCompositionKind.basic;
-    const km = BasicComposition.findKeymap(this.code);
+    const km = BasicComposition.findKeymap(this.code, 'us');
     return Boolean(km);
   }
 
@@ -1531,7 +1549,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
+    const keymap: IKeymap = BasicComposition.findKeymap(
+      keyCode,
+      this.labelLang
+    )!;
     return new BasicComposition(keymap);
   }
 
@@ -1542,7 +1563,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const basicCode = this.code & 0b1111_1111;
-    const basicKeymap: IKeymap = BasicComposition.findKeymap(basicCode)!;
+    const basicKeymap: IKeymap = BasicComposition.findKeymap(
+      basicCode,
+      this.labelLang
+    )!;
     const modDirection =
       (this.code & 0b1_0000_0000_0000) >> 12 === 1 ? MOD_RIGHT : MOD_LEFT;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
@@ -1582,7 +1606,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     }
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
-    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
+    const keymap: IKeymap = BasicComposition.findKeymap(
+      keyCode,
+      this.labelLang
+    )!;
     return new LayerTapComposition(layer, keymap);
   }
 
@@ -1711,7 +1738,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     if (SWAP_HANDS_OPTIONS.includes(value as ISwapHandsOption)) {
       return new SwapHandsComposition(value as ISwapHandsOption);
     } else {
-      const keymap = BasicComposition.findKeymap(value)!;
+      const keymap = BasicComposition.findKeymap(value, this.labelLang)!;
       return new SwapHandsComposition(keymap);
     }
   }
@@ -1723,7 +1750,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     const keyCode = this.code & 0b1111_1111;
-    const keymap: IKeymap = BasicComposition.findKeymap(keyCode)!;
+    const keymap: IKeymap = BasicComposition.findKeymap(
+      keyCode,
+      this.labelLang
+    )!;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
       if (((this.code >> 8) & 0b1111 & current) === current) {
         result.push(current);

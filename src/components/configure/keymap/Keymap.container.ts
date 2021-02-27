@@ -7,6 +7,9 @@ import {
   KeymapActions,
 } from '../../../actions/actions';
 import { IKeymap } from '../../../services/hid/Hid';
+import { KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { hidActionsThunk } from '../../../actions/hid.action';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -20,6 +23,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     selectedLayer: state.configure.keymap.selectedLayer,
     remaps: state.app.remaps,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;
@@ -30,6 +34,20 @@ const mapDispatchToProps = (_dispatch: any) => {
     onClickLayerNumber: (layer: number) => {
       _dispatch(KeymapActions.clearSelectedPos());
       _dispatch(KeymapActions.updateSelectedLayer(layer));
+    },
+    onChangeLangLabel: (
+      labelLang: KeyboardLabelLang,
+      orgKeymap: IKeymap | null,
+      dstKeymap: IKeymap | null
+    ) => {
+      _dispatch(AppActions.updateLangLabel(labelLang));
+      _dispatch(hidActionsThunk.updateKeymaps(labelLang));
+
+      if (orgKeymap && dstKeymap) {
+        const newOrgKeymap = KeycodeList.getKeymap(orgKeymap.code, labelLang);
+        const newDstKeymap = KeycodeList.getKeymap(dstKeymap.code, labelLang);
+        _dispatch(KeydiffActions.updateKeydiff(newOrgKeymap, newDstKeymap));
+      }
     },
     setKeyboardSize: (width: number, height: number) => {
       _dispatch(AppActions.updateKeyboardSize(width, height));

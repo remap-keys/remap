@@ -1,5 +1,8 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import { Key } from '../components/configure/keycodekey/KeycodeKey.container';
+import {
+  Key,
+  KeyboardLabelLang,
+} from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { ISetupPhase } from '../store/state';
@@ -179,6 +182,7 @@ export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const APP_UPDATE_KEYBOARD_SIZE = `${APP_ACTIONS}/UpdateKeyboardSize`;
+export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -232,6 +236,12 @@ export const AppActions = {
     return {
       type: APP_UPDATE_KEYBOARD_SIZE,
       value: { width, height },
+    };
+  },
+  updateLangLabel: (langLabel: KeyboardLabelLang) => {
+    return {
+      type: APP_UPDATE_LANG_LABEL,
+      value: langLabel,
     };
   },
 };

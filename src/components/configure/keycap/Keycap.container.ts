@@ -6,7 +6,7 @@ import {
   KeydiffActions,
   AppActions,
 } from '../../../actions/actions';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     draggingKey: state.configure.keycodeKey.draggingKey,
     selectedPos: state.configure.keymap.selectedPos,
     selectedLayer: state.configure.keymap.selectedLayer,
+    labelLang: state.app.labelLang,
   };
 };
 export type KeycapStateType = ReturnType<typeof mapStateToProps>;

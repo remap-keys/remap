@@ -2,15 +2,12 @@
 import React from 'react';
 import './Keycodes.scss';
 import { Button } from '@material-ui/core';
-import KeycodeKey, { genKey, Key } from '../keycodekey/KeycodeKey.container';
+import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
-import { IKeycodeCategory, IKeymap } from '../../../services/hid/Hid';
+import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
-
-const genKeys = (keymaps: IKeymap[]): Key[] => {
-  return keymaps.map<Key>((keymap) => genKey(keymap));
-};
+import { genKeys, Key } from '../keycodekey/KeyGen';
 
 type OwnProps = {};
 
@@ -30,20 +27,41 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       category: 'Basic',
     };
     this.categoryKeys = {
-      Basic: genKeys(KeyCategory.basic()),
-      Symbol: genKeys(KeyCategory.symbol()),
-      Functions: genKeys(KeyCategory.functions()),
-      Layer: genKeys(KeyCategory.layer(this.props.layerCount!)),
-      Device: genKeys(KeyCategory.device()),
+      Basic: genKeys(
+        KeyCategory.basic(this.props.labelLang!),
+        this.props.labelLang!
+      ),
+      Symbol: genKeys(
+        KeyCategory.symbol(this.props.labelLang!),
+        this.props.labelLang!
+      ),
+      Functions: genKeys(
+        KeyCategory.functions(this.props.labelLang!),
+        this.props.labelLang!
+      ),
+      Layer: genKeys(
+        KeyCategory.layer(this.props.layerCount!),
+        this.props.labelLang!
+      ),
+      Device: genKeys(
+        KeyCategory.device(this.props.labelLang!),
+        this.props.labelLang!
+      ),
       // Macro: genKeys(KeyCategory.macro()),
-      Special: genKeys(KeyCategory.special()),
+      Special: genKeys(
+        KeyCategory.special(this.props.labelLang!),
+        this.props.labelLang!
+      ),
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   shouldComponentUpdate(nextProps: KeycodesProps, _nextState: OwnState) {
     if (this.props.layerCount != nextProps.layerCount) {
-      const keys: Key[] = genKeys(KeyCategory.layer(nextProps.layerCount!));
+      const keys: Key[] = genKeys(
+        KeyCategory.layer(nextProps.layerCount!),
+        this.props.labelLang!
+      );
       this.categoryKeys['Layer'] = keys;
     }
     return true;

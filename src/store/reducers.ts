@@ -37,6 +37,7 @@ import {
   LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
   LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
   APP_UPDATE_KEYBOARD_SIZE,
+  APP_UPDATE_LANG_LABEL,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -54,10 +55,8 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import {
-  Key,
-  KeycodeInfo,
-} from '../components/configure/keycodekey/KeycodeKey.container';
+import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import { FirmwareCodePlace, INIT_STATE, RootState } from './state';
 import {
@@ -334,6 +333,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case APP_UPDATE_KEYBOARD_SIZE: {
       draft.app.keyboardHeight = action.value.height;
       draft.app.keyboardWidth = action.value.width;
+      break;
+    }
+    case APP_UPDATE_LANG_LABEL: {
+      draft.app.labelLang = action.value;
       break;
     }
   }

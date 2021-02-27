@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 import {
   IKeycodeCompositionFactory,
   IMod,
@@ -113,7 +114,8 @@ export interface IKeyboard {
   fetchKeymaps(
     layer: number,
     rowCount: number,
-    columnCount: number
+    columnCount: number,
+    labelLang: KeyboardLabelLang
   ): Promise<IFetchKeymapResult>;
   updateKeymap(
     layer: number,

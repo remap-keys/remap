@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import CustomKey from './CustomKey';
 import Keycap from '../keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key } from '../keycodekey/KeyGen';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 
 export default {
@@ -89,6 +89,7 @@ class CustomKeyStory extends React.Component<{}, State> {
           open={this.state.open}
           layerCount={4}
           position={{ left: 200, top: 200, side: 'above' }}
+          labelLang="us"
           onClose={this.onClose.bind(this)}
           onChange={(key: Key) => {
             this.setKey(key);

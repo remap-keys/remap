@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
-import { Key, genKey } from '../keycodekey/KeycodeKey.container';
+import { Key, genKey } from '../keycodekey/KeyGen';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, withStyles } from '@material-ui/core';
 import './Keycap.scss';
@@ -136,9 +136,9 @@ export default class Keycap extends React.Component<
     const optionLabel = this.props.model.optionLabel;
     const isSelectedKey = pos == this.props.selectedPos!;
     const keymap: IKeymap = this.props.keymap;
-    const orgKey: Key = genKey(keymap);
+    const orgKey: Key = genKey(keymap, this.props.labelLang!);
     const dstKey: Key | null = this.props.remap
-      ? genKey(this.props.remap)
+      ? genKey(this.props.remap, this.props.labelLang!)
       : null;
 
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
@@ -255,6 +255,7 @@ export default class Keycap extends React.Component<
         >
           <KeyLabel
             label={dstKey ? dstKey.label : orgKey.label}
+            meta={dstKey ? dstKey.meta : orgKey.meta}
             modifierLabel={modifierLabel}
             holdLabel={holdLabel}
             pos={pos}
@@ -270,6 +271,7 @@ export default class Keycap extends React.Component<
 
 type KeyLabelType = {
   label: string;
+  meta: string;
   modifierLabel: string;
   holdLabel: string;
   hasDiff: boolean;
@@ -299,48 +301,121 @@ function KeyLabel(props: KeyLabelType) {
       </React.Fragment>
     );
   } else {
-    const length = props.label.split(' ').length;
-    const labelSize = length == 2 ? '_m' : length == 3 ? '_s' : '';
-    if (props.modifierLabel.length === 0 && props.holdLabel.length === 0) {
+    const points = props.label.match(/[\s\\/]/g);
+    const breakPoints = points ? points.length : 0;
+    const labelSize = breakPoints == 1 ? '_m' : breakPoints == 2 ? '_s' : '';
+    if (0 < props.meta.length) {
       return (
-        <React.Fragment>
-          <div className="keylabel vcenter">
-            <div className={`label center keycode-label ${labelSize}`}>
-              {props.label}
-            </div>
-          </div>
-          <StyledBadge
-            color="primary"
-            variant="dot"
-            invisible={!props.hasDiff}
-            className="diff-dot"
-          ></StyledBadge>
-        </React.Fragment>
+        <MetaKeyLabel
+          label={props.label}
+          meta={props.meta}
+          labelSize={labelSize}
+          hasDiff={props.hasDiff}
+        />
+      );
+    } else if (0 < props.modifierLabel.length || 0 < props.holdLabel.length) {
+      return (
+        <ModHoldKeyLabel
+          label={props.label}
+          labelSize={labelSize}
+          hasDiff={props.hasDiff}
+          modifierLabel={props.modifierLabel}
+          holdLabel={props.holdLabel}
+        />
       );
     } else {
       return (
-        <React.Fragment>
-          <div className="keylabel">
-            <div className={`label center modifier`}>{props.modifierLabel}</div>
-          </div>
-          <div className="keylabel">
-            <div className={`label center keycode-label ${labelSize}`}>
-              {props.label}
-            </div>
-          </div>
-          <div className="keylabel">
-            <div className={`label center modifier`}>{props.holdLabel}</div>
-          </div>
-          <StyledBadge
-            color="primary"
-            variant="dot"
-            invisible={!props.hasDiff}
-            className="diff-dot"
-          ></StyledBadge>
-        </React.Fragment>
+        <NormalKeyLabel
+          label={props.label}
+          labelSize={labelSize}
+          hasDiff={props.hasDiff}
+        />
       );
     }
   }
+}
+
+type NormalKeyLabelType = {
+  label: string;
+  labelSize: '' | '_s' | '_m';
+  hasDiff: boolean;
+};
+
+function NormalKeyLabel(props: NormalKeyLabelType) {
+  return (
+    <React.Fragment>
+      <div className="keylabel vcenter">
+        <div className={`label center keycode-label ${props.labelSize}`}>
+          {props.label}
+        </div>
+      </div>
+      <StyledBadge
+        color="primary"
+        variant="dot"
+        invisible={!props.hasDiff}
+        className="diff-dot"
+      ></StyledBadge>
+    </React.Fragment>
+  );
+}
+
+type MetaKeyLabelType = {
+  label: string;
+  meta: string;
+  labelSize: '' | '_s' | '_m';
+  hasDiff: boolean;
+};
+
+function MetaKeyLabel(props: MetaKeyLabelType) {
+  return (
+    <React.Fragment>
+      <div className="keylabel vcenter">
+        <div className="label center modifier">{props.meta}</div>
+      </div>
+      <div className="keylabel">
+        <div className={`label center keycode-label ${props.labelSize}`}>
+          {props.label}
+        </div>
+      </div>
+      <StyledBadge
+        color="primary"
+        variant="dot"
+        invisible={!props.hasDiff}
+        className="diff-dot"
+      ></StyledBadge>
+    </React.Fragment>
+  );
+}
+
+type ModHoldKeyLabelType = {
+  label: string;
+  labelSize: '' | '_s' | '_m';
+  modifierLabel: string;
+  holdLabel: string;
+  hasDiff: boolean;
+};
+function ModHoldKeyLabel(props: ModHoldKeyLabelType) {
+  return (
+    <React.Fragment>
+      <div className="keylabel">
+        <div className={`label center modifier`}>{props.modifierLabel}</div>
+      </div>
+      <div className="keylabel">
+        <div className={`label center keycode-label ${props.labelSize}`}>
+          {props.label}
+        </div>
+      </div>
+      <div className="keylabel">
+        <div className={`label center modifier`}>{props.holdLabel}</div>
+      </div>
+      <StyledBadge
+        color="primary"
+        variant="dot"
+        invisible={!props.hasDiff}
+        className="diff-dot"
+      ></StyledBadge>
+    </React.Fragment>
+  );
 }
 
 // eslint-disable-next-line no-unused-vars

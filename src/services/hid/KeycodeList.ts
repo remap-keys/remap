@@ -5,6 +5,7 @@ import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
 } from './Composition';
+import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 
 export type KeymapCategory =
   | IKeycodeCompositionKind
@@ -62,13 +63,14 @@ function isDefinedKey(ret: {
 
 export class KeycodeList {
   static getKeymaps(
-    hex: number
+    hex: number,
+    langLabel: KeyboardLabelLang
   ): {
     value: IKeymap | null;
     holdKey: IKeymap | null;
     tapKey: IKeymap | null;
   } {
-    const factory = new KeycodeCompositionFactory(hex);
+    const factory = new KeycodeCompositionFactory(hex, langLabel);
     let ret: {
       value: IKeymap | null;
       holdKey: IKeymap | null;
@@ -141,8 +143,8 @@ export class KeycodeList {
     return ret;
   }
 
-  static getKeymap(code: number): IKeymap {
-    const { value, holdKey, tapKey } = KeycodeList.getKeymaps(code);
+  static getKeymap(code: number, labelLang: KeyboardLabelLang): IKeymap {
+    const { value, holdKey, tapKey } = KeycodeList.getKeymaps(code, labelLang);
     if (value) {
       return value;
     }

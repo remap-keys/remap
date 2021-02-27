@@ -3,19 +3,23 @@ import React from 'react';
 import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
+  DIRECTION_LABELS,
   LayerTapComposition,
   ModsComposition,
   ModTapComposition,
+  MOD_LABELS,
   MOD_LEFT,
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
-import { buildModLabel } from './Modifiers';
+import { buildModLabel, mods2Number } from './Modifiers';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import { getMetaLabel } from '../../../services/labellang/KeyLabel';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -32,6 +36,7 @@ type OwnProps = {
   layerCount: number;
   open: boolean;
   position: PopoverPosition;
+  labelLang: KeyboardLabelLang;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
@@ -83,7 +88,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       value = keymap;
       selectedTabIndex = 0;
     } else if (TabHoldTapKey.isAvailable(code)) {
-      const keys = TabHoldTapKey.genHoldTapKeys(code);
+      const keys = TabHoldTapKey.genHoldTapKeys(code, this.props.labelLang);
       holdKey = keys.holdKey;
       tapKey = keys.tapKey;
       selectedTabIndex = 1;
@@ -97,6 +102,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       label,
       hexCode,
     });
+    this.updateCustomMetaLabels({ value, holdKey });
     setTimeout(() => {
       this.setState({ selectedTabIndex }); // for collecting css animation
     }, 180);
@@ -206,10 +212,10 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({ hexCode });
     const code = parseInt(hexCode, 16);
     if (Number.isNaN(code)) {
-      const km = KeycodeList.getKeymap(0);
+      const km = KeycodeList.getKeymap(0, this.props.labelLang);
       this.setState({ value: km });
     } else {
-      const ret = KeycodeList.getKeymaps(code);
+      const ret = KeycodeList.getKeymaps(code, this.props.labelLang);
       if (ret.value) {
         this.onChangeKey(ret.value);
       } else if (ret.holdKey && ret.tapKey) {
@@ -256,6 +262,32 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   render() {
+    let desc = this.state.value?.desc || '';
+    if (this.state.value && this.state.value.modifiers.length) {
+      const mods = mods2Number(
+        this.state.value.modifiers,
+        this.state.value.direction
+      );
+      const keyLabel = KeyLabelLangs.findKeyLabel(
+        this.state.value.keycodeInfo.code,
+        mods,
+        this.props.labelLang
+      );
+
+      if (keyLabel) {
+        const labelLangLabel = KeyLabelLangs.getLabelLangMenuLabel(
+          this.props.labelLang
+        );
+        const directionLabel = DIRECTION_LABELS[this.state.value.direction];
+        const modLabels = this.state.value.modifiers
+          .map((m) => MOD_LABELS[m])
+          .join('+');
+        const metaLabel = getMetaLabel(keyLabel, mods);
+
+        desc = `(${labelLangLabel}) ${directionLabel} ${modLabels} + ${keyLabel.label} → ${metaLabel}`;
+      }
+    }
+
     return (
       <Popover
         id={this.props.id}
@@ -290,8 +322,10 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           <TabPanel value={this.state.selectedTabIndex} index={0}>
             <TabKey
               value={this.state.value}
+              desc={desc}
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
+              labelLang={this.props.labelLang}
               onChangeKey={(opt: IKeymap) => {
                 this.onChangeKey(opt);
               }}
@@ -305,6 +339,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               holdKey={this.state.holdKey}
               tapKey={this.state.tapKey}
               layerCount={this.props.layerCount}
+              labelLang={'us'}
               onChange={(hold, tap) => {
                 this.onChangeHoldTap(hold, tap);
               }}
@@ -312,12 +347,12 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
           </TabPanel>
           <TabPanel value={this.state.selectedTabIndex} index={2}>
             <div className="customkey-description">
-              You can set a key label and assign its keycode(hex) manually.
+              You can assign a keycode(hex) manually.
             </div>
             <TextField
               variant="outlined"
               label="Label"
-              className="customkey-field customkey-label"
+              className="customkey-label"
               size="small"
               disabled={true}
               onChange={(e) => {
@@ -325,15 +360,18 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               }}
               value={this.state.label}
             />
-            <div className="customkey-field customkey-meta">
+            <div className="customkey-meta">
               <div>{this.state.modsLabel}</div>
               <div>{this.state.holdLabel}</div>
             </div>
+            <div className="customkey-desc">{desc}</div>
+
             <TextField
               variant="outlined"
               label="Code(hex)"
               className={[
                 'customkey-field',
+                'customkey-field-hex',
                 'customkey-label',
                 0 < this.state.hexCode.length && 'customkey-code',
               ].join(' ')}
@@ -343,6 +381,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               }}
               value={this.state.hexCode.toUpperCase()}
             />
+
             <div className="customkey-bcode">
               {(
                 '0000000000000000' +

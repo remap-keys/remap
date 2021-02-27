@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import { Badge, Chip, withStyles } from '@material-ui/core';
+import { Badge, Chip, MenuItem, Select, withStyles } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
@@ -16,8 +16,9 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
 } from '../customkey/CustomKey';
-import { Key } from '../keycodekey/KeycodeKey.container';
+import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProp = {};
 
@@ -168,6 +169,18 @@ export default class Keymap extends React.Component<
     return (
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
+        <div className="label-lang">
+          <LabelLang
+            labelLang={this.props.labelLang!}
+            onChangeLangLabel={(labelLang) => {
+              this.props.onChangeLangLabel!(
+                labelLang,
+                this.props.keydiff!.origin,
+                this.props.keydiff!.destination
+              );
+            }}
+          />
+        </div>
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
           <Keydiff />
@@ -204,6 +217,7 @@ export default class Keymap extends React.Component<
             position={this.state.customKeyPopoverPosition}
             value={this.state.selectedKey!}
             layerCount={this.props.layerCount!}
+            labelLang={this.props.labelLang!}
             onClose={this.onCloseCustomKeyPopup.bind(this)}
             onChange={(key: Key) => {
               this.onChangeKeymap(key);
@@ -279,6 +293,30 @@ function Layer(props: LayerProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+type LabelLangProps = {
+  labelLang: KeyboardLabelLang;
+  // eslint-disable-next-line no-unused-vars
+  onChangeLangLabel: (labelLang: KeyboardLabelLang) => void;
+};
+function LabelLang(props: LabelLangProps) {
+  return (
+    <Select
+      value={props.labelLang!}
+      onChange={(e) => {
+        props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);
+      }}
+    >
+      {KeyLabelLangs.KeyLabelLangMenus.map((item, index) => {
+        return (
+          <MenuItem key={`${item.labelLang}${index}`} value={item.labelLang}>
+            {item.menuLabel}
+          </MenuItem>
+        );
+      })}
+    </Select>
   );
 }
 
