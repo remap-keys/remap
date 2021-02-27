@@ -18,8 +18,8 @@ import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModLabel, mods2Number } from './Modifiers';
-import { findKeyLabel, getMetaLabel } from '../../../assets/keylabels/KeyLabel';
-import { findLabelLangLabel } from '../keymap/Keymap';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import { getMetaLabel } from '../../../services/labellang/KeyLabel';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -268,14 +268,16 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
         this.state.value.modifiers,
         this.state.value.direction
       );
-      const keyLabel = findKeyLabel(
+      const keyLabel = KeyLabelLangs.findKeyLabel(
         this.state.value.keycodeInfo.code,
         mods,
         this.props.labelLang
       );
 
       if (keyLabel) {
-        const labelLangLabel = findLabelLangLabel(this.props.labelLang);
+        const labelLangLabel = KeyLabelLangs.getLabelLangMenuLabel(
+          this.props.labelLang
+        );
         const directionLabel = DIRECTION_LABELS[this.state.value.direction];
         const modLabels = this.state.value.modifiers
           .map((m) => MOD_LABELS[m])

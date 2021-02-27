@@ -1,8 +1,8 @@
-import { KeyLabel } from '../../../assets/keylabels/KeyLabel';
-import { KeyLabelLangMap } from '../../../assets/keylabels/KeyLabel';
+import { KeyLabel } from '../../../services/labellang/KeyLabel';
 import { IMod, MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 
 export type Key = {
   label: string;
@@ -68,7 +68,7 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
     if (Ketop2LinesLangs.includes(lang)) {
       const keytop: Keytop2Lines = findKeytop2Lines(
         keymap,
-        KeyLabelLangMap[lang]
+        KeyLabelLangs.getKeyLabels(lang)
       );
       return { label: keytop.label, meta: keytop.meta, keymap };
     } else {

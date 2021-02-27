@@ -18,6 +18,7 @@ import CustomKey, {
 } from '../customkey/CustomKey';
 import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProp = {};
 
@@ -295,22 +296,6 @@ function Layer(props: LayerProps) {
   );
 }
 
-const LabelLangMenuItems: {
-  labelLang: KeyboardLabelLang;
-  menuLabel: string;
-}[] = [
-  {
-    labelLang: 'us',
-    menuLabel: 'US',
-  },
-  { labelLang: 'jp', menuLabel: 'JIS' },
-];
-
-export function findLabelLangLabel(labelLang: KeyboardLabelLang): string {
-  const item = LabelLangMenuItems.find((item) => item.labelLang === labelLang);
-  return item?.menuLabel || '';
-}
-
 type LabelLangProps = {
   labelLang: KeyboardLabelLang;
   // eslint-disable-next-line no-unused-vars
@@ -324,7 +309,7 @@ function LabelLang(props: LabelLangProps) {
         props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);
       }}
     >
-      {LabelLangMenuItems.map((item, index) => {
+      {KeyLabelLangs.KeyLabelLangMenus.map((item, index) => {
         return (
           <MenuItem key={`${item.labelLang}${index}`} value={item.labelLang}>
             {item.menuLabel}

@@ -33,7 +33,8 @@ import {
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
-import { KeyLabel, KeyLabelLangMap } from '../../assets/keylabels/KeyLabel';
+import { KeyLabel } from '../labellang/KeyLabel';
+import { KeyLabelLangs } from '../labellang/KeyLabelLangs';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -391,7 +392,7 @@ export class BasicComposition implements IBasicComposition {
       KEY_SUB_CATEGORY_MOUSE,
     ];
 
-    const keyLabels: KeyLabel[] = KeyLabelLangMap[labelLang] || [];
+    const keyLabels: KeyLabel[] = KeyLabelLangs.getKeyLabels(labelLang) || [];
     const normalKeymaps: IKeymap[] = [];
     list.forEach((category) => {
       const kinds = category.kinds;
