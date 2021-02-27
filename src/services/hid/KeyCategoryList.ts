@@ -57,7 +57,6 @@ export class KeyCategory {
     const basicKeymaps: IKeymap[] = basicCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    console.log(basicKeymaps);
     const looseKeymaps: IKeymap[] = looseCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );

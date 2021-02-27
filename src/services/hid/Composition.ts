@@ -1077,6 +1077,21 @@ export class SwapHandsComposition implements ISwapHandsComposition {
         'One shot swap hands: toggles while pressed or until next key press.',
     },
   ];
+  static readonly holdKey: IKeymap = {
+    code: WILL_BE_REPLACED_KEYCODE,
+    isAny: false,
+    direction: MOD_LEFT,
+    modifiers: [],
+    keycodeInfo: {
+      code: WILL_BE_REPLACED_KEYCODE,
+      label: `Swap-Hands`,
+      name: { short: 'SH', long: 'SH' },
+    },
+    kinds: ['swap_hands'],
+    desc:
+      'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+  };
+
   private readonly key: IKeymap | undefined;
   private readonly swapHandsOption: ISwapHandsOption | null;
 
@@ -1174,24 +1189,6 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     );
 
     return SwapHandsComposition._swapHandsOptionKeymaps;
-  }
-
-  static genKeymaps(): IKeymap[] {
-    const keymap: IKeymap = {
-      code: WILL_BE_REPLACED_KEYCODE,
-      isAny: false,
-      direction: MOD_LEFT,
-      modifiers: [],
-      keycodeInfo: {
-        code: WILL_BE_REPLACED_KEYCODE,
-        label: `Swap-Hands`,
-        name: { short: 'SH', long: 'SH' },
-      },
-      kinds: ['swap_hands'],
-      desc:
-        'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
-    };
-    return [keymap];
   }
 }
 

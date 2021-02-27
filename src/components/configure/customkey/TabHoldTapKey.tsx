@@ -36,7 +36,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     this._holdKeyOptions = [
       ...ModTapComposition.genKeymaps(),
       ...LayerTapComposition.genKeymaps(this.props.layerCount),
-      ...SwapHandsComposition.genKeymaps(),
+      SwapHandsComposition.holdKey,
     ];
   }
 
@@ -69,7 +69,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
       !SwapHandsComposition.isSwapHandsOptions(code)
     ) {
       const comp = f.createSwapHandsComposition();
-      holdKey = comp.genKeymap()!;
+      holdKey = SwapHandsComposition.holdKey;
       tapKey = comp.genTapKey()!;
     } else {
       throw new Error(`NOT available code(${code}) in Hold/Tap tab`);

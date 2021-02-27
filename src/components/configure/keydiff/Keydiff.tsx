@@ -6,9 +6,6 @@ import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { genKey, Key } from '../keycodekey/KeyGen';
-import { findKeyLabel } from '../../../assets/keylabels/KeyLabel';
-import { findLabelLangLabel } from '../keymap/Keymap';
-import { mods2Number } from '../customkey/Modifiers';
 
 type KeydiffOwnProps = {};
 

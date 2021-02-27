@@ -11,9 +11,28 @@ export type KeyLabel = {
   }[];
 };
 
+function genKeyLabels(keylabels: KeyLabel[]): KeyLabel[] {
+  let list: KeyLabel[] = [];
+  keylabels.forEach((keyLabel) => {
+    list.push(keyLabel);
+    if (keyLabel.meta) {
+      keyLabel.meta.forEach((meta) => {
+        const code = (meta.modifiers << 8) | keyLabel.code;
+        const label = meta.label;
+        const modKeyLabel: KeyLabel = {
+          code,
+          label,
+        };
+        list.push(modKeyLabel);
+      });
+    }
+  });
+  return list;
+}
+
 export const KeyLabelLangMap: { [lang: string]: KeyLabel[] } = {
-  jp: KeyLabelJp,
-  us: KeyLabelUs,
+  jp: genKeyLabels(KeyLabelJp),
+  us: genKeyLabels(KeyLabelUs),
 };
 
 export const findKeyLabel = (
