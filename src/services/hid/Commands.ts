@@ -14,6 +14,7 @@ export abstract class AbstractCommand<
   private readonly responseHandler: ICommandResponseHandler<TResponse>;
 
   static OUTPUT_REPORT_ID: number = 0x00;
+  static RAW_BUFFER_SIZE: number = 32;
 
   constructor(
     request: TRequest,
@@ -39,7 +40,8 @@ export abstract class AbstractCommand<
 
   async sendReport(device: any): Promise<void> {
     try {
-      const outputReport = this.createReport();
+      const outputReport = new Uint8Array(AbstractCommand.RAW_BUFFER_SIZE);
+      outputReport.set(this.createReport());
       outputUint8Array('Send data', outputReport);
       await device.sendReport(AbstractCommand.OUTPUT_REPORT_ID, outputReport);
     } catch (error) {
