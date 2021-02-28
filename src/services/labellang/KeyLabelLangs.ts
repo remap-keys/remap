@@ -1,7 +1,9 @@
-import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 import { KeyLabel } from './KeyLabel';
 import { KeyLabelJp } from './KeyLabelJp';
+import { KeyLabelUk } from './KeyLabelUk';
 import { KeyLabelUs } from './KeyLabelUs';
+
+export type KeyboardLabelLang = 'us' | 'jp' | 'uk';
 
 function genKeyLabels(keylabels: KeyLabel[]): KeyLabel[] {
   let list: KeyLabel[] = [];
@@ -29,6 +31,7 @@ const KEY_LABEL_LANGS: {
 }[] = [
   { labelLang: 'jp', keyLabels: genKeyLabels(KeyLabelJp), menuLabel: 'JIS' },
   { labelLang: 'us', keyLabels: genKeyLabels(KeyLabelUs), menuLabel: 'US' },
+  { labelLang: 'uk', keyLabels: genKeyLabels(KeyLabelUk), menuLabel: 'UK' },
 ];
 
 export class KeyLabelLangs {
@@ -50,6 +53,10 @@ export class KeyLabelLangs {
       throw new Error(`Undeifned label language: ${labelLang}`);
     }
     return keyLabels!.keyLabels;
+  }
+
+  static getAllLabelLangs(): KeyboardLabelLang[] {
+    return KEY_LABEL_LANGS.map((item) => item.labelLang);
   }
 
   static getLabelLangMenuLabel(labelLang: KeyboardLabelLang): string {

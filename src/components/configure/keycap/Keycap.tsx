@@ -141,12 +141,16 @@ export default class Keycap extends React.Component<
       ? genKey(this.props.remap, this.props.labelLang!)
       : null;
 
+    // TODO: refactor the label position should be organized in genKey()
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
     let holdLabel = buildHoldKeyLabel(km, km.isAny);
     let modifierLabel =
       holdLabel === ''
         ? buildModLabel(km.modifiers || null, km.direction!)
         : '';
+    const modifierRightLabel = dstKey ? dstKey.metaRight : orgKey.metaRight;
+    const meta = dstKey ? dstKey.meta : orgKey.meta;
+    modifierLabel = meta ? meta : modifierLabel;
 
     return (
       <div
@@ -257,6 +261,7 @@ export default class Keycap extends React.Component<
             label={dstKey ? dstKey.label : orgKey.label}
             meta={dstKey ? dstKey.meta : orgKey.meta}
             modifierLabel={modifierLabel}
+            modifierRightLabel={modifierRightLabel}
             holdLabel={holdLabel}
             pos={pos}
             hasDiff={dstKey != null}
@@ -271,9 +276,10 @@ export default class Keycap extends React.Component<
 
 type KeyLabelType = {
   label: string;
-  meta: string;
-  modifierLabel: string;
-  holdLabel: string;
+  meta?: string;
+  modifierLabel?: string;
+  modifierRightLabel?: string;
+  holdLabel?: string;
   hasDiff: boolean;
   pos?: string;
   optionChoiceLabel?: string;
@@ -304,7 +310,17 @@ function KeyLabel(props: KeyLabelType) {
     const points = props.label.match(/[\s\\/]/g);
     const breakPoints = points ? points.length : 0;
     const labelSize = breakPoints == 1 ? '_m' : breakPoints == 2 ? '_s' : '';
-    if (0 < props.meta.length) {
+    if (props.modifierRightLabel) {
+      return (
+        <TopRightKeyLabel
+          label={props.label}
+          labelSize={labelSize}
+          hasDiff={props.hasDiff}
+          modifierLabel={props.modifierLabel || ''}
+          modifierRightLabel={props.modifierRightLabel || ''}
+        />
+      );
+    } else if (props.meta) {
       return (
         <MetaKeyLabel
           label={props.label}
@@ -313,14 +329,14 @@ function KeyLabel(props: KeyLabelType) {
           hasDiff={props.hasDiff}
         />
       );
-    } else if (0 < props.modifierLabel.length || 0 < props.holdLabel.length) {
+    } else if (props.modifierLabel || props.holdLabel) {
       return (
         <ModHoldKeyLabel
           label={props.label}
           labelSize={labelSize}
           hasDiff={props.hasDiff}
-          modifierLabel={props.modifierLabel}
-          holdLabel={props.holdLabel}
+          modifierLabel={props.modifierLabel || ''}
+          holdLabel={props.holdLabel || ''}
         />
       );
     } else {
@@ -407,6 +423,41 @@ function ModHoldKeyLabel(props: ModHoldKeyLabelType) {
       </div>
       <div className="keylabel">
         <div className={`label center modifier`}>{props.holdLabel}</div>
+      </div>
+      <StyledBadge
+        color="primary"
+        variant="dot"
+        invisible={!props.hasDiff}
+        className="diff-dot"
+      ></StyledBadge>
+    </React.Fragment>
+  );
+}
+
+type TopRightKeyLabelType = {
+  label: string;
+  labelSize: '' | '_s' | '_m';
+  modifierLabel: string;
+  modifierRightLabel: string;
+  hasDiff: boolean;
+};
+function TopRightKeyLabel(props: TopRightKeyLabelType) {
+  return (
+    <React.Fragment>
+      <div className="keylabel">
+        <div className={`label center modifier`}>{props.modifierLabel}</div>
+      </div>
+      <div className="keylabel">
+        <div className={`label keycode-label left ${props.labelSize}`}></div>
+        <div className={`label keycode-label center ${props.labelSize}`}>
+          {props.label}
+        </div>
+        <div className={`label keycode-label right ${props.labelSize}`}>
+          {props.modifierRightLabel}
+        </div>
+      </div>
+      <div className="keylabel">
+        <div className={`label center modifier`}></div>
       </div>
       <StyledBadge
         color="primary"

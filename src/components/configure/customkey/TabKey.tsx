@@ -15,7 +15,7 @@ import AutocompleteKeys from './AutocompleteKeys';
 import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
-import { KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProps = {
   value: IKeymap | null; // Keys

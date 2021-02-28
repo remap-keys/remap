@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import {
   IKeycodeCompositionFactory,
   IMod,

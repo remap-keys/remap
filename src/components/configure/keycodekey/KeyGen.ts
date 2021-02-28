@@ -1,22 +1,37 @@
-import { KeyLabel } from '../../../services/labellang/KeyLabel';
-import { IMod, MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Composition';
+import { getMetaLabel, KeyLabel } from '../../../services/labellang/KeyLabel';
+import {
+  IMod,
+  MOD_ALT,
+  MOD_LEFT,
+  MOD_RIGHT,
+  MOD_SFT,
+} from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import {
+  KeyboardLabelLang,
+  KeyLabelLangs,
+} from '../../../services/labellang/KeyLabelLangs';
+import { mods2Number } from '../customkey/Modifiers';
 
 export type Key = {
   label: string;
   meta: string;
+  metaRight?: string;
   keymap: IKeymap;
 };
-
-export type KeyboardLabelLang = 'us' | 'jp';
 
 type Keytop2Lines = {
   label: string;
   meta: string;
 };
-const Ketop2LinesLangs: KeyboardLabelLang[] = ['us', 'jp'];
+type KeytopShiftRightALt = {
+  label: string;
+  meta: string;
+  metaRight: string;
+};
+export const Ketop2LinesLangs: KeyboardLabelLang[] = ['us', 'jp'];
+export const KetopShiftRightAltLangs: KeyboardLabelLang[] = ['uk'];
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
 
@@ -55,6 +70,37 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
   return keytop;
 }
 
+function findKeytopShiftRightAlt(
+  keymap: IKeymap,
+  labels: KeyLabel[]
+): KeytopShiftRightALt {
+  let keytop: KeytopShiftRightALt = {
+    label: keymap.keycodeInfo.label,
+    meta: '',
+    metaRight: '',
+  };
+
+  const keyLabel: KeyLabel | undefined = labels.find(
+    (item) => item.code == keymap.code
+  );
+
+  if (keyLabel) {
+    if (keyLabel.meta) {
+      keytop.label = keyLabel.label;
+      keytop.meta = getMetaLabel(keyLabel, MOD_SFT);
+      keytop.metaRight = getMetaLabel(
+        keyLabel,
+        mods2Number([MOD_ALT], MOD_RIGHT)
+      );
+    } else {
+      keytop.label = keyLabel.label;
+      keytop.meta = buildOriginKeyCombination(keymap);
+    }
+  }
+
+  return keytop;
+}
+
 export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
   if (keymap.isAny) {
     return {
@@ -71,6 +117,12 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
         KeyLabelLangs.getKeyLabels(lang)
       );
       return { label: keytop.label, meta: keytop.meta, keymap };
+    } else if (KetopShiftRightAltLangs.includes(lang)) {
+      const keytop: KeytopShiftRightALt = findKeytopShiftRightAlt(
+        keymap,
+        KeyLabelLangs.getKeyLabels(lang)
+      );
+      return { ...keytop, keymap };
     } else {
       return {
         label: keymap.keycodeInfo

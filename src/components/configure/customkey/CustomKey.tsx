@@ -3,7 +3,7 @@ import React from 'react';
 import './CustomKey.scss';
 import Popover from '@material-ui/core/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
-import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { Key } from '../keycodekey/KeyGen';
 import TabKey from './TabKey';
 import {
   DIRECTION_LABELS,
@@ -18,7 +18,10 @@ import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModLabel, mods2Number } from './Modifiers';
-import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import {
+  KeyboardLabelLang,
+  KeyLabelLangs,
+} from '../../../services/labellang/KeyLabelLangs';
 import { getMetaLabel } from '../../../services/labellang/KeyLabel';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
