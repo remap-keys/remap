@@ -212,7 +212,7 @@ export default class ConfigurationDialog extends React.Component<
     }
   }
 
-  private onClickDownloadCheetsheet() {
+  private onClickDownloadCheatSheet() {
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
     const keys: { [pos: string]: Key }[] = [];
     for (let i = 0; i < this.props.layerCount!; i++) {
@@ -268,7 +268,7 @@ export default class ConfigurationDialog extends React.Component<
           Configuration
           <Button
             onClick={() => {
-              this.onClickDownloadCheetsheet();
+              this.onClickDownloadCheatSheet();
             }}
           >
             download
