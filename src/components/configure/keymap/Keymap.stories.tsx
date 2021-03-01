@@ -19,8 +19,6 @@ import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
 import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
-import { Button } from '@material-ui/core';
-import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 
 export default {
@@ -58,7 +56,7 @@ const genKeyboardView = (
   return (
     <React.Fragment>
       <CssBaseline />
-      <div style={{ display: 'flex' }}>
+      <div className="keyboards-wrapper">
         <div className="keyboards" style={{ margin: '0 auto' }}>
           <div
             className="keyboard-root"
@@ -76,7 +74,7 @@ const genKeyboardView = (
               style={{
                 width: width,
                 height: height,
-                marginLeft: marginLeft,
+                left: marginLeft,
               }}
             >
               {keycaps.map((keycap: KeycapData) => {
@@ -94,16 +92,6 @@ const genKeyboardView = (
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Button
-          onClick={() => {
-            const pdf = new KeymapPdfGenerator(km, [{}], 1);
-            pdf.genPdf(name, options);
-          }}
-        >
-          PDF
-        </Button>
       </div>
       <div
         style={{

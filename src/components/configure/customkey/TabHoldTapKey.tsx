@@ -41,7 +41,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
   }
 
   static isAvailable(code: number): boolean {
-    const f = new KeycodeCompositionFactory(code, 'us');
+    const f = new KeycodeCompositionFactory(code, 'en-us');
     return (
       f.isModTap() ||
       f.isLayerTap() ||
@@ -154,7 +154,7 @@ export const buildHoldKeyLabel = (
   km: IKeymap,
   withHex: boolean = false
 ): string => {
-  const f = new KeycodeCompositionFactory(km.code, 'us');
+  const f = new KeycodeCompositionFactory(km.code, 'en-us');
   if (f.isLayerTap()) {
     return `Layer(${km.option})`;
   } else if (f.isModTap()) {

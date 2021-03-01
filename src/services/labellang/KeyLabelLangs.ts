@@ -3,7 +3,8 @@ import { KeyLabelJp } from './KeyLabelJp';
 import { KeyLabelUk } from './KeyLabelUk';
 import { KeyLabelUs } from './KeyLabelUs';
 
-export type KeyboardLabelLang = 'us' | 'jp' | 'uk';
+// RFC3066 https://tools.ietf.org/html/rfc3066
+export type KeyboardLabelLang = 'en-us' | 'ja-jp' | 'en-gb';
 
 function genKeyLabels(keylabels: KeyLabel[]): KeyLabel[] {
   let list: KeyLabel[] = [];
@@ -29,9 +30,9 @@ const KEY_LABEL_LANGS: {
   keyLabels: KeyLabel[];
   menuLabel: string;
 }[] = [
-  { labelLang: 'jp', keyLabels: genKeyLabels(KeyLabelJp), menuLabel: 'JIS' },
-  { labelLang: 'us', keyLabels: genKeyLabels(KeyLabelUs), menuLabel: 'US' },
-  { labelLang: 'uk', keyLabels: genKeyLabels(KeyLabelUk), menuLabel: 'UK' },
+  { labelLang: 'ja-jp', keyLabels: genKeyLabels(KeyLabelJp), menuLabel: 'JIS' },
+  { labelLang: 'en-us', keyLabels: genKeyLabels(KeyLabelUs), menuLabel: 'US' },
+  { labelLang: 'en-gb', keyLabels: genKeyLabels(KeyLabelUk), menuLabel: 'UK' },
 ];
 
 export class KeyLabelLangs {

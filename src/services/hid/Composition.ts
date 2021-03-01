@@ -1461,7 +1461,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isBasic(): boolean {
     //return this.getKind() === KeycodeCompositionKind.basic;
-    const km = BasicComposition.findKeymap(this.code, 'us');
+    const km = BasicComposition.findKeymap(this.code, 'en-us');
     return Boolean(km);
   }
 

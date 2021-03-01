@@ -219,7 +219,7 @@ export default class ConfigurationDialog extends React.Component<
       const keyMap: { [pos: string]: Key } = {};
       const km = keymaps[i];
       Object.keys(km).forEach((pos) => {
-        const key: Key = genKey(km[pos], 'us');
+        const key: Key = genKey(km[pos], 'en-gb');
         keyMap[pos] = key;
       });
       keys.push(keyMap);
@@ -228,7 +228,8 @@ export default class ConfigurationDialog extends React.Component<
     const pdf = new KeymapPdfGenerator(
       this.props.keyboardDefinition!.layouts.keymap,
       keys,
-      this.props.layerCount!
+      this.props.layerCount!,
+      'en-gb'
     );
     pdf.genPdf(this.props.productName!);
   }

@@ -201,7 +201,7 @@ const Hid = () => {
         layer2,
         rowCount,
         columnCount,
-        'us'
+        'en-us'
       );
       if (fetchKeymapResult.success) {
         console.log(fetchKeymapResult.keymap);

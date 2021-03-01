@@ -744,6 +744,6 @@ export class WebHid implements IHid {
   }
 
   createKeycodeCompositionFactory(code: number): IKeycodeCompositionFactory {
-    return new KeycodeCompositionFactory(code, 'us');
+    return new KeycodeCompositionFactory(code, 'en-us');
   }
 }

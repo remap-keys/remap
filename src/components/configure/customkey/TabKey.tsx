@@ -37,7 +37,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
   }
 
   static isAvailable(code: number): boolean {
-    const f = new KeycodeCompositionFactory(code, 'us');
+    const f = new KeycodeCompositionFactory(code, 'en-us');
     return (
       f.isBasic() ||
       f.isMods() ||
@@ -75,7 +75,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     if (this.props.value === null) return true;
 
     function isAvailableModifiers(code: number) {
-      const factory = new KeycodeCompositionFactory(code, 'us');
+      const factory = new KeycodeCompositionFactory(code, 'en-us');
       const flag =
         (factory.isBasic() && !factory.isBasicFunc()) ||
         factory.isMods() ||
@@ -91,7 +91,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
   get disabledDirection() {
     const factory = new KeycodeCompositionFactory(
       parseInt(this.props.hexCode, 16),
-      'us'
+      'en-us'
     );
     return factory.isLayerMod();
   }
@@ -134,7 +134,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       keymap.direction = MOD_LEFT;
       keymap.code = new LayerModComposition(layer, mods).getCode();
     } else {
-      const f = new KeycodeCompositionFactory(opt.code, 'us');
+      const f = new KeycodeCompositionFactory(opt.code, 'en-us');
       if (f.isBasic() || f.isMods()) {
         keymap.code = new ModsComposition(direction, mods, opt).getCode();
       } else {
