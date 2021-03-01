@@ -7,9 +7,9 @@ import {
   KeymapActions,
 } from '../../../actions/actions';
 import { IKeymap } from '../../../services/hid/Hid';
-import { KeyboardLabelLang } from '../keycodekey/KeyGen';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
+import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 const mapStateToProps = (state: RootState) => {
   return {

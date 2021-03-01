@@ -1,8 +1,5 @@
 import { NotificationItem } from '../actions/actions';
-import {
-  Key,
-  KeyboardLabelLang,
-} from '../components/configure/keycodekey/KeyGen';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
@@ -14,6 +11,7 @@ import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
+import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 
 export type ISetupPhase =
   | 'init'

@@ -74,6 +74,7 @@ export default class KeycodeKey extends React.Component<
     const key: Key = genKey(km, this.props.labelLang!);
     const label = key.label;
     const modifierLabel = key.meta;
+    const modifierRightLabel = key.metaRight;
     const holdLabel = '';
 
     return (
@@ -98,15 +99,12 @@ export default class KeycodeKey extends React.Component<
             this.endDraggingKeycode();
           }}
         >
-          {0 === modifierLabel.length && 0 === holdLabel.length ? (
-            <KeycodeKeyView label={label} />
-          ) : (
-            <KeycodeModifiersKeyView
-              label={label}
-              holdLabel={holdLabel}
-              modifierLabel={modifierLabel}
-            />
-          )}
+          <KeycodeKeyView
+            label={label}
+            holdLabel={holdLabel}
+            modifierLabel={modifierLabel}
+            modifierRightLabel={modifierRightLabel}
+          />
         </div>
         <AnyKeyDialog
           open={this.state.openDialog}
@@ -121,8 +119,32 @@ export default class KeycodeKey extends React.Component<
   }
 }
 
-function KeycodeKeyView(props: { label: string }) {
-  return <div className="code-label code-label-expand">{props.label}</div>;
+type KeycodeKeyViewProps = {
+  label: string;
+  modifierLabel?: string;
+  modifierRightLabel?: string;
+  holdLabel?: string;
+};
+function KeycodeKeyView(props: KeycodeKeyViewProps) {
+  if (props.modifierRightLabel) {
+    return (
+      <KeycodeTopRightKeyView
+        label={props.label}
+        modifierLabel={props.modifierLabel || ''}
+        modifierRightLabel={props.modifierRightLabel || ''}
+      />
+    );
+  } else if (props.modifierLabel || props.holdLabel) {
+    return (
+      <KeycodeModifiersKeyView
+        label={props.label}
+        modifierLabel={props.modifierLabel || ''}
+        holdLabel={props.holdLabel || ''}
+      />
+    );
+  } else {
+    return <div className="code-label code-label-expand">{props.label}</div>;
+  }
 }
 
 function KeycodeModifiersKeyView(props: {
@@ -135,6 +157,26 @@ function KeycodeModifiersKeyView(props: {
       <div className="code-label modifier-label">{props.modifierLabel}</div>
       <div className="code-label">{props.label}</div>
       <div className="code-label modifier-label">{props.holdLabel}</div>
+    </React.Fragment>
+  );
+}
+
+function KeycodeTopRightKeyView(props: {
+  label: string;
+  modifierLabel: string;
+  modifierRightLabel: string;
+}) {
+  return (
+    <React.Fragment>
+      <div className="code-label modifier-label">{props.modifierLabel}</div>
+      <div className="code-label">
+        <div className="code-row"></div>
+        <div className="code-row code-row-center">{props.label}</div>
+        <div className="code-row code-row-right">
+          {props.modifierRightLabel}
+        </div>
+      </div>
+      <div className="code-label modifier-label"></div>
     </React.Fragment>
   );
 }

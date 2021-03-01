@@ -16,9 +16,12 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
 } from '../customkey/CustomKey';
-import { Key, KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { Key } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
-import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import {
+  KeyboardLabelLang,
+  KeyLabelLangs,
+} from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProp = {};
 

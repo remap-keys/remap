@@ -47,6 +47,22 @@
     overflow: hidden;
     padding: $space-xs;
     height: 40%;
+    .code-row {
+      display: flex;
+      width: 30%;
+      &.modifier-label {
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .code-row-center {
+      width: 40%;
+      justify-content: center;
+    }
+    .code-row-right {
+      color: #757575;
+      font-size: 0.6rem;
+    }
   }
 
   .code-label-expand {

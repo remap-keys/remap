@@ -33,7 +33,7 @@ import {
   KeycodeCompositionFactory,
 } from './Composition';
 import { outputUint8Array } from '../../utils/ArrayUtils';
-import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;

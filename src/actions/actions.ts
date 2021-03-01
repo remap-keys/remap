@@ -1,10 +1,8 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import {
-  Key,
-  KeyboardLabelLang,
-} from '../components/configure/keycodekey/KeyGen';
+import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
+import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { ISetupPhase } from '../store/state';
 
 export const KEYMAP_ACTIONS = '@Keymap';

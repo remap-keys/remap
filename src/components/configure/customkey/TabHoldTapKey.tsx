@@ -12,7 +12,7 @@ import {
 } from '../../../services/hid/Composition';
 import { buildModLabel } from './Modifiers';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { KeyboardLabelLang } from '../keycodekey/KeyGen';
+import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProps = {
   holdKey: IKeymap | null;

@@ -32,9 +32,8 @@ import {
   KEY_SUB_CATEGORY_UNDERGLOW,
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
-import { KeyboardLabelLang } from '../../components/configure/keycodekey/KeyGen';
 import { KeyLabel } from '../labellang/KeyLabel';
-import { KeyLabelLangs } from '../labellang/KeyLabelLangs';
+import { KeyLabelLangs, KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;

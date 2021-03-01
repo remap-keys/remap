@@ -1,7 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { KeyboardLabelLang } from '../components/configure/keycodekey/KeyGen';
 import { IHid, IKeyboard, IKeymap, IKeymaps } from '../services/hid/Hid';
 import { KeycodeList } from '../services/hid/KeycodeList';
+import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
