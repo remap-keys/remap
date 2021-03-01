@@ -27,7 +27,7 @@ import { hexadecimal } from '../../../utils/StringUtils';
 import TabLighting, { defaultUnderglowEffects, Hsv } from './TabLighting';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import { IKeymap } from '../../../services/hid/Hid';
-import { genKey, Key } from '../keycodekey/KeycodeKey.container';
+import { genKey, Key } from '../keycodekey/KeyGen';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -219,7 +219,7 @@ export default class ConfigurationDialog extends React.Component<
       const keyMap: { [pos: string]: Key } = {};
       const km = keymaps[i];
       Object.keys(km).forEach((pos) => {
-        const key: Key = genKey(km[pos]);
+        const key: Key = genKey(km[pos], 'us');
         keyMap[pos] = key;
       });
       keys.push(keyMap);

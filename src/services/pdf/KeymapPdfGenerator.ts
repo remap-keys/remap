@@ -5,10 +5,10 @@ import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
 import download from 'downloadjs';
-import { Key } from '../../components/configure/keycodekey/KeycodeKey.container';
 import { buildHoldKeyLabel } from '../../components/configure/customkey/TabHoldTapKey';
 import { buildModLabel } from '../../components/configure/customkey/Modifiers';
 import { isDoubleWidthString } from '../../utils/StringUtils';
+import { Key } from '../../components/configure/keycodekey/KeyGen';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
