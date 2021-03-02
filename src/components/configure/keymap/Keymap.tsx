@@ -13,7 +13,7 @@ import {
 import SettingsIcon from '@material-ui/icons/Settings';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
-import { IKeymap } from '../../../services/hid/Hid';
+import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
 import KeyboardModel from '../../../models/KeyboardModel';
 import Keycap from '../keycap/Keycap.container';
@@ -32,6 +32,8 @@ import {
 } from '../../../services/labellang/KeyLabelLangs';
 import { MoreVert } from '@material-ui/icons';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
+import download from 'downloadjs';
+import Lighting from '../configuration/Lighting';
 
 type OwnProp = {};
 
@@ -198,6 +200,32 @@ export default class Keymap extends React.Component<
     this.closeMenu();
   }
 
+  private onClickSaveKeymap() {
+    const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
+    const keycodes: { [pos: string]: number }[] = [];
+    for (let i = 0; i < this.props.layerCount!; i++) {
+      const keyMap: { [pos: string]: number } = {};
+      const km = keymaps[i];
+      Object.keys(km).forEach((pos) => {
+        keyMap[pos] = km[pos].code;
+      });
+      keycodes.push(keyMap);
+    }
+    const { productName } = this.props.keyboard!.getInformation();
+    const labelLang: string = this.props.labelLang!;
+    const layoutOptions = this.buildLayerOptions();
+    Lighting.fetchKeyboardLightValues(this.props.keyboard!).then((lighting) => {
+      const json = {
+        labelLang,
+        lighting,
+        layoutOptions,
+        keycodes,
+      };
+
+      download(JSON.stringify(json), `hoge.json`, 'application/json');
+    });
+  }
+
   private openConfigurationDialog() {
     this.setState({ configurationDialog: true });
   }
@@ -279,6 +307,9 @@ export default class Keymap extends React.Component<
             >
               <MenuItem onClick={this.onClickGetCheatsheet.bind(this)}>
                 Get Cheat Sheet(PDF)
+              </MenuItem>
+              <MenuItem onClick={this.onClickSaveKeymap.bind(this)}>
+                Save Current Keymap
               </MenuItem>
             </Menu>
           </div>

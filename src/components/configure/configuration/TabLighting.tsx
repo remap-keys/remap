@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 import { IKeyboard } from '../../../services/hid/Hid';
+import Lighting from './Lighting';
 
 export type Hsv = {
   h: number;
@@ -75,47 +76,6 @@ export default class TabLighting extends React.Component<Props, State> {
     return this.state.underglowColorCount === 0;
   }
 
-  private async fetchKeyboardLightValues() {
-    // device lighting values
-    const kbd: IKeyboard = this.props.keyboard!;
-    const bkb = await kbd.fetchBacklightBrightness();
-    const backlightBrightness =
-      bkb.success && bkb.brightness
-        ? Math.round(100 * (bkb.brightness / 255))
-        : 0;
-
-    const bke = await kbd.fetchBacklightEffect();
-    const backlightBreathing = bke.success ? Boolean(bke.isBreathing) : false;
-
-    const le = await kbd.fetchRGBLightEffect();
-    const underglowEffectMode = le.success && le.mode ? le.mode : 0;
-
-    const lb = await kbd.fetchRGBLightBrightness();
-    const v =
-      lb.success && lb.brightness ? Math.round(100 * (lb.brightness / 255)) : 0;
-
-    const lc = await kbd.fetchRGBLightColor();
-    const hs =
-      lc.success && typeof lc.hue != 'undefined' && typeof lc.sat != 'undefined'
-        ? {
-            h: Math.round(360 * (lc.hue / 255)),
-            s: Math.round(100 * (lc.sat / 255)),
-          }
-        : { h: 0, s: 0 };
-
-    const hex = ReinventedColorWheel.rgb2hex(
-      ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v])
-    );
-    const value = {
-      underglowColor: { ...hs, v },
-      underglowHex: hex,
-      underglowEffectMode,
-      backlightBreathing,
-      backlightBrightness,
-    };
-    return value;
-  }
-
   private buildColorWheel() {
     const { h, s, v } = this.state.underglowColor;
     const colorWheel = new ReinventedColorWheel({
@@ -146,7 +106,7 @@ export default class TabLighting extends React.Component<Props, State> {
       return;
     } else if (this.colorWheel === null) {
       this.colorWheel = this.buildColorWheel();
-      this.fetchKeyboardLightValues().then((value) => {
+      Lighting.fetchKeyboardLightValues(this.props.keyboard!).then((value) => {
         const {
           underglowColor,
           underglowEffectMode,
@@ -588,49 +548,3 @@ function Backlight(props: BacklightProps) {
     </React.Fragment>
   );
 }
-
-export const defaultUnderglowEffects: [string, number][] = [
-  ['All Off', 0],
-  ['Solid Color', 1],
-  ['Breathing 1', 1],
-  ['Breathing 2', 1],
-  ['Breathing 3', 1],
-  ['Breathing 4', 1],
-  ['Rainbow Mood 1', 0],
-  ['Rainbow Mood 2', 0],
-  ['Rainbow Mood 3', 0],
-  ['Rainbow Swirl 1', 0],
-  ['Rainbow Swirl 2', 0],
-  ['Rainbow Swirl 3', 0],
-  ['Rainbow Swirl 4', 0],
-  ['Rainbow Swirl 5', 0],
-  ['Rainbow Swirl 6', 0],
-  ['Snake 1', 1],
-  ['Snake 2', 1],
-  ['Snake 3', 1],
-  ['Snake 4', 1],
-  ['Snake 5', 1],
-  ['Snake 6', 1],
-  ['Knight 1', 1],
-  ['Knight 2', 1],
-  ['Knight 3', 1],
-  ['Christmas', 1],
-  ['Gradient 1', 1],
-  ['Gradient 2', 1],
-  ['Gradient 3', 1],
-  ['Gradient 4', 1],
-  ['Gradient 5', 1],
-  ['Gradient 6', 1],
-  ['Gradient 7', 1],
-  ['Gradient 8', 1],
-  ['Gradient 9', 1],
-  ['Gradient 10', 1],
-  ['RGB Test', 1],
-  ['Alternating', 1],
-  ['Twinkle 1', 1],
-  ['Twinkle 2', 1],
-  ['Twinkle 3', 1],
-  ['Twinkle 4', 1],
-  ['Twinkle 5', 1],
-  ['Twinkle 6', 1],
-];

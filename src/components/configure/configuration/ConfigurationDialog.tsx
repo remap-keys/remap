@@ -24,7 +24,8 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
-import TabLighting, { defaultUnderglowEffects, Hsv } from './TabLighting';
+import TabLighting, { Hsv } from './TabLighting';
+import Lighting from './Lighting';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -110,45 +111,16 @@ export default class ConfigurationDialog extends React.Component<
   }
 
   private initLighting() {
-    const lighting: LightingType = this.props.keyboardDefinition?.lighting;
-    this.showUnderglow = false;
-    if (!lighting) {
+    if (!this.props.keyboardDefinition!.lighting) {
       this.showUnderglow = false;
       this.showBacklight = false;
       return;
     }
 
-    if (typeof lighting === 'string') {
-      this.showUnderglow = 0 <= lighting.indexOf('rgblight');
-      this.showBacklight = 0 <= lighting.indexOf('backlight');
-      this.underglowEffects = defaultUnderglowEffects;
-      return;
-    }
-
-    if (!lighting.extends) {
-      /**
-       * lighting object MUST be contains 'extends' property.
-       * ref. https://caniusevia.com/docs/optional#lighting
-       */
-      throw new Error(
-        `lighting properties whose type is NOT 'string' MUST contain 'extends'.`
-      );
-    }
-    this.showUnderglow = 0 <= lighting.extends.indexOf('rgblight');
-    this.showBacklight = 0 <= lighting.extends.indexOf('backlight');
-
-    if (!lighting.underglowEffects || lighting.underglowEffects.length === 0) {
-      // use default effects if no overridden effects
-      this.underglowEffects = defaultUnderglowEffects;
-      return;
-    }
-
-    if (typeof lighting.underglowEffects[0] === 'string') {
-      const label: string = lighting.underglowEffects[0];
-      this.underglowEffects = [[label, 0]];
-    } else {
-      this.underglowEffects = lighting.underglowEffects as [string, number][];
-    }
+    const lighting = new Lighting(this.props.keyboardDefinition?.lighting);
+    this.showUnderglow = lighting.showUnderglow;
+    this.showBacklight = lighting.showBacklight;
+    this.underglowEffects = lighting.underglowEffects;
   }
 
   private onEnter() {
