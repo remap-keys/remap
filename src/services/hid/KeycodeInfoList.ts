@@ -589,7 +589,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: '` and ~, JIS Zenkaku/Hankaku',
     keycodeInfo: {
       code: 53,
       name: {
@@ -842,7 +842,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '	Forward Delete',
+    desc: 'Forward Delete',
     keycodeInfo: {
       code: 76,
       name: {
@@ -985,7 +985,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 1 and End',
     keycodeInfo: {
       code: 89,
       name: {
@@ -996,7 +996,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 2 and Down Arrow',
     keycodeInfo: {
       code: 90,
       name: {
@@ -1007,7 +1007,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 3 and Page Down',
     keycodeInfo: {
       code: 91,
       name: {
@@ -1018,7 +1018,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 4 and Left Arrow',
     keycodeInfo: {
       code: 92,
       name: {
@@ -1029,7 +1029,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 5',
     keycodeInfo: {
       code: 93,
       name: {
@@ -1040,7 +1040,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 6 and Right Arrow',
     keycodeInfo: {
       code: 94,
       name: {
@@ -1051,7 +1051,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 7 and Home',
     keycodeInfo: {
       code: 95,
       name: {
@@ -1062,7 +1062,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 8 and Up Arrow',
     keycodeInfo: {
       code: 96,
       name: {
@@ -1073,7 +1073,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 9 and Page Up',
     keycodeInfo: {
       code: 97,
       name: {
@@ -1084,7 +1084,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad 0 and Insert',
     keycodeInfo: {
       code: 98,
       name: {
@@ -1095,7 +1095,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad . and Delete',
     keycodeInfo: {
       code: 99,
       name: {
@@ -1139,7 +1139,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Keypad =',
     keycodeInfo: {
       code: 103,
       name: {
@@ -2547,7 +2547,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Up',
     keycodeInfo: {
       code: 240,
       name: {
@@ -2558,7 +2558,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Down',
     keycodeInfo: {
       code: 241,
       name: {
@@ -2569,7 +2569,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Left',
     keycodeInfo: {
       code: 242,
       name: {
@@ -2580,7 +2580,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Right',
     keycodeInfo: {
       code: 243,
       name: {
@@ -2591,7 +2591,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 1',
     keycodeInfo: {
       code: 244,
       name: {
@@ -2602,7 +2602,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 2',
     keycodeInfo: {
       code: 245,
       name: {
@@ -2613,7 +2613,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 3',
     keycodeInfo: {
       code: 246,
       name: {
@@ -2624,7 +2624,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 4',
     keycodeInfo: {
       code: 247,
       name: {
@@ -2635,7 +2635,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 5',
     keycodeInfo: {
       code: 248,
       name: {
@@ -2646,7 +2646,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Up',
     keycodeInfo: {
       code: 249,
       name: {
@@ -2657,7 +2657,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Down',
     keycodeInfo: {
       code: 250,
       name: {
@@ -2668,7 +2668,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Left',
     keycodeInfo: {
       code: 251,
       name: {
@@ -2679,7 +2679,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Right',
     keycodeInfo: {
       code: 252,
       name: {
@@ -2690,7 +2690,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 0',
     keycodeInfo: {
       code: 253,
       name: {
@@ -2701,7 +2701,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 1',
     keycodeInfo: {
       code: 254,
       name: {
@@ -2712,7 +2712,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 2',
     keycodeInfo: {
       code: 255,
       name: {
