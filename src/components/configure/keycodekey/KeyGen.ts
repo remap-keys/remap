@@ -16,22 +16,26 @@ import { mods2Number } from '../customkey/Modifiers';
 
 export type Key = {
   label: string;
-  meta: string;
-  metaRight?: string;
+  meta: string; // top-center
+  metaRight?: string; // mid-right
   keymap: IKeymap;
 };
 
-type Keytop2Lines = {
+type KeytopWithShift = {
   label: string;
-  meta: string;
+  meta: string; // label with shift
 };
-type KeytopShiftRightALt = {
+type KeytopWithShiftRightALt = {
   label: string;
-  meta: string;
-  metaRight: string;
+  meta: string; // label with shift(show the label at top-center)
+  metaRight: string; // label with RightAlt(show the label at mid-right)
 };
-export const Ketop2LinesLangs: KeyboardLabelLang[] = ['en-us', 'ja-jp'];
-export const KetopShiftRightAltLangs: KeyboardLabelLang[] = ['en-gb'];
+export const KetopWithShiftLangs: KeyboardLabelLang[] = [
+  'en-us',
+  'ja-jp',
+  'en-gb',
+];
+export const KetopWithShiftRightAltLangs: KeyboardLabelLang[] = [];
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
 
@@ -47,8 +51,11 @@ function buildOriginKeyCombination(keymap: IKeymap): string {
   return `(${modLeft}${mods}+${keymap.keycodeInfo.label}${modRight})`;
 }
 
-function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
-  let keytop: Keytop2Lines = {
+function findKeytopWithShift(
+  keymap: IKeymap,
+  labels: KeyLabel[]
+): KeytopWithShift {
+  let keytop: KeytopWithShift = {
     label: keymap.keycodeInfo.label,
     meta: '',
   };
@@ -60,7 +67,7 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
   if (keyLabel) {
     if (keyLabel.meta) {
       keytop.label = keyLabel.label;
-      keytop.meta = keyLabel.meta[0].label;
+      keytop.meta = getMetaLabel(keyLabel, MOD_SFT);
     } else {
       keytop.label = keyLabel.label;
       keytop.meta = buildOriginKeyCombination(keymap);
@@ -70,11 +77,11 @@ function findKeytop2Lines(keymap: IKeymap, labels: KeyLabel[]): Keytop2Lines {
   return keytop;
 }
 
-function findKeytopShiftRightAlt(
+function findKeytopWithShiftRightAlt(
   keymap: IKeymap,
   labels: KeyLabel[]
-): KeytopShiftRightALt {
-  let keytop: KeytopShiftRightALt = {
+): KeytopWithShiftRightALt {
+  let keytop: KeytopWithShiftRightALt = {
     label: keymap.keycodeInfo.label,
     meta: '',
     metaRight: '',
@@ -111,14 +118,14 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
       keymap,
     };
   } else {
-    if (Ketop2LinesLangs.includes(lang)) {
-      const keytop: Keytop2Lines = findKeytop2Lines(
+    if (KetopWithShiftLangs.includes(lang)) {
+      const keytop: KeytopWithShift = findKeytopWithShift(
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
       return { label: keytop.label, meta: keytop.meta, keymap };
-    } else if (KetopShiftRightAltLangs.includes(lang)) {
-      const keytop: KeytopShiftRightALt = findKeytopShiftRightAlt(
+    } else if (KetopWithShiftRightAltLangs.includes(lang)) {
+      const keytop: KeytopWithShiftRightALt = findKeytopWithShiftRightAlt(
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
