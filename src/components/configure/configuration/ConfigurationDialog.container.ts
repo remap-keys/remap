@@ -7,8 +7,6 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 
 const mapStateToProps = (state: RootState) => {
   return {
-    layerCount: state.entities.device.layerCount,
-    keymaps: state.entities.device.keymaps,
     keyboardLayoutOptions: state.entities.keyboardDefinition?.layouts.labels,
     keyboard: state.entities.keyboard!,
     keyboardDefinition: state.entities.keyboardDefinition,

@@ -25,9 +25,6 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { hexadecimal } from '../../../utils/StringUtils';
 import TabLighting, { defaultUnderglowEffects, Hsv } from './TabLighting';
-import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
-import { IKeymap } from '../../../services/hid/Hid';
-import { genKey, Key } from '../keycodekey/KeyGen';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -212,28 +209,6 @@ export default class ConfigurationDialog extends React.Component<
     }
   }
 
-  private onClickDownloadCheatSheet() {
-    const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
-    const keys: { [pos: string]: Key }[] = [];
-    for (let i = 0; i < this.props.layerCount!; i++) {
-      const keyMap: { [pos: string]: Key } = {};
-      const km = keymaps[i];
-      Object.keys(km).forEach((pos) => {
-        const key: Key = genKey(km[pos], 'en-gb');
-        keyMap[pos] = key;
-      });
-      keys.push(keyMap);
-    }
-
-    const pdf = new KeymapPdfGenerator(
-      this.props.keyboardDefinition!.layouts.keymap,
-      keys,
-      this.props.layerCount!,
-      'en-gb'
-    );
-    pdf.genPdf(this.props.productName!);
-  }
-
   // eslint-disable-next-line no-unused-vars
   private onLoadFile(
     keyboardDefinition: KeyboardDefinitionSchema,
@@ -266,13 +241,6 @@ export default class ConfigurationDialog extends React.Component<
       >
         <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
           Configuration
-          <Button
-            onClick={() => {
-              this.onClickDownloadCheatSheet();
-            }}
-          >
-            download
-          </Button>
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
