@@ -66,7 +66,6 @@ export interface IStorage {
     productId: number,
     productName: string
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
-  fetchClosedBetaUsers(): Promise<string[]>;
   fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
   createKeyboardDefinitionDocument(
     authorUid: string,
