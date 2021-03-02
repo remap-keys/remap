@@ -32,17 +32,21 @@ export const SetupPhase: { [p: string]: ISetupPhase } = {
 };
 
 export type IKeyboardsPhase =
+  | 'signing'
   | 'init'
   | 'list'
   | 'create'
   | 'processing'
-  | 'edit';
+  | 'edit'
+  | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
+  signing: 'signing',
   init: 'init',
   list: 'list',
   create: 'create',
   processing: 'processing',
   edit: 'edit',
+  signout: 'signout',
 };
 
 export type IFirmwareCodePlace = 'qmk' | 'forked' | 'other';
@@ -234,7 +238,7 @@ export const INIT_STATE: RootState = {
   },
   keyboards: {
     app: {
-      phase: KeyboardsPhase.init,
+      phase: KeyboardsPhase.signing,
     },
     createdefinition: {
       jsonFilename: '',

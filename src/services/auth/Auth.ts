@@ -4,4 +4,5 @@ export interface IAuth {
   signInWithGitHub(): Promise<void>;
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
   getCurrentAuthenticatedUser(): firebase.User;
+  signOutFromGitHub(): Promise<void>;
 }

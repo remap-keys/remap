@@ -2,8 +2,12 @@ import React from 'react';
 import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
+import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Person } from '@material-ui/icons';
 
-type HeaderState = {};
+type HeaderState = {
+  menuAnchorEl: any;
+};
 type OwnProps = {};
 type HeaderProps = OwnProps &
   Partial<HeaderActionsType> &
@@ -12,6 +16,69 @@ type HeaderProps = OwnProps &
 class Header extends React.Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps | Readonly<HeaderProps>) {
     super(props);
+    this.state = {
+      menuAnchorEl: null,
+    };
+  }
+
+  handleMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({
+      menuAnchorEl: event.currentTarget,
+    });
+  };
+
+  handleMenuClose = () => {
+    this.setState({
+      menuAnchorEl: null,
+    });
+  };
+
+  async handleLogoutMenuClick() {
+    await this.props.logout!();
+    location.href = '/';
+  }
+
+  renderAvatarIcon() {
+    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    if (user) {
+      const { menuAnchorEl } = this.state;
+      const profileImageUrl = user.providerData[0]?.photoURL || '';
+      const profileDisplayName = user.providerData[0]?.displayName || '';
+      if (profileImageUrl) {
+        return (
+          <React.Fragment>
+            <IconButton
+              aria-owns={menuAnchorEl ? 'keyboards-header-menu' : undefined}
+              onClick={this.handleMenuIconClick}
+            >
+              <Avatar alt={profileDisplayName} src={profileImageUrl} />
+            </IconButton>
+            <Menu
+              id="keyboards-header-menu"
+              anchorEl={menuAnchorEl}
+              open={Boolean(menuAnchorEl)}
+              onClose={this.handleMenuClose}
+            >
+              <MenuItem
+                key="1"
+                button={true}
+                onClick={() => this.handleLogoutMenuClick()}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <Avatar>
+            <Person />
+          </Avatar>
+        );
+      }
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -20,6 +87,9 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         <a href="/" className="keyboards-header-logo">
           <Logo width={100} />
         </a>
+        <div className="keyboards-header-menu-button">
+          {this.renderAvatarIcon()}
+        </div>
       </header>
     );
   }
