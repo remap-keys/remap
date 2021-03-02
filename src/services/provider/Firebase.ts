@@ -357,18 +357,6 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async fetchClosedBetaUsers(): Promise<string[]> {
-    const documentSnapshot = await this.db
-      .collection('configurations')
-      .doc('closedbeta')
-      .get();
-    if (documentSnapshot.exists) {
-      return documentSnapshot.data()!.users;
-    } else {
-      return [];
-    }
-  }
-
   signInWithGitHub(): Promise<void> {
     const provider = new firebase.auth.GithubAuthProvider();
     return this.auth.signInWithRedirect(provider);

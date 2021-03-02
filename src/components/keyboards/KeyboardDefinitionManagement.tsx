@@ -76,21 +76,15 @@ class KeyboardDefinitionManagement extends React.Component<
   componentDidMount() {
     this.props.auth!.subscribeAuthStatus((user) => {
       if (user) {
-        this.props.storage!.fetchClosedBetaUsers().then((users) => {
-          if (users.includes(user.email!)) {
-            this.setState({
-              signedIn: true,
-            });
-            this.updateNotifications();
-            this.props.updateKeyboards!();
-            const definitionId = this.props.match.params.definitionId;
-            if (definitionId) {
-              this.props.updateKeyboard!(definitionId);
-            }
-          } else {
-            this.setState({ signedIn: false });
-          }
+        this.setState({
+          signedIn: true,
         });
+        this.updateNotifications();
+        this.props.updateKeyboards!();
+        const definitionId = this.props.match.params.definitionId;
+        if (definitionId) {
+          this.props.updateKeyboard!(definitionId);
+        }
       } else {
         this.props.auth!.signInWithGitHub().then(() => {
           // N/A
