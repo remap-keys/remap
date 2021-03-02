@@ -16,6 +16,7 @@ export default class KeyModel {
   readonly width: number;
   readonly color: string;
   readonly rotate: number;
+  readonly rad: number;
   readonly originLeft: number;
   readonly originTop: number;
   readonly transformOrigin: string;
@@ -24,8 +25,14 @@ export default class KeyModel {
   readonly height2: number;
   readonly width2: number;
   readonly keyOp: KeyOp | null;
-  private _x: number;
-  private _y: number;
+  readonly x: number;
+  readonly y: number;
+  readonly rx: number;
+  readonly ry: number;
+  readonly w: number;
+  readonly h: number;
+  readonly w2: number;
+  readonly h2: number;
 
   constructor(
     op: KeyOp | null,
@@ -38,8 +45,10 @@ export default class KeyModel {
     ry: number = 0
   ) {
     this.keyOp = op;
-    this._x = x;
-    this._y = y;
+    this.x = x;
+    this.y = y;
+    this.rx = rx;
+    this.ry = ry;
     this.location = location;
     const locs = location.split('\n');
     this.pos = locs[0];
@@ -53,45 +62,38 @@ export default class KeyModel {
 
     this.color = c;
     this.rotate = r;
+    this.rad = (r * Math.PI) / 180;
     this.originLeft = rx * KEY_SIZE;
     this.originTop = ry * KEY_SIZE;
-    this.transformOrigin = `${rx * KEY_SIZE}px ${ry * KEY_SIZE}px`;
+    this.transformOrigin = `${this.originLeft}px ${this.originTop}px`;
 
+    let x2 = x;
+    let y2 = y;
     if (op) {
-      this.width = op.w ? op.w * KEY_SIZE : KEY_SIZE;
-      this.height = op.h ? op.h * KEY_SIZE : KEY_SIZE;
-      const x2 = op.x2 ? x + op.x2 : x;
-      const y2 = op.y2 ? y + op.y2 : y;
-      const w2 = op.w2 || NaN;
-      const h2 = op.h2 || NaN;
+      this.w = op.w || 1;
+      this.h = op.h || 1;
+      this.width = this.w * KEY_SIZE;
+      this.height = this.h * KEY_SIZE;
+      x2 = op.x2 ? x + op.x2 : x;
+      y2 = op.y2 ? y + op.y2 : y;
+      this.w2 = op.w2 || NaN;
+      this.h2 = op.h2 || NaN;
 
       this.left2 = x2 * KEY_SIZE;
       this.top2 = y2 * KEY_SIZE;
-      this.height2 = h2 * KEY_SIZE;
-      this.width2 = w2 * KEY_SIZE;
+      this.height2 = this.h2 * KEY_SIZE;
+      this.width2 = this.w2 * KEY_SIZE;
     } else {
+      this.w = 1;
+      this.h = 1;
       this.width = KEY_SIZE;
       this.height = KEY_SIZE;
       this.left2 = x * KEY_SIZE;
       this.top2 = y * KEY_SIZE;
       this.height2 = NaN;
       this.width2 = NaN;
-    }
-  }
-
-  get x(): number {
-    return this._x;
-  }
-
-  get y(): number {
-    return this._y;
-  }
-
-  get w(): number {
-    if (this.keyOp) {
-      return this.keyOp.w ? this.keyOp.w : 1;
-    } else {
-      return 1;
+      this.w2 = NaN;
+      this.h2 = NaN;
     }
   }
 
@@ -114,6 +116,14 @@ export default class KeyModel {
       !Number.isNaN(this.height2) &&
       !Number.isNaN(this.width2)
     );
+  }
+
+  get isIsoEnter(): boolean {
+    return this.isOddly && this.top == this.top2;
+  }
+
+  get isBackwardsEnter(): boolean {
+    return this.isOddly && this.top != this.top2;
   }
 
   get style(): CSSProperties {
@@ -158,62 +168,54 @@ export default class KeyModel {
   }
 
   get endRight(): number {
-    const rad = this.rotate * (Math.PI / 180);
+    const rad = this.rad;
+    const x0 = Math.max(
+      this.left + this.width,
+      this.left2 || 0 + this.width2 || 0
+    );
+    let y0 = 0;
     if (this.rotate < 0) {
-      const x0 = this.left - this.originLeft;
-      const y0 =
-        this.top - this.originTop + Math.max(this.height, this.height2 || 0);
-      const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
-      const right = Math.max(this.width, this.width2 || 0) * Math.cos(rad);
-      return this.originLeft + x1 + this.width + right;
+      y0 = this.top + Math.max(this.height, this.height2 || 0);
     } else {
-      const x0 = this.left - this.originLeft;
-      const y0 = this.top - this.originTop;
-      const x1 = x0 * Math.cos(rad) - y0 * Math.sin(rad);
-      let right = this.width * Math.cos(rad);
-      if (this.width2) {
-        let right2;
-        if (this.keyOp && this.keyOp.x2) {
-          right2 = (this.width2 + this.keyOp.x2 * KEY_SIZE) * Math.cos(rad);
-        } else {
-          right2 = this.width2 * Math.cos(rad);
-        }
-        right = Math.max(right, right2);
-      }
-      return this.originLeft + x1 + right;
+      y0 = this.top + Math.max(this.height, this.height2 || 0);
     }
+    const x1 =
+      (x0 - this.originLeft) * Math.cos(rad) -
+      (y0 - this.originTop) * Math.sin(rad) +
+      this.originLeft;
+    return x1;
   }
 
   get endBottom(): number {
-    const rad = this.rotate * (Math.PI / 180);
-    const x0 = Math.min(this.left, this.left2) - this.originLeft; // left-top
-    const y0 = this.top - this.originTop;
-    const y1 = x0 * Math.sin(rad) + y0 * Math.cos(rad);
-    const leftBottom =
-      Math.max(this.height || 0, this.height2 || 0) * Math.cos(rad);
-
-    const rightBottom =
-      leftBottom +
-      Math.max(this.width, this.width2 + (this.left2 - this.left) || 0) *
-        Math.sin(rad);
-
-    const bottom = 0 < rad ? rightBottom : leftBottom;
-    return this.originTop + y1 + bottom;
+    const rad = this.rad;
+    let x0 = 0;
+    const y0 = this.top + Math.max(this.height, this.height2 || 0);
+    if (0 < this.rotate) {
+      x0 = this.left + Math.max(this.width, this.width2 || 0);
+    } else {
+      x0 = this.left;
+    }
+    const y1 =
+      (x0 - this.originLeft) * Math.sin(rad) +
+      (y0 - this.originTop) * Math.cos(rad) +
+      this.originTop;
+    return y1;
   }
 
   get startLeft(): number {
-    const rad = this.rotate * (Math.PI / 180);
-    let x = 0;
-    if (this.rotate < 0) {
-      let x0 = this.left - this.originLeft;
-      let y0 = this.top - this.originTop;
-      x = this.originLeft + x0 * Math.cos(rad) - y0 * Math.sin(rad);
-    } else if (0 < this.rotate) {
-      let x0 = this.left - this.originLeft;
-      let y0 =
-        this.top - this.originTop + Math.max(this.height, this.height2 || 0);
-      x = this.originLeft + x0 * Math.cos(rad) - y0 * Math.sin(rad);
+    const rad = this.rad;
+    const x0 = this.left;
+    let y0 = 0;
+    if (0 < this.rotate) {
+      y0 = this.top + Math.max(this.height, this.height2 || 0);
+    } else {
+      y0 = this.top;
     }
-    return x;
+    const x1 =
+      (x0 - this.originLeft) * Math.cos(rad) -
+      (y0 - this.originTop) * Math.sin(rad) +
+      this.originLeft;
+
+    return x1;
   }
 }

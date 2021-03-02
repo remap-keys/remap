@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
-import { Key, genKey } from '../keycodekey/KeyGen';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, withStyles } from '@material-ui/core';
 import './Keycap.scss';
 import { buildModLabel } from '../customkey/Modifiers';
 import { buildHoldKeyLabel } from '../customkey/TabHoldTapKey';
+import { genKey, Key } from '../keycodekey/KeyGen';
 
 export const KEY_SIZE = 56;
 const KEY_CAP_BORDER = 1;
@@ -143,7 +143,7 @@ export default class Keycap extends React.Component<
 
     // TODO: refactor the label position should be organized in genKey()
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
-    let holdLabel = buildHoldKeyLabel(km, km.isAny);
+    const holdLabel = buildHoldKeyLabel(km, km.isAny);
     let modifierLabel =
       holdLabel === ''
         ? buildModLabel(km.modifiers || null, km.direction!)

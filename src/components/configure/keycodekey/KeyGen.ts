@@ -30,8 +30,8 @@ type KeytopShiftRightALt = {
   meta: string;
   metaRight: string;
 };
-export const Ketop2LinesLangs: KeyboardLabelLang[] = ['us', 'jp'];
-export const KetopShiftRightAltLangs: KeyboardLabelLang[] = ['uk'];
+export const Ketop2LinesLangs: KeyboardLabelLang[] = ['en-us', 'ja-jp'];
+export const KetopShiftRightAltLangs: KeyboardLabelLang[] = ['en-gb'];
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
 

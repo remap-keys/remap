@@ -206,7 +206,7 @@ export const INIT_STATE: RootState = {
     notifications: [],
     keyboardHeight: 0,
     keyboardWidth: 0,
-    labelLang: 'us',
+    labelLang: 'en-us',
   },
   configure: {
     header: {
