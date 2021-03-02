@@ -7,7 +7,7 @@ import { ProviderContext, withSnackbar } from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import { Button, CssBaseline } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Header from './header/Header';
+import Header from './header/Header.container';
 import Content from './content/Content.container';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -20,22 +20,13 @@ type KeyboardDefinitionManagementProps = OwnProps &
   Partial<KeyboardDefinitionManagementActionsType> &
   ProviderContext &
   RouteComponentProps<ParamsType>;
-type OwnState = {
-  signedIn: boolean;
-};
+type OwnState = {};
 
 class KeyboardDefinitionManagement extends React.Component<
   KeyboardDefinitionManagementProps,
   OwnState
 > {
   private displayedNotificationIds: string[] = [];
-
-  constructor(props: KeyboardDefinitionManagementProps) {
-    super(props);
-    this.state = {
-      signedIn: true,
-    };
-  }
 
   private storeDisplayedNotification = (key: string) => {
     this.displayedNotificationIds = [...this.displayedNotificationIds, key];
@@ -76,9 +67,7 @@ class KeyboardDefinitionManagement extends React.Component<
   componentDidMount() {
     this.props.auth!.subscribeAuthStatus((user) => {
       if (user) {
-        this.setState({
-          signedIn: true,
-        });
+        this.props.startInitializing!();
         this.updateNotifications();
         this.props.updateKeyboards!();
         const definitionId = this.props.match.params.definitionId;
@@ -86,9 +75,11 @@ class KeyboardDefinitionManagement extends React.Component<
           this.props.updateKeyboard!(definitionId);
         }
       } else {
-        this.props.auth!.signInWithGitHub().then(() => {
-          // N/A
-        });
+        if (this.props.phase !== 'signout') {
+          this.props.auth!.signInWithGitHub().then(() => {
+            // N/A
+          });
+        }
       }
     });
   }
@@ -98,7 +89,7 @@ class KeyboardDefinitionManagement extends React.Component<
   }
 
   render() {
-    if (this.state.signedIn) {
+    if (this.props.phase !== 'signing') {
       return (
         <React.Fragment>
           <CssBaseline />
@@ -109,16 +100,7 @@ class KeyboardDefinitionManagement extends React.Component<
         </React.Fragment>
       );
     } else {
-      return (
-        <React.Fragment>
-          <CssBaseline />
-          <div className="message-box-wrapper">
-            <div className="message-box">
-              <p>You are not allow to access to Remap Closed Beta.</p>
-            </div>
-          </div>
-        </React.Fragment>
-      );
+      return null;
     }
   }
 }

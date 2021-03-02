@@ -38,8 +38,10 @@ type ContentsProps = {
 };
 function Contents(props: ContentsProps) {
   switch (props.phase) {
+    case KeyboardsPhase.signing:
     case KeyboardsPhase.init:
     case KeyboardsPhase.processing:
+    case KeyboardsPhase.signout:
       return <PhaseProcessing />;
     case KeyboardsPhase.list:
       return <KeyboardList />;

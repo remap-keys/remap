@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     notifications: state.app.notifications,
     auth: state.auth.instance,
+    phase: state.keyboards.app.phase,
   };
 };
 export type KeyboardDefinitionManagementStateType = ReturnType<
@@ -26,6 +27,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateKeyboard: (definitionId: string) => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
       _dispatch(storageActionsThunk.fetchKeyboardDefinitionById(definitionId));
+    },
+    startInitializing: () => {
+      _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.init));
     },
   };
 };

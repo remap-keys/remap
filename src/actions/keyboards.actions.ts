@@ -1,6 +1,12 @@
-import { IFirmwareCodePlace, IKeyboardsPhase } from '../store/state';
+import {
+  IFirmwareCodePlace,
+  IKeyboardsPhase,
+  KeyboardsPhase,
+  RootState,
+} from '../store/state';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { IKeyboardDefinitionDocument } from '../services/storage/Storage';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;
@@ -213,5 +219,27 @@ export const KeyboardsEditDefinitionActions = {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
       value: qmkRepositoryFirstPullRequestUrl,
     };
+  },
+};
+
+type ActionTypes = ReturnType<
+  typeof KeyboardsAppActions[keyof typeof KeyboardsAppActions]
+>;
+type ThunkPromiseAction<T> = ThunkAction<
+  Promise<T>,
+  RootState,
+  undefined,
+  ActionTypes
+>;
+export const keyboardsActionsThunk = {
+  // eslint-disable-next-line no-undef
+  logout: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.signout));
+    await auth.instance!.signOutFromGitHub();
   },
 };
