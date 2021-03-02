@@ -27,7 +27,7 @@ export default class Remap extends React.Component<RemapPropType, {}> {
         </div>
         <div
           className="keycode"
-          style={{ marginTop: 206 + this.props.keyboardHeight! }}
+          style={{ marginTop: 182 + this.props.keyboardHeight! }}
         >
           <Keycodes />
         </div>
