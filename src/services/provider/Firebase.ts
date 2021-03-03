@@ -3,10 +3,12 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import {
   ICreateKeyboardDefinitionDocumentResult,
+  IKeyboardSettingsResult,
   IFetchKeyboardDefinitionDocumentResult,
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
+  IKeyboardSettings,
   IResult,
   IStorage,
 } from '../storage/Storage';
@@ -378,5 +380,28 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async signOutFromGitHub(): Promise<void> {
     await this.auth.signOut();
+  }
+
+  async createKeymaps(
+    vendorId: number, // defined in KeyboardDefinitionFile
+    productId: number, // defined in KeyboardDefinitionFile
+    productName: string, // defined in KeyboardDefinitionFile
+    keyboardSettings: IKeyboardSettings
+  ): Promise<IKeyboardSettingsResult> {
+    return { success: true, settingsId: '0' };
+  }
+
+  async updateKeymaps(
+    settingsId: string,
+    keyboardSettings: IKeyboardSettings
+  ): Promise<IKeyboardSettingsResult> {
+    return { success: true, settingsId: '0' };
+  }
+
+  async fetchKeymaps(settingsId: string): Promise<IKeyboardSettingsResult> {
+    return { success: true, settingsId: '0' };
+  }
+  async deleteKeymaps(settingsId: string): Promise<IKeyboardSettingsResult> {
+    return { success: true, settingsId: '0' };
   }
 }

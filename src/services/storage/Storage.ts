@@ -1,9 +1,20 @@
+import { LayoutTextOptions } from 'pdf-lib';
+import { LightingValues } from '../../components/configure/configuration/Lighting';
+import { LayerOptions } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace } from '../../store/state';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export interface IResult {
   readonly success: boolean;
   readonly error?: string;
   readonly cause?: any;
+}
+
+export interface IKeyboardSettings {
+  labelLang: KeyboardLabelLang;
+  lighting: LightingValues;
+  layerOptions: LayerOptions;
+  keycodes: { [pos: string]: number };
 }
 
 export type IKeyboardDefinitionStatus =
@@ -59,6 +70,11 @@ export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
   definitionId?: string;
 }
 
+export interface IKeyboardSettingsResult extends IResult {
+  settingsId: string;
+  settings?: IKeyboardSettings;
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -111,5 +127,19 @@ export interface IStorage {
     jsonStr: string
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
+  createKeymaps(
+    vendorId: number,
+    productId: number,
+    productName: string,
+    keyboardSettings: IKeyboardSettings
+  ): Promise<IKeyboardSettingsResult>;
+
+  updateKeymaps(
+    settingsId: string,
+    keyboardSettings: IKeyboardSettings
+  ): Promise<IKeyboardSettingsResult>;
+
+  fetchKeymaps(settingsId: string): Promise<IKeyboardSettingsResult>;
+  deleteKeymaps(settingsId: string): Promise<IKeyboardSettingsResult>;
 }
 /* eslint-enable no-unused-vars */

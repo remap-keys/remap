@@ -21,15 +21,12 @@ type LightingType =
       [k: string]: unknown;
     };
 
-type LightingValues = {
-  underglow: {
-    mode: number;
-    colors: [number, number, number];
-  };
-  backlight: {
-    breathing: boolean;
-    brightness: number;
-  };
+export type LightingValues = {
+  underglowColor: { h: number; s: number; v: number };
+  underglowHex: string;
+  underglowEffectMode: number;
+  backlightBreathing: boolean;
+  backlightBrightness: number;
 };
 
 export default class Lighting {
@@ -103,7 +100,9 @@ export default class Lighting {
     }
   }
 
-  static async fetchKeyboardLightValues(kbd: IKeyboard) {
+  static async fetchKeyboardLightValues(
+    kbd: IKeyboard
+  ): Promise<LightingValues> {
     // device lighting values
     const bkb = await kbd.fetchBacklightBrightness();
     const backlightBrightness =
@@ -133,7 +132,7 @@ export default class Lighting {
     const hex = ReinventedColorWheel.rgb2hex(
       ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v])
     );
-    const value = {
+    const value: LightingValues = {
       underglowColor: { ...hs, v },
       underglowHex: hex,
       underglowEffectMode,

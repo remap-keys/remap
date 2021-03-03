@@ -35,6 +35,8 @@ import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import download from 'downloadjs';
 import Lighting from '../configuration/Lighting';
 
+export type LayerOptions = { option: string; optionChoice: string }[];
+
 type OwnProp = {};
 
 type KeymapPropsType = OwnProp &
@@ -213,12 +215,12 @@ export default class Keymap extends React.Component<
     }
     const { productName } = this.props.keyboard!.getInformation();
     const labelLang: string = this.props.labelLang!;
-    const layoutOptions = this.buildLayerOptions();
+    const layerOptions = this.buildLayerOptions();
     Lighting.fetchKeyboardLightValues(this.props.keyboard!).then((lighting) => {
       const json = {
         labelLang,
         lighting,
-        layoutOptions,
+        layerOptions,
         keycodes,
       };
 
@@ -238,9 +240,7 @@ export default class Keymap extends React.Component<
     this.setState({ anchorMenuEl: null });
   }
 
-  private buildLayerOptions():
-    | { option: string; optionChoice: string }[]
-    | undefined {
+  private buildLayerOptions(): LayerOptions | undefined {
     let layoutOptions: { option: string; optionChoice: string }[] | undefined;
     const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
     if (hasKeyboardOptions) {

@@ -49,26 +49,6 @@ type OwnState = {
   needToInit: boolean;
 };
 
-type LightingType =
-  | undefined
-  | (
-      | 'none'
-      | 'qmk_backlight'
-      | 'qmk_rgblight'
-      | 'qmk_backlight_rgblight'
-      | 'wt_rgb_backlight'
-      | 'wt_mono_backlight'
-    )
-  | {
-      extends?: string;
-      effects?: [] | [[] | [string] | [string, number]];
-      keycodes?: 'qmk' | 'wt';
-      supportedBacklightValues?: number[];
-      supportedLightingValues?: number[];
-      underglowEffects?: [] | [string] | [string, number][];
-      [k: string]: unknown;
-    };
-
 export default class ConfigurationDialog extends React.Component<
   ConfigurationDialogProps,
   OwnState
