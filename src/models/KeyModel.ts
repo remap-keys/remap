@@ -60,7 +60,7 @@ export default class KeyModel {
     this.left = x * KEY_SIZE;
     this.top = y * KEY_SIZE;
 
-    if (c === '#aaaaaa' || c === '#7777777') {
+    if (c === '#aaaaaa' || c === '#777777') {
       this.color = c;
     } else {
       this.color = '#cccccc';
