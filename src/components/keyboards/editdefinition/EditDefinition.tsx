@@ -36,6 +36,11 @@ import moment from 'moment-timezone';
 import { MoreVert } from '@material-ui/icons';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
+import {
+  isForkedQmkFirmwareCode,
+  isOtherFirmwareCode,
+  isQmkFirmwareCode,
+} from '../ValidationUtils';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -108,10 +113,24 @@ export default class EditDefinition extends React.Component<
         !!this.props.jsonFilename
       );
     } else {
+      let isFilledEvidence: boolean = false;
+      if (isQmkFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence = !!this.props.qmkRepositoryFirstPullRequestUrl;
+      } else if (isForkedQmkFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence =
+          !!this.props.forkedRepositoryUrl &&
+          !!this.props.forkedRepositoryEvidence;
+      } else if (isOtherFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence =
+          !!this.props.otherPlaceHowToGet &&
+          !!this.props.otherPlaceSourceCodeEvidence &&
+          !!this.props.otherPlacePublisherEvidence;
+      }
       return (
         !!this.props.productName &&
         !!this.props.keyboardDefinition &&
-        this.props.agreement!
+        this.props.agreement! &&
+        isFilledEvidence
       );
     }
   }
