@@ -41,7 +41,6 @@ import {
   isOtherFirmwareCode,
   isQmkFirmwareCode,
 } from '../ValidationUtils';
-import { is } from 'immer/dist/utils/common';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
