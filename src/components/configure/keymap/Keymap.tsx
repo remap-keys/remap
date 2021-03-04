@@ -1,15 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import {
-  Badge,
-  Chip,
-  IconButton,
-  Menu,
-  MenuItem,
-  Select,
-  withStyles,
-} from '@material-ui/core';
+import { Badge, Chip, MenuItem, Select, withStyles } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
@@ -24,14 +16,13 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
 } from '../customkey/CustomKey';
-import { genKey, Key } from '../keycodekey/KeyGen';
+import { Key } from '../keycodekey/KeyGen';
 import { ModsComposition } from '../../../services/hid/Composition';
 import {
   KeyboardLabelLang,
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
-import { MoreVert } from '@material-ui/icons';
-import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
+import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 
 type OwnProp = {};
 
@@ -45,14 +36,12 @@ type OwnKeymapStateType = {
   selectedPos: string | null; // 0,1
   selectedKey: Key | null;
   customKeyPopoverPosition: PopoverPosition;
-  anchorMenuEl: HTMLButtonElement | null;
 };
 
 export default class Keymap extends React.Component<
   KeymapPropsType,
   OwnKeymapStateType
 > {
-  private menuRef: React.RefObject<HTMLDivElement>;
   constructor(props: KeymapPropsType | Readonly<KeymapPropsType>) {
     super(props);
     this.state = {
@@ -61,9 +50,32 @@ export default class Keymap extends React.Component<
       selectedPos: null,
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
-      anchorMenuEl: null,
     };
-    this.menuRef = React.createRef<HTMLDivElement>();
+  }
+
+  public static buildLayerOptions(
+    selectedKeyboardOptions: (string | null)[],
+    keyboardLabels: (string | string[])[]
+  ): { option: string; optionChoice: string }[] | undefined {
+    let layoutOptions: { option: string; optionChoice: string }[] | undefined;
+    const hasKeyboardOptions = 0 < selectedKeyboardOptions.length;
+    if (hasKeyboardOptions) {
+      layoutOptions = keyboardLabels.map(
+        (choices: string | string[], index) => {
+          if (typeof choices == 'string') {
+            const selected: string | null = selectedKeyboardOptions[index];
+            return selected
+              ? { option: '' + index, optionChoice: '1' }
+              : { option: '' + index, optionChoice: '0' };
+          } else {
+            const choice: string = selectedKeyboardOptions[index] as string;
+            const choiceIndex = choices.indexOf(choice) - 1; // first item of choices is for choice's label
+            return { option: '' + index, optionChoice: '' + choiceIndex };
+          }
+        }
+      );
+    }
+    return layoutOptions;
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -168,74 +180,12 @@ export default class Keymap extends React.Component<
     }
   }
 
-  private onClickMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    this.setState({ anchorMenuEl: event.currentTarget });
-  }
-
-  private onClickGetCheatsheet() {
-    const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
-    const keys: { [pos: string]: Key }[] = [];
-    for (let i = 0; i < this.props.layerCount!; i++) {
-      const keyMap: { [pos: string]: Key } = {};
-      const km = keymaps[i];
-      Object.keys(km).forEach((pos) => {
-        const key: Key = genKey(km[pos], this.props.labelLang!);
-        keyMap[pos] = key;
-      });
-      keys.push(keyMap);
-    }
-    const layoutOptions = this.buildLayerOptions();
-    const { productName } = this.props.keyboard!.getInformation();
-    const pdf = new KeymapPdfGenerator(
-      this.props.keyboardDefinition!.layouts.keymap,
-      keys,
-      this.props.layerCount!,
-      this.props.labelLang!
-    );
-
-    pdf.genPdf(productName, layoutOptions);
-
-    this.closeMenu();
-  }
-
   private openConfigurationDialog() {
     this.setState({ configurationDialog: true });
   }
 
   private closeConfigurationDialog() {
     this.setState({ configurationDialog: false });
-  }
-
-  private closeMenu() {
-    this.setState({ anchorMenuEl: null });
-  }
-
-  private buildLayerOptions():
-    | { option: string; optionChoice: string }[]
-    | undefined {
-    let layoutOptions: { option: string; optionChoice: string }[] | undefined;
-    const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
-    if (hasKeyboardOptions) {
-      layoutOptions = this.props.keyboardLabels!.map(
-        (choices: string | string[], index) => {
-          if (typeof choices == 'string') {
-            const selected: string | null = this.props.selectedKeyboardOptions![
-              index
-            ];
-            return selected
-              ? { option: '' + index, optionChoice: '1' }
-              : { option: '' + index, optionChoice: '0' };
-          } else {
-            const choice: string = this.props.selectedKeyboardOptions![
-              index
-            ] as string;
-            const choiceIndex = choices.indexOf(choice) - 1; // first item of choices is for choice's label
-            return { option: '' + index, optionChoice: '' + choiceIndex };
-          }
-        }
-      );
-    }
-    return layoutOptions;
   }
 
   render() {
@@ -245,47 +195,31 @@ export default class Keymap extends React.Component<
       productName,
     } = this.props.keyboard!.getInformation();
 
-    const layoutOptions = this.buildLayerOptions();
+    const layoutOptions = Keymap.buildLayerOptions(
+      this.props.selectedKeyboardOptions!,
+      this.props.keyboardLabels!
+    );
 
     return (
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
-        <div className="label-lang">
-          <LabelLang
-            labelLang={this.props.labelLang!}
-            onChangeLangLabel={(labelLang) => {
-              this.props.onChangeLangLabel!(
-                labelLang,
-                this.props.keydiff!.origin,
-                this.props.keydiff!.destination
-              );
-            }}
-          />
-          <div ref={this.menuRef}>
-            <IconButton
-              aria-label="menu"
-              size="small"
-              onClick={(e) => {
-                this.onClickMenu(e);
-              }}
-            >
-              <MoreVert />
-            </IconButton>
-            <Menu
-              anchorEl={this.state.anchorMenuEl}
-              keepMounted
-              open={Boolean(this.state.anchorMenuEl)}
-              onClose={this.closeMenu.bind(this)}
-            >
-              <MenuItem onClick={this.onClickGetCheatsheet.bind(this)}>
-                Get Cheat Sheet(PDF)
-              </MenuItem>
-            </Menu>
-          </div>
-        </div>
+
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
+          <div className="balancer"></div>
           <Keydiff />
+          <div className="label-lang">
+            <LabelLang
+              labelLang={this.props.labelLang!}
+              onChangeLangLabel={(labelLang) => {
+                this.props.onChangeLangLabel!(
+                  labelLang,
+                  this.props.keydiff!.origin,
+                  this.props.keydiff!.destination
+                );
+              }}
+            />
+          </div>
           <div className="spacer"></div>
         </div>
         <div className="keyboards-wrapper">
@@ -311,7 +245,7 @@ export default class Keymap extends React.Component<
               this.onClickKeycap(pos, key, ref);
             }}
           />
-          <div className="balancer"></div>
+          <KeymapToolbar />
           <div className="spacer"></div>
           <CustomKey
             id="customkey-popover"
@@ -446,9 +380,9 @@ type KeyboardType = {
   setKeyboardSize: (width: number, height: number) => void;
 };
 
+export const KEYBOARD_LAYOUT_PADDING = 8;
 export function KeyboardView(props: KeyboardType) {
   const BORDER_WIDTH = 4;
-  const LAYOUT_PADDING = 8;
 
   const { keymaps, width, height, left } = props.keyboardModel.getKeymap(
     props.layoutOptions
@@ -476,9 +410,9 @@ export function KeyboardView(props: KeyboardType) {
       <div
         className="keyboard-root"
         style={{
-          width: width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-          height: height + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-          padding: LAYOUT_PADDING,
+          width: width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
+          height: height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
+          padding: KEYBOARD_LAYOUT_PADDING,
         }}
       >
         <div

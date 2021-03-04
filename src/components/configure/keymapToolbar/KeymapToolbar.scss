@@ -1,0 +1,13 @@
+@import '../../../variables';
+
+.keymap-menu {
+  display: flex;
+  width: 140px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px 16px;
+  .keymap-menu-item {
+    margin-left: $space-m;
+  }
+}

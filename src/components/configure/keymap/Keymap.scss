@@ -1,28 +1,26 @@
 @import '../../../variables';
 
-.label-lang {
-  display: flex;
-  position: absolute;
-  align-items: flex-end;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 8px 16px;
-}
-
 .keydiff-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 78px;
+  .label-lang {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px 16px;
+  }
+
+  .label-lang,
+  .balancer {
+    width: 140px;
+  }
 }
 
 .keyboards-wrapper {
   display: flex;
   flex-direction: row;
-
-  .balancer {
-    width: 140px;
-  }
 
   .layer-wrapper {
     display: flex;

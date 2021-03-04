@@ -10,6 +10,7 @@ import {
 const mapStateToProps = (state: RootState) => {
   return {
     keydiff: state.configure.keydiff,
+    keyboardWidth: state.app.keyboardWidth,
     selectedLayer: state.configure.keymap.selectedLayer,
     selectedPos: state.configure.keymap.selectedPos,
     labelLang: state.app.labelLang,

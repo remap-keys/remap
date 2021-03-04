@@ -6,6 +6,7 @@ import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { genKey, Key } from '../keycodekey/KeyGen';
+import { KEYBOARD_LAYOUT_PADDING } from '../keymap/Keymap';
 
 type KeydiffOwnProps = {};
 
@@ -18,17 +19,18 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     super(props);
   }
   render() {
+    const width = this.props.keyboardWidth! + KEYBOARD_LAYOUT_PADDING * 4;
     const origin: IKeymap | null = this.props.keydiff!.origin;
     const destination: IKeymap | null = this.props.keydiff!.destination;
     if (!origin || !destination) {
-      return <div className="diff"></div>;
+      return <div className="diff" style={{ width: width }}></div>;
     }
     const labelLang = this.props.labelLang!;
     const origKey: Key = genKey(origin, labelLang);
     const dstKey: Key = genKey(destination, labelLang);
 
     return (
-      <div className="diff">
+      <div className="diff" style={{ width: width }}>
         <div className="diff-frame">
           <div className="spacer"></div>
           <div className="key-orig">
