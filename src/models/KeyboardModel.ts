@@ -217,7 +217,7 @@ export default class KeyboardModel {
       curr.nextRow(keyRow[0]);
       for (let col = 0; col < keyRow.length; col++) {
         const item: string | KeyOp = keyRow[col]; // KeyMapOp or string('rwo,col')
-        let keymapItem = null;
+        let keymapItem: KeymapItem;
 
         if (typeof item === 'string') {
           keymapItem = new KeymapItem(curr, item);
@@ -250,7 +250,23 @@ export default class KeyboardModel {
           }
           const option = keymapItem.option;
           if (!hasProperty(origKeymaps[row], option)) {
-            origKeymaps[row][option] = keymapItem;
+            if (keymapItem.op?.h && 1 < keymapItem.op.h) {
+              /**
+               * In STEP3.1, the optional key finds the original key from originalKeymaps by row.
+               * If this KeymapItem has more than 1 height, the next row will NOT be appered.
+               * This means, the optiona key can NOT find the original key.
+               * So this KeymapItem MUST be assigned to not only the original row but also the expeand row.
+               */
+              for (let i = 0; i < keymapItem.op.h; i++) {
+                const expandRow = row + i;
+                if (!hasProperty(origKeymaps, expandRow)) {
+                  origKeymaps[expandRow] = {};
+                }
+                origKeymaps[expandRow][option] = keymapItem;
+              }
+            } else {
+              origKeymaps[row][option] = keymapItem;
+            }
           }
         }
       }
@@ -258,7 +274,8 @@ export default class KeyboardModel {
 
     // STEP2: shrink default keymap for optional keys' margin
     const minX = keymapsList.reduce((min: number, keymaps: KeymapItem[]) => {
-      return keymaps[0].isDefault ? Math.min(min, keymaps[0].x) : min;
+      const keymap = keymaps.find((item) => item.isDefault);
+      return keymap ? Math.min(keymap.x, min) : min;
     }, Infinity);
     const minY = keymapsList
       .flat()

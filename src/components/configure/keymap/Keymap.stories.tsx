@@ -20,6 +20,7 @@ import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
+import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
 
 export default {
   title: 'Keyboards',
@@ -173,3 +174,45 @@ export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
 export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);
 export const BigAssEnter = () =>
   genKeyboardView('BigAssEnter', BigAssEnterKeymap);
+export const VerticalSplitNormal = () =>
+  genKeyboardView('VerticalSplitNormal', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+  ]);
+export const VerticalSplit2U = () =>
+  genKeyboardView('VerticalSplit2U', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '1' },
+    { option: '3', optionChoice: '0' },
+  ]);
+export const VerticalSplit2Uinner = () =>
+  genKeyboardView('VerticalSplit2Uinner', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '1' },
+  ]);
+export const VerticalSplit3U = () =>
+  genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '1' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+  ]);
+export const VerticalSplit4U = () =>
+  genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '1' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+  ]);
+export const VerticalSplitAll = () =>
+  genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
+    { option: '0', optionChoice: '1' },
+    { option: '1', optionChoice: '1' },
+    { option: '2', optionChoice: '1' },
+    { option: '3', optionChoice: '1' },
+  ]);

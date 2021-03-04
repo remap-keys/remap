@@ -60,7 +60,12 @@ export default class KeyModel {
     this.left = x * KEY_SIZE;
     this.top = y * KEY_SIZE;
 
-    this.color = c;
+    if (c === '#aaaaaa' || c === '#7777777') {
+      this.color = c;
+    } else {
+      this.color = '#cccccc';
+    }
+
     this.rotate = r;
     this.rad = (r * Math.PI) / 180;
     this.originLeft = rx * KEY_SIZE;
