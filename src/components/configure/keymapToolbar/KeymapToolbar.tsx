@@ -3,6 +3,7 @@ import React from 'react';
 import './KeymapToolbar.scss';
 import { IconButton, Tooltip } from '@material-ui/core';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 import {
   KeymapMenuActionsType,
   KeymapMenuStateType,
@@ -30,6 +31,23 @@ export default class KeymapMenu extends React.Component<
     this.state = {};
     this.menuRef = React.createRef<HTMLDivElement>();
   }
+
+  get hasChanges(): boolean {
+    for (let i = 0; i < this.props.remaps!.length; i++) {
+      const remap: { [pos: string]: IKeymap } = this.props.remaps![i];
+      const item = Object.values(remap).find(
+        (value) => typeof value === 'object' && typeof value.code === 'number'
+      );
+      if (item != undefined) return true;
+    }
+
+    return false;
+  }
+
+  private onClickClearAllRemaps() {
+    this.props.clearAllRemaps!(this.props.layerCount!);
+  }
+
   private onClickGetCheatsheet() {
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
     const keys: { [pos: string]: Key }[] = [];
@@ -62,7 +80,27 @@ export default class KeymapMenu extends React.Component<
       <React.Fragment>
         <div className="keymap-menu">
           <div className="keymap-menu-item">
-            <Tooltip title="Get keymap cheat sheet (PDF)">
+            <Tooltip arrow={true} placement="top" title="Clear all changes">
+              <span>
+                <IconButton
+                  disabled={!this.hasChanges}
+                  size="small"
+                  onClick={this.onClickClearAllRemaps.bind(this)}
+                >
+                  <ClearAllIcon
+                    color={this.hasChanges ? undefined : 'disabled'}
+                  />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </div>
+
+          <div className="keymap-menu-item">
+            <Tooltip
+              arrow={true}
+              placement="top"
+              title="Get keymap cheat sheet (PDF)"
+            >
               <IconButton
                 size="small"
                 onClick={this.onClickGetCheatsheet.bind(this)}
@@ -71,7 +109,6 @@ export default class KeymapMenu extends React.Component<
               </IconButton>
             </Tooltip>
           </div>
-          <div className="keymap-menu-item"></div>
         </div>
       </React.Fragment>
     );
