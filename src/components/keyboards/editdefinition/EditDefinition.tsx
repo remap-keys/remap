@@ -111,7 +111,16 @@ export default class EditDefinition extends React.Component<
       return (
         !!this.props.productName &&
         !!this.props.keyboardDefinition &&
-        this.props.agreement!
+        this.props.agreement! &&
+        ((this.props.firmwareCodePlace === 'qmk' &&
+          !!this.props.qmkRepositoryFirstPullRequestUrl) ||
+          (this.props.firmwareCodePlace === 'forked' &&
+            !!this.props.forkedRepositoryUrl &&
+            !!this.props.forkedRepositoryEvidence) ||
+          (this.props.firmwareCodePlace === 'other' &&
+            !!this.props.otherPlaceHowToGet &&
+            !!this.props.otherPlaceSourceCodeEvidence &&
+            !!this.props.otherPlacePublisherEvidence))
       );
     }
   }
