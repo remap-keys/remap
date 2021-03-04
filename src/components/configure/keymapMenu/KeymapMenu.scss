@@ -2,9 +2,10 @@
 
 .keymap-menu {
   display: flex;
+  width: 140px;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
   padding: 8px 16px;
   .keymap-menu-item {
     margin-left: $space-m;

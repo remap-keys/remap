@@ -203,21 +203,23 @@ export default class Keymap extends React.Component<
     return (
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
-        <div className="label-lang">
-          <LabelLang
-            labelLang={this.props.labelLang!}
-            onChangeLangLabel={(labelLang) => {
-              this.props.onChangeLangLabel!(
-                labelLang,
-                this.props.keydiff!.origin,
-                this.props.keydiff!.destination
-              );
-            }}
-          />
-        </div>
+
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
+          <div className="balancer"></div>
           <Keydiff />
+          <div className="label-lang">
+            <LabelLang
+              labelLang={this.props.labelLang!}
+              onChangeLangLabel={(labelLang) => {
+                this.props.onChangeLangLabel!(
+                  labelLang,
+                  this.props.keydiff!.origin,
+                  this.props.keydiff!.destination
+                );
+              }}
+            />
+          </div>
           <div className="spacer"></div>
         </div>
         <div className="keyboards-wrapper">
@@ -378,9 +380,9 @@ type KeyboardType = {
   setKeyboardSize: (width: number, height: number) => void;
 };
 
+export const KEYBOARD_LAYOUT_PADDING = 8;
 export function KeyboardView(props: KeyboardType) {
   const BORDER_WIDTH = 4;
-  const LAYOUT_PADDING = 8;
 
   const { keymaps, width, height, left } = props.keyboardModel.getKeymap(
     props.layoutOptions
@@ -408,9 +410,9 @@ export function KeyboardView(props: KeyboardType) {
       <div
         className="keyboard-root"
         style={{
-          width: width + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-          height: height + (BORDER_WIDTH + LAYOUT_PADDING) * 2,
-          padding: LAYOUT_PADDING,
+          width: width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
+          height: height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
+          padding: KEYBOARD_LAYOUT_PADDING,
         }}
       >
         <div
