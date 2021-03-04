@@ -2,8 +2,10 @@
 import React from 'react';
 import './KeymapToolbar.scss';
 import { IconButton, Tooltip } from '@material-ui/core';
+import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
+import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
+
 import {
   KeymapMenuActionsType,
   KeymapMenuStateType,
@@ -12,6 +14,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import Keymap from '../keymap/Keymap';
+import LightingDialog from '../../lighting/LightingDialog';
 
 type OwnProp = {};
 
@@ -19,7 +22,9 @@ type KeymapMenuPropsType = OwnProp &
   Partial<KeymapMenuStateType> &
   Partial<KeymapMenuActionsType>;
 
-type OwnKeymapMenuStateType = {};
+type OwnKeymapMenuStateType = {
+  openLightingDialog: boolean;
+};
 
 export default class KeymapMenu extends React.Component<
   KeymapMenuPropsType,
@@ -27,7 +32,9 @@ export default class KeymapMenu extends React.Component<
 > {
   constructor(props: KeymapMenuPropsType | Readonly<KeymapMenuPropsType>) {
     super(props);
-    this.state = {};
+    this.state = {
+      openLightingDialog: false,
+    };
   }
 
   get hasChanges(): boolean {
@@ -74,6 +81,9 @@ export default class KeymapMenu extends React.Component<
   }
 
   render() {
+    const isLightingAvailable = LightingDialog.isLightingAvailable(
+      this.props.keyboardDefinition!.lighting
+    );
     return (
       <React.Fragment>
         <div className="keymap-menu">
@@ -85,8 +95,26 @@ export default class KeymapMenu extends React.Component<
                   size="small"
                   onClick={this.onClickClearAllChanges.bind(this)}
                 >
-                  <ClearAllIcon
+                  <ClearAllRoundedIcon
                     color={this.hasChanges ? undefined : 'disabled'}
+                  />
+                </IconButton>
+              </span>
+            </Tooltip>
+          </div>
+
+          <div className="keymap-menu-item">
+            <Tooltip arrow={true} placement="top" title="Lighting">
+              <span>
+                <IconButton
+                  disabled={!isLightingAvailable}
+                  size="small"
+                  onClick={() => {
+                    this.setState({ openLightingDialog: true });
+                  }}
+                >
+                  <FlareRoundedIcon
+                    color={isLightingAvailable ? undefined : 'disabled'}
                   />
                 </IconButton>
               </span>
@@ -108,6 +136,14 @@ export default class KeymapMenu extends React.Component<
             </Tooltip>
           </div>
         </div>
+        <LightingDialog
+          open={this.state.openLightingDialog}
+          keyboard={this.props.keyboard!}
+          lightingDef={this.props.keyboardDefinition!.lighting}
+          onClose={() => {
+            this.setState({ openLightingDialog: false });
+          }}
+        />
       </React.Fragment>
     );
   }

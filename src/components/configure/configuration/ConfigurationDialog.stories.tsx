@@ -107,7 +107,6 @@ class ConfigurationDialogAdapter extends React.Component<any, {}> {
       selectedMenuIndex: 1,
       keyboardDefinition: {} as KeyboardDefinitionSchema,
       keyboardDefinitionFile: 'keyboard_def.json',
-      needToInit: false,
     };
   }
   render() {

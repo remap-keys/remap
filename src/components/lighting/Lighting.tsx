@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './TabLighting.scss';
-import '../../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
+import './Lighting.scss';
+import '../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import {
   Grid,
   MenuItem,
@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import ReinventedColorWheel from 'reinvented-color-wheel';
-import { IKeyboard } from '../../../services/hid/Hid';
+import { IKeyboard } from '../../services/hid/Hid';
 
 export type Hsv = {
   h: number;
@@ -45,7 +45,7 @@ type State = {
   backlightBrightness: number; // 0-255
 };
 
-export default class TabLighting extends React.Component<Props, State> {
+export default class Lighting extends React.Component<Props, State> {
   private readonly UPDATE_VALUE_DURATION = 400;
   private colorWheelRef: React.RefObject<HTMLDivElement>;
   private colorWheel: ReinventedColorWheel | null = null;
