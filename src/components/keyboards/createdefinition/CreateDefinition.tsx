@@ -31,6 +31,11 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
+import {
+  isForkedQmkFirmwareCode,
+  isOtherFirmwareCode,
+  isQmkFirmwareCode,
+} from '../ValidationUtils';
 
 type CreateKeyboardState = {
   openConfirmDialog: boolean;
@@ -79,19 +84,24 @@ export default class CreateDefinition extends React.Component<
   }
 
   private isFilledInAllFieldAndAgreed(): boolean {
+    let isFilledEvidence: boolean = false;
+    if (isQmkFirmwareCode(this.props.firmwareCodePlace)) {
+      isFilledEvidence = !!this.props.qmkRepositoryFirstPullRequestUrl;
+    } else if (isForkedQmkFirmwareCode(this.props.firmwareCodePlace)) {
+      isFilledEvidence =
+        !!this.props.forkedRepositoryUrl &&
+        !!this.props.forkedRepositoryEvidence;
+    } else if (isOtherFirmwareCode(this.props.firmwareCodePlace)) {
+      isFilledEvidence =
+        !!this.props.otherPlaceHowToGet &&
+        !!this.props.otherPlaceSourceCodeEvidence &&
+        !!this.props.otherPlacePublisherEvidence;
+    }
     return (
       !!this.props.productName &&
       !!this.props.keyboardDefinition &&
       this.props.agreement! &&
-      ((this.props.firmwareCodePlace === 'qmk' &&
-        !!this.props.qmkRepositoryFirstPullRequestUrl) ||
-        (this.props.firmwareCodePlace === 'forked' &&
-          !!this.props.forkedRepositoryUrl &&
-          !!this.props.forkedRepositoryEvidence) ||
-        (this.props.firmwareCodePlace === 'other' &&
-          !!this.props.otherPlaceHowToGet &&
-          !!this.props.otherPlaceSourceCodeEvidence &&
-          !!this.props.otherPlacePublisherEvidence))
+      isFilledEvidence
     );
   }
 

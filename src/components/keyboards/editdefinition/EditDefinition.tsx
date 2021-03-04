@@ -36,6 +36,12 @@ import moment from 'moment-timezone';
 import { MoreVert } from '@material-ui/icons';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
+import {
+  isForkedQmkFirmwareCode,
+  isOtherFirmwareCode,
+  isQmkFirmwareCode,
+} from '../ValidationUtils';
+import { is } from 'immer/dist/utils/common';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -108,19 +114,24 @@ export default class EditDefinition extends React.Component<
         !!this.props.jsonFilename
       );
     } else {
+      let isFilledEvidence: boolean = false;
+      if (isQmkFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence = !!this.props.qmkRepositoryFirstPullRequestUrl;
+      } else if (isForkedQmkFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence =
+          !!this.props.forkedRepositoryUrl &&
+          !!this.props.forkedRepositoryEvidence;
+      } else if (isOtherFirmwareCode(this.props.firmwareCodePlace)) {
+        isFilledEvidence =
+          !!this.props.otherPlaceHowToGet &&
+          !!this.props.otherPlaceSourceCodeEvidence &&
+          !!this.props.otherPlacePublisherEvidence;
+      }
       return (
         !!this.props.productName &&
         !!this.props.keyboardDefinition &&
         this.props.agreement! &&
-        ((this.props.firmwareCodePlace === 'qmk' &&
-          !!this.props.qmkRepositoryFirstPullRequestUrl) ||
-          (this.props.firmwareCodePlace === 'forked' &&
-            !!this.props.forkedRepositoryUrl &&
-            !!this.props.forkedRepositoryEvidence) ||
-          (this.props.firmwareCodePlace === 'other' &&
-            !!this.props.otherPlaceHowToGet &&
-            !!this.props.otherPlaceSourceCodeEvidence &&
-            !!this.props.otherPlacePublisherEvidence))
+        isFilledEvidence
       );
     }
   }
