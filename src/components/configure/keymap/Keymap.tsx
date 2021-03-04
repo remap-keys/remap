@@ -22,7 +22,7 @@ import {
   KeyboardLabelLang,
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
-import KeymapMenu from '../keymapMenu/KeymapMenu.container';
+import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 
 type OwnProp = {};
 
@@ -245,7 +245,7 @@ export default class Keymap extends React.Component<
               this.onClickKeycap(pos, key, ref);
             }}
           />
-          <KeymapMenu />
+          <KeymapToolbar />
           <div className="spacer"></div>
           <CustomKey
             id="customkey-popover"

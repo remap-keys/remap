@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import KeymapMenu from './KeymapMenu';
+import KeymapToolbar from './KeymapToolbar';
 import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
@@ -20,4 +20,4 @@ const mapDispatchToProps = (_dispatch: any) => {
 };
 
 export type KeymapMenuActionsType = ReturnType<typeof mapDispatchToProps>;
-export default connect(mapStateToProps, mapDispatchToProps)(KeymapMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(KeymapToolbar);

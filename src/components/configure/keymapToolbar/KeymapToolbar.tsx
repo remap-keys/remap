@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import './KeymapMenu.scss';
+import './KeymapToolbar.scss';
 import { IconButton, Tooltip } from '@material-ui/core';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 import {
   KeymapMenuActionsType,
   KeymapMenuStateType,
-} from './KeymapMenu.container';
+} from './KeymapToolbar.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
