@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Lighting.scss';
-import '../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
+import '../../../../node_modules/reinvented-color-wheel/css/reinvented-color-wheel.min.css';
 import {
   Grid,
   MenuItem,
@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import ReinventedColorWheel from 'reinvented-color-wheel';
-import { IKeyboard } from '../../services/hid/Hid';
+import { IKeyboard } from '../../../services/hid/Hid';
 
 export type Hsv = {
   h: number;
