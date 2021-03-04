@@ -25,11 +25,9 @@ export default class KeymapMenu extends React.Component<
   KeymapMenuPropsType,
   OwnKeymapMenuStateType
 > {
-  private menuRef: React.RefObject<HTMLDivElement>;
   constructor(props: KeymapMenuPropsType | Readonly<KeymapMenuPropsType>) {
     super(props);
     this.state = {};
-    this.menuRef = React.createRef<HTMLDivElement>();
   }
 
   get hasChanges(): boolean {
@@ -44,7 +42,7 @@ export default class KeymapMenu extends React.Component<
     return false;
   }
 
-  private onClickClearAllRemaps() {
+  private onClickClearAllChanges() {
     this.props.clearAllRemaps!(this.props.layerCount!);
   }
 
@@ -85,7 +83,7 @@ export default class KeymapMenu extends React.Component<
                 <IconButton
                   disabled={!this.hasChanges}
                   size="small"
-                  onClick={this.onClickClearAllRemaps.bind(this)}
+                  onClick={this.onClickClearAllChanges.bind(this)}
                 >
                   <ClearAllIcon
                     color={this.hasChanges ? undefined : 'disabled'}
