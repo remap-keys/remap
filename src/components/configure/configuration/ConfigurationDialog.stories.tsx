@@ -3,7 +3,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import ConfigurationDialog from './ConfigurationDialog';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { mockIKeyboad } from '../../../services/hid/Hid.mock';
 
 export default {
   title: 'ConfigurationDialog',
@@ -76,8 +75,6 @@ export const Default = () => (
     ]}
     selectedKeyboardOptions={[null, 'Option2-2', 'Option3', 'Option4-1']}
     refreshKeyboardDefinition={() => {}}
-    keyboard={mockIKeyboad}
-    keyboardDefinition={keyboardDefinition}
   />
 );
 
@@ -93,8 +90,6 @@ export const NoOptions = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
-    keyboard={mockIKeyboad}
-    keyboardDefinition={keyboardDefinition}
   />
 );
 
@@ -126,7 +121,5 @@ export const ValidKeyboardDefinition = () => (
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
-    keyboard={mockIKeyboad}
-    keyboardDefinition={keyboardDefinition}
   />
 );

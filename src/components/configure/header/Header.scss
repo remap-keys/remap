@@ -12,38 +12,41 @@
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
-
-  .kbd-select {
+  .kbd-device {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-
-    .kbd-name {
+    .kbd-select {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
 
-      h2 {
-        margin: 0;
-      }
-      .ids {
-        font-size: $font-xs;
-        color: $color-gray;
-        margin-top: -4px;
-      }
-    }
-
-    &:hover {
-      color: $primary;
       .kbd-name {
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+          margin: 0;
+        }
         .ids {
-          color: $primary;
+          font-size: $font-xs;
+          color: $color-gray;
+          margin-top: -4px;
         }
       }
-    }
 
-    .device-list {
-      display: flex;
+      &:hover {
+        color: $primary;
+        .kbd-name {
+          .ids {
+            color: $primary;
+          }
+        }
+      }
+
+      .device-list {
+        display: flex;
+      }
     }
   }
 
