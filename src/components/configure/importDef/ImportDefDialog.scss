@@ -1,6 +1,6 @@
 @import '../../../variables';
 
-.layout-options-dialog {
+.import-file-dialog {
   .close-dialog {
     position: absolute;
     top: 20px;
@@ -11,32 +11,10 @@
       cursor: pointer;
     }
   }
-  .config-menu {
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-  }
-  .layout-options {
-    display: flex;
-    flex-direction: row;
-    padding-left: $space-s;
 
-    .option-label,
-    .option-value {
-      display: flex;
-      align-items: center;
-      font-size: 1rem;
-    }
-
-    .option-value {
-      justify-content: flex-start;
-      .option-value-select {
-        min-width: 180px;
-      }
-    }
-  }
-  .tab-panel {
+  .import-file-content {
     width: 540px;
-    height: 400px;
-    padding-left: $space-xl;
+    height: 440px;
 
     .import-success {
       margin-top: $space-l;

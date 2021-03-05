@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ConfigurationDialog from './ConfigurationDialog';
+import ImportDefDialog from './ImportDefDialog';
 import { RootState } from '../../../store/state';
 import { storageActionsThunk } from '../../../actions/storage.action';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
@@ -26,7 +26,4 @@ export type ConfigurationDialogActionsType = ReturnType<
   typeof mapDispatchToProps
 >;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConfigurationDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(ImportDefDialog);

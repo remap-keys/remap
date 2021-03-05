@@ -9,7 +9,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
 import KeyboardModel from '../../../models/KeyboardModel';
 import Keycap from '../keycap/Keycap.container';
-import ConfigurationDialog from '../configuration/ConfigurationDialog.container';
+import ImportDefDialog from '../importDef/ImportDefDialog.container';
 import CustomKey, {
   CUSTOMKEY_POPOVER_HEIGHT,
   CUSTOMKEY_POPOVER_TRIANGLE,
@@ -260,7 +260,7 @@ export default class Keymap extends React.Component<
             }}
           />
         </div>
-        <ConfigurationDialog
+        <ImportDefDialog
           open={this.state.configurationDialog}
           onClose={this.closeConfigurationDialog.bind(this)}
           vendorId={vendorId}
