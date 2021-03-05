@@ -2,14 +2,12 @@
 import React from 'react';
 import './Keymap.scss';
 import { Badge, Chip, MenuItem, Select, withStyles } from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
 import KeyboardModel from '../../../models/KeyboardModel';
 import Keycap from '../keycap/Keycap.container';
-import ImportDefDialog from '../importDef/ImportDefDialog.container';
 import CustomKey, {
   CUSTOMKEY_POPOVER_HEIGHT,
   CUSTOMKEY_POPOVER_TRIANGLE,
@@ -31,7 +29,6 @@ type KeymapPropsType = OwnProp &
   Partial<KeymapActionsType>;
 
 type OwnKeymapStateType = {
-  configurationDialog: boolean;
   keyboardModel: KeyboardModel;
   selectedPos: string | null; // 0,1
   selectedKey: Key | null;
@@ -45,7 +42,6 @@ export default class Keymap extends React.Component<
   constructor(props: KeymapPropsType | Readonly<KeymapPropsType>) {
     super(props);
     this.state = {
-      configurationDialog: false,
       keyboardModel: new KeyboardModel(this.props.keyboardKeymap!),
       selectedPos: null,
       selectedKey: null,
@@ -180,21 +176,7 @@ export default class Keymap extends React.Component<
     }
   }
 
-  private openConfigurationDialog() {
-    this.setState({ configurationDialog: true });
-  }
-
-  private closeConfigurationDialog() {
-    this.setState({ configurationDialog: false });
-  }
-
   render() {
-    const {
-      vendorId,
-      productId,
-      productName,
-    } = this.props.keyboard!.getInformation();
-
     const layoutOptions = Keymap.buildLayerOptions(
       this.props.selectedKeyboardOptions!,
       this.props.keyboardLabels!
@@ -231,7 +213,6 @@ export default class Keymap extends React.Component<
             onClickLayer={(layer) => {
               this.props.onClickLayerNumber!(layer);
             }}
-            onClickSettingIcon={this.openConfigurationDialog.bind(this)}
           />
 
           <KeyboardView
@@ -260,13 +241,6 @@ export default class Keymap extends React.Component<
             }}
           />
         </div>
-        <ImportDefDialog
-          open={this.state.configurationDialog}
-          onClose={this.closeConfigurationDialog.bind(this)}
-          vendorId={vendorId}
-          productId={productId}
-          productName={productName}
-        />
       </React.Fragment>
     );
   }
@@ -278,7 +252,6 @@ type LayerProps = {
   remaps: { [pos: string]: IKeymap }[];
   // eslint-disable-next-line no-unused-vars
   onClickLayer: (layer: number) => void;
-  onClickSettingIcon: () => void;
 };
 
 function Layer(props: LayerProps) {
@@ -294,7 +267,6 @@ function Layer(props: LayerProps) {
     <div className="layer-wrapper">
       <div className="layers">
         <div className="layer">
-          <span>LAYER</span>
           {layers!.map((layer) => {
             const invisible =
               props.remaps![layer] == undefined ||
@@ -325,7 +297,6 @@ function Layer(props: LayerProps) {
               </StyledBadge>
             );
           })}
-          <SettingsIcon className="option" onClick={props.onClickSettingIcon} />
         </div>
       </div>
     </div>

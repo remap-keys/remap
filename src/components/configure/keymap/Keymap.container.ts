@@ -14,8 +14,6 @@ import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 const mapStateToProps = (state: RootState) => {
   return {
     draggingKey: state.configure.keycodeKey.draggingKey,
-    keyboard: state.entities.keyboard,
-    keyboardDefinition: state.entities.keyboardDefinition,
     keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
     keydiff: state.configure.keydiff,
