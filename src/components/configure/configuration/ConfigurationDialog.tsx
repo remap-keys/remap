@@ -23,10 +23,6 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
-import { hexadecimal } from '../../../utils/StringUtils';
-
-const GOOGLE_FORM_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
 
 type OwnProps = {
   open: boolean;
@@ -50,10 +46,6 @@ export default class ConfigurationDialog extends React.Component<
   ConfigurationDialogProps,
   OwnState
 > {
-  private googleFormUrl: string = '';
-  private githubUrl: string = '';
-  private githubDisplayName: string = '';
-
   constructor(
     props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>
   ) {
@@ -63,18 +55,6 @@ export default class ConfigurationDialog extends React.Component<
       keyboardDefinition: null,
       keyboardDefinitionFile: null,
     };
-  }
-
-  private onEnter() {
-    if (this.props.keyboardDefinitionDocument) {
-      this.googleFormUrl = GOOGLE_FORM_URL.replace(
-        '${keyboard_name}',
-        this.props.keyboardDefinitionDocument.name
-      ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument.id);
-
-      this.githubUrl = this.props.keyboardDefinitionDocument.githubUrl;
-      this.githubDisplayName = this.props.keyboardDefinitionDocument.githubDisplayName;
-    }
   }
 
   private clearKeyboardDefinition() {
@@ -105,17 +85,11 @@ export default class ConfigurationDialog extends React.Component<
     const labels = this.props.keyboardLayoutOptions!;
     const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
 
-    const deviceInfo = this.props.keyboard!.getInformation();
-    const keyboardDef = this.props.keyboardDefinition!;
     let panelIndex = 0;
     return (
       <Dialog
         open={this.props.open}
         maxWidth={'md'}
-        onClose={() => {}}
-        onEnter={() => {
-          this.onEnter();
-        }}
         PaperComponent={PaperComponent}
         className="layout-options-dialog"
       >
@@ -137,7 +111,6 @@ export default class ConfigurationDialog extends React.Component<
           >
             {hasKeyboardOptions && <Tab label="Layout options" />}
             <Tab label="Import" />
-            <Tab label="Info" />
           </Tabs>
           {hasKeyboardOptions && (
             <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
@@ -195,53 +168,6 @@ export default class ConfigurationDialog extends React.Component<
                 </div>
               </Alert>
             )}
-          </TabPanel>
-
-          <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} className="option-info-label">
-                <h4>CONNECTED DEVICE</h4>
-              </Grid>
-              <InfoRow label="Product Name" value={deviceInfo.productName} />
-              <InfoRow
-                label="Vendor ID"
-                value={hexadecimal(deviceInfo.vendorId, 4)}
-              />
-              <InfoRow
-                label="Product ID"
-                value={hexadecimal(deviceInfo.productId, 4)}
-              />
-              <Grid item xs={12} className="option-info-label">
-                <h4>KEYBOARD DEFINITION</h4>
-              </Grid>
-              <InfoRow label="Name" value={keyboardDef.name} />
-              <InfoRow label="Vendor ID" value={keyboardDef.vendorId} />
-              <InfoRow label="Product ID" value={keyboardDef.productId} />
-              <InfoRow
-                label="Col x Row"
-                value={`${keyboardDef.matrix.cols} x ${keyboardDef.matrix.rows}`}
-              />
-              <InfoRow
-                label="Registered by"
-                value={
-                  <a href={this.githubUrl} target="_blank" rel="noreferrer">
-                    {this.githubDisplayName}
-                  </a>
-                }
-              />
-              <Grid item xs={12} className="option-info-label">
-                <div className="option-warning-message">
-                  If you think that the person above does not have any rights
-                  for the keyboard and the keyboard definition (in the case of
-                  the person is not original keyboard designer or etc.), please
-                  report it to the Remap team from{' '}
-                  <a href={this.googleFormUrl} target="_blank" rel="noreferrer">
-                    this form
-                  </a>
-                  .
-                </div>
-              </Grid>
-            </Grid>
           </TabPanel>
         </DialogContent>
       </Dialog>
@@ -317,19 +243,6 @@ function OptionRowComponent(props: OptionRowType) {
             );
           })}
         </Select>
-      </Grid>
-    </React.Fragment>
-  );
-}
-
-function InfoRow(props: { label: string; value: string | React.ReactNode }) {
-  return (
-    <React.Fragment>
-      <Grid item xs={6} className="option-info-label">
-        {props.label}
-      </Grid>
-      <Grid item xs={6} className="option-info-value">
-        {props.value}
       </Grid>
     </React.Fragment>
   );
