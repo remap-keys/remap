@@ -17,6 +17,7 @@ export default {
   ],
 };
 
+// eslint-disable-next-line no-unused-vars
 const keyboardDefinition: KeyboardDefinitionSchema = {
   name: 'Dummy',
   vendorId: hexadecimal(777),
@@ -67,13 +68,6 @@ export const Default = () => (
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[
-      'Option1',
-      ['Option2', 'Option2-1', 'Option2-2'],
-      'Option3',
-      ['Option4', 'Option4-1', 'Option4-2', 'Option4-3'],
-    ]}
-    selectedKeyboardOptions={[null, 'Option2-2', 'Option3', 'Option4-1']}
     refreshKeyboardDefinition={() => {}}
   />
 );
@@ -85,8 +79,6 @@ export const NoOptions = () => (
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[]}
-    selectedKeyboardOptions={[]}
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
@@ -116,8 +108,6 @@ export const ValidKeyboardDefinition = () => (
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[]}
-    selectedKeyboardOptions={[]}
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}

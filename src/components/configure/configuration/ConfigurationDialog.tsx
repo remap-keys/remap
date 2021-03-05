@@ -5,16 +5,7 @@ import {
   ConfigurationDialogActionsType,
   ConfigurationDialogStateType,
 } from './ConfigurationDialog.container';
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  MenuItem,
-  Select,
-  Switch,
-} from '@material-ui/core';
+import { Button, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import Paper, { PaperProps } from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -81,10 +72,6 @@ export default class ConfigurationDialog extends React.Component<
   }
 
   render() {
-    const hasKeyboardOptions = 0 < this.props.selectedKeyboardOptions!.length;
-    const labels = this.props.keyboardLayoutOptions!;
-    const selectedLayoutOptions = this.props.selectedKeyboardOptions!;
-
     let panelIndex = 0;
     return (
       <Dialog
@@ -109,27 +96,8 @@ export default class ConfigurationDialog extends React.Component<
             }}
             className="config-menu"
           >
-            {hasKeyboardOptions && <Tab label="Layout options" />}
             <Tab label="Import" />
           </Tabs>
-          {hasKeyboardOptions && (
-            <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
-              <Grid container spacing={1}>
-                {labels.map((options, index) => {
-                  return (
-                    <OptionRowComponent
-                      key={index}
-                      options={options}
-                      selectedOption={selectedLayoutOptions[index]}
-                      onChange={(choice: string | null) => {
-                        this.props.setLayoutOption!(index, choice);
-                      }}
-                    />
-                  );
-                })}
-              </Grid>
-            </TabPanel>
-          )}
           <TabPanel value={this.state.selectedMenuIndex} index={panelIndex++}>
             <KeyboardDefinitionFormPart
               messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
@@ -188,63 +156,6 @@ function TabPanel(props: { value: number; index: number; children: any }) {
     >
       {value === index && <React.Fragment>{children}</React.Fragment>}
     </div>
-  );
-}
-
-type OptionRowType = {
-  options: string | string[];
-  selectedOption: string | null;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (value: string | null) => void;
-};
-function OptionRowComponent(props: OptionRowType) {
-  if (typeof props.options == 'string') {
-    const option: string = props.options;
-    return (
-      <React.Fragment>
-        <Grid item xs={6} className="option-label">
-          {props.options}
-        </Grid>
-        <Grid item xs={6} className="option-value">
-          <Switch
-            checked={!!props.selectedOption}
-            onChange={(e) => {
-              props.onChange(e.target.checked ? option : null);
-            }}
-            color="primary"
-            name="checkedB"
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-        </Grid>
-      </React.Fragment>
-    );
-  }
-
-  const label = props.options[0];
-  const choices: string[] = props.options.slice(1);
-  return (
-    <React.Fragment>
-      <Grid item xs={6} className="option-label">
-        {props.options[0]}
-      </Grid>
-      <Grid item xs={6} className="option-value">
-        <Select
-          value={props.selectedOption}
-          onChange={(e) => {
-            props.onChange(e.target.value as string);
-          }}
-          className="option-value-select"
-        >
-          {choices.map((choice, index) => {
-            return (
-              <MenuItem key={`${label}${index}`} value={choice}>
-                {choice}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </Grid>
-    </React.Fragment>
   );
 }
 
