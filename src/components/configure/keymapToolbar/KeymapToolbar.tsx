@@ -14,7 +14,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import Keymap from '../keymap/Keymap';
-import LightingDialog from '../../lighting/LightingDialog';
+import LightingDialog from '../lighting/LightingDialog';
 
 type OwnProp = {};
 

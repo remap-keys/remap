@@ -11,7 +11,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import Draggable from 'react-draggable';
 import Lighting, { defaultUnderglowEffects, Hsv } from './Lighting';
-import { IKeyboard } from '../../services/hid/Hid';
+import { IKeyboard } from '../../../services/hid/Hid';
 
 type LightingType =
   | undefined
