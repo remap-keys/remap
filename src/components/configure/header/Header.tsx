@@ -44,6 +44,11 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     ) {
       this.onClickDevice();
     }
+
+    if (this.props.keyboard && !nextProps.keyboard) {
+      this.setState({ openInfoDialog: false });
+    }
+
     return true;
   }
 
@@ -148,7 +153,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 >
                   {this.props.keyboards!.map((kbd, index) => {
                     const info = kbd.getInformation();
-                    const isOpenedKbd = this.props.openedKeyboard == kbd;
+                    const isOpenedKbd = this.props.keyboard == kbd;
                     const linking = isOpenedKbd ? 'link-on' : 'link-off';
                     return (
                       <MenuItem
@@ -212,10 +217,9 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           </div>
 
           <div
-            className={[
-              'buttons',
-              this.props.openedKeyboard ? '' : 'hidden',
-            ].join(' ')}
+            className={['buttons', this.props.keyboard ? '' : 'hidden'].join(
+              ' '
+            )}
           >
             <button
               ref={this.flashButtonRef}
