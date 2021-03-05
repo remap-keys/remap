@@ -135,6 +135,7 @@ export interface IKeyboard {
   updateRGBLightEffect(mode: number): Promise<IResult>;
   updateRGBLightEffectSpeed(speed: number): Promise<IResult>;
   updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
+  resetDynamicKeymap(): Promise<IResult>;
 }
 
 export interface ICommand {

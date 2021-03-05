@@ -340,3 +340,21 @@ export class DynamicKeymapReadBufferCommand extends AbstractCommand<
     );
   }
 }
+
+export class DynamicKeymapResetCommand extends AbstractCommand<
+  ICommandRequest,
+  ICommandResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x06]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x06;
+  }
+}

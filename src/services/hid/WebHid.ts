@@ -22,6 +22,7 @@ import { KeycodeList } from './KeycodeList';
 import {
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapReadBufferCommand,
+  DynamicKeymapResetCommand,
   DynamicKeymapSetKeycodeCommand,
   IDynamicKeymapReadBufferResponse,
   LightingGetValueCommand,
@@ -633,6 +634,25 @@ export class Keyboard implements IKeyboard {
         return this.enqueue(command);
       })
     );
+  }
+
+  resetDynamicKeymap(): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new DynamicKeymapResetCommand({}, async (result) => {
+        if (result.success) {
+          resolve({
+            success: true,
+          });
+        } else {
+          resolve({
+            success: false,
+            error: result.error,
+            cause: result.cause,
+          });
+        }
+      });
+      return this.enqueue(command);
+    });
   }
 }
 
