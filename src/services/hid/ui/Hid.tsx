@@ -284,6 +284,10 @@ const Hid = () => {
     console.log(await keyboard!.fetchRGBLightEffectSpeed());
   };
 
+  const handleResetKeymapClick = async () => {
+    console.log(await keyboard!.resetDynamicKeymap());
+  };
+
   return (
     <div className="hid">
       <h1>WebHid Test</h1>
@@ -410,6 +414,7 @@ const Hid = () => {
           onChange={handleColumnCountChange}
         />
         <button onClick={handleFetchKeymapClick}>Fetch keymap</button>
+        <button onClick={handleResetKeymapClick}>Reset keymap</button>
       </div>
       <div className="box">
         <label htmlFor="bufferOffset">Offset</label>
