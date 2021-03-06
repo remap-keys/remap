@@ -3,12 +3,13 @@ import React from 'react';
 import './Header.scss';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { Button, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { ArrowDropDown, Link, InfoOutlined } from '@material-ui/icons';
+import { ArrowDropDown, Link } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import { Logo } from '../../common/logo/Logo';
 import InfoDialog from '../info/InfoDialog.container';
+import { InfoIcon } from '../../common/icons/InfoIcon';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -202,7 +203,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               </div>
             </div>
             <IconButton onClick={this.onClickShowInfoDialog.bind(this)}>
-              <InfoOutlined />
+              <InfoIcon />
             </IconButton>
           </div>
 
