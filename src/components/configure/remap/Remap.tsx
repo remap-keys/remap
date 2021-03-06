@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Remap.scss';
 import { hexadecimal } from '../../../utils/StringUtils';
@@ -12,23 +13,43 @@ type RemapPropType = OwnProp &
   Partial<RemapStateType> &
   Partial<RemapActionsType>;
 
-export default class Remap extends React.Component<RemapPropType, {}> {
+type OwnState = {
+  keycodeY: number;
+};
+
+export default class Remap extends React.Component<RemapPropType, OwnState> {
+  private keyboardWrapperRef: React.RefObject<HTMLDivElement>;
   constructor(props: RemapPropType | Readonly<RemapPropType>) {
     super(props);
+    this.state = {
+      keycodeY: 0,
+    };
+    this.keyboardWrapperRef = React.createRef<HTMLDivElement>();
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  shouldComponentUpdate(nextProps: RemapPropType, nextState: OwnState) {
+    if (!this.keyboardWrapperRef.current) return true;
+
+    const headerHeight = 56;
+    const rect = this.keyboardWrapperRef.current.getBoundingClientRect();
+    const keycodeY = headerHeight + rect.height;
+    if (this.state.keycodeY != keycodeY) {
+      this.setState({ keycodeY });
+    }
+
+    return true;
   }
 
   render() {
     return (
       <React.Fragment>
-        <div className="keyboard-wrapper">
+        <div className="keyboard-wrapper" ref={this.keyboardWrapperRef}>
           <div className="keymap">
             <Keymap />
           </div>
         </div>
-        <div
-          className="keycode"
-          style={{ marginTop: 182 + this.props.keyboardHeight! }}
-        >
+        <div className="keycode" style={{ marginTop: this.state.keycodeY }}>
           <Keycodes />
         </div>
         <Desc value={this.props.hoverKey} />
