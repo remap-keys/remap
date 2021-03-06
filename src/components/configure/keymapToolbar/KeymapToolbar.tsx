@@ -18,7 +18,7 @@ import Keymap from '../keymap/Keymap';
 import LightingDialog from '../lighting/LightingDialog';
 import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
 import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
-import ImportDefDialog from '../importDef/ImportDefDialog';
+import ImportDefDialog from '../importDef/ImportDefDialog.container';
 
 type OwnProp = {};
 
