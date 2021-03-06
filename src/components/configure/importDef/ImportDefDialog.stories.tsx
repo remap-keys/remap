@@ -1,12 +1,12 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import ConfigurationDialog from './ConfigurationDialog';
+import ImportDefDialog from './ImportDefDialog';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { hexadecimal } from '../../../utils/StringUtils';
 
 export default {
-  title: 'ConfigurationDialog',
-  component: ConfigurationDialog,
+  title: 'ImportDefDialog',
+  component: ImportDefDialog,
   decorators: [
     (Story: any) => (
       <React.Fragment>
@@ -17,6 +17,7 @@ export default {
   ],
 };
 
+// eslint-disable-next-line no-unused-vars
 const keyboardDefinition: KeyboardDefinitionSchema = {
   name: 'Dummy',
   vendorId: hexadecimal(777),
@@ -61,45 +62,35 @@ const keyboardDefinition: KeyboardDefinitionSchema = {
 };
 
 export const Default = () => (
-  <ConfigurationDialog
+  <ImportDefDialog
     open={true}
     onClose={() => {}}
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[
-      'Option1',
-      ['Option2', 'Option2-1', 'Option2-2'],
-      'Option3',
-      ['Option4', 'Option4-1', 'Option4-2', 'Option4-3'],
-    ]}
-    selectedKeyboardOptions={[null, 'Option2-2', 'Option3', 'Option4-1']}
     refreshKeyboardDefinition={() => {}}
   />
 );
 
 export const NoOptions = () => (
-  <ConfigurationDialog
+  <ImportDefDialog
     open={true}
     onClose={() => {}}
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[]}
-    selectedKeyboardOptions={[]}
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}
   />
 );
 
-class ConfigurationDialogAdapter extends React.Component<any, {}> {
-  private dialog: ConfigurationDialog;
+class ImportDefDialogAdapter extends React.Component<any, {}> {
+  private dialog: ImportDefDialog;
   constructor(props: any) {
     super(props);
-    this.dialog = new ConfigurationDialog(props);
+    this.dialog = new ImportDefDialog(props);
     this.dialog.state = {
-      selectedMenuIndex: 1,
       keyboardDefinition: {} as KeyboardDefinitionSchema,
       keyboardDefinitionFile: 'keyboard_def.json',
     };
@@ -110,14 +101,12 @@ class ConfigurationDialogAdapter extends React.Component<any, {}> {
 }
 
 export const ValidKeyboardDefinition = () => (
-  <ConfigurationDialogAdapter
+  <ImportDefDialogAdapter
     open={true}
     onClose={() => {}}
     vendorId={0x5954}
     productId={0x0001}
     productName="Product Name"
-    keyboardLayoutOptions={[]}
-    selectedKeyboardOptions={[]}
     refreshKeyboardDefinition={(kd: KeyboardDefinitionSchema) => {
       console.log(kd);
     }}

@@ -5,6 +5,7 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
 import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
 
 import {
   KeymapMenuActionsType,
@@ -15,6 +16,9 @@ import { genKey, Key } from '../keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import Keymap from '../keymap/Keymap';
 import LightingDialog from '../lighting/LightingDialog';
+import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
+import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
+import ImportDefDialog from '../importDef/ImportDefDialog';
 
 type OwnProp = {};
 
@@ -24,6 +28,8 @@ type KeymapMenuPropsType = OwnProp &
 
 type OwnKeymapMenuStateType = {
   openLightingDialog: boolean;
+  layoutOptionPopoverPosition: { left: number; top: number } | null;
+  openImportDefDialog: boolean;
 };
 
 export default class KeymapMenu extends React.Component<
@@ -34,6 +40,8 @@ export default class KeymapMenu extends React.Component<
     super(props);
     this.state = {
       openLightingDialog: false,
+      layoutOptionPopoverPosition: null,
+      openImportDefDialog: false,
     };
   }
 
@@ -51,6 +59,30 @@ export default class KeymapMenu extends React.Component<
 
   private onClickClearAllChanges() {
     this.props.clearAllRemaps!(this.props.layerCount!);
+  }
+
+  private onClickOpenLayoutOptionPopover(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    const { left, top } = event.currentTarget.getBoundingClientRect();
+    this.setState({
+      layoutOptionPopoverPosition: {
+        left,
+        top,
+      },
+    });
+  }
+
+  private onCloseLayoutOptionPopover() {
+    this.setState({ layoutOptionPopoverPosition: null });
+  }
+
+  private onClickOpenImportDefFileDialog() {
+    this.setState({ openImportDefDialog: true });
+  }
+
+  private onCloseImportDefFileDialog() {
+    this.setState({ openImportDefDialog: false });
   }
 
   private onClickGetCheatsheet() {
@@ -84,6 +116,12 @@ export default class KeymapMenu extends React.Component<
     const isLightingAvailable = LightingDialog.isLightingAvailable(
       this.props.keyboardDefinition!.lighting
     );
+    const hasLayoutOptions = 0 < this.props.selectedKeyboardOptions!.length;
+    const {
+      vendorId,
+      productId,
+      productName,
+    } = this.props.keyboard!.getInformation();
     return (
       <React.Fragment>
         <div className="keymap-menu">
@@ -103,22 +141,63 @@ export default class KeymapMenu extends React.Component<
             </Tooltip>
           </div>
 
-          <div className="keymap-menu-item">
-            <Tooltip arrow={true} placement="top" title="Lighting">
-              <span>
+          {isLightingAvailable && (
+            <div className="keymap-menu-item">
+              <Tooltip arrow={true} placement="top" title="Lighting">
                 <IconButton
-                  disabled={!isLightingAvailable}
                   size="small"
                   onClick={() => {
                     this.setState({ openLightingDialog: true });
                   }}
                 >
-                  <FlareRoundedIcon
-                    color={isLightingAvailable ? undefined : 'disabled'}
-                  />
+                  <FlareRoundedIcon />
                 </IconButton>
-              </span>
+              </Tooltip>
+            </div>
+          )}
+
+          {hasLayoutOptions && (
+            <div className="keymap-menu-item">
+              <Tooltip arrow={true} placement="top" title="Layout Option">
+                <IconButton
+                  size="small"
+                  onClick={(event) => {
+                    this.onClickOpenLayoutOptionPopover(event);
+                  }}
+                >
+                  <ViewQuiltRoundedIcon />
+                </IconButton>
+              </Tooltip>
+              <LayoutOptionPopover
+                open={Boolean(this.state.layoutOptionPopoverPosition)}
+                onClose={() => {
+                  this.onCloseLayoutOptionPopover();
+                }}
+                position={this.state.layoutOptionPopoverPosition}
+              />
+            </div>
+          )}
+
+          <div className="keymap-menu-item">
+            <Tooltip
+              arrow={true}
+              placement="top"
+              title="Import local keyboard definition file(.json)"
+            >
+              <IconButton
+                size="small"
+                onClick={this.onClickOpenImportDefFileDialog.bind(this)}
+              >
+                <ImportFileIcon />
+              </IconButton>
             </Tooltip>
+            <ImportDefDialog
+              open={this.state.openImportDefDialog}
+              onClose={this.onCloseImportDefFileDialog.bind(this)}
+              vendorId={vendorId}
+              productId={productId}
+              productName={productName}
+            />
           </div>
 
           <div className="keymap-menu-item">
