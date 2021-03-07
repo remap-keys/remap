@@ -16,6 +16,9 @@ import {
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
+import { ISavedKeymapData } from '../../../services/storage/Storage';
+import { IKeymap } from '../../../services/hid/Hid';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type PopoverPosition = {
   left: number;
@@ -33,12 +36,8 @@ type KeymapListPopoverProps = OwnProps &
   Partial<KeymapListPopoverStateType>;
 
 type OwnState = {
-  keymapSaveDialog: {
-    edit: boolean;
-    id?: string;
-    title?: string;
-    desc?: string;
-  } | null;
+  openKeymapSaveDialog: boolean;
+  savedKeymapData: ISavedKeymapData | null;
 };
 
 export default class KeymapListPopover extends React.Component<
@@ -49,7 +48,8 @@ export default class KeymapListPopover extends React.Component<
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
-      keymapSaveDialog: null,
+      openKeymapSaveDialog: false,
+      savedKeymapData: null,
     };
     this.popoverRef = React.createRef<HTMLDivElement>();
   }
@@ -64,15 +64,15 @@ export default class KeymapListPopover extends React.Component<
     const { left, top } = this.props.position;
     const width = 360;
     const height = 400;
-
     const iconSize = 30;
+    const margin = 10;
 
-    if (window.innerWidth < left + width + iconSize + 10) {
+    if (window.innerWidth < left + width + iconSize + margin) {
       const x = Math.min(left, left - (width - (window.innerWidth - left)));
-      const y = top + iconSize + 10; // 10=margin
+      const y = top + iconSize + margin; // 10=margin
       return { left: x, top: y };
     } else {
-      const x = left + iconSize + 10; // 10=margin
+      const x = left + iconSize + margin; // 10=margin
       const y = top - height / 2 + iconSize / 2;
       return { left: x, top: y };
     }
@@ -80,16 +80,35 @@ export default class KeymapListPopover extends React.Component<
 
   private onEnter() {}
 
-  private onClickOpenKeymapSaveDialog(keymapSaveDialog: {
-    edit: boolean;
-    title?: string;
-    desc?: string;
-  }) {
-    this.setState({ keymapSaveDialog });
+  private onClickApplySavedKeymapData(savedKeymapData: ISavedKeymapData) {
+    const labelLang = savedKeymapData.data.labelLang;
+    let keycodes: { [pos: string]: IKeymap }[] = [];
+    const savedKeycodes: { [pos: string]: number }[] =
+      savedKeymapData.data.keycodes;
+    const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
+    for (let i = 0; i < keymaps.length; i++) {
+      const keymap = keymaps[i];
+      const savedCode = savedKeycodes[i];
+      const changes: { [pos: string]: IKeymap } = {};
+      Object.keys(keymap).forEach((pos) => {
+        if (keymap[pos].code != savedCode[pos]) {
+          changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+        }
+      });
+      keycodes.push(changes);
+    }
+
+    this.props.applySavedKeymapData!(keycodes, labelLang);
+  }
+
+  private onClickOpenKeymapSaveDialog(
+    savedKeymapData: ISavedKeymapData | null
+  ) {
+    this.setState({ openKeymapSaveDialog: true, savedKeymapData });
   }
 
   private onCloseKeymapSaveDialog() {
-    this.setState({ keymapSaveDialog: null });
+    this.setState({ openKeymapSaveDialog: false, savedKeymapData: null });
   }
 
   render() {
@@ -121,7 +140,7 @@ export default class KeymapListPopover extends React.Component<
               <Button
                 color="primary"
                 onClick={() => {
-                  this.onClickOpenKeymapSaveDialog({ edit: false });
+                  this.onClickOpenKeymapSaveDialog(null);
                 }}
               >
                 SAVE CURRENT KEYMAP
@@ -130,19 +149,23 @@ export default class KeymapListPopover extends React.Component<
           </div>
           <div className="keymaplist keymaplist-content">
             <List dense={true}>
-              {keymaps.map((item, index) => {
+              {this.props.savedKeymaps!.map((item, index) => {
                 return (
-                  <ListItem key={`keymaplist-keymap${index}`} button>
+                  <ListItem
+                    key={`keymaplist-keymap${index}`}
+                    button
+                    onClick={() => {
+                      this.onClickApplySavedKeymapData(item);
+                    }}
+                  >
                     <ListItemText primary={item.title} secondary={item.desc} />
                     <ListItemSecondaryAction>
                       <IconButton
                         edge="end"
                         aria-label="edit"
                         onClick={() => {
-                          this.onClickOpenKeymapSaveDialog({
-                            ...item,
-                            edit: true,
-                          });
+                          console.log(item);
+                          this.onClickOpenKeymapSaveDialog(item);
                         }}
                       >
                         <EditRoundedIcon />
@@ -152,48 +175,26 @@ export default class KeymapListPopover extends React.Component<
                 );
               })}
             </List>
+            {this.props.savedKeymaps!.length === 0 && (
+              <div className="no-saved-keymap">
+                You can save the current keymap by clicking the top-right
+                button. You can restore your saved keymap everytime.
+                <div className="keymaplist-warning">
+                  * Please note that the change candidates will discard when you
+                  save/restore the kemyap.
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <KeymapSaveDialog
-          open={Boolean(this.state.keymapSaveDialog)}
-          edit={this.state.keymapSaveDialog?.edit || false}
-          id={this.state.keymapSaveDialog?.id}
-          title={this.state.keymapSaveDialog?.title}
-          desc={this.state.keymapSaveDialog?.desc}
+          open={this.state.openKeymapSaveDialog}
+          savedKeymapData={this.state.savedKeymapData}
           onClose={() => {
             this.onCloseKeymapSaveDialog();
-          }}
-          onSave={(store) => {
-            console.log(store);
-          }}
-          onDelete={(id) => {
-            console.log(id);
           }}
         />
       </Popover>
     );
   }
 }
-
-const keymaps: { id: string; title: string; desc: string }[] = [
-  {
-    id: '1',
-    title: 'title1',
-    desc: 'desc1',
-  },
-  {
-    id: '2',
-    title: 'title2',
-    desc: 'desc2',
-  },
-  {
-    id: '3',
-    title: 'title3',
-    desc: 'desc3',
-  },
-  {
-    id: '4',
-    title: 'title4',
-    desc: 'desc4',
-  },
-];

@@ -13,6 +13,7 @@ import { validateKeyboardDefinitionSchema } from '../services/storage/Validator'
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IKeyboardDefinitionDocument,
+  ISavedKeymapData,
   KeyboardDefinitionStatus,
 } from '../services/storage/Storage';
 import {
@@ -25,6 +26,7 @@ export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
+export const STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST = `${STORAGE_ACTIONS}/UpdateMySavedKeymapDataList`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -46,6 +48,12 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
       value: keyboardDefinitionDocument,
+    };
+  },
+  updateMySavedKeymapDataList: (keymaps: ISavedKeymapData[]) => {
+    return {
+      type: STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST,
+      value: keymaps,
     };
   },
 };
@@ -489,5 +497,55 @@ export const storageActionsThunk = {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
     }
+  },
+
+  fetchMySavedKeymapDataList: (): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    // TODO
+  },
+
+  createMySavedKeymapData: (
+    keymapData: ISavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    // TODO: save the keymap data to the Firestore
+    keymapData.id = '' + Date.now();
+    const dataList = [...entities.savedKeymaps, keymapData];
+
+    // TODO:fetch the saved list from the Firestore
+    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
+  },
+
+  updateMySavedKeymapData: (
+    keymapData: ISavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    // TODO: save the keymap data to the Firestore
+    const dataList = entities.savedKeymaps.map((data) => {
+      return data.id === keymapData.id ? keymapData : data;
+    });
+
+    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
+  },
+
+  deleteMySavedKeymapData: (id: string): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    // TODO: delete the keymap data in the Firestore
+    const dataList = entities.savedKeymaps.filter((data) => data.id != id);
+    console.log(dataList);
+    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
   },
 };

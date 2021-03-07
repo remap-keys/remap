@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import KeymapSaveDialog from './KeymapSaveDialog';
 import { RootState } from '../../../store/state';
-import { LayoutOptionsActions } from '../../../actions/actions';
+import { storageActionsThunk } from '../../../actions/storage.action';
+import { ISavedKeymapData } from '../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -17,8 +18,14 @@ export type KeymapSaveDialogStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    setLayoutOption: (optionIndex: number, option: string | null) => {
-      _dispatch(LayoutOptionsActions.updateSelectedOption(optionIndex, option));
+    createSavedKeymapData: (keymapData: ISavedKeymapData) => {
+      _dispatch(storageActionsThunk.createMySavedKeymapData(keymapData));
+    },
+    updateSavedKeymapData: (keymapData: ISavedKeymapData) => {
+      _dispatch(storageActionsThunk.updateMySavedKeymapData(keymapData));
+    },
+    deleteSavedKeymapData: (id: string) => {
+      _dispatch(storageActionsThunk.deleteMySavedKeymapData(id));
     },
   };
 };

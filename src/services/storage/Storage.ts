@@ -1,4 +1,5 @@
 import { IFirmwareCodePlace } from '../../store/state';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export interface IResult {
   readonly success: boolean;
@@ -43,6 +44,19 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
+export type IKeycodeData = {
+  labelLang: KeyboardLabelLang;
+  layoutOptions: { option: string; optionChoice: string }[] | undefined;
+  keycodes: { [pos: string]: number }[];
+};
+
+export interface ISavedKeymapData {
+  id: string;
+  title: string;
+  desc: string;
+  data: IKeycodeData;
+}
+
 export interface IExistsResult extends IResult {
   exists?: boolean;
 }
@@ -57,6 +71,10 @@ export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
 
 export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
   definitionId?: string;
+}
+
+export interface IKeymapDataResule extends IResult {
+  keymaps: ISavedKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -111,5 +129,20 @@ export interface IStorage {
     jsonStr: string
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
+
+  fetchMySavedKeymapDataList(
+    authorUid: string,
+    vendorId: number,
+    productId: number,
+    productName: string
+  ): Promise<IKeymapDataResule>;
+
+  createMySavedKeymapData(
+    authorUid: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    keymap: ISavedKeymapData
+  ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

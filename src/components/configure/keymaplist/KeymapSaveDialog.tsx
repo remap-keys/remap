@@ -21,31 +21,15 @@ import {
 import { IKeymap } from '../../../services/hid/Hid';
 import Keymap from '../keymap/Keymap';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-
-type StoreKeymapData = {
-  labelLang: KeyboardLabelLang;
-  layoutOptions: { option: string; optionChoice: string }[] | undefined;
-  keycodes: { [pos: string]: number }[];
-};
-
-type StoreKeymap = {
-  id?: string;
-  title: string;
-  desc: string;
-  data: StoreKeymapData;
-};
+import {
+  IKeycodeData,
+  ISavedKeymapData,
+} from '../../../services/storage/Storage';
 
 type OwnProps = {
   open: boolean;
-  edit: boolean;
-  id?: string;
-  title?: string;
-  desc?: string;
+  savedKeymapData: ISavedKeymapData | null;
   onClose: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onSave: (store: StoreKeymap) => void;
-  // eslint-disable-next-line no-unused-vars
-  onDelete: (id: string) => void;
 };
 
 type KeymapSaveDialogProps = OwnProps &
@@ -63,19 +47,27 @@ export default class LayoutOptionPopover extends React.Component<
   constructor(props: OwnProps | Readonly<OwnProps>) {
     super(props);
     this.state = {
-      title: this.props.title || '',
-      desc: this.props.desc || '',
+      title: this.props.savedKeymapData ? this.props.savedKeymapData.title : '',
+      desc: this.props.savedKeymapData ? this.props.savedKeymapData.desc : '',
     };
+  }
+
+  get id(): string {
+    return this.props.savedKeymapData ? this.props.savedKeymapData.id : '';
+  }
+
+  get isEdit(): boolean {
+    return Boolean(this.props.savedKeymapData);
   }
 
   private onEnter() {
     this.setState({
-      title: this.props.title || '',
-      desc: this.props.desc || '',
+      title: this.props.savedKeymapData ? this.props.savedKeymapData.title : '',
+      desc: this.props.savedKeymapData ? this.props.savedKeymapData.desc : '',
     });
   }
 
-  private buildCurrentKeymapData(): StoreKeymapData {
+  private buildCurrentKeymapData(): IKeycodeData {
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
     const keycodes: { [pos: string]: number }[] = [];
     for (let i = 0; i < this.props.layerCount!; i++) {
@@ -95,7 +87,7 @@ export default class LayoutOptionPopover extends React.Component<
       this.props.layoutLabels!
     );
 
-    const json: StoreKeymapData = {
+    const json: IKeycodeData = {
       labelLang,
       layoutOptions,
       keycodes,
@@ -104,18 +96,28 @@ export default class LayoutOptionPopover extends React.Component<
   }
 
   private onClickDeleteButton() {
-    this.props.onDelete(this.props.id!);
+    this.props.deleteSavedKeymapData!(this.id);
+    this.props.onClose();
   }
 
   private onClickSaveButton() {
-    const data = this.buildCurrentKeymapData();
-    const save: StoreKeymap = {
-      id: this.props.id || '',
-      title: this.state.title,
-      desc: this.state.desc,
-      data,
-    };
-    this.props.onSave(save);
+    if (this.props.savedKeymapData) {
+      this.props.updateSavedKeymapData!({
+        ...this.props.savedKeymapData,
+        title: this.state.title,
+        desc: this.state.desc,
+      });
+    } else {
+      const data = this.buildCurrentKeymapData();
+      const save: ISavedKeymapData = {
+        id: this.id,
+        title: this.state.title,
+        desc: this.state.desc,
+        data,
+      };
+      this.props.createSavedKeymapData!(save);
+    }
+    this.props.onClose();
   }
 
   render() {
@@ -128,7 +130,7 @@ export default class LayoutOptionPopover extends React.Component<
         onEnter={this.onEnter.bind(this)}
       >
         <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-          {this.props.edit ? 'Edit saved keymap' : 'Save a new keymap'}
+          {this.isEdit ? 'Edit saved keymap' : 'Save a new keymap'}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
@@ -158,7 +160,7 @@ export default class LayoutOptionPopover extends React.Component<
           />
         </DialogContent>
         <DialogActions className="keymap-save-footer">
-          {this.props.edit && (
+          {this.isEdit && (
             <Button
               onClick={() => {
                 this.onClickDeleteButton();

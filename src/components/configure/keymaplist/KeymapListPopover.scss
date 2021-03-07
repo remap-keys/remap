@@ -21,6 +21,13 @@
     .keymaplist-content {
       display: flex;
       flex-direction: column;
+      overflow-y: scroll;
+      .no-saved-keymap {
+        padding-bottom: $space-l;
+        .keymaplist-warning {
+          color: $warning;
+        }
+      }
     }
   }
 }

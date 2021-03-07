@@ -177,6 +177,7 @@ export const APP_ACTIONS = '@App';
 export const APP_UPDATE_SETUP_PHASE = `${APP_ACTIONS}/UpdateSetupPhase`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
 export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
+export const APP_REMAPS_SET_KEYS = `${APP_ACTIONS}/RemapsSetKeys`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
@@ -207,6 +208,12 @@ export const AppActions = {
         pos: pos,
         keymap,
       },
+    };
+  },
+  remapsSetKeys: (keymaps: { [pos: string]: IKeymap }[]) => {
+    return {
+      type: APP_REMAPS_SET_KEYS,
+      value: keymaps,
     };
   },
   remapsRemoveKey: (layer: number, pos: string) => {

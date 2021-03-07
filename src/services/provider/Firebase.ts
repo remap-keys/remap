@@ -8,6 +8,8 @@ import {
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
+  ISavedKeymapData,
+  IKeymapDataResule,
   IResult,
   IStorage,
 } from '../storage/Storage';
@@ -499,5 +501,34 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async signOut(): Promise<void> {
     await this.auth.signOut();
+  }
+
+  async fetchMySavedKeymapDataList(
+    authorUid: string,
+    vendorId: number,
+    productId: number,
+    productName: string
+  ): Promise<IKeymapDataResule> {
+    console.log(`${authorUid},${vendorId},${productId},${productName}`);
+    const keymap: ISavedKeymapData = {
+      id: 'hoge',
+      title: 'title',
+      desc: 'desc',
+      data: { labelLang: 'ja-jp', layoutOptions: undefined, keycodes: [] },
+    };
+
+    return { success: true, keymaps: [keymap] };
+  }
+
+  async createMySavedKeymapData(
+    authorUid: string,
+    vendorId: number,
+    productId: number,
+    productName: string,
+    keymap: ISavedKeymapData
+  ): Promise<IResult> {
+    console.log(`${authorUid},${vendorId},${productId},${productName}`);
+    console.log(keymap);
+    return { success: true };
   }
 }

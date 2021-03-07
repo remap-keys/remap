@@ -39,6 +39,7 @@ import {
   APP_UPDATE_KEYBOARD_SIZE,
   APP_UPDATE_LANG_LABEL,
   APP_UPDATE_SIGNED_IN,
+  APP_REMAPS_SET_KEYS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -54,6 +55,7 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
+  STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
@@ -298,6 +300,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.keyboardDefinitionDocument = action.value;
       break;
     }
+    case STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST: {
+      draft.entities.savedKeymaps = action.value;
+      break;
+    }
   }
 };
 
@@ -314,6 +320,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case APP_REMAPS_SET_KEY: {
       const layer = action.value.layer;
       draft.app.remaps[layer][action.value.pos] = action.value.keymap;
+      break;
+    }
+    case APP_REMAPS_SET_KEYS: {
+      draft.app.remaps = action.value;
       break;
     }
     case APP_REMAPS_REMOVE_KEY: {
