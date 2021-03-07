@@ -1,0 +1,26 @@
+@import '../../../variables';
+
+.keymaplist-root {
+  .keymaplist {
+    padding: 0 $space-l;
+  }
+  .keymaplist-popover {
+    width: 360px;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    .keymaplist-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      .keymaplist-header-buttons {
+        margin-left: auto;
+      }
+    }
+    .keymaplist-content {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@import '../../../variables';
+
+.keymap-save-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+
+  .keymap-save-content {
+    width: 540px;
+    display: flex;
+    flex-direction: column;
+    .keymap-save-textfield {
+      margin-bottom: $space-l;
+    }
+  }
+  .keymap-save-footer {
+    display: flex;
+    flex-direction: row;
+    .keymap-save-savebtn {
+      margin-left: auto;
+    }
+  }
+}

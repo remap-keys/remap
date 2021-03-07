@@ -19,6 +19,8 @@ import LightingDialog from '../lighting/LightingDialog';
 import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
 import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
 import ImportDefDialog from '../importDef/ImportDefDialog.container';
+import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
+import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 
 type OwnProp = {};
 
@@ -29,6 +31,7 @@ type KeymapMenuPropsType = OwnProp &
 type OwnKeymapMenuStateType = {
   openLightingDialog: boolean;
   layoutOptionPopoverPosition: { left: number; top: number } | null;
+  keymapListPopoverPosition: { left: number; top: number } | null;
   openImportDefDialog: boolean;
 };
 
@@ -41,6 +44,7 @@ export default class KeymapMenu extends React.Component<
     this.state = {
       openLightingDialog: false,
       layoutOptionPopoverPosition: null,
+      keymapListPopoverPosition: null,
       openImportDefDialog: false,
     };
   }
@@ -112,6 +116,22 @@ export default class KeymapMenu extends React.Component<
     pdf.genPdf(productName, layoutOptions);
   }
 
+  private onClickOpenKeymapListPopover(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    const { left, top } = event.currentTarget.getBoundingClientRect();
+    this.setState({
+      keymapListPopoverPosition: {
+        left,
+        top,
+      },
+    });
+  }
+
+  private onCloseKeymapListPopover() {
+    this.setState({ keymapListPopoverPosition: null });
+  }
+
   render() {
     const isLightingAvailable = LightingDialog.isLightingAvailable(
       this.props.keyboardDefinition!.lighting
@@ -177,6 +197,30 @@ export default class KeymapMenu extends React.Component<
               />
             </div>
           )}
+
+          <div className="keymap-menu-item">
+            <Tooltip
+              arrow={true}
+              placement="top"
+              title="Save/Import another keymap"
+            >
+              <IconButton
+                size="small"
+                onClick={(event) => {
+                  this.onClickOpenKeymapListPopover(event);
+                }}
+              >
+                <SwapHorizRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <KeymapListPopover
+              open={Boolean(this.state.keymapListPopoverPosition)}
+              onClose={() => {
+                this.onCloseKeymapListPopover();
+              }}
+              position={this.state.keymapListPopoverPosition}
+            />
+          </div>
 
           <div className="keymap-menu-item">
             <Tooltip
