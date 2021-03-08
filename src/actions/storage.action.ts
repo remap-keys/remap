@@ -19,6 +19,7 @@ import {
   KeyboardsAppActions,
   KeyboardsEditDefinitionActions,
 } from './keyboards.actions';
+import { getGitHubProviderData } from '../services/auth/Auth';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -259,7 +260,17 @@ export const storageActionsThunk = {
     const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const user = auth.instance!.getCurrentAuthenticatedUser();
-    const githubProviderData = user.providerData[0]!;
+    const githubProviderDataResutl = getGitHubProviderData(user);
+    if (!githubProviderDataResutl.exists) {
+      console.error('The user does not have a GitHub Provider data.');
+      dispatch(
+        NotificationActions.addError(
+          'The user does not have a GitHub Provider data.'
+        )
+      );
+      return;
+    }
+    const githubProviderData = githubProviderDataResutl.userInfo!;
 
     const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
       githubProviderData.uid
@@ -313,7 +324,17 @@ export const storageActionsThunk = {
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
 
     const user = auth.instance!.getCurrentAuthenticatedUser();
-    const githubProviderData = user.providerData[0]!;
+    const githubProviderDataResutl = getGitHubProviderData(user);
+    if (!githubProviderDataResutl.exists) {
+      console.error('The user does not have a GitHub Provider data.');
+      dispatch(
+        NotificationActions.addError(
+          'The user does not have a GitHub Provider data.'
+        )
+      );
+      return;
+    }
+    const githubProviderData = githubProviderDataResutl.userInfo!;
 
     const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
       githubProviderData.uid

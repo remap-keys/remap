@@ -4,6 +4,7 @@ import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
 import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
+import { getGitHubProviderData } from '../../../services/auth/Auth';
 
 type HeaderState = {
   menuAnchorEl: any;
@@ -42,8 +43,15 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     const user = this.props.auth!.getCurrentAuthenticatedUser();
     if (user) {
       const { menuAnchorEl } = this.state;
-      const profileImageUrl = user.providerData[0]?.photoURL || '';
-      const profileDisplayName = user.providerData[0]?.displayName || '';
+
+      const githubProviderDataResutl = getGitHubProviderData(user);
+      if (!githubProviderDataResutl.exists) {
+        throw new Error('The user does not have a GitHub Provider data.');
+      }
+      const githubProviderData = githubProviderDataResutl.userInfo!;
+
+      const profileImageUrl = githubProviderData.photoURL || '';
+      const profileDisplayName = githubProviderData.displayName || '';
       if (profileImageUrl) {
         return (
           <React.Fragment>
