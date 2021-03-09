@@ -4182,6 +4182,18 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
+    desc: "Reinitializes the keyboard's EEPROM (persistent memory)",
+    keycodeInfo: {
+      code: 23774,
+      name: {
+        long: 'EEPROM_RESET',
+        short: 'EEP_RST',
+      },
+      label: 'EEPROM RESET',
+    },
+  },
+
+  {
     desc: 'Left Control when held, ( when tapped',
     keycodeInfo: {
       code: 23795,
