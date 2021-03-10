@@ -27,9 +27,8 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
     this.keyboardWrapperRef = React.createRef<HTMLDivElement>();
   }
 
-  // eslint-disable-next-line no-unused-vars
-  shouldComponentUpdate(nextProps: RemapPropType, nextState: OwnState) {
-    if (!this.keyboardWrapperRef.current) return true;
+  componentDidMount() {
+    if (!this.keyboardWrapperRef.current) return;
 
     const headerHeight = 56;
     const rect = this.keyboardWrapperRef.current.getBoundingClientRect();
@@ -37,8 +36,6 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
     if (this.state.keycodeY != keycodeY) {
       this.setState({ keycodeY });
     }
-
-    return true;
   }
 
   render() {
