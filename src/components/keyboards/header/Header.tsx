@@ -44,11 +44,11 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     if (user) {
       const { menuAnchorEl } = this.state;
 
-      const githubProviderDataResutl = getGitHubProviderData(user);
-      if (!githubProviderDataResutl.exists) {
+      const githubProviderDataResult = getGitHubProviderData(user);
+      if (!githubProviderDataResult.exists) {
         throw new Error('The user does not have a GitHub Provider data.');
       }
-      const githubProviderData = githubProviderDataResutl.userInfo!;
+      const githubProviderData = githubProviderDataResult.userInfo!;
 
       const profileImageUrl = githubProviderData.photoURL || '';
       const profileDisplayName = githubProviderData.displayName || '';
