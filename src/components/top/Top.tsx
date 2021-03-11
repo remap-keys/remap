@@ -12,12 +12,12 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import card1 from '../../assets/images/top/card-1.png';
-import card2 from '../../assets/images/top/card-2.png';
-import card3 from '../../assets/images/top/card-3.png';
-import card4 from '../../assets/images/top/card-4.png';
-import card5 from '../../assets/images/top/card-5.png';
-import card6 from '../../assets/images/top/card-6.png';
+import browserAccess from '../../assets/images/top/browser-access.png';
+import keyAssign from '../../assets/images/top/key-assign.png';
+import lighting from '../../assets/images/top/lighting.png';
+import keyLayout from '../../assets/images/top/key-layout.png';
+import predefinedKeys from '../../assets/images/top/predefined-keys.png';
+import diff from '../../assets/images/top/diff.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -85,8 +85,8 @@ class Top extends React.Component<RouteComponentProps, any> {
                 color="textSecondary"
                 paragraph
               >
-                Remap allows you to customize a keymap assign of your keyboard
-                directly in Web Browser.
+                Remap allows you to configure keymaps and lightings of your
+                keyboard with QMK firmware in Web Browser.
               </Typography>
               <div className="hero-buttons">
                 <Grid container spacing={2} justify="center">
@@ -105,7 +105,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                       color="primary"
                       onClick={this.onClickManageKeyboardDefinitions}
                     >
-                      Manage Keyboard Definitions
+                      Register/Manage Keyboard Definitions
                     </Button>
                   </Grid>
                 </Grid>
@@ -116,48 +116,48 @@ class Top extends React.Component<RouteComponentProps, any> {
             <Grid container spacing={4}>
               <FeatureCard
                 key={1}
-                image={card1}
-                imageTitle="card-1"
+                image={browserAccess}
+                imageTitle="Direct Access"
                 title="Direct Access"
-                description="Remap allows you to customize your keyboard from Web
+                description="You can configure your keyboard from Web
                       Browser directly without installing app."
               />
               <FeatureCard
                 key={2}
-                image={card2}
-                imageTitle="card-2"
+                image={keyAssign}
+                imageTitle="Easy key assign"
+                title="Easy key assign"
+                description="Allow you to assign a complex keymap easily including Hold/Tap and etc."
+              />
+              <FeatureCard
+                key={3}
+                image={lighting}
+                imageTitle="Lighting Control"
+                title="Lighting Control"
+                description="Simple UI for controling Backlight and Underglow LED lighting"
+              />
+              <FeatureCard
+                key={4}
+                image={keyLayout}
+                imageTitle="Key Layout"
                 title="Key Layout"
                 description="Intuitive customization according to the actual key
                       layout."
               />
               <FeatureCard
-                key={3}
-                image={card3}
-                imageTitle="card-3"
-                title="Show Difference"
-                description="Easy-to-understand display of keymap changes."
-              />
-              <FeatureCard
-                key={4}
-                image={card5}
-                imageTitle="card-5"
+                key={5}
+                image={predefinedKeys}
+                imageTitle="Pre-defined Keys"
                 title="Pre-defined Keys"
                 description="Provide many Pre-defined keys to enable remap your key
                       mapping easily."
               />
               <FeatureCard
-                key={5}
-                image={card4}
-                imageTitle="card-4"
-                title="Easy key assign"
-                description="Allow you to assign complex keymap easily including Hold/Tap and etc."
-              />
-              <FeatureCard
                 key={6}
-                image={card6}
-                imageTitle="card-6"
-                title="Lighting Control"
-                description="Can control Backlight and Underglow LED lighting easily."
+                image={diff}
+                imageTitle="Show Difference"
+                title="Show Difference"
+                description="Easy-to-understand display of keymap changes."
               />
             </Grid>
           </Container>
