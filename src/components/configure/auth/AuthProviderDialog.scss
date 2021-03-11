@@ -15,5 +15,10 @@
   &-content {
     display: flex;
     flex-direction: column;
+
+    &-provider {
+      display: inline-block;
+      margin-left: $space-m;
+    }
   }
 }

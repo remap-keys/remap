@@ -12,6 +12,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 import './AuthProviderDialog.scss';
+import { GitHub, Person } from '@material-ui/icons';
 
 type OwnState = {};
 
@@ -62,10 +63,16 @@ export default class AuthProviderDialog extends React.Component<
             Which do you want to login with?
           </Typography>
           <Button onClick={this.onGoogleLoginButtonClick}>
-            Google Account
+            <Person />
+            <span className="auth-provider-dialog-content-provider">
+              Google Account
+            </span>
           </Button>
           <Button onClick={this.onGitHubLoginButtonClick}>
-            GitHub Account
+            <GitHub />
+            <span className="auth-provider-dialog-content-provider">
+              GitHub Account
+            </span>
           </Button>
         </DialogContent>
       </Dialog>
