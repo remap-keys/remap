@@ -2,19 +2,22 @@
 import React from 'react';
 import './Header.scss';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { Button, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { ArrowDropDown, Link } from '@material-ui/icons';
+import { Avatar, Button, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { ArrowDropDown, Link, Person, PersonOutline } from '@material-ui/icons';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import { Logo } from '../../common/logo/Logo';
 import InfoDialog from '../info/InfoDialog.container';
 import { InfoIcon } from '../../common/icons/InfoIcon';
+import { getGitHubProviderData } from '../../../services/auth/Auth';
 
 type HeaderState = {
   connectionStateEl: any;
   logoAnimation: boolean;
   openInfoDialog: boolean;
+  authMenuAnchorEl: any;
+  authenticated: boolean;
 };
 
 type OwnProps = {};
@@ -33,6 +36,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       connectionStateEl: null,
       logoAnimation: false,
       openInfoDialog: false,
+      authMenuAnchorEl: null,
+      authenticated: false,
     };
     this.flashButtonRef = React.createRef<HTMLButtonElement>();
     this.deviceMenuRef = React.createRef<HTMLDivElement>();
@@ -51,6 +56,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     return true;
+  }
+
+  componentDidMount() {
+    this.props.auth!.subscribeAuthStatus((user) => {
+      this.setState({
+        authenticated: !!user,
+      });
+    });
   }
 
   get openConnectionStateMenu() {
@@ -95,6 +108,113 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   private startLogoAnim() {
     this.setState({ logoAnimation: true });
+  }
+
+  handleAuthMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({
+      authMenuAnchorEl: event.currentTarget,
+    });
+  };
+
+  handleAuthMenuClose = () => {
+    this.setState({
+      authMenuAnchorEl: null,
+    });
+  };
+
+  async handleLogoutMenuClick() {
+    console.log('logout');
+  }
+
+  async handleLoginMenuClick() {
+    console.log('login');
+  }
+
+  renderAvatarIcon() {
+    const { authMenuAnchorEl } = this.state;
+
+    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    if (user) {
+      const githubProviderDataResult = getGitHubProviderData(user);
+      if (!githubProviderDataResult.exists) {
+        throw new Error('The user does not have a GitHub Provider data.');
+      }
+      const githubProviderData = githubProviderDataResult.userInfo!;
+
+      const profileImageUrl = githubProviderData.photoURL || '';
+      const profileDisplayName = githubProviderData.displayName || '';
+      let avatar: React.ReactNode;
+      if (profileImageUrl) {
+        avatar = (
+          <Avatar
+            alt={profileDisplayName}
+            src={profileImageUrl}
+            className="header-avatar"
+          />
+        );
+      } else {
+        avatar = (
+          <Avatar className="header-avatar">
+            <Person />
+          </Avatar>
+        );
+      }
+      return (
+        <React.Fragment>
+          <IconButton
+            aria-owns={
+              authMenuAnchorEl ? 'configure-header-auth-menu' : undefined
+            }
+            onClick={this.handleAuthMenuIconClick}
+          >
+            {avatar}
+          </IconButton>
+          <Menu
+            id="configure-header-auth-menu"
+            anchorEl={authMenuAnchorEl}
+            open={Boolean(authMenuAnchorEl)}
+            onClose={this.handleAuthMenuClose}
+          >
+            <MenuItem
+              key="1"
+              button={true}
+              onClick={() => this.handleLogoutMenuClick()}
+            >
+              Logout
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <IconButton
+            aria-owns={
+              authMenuAnchorEl ? 'configure-header-auth-menu' : undefined
+            }
+            onClick={this.handleAuthMenuIconClick}
+          >
+            <Avatar className="header-avatar">
+              <PersonOutline />
+            </Avatar>
+          </IconButton>
+          <Menu
+            id="configure-header-auth-menu"
+            anchorEl={authMenuAnchorEl}
+            open={Boolean(authMenuAnchorEl)}
+            onClose={this.handleAuthMenuClose}
+          >
+            <MenuItem
+              key="1"
+              button={true}
+              onClick={() => this.handleLoginMenuClick()}
+            >
+              Login
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+      );
+    }
   }
 
   render() {
@@ -217,19 +337,22 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             </a>
           </div>
 
-          <div
-            className={['buttons', this.props.keyboard ? '' : 'hidden'].join(
-              ' '
-            )}
-          >
-            <button
-              ref={this.flashButtonRef}
-              disabled={flashBtnState == 'disable'}
-              onClick={this.onClickFlash.bind(this)}
-              className={['flash-button', flashBtnState].join(' ')}
+          <div className="header-right">
+            <div
+              className={['buttons', this.props.keyboard ? '' : 'hidden'].join(
+                ' '
+              )}
             >
-              flash
-            </button>
+              <button
+                ref={this.flashButtonRef}
+                disabled={flashBtnState == 'disable'}
+                onClick={this.onClickFlash.bind(this)}
+                className={['flash-button', flashBtnState].join(' ')}
+              >
+                flash
+              </button>
+            </div>
+            {this.renderAvatarIcon()}
           </div>
           {this.props.draggingKey && (
             <div className="dragMask" style={{ marginLeft: -8 }}></div>

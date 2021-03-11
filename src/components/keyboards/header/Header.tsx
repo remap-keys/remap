@@ -52,38 +52,46 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
       const profileImageUrl = githubProviderData.photoURL || '';
       const profileDisplayName = githubProviderData.displayName || '';
+      let avatar: React.ReactNode;
       if (profileImageUrl) {
-        return (
-          <React.Fragment>
-            <IconButton
-              aria-owns={menuAnchorEl ? 'keyboards-header-menu' : undefined}
-              onClick={this.handleMenuIconClick}
-            >
-              <Avatar alt={profileDisplayName} src={profileImageUrl} />
-            </IconButton>
-            <Menu
-              id="keyboards-header-menu"
-              anchorEl={menuAnchorEl}
-              open={Boolean(menuAnchorEl)}
-              onClose={this.handleMenuClose}
-            >
-              <MenuItem
-                key="1"
-                button={true}
-                onClick={() => this.handleLogoutMenuClick()}
-              >
-                Logout
-              </MenuItem>
-            </Menu>
-          </React.Fragment>
+        avatar = (
+          <Avatar
+            alt={profileDisplayName}
+            src={profileImageUrl}
+            className="keyboards-header-avatar"
+          />
         );
       } else {
-        return (
-          <Avatar>
+        avatar = (
+          <Avatar className="keyboards-header-avatar">
             <Person />
           </Avatar>
         );
       }
+      return (
+        <React.Fragment>
+          <IconButton
+            aria-owns={menuAnchorEl ? 'keyboards-header-menu' : undefined}
+            onClick={this.handleMenuIconClick}
+          >
+            {avatar}
+          </IconButton>
+          <Menu
+            id="keyboards-header-menu"
+            anchorEl={menuAnchorEl}
+            open={Boolean(menuAnchorEl)}
+            onClose={this.handleMenuClose}
+          >
+            <MenuItem
+              key="1"
+              button={true}
+              onClick={() => this.handleLogoutMenuClick()}
+            >
+              Logout
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+      );
     } else {
       return null;
     }

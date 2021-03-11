@@ -18,6 +18,7 @@ const mapStateToProps = (state: RootState) => {
     vendorId: info?.vendorId || NaN,
     showKeyboardList: !!kbd,
     remaps: state.app.remaps,
+    auth: state.auth.instance,
   };
 };
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;

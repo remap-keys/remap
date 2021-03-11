@@ -67,7 +67,6 @@ class KeyboardDefinitionManagement extends React.Component<
   componentDidMount() {
     this.props.auth!.subscribeAuthStatus((user) => {
       if (user) {
-        console.log(user.providerData);
         this.props.startInitializing!();
         this.updateNotifications();
         this.props.updateKeyboards!();

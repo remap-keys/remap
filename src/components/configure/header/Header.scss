@@ -61,6 +61,7 @@
     margin-left: auto;
     width: 120px;
     justify-content: center;
+    height: 40px;
     .flash-btn {
       min-width: 80px !important;
     }
@@ -75,6 +76,17 @@
 
   .hidden {
     visibility: hidden;
+  }
+
+  &-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .header-avatar {
+    width: 31px !important;
+    height: 31px !important;
   }
 }
 
