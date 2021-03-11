@@ -362,6 +362,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     return this.auth.signInWithRedirect(provider);
   }
 
+  linkToGitHub(): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      const provider = new firebase.auth.GithubAuthProvider();
+      return currentUser.linkWithRedirect(provider);
+    } else {
+      throw new Error('Invalid situation. Not signed in.');
+    }
+  }
+
   async signInWithGitHubWithPopup(): Promise<IAuthenticationResult> {
     try {
       const provider = new firebase.auth.GithubAuthProvider();

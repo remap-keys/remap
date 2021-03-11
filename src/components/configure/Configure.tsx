@@ -108,16 +108,6 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     this.props.initAppPackage!(name, version);
 
     this.props.auth!.subscribeAuthStatus((user) => {
-      // if (user) {
-      //   user
-      //     .unlink(firebase.auth.GithubAuthProvider.PROVIDER_ID)
-      //     .then(() => {
-      //       console.log('success');
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
-      // }
       this.props.updateSignedIn!(!!user);
     });
 

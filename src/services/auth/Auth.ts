@@ -12,6 +12,7 @@ export interface IAuth {
   signInWithGoogleWithPopup(): Promise<IAuthenticationResult>;
   linkToGoogleWithPopup(): Promise<IAuthenticationResult>;
   linkToGitHubWithPopup(): Promise<IAuthenticationResult>;
+  linkToGitHub(): Promise<void>;
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
   getCurrentAuthenticatedUser(): firebase.User;
