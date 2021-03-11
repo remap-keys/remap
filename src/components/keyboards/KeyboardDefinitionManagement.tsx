@@ -77,25 +77,15 @@ class KeyboardDefinitionManagement extends React.Component<
             this.props.updateKeyboard!(definitionId);
           }
         } else {
-          this.props
-            .auth!.linkToGitHub()
-            .then(() => {
-              // N/A
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+          this.props.auth!.linkToGitHub().then(() => {
+            // N/A
+          });
         }
       } else {
         if (this.props.phase !== 'signout') {
-          this.props
-            .auth!.signInWithGitHub()
-            .then(() => {
-              // N/A
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+          this.props.auth!.signInWithGitHub().then(() => {
+            // N/A
+          });
         }
       }
     });
