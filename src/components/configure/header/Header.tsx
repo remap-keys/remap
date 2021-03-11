@@ -113,7 +113,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   async handleLogoutMenuClick() {
-    console.log('logout');
+    this.props.logout!();
+    this.setState({
+      authMenuAnchorEl: null,
+    });
   }
 
   async handleLoginMenuClick() {
@@ -122,9 +125,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
   renderAvatarIcon() {
     const { authMenuAnchorEl } = this.state;
-
-    const user = this.props.auth!.getCurrentAuthenticatedUser();
-    if (user) {
+    if (this.props.signedIn) {
+      const user = this.props.auth!.getCurrentAuthenticatedUser();
       const githubProviderDataResult = getGitHubProviderData(user);
       if (!githubProviderDataResult.exists) {
         throw new Error('The user does not have a GitHub Provider data.');

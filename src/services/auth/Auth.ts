@@ -5,7 +5,7 @@ export interface IAuth {
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
   getCurrentAuthenticatedUser(): firebase.User;
-  signOutFromGitHub(): Promise<void>;
+  signOut(): Promise<void>;
 }
 
 export type IGetProviderDataResult = {

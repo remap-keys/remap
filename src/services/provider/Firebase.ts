@@ -376,7 +376,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     return this.auth.currentUser!;
   }
 
-  async signOutFromGitHub(): Promise<void> {
+  async signOut(): Promise<void> {
     await this.auth.signOut();
   }
 }

@@ -3,7 +3,8 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { ISetupPhase } from '../store/state';
+import { ISetupPhase, RootState } from '../store/state';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const KEYMAP_ACTIONS = '@Keymap';
 export const KEYMAP_CLEAR_SELECTED_POS = `${KEYMAP_ACTIONS}/ClearSelectedLayer`;
@@ -248,6 +249,26 @@ export const AppActions = {
       type: APP_UPDATE_SIGNED_IN,
       value: signedIn,
     };
+  },
+};
+
+type ActionTypes = ReturnType<typeof AppActions[keyof typeof AppActions]>;
+type ThunkPromiseAction<T> = ThunkAction<
+  Promise<T>,
+  RootState,
+  undefined,
+  ActionTypes
+>;
+export const AppActionsThunk = {
+  // eslint-disable-next-line no-undef
+  logout: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    await auth.instance!.signOut();
+    dispatch(AppActions.updateSignedIn(false));
   },
 };
 
