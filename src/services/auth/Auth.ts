@@ -1,7 +1,17 @@
 import firebase from 'firebase';
 
+export type IAuthenticationResult = {
+  success: boolean;
+  error?: string;
+  cause?: any;
+};
+
 export interface IAuth {
   signInWithGitHub(): Promise<void>;
+  signInWithGitHubWithPopup(): Promise<IAuthenticationResult>;
+  signInWithGoogleWithPopup(): Promise<IAuthenticationResult>;
+  linkToGoogleWithPopup(): Promise<IAuthenticationResult>;
+  linkToGitHubWithPopup(): Promise<IAuthenticationResult>;
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
   getCurrentAuthenticatedUser(): firebase.User;
@@ -16,14 +26,33 @@ export type IGetProviderDataResult = {
 export const getGitHubProviderData = (
   user: firebase.User
 ): IGetProviderDataResult => {
-  const providerData = user.providerData;
-  const githubProviderData = providerData.find(
-    (data) => data?.providerId === 'github.com'
+  return getConcreteProviderData(
+    user,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID
   );
-  if (githubProviderData) {
+};
+
+export const getGoogleProviderData = (
+  user: firebase.User
+): IGetProviderDataResult => {
+  return getConcreteProviderData(
+    user,
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  );
+};
+
+const getConcreteProviderData = (
+  user: firebase.User,
+  providerId: string
+): IGetProviderDataResult => {
+  const providerDataList = user.providerData;
+  const providerData = providerDataList.find(
+    (data) => data?.providerId === providerId
+  );
+  if (providerData) {
     return {
       exists: true,
-      userInfo: githubProviderData,
+      userInfo: providerData,
     };
   } else {
     return {

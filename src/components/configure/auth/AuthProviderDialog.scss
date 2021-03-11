@@ -1,0 +1,19 @@
+@import '../../../variables';
+
+.auth-provider-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+  }
+}

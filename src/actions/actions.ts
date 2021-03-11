@@ -252,7 +252,10 @@ export const AppActions = {
   },
 };
 
-type ActionTypes = ReturnType<typeof AppActions[keyof typeof AppActions]>;
+type ActionTypes = ReturnType<
+  | typeof AppActions[keyof typeof AppActions]
+  | typeof NotificationActions[keyof typeof NotificationActions]
+>;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
   RootState,
@@ -269,6 +272,54 @@ export const AppActionsThunk = {
     const { auth } = getState();
     await auth.instance!.signOut();
     dispatch(AppActions.updateSignedIn(false));
+  },
+  loginWithGitHubAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.signInWithGitHubWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  loginWithGoogleAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.signInWithGoogleWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  linkToGoogleAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.linkToGoogleWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  linkToGitHubAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.linkToGitHubWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
   },
 };
 

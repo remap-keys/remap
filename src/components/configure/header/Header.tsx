@@ -10,13 +10,18 @@ import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import { Logo } from '../../common/logo/Logo';
 import InfoDialog from '../info/InfoDialog.container';
 import { InfoIcon } from '../../common/icons/InfoIcon';
-import { getGitHubProviderData } from '../../../services/auth/Auth';
+import AuthProviderDialog from '../auth/AuthProviderDialog.container';
+import {
+  getGitHubProviderData,
+  getGoogleProviderData,
+} from '../../../services/auth/Auth';
 
 type HeaderState = {
   connectionStateEl: any;
   logoAnimation: boolean;
   openInfoDialog: boolean;
   authMenuAnchorEl: any;
+  openAuthProviderDialog: boolean;
 };
 
 type OwnProps = {};
@@ -36,6 +41,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       logoAnimation: false,
       openInfoDialog: false,
       authMenuAnchorEl: null,
+      openAuthProviderDialog: false,
     };
     this.flashButtonRef = React.createRef<HTMLButtonElement>();
     this.deviceMenuRef = React.createRef<HTMLDivElement>();
@@ -92,6 +98,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     this.setState({ openInfoDialog: false });
   }
 
+  private onCloseAuthProviderDialog() {
+    this.setState({ openAuthProviderDialog: false });
+  }
+
   private endLogoAnim() {
     this.setState({ logoAnimation: false });
   }
@@ -120,21 +130,59 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   }
 
   async handleLoginMenuClick() {
-    console.log('login');
+    this.setState({ authMenuAnchorEl: null, openAuthProviderDialog: true });
+  }
+
+  async handleLinkGoogleAccountMenuClick() {
+    this.setState({ authMenuAnchorEl: null });
+    this.props.linkToGoogleAccount!();
+  }
+
+  async handleLinkGitHubAccountMenuClick() {
+    this.setState({ authMenuAnchorEl: null });
+    this.props.linkToGitHubAccount!();
+  }
+
+  renderLinkGoogleAccountMenu() {
+    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    if (user && !getGoogleProviderData(user).exists) {
+      return (
+        <MenuItem
+          key="1"
+          button={true}
+          onClick={() => this.handleLinkGoogleAccountMenuClick()}
+        >
+          Link Google Account
+        </MenuItem>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderLinkGitHubAccountMenu() {
+    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    if (user && !getGitHubProviderData(user).exists) {
+      return (
+        <MenuItem
+          key="2"
+          button={true}
+          onClick={() => this.handleLinkGitHubAccountMenuClick()}
+        >
+          Link GitHub Account
+        </MenuItem>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderAvatarIcon() {
     const { authMenuAnchorEl } = this.state;
     if (this.props.signedIn) {
       const user = this.props.auth!.getCurrentAuthenticatedUser();
-      const githubProviderDataResult = getGitHubProviderData(user);
-      if (!githubProviderDataResult.exists) {
-        throw new Error('The user does not have a GitHub Provider data.');
-      }
-      const githubProviderData = githubProviderDataResult.userInfo!;
-
-      const profileImageUrl = githubProviderData.photoURL || '';
-      const profileDisplayName = githubProviderData.displayName || '';
+      const profileImageUrl = user.photoURL || '';
+      const profileDisplayName = user.displayName || '';
       let avatar: React.ReactNode;
       if (profileImageUrl) {
         avatar = (
@@ -167,8 +215,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             open={Boolean(authMenuAnchorEl)}
             onClose={this.handleAuthMenuClose}
           >
+            {this.renderLinkGoogleAccountMenu()}
+            {this.renderLinkGitHubAccountMenu()}
             <MenuItem
-              key="1"
+              key="3"
               button={true}
               onClick={() => this.handleLogoutMenuClick()}
             >
@@ -204,6 +254,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
               Login
             </MenuItem>
           </Menu>
+          <AuthProviderDialog
+            open={this.state.openAuthProviderDialog}
+            onClose={this.onCloseAuthProviderDialog.bind(this)}
+          />
         </React.Fragment>
       );
     }

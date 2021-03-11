@@ -39,6 +39,12 @@ const mapDispatchToProps = (_dispatch: any) => {
     logout: () => {
       _dispatch(AppActionsThunk.logout());
     },
+    linkToGoogleAccount: () => {
+      _dispatch(AppActionsThunk.linkToGoogleAccount());
+    },
+    linkToGitHubAccount: () => {
+      _dispatch(AppActionsThunk.linkToGitHubAccount());
+    },
   };
 };
 export type HeaderActionsType = ReturnType<typeof mapDispatchToProps>;
