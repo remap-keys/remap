@@ -66,6 +66,7 @@ class KeyboardDefinitionManagement extends React.Component<
 
   componentDidMount() {
     this.props.auth!.subscribeAuthStatus((user) => {
+      // TODO Check whether GitHub account authentication has aleady been done.
       if (user) {
         this.props.startInitializing!();
         this.updateNotifications();
