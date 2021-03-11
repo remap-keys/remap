@@ -17,7 +17,6 @@ type HeaderState = {
   logoAnimation: boolean;
   openInfoDialog: boolean;
   authMenuAnchorEl: any;
-  authenticated: boolean;
 };
 
 type OwnProps = {};
@@ -37,7 +36,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
       logoAnimation: false,
       openInfoDialog: false,
       authMenuAnchorEl: null,
-      authenticated: false,
     };
     this.flashButtonRef = React.createRef<HTMLButtonElement>();
     this.deviceMenuRef = React.createRef<HTMLDivElement>();
@@ -56,14 +54,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     return true;
-  }
-
-  componentDidMount() {
-    this.props.auth!.subscribeAuthStatus((user) => {
-      this.setState({
-        authenticated: !!user,
-      });
-    });
   }
 
   get openConnectionStateMenu() {

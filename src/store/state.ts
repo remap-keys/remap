@@ -93,6 +93,7 @@ export type RootState = {
     keyboardHeight: number;
     keyboardWidth: number;
     labelLang: KeyboardLabelLang;
+    signedIn: boolean;
   };
   configure: {
     header: {
@@ -211,6 +212,7 @@ export const INIT_STATE: RootState = {
     keyboardHeight: 0,
     keyboardWidth: 0,
     labelLang: 'en-us',
+    signedIn: false,
   },
   configure: {
     header: {

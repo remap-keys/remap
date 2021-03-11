@@ -181,6 +181,7 @@ export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const APP_UPDATE_KEYBOARD_SIZE = `${APP_ACTIONS}/UpdateKeyboardSize`;
 export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
+export const APP_UPDATE_SIGNED_IN = `${APP_ACTIONS}/SignedIn`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -240,6 +241,12 @@ export const AppActions = {
     return {
       type: APP_UPDATE_LANG_LABEL,
       value: langLabel,
+    };
+  },
+  updateSignedIn: (signedIn: boolean) => {
+    return {
+      type: APP_UPDATE_SIGNED_IN,
+      value: signedIn,
     };
   },
 };
