@@ -148,7 +148,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     if (user && !getGoogleProviderData(user).exists) {
       return (
         <MenuItem
-          key="1"
+          key="auth-menu-link-google-account"
           button={true}
           onClick={() => this.handleLinkGoogleAccountMenuClick()}
         >
@@ -165,7 +165,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     if (user && !getGitHubProviderData(user).exists) {
       return (
         <MenuItem
-          key="2"
+          key="auth-menu-link-github-account"
           button={true}
           onClick={() => this.handleLinkGitHubAccountMenuClick()}
         >
@@ -218,7 +218,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             {this.renderLinkGoogleAccountMenu()}
             {this.renderLinkGitHubAccountMenu()}
             <MenuItem
-              key="3"
+              key="auth-menu-logout"
               button={true}
               onClick={() => this.handleLogoutMenuClick()}
             >
@@ -247,7 +247,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             onClose={this.handleAuthMenuClose}
           >
             <MenuItem
-              key="1"
+              key="auth-menu-login"
               button={true}
               onClick={() => this.handleLoginMenuClick()}
             >
