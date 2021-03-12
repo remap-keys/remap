@@ -1,0 +1,44 @@
+@import '../../../variables';
+body {
+  header {
+    height: 56px;
+    width: 100%;
+    position: fixed;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    .page-header-left {
+      display: flex;
+      flex-direction: row;
+      text-align: left;
+      height: 100%;
+      padding-top: 16px;
+    }
+    .page-header-center {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      h2 {
+        margin: 8px 0;
+      }
+    }
+    .page-header-right {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      button {
+        margin-top: -8px;
+      }
+    }
+  }
+  main {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 56px;
+    left: 0px;
+  }
+  footer {
+  }
+}
