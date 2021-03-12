@@ -287,16 +287,10 @@ export default class KeyboardModel {
       if (!hasProperty(origKeymaps, option)) return;
       const orig = origKeymaps[option];
       const origCurr: Current = orig.current;
-      console.log(`${orig.label}: (${orig.x}, ${orig.y})`);
       Object.keys(optionKeymaps[option]).forEach((choice: string) => {
         const item: KeymapItem = optionKeymaps[option][choice][0];
         const diffX = item.x + item.x2 - origCurr!.x + origCurr!.x2;
         const diffY = item.y - origCurr!.y;
-        console.log(
-          `${item.label.split('\n')[0]}: diffY = ${item.y} + ${item.y2} - ${
-            origCurr!.y
-          } + ${origCurr!.y2}`
-        );
         optionKeymaps[option][choice].forEach((item: KeymapItem) => {
           item.align(diffX, diffY);
         });
