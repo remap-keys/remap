@@ -222,9 +222,15 @@ export default class KeyboardModel {
         if (typeof item === 'string') {
           keymapItem = new KeymapItem(curr, item);
         } else {
-          const op = item as KeyOp;
-          const label = keyRow[++col] as string; // next item should be string(row,col)
+          let op = item as KeyOp;
+          let nextOp = keyRow[++col];
+          while (typeof nextOp != 'string') {
+            // in case of continuing KeyOp
+            op = Object.assign({}, op, nextOp);
+            nextOp = keyRow[++col];
+          }
           curr.setOp(op);
+          const label = nextOp as string;
           keymapItem = new KeymapItem(curr, label, op);
         }
         curr.next(keymapItem.w);

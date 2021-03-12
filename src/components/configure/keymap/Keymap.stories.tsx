@@ -21,6 +21,7 @@ import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
+import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession';
 
 export default {
   title: 'Keyboards',
@@ -216,3 +217,5 @@ export const VerticalSplitAll = () =>
     { option: '2', optionChoice: '1' },
     { option: '3', optionChoice: '1' },
   ]);
+export const KeyopsSuccession = () =>
+  genKeyboardView('KeyopsSuccession', KeyopsSuccessionKeymap);
