@@ -50,8 +50,8 @@ class Current {
 
   setOp(op: KeyOp) {
     if (op.rx || op.ry) {
-      this.rx = op.rx || this.rx;
-      this.ry = op.ry || this.ry;
+      this.rx = op.rx != undefined ? op.rx : this.rx;
+      this.ry = op.ry != undefined ? op.ry : this.ry;
       this.x = this.rx + (op.x || 0);
       this.y = this.ry + (op.y || 0);
     } else {
@@ -59,10 +59,10 @@ class Current {
       this.y += op.y || 0;
     }
 
-    this.r = op.r || this.r;
-    this.x2 = op.x2 || this.x2;
-    this.y2 = op.y2 || this.y2;
-    this.c = op.c || this.c;
+    this.r = op.r != undefined ? op.r : this.r;
+    this.x2 = op.x2 != undefined ? op.x2 : this.x2;
+    this.y2 = op.y2 != undefined ? op.y2 : this.y2;
+    this.c = op.c != undefined ? op.c : this.c;
   }
 
   next(w: number) {
@@ -190,10 +190,12 @@ export default class KeyboardModel {
     let bottom = 0;
     let top = Infinity;
     keymaps.forEach((model) => {
-      right = Math.max(right, model.endRight);
-      left = Math.min(left, model.startLeft);
-      bottom = Math.max(bottom, model.endBottom);
-      top = Math.min(top, model.top);
+      if (!model.isDecal) {
+        right = Math.max(right, model.endRight);
+        left = Math.min(left, model.startLeft);
+        bottom = Math.max(bottom, model.endBottom);
+        top = Math.min(top, model.top);
+      }
     });
 
     const width = right - left;
@@ -224,16 +226,21 @@ export default class KeyboardModel {
         } else {
           let op = item as KeyOp;
           let nextOp = keyRow[++col];
-          while (typeof nextOp != 'string') {
+          while (typeof nextOp != 'string' && col < keyRow.length) {
             // in case of continuing KeyOp
             op = Object.assign({}, op, nextOp);
             nextOp = keyRow[++col];
-
-            if (nextOp === undefined) break; // in case of ending the row with KeyOp
           }
           curr.setOp(op);
-          const label = (nextOp || '') as string; // if the row ends KeyOp, the nextOp is undefined
-          keymapItem = new KeymapItem(curr, label, op);
+
+          if (nextOp) {
+            const label = nextOp as string;
+            keymapItem = new KeymapItem(curr, label, op);
+          } else {
+            // if the row ends KeyOp, the nextOp is undefined
+            op = Object.assign({}, op, { d: true });
+            keymapItem = new KeymapItem(curr, '', op); // cause of no label, the key should be disappeared
+          }
         }
         curr.next(keymapItem.w);
 

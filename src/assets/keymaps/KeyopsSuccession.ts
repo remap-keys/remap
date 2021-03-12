@@ -1,8 +1,6 @@
 export const KeyopsSuccessionKeymap = [
   [
-    { r: 5 },
-    { rx: 10 },
-    { ry: 10 },
+    { r: 5, rx: 0, ry: 0 },
     { x: 2.5 },
     { c: '#777777' },
     '0,0',
@@ -19,5 +17,7 @@ export const KeyopsSuccessionKeymap = [
     { y: 1 },
     { h: 2 },
     '0,5',
+    { y: 0 },
   ],
+  [{ r: -0 }, '1,0', '1,1', '1,2', '1,3', '1,4', '1,5'],
 ];
