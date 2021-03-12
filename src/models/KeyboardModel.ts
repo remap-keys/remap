@@ -206,9 +206,9 @@ export default class KeyboardModel {
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
     const keymapsList: KeymapItem[][] = [];
     const optionKeymaps: {
-      [option: string]: { [choice: string]: { [row: string]: KeymapItem[] } };
+      [option: string]: { [choice: string]: KeymapItem[] };
     } = {};
-    const origKeymaps: { [row: string]: { [option: string]: KeymapItem } } = {};
+    const origKeymaps: { [option: string]: KeymapItem } = {};
 
     // STEP1: build  optionKeymaps
     const curr = new Current();
@@ -252,36 +252,14 @@ export default class KeyboardModel {
             optionKeymaps[option] = {};
           }
           if (!hasProperty(optionKeymaps[option], choice)) {
-            optionKeymaps[option][choice] = {};
+            optionKeymaps[option][choice] = [];
           }
 
-          if (!hasProperty(optionKeymaps[option][choice], row)) {
-            optionKeymaps[option][choice][row] = [];
-          }
-          optionKeymaps[option][choice][row].push(keymapItem);
+          optionKeymaps[option][choice].push(keymapItem);
         } else if (keymapItem.isOrigin) {
-          if (!hasProperty(origKeymaps, row)) {
-            origKeymaps[row] = {};
-          }
           const option = keymapItem.option;
-          if (!hasProperty(origKeymaps[row], option)) {
-            if (keymapItem.op?.h && 1 < keymapItem.op.h) {
-              /**
-               * In STEP3.1, the optional key finds the original key from originalKeymaps by row.
-               * If this KeymapItem has more than 1 height, the next row will NOT be appered.
-               * This means, the optiona key can NOT find the original key.
-               * So this KeymapItem MUST be assigned to not only the original row but also the expeand row.
-               */
-              for (let i = 0; i < keymapItem.op.h; i++) {
-                const expandRow = row + i;
-                if (!hasProperty(origKeymaps, expandRow)) {
-                  origKeymaps[expandRow] = {};
-                }
-                origKeymaps[expandRow][option] = keymapItem;
-              }
-            } else {
-              origKeymaps[row][option] = keymapItem;
-            }
+          if (!hasProperty(origKeymaps, option)) {
+            origKeymaps[option] = keymapItem;
           }
         }
       }
@@ -304,45 +282,23 @@ export default class KeyboardModel {
       });
     });
 
-    /** STEP3: relocate option keys' position
-     * 3.1. relocate for row direction
-     * 3.2. relocate for col direction
-     */
-    // 3.1
-    Object.keys(origKeymaps).forEach((row) => {
-      Object.keys(origKeymaps[row]).forEach((option) => {
-        const origCurr = origKeymaps[row][option].current;
-        delete origKeymaps[row].option;
-        Object.keys(optionKeymaps[option]).forEach((choice) => {
-          if (hasProperty(optionKeymaps[option][choice], row)) {
-            const choices = optionKeymaps[option][choice][row];
-            const diffX =
-              choices[0].x + choices[0].x2 - origCurr!.x + origCurr!.x2;
-            choices.forEach((item: KeymapItem) => {
-              item.align(diffX, 0);
-            });
-            delete optionKeymaps[option].choice;
-          }
-        });
-      });
-    });
-
-    // 3.2
+    // STEP3: relocate option keys' position
     Object.keys(optionKeymaps).forEach((option: string) => {
-      const origRow = Object.keys(origKeymaps).find((row) =>
-        hasProperty(origKeymaps[row], option)
-      );
-      const origCurr = origKeymaps[origRow!][option].current;
+      if (!hasProperty(origKeymaps, option)) return;
+      const orig = origKeymaps[option];
+      const origCurr: Current = orig.current;
+      console.log(`${orig.label}: (${orig.x}, ${orig.y})`);
       Object.keys(optionKeymaps[option]).forEach((choice: string) => {
-        const firstRow = Object.keys(optionKeymaps[option][choice])[0];
-        const optionOrigItem = optionKeymaps[option][choice][firstRow][0];
-        const diffY =
-          optionOrigItem.y + optionOrigItem.y2 - origCurr!.y + origCurr!.y2;
-        Object.keys(optionKeymaps[option][choice]).forEach((row: string) => {
-          const rows: KeymapItem[] = optionKeymaps[option][choice][row];
-          rows.forEach((item: KeymapItem) => {
-            item.align(0, diffY);
-          });
+        const item: KeymapItem = optionKeymaps[option][choice][0];
+        const diffX = item.x + item.x2 - origCurr!.x + origCurr!.x2;
+        const diffY = item.y - origCurr!.y;
+        console.log(
+          `${item.label.split('\n')[0]}: diffY = ${item.y} + ${item.y2} - ${
+            origCurr!.y
+          } + ${origCurr!.y2}`
+        );
+        optionKeymaps[option][choice].forEach((item: KeymapItem) => {
+          item.align(diffX, diffY);
         });
       });
     });

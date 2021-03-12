@@ -85,6 +85,7 @@ const genKeyboardView = (
                   ''
                 ) : (
                   <Keycap
+                    debug={true}
                     key={keycap.model.pos}
                     selectedLayer={0}
                     onClickKeycap={() => {}}
@@ -244,6 +245,14 @@ export const OptionChoice210000 = () =>
     { option: '2', optionChoice: '0' },
     { option: '3', optionChoice: '0' },
     { option: '4', optionChoice: '1' },
+  ]);
+export const OptionChoice202102 = () =>
+  genKeyboardView('OptionChoice202102', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '2' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '1' },
+    { option: '3', optionChoice: '2' },
+    { option: '4', optionChoice: '0' },
   ]);
 export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
 export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);

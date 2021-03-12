@@ -20,6 +20,7 @@ type KeycapOwnState = {
 
 // TODO: refactoring properties, unify the model
 export type KeycapOwnProps = {
+  debug?: boolean;
   model: KeyModel;
   keymap: IKeymap;
   remap: IKeymap | null;
@@ -266,7 +267,7 @@ export default class Keycap extends React.Component<
             pos={pos}
             hasDiff={dstKey != null}
             optionChoiceLabel={optionLabel}
-            debug={false}
+            debug={this.props.debug}
           />
         </div>
       </div>
@@ -290,19 +291,19 @@ function KeyLabel(props: KeyLabelType) {
     return (
       <React.Fragment>
         <div className="keylabel">
-          <div className="label left top">{props.pos}</div>
-          <div className={`label center modifier`}>{props.modifierLabel}</div>
+          <div className="label left top debug">{props.pos}</div>
+          <div className="label center modifier"></div>
           <div className="label right"></div>
         </div>
         <div className="keylabel">
           <div className="label left"></div>
-          <div className="label center keycode">{props.label}</div>
+          <div className="label center keycode"></div>
           <div className="label right"></div>
         </div>
         <div className="keylabel vbottom">
           <div className="label left"></div>
-          <div className={`label center modifier`}>{props.holdLabel}</div>
-          <div className="label right">{props.optionChoiceLabel}</div>
+          <div className="label center modifier"></div>
+          <div className="label right debug">{props.optionChoiceLabel}</div>
         </div>
       </React.Fragment>
     );
