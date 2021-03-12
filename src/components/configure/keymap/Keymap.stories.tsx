@@ -14,6 +14,7 @@ import { CorneliusKeymap } from '../../../assets/keymaps/CorneliusKeymap';
 import { ZincKeymap } from '../../../assets/keymaps/ZincKeymap';
 import { Aleth42Keymap } from '../../../assets/keymaps/Aleth42Keymap';
 import { OptionChoiceKeymap } from '../../../assets/keymaps/OptionChoiceKeymap';
+import { OptionChoice2Keymap } from '../../../assets/keymaps/OptionChoice2Keymap';
 import { CrkbdKeymap } from '../../../assets/keymaps/CrkbdKeymap';
 import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
 import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
@@ -170,6 +171,79 @@ export const OptionChoice3 = () =>
     { option: '2', optionChoice: '1' },
     { option: '3', optionChoice: '1' },
     { option: '4', optionChoice: '3' },
+  ]);
+export const OptionChoice200000 = () =>
+  genKeyboardView('OptionChoice200000', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice200001 = () =>
+  genKeyboardView('OptionChoice200001', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '1' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice200002 = () =>
+  genKeyboardView('OptionChoice200002', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '2' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+
+export const OptionChoice200010 = () =>
+  genKeyboardView('OptionChoice200010', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '1' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice200020 = () =>
+  genKeyboardView('OptionChoice200020', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '2' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice200100 = () =>
+  genKeyboardView('OptionChoice200100', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '1' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice201000 = () =>
+  genKeyboardView('OptionChoice201000', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '1' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice202000 = () =>
+  genKeyboardView('OptionChoice201000', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '2' },
+    { option: '4', optionChoice: '0' },
+  ]);
+export const OptionChoice210000 = () =>
+  genKeyboardView('OptionChoice210000', OptionChoice2Keymap, [
+    { option: '0', optionChoice: '0' },
+    { option: '1', optionChoice: '0' },
+    { option: '2', optionChoice: '0' },
+    { option: '3', optionChoice: '0' },
+    { option: '4', optionChoice: '1' },
   ]);
 export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
 export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);
