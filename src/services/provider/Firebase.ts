@@ -10,7 +10,7 @@ import {
   IResult,
   IStorage,
 } from '../storage/Storage';
-import { IAuth } from '../auth/Auth';
+import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
 
 const config = {
@@ -362,6 +362,124 @@ export class FirebaseProvider implements IStorage, IAuth {
     return this.auth.signInWithRedirect(provider);
   }
 
+  linkToGitHub(): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      const provider = new firebase.auth.GithubAuthProvider();
+      return currentUser.linkWithRedirect(provider);
+    } else {
+      throw new Error('Invalid situation. Not signed in.');
+    }
+  }
+
+  async signInWithGitHubWithPopup(): Promise<IAuthenticationResult> {
+    try {
+      const provider = new firebase.auth.GithubAuthProvider();
+      const userCredential = await this.auth.signInWithPopup(provider);
+      if (userCredential) {
+        return {
+          success: true,
+        };
+      } else {
+        return {
+          success: false,
+          error: 'Authenticating with GitHub Account failed.',
+        };
+      }
+    } catch (err) {
+      return {
+        success: false,
+        error: err.message,
+        cause: err,
+      };
+    }
+  }
+
+  async signInWithGoogleWithPopup(): Promise<IAuthenticationResult> {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const userCredential = await this.auth.signInWithPopup(provider);
+      if (userCredential) {
+        return {
+          success: true,
+        };
+      } else {
+        return {
+          success: false,
+          error: 'Authenticating with Google Account failed.',
+        };
+      }
+    } catch (err) {
+      return {
+        success: false,
+        error: err.message,
+        cause: err,
+      };
+    }
+  }
+
+  async linkToGoogleWithPopup(): Promise<IAuthenticationResult> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const userCredential = await currentUser.linkWithPopup(provider);
+        if (userCredential) {
+          return {
+            success: true,
+          };
+        } else {
+          return {
+            success: false,
+            error: 'Linking to Google Account failed.',
+          };
+        }
+      } catch (err) {
+        return {
+          success: false,
+          error: err.message,
+          cause: err,
+        };
+      }
+    } else {
+      return {
+        success: false,
+        error: 'Not authenticated yet.',
+      };
+    }
+  }
+
+  async linkToGitHubWithPopup(): Promise<IAuthenticationResult> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      try {
+        const provider = new firebase.auth.GithubAuthProvider();
+        const userCredential = await currentUser.linkWithPopup(provider);
+        if (userCredential) {
+          return {
+            success: true,
+          };
+        } else {
+          return {
+            success: false,
+            error: 'Linking to GitHub Account failed.',
+          };
+        }
+      } catch (err) {
+        return {
+          success: false,
+          error: err.message,
+          cause: err,
+        };
+      }
+    } else {
+      return {
+        success: false,
+        error: 'Not authenticated yet.',
+      };
+    }
+  }
+
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void {
     this.unsubscribeAuthStateChanged && this.unsubscribeAuthStateChanged();
@@ -376,7 +494,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     return this.auth.currentUser!;
   }
 
-  async signOutFromGitHub(): Promise<void> {
+  async signOut(): Promise<void> {
     await this.auth.signOut();
   }
 }

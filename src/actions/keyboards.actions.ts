@@ -240,6 +240,6 @@ export const keyboardsActionsThunk = {
   ) => {
     const { auth } = getState();
     dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.signout));
-    await auth.instance!.signOutFromGitHub();
+    await auth.instance!.signOut();
   },
 };

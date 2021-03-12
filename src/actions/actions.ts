@@ -3,7 +3,8 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { ISetupPhase } from '../store/state';
+import { ISetupPhase, RootState } from '../store/state';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const KEYMAP_ACTIONS = '@Keymap';
 export const KEYMAP_CLEAR_SELECTED_POS = `${KEYMAP_ACTIONS}/ClearSelectedLayer`;
@@ -181,6 +182,7 @@ export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const APP_UPDATE_KEYBOARD_SIZE = `${APP_ACTIONS}/UpdateKeyboardSize`;
 export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
+export const APP_UPDATE_SIGNED_IN = `${APP_ACTIONS}/SignedIn`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -241,6 +243,83 @@ export const AppActions = {
       type: APP_UPDATE_LANG_LABEL,
       value: langLabel,
     };
+  },
+  updateSignedIn: (signedIn: boolean) => {
+    return {
+      type: APP_UPDATE_SIGNED_IN,
+      value: signedIn,
+    };
+  },
+};
+
+type ActionTypes = ReturnType<
+  | typeof AppActions[keyof typeof AppActions]
+  | typeof NotificationActions[keyof typeof NotificationActions]
+>;
+type ThunkPromiseAction<T> = ThunkAction<
+  Promise<T>,
+  RootState,
+  undefined,
+  ActionTypes
+>;
+export const AppActionsThunk = {
+  // eslint-disable-next-line no-undef
+  logout: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    await auth.instance!.signOut();
+    dispatch(AppActions.updateSignedIn(false));
+  },
+  loginWithGitHubAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.signInWithGitHubWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  loginWithGoogleAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.signInWithGoogleWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  linkToGoogleAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.linkToGoogleWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+  linkToGitHubAccount: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    const result = await auth.instance!.linkToGitHubWithPopup();
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
   },
 };
 

@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { getGitHubProviderData } from '../../services/auth/Auth';
 
 type ParamsType = {
   definitionId: string;
@@ -67,13 +68,18 @@ class KeyboardDefinitionManagement extends React.Component<
   componentDidMount() {
     this.props.auth!.subscribeAuthStatus((user) => {
       if (user) {
-        console.log(user.providerData);
-        this.props.startInitializing!();
-        this.updateNotifications();
-        this.props.updateKeyboards!();
-        const definitionId = this.props.match.params.definitionId;
-        if (definitionId) {
-          this.props.updateKeyboard!(definitionId);
+        if (getGitHubProviderData(user).exists) {
+          this.props.startInitializing!();
+          this.updateNotifications();
+          this.props.updateKeyboards!();
+          const definitionId = this.props.match.params.definitionId;
+          if (definitionId) {
+            this.props.updateKeyboard!(definitionId);
+          }
+        } else {
+          this.props.auth!.linkToGitHub().then(() => {
+            // N/A
+          });
         }
       } else {
         if (this.props.phase !== 'signout') {

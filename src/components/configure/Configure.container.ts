@@ -58,6 +58,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     onCloseKeyboard: (keyboard: IKeyboard) => {
       _dispatch(hidActionsThunk.closeKeyboard(keyboard));
     },
+
+    updateSignedIn: (signedIn: boolean) => {
+      _dispatch(AppActions.updateSignedIn(signedIn));
+    },
   };
 };
 

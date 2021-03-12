@@ -3,7 +3,7 @@ import Header from './Header';
 import { RootState } from '../../../store/state';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { IKeyboard } from '../../../services/hid/Hid';
-import { HeaderActions } from '../../../actions/actions';
+import { AppActionsThunk, HeaderActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   const kbd = state.entities.keyboard;
@@ -18,6 +18,8 @@ const mapStateToProps = (state: RootState) => {
     vendorId: info?.vendorId || NaN,
     showKeyboardList: !!kbd,
     remaps: state.app.remaps,
+    auth: state.auth.instance,
+    signedIn: state.app.signedIn,
   };
 };
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;
@@ -33,6 +35,15 @@ const mapDispatchToProps = (_dispatch: any) => {
     onClickFlashButton: () => {
       _dispatch(HeaderActions.updateFlashing(true));
       _dispatch(hidActionsThunk.flash());
+    },
+    logout: () => {
+      _dispatch(AppActionsThunk.logout());
+    },
+    linkToGoogleAccount: () => {
+      _dispatch(AppActionsThunk.linkToGoogleAccount());
+    },
+    linkToGitHubAccount: () => {
+      _dispatch(AppActionsThunk.linkToGitHubAccount());
     },
   };
 };
