@@ -152,7 +152,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       let docs = querySnapshotByVidAndPid.docs;
       if (docs.length > 1) {
         docs = docs.filter((doc) =>
-          doc.data().product_name.endsWith(productName)
+          productName.endsWith(doc.data().product_name)
         );
       }
       if (docs.length === 0) {
