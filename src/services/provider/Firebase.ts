@@ -35,12 +35,12 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   private createResult(
-    querySnapshot: firebase.firestore.QuerySnapshot
+    documentSnapshot: firebase.firestore.QueryDocumentSnapshot
   ): IFetchKeyboardDefinitionDocumentResult {
     return {
       success: true,
       exists: true,
-      document: this.generateKeyboardDefinitionDocument(querySnapshot.docs[0]),
+      document: this.generateKeyboardDefinitionDocument(documentSnapshot),
     };
   }
 
@@ -169,7 +169,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           error: `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`,
         };
       } else {
-        return this.createResult(querySnapshotByVidAndPid);
+        return this.createResult(docs[0]);
       }
     } catch (error) {
       console.error(error);
