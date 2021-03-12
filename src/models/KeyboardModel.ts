@@ -228,9 +228,11 @@ export default class KeyboardModel {
             // in case of continuing KeyOp
             op = Object.assign({}, op, nextOp);
             nextOp = keyRow[++col];
+
+            if (nextOp === undefined) break; // in case of ending the row with KeyOp
           }
           curr.setOp(op);
-          const label = nextOp as string;
+          const label = (nextOp || '') as string; // if the row ends KeyOp, the nextOp is undefined
           keymapItem = new KeymapItem(curr, label, op);
         }
         curr.next(keymapItem.w);
