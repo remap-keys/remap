@@ -2,13 +2,19 @@
 
 The mission of this project is to help people who bought a self-made keyboard kit.
 
+[Remap Production Site](https://remap-keys.app)
+
 ## For Developers
 
 Developers can start a development of Remap locally by the following step:
 
 1. Install NodeJS version 12 or higher.
 2. Install `yarn` command with `npm install -g yarn`.
-3. Install
+3. Run `yarn install`.
+4. Run `yarn start`.
+5. Open the `http://localhost:3000` in the Chrome or Edge Stable 89 or higher.
+
+As a limitation, the launched Remap locally cannot access to Firebase backend server. Therefore, the developer needs to import a keyboard definition JSON file from local every times at opening a keyboard.
 
 ## References
 
@@ -16,7 +22,7 @@ Developers can start a development of Remap locally by the following step:
 
 This software communicates with a keyboard with the WebHID API provided by a Web browser. The specification document of the WebHID API is: [WebHID API - Draft Community Group Report 23 October 2020](https://wicg.github.io/webhid/)
 
-Currently, the status of the WebHID API on the Chrome Web browser is a Trial Origins. Therefore, developers need to issue a token to use the WebHID API by registering your Google Account as a tester of the API. The registration site is [here](https://developers.chrome.com/origintrials/#/trials/active).
+The WebHID has already been available from Google Chrome and Microsoft Edge version 89 stable or higher.
 
 ### QMK Firmware
 
