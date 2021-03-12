@@ -103,6 +103,11 @@
         line-height: 1.1;
         width: 110%;
         overflow-wrap: anywhere;
+
+        &.debug {
+          width: 100%;
+          padding: 0px;
+        }
       }
       ._m {
         font-size: 0.7rem;
