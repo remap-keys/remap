@@ -2,6 +2,8 @@
 
 [Remap Production Site](https://remap-keys.app)
 
+![Screenshot from 2021-03-14 10-28-30](https://user-images.githubusercontent.com/261787/111054447-1bc5f200-84b0-11eb-8bc6-3df9e198d0dd.png)
+
 ## Mission
 
 Remap provides information and features to help people who want to leverage a self-made keyboard kit.
