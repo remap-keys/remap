@@ -1,8 +1,18 @@
 # Remap
 
-The mission of this project is to help people who bought a self-made keyboard kit.
-
 [Remap Production Site](https://remap-keys.app)
+
+## Mission
+
+Remap provides information and features to help people who want to leverage a self-made keyboard kit.
+
+## Target Users
+
+People who want to find, buy, build and leverage a self-made keyboard kit.
+
+## Goal
+
+The target users become to be able to find a favorite keyboard, be able to success to build bought keyboard, be able to customize it more easily and freely.
 
 ## For Developers
 
