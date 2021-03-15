@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/analytics';
 import {
   ICreateKeyboardDefinitionDocumentResult,
   IFetchKeyboardDefinitionDocumentResult,
@@ -20,6 +21,7 @@ const config = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 export class FirebaseProvider implements IStorage, IAuth {
@@ -29,6 +31,7 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   constructor() {
     firebase.initializeApp(config);
+    firebase.analytics();
     const app = firebase.app();
     this.db = app.firestore();
     this.auth = app.auth();
