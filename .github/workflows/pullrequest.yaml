@@ -27,6 +27,8 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn install --prefer-offline
+      - name: test
+        run: echo yarn cache dir
       - name: Build and Test
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
