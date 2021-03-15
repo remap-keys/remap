@@ -21,7 +21,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: '**/node_modules'
           key: ${{ runnner.os }}-yarn-${{ hashFiles('**/yarn.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
