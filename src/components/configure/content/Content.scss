@@ -3,8 +3,10 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  min-width: 780px;
-  height: 100vh;
+
+  &.fit-display-height {
+    height: 100vh;
+  }
 
   .phase-processing-wrapper {
     position: relative;
