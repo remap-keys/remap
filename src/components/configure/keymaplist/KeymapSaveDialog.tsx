@@ -21,14 +21,12 @@ import {
 import { IKeymap } from '../../../services/hid/Hid';
 import Keymap from '../keymap/Keymap';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import {
-  IKeycodeData,
-  ISavedKeymapData,
-} from '../../../services/storage/Storage';
+import { ISavedKeymapData } from '../../../services/storage/Storage';
 
 type OwnProps = {
   open: boolean;
   savedKeymapData: ISavedKeymapData | null;
+  authorUid: string;
   onClose: () => void;
 };
 
@@ -52,10 +50,6 @@ export default class LayoutOptionPopover extends React.Component<
     };
   }
 
-  get id(): string {
-    return this.props.savedKeymapData ? this.props.savedKeymapData.id : '';
-  }
-
   get isEdit(): boolean {
     return Boolean(this.props.savedKeymapData);
   }
@@ -67,7 +61,7 @@ export default class LayoutOptionPopover extends React.Component<
     });
   }
 
-  private buildCurrentKeymapData(): IKeycodeData {
+  private buildCurrentKeymapKeycodes(): { [pos: string]: number }[] {
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
     const keycodes: { [pos: string]: number }[] = [];
     for (let i = 0; i < this.props.layerCount!; i++) {
@@ -78,26 +72,15 @@ export default class LayoutOptionPopover extends React.Component<
       });
       keycodes.push(keyMap);
     }
-    const { productName } = this.props.keyboard!.getInformation();
-    // eslint-disable-next-line no-unused-vars
-    const name = productName.trim().replace(/\s/g, '_').toLocaleLowerCase();
-    const labelLang: KeyboardLabelLang = this.props.labelLang!;
-    const layoutOptions = Keymap.buildLayerOptions(
-      this.props.selectedLayoutOptions!,
-      this.props.layoutLabels!
-    );
 
-    const json: IKeycodeData = {
-      labelLang,
-      layoutOptions,
-      keycodes,
-    };
-    return json;
+    return keycodes;
   }
 
   private onClickDeleteButton() {
-    this.props.deleteSavedKeymapData!(this.id);
-    this.props.onClose();
+    if (this.props.savedKeymapData) {
+      this.props.deleteSavedKeymapData!(this.props.savedKeymapData);
+      this.props.onClose();
+    }
   }
 
   private onClickSaveButton() {
@@ -108,16 +91,31 @@ export default class LayoutOptionPopover extends React.Component<
         desc: this.state.desc,
       });
     } else {
-      const data = this.buildCurrentKeymapData();
-      const save: ISavedKeymapData = {
-        id: this.id,
-        title: this.state.title,
-        desc: this.state.desc,
-        data,
-      };
-      this.props.createSavedKeymapData!(save);
+      this.createSavedKeymap();
     }
     this.props.onClose();
+  }
+
+  private createSavedKeymap() {
+    const labelLang: KeyboardLabelLang = this.props.labelLang!;
+    const layoutOptions = Keymap.buildLayerOptions(
+      this.props.selectedLayoutOptions!,
+      this.props.layoutLabels!
+    );
+    const keycodes: {
+      [pos: string]: number;
+    }[] = this.buildCurrentKeymapKeycodes();
+
+    const save: ISavedKeymapData = {
+      author_uid: this.props.authorUid,
+      definition_id: this.props.keyboardDefinitionDocument!.id,
+      title: this.state.title,
+      desc: this.state.desc,
+      label_lang: labelLang,
+      layout_options: layoutOptions || null,
+      keycodes,
+    };
+    this.props.createSavedKeymapData!(save);
   }
 
   render() {

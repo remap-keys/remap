@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';

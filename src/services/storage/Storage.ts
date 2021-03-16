@@ -44,18 +44,18 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
-export type IKeycodeData = {
-  labelLang: KeyboardLabelLang;
-  layoutOptions: { option: string; optionChoice: string }[] | undefined;
-  keycodes: { [pos: string]: number }[];
-};
-
-export interface ISavedKeymapData {
-  id: string;
+export type ISavedKeymapData = {
+  id?: string; // this entity's id
+  author_uid: string; //  auth.uid
+  definition_id: string; // /keyboards/v2/definitions/{ID}
   title: string;
   desc: string;
-  data: IKeycodeData;
-}
+  label_lang: KeyboardLabelLang;
+  layout_options: { option: string; optionChoice: string }[] | null;
+  keycodes: { [pos: string]: number }[];
+  created_at?: Date;
+  updated_at?: Date;
+};
 
 export interface IExistsResult extends IResult {
   exists?: boolean;
@@ -74,7 +74,7 @@ export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
 }
 
 export interface IKeymapDataResule extends IResult {
-  keymaps: ISavedKeymapData[];
+  savedKeymapDataList: ISavedKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -130,19 +130,9 @@ export interface IStorage {
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
 
-  fetchMySavedKeymapDataList(
-    authorUid: string,
-    vendorId: number,
-    productId: number,
-    productName: string
-  ): Promise<IKeymapDataResule>;
-
-  createMySavedKeymapData(
-    authorUid: string,
-    vendorId: number,
-    productId: number,
-    productName: string,
-    keymap: ISavedKeymapData
-  ): Promise<IResult>;
+  fetchSavedKeymapDataList(definitionId: string): Promise<IKeymapDataResule>;
+  createSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult>;
+  updateSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult>;
+  deleteSavedKeymapData(savedKeymapId: string): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

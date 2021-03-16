@@ -499,53 +499,82 @@ export const storageActionsThunk = {
     }
   },
 
-  fetchMySavedKeymapDataList: (): ThunkPromiseAction<void> => async (
+  fetchSavedKeymapDataList: (
+    definitionId: string
+  ): ThunkPromiseAction<void> => async (
     // eslint-disable-next-line no-unused-vars
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     // eslint-disable-next-line no-unused-vars
     getState: () => RootState
   ) => {
-    // TODO
+    const { storage } = getState();
+    const resultList = await storage.instance!.fetchSavedKeymapDataList(
+      definitionId
+    );
+
+    if (resultList.success) {
+      dispatch(
+        StorageActions.updateMySavedKeymapDataList(
+          resultList.savedKeymapDataList
+        )
+      );
+    } else {
+      console.error(resultList.cause);
+    }
   },
 
-  createMySavedKeymapData: (
+  createSavedKeymapData: (
     keymapData: ISavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
-    // TODO: save the keymap data to the Firestore
-    keymapData.id = '' + Date.now();
-    const dataList = [...entities.savedKeymaps, keymapData];
+    const { storage } = getState();
 
-    // TODO:fetch the saved list from the Firestore
-    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
+    const result = await storage.instance!.createSavedKeymapData(keymapData);
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't save the keymap."));
+      return;
+    }
+    dispatch(
+      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+    );
   },
 
-  updateMySavedKeymapData: (
+  updateSavedKeymapData: (
     keymapData: ISavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
-    // TODO: save the keymap data to the Firestore
-    const dataList = entities.savedKeymaps.map((data) => {
-      return data.id === keymapData.id ? keymapData : data;
-    });
+    const { storage } = getState();
+    const result = await storage.instance!.updateSavedKeymapData(keymapData);
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't update the keymap."));
+      return;
+    }
 
-    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
+    dispatch(
+      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+    );
   },
 
-  deleteMySavedKeymapData: (id: string): ThunkPromiseAction<void> => async (
+  deleteSavedKeymapData: (
+    keymapData: ISavedKeymapData
+  ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
-    // TODO: delete the keymap data in the Firestore
-    const dataList = entities.savedKeymaps.filter((data) => data.id != id);
-    console.log(dataList);
-    dispatch(StorageActions.updateMySavedKeymapDataList(dataList));
+    const { storage } = getState();
+    const result = await storage.instance!.deleteSavedKeymapData(
+      keymapData.id!
+    );
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't delete the keymap."));
+      return;
+    }
+    dispatch(
+      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+    );
   },
 };

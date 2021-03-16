@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     layerCount: state.entities.device.layerCount,
     layoutLabels: state.entities.keyboardDefinition?.layouts.labels,
     selectedLayoutOptions: state.configure.layoutOptions.selectedOptions,
+    keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
   };
 };
 export type KeymapSaveDialogStateType = ReturnType<typeof mapStateToProps>;
@@ -19,13 +20,13 @@ export type KeymapSaveDialogStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     createSavedKeymapData: (keymapData: ISavedKeymapData) => {
-      _dispatch(storageActionsThunk.createMySavedKeymapData(keymapData));
+      _dispatch(storageActionsThunk.createSavedKeymapData(keymapData));
     },
     updateSavedKeymapData: (keymapData: ISavedKeymapData) => {
-      _dispatch(storageActionsThunk.updateMySavedKeymapData(keymapData));
+      _dispatch(storageActionsThunk.updateSavedKeymapData(keymapData));
     },
-    deleteSavedKeymapData: (id: string) => {
-      _dispatch(storageActionsThunk.deleteMySavedKeymapData(id));
+    deleteSavedKeymapData: (keymapData: ISavedKeymapData) => {
+      _dispatch(storageActionsThunk.deleteSavedKeymapData(keymapData));
     },
   };
 };

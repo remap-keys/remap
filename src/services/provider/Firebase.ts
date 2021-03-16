@@ -503,32 +503,96 @@ export class FirebaseProvider implements IStorage, IAuth {
     await this.auth.signOut();
   }
 
-  async fetchMySavedKeymapDataList(
-    authorUid: string,
-    vendorId: number,
-    productId: number,
-    productName: string
+  async fetchSavedKeymapDataList(
+    definitionId: string
   ): Promise<IKeymapDataResule> {
-    console.log(`${authorUid},${vendorId},${productId},${productName}`);
-    const keymap: ISavedKeymapData = {
-      id: 'hoge',
-      title: 'title',
-      desc: 'desc',
-      data: { labelLang: 'ja-jp', layoutOptions: undefined, keycodes: [] },
-    };
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection('saves')
+      .where('author_uid', '==', this.auth.currentUser!.uid)
+      .where('definition_id', '==', definitionId)
+      .orderBy('created_at', 'asc')
+      .get();
 
-    return { success: true, keymaps: [keymap] };
+    return {
+      success: true,
+      savedKeymapDataList: snapshot.docs.map((doc) => {
+        const data = doc.data() as ISavedKeymapData;
+        data.id = doc.id;
+        return data;
+      }),
+    };
   }
 
-  async createMySavedKeymapData(
-    authorUid: string,
-    vendorId: number,
-    productId: number,
-    productName: string,
-    keymap: ISavedKeymapData
-  ): Promise<IResult> {
-    console.log(`${authorUid},${vendorId},${productId},${productName}`);
-    console.log(keymap);
-    return { success: true };
+  async createSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saves')
+        .add({
+          ...keymapData,
+          created_at: now,
+          updated_at: now,
+        });
+
+      return { success: true };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Creating a new Keymap failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async updateSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult> {
+    try {
+      const now = new Date();
+      const keymapDataId = keymapData.id!;
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saves')
+        .doc(keymapDataId)
+        .update({
+          title: keymapData.title,
+          desc: keymapData.desc,
+          updated_at: now,
+        });
+
+      return { success: true };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating a new Keymap failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async deleteSavedKeymapData(savedKeymapId: string): Promise<IResult> {
+    console.log(savedKeymapId);
+    try {
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saves')
+        .doc(savedKeymapId)
+        .delete();
+
+      return { success: true };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Deleting a new Keymap failed.',
+        cause: error,
+      };
+    }
   }
 }

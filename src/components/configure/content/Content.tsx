@@ -23,6 +23,14 @@ export default class Content extends React.Component<
     super(props);
   }
 
+  componentDidUpdate() {
+    if (this.props.setupPhase === 'openedKeyboard') {
+      // The KeyboardDefinitionDocument MUST be set when the SetupPhase is "openKeyboard".
+      const definitionId = this.props.keyboardDefDocument!.id;
+      this.props.fetchSavedKeymaps!(definitionId);
+    }
+  }
+
   render() {
     return (
       <div

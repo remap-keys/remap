@@ -199,11 +199,7 @@ export default class KeymapMenu extends React.Component<
           )}
 
           <div className="keymap-menu-item">
-            <Tooltip
-              arrow={true}
-              placement="top"
-              title="Save/Import another keymap"
-            >
+            <Tooltip arrow={true} placement="top" title="Save/Restore a keymap">
               <IconButton
                 size="small"
                 onClick={(event) => {

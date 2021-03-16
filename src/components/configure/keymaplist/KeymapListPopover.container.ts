@@ -12,6 +12,8 @@ const mapStateToProps = (state: RootState) => {
   return {
     savedKeymaps: state.entities.savedKeymaps,
     keymaps: state.entities.device.keymaps,
+    auth: state.auth.instance,
+    signedIn: state.app.signedIn,
   };
 };
 export type KeymapListPopoverStateType = ReturnType<typeof mapStateToProps>;
@@ -20,7 +22,7 @@ export type KeymapListPopoverStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     createSavedKeymapData: (keymapData: ISavedKeymapData) => {
-      _dispatch(storageActionsThunk.createMySavedKeymapData(keymapData));
+      _dispatch(storageActionsThunk.createSavedKeymapData(keymapData));
     },
     applySavedKeymapData: (
       keymaps: { [pos: string]: IKeymap }[],

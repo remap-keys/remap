@@ -29,5 +29,20 @@
         }
       }
     }
+
+    .request-signin {
+      padding: $space-l;
+      display: flex;
+      flex-direction: column;
+
+      .request-signin-message {
+        color: $warning;
+      }
+      .request-signin-actions {
+        display: flex;
+        justify-content: center;
+        padding-top: $space-l;
+      }
+    }
   }
 }
