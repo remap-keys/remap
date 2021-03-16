@@ -14,7 +14,6 @@ type RemapPropType = OwnProp &
   Partial<RemapActionsType>;
 
 type OwnState = {
-  keycodeY: number;
   minWidth: number;
 };
 
@@ -24,7 +23,6 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
   constructor(props: RemapPropType | Readonly<RemapPropType>) {
     super(props);
     this.state = {
-      keycodeY: 0,
       minWidth: 0,
     };
   }
