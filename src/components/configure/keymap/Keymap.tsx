@@ -221,7 +221,9 @@ export default class Keymap extends React.Component<
             keymaps={this.props.keymaps!}
             selectedLayer={this.props.selectedLayer!}
             remaps={this.props.remaps!}
-            setKeyboardSize={this.props.setKeyboardSize!}
+            setKeyboardSize={(width, height) => {
+              this.props.setKeyboardSize!(width, height);
+            }}
             onClickKeycap={(pos, key, ref) => {
               this.onClickKeycap(pos, key, ref);
             }}
@@ -360,7 +362,9 @@ export function KeyboardView(props: KeyboardType) {
   );
   const moveLeft = left != 0 ? -left : 0;
 
-  props.setKeyboardSize(width, height);
+  const keyboardWidth = width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
+  const keyboardHeight = height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
+  props.setKeyboardSize(keyboardWidth, keyboardHeight);
 
   // TODO: performance tuning
   const deviceKeymaps = props.keymaps![props.selectedLayer!];
@@ -381,8 +385,8 @@ export function KeyboardView(props: KeyboardType) {
       <div
         className="keyboard-root"
         style={{
-          width: width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
-          height: height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2,
+          width: keyboardWidth,
+          height: keyboardHeight,
           padding: KEYBOARD_LAYOUT_PADDING,
         }}
       >

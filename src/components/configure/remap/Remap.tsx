@@ -14,39 +14,39 @@ type RemapPropType = OwnProp &
   Partial<RemapActionsType>;
 
 type OwnState = {
-  keycodeY: number;
+  minWidth: number;
 };
 
+const MIN_SIDE_MENU_WIDTH = 80;
+
 export default class Remap extends React.Component<RemapPropType, OwnState> {
-  private keyboardWrapperRef: React.RefObject<HTMLDivElement>;
   constructor(props: RemapPropType | Readonly<RemapPropType>) {
     super(props);
     this.state = {
-      keycodeY: 0,
+      minWidth: 0,
     };
-    this.keyboardWrapperRef = React.createRef<HTMLDivElement>();
   }
 
-  componentDidMount() {
-    if (!this.keyboardWrapperRef.current) return;
-
-    const headerHeight = 56;
-    const rect = this.keyboardWrapperRef.current.getBoundingClientRect();
-    const keycodeY = headerHeight + rect.height;
-    if (this.state.keycodeY != keycodeY) {
-      this.setState({ keycodeY });
+  componentDidUpdate(prevProps: RemapPropType) {
+    if (this.props.keyboardWidth != prevProps.keyboardWidth) {
+      this.setState({
+        minWidth: this.props.keyboardWidth! + MIN_SIDE_MENU_WIDTH * 2,
+      });
     }
   }
 
   render() {
     return (
       <React.Fragment>
-        <div className="keyboard-wrapper" ref={this.keyboardWrapperRef}>
+        <div
+          className="keyboard-wrapper"
+          style={{ minWidth: this.state.minWidth }}
+        >
           <div className="keymap">
             <Keymap />
           </div>
         </div>
-        <div className="keycode" style={{ marginTop: this.state.keycodeY }}>
+        <div className="keycode" style={{ minWidth: this.state.minWidth }}>
           <Keycodes />
         </div>
         <Desc value={this.props.hoverKey} />

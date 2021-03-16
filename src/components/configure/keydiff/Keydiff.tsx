@@ -6,7 +6,6 @@ import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { genKey, Key } from '../keycodekey/KeyGen';
-import { KEYBOARD_LAYOUT_PADDING } from '../keymap/Keymap';
 
 type KeydiffOwnProps = {};
 
@@ -19,7 +18,7 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     super(props);
   }
   render() {
-    const width = this.props.keyboardWidth! + KEYBOARD_LAYOUT_PADDING * 4;
+    const width = this.props.keyboardWidth!;
     const origin: IKeymap | null = this.props.keydiff!.origin;
     const destination: IKeymap | null = this.props.keydiff!.destination;
     if (!origin || !destination) {

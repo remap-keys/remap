@@ -25,7 +25,12 @@ export default class Content extends React.Component<
 
   render() {
     return (
-      <div className="content">
+      <div
+        className={`content ${
+          this.props.setupPhase! != SetupPhase.openedKeyboard &&
+          'fit-display-height'
+        }`}
+      >
         <Contents setupPhase={this.props.setupPhase!} />
       </div>
     );

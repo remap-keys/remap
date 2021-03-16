@@ -139,7 +139,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       <React.Fragment>
         <CssBaseline />
         <Header />
-        <main>
+        <main className="configure-main">
           <Content />
         </main>
         <Footer />
