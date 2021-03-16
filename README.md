@@ -1,5 +1,9 @@
 # Remap
 
+The product named "Remap" is a keyboard customization app to utilize keyboards more for people who are interested in self-made keyboard kits.
+
+The people can find favorite keyboards and can customize the key mapping and others of the keyboard easily, and their features are available from Web browsers directly.
+
 [Remap Production Site](https://remap-keys.app)
 
 ![Screenshot from 2021-03-14 10-28-30](https://user-images.githubusercontent.com/261787/111054447-1bc5f200-84b0-11eb-8bc6-3df9e198d0dd.png)
