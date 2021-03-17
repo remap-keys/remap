@@ -17,7 +17,14 @@
     display: flex;
     flex-direction: column;
     .keymap-save-textfield {
-      margin-bottom: $space-l;
+    }
+    .keymap-save-text-counter {
+      text-align: right;
+      color: $color-gray-600;
+      margin-right: 8px;
+      margin-bottom: $space-m;
+      top: -20px;
+      position: relative;
     }
   }
   .keymap-save-footer {

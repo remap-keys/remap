@@ -27,6 +27,9 @@ import {
   SavedKeymapData,
 } from '../../../services/storage/Storage';
 
+const MAX_TITLE_TEXT_COUNT = 52;
+const MAX_DESC_TEXT_COUNT = 200;
+
 type OwnProps = {
   open: boolean;
   savedKeymapData: SavedKeymapData | null;
@@ -174,21 +177,31 @@ export default class LayoutOptionPopover extends React.Component<
             variant="outlined"
             value={this.state.title}
             onChange={(event) => {
-              this.setState({ title: event.target.value });
+              this.setState({
+                title: event.target.value.slice(0, MAX_TITLE_TEXT_COUNT),
+              });
             }}
             className="keymap-save-textfield"
           />
+          <div className="keymap-save-text-counter">
+            {`${this.state.title.length}/${MAX_TITLE_TEXT_COUNT}`}
+          </div>
           <TextField
             label="Description"
             variant="outlined"
             value={this.state.desc}
             onChange={(event) => {
-              this.setState({ desc: event.target.value });
+              this.setState({
+                desc: event.target.value.slice(0, MAX_DESC_TEXT_COUNT),
+              });
             }}
             multiline
             rows={2}
             className="keymap-save-textfield"
           />
+          <div className="keymap-save-text-counter">
+            {`${this.state.desc.length}/${MAX_DESC_TEXT_COUNT}`}
+          </div>
         </DialogContent>
         <DialogActions className="keymap-save-footer">
           {this.isEdit && (
