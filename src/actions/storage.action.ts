@@ -206,16 +206,12 @@ export const storageActionsThunk = {
         );
         return;
       }
-      if (myKeyboardDefinitionDocumentsResult.documents!.length === 1) {
-        keyboardDefinitionDocument = myKeyboardDefinitionDocumentsResult.documents![0];
-      } else if (myKeyboardDefinitionDocumentsResult.documents!.length > 1) {
-        keyboardDefinitionDocument = myKeyboardDefinitionDocumentsResult.documents!.find(
-          (doc) =>
-            doc.vendorId === vendorId &&
-            doc.productId === productId &&
-            productName.endsWith(doc.productName)
-        );
-      }
+      keyboardDefinitionDocument = myKeyboardDefinitionDocumentsResult.documents!.find(
+        (doc) =>
+          doc.vendorId === vendorId &&
+          doc.productId === productId &&
+          productName.endsWith(doc.productName)
+      );
     }
 
     if (!keyboardDefinitionDocument) {
