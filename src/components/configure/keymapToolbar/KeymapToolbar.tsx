@@ -14,7 +14,6 @@ import {
 import { IKeymap } from '../../../services/hid/Hid';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
-import Keymap from '../keymap/Keymap';
 import LightingDialog from '../lighting/LightingDialog';
 import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
 import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
@@ -101,10 +100,7 @@ export default class KeymapMenu extends React.Component<
       });
       keys.push(keyMap);
     }
-    const layoutOptions = Keymap.buildLayerOptions(
-      this.props.selectedKeyboardOptions!,
-      this.props.keyboardDefinition!.layouts.labels!
-    );
+
     const { productName } = this.props.keyboard!.getInformation();
     const pdf = new KeymapPdfGenerator(
       this.props.keyboardDefinition!.layouts.keymap,
@@ -113,7 +109,7 @@ export default class KeymapMenu extends React.Component<
       this.props.labelLang!
     );
 
-    pdf.genPdf(productName, layoutOptions);
+    pdf.genPdf(productName, this.props.selectedKeyboardOptions!);
   }
 
   private onClickOpenKeymapListPopover(

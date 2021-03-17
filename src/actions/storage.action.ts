@@ -13,7 +13,8 @@ import { validateKeyboardDefinitionSchema } from '../services/storage/Validator'
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IKeyboardDefinitionDocument,
-  ISavedKeymapData,
+  SavedRegisteredKeymapData,
+  SavedUnregisteredKeymapData,
   KeyboardDefinitionStatus,
 } from '../services/storage/Storage';
 import {
@@ -21,12 +22,14 @@ import {
   KeyboardsEditDefinitionActions,
 } from './keyboards.actions';
 import { getGitHubProviderData } from '../services/auth/Auth';
+import { IDeviceInformation } from '../services/hid/Hid';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
-export const STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST = `${STORAGE_ACTIONS}/UpdateMySavedKeymapDataList`;
+export const STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedRegisteredKeymaps`;
+export const STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedUnregisteredKeymaps`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -50,9 +53,23 @@ export const StorageActions = {
       value: keyboardDefinitionDocument,
     };
   },
-  updateMySavedKeymapDataList: (keymaps: ISavedKeymapData[]) => {
+  clearKeyboardDefinitionDocument: () => {
     return {
-      type: STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST,
+      type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
+      value: null,
+    };
+  },
+  updateSavedRegisteredKeymapList: (keymaps: SavedRegisteredKeymapData[]) => {
+    return {
+      type: STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS,
+      value: keymaps,
+    };
+  },
+  updateSavedUnregisteredKeymapDataList: (
+    keymaps: SavedUnregisteredKeymapData[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS,
       value: keymaps,
     };
   },
@@ -499,7 +516,7 @@ export const storageActionsThunk = {
     }
   },
 
-  fetchSavedKeymapDataList: (
+  fetchSavedRegisteredKeymaps: (
     definitionId: string
   ): ThunkPromiseAction<void> => async (
     // eslint-disable-next-line no-unused-vars
@@ -508,14 +525,14 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const resultList = await storage.instance!.fetchSavedKeymapDataList(
+    const resultList = await storage.instance!.fetchSavedRegisteredKeymaps(
       definitionId
     );
 
     if (resultList.success) {
       dispatch(
-        StorageActions.updateMySavedKeymapDataList(
-          resultList.savedKeymapDataList
+        StorageActions.updateSavedRegisteredKeymapList(
+          resultList.savedKeymaps as SavedRegisteredKeymapData[]
         )
       );
     } else {
@@ -523,58 +540,158 @@ export const storageActionsThunk = {
     }
   },
 
-  createSavedKeymapData: (
-    keymapData: ISavedKeymapData
+  createRegisteredKeymapData: (
+    keymapData: SavedRegisteredKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     const { storage } = getState();
 
-    const result = await storage.instance!.createSavedKeymapData(keymapData);
+    const result = await storage.instance!.createSavedKeymap(
+      keymapData,
+      'registereds'
+    );
     if (!result.success) {
       dispatch(NotificationActions.addWarn("Couldn't save the keymap."));
       return;
     }
     dispatch(
-      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
     );
   },
 
-  updateSavedKeymapData: (
-    keymapData: ISavedKeymapData
+  updateRegisteredKeymapData: (
+    keymapData: SavedRegisteredKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const result = await storage.instance!.updateSavedKeymapData(keymapData);
+    const result = await storage.instance!.updateSavedKeymap(
+      keymapData,
+      'registereds'
+    );
     if (!result.success) {
       dispatch(NotificationActions.addWarn("Couldn't update the keymap."));
       return;
     }
 
     dispatch(
-      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
     );
   },
 
-  deleteSavedKeymapData: (
-    keymapData: ISavedKeymapData
+  deleteRegisteredKeymapData: (
+    keymapData: SavedRegisteredKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const result = await storage.instance!.deleteSavedKeymapData(
-      keymapData.id!
+    const result = await storage.instance!.deleteSavedKeymap(
+      keymapData.id!,
+      'registereds'
     );
     if (!result.success) {
       dispatch(NotificationActions.addWarn("Couldn't delete the keymap."));
       return;
     }
     dispatch(
-      storageActionsThunk.fetchSavedKeymapDataList(keymapData.definition_id)
+      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
     );
+  },
+
+  fetchSavedUnregisteredKeymaps: (
+    info: IDeviceInformation
+  ): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const resultList = await storage.instance!.fetchUnregisteredKeymaps(info);
+
+    if (resultList.success) {
+      dispatch(
+        StorageActions.updateSavedUnregisteredKeymapDataList(
+          resultList.savedKeymaps as SavedUnregisteredKeymapData[]
+        )
+      );
+    } else {
+      console.error(resultList.cause);
+    }
+  },
+
+  createUnregisteredKeymapData: (
+    keymapData: SavedUnregisteredKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+
+    const result = await storage.instance!.createSavedKeymap(
+      keymapData,
+      'unregistereds'
+    );
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't save the keymap."));
+      return;
+    }
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedUnregisteredKeymaps(info));
+  },
+
+  updateUnregisteredKeymapData: (
+    keymapData: SavedUnregisteredKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.updateSavedKeymap(
+      keymapData,
+      'unregistereds'
+    );
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't update the keymap."));
+      return;
+    }
+
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedUnregisteredKeymaps(info));
+  },
+
+  deleteUnregisteredKeymapData: (
+    keymapData: SavedUnregisteredKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.deleteSavedKeymap(
+      keymapData.id!,
+      'unregistereds'
+    );
+    if (!result.success) {
+      dispatch(NotificationActions.addWarn("Couldn't delete the keymap."));
+      return;
+    }
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedUnregisteredKeymaps(info));
   },
 };

@@ -23,6 +23,7 @@ import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
 import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession';
+import { LayoutOption } from './Keymap';
 
 export default {
   title: 'Keyboards',
@@ -33,11 +34,11 @@ type KeycapData = {
   remap: IKeymap | null;
 };
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
-type OptionsType = { option: string; optionChoice: string }[];
+
 const genKeyboardView = (
   name: string,
   km: KeymapType,
-  options?: OptionsType
+  options?: LayoutOption[]
 ) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left } = kbd.getKeymap(options);
@@ -138,121 +139,121 @@ export const Cornelius = () => genKeyboardView('Cornelius', CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView('Aleth42', Aleth42Keymap);
 export const Hotdox = () => genKeyboardView('Hotdox', HotdoxKeymap);
 export const Zinc = () =>
-  genKeyboardView('Zinc0', ZincKeymap, [{ option: '0', optionChoice: '0' }]);
+  genKeyboardView('Zinc0', ZincKeymap, [{ option: 0, optionChoice: 0 }]);
 export const ZincSymmetrical = () =>
-  genKeyboardView('Zinc1', ZincKeymap, [{ option: '0', optionChoice: '1' }]);
+  genKeyboardView('Zinc1', ZincKeymap, [{ option: 0, optionChoice: 1 }]);
 export const OptionChoice0 = () =>
   genKeyboardView('OptionChoice0', OptionChoiceKeymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice1 = () =>
   genKeyboardView('OptionChoice1', OptionChoiceKeymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '1' },
-    { option: '4', optionChoice: '1' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 1 },
+    { option: 4, optionChoice: 1 },
   ]);
 export const OptionChoice2 = () =>
   genKeyboardView('OptionChoice2', OptionChoiceKeymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '1' },
-    { option: '4', optionChoice: '2' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 1 },
+    { option: 4, optionChoice: 2 },
   ]);
 export const OptionChoice3 = () =>
   genKeyboardView('OptionChoice3', OptionChoiceKeymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '1' },
-    { option: '4', optionChoice: '3' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 1 },
+    { option: 4, optionChoice: 3 },
   ]);
 export const OptionChoice200000 = () =>
   genKeyboardView('OptionChoice200000', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice200001 = () =>
   genKeyboardView('OptionChoice200001', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice200002 = () =>
   genKeyboardView('OptionChoice200002', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '2' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 2 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 
 export const OptionChoice200010 = () =>
   genKeyboardView('OptionChoice200010', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice200020 = () =>
   genKeyboardView('OptionChoice200020', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '2' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 2 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice200100 = () =>
   genKeyboardView('OptionChoice200100', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice201000 = () =>
   genKeyboardView('OptionChoice201000', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '1' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 1 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice202000 = () =>
   genKeyboardView('OptionChoice201000', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '2' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 2 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const OptionChoice210000 = () =>
   genKeyboardView('OptionChoice210000', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
-    { option: '4', optionChoice: '1' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 1 },
   ]);
 export const OptionChoice202102 = () =>
   genKeyboardView('OptionChoice202102', OptionChoice2Keymap, [
-    { option: '0', optionChoice: '2' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '2' },
-    { option: '4', optionChoice: '0' },
+    { option: 0, optionChoice: 2 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 2 },
+    { option: 4, optionChoice: 0 },
   ]);
 export const Iso105 = () => genKeyboardView('Iso105', Iso105Keymap);
 export const ErgoDox = () => genKeyboardView('ErgoDox', ErgoDoxKeymap);
@@ -260,45 +261,45 @@ export const BigAssEnter = () =>
   genKeyboardView('BigAssEnter', BigAssEnterKeymap);
 export const VerticalSplitNormal = () =>
   genKeyboardView('VerticalSplitNormal', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
   ]);
 export const VerticalSplit2U = () =>
   genKeyboardView('VerticalSplit2U', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 0 },
   ]);
 export const VerticalSplit2Uinner = () =>
   genKeyboardView('VerticalSplit2Uinner', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '1' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 1 },
   ]);
 export const VerticalSplit3U = () =>
   genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '0' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
   ]);
 export const VerticalSplit4U = () =>
   genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '0' },
-    { option: '2', optionChoice: '0' },
-    { option: '3', optionChoice: '0' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
   ]);
 export const VerticalSplitAll = () =>
   genKeyboardView('VerticalSplit0', VerticalSplitKeymap, [
-    { option: '0', optionChoice: '1' },
-    { option: '1', optionChoice: '1' },
-    { option: '2', optionChoice: '1' },
-    { option: '3', optionChoice: '1' },
+    { option: 0, optionChoice: 1 },
+    { option: 1, optionChoice: 1 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 1 },
   ]);
 export const KeyopsSuccession = () =>
   genKeyboardView('KeyopsSuccession', KeyopsSuccessionKeymap);

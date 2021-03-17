@@ -18,6 +18,7 @@ import { buildModLabel } from '../../components/configure/customkey/Modifiers';
 import { isDoubleWidthString } from '../../utils/StringUtils';
 import { Key } from '../../components/configure/keycodekey/KeyGen';
 import { KeyboardLabelLang, KeyLabelLangs } from '../labellang/KeyLabelLangs';
+import { LayoutOption } from '../../components/configure/keymap/Keymap';
 
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 export class KeymapPdfGenerator {
@@ -55,10 +56,7 @@ export class KeymapPdfGenerator {
     this.labelLang = labelLang;
   }
 
-  async genPdf(
-    name: string,
-    options?: { option: string; optionChoice: string }[]
-  ) {
+  async genPdf(name: string, options?: LayoutOption[]) {
     const { keymaps, width, height, left } = this.model.getKeymap(options);
     const keyboardHeight = height + this.kbdR * 2;
 

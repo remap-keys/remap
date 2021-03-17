@@ -8,13 +8,17 @@ import {
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
-  ISavedKeymapData,
-  IKeymapDataResule,
+  SavedRegisteredKeymapData,
   IResult,
   IStorage,
+  SavedUnregisteredKeymapData,
+  SavedKeymapData,
+  SavedKeymapCollection,
+  ISavedKeymapResule,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
+import { IDeviceInformation } from '../hid/Hid';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -503,13 +507,14 @@ export class FirebaseProvider implements IStorage, IAuth {
     await this.auth.signOut();
   }
 
-  async fetchSavedKeymapDataList(
+  async fetchSavedRegisteredKeymaps(
     definitionId: string
-  ): Promise<IKeymapDataResule> {
+  ): Promise<ISavedKeymapResule> {
+    const targetCollection: SavedKeymapCollection = 'registereds';
     const snapshot = await this.db
       .collection('keymaps')
       .doc('v1')
-      .collection('saves')
+      .collection(targetCollection)
       .where('author_uid', '==', this.auth.currentUser!.uid)
       .where('definition_id', '==', definitionId)
       .orderBy('created_at', 'asc')
@@ -517,21 +522,24 @@ export class FirebaseProvider implements IStorage, IAuth {
 
     return {
       success: true,
-      savedKeymapDataList: snapshot.docs.map((doc) => {
-        const data = doc.data() as ISavedKeymapData;
+      savedKeymaps: snapshot.docs.map((doc) => {
+        const data = doc.data() as SavedRegisteredKeymapData;
         data.id = doc.id;
         return data;
       }),
     };
   }
 
-  async createSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult> {
+  async createSavedKeymap(
+    keymapData: SavedKeymapData,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult> {
     try {
       const now = new Date();
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection('saves')
+        .collection(targetCollection)
         .add({
           ...keymapData,
           created_at: now,
@@ -549,14 +557,17 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async updateSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult> {
+  async updateSavedKeymap(
+    keymapData: SavedKeymapData,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult> {
     try {
       const now = new Date();
       const keymapDataId = keymapData.id!;
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection('saves')
+        .collection(targetCollection)
         .doc(keymapDataId)
         .update({
           title: keymapData.title,
@@ -575,14 +586,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async deleteSavedKeymapData(savedKeymapId: string): Promise<IResult> {
-    console.log(savedKeymapId);
+  async deleteSavedKeymap(
+    keymapId: string,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult> {
     try {
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection('saves')
-        .doc(savedKeymapId)
+        .collection(targetCollection)
+        .doc(keymapId)
         .delete();
 
       return { success: true };
@@ -594,5 +607,30 @@ export class FirebaseProvider implements IStorage, IAuth {
         cause: error,
       };
     }
+  }
+
+  async fetchUnregisteredKeymaps(
+    info: IDeviceInformation
+  ): Promise<ISavedKeymapResule> {
+    const targetCollection: SavedKeymapCollection = 'unregistereds';
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection(targetCollection)
+      .where('author_uid', '==', this.auth.currentUser!.uid)
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
+      .where('product_name', '==', info.productName)
+      .orderBy('created_at', 'asc')
+      .get();
+
+    return {
+      success: true,
+      savedKeymaps: snapshot.docs.map((doc) => {
+        const data = doc.data() as SavedUnregisteredKeymapData;
+        data.id = doc.id;
+        return data;
+      }),
+    };
   }
 }

@@ -40,6 +40,7 @@ import {
   APP_UPDATE_LANG_LABEL,
   APP_UPDATE_SIGNED_IN,
   APP_REMAPS_SET_KEYS,
+  LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -55,7 +56,8 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
-  STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST,
+  STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS,
+  STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
@@ -96,6 +98,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
+import { LayoutOption } from '../components/configure/keymap/Keymap';
 
 export type Action = { type: string; value: any };
 
@@ -300,8 +303,12 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.keyboardDefinitionDocument = action.value;
       break;
     }
-    case STORAGE_UPDATE_MY_SAVED_KEYMAPDATA_LIST: {
-      draft.entities.savedKeymaps = action.value;
+    case STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS: {
+      draft.entities.savedRegisteredKeymaps = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS: {
+      draft.entities.savedUnregisteredKeymaps = action.value;
       break;
     }
   }
@@ -521,11 +528,15 @@ const layoutOptionsReducer = (
   draft: WritableDraft<RootState>
 ) => {
   switch (action.type) {
+    case LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS: {
+      draft.configure.layoutOptions.selectedOptions = action.value;
+      break;
+    }
     case LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION: {
-      const { optionIndex, option } = action.value;
+      const { option, optionChoice } = action.value;
       draft.configure.layoutOptions.selectedOptions = draft.configure.layoutOptions.selectedOptions.map(
-        (value, index) => {
-          return index == optionIndex ? option : value;
+        (value: LayoutOption) => {
+          return value.option == option ? { option, optionChoice } : value;
         }
       );
       break;

@@ -22,6 +22,11 @@ import {
 } from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 
+export type LayoutOption = {
+  option: number;
+  optionChoice: number;
+};
+
 type OwnProp = {};
 
 type KeymapPropsType = OwnProp &
@@ -47,31 +52,6 @@ export default class Keymap extends React.Component<
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
     };
-  }
-
-  public static buildLayerOptions(
-    selectedKeyboardOptions: (string | null)[],
-    keyboardLabels: (string | string[])[]
-  ): { option: string; optionChoice: string }[] | undefined {
-    let layoutOptions: { option: string; optionChoice: string }[] | undefined;
-    const hasKeyboardOptions = 0 < selectedKeyboardOptions.length;
-    if (hasKeyboardOptions) {
-      layoutOptions = keyboardLabels.map(
-        (choices: string | string[], index) => {
-          if (typeof choices == 'string') {
-            const selected: string | null = selectedKeyboardOptions[index];
-            return selected
-              ? { option: '' + index, optionChoice: '1' }
-              : { option: '' + index, optionChoice: '0' };
-          } else {
-            const choice: string = selectedKeyboardOptions[index] as string;
-            const choiceIndex = choices.indexOf(choice) - 1; // first item of choices is for choice's label
-            return { option: '' + index, optionChoice: '' + choiceIndex };
-          }
-        }
-      );
-    }
-    return layoutOptions;
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -177,11 +157,6 @@ export default class Keymap extends React.Component<
   }
 
   render() {
-    const layoutOptions = Keymap.buildLayerOptions(
-      this.props.selectedKeyboardOptions!,
-      this.props.keyboardLabels!
-    );
-
     return (
       <React.Fragment>
         {this.props.draggingKey && <div className="dragMask"></div>}
@@ -217,7 +192,7 @@ export default class Keymap extends React.Component<
 
           <KeyboardView
             keyboardModel={this.state.keyboardModel}
-            layoutOptions={layoutOptions}
+            layoutOptions={this.props.selectedKeyboardOptions!}
             keymaps={this.props.keymaps!}
             selectedLayer={this.props.selectedLayer!}
             remaps={this.props.remaps!}
@@ -337,7 +312,7 @@ type KeycapData = {
 
 type KeyboardType = {
   keyboardModel: KeyboardModel;
-  layoutOptions?: { option: string; optionChoice: string }[];
+  layoutOptions?: LayoutOption[];
   keymaps: { [pos: string]: IKeymap }[];
   selectedLayer: number;
   remaps: { [pos: string]: IKeymap }[];

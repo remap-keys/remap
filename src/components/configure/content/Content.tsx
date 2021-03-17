@@ -6,6 +6,7 @@ import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
 import Remap from '../remap/Remap.container';
 import { CircularProgress } from '@material-ui/core';
+import { IDeviceInformation } from '../../../services/hid/Hid';
 
 type ContentState = {};
 
@@ -26,8 +27,12 @@ export default class Content extends React.Component<
   componentDidUpdate() {
     if (this.props.setupPhase === 'openedKeyboard') {
       // The KeyboardDefinitionDocument MUST be set when the SetupPhase is "openKeyboard".
-      const definitionId = this.props.keyboardDefDocument!.id;
-      this.props.fetchSavedKeymaps!(definitionId);
+      if (this.props.keyboardDefDocument) {
+        const definitionId = this.props.keyboardDefDocument.id;
+        this.props.fetchSavedRegisteredKeymaps!(definitionId);
+      }
+      const info: IDeviceInformation = this.props.keyboard!.getInformation();
+      this.props.fetchSavedUnregisteredKeymaps!(info);
     }
   }
 

@@ -278,6 +278,9 @@ export const hidActionsThunk = {
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedPos());
       dispatch(StorageActions.updateKeyboardDefinition(null));
+      dispatch(StorageActions.clearKeyboardDefinitionDocument());
+      dispatch(StorageActions.updateSavedRegisteredKeymapList([]));
+      dispatch(StorageActions.updateSavedUnregisteredKeymapDataList([]));
       dispatch(HidActions.updateKeyboard(null));
     }
   },
@@ -355,6 +358,7 @@ const initOpenedKeyboard = async (
     columnCount,
     labelLang
   );
+
   dispatch(HidActions.updateKeymaps(keymaps));
   dispatch(AppActions.remapsInit(layerCount));
   dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer

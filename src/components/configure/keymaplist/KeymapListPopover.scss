@@ -22,11 +22,17 @@
       display: flex;
       flex-direction: column;
       overflow-y: scroll;
+      overflow-x: hidden;
       .no-saved-keymap {
         padding-bottom: $space-l;
         .keymaplist-warning {
           color: $warning;
         }
+      }
+      .MuiListItemText-secondary {
+        overflow-wrap: anywhere;
+        overflow-y: scroll;
+        max-height: 40px;
       }
     }
 

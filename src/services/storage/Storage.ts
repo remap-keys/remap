@@ -1,4 +1,6 @@
+import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace } from '../../store/state';
+import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export interface IResult {
@@ -20,6 +22,8 @@ export const KeyboardDefinitionStatus: {
   rejected: 'rejected',
   approved: 'approved',
 };
+
+export type SavedKeymapCollection = 'registereds' | 'unregistereds';
 
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
@@ -44,18 +48,33 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
-export type ISavedKeymapData = {
+export type SavedKeymapData = {
   id?: string; // this entity's id
   author_uid: string; //  auth.uid
-  definition_id: string; // /keyboards/v2/definitions/{ID}
   title: string;
   desc: string;
   label_lang: KeyboardLabelLang;
-  layout_options: { option: string; optionChoice: string }[] | null;
+  layout_options: LayoutOption[];
   keycodes: { [pos: string]: number }[];
   created_at?: Date;
   updated_at?: Date;
 };
+
+export type SavedRegisteredKeymapData = {
+  definition_id: string; // /keyboards/v2/definitions/{ID}
+} & SavedKeymapData;
+
+export type SavedUnregisteredKeymapData = {
+  vendor_id: number;
+  product_id: number;
+  product_name: string;
+} & SavedKeymapData;
+
+export function isSavedRegisteredKeymapData(
+  arg: any
+): arg is SavedRegisteredKeymapData {
+  return arg.definition_id != undefined;
+}
 
 export interface IExistsResult extends IResult {
   exists?: boolean;
@@ -73,8 +92,8 @@ export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
   definitionId?: string;
 }
 
-export interface IKeymapDataResule extends IResult {
-  savedKeymapDataList: ISavedKeymapData[];
+export interface ISavedKeymapResule extends IResult {
+  savedKeymaps: SavedRegisteredKeymapData[] | SavedUnregisteredKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -130,9 +149,24 @@ export interface IStorage {
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
 
-  fetchSavedKeymapDataList(definitionId: string): Promise<IKeymapDataResule>;
-  createSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult>;
-  updateSavedKeymapData(keymapData: ISavedKeymapData): Promise<IResult>;
-  deleteSavedKeymapData(savedKeymapId: string): Promise<IResult>;
+  fetchSavedRegisteredKeymaps(
+    definitionId: string
+  ): Promise<ISavedKeymapResule>;
+  createSavedKeymap(
+    keymapData: SavedKeymapData,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult>;
+  updateSavedKeymap(
+    keymapData: SavedKeymapData,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult>;
+  deleteSavedKeymap(
+    savedKeymapId: string,
+    targetCollection: SavedKeymapCollection
+  ): Promise<IResult>;
+
+  fetchUnregisteredKeymaps(
+    info: IDeviceInformation
+  ): Promise<ISavedKeymapResule>;
 }
 /* eslint-enable no-unused-vars */

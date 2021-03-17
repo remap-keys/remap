@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
-import { ISavedKeymapData } from '../../../services/storage/Storage';
+import { SavedKeymapData } from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
@@ -38,7 +38,7 @@ type KeymapListPopoverProps = OwnProps &
 
 type OwnState = {
   openKeymapSaveDialog: boolean;
-  savedKeymapData: ISavedKeymapData | null;
+  savedKeymapData: SavedKeymapData | null;
   openAuthProviderDialog: boolean;
   popoverPosition: PopoverPosition;
 };
@@ -82,8 +82,9 @@ export default class KeymapListPopover extends React.Component<
     }
   }
 
-  private onClickApplySavedKeymapData(savedKeymapData: ISavedKeymapData) {
+  private onClickApplySavedKeymapData(savedKeymapData: SavedKeymapData) {
     const labelLang = savedKeymapData.label_lang;
+    const layoutOptions = savedKeymapData.layout_options;
     let keycodes: { [pos: string]: IKeymap }[] = [];
     const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
@@ -99,12 +100,10 @@ export default class KeymapListPopover extends React.Component<
       keycodes.push(changes);
     }
 
-    this.props.applySavedKeymapData!(keycodes, labelLang);
+    this.props.applySavedKeymapData!(keycodes, layoutOptions, labelLang);
   }
 
-  private onClickOpenKeymapSaveDialog(
-    savedKeymapData: ISavedKeymapData | null
-  ) {
+  private onClickOpenKeymapSaveDialog(savedKeymapData: SavedKeymapData | null) {
     this.setState({ openKeymapSaveDialog: true, savedKeymapData });
   }
 
@@ -125,6 +124,10 @@ export default class KeymapListPopover extends React.Component<
       return <></>;
     }
 
+    const savedKeymaps = [
+      ...this.props.savedRegisteredKeymaps!,
+      ...this.props.savedUnregisteredKeymaps!,
+    ];
     return (
       <Popover
         open={this.props.open}
@@ -144,7 +147,7 @@ export default class KeymapListPopover extends React.Component<
           {this.props.signedIn ? (
             <>
               <KeymapList
-                savedKeymaps={this.props.savedKeymaps!}
+                savedKeymaps={savedKeymaps}
                 onClickOpenKeymapSaveDialog={this.onClickOpenKeymapSaveDialog.bind(
                   this
                 )}
@@ -176,13 +179,13 @@ export default class KeymapListPopover extends React.Component<
 }
 
 type KeymapListProps = {
-  savedKeymaps: ISavedKeymapData[];
+  savedKeymaps: SavedKeymapData[];
   onClickOpenKeymapSaveDialog: (
     // eslint-disable-next-line no-unused-vars
-    savedKeymapData: ISavedKeymapData | null
+    savedKeymapData: SavedKeymapData | null
   ) => void;
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: ISavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
 };
 
 function KeymapList(props: KeymapListProps) {
