@@ -273,7 +273,7 @@ export const AppActionsThunk = {
     const { auth } = getState();
     await auth.instance!.signOut();
     dispatch(AppActions.updateSignedIn(false));
-    dispatch(await hidActionsThunk.closeOpenedKeyboard);
+    dispatch(await hidActionsThunk.closeOpenedKeyboard());
     dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
   },
   loginWithGitHubAccount: (): ThunkPromiseAction<void> => async (
