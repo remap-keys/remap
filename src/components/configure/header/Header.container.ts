@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
     flashing: state.configure.header.flashing,
     keyboards: state.entities.keyboards,
     keyboard: state.entities.keyboard,
+    keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
     productId: info?.productId || NaN,
     productName: info?.productName || '',
     vendorId: info?.vendorId || NaN,

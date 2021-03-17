@@ -11,4 +11,18 @@
       cursor: pointer;
     }
   }
+
+  &-information-message {
+    font-size: 90%;
+    line-height: 0.95rem;
+    color: $color-gray;
+    margin-bottom: $space-m;
+  }
+
+  &-warning-message {
+    font-size: 90%;
+    line-height: 0.95rem;
+    color: $error;
+    margin-bottom: $space-m;
+  }
 }
