@@ -50,7 +50,11 @@ export interface IKeyboardDefinitionDocument {
 
 export type SavedKeymapData = {
   id?: string; // this entity's id
+  definition_id?: string; // /keyboards/v2/definitions/{ID} if the keyboard is registered
   author_uid: string; //  auth.uid
+  vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
+  product_id: number; // Definition.productId if registered, otherwise DeviceInformation.productId
+  product_name: string; // Definition.productName if registered, otherwise DeviceInformation.productName
   title: string;
   desc: string;
   label_lang: KeyboardLabelLang;
@@ -60,20 +64,8 @@ export type SavedKeymapData = {
   updated_at?: Date;
 };
 
-export type SavedRegisteredKeymapData = {
-  definition_id: string; // /keyboards/v2/definitions/{ID}
-} & SavedKeymapData;
-
-export type SavedUnregisteredKeymapData = {
-  vendor_id: number;
-  product_id: number;
-  product_name: string;
-} & SavedKeymapData;
-
-export function isSavedRegisteredKeymapData(
-  arg: any
-): arg is SavedRegisteredKeymapData {
-  return arg.definition_id != undefined;
+export function isSavedRegisteredKeymapData(data: SavedKeymapData) {
+  return data.definition_id != undefined;
 }
 
 export interface IExistsResult extends IResult {
@@ -92,8 +84,8 @@ export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
   definitionId?: string;
 }
 
-export interface ISavedKeymapResule extends IResult {
-  savedKeymaps: SavedRegisteredKeymapData[] | SavedUnregisteredKeymapData[];
+export interface ISavedKeymapResult extends IResult {
+  savedKeymaps: SavedKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -149,9 +141,10 @@ export interface IStorage {
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
 
-  fetchSavedRegisteredKeymaps(
-    definitionId: string
-  ): Promise<ISavedKeymapResule>;
+  fetchSavedKeymaps(
+    info: IDeviceInformation,
+    targetCollection: SavedKeymapCollection
+  ): Promise<ISavedKeymapResult>;
   createSavedKeymap(
     keymapData: SavedKeymapData,
     targetCollection: SavedKeymapCollection
@@ -164,9 +157,5 @@ export interface IStorage {
     savedKeymapId: string,
     targetCollection: SavedKeymapCollection
   ): Promise<IResult>;
-
-  fetchUnregisteredKeymaps(
-    info: IDeviceInformation
-  ): Promise<ISavedKeymapResule>;
 }
 /* eslint-enable no-unused-vars */

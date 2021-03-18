@@ -29,6 +29,9 @@
           color: $warning;
         }
       }
+      .MuiListItemText-primary {
+        overflow-x: scroll;
+      }
       .MuiListItemText-secondary {
         overflow-wrap: anywhere;
         overflow-y: scroll;

@@ -2,10 +2,7 @@ import { connect } from 'react-redux';
 import KeymapSaveDialog from './KeymapSaveDialog';
 import { RootState } from '../../../store/state';
 import { storageActionsThunk } from '../../../actions/storage.action';
-import {
-  SavedRegisteredKeymapData,
-  SavedUnregisteredKeymapData,
-} from '../../../services/storage/Storage';
+import { SavedKeymapData } from '../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -22,28 +19,22 @@ export type KeymapSaveDialogStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    createSavedRegisteredKeymap: (keymapData: SavedRegisteredKeymapData) => {
+    createSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.createRegisteredKeymapData(keymapData));
     },
-    updateSavedRegisteredKeymap: (keymapData: SavedRegisteredKeymapData) => {
+    updateSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.updateRegisteredKeymapData(keymapData));
     },
-    deleteSavedRegisteredKeymap: (keymapData: SavedRegisteredKeymapData) => {
+    deleteSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.deleteRegisteredKeymapData(keymapData));
     },
-    createSavedUnregisteredKeymap: (
-      keymapData: SavedUnregisteredKeymapData
-    ) => {
+    createSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.createUnregisteredKeymapData(keymapData));
     },
-    updateSavedUnregisteredKeymap: (
-      keymapData: SavedUnregisteredKeymapData
-    ) => {
+    updateSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.updateUnregisteredKeymapData(keymapData));
     },
-    deleteSavedUnregisteredKeymap: (
-      keymapData: SavedUnregisteredKeymapData
-    ) => {
+    deleteSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
       _dispatch(storageActionsThunk.deleteUnregisteredKeymapData(keymapData));
     },
   };

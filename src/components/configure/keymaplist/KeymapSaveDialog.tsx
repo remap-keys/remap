@@ -21,9 +21,7 @@ import {
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import {
-  SavedRegisteredKeymapData,
   isSavedRegisteredKeymapData,
-  SavedUnregisteredKeymapData,
   SavedKeymapData,
 } from '../../../services/storage/Storage';
 
@@ -86,13 +84,9 @@ export default class LayoutOptionPopover extends React.Component<
   private onClickDeleteButton() {
     if (this.props.savedKeymapData) {
       if (isSavedRegisteredKeymapData(this.props.savedKeymapData)) {
-        this.props.deleteSavedRegisteredKeymap!(
-          this.props.savedKeymapData as SavedRegisteredKeymapData
-        );
+        this.props.deleteSavedRegisteredKeymap!(this.props.savedKeymapData);
       } else {
-        this.props.deleteSavedUnregisteredKeymap!(
-          this.props.savedKeymapData as SavedUnregisteredKeymapData
-        );
+        this.props.deleteSavedUnregisteredKeymap!(this.props.savedKeymapData);
       }
       this.props.onClose();
     }
@@ -107,13 +101,9 @@ export default class LayoutOptionPopover extends React.Component<
       };
 
       if (isSavedRegisteredKeymapData(save)) {
-        this.props.updateSavedRegisteredKeymap!(
-          save as SavedRegisteredKeymapData
-        );
+        this.props.updateSavedRegisteredKeymap!(save);
       } else {
-        this.props.updateSavedUnregisteredKeymap!(
-          save as SavedUnregisteredKeymapData
-        );
+        this.props.updateSavedUnregisteredKeymap!(save);
       }
     } else {
       this.createSavedKeymap();
@@ -127,7 +117,7 @@ export default class LayoutOptionPopover extends React.Component<
       [pos: string]: number;
     }[] = this.buildCurrentKeymapKeycodes();
 
-    const keymapData: SavedKeymapData = {
+    const data = {
       author_uid: this.props.authorUid,
       title: this.state.title,
       desc: this.state.desc,
@@ -136,16 +126,19 @@ export default class LayoutOptionPopover extends React.Component<
       keycodes,
     };
     if (this.props.keyboardDefinitionDocument) {
-      const save: SavedRegisteredKeymapData = {
-        ...keymapData,
-        definition_id: this.props.keyboardDefinitionDocument.id,
+      const doc = this.props.keyboardDefinitionDocument;
+      const save: SavedKeymapData = {
+        ...data,
+        definition_id: doc.id,
+        vendor_id: doc.vendorId,
+        product_id: doc.productId,
+        product_name: doc.productName,
       };
-
       this.props.createSavedRegisteredKeymap!(save);
     } else {
       const info = this.props.keyboard!.getInformation();
-      const save: SavedUnregisteredKeymapData = {
-        ...keymapData,
+      const save: SavedKeymapData = {
+        ...data,
         vendor_id: info.vendorId,
         product_id: info.productId,
         product_name: info.productName,

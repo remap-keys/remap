@@ -15,8 +15,8 @@ export type ContentStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    fetchSavedRegisteredKeymaps: (definitionId: string) => {
-      _dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(definitionId));
+    fetchSavedRegisteredKeymaps: (info: IDeviceInformation) => {
+      _dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(info));
     },
     fetchSavedUnregisteredKeymaps: (info: IDeviceInformation) => {
       _dispatch(storageActionsThunk.fetchSavedUnregisteredKeymaps(info));

@@ -13,9 +13,8 @@ import { validateKeyboardDefinitionSchema } from '../services/storage/Validator'
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IKeyboardDefinitionDocument,
-  SavedRegisteredKeymapData,
-  SavedUnregisteredKeymapData,
   KeyboardDefinitionStatus,
+  SavedKeymapData,
 } from '../services/storage/Storage';
 import {
   KeyboardsAppActions,
@@ -59,15 +58,13 @@ export const StorageActions = {
       value: null,
     };
   },
-  updateSavedRegisteredKeymapList: (keymaps: SavedRegisteredKeymapData[]) => {
+  updateSavedRegisteredKeymapList: (keymaps: SavedKeymapData[]) => {
     return {
       type: STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS,
       value: keymaps,
     };
   },
-  updateSavedUnregisteredKeymapDataList: (
-    keymaps: SavedUnregisteredKeymapData[]
-  ) => {
+  updateSavedUnregisteredKeymapDataList: (keymaps: SavedKeymapData[]) => {
     return {
       type: STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS,
       value: keymaps,
@@ -517,7 +514,7 @@ export const storageActionsThunk = {
   },
 
   fetchSavedRegisteredKeymaps: (
-    definitionId: string
+    info: IDeviceInformation
   ): ThunkPromiseAction<void> => async (
     // eslint-disable-next-line no-unused-vars
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -525,23 +522,22 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const resultList = await storage.instance!.fetchSavedRegisteredKeymaps(
-      definitionId
+    const resultList = await storage.instance!.fetchSavedKeymaps(
+      info,
+      'registereds'
     );
 
     if (resultList.success) {
       dispatch(
-        StorageActions.updateSavedRegisteredKeymapList(
-          resultList.savedKeymaps as SavedRegisteredKeymapData[]
-        )
+        StorageActions.updateSavedRegisteredKeymapList(resultList.savedKeymaps)
       );
     } else {
-      console.error(resultList.cause);
+      console.log(resultList.cause);
     }
   },
 
   createRegisteredKeymapData: (
-    keymapData: SavedRegisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -556,13 +552,16 @@ export const storageActionsThunk = {
       dispatch(NotificationActions.addWarn("Couldn't save the keymap."));
       return;
     }
-    dispatch(
-      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
-    );
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(info));
   },
 
   updateRegisteredKeymapData: (
-    keymapData: SavedRegisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -577,13 +576,16 @@ export const storageActionsThunk = {
       return;
     }
 
-    dispatch(
-      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
-    );
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(info));
   },
 
   deleteRegisteredKeymapData: (
-    keymapData: SavedRegisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -597,9 +599,13 @@ export const storageActionsThunk = {
       dispatch(NotificationActions.addWarn("Couldn't delete the keymap."));
       return;
     }
-    dispatch(
-      storageActionsThunk.fetchSavedRegisteredKeymaps(keymapData.definition_id!)
-    );
+
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(info));
   },
 
   fetchSavedUnregisteredKeymaps: (
@@ -611,21 +617,24 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const resultList = await storage.instance!.fetchUnregisteredKeymaps(info);
+    const resultList = await storage.instance!.fetchSavedKeymaps(
+      info,
+      'unregistereds'
+    );
 
     if (resultList.success) {
       dispatch(
         StorageActions.updateSavedUnregisteredKeymapDataList(
-          resultList.savedKeymaps as SavedUnregisteredKeymapData[]
+          resultList.savedKeymaps
         )
       );
     } else {
-      console.error(resultList.cause);
+      console.log(resultList.cause);
     }
   },
 
   createUnregisteredKeymapData: (
-    keymapData: SavedUnregisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -649,7 +658,7 @@ export const storageActionsThunk = {
   },
 
   updateUnregisteredKeymapData: (
-    keymapData: SavedUnregisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -673,7 +682,7 @@ export const storageActionsThunk = {
   },
 
   deleteUnregisteredKeymapData: (
-    keymapData: SavedUnregisteredKeymapData
+    keymapData: SavedKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState

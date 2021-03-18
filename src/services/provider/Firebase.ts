@@ -8,13 +8,11 @@ import {
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
-  SavedRegisteredKeymapData,
   IResult,
   IStorage,
-  SavedUnregisteredKeymapData,
   SavedKeymapData,
   SavedKeymapCollection,
-  ISavedKeymapResule,
+  ISavedKeymapResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
@@ -507,26 +505,51 @@ export class FirebaseProvider implements IStorage, IAuth {
     await this.auth.signOut();
   }
 
-  async fetchSavedRegisteredKeymaps(
-    definitionId: string
-  ): Promise<ISavedKeymapResule> {
-    const targetCollection: SavedKeymapCollection = 'registereds';
+  async fetchSavedKeymaps(
+    info: IDeviceInformation,
+    targetCollection: SavedKeymapCollection
+  ): Promise<ISavedKeymapResult> {
     const snapshot = await this.db
       .collection('keymaps')
       .doc('v1')
       .collection(targetCollection)
       .where('author_uid', '==', this.auth.currentUser!.uid)
-      .where('definition_id', '==', definitionId)
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
       .orderBy('created_at', 'asc')
       .get();
 
+    const deviceProductName = info.productName;
+    const keymaps: SavedKeymapData[] = [];
+    snapshot.docs.forEach((doc) => {
+      const data: SavedKeymapData = doc.data() as SavedKeymapData;
+      const savedProductName = data.product_name;
+
+      /**
+       * The device's ProductName might be different by using OS.
+       * This is the WebHID bug.
+       *
+       * The ProductName is defined text by #PRODUCT in config.h/info.h.
+       * However with Windows, the ProductName is a combination of defined text with #MANUFACTURER and #PRODUCT.
+       *
+       * ex)
+       * Lunakey Mini (macOS, Linux)
+       * yoichiro Lunakey Mini (Windows)
+       *
+       * This is why we need to filter the data by ProductName here.
+       */
+      if (
+        deviceProductName.endsWith(savedProductName) ||
+        savedProductName.endsWith(deviceProductName)
+      ) {
+        data.id = doc.id;
+        keymaps.push(data);
+      }
+    });
+
     return {
       success: true,
-      savedKeymaps: snapshot.docs.map((doc) => {
-        const data = doc.data() as SavedRegisteredKeymapData;
-        data.id = doc.id;
-        return data;
-      }),
+      savedKeymaps: keymaps,
     };
   }
 
@@ -607,30 +630,5 @@ export class FirebaseProvider implements IStorage, IAuth {
         cause: error,
       };
     }
-  }
-
-  async fetchUnregisteredKeymaps(
-    info: IDeviceInformation
-  ): Promise<ISavedKeymapResule> {
-    const targetCollection: SavedKeymapCollection = 'unregistereds';
-    const snapshot = await this.db
-      .collection('keymaps')
-      .doc('v1')
-      .collection(targetCollection)
-      .where('author_uid', '==', this.auth.currentUser!.uid)
-      .where('vendor_id', '==', info.vendorId)
-      .where('product_id', '==', info.productId)
-      .where('product_name', '==', info.productName)
-      .orderBy('created_at', 'asc')
-      .get();
-
-    return {
-      success: true,
-      savedKeymaps: snapshot.docs.map((doc) => {
-        const data = doc.data() as SavedUnregisteredKeymapData;
-        data.id = doc.id;
-        return data;
-      }),
-    };
   }
 }
