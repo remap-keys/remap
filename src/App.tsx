@@ -7,6 +7,7 @@ import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top';
 import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
+import PageDetail from './components/page/detail/PageDetail';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -45,6 +46,7 @@ class App extends React.Component<StyledComponentProps, {}> {
               path="/keyboards/:definitionId"
               component={KeyboardDefinitionManagement}
             />
+            <Route exact path="/pages" component={PageDetail} />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>

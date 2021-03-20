@@ -2,7 +2,7 @@
 import React from 'react';
 import './PageDetail.scss';
 import { Logo } from '../../common/logo/Logo';
-import { Avatar, IconButton } from '@material-ui/core';
+import { Avatar, CssBaseline, IconButton } from '@material-ui/core';
 import { LunakeyMiniKeymap } from '../../../assets/keymaps/LunakeyMiniKeymap';
 import { KeyOp } from '../../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../../models/KeyboardModel';
@@ -22,7 +22,8 @@ export default class PageDetail extends React.Component<OwnProps, OwnState> {
   render() {
     return (
       <React.Fragment>
-        <header>
+        <CssBaseline />
+        <header className="page-header">
           <div className="page-header-left">
             <a href="/" className="page-header-logo">
               <Logo width={100} />
@@ -40,16 +41,18 @@ export default class PageDetail extends React.Component<OwnProps, OwnState> {
             </IconButton>
           </div>
         </header>
-        <main>
-          <div className="page-keybard-wrapper">
-            <div className="page-keyboard-layer"></div>
-            <div className="page-keyboard-view">
-              <KeyboardView km={LunakeyMiniKeymap} />
+        <main className="page-main">
+          <div className="page-content">
+            <div className="page-keybard-wrapper">
+              <div className="page-keyboard-layer"></div>
+              <div className="page-keyboard-view">
+                <KeyboardView km={LunakeyMiniKeymap} />
+              </div>
+              <div className="page-keyboard-menu"></div>
             </div>
-            <div className="page-keyboard-menu"></div>
           </div>
         </main>
-        <footer></footer>
+        <footer className="page-footer"></footer>
       </React.Fragment>
     );
   }
@@ -79,17 +82,7 @@ function KeyboardView(props: KeyboardViewProps) {
     keycaps.push({ model, keymap });
   });
   return (
-    <div
-      className="keyboard-root"
-      style={{
-        width: width + 40,
-        height: height + 40,
-        padding: 20,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderStyle: 'solid',
-      }}
-    >
+    <div className="keyboard-root">
       <div
         className="keyboard-frame"
         style={{

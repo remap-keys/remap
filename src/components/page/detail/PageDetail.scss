@@ -1,44 +1,89 @@
 @import '../../../variables';
-body {
-  header {
-    height: 56px;
-    width: 100%;
-    position: fixed;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    .page-header-left {
-      display: flex;
-      flex-direction: row;
-      text-align: left;
-      height: 100%;
-      padding-top: 16px;
-    }
-    .page-header-center {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      h2 {
-        margin: 8px 0;
-      }
-    }
-    .page-header-right {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      button {
-        margin-top: -8px;
-      }
-    }
-  }
-  main {
+
+.page-header {
+  height: 56px;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
+  z-index: 2;
+  .page-header-left {
     display: flex;
     flex-direction: row;
-    position: absolute;
-    top: 56px;
-    left: 0px;
+    flex-grow: 1;
+    text-align: left;
+    align-items: center;
+    padding-left: $space-m;
+    .page-header-logo {
+      height: 25px;
+    }
   }
-  footer {
+  .page-header-center {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+    h2 {
+      margin: auto;
+    }
   }
+  .page-header-right {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+}
+.page-main {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  background-color: white;
+
+  .page-content {
+    width: 1280px;
+    margin: 72px auto 0 auto;
+    .page-keybard-wrapper {
+      display: flex;
+      flex-direction: row;
+      .page-keyboard-layer {
+        flex-grow: 1;
+      }
+
+      .page-keyboard-view {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        .keyboard-root {
+          position: relative;
+          padding: 20px;
+          border-width: 1px;
+          border-color: $color-gray-500;
+          border-style: solid;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+          background-color: #fcfcfc;
+          -webkit-filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2));
+          -moz-filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2));
+          -ms-filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2));
+          filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2));
+          .keyboard-frame {
+            width: 100%;
+            position: relative;
+          }
+        }
+      }
+      .page-keyboard-menu {
+        flex-grow: 1;
+      }
+    }
+  }
+}
+.page-footer {
 }
