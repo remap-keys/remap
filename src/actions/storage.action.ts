@@ -155,7 +155,7 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { storage } = getState();
+    const { storage, app } = getState();
 
     if (storage.instance === null) {
       console.warn(
@@ -166,6 +166,8 @@ export const storageActionsThunk = {
       );
       return;
     }
+
+    let keyboardDefinitionDocument: IKeyboardDefinitionDocument | undefined;
 
     const fetchKeyboardDefinitionResult = await storage.instance!.fetchKeyboardDefinitionDocumentByDeviceInfo(
       vendorId,
@@ -182,23 +184,10 @@ export const storageActionsThunk = {
       );
       return;
     }
-
-    let keyboardDefinition: KeyboardDefinitionSchema;
     if (fetchKeyboardDefinitionResult.exists!) {
-      const jsonStr: string = fetchKeyboardDefinitionResult.document!.json;
-      try {
-        keyboardDefinition = JSON.parse(jsonStr);
-      } catch (error) {
-        dispatch(NotificationActions.addError('JSON parse error'));
-        return;
-      }
-      const validateResult = validateKeyboardDefinitionSchema(
-        keyboardDefinition
-      );
-      if (!validateResult.valid) {
-        dispatch(
-          NotificationActions.addError(validateResult.errors![0].message)
-        );
+      keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
+    } else {
+      if (!app.signedIn) {
         dispatch(
           AppActions.updateSetupPhase(
             SetupPhase.waitingKeyboardDefinitionUpload
@@ -206,27 +195,64 @@ export const storageActionsThunk = {
         );
         return;
       }
+      const myKeyboardDefinitionDocumentsResult = await storage.instance!.fetchMyKeyboardDefinitionDocuments();
+      if (!myKeyboardDefinitionDocumentsResult.success) {
+        console.error(myKeyboardDefinitionDocumentsResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            myKeyboardDefinitionDocumentsResult.error!,
+            myKeyboardDefinitionDocumentsResult.cause
+          )
+        );
+        return;
+      }
+      keyboardDefinitionDocument = myKeyboardDefinitionDocumentsResult.documents!.find(
+        (doc) =>
+          doc.vendorId === vendorId &&
+          doc.productId === productId &&
+          productName.endsWith(doc.productName)
+      );
+    }
 
-      dispatch(
-        StorageActions.updateKeyboardDefinitionDocument(
-          fetchKeyboardDefinitionResult.document!
-        )
-      );
-      dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
-      dispatch(
-        LayoutOptionsActions.initSelectedOptions(
-          keyboardDefinition.layouts.labels
-            ? keyboardDefinition.layouts.labels
-            : []
-        )
-      );
-      dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
-      await dispatch(hidActionsThunk.openKeyboard());
-    } else {
+    if (!keyboardDefinitionDocument) {
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
       );
+      return;
     }
+
+    let keyboardDefinition: KeyboardDefinitionSchema;
+    const jsonStr: string = keyboardDefinitionDocument.json;
+    try {
+      keyboardDefinition = JSON.parse(jsonStr);
+    } catch (error) {
+      dispatch(NotificationActions.addError('JSON parse error'));
+      return;
+    }
+    const validateResult = validateKeyboardDefinitionSchema(keyboardDefinition);
+    if (!validateResult.valid) {
+      dispatch(NotificationActions.addError(validateResult.errors![0].message));
+      dispatch(
+        AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
+      );
+      return;
+    }
+
+    dispatch(
+      StorageActions.updateKeyboardDefinitionDocument(
+        keyboardDefinitionDocument
+      )
+    );
+    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+    dispatch(
+      LayoutOptionsActions.initSelectedOptions(
+        keyboardDefinition.layouts.labels
+          ? keyboardDefinition.layouts.labels
+          : []
+      )
+    );
+    dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
+    await dispatch(hidActionsThunk.openKeyboard());
   },
 
   fetchMyKeyboardDefinitionDocuments: (): ThunkPromiseAction<void> => async (

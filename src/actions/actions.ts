@@ -3,8 +3,9 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { ISetupPhase, RootState } from '../store/state';
+import { ISetupPhase, RootState, SetupPhase } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { hidActionsThunk } from './hid.action';
 
 export const KEYMAP_ACTIONS = '@Keymap';
 export const KEYMAP_CLEAR_SELECTED_POS = `${KEYMAP_ACTIONS}/ClearSelectedLayer`;
@@ -272,6 +273,8 @@ export const AppActionsThunk = {
     const { auth } = getState();
     await auth.instance!.signOut();
     dispatch(AppActions.updateSignedIn(false));
+    dispatch(await hidActionsThunk.closeOpenedKeyboard());
+    dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
   },
   loginWithGitHubAccount: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,

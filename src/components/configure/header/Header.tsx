@@ -15,6 +15,10 @@ import {
   getGitHubProviderData,
   getGoogleProviderData,
 } from '../../../services/auth/Auth';
+import {
+  IKeyboardDefinitionDocument,
+  KeyboardDefinitionStatus,
+} from '../../../services/storage/Storage';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -368,9 +372,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 </Menu>
               </div>
             </div>
-            <IconButton onClick={this.onClickShowInfoDialog.bind(this)}>
-              <InfoIcon />
-            </IconButton>
+            <InfoDialogButton
+              keyboardDefinitionDocument={this.props.keyboardDefinitionDocument}
+              onClick={this.onClickShowInfoDialog.bind(this)}
+            />
           </div>
 
           <div className="header-logo">
@@ -416,3 +421,22 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
 const FlashButtonStates = ['disable', 'enable', 'flashing', 'success'] as const;
 type FlashButtonState = typeof FlashButtonStates[number];
+
+type IInfoDialogButton = {
+  keyboardDefinitionDocument: IKeyboardDefinitionDocument | null | undefined;
+  onClick: () => void;
+};
+
+function InfoDialogButton(props: IInfoDialogButton) {
+  const color = props.keyboardDefinitionDocument
+    ? props.keyboardDefinitionDocument.status ===
+      KeyboardDefinitionStatus.approved
+      ? 'primary'
+      : 'secondary'
+    : 'primary';
+  return (
+    <IconButton onClick={props.onClick}>
+      <InfoIcon color={color} />
+    </IconButton>
+  );
+}
