@@ -546,7 +546,10 @@ export const storageActionsThunk = {
     if (resultList.success) {
       dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
     } else {
-      console.log(resultList.cause);
+      console.error(resultList.cause!);
+      dispatch(
+        NotificationActions.addError(resultList.error!, resultList.cause)
+      );
     }
   },
 
@@ -560,7 +563,13 @@ export const storageActionsThunk = {
 
     const result = await storage.instance!.createSavedKeymap(keymapData);
     if (!result.success) {
-      dispatch(NotificationActions.addWarn("Couldn't save the keymap."));
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't save the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
       return;
     }
     const info: IDeviceInformation = {
@@ -580,7 +589,13 @@ export const storageActionsThunk = {
     const { storage } = getState();
     const result = await storage.instance!.updateSavedKeymap(keymapData);
     if (!result.success) {
-      dispatch(NotificationActions.addWarn("Couldn't update the keymap."));
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't update the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
       return;
     }
 
@@ -601,7 +616,13 @@ export const storageActionsThunk = {
     const { storage } = getState();
     const result = await storage.instance!.deleteSavedKeymap(keymapData.id!);
     if (!result.success) {
-      dispatch(NotificationActions.addWarn("Couldn't delete the keymap."));
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't delete the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
       return;
     }
 
