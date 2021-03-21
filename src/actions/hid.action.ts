@@ -279,8 +279,7 @@ export const hidActionsThunk = {
       dispatch(KeymapActions.clearSelectedPos());
       dispatch(StorageActions.updateKeyboardDefinition(null));
       dispatch(StorageActions.clearKeyboardDefinitionDocument());
-      dispatch(StorageActions.updateSavedRegisteredKeymapList([]));
-      dispatch(StorageActions.updateSavedUnregisteredKeymapDataList([]));
+      dispatch(StorageActions.updateSavedKeymaps([]));
       dispatch(HidActions.updateKeyboard(null));
     }
   },

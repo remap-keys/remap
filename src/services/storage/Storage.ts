@@ -23,8 +23,6 @@ export const KeyboardDefinitionStatus: {
   approved: 'approved',
 };
 
-export type SavedKeymapCollection = 'registereds' | 'unregistereds';
-
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -48,9 +46,11 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
+type SavedKeymapSatus = 'private' | 'shared';
+
 export type SavedKeymapData = {
   id?: string; // this entity's id
-  definition_id?: string; // /keyboards/v2/definitions/{ID} if the keyboard is registered
+  status: SavedKeymapSatus;
   author_uid: string; //  auth.uid
   vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
   product_id: number; // Definition.productId if registered, otherwise DeviceInformation.productId
@@ -63,10 +63,6 @@ export type SavedKeymapData = {
   created_at?: Date;
   updated_at?: Date;
 };
-
-export function isSavedRegisteredKeymapData(data: SavedKeymapData) {
-  return data.definition_id != undefined;
-}
 
 export interface IExistsResult extends IResult {
   exists?: boolean;
@@ -141,21 +137,9 @@ export interface IStorage {
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
 
-  fetchSavedKeymaps(
-    info: IDeviceInformation,
-    targetCollection: SavedKeymapCollection
-  ): Promise<ISavedKeymapResult>;
-  createSavedKeymap(
-    keymapData: SavedKeymapData,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult>;
-  updateSavedKeymap(
-    keymapData: SavedKeymapData,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult>;
-  deleteSavedKeymap(
-    savedKeymapId: string,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult>;
+  fetchMySavedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
+  createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
+  updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
+  deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

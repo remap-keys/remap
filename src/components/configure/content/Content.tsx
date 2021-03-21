@@ -6,7 +6,6 @@ import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
 import Remap from '../remap/Remap.container';
 import { CircularProgress } from '@material-ui/core';
-import { IDeviceInformation } from '../../../services/hid/Hid';
 
 type ContentState = {};
 
@@ -25,18 +24,14 @@ export default class Content extends React.Component<
   }
 
   componentDidUpdate() {
-    if (this.props.setupPhase === 'openedKeyboard') {
+    if (this.props.signedIn && this.props.setupPhase === 'openedKeyboard') {
+      let info: { vendorId: number; productId: number; productName: string };
       if (this.props.keyboardDefDocument) {
-        const doc = this.props.keyboardDefDocument;
-        const info: IDeviceInformation = {
-          vendorId: doc.vendorId,
-          productId: doc.productId,
-          productName: doc.productName,
-        };
-        this.props.fetchSavedRegisteredKeymaps!(info);
+        info = this.props.keyboardDefDocument;
+      } else {
+        info = this.props.keyboard!.getInformation();
       }
-      const info: IDeviceInformation = this.props.keyboard!.getInformation();
-      this.props.fetchSavedUnregisteredKeymaps!(info);
+      this.props.fetchSavedKeymaps!(info);
     }
   }
 

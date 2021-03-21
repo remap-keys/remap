@@ -13,8 +13,7 @@ import { LayoutOption } from '../keymap/Keymap';
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {
-    savedRegisteredKeymaps: state.entities.savedRegisteredKeymaps,
-    savedUnregisteredKeymaps: state.entities.savedUnregisteredKeymaps,
+    savedKeymaps: state.entities.savedKeymaps,
     keymaps: state.entities.device.keymaps,
     auth: state.auth.instance,
     signedIn: state.app.signedIn,

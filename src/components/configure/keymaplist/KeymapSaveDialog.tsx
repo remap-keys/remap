@@ -20,10 +20,7 @@ import {
 } from './KeymapSaveDialog.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import {
-  isSavedRegisteredKeymapData,
-  SavedKeymapData,
-} from '../../../services/storage/Storage';
+import { SavedKeymapData } from '../../../services/storage/Storage';
 
 const MAX_TITLE_TEXT_COUNT = 52;
 const MAX_DESC_TEXT_COUNT = 200;
@@ -82,14 +79,10 @@ export default class LayoutOptionPopover extends React.Component<
   }
 
   private onClickDeleteButton() {
-    if (this.props.savedKeymapData) {
-      if (isSavedRegisteredKeymapData(this.props.savedKeymapData)) {
-        this.props.deleteSavedRegisteredKeymap!(this.props.savedKeymapData);
-      } else {
-        this.props.deleteSavedUnregisteredKeymap!(this.props.savedKeymapData);
-      }
-      this.props.onClose();
-    }
+    if (!this.props.savedKeymapData) return;
+
+    this.props.deleteSavedKeymap!(this.props.savedKeymapData);
+    this.props.onClose();
   }
 
   private onClickSaveButton() {
@@ -99,12 +92,7 @@ export default class LayoutOptionPopover extends React.Component<
         title: this.state.title,
         desc: this.state.desc,
       };
-
-      if (isSavedRegisteredKeymapData(save)) {
-        this.props.updateSavedRegisteredKeymap!(save);
-      } else {
-        this.props.updateSavedUnregisteredKeymap!(save);
-      }
+      this.props.updateSavedKeymap!(save);
     } else {
       this.createSavedKeymap();
     }
@@ -117,7 +105,18 @@ export default class LayoutOptionPopover extends React.Component<
       [pos: string]: number;
     }[] = this.buildCurrentKeymapKeycodes();
 
-    const data = {
+    let info: { vendorId: number; productId: number; productName: string };
+    if (this.props.keyboardDefinitionDocument) {
+      info = this.props.keyboardDefinitionDocument;
+    } else {
+      info = this.props.keyboard!.getInformation();
+    }
+
+    const savedKeymap: SavedKeymapData = {
+      status: 'private',
+      vendor_id: info.vendorId,
+      product_id: info.productId,
+      product_name: info.productName,
       author_uid: this.props.authorUid,
       title: this.state.title,
       desc: this.state.desc,
@@ -125,26 +124,7 @@ export default class LayoutOptionPopover extends React.Component<
       layout_options: this.props.selectedLayoutOptions!,
       keycodes,
     };
-    if (this.props.keyboardDefinitionDocument) {
-      const doc = this.props.keyboardDefinitionDocument;
-      const save: SavedKeymapData = {
-        ...data,
-        definition_id: doc.id,
-        vendor_id: doc.vendorId,
-        product_id: doc.productId,
-        product_name: doc.productName,
-      };
-      this.props.createSavedRegisteredKeymap!(save);
-    } else {
-      const info = this.props.keyboard!.getInformation();
-      const save: SavedKeymapData = {
-        ...data,
-        vendor_id: info.vendorId,
-        product_id: info.productId,
-        product_name: info.productName,
-      };
-      this.props.createSavedUnregisteredKeymap!(save);
-    }
+    this.props.createSavedKeymap!(savedKeymap);
   }
 
   render() {

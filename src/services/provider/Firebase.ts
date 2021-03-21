@@ -11,7 +11,6 @@ import {
   IResult,
   IStorage,
   SavedKeymapData,
-  SavedKeymapCollection,
   ISavedKeymapResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
@@ -505,14 +504,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     await this.auth.signOut();
   }
 
-  async fetchSavedKeymaps(
-    info: IDeviceInformation,
-    targetCollection: SavedKeymapCollection
+  /**
+   * Fetch my owned keymaps, regardless of status.
+   */
+  async fetchMySavedKeymaps(
+    info: IDeviceInformation
   ): Promise<ISavedKeymapResult> {
     const snapshot = await this.db
       .collection('keymaps')
       .doc('v1')
-      .collection(targetCollection)
+      .collection('saved-keymaps')
       .where('author_uid', '==', this.auth.currentUser!.uid)
       .where('vendor_id', '==', info.vendorId)
       .where('product_id', '==', info.productId)
@@ -533,8 +534,8 @@ export class FirebaseProvider implements IStorage, IAuth {
        * However with Windows, the ProductName is a combination of defined text with #MANUFACTURER and #PRODUCT.
        *
        * ex)
-       * Lunakey Mini (macOS, Linux)
-       * yoichiro Lunakey Mini (Windows)
+       * Lunakey Mini (macOS, Windows)
+       * yoichiro Lunakey Mini (Linux)
        *
        * This is why we need to filter the data by ProductName here.
        */
@@ -553,16 +554,13 @@ export class FirebaseProvider implements IStorage, IAuth {
     };
   }
 
-  async createSavedKeymap(
-    keymapData: SavedKeymapData,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult> {
+  async createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
     try {
       const now = new Date();
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection(targetCollection)
+        .collection('saved-keymaps')
         .add({
           ...keymapData,
           created_at: now,
@@ -580,17 +578,14 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async updateSavedKeymap(
-    keymapData: SavedKeymapData,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult> {
+  async updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
     try {
       const now = new Date();
       const keymapDataId = keymapData.id!;
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection(targetCollection)
+        .collection('saved-keymaps')
         .doc(keymapDataId)
         .update({
           title: keymapData.title,
@@ -609,15 +604,12 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async deleteSavedKeymap(
-    keymapId: string,
-    targetCollection: SavedKeymapCollection
-  ): Promise<IResult> {
+  async deleteSavedKeymap(keymapId: string): Promise<IResult> {
     try {
       await this.db
         .collection('keymaps')
         .doc('v1')
-        .collection(targetCollection)
+        .collection('saved-keymaps')
         .doc(keymapId)
         .delete();
 

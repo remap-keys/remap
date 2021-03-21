@@ -124,10 +124,6 @@ export default class KeymapListPopover extends React.Component<
       return <></>;
     }
 
-    const savedKeymaps = [
-      ...this.props.savedRegisteredKeymaps!,
-      ...this.props.savedUnregisteredKeymaps!,
-    ];
     return (
       <Popover
         open={this.props.open}
@@ -147,7 +143,7 @@ export default class KeymapListPopover extends React.Component<
           {this.props.signedIn ? (
             <>
               <KeymapList
-                savedKeymaps={savedKeymaps}
+                savedKeymaps={this.props.savedKeymaps!}
                 onClickOpenKeymapSaveDialog={this.onClickOpenKeymapSaveDialog.bind(
                   this
                 )}

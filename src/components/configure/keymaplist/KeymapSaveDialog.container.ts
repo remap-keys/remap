@@ -19,23 +19,14 @@ export type KeymapSaveDialogStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    createSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.createRegisteredKeymapData(keymapData));
+    createSavedKeymap: (keymapData: SavedKeymapData) => {
+      _dispatch(storageActionsThunk.createSavedKeymap(keymapData));
     },
-    updateSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.updateRegisteredKeymapData(keymapData));
+    updateSavedKeymap: (keymapData: SavedKeymapData) => {
+      _dispatch(storageActionsThunk.updateSavedKeymap(keymapData));
     },
-    deleteSavedRegisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.deleteRegisteredKeymapData(keymapData));
-    },
-    createSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.createUnregisteredKeymapData(keymapData));
-    },
-    updateSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.updateUnregisteredKeymapData(keymapData));
-    },
-    deleteSavedUnregisteredKeymap: (keymapData: SavedKeymapData) => {
-      _dispatch(storageActionsThunk.deleteUnregisteredKeymapData(keymapData));
+    deleteSavedKeymap: (keymapData: SavedKeymapData) => {
+      _dispatch(storageActionsThunk.deleteSavedKeymap(keymapData));
     },
   };
 };

@@ -6,6 +6,7 @@ import { IDeviceInformation } from '../../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
   return {
+    signedIn: state.app.signedIn,
     setupPhase: state.app.setupPhase,
     keyboardDefDocument: state.entities.keyboardDefinitionDocument,
     keyboard: state.entities.keyboard,
@@ -15,11 +16,8 @@ export type ContentStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    fetchSavedRegisteredKeymaps: (info: IDeviceInformation) => {
-      _dispatch(storageActionsThunk.fetchSavedRegisteredKeymaps(info));
-    },
-    fetchSavedUnregisteredKeymaps: (info: IDeviceInformation) => {
-      _dispatch(storageActionsThunk.fetchSavedUnregisteredKeymaps(info));
+    fetchSavedKeymaps: (info: IDeviceInformation) => {
+      _dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
     },
   };
 };

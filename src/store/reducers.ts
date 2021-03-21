@@ -56,8 +56,7 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
-  STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS,
-  STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS,
+  STORAGE_UPDATE_SAVED_KEYMAPS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
@@ -303,12 +302,8 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.keyboardDefinitionDocument = action.value;
       break;
     }
-    case STORAGE_UPDATE_SAVED_REGISTERED_KEYMAPS: {
-      draft.entities.savedRegisteredKeymaps = action.value;
-      break;
-    }
-    case STORAGE_UPDATE_SAVED_UNREGISTERED_KEYMAPS: {
-      draft.entities.savedUnregisteredKeymaps = action.value;
+    case STORAGE_UPDATE_SAVED_KEYMAPS: {
+      draft.entities.savedKeymaps = action.value;
       break;
     }
   }

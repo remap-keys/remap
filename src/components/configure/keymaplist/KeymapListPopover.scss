@@ -5,7 +5,7 @@
     padding: 0 $space-l;
   }
   .keymaplist-popover {
-    width: 360px;
+    width: 330px;
     max-height: 400px;
     display: flex;
     flex-direction: column;
@@ -23,6 +23,12 @@
       flex-direction: column;
       overflow-y: scroll;
       overflow-x: hidden;
+      -ms-overflow-style: none; /* IE, Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        /* Chrome, Safari  */
+        display: none;
+      }
       .no-saved-keymap {
         padding-bottom: $space-l;
         .keymaplist-warning {
@@ -31,11 +37,24 @@
       }
       .MuiListItemText-primary {
         overflow-x: scroll;
+        white-space: nowrap;
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+          /* Chrome, Safari  */
+          display: none;
+        }
       }
       .MuiListItemText-secondary {
         overflow-wrap: anywhere;
         overflow-y: scroll;
         max-height: 40px;
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+          /* Chrome, Safari  */
+          display: none;
+        }
       }
     }
 
