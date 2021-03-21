@@ -16,8 +16,6 @@ import {
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
-import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import { LayoutOption } from '../../components/configure/keymap/Keymap';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
