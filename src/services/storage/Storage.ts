@@ -46,6 +46,16 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
+export function isApprovedKeyboard(
+  keyboardDefDocument: IKeyboardDefinitionDocument | null | undefined
+) {
+  if (keyboardDefDocument) {
+    return keyboardDefDocument.status === 'approved';
+  } else {
+    return false;
+  }
+}
+
 type SavedKeymapSatus = 'private' | 'shared';
 
 export type SavedKeymapData = {

@@ -20,7 +20,10 @@ import {
 } from './KeymapSaveDialog.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import { SavedKeymapData } from '../../../services/storage/Storage';
+import {
+  isApprovedKeyboard,
+  SavedKeymapData,
+} from '../../../services/storage/Storage';
 
 const MAX_TITLE_TEXT_COUNT = 52;
 const MAX_DESC_TEXT_COUNT = 200;
@@ -106,14 +109,11 @@ export default class LayoutOptionPopover extends React.Component<
     }[] = this.buildCurrentKeymapKeycodes();
 
     let info: { vendorId: number; productId: number; productName: string };
-    if (
-      this.props.keyboardDefinitionDocument &&
-      this.props.keyboardDefinitionDocument.status == 'approved'
-    ) {
+    if (isApprovedKeyboard(this.props.keyboardDefinitionDocument)) {
       /**
        * Only approved keyboard definition is trusted uniquness data(vendor_id/product_id/product_name)
        */
-      info = this.props.keyboardDefinitionDocument;
+      info = this.props.keyboardDefinitionDocument!;
     } else {
       info = this.props.keyboard!.getInformation();
     }
