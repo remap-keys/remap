@@ -529,9 +529,10 @@ export class FirebaseProvider implements IStorage, IAuth {
       /**
        * The device's ProductName might be different by using OS.
        * This is the WebHID bug.
+       * https://bugs.chromium.org/p/chromium/issues/detail?id=1167093
        *
        * The ProductName is defined text by #PRODUCT in config.h/info.h.
-       * However with Windows, the ProductName is a combination of defined text with #MANUFACTURER and #PRODUCT.
+       * However with Linux, the ProductName is a combination of defined text with #MANUFACTURER and #PRODUCT.
        *
        * ex)
        * Lunakey Mini (macOS, Windows)
@@ -569,7 +570,6 @@ export class FirebaseProvider implements IStorage, IAuth {
 
       return { success: true };
     } catch (error) {
-      console.error(error);
       return {
         success: false,
         error: 'Creating a new Keymap failed.',
@@ -595,7 +595,6 @@ export class FirebaseProvider implements IStorage, IAuth {
 
       return { success: true };
     } catch (error) {
-      console.error(error);
       return {
         success: false,
         error: 'Updating a new Keymap failed.',
@@ -615,7 +614,6 @@ export class FirebaseProvider implements IStorage, IAuth {
 
       return { success: true };
     } catch (error) {
-      console.error(error);
       return {
         success: false,
         error: 'Deleting a new Keymap failed.',
