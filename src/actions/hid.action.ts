@@ -319,6 +319,15 @@ export const hidActionsThunk = {
         }
       }
     }
+    if (entities.device.bleMicroPro) {
+      const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
+      if (!result.success) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        dispatch(HeaderActions.updateFlashing(false));
+        return;
+      }
+    }
     const keymaps: IKeymaps[] = await loadKeymap(
       dispatch,
       keyboard,

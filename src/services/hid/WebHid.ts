@@ -20,6 +20,7 @@ import {
 import { KeycodeList } from './KeycodeList';
 
 import {
+  BleMicroProStoreKeymapPersistentlyCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapReadBufferCommand,
   DynamicKeymapResetCommand,
@@ -651,6 +652,37 @@ export class Keyboard implements IKeyboard {
           });
         }
       });
+      return this.enqueue(command);
+    });
+  }
+
+  storeKeymapPersistentlyForBleMicroPro(): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new BleMicroProStoreKeymapPersistentlyCommand(
+        {},
+        async (result) => {
+          if (result.success) {
+            if (result.response!.resultCode === 0x00) {
+              resolve({
+                success: true,
+              });
+            } else {
+              resolve({
+                success: false,
+                error: `Storing keymap persistently for BLE Micro Pro failed: ${
+                  result.response!.resultCode
+                }`,
+              });
+            }
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
       return this.enqueue(command);
     });
   }
