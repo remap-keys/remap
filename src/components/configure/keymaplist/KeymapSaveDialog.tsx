@@ -106,7 +106,13 @@ export default class LayoutOptionPopover extends React.Component<
     }[] = this.buildCurrentKeymapKeycodes();
 
     let info: { vendorId: number; productId: number; productName: string };
-    if (this.props.keyboardDefinitionDocument) {
+    if (
+      this.props.keyboardDefinitionDocument &&
+      this.props.keyboardDefinitionDocument.status == 'approved'
+    ) {
+      /**
+       * Only approved keyboard definition is trusted uniquness data(vendor_id/product_id/product_name)
+       */
       info = this.props.keyboardDefinitionDocument;
     } else {
       info = this.props.keyboard!.getInformation();
