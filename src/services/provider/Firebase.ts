@@ -16,6 +16,8 @@ import {
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { LayoutOption } from '../../components/configure/keymap/Keymap';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -523,8 +525,22 @@ export class FirebaseProvider implements IStorage, IAuth {
     const deviceProductName = info.productName;
     const keymaps: SavedKeymapData[] = [];
     snapshot.docs.forEach((doc) => {
-      const data: SavedKeymapData = doc.data() as SavedKeymapData;
-      const savedProductName = data.product_name;
+      const data: SavedKeymapData = {
+        id: doc.id,
+        status: doc.data().status,
+        authorUid: doc.data().author_uid, //  auth.uid
+        vendorId: doc.data().vendor_id, // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
+        productId: doc.data().product_id, // Definition.productId if registered, otherwise DeviceInformation.productId
+        productName: doc.data().product_name, // Definition.productName if registered, otherwise DeviceInformation.productName
+        title: doc.data().title,
+        desc: doc.data().desc,
+        labelLang: doc.data().label_lang,
+        layoutOptions: doc.data().layout_options,
+        keycodes: doc.data().keycodes,
+        createdAt: doc.data().created_at,
+        updatedAt: doc.data().updated_at,
+      };
+      const savedProductName = data.productName;
 
       /**
        * The device's ProductName might be different by using OS.
@@ -544,7 +560,6 @@ export class FirebaseProvider implements IStorage, IAuth {
         deviceProductName.endsWith(savedProductName) ||
         savedProductName.endsWith(deviceProductName)
       ) {
-        data.id = doc.id;
         keymaps.push(data);
       }
     });
@@ -563,7 +578,16 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc('v1')
         .collection('saved-keymaps')
         .add({
-          ...keymapData,
+          status: keymapData.status,
+          author_uid: keymapData.authorUid, //  auth.uid
+          vendor_id: keymapData.vendorId, // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
+          product_id: keymapData.productId, // Definition.productId if registered, otherwise DeviceInformation.productId
+          product_name: keymapData.productName, // Definition.productName if registered, otherwise DeviceInformation.productName
+          title: keymapData.title,
+          desc: keymapData.desc,
+          label_lang: keymapData.labelLang,
+          layout_options: keymapData.layoutOptions,
+          keycodes: keymapData.keycodes,
           created_at: now,
           updated_at: now,
         });
