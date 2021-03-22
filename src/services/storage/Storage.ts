@@ -61,17 +61,17 @@ type SavedKeymapSatus = 'private' | 'shared';
 export type SavedKeymapData = {
   id?: string; // this entity's id
   status: SavedKeymapSatus;
-  authorUid: string; //  auth.uid
-  vendorId: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
-  productId: number; // Definition.productId if registered, otherwise DeviceInformation.productId
-  productName: string; // Definition.productName if registered, otherwise DeviceInformation.productName
+  author_uid: string; //  auth.uid
+  vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
+  product_id: number; // Definition.productId if registered, otherwise DeviceInformation.productId
+  product_name: string; // Definition.productName if registered, otherwise DeviceInformation.productName
   title: string;
   desc: string;
-  labelLang: KeyboardLabelLang;
-  layoutOptions: LayoutOption[];
+  label_lang: KeyboardLabelLang;
+  layout_options: LayoutOption[];
   keycodes: { [pos: string]: number }[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export interface IExistsResult extends IResult {

@@ -120,14 +120,14 @@ export default class LayoutOptionPopover extends React.Component<
 
     const savedKeymap: SavedKeymapData = {
       status: 'private',
-      vendorId: info.vendorId,
-      productId: info.productId,
-      productName: info.productName,
-      authorUid: this.props.authorUid,
+      vendor_id: info.vendorId,
+      product_id: info.productId,
+      product_name: info.productName,
+      author_uid: this.props.authorUid,
       title: this.state.title,
       desc: this.state.desc,
-      labelLang: labelLang,
-      layoutOptions: this.props.selectedLayoutOptions!,
+      label_lang: labelLang,
+      layout_options: this.props.selectedLayoutOptions!,
       keycodes,
     };
     this.props.createSavedKeymap!(savedKeymap);

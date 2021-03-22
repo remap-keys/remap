@@ -83,8 +83,8 @@ export default class KeymapListPopover extends React.Component<
   }
 
   private onClickApplySavedKeymapData(savedKeymapData: SavedKeymapData) {
-    const labelLang = savedKeymapData.labelLang;
-    const layoutOptions = savedKeymapData.layoutOptions;
+    const labelLang = savedKeymapData.label_lang;
+    const layoutOptions = savedKeymapData.layout_options;
     let keycodes: { [pos: string]: IKeymap }[] = [];
     const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;

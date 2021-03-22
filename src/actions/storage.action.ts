@@ -573,9 +573,9 @@ export const storageActionsThunk = {
       return;
     }
     const info: IDeviceInformation = {
-      vendorId: keymapData.vendorId,
-      productId: keymapData.productId,
-      productName: keymapData.productName,
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
     };
     dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
   },
@@ -600,9 +600,9 @@ export const storageActionsThunk = {
     }
 
     const info: IDeviceInformation = {
-      vendorId: keymapData.vendorId,
-      productId: keymapData.productId,
-      productName: keymapData.productName,
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
     };
     dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
   },
@@ -627,9 +627,9 @@ export const storageActionsThunk = {
     }
 
     const info: IDeviceInformation = {
-      vendorId: keymapData.vendorId,
-      productId: keymapData.productId,
-      productName: keymapData.productName,
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
     };
     dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
   },
