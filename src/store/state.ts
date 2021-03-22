@@ -6,12 +6,14 @@ import { FirebaseProvider } from '../services/provider/Firebase';
 import {
   IKeyboardDefinitionDocument,
   IStorage,
+  SavedKeymapData,
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
+import { LayoutOption } from '../components/configure/keymap/Keymap';
 
 export type ISetupPhase =
   | 'init'
@@ -77,6 +79,7 @@ export type RootState = {
     keyboardDefinition: KeyboardDefinitionSchema | null;
     keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
     keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
+    savedKeymaps: SavedKeymapData[];
   };
   app: {
     package: {
@@ -116,7 +119,7 @@ export type RootState = {
       destination: IKeymap | null;
     };
     layoutOptions: {
-      selectedOptions: (string | null)[];
+      selectedOptions: LayoutOption[];
     };
   };
   keyboards: {
@@ -199,6 +202,7 @@ export const INIT_STATE: RootState = {
     keyboardDefinition: null,
     keyboardDefinitionDocuments: [],
     keyboardDefinitionDocument: null,
+    savedKeymaps: [],
   },
   app: {
     package: {

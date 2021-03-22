@@ -13,8 +13,10 @@ export type LayoutOptionPopoverStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    setLayoutOption: (optionIndex: number, option: string | null) => {
-      _dispatch(LayoutOptionsActions.updateSelectedOption(optionIndex, option));
+    setLayoutOption: (option: number, optionChoice: number) => {
+      _dispatch(
+        LayoutOptionsActions.updateSelectedOption(option, optionChoice)
+      );
     },
   };
 };

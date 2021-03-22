@@ -10,9 +10,12 @@ import {
   IKeyboardDefinitionStatus,
   IResult,
   IStorage,
+  SavedKeymapData,
+  ISavedKeymapResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
+import { IDeviceInformation } from '../hid/Hid';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -499,5 +502,125 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async signOut(): Promise<void> {
     await this.auth.signOut();
+  }
+
+  /**
+   * Fetch my owned keymaps, regardless of status.
+   */
+  async fetchMySavedKeymaps(
+    info: IDeviceInformation
+  ): Promise<ISavedKeymapResult> {
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection('saved-keymaps')
+      .where('author_uid', '==', this.auth.currentUser!.uid)
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
+      .orderBy('created_at', 'asc')
+      .get();
+
+    const deviceProductName = info.productName;
+    const keymaps: SavedKeymapData[] = [];
+    snapshot.docs.forEach((doc) => {
+      const data: SavedKeymapData = {
+        id: doc.id,
+        ...(doc.data() as SavedKeymapData),
+      };
+      const savedProductName = data.product_name;
+
+      /**
+       * The device's ProductName might be different by using OS.
+       * This is the WebHID bug.
+       * https://bugs.chromium.org/p/chromium/issues/detail?id=1167093
+       *
+       * The ProductName is defined text by #PRODUCT in config.h/info.h.
+       * However with Linux, the ProductName is a combination of defined text with #MANUFACTURER and #PRODUCT.
+       *
+       * ex)
+       * Lunakey Mini (macOS, Windows)
+       * yoichiro Lunakey Mini (Linux)
+       *
+       * This is why we need to filter the data by ProductName here.
+       */
+      if (
+        deviceProductName.endsWith(savedProductName) ||
+        savedProductName.endsWith(deviceProductName)
+      ) {
+        keymaps.push(data);
+      }
+    });
+
+    return {
+      success: true,
+      savedKeymaps: keymaps,
+    };
+  }
+
+  async createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saved-keymaps')
+        .add({
+          ...keymapData,
+          created_at: now,
+          updated_at: now,
+        });
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Creating a new Keymap failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
+    try {
+      const now = new Date();
+      const keymapDataId = keymapData.id!;
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saved-keymaps')
+        .doc(keymapDataId)
+        .update({
+          title: keymapData.title,
+          desc: keymapData.desc,
+          updated_at: now,
+        });
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Updating a new Keymap failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async deleteSavedKeymap(keymapId: string): Promise<IResult> {
+    try {
+      await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saved-keymaps')
+        .doc(keymapId)
+        .delete();
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Deleting a new Keymap failed.',
+        cause: error,
+      };
+    }
   }
 }

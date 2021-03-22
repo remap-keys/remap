@@ -1,0 +1,37 @@
+@import '../../../variables';
+
+.keymap-save-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+
+  .keymap-save-content {
+    width: 540px;
+    display: flex;
+    flex-direction: column;
+    .keymap-save-textfield {
+    }
+    .keymap-save-text-counter {
+      text-align: right;
+      color: $color-gray-600;
+      margin-right: 8px;
+      margin-bottom: $space-m;
+      top: -20px;
+      position: relative;
+    }
+  }
+  .keymap-save-footer {
+    display: flex;
+    flex-direction: row;
+    .keymap-save-savebtn {
+      margin-left: auto;
+    }
+  }
+}

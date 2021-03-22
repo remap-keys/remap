@@ -1,6 +1,7 @@
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 import { hasProperty } from '../utils/ObjectUtils';
+import { LayoutOption } from '../components/configure/keymap/Keymap';
 
 class Current {
   x = 0;
@@ -169,7 +170,7 @@ export default class KeyboardModel {
   }
 
   getKeymap(
-    options?: { option: string; optionChoice: string }[]
+    options?: LayoutOption[]
   ): { keymaps: KeyModel[]; width: number; height: number; left: number } {
     let keymaps = this._keyModels;
     if (options) {
@@ -179,7 +180,8 @@ export default class KeyboardModel {
           0 <=
             options.findIndex(
               (op) =>
-                op.option == item.option && op.optionChoice == item.optionChoice
+                op.option == Number(item.option) &&
+                op.optionChoice == Number(item.optionChoice)
             )
         );
       });

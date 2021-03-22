@@ -14,17 +14,20 @@ import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
+  SavedKeymapData,
 } from '../services/storage/Storage';
 import {
   KeyboardsAppActions,
   KeyboardsEditDefinitionActions,
 } from './keyboards.actions';
 import { getGitHubProviderData } from '../services/auth/Auth';
+import { IDeviceInformation } from '../services/hid/Hid';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
+export const STORAGE_UPDATE_SAVED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedKeymaps`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -46,6 +49,18 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
       value: keyboardDefinitionDocument,
+    };
+  },
+  clearKeyboardDefinitionDocument: () => {
+    return {
+      type: STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
+      value: null,
+    };
+  },
+  updateSavedKeymaps: (keymaps: SavedKeymapData[]) => {
+    return {
+      type: STORAGE_UPDATE_SAVED_KEYMAPS,
+      value: keymaps,
     };
   },
 };
@@ -515,5 +530,107 @@ export const storageActionsThunk = {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
     }
+  },
+
+  fetchMySavedKeymaps: (
+    info: IDeviceInformation
+  ): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const resultList = await storage.instance!.fetchMySavedKeymaps(info);
+
+    if (resultList.success) {
+      dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
+    } else {
+      console.error(resultList.cause!);
+      dispatch(
+        NotificationActions.addError(resultList.error!, resultList.cause)
+      );
+    }
+  },
+
+  createSavedKeymap: (
+    keymapData: SavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+
+    const result = await storage.instance!.createSavedKeymap(keymapData);
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't save the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
+      return;
+    }
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+  },
+
+  updateSavedKeymap: (
+    keymapData: SavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.updateSavedKeymap(keymapData);
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't update the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
+      return;
+    }
+
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+  },
+
+  deleteSavedKeymap: (
+    keymapData: SavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.deleteSavedKeymap(keymapData.id!);
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Couldn't delete the keymap: ${result.error!}`,
+          result.cause
+        )
+      );
+      return;
+    }
+
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
   },
 };

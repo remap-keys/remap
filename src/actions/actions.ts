@@ -5,6 +5,7 @@ import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { ISetupPhase, RootState, SetupPhase } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { hidActionsThunk } from './hid.action';
 
 export const KEYMAP_ACTIONS = '@Keymap';
@@ -178,6 +179,7 @@ export const APP_ACTIONS = '@App';
 export const APP_UPDATE_SETUP_PHASE = `${APP_ACTIONS}/UpdateSetupPhase`;
 export const APP_REMAPS_INIT = `${APP_ACTIONS}/RemapsInit`;
 export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
+export const APP_REMAPS_SET_KEYS = `${APP_ACTIONS}/RemapsSetKeys`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
@@ -208,6 +210,12 @@ export const AppActions = {
         pos: pos,
         keymap,
       },
+    };
+  },
+  remapsSetKeys: (keymaps: { [pos: string]: IKeymap }[]) => {
+    return {
+      type: APP_REMAPS_SET_KEYS,
+      value: keymaps,
     };
   },
   remapsRemoveKey: (layer: number, pos: string) => {
@@ -329,20 +337,30 @@ export const AppActionsThunk = {
 export const LAYOUT_OPTIONS_ACTIONS = '@LayoutOptions';
 export const LAYOUT_OPTIONS_INIT_SELECTED_OPTION = `${LAYOUT_OPTIONS_ACTIONS}/InitSelectedOption`;
 export const LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION = `${LAYOUT_OPTIONS_ACTIONS}/UpdateSelectedOption`;
+export const LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS = `${LAYOUT_OPTIONS_ACTIONS}/RestoreSelectedOptions`;
 export const LayoutOptionsActions = {
-  updateSelectedOption: (optionIndex: number, option: string | null) => {
+  restoreLayoutOptions: (layoutOptions: LayoutOption[]) => {
+    return {
+      type: LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS,
+      value: layoutOptions,
+    };
+  },
+  updateSelectedOption: (option: number, optionChoice: number) => {
     return {
       type: LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION,
       value: {
-        optionIndex,
         option,
+        optionChoice,
       },
     };
   },
+
   initSelectedOptions: (options: (string | string[])[]) => {
-    const list: (null | string)[] = options.map((item) => {
-      return typeof item == 'string' ? null : item[1]; // the default value should be off or 1st value
-    });
+    const list: LayoutOption[] = [];
+    for (let i = 0; i < options.length; i++) {
+      list.push({ option: i, optionChoice: 0 });
+    }
+
     return {
       type: LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
       value: list,

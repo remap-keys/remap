@@ -1,4 +1,7 @@
+import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace } from '../../store/state';
+import { IDeviceInformation } from '../hid/Hid';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export interface IResult {
   readonly success: boolean;
@@ -43,6 +46,34 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
+export function isApprovedKeyboard(
+  keyboardDefDocument: IKeyboardDefinitionDocument | null | undefined
+) {
+  if (keyboardDefDocument) {
+    return keyboardDefDocument.status === 'approved';
+  } else {
+    return false;
+  }
+}
+
+type SavedKeymapSatus = 'private' | 'shared';
+
+export type SavedKeymapData = {
+  id?: string; // this entity's id
+  status: SavedKeymapSatus;
+  author_uid: string; //  auth.uid
+  vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
+  product_id: number; // Definition.productId if registered, otherwise DeviceInformation.productId
+  product_name: string; // Definition.productName if registered, otherwise DeviceInformation.productName
+  title: string;
+  desc: string;
+  label_lang: KeyboardLabelLang;
+  layout_options: LayoutOption[];
+  keycodes: { [pos: string]: number }[];
+  created_at?: Date;
+  updated_at?: Date;
+};
+
 export interface IExistsResult extends IResult {
   exists?: boolean;
 }
@@ -57,6 +88,10 @@ export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
 
 export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
   definitionId?: string;
+}
+
+export interface ISavedKeymapResult extends IResult {
+  savedKeymaps: SavedKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -111,5 +146,10 @@ export interface IStorage {
     jsonStr: string
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
+
+  fetchMySavedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
+  createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
+  updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
+  deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
