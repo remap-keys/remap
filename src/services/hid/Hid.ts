@@ -136,6 +136,7 @@ export interface IKeyboard {
   updateRGBLightEffectSpeed(speed: number): Promise<IResult>;
   updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
   resetDynamicKeymap(): Promise<IResult>;
+  storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
 }
 
 export interface ICommand {

@@ -358,3 +358,30 @@ export class DynamicKeymapResetCommand extends AbstractCommand<
     return resultArray[0] === 0x06;
   }
 }
+
+export interface IBleMicroProStoreKeymapPersistentlyResponse
+  extends ICommandResponse {
+  resultCode: number;
+}
+
+export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
+  ICommandRequest,
+  IBleMicroProStoreKeymapPersistentlyResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x03, 0xff]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(
+    resultArray: Uint8Array
+  ): IBleMicroProStoreKeymapPersistentlyResponse {
+    return {
+      resultCode: resultArray[2],
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x03 && resultArray[1] === 0xff;
+  }
+}

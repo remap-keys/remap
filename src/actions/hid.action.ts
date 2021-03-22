@@ -13,6 +13,8 @@ import {
 } from './actions';
 import { StorageActions, storageActionsThunk } from './storage.action';
 
+const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
+
 export const HID_ACTIONS = '@Hid';
 export const HID_CONNECT_KEYBOARD = `${HID_ACTIONS}/ConnectDevice`;
 export const HID_DISCONNECT_KEYBOARD = `${HID_ACTIONS}/DisconnectDevice`;
@@ -20,7 +22,7 @@ export const HID_UPDATE_KEYBOARD = `${HID_ACTIONS}/UpdateKeyboard`;
 export const HID_UPDATE_KEYBOARD_LAYER_COUNT = `${HID_ACTIONS}/UpdateKeyboardLayerCount`;
 export const HID_UPDATE_KEYBOARD_LIST = `${HID_ACTIONS}/UpdateKeyboardList`;
 export const HID_UPDATE_KEYMAPS = `${HID_ACTIONS}/UpdateKeymaps`;
-export const HID_OPEN_KEYBOARD = `${HID_ACTIONS}/OpenKeyboard`;
+export const HID_UPDATE_BLE_MICRO_PRO = `${HID_ACTIONS}/UpdateBleMicroPro`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -61,6 +63,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_KEYMAPS,
       value: { keymaps: keymaps },
+    };
+  },
+
+  updateBleMicroPro: (bleMicroPro: boolean) => {
+    return {
+      type: HID_UPDATE_BLE_MICRO_PRO,
+      value: bleMicroPro,
     };
   },
 };
@@ -312,6 +321,15 @@ export const hidActionsThunk = {
         }
       }
     }
+    if (entities.device.bleMicroPro) {
+      const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
+      if (!result.success) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        dispatch(HeaderActions.updateFlashing(false));
+        return;
+      }
+    }
     const keymaps: IKeymaps[] = await loadKeymap(
       dispatch,
       keyboard,
@@ -341,6 +359,13 @@ const initOpenedKeyboard = async (
   columnCount: number,
   labelLang: KeyboardLabelLang
 ) => {
+  dispatch(
+    HidActions.updateBleMicroPro(
+      keyboard
+        .getInformation()
+        .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
+    )
+  );
   const layerResult = await keyboard.fetchLayerCount();
   if (!layerResult.success) {
     // TODO:show error message
