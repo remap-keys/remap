@@ -12,6 +12,7 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type OwnProps = {
   open: boolean;
@@ -52,6 +53,12 @@ export default class ConfigurationDialog extends React.Component<
   }
 
   private onClickApplyKeyboardDefinition() {
+    sendEventToGoogleAnalytics('configure/import_local_file', {
+      vendor_id: this.state.keyboardDefinition!.vendorId,
+      product_id: this.state.keyboardDefinition!.productId,
+      product_name: this.state.keyboardDefinition!.name,
+    });
+
     this.props.refreshKeyboardDefinition!(this.state.keyboardDefinition!);
     this.clearKeyboardDefinition();
   }

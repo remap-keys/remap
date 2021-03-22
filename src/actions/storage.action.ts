@@ -22,6 +22,7 @@ import {
 } from './keyboards.actions';
 import { getGitHubProviderData } from '../services/auth/Auth';
 import { IDeviceInformation } from '../services/hid/Hid';
+import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -560,6 +561,12 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
+
+    sendEventToGoogleAnalytics('configure/save_keymap', {
+      vendor_id: keymapData.vendor_id,
+      product_id: keymapData.product_id,
+      product_name: keymapData.product_name,
+    });
 
     const result = await storage.instance!.createSavedKeymap(keymapData);
     if (!result.success) {
