@@ -135,7 +135,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                 image={keymap}
                 imageTitle="Save/Restore Keymap"
                 title="Save/Restore Keymap"
-                description="Save your key mappings and can restore them quickly depending on each situation."
+                description="Apply one of saved key mappings, on demand, anytime and easily."
               />
               <FeatureCard
                 key={4}
