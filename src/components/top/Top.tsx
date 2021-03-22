@@ -18,6 +18,7 @@ import lighting from '../../assets/images/top/lighting.png';
 import keyLayout from '../../assets/images/top/key-layout.png';
 import predefinedKeys from '../../assets/images/top/predefined-keys.png';
 import diff from '../../assets/images/top/diff.png';
+import keymap from '../../assets/images/top/keymap.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -131,13 +132,20 @@ class Top extends React.Component<RouteComponentProps, any> {
               />
               <FeatureCard
                 key={3}
+                image={keymap}
+                imageTitle="Save/Restore Keymap"
+                title="Save/Restore Keymap"
+                description="Save your key mappings and can restore them quickly depending on each situation."
+              />
+              <FeatureCard
+                key={4}
                 image={lighting}
                 imageTitle="Lighting Control"
                 title="Lighting Control"
                 description="Simple UI for controling Backlight and Underglow LED lighting"
               />
               <FeatureCard
-                key={4}
+                key={5}
                 image={keyLayout}
                 imageTitle="Key Layout"
                 title="Key Layout"
@@ -145,7 +153,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                       layout."
               />
               <FeatureCard
-                key={5}
+                key={6}
                 image={predefinedKeys}
                 imageTitle="Pre-defined Keys"
                 title="Pre-defined Keys"
@@ -153,7 +161,7 @@ class Top extends React.Component<RouteComponentProps, any> {
                       mapping easily."
               />
               <FeatureCard
-                key={6}
+                key={7}
                 image={diff}
                 imageTitle="Show Difference"
                 title="Show Difference"
