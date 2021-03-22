@@ -96,7 +96,7 @@ export default class KeymapMenu extends React.Component<
   }
 
   private onClickOpenImportDefFileDialog() {
-    this.setState({ openImportDefDialog: true });
+    this.setState({ subMenuAnchorEl: null, openImportDefDialog: true });
   }
 
   private onCloseImportDefFileDialog() {
@@ -290,13 +290,6 @@ export default class KeymapMenu extends React.Component<
                 </ListItemIcon>
                 <ListItemText primary="Import keyboard definition file" />
               </MenuItem>
-              <ImportDefDialog
-                open={this.state.openImportDefDialog}
-                onClose={this.onCloseImportDefFileDialog.bind(this)}
-                vendorId={vendorId}
-                productId={productId}
-                productName={productName}
-              />
             </Menu>
           </div>
         </div>
@@ -307,6 +300,13 @@ export default class KeymapMenu extends React.Component<
           onClose={() => {
             this.setState({ openLightingDialog: false });
           }}
+        />
+        <ImportDefDialog
+          open={this.state.openImportDefDialog}
+          onClose={this.onCloseImportDefFileDialog.bind(this)}
+          vendorId={vendorId}
+          productId={productId}
+          productName={productName}
         />
       </React.Fragment>
     );
