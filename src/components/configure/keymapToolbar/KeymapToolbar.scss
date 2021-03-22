@@ -9,5 +9,16 @@
   padding: 8px 16px;
   .keymap-menu-item {
     margin-bottom: $space-m;
+
+    &:first-child,
+    &:last-child {
+      margin-top: auto;
+    }
+  }
+}
+
+.keymap-menu-item-submenu {
+  .MuiListItemIcon-root {
+    min-width: 36px;
   }
 }
