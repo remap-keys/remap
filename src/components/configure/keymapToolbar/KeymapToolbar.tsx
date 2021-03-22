@@ -1,12 +1,19 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './KeymapToolbar.scss';
-import { IconButton, Tooltip } from '@material-ui/core';
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from '@material-ui/core';
 import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
 import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
-
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
   KeymapMenuActionsType,
   KeymapMenuStateType,
@@ -33,6 +40,7 @@ type OwnKeymapMenuStateType = {
   layoutOptionPopoverPosition: { left: number; top: number } | null;
   keymapListPopoverPosition: { left: number; top: number } | null;
   openImportDefDialog: boolean;
+  subMenuAnchorEl: (EventTarget & Element) | null;
 };
 
 export default class KeymapMenu extends React.Component<
@@ -46,6 +54,7 @@ export default class KeymapMenu extends React.Component<
       layoutOptionPopoverPosition: null,
       keymapListPopoverPosition: null,
       openImportDefDialog: false,
+      subMenuAnchorEl: null,
     };
   }
 
@@ -150,6 +159,17 @@ export default class KeymapMenu extends React.Component<
     this.setState({ openLightingDialog: true });
   }
 
+  private onClickSubMenu(event: React.MouseEvent) {
+    const elem = event.currentTarget;
+    this.setState({
+      subMenuAnchorEl: elem,
+    });
+  }
+
+  private onCloseSubmenu() {
+    this.setState({ subMenuAnchorEl: null });
+  }
+
   render() {
     const isLightingAvailable = LightingDialog.isLightingAvailable(
       this.props.keyboardDefinition!.lighting
@@ -240,28 +260,6 @@ export default class KeymapMenu extends React.Component<
             <Tooltip
               arrow={true}
               placement="top"
-              title="Import local keyboard definition file(.json)"
-            >
-              <IconButton
-                size="small"
-                onClick={this.onClickOpenImportDefFileDialog.bind(this)}
-              >
-                <ImportFileIcon />
-              </IconButton>
-            </Tooltip>
-            <ImportDefDialog
-              open={this.state.openImportDefDialog}
-              onClose={this.onCloseImportDefFileDialog.bind(this)}
-              vendorId={vendorId}
-              productId={productId}
-              productName={productName}
-            />
-          </div>
-
-          <div className="keymap-menu-item">
-            <Tooltip
-              arrow={true}
-              placement="top"
               title="Get keymap cheat sheet (PDF)"
             >
               <IconButton
@@ -271,6 +269,35 @@ export default class KeymapMenu extends React.Component<
                 <PictureAsPdfRoundedIcon />
               </IconButton>
             </Tooltip>
+          </div>
+
+          <div className="keymap-menu-item">
+            <IconButton size="small" onClick={this.onClickSubMenu.bind(this)}>
+              <MoreHorizIcon />
+            </IconButton>
+            <Menu
+              anchorEl={this.state.subMenuAnchorEl}
+              open={Boolean(this.state.subMenuAnchorEl)}
+              onClose={this.onCloseSubmenu.bind(this)}
+              className="keymap-menu-item-submenu"
+            >
+              <MenuItem
+                button
+                onClick={this.onClickOpenImportDefFileDialog.bind(this)}
+              >
+                <ListItemIcon>
+                  <ImportFileIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Import keyboard definition file" />
+              </MenuItem>
+              <ImportDefDialog
+                open={this.state.openImportDefDialog}
+                onClose={this.onCloseImportDefFileDialog.bind(this)}
+                vendorId={vendorId}
+                productId={productId}
+                productName={productName}
+              />
+            </Menu>
           </div>
         </div>
         <LightingDialog
