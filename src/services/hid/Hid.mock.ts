@@ -7,6 +7,7 @@ import {
   IConnectParams,
   IHid,
   IKeyboard,
+  IResult,
 } from './Hid';
 
 export const IDeviceInformationMock = {
@@ -165,6 +166,11 @@ export const mockIKeyboad: IKeyboard = {
   },
   resetDynamicKeymap: () => {
     return new Promise((resolve) => {
+      resolve({ success: true });
+    });
+  },
+  storeKeymapPersistentlyForBleMicroPro: (): Promise<IResult> => {
+    return new Promise<IResult>((resolve) => {
       resolve({ success: true });
     });
   },
