@@ -20,6 +20,7 @@ import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
 import ImportDefDialog from '../importDef/ImportDefDialog.container';
 import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type OwnProp = {};
 
@@ -61,6 +62,11 @@ export default class KeymapMenu extends React.Component<
   }
 
   private onClickClearAllChanges() {
+    sendEventToGoogleAnalytics('configure/clear_all_changes', {
+      vendor_id: this.props.keyboard!.getInformation().vendorId,
+      product_id: this.props.keyboard!.getInformation().productId,
+      product_name: this.props.keyboard!.getInformation().productName,
+    });
     this.props.clearAllRemaps!(this.props.layerCount!);
   }
 
@@ -109,6 +115,12 @@ export default class KeymapMenu extends React.Component<
       this.props.labelLang!
     );
 
+    sendEventToGoogleAnalytics('configure/cheat_sheet', {
+      vendor_id: this.props.keyboard!.getInformation().vendorId,
+      product_id: this.props.keyboard!.getInformation().productId,
+      product_name: this.props.keyboard!.getInformation().productName,
+    });
+
     pdf.genPdf(productName, this.props.selectedKeyboardOptions!);
   }
 
@@ -126,6 +138,16 @@ export default class KeymapMenu extends React.Component<
 
   private onCloseKeymapListPopover() {
     this.setState({ keymapListPopoverPosition: null });
+  }
+
+  private onLightingClick() {
+    sendEventToGoogleAnalytics('configure/lighting', {
+      vendor_id: this.props.keyboard!.getInformation().vendorId,
+      product_id: this.props.keyboard!.getInformation().productId,
+      product_name: this.props.keyboard!.getInformation().productName,
+    });
+
+    this.setState({ openLightingDialog: true });
   }
 
   render() {
@@ -163,7 +185,7 @@ export default class KeymapMenu extends React.Component<
                 <IconButton
                   size="small"
                   onClick={() => {
-                    this.setState({ openLightingDialog: true });
+                    this.onLightingClick();
                   }}
                 >
                   <FlareRoundedIcon />

@@ -12,6 +12,7 @@ import {
   NotificationActions,
 } from './actions';
 import { StorageActions, storageActionsThunk } from './storage.action';
+import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -222,6 +223,11 @@ export const hidActionsThunk = {
       dispatch(NotificationActions.addError('Could not open', result.cause));
       return;
     }
+    sendEventToGoogleAnalytics('configure/open', {
+      vendor_id: keyboard.getInformation().vendorId,
+      product_id: keyboard.getInformation().productId,
+      product_name: keyboard.getInformation().productName,
+    });
     await initOpenedKeyboard(
       dispatch,
       keyboard,
@@ -299,6 +305,11 @@ export const hidActionsThunk = {
   ) => {
     const { app, entities } = getState();
     const keyboard: IKeyboard = entities.keyboard!;
+    sendEventToGoogleAnalytics('configure/flash', {
+      vendor_id: keyboard.getInformation().vendorId,
+      product_id: keyboard.getInformation().productId,
+      product_name: keyboard.getInformation().productName,
+    });
     const remaps = app.remaps;
     for (let layer = 0; layer < remaps.length; layer++) {
       const remap = remaps[layer];

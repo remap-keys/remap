@@ -20,6 +20,7 @@ import { SavedKeymapData } from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type PopoverPosition = {
   left: number;
@@ -83,6 +84,12 @@ export default class KeymapListPopover extends React.Component<
   }
 
   private onClickApplySavedKeymapData(savedKeymapData: SavedKeymapData) {
+    sendEventToGoogleAnalytics('configure/restore_keymap', {
+      vendor_id: savedKeymapData.vendor_id,
+      product_id: savedKeymapData.product_id,
+      product_name: savedKeymapData.product_name,
+    });
+
     const labelLang = savedKeymapData.label_lang;
     const layoutOptions = savedKeymapData.layout_options;
     let keycodes: { [pos: string]: IKeymap }[] = [];
