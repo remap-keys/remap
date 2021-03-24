@@ -62,6 +62,7 @@ export type SavedKeymapData = {
   id?: string; // this entity's id
   status: SavedKeymapSatus;
   author_uid: string; //  auth.uid
+  author_display_name?: string; // auth.display_name
   vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
   product_id: number; // Definition.productId if registered, otherwise DeviceInformation.productId
   product_name: string; // Definition.productName if registered, otherwise DeviceInformation.productName

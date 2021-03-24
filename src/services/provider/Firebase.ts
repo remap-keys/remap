@@ -592,6 +592,8 @@ export class FirebaseProvider implements IStorage, IAuth {
         .update({
           title: keymapData.title,
           desc: keymapData.desc,
+          status: keymapData.status,
+          author_display_name: keymapData.author_display_name,
           updated_at: now,
         });
 

@@ -7,8 +7,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   Paper,
   PaperProps,
+  Switch,
   TextField,
 } from '@material-ui/core';
 
@@ -32,6 +34,7 @@ type OwnProps = {
   open: boolean;
   savedKeymapData: SavedKeymapData | null;
   authorUid: string;
+  authorDisplayName: string;
   onClose: () => void;
 };
 
@@ -42,6 +45,7 @@ type KeymapSaveDialogProps = OwnProps &
 type OwnState = {
   title: string;
   desc: string;
+  shared: boolean;
 };
 export default class LayoutOptionPopover extends React.Component<
   KeymapSaveDialogProps,
@@ -52,6 +56,9 @@ export default class LayoutOptionPopover extends React.Component<
     this.state = {
       title: this.props.savedKeymapData ? this.props.savedKeymapData.title : '',
       desc: this.props.savedKeymapData ? this.props.savedKeymapData.desc : '',
+      shared: this.props.savedKeymapData
+        ? this.props.savedKeymapData.status === 'shared'
+        : false,
     };
   }
 
@@ -63,6 +70,9 @@ export default class LayoutOptionPopover extends React.Component<
     this.setState({
       title: this.props.savedKeymapData ? this.props.savedKeymapData.title : '',
       desc: this.props.savedKeymapData ? this.props.savedKeymapData.desc : '',
+      shared: this.props.savedKeymapData
+        ? this.props.savedKeymapData.status === 'shared'
+        : false,
     });
   }
 
@@ -90,10 +100,12 @@ export default class LayoutOptionPopover extends React.Component<
 
   private onClickSaveButton() {
     if (this.props.savedKeymapData) {
-      const save = {
+      const save: SavedKeymapData = {
         ...this.props.savedKeymapData,
         title: this.state.title,
         desc: this.state.desc,
+        status: this.state.shared ? 'shared' : 'private',
+        author_display_name: this.props.authorDisplayName,
       };
       this.props.updateSavedKeymap!(save);
     } else {
@@ -119,11 +131,12 @@ export default class LayoutOptionPopover extends React.Component<
     }
 
     const savedKeymap: SavedKeymapData = {
-      status: 'private',
+      status: this.state.shared ? 'shared' : 'private',
       vendor_id: info.vendorId,
       product_id: info.productId,
       product_name: info.productName,
       author_uid: this.props.authorUid,
+      author_display_name: this.props.authorDisplayName,
       title: this.state.title,
       desc: this.state.desc,
       label_lang: labelLang,
@@ -181,6 +194,22 @@ export default class LayoutOptionPopover extends React.Component<
           <div className="keymap-save-text-counter">
             {`${this.state.desc.length}/${MAX_DESC_TEXT_COUNT}`}
           </div>
+          {isApprovedKeyboard(this.props.keyboardDefinitionDocument) ? (
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.shared}
+                  color="primary"
+                  onChange={(event) => {
+                    this.setState({
+                      shared: event.target.checked,
+                    });
+                  }}
+                />
+              }
+              label="Share this keymap for other users"
+            />
+          ) : null}
         </DialogContent>
         <DialogActions className="keymap-save-footer">
           {this.isEdit && (
