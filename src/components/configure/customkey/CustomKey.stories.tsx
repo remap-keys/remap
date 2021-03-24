@@ -90,6 +90,7 @@ class CustomKeyStory extends React.Component<{}, State> {
           layerCount={4}
           position={{ left: 200, top: 200, side: 'above' }}
           labelLang="en-us"
+          bleMicroPro={true}
           onClose={this.onClose.bind(this)}
           onChange={(key: Key) => {
             this.setKey(key);

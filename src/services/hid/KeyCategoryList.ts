@@ -11,6 +11,7 @@ import {
   ToggleLayerComposition,
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
+import { bmpKeyInfoList } from './KeycodeInfoListBmp';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -19,6 +20,7 @@ export class KeyCategory {
   private static _layer: { [layerCount: number]: IKeymap[] } = {};
   private static _special: { [pos: string]: IKeymap[] } = {};
   private static _device: { [pos: string]: IKeymap[] } = {};
+  private static _bmp: IKeymap[];
   private static _macro: IKeymap[];
 
   static basic(labelLang: KeyboardLabelLang): IKeymap[] {
@@ -147,6 +149,19 @@ export class KeyCategory {
     );
     KeyCategory._device[labelLang] = [...basicKeymaps, ...looseKeymaps];
     return KeyCategory._device[labelLang];
+  }
+
+  static bmp(): IKeymap[] {
+    if (KeyCategory._bmp) {
+      return KeyCategory._bmp;
+    }
+
+    const looseKeymaps: IKeymap[] = LooseKeycodeComposition.genExtendKeymaps(
+      bmpKeyInfoList,
+      ['extends', 'bmp']
+    );
+    KeyCategory._bmp = looseKeymaps;
+    return KeyCategory._bmp;
   }
 
   static macro(): IKeymap[] {

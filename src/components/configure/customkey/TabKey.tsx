@@ -23,6 +23,7 @@ type OwnProps = {
   layerCount: number;
   hexCode: string;
   labelLang: KeyboardLabelLang;
+  bleMicroPro: boolean;
   onChangeKey: (
     // eslint-disable-next-line no-unused-vars
     opt: IKeymap
@@ -96,8 +97,9 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     return factory.isLayerMod();
   }
 
-  get basicKeymaps() {
+  private getBasicKeymaps() {
     const labelLang = this.props.labelLang;
+
     if (Object.prototype.hasOwnProperty.call(TabKey.basicKeymaps, labelLang)) {
       return TabKey.basicKeymaps[labelLang];
     }
@@ -113,8 +115,18 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       ...KeyCategory.device(labelLang),
       // ...KeyCategory.macro(),
     ];
+
     TabKey.basicKeymaps[labelLang] = keymaps;
     return keymaps;
+  }
+
+  get basicKeymapsWithBmp() {
+    if (this.props.bleMicroPro) {
+      const extendKeymaps = KeyCategory.bmp();
+      return [...this.getBasicKeymaps(), ...extendKeymaps];
+    } else {
+      return this.getBasicKeymaps();
+    }
   }
 
   private emitOnChange(opt: IKeymap, direction: IModDirection, mods: IMod[]) {
@@ -161,7 +173,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       <React.Fragment>
         <AutocompleteKeys
           label="Keycode"
-          keycodeOptions={this.basicKeymaps}
+          keycodeOptions={this.basicKeymapsWithBmp}
           keycodeInfo={this.props.value}
           onChange={(opt) => {
             this.onChangeKeycode(opt);

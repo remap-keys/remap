@@ -1348,46 +1348,62 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
     return JSON.parse(JSON.stringify(this.key));
   }
 
+  static genExtendKeymaps(
+    infoList: KeyInfo[],
+    kinds: KeymapCategory[]
+  ): IKeymap[] {
+    return infoList.map((info) => {
+      return {
+        code: info.keycodeInfo.code,
+        isAny: false,
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: info.keycodeInfo,
+        kinds: kinds,
+        desc: info.desc,
+      };
+    });
+  }
+
   static genKeymaps(): IKeymap[] {
     if (LooseKeycodeComposition._looseKeycodeKeymaps)
       return LooseKeycodeComposition._looseKeycodeKeymaps;
 
-    const getKinds = (code: number): KeymapCategory[] => {
-      const list: IKeycodeCategoryInfo[] = [
-        KEY_SUB_CATEGORY_GRAVE_ESCAPE,
-        KEY_SUB_CATEGORY_SPACE_CADET,
-        KEY_SUB_CATEGORY_KEYBOARD,
-        KEY_SUB_CATEGORY_BOOTMAGIC,
-        KEY_SUB_CATEGORY_SOUND,
-        KEY_SUB_CATEGORY_BACKLIGHT,
-        KEY_SUB_CATEGORY_UNDERGLOW,
-        KEY_SUB_CATEGORY_MACRO,
-      ];
-
-      let kinds: KeymapCategory[] = [];
-      for (let i = 0; i < list.length; i++) {
-        const cat = list[i];
-        const index = cat.codes.indexOf(code);
-        if (0 <= index) {
-          kinds = cat.kinds;
-          break;
-        }
-      }
-      return kinds;
+    const getKeyInfo = (code: number): KeyInfo | undefined => {
+      return keyInfoList.find((info) => info.keycodeInfo.code === code);
     };
 
-    LooseKeycodeComposition._looseKeycodeKeymaps = keyInfoList.map((item) => {
-      const code = item.keycodeInfo.code;
-      return {
-        code: code,
-        isAny: false,
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: item.keycodeInfo,
-        kinds: getKinds(code),
-        desc: item.desc,
-      };
+    const categoryInfoList: IKeycodeCategoryInfo[] = [
+      KEY_SUB_CATEGORY_GRAVE_ESCAPE,
+      KEY_SUB_CATEGORY_SPACE_CADET,
+      KEY_SUB_CATEGORY_KEYBOARD,
+      KEY_SUB_CATEGORY_BOOTMAGIC,
+      KEY_SUB_CATEGORY_SOUND,
+      KEY_SUB_CATEGORY_BACKLIGHT,
+      KEY_SUB_CATEGORY_UNDERGLOW,
+      KEY_SUB_CATEGORY_MACRO,
+    ];
+
+    LooseKeycodeComposition._looseKeycodeKeymaps = [];
+    categoryInfoList.forEach((cat: IKeycodeCategoryInfo) => {
+      const kinds = cat.kinds;
+      cat.codes.forEach((code) => {
+        const info = getKeyInfo(code);
+        if (info) {
+          const keymap: IKeymap = {
+            code: code,
+            isAny: false,
+            direction: MOD_LEFT,
+            modifiers: [],
+            keycodeInfo: info.keycodeInfo,
+            kinds: kinds,
+            desc: info.desc,
+          };
+          LooseKeycodeComposition._looseKeycodeKeymaps.push(keymap);
+        }
+      });
     });
+
     return LooseKeycodeComposition._looseKeycodeKeymaps;
   }
 

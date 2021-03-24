@@ -212,6 +212,7 @@ export default class Keymap extends React.Component<
             value={this.state.selectedKey!}
             layerCount={this.props.layerCount!}
             labelLang={this.props.labelLang!}
+            bleMicroPro={this.props.bleMicroPro!}
             onClose={this.onCloseCustomKeyPopup.bind(this)}
             onChange={(key: Key) => {
               this.onChangeKeymap(key);

@@ -40,6 +40,7 @@ type OwnProps = {
   open: boolean;
   position: PopoverPosition;
   labelLang: KeyboardLabelLang;
+  bleMicroPro: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
@@ -329,6 +330,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               layerCount={this.props.layerCount}
               hexCode={this.state.hexCode}
               labelLang={this.props.labelLang}
+              bleMicroPro={this.props.bleMicroPro}
               onChangeKey={(opt: IKeymap) => {
                 this.onChangeKey(opt);
               }}

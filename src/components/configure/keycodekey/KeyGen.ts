@@ -30,12 +30,12 @@ type KeytopWithShiftRightALt = {
   meta: string; // label with shift(show the label at top-center)
   metaRight: string; // label with RightAlt(show the label at mid-right)
 };
-export const KetopWithShiftLangs: KeyboardLabelLang[] = [
+export const KeytopWithShiftLangs: KeyboardLabelLang[] = [
   'en-us',
   'ja-jp',
   'en-gb',
 ];
-export const KetopWithShiftRightAltLangs: KeyboardLabelLang[] = [];
+export const KeytopWithShiftRightAltLangs: KeyboardLabelLang[] = [];
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
 
@@ -118,13 +118,13 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
       keymap,
     };
   } else {
-    if (KetopWithShiftLangs.includes(lang)) {
+    if (KeytopWithShiftLangs.includes(lang)) {
       const keytop: KeytopWithShift = findKeytopWithShift(
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
       return { label: keytop.label, meta: keytop.meta, keymap };
-    } else if (KetopWithShiftRightAltLangs.includes(lang)) {
+    } else if (KeytopWithShiftRightAltLangs.includes(lang)) {
       const keytop: KeytopWithShiftRightALt = findKeytopWithShiftRightAlt(
         keymap,
         KeyLabelLangs.getKeyLabels(lang)

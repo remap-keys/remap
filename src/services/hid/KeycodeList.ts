@@ -38,7 +38,9 @@ export type KeymapCategory =
   | 'special'
   | 'symbol'
   | 'underglow'
-  | 'us-symbol';
+  | 'us-symbol'
+  | 'extends'
+  | 'bmp';
 
 function isDefinedKey(ret: {
   value: IKeymap | null | undefined;
