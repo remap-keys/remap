@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import React, { useState } from 'react';
 import './KeymapListPopover.scss';
 import {
   KeymapListPopoverActionsType,
@@ -14,6 +14,8 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Popover,
+  Tab,
+  Tabs,
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
@@ -197,6 +199,12 @@ type KeymapListProps = {
 };
 
 function KeymapList(props: KeymapListProps) {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  const onTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setActiveTabIndex(newValue);
+  };
+
   return (
     <>
       <div className="keymaplist keymaplist-header">
@@ -215,6 +223,16 @@ function KeymapList(props: KeymapListProps) {
         </div>
       </div>
       <div className="keymaplist keymaplist-content">
+        <Tabs
+          value={activeTabIndex}
+          indicatorColor="primary"
+          textColor="primary"
+          aria-label="Keymaps"
+          onChange={onTabChange}
+        >
+          <Tab label="Mine" />
+          <Tab label="Shared" />
+        </Tabs>
         <List dense={true}>
           {props.savedKeymaps.map((item: SavedKeymapData, index) => {
             return (
