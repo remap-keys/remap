@@ -325,12 +325,27 @@ function MyKeymapList(props: IMyKeymapListProps) {
                 props.onClickApplySavedKeymapData(item);
               }}
             >
-              {item.status === 'shared' ? (
-                <ListItemIcon>
-                  <SupervisorAccount />
-                </ListItemIcon>
-              ) : null}
-              <ListItemText primary={item.title} secondary={item.desc} />
+              <ListItemText
+                primary={
+                  <div className="my-keymaplist-header">
+                    {item.status === 'shared' ? (
+                      <SupervisorAccount
+                        fontSize="small"
+                        color="action"
+                        className="my-keymaplist-header-shared"
+                      />
+                    ) : null}
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      {item.title}
+                    </Typography>
+                  </div>
+                }
+                secondary={item.desc}
+              />
               <ListItemSecondaryAction>
                 <IconButton
                   edge="end"
