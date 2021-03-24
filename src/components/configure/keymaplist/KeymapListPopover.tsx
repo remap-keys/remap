@@ -155,6 +155,7 @@ export default class KeymapListPopover extends React.Component<
             <>
               <KeymapList
                 savedKeymaps={this.props.savedKeymaps!}
+                sharedKeymaps={this.props.sharedKeymaps!}
                 onClickOpenKeymapSaveDialog={this.onClickOpenKeymapSaveDialog.bind(
                   this
                 )}
@@ -190,6 +191,7 @@ export default class KeymapListPopover extends React.Component<
 
 type KeymapListProps = {
   savedKeymaps: SavedKeymapData[];
+  sharedKeymaps: SavedKeymapData[];
   onClickOpenKeymapSaveDialog: (
     // eslint-disable-next-line no-unused-vars
     savedKeymapData: SavedKeymapData | null

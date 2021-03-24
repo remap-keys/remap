@@ -29,6 +29,7 @@ export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyb
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocuments`;
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
 export const STORAGE_UPDATE_SAVED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedKeymaps`;
+export const STORAGE_UPDATE_SHARED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSharedKeymaps`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -61,6 +62,12 @@ export const StorageActions = {
   updateSavedKeymaps: (keymaps: SavedKeymapData[]) => {
     return {
       type: STORAGE_UPDATE_SAVED_KEYMAPS,
+      value: keymaps,
+    };
+  },
+  updateSharedKeymaps: (keymaps: SavedKeymapData[]) => {
+    return {
+      type: STORAGE_UPDATE_SHARED_KEYMAPS,
       value: keymaps,
     };
   },
@@ -546,6 +553,27 @@ export const storageActionsThunk = {
 
     if (resultList.success) {
       dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
+    } else {
+      console.error(resultList.cause!);
+      dispatch(
+        NotificationActions.addError(resultList.error!, resultList.cause)
+      );
+    }
+  },
+
+  fetchSharedKeymaps: (
+    info: IDeviceInformation
+  ): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const resultList = await storage.instance!.fetchSharedKeymaps(info);
+
+    if (resultList.success) {
+      dispatch(StorageActions.updateSharedKeymaps(resultList.savedKeymaps));
     } else {
       console.error(resultList.cause!);
       dispatch(

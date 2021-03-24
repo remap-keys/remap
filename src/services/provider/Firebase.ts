@@ -519,7 +519,42 @@ export class FirebaseProvider implements IStorage, IAuth {
       .where('product_id', '==', info.productId)
       .orderBy('created_at', 'asc')
       .get();
+    const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName(
+      snapshot,
+      info
+    );
+    return {
+      success: true,
+      savedKeymaps: keymaps,
+    };
+  }
 
+  async fetchSharedKeymaps(
+    info: IDeviceInformation
+  ): Promise<ISavedKeymapResult> {
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection('saved-keymaps')
+      .where('status', '==', 'shared')
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
+      .orderBy('created_at', 'desc')
+      .get();
+    const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName(
+      snapshot,
+      info
+    ).filter((keymap) => keymap.author_uid !== this.auth.currentUser!.uid);
+    return {
+      success: true,
+      savedKeymaps: keymaps,
+    };
+  }
+
+  filterKeymapsByProductName(
+    snapshot: firebase.firestore.QuerySnapshot,
+    info: IDeviceInformation
+  ): SavedKeymapData[] {
     const deviceProductName = info.productName;
     const keymaps: SavedKeymapData[] = [];
     snapshot.docs.forEach((doc) => {
@@ -550,11 +585,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         keymaps.push(data);
       }
     });
-
-    return {
-      success: true,
-      savedKeymaps: keymaps,
-    };
+    return keymaps;
   }
 
   async createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {

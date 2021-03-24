@@ -58,6 +58,7 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
   STORAGE_UPDATE_SAVED_KEYMAPS,
+  STORAGE_UPDATE_SHARED_KEYMAPS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
@@ -305,6 +306,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_SAVED_KEYMAPS: {
       draft.entities.savedKeymaps = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_SHARED_KEYMAPS: {
+      draft.entities.sharedKeymaps = action.value;
       break;
     }
   }

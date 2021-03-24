@@ -17,6 +17,7 @@ const mapStateToProps = (state: RootState) => {
     keymaps: state.entities.device.keymaps,
     auth: state.auth.instance,
     signedIn: state.app.signedIn,
+    sharedKeymaps: state.entities.sharedKeymaps,
   };
 };
 export type KeymapListPopoverStateType = ReturnType<typeof mapStateToProps>;

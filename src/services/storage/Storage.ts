@@ -152,5 +152,6 @@ export interface IStorage {
   createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
   updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
   deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
+  fetchSharedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
 }
 /* eslint-enable no-unused-vars */

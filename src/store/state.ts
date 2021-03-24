@@ -81,6 +81,7 @@ export type RootState = {
     keyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
     keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
     savedKeymaps: SavedKeymapData[];
+    sharedKeymaps: SavedKeymapData[];
   };
   app: {
     package: {
@@ -205,6 +206,7 @@ export const INIT_STATE: RootState = {
     keyboardDefinitionDocuments: [],
     keyboardDefinitionDocument: null,
     savedKeymaps: [],
+    sharedKeymaps: [],
   },
   app: {
     package: {
