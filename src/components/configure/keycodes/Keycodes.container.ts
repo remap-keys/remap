@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKey: state.configure.keycodeKey.selectedKey,
     layerCount: state.entities.device.layerCount,
     labelLang: state.app.labelLang,
+    bleMicroPro: state.entities.device.bleMicroPro,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

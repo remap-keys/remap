@@ -13,6 +13,7 @@ import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 const mapStateToProps = (state: RootState) => {
   return {
+    bleMicroPro: state.entities.device.bleMicroPro,
     draggingKey: state.configure.keycodeKey.draggingKey,
     keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
