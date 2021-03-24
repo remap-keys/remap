@@ -11,7 +11,6 @@ import {
   ToggleLayerComposition,
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
-import { bmpKeyInfoList } from './KeycodeInfoListBmp';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};

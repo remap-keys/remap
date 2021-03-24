@@ -1,6 +1,5 @@
 import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
-import { KeymapCategory } from './KeycodeList';
 
 import {
   KEY_SUB_CATEGORY_APPLICATION,
