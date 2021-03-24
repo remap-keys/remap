@@ -16,6 +16,7 @@ import {
   Popover,
   Tab,
   Tabs,
+  Typography,
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
@@ -235,49 +236,127 @@ function KeymapList(props: KeymapListProps) {
           <Tab label="Mine" />
           <Tab label="Shared" />
         </Tabs>
-        <List dense={true}>
-          {props.savedKeymaps.map((item: SavedKeymapData, index) => {
-            return (
-              <ListItem
-                key={`keymaplist-keymap${index}`}
-                button
-                onClick={() => {
-                  props.onClickApplySavedKeymapData(item);
-                }}
-              >
-                {item.status === 'shared' ? (
-                  <ListItemIcon>
-                    <SupervisorAccount />
-                  </ListItemIcon>
-                ) : null}
-                <ListItemText primary={item.title} secondary={item.desc} />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="edit"
-                    onClick={() => {
-                      props.onClickOpenKeymapSaveDialog(item);
-                    }}
-                  >
-                    <EditRoundedIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
-        {props.savedKeymaps!.length === 0 && (
-          <div className="no-saved-keymap">
-            You can save the current keymap by clicking the top-right button.
-            You can restore your saved keymap every time.
-            <div className="keymaplist-warning">
-              * Please note that the change candidates will discard when you
-              save/restore the keymap.
-            </div>
-          </div>
+        {activeTabIndex === 0 ? (
+          <MyKeymapList
+            savedKeymaps={props.savedKeymaps}
+            onClickOpenKeymapSaveDialog={props.onClickOpenKeymapSaveDialog}
+            onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
+          />
+        ) : (
+          <SharedKeymapList
+            sharedKeymaps={props.sharedKeymaps}
+            onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
+          />
         )}
       </div>
     </>
+  );
+}
+
+type ISharedKeymapListProps = {
+  sharedKeymaps: SavedKeymapData[];
+  // eslint-disable-next-line no-unused-vars
+  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+};
+function SharedKeymapList(props: ISharedKeymapListProps) {
+  return (
+    <React.Fragment>
+      <List dense={true}>
+        {props.sharedKeymaps.map((item: SavedKeymapData, index) => {
+          return (
+            <ListItem
+              key={`keymaplist-keymap${index}`}
+              button
+              onClick={() => {
+                props.onClickApplySavedKeymapData(item);
+              }}
+            >
+              <ListItemText
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {` by ${item.author_display_name}`}
+                    </Typography>
+                  </React.Fragment>
+                }
+                secondary={item.desc}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+      {props.sharedKeymaps!.length === 0 && (
+        <div className="no-saved-keymap">There is no shared keymaps.</div>
+      )}
+    </React.Fragment>
+  );
+}
+
+type IMyKeymapListProps = {
+  savedKeymaps: SavedKeymapData[];
+  onClickOpenKeymapSaveDialog: (
+    // eslint-disable-next-line no-unused-vars
+    savedKeymapData: SavedKeymapData | null
+  ) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+};
+function MyKeymapList(props: IMyKeymapListProps) {
+  return (
+    <React.Fragment>
+      <List dense={true}>
+        {props.savedKeymaps.map((item: SavedKeymapData, index) => {
+          return (
+            <ListItem
+              key={`keymaplist-keymap${index}`}
+              button
+              onClick={() => {
+                props.onClickApplySavedKeymapData(item);
+              }}
+            >
+              {item.status === 'shared' ? (
+                <ListItemIcon>
+                  <SupervisorAccount />
+                </ListItemIcon>
+              ) : null}
+              <ListItemText primary={item.title} secondary={item.desc} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => {
+                    props.onClickOpenKeymapSaveDialog(item);
+                  }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
+      </List>
+      {props.savedKeymaps!.length === 0 && (
+        <div className="no-saved-keymap">
+          You can save the current keymap by clicking the top-right button. You
+          can restore your saved keymap every time.
+          <div className="keymaplist-warning">
+            * Please note that the change candidates will discard when you
+            save/restore the keymap.
+          </div>
+        </div>
+      )}
+    </React.Fragment>
   );
 }
 
