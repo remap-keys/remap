@@ -10,6 +10,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   Popover,
@@ -21,6 +22,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import { SupervisorAccount } from '@material-ui/icons';
 
 type PopoverPosition = {
   left: number;
@@ -214,7 +216,7 @@ function KeymapList(props: KeymapListProps) {
       </div>
       <div className="keymaplist keymaplist-content">
         <List dense={true}>
-          {props.savedKeymaps.map((item, index) => {
+          {props.savedKeymaps.map((item: SavedKeymapData, index) => {
             return (
               <ListItem
                 key={`keymaplist-keymap${index}`}
@@ -223,6 +225,11 @@ function KeymapList(props: KeymapListProps) {
                   props.onClickApplySavedKeymapData(item);
                 }}
               >
+                {item.status === 'shared' ? (
+                  <ListItemIcon>
+                    <SupervisorAccount />
+                  </ListItemIcon>
+                ) : null}
                 <ListItemText primary={item.title} secondary={item.desc} />
                 <ListItemSecondaryAction>
                   <IconButton
