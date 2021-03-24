@@ -34,6 +34,7 @@ import {
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 import { KeyLabel } from '../labellang/KeyLabel';
 import { KeyLabelLangs, KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { bmpKeyInfoList } from './KeycodeInfoListBmp';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -1348,18 +1349,15 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
     return JSON.parse(JSON.stringify(this.key));
   }
 
-  static genExtendKeymaps(
-    infoList: KeyInfo[],
-    kinds: KeymapCategory[]
-  ): IKeymap[] {
-    return infoList.map((info) => {
+  static genExtendsBmpKeymaps(): IKeymap[] {
+    return bmpKeyInfoList.map((info) => {
       return {
         code: info.keycodeInfo.code,
         isAny: false,
         direction: MOD_LEFT,
         modifiers: [],
         keycodeInfo: info.keycodeInfo,
-        kinds: kinds,
+        kinds: ['extends', 'bmp'],
         desc: info.desc,
       };
     });
@@ -1799,9 +1797,17 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
+
     let keymap: IKeymap | undefined = LooseKeycodeComposition.genKeymaps().find(
       (km) => km.code === this.code
     );
+
+    if (keymap === undefined) {
+      keymap = LooseKeycodeComposition.genExtendsBmpKeymaps().find(
+        (km) => km.code === this.code
+      );
+    }
+
     if (keymap === undefined) {
       keymap = anyKeymap(this.code);
     }
