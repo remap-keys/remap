@@ -668,22 +668,14 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc('v1')
         .collection('applied-keymaps')
         .where('applied_uid', '==', this.auth.currentUser!.uid)
-        .where('vendor_id', '==', keymapData.vendor_id)
-        .where('product_id', '==', keymapData.product_id)
+        .where('saved_keymap_data_id', '==', keymapData.id)
         .get();
-      const appliedKeymapDataList: AppliedKeymapData[] = this.filterKeymapsByProductName(
-        appliedKeymapsSnapshot,
-        {
-          vendorId: keymapData.vendor_id,
-          productId: keymapData.product_id,
-          productName: keymapData.product_name,
-        }
-      );
-      if (appliedKeymapDataList.length === 0) {
+      if (appliedKeymapsSnapshot.empty) {
         // Create
         const now = new Date();
         const appliedKeymapData: AppliedKeymapData = {
           applied_uid: this.auth.currentUser!.uid,
+          saved_keymap_data_id: keymapData.id!,
           author_uid: keymapData.author_uid,
           author_display_name: keymapData.author_display_name,
           vendor_id: keymapData.vendor_id,
@@ -705,14 +697,14 @@ export class FirebaseProvider implements IStorage, IAuth {
         return {
           success: true,
         };
-      } else if (appliedKeymapDataList.length === 1) {
+      } else if (appliedKeymapsSnapshot.size === 1) {
         // Update
-        const appliedKeymapData = appliedKeymapDataList[0];
+        const appliedKeymapDoc = appliedKeymapsSnapshot.docs[0];
         await this.db
           .collection('keymaps')
           .doc('v1')
           .collection('applied-keymaps')
-          .doc(appliedKeymapData.id)
+          .doc(appliedKeymapDoc.id)
           .update({
             author_display_name: keymapData.author_display_name,
             title: keymapData.title,
@@ -728,7 +720,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       } else {
         return {
           success: false,
-          error: `Duplicated applied-keymap data found. The count is ${appliedKeymapDataList.length}`,
+          error: `Duplicated applied-keymap data found. The count is ${appliedKeymapsSnapshot.size}`,
         };
       }
     } catch (error) {

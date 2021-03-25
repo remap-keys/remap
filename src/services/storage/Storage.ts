@@ -80,6 +80,7 @@ export interface SavedKeymapData extends AbstractKeymapData {
 
 export interface AppliedKeymapData extends AbstractKeymapData {
   applied_uid: string;
+  saved_keymap_data_id: string;
 }
 
 export interface IExistsResult extends IResult {
