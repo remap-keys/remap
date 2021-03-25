@@ -48,7 +48,7 @@ type OwnState = {
   desc: string;
   shared: boolean;
 };
-export default class LayoutOptionPopover extends React.Component<
+export default class KeymapSaveDialog extends React.Component<
   KeymapSaveDialogProps,
   OwnState
 > {

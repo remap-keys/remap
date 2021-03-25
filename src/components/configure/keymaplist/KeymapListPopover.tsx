@@ -266,43 +266,46 @@ function SharedKeymapList(props: ISharedKeymapListProps) {
   return (
     <React.Fragment>
       <List dense={true}>
-        {props.sharedKeymaps.map((item: SavedKeymapData, index) => {
-          return (
-            <ListItem
-              key={`keymaplist-keymap${index}`}
-              button
-              onClick={() => {
-                props.onClickApplySavedKeymapData(item);
-              }}
-            >
-              <ListItemText
-                primary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body1"
-                      color="textPrimary"
-                    >
-                      {item.title}
-                    </Typography>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      color="textSecondary"
-                    >
-                      {` by ${item.author_display_name}`}
-                    </Typography>
-                  </React.Fragment>
-                }
-                secondary={item.desc}
-              />
-            </ListItem>
-          );
-        })}
+        {props.sharedKeymaps
+          .slice(0, 10)
+          .map((item: SavedKeymapData, index) => {
+            return (
+              <ListItem
+                key={`keymaplist-keymap${index}`}
+                button
+                onClick={() => {
+                  props.onClickApplySavedKeymapData(item);
+                }}
+              >
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body1"
+                        color="textPrimary"
+                      >
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="textSecondary"
+                      >
+                        {` by ${item.author_display_name}`}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                  secondary={item.desc}
+                />
+              </ListItem>
+            );
+          })}
       </List>
       {props.sharedKeymaps!.length === 0 && (
         <div className="no-saved-keymap">There is no shared keymaps.</div>
       )}
+      <Button>more...</Button>
     </React.Fragment>
   );
 }
