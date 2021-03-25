@@ -94,6 +94,7 @@ export type RootState = {
       // remap candidates and show keydiff
       [pos: string]: IKeymap;
     }[];
+    testedMatrix: string[]; // 'row,col' string list when TEST MATRIX MODE
     notifications: NotificationItem[];
     keyboardHeight: number;
     keyboardWidth: number;
@@ -107,6 +108,9 @@ export type RootState = {
     keymap: {
       selectedPos: string;
       selectedLayer: number;
+    };
+    keymapToolbar: {
+      testMatrix: boolean;
     };
     keycodes: {
       keys: { [category: string]: Key[] };
@@ -216,6 +220,7 @@ export const INIT_STATE: RootState = {
     buildNumber: buildInfo.buildNumber,
     setupPhase: SetupPhase.init,
     remaps: [],
+    testedMatrix: [],
     notifications: [],
     keyboardHeight: 0,
     keyboardWidth: 0,
@@ -229,6 +234,9 @@ export const INIT_STATE: RootState = {
     keymap: {
       selectedLayer: NaN,
       selectedPos: '',
+    },
+    keymapToolbar: {
+      testMatrix: false,
     },
     keycodes: {
       keys: {},

@@ -21,6 +21,7 @@ type KeycapOwnState = {
 // TODO: refactoring properties, unify the model
 export type KeycapOwnProps = {
   debug?: boolean;
+  focus: boolean;
   model: KeyModel;
   keymap: IKeymap;
   remap: IKeymap | null;
@@ -55,6 +56,8 @@ export default class Keycap extends React.Component<
     orgKey: Key,
     dstKey: Key | null
   ) {
+    if (this.props.testMatrix) return;
+
     this.props.onClickKeycap!(pos, isSelectedKey, orgKey, dstKey);
     if (!isSelectedKey && this.props.onClick) {
       this.props.onClick(pos, dstKey ? dstKey : orgKey);
@@ -135,7 +138,7 @@ export default class Keycap extends React.Component<
 
     const pos = this.props.model.pos;
     const optionLabel = this.props.model.optionLabel;
-    const isSelectedKey = pos == this.props.selectedPos!;
+    const isFocusedKey = this.props.focus;
     const keymap: IKeymap = this.props.keymap;
     const orgKey: Key = genKey(keymap, this.props.labelLang!);
     const dstKey: Key | null = this.props.remap
@@ -159,7 +162,7 @@ export default class Keycap extends React.Component<
           'keycap-base',
           this.state.onDragOver && 'drag-over',
           dstKey && 'has-diff',
-          isSelectedKey && 'keycap-selected',
+          isFocusedKey && 'keycap-selected',
         ].join(' ')}
         style={styleTransform}
         onDragOver={(event) => {
@@ -184,10 +187,14 @@ export default class Keycap extends React.Component<
         {/* base1 */}
         <div
           ref={this.props.anchorRef}
-          className={['keycap', 'keycap-border'].join(' ')}
+          className={[
+            'keycap',
+            'keycap-border',
+            this.props.testMatrix && 'keycap-test-matrix',
+          ].join(' ')}
           style={style}
           onClick={() => {
-            this.onClick(pos, isSelectedKey, orgKey, dstKey);
+            this.onClick(pos, isFocusedKey, orgKey, dstKey);
           }}
         ></div>
         {this.isOddly && (
@@ -198,11 +205,11 @@ export default class Keycap extends React.Component<
                 'keycap',
                 'keycap-border',
                 'keycap2',
-                isSelectedKey && 'keycap-selected',
+                isFocusedKey && 'keycap-selected',
               ].join(' ')}
               style={baseStyle2}
               onClick={() => {
-                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+                this.onClick(pos, isFocusedKey, orgKey, dstKey);
               }}
               onDragOver={(event) => {
                 event.preventDefault();
@@ -217,59 +224,63 @@ export default class Keycap extends React.Component<
               className={[
                 'keycap',
                 'pointer-pass-through',
-                isSelectedKey && 'keycap-selected',
+                isFocusedKey && 'keycap-selected',
               ].join(' ')}
               style={coverStyle}
               onClick={() => {
-                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+                this.onClick(pos, isFocusedKey, orgKey, dstKey);
               }}
             ></div>
           </React.Fragment>
         )}
+
         {/* roof1 */}
         <div
-          className={['keyroof-base'].join(' ')}
+          className={[
+            'keyroof-base',
+            this.props.testMatrix && 'test-matrix',
+          ].join(' ')}
           style={roofStyle}
-          onClick={this.props.onClickKeycap?.bind(
-            this,
-            pos,
-            isSelectedKey,
-            orgKey,
-            dstKey
-          )}
+          onClick={this.onClick.bind(this, pos, isFocusedKey, orgKey, dstKey)}
         ></div>
         {this.isOddly && (
           <React.Fragment>
             {/* roof2 */}
             <div
-              className={['keyroof-base', 'pointer-pass-through'].join(' ')}
+              className={[
+                'keyroof-base',
+                'pointer-pass-through',
+                this.props.testMatrix && 'test-matrix',
+              ].join(' ')}
               style={roofStyle2}
               onClick={() => {
-                this.onClick(pos, isSelectedKey, orgKey, dstKey);
+                this.onClick(pos, isFocusedKey, orgKey, dstKey);
               }}
             ></div>
           </React.Fragment>
         )}
         {/* labels */}
-        <div
-          className={['keyroof'].join(' ')}
-          style={labelsStyle}
-          onClick={() => {
-            this.onClick(pos, isSelectedKey, orgKey, dstKey);
-          }}
-        >
-          <KeyLabel
-            label={dstKey ? dstKey.label : orgKey.label}
-            meta={dstKey ? dstKey.meta : orgKey.meta}
-            modifierLabel={modifierLabel}
-            modifierRightLabel={modifierRightLabel}
-            holdLabel={holdLabel}
-            pos={pos}
-            hasDiff={dstKey != null}
-            optionChoiceLabel={optionLabel}
-            debug={this.props.debug}
-          />
-        </div>
+        {!this.props.testMatrix && (
+          <div
+            className={['keyroof'].join(' ')}
+            style={labelsStyle}
+            onClick={() => {
+              this.onClick(pos, isFocusedKey, orgKey, dstKey);
+            }}
+          >
+            <KeyLabel
+              label={dstKey ? dstKey.label : orgKey.label}
+              meta={dstKey ? dstKey.meta : orgKey.meta}
+              modifierLabel={modifierLabel}
+              modifierRightLabel={modifierRightLabel}
+              holdLabel={holdLabel}
+              pos={pos}
+              hasDiff={dstKey != null}
+              optionChoiceLabel={optionLabel}
+              debug={this.props.debug}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -307,48 +318,48 @@ function KeyLabel(props: KeyLabelType) {
         </div>
       </React.Fragment>
     );
+  }
+
+  const points = props.label.match(/[\s\\/]/g);
+  const breakPoints = points ? points.length : 0;
+  const labelSize = breakPoints == 1 ? '_m' : breakPoints == 2 ? '_s' : '';
+  if (props.modifierRightLabel) {
+    return (
+      <TopRightKeyLabel
+        label={props.label}
+        labelSize={labelSize}
+        hasDiff={props.hasDiff}
+        modifierLabel={props.modifierLabel || ''}
+        modifierRightLabel={props.modifierRightLabel || ''}
+      />
+    );
+  } else if (props.meta) {
+    return (
+      <MetaKeyLabel
+        label={props.label}
+        meta={props.meta}
+        labelSize={labelSize}
+        hasDiff={props.hasDiff}
+      />
+    );
+  } else if (props.modifierLabel || props.holdLabel) {
+    return (
+      <ModHoldKeyLabel
+        label={props.label}
+        labelSize={labelSize}
+        hasDiff={props.hasDiff}
+        modifierLabel={props.modifierLabel || ''}
+        holdLabel={props.holdLabel || ''}
+      />
+    );
   } else {
-    const points = props.label.match(/[\s\\/]/g);
-    const breakPoints = points ? points.length : 0;
-    const labelSize = breakPoints == 1 ? '_m' : breakPoints == 2 ? '_s' : '';
-    if (props.modifierRightLabel) {
-      return (
-        <TopRightKeyLabel
-          label={props.label}
-          labelSize={labelSize}
-          hasDiff={props.hasDiff}
-          modifierLabel={props.modifierLabel || ''}
-          modifierRightLabel={props.modifierRightLabel || ''}
-        />
-      );
-    } else if (props.meta) {
-      return (
-        <MetaKeyLabel
-          label={props.label}
-          meta={props.meta}
-          labelSize={labelSize}
-          hasDiff={props.hasDiff}
-        />
-      );
-    } else if (props.modifierLabel || props.holdLabel) {
-      return (
-        <ModHoldKeyLabel
-          label={props.label}
-          labelSize={labelSize}
-          hasDiff={props.hasDiff}
-          modifierLabel={props.modifierLabel || ''}
-          holdLabel={props.holdLabel || ''}
-        />
-      );
-    } else {
-      return (
-        <NormalKeyLabel
-          label={props.label}
-          labelSize={labelSize}
-          hasDiff={props.hasDiff}
-        />
-      );
-    }
+    return (
+      <NormalKeyLabel
+        label={props.label}
+        labelSize={labelSize}
+        hasDiff={props.hasDiff}
+      />
+    );
   }
 }
 
