@@ -12,6 +12,7 @@ import {
   PaperProps,
   Switch,
   TextField,
+  Typography,
 } from '@material-ui/core';
 
 import Draggable from 'react-draggable';
@@ -207,7 +208,20 @@ export default class LayoutOptionPopover extends React.Component<
                   }}
                 />
               }
-              label="Share this keymap for other users"
+              label={
+                <React.Fragment>
+                  <div>Share this keymap for other users</div>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="textSecondary"
+                  >
+                    Your name &quot;
+                    {this.props.authorDisplayName}&quot; will be displayed for
+                    other users.
+                  </Typography>
+                </React.Fragment>
+              }
             />
           ) : null}
         </DialogContent>
