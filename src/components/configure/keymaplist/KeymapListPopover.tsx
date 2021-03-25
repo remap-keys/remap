@@ -10,7 +10,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   Popover,
@@ -113,6 +112,11 @@ export default class KeymapListPopover extends React.Component<
     }
 
     this.props.applySavedKeymapData!(keycodes, layoutOptions, labelLang);
+
+    const uid = this.props.auth!.getCurrentAuthenticatedUser().uid;
+    if (uid !== savedKeymapData.author_uid) {
+      this.props.createOrUpdateAppliedKeymap!(savedKeymapData);
+    }
   }
 
   private onClickOpenKeymapSaveDialog(savedKeymapData: SavedKeymapData | null) {

@@ -668,4 +668,25 @@ export const storageActionsThunk = {
     };
     dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
   },
+
+  createOrUpdateAppliedKeymap: (
+    keymapData: SavedKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.createOrUpdateAppliedKeymap(
+      keymapData
+    );
+    if (!result.success) {
+      console.error(result.cause!);
+      dispatch(
+        NotificationActions.addError(
+          `Creating or updating the applied keymap failed: ${result.error!}`,
+          result.cause
+        )
+      );
+    }
+  },
 };

@@ -9,6 +9,8 @@ import {
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import { IKeymap } from '../../../services/hid/Hid';
 import { LayoutOption } from '../keymap/Keymap';
+import { SavedKeymapData } from '../../../services/storage/Storage';
+import { storageActionsThunk } from '../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -34,6 +36,11 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(AppActions.remapsSetKeys(keymaps));
       _dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+    },
+    createOrUpdateAppliedKeymap: (savedKeymapData: SavedKeymapData) => {
+      _dispatch(
+        storageActionsThunk.createOrUpdateAppliedKeymap(savedKeymapData)
+      );
     },
   };
 };
