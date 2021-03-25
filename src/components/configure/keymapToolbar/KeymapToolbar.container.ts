@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import KeymapToolbar from './KeymapToolbar';
 import { RootState } from '../../../store/state';
-import { AppActions, KeydiffActions } from '../../../actions/actions';
+import {
+  AppActions,
+  KeydiffActions,
+  KeymapToolbarActions,
+} from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -22,6 +26,16 @@ const mapDispatchToProps = (_dispatch: any) => {
     clearAllRemaps: (layerCount: number) => {
       _dispatch(AppActions.remapsInit(layerCount));
       _dispatch(KeydiffActions.clearKeydiff());
+    },
+    updateTestMatrixOn: () => {
+      _dispatch(AppActions.clearTestedMatrix());
+      _dispatch(KeymapToolbarActions.updateTestMatrix(true));
+
+      // TODO: Remove below code. (For confirming the behavior)
+      _dispatch(AppActions.addTestedMatrix('0,3'));
+      _dispatch(AppActions.addTestedMatrix('1,3'));
+      _dispatch(AppActions.addTestedMatrix('2,3'));
+      _dispatch(AppActions.addTestedMatrix('3,3'));
     },
   };
 };

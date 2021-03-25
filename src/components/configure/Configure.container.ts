@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
     auth: state.auth.instance,
     storage: state.storage.instance,
     draggingKey: state.configure.keycodeKey.draggingKey,
+    testMatrix: state.configure.keymapToolbar.testMatrix,
     keyboard: state.entities.keyboard,
   };
 };

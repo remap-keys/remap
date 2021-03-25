@@ -144,6 +144,9 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
         <main className="configure-main">
           <Content />
         </main>
+        {(this.props.draggingKey || this.props.testMatrix) && (
+          <div className="dragMask fill-blank"></div>
+        )}
         <Footer />
       </React.Fragment>
     );
