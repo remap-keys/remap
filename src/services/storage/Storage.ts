@@ -58,9 +58,8 @@ export function isApprovedKeyboard(
 
 type SavedKeymapSatus = 'private' | 'shared';
 
-export type SavedKeymapData = {
+export interface AbstractKeymapData {
   id?: string; // this entity's id
-  status: SavedKeymapSatus;
   author_uid: string; //  auth.uid
   author_display_name?: string; // auth.display_name
   vendor_id: number; // Definition.vendorId if registered, otherwise DeviceInformation.vendorId
@@ -73,7 +72,15 @@ export type SavedKeymapData = {
   keycodes: { [pos: string]: number }[];
   created_at?: Date;
   updated_at?: Date;
-};
+}
+
+export interface SavedKeymapData extends AbstractKeymapData {
+  status: SavedKeymapSatus;
+}
+
+export interface AppliedKeymapData extends AbstractKeymapData {
+  applied_uid: string;
+}
 
 export interface IExistsResult extends IResult {
   exists?: boolean;
@@ -153,5 +160,6 @@ export interface IStorage {
   updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
   deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
   fetchSharedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
+  createOrUpdateAppliedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
