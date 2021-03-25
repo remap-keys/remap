@@ -35,6 +35,14 @@
           color: $warning;
         }
       }
+      .my-keymaplist-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-shared {
+          margin-right: 8px;
+        }
+      }
       .MuiListItemText-primary {
         overflow-x: scroll;
         white-space: nowrap;
@@ -55,6 +63,9 @@
           /* Chrome, Safari  */
           display: none;
         }
+      }
+      .MuiListItemIcon-root {
+        min-width: 36px;
       }
     }
 

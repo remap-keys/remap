@@ -12,6 +12,8 @@ import {
   IStorage,
   SavedKeymapData,
   ISavedKeymapResult,
+  AbstractKeymapData,
+  AppliedKeymapData,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
@@ -519,13 +521,48 @@ export class FirebaseProvider implements IStorage, IAuth {
       .where('product_id', '==', info.productId)
       .orderBy('created_at', 'asc')
       .get();
+    const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName(
+      snapshot,
+      info
+    );
+    return {
+      success: true,
+      savedKeymaps: keymaps,
+    };
+  }
 
+  async fetchSharedKeymaps(
+    info: IDeviceInformation
+  ): Promise<ISavedKeymapResult> {
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection('saved-keymaps')
+      .where('status', '==', 'shared')
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
+      .orderBy('created_at', 'desc')
+      .get();
+    const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName<SavedKeymapData>(
+      snapshot,
+      info
+    ).filter((keymap) => keymap.author_uid !== this.auth.currentUser!.uid);
+    return {
+      success: true,
+      savedKeymaps: keymaps,
+    };
+  }
+
+  filterKeymapsByProductName<T extends AbstractKeymapData>(
+    snapshot: firebase.firestore.QuerySnapshot,
+    info: IDeviceInformation
+  ): T[] {
     const deviceProductName = info.productName;
-    const keymaps: SavedKeymapData[] = [];
+    const keymaps: T[] = [];
     snapshot.docs.forEach((doc) => {
-      const data: SavedKeymapData = {
+      const data: T = {
         id: doc.id,
-        ...(doc.data() as SavedKeymapData),
+        ...(doc.data() as T),
       };
       const savedProductName = data.product_name;
 
@@ -550,11 +587,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         keymaps.push(data);
       }
     });
-
-    return {
-      success: true,
-      savedKeymaps: keymaps,
-    };
+    return keymaps;
   }
 
   async createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
@@ -592,6 +625,8 @@ export class FirebaseProvider implements IStorage, IAuth {
         .update({
           title: keymapData.title,
           desc: keymapData.desc,
+          status: keymapData.status,
+          author_display_name: keymapData.author_display_name,
           updated_at: now,
         });
 
@@ -619,6 +654,79 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: 'Deleting a new Keymap failed.',
+        cause: error,
+      };
+    }
+  }
+
+  async createOrUpdateAppliedKeymap(
+    keymapData: SavedKeymapData
+  ): Promise<IResult> {
+    try {
+      const appliedKeymapsSnapshot = await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('applied-keymaps')
+        .where('applied_uid', '==', this.auth.currentUser!.uid)
+        .where('saved_keymap_id', '==', keymapData.id)
+        .get();
+      if (appliedKeymapsSnapshot.empty) {
+        // Create
+        const now = new Date();
+        const appliedKeymapData: AppliedKeymapData = {
+          applied_uid: this.auth.currentUser!.uid,
+          saved_keymap_id: keymapData.id!,
+          author_uid: keymapData.author_uid,
+          author_display_name: keymapData.author_display_name,
+          vendor_id: keymapData.vendor_id,
+          product_id: keymapData.product_id,
+          product_name: keymapData.product_name,
+          title: keymapData.title,
+          desc: keymapData.desc,
+          label_lang: keymapData.label_lang,
+          layout_options: keymapData.layout_options,
+          keycodes: keymapData.keycodes,
+          created_at: now,
+          updated_at: now,
+        };
+        await this.db
+          .collection('keymaps')
+          .doc('v1')
+          .collection('applied-keymaps')
+          .add(appliedKeymapData);
+        return {
+          success: true,
+        };
+      } else if (appliedKeymapsSnapshot.size === 1) {
+        // Update
+        const appliedKeymapDoc = appliedKeymapsSnapshot.docs[0];
+        await this.db
+          .collection('keymaps')
+          .doc('v1')
+          .collection('applied-keymaps')
+          .doc(appliedKeymapDoc.id)
+          .update({
+            author_display_name: keymapData.author_display_name,
+            title: keymapData.title,
+            desc: keymapData.desc,
+            label_lang: keymapData.label_lang,
+            layout_options: keymapData.layout_options,
+            keycodes: keymapData.keycodes,
+            updated_at: new Date(),
+          });
+        return {
+          success: true,
+        };
+      } else {
+        return {
+          success: false,
+          error: `Duplicated applied-keymap data found. The count is ${appliedKeymapsSnapshot.size}`,
+        };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Creating or updating an applied Keymap failed.',
         cause: error,
       };
     }

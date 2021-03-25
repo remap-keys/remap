@@ -18,6 +18,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     fetchSavedKeymaps: (info: IDeviceInformation) => {
       _dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+      _dispatch(storageActionsThunk.fetchSharedKeymaps(info));
     },
   };
 };
