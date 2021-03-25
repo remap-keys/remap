@@ -668,14 +668,14 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc('v1')
         .collection('applied-keymaps')
         .where('applied_uid', '==', this.auth.currentUser!.uid)
-        .where('saved_keymap_data_id', '==', keymapData.id)
+        .where('saved_keymap_id', '==', keymapData.id)
         .get();
       if (appliedKeymapsSnapshot.empty) {
         // Create
         const now = new Date();
         const appliedKeymapData: AppliedKeymapData = {
           applied_uid: this.auth.currentUser!.uid,
-          saved_keymap_data_id: keymapData.id!,
+          saved_keymap_id: keymapData.id!,
           author_uid: keymapData.author_uid,
           author_display_name: keymapData.author_display_name,
           vendor_id: keymapData.vendor_id,
