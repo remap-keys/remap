@@ -5,14 +5,7 @@ import {
   SharedKeymapsDialogActionsType,
   SharedKeymapsDialogStateType,
 } from './SharedKeymapsDialog.container';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Paper,
-  PaperProps,
-} from '@material-ui/core';
-import Draggable from 'react-draggable';
+import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 type OwnProps = {
@@ -43,7 +36,6 @@ export default class SharedKeymapsDialog extends React.Component<
       <Dialog
         open={this.props.open}
         maxWidth={'md'}
-        PaperComponent={PaperComponent}
         className="shared-keymaps-dialog"
         onEnter={this.onEnter.bind(this)}
       >
@@ -53,21 +45,11 @@ export default class SharedKeymapsDialog extends React.Component<
             <CloseIcon onClick={this.props.onClose} />
           </div>
         </DialogTitle>
-        <DialogContent dividers className="shared-keymaps-dialog-content">
-          xxx
-        </DialogContent>
+        <DialogContent
+          dividers
+          className="shared-keymaps-dialog-content"
+        ></DialogContent>
       </Dialog>
     );
   }
-}
-
-function PaperComponent(props: PaperProps) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
 }
