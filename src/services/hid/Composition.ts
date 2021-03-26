@@ -245,17 +245,6 @@ export const MOD_LABELS = [
   'Win/Cmd',
 ] as const;
 
-const LOOSE_KEYCODE_KEY_INFO_MAP: { [p: number]: KeyInfo } = keyInfoList
-  .filter(
-    (keyInfo) =>
-      LOOSE_KEYCODE_MIN <= keyInfo.keycodeInfo.code &&
-      keyInfo.keycodeInfo.code <= LOOSE_KEYCODE_MAX
-  )
-  .reduce((result, current) => {
-    result[current.keycodeInfo.code] = current;
-    return result;
-  }, {} as { [p: number]: KeyInfo });
-
 interface ITapKey {
   genTapKey(): IKeymap | undefined;
 }
@@ -1467,7 +1456,15 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       return range.min <= this.code && this.code <= range.max;
     }) as IKeycodeCompositionKind;
     if (result === KeycodeCompositionKind.loose_keycode) {
-      return LOOSE_KEYCODE_KEY_INFO_MAP[this.code] ? result : null;
+      let exist = keyInfoList.find(
+        (info) => info.keycodeInfo.code === this.code
+      );
+      if (!exist) {
+        exist = bmpKeyInfoList.find(
+          (info) => info.keycodeInfo.code === this.code
+        );
+      }
+      return exist ? result : null;
     }
     return result || null;
   }
