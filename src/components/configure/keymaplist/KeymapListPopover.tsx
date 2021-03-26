@@ -25,6 +25,7 @@ import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { SupervisorAccount } from '@material-ui/icons';
+import SharedKeymapsDialog from './SharedKeymapsDialog';
 
 type PopoverPosition = {
   left: number;
@@ -46,6 +47,7 @@ type OwnState = {
   savedKeymapData: SavedKeymapData | null;
   openAuthProviderDialog: boolean;
   popoverPosition: PopoverPosition;
+  openSharedKeymapsDialog: boolean;
 };
 
 export default class KeymapListPopover extends React.Component<
@@ -60,6 +62,7 @@ export default class KeymapListPopover extends React.Component<
       savedKeymapData: null,
       openAuthProviderDialog: false,
       popoverPosition: { top: 0, left: 0 },
+      openSharedKeymapsDialog: false,
     };
     this.popoverRef = React.createRef<HTMLDivElement>();
   }
@@ -135,6 +138,14 @@ export default class KeymapListPopover extends React.Component<
     this.setState({ openAuthProviderDialog: false });
   }
 
+  private onClickMore() {
+    this.setState({ openSharedKeymapsDialog: true });
+  }
+
+  private onCloseSharedKeymapsDialog() {
+    this.setState({ openSharedKeymapsDialog: false });
+  }
+
   render() {
     if (!this.props.position) {
       return <></>;
@@ -167,6 +178,7 @@ export default class KeymapListPopover extends React.Component<
                 onClickApplySavedKeymapData={this.onClickApplySavedKeymapData.bind(
                   this
                 )}
+                onClickMore={this.onClickMore.bind(this)}
               />
               <KeymapSaveDialog
                 open={this.state.openKeymapSaveDialog}
@@ -177,6 +189,12 @@ export default class KeymapListPopover extends React.Component<
                 }
                 onClose={() => {
                   this.onCloseKeymapSaveDialog();
+                }}
+              />
+              <SharedKeymapsDialog
+                open={this.state.openSharedKeymapsDialog}
+                onClose={() => {
+                  this.onCloseSharedKeymapsDialog();
                 }}
               />
             </>
@@ -203,6 +221,7 @@ type KeymapListProps = {
   ) => void;
   // eslint-disable-next-line no-unused-vars
   onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickMore: () => void;
 };
 
 function KeymapList(props: KeymapListProps) {
@@ -250,6 +269,7 @@ function KeymapList(props: KeymapListProps) {
           <SharedKeymapList
             sharedKeymaps={props.sharedKeymaps}
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
+            onClickMore={props.onClickMore}
           />
         )}
       </div>
@@ -261,6 +281,7 @@ type ISharedKeymapListProps = {
   sharedKeymaps: SavedKeymapData[];
   // eslint-disable-next-line no-unused-vars
   onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickMore: () => void;
 };
 function SharedKeymapList(props: ISharedKeymapListProps) {
   return (
@@ -305,7 +326,7 @@ function SharedKeymapList(props: ISharedKeymapListProps) {
       {props.sharedKeymaps!.length === 0 && (
         <div className="no-saved-keymap">There is no shared keymaps.</div>
       )}
-      <Button>more...</Button>
+      <Button onClick={() => props.onClickMore()}>more...</Button>
     </React.Fragment>
   );
 }
