@@ -1,0 +1,20 @@
+@import '../../../variables';
+
+.shared-keymaps-dialog {
+  .close-dialog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: $primary-light;
+      cursor: pointer;
+    }
+  }
+
+  .shared-keymaps-dialog-content {
+    width: 540px;
+    display: flex;
+    flex-direction: column;
+  }
+}

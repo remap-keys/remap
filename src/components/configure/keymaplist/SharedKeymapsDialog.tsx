@@ -5,7 +5,13 @@ import {
   SharedKeymapsDialogActionsType,
   SharedKeymapsDialogStateType,
 } from './SharedKeymapsDialog.container';
-import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Tab,
+  Tabs,
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 type OwnProps = {
@@ -45,10 +51,17 @@ export default class SharedKeymapsDialog extends React.Component<
             <CloseIcon onClick={this.props.onClose} />
           </div>
         </DialogTitle>
-        <DialogContent
-          dividers
-          className="shared-keymaps-dialog-content"
-        ></DialogContent>
+        <DialogContent dividers className="shared-keymaps-dialog-content">
+          <Tabs
+            value={0}
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="shared-keymaps"
+          >
+            <Tab label="Shared Keymaps" />
+            <Tab label="Applied History" />
+          </Tabs>
+        </DialogContent>
       </Dialog>
     );
   }
