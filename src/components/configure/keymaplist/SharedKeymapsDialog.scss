@@ -16,5 +16,11 @@
     width: 540px;
     display: flex;
     flex-direction: column;
+
+    .shared-keymaps-dialog-filter-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
 }

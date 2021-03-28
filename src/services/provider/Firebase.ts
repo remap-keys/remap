@@ -546,7 +546,8 @@ export class FirebaseProvider implements IStorage, IAuth {
     const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName<SavedKeymapData>(
       snapshot,
       info
-    ).filter((keymap) => keymap.author_uid !== this.auth.currentUser!.uid);
+    );
+    // ).filter((keymap) => keymap.author_uid !== this.auth.currentUser!.uid);
     return {
       success: true,
       savedKeymaps: keymaps,

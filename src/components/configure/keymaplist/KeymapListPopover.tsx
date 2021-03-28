@@ -25,7 +25,8 @@ import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { SupervisorAccount } from '@material-ui/icons';
-import SharedKeymapsDialog from './SharedKeymapsDialog';
+import SharedKeymapsDialog from './SharedKeymapsDialog.container';
+import { SharedKeymapList } from './SharedKeymapList';
 
 type PopoverPosition = {
   left: number;
@@ -196,6 +197,9 @@ export default class KeymapListPopover extends React.Component<
                 onClose={() => {
                   this.onCloseSharedKeymapsDialog();
                 }}
+                onClickApplySavedKeymapData={this.onClickApplySavedKeymapData.bind(
+                  this
+                )}
               />
             </>
           ) : (
@@ -269,65 +273,12 @@ function KeymapList(props: KeymapListProps) {
           <SharedKeymapList
             sharedKeymaps={props.sharedKeymaps}
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
+            showMore={true}
             onClickMore={props.onClickMore}
           />
         )}
       </div>
     </>
-  );
-}
-
-type ISharedKeymapListProps = {
-  sharedKeymaps: SavedKeymapData[];
-  // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
-  onClickMore: () => void;
-};
-function SharedKeymapList(props: ISharedKeymapListProps) {
-  return (
-    <React.Fragment>
-      <List dense={true}>
-        {props.sharedKeymaps
-          .slice(0, 10)
-          .map((item: SavedKeymapData, index) => {
-            return (
-              <ListItem
-                key={`keymaplist-keymap${index}`}
-                button
-                onClick={() => {
-                  props.onClickApplySavedKeymapData(item);
-                }}
-              >
-                <ListItemText
-                  primary={
-                    <React.Fragment>
-                      <Typography
-                        component="span"
-                        variant="body1"
-                        color="textPrimary"
-                      >
-                        {item.title}
-                      </Typography>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        color="textSecondary"
-                      >
-                        {` by ${item.author_display_name}`}
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  secondary={item.desc}
-                />
-              </ListItem>
-            );
-          })}
-      </List>
-      {props.sharedKeymaps!.length === 0 && (
-        <div className="no-saved-keymap">There is no shared keymaps.</div>
-      )}
-      <Button onClick={() => props.onClickMore()}>more...</Button>
-    </React.Fragment>
   );
 }
 

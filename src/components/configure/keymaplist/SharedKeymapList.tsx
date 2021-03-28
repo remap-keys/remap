@@ -1,0 +1,68 @@
+import { SavedKeymapData } from '../../../services/storage/Storage';
+import React from 'react';
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from '@material-ui/core';
+import './SharedKeymapList.scss';
+
+type ISharedKeymapListProps = {
+  sharedKeymaps: SavedKeymapData[];
+  // eslint-disable-next-line no-unused-vars
+  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  showMore: boolean;
+  onClickMore?: () => void;
+};
+
+export function SharedKeymapList(props: ISharedKeymapListProps) {
+  return (
+    <React.Fragment>
+      <List dense={true}>
+        {props.sharedKeymaps.map((item: SavedKeymapData, index) => {
+          return (
+            <ListItem
+              key={`shared-keymap-list-${index}`}
+              button
+              onClick={() => {
+                props.onClickApplySavedKeymapData(item);
+              }}
+            >
+              <ListItemText
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {` by ${item.author_display_name}`}
+                    </Typography>
+                  </React.Fragment>
+                }
+                secondary={item.desc}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+      {props.sharedKeymaps!.length === 0 && (
+        <div className="shared-keymap-list-no-saved-keymap">
+          There is no shared keymaps.
+        </div>
+      )}
+      {props.showMore ? (
+        <Button onClick={() => props.onClickMore!()}>more...</Button>
+      ) : null}
+    </React.Fragment>
+  );
+}

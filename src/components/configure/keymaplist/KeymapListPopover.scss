@@ -29,12 +29,6 @@
         /* Chrome, Safari  */
         display: none;
       }
-      .no-saved-keymap {
-        padding-bottom: $space-l;
-        .keymaplist-warning {
-          color: $warning;
-        }
-      }
       .my-keymaplist-header {
         display: flex;
         flex-direction: row;

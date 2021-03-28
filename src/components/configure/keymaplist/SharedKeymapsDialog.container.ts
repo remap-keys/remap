@@ -3,7 +3,9 @@ import SharedKeymapsDialog from './SharedKeymapsDialog';
 import { RootState } from '../../../store/state';
 
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    sharedKeymaps: state.entities.sharedKeymaps,
+  };
 };
 export type SharedKeymapsDialogStateType = ReturnType<typeof mapStateToProps>;
 
