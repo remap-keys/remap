@@ -1,4 +1,7 @@
-import { SavedKeymapData } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  SavedKeymapData,
+} from '../../../services/storage/Storage';
 import React from 'react';
 import {
   Button,
@@ -10,9 +13,9 @@ import {
 import './SharedKeymapList.scss';
 
 type ISharedKeymapListProps = {
-  sharedKeymaps: SavedKeymapData[];
+  sharedKeymaps: AbstractKeymapData[];
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
   showMore: boolean;
   onClickMore?: () => void;
   limit?: number;
@@ -25,10 +28,10 @@ export function SharedKeymapList(props: ISharedKeymapListProps) {
   return (
     <React.Fragment>
       <List dense={true}>
-        {sharedKeymaps.map((item: SavedKeymapData, index) => {
+        {sharedKeymaps.map((item: AbstractKeymapData, index) => {
           return (
             <ListItem
-              key={`shared-keymap-list-${index}`}
+              key={`shared-keymap-item-${item.id}`}
               button
               onClick={() => {
                 props.onClickApplySavedKeymapData(item);
@@ -61,7 +64,7 @@ export function SharedKeymapList(props: ISharedKeymapListProps) {
       </List>
       {props.sharedKeymaps!.length === 0 && (
         <div className="shared-keymap-list-no-saved-keymap">
-          There is no shared keymaps.
+          There is no keymap.
         </div>
       )}
       {props.showMore ? (

@@ -15,13 +15,16 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { SharedKeymapList } from './SharedKeymapList';
-import { SavedKeymapData } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  SavedKeymapData,
+} from '../../../services/storage/Storage';
 
 type OwnProps = {
   open: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 
 type SharedKeymapsDialogProps = OwnProps &
@@ -129,7 +132,15 @@ export default class SharedKeymapsDialog extends React.Component<
                   showMore={false}
                 />
               </React.Fragment>
-            ) : null}
+            ) : (
+              <SharedKeymapList
+                sharedKeymaps={this.props.appliedKeymaps!}
+                onClickApplySavedKeymapData={
+                  this.props.onClickApplySavedKeymapData
+                }
+                showMore={false}
+              />
+            )}
           </div>
         </DialogContent>
       </Dialog>

@@ -83,6 +83,16 @@ export interface AppliedKeymapData extends AbstractKeymapData {
   saved_keymap_id: string;
 }
 
+export function isAppliedKeymapDataInstance(
+  arg: any
+): arg is AppliedKeymapData {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    typeof arg.applied_uid === 'string'
+  );
+}
+
 export interface IExistsResult extends IResult {
   exists?: boolean;
 }
@@ -101,6 +111,10 @@ export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
 
 export interface ISavedKeymapResult extends IResult {
   savedKeymaps: SavedKeymapData[];
+}
+
+export interface IAppliedKeymapsResult extends IResult {
+  appliedKeymaps: AppliedKeymapData[];
 }
 
 /* eslint-disable no-unused-vars */
@@ -161,6 +175,9 @@ export interface IStorage {
   updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
   deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
   fetchSharedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
-  createOrUpdateAppliedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
+  createOrUpdateAppliedKeymap(keymapData: AbstractKeymapData): Promise<IResult>;
+  fetchMyAppliedKeymaps(
+    info: IDeviceInformation
+  ): Promise<IAppliedKeymapsResult>;
 }
 /* eslint-enable no-unused-vars */

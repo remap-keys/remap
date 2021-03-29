@@ -19,7 +19,11 @@ import {
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
-import { SavedKeymapData } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  AppliedKeymapData,
+  SavedKeymapData,
+} from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
@@ -91,7 +95,7 @@ export default class KeymapListPopover extends React.Component<
     }
   }
 
-  private onClickApplySavedKeymapData(savedKeymapData: SavedKeymapData) {
+  private onClickApplySavedKeymapData(savedKeymapData: AbstractKeymapData) {
     sendEventToGoogleAnalytics('configure/restore_keymap', {
       vendor_id: savedKeymapData.vendor_id,
       product_id: savedKeymapData.product_id,
@@ -224,7 +228,7 @@ type KeymapListProps = {
     savedKeymapData: SavedKeymapData | null
   ) => void;
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
   onClickMore: () => void;
 };
 
