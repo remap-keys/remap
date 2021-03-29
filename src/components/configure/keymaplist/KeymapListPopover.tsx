@@ -19,7 +19,11 @@ import {
 } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
-import { SavedKeymapData } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  AppliedKeymapData,
+  SavedKeymapData,
+} from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../auth/AuthProviderDialog.container';
@@ -87,7 +91,7 @@ export default class KeymapListPopover extends React.Component<
     }
   }
 
-  private onClickApplySavedKeymapData(savedKeymapData: SavedKeymapData) {
+  private onClickApplySavedKeymapData(savedKeymapData: AbstractKeymapData) {
     sendEventToGoogleAnalytics('configure/restore_keymap', {
       vendor_id: savedKeymapData.vendor_id,
       product_id: savedKeymapData.product_id,
@@ -161,6 +165,7 @@ export default class KeymapListPopover extends React.Component<
               <KeymapList
                 savedKeymaps={this.props.savedKeymaps!}
                 sharedKeymaps={this.props.sharedKeymaps!}
+                appliedKeymaps={this.props.appliedKeymaps!}
                 onClickOpenKeymapSaveDialog={this.onClickOpenKeymapSaveDialog.bind(
                   this
                 )}
@@ -197,12 +202,13 @@ export default class KeymapListPopover extends React.Component<
 type KeymapListProps = {
   savedKeymaps: SavedKeymapData[];
   sharedKeymaps: SavedKeymapData[];
+  appliedKeymaps: AppliedKeymapData[];
   onClickOpenKeymapSaveDialog: (
     // eslint-disable-next-line no-unused-vars
     savedKeymapData: SavedKeymapData | null
   ) => void;
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 
 function KeymapList(props: KeymapListProps) {
@@ -252,22 +258,27 @@ function KeymapList(props: KeymapListProps) {
             sharedKeymaps={props.sharedKeymaps}
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
           />
-        ) : null}
+        ) : (
+          <SharedKeymapList
+            sharedKeymaps={props.appliedKeymaps}
+            onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
+          />
+        )}
       </div>
     </>
   );
 }
 
 type ISharedKeymapListProps = {
-  sharedKeymaps: SavedKeymapData[];
+  sharedKeymaps: AbstractKeymapData[];
   // eslint-disable-next-line no-unused-vars
-  onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
+  onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 function SharedKeymapList(props: ISharedKeymapListProps) {
   return (
     <React.Fragment>
       <List dense={true}>
-        {props.sharedKeymaps.map((item: SavedKeymapData, index) => {
+        {props.sharedKeymaps.map((item: AbstractKeymapData, index) => {
           return (
             <ListItem
               key={`keymaplist-keymap${index}`}

@@ -12,6 +12,8 @@ import { HidActions, hidActionsThunk } from './hid.action';
 import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
+  AbstractKeymapData,
+  AppliedKeymapData,
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
   SavedKeymapData,
@@ -30,6 +32,7 @@ export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateKeyboardDefinitionDocument`;
 export const STORAGE_UPDATE_SAVED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedKeymaps`;
 export const STORAGE_UPDATE_SHARED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSharedKeymaps`;
+export const STORAGE_UPDATE_APPLIED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateAppliedKeymaps`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -68,6 +71,12 @@ export const StorageActions = {
   updateSharedKeymaps: (keymaps: SavedKeymapData[]) => {
     return {
       type: STORAGE_UPDATE_SHARED_KEYMAPS,
+      value: keymaps,
+    };
+  },
+  updateAppliedKeymaps: (keymaps: AppliedKeymapData[]) => {
+    return {
+      type: STORAGE_UPDATE_APPLIED_KEYMAPS,
       value: keymaps,
     };
   },
@@ -670,7 +679,7 @@ export const storageActionsThunk = {
   },
 
   createOrUpdateAppliedKeymap: (
-    keymapData: SavedKeymapData
+    keymapData: AbstractKeymapData
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -686,6 +695,34 @@ export const storageActionsThunk = {
           `Creating or updating the applied keymap failed: ${result.error!}`,
           result.cause
         )
+      );
+      return;
+    }
+    const info: IDeviceInformation = {
+      vendorId: keymapData.vendor_id,
+      productId: keymapData.product_id,
+      productName: keymapData.product_name,
+    };
+    dispatch(await storageActionsThunk.fetchMyAppliedKeymaps(info));
+  },
+
+  fetchMyAppliedKeymaps: (
+    info: IDeviceInformation
+  ): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const resultList = await storage.instance!.fetchMyAppliedKeymaps(info);
+
+    if (resultList.success) {
+      dispatch(StorageActions.updateAppliedKeymaps(resultList.appliedKeymaps));
+    } else {
+      console.error(resultList.cause!);
+      dispatch(
+        NotificationActions.addError(resultList.error!, resultList.cause)
       );
     }
   },
