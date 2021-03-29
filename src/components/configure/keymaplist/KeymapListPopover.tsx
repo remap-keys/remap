@@ -239,6 +239,7 @@ function KeymapList(props: KeymapListProps) {
         >
           <Tab label="Mine" />
           <Tab label="Shared" />
+          <Tab label="Applied" />
         </Tabs>
         {activeTabIndex === 0 ? (
           <MyKeymapList
@@ -246,12 +247,12 @@ function KeymapList(props: KeymapListProps) {
             onClickOpenKeymapSaveDialog={props.onClickOpenKeymapSaveDialog}
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
           />
-        ) : (
+        ) : activeTabIndex === 1 ? (
           <SharedKeymapList
             sharedKeymaps={props.sharedKeymaps}
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
           />
-        )}
+        ) : null}
       </div>
     </>
   );
