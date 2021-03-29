@@ -14,8 +14,16 @@
 
   .shared-keymaps-dialog-content {
     width: 540px;
+    height: 440px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1;
+      margin-left: 16px;
+    }
 
     .shared-keymaps-dialog-filter-row {
       display: flex;

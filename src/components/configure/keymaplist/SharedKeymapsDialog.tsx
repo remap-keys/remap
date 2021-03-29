@@ -30,6 +30,7 @@ type SharedKeymapsDialogProps = OwnProps &
 
 type OwnState = {
   activeTabIndex: number;
+  filterKeyword: string;
 };
 export default class SharedKeymapsDialog extends React.Component<
   SharedKeymapsDialogProps,
@@ -39,11 +40,15 @@ export default class SharedKeymapsDialog extends React.Component<
     super(props);
     this.state = {
       activeTabIndex: 0,
+      filterKeyword: '',
     };
   }
 
   private onEnter() {
-    this.setState({});
+    this.setState({
+      filterKeyword: '',
+      activeTabIndex: 0,
+    });
   }
 
   private onActiveTabIndexChange(
@@ -53,7 +58,33 @@ export default class SharedKeymapsDialog extends React.Component<
     this.setState({ activeTabIndex: newValue });
   }
 
+  private onFilterChanged(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      filterKeyword: event.target.value,
+    });
+  }
+
   render() {
+    let sharedKeymaps: SavedKeymapData[];
+    if (this.props.sharedKeymaps) {
+      sharedKeymaps = this.state.filterKeyword
+        ? this.props.sharedKeymaps!.filter((sharedKeymap) => {
+            return (
+              sharedKeymap.title
+                .toLowerCase()
+                .includes(this.state.filterKeyword.toLowerCase()) ||
+              sharedKeymap.desc
+                .toLowerCase()
+                .includes(this.state.filterKeyword.toLowerCase()) ||
+              sharedKeymap.author_display_name
+                ?.toLowerCase()
+                .includes(this.state.filterKeyword.toLowerCase())
+            );
+          })
+        : this.props.sharedKeymaps;
+    } else {
+      sharedKeymaps = [];
+    }
     return (
       <Dialog
         open={this.props.open}
@@ -74,30 +105,32 @@ export default class SharedKeymapsDialog extends React.Component<
             indicatorColor="primary"
             textColor="primary"
             aria-label="shared-keymaps"
+            orientation="vertical"
           >
             <Tab label="Shared Keymaps" />
             <Tab label="Applied History" />
           </Tabs>
-          {this.state.activeTabIndex === 0 ? (
-            <React.Fragment>
-              <div className="shared-keymaps-dialog-filter-row">
-                <TextField
-                  label="Filter"
-                  // value={this.props.nameFilter}
-                  // onChange={(e) => this.props.updateNameFilter!(e.target.value)}
+          <div className="shared-keymaps-dialog-content-body">
+            {this.state.activeTabIndex === 0 ? (
+              <React.Fragment>
+                <div className="shared-keymaps-dialog-filter-row">
+                  <TextField
+                    label="Filter"
+                    size="small"
+                    value={this.state.filterKeyword}
+                    onChange={this.onFilterChanged.bind(this)}
+                  />
+                </div>
+                <SharedKeymapList
+                  sharedKeymaps={sharedKeymaps}
+                  onClickApplySavedKeymapData={
+                    this.props.onClickApplySavedKeymapData
+                  }
+                  showMore={false}
                 />
-              </div>
-              <SharedKeymapList
-                sharedKeymaps={this.props.sharedKeymaps!}
-                onClickApplySavedKeymapData={
-                  this.props.onClickApplySavedKeymapData
-                }
-                showMore={false}
-              />
-            </React.Fragment>
-          ) : (
-            <></>
-          )}
+              </React.Fragment>
+            ) : null}
+          </div>
         </DialogContent>
       </Dialog>
     );

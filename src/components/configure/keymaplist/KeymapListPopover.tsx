@@ -275,6 +275,7 @@ function KeymapList(props: KeymapListProps) {
             onClickApplySavedKeymapData={props.onClickApplySavedKeymapData}
             showMore={true}
             onClickMore={props.onClickMore}
+            limit={10}
           />
         )}
       </div>

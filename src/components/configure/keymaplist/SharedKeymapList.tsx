@@ -15,13 +15,17 @@ type ISharedKeymapListProps = {
   onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;
   showMore: boolean;
   onClickMore?: () => void;
+  limit?: number;
 };
 
 export function SharedKeymapList(props: ISharedKeymapListProps) {
+  const sharedKeymaps = props.limit
+    ? props.sharedKeymaps.slice(0, props.limit)
+    : props.sharedKeymaps;
   return (
     <React.Fragment>
       <List dense={true}>
-        {props.sharedKeymaps.map((item: SavedKeymapData, index) => {
+        {sharedKeymaps.map((item: SavedKeymapData, index) => {
           return (
             <ListItem
               key={`shared-keymap-list-${index}`}
