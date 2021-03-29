@@ -10,6 +10,7 @@ const mapStateToProps = (state: RootState) => {
 };
 export type SharedKeymapsDialogStateType = ReturnType<typeof mapStateToProps>;
 
+// eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
   return {};
 };

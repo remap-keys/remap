@@ -1,7 +1,4 @@
-import {
-  AbstractKeymapData,
-  SavedKeymapData,
-} from '../../../services/storage/Storage';
+import { AbstractKeymapData } from '../../../services/storage/Storage';
 import React from 'react';
 import {
   Button,
@@ -28,7 +25,7 @@ export function SharedKeymapList(props: ISharedKeymapListProps) {
   return (
     <React.Fragment>
       <List dense={true}>
-        {sharedKeymaps.map((item: AbstractKeymapData, index) => {
+        {sharedKeymaps.map((item: AbstractKeymapData) => {
           return (
             <ListItem
               key={`shared-keymap-item-${item.id}`}

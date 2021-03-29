@@ -21,7 +21,6 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
 import {
   AbstractKeymapData,
-  AppliedKeymapData,
   SavedKeymapData,
 } from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
