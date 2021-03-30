@@ -17,11 +17,22 @@ interface IActionOptions {
   product_name?: string;
 }
 
-const analytics = firebase.analytics();
+let analytics: firebase.analytics.Analytics | null;
+try {
+  analytics = firebase.analytics();
+} catch (cause) {
+  if (process.env.NODE_ENV === 'production') {
+    throw cause;
+  } else {
+    analytics = null;
+  }
+}
 
 export const sendEventToGoogleAnalytics = (
   action: IActionName,
   options?: IActionOptions
 ) => {
-  analytics.logEvent<IActionName>(action, options);
+  if (analytics) {
+    analytics.logEvent<IActionName>(action, options);
+  }
 };

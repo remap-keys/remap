@@ -133,7 +133,11 @@ export default class InfoDialog extends React.Component<
               keyboardDefinitionDocument={this.props.keyboardDefinitionDocument}
               keyboardDefinition={this.props.keyboardDefinition}
               googleFormUrl={this.googleFormUrl}
-              authenticatedUser={this.props.auth!.getCurrentAuthenticatedUser()}
+              authenticatedUser={
+                this.props.auth
+                  ? this.props.auth.getCurrentAuthenticatedUser()
+                  : undefined
+              }
             />
           </Grid>
         </DialogContent>
