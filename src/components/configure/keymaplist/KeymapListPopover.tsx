@@ -245,7 +245,7 @@ function KeymapList(props: KeymapListProps) {
         >
           <Tab label="Mine" />
           <Tab label="Shared" />
-          <Tab label="Applied" />
+          <Tab label="History" />
         </Tabs>
         {activeTabIndex === 0 ? (
           <MyKeymapList
