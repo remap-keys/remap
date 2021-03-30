@@ -31,14 +31,6 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActions.clearTestedMatrix());
       _dispatch(AppActions.updateCurrentTestMatrix([]));
       _dispatch(KeymapToolbarActions.updateTestMatrix(true));
-
-      // TODO: Remove below code. (For confirming the behavior)
-      _dispatch(AppActions.addTestedMatrix('0,3'));
-      _dispatch(AppActions.addTestedMatrix('1,3'));
-      _dispatch(AppActions.addTestedMatrix('2,3'));
-      _dispatch(AppActions.addTestedMatrix('3,3'));
-
-      _dispatch(AppActions.updateCurrentTestMatrix(['1,3']));
     },
   };
 };
