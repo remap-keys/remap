@@ -14,6 +14,8 @@ import {
   ISavedKeymapResult,
   AbstractKeymapData,
   AppliedKeymapData,
+  IAppliedKeymapsResult,
+  isAppliedKeymapDataInstance,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace } from '../../store/state';
@@ -660,22 +662,25 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async createOrUpdateAppliedKeymap(
-    keymapData: SavedKeymapData
+    keymapData: AbstractKeymapData
   ): Promise<IResult> {
     try {
+      const savedKeymapId = isAppliedKeymapDataInstance(keymapData)
+        ? (keymapData as AppliedKeymapData).saved_keymap_id
+        : keymapData.id;
       const appliedKeymapsSnapshot = await this.db
         .collection('keymaps')
         .doc('v1')
         .collection('applied-keymaps')
         .where('applied_uid', '==', this.auth.currentUser!.uid)
-        .where('saved_keymap_id', '==', keymapData.id)
+        .where('saved_keymap_id', '==', savedKeymapId)
         .get();
       if (appliedKeymapsSnapshot.empty) {
         // Create
         const now = new Date();
         const appliedKeymapData: AppliedKeymapData = {
           applied_uid: this.auth.currentUser!.uid,
-          saved_keymap_id: keymapData.id!,
+          saved_keymap_id: savedKeymapId!,
           author_uid: keymapData.author_uid,
           author_display_name: keymapData.author_display_name,
           vendor_id: keymapData.vendor_id,
@@ -730,5 +735,27 @@ export class FirebaseProvider implements IStorage, IAuth {
         cause: error,
       };
     }
+  }
+
+  async fetchMyAppliedKeymaps(
+    info: IDeviceInformation
+  ): Promise<IAppliedKeymapsResult> {
+    const snapshot = await this.db
+      .collection('keymaps')
+      .doc('v1')
+      .collection('applied-keymaps')
+      .where('applied_uid', '==', this.auth.currentUser!.uid)
+      .where('vendor_id', '==', info.vendorId)
+      .where('product_id', '==', info.productId)
+      .orderBy('updated_at', 'desc')
+      .get();
+    const keymaps: AppliedKeymapData[] = this.filterKeymapsByProductName(
+      snapshot,
+      info
+    );
+    return {
+      success: true,
+      appliedKeymaps: keymaps,
+    };
   }
 }

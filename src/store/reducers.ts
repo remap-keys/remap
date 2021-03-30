@@ -54,6 +54,7 @@ import {
 } from '../actions/hid.action';
 import {
   STORAGE_ACTIONS,
+  STORAGE_UPDATE_APPLIED_KEYMAPS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
@@ -310,6 +311,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_SHARED_KEYMAPS: {
       draft.entities.sharedKeymaps = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_APPLIED_KEYMAPS: {
+      draft.entities.appliedKeymaps = action.value;
       break;
     }
   }

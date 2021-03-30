@@ -4,6 +4,7 @@ import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
+  AppliedKeymapData,
   IKeyboardDefinitionDocument,
   IStorage,
   SavedKeymapData,
@@ -82,6 +83,7 @@ export type RootState = {
     keyboardDefinitionDocument: IKeyboardDefinitionDocument | null;
     savedKeymaps: SavedKeymapData[];
     sharedKeymaps: SavedKeymapData[];
+    appliedKeymaps: AppliedKeymapData[];
   };
   app: {
     package: {
@@ -207,6 +209,7 @@ export const INIT_STATE: RootState = {
     keyboardDefinitionDocument: null,
     savedKeymaps: [],
     sharedKeymaps: [],
+    appliedKeymaps: [],
   },
   app: {
     package: {

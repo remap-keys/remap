@@ -2,10 +2,10 @@
 
 .keymaplist-root {
   .keymaplist {
-    padding: 0 $space-l;
+    padding: 0 $space-l $space-m $space-l;
   }
   .keymaplist-popover {
-    width: 330px;
+    width: 400px;
     max-height: 400px;
     display: flex;
     flex-direction: column;
@@ -42,6 +42,10 @@
         &-shared {
           margin-right: 8px;
         }
+      }
+      .MuiTab-root {
+        min-width: 120px;
+        width: 120px;
       }
       .MuiListItemText-primary {
         overflow-x: scroll;
