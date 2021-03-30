@@ -155,7 +155,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     }
     return (
       <React.Fragment>
-        <div>
+        <div className="configure-root">
           <CssBaseline />
           <Header />
           <main>
