@@ -127,6 +127,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       return (
         <React.Fragment>
           <CssBaseline />
+
           <Header />
           <main>
             <UnsupportBrowser />
@@ -137,15 +138,17 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     }
     return (
       <React.Fragment>
-        <CssBaseline />
-        <Header />
-        <main className="configure-main">
-          <Content />
-        </main>
-        {(this.props.draggingKey || this.props.testMatrix) && (
-          <div className="dragMask fill-blank"></div>
-        )}
-        <Footer />
+        <div className="configure-root">
+          <CssBaseline />
+          <Header />
+          <main>
+            <Content />
+          </main>
+          {(this.props.draggingKey || this.props.testMatrix) && (
+            <div className="dragMask fill-blank"></div>
+          )}
+          <Footer />
+        </div>
       </React.Fragment>
     );
   }
