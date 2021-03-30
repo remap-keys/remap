@@ -1,6 +1,10 @@
 @import '../../_variables.scss';
 
-.configure-main {
+.configure-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $background-color-gray;
 }
 
 .message-box-wrapper {
@@ -35,6 +39,6 @@
   &.fill-blank {
     position: relative;
     width: 100%;
-    height: 100vh;
+    flex-grow: 1;
   }
 }
