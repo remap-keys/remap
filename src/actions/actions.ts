@@ -199,6 +199,7 @@ export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
 export const APP_UPDATE_SIGNED_IN = `${APP_ACTIONS}/SignedIn`;
 export const APP_TESTED_MATRIX_CLEAR = `${APP_ACTIONS}/TestedMatrixClear`;
 export const APP_TESTED_MATRIX_ADD = `${APP_ACTIONS}/TestedMatrixAdd`;
+export const APP_TEST_MATRIX_UPDATE = `${APP_ACTIONS}/TestMatrixUpdate`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -281,6 +282,12 @@ export const AppActions = {
     return {
       type: APP_TESTED_MATRIX_ADD,
       value: pos,
+    };
+  },
+  updateCurrentTestMatrix: (posList: string[]) => {
+    return {
+      type: APP_TEST_MATRIX_UPDATE,
+      value: posList,
     };
   },
 };

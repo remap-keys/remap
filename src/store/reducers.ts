@@ -45,6 +45,7 @@ import {
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
   APP_TESTED_MATRIX_ADD,
+  APP_TEST_MATRIX_UPDATE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -378,6 +379,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       if (testedMatrix.indexOf(pos) < 0) {
         draft.app.testedMatrix = [...testedMatrix, pos];
       }
+      break;
+    }
+    case APP_TEST_MATRIX_UPDATE: {
+      draft.app.currentTestMatrix = action.value;
       break;
     }
   }

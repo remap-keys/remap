@@ -29,6 +29,7 @@ const mapStateToProps = (state: RootState) => {
     labelLang: state.app.labelLang,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     testedMatrix: state.app.testedMatrix,
+    currentTestMatrix: state.app.currentTestMatrix,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;

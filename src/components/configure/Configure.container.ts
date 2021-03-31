@@ -2,7 +2,11 @@ import { connect } from 'react-redux';
 import Configure from './Configure';
 import { RootState, SetupPhase } from '../../store/state';
 import { HidActions, hidActionsThunk } from '../../actions/hid.action';
-import { AppActions, NotificationActions } from '../../actions/actions';
+import {
+  AppActions,
+  KeymapToolbarActions,
+  NotificationActions,
+} from '../../actions/actions';
 import { IKeyboard } from '../../services/hid/Hid';
 
 const mapStateToProps = (state: RootState) => {
@@ -54,6 +58,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       }
 
       _dispatch(HidActions.disconnectKeyboard(keyboard));
+      _dispatch(KeymapToolbarActions.updateTestMatrix(false));
     },
 
     onCloseKeyboard: (keyboard: IKeyboard) => {
