@@ -385,9 +385,7 @@ export const hidActionsThunk = {
 
       for (let col = 0; col < cols; col++) {
         if ((rowState & (1 << col)) !== 0) {
-          const key = row + ',' + col;
-          dispatch(AppActions.addTestedMatrix(key));
-          pushed.push(key);
+          pushed.push(row + ',' + col);
         }
       }
 
