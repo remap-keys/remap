@@ -21,6 +21,7 @@ type KeycapOwnState = {
 // TODO: refactoring properties, unify the model
 export type KeycapOwnProps = {
   debug?: boolean;
+  down: boolean;
   focus: boolean;
   model: KeyModel;
   keymap: IKeymap;
@@ -191,6 +192,9 @@ export default class Keycap extends React.Component<
             'keycap',
             'keycap-border',
             this.props.testMatrix && 'keycap-test-matrix',
+            this.props.testMatrix &&
+              this.props.down &&
+              'keycap-test-matrix-down',
           ].join(' ')}
           style={style}
           onClick={() => {
@@ -239,6 +243,7 @@ export default class Keycap extends React.Component<
           className={[
             'keyroof-base',
             this.props.testMatrix && 'test-matrix',
+            this.props.testMatrix && this.props.down && 'test-matrix-down',
           ].join(' ')}
           style={roofStyle}
           onClick={this.onClick.bind(this, pos, isFocusedKey, orgKey, dstKey)}

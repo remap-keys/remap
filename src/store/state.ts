@@ -96,7 +96,8 @@ export type RootState = {
       // remap candidates and show keydiff
       [pos: string]: IKeymap;
     }[];
-    testedMatrix: string[]; // 'row,col' string list when TEST MATRIX MODE
+    testedMatrix: string[]; // 'row,col' string list which are pressed keys in TEST MATRIX MODE
+    currentTestMatrix: string[]; // 'row,col' string list which are pressed down keys currently in TEST MATRIX MODE
     notifications: NotificationItem[];
     keyboardHeight: number;
     keyboardWidth: number;
@@ -224,6 +225,7 @@ export const INIT_STATE: RootState = {
     setupPhase: SetupPhase.init,
     remaps: [],
     testedMatrix: [],
+    currentTestMatrix: [],
     notifications: [],
     keyboardHeight: 0,
     keyboardWidth: 0,

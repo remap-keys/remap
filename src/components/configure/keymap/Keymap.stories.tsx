@@ -92,6 +92,7 @@ const genKeyboardView = (
                     onClickKeycap={() => {}}
                     {...keycap}
                     focus={false}
+                    down={false}
                   />
                 );
               })}

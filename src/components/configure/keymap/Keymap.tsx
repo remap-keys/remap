@@ -232,6 +232,7 @@ export default class Keymap extends React.Component<
             selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
             remaps={this.props.remaps!}
             testedMatrix={this.props.testedMatrix!}
+            currentTestMatrix={this.props.currentTestMatrix!}
             setKeyboardSize={(width, height) => {
               this.props.setKeyboardSize!(width, height);
             }}
@@ -350,6 +351,7 @@ type KeycapData = {
   keymap: IKeymap;
   remap: IKeymap | null;
   focus: boolean;
+  down: boolean;
 };
 
 type KeyboardType = {
@@ -360,6 +362,7 @@ type KeyboardType = {
   selectedPos: string;
   remaps: { [pos: string]: IKeymap }[];
   testedMatrix: string[];
+  currentTestMatrix: string[];
   onClickKeycap: (
     // eslint-disable-next-line no-unused-vars
     pos: string,
@@ -396,7 +399,8 @@ export function KeyboardView(props: KeyboardType) {
       const remap: IKeymap | null = pos in remaps ? remaps[pos] : null;
       const focus: boolean =
         0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
-      keycaps.push({ model, keymap, remap, focus });
+      const down: boolean = 0 <= props.currentTestMatrix.indexOf(pos);
+      keycaps.push({ model, keymap, remap, focus, down });
     } else {
       console.log(`No keymap on device: ${model.location}`);
     }
@@ -428,6 +432,7 @@ export function KeyboardView(props: KeyboardType) {
                   props.onClickKeycap(pos, key, anchorRef);
                 }}
                 focus={keycap.focus}
+                down={keycap.down}
               />
             );
           })}
