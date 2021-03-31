@@ -173,6 +173,7 @@ export default class Keymap extends React.Component<
 
   componentDidUpdate(
     prevProps: KeymapPropsType,
+    // eslint-disable-next-line no-unused-vars
     prevState: OwnKeymapStateType
   ) {
     if (prevProps.testMatrix !== this.props.testMatrix) {

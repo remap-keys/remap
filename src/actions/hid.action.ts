@@ -361,6 +361,7 @@ export const hidActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
+    // eslint-disable-next-line no-unused-vars
     const { app, entities } = getState();
     const keyboard: IKeyboard = entities.keyboard!;
 
