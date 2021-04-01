@@ -5,6 +5,31 @@
   flex-direction: row;
   justify-content: center;
   height: 78px;
+  .diff {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: $space-m;
+    .test-matrix-message {
+      z-index: 2;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h3 {
+        margin: 0;
+      }
+    }
+    .close-test-matrix {
+      display: flex;
+      z-index: 2;
+      margin-left: auto;
+      margin-top: auto;
+      button {
+        color: white;
+      }
+    }
+  }
   .label-lang {
     display: flex;
     justify-content: flex-start;

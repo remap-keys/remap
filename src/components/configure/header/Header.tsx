@@ -405,8 +405,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
             </div>
             {this.renderAvatarIcon()}
           </div>
-          {this.props.draggingKey && (
-            <div className="dragMask" style={{ marginLeft: -8 }}></div>
+          {(this.props.draggingKey || this.props.testMatrix) && (
+            <div className="dragMask header-height"></div>
           )}
           <ConnectionModal open={false} onClose={() => {}} />
         </header>

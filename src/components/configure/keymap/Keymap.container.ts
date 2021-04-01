@@ -5,6 +5,7 @@ import {
   AppActions,
   KeydiffActions,
   KeymapActions,
+  KeymapToolbarActions,
 } from '../../../actions/actions';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hidActionsThunk } from '../../../actions/hid.action';
@@ -18,12 +19,17 @@ const mapStateToProps = (state: RootState) => {
     keyboardKeymap: state.entities.keyboardDefinition?.layouts.keymap,
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
     keydiff: state.configure.keydiff,
+    keyboardWidth: state.app.keyboardWidth,
     keymaps: state.entities.device.keymaps,
     layerCount: state.entities.device.layerCount,
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     selectedLayer: state.configure.keymap.selectedLayer,
+    selectedPos: state.configure.keymap.selectedPos,
     remaps: state.app.remaps,
     labelLang: state.app.labelLang,
+    testMatrix: state.configure.keymapToolbar.testMatrix,
+    testedMatrix: state.app.testedMatrix,
+    currentTestMatrix: state.app.currentTestMatrix,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;
@@ -67,6 +73,13 @@ const mapDispatchToProps = (_dispatch: any) => {
     revertKeymap: (selectedLayer: number, pos: string) => {
       _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
       _dispatch(KeydiffActions.clearKeydiff());
+    },
+    updateTestMatrixOff: () => {
+      _dispatch(AppActions.clearTestedMatrix());
+      _dispatch(KeymapToolbarActions.updateTestMatrix(false));
+    },
+    fetchSwitchMatrixState: () => {
+      _dispatch(hidActionsThunk.fetchSwitchMatrixState());
     },
   };
 };

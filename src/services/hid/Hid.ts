@@ -101,6 +101,10 @@ export interface IFetchRGBLightColorResult extends IResult {
   sat?: number;
 }
 
+export interface IFetchSwitchMatrixStateResult extends IResult {
+  state?: Uint8Array;
+}
+
 export interface IKeyboard {
   getDevice(): any;
   getHid(): IHid;
@@ -137,6 +141,7 @@ export interface IKeyboard {
   updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
   resetDynamicKeymap(): Promise<IResult>;
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
+  fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
 }
 
 export interface ICommand {

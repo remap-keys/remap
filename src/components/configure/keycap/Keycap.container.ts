@@ -12,8 +12,8 @@ import { RootState } from '../../../store/state';
 const mapStateToProps = (state: RootState) => {
   return {
     draggingKey: state.configure.keycodeKey.draggingKey,
-    selectedPos: state.configure.keymap.selectedPos,
     selectedLayer: state.configure.keymap.selectedLayer,
+    testMatrix: state.configure.keymapToolbar.testMatrix,
     labelLang: state.app.labelLang,
   };
 };
