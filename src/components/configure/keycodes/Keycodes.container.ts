@@ -12,7 +12,6 @@ const mapStateToProps = (state: RootState) => {
     layerCount: state.entities.device.layerCount,
     labelLang: state.app.labelLang,
     bleMicroPro: state.entities.device.bleMicroPro,
-    testMatrix: state.configure.keymapToolbar.testMatrix,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

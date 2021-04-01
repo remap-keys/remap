@@ -174,9 +174,4 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true });
     });
   },
-  fetchSwitchMatrixState: () => {
-    return new Promise<IResult>((resolve) => {
-      resolve({ success: true });
-    });
-  },
 };

@@ -147,8 +147,11 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           )}
         </div>
 
-        {(this.props.draggingKey || this.props.testMatrix) && (
-          <div className="dragMask"></div>
+        {this.props.draggingKey && (
+          <div
+            className="dragMask"
+            style={{ marginLeft: -8, marginTop: -6 }}
+          ></div>
         )}
       </React.Fragment>
     );

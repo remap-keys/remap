@@ -32,17 +32,6 @@ export const KeymapActions = {
   },
 };
 
-export const KEYMAP_TOOLBAR_ACTIONS = '@KeymapToolbar';
-export const KEYMAP_TOOLBAR_TEST_MATRIX_MODE = `${KEYMAP_TOOLBAR_ACTIONS}/TestMatrixMode`;
-export const KeymapToolbarActions = {
-  updateTestMatrix: (flag: boolean) => {
-    return {
-      type: KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
-      value: flag,
-    };
-  },
-};
-
 export const KEYCODES_ACTIONS = '@Keycodes';
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
 export const KeycodesActions = {
@@ -197,8 +186,6 @@ export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const APP_UPDATE_KEYBOARD_SIZE = `${APP_ACTIONS}/UpdateKeyboardSize`;
 export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
 export const APP_UPDATE_SIGNED_IN = `${APP_ACTIONS}/SignedIn`;
-export const APP_TESTED_MATRIX_CLEAR = `${APP_ACTIONS}/TestedMatrixClear`;
-export const APP_TEST_MATRIX_UPDATE = `${APP_ACTIONS}/TestMatrixUpdate`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -270,17 +257,6 @@ export const AppActions = {
     return {
       type: APP_UPDATE_SIGNED_IN,
       value: signedIn,
-    };
-  },
-  clearTestedMatrix: () => {
-    return {
-      type: APP_TESTED_MATRIX_CLEAR,
-    };
-  },
-  updateCurrentTestMatrix: (posList: string[]) => {
-    return {
-      type: APP_TEST_MATRIX_UPDATE,
-      value: posList,
     };
   },
 };
