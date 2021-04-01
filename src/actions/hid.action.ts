@@ -356,43 +356,6 @@ export const hidActionsThunk = {
     dispatch(KeymapActions.clearSelectedPos());
     dispatch(HeaderActions.updateFlashing(false));
   },
-
-  fetchSwitchMatrixState: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    // eslint-disable-next-line no-unused-vars
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
-
-    const result = await keyboard.fetchSwitchMatrixState();
-    if (!result.success) {
-      console.error(result.cause);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-      return;
-    }
-
-    const rows = entities.keyboardDefinition!.matrix.rows;
-    const cols = entities.keyboardDefinition!.matrix.cols;
-    const state = result.state!;
-
-    let i = 0;
-    const pushed: Array<string> = [];
-    for (let row = 0; row < rows; row++) {
-      let rowState = 0;
-      for (let colIdx = 0; colIdx < Math.ceil(cols / 8); colIdx++) {
-        rowState = (rowState << 8) | state[i++];
-      }
-
-      for (let col = 0; col < cols; col++) {
-        if ((rowState & (1 << col)) !== 0) {
-          pushed.push(row + ',' + col);
-        }
-      }
-
-      dispatch(AppActions.updateCurrentTestMatrix(pushed.slice()));
-    }
-  },
 };
 
 const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {

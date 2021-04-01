@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import './Configure.scss';
 import { ProviderContext, withSnackbar } from 'notistack';
@@ -121,22 +120,8 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
   }
 
   componentDidUpdate() {
-    console.log(`componentDidUpdate: ${this.props.testMatrix}`);
     this.updateTitle();
     this.updateNotifications();
-
-    if (this.props.testMatrix) {
-      // Ignore all key event when TEST MATRIX MODE
-      window.onkeydown = (e: any) => {
-        e.preventDefault();
-      };
-      window.onkeyup = (e: any) => {
-        e.preventDefault();
-      };
-    } else {
-      window.onkeydown = null;
-      window.onkeyup = null;
-    }
   }
 
   render() {
@@ -144,7 +129,6 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       return (
         <React.Fragment>
           <CssBaseline />
-
           <Header />
           <main>
             <UnsupportBrowser />
@@ -155,17 +139,12 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     }
     return (
       <React.Fragment>
-        <div>
-          <CssBaseline />
-          <Header />
-          <main>
-            <Content />
-          </main>
-          {(this.props.draggingKey || this.props.testMatrix) && (
-            <div className="dragMask fill-blank"></div>
-          )}
-          <Footer />
-        </div>
+        <CssBaseline />
+        <Header />
+        <main className="configure-main">
+          <Content />
+        </main>
+        <Footer />
       </React.Fragment>
     );
   }

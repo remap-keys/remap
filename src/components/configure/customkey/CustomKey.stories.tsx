@@ -82,8 +82,6 @@ class CustomKeyStory extends React.Component<{}, State> {
             this.openPopover(key);
           }}
           onClickKeycap={() => {}}
-          focus={false}
-          down={false}
         />
         <CustomKey
           id="customkey-popover"

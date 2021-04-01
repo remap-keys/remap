@@ -91,8 +91,6 @@ const genKeyboardView = (
                     selectedLayer={0}
                     onClickKeycap={() => {}}
                     {...keycap}
-                    focus={false}
-                    down={false}
                   />
                 );
               })}

@@ -170,11 +170,6 @@ export default class KeymapMenu extends React.Component<
     this.setState({ subMenuAnchorEl: null });
   }
 
-  private onClickTestMatrixMode() {
-    this.onCloseSubmenu();
-    this.props.updateTestMatrixOn!();
-  }
-
   render() {
     const isLightingAvailable = LightingDialog.isLightingAvailable(
       this.props.keyboardDefinition!.lighting
@@ -294,12 +289,6 @@ export default class KeymapMenu extends React.Component<
                   <ImportFileIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Import keyboard definition file" />
-              </MenuItem>
-              <MenuItem button onClick={this.onClickTestMatrixMode.bind(this)}>
-                <ListItemIcon>
-                  <ImportFileIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary="Test Matrix Mode" />
               </MenuItem>
             </Menu>
           </div>
