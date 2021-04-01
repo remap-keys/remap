@@ -56,6 +56,10 @@
     padding-top: 16px;
   }
 
+  .header-height {
+    height: calc(var(--key-height));
+  }
+
   .buttons {
     display: flex;
     margin-left: auto;

@@ -18,41 +18,38 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     super(props);
   }
   render() {
-    const width = this.props.keyboardWidth!;
     const origin: IKeymap | null = this.props.keydiff!.origin;
     const destination: IKeymap | null = this.props.keydiff!.destination;
     if (!origin || !destination) {
-      return <div className="diff" style={{ width: width }}></div>;
+      return <></>;
     }
     const labelLang = this.props.labelLang!;
     const origKey: Key = genKey(origin, labelLang);
     const dstKey: Key = genKey(destination, labelLang);
 
     return (
-      <div className="diff" style={{ width: width }}>
-        <div className="diff-frame">
-          <div className="spacer"></div>
-          <div className="key-orig">
-            <KeycodeKey value={origKey!} draggable={false} />
-          </div>
-          <div className="arrow">&gt;</div>
-          <div className="key-dest">
-            <KeycodeKey value={dstKey!} draggable={false} />
-          </div>
-          <div className="cancel-button">
-            <Button
-              size="small"
-              color="secondary"
-              startIcon={<Clear />}
-              onClick={this.props.onClickCancel?.bind(
-                this,
-                this.props.selectedLayer!,
-                this.props.selectedPos!
-              )}
-            >
-              Cancel
-            </Button>
-          </div>
+      <div className="diff-frame">
+        <div className="spacer"></div>
+        <div className="key-orig">
+          <KeycodeKey value={origKey!} draggable={false} />
+        </div>
+        <div className="arrow">&gt;</div>
+        <div className="key-dest">
+          <KeycodeKey value={dstKey!} draggable={false} />
+        </div>
+        <div className="cancel-button">
+          <Button
+            size="small"
+            color="secondary"
+            startIcon={<Clear />}
+            onClick={this.props.onClickCancel?.bind(
+              this,
+              this.props.selectedLayer!,
+              this.props.selectedPos!
+            )}
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     );

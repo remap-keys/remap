@@ -1,7 +1,15 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import { Badge, Chip, MenuItem, Select, withStyles } from '@material-ui/core';
+import {
+  Badge,
+  Chip,
+  IconButton,
+  MenuItem,
+  Select,
+  withStyles,
+} from '@material-ui/core';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
 import { IKeymap } from '../../../services/hid/Hid';
@@ -74,7 +82,12 @@ export default class Keymap extends React.Component<
       this.props.clearSelectedPos!();
     }
   }
-  private onClickKeycap(
+
+  private onClickKeycapForTestMatrix(pos: string) {
+    console.log(pos);
+  }
+
+  private onClickKeycapForKeyCustom(
     selectedPos: string,
     selectedKey: Key,
     selectedKeyRef: React.RefObject<HTMLDivElement>
@@ -159,12 +172,33 @@ export default class Keymap extends React.Component<
   render() {
     return (
       <React.Fragment>
-        {this.props.draggingKey && <div className="dragMask"></div>}
+        {(this.props.draggingKey || this.props.testMatrix) && (
+          <div className="dragMask"></div>
+        )}
 
         <div className="keydiff-wrapper">
           <div className="spacer"></div>
           <div className="balancer"></div>
-          <Keydiff />
+          <div className="diff" style={{ width: this.props.keyboardWidth! }}>
+            <Keydiff />
+            {this.props.testMatrix && (
+              <>
+                <div className="test-matrix-message">
+                  <h3>Test Matrix</h3>
+
+                  {`You can confirm that your keyboard's key switches work fine.`}
+                </div>
+                <div className="close-test-matrix">
+                  <IconButton
+                    aria-label="close"
+                    onClick={this.props.updateTestMatrixOff!}
+                  >
+                    <CloseRoundedIcon fontSize="large" />
+                  </IconButton>
+                </div>
+              </>
+            )}
+          </div>
           <div className="label-lang">
             <LabelLang
               labelLang={this.props.labelLang!}
@@ -195,12 +229,19 @@ export default class Keymap extends React.Component<
             layoutOptions={this.props.selectedKeyboardOptions!}
             keymaps={this.props.keymaps!}
             selectedLayer={this.props.selectedLayer!}
+            selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
             remaps={this.props.remaps!}
+            testedMatrix={this.props.testedMatrix!}
+            currentTestMatrix={this.props.currentTestMatrix!}
             setKeyboardSize={(width, height) => {
               this.props.setKeyboardSize!(width, height);
             }}
             onClickKeycap={(pos, key, ref) => {
-              this.onClickKeycap(pos, key, ref);
+              if (this.props.testMatrix) {
+                this.onClickKeycapForTestMatrix(pos);
+              } else {
+                this.onClickKeycapForKeyCustom(pos, key, ref);
+              }
             }}
           />
           <KeymapToolbar />
@@ -309,6 +350,8 @@ type KeycapData = {
   model: KeyModel;
   keymap: IKeymap;
   remap: IKeymap | null;
+  focus: boolean;
+  down: boolean;
 };
 
 type KeyboardType = {
@@ -316,7 +359,10 @@ type KeyboardType = {
   layoutOptions?: LayoutOption[];
   keymaps: { [pos: string]: IKeymap }[];
   selectedLayer: number;
+  selectedPos: string;
   remaps: { [pos: string]: IKeymap }[];
+  testedMatrix: string[];
+  currentTestMatrix: string[];
   onClickKeycap: (
     // eslint-disable-next-line no-unused-vars
     pos: string,
@@ -348,10 +394,13 @@ export function KeyboardView(props: KeyboardType) {
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model) => {
     const pos = model.pos;
-    if (model.pos in deviceKeymaps) {
+    if (pos in deviceKeymaps) {
       const keymap: IKeymap = deviceKeymaps[pos];
       const remap: IKeymap | null = pos in remaps ? remaps[pos] : null;
-      keycaps.push({ model, keymap, remap });
+      const focus: boolean =
+        0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
+      const down: boolean = 0 <= props.currentTestMatrix.indexOf(pos);
+      keycaps.push({ model, keymap, remap, focus, down });
     } else {
       console.log(`No keymap on device: ${model.location}`);
     }
@@ -382,6 +431,8 @@ export function KeyboardView(props: KeyboardType) {
                 onClick={(pos: string, key: Key) => {
                   props.onClickKeycap(pos, key, anchorRef);
                 }}
+                focus={keycap.focus}
+                down={keycap.down}
               />
             );
           })}

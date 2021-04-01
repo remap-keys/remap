@@ -41,6 +41,11 @@ import {
   APP_UPDATE_SIGNED_IN,
   APP_REMAPS_SET_KEYS,
   LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS,
+  KEYMAP_TOOLBAR_ACTIONS,
+  KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
+  APP_TESTED_MATRIX_CLEAR,
+  APP_TESTED_MATRIX_ADD,
+  APP_TEST_MATRIX_UPDATE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -118,6 +123,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keycodekeyReducer(action, draft);
     } else if (action.type.startsWith(KEYDIFF_ACTIONS)) {
       keydiffReducer(action, draft);
+    } else if (action.type.startsWith(KEYMAP_TOOLBAR_ACTIONS)) {
+      keymapToolbarReducer(action, draft);
     } else if (action.type.startsWith(KEYMAP_ACTIONS)) {
       keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
@@ -367,6 +374,22 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.signedIn = action.value;
       break;
     }
+    case APP_TESTED_MATRIX_CLEAR: {
+      draft.app.testedMatrix = [];
+      break;
+    }
+    case APP_TESTED_MATRIX_ADD: {
+      const pos = action.value;
+      const testedMatrix = draft.app.testedMatrix;
+      if (testedMatrix.indexOf(pos) < 0) {
+        draft.app.testedMatrix = [...testedMatrix, pos];
+      }
+      break;
+    }
+    case APP_TEST_MATRIX_UPDATE: {
+      draft.app.currentTestMatrix = action.value;
+      break;
+    }
   }
 };
 
@@ -424,6 +447,19 @@ const keymapReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case KEYMAP_UPDATE_SELECTED_POS: {
       draft.configure.keymap.selectedPos = action.value;
+      break;
+    }
+  }
+};
+
+const keymapToolbarReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case KEYMAP_TOOLBAR_TEST_MATRIX_MODE: {
+      draft.configure.keymapToolbar.testMatrix = action.value;
       break;
     }
   }

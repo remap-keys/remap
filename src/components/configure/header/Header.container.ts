@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     draggingKey: state.configure.keycodeKey.draggingKey,
     flashing: state.configure.header.flashing,
+    testMatrix: state.configure.keymapToolbar.testMatrix,
     keyboards: state.entities.keyboards,
     keyboard: state.entities.keyboard,
     keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,

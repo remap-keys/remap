@@ -1,6 +1,10 @@
 @import '../../_variables.scss';
 
-.configure-main {
+.configure-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $background-color-gray;
 }
 
 .message-box-wrapper {
@@ -23,8 +27,18 @@
 
 .dragMask {
   position: absolute;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
   z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &.fill-blank {
+    position: relative;
+    width: 100%;
+    flex-grow: 1;
+  }
 }

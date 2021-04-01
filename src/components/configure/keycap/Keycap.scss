@@ -16,6 +16,27 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
+
+@keyframes scale-down-base {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes scale-down-roof {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0.97);
+  }
+}
+
 .keycap-base {
   &.drag-over {
     border-color: $primary-pale;
@@ -46,6 +67,20 @@
   }
   .keycap {
     cursor: pointer;
+    &.keycap-test-matrix {
+      cursor: default;
+      &:hover {
+        border: 1px solid rgba(0, 0, 0, 0.6);
+        animation: none;
+      }
+    }
+
+    &.keycap-test-matrix-down {
+      transform-origin: center;
+      animation-duration: 300ms;
+      animation-name: scale-down-base;
+      animation-fill-mode: forwards;
+    }
 
     &.keycap-border {
       border: 1px solid rgba(0, 0, 0, 0.6);
@@ -70,6 +105,16 @@
     border-radius: 3px;
     pointer-events: none;
     cursor: pointer;
+    &.test-matrix {
+      border-width: 1px;
+    }
+    &.test-matrix-down {
+      border-width: 0px;
+      transform-origin: center;
+      animation-duration: 300ms;
+      animation-name: scale-down-roof;
+      animation-fill-mode: forwards;
+    }
   }
 
   .keyroof {

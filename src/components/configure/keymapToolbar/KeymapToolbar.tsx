@@ -26,6 +26,7 @@ import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
 import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
 import ImportDefDialog from '../importDef/ImportDefDialog.container';
 import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
+//import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
@@ -170,6 +171,11 @@ export default class KeymapMenu extends React.Component<
     this.setState({ subMenuAnchorEl: null });
   }
 
+  private onClickTestMatrixMode() {
+    this.onCloseSubmenu();
+    this.props.updateTestMatrixOn!();
+  }
+
   render() {
     const isLightingAvailable = LightingDialog.isLightingAvailable(
       this.props.keyboardDefinition!.lighting
@@ -290,6 +296,14 @@ export default class KeymapMenu extends React.Component<
                 </ListItemIcon>
                 <ListItemText primary="Import keyboard definition file" />
               </MenuItem>
+              {/*
+              <MenuItem button onClick={this.onClickTestMatrixMode.bind(this)}>
+                <ListItemIcon>
+                  <ViewComfyIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Test Matrix mode" />
+              </MenuItem>
+              */}
             </Menu>
           </div>
         </div>
