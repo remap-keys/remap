@@ -46,6 +46,7 @@ type OwnKeymapStateType = {
   selectedPos: string | null; // 0,1
   selectedKey: Key | null;
   customKeyPopoverPosition: PopoverPosition;
+  interval: any | null;
 };
 
 export default class Keymap extends React.Component<
@@ -59,6 +60,7 @@ export default class Keymap extends React.Component<
       selectedPos: null,
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
+      interval: null,
     };
   }
 
@@ -167,6 +169,27 @@ export default class Keymap extends React.Component<
         this.state.selectedPos!
       );
     }
+  }
+
+  componentDidUpdate(
+    prevProps: KeymapPropsType,
+    // eslint-disable-next-line no-unused-vars
+    prevState: OwnKeymapStateType
+  ) {
+    if (prevProps.testMatrix !== this.props.testMatrix) {
+      clearInterval(this.state.interval);
+      if (this.props.testMatrix) {
+        this.setState({
+          interval: setInterval(() => {
+            this.props.fetchSwitchMatrixState!();
+          }, 100),
+        });
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
 
   render() {

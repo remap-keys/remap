@@ -385,3 +385,26 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
     return resultArray[0] === 0x03 && resultArray[1] === 0xff;
   }
 }
+
+export interface ISwitchLayerStateResponse extends ICommandResponse {
+  state: Uint8Array;
+}
+
+export class SwitchMatrixStateCommand extends AbstractCommand<
+  ICommandRequest,
+  ISwitchLayerStateResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x02, 0x03]);
+  }
+
+  createResponse(resultArray: Uint8Array): ISwitchLayerStateResponse {
+    return {
+      state: resultArray.slice(2),
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x02 && resultArray[1] === 0x03;
+  }
+}

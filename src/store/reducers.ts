@@ -44,7 +44,6 @@ import {
   KEYMAP_TOOLBAR_ACTIONS,
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
-  APP_TESTED_MATRIX_ADD,
   APP_TEST_MATRIX_UPDATE,
 } from '../actions/actions';
 import {
@@ -373,16 +372,15 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.testedMatrix = [];
       break;
     }
-    case APP_TESTED_MATRIX_ADD: {
-      const pos = action.value;
-      const testedMatrix = draft.app.testedMatrix;
-      if (testedMatrix.indexOf(pos) < 0) {
-        draft.app.testedMatrix = [...testedMatrix, pos];
-      }
-      break;
-    }
     case APP_TEST_MATRIX_UPDATE: {
       draft.app.currentTestMatrix = action.value;
+
+      const testedMatrix = draft.app.testedMatrix;
+      for (let key of action.value) {
+        if (testedMatrix.indexOf(key) < 0) {
+          draft.app.testedMatrix = [...testedMatrix, key];
+        }
+      }
       break;
     }
   }

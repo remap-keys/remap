@@ -78,6 +78,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActions.clearTestedMatrix());
       _dispatch(KeymapToolbarActions.updateTestMatrix(false));
     },
+    fetchSwitchMatrixState: () => {
+      _dispatch(hidActionsThunk.fetchSwitchMatrixState());
+    },
   };
 };
 
