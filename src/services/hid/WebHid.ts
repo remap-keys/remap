@@ -16,6 +16,7 @@ import {
   IFetchRGBLightColorResult,
   IFetchRGBLightEffectSpeedResult,
   IFetchRGBLightEffectResult,
+  IFetchSwitchMatrixStateResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 
@@ -29,6 +30,7 @@ import {
   LightingGetValueCommand,
   LightingSaveCommand,
   LightingSetValueCommand,
+  SwitchMatrixStateCommand,
 } from './Commands';
 import {
   IKeycodeCompositionFactory,
@@ -683,6 +685,26 @@ export class Keyboard implements IKeyboard {
           }
         }
       );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchSwitchMatrixState(): Promise<IResult> {
+    return new Promise<IFetchSwitchMatrixStateResult>((resolve) => {
+      const command = new SwitchMatrixStateCommand({}, async (result) => {
+        if (result.success) {
+          resolve({
+            success: true,
+            state: result.response!.state,
+          });
+        } else {
+          resolve({
+            success: false,
+            error: result.error,
+            cause: result.cause,
+          });
+        }
+      });
       return this.enqueue(command);
     });
   }
