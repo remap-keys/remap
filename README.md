@@ -32,6 +32,10 @@ Developers can start a development of Remap locally by the following step:
 
 As a limitation, the launched Remap locally cannot access to Firebase backend server. Therefore, the developer needs to import a keyboard definition JSON file from local every times at opening a keyboard.
 
+We're using Prettier to format codes. Execute the `yarn format` before committing and pushing your code. Or, you can use auto-formatting feature with the Prettier for your IDE.
+
+Before contributing, read the [How to become a contributor and submit your own code](https://github.com/remap-keys/remap/blob/main/CONTRIBUTING.md) document.
+
 ## References
 
 ### WebHID
