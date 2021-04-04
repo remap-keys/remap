@@ -6,6 +6,7 @@ import {
   KEY_SUB_CATEGORY_BACKLIGHT,
   KEY_SUB_CATEGORY_BLANK,
   KEY_SUB_CATEGORY_BOOTMAGIC,
+  KEY_SUB_CATEGORY_COMBO,
   KEY_SUB_CATEGORY_COMMAND,
   KEY_SUB_CATEGORY_DEVICE,
   KEY_SUB_CATEGORY_EDIT,
@@ -1368,6 +1369,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       KEY_SUB_CATEGORY_BACKLIGHT,
       KEY_SUB_CATEGORY_UNDERGLOW,
       KEY_SUB_CATEGORY_MACRO,
+      KEY_SUB_CATEGORY_COMBO,
     ];
 
     LooseKeycodeComposition._looseKeycodeKeymaps = [];

@@ -40,7 +40,8 @@ export type KeymapCategory =
   | 'underglow'
   | 'us-symbol'
   | 'extends'
-  | 'bmp';
+  | 'bmp'
+  | 'combo';
 
 function isDefinedKey(ret: {
   value: IKeymap | null | undefined;

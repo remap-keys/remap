@@ -72,17 +72,21 @@ export class KeyCategory {
       return KeyCategory._functions[labelLang];
     }
 
-    const codes: number[] = [
+    const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_INTERNATIONAL.codes,
       ...KEY_SUB_CATEGORY_LANGUAGE.codes,
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
-    const keymaps: IKeymap[] = codes.map(
+    const looseCodes: number[] = [...KEY_SUB_CATEGORY_COMBO.codes];
+    const basicKeymaps: IKeymap[] = basicCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    KeyCategory._functions[labelLang] = keymaps;
-    return keymaps;
+    const looseKeymaps: IKeymap[] = looseCodes.map(
+      (code) => LooseKeycodeComposition.findKeymap(code)!
+    );
+    KeyCategory._functions[labelLang] = [...basicKeymaps, ...looseKeymaps];
+    return KeyCategory._functions[labelLang];
   }
 
   static layer(layerCount: number): IKeymap[] {
@@ -521,4 +525,9 @@ export const KEY_SUB_CATEGORY_MACRO: IKeycodeCategoryInfo = {
     24352,
     24353,
   ],
+};
+// Combo
+export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
+  kinds: ['function', 'combo'],
+  codes: [23799, 23800, 23801],
 };
