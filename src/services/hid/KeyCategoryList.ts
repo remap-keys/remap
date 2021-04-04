@@ -472,12 +472,13 @@ export const KEY_SUB_CATEGORY_SOUND: IKeycodeCategoryInfo = {
 // BL On, BL Off, BL-, BL+, BL Toggle, BL Cycle, BR Toggle
 export const KEY_SUB_CATEGORY_BACKLIGHT: IKeycodeCategoryInfo = {
   kinds: ['device', 'backlight'],
-  codes: [23740, 23741, 23742, 23743, 23744, 23745, 23746],
+  codes: [23739, 23740, 23741, 23742, 23743, 23744, 23745],
 };
 // RGB Toggle, RGB Mode+, RGB Mode-, Hue+, Hue-, Sat+, Sat-, Bright+, Bright-, Effect Speed+, Effect Speed-, RGB Mode P, RGB Mode R, RGB Mode SW, RGB Mode SN, RGB Mode K, RGB Mode X, RGB Mode G
 export const KEY_SUB_CATEGORY_UNDERGLOW: IKeycodeCategoryInfo = {
   kinds: ['device', 'underglow'],
   codes: [
+    23746,
     23747,
     23748,
     23749,
