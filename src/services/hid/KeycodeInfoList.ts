@@ -4254,6 +4254,42 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
+    desc: 'Turns on Combo feature.',
+    keycodeInfo: {
+      code: 23799,
+      name: {
+        long: 'CMB_ON',
+        short: 'CMB_ON',
+      },
+      label: 'Combo On',
+    },
+  },
+
+  {
+    desc: 'Turns off Combo feature.',
+    keycodeInfo: {
+      code: 23800,
+      name: {
+        long: 'CMB_OFF',
+        short: 'CMB_OFF',
+      },
+      label: 'Combo Off',
+    },
+  },
+
+  {
+    desc: 'Toggles Combo feature on and off.',
+    keycodeInfo: {
+      code: 23801,
+      name: {
+        long: 'CMB_TOG',
+        short: 'CMB_TOG',
+      },
+      label: 'Combo Toggle',
+    },
+  },
+
+  {
     desc: '',
     keycodeInfo: {
       code: 24336,
