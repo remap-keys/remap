@@ -3833,7 +3833,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set the backlight to max brightness.',
     keycodeInfo: {
-      code: 23740,
+      code: 23739,
       name: {
         long: 'BL_ON',
         short: 'BL_ON',
@@ -3845,7 +3845,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn the backlight off.',
     keycodeInfo: {
-      code: 23741,
+      code: 23740,
       name: {
         long: 'BL_OFF',
         short: 'BL_OFF',
@@ -3857,7 +3857,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease the backlight level.',
     keycodeInfo: {
-      code: 23742,
+      code: 23741,
       name: {
         long: 'BL_DEC',
         short: 'BL_DEC',
@@ -3869,7 +3869,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase the backlight level.',
     keycodeInfo: {
-      code: 23743,
+      code: 23742,
       name: {
         long: 'BL_INC',
         short: 'BL_INC',
@@ -3881,7 +3881,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn the backlight on or off.',
     keycodeInfo: {
-      code: 23744,
+      code: 23743,
       name: {
         long: 'BL_TOGG',
         short: 'BL_TOGG',
@@ -3893,7 +3893,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through backlight levels.',
     keycodeInfo: {
-      code: 23745,
+      code: 23744,
       name: {
         long: 'BL_STEP',
         short: 'BL_STEP',
@@ -3905,7 +3905,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle backlight breathing',
     keycodeInfo: {
-      code: 23746,
+      code: 23745,
       name: {
         long: 'BL_BRTG',
         short: 'BL_BRTG',
@@ -3917,7 +3917,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle RGB lighting on or off.',
     keycodeInfo: {
-      code: 23747,
+      code: 23746,
       name: {
         long: 'RGB_TOG',
         short: 'RGB_TOG',
@@ -3929,7 +3929,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through modes, reverse direction when Shift is held.',
     keycodeInfo: {
-      code: 23748,
+      code: 23747,
       name: {
         long: 'RGB_MODE_FORWARD',
         short: 'RGB_MODE_FORWARD',
@@ -3942,7 +3942,7 @@ export const keyInfoList: KeyInfo[] = [
     desc:
       'Cycle through modes in reverse, forward direction when Shift is held.',
     keycodeInfo: {
-      code: 23749,
+      code: 23748,
       name: {
         long: 'RGB_MODE_REVERSE',
         short: 'RGB_MODE_REVERSE',
@@ -3954,7 +3954,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase hue, decrease hue when Shift is held.',
     keycodeInfo: {
-      code: 23750,
+      code: 23749,
       name: {
         long: 'RGB_HUI',
         short: 'RGB_HUI',
@@ -3966,7 +3966,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease hue, increase hue when Shift is held.',
     keycodeInfo: {
-      code: 23751,
+      code: 23750,
       name: {
         long: 'RGB_HUD',
         short: 'RGB_HUD',
@@ -3978,7 +3978,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase saturation, decrease saturation when Shift is held.',
     keycodeInfo: {
-      code: 23752,
+      code: 23751,
       name: {
         long: 'RGB_SAI',
         short: 'RGB_SAI',
@@ -3990,7 +3990,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease saturation, increase saturation when Shift is held.',
     keycodeInfo: {
-      code: 23753,
+      code: 23752,
       name: {
         long: 'RGB_SAD',
         short: 'RGB_SAD',
@@ -4002,7 +4002,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase value (brightness), decrease value when Shift is held.',
     keycodeInfo: {
-      code: 23754,
+      code: 23753,
       name: {
         long: 'RGB_VAI',
         short: 'RGB_VAI',
@@ -4014,7 +4014,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease value (brightness), increase value when Shift is held.',
     keycodeInfo: {
-      code: 23755,
+      code: 23754,
       name: {
         long: 'RGB_VAD',
         short: 'RGB_VAD',
@@ -4027,7 +4027,7 @@ export const keyInfoList: KeyInfo[] = [
     desc:
       'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held.',
     keycodeInfo: {
-      code: 23756,
+      code: 23755,
       name: {
         long: 'RGB_SPI',
         short: 'RGB_SPI',
@@ -4040,7 +4040,7 @@ export const keyInfoList: KeyInfo[] = [
     desc:
       'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held.',
     keycodeInfo: {
-      code: 23757,
+      code: 23756,
       name: {
         long: 'RGB_SPD',
         short: 'RGB_SPD',
@@ -4052,7 +4052,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Static (no animation) mode.',
     keycodeInfo: {
-      code: 23758,
+      code: 23757,
       name: {
         long: 'RGB_MODE_PLAIN',
         short: 'RGB_MODE_PLAIN',
@@ -4064,7 +4064,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Breathing animation mode.',
     keycodeInfo: {
-      code: 23759,
+      code: 23758,
       name: {
         long: 'RGB_MODE_BREATHE',
         short: 'RGB_MODE_BREATHE',
@@ -4076,7 +4076,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Rainbow animation mode.',
     keycodeInfo: {
-      code: 23760,
+      code: 23759,
       name: {
         long: 'RGB_MODE_RAINBOW',
         short: 'RGB_MODE_RAINBOW',
@@ -4088,7 +4088,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swirl animation mode.',
     keycodeInfo: {
-      code: 23761,
+      code: 23760,
       name: {
         long: 'RGB_MODE_SWIRL',
         short: 'RGB_MODE_SWIRL',
@@ -4100,7 +4100,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Snake animation mode.',
     keycodeInfo: {
-      code: 23762,
+      code: 23761,
       name: {
         long: 'RGB_MODE_SNAKE',
         short: 'RGB_MODE_SNAKE',
@@ -4112,7 +4112,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '"Knight Rider" animation mode.',
     keycodeInfo: {
-      code: 23763,
+      code: 23762,
       name: {
         long: 'RGB_MODE_KNIGHT',
         short: 'RGB_MODE_KNIGHT',
@@ -4124,7 +4124,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Christmas animation mode.',
     keycodeInfo: {
-      code: 23764,
+      code: 23763,
       name: {
         long: 'RGB_MODE_XMAS',
         short: 'RGB_MODE_XMAS',
@@ -4136,12 +4136,24 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Static gradient animation mode.',
     keycodeInfo: {
-      code: 23765,
+      code: 23764,
       name: {
         long: 'RGB_MODE_GRADIENT',
         short: 'RGB_MODE_GRADIENT',
       },
       label: 'RGB Mode G',
+    },
+  },
+
+  {
+    desc: 'RGB test mode.',
+    keycodeInfo: {
+      code: 23765,
+      name: {
+        long: 'RGB_MODE_RGBTEST',
+        short: 'RGB_MODE_RGBTEST',
+      },
+      label: 'RGB Mode Test',
     },
   },
 
@@ -4238,6 +4250,42 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RAPC',
       },
       label: 'RA )',
+    },
+  },
+
+  {
+    desc: 'Turns on Combo feature.',
+    keycodeInfo: {
+      code: 23799,
+      name: {
+        long: 'CMB_ON',
+        short: 'CMB_ON',
+      },
+      label: 'Combo On',
+    },
+  },
+
+  {
+    desc: 'Turns off Combo feature.',
+    keycodeInfo: {
+      code: 23800,
+      name: {
+        long: 'CMB_OFF',
+        short: 'CMB_OFF',
+      },
+      label: 'Combo Off',
+    },
+  },
+
+  {
+    desc: 'Toggles Combo feature on and off.',
+    keycodeInfo: {
+      code: 23801,
+      name: {
+        long: 'CMB_TOG',
+        short: 'CMB_TOG',
+      },
+      label: 'Combo Toggle',
     },
   },
 

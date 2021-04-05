@@ -72,17 +72,21 @@ export class KeyCategory {
       return KeyCategory._functions[labelLang];
     }
 
-    const codes: number[] = [
+    const basicCodes: number[] = [
       ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_INTERNATIONAL.codes,
       ...KEY_SUB_CATEGORY_LANGUAGE.codes,
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
-    const keymaps: IKeymap[] = codes.map(
+    const looseCodes: number[] = [...KEY_SUB_CATEGORY_COMBO.codes];
+    const basicKeymaps: IKeymap[] = basicCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    KeyCategory._functions[labelLang] = keymaps;
-    return keymaps;
+    const looseKeymaps: IKeymap[] = looseCodes.map(
+      (code) => LooseKeycodeComposition.findKeymap(code)!
+    );
+    KeyCategory._functions[labelLang] = [...basicKeymaps, ...looseKeymaps];
+    return KeyCategory._functions[labelLang];
   }
 
   static layer(layerCount: number): IKeymap[] {
@@ -472,12 +476,13 @@ export const KEY_SUB_CATEGORY_SOUND: IKeycodeCategoryInfo = {
 // BL On, BL Off, BL-, BL+, BL Toggle, BL Cycle, BR Toggle
 export const KEY_SUB_CATEGORY_BACKLIGHT: IKeycodeCategoryInfo = {
   kinds: ['device', 'backlight'],
-  codes: [23740, 23741, 23742, 23743, 23744, 23745, 23746],
+  codes: [23739, 23740, 23741, 23742, 23743, 23744, 23745],
 };
 // RGB Toggle, RGB Mode+, RGB Mode-, Hue+, Hue-, Sat+, Sat-, Bright+, Bright-, Effect Speed+, Effect Speed-, RGB Mode P, RGB Mode R, RGB Mode SW, RGB Mode SN, RGB Mode K, RGB Mode X, RGB Mode G
 export const KEY_SUB_CATEGORY_UNDERGLOW: IKeycodeCategoryInfo = {
   kinds: ['device', 'underglow'],
   codes: [
+    23746,
     23747,
     23748,
     23749,
@@ -520,4 +525,9 @@ export const KEY_SUB_CATEGORY_MACRO: IKeycodeCategoryInfo = {
     24352,
     24353,
   ],
+};
+// Combo
+export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
+  kinds: ['function', 'combo'],
+  codes: [23799, 23800, 23801],
 };

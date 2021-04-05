@@ -63,6 +63,7 @@ const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
   0b0101_1100_0000_0000,
   0b0101_1111_0010_0001,
+  0b0101_1100_1111_0111,
 ];
 const EXPECT_UNKNOWN_LIST = [
   0b0101_0110_0000_0000,
@@ -785,6 +786,22 @@ describe('Composition', () => {
         },
       });
       expect(subject.getCode()).toEqual(0b0101_1111_1111_1111);
+      subject = new LooseKeycodeComposition({
+        code: 0b0101_1100_1111_0111,
+        isAny: false,
+        kinds: ['loose_keycode'],
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: {
+          code: 0,
+          name: {
+            long: '',
+            short: '',
+          },
+          label: '',
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0101_1100_1111_0111);
     });
   });
 
