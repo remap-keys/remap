@@ -188,6 +188,7 @@ export default class KeymapMenu extends React.Component<
 
   private onClickConfirmDialogYes() {
     this.setState({ openConfirmDialog: false });
+    this.props.resetKeymap!();
   }
 
   private onClickConfirmDialogNo() {
@@ -375,13 +376,10 @@ function ConfirmDialog(props: IConfirmDialogProps) {
     >
       <DialogTitle id="confirm-dialog-title">{'Reset Keymap'}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="confirm-dialog-description" color="initial">
-          <Typography variant={'h6'} color={'error'}>
-            Are you sure to reset keymap?
-          </Typography>
-          <Typography variant={'body1'}>
-            (Flashed immediately, save current keymap before resetting.)
-          </Typography>
+        <DialogContentText id="confirm-dialog-description" color="secondary">
+          Are you sure to reset keymap?
+          <br />
+          (Flashed immediately, save current keymap before resetting.)
         </DialogContentText>
       </DialogContent>
       <DialogActions>

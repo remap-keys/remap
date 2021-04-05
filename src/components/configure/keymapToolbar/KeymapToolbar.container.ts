@@ -6,6 +6,7 @@ import {
   KeydiffActions,
   KeymapToolbarActions,
 } from '../../../actions/actions';
+import { hidActionsThunk } from '../../../actions/hid.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -31,6 +32,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActions.clearTestedMatrix());
       _dispatch(AppActions.updateCurrentTestMatrix([]));
       _dispatch(KeymapToolbarActions.updateTestMatrix(true));
+    },
+    resetKeymap: () => {
+      _dispatch(hidActionsThunk.resetKeymap());
     },
   };
 };
