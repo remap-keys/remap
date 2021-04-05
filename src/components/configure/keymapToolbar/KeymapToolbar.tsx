@@ -14,7 +14,6 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
 import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
 import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
