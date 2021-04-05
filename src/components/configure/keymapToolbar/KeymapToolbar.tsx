@@ -373,12 +373,14 @@ function ConfirmDialog(props: IConfirmDialogProps) {
       aria-labelledby="confirm-dialog-title"
       aria-describedby="confirm-dialog-description"
     >
-      <DialogTitle id="confirm-dialog-title">{'Reset Keymap'}</DialogTitle>
+      <DialogTitle id="confirm-dialog-title">
+        Are you sure to reset keymap?
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="confirm-dialog-description" color="secondary">
-          Are you sure to reset keymap?
-          <br />
-          (Flashed immediately, save current keymap before resetting.)
+          Current keymap will be discarded and an initial keymap will be applied
+          immediately. If you want to reuse current keymap, please save it
+          before resetting.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -392,7 +394,7 @@ function ConfirmDialog(props: IConfirmDialogProps) {
           No
         </Button>
         <Button
-          color="primary"
+          color="secondary"
           onClick={() => {
             props.onYesClick();
           }}
