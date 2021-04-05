@@ -393,6 +393,34 @@ export const hidActionsThunk = {
       dispatch(AppActions.updateCurrentTestMatrix(pushed.slice()));
     }
   },
+
+  resetKeymap: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { app, entities } = getState();
+    const keyboard: IKeyboard = entities.keyboard!;
+    const result = await keyboard.resetDynamicKeymap();
+    if (!result.success) {
+      console.error(result.cause);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+      return;
+    }
+    const keymaps: IKeymaps[] = await loadKeymap(
+      dispatch,
+      keyboard,
+      entities.device.layerCount,
+      entities.keyboardDefinition!.matrix.rows,
+      entities.keyboardDefinition!.matrix.cols,
+      app.labelLang
+    );
+    dispatch(HidActions.updateKeymaps(keymaps));
+    dispatch(AppActions.remapsInit(entities.device.layerCount));
+    dispatch(KeydiffActions.clearKeydiff());
+    dispatch(KeycodeKeyActions.clear());
+    dispatch(KeymapActions.clearSelectedPos());
+    dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
+  },
 };
 
 const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {
