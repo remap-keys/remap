@@ -2,12 +2,19 @@
 import React from 'react';
 import './KeymapToolbar.scss';
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
 import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
@@ -29,6 +36,7 @@ import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import { Restore as RestoreIcon } from '@material-ui/icons';
 
 type OwnProp = {};
 
@@ -42,6 +50,7 @@ type OwnKeymapMenuStateType = {
   keymapListPopoverPosition: { left: number; top: number } | null;
   openImportDefDialog: boolean;
   subMenuAnchorEl: (EventTarget & Element) | null;
+  openConfirmDialog: boolean;
 };
 
 export default class KeymapMenu extends React.Component<
@@ -56,6 +65,7 @@ export default class KeymapMenu extends React.Component<
       keymapListPopoverPosition: null,
       openImportDefDialog: false,
       subMenuAnchorEl: null,
+      openConfirmDialog: false,
     };
   }
 
@@ -174,6 +184,18 @@ export default class KeymapMenu extends React.Component<
   private onClickTestMatrixMode() {
     this.onCloseSubmenu();
     this.props.updateTestMatrixOn!();
+  }
+
+  private onClickConfirmDialogYes() {
+    this.setState({ openConfirmDialog: false });
+  }
+
+  private onClickConfirmDialogNo() {
+    this.setState({ openConfirmDialog: false });
+  }
+
+  private onClickResetKeymap() {
+    this.setState({ subMenuAnchorEl: null, openConfirmDialog: true });
   }
 
   render() {
@@ -303,6 +325,13 @@ export default class KeymapMenu extends React.Component<
                 </ListItemIcon>
                 <ListItemText primary="Test Matrix mode" />
               </MenuItem>
+
+              <MenuItem button onClick={this.onClickResetKeymap.bind(this)}>
+                <ListItemIcon>
+                  <RestoreIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Reset Keymap" />
+              </MenuItem>
             </Menu>
           </div>
         </div>
@@ -321,7 +350,59 @@ export default class KeymapMenu extends React.Component<
           productId={productId}
           productName={productName}
         />
+        <ConfirmDialog
+          open={this.state.openConfirmDialog}
+          onNoClick={this.onClickConfirmDialogNo.bind(this)}
+          onYesClick={this.onClickConfirmDialogYes.bind(this)}
+        />
       </React.Fragment>
     );
   }
+}
+
+type IConfirmDialogProps = {
+  open: boolean;
+  onYesClick: () => void;
+  onNoClick: () => void;
+};
+
+function ConfirmDialog(props: IConfirmDialogProps) {
+  return (
+    <Dialog
+      open={props.open}
+      aria-labelledby="confirm-dialog-title"
+      aria-describedby="confirm-dialog-description"
+    >
+      <DialogTitle id="confirm-dialog-title">{'Reset Keymap'}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="confirm-dialog-description" color="initial">
+          <Typography variant={'h6'} color={'error'}>
+            Are you sure to reset keymap?
+          </Typography>
+          <Typography variant={'body1'}>
+            (Flashed immediately, save current keymap before resetting.)
+          </Typography>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          color="primary"
+          autoFocus
+          onClick={() => {
+            props.onNoClick();
+          }}
+        >
+          No
+        </Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            props.onYesClick();
+          }}
+        >
+          Yes
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
