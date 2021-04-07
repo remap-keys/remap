@@ -1126,20 +1126,9 @@ export const midiKeyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Velocity 0',
-    keycodeInfo: {
-      code: 23698,
-      name: {
-        long: 'MI_VEL_0',
-        short: 'MI_VEL_0',
-      },
-      label: 'Velocity 0',
-    },
-  },
-  {
     desc: 'Velocity 1',
     keycodeInfo: {
-      code: 23699,
+      code: 23698,
       name: {
         long: 'MI_VEL_1',
         short: 'MI_VEL_1',
@@ -1150,7 +1139,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 2',
     keycodeInfo: {
-      code: 23700,
+      code: 23699,
       name: {
         long: 'MI_VEL_2',
         short: 'MI_VEL_2',
@@ -1161,7 +1150,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 3',
     keycodeInfo: {
-      code: 23701,
+      code: 23700,
       name: {
         long: 'MI_VEL_3',
         short: 'MI_VEL_3',
@@ -1172,7 +1161,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 4',
     keycodeInfo: {
-      code: 23702,
+      code: 23701,
       name: {
         long: 'MI_VEL_4',
         short: 'MI_VEL_4',
@@ -1183,7 +1172,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 5',
     keycodeInfo: {
-      code: 23703,
+      code: 23702,
       name: {
         long: 'MI_VEL_5',
         short: 'MI_VEL_5',
@@ -1194,7 +1183,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 6',
     keycodeInfo: {
-      code: 23704,
+      code: 23703,
       name: {
         long: 'MI_VEL_6',
         short: 'MI_VEL_6',
@@ -1205,7 +1194,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 7',
     keycodeInfo: {
-      code: 23705,
+      code: 23704,
       name: {
         long: 'MI_VEL_7',
         short: 'MI_VEL_7',
@@ -1216,7 +1205,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 8',
     keycodeInfo: {
-      code: 23706,
+      code: 23705,
       name: {
         long: 'MI_VEL_8',
         short: 'MI_VEL_8',
@@ -1227,7 +1216,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 9',
     keycodeInfo: {
-      code: 23707,
+      code: 23706,
       name: {
         long: 'MI_VEL_9',
         short: 'MI_VEL_9',
@@ -1238,7 +1227,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity 10',
     keycodeInfo: {
-      code: 23708,
+      code: 23707,
       name: {
         long: 'MI_VEL_10',
         short: 'MI_VEL_10',
@@ -1249,7 +1238,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity Down',
     keycodeInfo: {
-      code: 23709,
+      code: 23708,
       name: {
         long: 'MI_VELD',
         short: 'MI_VELD',
@@ -1260,7 +1249,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Velocity Up',
     keycodeInfo: {
-      code: 23710,
+      code: 23709,
       name: {
         long: 'MI_VELU',
         short: 'MI_VELU',
@@ -1271,7 +1260,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 1',
     keycodeInfo: {
-      code: 23711,
+      code: 23710,
       name: {
         long: 'MI_CH1',
         short: 'MI_CH1',
@@ -1282,7 +1271,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 2',
     keycodeInfo: {
-      code: 23712,
+      code: 23711,
       name: {
         long: 'MI_CH2',
         short: 'MI_CH2',
@@ -1293,7 +1282,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 3',
     keycodeInfo: {
-      code: 23713,
+      code: 23712,
       name: {
         long: 'MI_CH3',
         short: 'MI_CH3',
@@ -1304,7 +1293,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 4',
     keycodeInfo: {
-      code: 23714,
+      code: 23713,
       name: {
         long: 'MI_CH4',
         short: 'MI_CH4',
@@ -1315,7 +1304,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 5',
     keycodeInfo: {
-      code: 23715,
+      code: 23714,
       name: {
         long: 'MI_CH5',
         short: 'MI_CH5',
@@ -1326,7 +1315,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 6',
     keycodeInfo: {
-      code: 23716,
+      code: 23715,
       name: {
         long: 'MI_CH6',
         short: 'MI_CH6',
@@ -1337,7 +1326,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 7',
     keycodeInfo: {
-      code: 23717,
+      code: 23716,
       name: {
         long: 'MI_CH7',
         short: 'MI_CH7',
@@ -1348,7 +1337,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 8',
     keycodeInfo: {
-      code: 23718,
+      code: 23717,
       name: {
         long: 'MI_CH8',
         short: 'MI_CH8',
@@ -1359,7 +1348,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 9',
     keycodeInfo: {
-      code: 23719,
+      code: 23718,
       name: {
         long: 'MI_CH9',
         short: 'MI_CH9',
@@ -1370,7 +1359,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 10',
     keycodeInfo: {
-      code: 23720,
+      code: 23719,
       name: {
         long: 'MI_CH10',
         short: 'MI_CH10',
@@ -1381,7 +1370,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 11',
     keycodeInfo: {
-      code: 23721,
+      code: 23720,
       name: {
         long: 'MI_CH11',
         short: 'MI_CH11',
@@ -1392,7 +1381,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 12',
     keycodeInfo: {
-      code: 23722,
+      code: 23721,
       name: {
         long: 'MI_CH12',
         short: 'MI_CH12',
@@ -1403,7 +1392,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 13',
     keycodeInfo: {
-      code: 23723,
+      code: 23722,
       name: {
         long: 'MI_CH13',
         short: 'MI_CH13',
@@ -1414,7 +1403,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 14',
     keycodeInfo: {
-      code: 23724,
+      code: 23723,
       name: {
         long: 'MI_CH14',
         short: 'MI_CH14',
@@ -1425,7 +1414,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 15',
     keycodeInfo: {
-      code: 23725,
+      code: 23724,
       name: {
         long: 'MI_CH15',
         short: 'MI_CH15',
@@ -1436,7 +1425,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Channel 16',
     keycodeInfo: {
-      code: 23726,
+      code: 23725,
       name: {
         long: 'MI_CH16',
         short: 'MI_CH16',
@@ -1447,7 +1436,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Previous Channel',
     keycodeInfo: {
-      code: 23727,
+      code: 23726,
       name: {
         long: 'MI_CHD',
         short: 'MI_CHD',
@@ -1458,7 +1447,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Next Channel',
     keycodeInfo: {
-      code: 23728,
+      code: 23727,
       name: {
         long: 'MI_CHU',
         short: 'MI_CHU',
@@ -1469,7 +1458,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'All Notes Off',
     keycodeInfo: {
-      code: 23729,
+      code: 23728,
       name: {
         long: 'MI_ALLOFF',
         short: 'MI_ALLOFF',
@@ -1480,7 +1469,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Sustain',
     keycodeInfo: {
-      code: 23730,
+      code: 23729,
       name: {
         long: 'MI_SUS',
         short: 'MI_SUS',
@@ -1491,7 +1480,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Portamento',
     keycodeInfo: {
-      code: 23731,
+      code: 23730,
       name: {
         long: 'MI_PORT',
         short: 'MI_PORT',
@@ -1502,7 +1491,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Sostenuto',
     keycodeInfo: {
-      code: 23732,
+      code: 23731,
       name: {
         long: 'MI_SOST',
         short: 'MI_SOST',
@@ -1513,7 +1502,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Soft Pedal',
     keycodeInfo: {
-      code: 23733,
+      code: 23732,
       name: {
         long: 'MI_SOFT',
         short: 'MI_SOFT',
@@ -1524,7 +1513,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Legato',
     keycodeInfo: {
-      code: 23734,
+      code: 23733,
       name: {
         long: 'MI_LEG',
         short: 'MI_LEG',
@@ -1535,7 +1524,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Modulation',
     keycodeInfo: {
-      code: 23735,
+      code: 23734,
       name: {
         long: 'MI_MOD',
         short: 'MI_MOD',
@@ -1546,7 +1535,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease Modulation Speed',
     keycodeInfo: {
-      code: 23736,
+      code: 23735,
       name: {
         long: 'MI_MODSD',
         short: 'MI_MODSD',
@@ -1557,7 +1546,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Increase Modulation Speed',
     keycodeInfo: {
-      code: 23737,
+      code: 23736,
       name: {
         long: 'MI_MODSU',
         short: 'MI_MODSU',
@@ -1568,7 +1557,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Bend Down',
     keycodeInfo: {
-      code: 23738,
+      code: 23737,
       name: {
         long: 'MI_BENDD',
         short: 'MI_BENDD',
@@ -1579,7 +1568,7 @@ export const midiKeyInfoList: KeyInfo[] = [
   {
     desc: 'Bend Up',
     keycodeInfo: {
-      code: 23739,
+      code: 23738,
       name: {
         long: 'MI_BENDU',
         short: 'MI_BENDU',
