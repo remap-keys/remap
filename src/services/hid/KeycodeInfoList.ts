@@ -3864,139 +3864,139 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'C',
+    desc: 'MIDI C_0',
     keycodeInfo: {
       code: 23599,
       name: {
         long: 'MI_C',
         short: 'MI_C',
       },
-      label: 'C',
+      label: 'C_0',
     },
   },
   {
-    desc: 'Cs, Db',
+    desc: 'MIDI Cs_0, Db_0',
     keycodeInfo: {
       code: 23600,
       name: {
         long: 'MI_Cs',
         short: 'MI_Cs',
       },
-      label: 'Cs, Db',
+      label: 'Cs_0, Db_0',
     },
   },
   {
-    desc: 'D',
+    desc: 'MIDI D_0',
     keycodeInfo: {
       code: 23601,
       name: {
         long: 'MI_D',
         short: 'MI_D',
       },
-      label: 'D',
+      label: 'D_0',
     },
   },
   {
-    desc: 'Ds, Eb',
+    desc: 'MIDI Ds_0, Eb_0',
     keycodeInfo: {
       code: 23602,
       name: {
         long: 'MI_Ds',
         short: 'MI_Ds',
       },
-      label: 'Ds, Eb',
+      label: 'Ds_0, Eb_0',
     },
   },
   {
-    desc: 'E',
+    desc: 'MIDI E_0',
     keycodeInfo: {
       code: 23603,
       name: {
         long: 'MI_E',
         short: 'MI_E',
       },
-      label: 'E',
+      label: 'E_0',
     },
   },
   {
-    desc: 'F',
+    desc: 'MIDI F_0',
     keycodeInfo: {
       code: 23604,
       name: {
         long: 'MI_F',
         short: 'MI_F',
       },
-      label: 'F',
+      label: 'F_0',
     },
   },
   {
-    desc: 'Fs, Gb',
+    desc: 'MIDI Fs_0, Gb_0',
     keycodeInfo: {
       code: 23605,
       name: {
         long: 'MI_Fs',
         short: 'MI_Fs',
       },
-      label: 'Fs, Gb',
+      label: 'Fs_0, Gb_0',
     },
   },
   {
-    desc: 'G',
+    desc: 'MIDI G_0',
     keycodeInfo: {
       code: 23606,
       name: {
         long: 'MI_G',
         short: 'MI_G',
       },
-      label: 'G',
+      label: 'G_0',
     },
   },
   {
-    desc: 'Gs, Ab',
+    desc: 'MIDI Gs_0, Ab_0',
     keycodeInfo: {
       code: 23607,
       name: {
         long: 'MI_Gs',
         short: 'MI_Gs',
       },
-      label: 'Gs, Ab',
+      label: 'Gs_0, Ab_0',
     },
   },
   {
-    desc: 'A',
+    desc: 'MIDI A_0',
     keycodeInfo: {
       code: 23608,
       name: {
         long: 'MI_A',
         short: 'MI_A',
       },
-      label: 'A',
+      label: 'A_0',
     },
   },
   {
-    desc: 'As, Bb',
+    desc: 'MIDI As_0, Bb_0',
     keycodeInfo: {
       code: 23609,
       name: {
         long: 'MI_As',
         short: 'MI_As',
       },
-      label: 'As, Bb',
+      label: 'As_0, Bb_0',
     },
   },
   {
-    desc: 'B',
+    desc: 'MIDI B_0',
     keycodeInfo: {
       code: 23610,
       name: {
         long: 'MI_B',
         short: 'MI_B',
       },
-      label: 'B',
+      label: 'B_0',
     },
   },
   {
-    desc: 'C_1',
+    desc: 'MIDI C_1',
     keycodeInfo: {
       code: 23611,
       name: {
@@ -4007,7 +4007,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Cs_1, Db_1',
+    desc: 'MIDI Cs_1, Db_1',
     keycodeInfo: {
       code: 23612,
       name: {
@@ -4018,7 +4018,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'D_1',
+    desc: 'MIDI D_1',
     keycodeInfo: {
       code: 23613,
       name: {
@@ -4029,7 +4029,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Ds_1, Eb_1',
+    desc: 'MIDI Ds_1, Eb_1',
     keycodeInfo: {
       code: 23614,
       name: {
@@ -4040,7 +4040,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'E_1',
+    desc: 'MIDI E_1',
     keycodeInfo: {
       code: 23615,
       name: {
@@ -4051,7 +4051,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'F_1',
+    desc: 'MIDI F_1',
     keycodeInfo: {
       code: 23616,
       name: {
@@ -4062,7 +4062,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Fs_1, Gb_1',
+    desc: 'MIDI Fs_1, Gb_1',
     keycodeInfo: {
       code: 23617,
       name: {
@@ -4073,7 +4073,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'G_1',
+    desc: 'MIDI G_1',
     keycodeInfo: {
       code: 23618,
       name: {
@@ -4084,7 +4084,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Gs_1, Ab_1',
+    desc: 'MIDI Gs_1, Ab_1',
     keycodeInfo: {
       code: 23619,
       name: {
@@ -4095,7 +4095,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'A_1',
+    desc: 'MIDI A_1',
     keycodeInfo: {
       code: 23620,
       name: {
@@ -4106,7 +4106,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'As_1, Bb_1',
+    desc: 'MIDI As_1, Bb_1',
     keycodeInfo: {
       code: 23621,
       name: {
@@ -4117,7 +4117,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'B_1',
+    desc: 'MIDI B_1',
     keycodeInfo: {
       code: 23622,
       name: {
@@ -4128,7 +4128,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'C_2',
+    desc: 'MIDI C_2',
     keycodeInfo: {
       code: 23623,
       name: {
@@ -4139,7 +4139,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Cs_2, Db_2',
+    desc: 'MIDI Cs_2, Db_2',
     keycodeInfo: {
       code: 23624,
       name: {
@@ -4150,7 +4150,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'D_2',
+    desc: 'MIDI D_2',
     keycodeInfo: {
       code: 23625,
       name: {
@@ -4161,7 +4161,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Ds_2, Eb_2',
+    desc: 'MIDI Ds_2, Eb_2',
     keycodeInfo: {
       code: 23626,
       name: {
@@ -4172,7 +4172,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'E_2',
+    desc: 'MIDI E_2',
     keycodeInfo: {
       code: 23627,
       name: {
@@ -4183,7 +4183,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'F_2',
+    desc: 'MIDI F_2',
     keycodeInfo: {
       code: 23628,
       name: {
@@ -4194,7 +4194,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Fs_2, Gb_2',
+    desc: 'MIDI Fs_2, Gb_2',
     keycodeInfo: {
       code: 23629,
       name: {
@@ -4205,7 +4205,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'G_2',
+    desc: 'MIDI G_2',
     keycodeInfo: {
       code: 23630,
       name: {
@@ -4216,7 +4216,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Gs_2, Ab_2',
+    desc: 'MIDI Gs_2, Ab_2',
     keycodeInfo: {
       code: 23631,
       name: {
@@ -4227,7 +4227,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'A_2',
+    desc: 'MIDI A_2',
     keycodeInfo: {
       code: 23632,
       name: {
@@ -4238,7 +4238,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'As_2, Bb_2',
+    desc: 'MIDI As_2, Bb_2',
     keycodeInfo: {
       code: 23633,
       name: {
@@ -4249,7 +4249,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'B_2',
+    desc: 'MIDI B_2',
     keycodeInfo: {
       code: 23634,
       name: {
@@ -4260,7 +4260,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'C_3',
+    desc: 'MIDI C_3',
     keycodeInfo: {
       code: 23635,
       name: {
@@ -4271,7 +4271,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Cs_3, Db_3',
+    desc: 'MIDI Cs_3, Db_3',
     keycodeInfo: {
       code: 23636,
       name: {
@@ -4282,7 +4282,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'D_3',
+    desc: 'MIDI D_3',
     keycodeInfo: {
       code: 23637,
       name: {
@@ -4293,7 +4293,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Ds_3, Eb_3',
+    desc: 'MIDI Ds_3, Eb_3',
     keycodeInfo: {
       code: 23638,
       name: {
@@ -4304,7 +4304,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'E_3',
+    desc: 'MIDI E_3',
     keycodeInfo: {
       code: 23639,
       name: {
@@ -4315,7 +4315,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'F_3',
+    desc: 'MIDI F_3',
     keycodeInfo: {
       code: 23640,
       name: {
@@ -4326,7 +4326,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Fs_3, Gb_3',
+    desc: 'MIDI Fs_3, Gb_3',
     keycodeInfo: {
       code: 23641,
       name: {
@@ -4337,7 +4337,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'G_3',
+    desc: 'MIDI G_3',
     keycodeInfo: {
       code: 23642,
       name: {
@@ -4348,7 +4348,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Gs_3, Ab_3',
+    desc: 'MIDI Gs_3, Ab_3',
     keycodeInfo: {
       code: 23643,
       name: {
@@ -4359,7 +4359,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'A_3',
+    desc: 'MIDI A_3',
     keycodeInfo: {
       code: 23644,
       name: {
@@ -4370,7 +4370,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'As_3, Bb_3',
+    desc: 'MIDI As_3, Bb_3',
     keycodeInfo: {
       code: 23645,
       name: {
@@ -4381,7 +4381,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'B_3',
+    desc: 'MIDI B_3',
     keycodeInfo: {
       code: 23646,
       name: {
@@ -4392,7 +4392,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'C_4',
+    desc: 'MIDI C_4',
     keycodeInfo: {
       code: 23647,
       name: {
@@ -4403,7 +4403,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Cs_4, Db_4',
+    desc: 'MIDI Cs_4, Db_4',
     keycodeInfo: {
       code: 23648,
       name: {
@@ -4414,7 +4414,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'D_4',
+    desc: 'MIDI D_4',
     keycodeInfo: {
       code: 23649,
       name: {
@@ -4425,7 +4425,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Ds_4, Eb_4',
+    desc: 'MIDI Ds_4, Eb_4',
     keycodeInfo: {
       code: 23650,
       name: {
@@ -4436,7 +4436,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'E_4',
+    desc: 'MIDI E_4',
     keycodeInfo: {
       code: 23651,
       name: {
@@ -4447,7 +4447,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'F_4',
+    desc: 'MIDI F_4',
     keycodeInfo: {
       code: 23652,
       name: {
@@ -4458,7 +4458,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Fs_4, Gb_4',
+    desc: 'MIDI Fs_4, Gb_4',
     keycodeInfo: {
       code: 23653,
       name: {
@@ -4469,7 +4469,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'G_4',
+    desc: 'MIDI G_4',
     keycodeInfo: {
       code: 23654,
       name: {
@@ -4480,7 +4480,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Gs_4, Ab_4',
+    desc: 'MIDI Gs_4, Ab_4',
     keycodeInfo: {
       code: 23655,
       name: {
@@ -4491,7 +4491,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'A_4',
+    desc: 'MIDI A_4',
     keycodeInfo: {
       code: 23656,
       name: {
@@ -4502,7 +4502,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'As_4, Bb_4',
+    desc: 'MIDI As_4, Bb_4',
     keycodeInfo: {
       code: 23657,
       name: {
@@ -4513,7 +4513,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'B_4',
+    desc: 'MIDI B_4',
     keycodeInfo: {
       code: 23658,
       name: {
@@ -4524,7 +4524,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'C_5',
+    desc: 'MIDI C_5',
     keycodeInfo: {
       code: 23659,
       name: {
@@ -4535,7 +4535,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Cs_5, Db_5',
+    desc: 'MIDI Cs_5, Db_5',
     keycodeInfo: {
       code: 23660,
       name: {
@@ -4546,7 +4546,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'D_5',
+    desc: 'MIDI D_5',
     keycodeInfo: {
       code: 23661,
       name: {
@@ -4557,7 +4557,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Ds_5, Eb_5',
+    desc: 'MIDI Ds_5, Eb_5',
     keycodeInfo: {
       code: 23662,
       name: {
@@ -4568,7 +4568,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'E_5',
+    desc: 'MIDI E_5',
     keycodeInfo: {
       code: 23663,
       name: {
@@ -4579,7 +4579,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'F_5',
+    desc: 'MIDI F_5',
     keycodeInfo: {
       code: 23664,
       name: {
@@ -4590,7 +4590,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Fs_5, Gb_5',
+    desc: 'MIDI Fs_5, Gb_5',
     keycodeInfo: {
       code: 23665,
       name: {
@@ -4601,7 +4601,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'G_5',
+    desc: 'MIDI G_5',
     keycodeInfo: {
       code: 23666,
       name: {
@@ -4612,7 +4612,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Gs_5, Ab_5',
+    desc: 'MIDI Gs_5, Ab_5',
     keycodeInfo: {
       code: 23667,
       name: {
@@ -4623,7 +4623,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'A_5',
+    desc: 'MIDI A_5',
     keycodeInfo: {
       code: 23668,
       name: {
@@ -4634,7 +4634,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'As_5, Bb_5',
+    desc: 'MIDI As_5, Bb_5',
     keycodeInfo: {
       code: 23669,
       name: {
@@ -4645,7 +4645,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'B_5',
+    desc: 'MIDI B_5',
     keycodeInfo: {
       code: 23670,
       name: {
@@ -4656,634 +4656,634 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Octave N2',
+    desc: 'MIDI Octave N2',
     keycodeInfo: {
       code: 23671,
       name: {
         long: 'MI_OCT_N2',
         short: 'MI_OCT_N2',
       },
-      label: 'Octave N2',
+      label: 'MIDI Oct N2',
     },
   },
   {
-    desc: 'Octave N1',
+    desc: 'MIDI Octave N1',
     keycodeInfo: {
       code: 23672,
       name: {
         long: 'MI_OCT_N1',
         short: 'MI_OCT_N1',
       },
-      label: 'Octave N1',
+      label: 'MIDI Oct N1',
     },
   },
   {
-    desc: 'Octave 0',
+    desc: 'MIDI Octave 0',
     keycodeInfo: {
       code: 23673,
       name: {
         long: 'MI_OCT_0',
         short: 'MI_OCT_0',
       },
-      label: 'Octave 0',
+      label: 'MIDI Oct 0',
     },
   },
   {
-    desc: 'Octave 1',
+    desc: 'MIDI Octave 1',
     keycodeInfo: {
       code: 23674,
       name: {
         long: 'MI_OCT_1',
         short: 'MI_OCT_1',
       },
-      label: 'Octave 1',
+      label: 'MIDI Oct 1',
     },
   },
   {
-    desc: 'Octave 2',
+    desc: 'MIDI Octave 2',
     keycodeInfo: {
       code: 23675,
       name: {
         long: 'MI_OCT_2',
         short: 'MI_OCT_2',
       },
-      label: 'Octave 2',
+      label: 'MIDI Oct 2',
     },
   },
   {
-    desc: 'Octave 3',
+    desc: 'MIDI Octave 3',
     keycodeInfo: {
       code: 23676,
       name: {
         long: 'MI_OCT_3',
         short: 'MI_OCT_3',
       },
-      label: 'Octave 3',
+      label: 'MIDI Oct 3',
     },
   },
   {
-    desc: 'Octave 4',
+    desc: 'MIDI Octave 4',
     keycodeInfo: {
       code: 23677,
       name: {
         long: 'MI_OCT_4',
         short: 'MI_OCT_4',
       },
-      label: 'Octave 4',
+      label: 'MIDI Oct 4',
     },
   },
   {
-    desc: 'Octave 5',
+    desc: 'MIDI Octave 5',
     keycodeInfo: {
       code: 23678,
       name: {
         long: 'MI_OCT_5',
         short: 'MI_OCT_5',
       },
-      label: 'Octave 5',
+      label: 'MIDI Oct 5',
     },
   },
   {
-    desc: 'Octave 6',
+    desc: 'MIDI Octave 6',
     keycodeInfo: {
       code: 23679,
       name: {
         long: 'MI_OCT_6',
         short: 'MI_OCT_6',
       },
-      label: 'Octave 6',
+      label: 'MIDI Oct 6',
     },
   },
   {
-    desc: 'Octave 7',
+    desc: 'MIDI Octave 7',
     keycodeInfo: {
       code: 23680,
       name: {
         long: 'MI_OCT_7',
         short: 'MI_OCT_7',
       },
-      label: 'Octave 7',
+      label: 'MIDI Oct 7',
     },
   },
   {
-    desc: 'Octave Down',
+    desc: 'MIDI Octave Down',
     keycodeInfo: {
       code: 23681,
       name: {
         long: 'MI_OCTD',
         short: 'MI_OCTD',
       },
-      label: 'Octave Down',
+      label: 'MIDI Oct Down',
     },
   },
   {
-    desc: 'Octave Up',
+    desc: 'MIDI Octave Up',
     keycodeInfo: {
       code: 23682,
       name: {
         long: 'MI_OCTU',
         short: 'MI_OCTU',
       },
-      label: 'Octave Up',
+      label: 'MIDI Oct Up',
     },
   },
   {
-    desc: 'Transpose N6',
+    desc: 'MIDI Transpose N6',
     keycodeInfo: {
       code: 23683,
       name: {
         long: 'MI_TRNS_N6',
         short: 'MI_TRNS_N6',
       },
-      label: 'Transpose N6',
+      label: 'MIDI Trans N6',
     },
   },
   {
-    desc: 'Transpose N5',
+    desc: 'MIDI Transpose N5',
     keycodeInfo: {
       code: 23684,
       name: {
         long: 'MI_TRNS_N5',
         short: 'MI_TRNS_N5',
       },
-      label: 'Transpose N5',
+      label: 'MIDI Trans N5',
     },
   },
   {
-    desc: 'Transpose N4',
+    desc: 'MIDI Transpose N4',
     keycodeInfo: {
       code: 23685,
       name: {
         long: 'MI_TRNS_N4',
         short: 'MI_TRNS_N4',
       },
-      label: 'Transpose N4',
+      label: 'MIDI Trans N4',
     },
   },
   {
-    desc: 'Transpose N3',
+    desc: 'MIDI Transpose N3',
     keycodeInfo: {
       code: 23686,
       name: {
         long: 'MI_TRNS_N3',
         short: 'MI_TRNS_N3',
       },
-      label: 'Transpose N3',
+      label: 'MIDI Trans N3',
     },
   },
   {
-    desc: 'Transpose N2',
+    desc: 'MIDI Transpose N2',
     keycodeInfo: {
       code: 23687,
       name: {
         long: 'MI_TRNS_N2',
         short: 'MI_TRNS_N2',
       },
-      label: 'Transpose N2',
+      label: 'MIDI Trans N2',
     },
   },
   {
-    desc: 'Transpose N1',
+    desc: 'MIDI Transpose N1',
     keycodeInfo: {
       code: 23688,
       name: {
         long: 'MI_TRNS_N1',
         short: 'MI_TRNS_N1',
       },
-      label: 'Transpose N1',
+      label: 'MIDI Trans N1',
     },
   },
   {
-    desc: 'Transpose 0',
+    desc: 'MIDI Transpose 0',
     keycodeInfo: {
       code: 23689,
       name: {
         long: 'MI_TRNS_0',
         short: 'MI_TRNS_0',
       },
-      label: 'Transpose 0',
+      label: 'MIDI Trans 0',
     },
   },
   {
-    desc: 'Transpose 1',
+    desc: 'MIDI Transpose 1',
     keycodeInfo: {
       code: 23690,
       name: {
         long: 'MI_TRNS_1',
         short: 'MI_TRNS_1',
       },
-      label: 'Transpose 1',
+      label: 'MIDI Trans 1',
     },
   },
   {
-    desc: 'Transpose 2',
+    desc: 'MIDI Transpose 2',
     keycodeInfo: {
       code: 23691,
       name: {
         long: 'MI_TRNS_2',
         short: 'MI_TRNS_2',
       },
-      label: 'Transpose 2',
+      label: 'MIDI Trans 2',
     },
   },
   {
-    desc: 'Transpose 3',
+    desc: 'MIDI Transpose 3',
     keycodeInfo: {
       code: 23692,
       name: {
         long: 'MI_TRNS_3',
         short: 'MI_TRNS_3',
       },
-      label: 'Transpose 3',
+      label: 'MIDI Trans 3',
     },
   },
   {
-    desc: 'Transpose 4',
+    desc: 'MIDI Transpose 4',
     keycodeInfo: {
       code: 23693,
       name: {
         long: 'MI_TRNS_4',
         short: 'MI_TRNS_4',
       },
-      label: 'Transpose 4',
+      label: 'MIDI Trans 4',
     },
   },
   {
-    desc: 'Transpose 5',
+    desc: 'MIDI Transpose 5',
     keycodeInfo: {
       code: 23694,
       name: {
         long: 'MI_TRNS_5',
         short: 'MI_TRNS_5',
       },
-      label: 'Transpose 5',
+      label: 'MIDI Trans 5',
     },
   },
   {
-    desc: 'Transpose 6',
+    desc: 'MIDI Transpose 6',
     keycodeInfo: {
       code: 23695,
       name: {
         long: 'MI_TRNS_6',
         short: 'MI_TRNS_6',
       },
-      label: 'Transpose 6',
+      label: 'MIDI Trans 6',
     },
   },
   {
-    desc: 'Transpose Down',
+    desc: 'MIDI Transpose Down',
     keycodeInfo: {
       code: 23696,
       name: {
         long: 'MI_TRNSD',
         short: 'MI_TRNSD',
       },
-      label: 'Transpose Down',
+      label: 'MIDI Trans Down',
     },
   },
   {
-    desc: 'Transpose Up',
+    desc: 'MIDI Transpose Up',
     keycodeInfo: {
       code: 23697,
       name: {
         long: 'MI_TRNSU',
         short: 'MI_TRNSU',
       },
-      label: 'Transpose Up',
+      label: 'MIDI Trans Up',
     },
   },
   {
-    desc: 'Velocity 1',
+    desc: 'MIDI Velocity 1',
     keycodeInfo: {
       code: 23698,
       name: {
         long: 'MI_VEL_1',
         short: 'MI_VEL_1',
       },
-      label: 'Velocity 1',
+      label: 'MIDI Vel 1',
     },
   },
   {
-    desc: 'Velocity 2',
+    desc: 'MIDI Velocity 2',
     keycodeInfo: {
       code: 23699,
       name: {
         long: 'MI_VEL_2',
         short: 'MI_VEL_2',
       },
-      label: 'Velocity 2',
+      label: 'MIDI Vel 2',
     },
   },
   {
-    desc: 'Velocity 3',
+    desc: 'MIDI Velocity 3',
     keycodeInfo: {
       code: 23700,
       name: {
         long: 'MI_VEL_3',
         short: 'MI_VEL_3',
       },
-      label: 'Velocity 3',
+      label: 'MIDI Vel 3',
     },
   },
   {
-    desc: 'Velocity 4',
+    desc: 'MIDI Velocity 4',
     keycodeInfo: {
       code: 23701,
       name: {
         long: 'MI_VEL_4',
         short: 'MI_VEL_4',
       },
-      label: 'Velocity 4',
+      label: 'MIDI Vel 4',
     },
   },
   {
-    desc: 'Velocity 5',
+    desc: 'MIDI Velocity 5',
     keycodeInfo: {
       code: 23702,
       name: {
         long: 'MI_VEL_5',
         short: 'MI_VEL_5',
       },
-      label: 'Velocity 5',
+      label: 'MIDI Vel 5',
     },
   },
   {
-    desc: 'Velocity 6',
+    desc: 'MIDI Velocity 6',
     keycodeInfo: {
       code: 23703,
       name: {
         long: 'MI_VEL_6',
         short: 'MI_VEL_6',
       },
-      label: 'Velocity 6',
+      label: 'MIDI Vel 6',
     },
   },
   {
-    desc: 'Velocity 7',
+    desc: 'MIDI Velocity 7',
     keycodeInfo: {
       code: 23704,
       name: {
         long: 'MI_VEL_7',
         short: 'MI_VEL_7',
       },
-      label: 'Velocity 7',
+      label: 'MIDI Vel 7',
     },
   },
   {
-    desc: 'Velocity 8',
+    desc: 'MIDI Velocity 8',
     keycodeInfo: {
       code: 23705,
       name: {
         long: 'MI_VEL_8',
         short: 'MI_VEL_8',
       },
-      label: 'Velocity 8',
+      label: 'MIDI Vel 8',
     },
   },
   {
-    desc: 'Velocity 9',
+    desc: 'MIDI Velocity 9',
     keycodeInfo: {
       code: 23706,
       name: {
         long: 'MI_VEL_9',
         short: 'MI_VEL_9',
       },
-      label: 'Velocity 9',
+      label: 'MIDI Vel 9',
     },
   },
   {
-    desc: 'Velocity 10',
+    desc: 'MIDI Velocity 10',
     keycodeInfo: {
       code: 23707,
       name: {
         long: 'MI_VEL_10',
         short: 'MI_VEL_10',
       },
-      label: 'Velocity 10',
+      label: 'MIDI Vel 10',
     },
   },
   {
-    desc: 'Velocity Down',
+    desc: 'MIDI Velocity Down',
     keycodeInfo: {
       code: 23708,
       name: {
         long: 'MI_VELD',
         short: 'MI_VELD',
       },
-      label: 'Velocity Down',
+      label: 'MIDI Vel Down',
     },
   },
   {
-    desc: 'Velocity Up',
+    desc: 'MIDI Velocity Up',
     keycodeInfo: {
       code: 23709,
       name: {
         long: 'MI_VELU',
         short: 'MI_VELU',
       },
-      label: 'Velocity Up',
+      label: 'MIDI Vel Up',
     },
   },
   {
-    desc: 'Channel 1',
+    desc: 'MIDI Channel 1',
     keycodeInfo: {
       code: 23710,
       name: {
         long: 'MI_CH1',
         short: 'MI_CH1',
       },
-      label: 'Channel 1',
+      label: 'MIDI CH 1',
     },
   },
   {
-    desc: 'Channel 2',
+    desc: 'MIDI Channel 2',
     keycodeInfo: {
       code: 23711,
       name: {
         long: 'MI_CH2',
         short: 'MI_CH2',
       },
-      label: 'Channel 2',
+      label: 'MIDI CH 2',
     },
   },
   {
-    desc: 'Channel 3',
+    desc: 'MIDI Channel 3',
     keycodeInfo: {
       code: 23712,
       name: {
         long: 'MI_CH3',
         short: 'MI_CH3',
       },
-      label: 'CH3',
+      label: 'MIDI CH 3',
     },
   },
   {
-    desc: 'Channel 4',
+    desc: 'MIDI Channel 4',
     keycodeInfo: {
       code: 23713,
       name: {
         long: 'MI_CH4',
         short: 'MI_CH4',
       },
-      label: 'Channel 4',
+      label: 'MIDI CH 4',
     },
   },
   {
-    desc: 'Channel 5',
+    desc: 'MIDI Channel 5',
     keycodeInfo: {
       code: 23714,
       name: {
         long: 'MI_CH5',
         short: 'MI_CH5',
       },
-      label: 'Channel 5',
+      label: 'MIDI CH 5',
     },
   },
   {
-    desc: 'Channel 6',
+    desc: 'MIDI Channel 6',
     keycodeInfo: {
       code: 23715,
       name: {
         long: 'MI_CH6',
         short: 'MI_CH6',
       },
-      label: 'Channel 6',
+      label: 'MIDI CH 6',
     },
   },
   {
-    desc: 'Channel 7',
+    desc: 'MIDI Channel 7',
     keycodeInfo: {
       code: 23716,
       name: {
         long: 'MI_CH7',
         short: 'MI_CH7',
       },
-      label: 'Channel 7',
+      label: 'MIDI CH 7',
     },
   },
   {
-    desc: 'Channel 8',
+    desc: 'MIDI Channel 8',
     keycodeInfo: {
       code: 23717,
       name: {
         long: 'MI_CH8',
         short: 'MI_CH8',
       },
-      label: 'Channel 8',
+      label: 'MIDI CH 8',
     },
   },
   {
-    desc: 'Channel 9',
+    desc: 'MIDI Channel 9',
     keycodeInfo: {
       code: 23718,
       name: {
         long: 'MI_CH9',
         short: 'MI_CH9',
       },
-      label: 'Channel 9',
+      label: 'MIDI CH 9',
     },
   },
   {
-    desc: 'Channel 10',
+    desc: 'MIDI Channel 10',
     keycodeInfo: {
       code: 23719,
       name: {
         long: 'MI_CH10',
         short: 'MI_CH10',
       },
-      label: 'Channel 10',
+      label: 'MIDI CH 10',
     },
   },
   {
-    desc: 'Channel 11',
+    desc: 'MIDI Channel 11',
     keycodeInfo: {
       code: 23720,
       name: {
         long: 'MI_CH11',
         short: 'MI_CH11',
       },
-      label: 'Channel 11',
+      label: 'MIDI CH 11',
     },
   },
   {
-    desc: 'Channel 12',
+    desc: 'MIDI Channel 12',
     keycodeInfo: {
       code: 23721,
       name: {
         long: 'MI_CH12',
         short: 'MI_CH12',
       },
-      label: 'Channel 12',
+      label: 'MIDI CH 12',
     },
   },
   {
-    desc: 'Channel 13',
+    desc: 'MIDI Channel 13',
     keycodeInfo: {
       code: 23722,
       name: {
         long: 'MI_CH13',
         short: 'MI_CH13',
       },
-      label: 'Channel 13',
+      label: 'MIDI CH 13',
     },
   },
   {
-    desc: 'Channel 14',
+    desc: 'MIDI Channel 14',
     keycodeInfo: {
       code: 23723,
       name: {
         long: 'MI_CH14',
         short: 'MI_CH14',
       },
-      label: 'Channel 14',
+      label: 'MIDI CH 14',
     },
   },
   {
-    desc: 'Channel 15',
+    desc: 'MIDI Channel 15',
     keycodeInfo: {
       code: 23724,
       name: {
         long: 'MI_CH15',
         short: 'MI_CH15',
       },
-      label: 'Channel 15',
+      label: 'MIDI CH 15',
     },
   },
   {
-    desc: 'Channel 16',
+    desc: 'MIDI Channel 16',
     keycodeInfo: {
       code: 23725,
       name: {
         long: 'MI_CH16',
         short: 'MI_CH16',
       },
-      label: 'Channel 16',
+      label: 'MIDI CH 16',
     },
   },
   {
-    desc: 'Previous Channel',
+    desc: 'MIDI Previous Channel',
     keycodeInfo: {
       code: 23726,
       name: {
         long: 'MI_CHD',
         short: 'MI_CHD',
       },
-      label: 'Channel Down',
+      label: 'MIDI CH Down',
     },
   },
   {
-    desc: 'Next Channel',
+    desc: 'MIDI Next Channel',
     keycodeInfo: {
       code: 23727,
       name: {
         long: 'MI_CHU',
         short: 'MI_CHU',
       },
-      label: 'Channel Up',
+      label: 'MIDI CH Up',
     },
   },
   {
-    desc: 'All Notes Off',
+    desc: 'MIDI All Notes Off',
     keycodeInfo: {
       code: 23728,
       name: {
@@ -5294,113 +5294,113 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Sustain',
+    desc: 'MIDI Sustain',
     keycodeInfo: {
       code: 23729,
       name: {
         long: 'MI_SUS',
         short: 'MI_SUS',
       },
-      label: 'Sustain',
+      label: 'MIDI Sustain',
     },
   },
   {
-    desc: 'Portamento',
+    desc: 'MIDI Portamento',
     keycodeInfo: {
       code: 23730,
       name: {
         long: 'MI_PORT',
         short: 'MI_PORT',
       },
-      label: 'Portamento',
+      label: 'MIDI Portamento',
     },
   },
   {
-    desc: 'Sostenuto',
+    desc: 'MIDI Sostenuto',
     keycodeInfo: {
       code: 23731,
       name: {
         long: 'MI_SOST',
         short: 'MI_SOST',
       },
-      label: 'Sostenuto',
+      label: 'MIDI Sostenuto',
     },
   },
   {
-    desc: 'Soft Pedal',
+    desc: 'MIDI Soft Pedal',
     keycodeInfo: {
       code: 23732,
       name: {
         long: 'MI_SOFT',
         short: 'MI_SOFT',
       },
-      label: 'Soft Pedal',
+      label: 'MIDI Soft Pedal',
     },
   },
   {
-    desc: 'Legato',
+    desc: 'MIDI Legato',
     keycodeInfo: {
       code: 23733,
       name: {
         long: 'MI_LEG',
         short: 'MI_LEG',
       },
-      label: 'Legato',
+      label: 'MIDI Legato',
     },
   },
   {
-    desc: 'Modulation',
+    desc: 'MIDI Modulation',
     keycodeInfo: {
       code: 23734,
       name: {
         long: 'MI_MOD',
         short: 'MI_MOD',
       },
-      label: 'Modulation',
+      label: 'MIDI Modulation',
     },
   },
   {
-    desc: 'Decrease Modulation Speed',
+    desc: 'MIDI Decrease Modulation Speed',
     keycodeInfo: {
       code: 23735,
       name: {
         long: 'MI_MODSD',
         short: 'MI_MODSD',
       },
-      label: 'Decrease Mudulation Speed',
+      label: 'MIDI Mud Speed -',
     },
   },
   {
-    desc: 'Increase Modulation Speed',
+    desc: 'MIDI Increase Modulation Speed',
     keycodeInfo: {
       code: 23736,
       name: {
         long: 'MI_MODSU',
         short: 'MI_MODSU',
       },
-      label: 'Increase Modulation Speed',
+      label: 'MIDI Mod Speed +',
     },
   },
   {
-    desc: 'Bend Down',
+    desc: 'MIDI Bend Down',
     keycodeInfo: {
       code: 23737,
       name: {
         long: 'MI_BENDD',
         short: 'MI_BENDD',
       },
-      label: 'Bend Down',
+      label: 'MIDI Bend Down',
     },
   },
   {
-    desc: 'Bend Up',
+    desc: 'MIDI Bend Up',
     keycodeInfo: {
       code: 23738,
       name: {
         long: 'MI_BENDU',
         short: 'MI_BENDU',
       },
-      label: 'Bend Up',
+      label: 'MIDI Bend Up',
     },
   },
 
