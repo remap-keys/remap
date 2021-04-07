@@ -52,6 +52,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           KeyCategory.special(this.props.labelLang!),
           this.props.labelLang!
         ),
+        Midi: genKeys(KeyCategory.midi(), this.props.labelLang!),
       },
     };
   }

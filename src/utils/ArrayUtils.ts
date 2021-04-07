@@ -29,3 +29,6 @@ export const outputUint8Array = (title: string, array: Uint8Array) => {
   }
   console.log(lines);
 };
+
+export const range = (start: number, end: number): number[] =>
+  Array.from({ length: end - start + 1 }, (v, k) => k + start);

@@ -3831,6 +3831,1580 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
+    desc: 'MIDI On',
+    keycodeInfo: {
+      code: 23596,
+      name: {
+        long: 'MI_ON',
+        short: 'MI_ON',
+      },
+      label: 'MIDI On',
+    },
+  },
+  {
+    desc: 'MIDI Off',
+    keycodeInfo: {
+      code: 23597,
+      name: {
+        long: 'MI_OFF',
+        short: 'MI_OFF',
+      },
+      label: 'MIDI Off',
+    },
+  },
+  {
+    desc: 'MIDI Toggle',
+    keycodeInfo: {
+      code: 23598,
+      name: {
+        long: 'MI_TOG',
+        short: 'MI_TOG',
+      },
+      label: 'MIDI Toggle',
+    },
+  },
+  {
+    desc: 'MIDI C_0',
+    keycodeInfo: {
+      code: 23599,
+      name: {
+        long: 'MI_C',
+        short: 'MI_C',
+      },
+      label: 'C_0',
+    },
+  },
+  {
+    desc: 'MIDI Cs_0, Db_0',
+    keycodeInfo: {
+      code: 23600,
+      name: {
+        long: 'MI_Cs',
+        short: 'MI_Cs',
+      },
+      label: 'Cs_0, Db_0',
+    },
+  },
+  {
+    desc: 'MIDI D_0',
+    keycodeInfo: {
+      code: 23601,
+      name: {
+        long: 'MI_D',
+        short: 'MI_D',
+      },
+      label: 'D_0',
+    },
+  },
+  {
+    desc: 'MIDI Ds_0, Eb_0',
+    keycodeInfo: {
+      code: 23602,
+      name: {
+        long: 'MI_Ds',
+        short: 'MI_Ds',
+      },
+      label: 'Ds_0, Eb_0',
+    },
+  },
+  {
+    desc: 'MIDI E_0',
+    keycodeInfo: {
+      code: 23603,
+      name: {
+        long: 'MI_E',
+        short: 'MI_E',
+      },
+      label: 'E_0',
+    },
+  },
+  {
+    desc: 'MIDI F_0',
+    keycodeInfo: {
+      code: 23604,
+      name: {
+        long: 'MI_F',
+        short: 'MI_F',
+      },
+      label: 'F_0',
+    },
+  },
+  {
+    desc: 'MIDI Fs_0, Gb_0',
+    keycodeInfo: {
+      code: 23605,
+      name: {
+        long: 'MI_Fs',
+        short: 'MI_Fs',
+      },
+      label: 'Fs_0, Gb_0',
+    },
+  },
+  {
+    desc: 'MIDI G_0',
+    keycodeInfo: {
+      code: 23606,
+      name: {
+        long: 'MI_G',
+        short: 'MI_G',
+      },
+      label: 'G_0',
+    },
+  },
+  {
+    desc: 'MIDI Gs_0, Ab_0',
+    keycodeInfo: {
+      code: 23607,
+      name: {
+        long: 'MI_Gs',
+        short: 'MI_Gs',
+      },
+      label: 'Gs_0, Ab_0',
+    },
+  },
+  {
+    desc: 'MIDI A_0',
+    keycodeInfo: {
+      code: 23608,
+      name: {
+        long: 'MI_A',
+        short: 'MI_A',
+      },
+      label: 'A_0',
+    },
+  },
+  {
+    desc: 'MIDI As_0, Bb_0',
+    keycodeInfo: {
+      code: 23609,
+      name: {
+        long: 'MI_As',
+        short: 'MI_As',
+      },
+      label: 'As_0, Bb_0',
+    },
+  },
+  {
+    desc: 'MIDI B_0',
+    keycodeInfo: {
+      code: 23610,
+      name: {
+        long: 'MI_B',
+        short: 'MI_B',
+      },
+      label: 'B_0',
+    },
+  },
+  {
+    desc: 'MIDI C_1',
+    keycodeInfo: {
+      code: 23611,
+      name: {
+        long: 'MI_C_1',
+        short: 'MI_C_1',
+      },
+      label: 'C_1',
+    },
+  },
+  {
+    desc: 'MIDI Cs_1, Db_1',
+    keycodeInfo: {
+      code: 23612,
+      name: {
+        long: 'MI_Cs_1',
+        short: 'MI_Cs_1',
+      },
+      label: 'Cs_1, Db_1',
+    },
+  },
+  {
+    desc: 'MIDI D_1',
+    keycodeInfo: {
+      code: 23613,
+      name: {
+        long: 'MI_D_1',
+        short: 'MI_D_1',
+      },
+      label: 'D_1',
+    },
+  },
+  {
+    desc: 'MIDI Ds_1, Eb_1',
+    keycodeInfo: {
+      code: 23614,
+      name: {
+        long: 'MI_Ds_1',
+        short: 'MI_Ds_1',
+      },
+      label: 'Ds_1, Eb_1',
+    },
+  },
+  {
+    desc: 'MIDI E_1',
+    keycodeInfo: {
+      code: 23615,
+      name: {
+        long: 'MI_E_1',
+        short: 'MI_E_1',
+      },
+      label: 'E_1',
+    },
+  },
+  {
+    desc: 'MIDI F_1',
+    keycodeInfo: {
+      code: 23616,
+      name: {
+        long: 'MI_F_1',
+        short: 'MI_F_1',
+      },
+      label: 'F_1',
+    },
+  },
+  {
+    desc: 'MIDI Fs_1, Gb_1',
+    keycodeInfo: {
+      code: 23617,
+      name: {
+        long: 'MI_Fs_1',
+        short: 'MI_Fs_1',
+      },
+      label: 'Fs_1, Gb_1',
+    },
+  },
+  {
+    desc: 'MIDI G_1',
+    keycodeInfo: {
+      code: 23618,
+      name: {
+        long: 'MI_G_1',
+        short: 'MI_G_1',
+      },
+      label: 'G_1',
+    },
+  },
+  {
+    desc: 'MIDI Gs_1, Ab_1',
+    keycodeInfo: {
+      code: 23619,
+      name: {
+        long: 'MI_Gs_1',
+        short: 'MI_Gs_1',
+      },
+      label: 'Gs_1, Ab_1',
+    },
+  },
+  {
+    desc: 'MIDI A_1',
+    keycodeInfo: {
+      code: 23620,
+      name: {
+        long: 'MI_A_1',
+        short: 'MI_A_1',
+      },
+      label: 'A_1',
+    },
+  },
+  {
+    desc: 'MIDI As_1, Bb_1',
+    keycodeInfo: {
+      code: 23621,
+      name: {
+        long: 'MI_As_1',
+        short: 'MI_As_1',
+      },
+      label: 'As_1, Bb_1',
+    },
+  },
+  {
+    desc: 'MIDI B_1',
+    keycodeInfo: {
+      code: 23622,
+      name: {
+        long: 'MI_B_1',
+        short: 'MI_B_1',
+      },
+      label: 'B_1',
+    },
+  },
+  {
+    desc: 'MIDI C_2',
+    keycodeInfo: {
+      code: 23623,
+      name: {
+        long: 'MI_C_2',
+        short: 'MI_C_2',
+      },
+      label: 'C_2',
+    },
+  },
+  {
+    desc: 'MIDI Cs_2, Db_2',
+    keycodeInfo: {
+      code: 23624,
+      name: {
+        long: 'MI_Cs_2',
+        short: 'MI_Cs_2',
+      },
+      label: 'Cs_2, Db_2',
+    },
+  },
+  {
+    desc: 'MIDI D_2',
+    keycodeInfo: {
+      code: 23625,
+      name: {
+        long: 'MI_D_2',
+        short: 'MI_D_2',
+      },
+      label: 'D_2',
+    },
+  },
+  {
+    desc: 'MIDI Ds_2, Eb_2',
+    keycodeInfo: {
+      code: 23626,
+      name: {
+        long: 'MI_Ds_2',
+        short: 'MI_Ds_2',
+      },
+      label: 'Ds_2, Eb_2',
+    },
+  },
+  {
+    desc: 'MIDI E_2',
+    keycodeInfo: {
+      code: 23627,
+      name: {
+        long: 'MI_E_2',
+        short: 'MI_E_2',
+      },
+      label: 'E_2',
+    },
+  },
+  {
+    desc: 'MIDI F_2',
+    keycodeInfo: {
+      code: 23628,
+      name: {
+        long: 'MI_F_2',
+        short: 'MI_F_2',
+      },
+      label: 'F_2',
+    },
+  },
+  {
+    desc: 'MIDI Fs_2, Gb_2',
+    keycodeInfo: {
+      code: 23629,
+      name: {
+        long: 'MI_Fs_2',
+        short: 'MI_Fs_2',
+      },
+      label: 'Fs_2, Gb_2',
+    },
+  },
+  {
+    desc: 'MIDI G_2',
+    keycodeInfo: {
+      code: 23630,
+      name: {
+        long: 'MI_G_2',
+        short: 'MI_G_2',
+      },
+      label: 'G_2',
+    },
+  },
+  {
+    desc: 'MIDI Gs_2, Ab_2',
+    keycodeInfo: {
+      code: 23631,
+      name: {
+        long: 'MI_Gs_2',
+        short: 'MI_Gs_2',
+      },
+      label: 'Gs_2, Ab_2',
+    },
+  },
+  {
+    desc: 'MIDI A_2',
+    keycodeInfo: {
+      code: 23632,
+      name: {
+        long: 'MI_A_2',
+        short: 'MI_A_2',
+      },
+      label: 'A_2',
+    },
+  },
+  {
+    desc: 'MIDI As_2, Bb_2',
+    keycodeInfo: {
+      code: 23633,
+      name: {
+        long: 'MI_As_2',
+        short: 'MI_As_2',
+      },
+      label: 'As_2, Bb_2',
+    },
+  },
+  {
+    desc: 'MIDI B_2',
+    keycodeInfo: {
+      code: 23634,
+      name: {
+        long: 'MI_B_2',
+        short: 'MI_B_2',
+      },
+      label: 'B_2',
+    },
+  },
+  {
+    desc: 'MIDI C_3',
+    keycodeInfo: {
+      code: 23635,
+      name: {
+        long: 'MI_C_3',
+        short: 'MI_C_3',
+      },
+      label: 'C_3',
+    },
+  },
+  {
+    desc: 'MIDI Cs_3, Db_3',
+    keycodeInfo: {
+      code: 23636,
+      name: {
+        long: 'MI_Cs_3',
+        short: 'MI_Cs_3',
+      },
+      label: 'Cs_3, Db_3',
+    },
+  },
+  {
+    desc: 'MIDI D_3',
+    keycodeInfo: {
+      code: 23637,
+      name: {
+        long: 'MI_D_3',
+        short: 'MI_D_3',
+      },
+      label: 'D_3',
+    },
+  },
+  {
+    desc: 'MIDI Ds_3, Eb_3',
+    keycodeInfo: {
+      code: 23638,
+      name: {
+        long: 'MI_Ds_3',
+        short: 'MI_Ds_3',
+      },
+      label: 'Ds_3, Eb_3',
+    },
+  },
+  {
+    desc: 'MIDI E_3',
+    keycodeInfo: {
+      code: 23639,
+      name: {
+        long: 'MI_E_3',
+        short: 'MI_E_3',
+      },
+      label: 'E_3',
+    },
+  },
+  {
+    desc: 'MIDI F_3',
+    keycodeInfo: {
+      code: 23640,
+      name: {
+        long: 'MI_F_3',
+        short: 'MI_F_3',
+      },
+      label: 'F_3',
+    },
+  },
+  {
+    desc: 'MIDI Fs_3, Gb_3',
+    keycodeInfo: {
+      code: 23641,
+      name: {
+        long: 'MI_Fs_3',
+        short: 'MI_Fs_3',
+      },
+      label: 'Fs_3, Gb_3',
+    },
+  },
+  {
+    desc: 'MIDI G_3',
+    keycodeInfo: {
+      code: 23642,
+      name: {
+        long: 'MI_G_3',
+        short: 'MI_G_3',
+      },
+      label: 'G_3',
+    },
+  },
+  {
+    desc: 'MIDI Gs_3, Ab_3',
+    keycodeInfo: {
+      code: 23643,
+      name: {
+        long: 'MI_Gs_3',
+        short: 'MI_Gs_3',
+      },
+      label: 'Gs_3, Ab_3',
+    },
+  },
+  {
+    desc: 'MIDI A_3',
+    keycodeInfo: {
+      code: 23644,
+      name: {
+        long: 'MI_A_3',
+        short: 'MI_A_3',
+      },
+      label: 'A_3',
+    },
+  },
+  {
+    desc: 'MIDI As_3, Bb_3',
+    keycodeInfo: {
+      code: 23645,
+      name: {
+        long: 'MI_As_3',
+        short: 'MI_As_3',
+      },
+      label: 'As_3, Bb_3',
+    },
+  },
+  {
+    desc: 'MIDI B_3',
+    keycodeInfo: {
+      code: 23646,
+      name: {
+        long: 'MI_B_3',
+        short: 'MI_B_3',
+      },
+      label: 'B_3',
+    },
+  },
+  {
+    desc: 'MIDI C_4',
+    keycodeInfo: {
+      code: 23647,
+      name: {
+        long: 'MI_C_4',
+        short: 'MI_C_4',
+      },
+      label: 'C_4',
+    },
+  },
+  {
+    desc: 'MIDI Cs_4, Db_4',
+    keycodeInfo: {
+      code: 23648,
+      name: {
+        long: 'MI_Cs_4',
+        short: 'MI_Cs_4',
+      },
+      label: 'Cs_4, Db_4',
+    },
+  },
+  {
+    desc: 'MIDI D_4',
+    keycodeInfo: {
+      code: 23649,
+      name: {
+        long: 'MI_D_4',
+        short: 'MI_D_4',
+      },
+      label: 'D_4',
+    },
+  },
+  {
+    desc: 'MIDI Ds_4, Eb_4',
+    keycodeInfo: {
+      code: 23650,
+      name: {
+        long: 'MI_Ds_4',
+        short: 'MI_Ds_4',
+      },
+      label: 'Ds_4, Eb_4',
+    },
+  },
+  {
+    desc: 'MIDI E_4',
+    keycodeInfo: {
+      code: 23651,
+      name: {
+        long: 'MI_E_4',
+        short: 'MI_E_4',
+      },
+      label: 'E_4',
+    },
+  },
+  {
+    desc: 'MIDI F_4',
+    keycodeInfo: {
+      code: 23652,
+      name: {
+        long: 'MI_F_4',
+        short: 'MI_F_4',
+      },
+      label: 'F_4',
+    },
+  },
+  {
+    desc: 'MIDI Fs_4, Gb_4',
+    keycodeInfo: {
+      code: 23653,
+      name: {
+        long: 'MI_Fs_4',
+        short: 'MI_Fs_4',
+      },
+      label: 'Fs_4, Gb_4',
+    },
+  },
+  {
+    desc: 'MIDI G_4',
+    keycodeInfo: {
+      code: 23654,
+      name: {
+        long: 'MI_G_4',
+        short: 'MI_G_4',
+      },
+      label: 'G_4',
+    },
+  },
+  {
+    desc: 'MIDI Gs_4, Ab_4',
+    keycodeInfo: {
+      code: 23655,
+      name: {
+        long: 'MI_Gs_4',
+        short: 'MI_Gs_4',
+      },
+      label: 'Gs_4, Ab_4',
+    },
+  },
+  {
+    desc: 'MIDI A_4',
+    keycodeInfo: {
+      code: 23656,
+      name: {
+        long: 'MI_A_4',
+        short: 'MI_A_4',
+      },
+      label: 'A_4',
+    },
+  },
+  {
+    desc: 'MIDI As_4, Bb_4',
+    keycodeInfo: {
+      code: 23657,
+      name: {
+        long: 'MI_As_4',
+        short: 'MI_As_4',
+      },
+      label: 'As_4, Bb_4',
+    },
+  },
+  {
+    desc: 'MIDI B_4',
+    keycodeInfo: {
+      code: 23658,
+      name: {
+        long: 'MI_B_4',
+        short: 'MI_B_4',
+      },
+      label: 'B_4',
+    },
+  },
+  {
+    desc: 'MIDI C_5',
+    keycodeInfo: {
+      code: 23659,
+      name: {
+        long: 'MI_C_5',
+        short: 'MI_C_5',
+      },
+      label: 'C_5',
+    },
+  },
+  {
+    desc: 'MIDI Cs_5, Db_5',
+    keycodeInfo: {
+      code: 23660,
+      name: {
+        long: 'MI_Cs_5',
+        short: 'MI_Cs_5',
+      },
+      label: 'Cs_5, Db_5',
+    },
+  },
+  {
+    desc: 'MIDI D_5',
+    keycodeInfo: {
+      code: 23661,
+      name: {
+        long: 'MI_D_5',
+        short: 'MI_D_5',
+      },
+      label: 'D_5',
+    },
+  },
+  {
+    desc: 'MIDI Ds_5, Eb_5',
+    keycodeInfo: {
+      code: 23662,
+      name: {
+        long: 'MI_Ds_5',
+        short: 'MI_Ds_5',
+      },
+      label: 'Ds_5, Eb_5',
+    },
+  },
+  {
+    desc: 'MIDI E_5',
+    keycodeInfo: {
+      code: 23663,
+      name: {
+        long: 'MI_E_5',
+        short: 'MI_E_5',
+      },
+      label: 'E_5',
+    },
+  },
+  {
+    desc: 'MIDI F_5',
+    keycodeInfo: {
+      code: 23664,
+      name: {
+        long: 'MI_F_5',
+        short: 'MI_F_5',
+      },
+      label: 'F_5',
+    },
+  },
+  {
+    desc: 'MIDI Fs_5, Gb_5',
+    keycodeInfo: {
+      code: 23665,
+      name: {
+        long: 'MI_Fs_5',
+        short: 'MI_Fs_5',
+      },
+      label: 'Fs_5, Gb_5',
+    },
+  },
+  {
+    desc: 'MIDI G_5',
+    keycodeInfo: {
+      code: 23666,
+      name: {
+        long: 'MI_G_5',
+        short: 'MI_G_5',
+      },
+      label: 'G_5',
+    },
+  },
+  {
+    desc: 'MIDI Gs_5, Ab_5',
+    keycodeInfo: {
+      code: 23667,
+      name: {
+        long: 'MI_Gs_5',
+        short: 'MI_Gs_5',
+      },
+      label: 'Gs_5, Ab_5',
+    },
+  },
+  {
+    desc: 'MIDI A_5',
+    keycodeInfo: {
+      code: 23668,
+      name: {
+        long: 'MI_A_5',
+        short: 'MI_A_5',
+      },
+      label: 'A_5',
+    },
+  },
+  {
+    desc: 'MIDI As_5, Bb_5',
+    keycodeInfo: {
+      code: 23669,
+      name: {
+        long: 'MI_As_5',
+        short: 'MI_As_5',
+      },
+      label: 'As_5, Bb_5',
+    },
+  },
+  {
+    desc: 'MIDI B_5',
+    keycodeInfo: {
+      code: 23670,
+      name: {
+        long: 'MI_B_5',
+        short: 'MI_B_5',
+      },
+      label: 'B_5',
+    },
+  },
+  {
+    desc: 'MIDI Octave N2',
+    keycodeInfo: {
+      code: 23671,
+      name: {
+        long: 'MI_OCT_N2',
+        short: 'MI_OCT_N2',
+      },
+      label: 'MIDI Oct N2',
+    },
+  },
+  {
+    desc: 'MIDI Octave N1',
+    keycodeInfo: {
+      code: 23672,
+      name: {
+        long: 'MI_OCT_N1',
+        short: 'MI_OCT_N1',
+      },
+      label: 'MIDI Oct N1',
+    },
+  },
+  {
+    desc: 'MIDI Octave 0',
+    keycodeInfo: {
+      code: 23673,
+      name: {
+        long: 'MI_OCT_0',
+        short: 'MI_OCT_0',
+      },
+      label: 'MIDI Oct 0',
+    },
+  },
+  {
+    desc: 'MIDI Octave 1',
+    keycodeInfo: {
+      code: 23674,
+      name: {
+        long: 'MI_OCT_1',
+        short: 'MI_OCT_1',
+      },
+      label: 'MIDI Oct 1',
+    },
+  },
+  {
+    desc: 'MIDI Octave 2',
+    keycodeInfo: {
+      code: 23675,
+      name: {
+        long: 'MI_OCT_2',
+        short: 'MI_OCT_2',
+      },
+      label: 'MIDI Oct 2',
+    },
+  },
+  {
+    desc: 'MIDI Octave 3',
+    keycodeInfo: {
+      code: 23676,
+      name: {
+        long: 'MI_OCT_3',
+        short: 'MI_OCT_3',
+      },
+      label: 'MIDI Oct 3',
+    },
+  },
+  {
+    desc: 'MIDI Octave 4',
+    keycodeInfo: {
+      code: 23677,
+      name: {
+        long: 'MI_OCT_4',
+        short: 'MI_OCT_4',
+      },
+      label: 'MIDI Oct 4',
+    },
+  },
+  {
+    desc: 'MIDI Octave 5',
+    keycodeInfo: {
+      code: 23678,
+      name: {
+        long: 'MI_OCT_5',
+        short: 'MI_OCT_5',
+      },
+      label: 'MIDI Oct 5',
+    },
+  },
+  {
+    desc: 'MIDI Octave 6',
+    keycodeInfo: {
+      code: 23679,
+      name: {
+        long: 'MI_OCT_6',
+        short: 'MI_OCT_6',
+      },
+      label: 'MIDI Oct 6',
+    },
+  },
+  {
+    desc: 'MIDI Octave 7',
+    keycodeInfo: {
+      code: 23680,
+      name: {
+        long: 'MI_OCT_7',
+        short: 'MI_OCT_7',
+      },
+      label: 'MIDI Oct 7',
+    },
+  },
+  {
+    desc: 'MIDI Octave Down',
+    keycodeInfo: {
+      code: 23681,
+      name: {
+        long: 'MI_OCTD',
+        short: 'MI_OCTD',
+      },
+      label: 'MIDI Oct Down',
+    },
+  },
+  {
+    desc: 'MIDI Octave Up',
+    keycodeInfo: {
+      code: 23682,
+      name: {
+        long: 'MI_OCTU',
+        short: 'MI_OCTU',
+      },
+      label: 'MIDI Oct Up',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N6',
+    keycodeInfo: {
+      code: 23683,
+      name: {
+        long: 'MI_TRNS_N6',
+        short: 'MI_TRNS_N6',
+      },
+      label: 'MIDI Trans N6',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N5',
+    keycodeInfo: {
+      code: 23684,
+      name: {
+        long: 'MI_TRNS_N5',
+        short: 'MI_TRNS_N5',
+      },
+      label: 'MIDI Trans N5',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N4',
+    keycodeInfo: {
+      code: 23685,
+      name: {
+        long: 'MI_TRNS_N4',
+        short: 'MI_TRNS_N4',
+      },
+      label: 'MIDI Trans N4',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N3',
+    keycodeInfo: {
+      code: 23686,
+      name: {
+        long: 'MI_TRNS_N3',
+        short: 'MI_TRNS_N3',
+      },
+      label: 'MIDI Trans N3',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N2',
+    keycodeInfo: {
+      code: 23687,
+      name: {
+        long: 'MI_TRNS_N2',
+        short: 'MI_TRNS_N2',
+      },
+      label: 'MIDI Trans N2',
+    },
+  },
+  {
+    desc: 'MIDI Transpose N1',
+    keycodeInfo: {
+      code: 23688,
+      name: {
+        long: 'MI_TRNS_N1',
+        short: 'MI_TRNS_N1',
+      },
+      label: 'MIDI Trans N1',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 0',
+    keycodeInfo: {
+      code: 23689,
+      name: {
+        long: 'MI_TRNS_0',
+        short: 'MI_TRNS_0',
+      },
+      label: 'MIDI Trans 0',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 1',
+    keycodeInfo: {
+      code: 23690,
+      name: {
+        long: 'MI_TRNS_1',
+        short: 'MI_TRNS_1',
+      },
+      label: 'MIDI Trans 1',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 2',
+    keycodeInfo: {
+      code: 23691,
+      name: {
+        long: 'MI_TRNS_2',
+        short: 'MI_TRNS_2',
+      },
+      label: 'MIDI Trans 2',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 3',
+    keycodeInfo: {
+      code: 23692,
+      name: {
+        long: 'MI_TRNS_3',
+        short: 'MI_TRNS_3',
+      },
+      label: 'MIDI Trans 3',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 4',
+    keycodeInfo: {
+      code: 23693,
+      name: {
+        long: 'MI_TRNS_4',
+        short: 'MI_TRNS_4',
+      },
+      label: 'MIDI Trans 4',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 5',
+    keycodeInfo: {
+      code: 23694,
+      name: {
+        long: 'MI_TRNS_5',
+        short: 'MI_TRNS_5',
+      },
+      label: 'MIDI Trans 5',
+    },
+  },
+  {
+    desc: 'MIDI Transpose 6',
+    keycodeInfo: {
+      code: 23695,
+      name: {
+        long: 'MI_TRNS_6',
+        short: 'MI_TRNS_6',
+      },
+      label: 'MIDI Trans 6',
+    },
+  },
+  {
+    desc: 'MIDI Transpose Down',
+    keycodeInfo: {
+      code: 23696,
+      name: {
+        long: 'MI_TRNSD',
+        short: 'MI_TRNSD',
+      },
+      label: 'MIDI Trans Down',
+    },
+  },
+  {
+    desc: 'MIDI Transpose Up',
+    keycodeInfo: {
+      code: 23697,
+      name: {
+        long: 'MI_TRNSU',
+        short: 'MI_TRNSU',
+      },
+      label: 'MIDI Trans Up',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 1',
+    keycodeInfo: {
+      code: 23698,
+      name: {
+        long: 'MI_VEL_1',
+        short: 'MI_VEL_1',
+      },
+      label: 'MIDI Vel 1',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 2',
+    keycodeInfo: {
+      code: 23699,
+      name: {
+        long: 'MI_VEL_2',
+        short: 'MI_VEL_2',
+      },
+      label: 'MIDI Vel 2',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 3',
+    keycodeInfo: {
+      code: 23700,
+      name: {
+        long: 'MI_VEL_3',
+        short: 'MI_VEL_3',
+      },
+      label: 'MIDI Vel 3',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 4',
+    keycodeInfo: {
+      code: 23701,
+      name: {
+        long: 'MI_VEL_4',
+        short: 'MI_VEL_4',
+      },
+      label: 'MIDI Vel 4',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 5',
+    keycodeInfo: {
+      code: 23702,
+      name: {
+        long: 'MI_VEL_5',
+        short: 'MI_VEL_5',
+      },
+      label: 'MIDI Vel 5',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 6',
+    keycodeInfo: {
+      code: 23703,
+      name: {
+        long: 'MI_VEL_6',
+        short: 'MI_VEL_6',
+      },
+      label: 'MIDI Vel 6',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 7',
+    keycodeInfo: {
+      code: 23704,
+      name: {
+        long: 'MI_VEL_7',
+        short: 'MI_VEL_7',
+      },
+      label: 'MIDI Vel 7',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 8',
+    keycodeInfo: {
+      code: 23705,
+      name: {
+        long: 'MI_VEL_8',
+        short: 'MI_VEL_8',
+      },
+      label: 'MIDI Vel 8',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 9',
+    keycodeInfo: {
+      code: 23706,
+      name: {
+        long: 'MI_VEL_9',
+        short: 'MI_VEL_9',
+      },
+      label: 'MIDI Vel 9',
+    },
+  },
+  {
+    desc: 'MIDI Velocity 10',
+    keycodeInfo: {
+      code: 23707,
+      name: {
+        long: 'MI_VEL_10',
+        short: 'MI_VEL_10',
+      },
+      label: 'MIDI Vel 10',
+    },
+  },
+  {
+    desc: 'MIDI Velocity Down',
+    keycodeInfo: {
+      code: 23708,
+      name: {
+        long: 'MI_VELD',
+        short: 'MI_VELD',
+      },
+      label: 'MIDI Vel Down',
+    },
+  },
+  {
+    desc: 'MIDI Velocity Up',
+    keycodeInfo: {
+      code: 23709,
+      name: {
+        long: 'MI_VELU',
+        short: 'MI_VELU',
+      },
+      label: 'MIDI Vel Up',
+    },
+  },
+  {
+    desc: 'MIDI Channel 1',
+    keycodeInfo: {
+      code: 23710,
+      name: {
+        long: 'MI_CH1',
+        short: 'MI_CH1',
+      },
+      label: 'MIDI CH 1',
+    },
+  },
+  {
+    desc: 'MIDI Channel 2',
+    keycodeInfo: {
+      code: 23711,
+      name: {
+        long: 'MI_CH2',
+        short: 'MI_CH2',
+      },
+      label: 'MIDI CH 2',
+    },
+  },
+  {
+    desc: 'MIDI Channel 3',
+    keycodeInfo: {
+      code: 23712,
+      name: {
+        long: 'MI_CH3',
+        short: 'MI_CH3',
+      },
+      label: 'MIDI CH 3',
+    },
+  },
+  {
+    desc: 'MIDI Channel 4',
+    keycodeInfo: {
+      code: 23713,
+      name: {
+        long: 'MI_CH4',
+        short: 'MI_CH4',
+      },
+      label: 'MIDI CH 4',
+    },
+  },
+  {
+    desc: 'MIDI Channel 5',
+    keycodeInfo: {
+      code: 23714,
+      name: {
+        long: 'MI_CH5',
+        short: 'MI_CH5',
+      },
+      label: 'MIDI CH 5',
+    },
+  },
+  {
+    desc: 'MIDI Channel 6',
+    keycodeInfo: {
+      code: 23715,
+      name: {
+        long: 'MI_CH6',
+        short: 'MI_CH6',
+      },
+      label: 'MIDI CH 6',
+    },
+  },
+  {
+    desc: 'MIDI Channel 7',
+    keycodeInfo: {
+      code: 23716,
+      name: {
+        long: 'MI_CH7',
+        short: 'MI_CH7',
+      },
+      label: 'MIDI CH 7',
+    },
+  },
+  {
+    desc: 'MIDI Channel 8',
+    keycodeInfo: {
+      code: 23717,
+      name: {
+        long: 'MI_CH8',
+        short: 'MI_CH8',
+      },
+      label: 'MIDI CH 8',
+    },
+  },
+  {
+    desc: 'MIDI Channel 9',
+    keycodeInfo: {
+      code: 23718,
+      name: {
+        long: 'MI_CH9',
+        short: 'MI_CH9',
+      },
+      label: 'MIDI CH 9',
+    },
+  },
+  {
+    desc: 'MIDI Channel 10',
+    keycodeInfo: {
+      code: 23719,
+      name: {
+        long: 'MI_CH10',
+        short: 'MI_CH10',
+      },
+      label: 'MIDI CH 10',
+    },
+  },
+  {
+    desc: 'MIDI Channel 11',
+    keycodeInfo: {
+      code: 23720,
+      name: {
+        long: 'MI_CH11',
+        short: 'MI_CH11',
+      },
+      label: 'MIDI CH 11',
+    },
+  },
+  {
+    desc: 'MIDI Channel 12',
+    keycodeInfo: {
+      code: 23721,
+      name: {
+        long: 'MI_CH12',
+        short: 'MI_CH12',
+      },
+      label: 'MIDI CH 12',
+    },
+  },
+  {
+    desc: 'MIDI Channel 13',
+    keycodeInfo: {
+      code: 23722,
+      name: {
+        long: 'MI_CH13',
+        short: 'MI_CH13',
+      },
+      label: 'MIDI CH 13',
+    },
+  },
+  {
+    desc: 'MIDI Channel 14',
+    keycodeInfo: {
+      code: 23723,
+      name: {
+        long: 'MI_CH14',
+        short: 'MI_CH14',
+      },
+      label: 'MIDI CH 14',
+    },
+  },
+  {
+    desc: 'MIDI Channel 15',
+    keycodeInfo: {
+      code: 23724,
+      name: {
+        long: 'MI_CH15',
+        short: 'MI_CH15',
+      },
+      label: 'MIDI CH 15',
+    },
+  },
+  {
+    desc: 'MIDI Channel 16',
+    keycodeInfo: {
+      code: 23725,
+      name: {
+        long: 'MI_CH16',
+        short: 'MI_CH16',
+      },
+      label: 'MIDI CH 16',
+    },
+  },
+  {
+    desc: 'MIDI Previous Channel',
+    keycodeInfo: {
+      code: 23726,
+      name: {
+        long: 'MI_CHD',
+        short: 'MI_CHD',
+      },
+      label: 'MIDI CH Down',
+    },
+  },
+  {
+    desc: 'MIDI Next Channel',
+    keycodeInfo: {
+      code: 23727,
+      name: {
+        long: 'MI_CHU',
+        short: 'MI_CHU',
+      },
+      label: 'MIDI CH Up',
+    },
+  },
+  {
+    desc: 'MIDI All Notes Off',
+    keycodeInfo: {
+      code: 23728,
+      name: {
+        long: 'MI_ALLOFF',
+        short: 'MI_ALLOFF',
+      },
+      label: 'All Notes Off',
+    },
+  },
+  {
+    desc: 'MIDI Sustain',
+    keycodeInfo: {
+      code: 23729,
+      name: {
+        long: 'MI_SUS',
+        short: 'MI_SUS',
+      },
+      label: 'MIDI Sustain',
+    },
+  },
+  {
+    desc: 'MIDI Portamento',
+    keycodeInfo: {
+      code: 23730,
+      name: {
+        long: 'MI_PORT',
+        short: 'MI_PORT',
+      },
+      label: 'MIDI Portamento',
+    },
+  },
+  {
+    desc: 'MIDI Sostenuto',
+    keycodeInfo: {
+      code: 23731,
+      name: {
+        long: 'MI_SOST',
+        short: 'MI_SOST',
+      },
+      label: 'MIDI Sostenuto',
+    },
+  },
+  {
+    desc: 'MIDI Soft Pedal',
+    keycodeInfo: {
+      code: 23732,
+      name: {
+        long: 'MI_SOFT',
+        short: 'MI_SOFT',
+      },
+      label: 'MIDI Soft Pedal',
+    },
+  },
+  {
+    desc: 'MIDI Legato',
+    keycodeInfo: {
+      code: 23733,
+      name: {
+        long: 'MI_LEG',
+        short: 'MI_LEG',
+      },
+      label: 'MIDI Legato',
+    },
+  },
+  {
+    desc: 'MIDI Modulation',
+    keycodeInfo: {
+      code: 23734,
+      name: {
+        long: 'MI_MOD',
+        short: 'MI_MOD',
+      },
+      label: 'MIDI Modulation',
+    },
+  },
+  {
+    desc: 'MIDI Decrease Modulation Speed',
+    keycodeInfo: {
+      code: 23735,
+      name: {
+        long: 'MI_MODSD',
+        short: 'MI_MODSD',
+      },
+      label: 'MIDI Mud Speed -',
+    },
+  },
+  {
+    desc: 'MIDI Increase Modulation Speed',
+    keycodeInfo: {
+      code: 23736,
+      name: {
+        long: 'MI_MODSU',
+        short: 'MI_MODSU',
+      },
+      label: 'MIDI Mod Speed +',
+    },
+  },
+  {
+    desc: 'MIDI Bend Down',
+    keycodeInfo: {
+      code: 23737,
+      name: {
+        long: 'MI_BENDD',
+        short: 'MI_BENDD',
+      },
+      label: 'MIDI Bend Down',
+    },
+  },
+  {
+    desc: 'MIDI Bend Up',
+    keycodeInfo: {
+      code: 23738,
+      name: {
+        long: 'MI_BENDU',
+        short: 'MI_BENDU',
+      },
+      label: 'MIDI Bend Up',
+    },
+  },
+
+  {
     desc: 'Set the backlight to max brightness.',
     keycodeInfo: {
       code: 23739,
