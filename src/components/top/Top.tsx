@@ -20,6 +20,7 @@ import predefinedKeys from '../../assets/images/top/predefined-keys.png';
 import diff from '../../assets/images/top/diff.png';
 import keymap from '../../assets/images/top/keymap.png';
 import shareKeymap from '../../assets/images/top/share-keymap.png';
+import textMatrix from '../../assets/images/top/text-matrix.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -174,6 +175,13 @@ class Top extends React.Component<RouteComponentProps, any> {
                 imageTitle="Show Difference"
                 title="Show Difference"
                 description="Easy-to-understand display of keymap changes."
+              />
+              <FeatureCard
+                key={9}
+                image={textMatrix}
+                imageTitle="Text Matrix"
+                title="Text Matrix"
+                description="Allows you to test key switches work normally after building your keyboard."
               />
             </Grid>
           </Container>
