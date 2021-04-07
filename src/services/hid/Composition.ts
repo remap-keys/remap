@@ -380,8 +380,6 @@ export class BasicComposition implements IBasicComposition {
       // device
       KEY_SUB_CATEGORY_DEVICE,
       KEY_SUB_CATEGORY_MOUSE,
-      // midi
-      KEY_SUB_CATEGORY_MIDI,
     ];
 
     const keyLabels: KeyLabel[] = KeyLabelLangs.getKeyLabels(labelLang) || [];
