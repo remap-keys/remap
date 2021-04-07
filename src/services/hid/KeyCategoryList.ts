@@ -11,6 +11,7 @@ import {
   ToggleLayerComposition,
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
+import { range } from '../../utils/ArrayUtils';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -19,6 +20,7 @@ export class KeyCategory {
   private static _layer: { [layerCount: number]: IKeymap[] } = {};
   private static _special: { [pos: string]: IKeymap[] } = {};
   private static _device: { [pos: string]: IKeymap[] } = {};
+  private static _midi: IKeymap[];
   private static _bmp: IKeymap[];
   private static _macro: IKeymap[];
 
@@ -162,6 +164,15 @@ export class KeyCategory {
     const looseKeymaps: IKeymap[] = LooseKeycodeComposition.genExtendsBmpKeymaps();
     KeyCategory._bmp = looseKeymaps;
     return KeyCategory._bmp;
+  }
+
+  static midi(): IKeymap[] {
+    if (KeyCategory._midi) return KeyCategory._midi;
+
+    KeyCategory._midi = KEY_SUB_CATEGORY_MIDI.codes.map(
+      (code) => LooseKeycodeComposition.findKeymap(code)!
+    );
+    return KeyCategory._midi;
   }
 
   static macro(): IKeymap[] {
@@ -530,4 +541,9 @@ export const KEY_SUB_CATEGORY_MACRO: IKeycodeCategoryInfo = {
 export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
   kinds: ['function', 'combo'],
   codes: [23799, 23800, 23801],
+};
+// MIDI
+export const KEY_SUB_CATEGORY_MIDI: IKeycodeCategoryInfo = {
+  kinds: ['midi'],
+  codes: range(23596, 23738),
 };

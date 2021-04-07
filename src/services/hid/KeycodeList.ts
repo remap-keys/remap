@@ -41,7 +41,8 @@ export type KeymapCategory =
   | 'us-symbol'
   | 'extends'
   | 'bmp'
-  | 'combo';
+  | 'combo'
+  | 'midi';
 
 function isDefinedKey(ret: {
   value: IKeymap | null | undefined;

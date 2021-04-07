@@ -21,6 +21,7 @@ import {
   KEY_SUB_CATEGORY_LOCK,
   KEY_SUB_CATEGORY_MACRO,
   KEY_SUB_CATEGORY_MEDIA,
+  KEY_SUB_CATEGORY_MIDI,
   KEY_SUB_CATEGORY_MODIFIER,
   KEY_SUB_CATEGORY_MOUSE,
   KEY_SUB_CATEGORY_MOVE,
@@ -379,6 +380,8 @@ export class BasicComposition implements IBasicComposition {
       // device
       KEY_SUB_CATEGORY_DEVICE,
       KEY_SUB_CATEGORY_MOUSE,
+      // midi
+      KEY_SUB_CATEGORY_MIDI,
     ];
 
     const keyLabels: KeyLabel[] = KeyLabelLangs.getKeyLabels(labelLang) || [];
@@ -1370,6 +1373,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       KEY_SUB_CATEGORY_UNDERGLOW,
       KEY_SUB_CATEGORY_MACRO,
       KEY_SUB_CATEGORY_COMBO,
+      KEY_SUB_CATEGORY_MIDI,
     ];
 
     LooseKeycodeComposition._looseKeycodeKeymaps = [];
