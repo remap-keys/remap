@@ -7,7 +7,7 @@ import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top';
 import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
-import { Catalog } from './components/catalog/Catalog';
+import Catalog from './components/catalog/Catalog.container';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

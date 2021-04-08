@@ -52,6 +52,8 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signout: 'signout',
 };
 
+export type ICatalogPhase = 'init' | 'processing' | 'list' | 'detail';
+
 export type IFirmwareCodePlace = 'qmk' | 'forked' | 'other';
 export const FirmwareCodePlace: { [p: string]: IFirmwareCodePlace } = {
   qmk: 'qmk',
@@ -162,6 +164,11 @@ export type RootState = {
       otherPlaceHowToGet: string;
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
+    };
+  };
+  catalog: {
+    app: {
+      phase: ICatalogPhase;
     };
   };
   hid: {
@@ -290,6 +297,11 @@ export const INIT_STATE: RootState = {
       otherPlaceHowToGet: '',
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
+    },
+  },
+  catalog: {
+    app: {
+      phase: 'list', // FIXME Should be 'init'
     },
   },
   hid: {
