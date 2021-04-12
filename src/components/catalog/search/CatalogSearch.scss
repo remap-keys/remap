@@ -19,3 +19,45 @@
   flex-direction: column;
   align-items: center;
 }
+
+.catalog-search-condition-container {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+}
+
+.catalog-search-condition {
+  margin-bottom: 16px;
+}
+
+.catalog-search-result-container {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+}
+
+.catalog-search-result-card {
+  margin-bottom: 16px;
+
+  &-name {
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  &-chip-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 16px;
+
+    & .MuiChip-root {
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.catalog-search-result-card-container {
+  display: flex;
+  flex-direction: row;
+}
