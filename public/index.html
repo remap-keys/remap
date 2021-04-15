@@ -27,47 +27,44 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Remap allows you to configure keymaps and lightings of your keyboard with QMK firmware in Web Browser."
+      content="Remap allows you to configure key mappings and lighting of your keyboard with QMK firmware in Web Browser."
     />
     <meta property="og:url" content="https://remap-keys.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Remap" />
     <meta
       property="og:description"
-      content="Remap allows you to configure keymaps and lightings of your keyboard with QMK firmware in Web Browser."
+      content="Remap allows you to configure key mappings and lighting of your keyboard with QMK firmware in Web Browser."
     />
     <meta property="og:site_name" content="Remap" />
     <meta property="og:image" content="https://remap-keys.app/ogp_image.png" />
 
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>Remap</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Remap",
+        "description": "Remap allows you to configure key mappings and lighting of your keyboard with QMK firmware in Web Browser.",
+        "url": "https://remap-keys.app",
+        "image": "https://remap-keys.app/ogp_image.png",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Chromium-based Web Browsers",
+        "offers": {
+          "@type": "Offer",
+          "price": "0"
+        },
+        "browserRequirements": "requires Chrome or Edge 89 or higher",
+        "featureList": "Customize a key mapping of your keyboard, Save/restore/share your key mappings with other users, Test key switch matrix, Control LEDs",
+        "releaseNotes": "https://github.com/remap-keys/remap/wiki/Release-notes",
+        "keywords": "remap,keyboard,keymap,qmk,via,customize,led,diy,webhid"
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
