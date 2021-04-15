@@ -19,6 +19,38 @@ import {
 } from '@material-ui/core';
 import Lunakey from './lunakey-mini.png';
 
+type IKeyboardSplitType = 'split' | 'integrated';
+type IKeyboardStaggeredType =
+  | 'column_staggered'
+  | 'row_staggered'
+  | 'ortholinear'
+  | 'symmetrical';
+type IKeyboardLedType = 'underglow' | 'backlight';
+type IKeyboardKeySwitchType = 'cherry_mx' | 'kailh_choc';
+type IKeyboardHotswapType = 'hot_swap';
+type IKeyboardMcuType =
+  | 'at90usb1286'
+  | 'at90usb1287'
+  | 'at90usb646'
+  | 'at90usb647'
+  | 'atmega16u2'
+  | 'atmega16u4'
+  | 'atmega328p'
+  | 'atmega32a'
+  | 'atmega32u2'
+  | 'atmega32u4';
+type IKeyboardOledType = 'oled';
+type IKeyboardSpeakerType = 'speaker';
+type IKeyboardFeatures =
+  | IKeyboardSplitType
+  | IKeyboardStaggeredType
+  | IKeyboardLedType
+  | IKeyboardKeySwitchType
+  | IKeyboardHotswapType
+  | IKeyboardMcuType
+  | IKeyboardOledType
+  | IKeyboardSpeakerType;
+
 type CatalogSearchState = {};
 type OwnProps = {};
 type CatalogSearchProps = OwnProps &
