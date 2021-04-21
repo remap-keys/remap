@@ -63,13 +63,20 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
   STORAGE_UPDATE_SAVED_KEYMAPS,
+  STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_SHARED_KEYMAPS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
 import { Key } from '../components/configure/keycodekey/KeyGen';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
-import { FirmwareCodePlace, INIT_STATE, RootState } from './state';
+import {
+  CONDITION_NOT_SELECTED,
+  FirmwareCodePlace,
+  IKeyboardFeatures,
+  INIT_STATE,
+  RootState,
+} from './state';
 import {
   KEYBOARDS_APP_ACTIONS,
   KEYBOARDS_APP_UPDATE_PHASE,
@@ -105,6 +112,12 @@ import {
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
+import {
+  CATALOG_APP_ACTIONS,
+  CATALOG_APP_UPDATE_PHASE,
+  CATALOG_SEARCH_ACTIONS,
+  CATALOG_SEARCH_UPDATE_FEATURES,
+} from '../actions/catalog.action';
 
 export type Action = { type: string; value: any };
 
@@ -140,6 +153,10 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keyboardsCreateKeyboardReducer(action, draft);
     } else if (action.type.startsWith(KEYBOARDS_EDIT_DEFINITION_ACTIONS)) {
       keyboardsEditKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(CATALOG_SEARCH_ACTIONS)) {
+      catalogSearchReducer(action, draft);
+    } else if (action.type.startsWith(CATALOG_APP_ACTIONS)) {
+      catalogAppReducer(action, draft);
     }
   });
 
@@ -321,6 +338,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_APPLIED_KEYMAPS: {
       draft.entities.appliedKeymaps = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT: {
+      draft.entities.searchResultKeyboardDocuments = action.value;
       break;
     }
   }
@@ -659,6 +680,38 @@ const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.configure.header.flashing = action.value;
       break;
     }
+  }
+};
+
+const catalogSearchReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case CATALOG_SEARCH_UPDATE_FEATURES: {
+      const newFeatures = [...draft.catalog.search.features];
+      const targetFeatures = action.value.targetFeatures;
+      const value = action.value.value;
+      targetFeatures.forEach((x: IKeyboardFeatures) => {
+        const index = newFeatures.indexOf(x);
+        if (index !== -1) {
+          newFeatures.splice(index, 1);
+        }
+      });
+      if (value !== CONDITION_NOT_SELECTED) {
+        newFeatures.push(value);
+      }
+      draft.catalog.search.features = newFeatures;
+      break;
+    }
+  }
+};
+
+const catalogAppReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  switch (action.type) {
+    case CATALOG_APP_UPDATE_PHASE:
+      draft.catalog.app.phase = action.value;
+      break;
   }
 };
 

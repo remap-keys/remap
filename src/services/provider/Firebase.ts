@@ -18,7 +18,7 @@ import {
   isAppliedKeymapDataInstance,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
-import { IFirmwareCodePlace } from '../../store/state';
+import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 
 const config = {
@@ -80,6 +80,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .other_place_source_code_evidence,
       otherPlacePublisherEvidence: documentSnapshot.data()!
         .other_place_publisher_evidence,
+      features: documentSnapshot.data()!.features || [],
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -757,5 +758,40 @@ export class FirebaseProvider implements IStorage, IAuth {
       success: true,
       appliedKeymaps: keymaps,
     };
+  }
+
+  async searchKeyboardsByFeatures(
+    features: IKeyboardFeatures[]
+  ): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
+    // FIXME If the features is empty, some result should be returned.
+    if (features.length === 0) {
+      return {
+        success: true,
+        documents: [],
+      };
+    }
+    try {
+      const querySnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .where('features', 'array-contains-any', features)
+        .where('status', '==', 'approved')
+        .get();
+      return {
+        success: true,
+        documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
+          this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
+        ),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error:
+          'Searching the keyboard definition document with features failed',
+        cause: error,
+      };
+    }
   }
 }

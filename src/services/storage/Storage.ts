@@ -1,5 +1,5 @@
 import { LayoutOption } from '../../components/configure/keymap/Keymap';
-import { IFirmwareCodePlace } from '../../store/state';
+import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
@@ -42,6 +42,7 @@ export interface IKeyboardDefinitionDocument {
   readonly otherPlaceHowToGet: string;
   readonly otherPlaceSourceCodeEvidence: string;
   readonly otherPlacePublisherEvidence: string;
+  readonly features: IKeyboardFeatures[];
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -179,5 +180,9 @@ export interface IStorage {
   fetchMyAppliedKeymaps(
     info: IDeviceInformation
   ): Promise<IAppliedKeymapsResult>;
+
+  searchKeyboardsByFeatures(
+    features: IKeyboardFeatures[]
+  ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
 }
 /* eslint-enable no-unused-vars */

@@ -25,6 +25,7 @@ import {
 import { getGitHubProviderData } from '../services/auth/Auth';
 import { IDeviceInformation } from '../services/hid/Hid';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
+import { CatalogAppActions } from './catalog.action';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -33,6 +34,7 @@ export const STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/U
 export const STORAGE_UPDATE_SAVED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedKeymaps`;
 export const STORAGE_UPDATE_SHARED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSharedKeymaps`;
 export const STORAGE_UPDATE_APPLIED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateAppliedKeymaps`;
+export const STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateSearchResultKeyboardDefinitionDocument`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -78,6 +80,14 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_APPLIED_KEYMAPS,
       value: keymaps,
+    };
+  },
+  updateSearchResultKeyboardDefinitionDocument: (
+    definitions: IKeyboardDefinitionDocument[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT,
+      value: definitions,
     };
   },
 };
@@ -725,5 +735,28 @@ export const storageActionsThunk = {
         NotificationActions.addError(resultList.error!, resultList.cause)
       );
     }
+  },
+
+  searchKeyboardsByFeatures: (): ThunkPromiseAction<void> => async (
+    // eslint-disable-next-line no-unused-vars
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    dispatch(CatalogAppActions.updatePhase('processing'));
+    const { catalog, storage } = getState();
+    const features = catalog.search.features;
+    const result = await storage.instance!.searchKeyboardsByFeatures(features);
+    if (result.success) {
+      dispatch(
+        StorageActions.updateSearchResultKeyboardDefinitionDocument(
+          result.documents!
+        )
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+    dispatch(CatalogAppActions.updatePhase('list'));
   },
 };

@@ -10,86 +10,35 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Chip,
 } from '@material-ui/core';
-import Lunakey from './lunakey-mini.png';
+import {
+  ALL_HOTSWAP_TYPE,
+  ALL_KEY_SWITCH_TYPE,
+  ALL_LED_TYPE,
+  ALL_MCU_TYPE,
+  ALL_OLED_TYPE,
+  ALL_SPEAKER_TYPE,
+  ALL_SPLIT_TYPE,
+  ALL_STAGGERED_TYPE,
+  CONDITION_NOT_SELECTED,
+  IConditionNotSelected,
+  IKeyboardFeatures,
+  IKeyboardHotswapType,
+  IKeyboardKeySwitchType,
+  IKeyboardLedType,
+  IKeyboardMcuType,
+  IKeyboardOledType,
+  IKeyboardSpeakerType,
+  IKeyboardSplitType,
+  IKeyboardStaggeredType,
+} from '../../../store/state';
+import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
 
-const ALL_SPLIT_TYPE = ['split', 'integrated'] as const;
-type splitTuple = typeof ALL_SPLIT_TYPE;
-type IKeyboardSplitType = splitTuple[number];
-
-const ALL_STAGGERED_TYPE = [
-  'column_staggered',
-  'row_staggered',
-  'ortholinear',
-  'symmetrical',
-] as const;
-type staggeredTuple = typeof ALL_STAGGERED_TYPE;
-type IKeyboardStaggeredType = staggeredTuple[number];
-
-const ALL_LED_TYPE = ['underglow', 'backlight'] as const;
-type ledTuple = typeof ALL_LED_TYPE;
-type IKeyboardLedType = ledTuple[number];
-
-const ALL_KEY_SWITCH_TYPE = ['cherry_mx', 'kailh_choc'] as const;
-type keySwitchTuple = typeof ALL_KEY_SWITCH_TYPE;
-type IKeyboardKeySwitchType = keySwitchTuple[number];
-
-const ALL_HOTSWAP_TYPE = ['hot_swap'] as const;
-type hotswapTuple = typeof ALL_HOTSWAP_TYPE;
-type IKeyboardHotswapType = hotswapTuple[number];
-
-const ALL_MCU_TYPE = [
-  'at90usb1286',
-  'at90usb1287',
-  'at90usb646',
-  'at90usb647',
-  'atmega16u2',
-  'atmega16u4',
-  'atmega328p',
-  'atmega32a',
-  'atmega32u2',
-  'atmega32u4',
-] as const;
-type mcuTuple = typeof ALL_MCU_TYPE;
-type IKeyboardMcuType = mcuTuple[number];
-
-const ALL_OLED_TYPE = ['oled'] as const;
-type oledTuple = typeof ALL_OLED_TYPE;
-type IKeyboardOledType = oledTuple[number];
-
-const ALL_SPEAKER_TYPE = ['speaker'] as const;
-type speakerTuple = typeof ALL_SPEAKER_TYPE;
-type IKeyboardSpeakerType = speakerTuple[number];
-
-type IConditionNotSelected = '---';
-const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
-
-type IKeyboardFeatures =
-  | IKeyboardSplitType
-  | IKeyboardStaggeredType
-  | IKeyboardLedType
-  | IKeyboardKeySwitchType
-  | IKeyboardHotswapType
-  | IKeyboardMcuType
-  | IKeyboardOledType
-  | IKeyboardSpeakerType;
-
-type CatalogSearchState = {
-  splitType: IKeyboardSplitType | IConditionNotSelected;
-  staggeredType: IKeyboardStaggeredType | IConditionNotSelected;
-  ledType: IKeyboardLedType | IConditionNotSelected;
-  keySwitchType: IKeyboardKeySwitchType | IConditionNotSelected;
-  hotswapType: IKeyboardHotswapType | IConditionNotSelected;
-  mcuType: IKeyboardMcuType | IConditionNotSelected;
-  oledType: IKeyboardOledType | IConditionNotSelected;
-  speakerType: IKeyboardSpeakerType | IConditionNotSelected;
-};
+type CatalogSearchState = {};
 type OwnProps = {};
 type CatalogSearchProps = OwnProps &
   Partial<CatalogSearchActionsType> &
@@ -101,16 +50,6 @@ class CatalogSearch extends React.Component<
 > {
   constructor(props: CatalogSearchProps | Readonly<CatalogSearchProps>) {
     super(props);
-    this.state = {
-      splitType: '---',
-      staggeredType: '---',
-      ledType: '---',
-      keySwitchType: '---',
-      hotswapType: '---',
-      mcuType: '---',
-      oledType: '---',
-      speakerType: '---',
-    };
   }
 
   onChangeSplitType(
@@ -122,7 +61,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardSplitType
       | IConditionNotSelected;
-    this.setState({ splitType: value });
+    this.props.updateFeatures!(value, ALL_SPLIT_TYPE);
   }
 
   onChangeStaggeredType(
@@ -134,7 +73,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardStaggeredType
       | IConditionNotSelected;
-    this.setState({ staggeredType: value });
+    this.props.updateFeatures!(value, ALL_STAGGERED_TYPE);
   }
 
   onChangeLedType(
@@ -146,7 +85,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardLedType
       | IConditionNotSelected;
-    this.setState({ ledType: value });
+    this.props.updateFeatures!(value, ALL_LED_TYPE);
   }
 
   onChangeKeySwitchType(
@@ -158,7 +97,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardKeySwitchType
       | IConditionNotSelected;
-    this.setState({ keySwitchType: value });
+    this.props.updateFeatures!(value, ALL_KEY_SWITCH_TYPE);
   }
 
   onChangeHotswapType(
@@ -170,7 +109,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardHotswapType
       | IConditionNotSelected;
-    this.setState({ hotswapType: value });
+    this.props.updateFeatures!(value, ALL_HOTSWAP_TYPE);
   }
 
   onChangeMcuType(
@@ -182,7 +121,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardMcuType
       | IConditionNotSelected;
-    this.setState({ mcuType: value });
+    this.props.updateFeatures!(value, ALL_MCU_TYPE);
   }
 
   onChangeOledType(
@@ -194,7 +133,7 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardOledType
       | IConditionNotSelected;
-    this.setState({ oledType: value });
+    this.props.updateFeatures!(value, ALL_OLED_TYPE);
   }
 
   onChangeSpeakerType(
@@ -206,49 +145,63 @@ class CatalogSearch extends React.Component<
     const value = event.target.value as
       | IKeyboardSpeakerType
       | IConditionNotSelected;
-    this.setState({ speakerType: value });
+    this.props.updateFeatures!(value, ALL_SPEAKER_TYPE);
   }
 
   render() {
+    const getFeatureValue = (
+      targetFeatures: readonly IKeyboardFeatures[]
+    ): IKeyboardFeatures | IConditionNotSelected => {
+      return (
+        this.props.features!.find((feature) => {
+          for (const target of targetFeatures) {
+            if (feature === target) {
+              return true;
+            }
+          }
+          return false;
+        }) || CONDITION_NOT_SELECTED
+      );
+    };
     return (
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
           <Grid container>
             <Grid item xs={3}>
               <div className="catalog-search-condition-container">
-                <div className="catalog-search-condition">
-                  <TextField
-                    label="Keyword"
-                    fullWidth={true}
-                    value="Lunakey Mini"
-                  />
-                </div>
-                <div className="catalog-search-condition">
-                  <FormControl fullWidth={true}>
-                    <InputLabel id="catalog-search-designer">
-                      Keyboard Designer
-                    </InputLabel>
-                    <Select labelId="catalog-search-designer" value={0}>
-                      <MenuItem value={0}>Yoichiro Tanaka</MenuItem>
-                      <MenuItem>Salicylic-acid3</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="catalog-search-condition">
-                  <FormControl fullWidth={true}>
-                    <InputLabel id="catalog-search-key-count">
-                      Key Count
-                    </InputLabel>
-                    <Select labelId="catalog-search-key-count" value={0}>
-                      <MenuItem>100% or more</MenuItem>
-                      <MenuItem>80%</MenuItem>
-                      <MenuItem>60%</MenuItem>
-                      <MenuItem value={0}>40%</MenuItem>
-                      <MenuItem>30%</MenuItem>
-                      <MenuItem>Macro (less than 30%)</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
+                {/*<div className="catalog-search-condition">*/}
+                {/*  <TextField*/}
+                {/*    label="Keyword"*/}
+                {/*    fullWidth={true}*/}
+                {/*    value="Lunakey Mini"*/}
+                {/*  />*/}
+                {/*</div>*/}
+                {/*<div className="catalog-search-condition">*/}
+                {/*  <FormControl fullWidth={true}>*/}
+                {/*    <InputLabel id="catalog-search-designer">*/}
+                {/*      Keyboard Designer*/}
+                {/*    </InputLabel>*/}
+                {/*    <Select labelId="catalog-search-designer" value={0}>*/}
+                {/*      <MenuItem value={0}>Yoichiro Tanaka</MenuItem>*/}
+                {/*      <MenuItem>Salicylic-acid3</MenuItem>*/}
+                {/*    </Select>*/}
+                {/*  </FormControl>*/}
+                {/*</div>*/}
+                {/*<div className="catalog-search-condition">*/}
+                {/*  <FormControl fullWidth={true}>*/}
+                {/*    <InputLabel id="catalog-search-key-count">*/}
+                {/*      Key Count*/}
+                {/*    </InputLabel>*/}
+                {/*    <Select labelId="catalog-search-key-count" value={0}>*/}
+                {/*      <MenuItem>100% or more</MenuItem>*/}
+                {/*      <MenuItem>80%</MenuItem>*/}
+                {/*      <MenuItem>60%</MenuItem>*/}
+                {/*      <MenuItem value={0}>40%</MenuItem>*/}
+                {/*      <MenuItem>30%</MenuItem>*/}
+                {/*      <MenuItem>Macro (less than 30%)</MenuItem>*/}
+                {/*    </Select>*/}
+                {/*  </FormControl>*/}
+                {/*</div>*/}
                 <div className="catalog-search-condition">
                   <FormControl fullWidth={true}>
                     <InputLabel id="catalog-search-split">
@@ -256,7 +209,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-split"
-                      value={this.state.splitType}
+                      value={getFeatureValue(ALL_SPLIT_TYPE)}
                       onChange={this.onChangeSplitType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -272,7 +225,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-staggered"
-                      value={this.state.staggeredType}
+                      value={getFeatureValue(ALL_STAGGERED_TYPE)}
                       onChange={this.onChangeStaggeredType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -292,7 +245,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-lighting"
-                      value={this.state.ledType}
+                      value={getFeatureValue(ALL_LED_TYPE)}
                       onChange={this.onChangeLedType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -308,7 +261,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-key-switch"
-                      value={this.state.keySwitchType}
+                      value={getFeatureValue(ALL_KEY_SWITCH_TYPE)}
                       onChange={this.onChangeKeySwitchType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -326,7 +279,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-hot-swap"
-                      value={this.state.hotswapType}
+                      value={getFeatureValue(ALL_HOTSWAP_TYPE)}
                       onChange={this.onChangeHotswapType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -341,7 +294,7 @@ class CatalogSearch extends React.Component<
                     </InputLabel>
                     <Select
                       labelId="catalog-search-mcu"
-                      value={this.state.mcuType}
+                      value={getFeatureValue(ALL_MCU_TYPE)}
                       onChange={this.onChangeMcuType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -363,7 +316,7 @@ class CatalogSearch extends React.Component<
                     <InputLabel id="catalog-search-oled">OLED</InputLabel>
                     <Select
                       labelId="catalog-search-oled"
-                      value={this.state.oledType}
+                      value={getFeatureValue(ALL_OLED_TYPE)}
                       onChange={this.onChangeOledType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -376,7 +329,7 @@ class CatalogSearch extends React.Component<
                     <InputLabel id="catalog-search-speaker">Speaker</InputLabel>
                     <Select
                       labelId="catalog-search-speaker"
-                      value={this.state.speakerType}
+                      value={getFeatureValue(ALL_SPEAKER_TYPE)}
                       onChange={this.onChangeSpeakerType.bind(this)}
                     >
                       <MenuItem value="---">---</MenuItem>
@@ -388,75 +341,12 @@ class CatalogSearch extends React.Component<
             </Grid>
             <Grid item xs={9}>
               <div className="catalog-search-result-container">
-                <Card className="catalog-search-result-card">
-                  <div className="catalog-search-result-card-container">
-                    <CardMedia image={Lunakey} style={{ width: 400 }} />
-                    <CardContent>
-                      <h2 className="catalog-search-result-card-name">
-                        Lunakey Mini
-                      </h2>
-                      <Typography variant="caption">Yoichiro Tanaka</Typography>
-                      <div className="catalog-search-result-card-chip-container">
-                        <Chip size="small" label="40%" />
-                        <Chip size="small" label="Split" />
-                        <Chip size="small" label="Column Staggered" />
-                        <Chip size="small" label="Underglow" />
-                        <Chip size="small" label="Cherry MX" />
-                        <Chip size="small" label="Kailh Choc" />
-                        <Chip size="small" label="How Swap" />
-                        <Chip size="small" label="atmega32u4" />
-                        <Chip size="small" label="OLED" />
-                        <Chip size="small" label="Speaker" />
-                      </div>
-                    </CardContent>
-                  </div>
-                </Card>
-                <Card className="catalog-search-result-card">
-                  <div className="catalog-search-result-card-container">
-                    <CardMedia image={Lunakey} style={{ width: 400 }} />
-                    <CardContent>
-                      <h2 className="catalog-search-result-card-name">
-                        Lunakey Mini
-                      </h2>
-                      <Typography variant="caption">Yoichiro Tanaka</Typography>
-                      <div className="catalog-search-result-card-chip-container">
-                        <Chip size="small" label="40%" />
-                        <Chip size="small" label="Split" />
-                        <Chip size="small" label="Column Staggered" />
-                        <Chip size="small" label="Underglow" />
-                        <Chip size="small" label="Cherry MX" />
-                        <Chip size="small" label="Kailh Choc" />
-                        <Chip size="small" label="How Swap" />
-                        <Chip size="small" label="atmega32u4" />
-                        <Chip size="small" label="OLED" />
-                        <Chip size="small" label="Speaker" />
-                      </div>
-                    </CardContent>
-                  </div>
-                </Card>
-                <Card className="catalog-search-result-card">
-                  <div className="catalog-search-result-card-container">
-                    <CardMedia image={Lunakey} style={{ width: 400 }} />
-                    <CardContent>
-                      <h2 className="catalog-search-result-card-name">
-                        Lunakey Mini
-                      </h2>
-                      <Typography variant="caption">Yoichiro Tanaka</Typography>
-                      <div className="catalog-search-result-card-chip-container">
-                        <Chip size="small" label="40%" />
-                        <Chip size="small" label="Split" />
-                        <Chip size="small" label="Column Staggered" />
-                        <Chip size="small" label="Underglow" />
-                        <Chip size="small" label="Cherry MX" />
-                        <Chip size="small" label="Kailh Choc" />
-                        <Chip size="small" label="How Swap" />
-                        <Chip size="small" label="atmega32u4" />
-                        <Chip size="small" label="OLED" />
-                        <Chip size="small" label="Speaker" />
-                      </div>
-                    </CardContent>
-                  </div>
-                </Card>
+                {this.props.searchResult!.map((result) => (
+                  <SearchResult
+                    definition={result}
+                    key={`search-result-${result.id}`}
+                  />
+                ))}
               </div>
             </Grid>
           </Grid>
@@ -467,3 +357,60 @@ class CatalogSearch extends React.Component<
 }
 
 export default CatalogSearch;
+
+type SearchResultProps = {
+  definition: IKeyboardDefinitionDocument;
+};
+
+const featureMap: { [p: string]: string } = {
+  split: 'Split',
+  integrated: 'Integrated',
+  column_staggered: 'Column Staggered',
+  row_staggered: 'Row Staggered',
+  ortholinear: 'Ortholinear',
+  symmetrical: 'Symmetrical',
+  underglow: 'Underglow LED',
+  backlight: 'Backlight LED',
+  cherry_mx: 'Cherry MX',
+  kailh_choc: 'Kailh Choc',
+  hot_swap: 'Hotswap',
+  at90usb1286: 'at90usb1286',
+  at90usb1287: 'at90usb1287',
+  at90usb646: 'at90usb646',
+  at90usb647: 'at90usb647',
+  atmega16u2: 'atmega16u2',
+  atmega16u4: 'atmega16u4',
+  atmega328p: 'atmega328p',
+  atmega32a: 'atmega32a',
+  atmega32u2: 'atmega32u2',
+  atmega32u4: 'atmega32u4',
+  oled: 'OLED',
+  speaker: 'Speaker',
+};
+
+function SearchResult(props: SearchResultProps) {
+  return (
+    <Card className="catalog-search-result-card">
+      <div className="catalog-search-result-card-container">
+        {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
+        <CardContent>
+          <h2 className="catalog-search-result-card-name">
+            {props.definition.name}
+          </h2>
+          <Typography variant="caption">
+            {props.definition.githubDisplayName}
+          </Typography>
+          <div className="catalog-search-result-card-chip-container">
+            {props.definition.features.map((feature) => (
+              <Chip
+                key={`feature-${props.definition.id}-${feature}`}
+                size="small"
+                label={featureMap[feature]}
+              />
+            ))}
+          </div>
+        </CardContent>
+      </div>
+    </Card>
+  );
+}
