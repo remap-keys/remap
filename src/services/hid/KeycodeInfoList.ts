@@ -1597,7 +1597,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_LANG1',
         short: 'KC_HAEN',
       },
-      label: 'Ha/En',
+      label: 'Lang 1',
     },
   },
   {
@@ -1608,7 +1608,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_LANG2',
         short: 'KC_HANJ',
       },
-      label: '한자',
+      label: 'Lang 2',
     },
   },
   {
