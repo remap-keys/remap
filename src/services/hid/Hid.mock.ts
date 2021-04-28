@@ -5,6 +5,7 @@ import {
   ICommand,
   IConnectionEventHandler,
   IConnectParams,
+  IFetchLayoutOptionsResult,
   IHid,
   IKeyboard,
   IResult,
@@ -176,6 +177,16 @@ export const mockIKeyboad: IKeyboard = {
   },
   fetchSwitchMatrixState: () => {
     return new Promise<IResult>((resolve) => {
+      resolve({ success: true });
+    });
+  },
+  fetchLayoutOptions: () => {
+    return new Promise<IFetchLayoutOptionsResult>((resolve) => {
+      resolve({ success: true, value: 0 });
+    });
+  },
+  updateLayoutOptions: (value: number) => {
+    return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
