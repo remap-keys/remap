@@ -32,6 +32,7 @@ const Hid = () => {
   const [bufferOffset, setBufferOffset] = useState<number>(0);
   const [bufferSize, setBufferSize] = useState<number>(28);
   const [lightingKind, setLightingKind] = useState<number>(0);
+  const [layoutOptionsValue, setLayoutOptionsValue] = useState<number>(0);
 
   useEffect(() => {
     webHid
@@ -288,6 +289,23 @@ const Hid = () => {
     console.log(await keyboard!.resetDynamicKeymap());
   };
 
+  const handleLayoutOptionsValueChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setLayoutOptionsValue(Number(event.target.value));
+  };
+
+  const handleFetchLayoutOptionsValueClick = async () => {
+    const result = await keyboard!.fetchLayoutOptions();
+    console.log(result);
+    setLayoutOptionsValue(result.value!);
+  };
+
+  const handleUpdateLayoutOptionsValueClick = async () => {
+    const result = await keyboard!.updateLayoutOptions(layoutOptionsValue);
+    console.log(result);
+  };
+
   return (
     <div className="hid">
       <h1>WebHid Test</h1>
@@ -488,6 +506,18 @@ const Hid = () => {
         </select>
         <button onClick={handleGetLightingKindClick}>Read Lighting kind</button>
         <button onClick={handleGetLightingTestClick}>Test</button>
+      </div>
+      <div className="box">
+        <label htmlFor="layoutOptionsValue">Layout Options</label>
+        <input
+          type="number"
+          id="layoutOptionsValue"
+          min={0}
+          value={layoutOptionsValue}
+          onChange={handleLayoutOptionsValueChange}
+        />
+        <button onClick={handleFetchLayoutOptionsValueClick}>Get value</button>
+        <button onClick={handleUpdateLayoutOptionsValueClick}>Set value</button>
       </div>
       <div className="box">
         <label htmlFor="Test">Test</label>
