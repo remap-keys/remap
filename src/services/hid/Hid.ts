@@ -105,6 +105,10 @@ export interface IFetchSwitchMatrixStateResult extends IResult {
   state?: Uint8Array;
 }
 
+export interface IFetchLayoutOptionsResult extends IResult {
+  value?: number;
+}
+
 export interface IKeyboard {
   getDevice(): any;
   getHid(): IHid;
@@ -142,6 +146,8 @@ export interface IKeyboard {
   resetDynamicKeymap(): Promise<IResult>;
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
   fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
+  fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
+  updateLayoutOptions(value: number): Promise<IResult>;
 }
 
 export interface ICommand {

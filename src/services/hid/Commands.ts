@@ -408,3 +408,61 @@ export class SwitchMatrixStateCommand extends AbstractCommand<
     return resultArray[0] === 0x02 && resultArray[1] === 0x03;
   }
 }
+
+export interface IGetLayoutOptionsResponse extends ICommandResponse {
+  value: number;
+}
+
+export class GetLayoutOptionsCommand extends AbstractCommand<
+  ICommandRequest,
+  IGetLayoutOptionsResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x02, 0x02]);
+  }
+
+  createResponse(resultArray: Uint8Array): IGetLayoutOptionsResponse {
+    const value =
+      resultArray[2] << 24 ||
+      resultArray[3] << 16 ||
+      resultArray[4] << 8 ||
+      resultArray[5];
+    return {
+      value,
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x02 && resultArray[1] === 0x02;
+  }
+}
+
+export interface ISetLayoutOptionsRequest extends ICommandRequest {
+  value: number;
+}
+
+export class SetLayoutOptionsCommand extends AbstractCommand<
+  ISetLayoutOptionsRequest,
+  ICommandResponse
+> {
+  createReport(): Uint8Array {
+    const value = this.getRequest().value;
+    return new Uint8Array([
+      0x03,
+      0x02,
+      (value >> 24) & 0xff,
+      (value >> 16) & 0xff,
+      (value >> 8) & 0xff,
+      value & 0xff,
+    ]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x03 && resultArray[1] === 0x02;
+  }
+}

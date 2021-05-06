@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import LayoutOptionPopover from './LayoutOptionPopover';
 import { RootState } from '../../../store/state';
 import { LayoutOptionsActions } from '../../../actions/actions';
+import { hidActionsThunk } from '../../../actions/hid.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -17,6 +18,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         LayoutOptionsActions.updateSelectedOption(option, optionChoice)
       );
+      _dispatch(hidActionsThunk.updateLayoutOptions());
     },
   };
 };
