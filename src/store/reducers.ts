@@ -578,7 +578,6 @@ const layoutOptionsReducer = (
     }
     case LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION: {
       const { option, optionChoice } = action.value;
-      console.log(`${option}/${optionChoice}`);
       draft.configure.layoutOptions.selectedOptions = draft.configure.layoutOptions.selectedOptions.map(
         (value: LayoutOption) => {
           return value.option == option ? { option, optionChoice } : value;

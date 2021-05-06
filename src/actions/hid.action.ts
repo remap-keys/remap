@@ -258,52 +258,7 @@ export const hidActionsThunk = {
     dispatch(HidActions.updateKeymaps(keymaps));
     dispatch(AppActions.remapsInit(layerCount));
     dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
-
-    const layoutOptionsResult = await keyboard.fetchLayoutOptions();
-    if (!layoutOptionsResult.success) {
-      console.error(layoutOptionsResult);
-      dispatch(
-        NotificationActions.addError(
-          `Fetching layout options failed: ${layoutOptionsResult.error}`
-        )
-      );
-      return;
-    }
-    const layoutOptionValue = layoutOptionsResult.value!;
-    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
-    const layoutValueBitLengths = [];
-    for (let i = 0; i < layoutLabels.length; i++) {
-      const layoutLabel = layoutLabels[i];
-      if (Array.isArray(layoutLabel)) {
-        const layoutLabelCount = layoutLabel.length - 2;
-        layoutValueBitLengths.push(layoutLabelCount.toString(2).length);
-      } else {
-        layoutValueBitLengths.push(1);
-      }
-    }
-    const createLayoutOptions = (
-      layoutOptionValue: number,
-      bitLengths: number[]
-    ): LayoutOption[] => {
-      const result: LayoutOption[] = [];
-      let targetValue = layoutOptionValue;
-      for (let i = bitLengths.length - 1; i >= 0; i--) {
-        const bitLength = bitLengths[i];
-        targetValue = targetValue >> bitLength;
-        const value = targetValue && maxValueByBitLength(bitLength);
-        result.push({
-          option: i,
-          optionChoice: value,
-        });
-      }
-      return result;
-    };
-    const layoutOptions = createLayoutOptions(
-      layoutOptionValue,
-      layoutValueBitLengths
-    );
-    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
-
+    dispatch(await hidActionsThunk.restoreLayoutOptions());
     dispatch(HidActions.updateKeyboard(keyboard));
     dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
   },
@@ -491,6 +446,60 @@ export const hidActionsThunk = {
     dispatch(KeymapActions.clearSelectedPos());
     dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
   },
+
+  restoreLayoutOptions: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities } = getState();
+    const keyboard = entities.keyboard!;
+    const layoutOptionsResult = await keyboard.fetchLayoutOptions();
+    if (!layoutOptionsResult.success) {
+      console.error(layoutOptionsResult);
+      dispatch(
+        NotificationActions.addError(
+          `Fetching layout options failed: ${layoutOptionsResult.error}`
+        )
+      );
+      return;
+    }
+    const layoutOptionValue = layoutOptionsResult.value!;
+    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
+    const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
+    const layoutOptions = createLayoutOptions(
+      layoutOptionValue,
+      layoutValueBitLengths
+    );
+    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+  },
+
+  updateLayoutOptions: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { entities, configure } = getState();
+    const keyboard = entities.keyboard!;
+    const layoutOptions = configure.layoutOptions.selectedOptions;
+    const layoutChoices = layoutOptions
+      .slice()
+      .sort((a, b) => a.option - b.option)
+      .map((layoutOption) => layoutOption.optionChoice);
+    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
+    const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
+    let layoutOptionValue = 0;
+    let shifted = 0;
+    for (let i = layoutValueBitLengths.length - 1; i >= 0; i--) {
+      const layoutValueBitLength = layoutValueBitLengths[i];
+      const value = layoutChoices[i] << shifted;
+      layoutOptionValue = layoutOptionValue | value;
+      shifted = shifted + layoutValueBitLength;
+    }
+    const result = await keyboard.updateLayoutOptions(layoutOptionValue);
+    if (!result.success) {
+      console.error(result.cause);
+      dispatch(NotificationActions.addError(result.error!));
+    }
+  },
 };
 
 const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {
@@ -528,4 +537,38 @@ const loadKeymap = async (
     keymaps.push(keymapsResult.keymap!);
   }
   return keymaps;
+};
+
+const createLayoutValueBitLengths = (
+  layoutLabels: (string | string[])[]
+): number[] => {
+  const result: number[] = [];
+  for (let i = 0; i < layoutLabels.length; i++) {
+    const layoutLabel = layoutLabels[i];
+    if (Array.isArray(layoutLabel)) {
+      const layoutLabelCount = layoutLabel.length - 2;
+      result.push(layoutLabelCount.toString(2).length);
+    } else {
+      result.push(1);
+    }
+  }
+  return result;
+};
+
+const createLayoutOptions = (
+  layoutOptionValue: number,
+  bitLengths: number[]
+): LayoutOption[] => {
+  const result: LayoutOption[] = [];
+  let targetValue = layoutOptionValue;
+  for (let i = bitLengths.length - 1; i >= 0; i--) {
+    const bitLength = bitLengths[i];
+    const value = targetValue & maxValueByBitLength(bitLength);
+    result.push({
+      option: i,
+      optionChoice: value,
+    });
+    targetValue = targetValue >> bitLength;
+  }
+  return result;
 };
