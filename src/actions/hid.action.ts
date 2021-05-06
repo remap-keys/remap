@@ -10,9 +10,12 @@ import {
   KeycodeKeyActions,
   KeydiffActions,
   NotificationActions,
+  LayoutOptionsActions,
 } from './actions';
 import { StorageActions, storageActionsThunk } from './storage.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
+import { LayoutOption } from '../components/configure/keymap/Keymap';
+import { maxValueByBitLength } from '../utils/NumberUtils';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -228,13 +231,80 @@ export const hidActionsThunk = {
       product_id: keyboard.getInformation().productId,
       product_name: keyboard.getInformation().productName,
     });
-    await initOpenedKeyboard(
+    dispatch(
+      HidActions.updateBleMicroPro(
+        keyboard
+          .getInformation()
+          .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
+      )
+    );
+    const layerResult = await keyboard.fetchLayerCount();
+    if (!layerResult.success) {
+      dispatch(
+        NotificationActions.addError('Fetching the layer count failed.')
+      );
+      return;
+    }
+    const layerCount = layerResult.layerCount!;
+    dispatch(HidActions.updateKeyboardLayerCount(layerCount));
+    const keymaps: IKeymaps[] = await loadKeymap(
       dispatch,
       keyboard,
+      layerCount,
       entities.keyboardDefinition!.matrix.rows,
       entities.keyboardDefinition!.matrix.cols,
       app.labelLang
     );
+    dispatch(HidActions.updateKeymaps(keymaps));
+    dispatch(AppActions.remapsInit(layerCount));
+    dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
+
+    const layoutOptionsResult = await keyboard.fetchLayoutOptions();
+    if (!layoutOptionsResult.success) {
+      console.error(layoutOptionsResult);
+      dispatch(
+        NotificationActions.addError(
+          `Fetching layout options failed: ${layoutOptionsResult.error}`
+        )
+      );
+      return;
+    }
+    const layoutOptionValue = layoutOptionsResult.value!;
+    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
+    const layoutValueBitLengths = [];
+    for (let i = 0; i < layoutLabels.length; i++) {
+      const layoutLabel = layoutLabels[i];
+      if (Array.isArray(layoutLabel)) {
+        const layoutLabelCount = layoutLabel.length - 2;
+        layoutValueBitLengths.push(layoutLabelCount.toString(2).length);
+      } else {
+        layoutValueBitLengths.push(1);
+      }
+    }
+    const createLayoutOptions = (
+      layoutOptionValue: number,
+      bitLengths: number[]
+    ): LayoutOption[] => {
+      const result: LayoutOption[] = [];
+      let targetValue = layoutOptionValue;
+      for (let i = bitLengths.length - 1; i >= 0; i--) {
+        const bitLength = bitLengths[i];
+        targetValue = targetValue >> bitLength;
+        const value = targetValue && maxValueByBitLength(bitLength);
+        result.push({
+          option: i,
+          optionChoice: value,
+        });
+      }
+      return result;
+    };
+    const layoutOptions = createLayoutOptions(
+      layoutOptionValue,
+      layoutValueBitLengths
+    );
+    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+
+    dispatch(HidActions.updateKeyboard(keyboard));
     dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
   },
 
@@ -426,42 +496,6 @@ export const hidActionsThunk = {
 const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {
   const keyboards: IKeyboard[] = await hid.detectKeyboards();
   return keyboards;
-};
-
-const initOpenedKeyboard = async (
-  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-  keyboard: IKeyboard,
-  rowCount: number,
-  columnCount: number,
-  labelLang: KeyboardLabelLang
-) => {
-  dispatch(
-    HidActions.updateBleMicroPro(
-      keyboard
-        .getInformation()
-        .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
-    )
-  );
-  const layerResult = await keyboard.fetchLayerCount();
-  if (!layerResult.success) {
-    dispatch(NotificationActions.addError('Fetching the layer count failed.'));
-    return;
-  }
-  const layerCount = layerResult.layerCount!;
-  dispatch(HidActions.updateKeyboardLayerCount(layerCount));
-  const keymaps: IKeymaps[] = await loadKeymap(
-    dispatch,
-    keyboard,
-    layerCount,
-    rowCount,
-    columnCount,
-    labelLang
-  );
-
-  dispatch(HidActions.updateKeymaps(keymaps));
-  dispatch(AppActions.remapsInit(layerCount));
-  dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
-  dispatch(HidActions.updateKeyboard(keyboard));
 };
 
 const loadKeymap = async (
