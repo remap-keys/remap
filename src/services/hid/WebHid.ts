@@ -17,6 +17,7 @@ import {
   IFetchRGBLightEffectSpeedResult,
   IFetchRGBLightEffectResult,
   IFetchSwitchMatrixStateResult,
+  IFetchLayoutOptionsResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 
@@ -26,10 +27,12 @@ import {
   DynamicKeymapReadBufferCommand,
   DynamicKeymapResetCommand,
   DynamicKeymapSetKeycodeCommand,
+  GetLayoutOptionsCommand,
   IDynamicKeymapReadBufferResponse,
   LightingGetValueCommand,
   LightingSaveCommand,
   LightingSetValueCommand,
+  SetLayoutOptionsCommand,
   SwitchMatrixStateCommand,
 } from './Commands';
 import {
@@ -696,6 +699,45 @@ export class Keyboard implements IKeyboard {
           resolve({
             success: true,
             state: result.response!.state,
+          });
+        } else {
+          resolve({
+            success: false,
+            error: result.error,
+            cause: result.cause,
+          });
+        }
+      });
+      return this.enqueue(command);
+    });
+  }
+
+  fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult> {
+    return new Promise<IFetchLayoutOptionsResult>((resolve) => {
+      const command = new GetLayoutOptionsCommand({}, async (result) => {
+        if (result.success) {
+          resolve({
+            success: true,
+            value: result.response!.value,
+          });
+        } else {
+          resolve({
+            success: false,
+            error: result.error,
+            cause: result.cause,
+          });
+        }
+      });
+      return this.enqueue(command);
+    });
+  }
+
+  updateLayoutOptions(value: number): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new SetLayoutOptionsCommand({ value }, async (result) => {
+        if (result.success) {
+          resolve({
+            success: true,
           });
         } else {
           resolve({
