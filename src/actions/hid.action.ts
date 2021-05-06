@@ -444,8 +444,7 @@ const initOpenedKeyboard = async (
   );
   const layerResult = await keyboard.fetchLayerCount();
   if (!layerResult.success) {
-    // TODO:show error message
-    console.log(layerResult);
+    dispatch(NotificationActions.addError('Fetching the layer count failed.'));
     return;
   }
   const layerCount = layerResult.layerCount!;
