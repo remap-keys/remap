@@ -794,4 +794,37 @@ export class FirebaseProvider implements IStorage, IAuth {
       };
     }
   }
+
+  async fetchKeyboardDefinitionDocumentById(
+    definitionId: string
+  ): Promise<IFetchKeyboardDefinitionDocumentResult> {
+    try {
+      const documentSnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .get();
+      if (documentSnapshot.exists) {
+        return {
+          success: true,
+          exists: true,
+          document: this.generateKeyboardDefinitionDocument(documentSnapshot),
+        };
+      } else {
+        return {
+          success: false,
+          exists: false,
+          error: `The keyboard definition [${definitionId}] not found`,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching the keyboard definition document failed',
+        cause: error,
+      };
+    }
+  }
 }

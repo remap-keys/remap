@@ -5,6 +5,7 @@ import { CircularProgress } from '@material-ui/core';
 import Footer from '../../common/footer/Footer.container';
 import { ICatalogPhase } from '../../../store/state';
 import CatalogSearch from '../search/CatalogSearch.container';
+import CatalogKeyboard from '../keyboard/CatalogKeyboard.container';
 
 type ContentState = {};
 type OwnProps = {};
@@ -40,8 +41,8 @@ function Contents(props: ContentsProps) {
       return <PhaseProcessing />;
     case 'list':
       return <CatalogSearch />;
-    // case 'detail':
-    //   return <CatalogKeyboard />;
+    case 'detail':
+      return <CatalogKeyboard />;
     default:
       throw new Error(`Unknown state.catalog.app.phase value: ${props.phase}`);
   }

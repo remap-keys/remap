@@ -759,4 +759,37 @@ export const storageActionsThunk = {
     }
     dispatch(CatalogAppActions.updatePhase('list'));
   },
+
+  fetchKeyboardDefinitionForCatalogById: (
+    definitionId: string
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const fetchKeyboardDefinitionResult = await storage.instance!.fetchKeyboardDefinitionDocumentById(
+      definitionId
+    );
+    if (!fetchKeyboardDefinitionResult.success) {
+      console.error(fetchKeyboardDefinitionResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          fetchKeyboardDefinitionResult.error!,
+          fetchKeyboardDefinitionResult.cause
+        )
+      );
+      return;
+    }
+    if (fetchKeyboardDefinitionResult.exists!) {
+      dispatch(
+        StorageActions.updateKeyboardDefinitionDocument(
+          fetchKeyboardDefinitionResult.document!
+        )
+      );
+      dispatch(CatalogAppActions.updatePhase('detail'));
+    } else {
+      dispatch(NotificationActions.addWarn('No such keyboard.'));
+      dispatch(CatalogAppActions.updatePhase('init'));
+    }
+  },
 };

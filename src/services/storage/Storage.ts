@@ -184,5 +184,8 @@ export interface IStorage {
   searchKeyboardsByFeatures(
     features: IKeyboardFeatures[]
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
+  fetchKeyboardDefinitionDocumentById(
+    definitionId: string
+  ): Promise<IFetchKeyboardDefinitionDocumentResult>;
 }
 /* eslint-enable no-unused-vars */

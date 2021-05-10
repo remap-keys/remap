@@ -390,6 +390,10 @@ const featureMap: { [p: string]: string } = {
 };
 
 function SearchResult(props: SearchResultProps) {
+  const onClickDetailLink = () => {
+    location.href = `/catalog/${props.definition.id}`;
+  };
+
   return (
     <Card className="catalog-search-result-card">
       <div className="catalog-search-result-card-container">
@@ -405,7 +409,9 @@ function SearchResult(props: SearchResultProps) {
               </Typography>
             </div>
             <div className="catalog-search-result-card-header-link-container">
-              <Button color="primary">Detail</Button>
+              <Button color="primary" onClick={onClickDetailLink}>
+                Detail
+              </Button>
             </div>
           </div>
           <div className="catalog-search-result-card-chip-container">

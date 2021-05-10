@@ -47,6 +47,7 @@ class App extends React.Component<StyledComponentProps, {}> {
               component={KeyboardDefinitionManagement}
             />
             <Route exact path="/catalog" component={Catalog} />
+            <Route path="/catalog/:definitionId" component={Catalog} />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>
