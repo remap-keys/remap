@@ -14,6 +14,7 @@ import {
   CardContent,
   Typography,
   Chip,
+  Button,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -394,12 +395,19 @@ function SearchResult(props: SearchResultProps) {
       <div className="catalog-search-result-card-container">
         {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
         <CardContent>
-          <h2 className="catalog-search-result-card-name">
-            {props.definition.name}
-          </h2>
-          <Typography variant="caption">
-            {props.definition.githubDisplayName}
-          </Typography>
+          <div className="catalog-search-result-card-header">
+            <div className="catalog-search-result-card-header-name-container">
+              <h2 className="catalog-search-result-card-name">
+                {props.definition.name}
+              </h2>
+              <Typography variant="caption">
+                {props.definition.githubDisplayName}
+              </Typography>
+            </div>
+            <div className="catalog-search-result-card-header-link-container">
+              <Button color="primary">Detail</Button>
+            </div>
+          </div>
           <div className="catalog-search-result-card-chip-container">
             {props.definition.features.map((feature) => (
               <Chip

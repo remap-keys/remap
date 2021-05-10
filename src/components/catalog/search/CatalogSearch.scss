@@ -39,6 +39,25 @@
 .catalog-search-result-card {
   margin-bottom: 16px;
 
+  &-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+
+    &-name-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-link-container {
+      margin-left: auto;
+    }
+  }
+
   &-name {
     margin: 0;
     font-size: 2rem;
@@ -55,9 +74,4 @@
       margin-bottom: 4px;
     }
   }
-}
-
-.catalog-search-result-card-container {
-  display: flex;
-  flex-direction: row;
 }
