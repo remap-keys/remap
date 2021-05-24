@@ -164,6 +164,16 @@ class CatalogSearch extends React.Component<
         }) || CONDITION_NOT_SELECTED
       );
     };
+    const sortedSearchResult = this.props.searchResult!.slice().sort((a, b) => {
+      const matchedFeaturesCount = (
+        doc: IKeyboardDefinitionDocument
+      ): number => {
+        return doc.features.reduce<number>((result, feature) => {
+          return this.props.features!.includes(feature) ? result + 1 : result;
+        }, 0);
+      };
+      return matchedFeaturesCount(a) - matchedFeaturesCount(b);
+    });
     return (
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
@@ -342,7 +352,7 @@ class CatalogSearch extends React.Component<
             </Grid>
             <Grid item xs={9}>
               <div className="catalog-search-result-container">
-                {this.props.searchResult!.map((result) => (
+                {sortedSearchResult.map((result) => (
                   <SearchResult
                     definition={result}
                     key={`search-result-${result.id}`}
