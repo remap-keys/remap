@@ -12,7 +12,9 @@ import { Iso105Keymap } from '../../../assets/keymaps/Iso105Keymap';
 import { ErgoDoxKeymap } from '../../../assets/keymaps/ErgoDoxKeymap';
 import { CorneliusKeymap } from '../../../assets/keymaps/CorneliusKeymap';
 import { ZincKeymap } from '../../../assets/keymaps/ZincKeymap';
+import { Kbd7sKeymap } from '../../../assets/keymaps/Kbd7sKeymap';
 import { Aleth42Keymap } from '../../../assets/keymaps/Aleth42Keymap';
+import { Attack25Keymap } from '../../../assets/keymaps/Attack25Keymap';
 import { OptionChoiceKeymap } from '../../../assets/keymaps/OptionChoiceKeymap';
 import { OptionChoice2Keymap } from '../../../assets/keymaps/OptionChoice2Keymap';
 import { CrkbdKeymap } from '../../../assets/keymaps/CrkbdKeymap';
@@ -41,9 +43,10 @@ const genKeyboardView = (
   options?: LayoutOption[]
 ) => {
   const kbd = new KeyboardModel(km);
-  const { keymaps, width, height, left } = kbd.getKeymap(options);
+  const { keymaps, width, height, left, top } = kbd.getKeymap(options);
 
   const marginLeft = left != 0 ? -left : 0;
+  const marginTop = -top;
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     const keymap: IKeymap = {
@@ -79,6 +82,7 @@ const genKeyboardView = (
                 width: width,
                 height: height,
                 left: marginLeft,
+                top: marginTop,
               }}
             >
               {keycaps.map((keycap: KeycapData) => {
@@ -144,6 +148,37 @@ export const Zinc = () =>
   genKeyboardView('Zinc0', ZincKeymap, [{ option: 0, optionChoice: 0 }]);
 export const ZincSymmetrical = () =>
   genKeyboardView('Zinc1', ZincKeymap, [{ option: 0, optionChoice: 1 }]);
+export const Kbd7s0 = () =>
+  genKeyboardView('7sKbd0', Kbd7sKeymap, [{ option: 0, optionChoice: 0 }]);
+export const Kbd7s1 = () =>
+  genKeyboardView('7sKbd1', Kbd7sKeymap, [{ option: 0, optionChoice: 1 }]);
+export const Attack25 = () =>
+  genKeyboardView('Attack25.default', Attack25Keymap, [
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
+    { option: 5, optionChoice: 0 },
+  ]);
+export const Attack25Opt4 = () =>
+  genKeyboardView('Attack25.default', Attack25Keymap, [
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 1 },
+    { option: 5, optionChoice: 0 },
+  ]);
+export const Attack25Opt5 = () =>
+  genKeyboardView('Attack25.default', Attack25Keymap, [
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 0 },
+    { option: 3, optionChoice: 0 },
+    { option: 4, optionChoice: 0 },
+    { option: 5, optionChoice: 1 },
+  ]);
 export const OptionChoice0 = () =>
   genKeyboardView('OptionChoice0', OptionChoiceKeymap, [
     { option: 0, optionChoice: 0 },

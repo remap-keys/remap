@@ -51,7 +51,7 @@ export default class KeyModel {
     this.ry = ry;
     this.location = location;
     const locs = location.split('\n');
-    this.pos = locs[0];
+    this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
     this.optionLabel =
       4 <= locs.length ? locs[3] : `${OPTION_DEFAULT},${OPTION_DEFAULT}`;
     const options = this.optionLabel.split(',');

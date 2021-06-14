@@ -171,7 +171,13 @@ export default class KeyboardModel {
 
   getKeymap(
     options?: LayoutOption[]
-  ): { keymaps: KeyModel[]; width: number; height: number; left: number } {
+  ): {
+    keymaps: KeyModel[];
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+  } {
     let keymaps = this._keyModels;
     if (options) {
       keymaps = this._keyModels.filter((item) => {
@@ -202,7 +208,8 @@ export default class KeyboardModel {
 
     const width = right - left;
     const height = bottom - top;
-    return { keymaps, width, height, left };
+
+    return { keymaps, width, height, left, top };
   }
 
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
