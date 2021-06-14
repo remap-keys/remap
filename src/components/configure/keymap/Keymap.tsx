@@ -402,10 +402,11 @@ export const KEYBOARD_LAYOUT_PADDING = 8;
 export function KeyboardView(props: KeyboardType) {
   const BORDER_WIDTH = 4;
 
-  const { keymaps, width, height, left } = props.keyboardModel.getKeymap(
+  const { keymaps, width, height, left, top } = props.keyboardModel.getKeymap(
     props.layoutOptions
   );
   const moveLeft = left != 0 ? -left : 0;
+  const moveTop = -top;
 
   const keyboardWidth = width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
   const keyboardHeight = height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
@@ -440,7 +441,7 @@ export function KeyboardView(props: KeyboardType) {
       >
         <div
           className="keyboard-frame"
-          style={{ width: width, height: height, left: moveLeft }}
+          style={{ width: width, height: height, left: moveLeft, top: moveTop }}
         >
           {keycaps.map((keycap: KeycapData) => {
             const anchorRef = React.createRef<HTMLDivElement>();

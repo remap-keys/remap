@@ -42,6 +42,7 @@ export class KeymapPdfGenerator {
   private doc: PDFDocument | null = null;
   private font: PDFFont | null = null;
   private alignLeft: number = 0;
+  private alignTop: number = 0;
   private labelLang: KeyboardLabelLang;
 
   constructor(
@@ -57,7 +58,7 @@ export class KeymapPdfGenerator {
   }
 
   async genPdf(name: string, options?: LayoutOption[]) {
-    const { keymaps, width, height, left } = this.model.getKeymap(options);
+    const { keymaps, width, height, left, top } = this.model.getKeymap(options);
     const keyboardHeight = height + this.kbdR * 2;
 
     const url = './assets/fonts/RictyDiminished-Regular.ttf';
@@ -77,6 +78,7 @@ export class KeymapPdfGenerator {
     this.doc.registerFontkit(fontkit);
     this.font = await this.doc.embedFont(fontBytes, { subset: true });
     this.alignLeft = left;
+    this.alignTop = top;
     const W = width + (this.blank + this.keyboardMarginWidth + this.kbdR) * 2;
     const H =
       (this.contentTopMargin + this.layerHeaderHeight + keyboardHeight) *
@@ -162,7 +164,7 @@ export class KeymapPdfGenerator {
 
     // keycaps
     const keymapX = x + this.kbdR - this.alignLeft;
-    const keymapY = y - this.kbdR;
+    const keymapY = y - this.kbdR + this.alignTop;
     keymaps.forEach((km: KeyModel) => {
       if (km.isDecal) return;
 
