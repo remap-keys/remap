@@ -5,6 +5,7 @@ import {
   AppActions,
   KeydiffActions,
   KeymapToolbarActions,
+  NotificationActions,
 } from '../../../actions/actions';
 import { hidActionsThunk } from '../../../actions/hid.action';
 
@@ -35,6 +36,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     resetKeymap: () => {
       _dispatch(hidActionsThunk.resetKeymap());
+    },
+    error: (msg: string) => {
+      _dispatch(NotificationActions.addError(msg));
     },
   };
 };
