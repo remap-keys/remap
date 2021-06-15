@@ -140,7 +140,11 @@ export default class KeymapMenu extends React.Component<
       product_name: this.props.keyboard!.getInformation().productName,
     });
 
-    pdf.genPdf(productName, this.props.selectedKeyboardOptions!);
+    pdf.genPdf(productName, this.props.selectedKeyboardOptions!).catch((e) => {
+      console.error(e);
+      const msg = `Couldn't generate the PDF. Please check your keyboard and definition file(.json).`;
+      this.props.error!(msg);
+    });
   }
 
   private onClickOpenKeymapListPopover(
