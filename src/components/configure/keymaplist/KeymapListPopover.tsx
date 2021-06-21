@@ -107,11 +107,17 @@ export default class KeymapListPopover extends React.Component<
       const keymap = keymaps[i];
       const savedCode = savedKeycodes[i];
       const changes: { [pos: string]: IKeymap } = {};
-      Object.keys(keymap).forEach((pos) => {
-        if (keymap[pos].code != savedCode[pos]) {
-          changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
-        }
-      });
+      // When the savedKeycodes was stored for BMP MCU, the length may be 11.
+      // Therefore, the target layer must be checked to ensure that the value
+      // is less than the savedKeycodes length.
+      // See: https://github.com/remap-keys/remap/issues/454
+      if (i < savedKeycodes.length) {
+        Object.keys(keymap).forEach((pos) => {
+          if (keymap[pos].code != savedCode[pos]) {
+            changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+          }
+        });
+      }
       keycodes.push(changes);
     }
 
