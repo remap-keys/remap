@@ -15,6 +15,7 @@ import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/Key
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
+import './DefinitionForm.scss';
 
 type DefinitionFormProps = {
   definitionDocument: IKeyboardDefinitionDocument | null | undefined;

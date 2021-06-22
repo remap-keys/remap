@@ -36,7 +36,6 @@ const mapDispatchToProps = (_dispatch: any) => {
     resetSearchConditions: () => {
       _dispatch(CatalogSearchActions.updateKeyword(''));
       _dispatch(CatalogSearchActions.clearFeatures());
-      _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
   };
 };

@@ -20,6 +20,8 @@ import {
   Step,
   StepLabel,
   Stepper,
+  Tab,
+  Tabs,
 } from '@material-ui/core';
 import {
   IKeyboardDefinitionDocument,
@@ -36,6 +38,7 @@ import {
   isQmkFirmwareCode,
 } from '../ValidationUtils';
 import DefinitionForm from './DefinitionForm';
+import CatalogForm from './CatalogForm';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -47,6 +50,7 @@ type EditKeyboardState = {
   openConfirmDialog: boolean;
   confirmDialogMode: ConfirmDialogMode | null;
   menuAnchorEl: any;
+  tabIndex: number;
 };
 type OwnProps = {};
 type EditKeyboardProps = OwnProps &
@@ -73,6 +77,7 @@ export default class EditDefinition extends React.Component<
       openConfirmDialog: false,
       confirmDialogMode: null,
       menuAnchorEl: null,
+      tabIndex: 0,
     };
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
@@ -215,6 +220,12 @@ export default class EditDefinition extends React.Component<
     return this.props.definitionDocument!.status === status;
   }
 
+  onChangeTab(event: any, tabIndex: number) {
+    this.setState({
+      tabIndex,
+    });
+  }
+
   render() {
     let activeStep;
     switch (this.props.definitionDocument!.status) {
@@ -276,66 +287,84 @@ export default class EditDefinition extends React.Component<
                   <AlertMessage
                     definitionDocument={this.props.definitionDocument!}
                   />
-                  <DefinitionForm
-                    definitionDocument={this.props.definitionDocument}
-                    onLoadFile={this.onLoadFile.bind(this)}
-                    jsonFilename={this.props.jsonFilename}
-                    keyboardDefinition={this.props.keyboardDefinition}
-                    productName={this.props.productName}
-                    refInputProductName={this.refInputProductName}
-                    updateProductName={this.props.updateProductName!}
-                    firmwareCodePlace={this.props.firmwareCodePlace}
-                    updateFirmwareCodePlace={
-                      this.props.updateFirmwareCodePlace!
-                    }
-                    qmkRepositoryFirstPullRequestUrl={
-                      this.props.qmkRepositoryFirstPullRequestUrl
-                    }
-                    updateQmkRepositoryFirstPullRequestUrl={
-                      this.props.updateQmkRepositoryFirstPullRequestUrl!
-                    }
-                    forkedRepositoryUrl={this.props.forkedRepositoryUrl}
-                    updateForkedRepositoryUrl={
-                      this.props.updateForkedRepositoryUrl!
-                    }
-                    forkedRepositoryEvidence={
-                      this.props.forkedRepositoryEvidence
-                    }
-                    updateForkedRepositoryEvidence={
-                      this.props.updateForkedRepositoryEvidence!
-                    }
-                    otherPlaceHowToGet={this.props.otherPlaceHowToGet}
-                    updateOtherPlaceHowToGet={
-                      this.props.updateOtherPlaceHowToGet!
-                    }
-                    otherPlaceSourceCodeEvidence={
-                      this.props.otherPlaceSourceCodeEvidence
-                    }
-                    updateOtherPlaceSourceCodeEvidence={
-                      this.props.updateOtherPlaceSourceCodeEvidence!
-                    }
-                    otherPlacePublisherEvidence={
-                      this.props.otherPlacePublisherEvidence
-                    }
-                    updateOtherPlacePublisherEvidence={
-                      this.props.updateOtherPlacePublisherEvidence!
-                    }
-                    agreement={this.props.agreement}
-                    updateAgreement={this.props.updateAgreement!}
-                    handleSaveAsDraftButtonClick={this.handleSaveAsDraftButtonClick.bind(
-                      this
-                    )}
-                    isFilledInAllField={this.isFilledInAllField.bind(this)}
-                    handleSubmitForReviewButtonClick={this.handleSubmitForReviewButtonClick.bind(
-                      this
-                    )}
-                    isFilledInAllFieldAndAgreed={this.isFilledInAllFieldAndAgreed.bind(
-                      this
-                    )}
-                    handleUpdateJsonFileButtonClick={this.handleUpdateJsonFileButtonClick.bind(
-                      this
-                    )}
-                  />
+                  {this.isStatus(KeyboardDefinitionStatus.approved) ? (
+                    <div className="edit-keyboard-tabs">
+                      <Tabs
+                        value={this.state.tabIndex}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        onChange={this.onChangeTab.bind(this)}
+                        variant="fullWidth"
+                        centered
+                      >
+                        <Tab label="Definition" />
+                        <Tab label="Catalog" />
+                      </Tabs>
+                    </div>
+                  ) : null}
+                  {this.state.tabIndex === 0 ? (
+                    <DefinitionForm
+                      definitionDocument={this.props.definitionDocument}
+                      onLoadFile={this.onLoadFile.bind(this)}
+                      jsonFilename={this.props.jsonFilename}
+                      keyboardDefinition={this.props.keyboardDefinition}
+                      productName={this.props.productName}
+                      refInputProductName={this.refInputProductName}
+                      updateProductName={this.props.updateProductName!}
+                      firmwareCodePlace={this.props.firmwareCodePlace}
+                      updateFirmwareCodePlace={
+                        this.props.updateFirmwareCodePlace!
+                      }
+                      qmkRepositoryFirstPullRequestUrl={
+                        this.props.qmkRepositoryFirstPullRequestUrl
+                      }
+                      updateQmkRepositoryFirstPullRequestUrl={
+                        this.props.updateQmkRepositoryFirstPullRequestUrl!
+                      }
+                      forkedRepositoryUrl={this.props.forkedRepositoryUrl}
+                      updateForkedRepositoryUrl={
+                        this.props.updateForkedRepositoryUrl!
+                      }
+                      forkedRepositoryEvidence={
+                        this.props.forkedRepositoryEvidence
+                      }
+                      updateForkedRepositoryEvidence={
+                        this.props.updateForkedRepositoryEvidence!
+                      }
+                      otherPlaceHowToGet={this.props.otherPlaceHowToGet}
+                      updateOtherPlaceHowToGet={
+                        this.props.updateOtherPlaceHowToGet!
+                      }
+                      otherPlaceSourceCodeEvidence={
+                        this.props.otherPlaceSourceCodeEvidence
+                      }
+                      updateOtherPlaceSourceCodeEvidence={
+                        this.props.updateOtherPlaceSourceCodeEvidence!
+                      }
+                      otherPlacePublisherEvidence={
+                        this.props.otherPlacePublisherEvidence
+                      }
+                      updateOtherPlacePublisherEvidence={
+                        this.props.updateOtherPlacePublisherEvidence!
+                      }
+                      agreement={this.props.agreement}
+                      updateAgreement={this.props.updateAgreement!}
+                      handleSaveAsDraftButtonClick={this.handleSaveAsDraftButtonClick.bind(
+                        this
+                      )}
+                      isFilledInAllField={this.isFilledInAllField.bind(this)}
+                      handleSubmitForReviewButtonClick={this.handleSubmitForReviewButtonClick.bind(
+                        this
+                      )}
+                      isFilledInAllFieldAndAgreed={this.isFilledInAllFieldAndAgreed.bind(
+                        this
+                      )}
+                      handleUpdateJsonFileButtonClick={this.handleUpdateJsonFileButtonClick.bind(
+                        this
+                      )}
+                    />
+                  ) : null}
+                  {this.state.tabIndex === 1 ? <CatalogForm /> : null}
                 </CardContent>
               </Card>
             </div>
