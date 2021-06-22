@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     features: state.catalog.search.features,
     searchResult: state.entities.searchResultKeyboardDocuments,
+    keyword: state.catalog.search.keyword,
   };
 };
 export type CatalogSearchStateType = ReturnType<typeof mapStateToProps>;
@@ -25,7 +26,12 @@ const mapDispatchToProps = (_dispatch: any) => {
       targetFeatures: readonly IKeyboardFeatures[]
     ) => {
       _dispatch(CatalogSearchActions.updateFeatures(value, targetFeatures));
-      _dispatch(storageActionsThunk.searchKeyboardsByFeatures());
+    },
+    updateKeyword: (keyword: string) => {
+      _dispatch(CatalogSearchActions.updateKeyword(keyword));
+    },
+    search: () => {
+      _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
   };
 };

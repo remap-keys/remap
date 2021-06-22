@@ -737,7 +737,7 @@ export const storageActionsThunk = {
     }
   },
 
-  searchKeyboardsByFeatures: (): ThunkPromiseAction<void> => async (
+  searchKeyboardsForCatalog: (): ThunkPromiseAction<void> => async (
     // eslint-disable-next-line no-unused-vars
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     // eslint-disable-next-line no-unused-vars
@@ -746,11 +746,31 @@ export const storageActionsThunk = {
     dispatch(CatalogAppActions.updatePhase('processing'));
     const { catalog, storage } = getState();
     const features = catalog.search.features;
-    const result = await storage.instance!.searchKeyboardsByFeatures(features);
+    const keyword = catalog.search.keyword;
+    let result = await storage.instance!.searchKeyboardsByFeatures(features);
     if (result.success) {
+      const definitionDocs = result.documents!.filter((doc) =>
+        doc.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      const matchedFeaturesCount = (
+        doc: IKeyboardDefinitionDocument
+      ): number => {
+        return doc.features.reduce<number>((result, feature) => {
+          return features!.includes(feature) ? result + 1 : result;
+        }, 0);
+      };
+      const sortedSearchResult = definitionDocs.slice().sort((a, b) => {
+        const countA = matchedFeaturesCount(a);
+        const countB = matchedFeaturesCount(b);
+        if (countA === countB) {
+          return Math.random() - 0.5;
+        } else {
+          return matchedFeaturesCount(a) - matchedFeaturesCount(b);
+        }
+      });
       dispatch(
         StorageActions.updateSearchResultKeyboardDefinitionDocument(
-          result.documents!
+          sortedSearchResult
         )
       );
     } else {

@@ -25,6 +25,9 @@ const mapDispatchToProps = (_dispatch: any) => {
         storageActionsThunk.fetchKeyboardDefinitionForCatalogById(definitionId)
       );
     },
+    init: () => {
+      _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+    },
   };
 };
 

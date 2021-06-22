@@ -241,6 +241,7 @@ export type RootState = {
     };
     search: {
       features: IKeyboardFeatures[];
+      keyword: string;
     };
   };
   hid: {
@@ -378,6 +379,7 @@ export const INIT_STATE: RootState = {
     },
     search: {
       features: [],
+      keyword: '',
     },
   },
   hid: {
