@@ -33,6 +33,11 @@ const mapDispatchToProps = (_dispatch: any) => {
     search: () => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
+    resetSearchConditions: () => {
+      _dispatch(CatalogSearchActions.updateKeyword(''));
+      _dispatch(CatalogSearchActions.clearFeatures());
+      _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+    },
   };
 };
 export type CatalogSearchActionsType = ReturnType<typeof mapDispatchToProps>;
