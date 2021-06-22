@@ -165,6 +165,10 @@ class CatalogSearch extends React.Component<
     }
   }
 
+  onClickClear() {
+    this.props.resetSearchConditions!();
+  }
+
   render() {
     const getFeatureValue = (
       targetFeatures: readonly IKeyboardFeatures[]
@@ -357,6 +361,9 @@ class CatalogSearch extends React.Component<
                   </FormControl>
                 </div>
                 <div className="catalog-search-buttons">
+                  <Button variant="text" onClick={this.onClickClear.bind(this)}>
+                    Clear
+                  </Button>
                   <Button
                     variant="contained"
                     onClick={this.onClickSearch.bind(this)}

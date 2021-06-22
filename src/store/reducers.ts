@@ -116,6 +116,7 @@ import {
   CATALOG_APP_ACTIONS,
   CATALOG_APP_UPDATE_PHASE,
   CATALOG_SEARCH_ACTIONS,
+  CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
 } from '../actions/catalog.action';
@@ -707,6 +708,10 @@ const catalogSearchReducer = (
     }
     case CATALOG_SEARCH_UPDATE_KEYWORD: {
       draft.catalog.search.keyword = action.value;
+      break;
+    }
+    case CATALOG_SEARCH_CLEAR_FEATURES: {
+      draft.catalog.search.features = [];
       break;
     }
   }
