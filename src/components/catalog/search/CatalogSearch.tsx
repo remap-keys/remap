@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   CatalogSearchActionsType,
   CatalogSearchStateType,
@@ -39,6 +39,7 @@ import {
   IKeyboardStaggeredType,
 } from '../../../store/state';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import { Pagination } from '@material-ui/lab';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -158,6 +159,12 @@ class CatalogSearch extends React.Component<
     this.props.search!();
   }
 
+  onKeyDownKeyword(event: React.KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.props.search!();
+    }
+  }
+
   render() {
     const getFeatureValue = (
       targetFeatures: readonly IKeyboardFeatures[]
@@ -185,6 +192,7 @@ class CatalogSearch extends React.Component<
                     fullWidth={true}
                     value={this.props.keyword}
                     onChange={this.onChangeKeyword.bind(this)}
+                    onKeyDown={this.onKeyDownKeyword.bind(this)}
                   />
                 </div>
                 {/*<div className="catalog-search-condition">*/}
@@ -359,14 +367,7 @@ class CatalogSearch extends React.Component<
               </div>
             </Grid>
             <Grid item xs={9}>
-              <div className="catalog-search-result-container">
-                {this.props.searchResult!.map((result) => (
-                  <SearchResult
-                    definition={result}
-                    key={`search-result-${result.id}`}
-                  />
-                ))}
-              </div>
+              <SearchResult definitionDocuments={this.props.searchResult!} />
             </Grid>
           </Grid>
         </div>
@@ -377,7 +378,44 @@ class CatalogSearch extends React.Component<
 
 export default CatalogSearch;
 
+const SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE = 5;
+
 type SearchResultProps = {
+  definitionDocuments: IKeyboardDefinitionDocument[];
+};
+
+function SearchResult(props: SearchResultProps) {
+  const [offset, setOffset] = useState(0);
+
+  const onChangePage = (event: any, page: number): void => {
+    setOffset((page - 1) * SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE);
+  };
+
+  return (
+    <div className="catalog-search-result-container">
+      {props.definitionDocuments
+        .slice(offset, offset + SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE)
+        .map((result) => (
+          <KeyboardCard
+            definition={result}
+            key={`search-result-${result.id}`}
+          />
+        ))}
+      <div className="catalog-search-result-pagination">
+        <Pagination
+          count={Math.ceil(
+            props.definitionDocuments.length /
+              SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE
+          )}
+          page={Math.floor(offset / SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE) + 1}
+          onChange={onChangePage}
+        />
+      </div>
+    </div>
+  );
+}
+
+type KeyboardCardProps = {
   definition: IKeyboardDefinitionDocument;
 };
 
@@ -407,7 +445,7 @@ const featureMap: { [p: string]: string } = {
   speaker: 'Speaker',
 };
 
-function SearchResult(props: SearchResultProps) {
+function KeyboardCard(props: KeyboardCardProps) {
   const onClickDetailLink = () => {
     location.href = `/catalog/${props.definition.id}`;
   };
