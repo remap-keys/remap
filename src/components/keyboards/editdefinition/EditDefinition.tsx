@@ -14,34 +14,28 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
   Menu,
   MenuItem,
-  Select,
   Step,
   StepLabel,
   Stepper,
-  TextField,
 } from '@material-ui/core';
 import {
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
-import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@material-ui/lab';
 import moment from 'moment-timezone';
 import { MoreVert } from '@material-ui/icons';
-import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
-import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
 import {
   isForkedQmkFirmwareCode,
   isOtherFirmwareCode,
   isQmkFirmwareCode,
 } from '../ValidationUtils';
+import DefinitionForm from './DefinitionForm';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -282,157 +276,66 @@ export default class EditDefinition extends React.Component<
                   <AlertMessage
                     definitionDocument={this.props.definitionDocument!}
                   />
-                  <div className="edit-definition-form-container">
-                    <JsonUploadForm
-                      definitionDocument={this.props.definitionDocument!}
-                      onLoadFile={this.onLoadFile.bind(this)}
-                    />
-                    <div className="edit-definition-form">
-                      <JsonFilenameRow
-                        definitionDocument={this.props.definitionDocument!}
-                        jsonFilename={this.props.jsonFilename}
-                      />
-                      <div className="edit-definition-form-row">
-                        <TextField
-                          id="edit-definition-name"
-                          label="Name"
-                          variant="outlined"
-                          value={this.props.keyboardDefinition?.name || ''}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                      </div>
-                      <div className="edit-definition-form-row">
-                        <TextField
-                          id="edit-definition-vendor_id"
-                          label="Vendor ID"
-                          variant="outlined"
-                          value={this.props.keyboardDefinition?.vendorId || ''}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                      </div>
-                      <div className="edit-definition-form-row">
-                        <TextField
-                          id="edit-definition-product_id"
-                          label="Product ID"
-                          variant="outlined"
-                          value={this.props.keyboardDefinition?.productId || ''}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                      </div>
-                      <ProductNameRow
-                        definitionDocument={this.props.definitionDocument!}
-                        productName={this.props.productName}
-                        refInputProductName={this.refInputProductName}
-                        updateProductName={this.props.updateProductName!}
-                      />
-                      <FirmwareCodePlaceField
-                        definitionDocument={this.props.definitionDocument!}
-                        firmwareCodePlace={this.props.firmwareCodePlace}
-                        updateFirmwareCodePlace={
-                          this.props.updateFirmwareCodePlace!
-                        }
-                      />
-                      <EvidenceForQmkRepository
-                        firmwareCodePlace={this.props.firmwareCodePlace}
-                        definitionDocument={this.props.definitionDocument!}
-                        qmkRepositoryFirstPullRequestUrl={
-                          this.props.qmkRepositoryFirstPullRequestUrl
-                        }
-                        updateQmkRepositoryFirstPullRequestUrl={
-                          this.props.updateQmkRepositoryFirstPullRequestUrl!
-                        }
-                      />
-                      <EvidenceForForkedRepository
-                        definitionDocument={this.props.definitionDocument!}
-                        firmwareCodePlace={this.props.firmwareCodePlace}
-                        forkedRepositoryUrl={this.props.forkedRepositoryUrl}
-                        updateForkedRepositoryUrl={
-                          this.props.updateForkedRepositoryUrl!
-                        }
-                        forkedRepositoryEvidence={
-                          this.props.forkedRepositoryEvidence
-                        }
-                        updateForkedRepositoryEvidence={
-                          this.props.updateForkedRepositoryEvidence!
-                        }
-                      />
-                      <EvidenceForOtherPlace
-                        definitionDocument={this.props.definitionDocument!}
-                        firmwareCodePlace={this.props.firmwareCodePlace}
-                        otherPlaceHowToGet={this.props.otherPlaceHowToGet}
-                        updateOtherPlaceHowToGet={
-                          this.props.updateOtherPlaceHowToGet!
-                        }
-                        otherPlaceSourceCodeEvidence={
-                          this.props.otherPlaceSourceCodeEvidence
-                        }
-                        updateOtherPlaceSourceCodeEvidence={
-                          this.props.updateOtherPlaceSourceCodeEvidence!
-                        }
-                        otherPlacePublisherEvidence={
-                          this.props.otherPlacePublisherEvidence
-                        }
-                        updateOtherPlacePublisherEvidence={
-                          this.props.updateOtherPlacePublisherEvidence!
-                        }
-                      />
-                      <AgreementRow
-                        definitionDocument={this.props.definitionDocument!}
-                        agreement={this.props.agreement!}
-                        updateAgreement={this.props.updateAgreement!}
-                      />
-                      <div className="edit-definition-form-buttons">
-                        <SaveAsDraftButton
-                          definitionDocument={this.props.definitionDocument!}
-                          handleSaveAsDraftButtonClick={
-                            this.handleSaveAsDraftButtonClick
-                          }
-                          isFilledInAllField={this.isFilledInAllField.bind(
-                            this
-                          )}
-                        />
-                        <SubmitForReviewButton
-                          definitionDocument={this.props.definitionDocument!}
-                          handleSubmitForReviewButtonClick={
-                            this.handleSubmitForReviewButtonClick
-                          }
-                          isFilledInAllFieldAndAgreed={this.isFilledInAllFieldAndAgreed.bind(
-                            this
-                          )}
-                        />
-                        <UpdateJsonButton
-                          definitionDocument={this.props.definitionDocument!}
-                          handleUpdateJsonFileButtonClick={
-                            this.handleUpdateJsonFileButtonClick
-                          }
-                          isFilledInAllField={this.isFilledInAllField.bind(
-                            this
-                          )}
-                        />
-                      </div>
-                      <div className="edit-definition-form-notice">
-                        <p>
-                          * You can submit the JSON file written by you only. Do
-                          NOT infringe of the right of person who created the
-                          original JSON file. We check whether you are valid
-                          author of the keyboard you request in our review
-                          process, but notice that we can&quot;t insure the
-                          validity completely.
-                        </p>
-                        <p>
-                          * We check whether the keyboard you request has a
-                          unique combination of the Vendor ID, Product ID and
-                          Product Name in our review process.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  <DefinitionForm
+                    definitionDocument={this.props.definitionDocument}
+                    onLoadFile={this.onLoadFile.bind(this)}
+                    jsonFilename={this.props.jsonFilename}
+                    keyboardDefinition={this.props.keyboardDefinition}
+                    productName={this.props.productName}
+                    refInputProductName={this.refInputProductName}
+                    updateProductName={this.props.updateProductName!}
+                    firmwareCodePlace={this.props.firmwareCodePlace}
+                    updateFirmwareCodePlace={
+                      this.props.updateFirmwareCodePlace!
+                    }
+                    qmkRepositoryFirstPullRequestUrl={
+                      this.props.qmkRepositoryFirstPullRequestUrl
+                    }
+                    updateQmkRepositoryFirstPullRequestUrl={
+                      this.props.updateQmkRepositoryFirstPullRequestUrl!
+                    }
+                    forkedRepositoryUrl={this.props.forkedRepositoryUrl}
+                    updateForkedRepositoryUrl={
+                      this.props.updateForkedRepositoryUrl!
+                    }
+                    forkedRepositoryEvidence={
+                      this.props.forkedRepositoryEvidence
+                    }
+                    updateForkedRepositoryEvidence={
+                      this.props.updateForkedRepositoryEvidence!
+                    }
+                    otherPlaceHowToGet={this.props.otherPlaceHowToGet}
+                    updateOtherPlaceHowToGet={
+                      this.props.updateOtherPlaceHowToGet!
+                    }
+                    otherPlaceSourceCodeEvidence={
+                      this.props.otherPlaceSourceCodeEvidence
+                    }
+                    updateOtherPlaceSourceCodeEvidence={
+                      this.props.updateOtherPlaceSourceCodeEvidence!
+                    }
+                    otherPlacePublisherEvidence={
+                      this.props.otherPlacePublisherEvidence
+                    }
+                    updateOtherPlacePublisherEvidence={
+                      this.props.updateOtherPlacePublisherEvidence!
+                    }
+                    agreement={this.props.agreement}
+                    updateAgreement={this.props.updateAgreement!}
+                    handleSaveAsDraftButtonClick={this.handleSaveAsDraftButtonClick.bind(
+                      this
+                    )}
+                    isFilledInAllField={this.isFilledInAllField.bind(this)}
+                    handleSubmitForReviewButtonClick={this.handleSubmitForReviewButtonClick.bind(
+                      this
+                    )}
+                    isFilledInAllFieldAndAgreed={this.isFilledInAllFieldAndAgreed.bind(
+                      this
+                    )}
+                    handleUpdateJsonFileButtonClick={this.handleUpdateJsonFileButtonClick.bind(
+                      this
+                    )}
+                  />
                 </CardContent>
               </Card>
             </div>
@@ -480,316 +383,6 @@ export default class EditDefinition extends React.Component<
           </DialogActions>
         </Dialog>
       </React.Fragment>
-    );
-  }
-}
-
-type EvidenceForOtherPlaceProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  firmwareCodePlace?: IFirmwareCodePlace;
-  otherPlaceHowToGet?: string;
-  // eslint-disable-next-line no-unused-vars
-  updateOtherPlaceHowToGet: (otherPlaceHowToGet: string) => void;
-  otherPlaceSourceCodeEvidence?: string;
-  updateOtherPlaceSourceCodeEvidence: (
-    // eslint-disable-next-line no-unused-vars
-    otherPlaceSourceCodeEvidence: string
-  ) => void;
-  otherPlacePublisherEvidence?: string;
-  updateOtherPlacePublisherEvidence: (
-    // eslint-disable-next-line no-unused-vars
-    otherPlacePublisherEvidence: string
-  ) => void;
-};
-
-function EvidenceForOtherPlace(props: EvidenceForOtherPlaceProps) {
-  if (props.firmwareCodePlace === FirmwareCodePlace.other) {
-    if (
-      props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-      props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-    ) {
-      return (
-        <React.Fragment>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-how-to-get"
-              label="How to Get the Source Code"
-              variant="outlined"
-              multiline
-              rows={4}
-              helperText="Fill in how to get the source code of this keyboard's firmware."
-              value={props.otherPlaceHowToGet || ''}
-              onChange={(e) => props.updateOtherPlaceHowToGet(e.target.value)}
-            />
-          </div>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-source-code-evidence"
-              label="Evidence Information for Source Code"
-              variant="outlined"
-              multiline
-              rows={4}
-              helperText="Fill in the information to evidence whether the source code is the original and authentic firmware. This information will be confirmed by reviewers."
-              value={props.otherPlaceSourceCodeEvidence || ''}
-              onChange={(e) =>
-                props.updateOtherPlaceSourceCodeEvidence(e.target.value)
-              }
-            />
-          </div>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-publisher-evidence"
-              label="Evidence Information for Publisher"
-              variant="outlined"
-              multiline
-              rows={4}
-              helperText="Fill in the information to evidence whether you are the publisher of the source code of the keyboard's firmware. This information will be confirmed by reviewers."
-              value={props.otherPlacePublisherEvidence || ''}
-              onChange={(e) =>
-                props.updateOtherPlacePublisherEvidence(e.target.value)
-              }
-            />
-          </div>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-how-to-get"
-              label="How to Get the Source Code"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={props.otherPlaceHowToGet || ''}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-source-code-evidence"
-              label="Evidence Information for Source Code"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={props.otherPlaceSourceCodeEvidence || ''}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-other-place-publisher-evidence"
-              label="Evidence Information for Publisher"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={props.otherPlacePublisherEvidence || ''}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-        </React.Fragment>
-      );
-    }
-  } else {
-    return null;
-  }
-}
-
-type EvidenceForForkedRepositoryProps = {
-  firmwareCodePlace?: IFirmwareCodePlace;
-  definitionDocument: IKeyboardDefinitionDocument;
-  forkedRepositoryUrl?: string;
-  // eslint-disable-next-line no-unused-vars
-  updateForkedRepositoryUrl: (forkedRepositoryUrl: string) => void;
-  forkedRepositoryEvidence?: string;
-  // eslint-disable-next-line no-unused-vars
-  updateForkedRepositoryEvidence: (forkedRepositoryEvidence: string) => void;
-};
-
-function EvidenceForForkedRepository(props: EvidenceForForkedRepositoryProps) {
-  if (props.firmwareCodePlace === FirmwareCodePlace.forked) {
-    if (
-      props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-      props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-    ) {
-      return (
-        <React.Fragment>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-forked-repository-url"
-              label="Forked Repository URL"
-              variant="outlined"
-              value={props.forkedRepositoryUrl || ''}
-              onChange={(e) => props.updateForkedRepositoryUrl(e.target.value)}
-            />
-          </div>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-forked-repository-evidence"
-              label="Evidence Information"
-              variant="outlined"
-              multiline
-              rows={4}
-              helperText="Fill in the information to evidence whether the forked repository is the original and authentic firmware. This information will be confirmed by reviewers."
-              value={props.forkedRepositoryEvidence || ''}
-              onChange={(e) =>
-                props.updateForkedRepositoryEvidence(e.target.value)
-              }
-            />
-          </div>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <div className="edit-definition-form-row">
-            <TextField
-              id="edit-definition-forked-repository-url"
-              label="Forked Repository URL"
-              variant="outlined"
-              value={props.forkedRepositoryUrl || ''}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-          <div className="create-definition-form-row">
-            <TextField
-              id="create-definition-forked-repository-evidence"
-              label="Evidence Information"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={props.forkedRepositoryEvidence || ''}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-        </React.Fragment>
-      );
-    }
-  } else {
-    return null;
-  }
-}
-
-type EvidenceForQmkRepositoryProps = {
-  firmwareCodePlace?: IFirmwareCodePlace;
-  definitionDocument: IKeyboardDefinitionDocument;
-  qmkRepositoryFirstPullRequestUrl?: string;
-  updateQmkRepositoryFirstPullRequestUrl: (
-    // eslint-disable-next-line no-unused-vars
-    qmkRepositoryFirstPullRequestUrl: string
-  ) => void;
-};
-
-function EvidenceForQmkRepository(props: EvidenceForQmkRepositoryProps) {
-  if (props.firmwareCodePlace === FirmwareCodePlace.qmk) {
-    if (
-      props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-      props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-    ) {
-      return (
-        <div className="edit-definition-form-row">
-          <TextField
-            id="edit-definition-qmk-repository-pull-request-url"
-            label="1st Pull Request URL"
-            variant="outlined"
-            helperText="Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers."
-            value={props.qmkRepositoryFirstPullRequestUrl || ''}
-            onChange={(e) =>
-              props.updateQmkRepositoryFirstPullRequestUrl!(e.target.value)
-            }
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div className="edit-definition-form-row">
-          <TextField
-            id="edit-definition-qmk-repository-pull-request-url"
-            label="1st Pull Request URL"
-            variant="outlined"
-            value={props.qmkRepositoryFirstPullRequestUrl || ''}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-      );
-    }
-  } else {
-    return null;
-  }
-}
-
-type FirmwareCodePlaceFieldProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  firmwareCodePlace?: IFirmwareCodePlace;
-  // eslint-disable-next-line no-unused-vars
-  updateFirmwareCodePlace: (firmwareCodePlace: IFirmwareCodePlace) => void;
-};
-
-function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
-  if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-    props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-  ) {
-    return (
-      <div className="edit-definition-form-row">
-        <FormControl>
-          <InputLabel id="edit-definition-firmware-code-place">
-            Where is the source code of this keyboard&apos;s firmware?
-          </InputLabel>
-          <Select
-            labelId="edit-definition-firmware-code-place"
-            value={props.firmwareCodePlace}
-            onChange={(e) =>
-              props.updateFirmwareCodePlace(
-                e.target.value as IFirmwareCodePlace
-              )
-            }
-          >
-            <MenuItem value={FirmwareCodePlace.qmk}>
-              GitHub: qmk/qmk_firmware
-            </MenuItem>
-            <MenuItem value={FirmwareCodePlace.forked}>
-              GitHub: Your forked repository from qmk/qmk_firmware
-            </MenuItem>
-            <MenuItem value={FirmwareCodePlace.other}>Other</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-    );
-  } else {
-    const value =
-      props.firmwareCodePlace === FirmwareCodePlace.qmk
-        ? 'GitHub: qmk/qmk_firmware'
-        : props.firmwareCodePlace === FirmwareCodePlace.forked
-        ? 'GitHub: Your forked repository from qmk/qmk_firmware'
-        : props.firmwareCodePlace === FirmwareCodePlace.other
-        ? 'Other'
-        : 'Unknown';
-    return (
-      <div className="edit-definition-form-row">
-        <TextField
-          id="edit-definition-firmware-code-place"
-          label="Where is the source code of this keyboard's firmware?"
-          variant="outlined"
-          value={value}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
     );
   }
 }
@@ -891,226 +484,5 @@ function AlertMessage(props: AlertMessageProps) {
     );
   } else {
     return null;
-  }
-}
-
-type UpdateJsonButtonProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  handleUpdateJsonFileButtonClick: () => void;
-  isFilledInAllField: () => boolean;
-};
-
-function UpdateJsonButton(props: UpdateJsonButtonProps) {
-  if (props.definitionDocument.status === KeyboardDefinitionStatus.approved) {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={props.handleUpdateJsonFileButtonClick}
-        disabled={!props.isFilledInAllField()}
-      >
-        Update JSON file
-      </Button>
-    );
-  } else {
-    return null;
-  }
-}
-
-type SubmitForReviewButtonProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  handleSubmitForReviewButtonClick: () => void;
-  isFilledInAllFieldAndAgreed: () => boolean;
-};
-
-function SubmitForReviewButton(props: SubmitForReviewButtonProps) {
-  if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-    props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-  ) {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={props.handleSubmitForReviewButtonClick}
-        disabled={!props.isFilledInAllFieldAndAgreed()}
-      >
-        Submit for Review
-      </Button>
-    );
-  } else {
-    return null;
-  }
-}
-
-type SaveAsDraftButtonProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  handleSaveAsDraftButtonClick: () => void;
-  isFilledInAllField: () => boolean;
-};
-
-function SaveAsDraftButton(props: SaveAsDraftButtonProps) {
-  if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-    props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-  ) {
-    return (
-      <Button
-        color="primary"
-        style={{ marginRight: '16px' }}
-        onClick={props.handleSaveAsDraftButtonClick}
-        disabled={!props.isFilledInAllField}
-      >
-        Save as Draft
-      </Button>
-    );
-  } else {
-    return null;
-  }
-}
-
-type ProductNameRowProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  productName?: string;
-  refInputProductName: any;
-  // eslint-disable-next-line no-unused-vars
-  updateProductName: (productName: string) => void;
-};
-
-function ProductNameRow(props: ProductNameRowProps) {
-  if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.in_review ||
-    props.definitionDocument.status === KeyboardDefinitionStatus.approved
-  ) {
-    return (
-      <div className="edit-definition-form-row">
-        <TextField
-          id="edit-definition-product-name"
-          label="Product Name"
-          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
-          variant="outlined"
-          value={props.productName}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div className="edit-definition-form-row">
-        <TextField
-          inputRef={props.refInputProductName}
-          id="edit-definition-product-name"
-          label="Product Name"
-          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
-          variant="outlined"
-          required={true}
-          value={props.productName}
-          onChange={(event) => props.updateProductName(event.target.value)}
-          onFocus={(event) => {
-            event.target.select();
-          }}
-        />
-      </div>
-    );
-  }
-}
-
-type AgreementRowProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  agreement: boolean;
-  // eslint-disable-next-line no-unused-vars
-  updateAgreement: (agreement: boolean) => void;
-};
-
-function AgreementRow(props: AgreementRowProps) {
-  if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
-    props.definitionDocument.status === KeyboardDefinitionStatus.rejected
-  ) {
-    return (
-      <div className="edit-definition-form-row">
-        <AgreementCheckbox
-          agreement={props.agreement}
-          updateAgreement={props.updateAgreement}
-        />
-      </div>
-    );
-  } else {
-    return null;
-  }
-}
-
-type JsonFilenameRowProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  jsonFilename?: string;
-};
-
-function JsonFilenameRow(props: JsonFilenameRowProps) {
-  if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
-    return null;
-  } else {
-    return (
-      <div className="edit-definition-form-row">
-        <TextField
-          id="edit-definition-json-filename"
-          label="JSON Filename"
-          variant="outlined"
-          value={props.jsonFilename}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </div>
-    );
-  }
-}
-
-type JsonUploadFormProps = {
-  definitionDocument: IKeyboardDefinitionDocument;
-  onLoadFile: (
-    // eslint-disable-next-line no-unused-vars
-    kb: KeyboardDefinitionSchema,
-    // eslint-disable-next-line no-unused-vars
-    name: string,
-    // eslint-disable-next-line no-unused-vars
-    jsonStr: string
-  ) => void;
-};
-
-function JsonUploadForm(props: JsonUploadFormProps) {
-  if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
-    return null;
-  } else if (
-    props.definitionDocument.status === KeyboardDefinitionStatus.approved
-  ) {
-    return (
-      <div className="edit-definition-upload-form">
-        <KeyboardDefinitionFormPart
-          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (.json)</b>`}
-          validateDeviceIds={true}
-          deviceVendorId={props.definitionDocument.vendorId}
-          deviceProductId={props.definitionDocument.productId}
-          size="small"
-          onLoadFile={(kd, name, jsonStr) => {
-            props.onLoadFile(kd, name, jsonStr);
-          }}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div className="edit-definition-upload-form">
-        <KeyboardDefinitionFormPart
-          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (.json)</b>`}
-          validateDeviceIds={false}
-          size="small"
-          onLoadFile={(kd, name, jsonStr) => {
-            props.onLoadFile(kd, name, jsonStr);
-          }}
-        />
-      </div>
-    );
   }
 }
