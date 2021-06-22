@@ -15,6 +15,7 @@ import {
   Typography,
   Chip,
   Button,
+  TextField,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -149,6 +150,14 @@ class CatalogSearch extends React.Component<
     this.props.updateFeatures!(value, ALL_SPEAKER_TYPE);
   }
 
+  onChangeKeyword(event: React.ChangeEvent<HTMLInputElement>) {
+    this.props.updateKeyword!(event.target.value);
+  }
+
+  onClickSearch() {
+    this.props.search!();
+  }
+
   render() {
     const getFeatureValue = (
       targetFeatures: readonly IKeyboardFeatures[]
@@ -164,29 +173,20 @@ class CatalogSearch extends React.Component<
         }) || CONDITION_NOT_SELECTED
       );
     };
-    const sortedSearchResult = this.props.searchResult!.slice().sort((a, b) => {
-      const matchedFeaturesCount = (
-        doc: IKeyboardDefinitionDocument
-      ): number => {
-        return doc.features.reduce<number>((result, feature) => {
-          return this.props.features!.includes(feature) ? result + 1 : result;
-        }, 0);
-      };
-      return matchedFeaturesCount(a) - matchedFeaturesCount(b);
-    });
     return (
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
           <Grid container>
             <Grid item xs={3}>
               <div className="catalog-search-condition-container">
-                {/*<div className="catalog-search-condition">*/}
-                {/*  <TextField*/}
-                {/*    label="Keyword"*/}
-                {/*    fullWidth={true}*/}
-                {/*    value="Lunakey Mini"*/}
-                {/*  />*/}
-                {/*</div>*/}
+                <div className="catalog-search-condition">
+                  <TextField
+                    label="Keyboard Name"
+                    fullWidth={true}
+                    value={this.props.keyword}
+                    onChange={this.onChangeKeyword.bind(this)}
+                  />
+                </div>
                 {/*<div className="catalog-search-condition">*/}
                 {/*  <FormControl fullWidth={true}>*/}
                 {/*    <InputLabel id="catalog-search-designer">*/}
@@ -348,11 +348,19 @@ class CatalogSearch extends React.Component<
                     </Select>
                   </FormControl>
                 </div>
+                <div className="catalog-search-buttons">
+                  <Button
+                    variant="contained"
+                    onClick={this.onClickSearch.bind(this)}
+                  >
+                    Search
+                  </Button>
+                </div>
               </div>
             </Grid>
             <Grid item xs={9}>
               <div className="catalog-search-result-container">
-                {sortedSearchResult.map((result) => (
+                {this.props.searchResult!.map((result) => (
                   <SearchResult
                     definition={result}
                     key={`search-result-${result.id}`}
@@ -408,7 +416,7 @@ function SearchResult(props: SearchResultProps) {
     <Card className="catalog-search-result-card">
       <div className="catalog-search-result-card-container">
         {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
-        <CardContent>
+        <CardContent className="catalog-search-result-card-content">
           <div className="catalog-search-result-card-header">
             <div className="catalog-search-result-card-header-name-container">
               <h2 className="catalog-search-result-card-name">

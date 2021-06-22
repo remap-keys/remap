@@ -30,6 +30,12 @@
   margin-bottom: 16px;
 }
 
+.catalog-search-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .catalog-search-result-container {
   display: flex;
   flex-direction: column;
@@ -42,6 +48,10 @@
   &-container {
     display: flex;
     flex-direction: row;
+  }
+
+  &-content {
+    width: 100%;
   }
 
   &-header {

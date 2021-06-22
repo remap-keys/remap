@@ -63,6 +63,8 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
     const definitionId = this.props.match.params.definitionId;
     if (definitionId) {
       this.props.updateKeyboard!(definitionId);
+    } else {
+      this.props.init!();
     }
   }
 

@@ -17,6 +17,7 @@ export const CatalogAppActions = {
 
 export const CATALOG_SEARCH_ACTIONS = `@CatalogSearch`;
 export const CATALOG_SEARCH_UPDATE_FEATURES = `${CATALOG_SEARCH_ACTIONS}/UpdateFeatures`;
+export const CATALOG_SEARCH_UPDATE_KEYWORD = `${CATALOG_SEARCH_ACTIONS}/UpdateKeyword`;
 export const CatalogSearchActions = {
   updateFeatures: (
     value: IKeyboardFeatures | IConditionNotSelected,
@@ -28,6 +29,12 @@ export const CatalogSearchActions = {
         value,
         targetFeatures,
       },
+    };
+  },
+  updateKeyword: (value: string) => {
+    return {
+      type: CATALOG_SEARCH_UPDATE_KEYWORD,
+      value,
     };
   },
 };
