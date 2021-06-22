@@ -42,6 +42,13 @@
   margin: 8px;
 }
 
+.catalog-search-result-pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
 .catalog-search-result-card {
   margin-bottom: 16px;
 
