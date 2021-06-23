@@ -171,15 +171,15 @@ export const storageActionsThunk = {
       return;
     }
     if (fetchKeyboardDefinitionResult.exists!) {
+      const definitionDocument = fetchKeyboardDefinitionResult.document!;
       dispatch(
-        StorageActions.updateKeyboardDefinitionDocument(
-          fetchKeyboardDefinitionResult.document!
-        )
+        StorageActions.updateKeyboardDefinitionDocument(definitionDocument)
       );
       dispatch(KeyboardsEditDefinitionActions.clear());
+      dispatch(KeyboardsEditDefinitionActions.init(definitionDocument));
       dispatch(
-        KeyboardsEditDefinitionActions.init(
-          fetchKeyboardDefinitionResult.document!
+        KeyboardsEditDefinitionActions.updateFeatures(
+          definitionDocument.features
         )
       );
       dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.edit));
@@ -810,6 +810,28 @@ export const storageActionsThunk = {
     } else {
       dispatch(NotificationActions.addWarn('No such keyboard.'));
       dispatch(CatalogAppActions.updatePhase('init'));
+    }
+  },
+
+  updateKeyboardDefinitionForCatalog: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { storage, keyboards, entities } = getState();
+    const definitionDoc = entities.keyboardDefinitionDocument;
+    const features = keyboards.editdefinition.features;
+    const result = await storage.instance!.updateKeyboardDefinitionDocumentForCatalog(
+      definitionDoc!.id,
+      features
+    );
+    if (result.success) {
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
     }
   },
 };

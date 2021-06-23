@@ -98,6 +98,8 @@ import {
   KEYBOARDS_EDIT_DEFINITION_CLEAR,
   KEYBOARDS_EDIT_DEFINITION_INIT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURES,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_CODE_PLACE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_EVIDENCE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FORKED_REPOSITORY_URL,
@@ -240,6 +242,25 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl =
         action.value;
       break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURES:
+      draft.keyboards.editdefinition.features = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE: {
+      const newFeatures = [...draft.keyboards.editdefinition.features];
+      const targetFeatures = action.value.targetFeatures;
+      const value = action.value.value;
+      targetFeatures.forEach((x: IKeyboardFeatures) => {
+        const index = newFeatures.indexOf(x);
+        if (index !== -1) {
+          newFeatures.splice(index, 1);
+        }
+      });
+      if (value !== CONDITION_NOT_SELECTED) {
+        newFeatures.push(value);
+      }
+      draft.keyboards.editdefinition.features = newFeatures;
+      break;
+    }
   }
 };
 

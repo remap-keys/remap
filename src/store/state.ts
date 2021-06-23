@@ -233,6 +233,7 @@ export type RootState = {
       otherPlaceHowToGet: string;
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
+      features: IKeyboardFeatures[];
     };
   };
   catalog: {
@@ -371,6 +372,7 @@ export const INIT_STATE: RootState = {
       otherPlaceHowToGet: '',
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
+      features: [],
     },
   },
   catalog: {

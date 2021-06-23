@@ -187,5 +187,9 @@ export interface IStorage {
   fetchKeyboardDefinitionDocumentById(
     definitionId: string
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
+  updateKeyboardDefinitionDocumentForCatalog(
+    definitionId: string,
+    features: IKeyboardFeatures[]
+  ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
