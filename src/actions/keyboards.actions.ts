@@ -1,5 +1,7 @@
 import {
+  IConditionNotSelected,
   IFirmwareCodePlace,
+  IKeyboardFeatures,
   IKeyboardsPhase,
   KeyboardsPhase,
   RootState,
@@ -7,6 +9,7 @@ import {
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { IKeyboardDefinitionDocument } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { CATALOG_SEARCH_UPDATE_FEATURES } from './catalog.action';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;
@@ -132,6 +135,8 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET = `${KEYBOA
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/OtherPlaceSourceCodeEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/OtherPlacePublisherEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/QmkRepositoryFirstPullRequestUrl`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURES = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFeatures`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFeature`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -218,6 +223,24 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
       value: qmkRepositoryFirstPullRequestUrl,
+    };
+  },
+  updateFeatures: (features: IKeyboardFeatures[]) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURES,
+      value: features,
+    };
+  },
+  updateFeature: (
+    value: IKeyboardFeatures | IConditionNotSelected,
+    targetFeatures: readonly IKeyboardFeatures[]
+  ) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE,
+      value: {
+        value,
+        targetFeatures,
+      },
     };
   },
 };

@@ -272,6 +272,34 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async updateKeyboardDefinitionDocumentForCatalog(
+    definitionId: string,
+    features: IKeyboardFeatures[]
+  ): Promise<IResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          updated_at: now,
+          features,
+        });
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Updating the Keyboard Definition for Catalog failed.',
+        cause: error,
+      };
+    }
+  }
+
   async createKeyboardDefinitionDocument(
     authorUid: string,
     name: string,
