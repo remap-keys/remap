@@ -9,7 +9,6 @@ import {
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { IKeyboardDefinitionDocument } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { CATALOG_SEARCH_UPDATE_FEATURES } from './catalog.action';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;
