@@ -2,6 +2,8 @@ import React from 'react';
 import './CatalogForm.scss';
 import {
   Button,
+  Card,
+  CardContent,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -9,6 +11,7 @@ import {
   FormLabel,
   MenuItem,
   Select,
+  TextField,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -151,153 +154,167 @@ export default function CatalogForm(props: CatalogFormProps) {
     <div className="edit-definition-catalog-form-container">
       <div className="edit-definition-catalog-form">
         <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Keyboard Type</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_SPLIT_TYPE)}
-              onChange={onChangeKeyboardType}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="integrated">Integrated</MenuItem>
-              <MenuItem value="split">Split</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            label="Name"
+            variant="outlined"
+            value={props.definitionDocument!.name || ''}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
         </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Key Layout</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_STAGGERED_TYPE)}
-              onChange={onChangeKeyLayout}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="column_staggered">Column Staggered</MenuItem>
-              <MenuItem value="row_staggered">Row Staggered</MenuItem>
-              <MenuItem value="ortholinear">Ortholinear</MenuItem>
-              <MenuItem value="symmetrical">Symmetrical</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Lighting</FormLabel>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="backlight"
-                    checked={hasFeatureValue('backlight')}
-                    onChange={onChangeBacklight}
+        <Card variant="outlined">
+          <CardContent>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Keyboard Type</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_SPLIT_TYPE)}
+                  onChange={onChangeKeyboardType}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="integrated">Integrated</MenuItem>
+                  <MenuItem value="split">Split</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Key Layout</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_STAGGERED_TYPE)}
+                  onChange={onChangeKeyLayout}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="column_staggered">Column Staggered</MenuItem>
+                  <MenuItem value="row_staggered">Row Staggered</MenuItem>
+                  <MenuItem value="ortholinear">Ortholinear</MenuItem>
+                  <MenuItem value="symmetrical">Symmetrical</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Lighting</FormLabel>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="backlight"
+                        checked={hasFeatureValue('backlight')}
+                        onChange={onChangeBacklight}
+                      />
+                    }
+                    label="Backlight LED"
                   />
-                }
-                label="Backlight LED"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="underglow"
-                    checked={hasFeatureValue('underglow')}
-                    onChange={onChangeUnderglow}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="underglow"
+                        checked={hasFeatureValue('underglow')}
+                        onChange={onChangeUnderglow}
+                      />
+                    }
+                    label="Underglow LED"
                   />
-                }
-                label="Underglow LED"
-              />
-            </FormGroup>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Key Switch</FormLabel>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="cherryMx"
-                    checked={hasFeatureValue('cherry_mx')}
-                    onChange={onChangeCherryMx}
+                </FormGroup>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Key Switch</FormLabel>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="cherryMx"
+                        checked={hasFeatureValue('cherry_mx')}
+                        onChange={onChangeCherryMx}
+                      />
+                    }
+                    label="Cherry MX Compatible"
                   />
-                }
-                label="Cherry MX Compatible"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="kailhChoc"
-                    checked={hasFeatureValue('kailh_choc')}
-                    onChange={onChangeKailhChoc}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="kailhChoc"
+                        checked={hasFeatureValue('kailh_choc')}
+                        onChange={onChangeKailhChoc}
+                      />
+                    }
+                    label="Kailh Choc"
                   />
-                }
-                label="Kailh Choc"
-              />
-            </FormGroup>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Hot Swap</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_HOTSWAP_TYPE)}
-              onChange={onChangeHotSwap}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="hot_swap">Supported</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">MCU</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_MCU_TYPE)}
-              onChange={onChangeMcu}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="at90usb1286">at90usb1286</MenuItem>
-              <MenuItem value="at90usb1287">at90usb1287</MenuItem>
-              <MenuItem value="at90usb646">at90usb646</MenuItem>
-              <MenuItem value="at90usb647">at90usb647</MenuItem>
-              <MenuItem value="atmega16u2">atmega16u2</MenuItem>
-              <MenuItem value="atmega16u4">atmega16u4</MenuItem>
-              <MenuItem value="atmega328p">atmega328p</MenuItem>
-              <MenuItem value="atmega32u2">atmega32u2</MenuItem>
-              <MenuItem value="atmega32u4">atmega32u4</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">OLED</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_OLED_TYPE)}
-              onChange={onChangeOled}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="oled">Supported</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-row">
-          <FormControl>
-            <FormLabel component="legend">Speaker</FormLabel>
-            <Select
-              value={getFeatureValue(ALL_SPEAKER_TYPE)}
-              onChange={onChangeSpeaker}
-            >
-              <MenuItem value="---">---</MenuItem>
-              <MenuItem value="speaker">Supported</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div className="edit-definition-catalog-form-buttons">
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginRight: '16px' }}
-            onClick={onClickSave}
-          >
-            Save
-          </Button>
-        </div>
+                </FormGroup>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Hot Swap</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_HOTSWAP_TYPE)}
+                  onChange={onChangeHotSwap}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="hot_swap">Supported</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">MCU</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_MCU_TYPE)}
+                  onChange={onChangeMcu}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="at90usb1286">at90usb1286</MenuItem>
+                  <MenuItem value="at90usb1287">at90usb1287</MenuItem>
+                  <MenuItem value="at90usb646">at90usb646</MenuItem>
+                  <MenuItem value="at90usb647">at90usb647</MenuItem>
+                  <MenuItem value="atmega16u2">atmega16u2</MenuItem>
+                  <MenuItem value="atmega16u4">atmega16u4</MenuItem>
+                  <MenuItem value="atmega328p">atmega328p</MenuItem>
+                  <MenuItem value="atmega32u2">atmega32u2</MenuItem>
+                  <MenuItem value="atmega32u4">atmega32u4</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">OLED</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_OLED_TYPE)}
+                  onChange={onChangeOled}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="oled">Supported</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-row">
+              <FormControl>
+                <FormLabel component="legend">Speaker</FormLabel>
+                <Select
+                  value={getFeatureValue(ALL_SPEAKER_TYPE)}
+                  onChange={onChangeSpeaker}
+                >
+                  <MenuItem value="---">---</MenuItem>
+                  <MenuItem value="speaker">Supported</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className="edit-definition-catalog-form-buttons">
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: '16px' }}
+                onClick={onClickSave}
+              >
+                Save
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
