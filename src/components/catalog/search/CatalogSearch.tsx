@@ -188,7 +188,7 @@ class CatalogSearch extends React.Component<
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item sm={3}>
               <div className="catalog-search-condition-container">
                 <div className="catalog-search-condition">
                   <TextField
@@ -373,7 +373,7 @@ class CatalogSearch extends React.Component<
                 </div>
               </div>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item sm={9}>
               <SearchResult definitionDocuments={this.props.searchResult!} />
             </Grid>
           </Grid>
@@ -453,12 +453,12 @@ const featureMap: { [p: string]: string } = {
 };
 
 function KeyboardCard(props: KeyboardCardProps) {
-  const onClickDetailLink = () => {
+  const onClickCard = () => {
     location.href = `/catalog/${props.definition.id}`;
   };
 
   return (
-    <Card className="catalog-search-result-card">
+    <Card className="catalog-search-result-card" onClick={onClickCard}>
       <div className="catalog-search-result-card-container">
         {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
         <CardContent className="catalog-search-result-card-content">
@@ -470,11 +470,6 @@ function KeyboardCard(props: KeyboardCardProps) {
               <Typography variant="caption">
                 {props.definition.githubDisplayName}
               </Typography>
-            </div>
-            <div className="catalog-search-result-card-header-link-container">
-              <Button color="primary" onClick={onClickDetailLink}>
-                Detail
-              </Button>
             </div>
           </div>
           <div className="catalog-search-result-card-chip-container">

@@ -55,6 +55,7 @@
 
 .catalog-search-result-card {
   margin-bottom: 16px;
+  cursor: pointer;
 
   &-container {
     display: flex;
@@ -72,10 +73,6 @@
     &-name-container {
       display: flex;
       flex-direction: column;
-    }
-
-    &-link-container {
-      margin-left: auto;
     }
   }
 
