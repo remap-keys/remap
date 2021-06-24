@@ -1,20 +1,38 @@
 @import '../../../variables';
 
-.catalog-keyboard-wrapper {
-  position: fixed;
-  width: 100%;
-  margin-top: calc(var(--key-height));
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.catalog-keyboard {
+  &-wrapper {
+    position: fixed;
+    width: 100%;
+    max-width: 960px;
+    margin-top: calc(var(--key-height));
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.catalog-keyboard-container {
-  width: 100%;
-  height: calc(100vh - var(--key-height) - 26px);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  &-container {
+    width: 100%;
+    height: calc(100vh - var(--key-height) - 26px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-tabs {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  &-header {
+    background-color: $primary;
+    color: white;
+    padding: 16px;
+  }
+
+  &-column {
+    width: 100%;
+  }
 }

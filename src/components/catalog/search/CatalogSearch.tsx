@@ -16,6 +16,7 @@ import {
   Chip,
   Button,
   TextField,
+  CardMedia,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -38,8 +39,12 @@ import {
   IKeyboardSplitType,
   IKeyboardStaggeredType,
 } from '../../../store/state';
-import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import {
+  getGitHubUserName,
+  IKeyboardDefinitionDocument,
+} from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
+import NoImage from './NoImage.svg';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -460,7 +465,6 @@ function KeyboardCard(props: KeyboardCardProps) {
   return (
     <Card className="catalog-search-result-card" onClick={onClickCard}>
       <div className="catalog-search-result-card-container">
-        {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
         <CardContent className="catalog-search-result-card-content">
           <div className="catalog-search-result-card-header">
             <div className="catalog-search-result-card-header-name-container">
@@ -468,19 +472,19 @@ function KeyboardCard(props: KeyboardCardProps) {
                 {props.definition.name}
               </h2>
               <Typography variant="caption">
-                {props.definition.githubDisplayName}
+                {getGitHubUserName(props.definition)}
               </Typography>
             </div>
           </div>
-          <div className="catalog-search-result-card-chip-container">
-            {props.definition.features.map((feature) => (
-              <Chip
-                key={`feature-${props.definition.id}-${feature}`}
-                size="small"
-                label={featureMap[feature]}
-              />
-            ))}
-          </div>
+          {/*<div className="catalog-search-result-card-chip-container">*/}
+          {/*  {props.definition.features.map((feature) => (*/}
+          {/*    <Chip*/}
+          {/*      key={`feature-${props.definition.id}-${feature}`}*/}
+          {/*      size="small"*/}
+          {/*      label={featureMap[feature]}*/}
+          {/*    />*/}
+          {/*  ))}*/}
+          {/*</div>*/}
         </CardContent>
       </div>
     </Card>
