@@ -13,10 +13,8 @@ import {
   Card,
   CardContent,
   Typography,
-  Chip,
   Button,
   TextField,
-  CardMedia,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -44,7 +42,6 @@ import {
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
-import NoImage from './NoImage.svg';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -431,31 +428,31 @@ type KeyboardCardProps = {
   definition: IKeyboardDefinitionDocument;
 };
 
-const featureMap: { [p: string]: string } = {
-  split: 'Split',
-  integrated: 'Integrated',
-  column_staggered: 'Column Staggered',
-  row_staggered: 'Row Staggered',
-  ortholinear: 'Ortholinear',
-  symmetrical: 'Symmetrical',
-  underglow: 'Underglow LED',
-  backlight: 'Backlight LED',
-  cherry_mx: 'Cherry MX',
-  kailh_choc: 'Kailh Choc',
-  hot_swap: 'Hotswap',
-  at90usb1286: 'at90usb1286',
-  at90usb1287: 'at90usb1287',
-  at90usb646: 'at90usb646',
-  at90usb647: 'at90usb647',
-  atmega16u2: 'atmega16u2',
-  atmega16u4: 'atmega16u4',
-  atmega328p: 'atmega328p',
-  atmega32a: 'atmega32a',
-  atmega32u2: 'atmega32u2',
-  atmega32u4: 'atmega32u4',
-  oled: 'OLED',
-  speaker: 'Speaker',
-};
+// const featureMap: { [p: string]: string } = {
+//   split: 'Split',
+//   integrated: 'Integrated',
+//   column_staggered: 'Column Staggered',
+//   row_staggered: 'Row Staggered',
+//   ortholinear: 'Ortholinear',
+//   symmetrical: 'Symmetrical',
+//   underglow: 'Underglow LED',
+//   backlight: 'Backlight LED',
+//   cherry_mx: 'Cherry MX',
+//   kailh_choc: 'Kailh Choc',
+//   hot_swap: 'Hotswap',
+//   at90usb1286: 'at90usb1286',
+//   at90usb1287: 'at90usb1287',
+//   at90usb646: 'at90usb646',
+//   at90usb647: 'at90usb647',
+//   atmega16u2: 'atmega16u2',
+//   atmega16u4: 'atmega16u4',
+//   atmega328p: 'atmega328p',
+//   atmega32a: 'atmega32a',
+//   atmega32u2: 'atmega32u2',
+//   atmega32u4: 'atmega32u4',
+//   oled: 'OLED',
+//   speaker: 'Speaker',
+// };
 
 function KeyboardCard(props: KeyboardCardProps) {
   const onClickCard = () => {
