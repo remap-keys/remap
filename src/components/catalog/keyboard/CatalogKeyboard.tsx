@@ -4,6 +4,8 @@ import {
   CatalogKeyboardActionsType,
   CatalogKeyboardStateType,
 } from './CatalogKeyboard.container';
+import { Grid, Paper, Tab, Tabs, Typography } from '@material-ui/core';
+import { getGitHubUserName } from '../../../services/storage/Storage';
 
 type CatalogKeyboardState = {};
 type OwnProps = {};
@@ -22,7 +24,36 @@ class CatalogKeyboard extends React.Component<
   render() {
     return (
       <div className="catalog-keyboard-wrapper">
-        <div className="catalog-keyboard-container">CatalogKeyboard</div>
+        <div className="catalog-keyboard-container">
+          <Tabs
+            variant="fullWidth"
+            centered
+            value={0}
+            indicatorColor="primary"
+            className="catalog-keyboard-tabs"
+          >
+            <Tab label="Introduction" />
+            <Tab label="Keymap" />
+          </Tabs>
+          <Grid container>
+            <Grid item sm={6} className="catalog-keyboard-column">
+              no image
+            </Grid>
+            <Grid item sm={6} className="catalog-keyboard-column">
+              <Paper variant="outlined">
+                <div className="catalog-keyboard-header">
+                  <Typography variant="h5">
+                    {this.props.definitionDocument!.name}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    designed by{' '}
+                    {getGitHubUserName(this.props.definitionDocument!)}
+                  </Typography>
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>
+        </div>
       </div>
     );
   }

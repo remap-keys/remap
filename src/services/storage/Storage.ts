@@ -47,6 +47,17 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
+export function getGitHubUserName(
+  definitionDocument: IKeyboardDefinitionDocument
+): string {
+  return (
+    definitionDocument.githubDisplayName ||
+    definitionDocument.githubUrl.substring(
+      definitionDocument.githubUrl.lastIndexOf('/') + 1
+    )
+  );
+}
+
 export function isApprovedKeyboard(
   keyboardDefDocument: IKeyboardDefinitionDocument | null | undefined
 ) {

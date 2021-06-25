@@ -13,7 +13,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Chip,
   Button,
   TextField,
 } from '@material-ui/core';
@@ -38,7 +37,10 @@ import {
   IKeyboardSplitType,
   IKeyboardStaggeredType,
 } from '../../../store/state';
-import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import {
+  getGitHubUserName,
+  IKeyboardDefinitionDocument,
+} from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
 
 type CatalogSearchState = {};
@@ -426,31 +428,31 @@ type KeyboardCardProps = {
   definition: IKeyboardDefinitionDocument;
 };
 
-const featureMap: { [p: string]: string } = {
-  split: 'Split',
-  integrated: 'Integrated',
-  column_staggered: 'Column Staggered',
-  row_staggered: 'Row Staggered',
-  ortholinear: 'Ortholinear',
-  symmetrical: 'Symmetrical',
-  underglow: 'Underglow LED',
-  backlight: 'Backlight LED',
-  cherry_mx: 'Cherry MX',
-  kailh_choc: 'Kailh Choc',
-  hot_swap: 'Hotswap',
-  at90usb1286: 'at90usb1286',
-  at90usb1287: 'at90usb1287',
-  at90usb646: 'at90usb646',
-  at90usb647: 'at90usb647',
-  atmega16u2: 'atmega16u2',
-  atmega16u4: 'atmega16u4',
-  atmega328p: 'atmega328p',
-  atmega32a: 'atmega32a',
-  atmega32u2: 'atmega32u2',
-  atmega32u4: 'atmega32u4',
-  oled: 'OLED',
-  speaker: 'Speaker',
-};
+// const featureMap: { [p: string]: string } = {
+//   split: 'Split',
+//   integrated: 'Integrated',
+//   column_staggered: 'Column Staggered',
+//   row_staggered: 'Row Staggered',
+//   ortholinear: 'Ortholinear',
+//   symmetrical: 'Symmetrical',
+//   underglow: 'Underglow LED',
+//   backlight: 'Backlight LED',
+//   cherry_mx: 'Cherry MX',
+//   kailh_choc: 'Kailh Choc',
+//   hot_swap: 'Hotswap',
+//   at90usb1286: 'at90usb1286',
+//   at90usb1287: 'at90usb1287',
+//   at90usb646: 'at90usb646',
+//   at90usb647: 'at90usb647',
+//   atmega16u2: 'atmega16u2',
+//   atmega16u4: 'atmega16u4',
+//   atmega328p: 'atmega328p',
+//   atmega32a: 'atmega32a',
+//   atmega32u2: 'atmega32u2',
+//   atmega32u4: 'atmega32u4',
+//   oled: 'OLED',
+//   speaker: 'Speaker',
+// };
 
 function KeyboardCard(props: KeyboardCardProps) {
   const onClickCard = () => {
@@ -460,7 +462,6 @@ function KeyboardCard(props: KeyboardCardProps) {
   return (
     <Card className="catalog-search-result-card" onClick={onClickCard}>
       <div className="catalog-search-result-card-container">
-        {/*<CardMedia image={Lunakey} style={{ width: 400 }} />*/}
         <CardContent className="catalog-search-result-card-content">
           <div className="catalog-search-result-card-header">
             <div className="catalog-search-result-card-header-name-container">
@@ -468,19 +469,19 @@ function KeyboardCard(props: KeyboardCardProps) {
                 {props.definition.name}
               </h2>
               <Typography variant="caption">
-                {props.definition.githubDisplayName}
+                {getGitHubUserName(props.definition)}
               </Typography>
             </div>
           </div>
-          <div className="catalog-search-result-card-chip-container">
-            {props.definition.features.map((feature) => (
-              <Chip
-                key={`feature-${props.definition.id}-${feature}`}
-                size="small"
-                label={featureMap[feature]}
-              />
-            ))}
-          </div>
+          {/*<div className="catalog-search-result-card-chip-container">*/}
+          {/*  {props.definition.features.map((feature) => (*/}
+          {/*    <Chip*/}
+          {/*      key={`feature-${props.definition.id}-${feature}`}*/}
+          {/*      size="small"*/}
+          {/*      label={featureMap[feature]}*/}
+          {/*    />*/}
+          {/*  ))}*/}
+          {/*</div>*/}
         </CardContent>
       </div>
     </Card>

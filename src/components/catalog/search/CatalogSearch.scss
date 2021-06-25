@@ -23,7 +23,7 @@
 .catalog-search-condition-container {
   display: flex;
   flex-direction: column;
-  margin: 8px;
+  margin: 16px;
 }
 
 .catalog-search-condition {
@@ -43,7 +43,7 @@
 .catalog-search-result-container {
   display: flex;
   flex-direction: column;
-  margin: 8px;
+  margin: 16px;
 }
 
 .catalog-search-result-pagination {
@@ -56,10 +56,15 @@
 .catalog-search-result-card {
   margin-bottom: 16px;
   cursor: pointer;
+  min-height: 100px;
 
   &-container {
     display: flex;
     flex-direction: row;
+  }
+
+  &-image {
+    width: 200px;
   }
 
   &-content {
