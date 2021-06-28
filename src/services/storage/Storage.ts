@@ -43,6 +43,8 @@ export interface IKeyboardDefinitionDocument {
   readonly otherPlaceSourceCodeEvidence: string;
   readonly otherPlacePublisherEvidence: string;
   readonly features: IKeyboardFeatures[];
+  readonly thumbnailImageUrl: string;
+  readonly imageUrl: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -201,6 +203,12 @@ export interface IStorage {
   updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
     features: IKeyboardFeatures[]
+  ): Promise<IResult>;
+
+  uploadKeyboardCatalogImage(
+    definitionId: string,
+    file: File,
+    progress: (uploadedRate: number) => void
   ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

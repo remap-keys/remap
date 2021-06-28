@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
+import 'firebase/storage';
 import {
   ICreateKeyboardDefinitionDocumentResult,
   IFetchKeyboardDefinitionDocumentResult,
@@ -34,6 +35,7 @@ const config = {
 export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
   private auth: firebase.auth.Auth;
+  private storage: firebase.storage.Storage;
   private unsubscribeAuthStateChanged?: firebase.Unsubscribe;
 
   constructor() {
@@ -42,6 +44,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     const app = firebase.app();
     this.db = app.firestore();
     this.auth = app.auth();
+    this.storage = app.storage();
   }
 
   private createResult(
@@ -81,6 +84,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       otherPlacePublisherEvidence: documentSnapshot.data()!
         .other_place_publisher_evidence,
       features: documentSnapshot.data()!.features || [],
+      thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
+      imageUrl: documentSnapshot.data()!.image_url,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -857,5 +862,53 @@ export class FirebaseProvider implements IStorage, IAuth {
         cause: error,
       };
     }
+  }
+
+  async uploadKeyboardCatalogImage(
+    definitionId: string,
+    file: File,
+    // eslint-disable-next-line no-unused-vars
+    progress: (uploadedRate: number) => void
+  ): Promise<IResult> {
+    // eslint-disable-next-line no-unused-vars
+    return new Promise<IResult>((resolve, reject) => {
+      const uploadTask = this.storage.ref(`/catalog/${definitionId}`).put(file);
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          const rate = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          progress(rate);
+        },
+        (error) => {
+          console.error(error);
+          resolve({
+            success: false,
+            error: 'Uploading keyboard catalog image failed.',
+            cause: error,
+          });
+        },
+        async () => {
+          const thumbnailImageUrl = await this.storage
+            .ref(`/catalog/resized/${definitionId}_200x150`)
+            .getDownloadURL();
+          const imageUrl = await this.storage
+            .ref(`/catalog/resized/${definitionId}_400x300`)
+            .getDownloadURL();
+          await this.db
+            .collection('keyboards')
+            .doc('v2')
+            .collection('definitions')
+            .doc(definitionId)
+            .update({
+              thumbnail_image_url: thumbnailImageUrl,
+              image_url: imageUrl,
+              updated_at: new Date(),
+            });
+          resolve({
+            success: true,
+          });
+        }
+      );
+    });
   }
 }
