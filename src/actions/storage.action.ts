@@ -1,5 +1,10 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { KeyboardsPhase, RootState, SetupPhase } from '../store/state';
+import {
+  IKeyboardsPhase,
+  KeyboardsPhase,
+  RootState,
+  SetupPhase,
+} from '../store/state';
 import {
   AppActions,
   KeymapActions,
@@ -151,7 +156,8 @@ export const storageActionsThunk = {
   },
 
   fetchKeyboardDefinitionById: (
-    definitionId: string
+    definitionId: string,
+    nextPhase: IKeyboardsPhase
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -182,7 +188,7 @@ export const storageActionsThunk = {
           definitionDocument.features
         )
       );
-      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.edit));
+      dispatch(KeyboardsAppActions.updatePhase(nextPhase));
     } else {
       dispatch(NotificationActions.addWarn('No such keyboard.'));
       dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
@@ -443,7 +449,8 @@ export const storageActionsThunk = {
     if (result.success) {
       dispatch(
         await storageActionsThunk.fetchKeyboardDefinitionById(
-          result.definitionId!
+          result.definitionId!,
+          'edit'
         )
       );
     } else {
@@ -478,7 +485,10 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDoc!.id,
+          'edit'
+        )
       );
     } else {
       console.error(result.cause!);
@@ -513,7 +523,10 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDoc!.id,
+          'edit'
+        )
       );
     } else {
       console.error(result.cause!);
@@ -534,7 +547,10 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDoc!.id,
+          'edit'
+        )
       );
     } else {
       console.error(result.cause!);
@@ -827,8 +843,47 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(definitionDoc!.id)
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDoc!.id,
+          'catalog'
+        )
       );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  uploadKeyboardCatalogImage: (
+    definitionId: string,
+    file: File
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsEditDefinitionActions.updateUploading(true));
+    dispatch(KeyboardsEditDefinitionActions.updateUploadedRate(0));
+    const { storage } = getState();
+    const result = await storage.instance!.uploadKeyboardCatalogImage(
+      definitionId,
+      file,
+      (uploadedRate) =>
+        dispatch(
+          KeyboardsEditDefinitionActions.updateUploadedRate(uploadedRate)
+        )
+    );
+    if (result.success) {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      setTimeout(async () => {
+        dispatch(KeyboardsEditDefinitionActions.updateUploadedRate(0));
+        dispatch(KeyboardsEditDefinitionActions.updateUploading(false));
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionId,
+            'catalog'
+          )
+        );
+      }, 3000);
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));

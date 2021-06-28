@@ -50,7 +50,6 @@ type EditKeyboardState = {
   openConfirmDialog: boolean;
   confirmDialogMode: ConfirmDialogMode | null;
   menuAnchorEl: any;
-  tabIndex: number;
 };
 type OwnProps = {};
 type EditKeyboardProps = OwnProps &
@@ -77,7 +76,6 @@ export default class EditDefinition extends React.Component<
       openConfirmDialog: false,
       confirmDialogMode: null,
       menuAnchorEl: null,
-      tabIndex: 0,
     };
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
@@ -221,9 +219,13 @@ export default class EditDefinition extends React.Component<
   }
 
   onChangeTab(event: any, tabIndex: number) {
-    this.setState({
-      tabIndex,
-    });
+    if (tabIndex === 0) {
+      this.props.updatePhase!('edit');
+    } else if (tabIndex === 1) {
+      this.props.updatePhase!('catalog');
+    } else {
+      throw new Error(`Invalid tabIndex: ${tabIndex}`);
+    }
   }
 
   render() {
@@ -290,7 +292,7 @@ export default class EditDefinition extends React.Component<
                   {this.isStatus(KeyboardDefinitionStatus.approved) ? (
                     <div className="edit-keyboard-tabs">
                       <Tabs
-                        value={this.state.tabIndex}
+                        value={this.props.phase === 'edit' ? 0 : 1}
                         indicatorColor="primary"
                         textColor="primary"
                         onChange={this.onChangeTab.bind(this)}
@@ -302,7 +304,7 @@ export default class EditDefinition extends React.Component<
                       </Tabs>
                     </div>
                   ) : null}
-                  {this.state.tabIndex === 0 ? (
+                  {this.props.phase === 'edit' ? (
                     <DefinitionForm
                       definitionDocument={this.props.definitionDocument}
                       onLoadFile={this.onLoadFile.bind(this)}
@@ -364,7 +366,7 @@ export default class EditDefinition extends React.Component<
                       )}
                     />
                   ) : null}
-                  {this.state.tabIndex === 1 ? <CatalogForm /> : null}
+                  {this.props.phase === 'catalog' ? <CatalogForm /> : null}
                 </CardContent>
               </Card>
             </div>

@@ -26,6 +26,10 @@
     margin-bottom: 16px;
   }
 
+  &-content {
+    width: 100%;
+  }
+
   &-header {
     background-color: $primary;
     color: white;
@@ -34,5 +38,12 @@
 
   &-column {
     width: 100%;
+  }
+
+  &-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 }

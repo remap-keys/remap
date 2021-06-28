@@ -41,6 +41,7 @@ export type IKeyboardsPhase =
   | 'create'
   | 'processing'
   | 'edit'
+  | 'catalog'
   | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signing: 'signing',
@@ -49,6 +50,7 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   create: 'create',
   processing: 'processing',
   edit: 'edit',
+  catalog: 'catalog',
   signout: 'signout',
 };
 
@@ -234,6 +236,8 @@ export type RootState = {
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
       features: IKeyboardFeatures[];
+      uploadedRate: number;
+      uploading: boolean;
     };
   };
   catalog: {
@@ -373,6 +377,8 @@ export const INIT_STATE: RootState = {
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
       features: [],
+      uploadedRate: 0,
+      uploading: false,
     },
   },
   catalog: {

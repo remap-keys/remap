@@ -12,6 +12,8 @@ const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     features: state.keyboards.editdefinition.features,
+    uploadedRate: state.keyboards.editdefinition.uploadedRate,
+    uploading: state.keyboards.editdefinition.uploading,
   };
 };
 export type CatalogFormStateType = ReturnType<typeof mapStateToProps>;
@@ -28,6 +30,11 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     save: () => {
       _dispatch(storageActionsThunk.updateKeyboardDefinitionForCatalog());
+    },
+    uploadKeyboardCatalogImage: (definitionId: string, file: File) => {
+      _dispatch(
+        storageActionsThunk.uploadKeyboardCatalogImage(definitionId, file)
+      );
     },
   };
 };

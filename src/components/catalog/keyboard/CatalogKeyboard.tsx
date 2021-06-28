@@ -35,24 +35,28 @@ class CatalogKeyboard extends React.Component<
             <Tab label="Introduction" />
             <Tab label="Keymap" />
           </Tabs>
-          <Grid container>
-            <Grid item sm={6} className="catalog-keyboard-column">
-              no image
-            </Grid>
-            <Grid item sm={6} className="catalog-keyboard-column">
-              <Paper variant="outlined">
-                <div className="catalog-keyboard-header">
-                  <Typography variant="h5">
-                    {this.props.definitionDocument!.name}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    designed by{' '}
-                    {getGitHubUserName(this.props.definitionDocument!)}
-                  </Typography>
+          <Paper elevation={0} className="catalog-keyboard-content">
+            <Grid container>
+              <Grid item sm={6} className="catalog-keyboard-column">
+                <div className="catalog-keyboard-image">
+                  <img src={this.props.definitionDocument!.imageUrl} />
                 </div>
-              </Paper>
+              </Grid>
+              <Grid item sm={6} className="catalog-keyboard-column">
+                <Paper variant="outlined">
+                  <div className="catalog-keyboard-header">
+                    <Typography variant="h5">
+                      {this.props.definitionDocument!.name}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      designed by{' '}
+                      {getGitHubUserName(this.props.definitionDocument!)}
+                    </Typography>
+                  </div>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
+          </Paper>
         </div>
       </div>
     );

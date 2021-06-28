@@ -57,6 +57,8 @@
   margin-bottom: 16px;
   cursor: pointer;
   min-height: 100px;
+  display: flex;
+  flex-direction: row;
 
   &-container {
     display: flex;
@@ -65,6 +67,7 @@
 
   &-image {
     width: 200px;
+    height: 150px;
   }
 
   &-content {
