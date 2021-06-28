@@ -15,6 +15,7 @@ import {
   Typography,
   Button,
   TextField,
+  CardMedia,
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
@@ -461,8 +462,14 @@ function KeyboardCard(props: KeyboardCardProps) {
 
   return (
     <Card className="catalog-search-result-card" onClick={onClickCard}>
-      <div className="catalog-search-result-card-container">
-        <CardContent className="catalog-search-result-card-content">
+      {props.definition.thumbnailImageUrl ? (
+        <CardMedia
+          image={props.definition.thumbnailImageUrl}
+          className="catalog-search-result-card-image"
+        />
+      ) : null}
+      <CardContent className="catalog-search-result-card-container">
+        <div className="catalog-search-result-card-content">
           <div className="catalog-search-result-card-header">
             <div className="catalog-search-result-card-header-name-container">
               <h2 className="catalog-search-result-card-name">
@@ -482,8 +489,8 @@ function KeyboardCard(props: KeyboardCardProps) {
           {/*    />*/}
           {/*  ))}*/}
           {/*</div>*/}
-        </CardContent>
-      </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }

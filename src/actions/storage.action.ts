@@ -883,7 +883,7 @@ export const storageActionsThunk = {
             'catalog'
           )
         );
-      }, 2000);
+      }, 3000);
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
