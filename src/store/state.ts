@@ -238,6 +238,7 @@ export type RootState = {
       features: IKeyboardFeatures[];
       uploadedRate: number;
       uploading: boolean;
+      description: string;
     };
   };
   catalog: {
@@ -379,6 +380,7 @@ export const INIT_STATE: RootState = {
       features: [],
       uploadedRate: 0,
       uploading: false,
+      description: '',
     },
   },
   catalog: {

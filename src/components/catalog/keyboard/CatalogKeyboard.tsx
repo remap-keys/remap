@@ -127,6 +127,21 @@ export default class CatalogKeyboard extends React.Component<
   }
 
   render() {
+    let descriptionNodeList: React.ReactNode[] | string;
+    if (this.props.definitionDocument!.description) {
+      descriptionNodeList = this.props
+        .definitionDocument!.description.split(/(\n)/)
+        .map((item: string, index: number) => {
+          return (
+            <React.Fragment key={index}>
+              {item.match(/\n/) ? <br /> : item}
+            </React.Fragment>
+          );
+        });
+    } else {
+      descriptionNodeList =
+        'A description is not specified by the owner of this keyboard.';
+    }
     return (
       <div className="catalog-keyboard-wrapper">
         <div className="catalog-keyboard-container">
@@ -163,6 +178,9 @@ export default class CatalogKeyboard extends React.Component<
                     {getGitHubUserName(this.props.definitionDocument!)}
                   </Typography>
                 </header>
+                <section className="catalog-keyboard-section">
+                  <Typography variant="body1">{descriptionNodeList}</Typography>
+                </section>
                 <section className="catalog-keyboard-section">
                   <Typography variant="h2">Features</Typography>
                   <div className="catalog-keyboard-chip-container">
