@@ -86,6 +86,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       features: documentSnapshot.data()!.features || [],
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
       imageUrl: documentSnapshot.data()!.image_url,
+      description: documentSnapshot.data()!.description || '',
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -279,7 +280,8 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
-    features: IKeyboardFeatures[]
+    features: IKeyboardFeatures[],
+    description: string
   ): Promise<IResult> {
     try {
       const now = new Date();
@@ -291,6 +293,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .update({
           updated_at: now,
           features,
+          description,
         });
       return {
         success: true,

@@ -45,6 +45,7 @@ export interface IKeyboardDefinitionDocument {
   readonly features: IKeyboardFeatures[];
   readonly thumbnailImageUrl: string;
   readonly imageUrl: string;
+  readonly description: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -202,7 +203,8 @@ export interface IStorage {
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
   updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
-    features: IKeyboardFeatures[]
+    features: IKeyboardFeatures[],
+    description: string
   ): Promise<IResult>;
 
   uploadKeyboardCatalogImage(

@@ -179,6 +179,11 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.uploadKeyboardCatalogImage!(props.definitionDocument!.id, file);
   };
 
+  const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const description = event.target.value;
+    props.updateDescription!(description);
+  };
+
   return (
     <div className="edit-definition-catalog-form-container">
       <div className="edit-definition-catalog-form">
@@ -234,6 +239,18 @@ export default function CatalogForm(props: CatalogFormProps) {
         <div className="edit-definition-catalog-form-row">
           <Card variant="outlined">
             <CardContent>
+              <div className="edit-definition-catalog-form-row">
+                <FormControl>
+                  <TextField
+                    label="Description"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    value={props.description}
+                    onChange={onChangeDescription}
+                  />
+                </FormControl>
+              </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <FormLabel component="legend">Keyboard Type</FormLabel>
