@@ -34,6 +34,12 @@
     background-color: $primary;
     color: white;
     padding: 16px;
+    margin-bottom: 16px;
+
+    & h1 {
+      font-size: 32px;
+      font-weight: bold;
+    }
   }
 
   &-column {
@@ -45,5 +51,39 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    & img {
+      width: 400px;
+      height: 300px;
+    }
+
+    &-nothing {
+      width: 400px;
+      height: 300px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &-section {
+    margin-left: 8px;
+    margin-bottom: 16px;
+
+    & h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+  }
+
+  &-chip-container {
+    margin-bottom: 16px;
+
+    & div {
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
   }
 }
