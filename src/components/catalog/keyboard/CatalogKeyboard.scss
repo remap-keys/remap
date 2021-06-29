@@ -85,4 +85,14 @@
       margin-bottom: 8px;
     }
   }
+
+  &-stores {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-store {
+    display: inline-block;
+    margin-right: 16px;
+  }
 }

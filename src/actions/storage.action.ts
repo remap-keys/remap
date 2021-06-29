@@ -193,6 +193,11 @@ export const storageActionsThunk = {
           definitionDocument.description
         )
       );
+      dispatch(
+        KeyboardsEditDefinitionActions.updateStores(
+          definitionDocument.stores || []
+        )
+      );
       dispatch(KeyboardsAppActions.updatePhase(nextPhase));
     } else {
       dispatch(NotificationActions.addWarn('No such keyboard.'));
@@ -843,10 +848,12 @@ export const storageActionsThunk = {
     const definitionDoc = entities.keyboardDefinitionDocument;
     const features = keyboards.editdefinition.features;
     const description = keyboards.editdefinition.description;
+    const stores = keyboards.editdefinition.stores;
     const result = await storage.instance!.updateKeyboardDefinitionDocumentForCatalog(
       definitionDoc!.id,
       features,
-      description
+      description,
+      stores
     );
     if (result.success) {
       dispatch(

@@ -190,6 +190,31 @@ export default class CatalogKeyboard extends React.Component<
                     />
                   </div>
                 </section>
+                <section className="catalog-keyboard-section">
+                  <Typography variant="h2">Stores</Typography>
+                  {this.props.definitionDocument!.stores.length > 0 ? (
+                    <div className="catalog-keyboard-stores">
+                      {this.props.definitionDocument!.stores.map(
+                        (store, index) => {
+                          return (
+                            <Typography key={index} variant="body1">
+                              <a
+                                href={store.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="catalog-keyboard-store"
+                              >
+                                {store.name}
+                              </a>
+                            </Typography>
+                          );
+                        }
+                      )}
+                    </div>
+                  ) : (
+                    <div>Not specified by the owner of this keyboard.</div>
+                  )}
+                </section>
               </Grid>
             </Grid>
           </Paper>
@@ -219,6 +244,6 @@ function FeatureList(props: FeatureListProps) {
       </React.Fragment>
     );
   } else {
-    return <div>Not speficied by the owner of this keyboard.</div>;
+    return <div>Not specified by the owner of this keyboard.</div>;
   }
 }

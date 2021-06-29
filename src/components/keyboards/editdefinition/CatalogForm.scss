@@ -76,4 +76,10 @@
       border: 1px solid $color-gray-300;
     }
   }
+
+  &-store-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }

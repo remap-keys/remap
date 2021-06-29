@@ -7,6 +7,7 @@ import {
   AppliedKeymapData,
   IKeyboardDefinitionDocument,
   IStorage,
+  IStore,
   SavedKeymapData,
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
@@ -239,6 +240,7 @@ export type RootState = {
       uploadedRate: number;
       uploading: boolean;
       description: string;
+      stores: IStore[];
     };
   };
   catalog: {
@@ -381,6 +383,7 @@ export const INIT_STATE: RootState = {
       uploadedRate: 0,
       uploading: false,
       description: '',
+      stores: [],
     },
   },
   catalog: {
