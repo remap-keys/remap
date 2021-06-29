@@ -17,6 +17,7 @@ import {
   AppliedKeymapData,
   IAppliedKeymapsResult,
   isAppliedKeymapDataInstance,
+  IStore,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -87,6 +88,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
       imageUrl: documentSnapshot.data()!.image_url,
       description: documentSnapshot.data()!.description || '',
+      stores: documentSnapshot.data()!.stores || [],
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -281,7 +283,8 @@ export class FirebaseProvider implements IStorage, IAuth {
   async updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
     features: IKeyboardFeatures[],
-    description: string
+    description: string,
+    stores: IStore[]
   ): Promise<IResult> {
     try {
       const now = new Date();
@@ -294,6 +297,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           updated_at: now,
           features,
           description,
+          stores,
         });
       return {
         success: true,

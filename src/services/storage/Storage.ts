@@ -23,6 +23,11 @@ export const KeyboardDefinitionStatus: {
   approved: 'approved',
 };
 
+export interface IStore {
+  name: string;
+  url: string;
+}
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -46,6 +51,7 @@ export interface IKeyboardDefinitionDocument {
   readonly thumbnailImageUrl: string;
   readonly imageUrl: string;
   readonly description: string;
+  readonly stores: IStore[];
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -204,7 +210,8 @@ export interface IStorage {
   updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
     features: IKeyboardFeatures[],
-    description: string
+    description: string,
+    stores: IStore[]
   ): Promise<IResult>;
 
   uploadKeyboardCatalogImage(

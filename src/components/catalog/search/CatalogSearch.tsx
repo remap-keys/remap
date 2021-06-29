@@ -369,6 +369,7 @@ class CatalogSearch extends React.Component<
                   </Button>
                   <Button
                     variant="contained"
+                    color="primary"
                     onClick={this.onClickSearch.bind(this)}
                   >
                     Search

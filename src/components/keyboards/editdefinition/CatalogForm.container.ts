@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import CatalogForm from './CatalogForm';
 import { KeyboardsEditDefinitionActions } from '../../../actions/keyboards.actions';
 import { storageActionsThunk } from '../../../actions/storage.action';
+import { IStore } from '../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -15,6 +16,7 @@ const mapStateToProps = (state: RootState) => {
     uploadedRate: state.keyboards.editdefinition.uploadedRate,
     uploading: state.keyboards.editdefinition.uploading,
     description: state.keyboards.editdefinition.description,
+    stores: state.keyboards.editdefinition.stores,
   };
 };
 export type CatalogFormStateType = ReturnType<typeof mapStateToProps>;
@@ -39,6 +41,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateDescription: (description: string) => {
       _dispatch(KeyboardsEditDefinitionActions.updateDescription(description));
+    },
+    updateStores: (stores: IStore[]) => {
+      _dispatch(KeyboardsEditDefinitionActions.updateStores(stores));
+      _dispatch(storageActionsThunk.updateKeyboardDefinitionForCatalog());
     },
   };
 };

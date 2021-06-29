@@ -12,6 +12,11 @@ import {
   FormControlLabel,
   FormGroup,
   FormLabel,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
   MenuItem,
   Select,
   TextField,
@@ -31,6 +36,9 @@ import {
   CatalogFormActionsType,
   CatalogFormStateType,
 } from './CatalogForm.container';
+import { Delete } from '@material-ui/icons';
+import StoreAddDialog from './StoreAddDialog';
+import { IStore } from '../../../services/storage/Storage';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &
@@ -41,6 +49,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   const dropTargetRef = React.createRef<HTMLDivElement>();
 
   const [dragging, setDragging] = useState<boolean>(false);
+  const [openStoreAddDialog, setOpenStoreAddDialog] = useState<boolean>(false);
 
   const getFeatureValue = (features: readonly string[]): string => {
     for (const feature of props.features!) {
@@ -182,6 +191,29 @@ export default function CatalogForm(props: CatalogFormProps) {
   const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     const description = event.target.value;
     props.updateDescription!(description);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const onClickAddStore = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setOpenStoreAddDialog(true);
+  };
+
+  const onCloseStoreAddDialog = () => {
+    setOpenStoreAddDialog(false);
+  };
+
+  const onAddStore = (name: string, url: string) => {
+    const filtered = props.stores!.filter((store) => store.name !== name);
+    filtered.push({
+      name,
+      url,
+    });
+    props.updateStores!(filtered);
+  };
+
+  const onClickDeleteStore = (store: IStore) => {
+    const filtered = props.stores!.filter((x) => x.name !== store.name);
+    props.updateStores!(filtered);
   };
 
   return (
@@ -400,6 +432,52 @@ export default function CatalogForm(props: CatalogFormProps) {
                 >
                   Save
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="edit-definition-catalog-form-row">
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6">Stores</Typography>
+              <List>
+                {props.stores!.map((store, index) => (
+                  <ListItem key={index}>
+                    <ListItemText
+                      primary={store.name}
+                      secondary={
+                        <a href={store.url} target="_blank" rel="noreferrer">
+                          {store.url}
+                        </a>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        // eslint-disable-next-line no-unused-vars
+                        onClick={(event: React.MouseEvent) => {
+                          onClickDeleteStore(store);
+                        }}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+              <div className="edit-definition-catalog-form-store-form">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={onClickAddStore}
+                >
+                  Add
+                </Button>
+                <StoreAddDialog
+                  open={openStoreAddDialog}
+                  onClose={onCloseStoreAddDialog}
+                  onAdd={onAddStore}
+                />
               </div>
             </CardContent>
           </Card>

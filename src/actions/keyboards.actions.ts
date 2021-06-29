@@ -7,7 +7,10 @@ import {
   RootState,
 } from '../store/state';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
-import { IKeyboardDefinitionDocument } from '../services/storage/Storage';
+import {
+  IKeyboardDefinitionDocument,
+  IStore,
+} from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
@@ -139,6 +142,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE = `${KEYBOARDS_EDIT_DEFINI
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADED_RATE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateUploadedRate`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateUploading`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateDescription`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateStores`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -261,6 +265,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION,
       value: description,
+    };
+  },
+  updateStores: (stores: IStore[]) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES,
+      value: stores,
     };
   },
 };
