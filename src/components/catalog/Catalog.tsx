@@ -8,10 +8,14 @@ import { CatalogActionsType, CatalogStateType } from './Catalog.container';
 import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@material-ui/icons/Close';
 
+type ICatalogDetailMode = 'introduction' | 'keymap';
+
 type ParamsType = {
   definitionId: string;
 };
-type OwnProps = {};
+type OwnProps = {
+  catalogDetailMode?: ICatalogDetailMode;
+};
 type CatalogProps = OwnProps &
   Partial<CatalogStateType> &
   Partial<CatalogActionsType> &
@@ -60,9 +64,12 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
 
   componentDidMount() {
     this.updateNotifications();
-    const definitionId = this.props.match.params.definitionId;
-    if (definitionId) {
-      this.props.updateKeyboard!(definitionId);
+    if (this.props.catalogDetailMode === 'introduction') {
+      const definitionId = this.props.match.params.definitionId;
+      this.props.updateKeyboard!(definitionId, 'introduction');
+    } else if (this.props.catalogDetailMode === 'keymap') {
+      const definitionId = this.props.match.params.definitionId;
+      this.props.updateKeyboard!(definitionId, 'keymap');
     } else {
       this.props.init!();
     }

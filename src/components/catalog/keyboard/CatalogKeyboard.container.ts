@@ -5,7 +5,7 @@ import CatalogKeyboard from './CatalogKeyboard';
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {
-    definitionDocument: state.entities.keyboardDefinitionDocument,
+    phase: state.catalog.app.phase,
   };
 };
 export type CatalogKeyboardStateType = ReturnType<typeof mapStateToProps>;

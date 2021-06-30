@@ -46,8 +46,15 @@ class App extends React.Component<StyledComponentProps, {}> {
               path="/keyboards/:definitionId"
               component={KeyboardDefinitionManagement}
             />
-            <Route exact path="/catalog" component={Catalog} />
-            <Route path="/catalog/:definitionId" component={Catalog} />
+            <Route exact path="/catalog">
+              <Catalog />
+            </Route>
+            <Route path="/catalog/:definitionId/keymap">
+              <Catalog catalogDetailMode="keymap" />
+            </Route>
+            <Route path="/catalog/:definitionId">
+              <Catalog catalogDetailMode="introduction" />
+            </Route>
             <Route component={Top} />
           </Switch>
         </BrowserRouter>

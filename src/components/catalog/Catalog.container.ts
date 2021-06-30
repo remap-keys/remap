@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Catalog from './Catalog';
-import { RootState } from '../../store/state';
+import { ICatalogPhase, RootState } from '../../store/state';
 import { NotificationActions } from '../../actions/actions';
 import { CatalogAppActions } from '../../actions/catalog.action';
 import { storageActionsThunk } from '../../actions/storage.action';
@@ -19,10 +19,13 @@ const mapDispatchToProps = (_dispatch: any) => {
     removeNotification: (key: string) => {
       _dispatch(NotificationActions.removeNotification(key));
     },
-    updateKeyboard: (definitionId: string) => {
+    updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => {
       _dispatch(CatalogAppActions.updatePhase('processing'));
       _dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionForCatalogById(definitionId)
+        storageActionsThunk.fetchKeyboardDefinitionForCatalogById(
+          definitionId,
+          nextPhase
+        )
       );
     },
     init: () => {
