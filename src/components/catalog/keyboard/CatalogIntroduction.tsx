@@ -188,20 +188,6 @@ export default class CatalogIntroduction extends React.Component<
                     </div>
                   )}
                 </div>
-              </Grid>
-              <Grid item sm={6} className="catalog-introduction-column">
-                <header className="catalog-introduction-header">
-                  <Typography variant="h1">
-                    {this.props.definitionDocument!.name}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    designed by{' '}
-                    {getGitHubUserName(this.props.definitionDocument!)}
-                  </Typography>
-                </header>
-                <section className="catalog-introduction-section">
-                  <Typography variant="body1">{descriptionNodeList}</Typography>
-                </section>
                 <section className="catalog-introduction-section">
                   <Typography variant="h2">Features</Typography>
                   <div className="catalog-introduction-chip-container">
@@ -235,6 +221,20 @@ export default class CatalogIntroduction extends React.Component<
                   ) : (
                     <div>Not specified by the owner of this keyboard.</div>
                   )}
+                </section>
+              </Grid>
+              <Grid item sm={6} className="catalog-introduction-column">
+                <header className="catalog-introduction-header">
+                  <Typography variant="h1">
+                    {this.props.definitionDocument!.name}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    designed by{' '}
+                    {getGitHubUserName(this.props.definitionDocument!)}
+                  </Typography>
+                </header>
+                <section className="catalog-introduction-section">
+                  <Typography variant="body1">{descriptionNodeList}</Typography>
                 </section>
               </Grid>
             </Grid>
