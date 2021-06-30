@@ -59,7 +59,8 @@ export const ALL_CATALOG_PHASE = [
   'init',
   'processing',
   'list',
-  'detail',
+  'introduction',
+  'keymap',
 ] as const;
 type catalogPhaseTuple = typeof ALL_CATALOG_PHASE;
 export type ICatalogPhase = catalogPhaseTuple[number];

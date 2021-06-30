@@ -41,7 +41,8 @@ function Contents(props: ContentsProps) {
       return <PhaseProcessing />;
     case 'list':
       return <CatalogSearch />;
-    case 'detail':
+    case 'introduction':
+    case 'keymap':
       return <CatalogKeyboard />;
     default:
       throw new Error(`Unknown state.catalog.app.phase value: ${props.phase}`);

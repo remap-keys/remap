@@ -1,5 +1,6 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
+  ICatalogPhase,
   IKeyboardsPhase,
   KeyboardsPhase,
   RootState,
@@ -807,7 +808,8 @@ export const storageActionsThunk = {
   },
 
   fetchKeyboardDefinitionForCatalogById: (
-    definitionId: string
+    definitionId: string,
+    nextPhase: ICatalogPhase
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -827,12 +829,33 @@ export const storageActionsThunk = {
       return;
     }
     if (fetchKeyboardDefinitionResult.exists!) {
+      const keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
       dispatch(
         StorageActions.updateKeyboardDefinitionDocument(
-          fetchKeyboardDefinitionResult.document!
+          keyboardDefinitionDocument
         )
       );
-      dispatch(CatalogAppActions.updatePhase('detail'));
+
+      let keyboardDefinition: KeyboardDefinitionSchema;
+      const jsonStr: string = keyboardDefinitionDocument.json;
+      try {
+        keyboardDefinition = JSON.parse(jsonStr);
+      } catch (error) {
+        dispatch(NotificationActions.addError('JSON parse error'));
+        return;
+      }
+      const validateResult = validateKeyboardDefinitionSchema(
+        keyboardDefinition
+      );
+      if (!validateResult.valid) {
+        dispatch(
+          NotificationActions.addError(validateResult.errors![0].message)
+        );
+        return;
+      }
+      dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+
+      dispatch(CatalogAppActions.updatePhase(nextPhase));
     } else {
       dispatch(NotificationActions.addWarn('No such keyboard.'));
       dispatch(CatalogAppActions.updatePhase('init'));
