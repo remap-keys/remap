@@ -67,13 +67,13 @@ export default class CatalogKeymap extends React.Component<
     const keycaps: KeycapData[] = [];
     keymaps.forEach((model: KeyModel) => {
       const keymap: IKeymap = {
-        isAny: true,
+        isAny: false,
         code: 0,
         kinds: [],
         direction: MOD_LEFT,
         modifiers: [],
         keycodeInfo: {
-          label: model.pos,
+          label: '',
           code: 0,
           name: { long: '', short: '' },
         },
