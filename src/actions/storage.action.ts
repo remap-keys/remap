@@ -854,6 +854,13 @@ export const storageActionsThunk = {
         return;
       }
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+      dispatch(
+        LayoutOptionsActions.initSelectedOptions(
+          keyboardDefinition.layouts.labels
+            ? keyboardDefinition.layouts.labels
+            : []
+        )
+      );
 
       dispatch(CatalogAppActions.updatePhase(nextPhase));
     } else {

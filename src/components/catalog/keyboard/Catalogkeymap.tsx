@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { getGitHubUserName } from '../../../services/storage/Storage';
+import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -60,7 +61,9 @@ export default class CatalogKeymap extends React.Component<
     const kbd = new KeyboardModel(
       this.props.keyboardDefinition!.layouts.keymap
     );
-    const { keymaps, width, height, left, top } = kbd.getKeymap();
+    const { keymaps, width, height, left, top } = kbd.getKeymap(
+      this.props.selectedKeyboardOptions
+    );
 
     const marginLeft = left != 0 ? -left : 0;
     const marginTop = -top;
@@ -153,6 +156,7 @@ export default class CatalogKeymap extends React.Component<
                 </div>
               </div>
             </div>
+            <CatalogKeymapToolbar />
           </div>
           <div className="catalog-keymap-nav">
             <Button
