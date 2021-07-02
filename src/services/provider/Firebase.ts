@@ -575,7 +575,8 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async fetchSharedKeymaps(
-    info: IDeviceInformation
+    info: IDeviceInformation,
+    withoutMine: boolean
   ): Promise<ISavedKeymapResult> {
     const snapshot = await this.db
       .collection('keymaps')
@@ -586,10 +587,15 @@ export class FirebaseProvider implements IStorage, IAuth {
       .where('product_id', '==', info.productId)
       .orderBy('created_at', 'desc')
       .get();
-    const keymaps: SavedKeymapData[] = this.filterKeymapsByProductName<SavedKeymapData>(
+    let keymaps: SavedKeymapData[] = this.filterKeymapsByProductName<SavedKeymapData>(
       snapshot,
       info
-    ).filter((keymap) => keymap.author_uid !== this.auth.currentUser!.uid);
+    );
+    if (withoutMine) {
+      keymaps = keymaps.filter(
+        (keymap) => keymap.author_uid !== this.auth.currentUser!.uid
+      );
+    }
     return {
       success: true,
       savedKeymaps: keymaps,

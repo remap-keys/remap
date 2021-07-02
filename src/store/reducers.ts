@@ -121,6 +121,8 @@ import { LayoutOption } from '../components/configure/keymap/Keymap';
 import {
   CATALOG_APP_ACTIONS,
   CATALOG_APP_UPDATE_PHASE,
+  CATALOG_KEYBOARD_ACTIONS,
+  CATALOG_KEYBOARD_UPDATE_KEYMAPS,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
@@ -165,6 +167,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       catalogSearchReducer(action, draft);
     } else if (action.type.startsWith(CATALOG_APP_ACTIONS)) {
       catalogAppReducer(action, draft);
+    } else if (action.type.startsWith(CATALOG_KEYBOARD_ACTIONS)) {
+      catalogKeyboardReducer(action, draft);
     }
   });
 
@@ -758,6 +762,17 @@ const catalogAppReducer = (action: Action, draft: WritableDraft<RootState>) => {
   switch (action.type) {
     case CATALOG_APP_UPDATE_PHASE:
       draft.catalog.app.phase = action.value;
+      break;
+  }
+};
+
+const catalogKeyboardReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case CATALOG_KEYBOARD_UPDATE_KEYMAPS:
+      draft.catalog.keyboard.keymaps = action.value;
       break;
   }
 };

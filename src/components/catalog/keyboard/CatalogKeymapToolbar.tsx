@@ -8,9 +8,11 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
 import LayoutOptionPopover from '../../configure/layoutoption/LayoutOptionPopover.container';
 import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
+import CatalogKeymapListPopover from './CatalogKeymapListPopover.container';
 
 type CatalogKeymapToolbarState = {
   layoutOptionPopoverPosition: { left: number; top: number } | null;
+  keymapListPopoverPosition: { left: number; top: number } | null;
 };
 type OwnProps = {};
 type CatalogKeymapToolbarProps = OwnProps &
@@ -27,6 +29,7 @@ export default class CatalogKeymapToolbar extends React.Component<
     super(props);
     this.state = {
       layoutOptionPopoverPosition: null,
+      keymapListPopoverPosition: null,
     };
   }
 
@@ -44,6 +47,22 @@ export default class CatalogKeymapToolbar extends React.Component<
 
   private onCloseLayoutOptionPopover() {
     this.setState({ layoutOptionPopoverPosition: null });
+  }
+
+  private onClickOpenKeymapListPopover(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    const { left, top } = event.currentTarget.getBoundingClientRect();
+    this.setState({
+      keymapListPopoverPosition: {
+        left,
+        top,
+      },
+    });
+  }
+
+  private onCloseKeymapListPopover() {
+    this.setState({ keymapListPopoverPosition: null });
   }
 
   render() {
@@ -76,20 +95,20 @@ export default class CatalogKeymapToolbar extends React.Component<
           <Tooltip arrow={true} placement="top" title="Shared keymaps">
             <IconButton
               size="small"
-              // onClick={(event) => {
-              //   this.onClickOpenKeymapListPopover(event);
-              // }}
+              onClick={(event) => {
+                this.onClickOpenKeymapListPopover(event);
+              }}
             >
               <SwapHorizRoundedIcon />
             </IconButton>
           </Tooltip>
-          {/*<KeymapListPopover*/}
-          {/*  open={Boolean(this.state.keymapListPopoverPosition)}*/}
-          {/*  onClose={() => {*/}
-          {/*    this.onCloseKeymapListPopover();*/}
-          {/*  }}*/}
-          {/*  position={this.state.keymapListPopoverPosition}*/}
-          {/*/>*/}
+          <CatalogKeymapListPopover
+            open={Boolean(this.state.keymapListPopoverPosition)}
+            position={this.state.keymapListPopoverPosition}
+            onClose={() => {
+              this.onCloseKeymapListPopover();
+            }}
+          />
         </div>
       </div>
     );

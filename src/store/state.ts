@@ -252,6 +252,11 @@ export type RootState = {
       features: IKeyboardFeatures[];
       keyword: string;
     };
+    keyboard: {
+      keymaps: {
+        [pos: string]: IKeymap;
+      }[];
+    };
   };
   hid: {
     instance: IHid;
@@ -394,6 +399,9 @@ export const INIT_STATE: RootState = {
     search: {
       features: [],
       keyword: '',
+    },
+    keyboard: {
+      keymaps: [],
     },
   },
   hid: {
