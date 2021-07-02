@@ -123,6 +123,7 @@ import {
   CATALOG_APP_UPDATE_PHASE,
   CATALOG_KEYBOARD_ACTIONS,
   CATALOG_KEYBOARD_UPDATE_KEYMAPS,
+  CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
@@ -773,6 +774,9 @@ const catalogKeyboardReducer = (
   switch (action.type) {
     case CATALOG_KEYBOARD_UPDATE_KEYMAPS:
       draft.catalog.keyboard.keymaps = action.value;
+      break;
+    case CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER:
+      draft.catalog.keyboard.selectedLayer = action.value;
       break;
   }
 };

@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 .catalog-keymap {
   &-container-wrapper {
     position: fixed;
@@ -85,5 +87,20 @@
   &-keyboard-frame {
     width: 100%;
     position: relative;
+  }
+
+  &-layer {
+    &-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 88px;
+      padding-top: $space-l;
+    }
+
+    &-unselected {
+      border: 0 !important;
+    }
   }
 }

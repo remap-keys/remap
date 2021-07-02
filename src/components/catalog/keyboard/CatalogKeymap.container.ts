@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import CatalogKeymap from './Catalogkeymap';
-import { CatalogAppActions } from '../../../actions/catalog.action';
+import {
+  CatalogAppActions,
+  CatalogKeyboardActions,
+} from '../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
@@ -11,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardDefinition: state.entities.keyboardDefinition,
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     keymaps: state.catalog.keyboard.keymaps,
+    selectedLayer: state.catalog.keyboard.selectedLayer,
   };
 };
 export type CatalogKeymapStateType = ReturnType<typeof mapStateToProps>;
@@ -23,6 +27,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     goToSearch: () => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+    },
+    updateSelectedLayer: (layer: number) => {
+      _dispatch(CatalogKeyboardActions.updateSelectedLayer(layer));
     },
   };
 };

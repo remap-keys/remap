@@ -4,11 +4,7 @@ import CatalogKeymapListPopover from './CatalogKeymapListPopover';
 import { IKeymap } from '../../../services/hid/Hid';
 import { LayoutOption } from '../../configure/keymap/Keymap';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import {
-  AppActions,
-  KeydiffActions,
-  LayoutOptionsActions,
-} from '../../../actions/actions';
+import { AppActions, LayoutOptionsActions } from '../../../actions/actions';
 import { CatalogKeyboardActions } from '../../../actions/catalog.action';
 
 // eslint-disable-next-line no-unused-vars
@@ -30,9 +26,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       labelLang: KeyboardLabelLang
     ) => {
       _dispatch(AppActions.updateLangLabel(labelLang));
-      _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(CatalogKeyboardActions.updateKeymaps(keymaps));
       _dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+      _dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
     },
   };
 };

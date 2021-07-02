@@ -13,6 +13,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Tab,
   Tabs,
   Typography,
@@ -71,7 +72,7 @@ export default class CatalogKeymap extends React.Component<
     keymaps.forEach((model: KeyModel) => {
       let keymap: IKeymap;
       if (this.props.keymaps && this.props.keymaps.length > 0) {
-        keymap = this.props.keymaps![0][model.pos]; // TODO set layer number.
+        keymap = this.props.keymaps![this.props.selectedLayer!][model.pos];
       } else {
         keymap = {
           isAny: false,
@@ -163,6 +164,11 @@ export default class CatalogKeymap extends React.Component<
             </div>
             <CatalogKeymapToolbar />
           </div>
+          <Layer
+            layerCount={this.props.keymaps!.length}
+            selectedLayer={this.props.selectedLayer!}
+            onClickLayer={this.props.updateSelectedLayer!}
+          />
           <div className="catalog-keymap-nav">
             <Button
               style={{ marginRight: '16px' }}
@@ -175,4 +181,39 @@ export default class CatalogKeymap extends React.Component<
       </div>
     );
   }
+}
+
+type LayerProps = {
+  layerCount: number;
+  selectedLayer: number;
+  // eslint-disable-next-line no-unused-vars
+  onClickLayer: (layer: number) => void;
+};
+
+function Layer(props: LayerProps) {
+  const layers = [...Array(props.layerCount)].map((_, i) => i);
+  return (
+    <div className="catalog-keymap-layer-wrapper">
+      {layers.map((layer) => {
+        return (
+          <Chip
+            key={layer}
+            variant="outlined"
+            size="medium"
+            label={layer}
+            color={props.selectedLayer === layer ? 'primary' : undefined}
+            clickable={props.selectedLayer !== layer}
+            onClick={() => {
+              props.onClickLayer(layer);
+            }}
+            className={
+              props.selectedLayer !== layer
+                ? 'catalog-keymap-layer-unselected'
+                : 'catalog-keymap-layer-selected'
+            }
+          />
+        );
+      })}
+    </div>
+  );
 }

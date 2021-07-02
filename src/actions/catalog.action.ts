@@ -48,6 +48,7 @@ export const CatalogSearchActions = {
 
 export const CATALOG_KEYBOARD_ACTIONS = `@CatalogKeyboard`;
 export const CATALOG_KEYBOARD_UPDATE_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/UpdateKeymaps`;
+export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedLayer`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -57,6 +58,12 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_KEYMAPS,
       value: keymaps,
+    };
+  },
+  updateSelectedLayer: (selectedLayer: number) => {
+    return {
+      type: CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
+      value: selectedLayer,
     };
   },
 };
