@@ -69,18 +69,23 @@ export default class CatalogKeymap extends React.Component<
     const marginTop = -top;
     const keycaps: KeycapData[] = [];
     keymaps.forEach((model: KeyModel) => {
-      const keymap: IKeymap = {
-        isAny: false,
-        code: 0,
-        kinds: [],
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: {
-          label: '',
+      let keymap: IKeymap;
+      if (this.props.keymaps && this.props.keymaps.length > 0) {
+        keymap = this.props.keymaps![0][model.pos]; // TODO set layer number.
+      } else {
+        keymap = {
+          isAny: false,
           code: 0,
-          name: { long: '', short: '' },
-        },
-      };
+          kinds: [],
+          direction: MOD_LEFT,
+          modifiers: [],
+          keycodeInfo: {
+            label: '',
+            code: 0,
+            name: { long: '', short: '' },
+          },
+        };
+      }
       const remap = null;
       keycaps.push({ model, keymap, remap });
     });

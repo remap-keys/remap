@@ -608,7 +608,8 @@ export const storageActionsThunk = {
   },
 
   fetchSharedKeymaps: (
-    info: IDeviceInformation
+    info: IDeviceInformation,
+    withoutMine: boolean
   ): ThunkPromiseAction<void> => async (
     // eslint-disable-next-line no-unused-vars
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -616,7 +617,10 @@ export const storageActionsThunk = {
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const resultList = await storage.instance!.fetchSharedKeymaps(info);
+    const resultList = await storage.instance!.fetchSharedKeymaps(
+      info,
+      withoutMine
+    );
 
     if (resultList.success) {
       dispatch(StorageActions.updateSharedKeymaps(resultList.savedKeymaps));
@@ -859,6 +863,12 @@ export const storageActionsThunk = {
           keyboardDefinition.layouts.labels
             ? keyboardDefinition.layouts.labels
             : []
+        )
+      );
+      dispatch(
+        await storageActionsThunk.fetchSharedKeymaps(
+          keyboardDefinitionDocument,
+          false
         )
       );
 
