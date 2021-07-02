@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 import { getGitHubUserName } from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -164,11 +165,24 @@ export default class CatalogKeymap extends React.Component<
             </div>
             <CatalogKeymapToolbar />
           </div>
-          <Layer
-            layerCount={this.props.keymaps!.length}
-            selectedLayer={this.props.selectedLayer!}
-            onClickLayer={this.props.updateSelectedLayer!}
-          />
+          {this.props.keymaps!.length > 0 ? (
+            <div className="catalog-keymap-option-container">
+              <div className="catalog-keymap-option-lang">
+                <Typography variant="subtitle1">
+                  {
+                    KeyLabelLangs.KeyLabelLangMenus.find(
+                      (m) => m.labelLang === this.props.langLabel
+                    )!.menuLabel
+                  }
+                </Typography>
+              </div>
+              <Layer
+                layerCount={this.props.keymaps!.length}
+                selectedLayer={this.props.selectedLayer!}
+                onClickLayer={this.props.updateSelectedLayer!}
+              />
+            </div>
+          ) : null}
           <div className="catalog-keymap-nav">
             <Button
               style={{ marginRight: '16px' }}
