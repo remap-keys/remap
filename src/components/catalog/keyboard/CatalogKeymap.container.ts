@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     keyboardDefinition: state.entities.keyboardDefinition,
+    selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
   };
 };
 export type CatalogKeymapStateType = ReturnType<typeof mapStateToProps>;
