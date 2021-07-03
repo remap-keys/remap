@@ -18,9 +18,13 @@ import {
   Tabs,
   Typography,
 } from '@material-ui/core';
-import { getGitHubUserName } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  getGitHubUserName,
+} from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -57,6 +61,17 @@ export default class CatalogKeymap extends React.Component<
   onClickBackButton(event: React.MouseEvent<{}>) {
     history.pushState(null, 'Remap', '/catalog');
     this.props.goToSearch!();
+  }
+
+  onClickApplySharedKeymapData(savedKeymapData: AbstractKeymapData) {
+    this.props.applySharedKeymapData!(savedKeymapData);
+    history.pushState(
+      null,
+      'Remap',
+      `/catalog/${this.props.definitionDocument!.id}/keymap?id=${
+        savedKeymapData.id
+      }`
+    );
   }
 
   render() {
@@ -163,7 +178,11 @@ export default class CatalogKeymap extends React.Component<
                 </div>
               </div>
             </div>
-            <CatalogKeymapToolbar />
+            <CatalogKeymapToolbar
+              onClickApplySharedKeymapData={this.onClickApplySharedKeymapData.bind(
+                this
+              )}
+            />
           </div>
           {this.props.keymaps!.length > 0 ? (
             <div className="catalog-keymap-option-container">

@@ -2,10 +2,16 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import CatalogKeymap from './Catalogkeymap';
 import {
+  catalogActionsThunk,
   CatalogAppActions,
   CatalogKeyboardActions,
 } from '../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../actions/storage.action';
+import { IKeymap } from '../../../services/hid/Hid';
+import { LayoutOption } from '../../configure/keymap/Keymap';
+import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import { LayoutOptionsActions } from '../../../actions/actions';
+import { AbstractKeymapData } from '../../../services/storage/Storage';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -31,6 +37,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateSelectedLayer: (layer: number) => {
       _dispatch(CatalogKeyboardActions.updateSelectedLayer(layer));
+    },
+    applySharedKeymapData: (savedKeymapData: AbstractKeymapData) => {
+      _dispatch(catalogActionsThunk.applySharedKeymapData(savedKeymapData));
     },
   };
 };
