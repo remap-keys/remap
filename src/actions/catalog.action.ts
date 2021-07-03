@@ -123,4 +123,23 @@ export const catalogActionsThunk = {
     dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
   },
+  applySharedKeymap: (keymapId: string): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const fetchSharedKeymapResult = await storage.instance!.fetchSharedKeymap(
+      keymapId
+    );
+    if (fetchSharedKeymapResult.success) {
+      dispatch(
+        await catalogActionsThunk.applySharedKeymapData(
+          fetchSharedKeymapResult.sharedKeymap!
+        )
+      );
+    } else {
+      // TODO Error handling.
+      console.error(fetchSharedKeymapResult.error);
+    }
+  },
 };
