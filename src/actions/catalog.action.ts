@@ -4,6 +4,7 @@ import {
   IKeyboardFeatures,
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
+import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -49,6 +50,7 @@ export const CatalogSearchActions = {
 export const CATALOG_KEYBOARD_ACTIONS = `@CatalogKeyboard`;
 export const CATALOG_KEYBOARD_UPDATE_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/UpdateKeymaps`;
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedLayer`;
+export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -64,6 +66,12 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
       value: selectedLayer,
+    };
+  },
+  updateLangLabel: (langLabel: KeyboardLabelLang) => {
+    return {
+      type: CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
+      value: langLabel,
     };
   },
 };

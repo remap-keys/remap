@@ -15,6 +15,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     keymaps: state.catalog.keyboard.keymaps,
     selectedLayer: state.catalog.keyboard.selectedLayer,
+    langLabel: state.catalog.keyboard.langLabel,
   };
 };
 export type CatalogKeymapStateType = ReturnType<typeof mapStateToProps>;

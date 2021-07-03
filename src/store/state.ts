@@ -257,6 +257,7 @@ export type RootState = {
         [pos: string]: IKeymap;
       }[];
       selectedLayer: number;
+      langLabel: KeyboardLabelLang;
     };
   };
   hid: {
@@ -404,6 +405,7 @@ export const INIT_STATE: RootState = {
     keyboard: {
       keymaps: [],
       selectedLayer: 0,
+      langLabel: 'en-us',
     },
   },
   hid: {

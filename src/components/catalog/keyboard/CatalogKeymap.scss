@@ -89,14 +89,27 @@
     position: relative;
   }
 
+  &-option {
+    &-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding-top: $space-l;
+    }
+
+    &-lang {
+      margin-right: 16px;
+    }
+  }
+
   &-layer {
     &-wrapper {
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: flex-start;
-      min-height: 88px;
-      padding-top: $space-l;
+      min-width: 88px;
     }
 
     &-unselected {
