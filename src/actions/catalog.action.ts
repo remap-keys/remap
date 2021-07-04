@@ -8,7 +8,7 @@ import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { AbstractKeymapData } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
-import { LayoutOptionsActions } from './actions';
+import { AppActions, LayoutOptionsActions } from './actions';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
@@ -119,6 +119,7 @@ export const catalogActionsThunk = {
       keycodes.push(changes);
     }
     dispatch(CatalogKeyboardActions.updateLangLabel(labelLang));
+    dispatch(AppActions.updateLangLabel(labelLang));
     dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
     dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     dispatch(CatalogKeyboardActions.updateSelectedLayer(0));

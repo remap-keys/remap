@@ -8,7 +8,7 @@ import KeyboardModel from '../../../models/KeyboardModel';
 import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
-import Keycap from '../../configure/keycap/Keycap';
+import Keycap from '../../configure/keycap/Keycap.container';
 import {
   Button,
   Card,
@@ -24,7 +24,6 @@ import {
 } from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
-import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -167,8 +166,6 @@ export default class CatalogKeymap extends React.Component<
                       <Keycap
                         debug={false}
                         key={keycap.model.pos}
-                        selectedLayer={0}
-                        onClickKeycap={() => {}}
                         {...keycap}
                         focus={false}
                         down={false}
