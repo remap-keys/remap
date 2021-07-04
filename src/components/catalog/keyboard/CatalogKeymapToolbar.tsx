@@ -9,12 +9,16 @@ import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
 import LayoutOptionPopover from '../../configure/layoutoption/LayoutOptionPopover.container';
 import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
 import CatalogKeymapListPopover from './CatalogKeymapListPopover.container';
+import { AbstractKeymapData } from '../../../services/storage/Storage';
 
 type CatalogKeymapToolbarState = {
   layoutOptionPopoverPosition: { left: number; top: number } | null;
   keymapListPopoverPosition: { left: number; top: number } | null;
 };
-type OwnProps = {};
+type OwnProps = {
+  // eslint-disable-next-line no-unused-vars
+  onClickApplySharedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
+};
 type CatalogKeymapToolbarProps = OwnProps &
   Partial<CatalogKeymapToolbarActionsType> &
   Partial<CatalogKeymapToolbarStateType>;
@@ -108,6 +112,9 @@ export default class CatalogKeymapToolbar extends React.Component<
             onClose={() => {
               this.onCloseKeymapListPopover();
             }}
+            onClickApplySharedKeymapData={
+              this.props.onClickApplySharedKeymapData!
+            }
           />
         </div>
       </div>

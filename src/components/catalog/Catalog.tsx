@@ -7,6 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { CatalogActionsType, CatalogStateType } from './Catalog.container';
 import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@material-ui/icons/Close';
+import * as qs from 'qs';
 
 type ICatalogDetailMode = 'introduction' | 'keymap';
 
@@ -70,6 +71,13 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
     } else if (this.props.catalogDetailMode === 'keymap') {
       const definitionId = this.props.match.params.definitionId;
       this.props.updateKeyboard!(definitionId, 'keymap');
+      const queryParams = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      const keymapId: string = queryParams.id as string;
+      if (keymapId) {
+        this.props.applySharedKeymap!(keymapId);
+      }
     } else {
       this.props.init!();
     }

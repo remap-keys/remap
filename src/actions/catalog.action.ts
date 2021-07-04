@@ -2,9 +2,14 @@ import {
   ICatalogPhase,
   IConditionNotSelected,
   IKeyboardFeatures,
+  RootState,
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
+import { AbstractKeymapData } from '../services/storage/Storage';
+import { KeycodeList } from '../services/hid/KeycodeList';
+import { AppActions, LayoutOptionsActions } from './actions';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -73,5 +78,69 @@ export const CatalogKeyboardActions = {
       type: CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
       value: langLabel,
     };
+  },
+};
+
+type ActionTypes = ReturnType<
+  | typeof CatalogKeyboardActions[keyof typeof CatalogKeyboardActions]
+  | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
+>;
+type ThunkPromiseAction<T> = ThunkAction<
+  Promise<T>,
+  RootState,
+  undefined,
+  ActionTypes
+>;
+export const catalogActionsThunk = {
+  // eslint-disable-next-line no-undef
+  applySharedKeymapData: (
+    savedKeymapData: AbstractKeymapData
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    // eslint-disable-next-line no-unused-vars
+    getState: () => RootState
+  ) => {
+    const labelLang = savedKeymapData.label_lang;
+    const layoutOptions = savedKeymapData.layout_options;
+    let keycodes: { [pos: string]: IKeymap }[] = [];
+    const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
+    for (let i = 0; i < savedKeycodes.length; i++) {
+      const savedCode = savedKeycodes[i];
+      const changes: { [pos: string]: IKeymap } = {};
+      // When the savedKeycodes was stored for BMP MCU, the length may be 11.
+      // Therefore, the target layer must be checked to ensure that the value
+      // is less than the savedKeycodes length.
+      // See: https://github.com/remap-keys/remap/issues/454
+      if (i < savedKeycodes.length) {
+        Object.keys(savedCode).forEach((pos) => {
+          changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+        });
+      }
+      keycodes.push(changes);
+    }
+    dispatch(CatalogKeyboardActions.updateLangLabel(labelLang));
+    dispatch(AppActions.updateLangLabel(labelLang));
+    dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
+    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+    dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
+  },
+  applySharedKeymap: (keymapId: string): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const fetchSharedKeymapResult = await storage.instance!.fetchSharedKeymap(
+      keymapId
+    );
+    if (fetchSharedKeymapResult.success) {
+      dispatch(
+        await catalogActionsThunk.applySharedKeymapData(
+          fetchSharedKeymapResult.sharedKeymap!
+        )
+      );
+    } else {
+      // TODO Error handling.
+      console.error(fetchSharedKeymapResult.error);
+    }
   },
 };

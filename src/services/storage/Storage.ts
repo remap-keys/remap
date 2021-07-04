@@ -138,6 +138,10 @@ export interface IAppliedKeymapsResult extends IResult {
   appliedKeymaps: AppliedKeymapData[];
 }
 
+export interface IFetchSharedKeymapResult extends IResult {
+  sharedKeymap?: SavedKeymapData;
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -203,6 +207,7 @@ export interface IStorage {
   fetchMyAppliedKeymaps(
     info: IDeviceInformation
   ): Promise<IAppliedKeymapsResult>;
+  fetchSharedKeymap(keymapId: string): Promise<IFetchSharedKeymapResult>;
 
   searchKeyboardsByFeatures(
     features: IKeyboardFeatures[]

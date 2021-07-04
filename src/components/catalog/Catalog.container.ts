@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import Catalog from './Catalog';
 import { ICatalogPhase, RootState } from '../../store/state';
 import { NotificationActions } from '../../actions/actions';
-import { CatalogAppActions } from '../../actions/catalog.action';
+import {
+  catalogActionsThunk,
+  CatalogAppActions,
+} from '../../actions/catalog.action';
 import { storageActionsThunk } from '../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
@@ -30,6 +33,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     init: () => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+    },
+    applySharedKeymap: (keymapId: string) => {
+      _dispatch(catalogActionsThunk.applySharedKeymap(keymapId));
     },
   };
 };

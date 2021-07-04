@@ -12,8 +12,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
-import { IKeymap } from '../../../services/hid/Hid';
-import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type PopoverPosition = {
   left: number;
@@ -24,6 +22,8 @@ type OwnProps = {
   open: boolean;
   position: PopoverPosition | null;
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickApplySharedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 
 type CatalogKeymapListPopoverProps = OwnProps &
@@ -75,28 +75,6 @@ export default class CatalogKeymapListPopover extends React.Component<
     }
   }
 
-  private onClickApplySharedKeymapData(savedKeymapData: AbstractKeymapData) {
-    const labelLang = savedKeymapData.label_lang;
-    const layoutOptions = savedKeymapData.layout_options;
-    let keycodes: { [pos: string]: IKeymap }[] = [];
-    const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
-    for (let i = 0; i < savedKeycodes.length; i++) {
-      const savedCode = savedKeycodes[i];
-      const changes: { [pos: string]: IKeymap } = {};
-      // When the savedKeycodes was stored for BMP MCU, the length may be 11.
-      // Therefore, the target layer must be checked to ensure that the value
-      // is less than the savedKeycodes length.
-      // See: https://github.com/remap-keys/remap/issues/454
-      if (i < savedKeycodes.length) {
-        Object.keys(savedCode).forEach((pos) => {
-          changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
-        });
-      }
-      keycodes.push(changes);
-    }
-    this.props.applySavedKeymapData!(keycodes, layoutOptions, labelLang);
-  }
-
   render() {
     if (!this.props.position) {
       return null;
@@ -126,7 +104,7 @@ export default class CatalogKeymapListPopover extends React.Component<
                     key={`catalog-keymap-list-keymap-${index}`}
                     button
                     onClick={() => {
-                      this.onClickApplySharedKeymapData(item);
+                      this.props.onClickApplySharedKeymapData!(item);
                     }}
                   >
                     <ListItemText

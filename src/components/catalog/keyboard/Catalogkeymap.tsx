@@ -8,7 +8,7 @@ import KeyboardModel from '../../../models/KeyboardModel';
 import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
-import Keycap from '../../configure/keycap/Keycap';
+import Keycap from '../../configure/keycap/Keycap.container';
 import {
   Button,
   Card,
@@ -18,7 +18,10 @@ import {
   Tabs,
   Typography,
 } from '@material-ui/core';
-import { getGitHubUserName } from '../../../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  getGitHubUserName,
+} from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 
@@ -57,6 +60,17 @@ export default class CatalogKeymap extends React.Component<
   onClickBackButton(event: React.MouseEvent<{}>) {
     history.pushState(null, 'Remap', '/catalog');
     this.props.goToSearch!();
+  }
+
+  onClickApplySharedKeymapData(savedKeymapData: AbstractKeymapData) {
+    this.props.applySharedKeymapData!(savedKeymapData);
+    history.pushState(
+      null,
+      'Remap',
+      `/catalog/${this.props.definitionDocument!.id}/keymap?id=${
+        savedKeymapData.id
+      }`
+    );
   }
 
   render() {
@@ -152,8 +166,6 @@ export default class CatalogKeymap extends React.Component<
                       <Keycap
                         debug={false}
                         key={keycap.model.pos}
-                        selectedLayer={0}
-                        onClickKeycap={() => {}}
                         {...keycap}
                         focus={false}
                         down={false}
@@ -163,7 +175,11 @@ export default class CatalogKeymap extends React.Component<
                 </div>
               </div>
             </div>
-            <CatalogKeymapToolbar />
+            <CatalogKeymapToolbar
+              onClickApplySharedKeymapData={this.onClickApplySharedKeymapData.bind(
+                this
+              )}
+            />
           </div>
           {this.props.keymaps!.length > 0 ? (
             <div className="catalog-keymap-option-container">

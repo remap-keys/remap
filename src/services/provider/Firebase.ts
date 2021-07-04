@@ -18,6 +18,7 @@ import {
   IAppliedKeymapsResult,
   isAppliedKeymapDataInstance,
   IStore,
+  IFetchSharedKeymapResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -804,6 +805,39 @@ export class FirebaseProvider implements IStorage, IAuth {
       success: true,
       appliedKeymaps: keymaps,
     };
+  }
+
+  async fetchSharedKeymap(keymapId: string): Promise<IFetchSharedKeymapResult> {
+    try {
+      const keymapSnapshot = await this.db
+        .collection('keymaps')
+        .doc('v1')
+        .collection('saved-keymaps')
+        .doc(keymapId)
+        .get();
+      if (keymapSnapshot.exists) {
+        const data: SavedKeymapData = {
+          id: keymapSnapshot.id,
+          ...(keymapSnapshot.data() as SavedKeymapData),
+        };
+        return {
+          success: true,
+          sharedKeymap: data,
+        };
+      } else {
+        return {
+          success: false,
+          error: `Shared keymap data [${keymapId}] not found.`,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: `Fetching shared keymap [${keymapId}] failed.`,
+        cause: error,
+      };
+    }
   }
 
   async searchKeyboardsByFeatures(
