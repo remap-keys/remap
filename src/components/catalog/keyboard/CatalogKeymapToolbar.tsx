@@ -16,6 +16,7 @@ type CatalogKeymapToolbarState = {
   keymapListPopoverPosition: { left: number; top: number } | null;
 };
 type OwnProps = {
+  // eslint-disable-next-line no-unused-vars
   onClickApplySharedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 type CatalogKeymapToolbarProps = OwnProps &

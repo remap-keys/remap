@@ -12,8 +12,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
-import { IKeymap } from '../../../services/hid/Hid';
-import { KeycodeList } from '../../../services/hid/KeycodeList';
 
 type PopoverPosition = {
   left: number;
@@ -24,6 +22,7 @@ type OwnProps = {
   open: boolean;
   position: PopoverPosition | null;
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
   onClickApplySharedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
 };
 
