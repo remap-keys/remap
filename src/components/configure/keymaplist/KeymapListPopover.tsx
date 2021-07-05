@@ -26,7 +26,7 @@ import {
 } from '../../../services/storage/Storage';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
-import AuthProviderDialog from '../auth/AuthProviderDialog.container';
+import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { SupervisorAccount } from '@material-ui/icons';
 
