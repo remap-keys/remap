@@ -64,6 +64,12 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
   }
 
   componentDidMount() {
+    if (this.props.auth) {
+      this.props.auth.subscribeAuthStatus((user) => {
+        this.props.updateSignedIn!(!!user);
+      });
+    }
+
     this.updateNotifications();
     if (this.props.catalogDetailMode === 'introduction') {
       const definitionId = this.props.match.params.definitionId;

@@ -2,6 +2,7 @@ import {
   ICatalogPhase,
   IConditionNotSelected,
   IKeyboardFeatures,
+  KeyboardsPhase,
   RootState,
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
@@ -89,6 +90,7 @@ type ActionTypes = ReturnType<
   | typeof CatalogKeyboardActions[keyof typeof CatalogKeyboardActions]
   | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
   | typeof NotificationActions[keyof typeof NotificationActions]
+  | typeof AppActions[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -147,5 +149,13 @@ export const catalogActionsThunk = {
       dispatch(NotificationActions.addError(result.error!, result.cause));
       history.replaceState(null, 'Remap', `/catalog/${definitionId}/keymap`);
     }
+  },
+  logout: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { auth } = getState();
+    dispatch(AppActions.updateSignedIn(false));
+    await auth.instance!.signOut();
   },
 };
