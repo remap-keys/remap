@@ -808,6 +808,7 @@ export const storageActionsThunk = {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
     }
+    history.replaceState(null, 'Remap', '/catalog');
     dispatch(CatalogAppActions.updatePhase('list'));
   },
 
@@ -830,6 +831,8 @@ export const storageActionsThunk = {
           fetchKeyboardDefinitionResult.cause
         )
       );
+      dispatch(CatalogAppActions.updatePhase('init'));
+      dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
       return;
     }
     if (fetchKeyboardDefinitionResult.exists!) {

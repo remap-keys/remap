@@ -8,7 +8,11 @@ import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { AbstractKeymapData } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
-import { AppActions, LayoutOptionsActions } from './actions';
+import {
+  AppActions,
+  LayoutOptionsActions,
+  NotificationActions,
+} from './actions';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
@@ -84,6 +88,7 @@ export const CatalogKeyboardActions = {
 type ActionTypes = ReturnType<
   | typeof CatalogKeyboardActions[keyof typeof CatalogKeyboardActions]
   | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
+  | typeof NotificationActions[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -124,23 +129,23 @@ export const catalogActionsThunk = {
     dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
   },
-  applySharedKeymap: (keymapId: string): ThunkPromiseAction<void> => async (
+  applySharedKeymap: (
+    definitionId: string,
+    keymapId: string
+  ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     const { storage } = getState();
-    const fetchSharedKeymapResult = await storage.instance!.fetchSharedKeymap(
-      keymapId
-    );
-    if (fetchSharedKeymapResult.success) {
+    const result = await storage.instance!.fetchSharedKeymap(keymapId);
+    if (result.success) {
       dispatch(
-        await catalogActionsThunk.applySharedKeymapData(
-          fetchSharedKeymapResult.sharedKeymap!
-        )
+        await catalogActionsThunk.applySharedKeymapData(result.sharedKeymap!)
       );
     } else {
-      // TODO Error handling.
-      console.error(fetchSharedKeymapResult.error);
+      console.error(result.error);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+      history.replaceState(null, 'Remap', `/catalog/${definitionId}/keymap`);
     }
   },
 };

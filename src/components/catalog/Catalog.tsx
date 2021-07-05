@@ -76,7 +76,7 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
       });
       const keymapId: string = queryParams.id as string;
       if (keymapId) {
-        this.props.applySharedKeymap!(keymapId);
+        this.props.applySharedKeymap!(definitionId, keymapId);
       }
     } else {
       this.props.init!();
