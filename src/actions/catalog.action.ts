@@ -2,7 +2,6 @@ import {
   ICatalogPhase,
   IConditionNotSelected,
   IKeyboardFeatures,
-  KeyboardsPhase,
   RootState,
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
