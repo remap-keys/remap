@@ -34,8 +34,8 @@ const mapDispatchToProps = (_dispatch: any) => {
     init: () => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
-    applySharedKeymap: (keymapId: string) => {
-      _dispatch(catalogActionsThunk.applySharedKeymap(keymapId));
+    applySharedKeymap: (definitionId: string, keymapId: string) => {
+      _dispatch(catalogActionsThunk.applySharedKeymap(definitionId, keymapId));
     },
   };
 };
