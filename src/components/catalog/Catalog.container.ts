@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Catalog from './Catalog';
 import { ICatalogPhase, RootState } from '../../store/state';
-import { NotificationActions } from '../../actions/actions';
+import { AppActions, NotificationActions } from '../../actions/actions';
 import {
   catalogActionsThunk,
   CatalogAppActions,
@@ -12,6 +12,7 @@ import { storageActionsThunk } from '../../actions/storage.action';
 const mapStateToProps = (state: RootState) => {
   return {
     notifications: state.app.notifications,
+    auth: state.auth.instance,
   };
 };
 export type CatalogStateType = ReturnType<typeof mapStateToProps>;
@@ -36,6 +37,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     applySharedKeymap: (definitionId: string, keymapId: string) => {
       _dispatch(catalogActionsThunk.applySharedKeymap(definitionId, keymapId));
+    },
+    updateSignedIn: (signedIn: boolean) => {
+      _dispatch(AppActions.updateSignedIn(signedIn));
     },
   };
 };
