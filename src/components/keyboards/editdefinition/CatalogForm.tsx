@@ -24,6 +24,7 @@ import {
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
+  ALL_KEY_COUNT_TYPE,
   ALL_MCU_TYPE,
   ALL_OLED_TYPE,
   ALL_SPEAKER_TYPE,
@@ -62,6 +63,17 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const hasFeatureValue = (feature: IKeyboardFeatures): boolean => {
     return props.features!.includes(feature);
+  };
+
+  const onChangeKeyCount = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    // eslint-disable-next-line no-unused-vars
+    child: React.ReactNode
+  ): void => {
+    props.updateFeature!(
+      event.target.value as IKeyboardFeatures,
+      ALL_KEY_COUNT_TYPE
+    );
   };
 
   const onChangeKeyboardType = (
@@ -281,6 +293,24 @@ export default function CatalogForm(props: CatalogFormProps) {
                     value={props.description}
                     onChange={onChangeDescription}
                   />
+                </FormControl>
+              </div>
+              <div className="edit-definition-catalog-form-row">
+                <FormControl>
+                  <FormLabel component="legend">Number of Keys</FormLabel>
+                  <Select
+                    value={getFeatureValue(ALL_KEY_COUNT_TYPE)}
+                    onChange={onChangeKeyCount}
+                  >
+                    <MenuItem value="---">---</MenuItem>
+                    <MenuItem value="over_100">Over 100%</MenuItem>
+                    <MenuItem value="100">100%</MenuItem>
+                    <MenuItem value="80">80%</MenuItem>
+                    <MenuItem value="60">60%</MenuItem>
+                    <MenuItem value="40">40%</MenuItem>
+                    <MenuItem value="30">30%</MenuItem>
+                    <MenuItem value="macro">Macro</MenuItem>
+                  </Select>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">

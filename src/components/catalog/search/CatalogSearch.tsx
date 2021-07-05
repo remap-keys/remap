@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
+  ALL_KEY_COUNT_TYPE,
   ALL_KEY_SWITCH_TYPE,
   ALL_LED_TYPE,
   ALL_MCU_TYPE,
@@ -30,6 +31,7 @@ import {
   IConditionNotSelected,
   IKeyboardFeatures,
   IKeyboardHotswapType,
+  IKeyboardKeyCountType,
   IKeyboardKeySwitchType,
   IKeyboardLedType,
   IKeyboardMcuType,
@@ -56,6 +58,18 @@ class CatalogSearch extends React.Component<
 > {
   constructor(props: CatalogSearchProps | Readonly<CatalogSearchProps>) {
     super(props);
+  }
+
+  onChangeKeyCount(
+    event: React.ChangeEvent<{
+      name?: string | undefined;
+      value: unknown;
+    }>
+  ) {
+    const value = event.target.value as
+      | IKeyboardKeyCountType
+      | IConditionNotSelected;
+    this.props.updateFeatures!(value, ALL_KEY_COUNT_TYPE);
   }
 
   onChangeSplitType(
@@ -213,21 +227,27 @@ class CatalogSearch extends React.Component<
                 {/*    </Select>*/}
                 {/*  </FormControl>*/}
                 {/*</div>*/}
-                {/*<div className="catalog-search-condition">*/}
-                {/*  <FormControl fullWidth={true}>*/}
-                {/*    <InputLabel id="catalog-search-key-count">*/}
-                {/*      Key Count*/}
-                {/*    </InputLabel>*/}
-                {/*    <Select labelId="catalog-search-key-count" value={0}>*/}
-                {/*      <MenuItem>100% or more</MenuItem>*/}
-                {/*      <MenuItem>80%</MenuItem>*/}
-                {/*      <MenuItem>60%</MenuItem>*/}
-                {/*      <MenuItem value={0}>40%</MenuItem>*/}
-                {/*      <MenuItem>30%</MenuItem>*/}
-                {/*      <MenuItem>Macro (less than 30%)</MenuItem>*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*</div>*/}
+                <div className="catalog-search-condition">
+                  <FormControl fullWidth={true}>
+                    <InputLabel id="catalog-search-key-count">
+                      Number of Keys
+                    </InputLabel>
+                    <Select
+                      labelId="catalog-search-key-count"
+                      value={getFeatureValue(ALL_KEY_COUNT_TYPE)}
+                      onChange={this.onChangeKeyCount.bind(this)}
+                    >
+                      <MenuItem value="---">---</MenuItem>
+                      <MenuItem value="over_100">Over 100%</MenuItem>
+                      <MenuItem value="100">100%</MenuItem>
+                      <MenuItem value="80">80%</MenuItem>
+                      <MenuItem value="60">60%</MenuItem>
+                      <MenuItem value="40">40%</MenuItem>
+                      <MenuItem value="30">30%</MenuItem>
+                      <MenuItem value="macro">Macro</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
                 <div className="catalog-search-condition">
                   <FormControl fullWidth={true}>
                     <InputLabel id="catalog-search-split">
