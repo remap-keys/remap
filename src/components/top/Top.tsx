@@ -101,15 +101,6 @@ class Top extends React.Component<RouteComponentProps, any> {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={this.onClickKeyboardCatalog}
-                    >
-                      Keyboard Catalog
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      variant="contained"
-                      color="primary"
                       onClick={this.onClickStartRemap}
                     >
                       Start Remap for your keyboard
@@ -122,6 +113,17 @@ class Top extends React.Component<RouteComponentProps, any> {
                       onClick={this.onClickManageKeyboardDefinitions}
                     >
                       Register/Manage Keyboard Definitions
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={this.onClickKeyboardCatalog}
+                    >
+                      Keyboard Catalog
                     </Button>
                   </Grid>
                 </Grid>
