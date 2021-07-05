@@ -72,6 +72,18 @@ export const FirmwareCodePlace: { [p: string]: IFirmwareCodePlace } = {
   other: 'other',
 };
 
+export const ALL_KEY_COUNT_TYPE = [
+  'over_100',
+  '100',
+  '80',
+  '60',
+  '40',
+  '30',
+  'macro',
+] as const;
+type keyCountTuple = typeof ALL_KEY_COUNT_TYPE;
+export type IKeyboardKeyCountType = keyCountTuple[number];
+
 export const ALL_SPLIT_TYPE = ['split', 'integrated'] as const;
 type splitTuple = typeof ALL_SPLIT_TYPE;
 export type IKeyboardSplitType = splitTuple[number];
@@ -124,6 +136,7 @@ export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
 
 export type IKeyboardFeatures =
+  | IKeyboardKeyCountType
   | IKeyboardSplitType
   | IKeyboardStaggeredType
   | IKeyboardLedType

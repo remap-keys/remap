@@ -18,6 +18,34 @@ import { getGitHubUserName } from '../../../services/storage/Storage';
 import { IKeyboardFeatures } from '../../../store/state';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
+  over_100: {
+    label: 'Over 100%',
+    description: 'This keyboard has over 101 keys.',
+  },
+  '100': {
+    label: '100%',
+    description: 'This keyboard has about 100 keys.',
+  },
+  '80': {
+    label: '80%',
+    description: 'This keyboard has about 80 keys.',
+  },
+  '60': {
+    label: '60%',
+    description: 'This keyboard has about 60 keys.',
+  },
+  '40': {
+    label: '40%',
+    description: 'This keyboard has about 40 keys.',
+  },
+  '30': {
+    label: '30%',
+    description: 'This keyboard has about 30 keys.',
+  },
+  macro: {
+    label: 'Macro',
+    description: 'This keyboard has less than 30 keys.',
+  },
   split: {
     label: 'Split',
     description: 'This keyboard is divided for a left hand and a right hand.',
