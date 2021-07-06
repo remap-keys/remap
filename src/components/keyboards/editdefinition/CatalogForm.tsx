@@ -228,6 +228,11 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.updateStores!(filtered);
   };
 
+  const onChangeWebsiteUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const websiteUrl = event.target.value;
+    props.updateWebsiteUrl!(websiteUrl);
+  };
+
   return (
     <div className="edit-definition-catalog-form-container">
       <div className="edit-definition-catalog-form">
@@ -292,6 +297,16 @@ export default function CatalogForm(props: CatalogFormProps) {
                     variant="outlined"
                     value={props.description}
                     onChange={onChangeDescription}
+                  />
+                </FormControl>
+              </div>
+              <div className="edit-definition-catalog-form-row">
+                <FormControl>
+                  <TextField
+                    label="Keyboard Website URL"
+                    variant="outlined"
+                    value={props.websiteUrl}
+                    onChange={onChangeWebsiteUrl}
                   />
                 </FormControl>
               </div>

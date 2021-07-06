@@ -17,6 +17,7 @@ const mapStateToProps = (state: RootState) => {
     uploading: state.keyboards.editdefinition.uploading,
     description: state.keyboards.editdefinition.description,
     stores: state.keyboards.editdefinition.stores,
+    websiteUrl: state.keyboards.editdefinition.websiteUrl,
   };
 };
 export type CatalogFormStateType = ReturnType<typeof mapStateToProps>;
@@ -45,6 +46,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateStores: (stores: IStore[]) => {
       _dispatch(KeyboardsEditDefinitionActions.updateStores(stores));
       _dispatch(storageActionsThunk.updateKeyboardDefinitionForCatalog());
+    },
+    updateWebsiteUrl: (websiteUrl: string) => {
+      _dispatch(KeyboardsEditDefinitionActions.updateWebsiteUrl(websiteUrl));
     },
   };
 };

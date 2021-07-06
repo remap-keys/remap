@@ -90,6 +90,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       imageUrl: documentSnapshot.data()!.image_url,
       description: documentSnapshot.data()!.description || '',
       stores: documentSnapshot.data()!.stores || [],
+      websiteUrl: documentSnapshot.data()!.website_url || '',
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -285,7 +286,8 @@ export class FirebaseProvider implements IStorage, IAuth {
     definitionId: string,
     features: IKeyboardFeatures[],
     description: string,
-    stores: IStore[]
+    stores: IStore[],
+    websiteUrl: string
   ): Promise<IResult> {
     try {
       const now = new Date();
@@ -299,6 +301,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           features,
           description,
           stores,
+          website_url: websiteUrl,
         });
       return {
         success: true,

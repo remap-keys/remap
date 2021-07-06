@@ -115,6 +115,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADED_RATE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -282,6 +283,9 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES:
       draft.keyboards.editdefinition.stores = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL:
+      draft.keyboards.editdefinition.websiteUrl = action.value;
       break;
   }
 };
