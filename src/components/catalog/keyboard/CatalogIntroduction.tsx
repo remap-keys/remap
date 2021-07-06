@@ -5,6 +5,7 @@ import {
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
 import {
+  Avatar,
   Button,
   Chip,
   Grid,
@@ -14,7 +15,10 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { getGitHubUserName } from '../../../services/storage/Storage';
+import {
+  getGitHubUserDisplayName,
+  getGitHubUserName,
+} from '../../../services/storage/Storage';
 import { IKeyboardFeatures } from '../../../store/state';
 import { Home } from '@material-ui/icons';
 
@@ -260,21 +264,49 @@ export default class CatalogIntroduction extends React.Component<
                     </Typography>
                     <Typography variant="subtitle1">
                       designed by{' '}
-                      {getGitHubUserName(this.props.definitionDocument!)}
-                    </Typography>
-                  </div>
-                  {this.props.definitionDocument!.websiteUrl ? (
-                    <div className="catalog-introduction-header-home">
                       <a
-                        href={this.props.definitionDocument!.websiteUrl}
+                        href={this.props.definitionDocument!.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        title="Keyboard Website"
+                        title="Keyboard Owner GitHub Account"
                       >
-                        <Home htmlColor="white" />
+                        {getGitHubUserDisplayName(
+                          this.props.definitionDocument!
+                        )}
+                      </a>
+                    </Typography>
+                  </div>
+                  <div className="catalog-introduction-header-links">
+                    <div className="catalog-introduction-header-github">
+                      <a
+                        href={this.props.definitionDocument!.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Keyboard Owner GitHub Account"
+                      >
+                        <Avatar
+                          alt={getGitHubUserDisplayName(
+                            this.props.definitionDocument!
+                          )}
+                          src={`https://avatars.githubusercontent.com/${getGitHubUserName(
+                            this.props.definitionDocument!
+                          )}`}
+                        />
                       </a>
                     </div>
-                  ) : null}
+                    {this.props.definitionDocument!.websiteUrl ? (
+                      <div className="catalog-introduction-header-home">
+                        <a
+                          href={this.props.definitionDocument!.websiteUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="Keyboard Website"
+                        >
+                          <Home htmlColor="white" fontSize="large" />
+                        </a>
+                      </div>
+                    ) : null}
+                  </div>
                 </header>
                 <section className="catalog-introduction-section">
                   <Typography variant="body1">{descriptionNodeList}</Typography>

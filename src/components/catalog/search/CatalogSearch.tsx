@@ -41,7 +41,7 @@ import {
   IKeyboardStaggeredType,
 } from '../../../store/state';
 import {
-  getGitHubUserName,
+  getGitHubUserDisplayName,
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
@@ -471,7 +471,7 @@ function KeyboardCard(props: KeyboardCardProps) {
                 {props.definition.name}
               </h2>
               <Typography variant="caption">
-                {getGitHubUserName(props.definition)}
+                {getGitHubUserDisplayName(props.definition)}
               </Typography>
             </div>
           </div>
