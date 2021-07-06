@@ -143,6 +143,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADED_RATE = `${KEYBOARDS_EDIT_
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateUploading`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateDescription`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateStores`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateWebsiteUrl`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -271,6 +272,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES,
       value: stores,
+    };
+  },
+  updateWebsiteUrl: (websiteUrl: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
+      value: websiteUrl,
     };
   },
 };

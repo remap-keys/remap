@@ -255,6 +255,7 @@ export type RootState = {
       uploading: boolean;
       description: string;
       stores: IStore[];
+      websiteUrl: string;
     };
   };
   catalog: {
@@ -405,6 +406,7 @@ export const INIT_STATE: RootState = {
       uploading: false,
       description: '',
       stores: [],
+      websiteUrl: '',
     },
   },
   catalog: {

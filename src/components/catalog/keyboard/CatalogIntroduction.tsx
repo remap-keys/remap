@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import { getGitHubUserName } from '../../../services/storage/Storage';
 import { IKeyboardFeatures } from '../../../store/state';
+import { Home } from '@material-ui/icons';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -253,13 +254,27 @@ export default class CatalogIntroduction extends React.Component<
               </Grid>
               <Grid item sm={6} className="catalog-introduction-column">
                 <header className="catalog-introduction-header">
-                  <Typography variant="h1">
-                    {this.props.definitionDocument!.name}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    designed by{' '}
-                    {getGitHubUserName(this.props.definitionDocument!)}
-                  </Typography>
+                  <div className="catalog-introduction-header-title">
+                    <Typography variant="h1">
+                      {this.props.definitionDocument!.name}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      designed by{' '}
+                      {getGitHubUserName(this.props.definitionDocument!)}
+                    </Typography>
+                  </div>
+                  {this.props.definitionDocument!.websiteUrl ? (
+                    <div className="catalog-introduction-header-home">
+                      <a
+                        href={this.props.definitionDocument!.websiteUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Keyboard Website"
+                      >
+                        <Home htmlColor="white" />
+                      </a>
+                    </div>
+                  ) : null}
                 </header>
                 <section className="catalog-introduction-section">
                   <Typography variant="body1">{descriptionNodeList}</Typography>

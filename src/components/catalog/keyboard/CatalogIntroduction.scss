@@ -42,10 +42,23 @@
     color: white;
     padding: 16px;
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
 
     & h1 {
       font-size: 32px;
       font-weight: bold;
+    }
+
+    &-home {
+      margin-left: auto;
     }
   }
 
