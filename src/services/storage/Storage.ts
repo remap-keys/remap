@@ -57,7 +57,7 @@ export interface IKeyboardDefinitionDocument {
   readonly updatedAt: Date;
 }
 
-export function getGitHubUserName(
+export function getGitHubUserDisplayName(
   definitionDocument: IKeyboardDefinitionDocument
 ): string {
   return (
@@ -65,6 +65,14 @@ export function getGitHubUserName(
     definitionDocument.githubUrl.substring(
       definitionDocument.githubUrl.lastIndexOf('/') + 1
     )
+  );
+}
+
+export function getGitHubUserName(
+  definitionDocument: IKeyboardDefinitionDocument
+): string {
+  return definitionDocument.githubUrl.substring(
+    definitionDocument.githubUrl.lastIndexOf('/') + 1
   );
 }
 

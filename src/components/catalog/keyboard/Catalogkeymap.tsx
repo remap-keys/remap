@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 import {
   AbstractKeymapData,
-  getGitHubUserName,
+  getGitHubUserDisplayName,
 } from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
@@ -129,7 +129,7 @@ export default class CatalogKeymap extends React.Component<
               <div>
                 <Typography variant="subtitle1">
                   designed by{' '}
-                  {getGitHubUserName(this.props.definitionDocument!)}
+                  {getGitHubUserDisplayName(this.props.definitionDocument!)}
                 </Typography>
               </div>
             </CardContent>
