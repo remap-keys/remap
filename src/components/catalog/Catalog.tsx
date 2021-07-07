@@ -85,6 +85,10 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
         this.props.applySharedKeymap!(definitionId, keymapId);
       }
     } else {
+      const queryParams = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      this.props.updateSearchCondition!(queryParams);
       this.props.init!();
     }
   }

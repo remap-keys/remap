@@ -32,6 +32,7 @@ import { getGitHubProviderData } from '../services/auth/Auth';
 import { IDeviceInformation } from '../services/hid/Hid';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { CatalogAppActions } from './catalog.action';
+import * as qs from 'qs';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -813,7 +814,14 @@ export const storageActionsThunk = {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
     }
-    history.replaceState(null, 'Remap', '/catalog');
+    const query: { [p: string]: string | string[] } = {};
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    if (features && features.length > 0) {
+      query.features = features.join(',');
+    }
+    history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
     dispatch(CatalogAppActions.updatePhase('list'));
   },
 
