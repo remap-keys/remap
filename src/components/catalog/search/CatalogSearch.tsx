@@ -216,17 +216,6 @@ class CatalogSearch extends React.Component<
                     onKeyDown={this.onKeyDownKeyword.bind(this)}
                   />
                 </div>
-                {/*<div className="catalog-search-condition">*/}
-                {/*  <FormControl fullWidth={true}>*/}
-                {/*    <InputLabel id="catalog-search-designer">*/}
-                {/*      Keyboard Designer*/}
-                {/*    </InputLabel>*/}
-                {/*    <Select labelId="catalog-search-designer" value={0}>*/}
-                {/*      <MenuItem value={0}>Yoichiro Tanaka</MenuItem>*/}
-                {/*      <MenuItem>Salicylic-acid3</MenuItem>*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*</div>*/}
                 <div className="catalog-search-condition">
                   <FormControl fullWidth={true}>
                     <InputLabel id="catalog-search-key-count">
