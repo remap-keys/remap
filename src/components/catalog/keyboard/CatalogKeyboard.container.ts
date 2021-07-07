@@ -6,6 +6,7 @@ import CatalogKeyboard from './CatalogKeyboard';
 const mapStateToProps = (state: RootState) => {
   return {
     phase: state.catalog.app.phase,
+    definitionDocument: state.entities.keyboardDefinitionDocument,
   };
 };
 export type CatalogKeyboardStateType = ReturnType<typeof mapStateToProps>;
