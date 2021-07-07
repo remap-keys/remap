@@ -45,6 +45,7 @@ import {
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
+import appPackage from '../../../package.alias.json';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -58,6 +59,14 @@ class CatalogSearch extends React.Component<
 > {
   constructor(props: CatalogSearchProps | Readonly<CatalogSearchProps>) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.updateTitle();
+  }
+
+  private updateTitle() {
+    document.title = appPackage.name;
   }
 
   onChangeKeyCount(

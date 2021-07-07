@@ -12,6 +12,7 @@ type OwnProps = {};
 type CatalogKeyboardProps = OwnProps &
   Partial<CatalogKeyboardActionsType> &
   Partial<CatalogKeyboardStateType>;
+import appPackage from '../../../package.alias.json';
 
 export default class CatalogKeyboard extends React.Component<
   CatalogKeyboardProps,
@@ -19,6 +20,18 @@ export default class CatalogKeyboard extends React.Component<
 > {
   constructor(props: CatalogKeyboardProps | Readonly<CatalogKeyboardProps>) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.updateTitle();
+  }
+
+  private updateTitle() {
+    if (this.props.definitionDocument) {
+      document.title = `${this.props.definitionDocument.name} - ${appPackage.name}`;
+    } else {
+      document.title = appPackage.name;
+    }
   }
 
   render() {
