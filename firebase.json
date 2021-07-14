@@ -5,6 +5,10 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "/sitemap.xml",
+        "function": "sitemap"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
