@@ -179,8 +179,8 @@ class Top extends React.Component<RouteComponentProps, any> {
               <FeatureCard
                 key={9}
                 image={textMatrix}
-                imageTitle="Text Matrix"
-                title="Text Matrix"
+                imageTitle="Test Matrix"
+                title="Test Matrix"
                 description="Allows you to test key switches work normally after building your keyboard."
               />
             </Grid>
