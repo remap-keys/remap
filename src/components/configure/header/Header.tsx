@@ -138,7 +138,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           >
             <div className="kbd-select">
               <div className="kbd-name" onClick={this.onClickDevice.bind(this)}>
-                <h2>{this.props.productName}</h2>
+                <h2 title={this.props.productName}>{this.props.productName}</h2>
                 <div className="ids">
                   VID: {hexadecimal(this.props.vendorId!, 4)} / PID:{' '}
                   {hexadecimal(this.props.productId!, 4)}
