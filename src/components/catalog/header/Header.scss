@@ -12,11 +12,25 @@
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
-  justify-content: center;
+  justify-content: space-between;
+
+  &-logo-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & div:first-child {
+      margin-left: 8px;
+    }
+  }
+
+  &-logo {
+    //margin-left: 8px;
+  }
 
   &-menu-button {
-    position: fixed;
-    right: 16px;
+    //position: fixed;
+    //right: 16px;
     cursor: pointer;
   }
 }
