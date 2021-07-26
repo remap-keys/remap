@@ -60,6 +60,7 @@ export const CATALOG_KEYBOARD_ACTIONS = `@CatalogKeyboard`;
 export const CATALOG_KEYBOARD_UPDATE_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/UpdateKeymaps`;
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedLayer`;
 export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
+export const CATALOG_KEYBOARD_CLEAR_KEYMAP = `${CATALOG_KEYBOARD_ACTIONS}/ClearKeymap`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -81,6 +82,11 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
       value: langLabel,
+    };
+  },
+  clearKeymap: () => {
+    return {
+      type: CATALOG_KEYBOARD_CLEAR_KEYMAP,
     };
   },
 };

@@ -5,7 +5,8 @@ import {
   LayoutOptionPopoverActionsType,
   LayoutOptionPopoverStateType,
 } from './LayoutOptionPopover.container';
-import { Grid, MenuItem, Popover, Select, Switch } from '@material-ui/core';
+import { Grid, Popover } from '@material-ui/core';
+import LayoutOptionComponentList from './LayoutOptionComponentList.container';
 
 type PopoverPosition = {
   left: number;
@@ -53,14 +54,6 @@ export default class LayoutOptionPopover extends React.Component<
     return { left: left, top: y };
   }
 
-  private getSelectedOptionChoice(option: number): number {
-    const layoutOption = this.props.selectedLayoutOptions!.find((options) => {
-      return options.option === option;
-    });
-
-    return layoutOption ? layoutOption.optionChoice : 0;
-  }
-
   render() {
     if (
       !this.props.position ||
@@ -70,7 +63,6 @@ export default class LayoutOptionPopover extends React.Component<
       return <></>;
     }
 
-    const labels = this.props.keyboardLayoutOptions!;
     return (
       <Popover
         open={this.props.open}
@@ -91,105 +83,9 @@ export default class LayoutOptionPopover extends React.Component<
               <h2>Layout Option</h2>
             </Grid>
           </Grid>
-          <Grid container spacing={1} className="layout-option-content">
-            {labels.map((options, index) => {
-              if (typeof options == 'string') {
-                return (
-                  <OptionRowSwitchComponent
-                    key={`layout-option-row${index}`}
-                    optionLabel={options}
-                    selectedOptionChoice={this.getSelectedOptionChoice(index)}
-                    onChange={(choice: number) => {
-                      this.props.setLayoutOption!(
-                        index,
-                        choice,
-                        this.props.hidSupport
-                      );
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <OptionRowSelectComponent
-                    key={`layout-option-row${index}`}
-                    optionLabels={options}
-                    selectedOptionChoice={this.getSelectedOptionChoice(index)}
-                    onChange={(choice: number) => {
-                      this.props.setLayoutOption!(
-                        index,
-                        choice,
-                        this.props.hidSupport
-                      );
-                    }}
-                  />
-                );
-              }
-            })}
-          </Grid>
+          <LayoutOptionComponentList hidSupport={this.props.hidSupport} />
         </div>
       </Popover>
     );
   }
-}
-
-type OptionRowSwitchType = {
-  optionLabel: string;
-  selectedOptionChoice: number;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (optionChoice: number) => void;
-};
-function OptionRowSwitchComponent(props: OptionRowSwitchType) {
-  return (
-    <React.Fragment>
-      <Grid item xs={8} className="option-label">
-        {props.optionLabel}
-      </Grid>
-      <Grid item xs={4} className="option-value">
-        <Switch
-          checked={props.selectedOptionChoice === 1}
-          onChange={(e) => {
-            props.onChange(e.target.checked ? 1 : 0);
-          }}
-          color="primary"
-          name="checkedB"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
-        />
-      </Grid>
-    </React.Fragment>
-  );
-}
-
-type OptionRowSelectType = {
-  optionLabels: string[];
-  selectedOptionChoice: number;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (optionChoice: number) => void;
-};
-function OptionRowSelectComponent(props: OptionRowSelectType) {
-  const label = props.optionLabels[0];
-  const choices: string[] = props.optionLabels.slice(1);
-  return (
-    <React.Fragment>
-      <Grid item xs={8} className="option-label">
-        {label}
-      </Grid>
-      <Grid item xs={4} className="option-value">
-        <Select
-          value={props.selectedOptionChoice}
-          onChange={(e) => {
-            props.onChange(Number(e.target.value));
-          }}
-          className="option-value-select"
-        >
-          {choices.map((choice, index) => {
-            return (
-              <MenuItem key={`${label}${index}`} value={index}>
-                {choice}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </Grid>
-    </React.Fragment>
-  );
 }

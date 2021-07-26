@@ -4,6 +4,7 @@ import Header from './Header';
 import {
   catalogActionsThunk,
   CatalogAppActions,
+  CatalogKeyboardActions,
 } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
 import { storageActionsThunk } from '../../../actions/storage.action';
@@ -35,6 +36,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
     goToKeymap: () => {
+      _dispatch(CatalogKeyboardActions.clearKeymap());
       _dispatch(CatalogAppActions.updatePhase('keymap'));
     },
     goToIntroduction: () => {

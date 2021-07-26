@@ -123,6 +123,7 @@ import {
   CATALOG_APP_ACTIONS,
   CATALOG_APP_UPDATE_PHASE,
   CATALOG_KEYBOARD_ACTIONS,
+  CATALOG_KEYBOARD_CLEAR_KEYMAP,
   CATALOG_KEYBOARD_UPDATE_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
   CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
@@ -785,6 +786,11 @@ const catalogKeyboardReducer = (
       break;
     case CATALOG_KEYBOARD_UPDATE_LANG_LABEL:
       draft.catalog.keyboard.langLabel = action.value;
+      break;
+    case CATALOG_KEYBOARD_CLEAR_KEYMAP:
+      draft.catalog.keyboard.keymaps = [];
+      draft.catalog.keyboard.selectedLayer = 0;
+      draft.catalog.keyboard.langLabel = 'en-us';
       break;
   }
 };

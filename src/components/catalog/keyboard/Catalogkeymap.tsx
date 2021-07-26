@@ -9,21 +9,12 @@ import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import Keycap from '../../configure/keycap/Keycap.container';
-import {
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  Tab,
-  Tabs,
-  Typography,
-} from '@material-ui/core';
-import {
-  AbstractKeymapData,
-  getGitHubUserDisplayName,
-} from '../../../services/storage/Storage';
+import { Chip, Grid, Paper, Typography } from '@material-ui/core';
+import { AbstractKeymapData } from '../../../services/storage/Storage';
 import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
+import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
+import LayoutOptionComponentList from '../../configure/layoutoption/LayoutOptionComponentList.container';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -43,17 +34,6 @@ export default class CatalogKeymap extends React.Component<
 > {
   constructor(props: CatalogKeymapProps | Readonly<CatalogKeymapProps>) {
     super(props);
-  }
-
-  onChangeTab(event: React.ChangeEvent<{}>, value: number) {
-    if (value === 0) {
-      history.pushState(
-        null,
-        'Remap',
-        `/catalog/${this.props.definitionDocument!.id}`
-      );
-      this.props.goToIntroduction!();
-    }
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -108,33 +88,28 @@ export default class CatalogKeymap extends React.Component<
     return (
       <div className="catalog-keymap-container-wrapper">
         <div className="catalog-keymap-container">
-          <Tabs
-            variant="fullWidth"
-            centered
-            value={1}
-            indicatorColor="primary"
-            className="catalog-keymap-tabs"
-            onChange={this.onChangeTab.bind(this)}
-          >
-            <Tab label="Introduction" />
-            <Tab label="Keymap" />
-          </Tabs>
-          <Card className="catalog-keymap-header" variant="outlined">
-            <CardContent className="catalog-keymap-header-row">
-              <div>
-                <Typography variant="h1">
-                  {this.props.definitionDocument!.name}
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="subtitle1">
-                  designed by{' '}
-                  {getGitHubUserDisplayName(this.props.definitionDocument!)}
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
+          <CatalogKeyboardHeader
+            definitionDocument={this.props.definitionDocument!}
+          />
           <div className="catalog-keymap-wrapper">
+            {this.props.keymaps!.length > 0 ? (
+              <div className="catalog-keymap-option-container">
+                <div className="catalog-keymap-option-lang">
+                  <Typography variant="subtitle1">
+                    {
+                      KeyLabelLangs.KeyLabelLangMenus.find(
+                        (m) => m.labelLang === this.props.langLabel
+                      )!.menuLabel
+                    }
+                  </Typography>
+                </div>
+                <Layer
+                  layerCount={this.props.keymaps!.length}
+                  selectedLayer={this.props.selectedLayer!}
+                  onClickLayer={this.props.updateSelectedLayer!}
+                />
+              </div>
+            ) : null}
             <div
               className="catalog-keymap-keyboards"
               style={{ margin: '0 auto' }}
@@ -181,32 +156,21 @@ export default class CatalogKeymap extends React.Component<
               )}
             />
           </div>
-          {this.props.keymaps!.length > 0 ? (
-            <div className="catalog-keymap-option-container">
-              <div className="catalog-keymap-option-lang">
-                <Typography variant="subtitle1">
-                  {
-                    KeyLabelLangs.KeyLabelLangMenus.find(
-                      (m) => m.labelLang === this.props.langLabel
-                    )!.menuLabel
-                  }
-                </Typography>
-              </div>
-              <Layer
-                layerCount={this.props.keymaps!.length}
-                selectedLayer={this.props.selectedLayer!}
-                onClickLayer={this.props.updateSelectedLayer!}
-              />
-            </div>
-          ) : null}
-          <div className="catalog-keymap-nav">
-            <Button
-              style={{ marginRight: '16px' }}
-              onClick={this.onClickBackButton.bind(this)}
-            >
-              &lt; Back to Search
-            </Button>
-          </div>
+          <Paper elevation={0} className="catalog-keymap-content">
+            <Grid container>
+              <Grid item sm={6} className="catalog-keymap-column">
+                <div className="catalog-keymap-section">
+                  <h2>Layout Options</h2>
+                  <LayoutOptionComponentList hidSupport={false} />
+                </div>
+              </Grid>
+              <Grid item sm={6} className="catalog-keymap-column">
+                <div className="catalog-keymap-section">
+                  <h2>Shared Keymaps</h2>
+                </div>
+              </Grid>
+            </Grid>
+          </Paper>
         </div>
       </div>
     );
