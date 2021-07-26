@@ -1,5 +1,4 @@
 @import '../../../variables';
-@import '../../../variables';
 
 .catalog-introduction {
   &-wrapper {
@@ -20,66 +19,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  &-nav {
-    width: 100%;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-
-  &-tabs {
-    width: 100%;
-    margin-bottom: 16px;
+    padding-top: 8px;
   }
 
   &-content {
     width: 100%;
-  }
-
-  &-header {
-    background-color: $primary;
-    color: white;
-    padding: 16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    &-title {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-
-      & a {
-        color: white;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-
-    & h1 {
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-    &-links {
-      margin-left: auto;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      &-github {
-        margin-left: auto;
-      }
-
-      &-home {
-        margin-left: auto;
-      }
-    }
   }
 
   &-column {
@@ -108,7 +52,7 @@
   }
 
   &-section {
-    margin: 16px 8px 8px 8px;
+    margin: 8px;
 
     & h2 {
       font-size: 22px;
