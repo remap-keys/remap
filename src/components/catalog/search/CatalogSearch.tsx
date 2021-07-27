@@ -46,6 +46,7 @@ import {
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
 import appPackage from '../../../package.alias.json';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -192,6 +193,7 @@ class CatalogSearch extends React.Component<
   }
 
   onClickClear() {
+    sendEventToGoogleAnalytics('catalog/clear_search_condition');
     this.props.resetSearchConditions!();
   }
 
@@ -450,6 +452,7 @@ type KeyboardCardProps = {
 
 function KeyboardCard(props: KeyboardCardProps) {
   const onClickCard = () => {
+    sendEventToGoogleAnalytics('catalog/open_from_search');
     location.href = `/catalog/${props.definition.id}`;
   };
 

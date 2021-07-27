@@ -780,6 +780,7 @@ export const storageActionsThunk = {
     // eslint-disable-next-line no-unused-vars
     getState: () => RootState
   ) => {
+    sendEventToGoogleAnalytics('catalog/search');
     dispatch(CatalogAppActions.updatePhase('processing'));
     const { catalog, storage } = getState();
     const features = catalog.search.features;

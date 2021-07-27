@@ -25,6 +25,7 @@ import CatalogKeymapList from './CatalogKeymapList.container';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 import { genKey, Key } from '../../configure/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -53,6 +54,7 @@ export default class CatalogKeymap extends React.Component<
   }
 
   onClickApplySharedKeymapData(savedKeymapData: AbstractKeymapData) {
+    sendEventToGoogleAnalytics('catalog/apply_keymap');
     this.props.applySharedKeymapData!(savedKeymapData);
     history.pushState(
       null,
@@ -84,11 +86,7 @@ export default class CatalogKeymap extends React.Component<
       this.props.langLabel!
     );
 
-    // sendEventToGoogleAnalytics('configure/cheat_sheet', {
-    //   vendor_id: this.props.keyboard!.getInformation().vendorId,
-    //   product_id: this.props.keyboard!.getInformation().productId,
-    //   product_name: this.props.keyboard!.getInformation().productName,
-    // });
+    sendEventToGoogleAnalytics('catalog/cheat_sheet');
 
     pdf.genPdf(productName, this.props.selectedKeyboardOptions!).catch((e) => {
       console.error(e);

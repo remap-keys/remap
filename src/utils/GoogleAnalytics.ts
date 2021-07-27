@@ -9,7 +9,15 @@ type IActionName =
   | 'configure/lighting'
   | 'configure/import_local_file'
   | 'configure/save_keymap'
-  | 'configure/restore_keymap';
+  | 'configure/restore_keymap'
+  | 'catalog/search'
+  | 'catalog/clear_search_condition'
+  | 'catalog/open_from_search'
+  | 'catalog/back_to_search'
+  | 'catalog/introduction'
+  | 'catalog/keymap'
+  | 'catalog/apply_keymap'
+  | 'catalog/cheat_sheet';
 
 interface IActionOptions {
   vendor_id?: string | number;

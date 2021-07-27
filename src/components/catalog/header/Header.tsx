@@ -8,6 +8,7 @@ import { IconButton, Tab, Tabs } from '@material-ui/core';
 import { ArrowBackIos } from '@material-ui/icons';
 import { ICatalogPhase } from '../../../store/state';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type HeaderState = {};
 type OwnProps = {};
@@ -22,6 +23,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
   // eslint-disable-next-line no-unused-vars
   onClickBackButton(event: SyntheticEvent) {
+    sendEventToGoogleAnalytics('catalog/back_to_search');
     this.props.goToSearch!();
   }
 
@@ -84,9 +86,11 @@ const CategoryKeyboardNav: React.FC<CategoryKeyboardNavProps> = ({
 }) => {
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
     if (value === 0) {
+      sendEventToGoogleAnalytics('catalog/introduction');
       history.pushState(null, 'Remap', `/catalog/${definitionDocument.id}`);
       goToIntroduction();
     } else if (value === 1) {
+      sendEventToGoogleAnalytics('catalog/keymap');
       history.pushState(
         null,
         'Remap',
