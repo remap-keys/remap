@@ -126,6 +126,7 @@ import {
   CATALOG_KEYBOARD_CLEAR_KEYMAP,
   CATALOG_KEYBOARD_UPDATE_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
+  CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
   CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
@@ -791,6 +792,10 @@ const catalogKeyboardReducer = (
       draft.catalog.keyboard.keymaps = [];
       draft.catalog.keyboard.selectedLayer = 0;
       draft.catalog.keyboard.langLabel = 'en-us';
+      draft.catalog.keyboard.selectedKeymapData = null;
+      break;
+    case CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA:
+      draft.catalog.keyboard.selectedKeymapData = action.value;
       break;
   }
 };

@@ -1,0 +1,17 @@
+@import '../../../variables';
+
+.catalog-keymap-list {
+  &-wrapper {
+    width: 100%;
+  }
+
+  &-container {
+    width: 100%;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+
+  &-row-selected {
+    background-color: $primary !important;
+  }
+}

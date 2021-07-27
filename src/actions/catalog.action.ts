@@ -61,6 +61,7 @@ export const CATALOG_KEYBOARD_UPDATE_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/Upda
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedLayer`;
 export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
 export const CATALOG_KEYBOARD_CLEAR_KEYMAP = `${CATALOG_KEYBOARD_ACTIONS}/ClearKeymap`;
+export const CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedKeymapData`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -87,6 +88,12 @@ export const CatalogKeyboardActions = {
   clearKeymap: () => {
     return {
       type: CATALOG_KEYBOARD_CLEAR_KEYMAP,
+    };
+  },
+  updateSelectedKeymapData: (selectedKeymapData: AbstractKeymapData) => {
+    return {
+      type: CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
+      value: selectedKeymapData,
     };
   },
 };
@@ -135,6 +142,7 @@ export const catalogActionsThunk = {
     dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
     dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
+    dispatch(CatalogKeyboardActions.updateSelectedKeymapData(savedKeymapData));
   },
   applySharedKeymap: (
     definitionId: string,

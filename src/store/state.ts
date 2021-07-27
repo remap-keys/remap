@@ -4,6 +4,7 @@ import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
+  AbstractKeymapData,
   AppliedKeymapData,
   IKeyboardDefinitionDocument,
   IStorage,
@@ -272,6 +273,7 @@ export type RootState = {
       }[];
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
+      selectedKeymapData: AbstractKeymapData | null;
     };
   };
   hid: {
@@ -421,6 +423,7 @@ export const INIT_STATE: RootState = {
       keymaps: [],
       selectedLayer: 0,
       langLabel: 'en-us',
+      selectedKeymapData: null,
     },
   },
   hid: {

@@ -11,10 +11,10 @@ import { MOD_LEFT } from '../../../services/hid/Composition';
 import Keycap from '../../configure/keycap/Keycap.container';
 import { Chip, Grid, Paper, Typography } from '@material-ui/core';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
-import CatalogKeymapToolbar from './CatalogKeymapToolbar.container';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import LayoutOptionComponentList from '../../configure/layoutoption/LayoutOptionComponentList.container';
+import CatalogKeymapList from './CatalogKeymapList.container';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -150,11 +150,6 @@ export default class CatalogKeymap extends React.Component<
                 </div>
               </div>
             </div>
-            <CatalogKeymapToolbar
-              onClickApplySharedKeymapData={this.onClickApplySharedKeymapData.bind(
-                this
-              )}
-            />
           </div>
           <Paper elevation={0} className="catalog-keymap-content">
             <Grid container>
@@ -167,6 +162,11 @@ export default class CatalogKeymap extends React.Component<
               <Grid item sm={6} className="catalog-keymap-column">
                 <div className="catalog-keymap-section">
                   <h2>Shared Keymaps</h2>
+                  <CatalogKeymapList
+                    onClickApplySharedKeymapData={this.onClickApplySharedKeymapData.bind(
+                      this
+                    )}
+                  />
                 </div>
               </Grid>
             </Grid>
