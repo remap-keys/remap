@@ -4,7 +4,6 @@ import {
   ALL_HOTSWAP_TYPE,
   ALL_KEY_SWITCH_TYPE,
   ALL_LED_TYPE,
-  ALL_MCU_TYPE,
   ALL_OLED_TYPE,
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
@@ -14,7 +13,6 @@ import {
   IKeyboardHotswapType,
   IKeyboardKeySwitchType,
   IKeyboardLedType,
-  IKeyboardMcuType,
   IKeyboardOledType,
   IKeyboardSpeakerType,
   IKeyboardSplitType,
@@ -106,14 +104,6 @@ const mapDispatchToProps = (_dispatch: any) => {
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_HOTSWAP_TYPE
-              )
-            );
-          }
-          if (ALL_MCU_TYPE.includes(feature as IKeyboardMcuType)) {
-            _dispatch(
-              CatalogSearchActions.updateFeatures(
-                feature as IKeyboardFeatures,
-                ALL_MCU_TYPE
               )
             );
           }

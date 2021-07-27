@@ -22,7 +22,6 @@ import {
   ALL_KEY_COUNT_TYPE,
   ALL_KEY_SWITCH_TYPE,
   ALL_LED_TYPE,
-  ALL_MCU_TYPE,
   ALL_OLED_TYPE,
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
@@ -34,7 +33,6 @@ import {
   IKeyboardKeyCountType,
   IKeyboardKeySwitchType,
   IKeyboardLedType,
-  IKeyboardMcuType,
   IKeyboardOledType,
   IKeyboardSpeakerType,
   IKeyboardSplitType,
@@ -140,18 +138,6 @@ class CatalogSearch extends React.Component<
       | IKeyboardHotswapType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_HOTSWAP_TYPE);
-  }
-
-  onChangeMcuType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
-    const value = event.target.value as
-      | IKeyboardMcuType
-      | IConditionNotSelected;
-    this.props.updateFeatures!(value, ALL_MCU_TYPE);
   }
 
   onChangeOledType(
@@ -330,30 +316,6 @@ class CatalogSearch extends React.Component<
                     >
                       <MenuItem value="---">---</MenuItem>
                       <MenuItem value="hot_swap">Supported</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="catalog-search-condition">
-                  <FormControl fullWidth={true}>
-                    <InputLabel id="catalog-search-mcu">
-                      Micro Control Unit
-                    </InputLabel>
-                    <Select
-                      labelId="catalog-search-mcu"
-                      value={getFeatureValue(ALL_MCU_TYPE)}
-                      onChange={this.onChangeMcuType.bind(this)}
-                    >
-                      <MenuItem value="---">---</MenuItem>
-                      <MenuItem value="at90usb1286">at90usb1286</MenuItem>
-                      <MenuItem value="at90usb1287">at90usb1287</MenuItem>
-                      <MenuItem value="at90usb646">at90usb646</MenuItem>
-                      <MenuItem value="at90usb647">at90usb647</MenuItem>
-                      <MenuItem value="atmega16u2">atmega16u2</MenuItem>
-                      <MenuItem value="atmega16u4">atmega16u4</MenuItem>
-                      <MenuItem value="atmega328p">atmega328p</MenuItem>
-                      <MenuItem value="atmega32a">atmega32a</MenuItem>
-                      <MenuItem value="atmega32u2">atmega32u2</MenuItem>
-                      <MenuItem value="atmega32u4">atmega32u4</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
