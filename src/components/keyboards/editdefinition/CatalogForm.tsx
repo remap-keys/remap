@@ -29,6 +29,7 @@ import {
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
   ALL_STAGGERED_TYPE,
+  ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IKeyboardFeatures,
 } from '../../../store/state';
@@ -163,6 +164,17 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
       ALL_SPEAKER_TYPE
+    );
+  };
+
+  const onChangeWireless = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    // eslint-disable-next-line no-unused-vars
+    child: React.ReactNode
+  ): void => {
+    props.updateFeature!(
+      event.target.value as IKeyboardFeatures,
+      ALL_WIRELESS_TYPE
     );
   };
 
@@ -436,6 +448,18 @@ export default function CatalogForm(props: CatalogFormProps) {
                   >
                     <MenuItem value="---">---</MenuItem>
                     <MenuItem value="speaker">Supported</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="edit-definition-catalog-form-row">
+                <FormControl>
+                  <FormLabel component="legend">Wireless</FormLabel>
+                  <Select
+                    value={getFeatureValue(ALL_WIRELESS_TYPE)}
+                    onChange={onChangeWireless}
+                  >
+                    <MenuItem value="---">---</MenuItem>
+                    <MenuItem value="wireless">Supported</MenuItem>
                   </Select>
                 </FormControl>
               </div>

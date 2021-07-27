@@ -118,6 +118,10 @@ export const ALL_SPEAKER_TYPE = ['speaker'] as const;
 type speakerTuple = typeof ALL_SPEAKER_TYPE;
 export type IKeyboardSpeakerType = speakerTuple[number];
 
+export const ALL_WIRELESS_TYPE = ['wireless'] as const;
+type wirelessTuple = typeof ALL_WIRELESS_TYPE;
+export type IKeyboardWirelessType = wirelessTuple[number];
+
 export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
 
@@ -129,7 +133,8 @@ export type IKeyboardFeatures =
   | IKeyboardKeySwitchType
   | IKeyboardHotswapType
   | IKeyboardOledType
-  | IKeyboardSpeakerType;
+  | IKeyboardSpeakerType
+  | IKeyboardWirelessType;
 
 export type RootState = {
   entities: {

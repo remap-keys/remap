@@ -26,6 +26,7 @@ import {
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
   ALL_STAGGERED_TYPE,
+  ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IConditionNotSelected,
   IKeyboardFeatures,
@@ -37,6 +38,7 @@ import {
   IKeyboardSpeakerType,
   IKeyboardSplitType,
   IKeyboardStaggeredType,
+  IKeyboardWirelessType,
 } from '../../../store/state';
 import {
   getGitHubUserDisplayName,
@@ -162,6 +164,15 @@ class CatalogSearch extends React.Component<
       | IKeyboardSpeakerType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_SPEAKER_TYPE);
+  }
+
+  onChangeWirelessType(
+    event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
+  ) {
+    const value = event.target.value as
+      | IKeyboardWirelessType
+      | IConditionNotSelected;
+    this.props.updateFeatures!(value, ALL_WIRELESS_TYPE);
   }
 
   onChangeKeyword(event: React.ChangeEvent<HTMLInputElement>) {
@@ -342,6 +353,21 @@ class CatalogSearch extends React.Component<
                     >
                       <MenuItem value="---">---</MenuItem>
                       <MenuItem value="speaker">Supported</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="catalog-search-condition">
+                  <FormControl fullWidth={true}>
+                    <InputLabel id="catalog-search-wireless">
+                      Wireless
+                    </InputLabel>
+                    <Select
+                      labelId="catalog-search-wireless"
+                      value={getFeatureValue(ALL_WIRELESS_TYPE)}
+                      onChange={this.onChangeWirelessType.bind(this)}
+                    >
+                      <MenuItem value="---">---</MenuItem>
+                      <MenuItem value="wireless">Supported</MenuItem>
                     </Select>
                   </FormControl>
                 </div>

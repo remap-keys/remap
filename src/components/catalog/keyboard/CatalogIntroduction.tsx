@@ -97,6 +97,10 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: 'Speaker',
     description: 'This keyboard supports a speaker module.',
   },
+  wireless: {
+    label: 'Wireless',
+    description: 'This keyboard supports a wireless connection.',
+  },
 };
 
 type CatalogIntroductionState = {};
