@@ -18,19 +18,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  &-nav {
-    width: 100%;
-    max-width: 960px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-
-  &-tabs {
-    width: 100%;
-    max-width: 960px;
-    margin-bottom: 16px;
+    padding-top: 8px;
   }
 
   &-header {
@@ -92,28 +80,52 @@
   &-option {
     &-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-top: $space-l;
+      padding-right: $space-l;
     }
 
     &-lang {
-      margin-right: 16px;
+      margin-bottom: 16px;
+    }
+
+    &-pdf {
+      margin-top: 16px;
     }
   }
 
   &-layer {
     &-wrapper {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      min-width: 88px;
+      min-height: 88px;
     }
 
     &-unselected {
       border: 0 !important;
+    }
+  }
+
+  &-content {
+    width: 100%;
+    max-width: 960px;
+    margin-top: 16px;
+  }
+
+  &-column {
+    width: 100%;
+  }
+
+  &-section {
+    margin: 8px;
+
+    & h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 16px;
     }
   }
 }

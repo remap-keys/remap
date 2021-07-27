@@ -1,0 +1,51 @@
+@import '../../../variables';
+
+.catalog-keyboard-header {
+  background-color: $primary;
+  color: white;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  &-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    & a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    & h1 {
+      font-size: 32px;
+      font-weight: bold;
+    }
+  }
+
+  &-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-github {
+      margin-left: 16px;
+    }
+
+    &-home {
+      margin-left: 16px;
+    }
+
+    &-stores {
+      margin-left: 16px;
+    }
+  }
+}

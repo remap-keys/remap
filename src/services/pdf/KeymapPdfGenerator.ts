@@ -61,7 +61,7 @@ export class KeymapPdfGenerator {
     const { keymaps, width, height, left, top } = this.model.getKeymap(options);
     const keyboardHeight = height + this.kbdR * 2;
 
-    const url = './assets/fonts/RictyDiminished-Regular.ttf';
+    const url = '/assets/fonts/RictyDiminished-Regular.ttf';
     const fontBytes = await fetch(url).then((res) => res.arrayBuffer());
     const title = `${name} keymap's cheat sheet (${KeyLabelLangs.getLabelLangMenuLabel(
       this.labelLang

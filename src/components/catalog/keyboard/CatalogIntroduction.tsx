@@ -5,22 +5,15 @@ import {
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
 import {
-  Avatar,
-  Button,
   Chip,
   Grid,
+  Link,
   Paper,
-  Tab,
-  Tabs,
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import {
-  getGitHubUserDisplayName,
-  getGitHubUserName,
-} from '../../../services/storage/Storage';
 import { IKeyboardFeatures } from '../../../store/state';
-import { Home } from '@material-ui/icons';
+import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -162,23 +155,6 @@ export default class CatalogIntroduction extends React.Component<
     super(props);
   }
 
-  onChangeTab(event: React.ChangeEvent<{}>, value: number) {
-    if (value === 1) {
-      history.pushState(
-        null,
-        'Remap',
-        `/catalog/${this.props.definitionDocument!.id}/keymap`
-      );
-      this.props.goToKeymap!();
-    }
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  onClickBackButton(event: React.MouseEvent<{}>) {
-    history.pushState(null, 'Remap', '/catalog');
-    this.props.goToSearch!();
-  }
-
   render() {
     let descriptionNodeList: React.ReactNode[] | string;
     if (this.props.definitionDocument!.description) {
@@ -198,17 +174,9 @@ export default class CatalogIntroduction extends React.Component<
     return (
       <div className="catalog-introduction-wrapper">
         <div className="catalog-introduction-container">
-          <Tabs
-            variant="fullWidth"
-            centered
-            value={0}
-            indicatorColor="primary"
-            className="catalog-introduction-tabs"
-            onChange={this.onChangeTab.bind(this)}
-          >
-            <Tab label="Introduction" />
-            <Tab label="Keymap" />
-          </Tabs>
+          <CatalogKeyboardHeader
+            definitionDocument={this.props.definitionDocument!}
+          />
           <Paper elevation={0} className="catalog-introduction-content">
             <Grid container>
               <Grid item sm={6} className="catalog-introduction-column">
@@ -238,14 +206,14 @@ export default class CatalogIntroduction extends React.Component<
                         (store, index) => {
                           return (
                             <Typography key={index} variant="body1">
-                              <a
+                              <Link
                                 href={store.url}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="catalog-introduction-store"
                               >
                                 {store.name}
-                              </a>
+                              </Link>
                             </Typography>
                           );
                         }
@@ -257,71 +225,12 @@ export default class CatalogIntroduction extends React.Component<
                 </section>
               </Grid>
               <Grid item sm={6} className="catalog-introduction-column">
-                <header className="catalog-introduction-header">
-                  <div className="catalog-introduction-header-title">
-                    <Typography variant="h1">
-                      {this.props.definitionDocument!.name}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      designed by{' '}
-                      <a
-                        href={this.props.definitionDocument!.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Keyboard Owner GitHub Account"
-                      >
-                        {getGitHubUserDisplayName(
-                          this.props.definitionDocument!
-                        )}
-                      </a>
-                    </Typography>
-                  </div>
-                  <div className="catalog-introduction-header-links">
-                    <div className="catalog-introduction-header-github">
-                      <a
-                        href={this.props.definitionDocument!.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Keyboard Owner GitHub Account"
-                      >
-                        <Avatar
-                          alt={getGitHubUserDisplayName(
-                            this.props.definitionDocument!
-                          )}
-                          src={`https://avatars.githubusercontent.com/${getGitHubUserName(
-                            this.props.definitionDocument!
-                          )}`}
-                        />
-                      </a>
-                    </div>
-                    {this.props.definitionDocument!.websiteUrl ? (
-                      <div className="catalog-introduction-header-home">
-                        <a
-                          href={this.props.definitionDocument!.websiteUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          title="Keyboard Website"
-                        >
-                          <Home htmlColor="white" fontSize="large" />
-                        </a>
-                      </div>
-                    ) : null}
-                  </div>
-                </header>
                 <section className="catalog-introduction-section">
                   <Typography variant="body1">{descriptionNodeList}</Typography>
                 </section>
               </Grid>
             </Grid>
           </Paper>
-          <div className="catalog-introduction-nav">
-            <Button
-              style={{ marginRight: '16px' }}
-              onClick={this.onClickBackButton.bind(this)}
-            >
-              &lt; Back to Search
-            </Button>
-          </div>
         </div>
       </div>
     );
