@@ -110,21 +110,6 @@ export const ALL_HOTSWAP_TYPE = ['hot_swap'] as const;
 type hotswapTuple = typeof ALL_HOTSWAP_TYPE;
 export type IKeyboardHotswapType = hotswapTuple[number];
 
-export const ALL_MCU_TYPE = [
-  'at90usb1286',
-  'at90usb1287',
-  'at90usb646',
-  'at90usb647',
-  'atmega16u2',
-  'atmega16u4',
-  'atmega328p',
-  'atmega32a',
-  'atmega32u2',
-  'atmega32u4',
-] as const;
-type mcuTuple = typeof ALL_MCU_TYPE;
-export type IKeyboardMcuType = mcuTuple[number];
-
 export const ALL_OLED_TYPE = ['oled'] as const;
 type oledTuple = typeof ALL_OLED_TYPE;
 export type IKeyboardOledType = oledTuple[number];
@@ -143,7 +128,6 @@ export type IKeyboardFeatures =
   | IKeyboardLedType
   | IKeyboardKeySwitchType
   | IKeyboardHotswapType
-  | IKeyboardMcuType
   | IKeyboardOledType
   | IKeyboardSpeakerType;
 

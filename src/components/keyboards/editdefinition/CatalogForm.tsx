@@ -25,7 +25,6 @@ import {
 import {
   ALL_HOTSWAP_TYPE,
   ALL_KEY_COUNT_TYPE,
-  ALL_MCU_TYPE,
   ALL_OLED_TYPE,
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
@@ -143,14 +142,6 @@ export default function CatalogForm(props: CatalogFormProps) {
       event.target.value as IKeyboardFeatures,
       ALL_HOTSWAP_TYPE
     );
-  };
-
-  const onChangeMcu = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
-  ): void => {
-    props.updateFeature!(event.target.value as IKeyboardFeatures, ALL_MCU_TYPE);
   };
 
   const onChangeOled = (
@@ -421,26 +412,6 @@ export default function CatalogForm(props: CatalogFormProps) {
                   >
                     <MenuItem value="---">---</MenuItem>
                     <MenuItem value="hot_swap">Supported</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="edit-definition-catalog-form-row">
-                <FormControl>
-                  <FormLabel component="legend">MCU</FormLabel>
-                  <Select
-                    value={getFeatureValue(ALL_MCU_TYPE)}
-                    onChange={onChangeMcu}
-                  >
-                    <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="at90usb1286">at90usb1286</MenuItem>
-                    <MenuItem value="at90usb1287">at90usb1287</MenuItem>
-                    <MenuItem value="at90usb646">at90usb646</MenuItem>
-                    <MenuItem value="at90usb647">at90usb647</MenuItem>
-                    <MenuItem value="atmega16u2">atmega16u2</MenuItem>
-                    <MenuItem value="atmega16u4">atmega16u4</MenuItem>
-                    <MenuItem value="atmega328p">atmega328p</MenuItem>
-                    <MenuItem value="atmega32u2">atmega32u2</MenuItem>
-                    <MenuItem value="atmega32u4">atmega32u4</MenuItem>
                   </Select>
                 </FormControl>
               </div>

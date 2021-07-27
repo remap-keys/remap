@@ -89,46 +89,6 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     description:
       'This keyboard supports a hot swap feature to exchange key switches without soldering.',
   },
-  at90usb1286: {
-    label: 'AT90USB1286',
-    description: 'This keyboard uses a "AT90USB1286" micro control unit',
-  },
-  at90usb1287: {
-    label: 'AT90USB1287',
-    description: 'This keyboard uses a "AT90USB1287" micro control unit',
-  },
-  at90usb646: {
-    label: 'AT90USB646',
-    description: 'This keyboard uses a "AT90USB646" micro control unit',
-  },
-  at90usb647: {
-    label: 'AT90USB647',
-    description: 'This keyboard uses a "AT90USB647" micro control unit',
-  },
-  atmega16u2: {
-    label: 'ATmega16U2',
-    description: 'This keyboard uses a "ATmega16U2" micro control unit',
-  },
-  atmega16u4: {
-    label: 'ATmega16U4',
-    description: 'This keyboard uses a "ATmega16U4" micro control unit',
-  },
-  atmega328p: {
-    label: 'ATmega328P',
-    description: 'This keyboard uses a "ATmega328P" micro control unit',
-  },
-  atmega32a: {
-    label: 'ATmega32A',
-    description: 'This keyboard uses a "ATmega32A" micro control unit',
-  },
-  atmega32u2: {
-    label: 'ATmega32U2',
-    description: 'This keyboard uses a "ATmega32U2" micro control unit',
-  },
-  atmega32u4: {
-    label: 'ATmega32U4',
-    description: 'This keyboard uses a "ATmega32U4" micro control unit',
-  },
   oled: {
     label: 'OLED',
     description: 'This keyboard supports an OLED module.',
