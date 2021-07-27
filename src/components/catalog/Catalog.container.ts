@@ -8,6 +8,7 @@ import {
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
   ALL_STAGGERED_TYPE,
+  ALL_WIRELESS_TYPE,
   ICatalogPhase,
   IKeyboardFeatures,
   IKeyboardHotswapType,
@@ -17,6 +18,7 @@ import {
   IKeyboardSpeakerType,
   IKeyboardSplitType,
   IKeyboardStaggeredType,
+  IKeyboardWirelessType,
   RootState,
 } from '../../store/state';
 import { AppActions, NotificationActions } from '../../actions/actions';
@@ -120,6 +122,14 @@ const mapDispatchToProps = (_dispatch: any) => {
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_SPEAKER_TYPE
+              )
+            );
+          }
+          if (ALL_WIRELESS_TYPE.includes(feature as IKeyboardWirelessType)) {
+            _dispatch(
+              CatalogSearchActions.updateFeatures(
+                feature as IKeyboardFeatures,
+                ALL_WIRELESS_TYPE
               )
             );
           }
