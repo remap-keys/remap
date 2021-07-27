@@ -9,12 +9,22 @@ import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import Keycap from '../../configure/keycap/Keycap.container';
-import { Chip, Grid, Paper, Typography } from '@material-ui/core';
+import {
+  Chip,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import LayoutOptionComponentList from '../../configure/layoutoption/LayoutOptionComponentList.container';
 import CatalogKeymapList from './CatalogKeymapList.container';
+import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import { genKey, Key } from '../../configure/keycodekey/KeyGen';
+import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -51,6 +61,40 @@ export default class CatalogKeymap extends React.Component<
         savedKeymapData.id
       }`
     );
+  }
+
+  onClickGetCheatsheet() {
+    const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
+    const keys: { [pos: string]: Key }[] = [];
+    for (let i = 0; i < this.props.keymaps!.length; i++) {
+      const keyMap: { [pos: string]: Key } = {};
+      const km = keymaps[i];
+      Object.keys(km).forEach((pos) => {
+        const key: Key = genKey(km[pos], this.props.langLabel!);
+        keyMap[pos] = key;
+      });
+      keys.push(keyMap);
+    }
+
+    const productName = this.props.definitionDocument!.name;
+    const pdf = new KeymapPdfGenerator(
+      this.props.keyboardDefinition!.layouts.keymap,
+      keys,
+      this.props.keymaps!.length,
+      this.props.langLabel!
+    );
+
+    // sendEventToGoogleAnalytics('configure/cheat_sheet', {
+    //   vendor_id: this.props.keyboard!.getInformation().vendorId,
+    //   product_id: this.props.keyboard!.getInformation().productId,
+    //   product_name: this.props.keyboard!.getInformation().productName,
+    // });
+
+    pdf.genPdf(productName, this.props.selectedKeyboardOptions!).catch((e) => {
+      console.error(e);
+      const msg = `Couldn't generate the PDF. Please check your keyboard and definition file(.json).`;
+      this.props.error!(msg);
+    });
   }
 
   render() {
@@ -108,6 +152,20 @@ export default class CatalogKeymap extends React.Component<
                   selectedLayer={this.props.selectedLayer!}
                   onClickLayer={this.props.updateSelectedLayer!}
                 />
+                <div className="catalog-keymap-option-pdf">
+                  <Tooltip
+                    arrow={true}
+                    placement="top"
+                    title="Get keymap cheat sheet (PDF)"
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={this.onClickGetCheatsheet.bind(this)}
+                    >
+                      <PictureAsPdfRoundedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </div>
             ) : null}
             <div

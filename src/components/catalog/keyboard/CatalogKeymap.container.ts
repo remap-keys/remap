@@ -8,6 +8,7 @@ import {
 } from '../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../actions/storage.action';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
+import { NotificationActions } from '../../../actions/actions';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -36,6 +37,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     applySharedKeymapData: (savedKeymapData: AbstractKeymapData) => {
       _dispatch(catalogActionsThunk.applySharedKeymapData(savedKeymapData));
+    },
+    error: (msg: string) => {
+      _dispatch(NotificationActions.addError(msg));
     },
   };
 };
