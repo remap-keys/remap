@@ -4,7 +4,14 @@ import {
   CatalogIntroductionActionsType,
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
-import { Chip, Grid, Paper, Tooltip, Typography } from '@material-ui/core';
+import {
+  Chip,
+  Grid,
+  Link,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { IKeyboardFeatures } from '../../../store/state';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 
@@ -199,14 +206,14 @@ export default class CatalogIntroduction extends React.Component<
                         (store, index) => {
                           return (
                             <Typography key={index} variant="body1">
-                              <a
+                              <Link
                                 href={store.url}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="catalog-introduction-store"
                               >
                                 {store.name}
-                              </a>
+                              </Link>
                             </Typography>
                           );
                         }
