@@ -29,7 +29,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import { Link, SupervisorAccount } from '@material-ui/icons';
+import { Link } from '@material-ui/icons';
 
 type PopoverPosition = {
   left: number;
@@ -372,13 +372,6 @@ function MyKeymapList(props: IMyKeymapListProps) {
               <ListItemText
                 primary={
                   <div className="my-keymaplist-header">
-                    {item.status === 'shared' ? (
-                      <SupervisorAccount
-                        fontSize="small"
-                        color="action"
-                        className="my-keymaplist-header-shared"
-                      />
-                    ) : null}
                     <Typography
                       component="span"
                       variant="body1"
@@ -391,15 +384,6 @@ function MyKeymapList(props: IMyKeymapListProps) {
                 secondary={item.desc}
               />
               <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="edit"
-                  onClick={() => {
-                    props.onClickOpenKeymapSaveDialog(item);
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
                 {props.definitionDocument && item.status === 'shared' ? (
                   <IconButton
                     edge="end"
@@ -413,6 +397,15 @@ function MyKeymapList(props: IMyKeymapListProps) {
                     <Link />
                   </IconButton>
                 ) : null}
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => {
+                    props.onClickOpenKeymapSaveDialog(item);
+                  }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           );
