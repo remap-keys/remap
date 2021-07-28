@@ -29,7 +29,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import { Link, SupervisorAccount } from '@material-ui/icons';
+import { Link } from '@material-ui/icons';
 
 type PopoverPosition = {
   left: number;
@@ -372,13 +372,6 @@ function MyKeymapList(props: IMyKeymapListProps) {
               <ListItemText
                 primary={
                   <div className="my-keymaplist-header">
-                    {item.status === 'shared' ? (
-                      <SupervisorAccount
-                        fontSize="small"
-                        color="action"
-                        className="my-keymaplist-header-shared"
-                      />
-                    ) : null}
                     <Typography
                       component="span"
                       variant="body1"
