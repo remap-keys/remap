@@ -391,15 +391,6 @@ function MyKeymapList(props: IMyKeymapListProps) {
                 secondary={item.desc}
               />
               <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="edit"
-                  onClick={() => {
-                    props.onClickOpenKeymapSaveDialog(item);
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
                 {props.definitionDocument && item.status === 'shared' ? (
                   <IconButton
                     edge="end"
@@ -413,6 +404,15 @@ function MyKeymapList(props: IMyKeymapListProps) {
                     <Link />
                   </IconButton>
                 ) : null}
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => {
+                    props.onClickOpenKeymapSaveDialog(item);
+                  }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           );
