@@ -125,13 +125,49 @@ export default function CatalogForm(props: CatalogFormProps) {
     ]);
   };
 
-  const onChangeKailhChoc = (
+  const onChangeKailhChocV1 = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ): void => {
     props.updateFeature!(checked ? 'kailh_choc' : CONDITION_NOT_SELECTED, [
       'kailh_choc',
     ]);
+  };
+
+  const onChangeKailhChocV2 = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(checked ? 'kailh_choc_v2' : CONDITION_NOT_SELECTED, [
+      'kailh_choc_v2',
+    ]);
+  };
+
+  const onChangeKailhMidHeight = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(
+      checked ? 'kailh_mid_height' : CONDITION_NOT_SELECTED,
+      ['kailh_mid_height']
+    );
+  };
+
+  const onChangeAlps = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(checked ? 'alps' : CONDITION_NOT_SELECTED, ['alps']);
+  };
+
+  const onChangeCapacitiveSensingType = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(
+      checked ? 'capacitive_sensing_type' : CONDITION_NOT_SELECTED,
+      ['capacitive_sensing_type']
+    );
   };
 
   const onChangeHotSwap = (
@@ -405,12 +441,52 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          value="kailhChoc"
+                          value="kailhChocV1"
                           checked={hasFeatureValue('kailh_choc')}
-                          onChange={onChangeKailhChoc}
+                          onChange={onChangeKailhChocV1}
                         />
                       }
-                      label="Kailh Choc"
+                      label="Kailh Choc V1"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="kailhChocV2"
+                          checked={hasFeatureValue('kailh_choc_v2')}
+                          onChange={onChangeKailhChocV2}
+                        />
+                      }
+                      label="Kailh Choc V2"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="kailhMidHeight"
+                          checked={hasFeatureValue('kailh_mid_height')}
+                          onChange={onChangeKailhMidHeight}
+                        />
+                      }
+                      label="Kailh Mid-height"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="alps"
+                          checked={hasFeatureValue('alps')}
+                          onChange={onChangeAlps}
+                        />
+                      }
+                      label="Alps"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="capacitiveSensingType"
+                          checked={hasFeatureValue('capacitive_sensing_type')}
+                          onChange={onChangeCapacitiveSensingType}
+                        />
+                      }
+                      label="Capacitive Sensing Type"
                     />
                   </FormGroup>
                 </FormControl>

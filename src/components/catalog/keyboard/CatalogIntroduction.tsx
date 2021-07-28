@@ -81,8 +81,26 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     description: 'This keyboard supports Cherry MX compatible key switches.',
   },
   kailh_choc: {
-    label: 'Kailh Choc',
-    description: 'This keyboard supports Kailh Choc low profile key switches.',
+    label: 'Kailh Choc V1',
+    description:
+      'This keyboard supports Kailh Choc V1 low profile key switches.',
+  },
+  kailh_choc_v2: {
+    label: 'Kailh Choc V2',
+    description:
+      'This keyboard supports Kailh Choc V2 low profile key switches.',
+  },
+  kailh_mid_height: {
+    label: 'Kailh Mid-height',
+    description: 'This keyboard supports Kailh Mid-height key switches.',
+  },
+  alps: {
+    label: 'Alps',
+    description: 'This keyboard supports Alps key switches.',
+  },
+  capacitive_sensing_type: {
+    label: 'Capacitive Sensing type',
+    description: 'This keyboard supports Capacitive Sensing type key switches.',
   },
   hot_swap: {
     label: 'Hotswap',
