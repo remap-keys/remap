@@ -1,0 +1,21 @@
+@import '../../../variables';
+
+.layout-option-component-list {
+  &-content {
+    padding: $space-l !important;
+  }
+
+  &-option-label,
+  &-option-value {
+    display: flex;
+    align-items: center;
+  }
+
+  &-option-value {
+    justify-content: flex-end;
+    &-option-value-select {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  }
+}

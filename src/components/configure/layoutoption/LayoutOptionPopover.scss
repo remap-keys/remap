@@ -10,8 +10,7 @@
     width: 360px;
     font-size: 0.9rem;
 
-    .layout-option-header,
-    .layout-option-content {
+    .layout-option-header {
       padding: $space-l !important;
     }
 
@@ -22,22 +21,6 @@
       }
       .layout-option-close-btn {
         text-align: center;
-      }
-    }
-
-    .layout-option-content {
-      .option-label,
-      .option-value {
-        display: flex;
-        align-items: center;
-      }
-
-      .option-value {
-        justify-content: flex-end;
-        .option-value-select {
-          width: 100%;
-          font-size: 0.9rem;
-        }
       }
     }
   }

@@ -7,6 +7,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Link,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -24,6 +25,7 @@ import textMatrix from '../../assets/images/top/text-matrix.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
+import { Alert } from '@material-ui/lab';
 
 type IFeatureCardProps = {
   image: any;
@@ -61,6 +63,10 @@ class Top extends React.Component<RouteComponentProps, any> {
     this.props.history.push('/keyboards');
   };
 
+  onClickKeyboardCatalog = () => {
+    this.props.history.push('/catalog');
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -70,6 +76,20 @@ class Top extends React.Component<RouteComponentProps, any> {
             <Logo width={128} color={'white'} />
           </Toolbar>
         </AppBar>
+        <Alert severity="info">
+          <strong>For Keyboard Owners: </strong>The{' '}
+          <Link href="/catalog">Keyboard Catalog</Link> feature has been
+          released. Please fill in information for your keyboard so that it will
+          be listed in the keyboard catalog. See{' '}
+          <Link
+            href="https://docs.google.com/document/d/1vuQTFeUgReWO9QbcCwxHVqARINp0wVH2lTaZhnNJGBU/edit?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
+          >
+            this document
+          </Link>
+          .
+        </Alert>
         <main>
           <div className="hero-content">
             <Container maxWidth="xl">
@@ -109,6 +129,17 @@ class Top extends React.Component<RouteComponentProps, any> {
                       onClick={this.onClickManageKeyboardDefinitions}
                     >
                       Register/Manage Keyboard Definitions
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={this.onClickKeyboardCatalog}
+                    >
+                      Keyboard Catalog
                     </Button>
                   </Grid>
                 </Grid>
