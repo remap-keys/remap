@@ -311,7 +311,15 @@ class CatalogSearch extends React.Component<
                       <MenuItem value="cherry_mx">
                         Cherry MX Compatible
                       </MenuItem>
-                      <MenuItem value="kailh_choc">Kailh Choc</MenuItem>
+                      <MenuItem value="kailh_choc">Kailh Choc V1</MenuItem>
+                      <MenuItem value="kailh_choc_v2">Kailh Choc V2</MenuItem>
+                      <MenuItem value="kailh_mid_height">
+                        Kailh Mid-height
+                      </MenuItem>
+                      <MenuItem value="alps">Alps</MenuItem>
+                      <MenuItem value="capacitive_sensing_type">
+                        Capacitive Sensing Type
+                      </MenuItem>
                     </Select>
                   </FormControl>
                 </div>

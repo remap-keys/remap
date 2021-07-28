@@ -102,7 +102,14 @@ export const ALL_LED_TYPE = ['underglow', 'backlight'] as const;
 type ledTuple = typeof ALL_LED_TYPE;
 export type IKeyboardLedType = ledTuple[number];
 
-export const ALL_KEY_SWITCH_TYPE = ['cherry_mx', 'kailh_choc'] as const;
+export const ALL_KEY_SWITCH_TYPE = [
+  'cherry_mx',
+  'kailh_choc',
+  'kailh_choc_v2',
+  'kailh_mid_height',
+  'alps',
+  'capacitive_sensing_type',
+] as const;
 type keySwitchTuple = typeof ALL_KEY_SWITCH_TYPE;
 export type IKeyboardKeySwitchType = keySwitchTuple[number];
 
