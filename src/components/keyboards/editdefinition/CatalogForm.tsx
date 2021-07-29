@@ -160,6 +160,15 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.updateFeature!(checked ? 'alps' : CONDITION_NOT_SELECTED, ['alps']);
   };
 
+  const onChangeOutemuLP = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(checked ? 'outemulp' : CONDITION_NOT_SELECTED, [
+      'outemulp',
+    ]);
+  };
+
   const onChangeCapacitiveSensingType = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
@@ -394,6 +403,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <MenuItem value="row_staggered">Row Staggered</MenuItem>
                     <MenuItem value="ortholinear">Ortholinear</MenuItem>
                     <MenuItem value="symmetrical">Symmetrical</MenuItem>
+                    <MenuItem value="alice">Alice</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -476,7 +486,17 @@ export default function CatalogForm(props: CatalogFormProps) {
                           onChange={onChangeAlps}
                         />
                       }
-                      label="Alps"
+                      label="ALPS"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="outemulp"
+                          checked={hasFeatureValue('outemulp')}
+                          onChange={onChangeOutemuLP}
+                        />
+                      }
+                      label="Outemu Low Profile"
                     />
                     <FormControlLabel
                       control={

@@ -278,6 +278,7 @@ class CatalogSearch extends React.Component<
                       </MenuItem>
                       <MenuItem value="ortholinear">Ortholinear</MenuItem>
                       <MenuItem value="symmetrical">Symmetrical</MenuItem>
+                      <MenuItem value="alice">Alice</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -316,7 +317,8 @@ class CatalogSearch extends React.Component<
                       <MenuItem value="kailh_mid_height">
                         Kailh Mid-height
                       </MenuItem>
-                      <MenuItem value="alps">Alps</MenuItem>
+                      <MenuItem value="alps">ALPS</MenuItem>
+                      <MenuItem value="outemulp">Outemu Low Profile</MenuItem>
                       <MenuItem value="capacitive_sensing_type">
                         Capacitive Sensing Type
                       </MenuItem>

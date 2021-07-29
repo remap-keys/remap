@@ -68,6 +68,10 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: 'Symmetrical',
     description: 'Each key is arranged symmetrically.',
   },
+  alice: {
+    label: 'Alice',
+    description: 'Each key is put based on Alice layout.',
+  },
   underglow: {
     label: 'Underglow LED',
     description: 'This keyboard has LEDs on the bottom.',
@@ -95,8 +99,12 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     description: 'This keyboard supports Kailh Mid-height key switches.',
   },
   alps: {
-    label: 'Alps',
-    description: 'This keyboard supports Alps key switches.',
+    label: 'ALPS',
+    description: 'This keyboard supports ALPS key switches.',
+  },
+  outemulp: {
+    label: 'Outemu Low Profile',
+    description: 'This keyboard supports Outemu Low Profile key switches.',
   },
   capacitive_sensing_type: {
     label: 'Capacitive Sensing type',
