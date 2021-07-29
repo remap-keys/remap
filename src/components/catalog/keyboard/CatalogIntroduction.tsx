@@ -172,7 +172,6 @@ export default class CatalogIntroduction extends React.Component<
               <Grid item sm={6} className="catalog-introduction-column">
                 <div className="catalog-introduction-image">
                   {this.props.definitionDocument!.imageUrl ? (
-                    // <img src={this.props.definitionDocument!.imageUrl} />
                     <div
                       className="catalog-introduction-image-container"
                       style={{
