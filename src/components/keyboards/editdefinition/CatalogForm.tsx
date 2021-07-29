@@ -403,6 +403,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <MenuItem value="row_staggered">Row Staggered</MenuItem>
                     <MenuItem value="ortholinear">Ortholinear</MenuItem>
                     <MenuItem value="symmetrical">Symmetrical</MenuItem>
+                    <MenuItem value="alice">Alice</MenuItem>
                   </Select>
                 </FormControl>
               </div>

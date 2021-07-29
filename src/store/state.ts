@@ -94,6 +94,7 @@ export const ALL_STAGGERED_TYPE = [
   'row_staggered',
   'ortholinear',
   'symmetrical',
+  'alice',
 ] as const;
 type staggeredTuple = typeof ALL_STAGGERED_TYPE;
 export type IKeyboardStaggeredType = staggeredTuple[number];

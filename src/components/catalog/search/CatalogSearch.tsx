@@ -278,6 +278,7 @@ class CatalogSearch extends React.Component<
                       </MenuItem>
                       <MenuItem value="ortholinear">Ortholinear</MenuItem>
                       <MenuItem value="symmetrical">Symmetrical</MenuItem>
+                      <MenuItem value="alice">Alice</MenuItem>
                     </Select>
                   </FormControl>
                 </div>

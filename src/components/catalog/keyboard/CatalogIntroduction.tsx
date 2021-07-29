@@ -68,6 +68,10 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: 'Symmetrical',
     description: 'Each key is arranged symmetrically.',
   },
+  alice: {
+    label: 'Alice',
+    description: 'Each key is put based on Alice layout.',
+  },
   underglow: {
     label: 'Underglow LED',
     description: 'This keyboard has LEDs on the bottom.',
