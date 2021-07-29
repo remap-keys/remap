@@ -493,7 +493,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                         <Checkbox
                           value="outemulp"
                           checked={hasFeatureValue('outemulp')}
-                          onChange={onChangeAlps}
+                          onChange={onChangeOutemuLP}
                         />
                       }
                       label="Outemu Low Profile"
