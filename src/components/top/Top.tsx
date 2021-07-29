@@ -26,6 +26,7 @@ import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
 import { Alert } from '@material-ui/lab';
+import { TopActionsType, TopStateType } from './Top.container';
 
 type IFeatureCardProps = {
   image: any;
@@ -54,7 +55,23 @@ const FeatureCard = (props: IFeatureCardProps) => {
   );
 };
 
-class Top extends React.Component<RouteComponentProps, any> {
+type TopState = {};
+
+type OwnProps = {};
+type TopPropsType = OwnProps &
+  Partial<TopActionsType> &
+  Partial<TopStateType> &
+  RouteComponentProps;
+
+class Top extends React.Component<TopPropsType, TopState> {
+  constructor(props: TopPropsType | Readonly<TopPropsType>) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.initializeMeta!();
+  }
+
   onClickStartRemap = () => {
     this.props.history.push('/configure');
   };

@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { StyledComponentProps, withStyles } from '@material-ui/core/styles';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
-import Top from './components/top/Top';
+import Top from './components/top/Top.container';
 import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
 import Catalog from './components/catalog/Catalog.container';
 

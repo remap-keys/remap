@@ -4,6 +4,7 @@ import { KeyboardsPhase, RootState } from '../../store/state';
 import { NotificationActions } from '../../actions/actions';
 import { storageActionsThunk } from '../../actions/storage.action';
 import { KeyboardsAppActions } from '../../actions/keyboards.actions';
+import { MetaActions } from '../../actions/meta.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -32,6 +33,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     startInitializing: () => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.init));
+    },
+    initializeMeta: () => {
+      _dispatch(MetaActions.initialize());
     },
   };
 };

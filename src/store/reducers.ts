@@ -133,6 +133,7 @@ import {
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
 } from '../actions/catalog.action';
+import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
 
 export type Action = { type: string; value: any };
 
@@ -174,6 +175,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       catalogAppReducer(action, draft);
     } else if (action.type.startsWith(CATALOG_KEYBOARD_ACTIONS)) {
       catalogKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(META_ACTIONS)) {
+      metaReducer(action, draft);
     }
   });
 
@@ -796,6 +799,19 @@ const catalogKeyboardReducer = (
       break;
     case CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA:
       draft.catalog.keyboard.selectedKeymapData = action.value;
+      break;
+  }
+};
+
+const metaReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  switch (action.type) {
+    case META_UPDATE:
+      draft.app.meta.title = action.value.title;
+      draft.app.meta.description = action.value.description;
+      draft.app.meta.og.title = action.value.title;
+      draft.app.meta.og.description = action.value.description;
+      draft.app.meta.og.url = action.value.url;
+      draft.app.meta.og.image = action.value.image;
       break;
   }
 };

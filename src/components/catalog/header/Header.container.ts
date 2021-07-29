@@ -8,6 +8,7 @@ import {
 } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
 import { storageActionsThunk } from '../../../actions/storage.action';
+import { MetaActions } from '../../../actions/meta.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -34,6 +35,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     goToSearch: () => {
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+      _dispatch(MetaActions.initialize());
     },
     goToKeymap: () => {
       _dispatch(CatalogKeyboardActions.clearKeymap());

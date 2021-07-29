@@ -45,7 +45,6 @@ import {
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
-import appPackage from '../../../package.alias.json';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type CatalogSearchState = {};
@@ -60,14 +59,6 @@ class CatalogSearch extends React.Component<
 > {
   constructor(props: CatalogSearchProps | Readonly<CatalogSearchProps>) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.updateTitle();
-  }
-
-  private updateTitle() {
-    document.title = appPackage.name;
   }
 
   onChangeKeyCount(

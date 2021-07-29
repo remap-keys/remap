@@ -64,6 +64,7 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
   }
 
   componentDidMount() {
+    this.props.initializeMeta!();
     if (this.props.auth) {
       this.props.auth.subscribeAuthStatus((user) => {
         this.props.updateSignedIn!(!!user);
