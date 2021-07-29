@@ -108,6 +108,7 @@ export const ALL_KEY_SWITCH_TYPE = [
   'kailh_choc_v2',
   'kailh_mid_height',
   'alps',
+  'outemulp',
   'capacitive_sensing_type',
 ] as const;
 type keySwitchTuple = typeof ALL_KEY_SWITCH_TYPE;

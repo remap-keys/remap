@@ -98,6 +98,10 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: 'Alps',
     description: 'This keyboard supports Alps key switches.',
   },
+  outemulp: {
+    label: 'Outemu Low Profile',
+    description: 'This keyboard supports Outemu Low Profile key switches.',
+  },
   capacitive_sensing_type: {
     label: 'Capacitive Sensing type',
     description: 'This keyboard supports Capacitive Sensing type key switches.',

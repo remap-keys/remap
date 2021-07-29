@@ -317,6 +317,7 @@ class CatalogSearch extends React.Component<
                         Kailh Mid-height
                       </MenuItem>
                       <MenuItem value="alps">Alps</MenuItem>
+                      <MenuItem value="outemulp">Outemu Low Profile</MenuItem>
                       <MenuItem value="capacitive_sensing_type">
                         Capacitive Sensing Type
                       </MenuItem>
