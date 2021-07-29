@@ -95,8 +95,8 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     description: 'This keyboard supports Kailh Mid-height key switches.',
   },
   alps: {
-    label: 'Alps',
-    description: 'This keyboard supports Alps key switches.',
+    label: 'ALPS',
+    description: 'This keyboard supports ALPS key switches.',
   },
   outemulp: {
     label: 'Outemu Low Profile',

@@ -485,7 +485,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                           onChange={onChangeAlps}
                         />
                       }
-                      label="Alps"
+                      label="ALPS"
                     />
                     <FormControlLabel
                       control={
