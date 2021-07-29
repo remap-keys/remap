@@ -17,11 +17,11 @@ export default class OGP extends React.Component<OGPPropsType, OGPState> {
       <Helmet
         title={this.props.title}
         meta={[
-          { name: 'og:title', content: this.props.og?.title },
+          { property: 'og:title', content: this.props.og?.title },
           { name: 'description', content: this.props.description },
-          { name: 'og:description', content: this.props.og?.description },
-          { name: 'og:url', content: this.props.og!.url },
-          { name: 'og:image', content: this.props.og!.image },
+          { property: 'og:description', content: this.props.og?.description },
+          { property: 'og:url', content: this.props.og!.url },
+          { property: 'og:image', content: this.props.og!.image },
         ]}
       />
     );
