@@ -75,8 +75,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       return 0 < Object.values(v).length || has;
     }, false);
     const title = hasKeysToFlush ? `*${appPackage.name}` : appPackage.name;
-    // eslint-disable-next-line no-undef
-    document.title = title;
+    this.props.updateTitle!(title);
   }
 
   private initKeyboardConnectionEventHandler() {
@@ -97,6 +96,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
   }
 
   componentDidMount() {
+    this.props.initializeMeta!();
     // eslint-disable-next-line no-undef
     if ((navigator as any).hid === undefined) {
       this.setState({

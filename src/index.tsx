@@ -9,6 +9,8 @@ import App from './App';
 import reducers from './store/reducers';
 import reportWebVitals from './reportWebVitals';
 import { errorReportingLogger } from './utils/ErrorReportingLogger';
+import OGP from './components/common/ogp/OGP.container';
+import { HelmetProvider } from 'react-helmet-async';
 
 const store = createStore(
   reducers,
@@ -21,7 +23,10 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <HelmetProvider>
+        <OGP />
+        <App />
+      </HelmetProvider>
     </React.StrictMode>
   </Provider>,
   // eslint-disable-next-line no-undef

@@ -66,6 +66,7 @@ class KeyboardDefinitionManagement extends React.Component<
   }
 
   componentDidMount() {
+    this.props.initializeMeta!();
     this.props.auth!.subscribeAuthStatus((user) => {
       if (user) {
         if (getGitHubProviderData(user).exists) {

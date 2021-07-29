@@ -190,6 +190,16 @@ export type RootState = {
     keyboardWidth: number;
     labelLang: KeyboardLabelLang;
     signedIn: boolean;
+    meta: {
+      title: string;
+      description: string;
+      og: {
+        url: string;
+        title: string;
+        description: string;
+        image: string;
+      };
+    };
   };
   configure: {
     header: {
@@ -342,6 +352,16 @@ export const INIT_STATE: RootState = {
     keyboardWidth: 0,
     labelLang: 'en-us',
     signedIn: false,
+    meta: {
+      title: '',
+      description: '',
+      og: {
+        title: '',
+        url: '',
+        description: '',
+        image: '',
+      },
+    },
   },
   configure: {
     header: {

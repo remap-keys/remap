@@ -8,6 +8,7 @@ import {
   NotificationActions,
 } from '../../actions/actions';
 import { IKeyboard } from '../../services/hid/Hid';
+import { MetaActions } from '../../actions/meta.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -67,6 +68,12 @@ const mapDispatchToProps = (_dispatch: any) => {
 
     updateSignedIn: (signedIn: boolean) => {
       _dispatch(AppActions.updateSignedIn(signedIn));
+    },
+    initializeMeta: () => {
+      _dispatch(MetaActions.initialize());
+    },
+    updateTitle: (title: string) => {
+      _dispatch(MetaActions.update({ title }));
     },
   };
 };

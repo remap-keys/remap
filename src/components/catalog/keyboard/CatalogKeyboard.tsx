@@ -12,7 +12,6 @@ type OwnProps = {};
 type CatalogKeyboardProps = OwnProps &
   Partial<CatalogKeyboardActionsType> &
   Partial<CatalogKeyboardStateType>;
-import appPackage from '../../../package.alias.json';
 
 export default class CatalogKeyboard extends React.Component<
   CatalogKeyboardProps,
@@ -23,14 +22,21 @@ export default class CatalogKeyboard extends React.Component<
   }
 
   componentDidMount() {
-    this.updateTitle();
-  }
-
-  private updateTitle() {
     if (this.props.definitionDocument) {
-      document.title = `${this.props.definitionDocument.name} - ${appPackage.name}`;
+      const originalDescription =
+        this.props.definitionDocument.description || '';
+      let shortDescription = originalDescription.slice(0, 120);
+      if (originalDescription.length !== shortDescription.length) {
+        shortDescription = `${shortDescription}...`;
+      }
+      this.props.updateMeta!({
+        title: `${this.props.definitionDocument.name} - Remap`,
+        description: shortDescription,
+        url: `https://remap-keys.app/catalog/${this.props.definitionDocument.id}`,
+        image: this.props.definitionDocument.imageUrl,
+      });
     } else {
-      document.title = appPackage.name;
+      this.props.initializeMeta!();
     }
   }
 

@@ -29,6 +29,7 @@ import {
 } from '../../actions/catalog.action';
 import { storageActionsThunk } from '../../actions/storage.action';
 import { ParsedQs } from 'qs';
+import { MetaActions } from '../../actions/meta.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -135,6 +136,9 @@ const mapDispatchToProps = (_dispatch: any) => {
           }
         });
       }
+    },
+    initializeMeta: () => {
+      _dispatch(MetaActions.initialize());
     },
   };
 };
