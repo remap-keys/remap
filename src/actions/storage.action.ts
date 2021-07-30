@@ -802,8 +802,8 @@ export const storageActionsThunk = {
       });
 
       filteredDocs.sort((a, b) => {
-        const countA = a.imageUrl ? 1 : 0; //matchedFeaturesCount(a);
-        const countB = b.imageUrl ? 1 : 0; //matchedFeaturesCount(b);
+        const countA = a.imageUrl ? 1 : 0; // sort higher with a image
+        const countB = b.imageUrl ? 1 : 0; // sort higher with a image
 
         if (countA === countB) {
           return Math.random() - 0.5;
