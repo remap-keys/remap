@@ -200,6 +200,20 @@ class CatalogSearch extends React.Component<
         }) || CONDITION_NOT_SELECTED
       );
     };
+
+    const searchResultsWithImage: IKeyboardDefinitionDocument[] = [];
+    const searchResultsWithoutImage: IKeyboardDefinitionDocument[] = [];
+    this.props.searchResult!.forEach((result) => {
+      if (result.imageUrl) {
+        searchResultsWithImage.push(result);
+      } else {
+        searchResultsWithoutImage.push(result);
+      }
+    });
+    const searchResult = searchResultsWithImage.concat(
+      searchResultsWithoutImage
+    );
+
     return (
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
@@ -387,7 +401,7 @@ class CatalogSearch extends React.Component<
               </div>
             </Grid>
             <Grid item sm={9}>
-              <SearchResult definitionDocuments={this.props.searchResult!} />
+              <SearchResult definitionDocuments={searchResult} />
             </Grid>
           </Grid>
         </div>
