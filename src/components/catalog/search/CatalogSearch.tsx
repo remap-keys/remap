@@ -448,7 +448,7 @@ function KeyboardCard(props: KeyboardCardProps) {
 
   return (
     <Card className="catalog-search-result-card" onClick={onClickCard}>
-      {props.definition.thumbnailImageUrl ? (
+      {props.definition.imageUrl ? (
         <CardMedia
           image={props.definition.imageUrl}
           className="catalog-search-result-card-image"

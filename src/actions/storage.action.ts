@@ -790,20 +790,20 @@ export const storageActionsThunk = {
       const definitionDocs = result.documents!.filter((doc) =>
         doc.name.toLowerCase().includes(keyword.toLowerCase())
       );
-      const matchedFeaturesCount = (
-        doc: IKeyboardDefinitionDocument
-      ): number => {
-        let count = doc.features.reduce<number>((result, feature) => {
-          return features!.includes(feature) ? result + 2 : result; // added 2 points because matching features is more important than the kbd has an image
-        }, 0);
-        if (doc.imageUrl) {
-          count += 1; // sort higher if the keyboard has an image
-        }
-        return count;
-      };
-      const sortedSearchResult = Array.from(definitionDocs).sort((a, b) => {
-        const countA = matchedFeaturesCount(a);
-        const countB = matchedFeaturesCount(b);
+      const filteredDocs = definitionDocs.filter((doc) => {
+        if (features.length === 0) return true;
+
+        let allMatch = true;
+        features.forEach((feat) => {
+          allMatch = allMatch && doc.features.includes(feat);
+        });
+
+        return allMatch;
+      });
+
+      filteredDocs.sort((a, b) => {
+        const countA = a.imageUrl ? 1 : 0; //matchedFeaturesCount(a);
+        const countB = b.imageUrl ? 1 : 0; //matchedFeaturesCount(b);
 
         if (countA === countB) {
           return Math.random() - 0.5;
@@ -813,7 +813,7 @@ export const storageActionsThunk = {
       });
       dispatch(
         StorageActions.updateSearchResultKeyboardDefinitionDocument(
-          sortedSearchResult
+          filteredDocs
         )
       );
     } else {
