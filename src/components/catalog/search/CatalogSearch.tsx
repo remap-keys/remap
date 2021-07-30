@@ -200,6 +200,7 @@ class CatalogSearch extends React.Component<
         }) || CONDITION_NOT_SELECTED
       );
     };
+
     return (
       <div className="catalog-search-wrapper">
         <div className="catalog-search-container">
