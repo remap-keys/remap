@@ -793,17 +793,22 @@ export const storageActionsThunk = {
       const matchedFeaturesCount = (
         doc: IKeyboardDefinitionDocument
       ): number => {
-        return doc.features.reduce<number>((result, feature) => {
-          return features!.includes(feature) ? result + 1 : result;
+        let count = doc.features.reduce<number>((result, feature) => {
+          return features!.includes(feature) ? result + 2 : result; // added 2 points because matching features is more important than the kbd has an image
         }, 0);
+        if (doc.imageUrl) {
+          count += 1; // sort higher if the keyboard has an image
+        }
+        return count;
       };
-      const sortedSearchResult = definitionDocs.slice().sort((a, b) => {
+      const sortedSearchResult = Array.from(definitionDocs).sort((a, b) => {
         const countA = matchedFeaturesCount(a);
         const countB = matchedFeaturesCount(b);
+
         if (countA === countB) {
           return Math.random() - 0.5;
         } else {
-          return matchedFeaturesCount(a) - matchedFeaturesCount(b);
+          return countB - countA;
         }
       });
       dispatch(
