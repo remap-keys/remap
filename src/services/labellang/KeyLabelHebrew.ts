@@ -1,109 +1,126 @@
 import { KeyLabel, MOD } from './KeyLabel';
-
-export const KeyLabelUS: KeyLabel[] = [
+export const KeyLabelHebrew: KeyLabel[] = [
   {
     code: 4,
-    label: 'A',
+    label: 'ש',
   },
   {
     code: 5,
-    label: 'B',
+    label: 'נ',
   },
   {
     code: 6,
-    label: 'C',
+    label: 'ב',
   },
   {
     code: 7,
-    label: 'D',
+    label: 'ג',
   },
   {
     code: 8,
-    label: 'E',
+    label: 'ק',
   },
   {
     code: 9,
-    label: 'F',
+    label: 'כ',
   },
   {
     code: 10,
-    label: 'G',
+    label: 'ע',
+    meta: [
+      {
+        label: 'ױ',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 11,
-    label: 'H',
+    label: 'י',
+    meta: [
+      {
+        label: 'ײ',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 12,
-    label: 'I',
+    label: 'ן',
   },
   {
     code: 13,
-    label: 'J',
+    label: 'ח',
   },
   {
     code: 14,
-    label: 'K',
+    label: 'ל',
   },
   {
     code: 15,
-    label: 'L',
+    label: 'ך',
   },
   {
     code: 16,
-    label: 'M',
+    label: 'צ',
   },
   {
     code: 17,
-    label: 'N',
+    label: 'מ',
   },
   {
     code: 18,
-    label: 'O',
+    label: 'ם',
   },
   {
     code: 19,
-    label: 'P',
+    label: 'פ',
   },
   {
     code: 20,
-    label: 'Q',
+    label: '/',
   },
   {
     code: 21,
-    label: 'R',
+    label: 'ר',
   },
   {
     code: 22,
-    label: 'S',
+    label: 'ד',
   },
   {
     code: 23,
-    label: 'T',
+    label: 'א',
   },
   {
     code: 24,
-    label: 'U',
+    label: 'ו',
   },
   {
     code: 25,
-    label: 'V',
+    label: 'ה',
   },
   {
     code: 26,
-    label: 'W',
+    label: "'",
   },
   {
     code: 27,
-    label: 'X',
+    label: 'ס',
   },
   {
     code: 28,
-    label: 'Y',
+    label: 'ט',
+    meta: [
+      {
+        label: 'װ',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 29,
-    label: 'Z',
+    label: 'ז',
   },
   {
     code: 30,
@@ -145,6 +162,10 @@ export const KeyLabelUS: KeyLabel[] = [
         label: '#',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
+      {
+        label: '€',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
     ],
   },
   {
@@ -159,6 +180,10 @@ export const KeyLabelUS: KeyLabel[] = [
         label: '$',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
+      {
+        label: '₪',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
     ],
   },
   {
@@ -172,6 +197,10 @@ export const KeyLabelUS: KeyLabel[] = [
       {
         label: '%',
         modifiers: MOD.RIGHT | MOD.SFT,
+      },
+      {
+        label: '°',
+        modifiers: MOD.RIGHT | MOD.ALT,
       },
     ],
   },
@@ -215,6 +244,10 @@ export const KeyLabelUS: KeyLabel[] = [
         label: '*',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
+      {
+        label: '×',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
     ],
   },
   {
@@ -222,11 +255,11 @@ export const KeyLabelUS: KeyLabel[] = [
     label: '9',
     meta: [
       {
-        label: '(',
+        label: ')',
         modifiers: MOD.SFT,
       },
       {
-        label: '(',
+        label: ')',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
@@ -236,11 +269,11 @@ export const KeyLabelUS: KeyLabel[] = [
     label: '0',
     meta: [
       {
-        label: ')',
+        label: '(',
         modifiers: MOD.SFT,
       },
       {
-        label: ')',
+        label: '(',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
@@ -275,20 +308,6 @@ export const KeyLabelUS: KeyLabel[] = [
   },
   {
     code: 47,
-    label: '[',
-    meta: [
-      {
-        label: '{',
-        modifiers: MOD.SFT,
-      },
-      {
-        label: '{',
-        modifiers: MOD.RIGHT | MOD.SFT,
-      },
-    ],
-  },
-  {
-    code: 48,
     label: ']',
     meta: [
       {
@@ -302,22 +321,22 @@ export const KeyLabelUS: KeyLabel[] = [
     ],
   },
   {
-    code: 49,
-    label: '\\',
+    code: 48,
+    label: '[',
     meta: [
       {
-        label: '|',
+        label: '{',
         modifiers: MOD.SFT,
       },
       {
-        label: '|',
+        label: '{',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
   },
   {
     code: 50,
-    label: '\\',
+    label: '(backslash)',
     meta: [
       {
         label: '|',
@@ -331,7 +350,7 @@ export const KeyLabelUS: KeyLabel[] = [
   },
   {
     code: 51,
-    label: ';',
+    label: 'ף',
     meta: [
       {
         label: ':',
@@ -345,7 +364,7 @@ export const KeyLabelUS: KeyLabel[] = [
   },
   {
     code: 52,
-    label: "'",
+    label: ',',
     meta: [
       {
         label: '"',
@@ -359,7 +378,7 @@ export const KeyLabelUS: KeyLabel[] = [
   },
   {
     code: 53,
-    label: '`',
+    label: ';',
     meta: [
       {
         label: '~',
@@ -373,35 +392,35 @@ export const KeyLabelUS: KeyLabel[] = [
   },
   {
     code: 54,
-    label: ',',
+    label: 'ת',
     meta: [
       {
-        label: '<',
+        label: '>',
         modifiers: MOD.SFT,
       },
       {
-        label: '<',
+        label: '>',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
   },
   {
     code: 55,
-    label: '.',
+    label: 'ץ',
     meta: [
       {
-        label: '>',
+        label: '<',
         modifiers: MOD.SFT,
       },
       {
-        label: '>',
+        label: '<',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
   },
   {
     code: 56,
-    label: '/',
+    label: '.',
     meta: [
       {
         label: '?',
@@ -411,6 +430,210 @@ export const KeyLabelUS: KeyLabel[] = [
         label: '?',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
+      {
+        label: '÷',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
     ],
+  },
+  {
+    code: 542,
+    label: '!',
+  },
+  {
+    code: 543,
+    label: '@',
+  },
+  {
+    code: 544,
+    label: '#',
+  },
+  {
+    code: 545,
+    label: '$',
+  },
+  {
+    code: 546,
+    label: '%',
+  },
+  {
+    code: 547,
+    label: '^',
+  },
+  {
+    code: 548,
+    label: '&',
+  },
+  {
+    code: 549,
+    label: '*',
+  },
+  {
+    code: 550,
+    label: ')',
+  },
+  {
+    code: 551,
+    label: '(',
+  },
+  {
+    code: 557,
+    label: '_',
+  },
+  {
+    code: 558,
+    label: '+',
+  },
+  {
+    code: 559,
+    label: '}',
+  },
+  {
+    code: 560,
+    label: '{',
+  },
+  {
+    code: 562,
+    label: '|',
+  },
+  {
+    code: 563,
+    label: ':',
+  },
+  {
+    code: 564,
+    label: '"',
+  },
+  {
+    code: 565,
+    label: '~',
+  },
+  {
+    code: 566,
+    label: '>',
+  },
+  {
+    code: 567,
+    label: '<',
+  },
+  {
+    code: 568,
+    label: '?',
+  },
+  {
+    code: 4638,
+    label: '!',
+  },
+  {
+    code: 4639,
+    label: '@',
+  },
+  {
+    code: 4640,
+    label: '#',
+  },
+  {
+    code: 4641,
+    label: '$',
+  },
+  {
+    code: 4642,
+    label: '%',
+  },
+  {
+    code: 4643,
+    label: '^',
+  },
+  {
+    code: 4644,
+    label: '&',
+  },
+  {
+    code: 4645,
+    label: '*',
+  },
+  {
+    code: 4646,
+    label: ')',
+  },
+  {
+    code: 4647,
+    label: '(',
+  },
+  {
+    code: 4653,
+    label: '_',
+  },
+  {
+    code: 4654,
+    label: '+',
+  },
+  {
+    code: 4655,
+    label: '}',
+  },
+  {
+    code: 4656,
+    label: '{',
+  },
+  {
+    code: 4658,
+    label: '|',
+  },
+  {
+    code: 4659,
+    label: ':',
+  },
+  {
+    code: 4660,
+    label: '"',
+  },
+  {
+    code: 4661,
+    label: '~',
+  },
+  {
+    code: 4662,
+    label: '>',
+  },
+  {
+    code: 4663,
+    label: '<',
+  },
+  {
+    code: 4664,
+    label: '?',
+  },
+  {
+    code: 5130,
+    label: 'ױ',
+  },
+  {
+    code: 5131,
+    label: 'ײ',
+  },
+  {
+    code: 5148,
+    label: 'װ',
+  },
+  {
+    code: 5152,
+    label: '€',
+  },
+  {
+    code: 5153,
+    label: '₪',
+  },
+  {
+    code: 5154,
+    label: '°',
+  },
+  {
+    code: 5157,
+    label: '×',
+  },
+  {
+    code: 5176,
+    label: '÷',
   },
 ];
