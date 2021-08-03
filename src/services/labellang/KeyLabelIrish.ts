@@ -1,9 +1,14 @@
 import { KeyLabel, MOD } from './KeyLabel';
-
-export const KeyLabelUs: KeyLabel[] = [
+export const KeyLabelIrish: KeyLabel[] = [
   {
     code: 4,
     label: 'A',
+    meta: [
+      {
+        label: 'Á',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 5,
@@ -20,6 +25,12 @@ export const KeyLabelUs: KeyLabel[] = [
   {
     code: 8,
     label: 'E',
+    meta: [
+      {
+        label: 'É',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 9,
@@ -36,6 +47,12 @@ export const KeyLabelUs: KeyLabel[] = [
   {
     code: 12,
     label: 'I',
+    meta: [
+      {
+        label: 'Í',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 13,
@@ -60,6 +77,12 @@ export const KeyLabelUs: KeyLabel[] = [
   {
     code: 18,
     label: 'O',
+    meta: [
+      {
+        label: 'Ó',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 19,
@@ -84,6 +107,12 @@ export const KeyLabelUs: KeyLabel[] = [
   {
     code: 24,
     label: 'U',
+    meta: [
+      {
+        label: 'Ú',
+        modifiers: MOD.RIGHT | MOD.ALT,
+      },
+    ],
   },
   {
     code: 25,
@@ -124,11 +153,11 @@ export const KeyLabelUs: KeyLabel[] = [
     label: '2',
     meta: [
       {
-        label: '@',
+        label: '"',
         modifiers: MOD.SFT,
       },
       {
-        label: '@',
+        label: '"',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
@@ -138,11 +167,11 @@ export const KeyLabelUs: KeyLabel[] = [
     label: '3',
     meta: [
       {
-        label: '#',
+        label: '£',
         modifiers: MOD.SFT,
       },
       {
-        label: '#',
+        label: '£',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
@@ -158,6 +187,10 @@ export const KeyLabelUs: KeyLabel[] = [
       {
         label: '$',
         modifiers: MOD.RIGHT | MOD.SFT,
+      },
+      {
+        label: '€',
+        modifiers: MOD.RIGHT | MOD.ALT,
       },
     ],
   },
@@ -302,29 +335,15 @@ export const KeyLabelUs: KeyLabel[] = [
     ],
   },
   {
-    code: 49,
-    label: '\\',
-    meta: [
-      {
-        label: '|',
-        modifiers: MOD.SFT,
-      },
-      {
-        label: '|',
-        modifiers: MOD.RIGHT | MOD.SFT,
-      },
-    ],
-  },
-  {
     code: 50,
-    label: '\\',
+    label: '#',
     meta: [
       {
-        label: '|',
+        label: '~',
         modifiers: MOD.SFT,
       },
       {
-        label: '|',
+        label: '~',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
@@ -348,12 +367,16 @@ export const KeyLabelUs: KeyLabel[] = [
     label: "'",
     meta: [
       {
-        label: '"',
+        label: '@',
         modifiers: MOD.SFT,
       },
       {
-        label: '"',
+        label: '@',
         modifiers: MOD.RIGHT | MOD.SFT,
+      },
+      {
+        label: '´ (dead)',
+        modifiers: MOD.RIGHT | MOD.ALT,
       },
     ],
   },
@@ -362,12 +385,16 @@ export const KeyLabelUs: KeyLabel[] = [
     label: '`',
     meta: [
       {
-        label: '~',
+        label: '¬',
         modifiers: MOD.SFT,
       },
       {
-        label: '~',
+        label: '¬',
         modifiers: MOD.RIGHT | MOD.SFT,
+      },
+      {
+        label: '¦',
+        modifiers: MOD.RIGHT | MOD.ALT,
       },
     ],
   },
@@ -412,5 +439,227 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+  },
+  {
+    code: 100,
+    label: '(backslash)',
+    meta: [
+      {
+        label: '|',
+        modifiers: MOD.SFT,
+      },
+      {
+        label: '|',
+        modifiers: MOD.RIGHT | MOD.SFT,
+      },
+    ],
+  },
+  {
+    code: 542,
+    label: '!',
+  },
+  {
+    code: 543,
+    label: '"',
+  },
+  {
+    code: 544,
+    label: '£',
+  },
+  {
+    code: 545,
+    label: '$',
+  },
+  {
+    code: 546,
+    label: '%',
+  },
+  {
+    code: 547,
+    label: '^',
+  },
+  {
+    code: 548,
+    label: '&',
+  },
+  {
+    code: 549,
+    label: '*',
+  },
+  {
+    code: 550,
+    label: '(',
+  },
+  {
+    code: 551,
+    label: ')',
+  },
+  {
+    code: 557,
+    label: '_',
+  },
+  {
+    code: 558,
+    label: '+',
+  },
+  {
+    code: 559,
+    label: '{',
+  },
+  {
+    code: 560,
+    label: '}',
+  },
+  {
+    code: 562,
+    label: '~',
+  },
+  {
+    code: 563,
+    label: ':',
+  },
+  {
+    code: 564,
+    label: '@',
+  },
+  {
+    code: 565,
+    label: '¬',
+  },
+  {
+    code: 566,
+    label: '<',
+  },
+  {
+    code: 567,
+    label: '>',
+  },
+  {
+    code: 568,
+    label: '?',
+  },
+  {
+    code: 612,
+    label: '|',
+  },
+  {
+    code: 4638,
+    label: '!',
+  },
+  {
+    code: 4639,
+    label: '"',
+  },
+  {
+    code: 4640,
+    label: '£',
+  },
+  {
+    code: 4641,
+    label: '$',
+  },
+  {
+    code: 4642,
+    label: '%',
+  },
+  {
+    code: 4643,
+    label: '^',
+  },
+  {
+    code: 4644,
+    label: '&',
+  },
+  {
+    code: 4645,
+    label: '*',
+  },
+  {
+    code: 4646,
+    label: '(',
+  },
+  {
+    code: 4647,
+    label: ')',
+  },
+  {
+    code: 4653,
+    label: '_',
+  },
+  {
+    code: 4654,
+    label: '+',
+  },
+  {
+    code: 4655,
+    label: '{',
+  },
+  {
+    code: 4656,
+    label: '}',
+  },
+  {
+    code: 4658,
+    label: '~',
+  },
+  {
+    code: 4659,
+    label: ':',
+  },
+  {
+    code: 4660,
+    label: '@',
+  },
+  {
+    code: 4661,
+    label: '¬',
+  },
+  {
+    code: 4662,
+    label: '<',
+  },
+  {
+    code: 4663,
+    label: '>',
+  },
+  {
+    code: 4664,
+    label: '?',
+  },
+  {
+    code: 4708,
+    label: '|',
+  },
+  {
+    code: 5124,
+    label: 'Á',
+  },
+  {
+    code: 5128,
+    label: 'É',
+  },
+  {
+    code: 5132,
+    label: 'Í',
+  },
+  {
+    code: 5138,
+    label: 'Ó',
+  },
+  {
+    code: 5144,
+    label: 'Ú',
+  },
+  {
+    code: 5153,
+    label: '€',
+  },
+  {
+    code: 5172,
+    label: '´ (dead)',
+  },
+  {
+    code: 5173,
+    label: '¦',
   },
 ];

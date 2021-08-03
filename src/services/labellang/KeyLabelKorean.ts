@@ -1,6 +1,5 @@
 import { KeyLabel, MOD } from './KeyLabel';
-
-export const KeyLabelUs: KeyLabel[] = [
+export const KeyLabelKorean: KeyLabel[] = [
   {
     code: 4,
     label: 'A',
@@ -303,21 +302,7 @@ export const KeyLabelUs: KeyLabel[] = [
   },
   {
     code: 49,
-    label: '\\',
-    meta: [
-      {
-        label: '|',
-        modifiers: MOD.SFT,
-      },
-      {
-        label: '|',
-        modifiers: MOD.RIGHT | MOD.SFT,
-      },
-    ],
-  },
-  {
-    code: 50,
-    label: '\\',
+    label: '₩',
     meta: [
       {
         label: '|',
@@ -341,12 +326,6 @@ export const KeyLabelUs: KeyLabel[] = [
         label: ':',
         modifiers: MOD.RIGHT | MOD.SFT,
       },
-    ],
-  },
-  {
-    code: 52,
-    label: "'",
-    meta: [
       {
         label: '"',
         modifiers: MOD.SFT,
@@ -356,6 +335,10 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+  },
+  {
+    code: 52,
+    label: "'",
   },
   {
     code: 53,
@@ -412,5 +395,181 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+  },
+  {
+    code: 144,
+    label: 'Han ↔ Yeong (한 ↔ 영)',
+  },
+  {
+    code: 145,
+    label: 'Hanja (한자)',
+  },
+  {
+    code: 542,
+    label: '!',
+  },
+  {
+    code: 543,
+    label: '@',
+  },
+  {
+    code: 544,
+    label: '#',
+  },
+  {
+    code: 545,
+    label: '$',
+  },
+  {
+    code: 546,
+    label: '%',
+  },
+  {
+    code: 547,
+    label: '^',
+  },
+  {
+    code: 548,
+    label: '&',
+  },
+  {
+    code: 549,
+    label: '*',
+  },
+  {
+    code: 550,
+    label: '(',
+  },
+  {
+    code: 551,
+    label: ')',
+  },
+  {
+    code: 557,
+    label: '_',
+  },
+  {
+    code: 558,
+    label: '+',
+  },
+  {
+    code: 559,
+    label: '{',
+  },
+  {
+    code: 560,
+    label: '}',
+  },
+  {
+    code: 561,
+    label: '|',
+  },
+  {
+    code: 563,
+    label: ':',
+  },
+  {
+    code: 563,
+    label: '"',
+  },
+  {
+    code: 565,
+    label: '~',
+  },
+  {
+    code: 566,
+    label: '<',
+  },
+  {
+    code: 567,
+    label: '>',
+  },
+  {
+    code: 568,
+    label: '?',
+  },
+  {
+    code: 4638,
+    label: '!',
+  },
+  {
+    code: 4639,
+    label: '@',
+  },
+  {
+    code: 4640,
+    label: '#',
+  },
+  {
+    code: 4641,
+    label: '$',
+  },
+  {
+    code: 4642,
+    label: '%',
+  },
+  {
+    code: 4643,
+    label: '^',
+  },
+  {
+    code: 4644,
+    label: '&',
+  },
+  {
+    code: 4645,
+    label: '*',
+  },
+  {
+    code: 4646,
+    label: '(',
+  },
+  {
+    code: 4647,
+    label: ')',
+  },
+  {
+    code: 4653,
+    label: '_',
+  },
+  {
+    code: 4654,
+    label: '+',
+  },
+  {
+    code: 4655,
+    label: '{',
+  },
+  {
+    code: 4656,
+    label: '}',
+  },
+  {
+    code: 4657,
+    label: '|',
+  },
+  {
+    code: 4659,
+    label: ':',
+  },
+  {
+    code: 4659,
+    label: '"',
+  },
+  {
+    code: 4661,
+    label: '~',
+  },
+  {
+    code: 4662,
+    label: '<',
+  },
+  {
+    code: 4663,
+    label: '>',
+  },
+  {
+    code: 4664,
+    label: '?',
   },
 ];
