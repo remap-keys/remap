@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import './CatalogForm.scss';
 import {
   Box,
@@ -24,7 +24,6 @@ import {
 } from '@material-ui/core';
 import {
   ALL_HOTSWAP_TYPE,
-  ALL_KEY_COUNT_TYPE,
   ALL_OLED_TYPE,
   ALL_SPEAKER_TYPE,
   ALL_SPLIT_TYPE,
@@ -32,7 +31,6 @@ import {
   ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IKeyboardFeatures,
-  IKeyboardKeyCountType,
 } from '../../../store/state';
 import {
   CatalogFormActionsType,
