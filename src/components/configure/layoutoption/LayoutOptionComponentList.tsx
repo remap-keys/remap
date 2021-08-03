@@ -78,7 +78,7 @@ export default class LayoutOptionComponentList extends React.Component<
         </Grid>
       );
     } else {
-      return <div>Layout Option not supported.</div>;
+      return <div>There is no Layout Option.</div>;
     }
   }
 }

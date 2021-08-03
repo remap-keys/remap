@@ -134,38 +134,6 @@ export default class CatalogKeymap extends React.Component<
             definitionDocument={this.props.definitionDocument!}
           />
           <div className="catalog-keymap-wrapper">
-            {this.props.keymaps!.length > 0 ? (
-              <div className="catalog-keymap-option-container">
-                <div className="catalog-keymap-option-lang">
-                  <Typography variant="subtitle1">
-                    {
-                      KeyLabelLangs.KeyLabelLangMenus.find(
-                        (m) => m.labelLang === this.props.langLabel
-                      )!.menuLabel
-                    }
-                  </Typography>
-                </div>
-                <Layer
-                  layerCount={this.props.keymaps!.length}
-                  selectedLayer={this.props.selectedLayer!}
-                  onClickLayer={this.props.updateSelectedLayer!}
-                />
-                <div className="catalog-keymap-option-pdf">
-                  <Tooltip
-                    arrow={true}
-                    placement="top"
-                    title="Get keymap cheat sheet (PDF)"
-                  >
-                    <IconButton
-                      size="small"
-                      onClick={this.onClickGetCheatsheet.bind(this)}
-                    >
-                      <PictureAsPdfRoundedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              </div>
-            ) : null}
             <div
               className="catalog-keymap-keyboards"
               style={{ margin: '0 auto' }}
@@ -205,6 +173,43 @@ export default class CatalogKeymap extends React.Component<
                   })}
                 </div>
               </div>
+            </div>
+            <div className="catalog-keymap-option-container">
+              {this.props.keymaps!.length > 0 ? (
+                <>
+                  <div className="catalog-keymap-option-side catalog-keymap-option-side-left"></div>
+                  <Layer
+                    layerCount={this.props.keymaps!.length}
+                    selectedLayer={this.props.selectedLayer!}
+                    onClickLayer={this.props.updateSelectedLayer!}
+                  />
+                  <div className="catalog-keymap-option-side catalog-keymap-option-side-right">
+                    <div className="catalog-keymap-option-pdf">
+                      <Tooltip
+                        arrow={true}
+                        placement="top"
+                        title="Get keymap cheat sheet (PDF)"
+                      >
+                        <IconButton
+                          size="small"
+                          onClick={this.onClickGetCheatsheet.bind(this)}
+                        >
+                          <PictureAsPdfRoundedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                    <div className="catalog-keymap-option-lang">
+                      <Typography variant="subtitle1">
+                        {
+                          KeyLabelLangs.KeyLabelLangMenus.find(
+                            (m) => m.labelLang === this.props.langLabel
+                          )!.menuLabel
+                        }
+                      </Typography>
+                    </div>
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
           <Paper elevation={0} className="catalog-keymap-content">

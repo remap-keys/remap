@@ -45,7 +45,7 @@
 
   &-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   &-keyboards {
@@ -80,18 +80,37 @@
   &-option {
     &-container {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
-      padding-right: $space-l;
+      padding: $space-l $space-l 0 $space-l;
+
+      .catalog-keymap-layer-wrapper {
+        flex-direction: row;
+        min-height: 0;
+      }
+    }
+
+    &-side {
+      display: flex;
+      width: 70px;
+    }
+
+    &-side-left {
+      display: flex;
+      margin-right: auto;
+    }
+
+    &-side-right {
+      display: flex;
+      margin-left: auto;
     }
 
     &-lang {
-      margin-bottom: 16px;
+      margin-left: 16px;
     }
 
     &-pdf {
-      margin-top: 16px;
     }
   }
 
