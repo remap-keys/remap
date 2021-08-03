@@ -86,7 +86,7 @@ export const KeytopWithShiftLangs: KeyboardLabelLang[] = [
   'en-us-dvp',
   'en-us-norman',
   'en-us-workman',
-  'en-us-zxcvm'
+  'en-us-zxcvm',
 ];
 export const KeytopWithShiftRightAltLangs: KeyboardLabelLang[] = [];
 
@@ -157,12 +157,10 @@ function findKeytopWithShiftRightAlt(
       keytop.meta = buildOriginKeyCombination(keymap);
     }
   }
-
   return keytop;
 }
 
 export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
-  
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
