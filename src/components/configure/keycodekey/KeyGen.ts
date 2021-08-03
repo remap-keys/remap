@@ -163,7 +163,6 @@ function findKeytopWithShiftRightAlt(
 
 export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
   
-  console.log("keymap.isAny",lang);
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
@@ -184,8 +183,6 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
-      
-      
       return { ...keytop, keymap };
     } else {
       return {
