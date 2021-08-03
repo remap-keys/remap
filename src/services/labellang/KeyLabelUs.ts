@@ -1,6 +1,6 @@
 import { KeyLabel, MOD } from './KeyLabel';
 
-export const KeyLabelUS: KeyLabel[] = [
+export const KeyLabelUs: KeyLabel[] = [
   {
     code: 4,
     label: 'A',

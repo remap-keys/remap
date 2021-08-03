@@ -27,7 +27,7 @@ import { KeyLabelIrish } from './KeyLabelIrish';
 import { KeyLabelItalian } from './KeyLabelItalian';
 import { KeyLabelItalian_osx_ansi } from './KeyLabelItalian_osx_ansi';
 import { KeyLabelItalian_osx_iso } from './KeyLabelItalian_osx_iso';
-import { KeyLabelJP } from './KeyLabelJP';
+import { KeyLabelJp } from './KeyLabelJp';
 import { KeyLabelKorean } from './KeyLabelKorean';
 import { KeyLabelLatvian } from './KeyLabelLatvian';
 import { KeyLabelLithuanian_azerty } from './KeyLabelLithuanian_azerty';
@@ -50,7 +50,7 @@ import { KeyLabelSwedish } from './KeyLabelSwedish';
 import { KeyLabelTurkish_f } from './KeyLabelTurkish_f';
 import { KeyLabelTurkish_q } from './KeyLabelTurkish_q';
 import { KeyLabelUk } from './KeyLabelUk';
-import { KeyLabelUS } from './KeyLabelUS';
+import { KeyLabelUs } from './KeyLabelUs';
 import { KeyLabelUs_international } from './KeyLabelUs_international';
 import { KeyLabelWorkman } from './KeyLabelWorkman';
 import { KeyLabelWorkman_zxcvm } from './KeyLabelWorkman_zxcvm';
@@ -170,7 +170,7 @@ const KEY_LABEL_LANGS: {
   },
   {
     labelLang: 'en-us',
-    keyLabels: genKeyLabels(KeyLabelUS),
+    keyLabels: genKeyLabels(KeyLabelUs),
     menuLabel: 'English (US)',
   },
   {
@@ -280,7 +280,7 @@ const KEY_LABEL_LANGS: {
   },
   {
     labelLang: 'ja-jp',
-    keyLabels: genKeyLabels(KeyLabelJP),
+    keyLabels: genKeyLabels(KeyLabelJp),
     menuLabel: 'Japanese',
   },
   {

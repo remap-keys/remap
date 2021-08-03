@@ -1,4 +1,4 @@
-import { KeyLabel, MOD } from './KeyLabel';
+import { KeyLabel } from './KeyLabel';
 export const KeyLabelNeo2: KeyLabel[] = [
   {
     code: 0,

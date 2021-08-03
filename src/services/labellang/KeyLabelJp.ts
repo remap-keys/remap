@@ -1,6 +1,6 @@
 import { KeyLabel, MOD } from './KeyLabel';
 
-export const KeyLabelJP: KeyLabel[] = [
+export const KeyLabelJp: KeyLabel[] = [
   {
     code: 4,
     label: 'A',
