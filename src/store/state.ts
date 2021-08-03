@@ -76,8 +76,11 @@ export const FirmwareCodePlace: { [p: string]: IFirmwareCodePlace } = {
 export const ALL_KEY_COUNT_TYPE = [
   'over_100',
   '100',
+  '90',
   '80',
+  '70',
   '60',
+  '50',
   '40',
   '30',
   'macro',
