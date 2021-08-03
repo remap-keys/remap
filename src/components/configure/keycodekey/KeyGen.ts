@@ -31,9 +31,62 @@ type KeytopWithShiftRightALt = {
   metaRight: string; // label with RightAlt(show the label at mid-right)
 };
 export const KeytopWithShiftLangs: KeyboardLabelLang[] = [
+  'en-ca',
+  'hr-hr',
+  'cs-cz',
+  'da-dk',
+  'nl-be',
+  'en-ie',
   'en-us',
-  'ja-jp',
   'en-gb',
+  'en-us-int',
+  'et-ee',
+  'fi-fi',
+  'fr-fr',
+  'fr-fr-afnor',
+  'fr-fr-bepo',
+  'fr-be',
+  'fr-ch',
+  'fr-fr-mac',
+  'de-de',
+  'de-ch',
+  'de-de-mac',
+  'de-de-neo2',
+  'el-gr',
+  'he-il',
+  'hu-hu',
+  'is-is',
+  'it-it',
+  'it-it-mac-ansi',
+  'it-it-mac-iso',
+  'ja-jp',
+  'ko-kr',
+  'lv-lv',
+  'lt-lt-azerty',
+  'lt-lt-qwertz',
+  'nb-no',
+  'pl-pl',
+  'pt-pt',
+  'pt-pt-mac',
+  'pt-br',
+  'ro-ro',
+  'ru-ru',
+  'sr-sp',
+  'sr-sp-latin',
+  'sk-sk',
+  'sl-sl',
+  'es-es',
+  'es-es-dvorak',
+  'sv-se',
+  'tr-tr-f',
+  'tr-tr-q',
+  'en-us-colemak',
+  'en-us-dvorak',
+  'fr-fr-dvorak',
+  'en-us-dvp',
+  'en-us-norman',
+  'en-us-workman',
+  'en-us-zxcvm'
 ];
 export const KeytopWithShiftRightAltLangs: KeyboardLabelLang[] = [];
 
@@ -109,6 +162,8 @@ function findKeytopWithShiftRightAlt(
 }
 
 export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
+  
+  console.log("keymap.isAny",lang);
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
@@ -129,6 +184,8 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
+      
+      
       return { ...keytop, keymap };
     } else {
       return {
