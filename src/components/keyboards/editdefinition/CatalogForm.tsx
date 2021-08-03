@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import './CatalogForm.scss';
 import {
   Box,
@@ -32,6 +32,7 @@ import {
   ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IKeyboardFeatures,
+  IKeyboardKeyCountType,
 } from '../../../store/state';
 import {
   CatalogFormActionsType,
@@ -66,14 +67,11 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeKeyCount = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+    value: IKeyboardFeatures
   ): void => {
-    props.updateFeature!(
-      event.target.value as IKeyboardFeatures,
-      ALL_KEY_COUNT_TYPE
-    );
+    props.updateFeature!(checked ? value : CONDITION_NOT_SELECTED, [value]);
   };
 
   const onChangeKeyboardType = (
@@ -361,19 +359,46 @@ export default function CatalogForm(props: CatalogFormProps) {
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <FormLabel component="legend">Number of Keys</FormLabel>
-                  <Select
-                    value={getFeatureValue(ALL_KEY_COUNT_TYPE)}
-                    onChange={onChangeKeyCount}
-                  >
-                    <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="over_100">Over 100%</MenuItem>
-                    <MenuItem value="100">100%</MenuItem>
-                    <MenuItem value="80">80%</MenuItem>
-                    <MenuItem value="60">60%</MenuItem>
-                    <MenuItem value="40">40%</MenuItem>
-                    <MenuItem value="30">30%</MenuItem>
-                    <MenuItem value="macro">Macro</MenuItem>
-                  </Select>
+                  <FormGroup row>
+                    {[
+                      ['over_100', 'Over 100%'],
+                      ['100', '100%'],
+                      ['90', '90%'],
+                      ['80', '80%'],
+                      ['70', '70%'],
+                      ['60', '60%'],
+                      ['50', '50%'],
+                      ['40', '40%'],
+                      ['30', '30%'],
+                      ['macro', 'Macro'],
+                    ].map((data) => {
+                      const [value, label] = data;
+                      return (
+                        <FormControlLabel
+                          key={value}
+                          control={
+                            <Checkbox
+                              value={value}
+                              checked={hasFeatureValue(
+                                value as IKeyboardFeatures
+                              )}
+                              onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>,
+                                checked: boolean
+                              ) => {
+                                onChangeKeyCount(
+                                  event,
+                                  checked,
+                                  value as IKeyboardFeatures
+                                );
+                              }}
+                            />
+                          }
+                          label={label}
+                        />
+                      );
+                    })}
+                  </FormGroup>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">

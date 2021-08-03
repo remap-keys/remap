@@ -24,13 +24,25 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: '100%',
     description: 'This keyboard has about 100 keys.',
   },
+  '90': {
+    label: '90%',
+    description: 'This keyboard has about 90 keys.',
+  },
   '80': {
     label: '80%',
     description: 'This keyboard has about 80 keys.',
   },
+  '70': {
+    label: '70%',
+    description: 'This keyboard has about 70 keys.',
+  },
   '60': {
     label: '60%',
     description: 'This keyboard has about 60 keys.',
+  },
+  '50': {
+    label: '50%',
+    description: 'This keyboard has about 50 keys.',
   },
   '40': {
     label: '40%',
