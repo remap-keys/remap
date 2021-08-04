@@ -1,7 +1,7 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { StyledComponentProps, withStyles } from '@material-ui/core/styles';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
@@ -55,6 +55,26 @@ class App extends React.Component<StyledComponentProps, {}> {
             <Route path="/catalog/:definitionId">
               <Catalog catalogDetailMode="introduction" />
             </Route>
+            <Route
+              path="/_catalog/:definitionId/keymap"
+              render={(props) => {
+                const path = `/catalog/${props.match.params.definitionId}/keymap${props.location.search}`;
+                props.history.push(path);
+                return null;
+              }}
+            />
+            <Redirect
+              from="/_catalog/:definitionId"
+              to="/catalog/:definitionId"
+            />
+            <Route
+              path="/_catalog"
+              render={(props) => {
+                const path = `/catalog${props.location.search}`;
+                props.history.push(path);
+                return null;
+              }}
+            />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>
