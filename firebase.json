@@ -9,10 +9,6 @@
         "function": "sitemap"
       },
       {
-        "source": "/catalog/**",
-        "function": "catalog"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
