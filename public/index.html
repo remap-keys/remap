@@ -8,16 +8,6 @@
       function gtag() {
         dataLayer.push(arguments);
       }
-      if (location.search.indexOf('referrer=') >= 0) {
-        var params = location.search.replace('?', '').split('&');
-        for (var i = 0; i < params.length; i++) {
-          var kv = params[i].split('=');
-          if (kv.length === 2 && kv[0] === 'referrer') {
-            gtag('set', { referrer: decodeURIComponent(kv[1]) });
-            break;
-          }
-        }
-      }
       gtag('js', new Date());
     </script>
 
