@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { IKeyboardFeatures } from '../../../store/state';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
+import TweetButton from '../../common/twitter/TweetButton';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -231,6 +232,15 @@ export default class CatalogIntroduction extends React.Component<
                   ) : (
                     <div>Not specified by the owner of this keyboard.</div>
                   )}
+                </section>
+                <section className="catalog-introduction-section">
+                  <div className="catalog-introduction-share-buttons">
+                    <TweetButton
+                      url={`https://remap-keys.app/catalog/${
+                        this.props.definitionDocument!.id
+                      }`}
+                    />
+                  </div>
                 </section>
               </Grid>
               <Grid item sm={6} className="catalog-introduction-column">
