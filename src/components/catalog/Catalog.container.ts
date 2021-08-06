@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Catalog from './Catalog';
 import {
   ALL_HOTSWAP_TYPE,
+  ALL_KEY_COUNT_TYPE,
   ALL_KEY_SWITCH_TYPE,
   ALL_LED_TYPE,
   ALL_OLED_TYPE,
@@ -12,6 +13,7 @@ import {
   ICatalogPhase,
   IKeyboardFeatures,
   IKeyboardHotswapType,
+  IKeyboardKeyCountType,
   IKeyboardKeySwitchType,
   IKeyboardLedType,
   IKeyboardOledType,
@@ -70,6 +72,14 @@ const mapDispatchToProps = (_dispatch: any) => {
       }
       if (params.features) {
         (params.features as string).split(',').forEach((feature: string) => {
+          if (ALL_KEY_COUNT_TYPE.includes(feature as IKeyboardKeyCountType)) {
+            _dispatch(
+              CatalogSearchActions.updateFeatures(
+                feature as IKeyboardKeyCountType,
+                ALL_KEY_COUNT_TYPE
+              )
+            );
+          }
           if (ALL_SPLIT_TYPE.includes(feature as IKeyboardSplitType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
