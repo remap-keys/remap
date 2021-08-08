@@ -1634,7 +1634,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Language 5',
     keycodeInfo: {
       code: 148,
       name: {
