@@ -1641,7 +1641,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_LANG5',
         short: 'KC_LANG5',
       },
-      label: 'JIS Zenkaku/Hankaku',
+      label: 'Lang 5',
     },
   },
   {

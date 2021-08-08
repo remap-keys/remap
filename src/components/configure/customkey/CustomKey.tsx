@@ -344,7 +344,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               holdKey={this.state.holdKey}
               tapKey={this.state.tapKey}
               layerCount={this.props.layerCount}
-              labelLang={'en-us'}
+              labelLang={this.props.labelLang}
               onChange={(hold, tap) => {
                 this.onChangeHoldTap(hold, tap);
               }}
