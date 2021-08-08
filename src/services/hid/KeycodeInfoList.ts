@@ -1634,14 +1634,14 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: '',
+    desc: 'Language 5',
     keycodeInfo: {
       code: 148,
       name: {
         long: 'KC_LANG5',
         short: 'KC_LANG5',
       },
-      label: 'JIS Zenkaku/Hankaku',
+      label: 'Lang 5',
     },
   },
   {
