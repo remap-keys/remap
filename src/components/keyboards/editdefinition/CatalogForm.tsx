@@ -42,7 +42,7 @@ import {
 } from './CatalogForm.container';
 import { Delete } from '@material-ui/icons';
 import StoreAddDialog from './StoreAddDialog';
-import { IStore } from '../../../services/storage/Storage';
+import { IStore, ISubImage } from '../../../services/storage/Storage';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &
@@ -52,7 +52,8 @@ type CatalogFormProps = OwnProps &
 export default function CatalogForm(props: CatalogFormProps) {
   const dropTargetRef = React.createRef<HTMLDivElement>();
 
-  const [dragging, setDragging] = useState<boolean>(false);
+  const [mainImageDragging, setMainImageDragging] = useState<boolean>(false);
+  const [subImageDragging, setSubImageDragging] = useState<boolean>(false);
   const [openStoreAddDialog, setOpenStoreAddDialog] = useState<boolean>(false);
   const [
     additionalDescriptionTitle,
@@ -235,25 +236,46 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.save!();
   };
 
-  const onDragOverFile = (event: React.DragEvent<HTMLDivElement>) => {
+  const onDragOverMainImageFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setDragging(true);
+    setMainImageDragging(true);
   };
 
-  const onDragLeaveFile = (event: React.DragEvent<HTMLDivElement>) => {
+  const onDragLeaveMainImageFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setDragging(false);
+    setMainImageDragging(false);
   };
 
-  const onDropFile = (event: React.DragEvent<HTMLDivElement>) => {
+  const onDropMainImageFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setDragging(false);
+    setMainImageDragging(false);
     const files = event.dataTransfer.files;
     if (files.length !== 1) {
       return;
     }
     const file = files[0];
     props.uploadKeyboardCatalogImage!(props.definitionDocument!.id, file);
+  };
+
+  const onDragOverSubImageFile = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setSubImageDragging(true);
+  };
+
+  const onDragLeaveSubImageFile = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setSubImageDragging(false);
+  };
+
+  const onDropSubImageFile = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setSubImageDragging(false);
+    const files = event.dataTransfer.files;
+    if (files.length !== 1) {
+      return;
+    }
+    const file = files[0];
+    props.uploadKeyboardCatalogSubImage!(props.definitionDocument!.id, file);
   };
 
   const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -318,6 +340,10 @@ export default function CatalogForm(props: CatalogFormProps) {
     setAdditionalDescriptionBody('');
   };
 
+  const onDeleteSubImage = (subImageIndex: number) => {
+    props.deleteSubImage!(props.definitionDocument!.id, subImageIndex);
+  };
+
   return (
     <div className="edit-definition-catalog-form-container">
       <div className="edit-definition-catalog-form">
@@ -335,37 +361,74 @@ export default function CatalogForm(props: CatalogFormProps) {
           <Card variant="outlined">
             <CardContent>
               <div className="edit-definition-catalog-form-upload-image-form">
-                {props.uploading ? (
+                {props.mainImageUploading ? (
                   <div className="edit-definition-catalog-form-upload-image-form-progress">
-                    <CircularProgressWithLabel value={props.uploadedRate!} />
+                    <CircularProgressWithLabel
+                      value={props.mainImageUploadedRate!}
+                    />
                   </div>
                 ) : (
                   <React.Fragment>
                     <div
                       className={
-                        dragging
+                        mainImageDragging
                           ? 'edit-definition-catalog-form-upload-image-form-area edit-definition-catalog-form-upload-image-form-area-active'
                           : 'edit-definition-catalog-form-upload-image-form-area'
                       }
-                      onDragOver={onDragOverFile}
-                      onDrop={onDropFile}
-                      onDragLeave={onDragLeaveFile}
+                      onDragOver={onDragOverMainImageFile}
+                      onDrop={onDropMainImageFile}
+                      onDragLeave={onDragLeaveMainImageFile}
                     >
                       <div
                         className="edit-definition-catalog-form-upload-image-form-message"
                         ref={dropTargetRef}
                       >
-                        Drag image here
+                        Drop Main Image here
                       </div>
                     </div>
                   </React.Fragment>
                 )}
-                <div className="edit-definition-catalog-form-upload-image-form-thumbnail">
-                  <img src={props.definitionDocument!.thumbnailImageUrl} />
-                </div>
-                <div className="edit-definition-catalog-form-upload-image-form-image">
-                  <img src={props.definitionDocument!.imageUrl} />
-                </div>
+                <div
+                  className="edit-definition-catalog-form-upload-image-form-image"
+                  style={{
+                    backgroundImage: `url(${
+                      props.definitionDocument!.imageUrl
+                    })`,
+                  }}
+                />
+              </div>
+              <div className="edit-definition-catalog-form-upload-image-form">
+                {props.subImageUploading ? (
+                  <div className="edit-definition-catalog-form-upload-image-form-progress">
+                    <CircularProgressWithLabel
+                      value={props.subImageUploadedRate!}
+                    />
+                  </div>
+                ) : (
+                  <React.Fragment>
+                    <div
+                      className={
+                        subImageDragging
+                          ? 'edit-definition-catalog-form-upload-image-form-area edit-definition-catalog-form-upload-image-form-area-active'
+                          : 'edit-definition-catalog-form-upload-image-form-area'
+                      }
+                      onDragOver={onDragOverSubImageFile}
+                      onDrop={onDropSubImageFile}
+                      onDragLeave={onDragLeaveSubImageFile}
+                    >
+                      <div
+                        className="edit-definition-catalog-form-upload-image-form-message"
+                        ref={dropTargetRef}
+                      >
+                        Drop Sub Image here
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
+                <SubImageList
+                  subImages={props.definitionDocument!.subImages}
+                  onDeleteSubImage={onDeleteSubImage}
+                />
               </div>
             </CardContent>
           </Card>
@@ -785,5 +848,86 @@ function CircularProgressWithLabel(
         >{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
+  );
+}
+
+type SubImageListProps = {
+  subImages: ISubImage[];
+  // eslint-disable-next-line no-unused-vars
+  onDeleteSubImage: (subImageIndex: number) => void;
+};
+
+function SubImageList(props: SubImageListProps) {
+  return (
+    <React.Fragment>
+      {props.subImages.length > 0 ? (
+        <SubImage
+          subImageIndex={0}
+          imageUrl={props.subImages[0].image_url}
+          onDeleteSubImage={props.onDeleteSubImage}
+        />
+      ) : (
+        <div className="edit-definition-catalog-form-upload-image-form-image" />
+      )}
+      {props.subImages.length > 1 ? (
+        <SubImage
+          subImageIndex={1}
+          imageUrl={props.subImages[1].image_url}
+          onDeleteSubImage={props.onDeleteSubImage}
+        />
+      ) : (
+        <div className="edit-definition-catalog-form-upload-image-form-image" />
+      )}
+      {props.subImages.length > 2 ? (
+        <SubImage
+          subImageIndex={2}
+          imageUrl={props.subImages[2].image_url}
+          onDeleteSubImage={props.onDeleteSubImage}
+        />
+      ) : (
+        <div className="edit-definition-catalog-form-upload-image-form-image" />
+      )}
+    </React.Fragment>
+  );
+}
+
+type SubImageProps = {
+  subImageIndex: number;
+  imageUrl: string;
+  // eslint-disable-next-line no-unused-vars
+  onDeleteSubImage: (subImageIndex: number) => void;
+};
+
+function SubImage(props: SubImageProps) {
+  const [entered, setEntered] = useState<boolean>(false);
+
+  const onClickDeleteSubImage = () => {
+    props.onDeleteSubImage(props.subImageIndex);
+  };
+
+  return (
+    <div
+      className="edit-definition-catalog-form-upload-image-form-sub-image"
+      style={{
+        backgroundImage: `url(${props.imageUrl})`,
+      }}
+      onMouseEnter={() => {
+        setEntered(true);
+      }}
+      onMouseLeave={() => {
+        setEntered(false);
+      }}
+    >
+      {entered ? (
+        <div
+          className="edit-definition-catalog-form-upload-image-form-sub-image-wrapper"
+          onClick={() => {
+            onClickDeleteSubImage();
+          }}
+        >
+          <Delete />
+        </div>
+      ) : null}
+    </div>
   );
 }

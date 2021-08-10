@@ -264,8 +264,10 @@ export type RootState = {
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
       features: IKeyboardFeatures[];
-      uploadedRate: number;
-      uploading: boolean;
+      mainImageUploadedRate: number;
+      mainImageUploading: boolean;
+      subImageUploadedRate: number;
+      subImageUploading: boolean;
       description: string;
       stores: IStore[];
       websiteUrl: string;
@@ -427,8 +429,10 @@ export const INIT_STATE: RootState = {
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
       features: [],
-      uploadedRate: 0,
-      uploading: false,
+      mainImageUploadedRate: 0,
+      mainImageUploading: false,
+      subImageUploadedRate: 0,
+      subImageUploading: false,
       description: '',
       stores: [],
       websiteUrl: '',

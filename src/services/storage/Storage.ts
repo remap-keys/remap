@@ -33,6 +33,11 @@ export interface IAdditionalDescription {
   body: string;
 }
 
+export interface ISubImage {
+  thumbnail_image_url: string;
+  image_url: string;
+}
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -55,6 +60,7 @@ export interface IKeyboardDefinitionDocument {
   readonly features: IKeyboardFeatures[];
   readonly thumbnailImageUrl: string;
   readonly imageUrl: string;
+  readonly subImages: ISubImage[];
   readonly description: string;
   readonly additionalDescriptions: IAdditionalDescription[];
   readonly stores: IStore[];
@@ -239,10 +245,19 @@ export interface IStorage {
     additionalDescriptions: IAdditionalDescription[]
   ): Promise<IResult>;
 
-  uploadKeyboardCatalogImage(
+  uploadKeyboardCatalogMainImage(
     definitionId: string,
     file: File,
     progress: (uploadedRate: number) => void
+  ): Promise<IResult>;
+  uploadKeyboardCatalogSubImage(
+    definitionId: string,
+    file: File,
+    progress: (uploadedRate: number) => void
+  ): Promise<IResult>;
+  deleteKeyboardCatalogSubImage(
+    definitionId: string,
+    subImageIndex: number
   ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

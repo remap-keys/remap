@@ -20,6 +20,7 @@ import {
   IStore,
   IFetchSharedKeymapResult,
   IAdditionalDescription,
+  ISubImage,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -89,6 +90,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       features: documentSnapshot.data()!.features || [],
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
       imageUrl: documentSnapshot.data()!.image_url,
+      subImages: documentSnapshot.data()!.sub_images || [],
       description: documentSnapshot.data()!.description || '',
       additionalDescriptions:
         documentSnapshot.data()!.additional_descriptions || [],
@@ -919,7 +921,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async uploadKeyboardCatalogImage(
+  async uploadKeyboardCatalogMainImage(
     definitionId: string,
     file: File,
     // eslint-disable-next-line no-unused-vars
@@ -965,5 +967,110 @@ export class FirebaseProvider implements IStorage, IAuth {
         }
       );
     });
+  }
+
+  async uploadKeyboardCatalogSubImage(
+    definitionId: string,
+    file: File,
+    // eslint-disable-next-line no-unused-vars
+    progress: (uploadedRate: number) => void
+  ): Promise<IResult> {
+    // eslint-disable-next-line no-unused-vars
+    return new Promise<IResult>((resolve, reject) => {
+      const timestamp = new Date().getTime();
+      const uploadTask = this.storage
+        .ref(`/catalog/${definitionId}_${timestamp}`)
+        .put(file);
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          const rate = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          progress(rate);
+        },
+        (error) => {
+          console.error(error);
+          resolve({
+            success: false,
+            error: 'Uploading keyboard catalog image failed.',
+            cause: error,
+          });
+        },
+        () => {
+          setTimeout(async () => {
+            const thumbnailImageUrl = await this.storage
+              .ref(`/catalog/resized/${definitionId}_${timestamp}_200x150`)
+              .getDownloadURL();
+            const imageUrl = await this.storage
+              .ref(`/catalog/resized/${definitionId}_${timestamp}_400x300`)
+              .getDownloadURL();
+            const documentSnapshot = await this.db
+              .collection('keyboards')
+              .doc('v2')
+              .collection('definitions')
+              .doc(definitionId)
+              .get();
+            if (documentSnapshot.exists) {
+              const subImages = documentSnapshot.data()!.sub_images || [];
+              subImages.push({
+                thumbnail_image_url: thumbnailImageUrl,
+                image_url: imageUrl,
+              });
+              await this.db
+                .collection('keyboards')
+                .doc('v2')
+                .collection('definitions')
+                .doc(definitionId)
+                .update({
+                  sub_images: subImages,
+                  updated_at: new Date(),
+                });
+              resolve({
+                success: true,
+              });
+            } else {
+              resolve({
+                success: false,
+                error: `The target keyboard definition document [${definitionId}} not found.`,
+              });
+            }
+          }, 5000);
+        }
+      );
+    });
+  }
+
+  async deleteKeyboardCatalogSubImage(
+    definitionId: string,
+    subImageIndex: number
+  ): Promise<IResult> {
+    const documentSnapshot = await this.db
+      .collection('keyboards')
+      .doc('v2')
+      .collection('definitions')
+      .doc(definitionId)
+      .get();
+    if (documentSnapshot.exists) {
+      const subImages: ISubImage[] = documentSnapshot.data()!.sub_images || [];
+      const newSubImages = subImages.filter(
+        (subImage, index) => index !== subImageIndex
+      );
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          sub_images: newSubImages,
+          updated_at: new Date(),
+        });
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: `The target keyboard definition document [${definitionId}} not found.`,
+      };
+    }
   }
 }

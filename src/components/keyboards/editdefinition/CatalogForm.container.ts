@@ -13,8 +13,10 @@ const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     features: state.keyboards.editdefinition.features,
-    uploadedRate: state.keyboards.editdefinition.uploadedRate,
-    uploading: state.keyboards.editdefinition.uploading,
+    mainImageUploadedRate: state.keyboards.editdefinition.mainImageUploadedRate,
+    mainImageUploading: state.keyboards.editdefinition.mainImageUploading,
+    subImageUploadedRate: state.keyboards.editdefinition.subImageUploadedRate,
+    subImageUploading: state.keyboards.editdefinition.subImageUploading,
     description: state.keyboards.editdefinition.description,
     stores: state.keyboards.editdefinition.stores,
     websiteUrl: state.keyboards.editdefinition.websiteUrl,
@@ -60,6 +62,19 @@ const mapDispatchToProps = (_dispatch: any) => {
     deleteAdditionalDescription: (index: number) => {
       _dispatch(
         KeyboardsEditDefinitionActions.deleteAdditionalDescription(index)
+      );
+    },
+    uploadKeyboardCatalogSubImage: (definitionId: string, file: File) => {
+      _dispatch(
+        storageActionsThunk.uploadKeyboardCatalogSubImage(definitionId, file)
+      );
+    },
+    deleteSubImage: (definitionId: string, subImageIndex: number) => {
+      _dispatch(
+        storageActionsThunk.deleteKeyboardCatalogSubImage(
+          definitionId,
+          subImageIndex
+        )
       );
     },
   };

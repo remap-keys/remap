@@ -64,6 +64,10 @@
     display: flex;
     flex-direction: row;
 
+    &:first-child {
+      margin-bottom: 8px;
+    }
+
     &-area {
       width: 200px;
       height: 150px;
@@ -102,9 +106,34 @@
 
     &-image {
       margin-left: 8px;
-      width: 400px;
-      height: 300px;
       border: 1px solid $color-gray-300;
+      width: 200px;
+      height: 150px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &-sub-image {
+      margin-left: 8px;
+      border: 1px solid $color-gray-300;
+      width: 200px;
+      height: 150px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      &-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: black;
+        cursor: pointer;
+      }
     }
   }
 

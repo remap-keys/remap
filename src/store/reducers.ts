@@ -116,9 +116,11 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_PRODUCT_NAME,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES,
-  KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADED_RATE,
-  KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_MAIN_IMAGE_UPLOADED_RATE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_MAIN_IMAGE_UPLOADING,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADED_RATE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADING,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -280,11 +282,17 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.features = newFeatures;
       break;
     }
-    case KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADED_RATE:
-      draft.keyboards.editdefinition.uploadedRate = action.value;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_MAIN_IMAGE_UPLOADED_RATE:
+      draft.keyboards.editdefinition.mainImageUploadedRate = action.value;
       break;
-    case KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING:
-      draft.keyboards.editdefinition.uploading = action.value;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_MAIN_IMAGE_UPLOADING:
+      draft.keyboards.editdefinition.mainImageUploading = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADED_RATE:
+      draft.keyboards.editdefinition.subImageUploadedRate = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADING:
+      draft.keyboards.editdefinition.subImageUploading = action.value;
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION:
       draft.keyboards.editdefinition.description = action.value;
