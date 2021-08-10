@@ -28,6 +28,11 @@ export interface IStore {
   url: string;
 }
 
+export interface IAdditionalDescription {
+  title: string;
+  body: string;
+}
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -51,6 +56,7 @@ export interface IKeyboardDefinitionDocument {
   readonly thumbnailImageUrl: string;
   readonly imageUrl: string;
   readonly description: string;
+  readonly additionalDescriptions: IAdditionalDescription[];
   readonly stores: IStore[];
   readonly websiteUrl: string;
   readonly createdAt: Date;
@@ -229,7 +235,8 @@ export interface IStorage {
     features: IKeyboardFeatures[],
     description: string,
     stores: IStore[],
-    websiteUrl: string
+    websiteUrl: string,
+    additionalDescriptions: IAdditionalDescription[]
   ): Promise<IResult>;
 
   uploadKeyboardCatalogImage(

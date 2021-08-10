@@ -8,6 +8,7 @@ import {
 } from '../store/state';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
+  IAdditionalDescription,
   IKeyboardDefinitionDocument,
   IStore,
 } from '../services/storage/Storage';
@@ -144,6 +145,9 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_UPLOADING = `${KEYBOARDS_EDIT_DEFI
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateDescription`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_STORES = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateStores`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateWebsiteUrl`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAdditionalDefinitions`;
+export const KEYBOARDS_EDIT_DEFINITION_ADD_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/AddAdditionalDefinitions`;
+export const KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/DeleteAdditionalDefinitions`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -278,6 +282,26 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
       value: websiteUrl,
+    };
+  },
+  updateAdditionalDescriptions: (
+    additionalDescriptions: IAdditionalDescription[]
+  ) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS,
+      value: additionalDescriptions,
+    };
+  },
+  addAdditionalDescription: (title: string, body: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_ADD_ADDITIONAL_DESCRIPTIONS,
+      value: { title, body } as IAdditionalDescription,
+    };
+  },
+  deleteAdditionalDescription: (index: number) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS,
+      value: index,
     };
   },
 };

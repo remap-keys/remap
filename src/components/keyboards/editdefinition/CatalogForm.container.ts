@@ -18,6 +18,8 @@ const mapStateToProps = (state: RootState) => {
     description: state.keyboards.editdefinition.description,
     stores: state.keyboards.editdefinition.stores,
     websiteUrl: state.keyboards.editdefinition.websiteUrl,
+    additionalDescriptions:
+      state.keyboards.editdefinition.additionalDescriptions,
   };
 };
 export type CatalogFormStateType = ReturnType<typeof mapStateToProps>;
@@ -49,6 +51,16 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateWebsiteUrl: (websiteUrl: string) => {
       _dispatch(KeyboardsEditDefinitionActions.updateWebsiteUrl(websiteUrl));
+    },
+    addAdditionalDescription: (title: string, body: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.addAdditionalDescription(title, body)
+      );
+    },
+    deleteAdditionalDescription: (index: number) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.deleteAdditionalDescription(index)
+      );
     },
   };
 };

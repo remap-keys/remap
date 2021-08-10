@@ -95,8 +95,11 @@ import {
   KEYBOARDS_CREATE_DEFINITION_UPDATE_PRODUCT_NAME,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
   KEYBOARDS_EDIT_DEFINITION_ACTIONS,
+  KEYBOARDS_EDIT_DEFINITION_ADD_ADDITIONAL_DESCRIPTIONS,
   KEYBOARDS_EDIT_DEFINITION_CLEAR,
+  KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS,
   KEYBOARDS_EDIT_DEFINITION_INIT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE,
@@ -291,6 +294,20 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL:
       draft.keyboards.editdefinition.websiteUrl = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS:
+      draft.keyboards.editdefinition.additionalDescriptions = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_ADD_ADDITIONAL_DESCRIPTIONS:
+      draft.keyboards.editdefinition.additionalDescriptions = [
+        ...draft.keyboards.editdefinition.additionalDescriptions,
+        action.value,
+      ];
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS:
+      draft.keyboards.editdefinition.additionalDescriptions = draft.keyboards.editdefinition.additionalDescriptions.filter(
+        (_, index) => index !== action.value
+      );
       break;
   }
 };

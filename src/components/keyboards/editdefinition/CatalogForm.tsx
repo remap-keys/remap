@@ -13,11 +13,15 @@ import {
   FormGroup,
   FormLabel,
   IconButton,
+  InputAdornment,
+  InputLabel,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
   MenuItem,
+  OutlinedInput,
+  Paper,
   Select,
   TextField,
   Typography,
@@ -50,6 +54,14 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const [dragging, setDragging] = useState<boolean>(false);
   const [openStoreAddDialog, setOpenStoreAddDialog] = useState<boolean>(false);
+  const [
+    additionalDescriptionTitle,
+    setAdditionalDescriptionTitle,
+  ] = useState<string>('');
+  const [
+    additionalDescriptionBody,
+    setAdditionalDescriptionBody,
+  ] = useState<string>('');
 
   const getFeatureValue = (features: readonly string[]): string => {
     for (const feature of props.features!) {
@@ -277,10 +289,39 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.updateWebsiteUrl!(websiteUrl);
   };
 
+  const onChangeAdditionalDescriptionTitle = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setAdditionalDescriptionTitle(event.target.value);
+  };
+
+  const onChangeAdditionalDescriptionBody = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setAdditionalDescriptionBody(event.target.value);
+  };
+
+  const onClickAdditionalDescriptionDelete = (index: number) => {
+    const additionalDescription = props.additionalDescriptions![index];
+    props.deleteAdditionalDescription!(index);
+    setAdditionalDescriptionTitle(additionalDescription.title);
+    setAdditionalDescriptionBody(additionalDescription.body);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const onClickAdditionalDescriptionAdd = (event: React.SyntheticEvent) => {
+    props.addAdditionalDescription!(
+      additionalDescriptionTitle,
+      additionalDescriptionBody
+    );
+    setAdditionalDescriptionTitle('');
+    setAdditionalDescriptionBody('');
+  };
+
   return (
     <div className="edit-definition-catalog-form-container">
       <div className="edit-definition-catalog-form">
-        <div className="edit-definition-catalog-form-row">
+        <div className="edit-definition-catalog-form-section">
           <TextField
             label="Name"
             variant="outlined"
@@ -290,7 +331,7 @@ export default function CatalogForm(props: CatalogFormProps) {
             }}
           />
         </div>
-        <div className="edit-definition-catalog-form-row">
+        <div className="edit-definition-catalog-form-section">
           <Card variant="outlined">
             <CardContent>
               <div className="edit-definition-catalog-form-upload-image-form">
@@ -329,13 +370,13 @@ export default function CatalogForm(props: CatalogFormProps) {
             </CardContent>
           </Card>
         </div>
-        <div className="edit-definition-catalog-form-row">
+        <div className="edit-definition-catalog-form-section">
           <Card variant="outlined">
             <CardContent>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <TextField
-                    label="Description"
+                    label="Description (Default)"
                     multiline
                     rows={4}
                     variant="outlined"
@@ -344,6 +385,81 @@ export default function CatalogForm(props: CatalogFormProps) {
                   />
                 </FormControl>
               </div>
+              {props.additionalDescriptions!.map((item, index) => (
+                <div
+                  className="edit-definition-catalog-form-row"
+                  key={`additional-description-${index}`}
+                >
+                  <FormControl variant="outlined">
+                    <InputLabel htmlFor={`additional-description-${index}`}>
+                      Additional Description ({item.title})
+                    </InputLabel>
+                    <OutlinedInput
+                      id={`additional-description-${index}`}
+                      type="text"
+                      multiline
+                      rows={4}
+                      value={item.body}
+                      onChange={onChangeDescription}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="Delete this additional description"
+                            onClick={() => {
+                              onClickAdditionalDescriptionDelete(index);
+                            }}
+                            edge="end"
+                          >
+                            <Delete />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={(item.title.length + 25) * 8.5}
+                      readOnly={true}
+                    />
+                  </FormControl>
+                </div>
+              ))}
+              <Paper
+                variant="outlined"
+                className="edit-definition-catalog-form-additional-description"
+              >
+                <div className="edit-definition-catalog-form-additional-description-row">
+                  <FormControl>
+                    <TextField
+                      label="Additional Description Title"
+                      value={additionalDescriptionTitle}
+                      onChange={onChangeAdditionalDescriptionTitle}
+                    />
+                  </FormControl>
+                </div>
+                <div className="edit-definition-catalog-form-additional-description-row">
+                  <FormControl>
+                    <TextField
+                      label="Additional Description Body"
+                      multiline
+                      rows={4}
+                      value={additionalDescriptionBody}
+                      onChange={onChangeAdditionalDescriptionBody}
+                    />
+                    <div className="edit-definition-catalog-form-additional-description-row-buttons">
+                      <Button
+                        variant="contained"
+                        color="default"
+                        onClick={onClickAdditionalDescriptionAdd}
+                        disabled={
+                          !(
+                            !!additionalDescriptionTitle &&
+                            !!additionalDescriptionBody
+                          )
+                        }
+                      >
+                        Add
+                      </Button>
+                    </div>
+                  </FormControl>
+                </div>
+              </Paper>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <TextField
@@ -595,7 +711,7 @@ export default function CatalogForm(props: CatalogFormProps) {
             </CardContent>
           </Card>
         </div>
-        <div className="edit-definition-catalog-form-row">
+        <div className="edit-definition-catalog-form-section">
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h6">Stores</Typography>
