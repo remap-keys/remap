@@ -9,6 +9,8 @@ import {
   Grid,
   Link,
   Paper,
+  Tab,
+  Tabs,
   Tooltip,
   Typography,
 } from '@material-ui/core';
@@ -245,6 +247,19 @@ export default class CatalogIntroduction extends React.Component<
               </Grid>
               <Grid item sm={6} className="catalog-introduction-column">
                 <section className="catalog-introduction-section">
+                  <div className="catalog-introduction-description-tab">
+                    <Tabs
+                      value={0}
+                      indicatorColor="primary"
+                      variant="scrollable"
+                    >
+                      <Tab label="Default" />
+                      <Tab label="Japanese" />
+                      <Tab label="Japanese" />
+                      <Tab label="Japanese" />
+                      <Tab label="Japanese" />
+                    </Tabs>
+                  </div>
                   <Typography variant="body1">{descriptionNodeList}</Typography>
                 </section>
               </Grid>

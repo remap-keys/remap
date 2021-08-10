@@ -19,6 +19,7 @@ import {
   isAppliedKeymapDataInstance,
   IStore,
   IFetchSharedKeymapResult,
+  IAdditionalDescription,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -89,6 +90,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
       imageUrl: documentSnapshot.data()!.image_url,
       description: documentSnapshot.data()!.description || '',
+      additionalDescriptions:
+        documentSnapshot.data()!.additional_descriptions || [],
       stores: documentSnapshot.data()!.stores || [],
       websiteUrl: documentSnapshot.data()!.website_url || '',
       createdAt: documentSnapshot.data()!.created_at.toDate(),
@@ -287,7 +290,8 @@ export class FirebaseProvider implements IStorage, IAuth {
     features: IKeyboardFeatures[],
     description: string,
     stores: IStore[],
-    websiteUrl: string
+    websiteUrl: string,
+    additionalDescriptions: IAdditionalDescription[]
   ): Promise<IResult> {
     try {
       const now = new Date();
@@ -302,6 +306,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           description,
           stores,
           website_url: websiteUrl,
+          additional_descriptions: additionalDescriptions,
         });
       return {
         success: true,

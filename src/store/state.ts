@@ -6,6 +6,7 @@ import { FirebaseProvider } from '../services/provider/Firebase';
 import {
   AbstractKeymapData,
   AppliedKeymapData,
+  IAdditionalDescription,
   IKeyboardDefinitionDocument,
   IStorage,
   IStore,
@@ -268,6 +269,7 @@ export type RootState = {
       description: string;
       stores: IStore[];
       websiteUrl: string;
+      additionalDescriptions: IAdditionalDescription[];
     };
   };
   catalog: {
@@ -430,6 +432,7 @@ export const INIT_STATE: RootState = {
       description: '',
       stores: [],
       websiteUrl: '',
+      additionalDescriptions: [],
     },
   },
   catalog: {
