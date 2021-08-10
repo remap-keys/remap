@@ -17,6 +17,7 @@ import {
 import { IKeyboardFeatures } from '../../../store/state';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import TweetButton from '../../common/twitter/TweetButton';
+import { IAdditionalDescription } from '../../../services/storage/Storage';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -144,7 +145,9 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
   },
 };
 
-type CatalogIntroductionState = {};
+type CatalogIntroductionState = {
+  selectedDescriptionTabIndex: number;
+};
 type OwnProps = {};
 type CatalogIntroductionProps = OwnProps &
   Partial<CatalogIntroductionActionsType> &
@@ -158,24 +161,31 @@ export default class CatalogIntroduction extends React.Component<
     props: CatalogIntroductionProps | Readonly<CatalogIntroductionProps>
   ) {
     super(props);
+    this.state = {
+      selectedDescriptionTabIndex: 0,
+    };
+  }
+
+  onChangeSelectedDescriptionTabIndex(tabIndex: number) {
+    this.setState({ selectedDescriptionTabIndex: tabIndex });
   }
 
   render() {
-    let descriptionNodeList: React.ReactNode[] | string;
-    if (this.props.definitionDocument!.description) {
-      descriptionNodeList = this.props
-        .definitionDocument!.description.split(/(\n)/)
-        .map((item: string, index: number) => {
+    const convertStringToNodeList = (
+      source: string
+    ): React.ReactNode[] | string => {
+      if (source) {
+        return source.split(/(\n)/).map((item: string, index: number) => {
           return (
             <React.Fragment key={index}>
               {item.match(/\n/) ? <br /> : item}
             </React.Fragment>
           );
         });
-    } else {
-      descriptionNodeList =
-        'A description is not specified by the owner of this keyboard.';
-    }
+      } else {
+        return 'A description is not specified by the owner of this keyboard.';
+      }
+    };
     return (
       <div className="catalog-introduction-wrapper">
         <div className="catalog-introduction-container">
@@ -248,19 +258,31 @@ export default class CatalogIntroduction extends React.Component<
               <Grid item sm={6} className="catalog-introduction-column">
                 <section className="catalog-introduction-section">
                   <div className="catalog-introduction-description-tab">
-                    <Tabs
-                      value={0}
-                      indicatorColor="primary"
-                      variant="scrollable"
-                    >
-                      <Tab label="Default" />
-                      <Tab label="Japanese" />
-                      <Tab label="Japanese" />
-                      <Tab label="Japanese" />
-                      <Tab label="Japanese" />
-                    </Tabs>
+                    <DescriptionTab
+                      additionalDescriptions={
+                        this.props.definitionDocument!.additionalDescriptions
+                      }
+                      selectedTabIndex={this.state.selectedDescriptionTabIndex}
+                      onChangeTab={this.onChangeSelectedDescriptionTabIndex.bind(
+                        this
+                      )}
+                    />
                   </div>
-                  <Typography variant="body1">{descriptionNodeList}</Typography>
+                  {this.state.selectedDescriptionTabIndex === 0 ? (
+                    <Typography variant="body1">
+                      {convertStringToNodeList(
+                        this.props.definitionDocument!.description
+                      )}
+                    </Typography>
+                  ) : (
+                    <Typography variant="body1">
+                      {convertStringToNodeList(
+                        this.props.definitionDocument!.additionalDescriptions[
+                          this.state.selectedDescriptionTabIndex - 1
+                        ].body
+                      )}
+                    </Typography>
+                  )}
                 </section>
               </Grid>
             </Grid>
@@ -268,6 +290,39 @@ export default class CatalogIntroduction extends React.Component<
         </div>
       </div>
     );
+  }
+}
+
+type DescriptionTabProps = {
+  additionalDescriptions: IAdditionalDescription[];
+  selectedTabIndex: number;
+  // eslint-disable-next-line no-unused-vars
+  onChangeTab: (tabIndex: number) => void;
+};
+
+function DescriptionTab(props: DescriptionTabProps) {
+  const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
+    props.onChangeTab(value);
+  };
+  if (props.additionalDescriptions.length > 0) {
+    return (
+      <Tabs
+        value={props.selectedTabIndex}
+        indicatorColor="primary"
+        variant="scrollable"
+        onChange={onChangeTab}
+      >
+        <Tab label="Default" />
+        {props.additionalDescriptions.map((additionalDescription, index) => (
+          <Tab
+            label={additionalDescription.title}
+            key={`additional-description-${index}`}
+          />
+        ))}
+      </Tabs>
+    );
+  } else {
+    return null;
   }
 }
 
