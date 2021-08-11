@@ -1,13 +1,15 @@
 import './CatalogIntroduction.scss';
-import React from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import {
   CatalogIntroductionActionsType,
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
 import {
+  Button,
   Chip,
   Grid,
   Link,
+  MobileStepper,
   Paper,
   Tab,
   Tabs,
@@ -17,7 +19,11 @@ import {
 import { IKeyboardFeatures } from '../../../store/state';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import TweetButton from '../../common/twitter/TweetButton';
-import { IAdditionalDescription } from '../../../services/storage/Storage';
+import {
+  IAdditionalDescription,
+  IKeyboardDefinitionDocument,
+} from '../../../services/storage/Storage';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -195,22 +201,9 @@ export default class CatalogIntroduction extends React.Component<
           <Paper elevation={0} className="catalog-introduction-content">
             <Grid container>
               <Grid item sm={6} className="catalog-introduction-column">
-                <div className="catalog-introduction-image">
-                  {this.props.definitionDocument!.imageUrl ? (
-                    <div
-                      className="catalog-introduction-image-container"
-                      style={{
-                        backgroundImage: `url(${
-                          this.props.definitionDocument!.imageUrl
-                        })`,
-                      }}
-                    />
-                  ) : (
-                    <div className="catalog-introduction-image-nothing">
-                      No Image
-                    </div>
-                  )}
-                </div>
+                <ImageList
+                  definitionDocument={this.props.definitionDocument!}
+                />
                 <section className="catalog-introduction-section">
                   <Typography variant="h2">Features</Typography>
                   <div className="catalog-introduction-chip-container">
@@ -348,4 +341,89 @@ function FeatureList(props: FeatureListProps) {
   } else {
     return <div>Not specified by the owner of this keyboard.</div>;
   }
+}
+
+type ImageListProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+};
+
+function ImageList(props: ImageListProps) {
+  let imageCount = props.definitionDocument.imageUrl ? 1 : 0;
+  imageCount += props.definitionDocument.subImages.length;
+
+  const [activeStep, setActiveStep] = useState<number>(0);
+
+  if (imageCount > 1) {
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setActiveStep((c) => {
+          let nextActiveStep = c + 1;
+          if (imageCount <= nextActiveStep) {
+            nextActiveStep = 0;
+          }
+          return nextActiveStep;
+        });
+      }, 10000);
+      return () => clearInterval(interval);
+    }, []);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const onClickBack = (event: SyntheticEvent) => {
+    let backActiveStep = activeStep - 1;
+    if (backActiveStep < 0) {
+      backActiveStep = imageCount - 1;
+    }
+    setActiveStep(backActiveStep);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const onClickNext = (event: SyntheticEvent) => {
+    let nextActiveStep = activeStep + 1;
+    if (imageCount <= nextActiveStep) {
+      nextActiveStep = 0;
+    }
+    setActiveStep(nextActiveStep);
+  };
+
+  const imageUrl =
+    activeStep === 0
+      ? props.definitionDocument.imageUrl
+      : props.definitionDocument.subImages[activeStep - 1].image_url;
+
+  return (
+    <div className="catalog-introduction-image">
+      {props.definitionDocument.imageUrl ? (
+        <React.Fragment>
+          <div
+            className="catalog-introduction-image-container"
+            style={{
+              backgroundImage: `url('${imageUrl}')`,
+            }}
+          />
+          {imageCount > 1 ? (
+            <MobileStepper
+              variant="dots"
+              position="static"
+              backButton={
+                <Button size="small" onClick={onClickBack}>
+                  <KeyboardArrowLeft />
+                </Button>
+              }
+              nextButton={
+                <Button size="small" onClick={onClickNext}>
+                  <KeyboardArrowRight />
+                </Button>
+              }
+              steps={imageCount}
+              activeStep={activeStep}
+              className="catalog-introduction-image-paginate"
+            />
+          ) : null}
+        </React.Fragment>
+      ) : (
+        <div className="catalog-introduction-image-nothing">No Image</div>
+      )}
+    </div>
+  );
 }
