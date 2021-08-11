@@ -952,22 +952,26 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    dispatch(KeyboardsEditDefinitionActions.updateUploading(true));
-    dispatch(KeyboardsEditDefinitionActions.updateUploadedRate(0));
+    dispatch(KeyboardsEditDefinitionActions.updateMainImageUploading(true));
+    dispatch(KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0));
     const { storage } = getState();
-    const result = await storage.instance!.uploadKeyboardCatalogImage(
+    const result = await storage.instance!.uploadKeyboardCatalogMainImage(
       definitionId,
       file,
       (uploadedRate) =>
         dispatch(
-          KeyboardsEditDefinitionActions.updateUploadedRate(uploadedRate)
+          KeyboardsEditDefinitionActions.updateMainImageUploadedRate(
+            uploadedRate
+          )
         )
     );
     if (result.success) {
       dispatch(KeyboardsAppActions.updatePhase('processing'));
       setTimeout(async () => {
-        dispatch(KeyboardsEditDefinitionActions.updateUploadedRate(0));
-        dispatch(KeyboardsEditDefinitionActions.updateUploading(false));
+        dispatch(KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0));
+        dispatch(
+          KeyboardsEditDefinitionActions.updateMainImageUploading(false)
+        );
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionId,
@@ -975,6 +979,74 @@ export const storageActionsThunk = {
           )
         );
       }, 3000);
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  uploadKeyboardCatalogSubImage: (
+    definitionId: string,
+    file: File
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, entities } = getState();
+    if (entities.keyboardDefinitionDocument!.subImages.length === 3) {
+      dispatch(
+        NotificationActions.addWarn('The number of Sub Images are until 3.')
+      );
+      return;
+    }
+    dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(true));
+    dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
+    const result = await storage.instance!.uploadKeyboardCatalogSubImage(
+      definitionId,
+      file,
+      (uploadedRate) =>
+        dispatch(
+          KeyboardsEditDefinitionActions.updateSubImageUploadedRate(
+            uploadedRate
+          )
+        )
+    );
+    if (result.success) {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
+      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(false));
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionId,
+          'catalog'
+        )
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  deleteKeyboardCatalogSubImage: (
+    definitionId: string,
+    subImageIndex: number
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { storage } = getState();
+    const result = await storage.instance!.deleteKeyboardCatalogSubImage(
+      definitionId,
+      subImageIndex
+    );
+    if (result.success) {
+      dispatch(
+        await storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionId,
+          'catalog'
+        )
+      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
