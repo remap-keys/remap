@@ -10,7 +10,6 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import Keycap from '../../configure/keycap/Keycap.container';
 import {
-  Chip,
   Grid,
   IconButton,
   Paper,
@@ -248,6 +247,7 @@ type LayerProps = {
 
 function Layer(props: LayerProps) {
   const layers = [...Array(props.layerCount)].map((_, i) => i);
+  // eslint-disable-next-line no-unused-vars
   const invisiblePages = layers.map((layer) => true);
   return (
     <div className="catalog-keymap-layer-wrapper">
