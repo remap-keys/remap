@@ -301,6 +301,7 @@ function Layer(props: LayerProps) {
   return (
     <div className="layer-wrapper">
       <LayerPagination
+        orientation="vertical"
         count={props.layerCount}
         page={props.selectedLayer + 1}
         invisiblePages={invisiblePages}

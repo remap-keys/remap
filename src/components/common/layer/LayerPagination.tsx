@@ -8,18 +8,30 @@ import {
 import { usePagination } from '@material-ui/lab';
 import {
   KeyboardArrowDown,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
   KeyboardArrowUp,
+  MoreHoriz,
   MoreVert,
 } from '@material-ui/icons';
 import React from 'react';
 
 const useLayerPaginationStyles = makeStyles({
-  ul: {
+  ulVertical: {
     listStyle: 'none',
     padding: 0,
     margin: 0,
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ulHorizontal: {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -31,12 +43,15 @@ const useLayerPaginationStyles = makeStyles({
   },
 });
 
+type LayerPaginationOrientation = 'horizontal' | 'vertical';
+
 type LayerPaginationProps = {
   count: number;
   invisiblePages: boolean[];
   page: number;
   // eslint-disable-next-line no-unused-vars
   onClickPage: (page: number) => void;
+  orientation: LayerPaginationOrientation;
 };
 
 export default function LayerPagination(props: LayerPaginationProps) {
@@ -58,7 +73,13 @@ export default function LayerPagination(props: LayerPaginationProps) {
   });
   return (
     <nav>
-      <ul className={classes.ul}>
+      <ul
+        className={
+          props.orientation === 'vertical'
+            ? classes.ulVertical
+            : classes.ulHorizontal
+        }
+      >
         {items.map(({ page, type, selected, ...item }, index) => {
           let children = null;
           if (type === 'page') {
@@ -88,7 +109,11 @@ export default function LayerPagination(props: LayerPaginationProps) {
                 onClick={item.onClick}
                 disabled={item.disabled}
               >
-                <KeyboardArrowDown />
+                {props.orientation === 'vertical' ? (
+                  <KeyboardArrowDown />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
               </IconButton>
             );
           } else if (type === 'previous') {
@@ -98,11 +123,16 @@ export default function LayerPagination(props: LayerPaginationProps) {
                 onClick={item.onClick}
                 disabled={item.disabled}
               >
-                <KeyboardArrowUp />
+                {props.orientation === 'vertical' ? (
+                  <KeyboardArrowUp />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
               </IconButton>
             );
           } else if (type === 'start-ellipsis' || type === 'end-ellipsis') {
-            children = <MoreVert />;
+            children =
+              props.orientation === 'vertical' ? <MoreVert /> : <MoreHoriz />;
           }
           return (
             <li key={index} className={classes.li}>
