@@ -10,7 +10,6 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../services/hid/Composition';
 import Keycap from '../../configure/keycap/Keycap.container';
 import {
-  Chip,
   Grid,
   IconButton,
   Paper,
@@ -26,6 +25,7 @@ import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 import { genKey, Key } from '../../configure/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import LayerPagination from '../../common/layer/LayerPagination';
 
 type CatalogKeymapState = {};
 type OwnProps = {};
@@ -247,28 +247,19 @@ type LayerProps = {
 
 function Layer(props: LayerProps) {
   const layers = [...Array(props.layerCount)].map((_, i) => i);
+  // eslint-disable-next-line no-unused-vars
+  const invisiblePages = layers.map((layer) => true);
   return (
     <div className="catalog-keymap-layer-wrapper">
-      {layers.map((layer) => {
-        return (
-          <Chip
-            key={layer}
-            variant="outlined"
-            size="medium"
-            label={layer}
-            color={props.selectedLayer === layer ? 'primary' : undefined}
-            clickable={props.selectedLayer !== layer}
-            onClick={() => {
-              props.onClickLayer(layer);
-            }}
-            className={
-              props.selectedLayer !== layer
-                ? 'catalog-keymap-layer-unselected'
-                : 'catalog-keymap-layer-selected'
-            }
-          />
-        );
-      })}
+      <LayerPagination
+        orientation="horizontal"
+        count={props.layerCount}
+        page={props.selectedLayer + 1}
+        invisiblePages={invisiblePages}
+        onClickPage={(page) => {
+          props.onClickLayer(page - 1);
+        }}
+      />
     </div>
   );
 }

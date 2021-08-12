@@ -1,14 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import {
-  Badge,
-  Chip,
-  IconButton,
-  MenuItem,
-  Select,
-  withStyles,
-} from '@material-ui/core';
+import { IconButton, MenuItem, Select } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
@@ -29,6 +22,7 @@ import {
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
+import LayerPagination from '../../common/layer/LayerPagination';
 
 export type LayoutOption = {
   option: number;
@@ -297,50 +291,24 @@ type LayerProps = {
 };
 
 function Layer(props: LayerProps) {
-  const StyledBadge = withStyles(() => ({
-    badge: {
-      right: 11,
-      top: 9,
-      border: `2px solid white`,
-    },
-  }))(Badge);
   const layers = [...Array(props.layerCount)].map((_, i) => i);
+  const invisiblePages = layers.map((layer) => {
+    return (
+      props.remaps![layer] == undefined ||
+      0 == Object.values(props.remaps![layer]).length
+    );
+  });
   return (
     <div className="layer-wrapper">
-      <div className="layers">
-        <div className="layer">
-          {layers!.map((layer) => {
-            const invisible =
-              props.remaps![layer] == undefined ||
-              0 == Object.values(props.remaps![layer]).length;
-            return (
-              <StyledBadge
-                key={layer}
-                color="primary"
-                variant="dot"
-                invisible={invisible}
-              >
-                <Chip
-                  key={layer}
-                  variant="outlined"
-                  size="medium"
-                  label={layer}
-                  color={props.selectedLayer == layer ? 'primary' : undefined}
-                  clickable={props.selectedLayer != layer}
-                  onClick={() => {
-                    props.onClickLayer(layer);
-                  }}
-                  className={
-                    props.selectedLayer != layer
-                      ? 'unselected-layer'
-                      : 'selected-layer'
-                  }
-                />
-              </StyledBadge>
-            );
-          })}
-        </div>
-      </div>
+      <LayerPagination
+        orientation="vertical"
+        count={props.layerCount}
+        page={props.selectedLayer + 1}
+        invisiblePages={invisiblePages}
+        onClickPage={(page) => {
+          props.onClickLayer(page - 1);
+        }}
+      />
     </div>
   );
 }
