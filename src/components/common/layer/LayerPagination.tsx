@@ -92,7 +92,7 @@ export default function LayerPagination(props: LayerPaginationProps) {
                 <Chip
                   variant="outlined"
                   size="medium"
-                  label={page}
+                  label={page - 1}
                   color={selected ? 'primary' : undefined}
                   clickable={!selected}
                   onClick={() => {
