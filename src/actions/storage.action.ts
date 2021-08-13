@@ -42,6 +42,7 @@ export const STORAGE_UPDATE_SAVED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSavedKeyma
 export const STORAGE_UPDATE_SHARED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSharedKeymaps`;
 export const STORAGE_UPDATE_APPLIED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateAppliedKeymaps`;
 export const STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateSearchResultKeyboardDefinitionDocument`;
+export const STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateSameAuthorKeyboardDefinitionDocuments`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -94,6 +95,14 @@ export const StorageActions = {
   ) => {
     return {
       type: STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT,
+      value: definitions,
+    };
+  },
+  updateSameAuthorKeyboardDefinitionDocuments: (
+    definitions: IKeyboardDefinitionDocument[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS,
       value: definitions,
     };
   },
@@ -896,6 +905,25 @@ export const storageActionsThunk = {
         await storageActionsThunk.fetchSharedKeymaps(
           keyboardDefinitionDocument,
           false
+        )
+      );
+      const fetchKeyboardsCreatedBySameAuthorResult = await storage.instance!.fetchKeyboardsCreatedBySameAuthor(
+        keyboardDefinitionDocument.authorUid
+      );
+      if (!fetchKeyboardsCreatedBySameAuthorResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.cause
+          )
+        );
+        dispatch(CatalogAppActions.updatePhase('init'));
+        dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+        return;
+      }
+      dispatch(
+        StorageActions.updateSameAuthorKeyboardDefinitionDocuments(
+          fetchKeyboardsCreatedBySameAuthorResult.documents!
         )
       );
 

@@ -24,6 +24,7 @@ import {
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {
@@ -176,6 +177,11 @@ export default class CatalogIntroduction extends React.Component<
     this.setState({ selectedDescriptionTabIndex: tabIndex });
   }
 
+  onClickSameAuthorKeyboard(definition: IKeyboardDefinitionDocument) {
+    sendEventToGoogleAnalytics('catalog/same_author_keyboard');
+    location.href = `/catalog/${definition.id}`;
+  }
+
   render() {
     const convertStringToNodeList = (
       source: string
@@ -247,6 +253,45 @@ export default class CatalogIntroduction extends React.Component<
                     />
                   </div>
                 </section>
+                {this.props.sameAuthorKeyboardDocuments!.length > 1 ? (
+                  <section className="catalog-introduction-section">
+                    <Typography variant="h2">
+                      Created by Same Designer
+                    </Typography>
+                    {this.props
+                      .sameAuthorKeyboardDocuments!.filter(
+                        (definition) =>
+                          definition.id !== this.props.definitionDocument!.id
+                      )
+                      .map((definition, index) => (
+                        <Paper
+                          key={`same-author-keyboard-${index}`}
+                          elevation={0}
+                          className="catalog-introduction-same-author-keyboard"
+                          onClick={() => {
+                            this.onClickSameAuthorKeyboard(definition);
+                          }}
+                        >
+                          {definition.imageUrl ? (
+                            <div
+                              className="catalog-introduction-same-author-keyboard-image"
+                              style={{
+                                backgroundImage: `url('${definition.imageUrl}')`,
+                              }}
+                            />
+                          ) : (
+                            <div className="catalog-introduction-same-author-keyboard-no-image" />
+                          )}
+                          <Typography
+                            variant="subtitle1"
+                            className="catalog-introduction-same-author-keyboard-name"
+                          >
+                            {definition.name}
+                          </Typography>
+                        </Paper>
+                      ))}
+                  </section>
+                ) : null}
               </Grid>
               <Grid item sm={6} className="catalog-introduction-column">
                 <section className="catalog-introduction-section">

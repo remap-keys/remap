@@ -921,6 +921,33 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async fetchKeyboardsCreatedBySameAuthor(
+    authorUid: string
+  ): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .where('status', '==', 'approved')
+        .where('author_uid', '==', authorUid)
+        .get();
+      return {
+        success: true,
+        documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
+          this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
+        ),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching the keyboards created by same author failed',
+        cause: error,
+      };
+    }
+  }
+
   async uploadKeyboardCatalogMainImage(
     definitionId: string,
     file: File,
