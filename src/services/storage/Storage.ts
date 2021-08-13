@@ -244,6 +244,9 @@ export interface IStorage {
     websiteUrl: string,
     additionalDescriptions: IAdditionalDescription[]
   ): Promise<IResult>;
+  fetchKeyboardsCreatedBySameAuthor(
+    authorUid: string
+  ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
 
   uploadKeyboardCatalogMainImage(
     definitionId: string,

@@ -62,6 +62,7 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
+  STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS,
   STORAGE_UPDATE_SAVED_KEYMAPS,
   STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_SHARED_KEYMAPS,
@@ -421,6 +422,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT: {
       draft.entities.searchResultKeyboardDocuments = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS: {
+      draft.entities.sameAuthorKeyboardDocuments = action.value;
       break;
     }
   }

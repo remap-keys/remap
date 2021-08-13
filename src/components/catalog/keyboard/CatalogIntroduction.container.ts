@@ -8,6 +8,7 @@ import { storageActionsThunk } from '../../../actions/storage.action';
 const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
+    sameAuthorKeyboardDocuments: state.entities.sameAuthorKeyboardDocuments,
   };
 };
 export type CatalogIntroductionStateType = ReturnType<typeof mapStateToProps>;

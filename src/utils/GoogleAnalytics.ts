@@ -17,7 +17,8 @@ type IActionName =
   | 'catalog/introduction'
   | 'catalog/keymap'
   | 'catalog/apply_keymap'
-  | 'catalog/cheat_sheet';
+  | 'catalog/cheat_sheet'
+  | 'catalog/same_author_keyboard';
 
 interface IActionOptions {
   vendor_id?: string | number;

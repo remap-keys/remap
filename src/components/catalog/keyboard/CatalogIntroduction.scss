@@ -59,7 +59,7 @@
   }
 
   &-section {
-    margin: 8px;
+    margin: 8px 8px 24px 8px;
 
     & h2 {
       font-size: 22px;
@@ -96,5 +96,37 @@
 
   &-description-tab {
     margin-bottom: 8px;
+  }
+
+  &-same-author-keyboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 4px;
+    border: 1px solid #fff;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $color-gray-300;
+    }
+
+    &-image {
+      width: 100px;
+      height: 75px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+
+    &-no-image {
+      width: 100px;
+      height: 75px;
+      border: 1px dotted $color-gray-300;
+    }
+
+    &-name {
+      margin-left: 16px !important;
+    }
   }
 }
