@@ -46,6 +46,8 @@ import {
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import { hexadecimal } from '../../../utils/StringUtils';
+import FeatureList from '../../common/features/FeatureList';
 
 type CatalogSearchState = {};
 type OwnProps = {};
@@ -464,10 +466,23 @@ function KeyboardCard(props: KeyboardCardProps) {
               <h2 className="catalog-search-result-card-name">
                 {props.definition.name}
               </h2>
-              <Typography variant="caption">
-                {getGitHubUserDisplayName(props.definition)}
-              </Typography>
+              <div className="catalog-search-result-card-header-name-row">
+                <Typography variant="caption">
+                  VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
+                  {hexadecimal(props.definition.productId, 4)}
+                </Typography>
+                <Typography variant="caption">
+                  Designed by {getGitHubUserDisplayName(props.definition)}
+                </Typography>
+              </div>
             </div>
+          </div>
+          <div className="catalog-search-result-card-features">
+            <FeatureList
+              definitionId={props.definition.id}
+              features={props.definition.features}
+              size="small"
+            />
           </div>
         </div>
       </CardContent>
