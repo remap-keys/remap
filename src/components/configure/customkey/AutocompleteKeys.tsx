@@ -16,16 +16,17 @@ const filterOptions = (
   { inputValue }: { inputValue: string }
 ) => {
   const value = inputValue.toLowerCase();
-  const matcheLabels = options.filter(
-    (option) => 0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
+  const matchedLabels = options.filter(
+    (option: IKeymap) =>
+      0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
   );
-  const matcheKinds = options.filter(
-    (option) =>
+  const matchedKinds = options.filter(
+    (option: IKeymap) =>
       0 <=
       option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value)
   );
 
-  return matcheLabels.concat(matcheKinds);
+  return matchedLabels.concat(matchedKinds);
 };
 
 type OwnProps = {
