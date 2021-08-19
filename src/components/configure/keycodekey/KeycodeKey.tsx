@@ -5,7 +5,7 @@ import {
   KeycodeKeyStateType,
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
-import { genKey, Key } from './KeyGen';
+import { Key } from './KeyGen';
 
 export type AnyKey = {
   label: string;
@@ -69,9 +69,7 @@ export default class KeycodeKey extends React.Component<
   }
   render() {
     const draggable = this.props.draggable;
-    const km = this.props.value.keymap;
-
-    const key: Key = genKey(km, this.props.labelLang!);
+    const key: Key = this.props.value;
     const label = key.label;
     const modifierLabel = key.meta;
     const modifierRightLabel = key.metaRight;
