@@ -47,32 +47,34 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
   /**
    * Filter keys matching with the label and meta case-insensitive.
    * Sort them with prefix matching.
-   * @param searchKey
-   * @returns
+   * The label keys are listed higher than the meta keys.
    */
   private filterKeys(searchKey: string): Key[] {
     const search = searchKey.toLowerCase();
     let allKeys: Key[] = Object.values(this.state.categoryKeys).flat();
 
     // match with label & meta
-    const filteredKeys = allKeys.filter(
-      (key) =>
-        0 <= key.label.toLowerCase().indexOf(search) ||
-        0 <= key.meta.toLowerCase().indexOf(search)
+    const labelKeys = allKeys.filter(
+      (key) => 0 <= key.label.toLowerCase().indexOf(search)
+    );
+    const metaKeys = allKeys.filter(
+      (key) => 0 <= key.meta.toLowerCase().indexOf(search)
     );
 
-    // prioritize
-    const sortedKeys = filteredKeys.sort((k0, k1) => {
-      const indexLabel0 = k0.label.toLowerCase().indexOf(search);
-      const indexMeta0 = k0.meta.toLowerCase().indexOf(search) + 100; //deprioritize meta text
-      const indexLabel1 = k1.label.toLowerCase().indexOf(search);
-      const indexMeta1 = k1.meta.toLowerCase().indexOf(search) + 100; // deprioritize meta text
-      const index0 = Math.max(indexLabel0, indexMeta0);
-      const index1 = Math.max(indexLabel1, indexMeta1);
-      return index0 - index1;
-    });
+    const labelSortedKeys = labelKeys.sort(
+      (k0, k1) =>
+        k0.label.toLowerCase().indexOf(search) -
+        k1.label.toLowerCase().indexOf(search)
+    );
 
-    return sortedKeys;
+    const metaSortedKeys = metaKeys.sort(
+      (k0, k1) =>
+        k0.meta.toLowerCase().indexOf(search) -
+        k1.meta.toLowerCase().indexOf(search)
+    );
+
+    // label is more important than meta
+    return labelSortedKeys.concat(metaSortedKeys);
   }
 
   private removeBmpCategory(categoryKeys: { [category: string]: Key[] }) {
