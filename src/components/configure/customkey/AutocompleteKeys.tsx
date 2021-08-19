@@ -5,6 +5,29 @@ import { TextField } from '@material-ui/core';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
+/**
+ * Filter and sort strategy.
+ * CASE INSENSITIVE
+ * 1st priority: Match a key's label.
+ * 2nd priority: Match a kinds.
+ */
+const filterOptions = (
+  options: IKeymap[],
+  { inputValue }: { inputValue: string }
+) => {
+  const value = inputValue.toLowerCase();
+  const matcheLabels = options.filter(
+    (option) => 0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
+  );
+  const matcheKinds = options.filter(
+    (option) =>
+      0 <=
+      option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value)
+  );
+
+  return matcheLabels.concat(matcheKinds);
+};
+
 type OwnProps = {
   keycodeOptions: IKeymap[];
   keycodeInfo: IKeymap | null;
@@ -49,6 +72,7 @@ export default class AutocompleteKeys extends React.Component<
         freeSolo
         size="small"
         options={this.props.keycodeOptions}
+        filterOptions={filterOptions}
         value={this.props.keycodeInfo}
         onChange={(event: any, newValue: string | IKeymap | null) => {
           this.updateValue(newValue as IKeymap);
@@ -58,11 +82,7 @@ export default class AutocompleteKeys extends React.Component<
           this.setInputValue(newInputValue.split('::')[0]);
         }}
         getOptionLabel={(option) => {
-          if (typeof option === 'string') {
-            return option;
-          } else {
-            return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
-          }
+          return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
         renderOption={(option) => (
           <div className="customkey-auto-select-item">
