@@ -30,6 +30,7 @@ const filterOptions = (
 };
 
 type OwnProps = {
+  autoFocus: boolean;
   keycodeOptions: IKeymap[];
   keycodeInfo: IKeymap | null;
   label: string;
@@ -107,6 +108,10 @@ export default class AutocompleteKeys extends React.Component<
             {...params}
             label={this.props.label}
             variant="outlined"
+            autoFocus={this.props.autoFocus}
+            onFocus={(evt) => {
+              setTimeout(() => evt.target.select(), 300); // need to have short duration to work "select" in case of an Autocomplete component.
+            }}
             inputProps={{
               ...params.inputProps,
             }}

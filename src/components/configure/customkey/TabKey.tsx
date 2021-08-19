@@ -18,6 +18,7 @@ import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 type OwnProps = {
+  autoFocus: boolean;
   value: IKeymap | null; // Keys
   desc: string;
   layerCount: number;
@@ -176,6 +177,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
           label="Keycode"
           keycodeOptions={this.basicKeymapsWithBmp}
           keycodeInfo={this.props.value}
+          autoFocus={this.props.autoFocus}
           onChange={(opt) => {
             this.onChangeKeycode(opt);
           }}
