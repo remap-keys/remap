@@ -83,7 +83,6 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   }
 
   private onEnter() {
-    console.log('enter');
     //TODO: initialize input status
     const keymap: IKeymap = this.props.value.keymap;
     const code = keymap.code;
