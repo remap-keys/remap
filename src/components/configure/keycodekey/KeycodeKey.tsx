@@ -69,13 +69,7 @@ export default class KeycodeKey extends React.Component<
   }
   render() {
     const draggable = this.props.draggable;
-    //const km = this.props.value.keymap;
-
-    //console.log(this.props.labelLang);
-    //console.log(km);
-    //const key: Key = genKey(km, this.props.labelLang!);
     const key: Key = this.props.value;
-    //console.log(key);
     const label = key.label;
     const modifierLabel = key.meta;
     const modifierRightLabel = key.metaRight;
