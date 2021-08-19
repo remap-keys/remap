@@ -33,6 +33,10 @@ export type PopoverPosition = {
   side: 'left' | 'above' | 'below' | 'right';
 };
 
+const TAB_INDEX_KEY = 0;
+const TAB_INDEX_HOLDTAP = 1;
+const TAB_INDEX_CUSTOM = 2;
+
 type OwnProps = {
   id: string;
   value: Key;
@@ -323,7 +327,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               <Tab label="CUSTOM" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
-          <TabPanel value={this.state.selectedTabIndex} index={0}>
+          <TabPanel value={this.state.selectedTabIndex} index={TAB_INDEX_KEY}>
             <TabKey
               value={this.state.value}
               desc={desc}
@@ -331,12 +335,16 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               hexCode={this.state.hexCode}
               labelLang={this.props.labelLang}
               bleMicroPro={this.props.bleMicroPro}
+              autoFocus={this.state.selectedTabIndex === TAB_INDEX_KEY}
               onChangeKey={(opt: IKeymap) => {
                 this.onChangeKey(opt);
               }}
             />
           </TabPanel>
-          <TabPanel value={this.state.selectedTabIndex} index={1}>
+          <TabPanel
+            value={this.state.selectedTabIndex}
+            index={TAB_INDEX_HOLDTAP}
+          >
             <div className="customkey-description">
               {'Please select each key code when Hold / Tap'}
             </div>
@@ -345,12 +353,16 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               tapKey={this.state.tapKey}
               layerCount={this.props.layerCount}
               labelLang={this.props.labelLang}
+              autoFocus={this.state.selectedTabIndex === TAB_INDEX_HOLDTAP}
               onChange={(hold, tap) => {
                 this.onChangeHoldTap(hold, tap);
               }}
             />
           </TabPanel>
-          <TabPanel value={this.state.selectedTabIndex} index={2}>
+          <TabPanel
+            value={this.state.selectedTabIndex}
+            index={TAB_INDEX_CUSTOM}
+          >
             <div className="customkey-description">
               You can assign a keycode(hex) manually.
             </div>
@@ -384,7 +396,9 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               onChange={(e) => {
                 this.onChangeHexCode(e.target.value);
               }}
+              onFocus={(evt) => evt.target.select()}
               value={this.state.hexCode.toUpperCase()}
+              autoFocus={this.state.selectedTabIndex === TAB_INDEX_CUSTOM}
             />
 
             <div className="customkey-bcode">

@@ -19,6 +19,7 @@ type OwnProps = {
   tapKey: IKeymap | null;
   layerCount: number;
   labelLang: KeyboardLabelLang;
+  autoFocus: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (hold: IKeymap | null, tap: IKeymap | null) => void;
 };
@@ -130,6 +131,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
           showKinds={false}
           keycodeOptions={this._holdKeyOptions}
           keycodeInfo={this.props.holdKey}
+          autoFocus={this.props.autoFocus}
           onChange={(opt) => {
             this.onChangeHoldKey(opt);
           }}
@@ -141,6 +143,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
           label="Tap"
           keycodeOptions={this.tapKeycodeOptions}
           keycodeInfo={this.props.tapKey}
+          autoFocus={false}
           onChange={(opt) => {
             this.onChangeTapKey(opt);
           }}
