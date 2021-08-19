@@ -35,6 +35,12 @@
         transition: background-color 0.5s;
       }
     }
+    .keycodes-search {
+      margin-top: -14px;
+      svg {
+        color: rgba(0, 0, 0, 0.7);
+      }
+    }
   }
   .keylayout-switch {
     display: flex;
