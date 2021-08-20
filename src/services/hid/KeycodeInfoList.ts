@@ -14,6 +14,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_NO',
       },
       label: ' ',
+      keywords: [],
     },
   },
   {
@@ -25,6 +26,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_TRNS',
       },
       label: '▽',
+      keywords: ['transparent'],
     },
   },
   {
@@ -36,6 +38,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_POST_FAIL',
       },
       label: 'PFAIL',
+      keywords: [],
     },
   },
   {
@@ -47,6 +50,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_UNDEFINED',
       },
       label: 'UNDEF',
+      keywords: [],
     },
   },
   {
@@ -58,6 +62,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_A',
       },
       label: 'A',
+      keywords: [],
     },
   },
   {
@@ -69,6 +74,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_B',
       },
       label: 'B',
+      keywords: [],
     },
   },
   {
@@ -80,6 +86,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_C',
       },
       label: 'C',
+      keywords: [],
     },
   },
   {
@@ -91,6 +98,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_D',
       },
       label: 'D',
+      keywords: [],
     },
   },
   {
@@ -102,6 +110,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_E',
       },
       label: 'E',
+      keywords: [],
     },
   },
   {
@@ -113,6 +122,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F',
       },
       label: 'F',
+      keywords: [],
     },
   },
   {
@@ -124,6 +134,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_G',
       },
       label: 'G',
+      keywords: [],
     },
   },
   {
@@ -135,6 +146,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_H',
       },
       label: 'H',
+      keywords: [],
     },
   },
   {
@@ -146,6 +158,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_I',
       },
       label: 'I',
+      keywords: [],
     },
   },
   {
@@ -157,6 +170,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_J',
       },
       label: 'J',
+      keywords: [],
     },
   },
   {
@@ -168,6 +182,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_K',
       },
       label: 'K',
+      keywords: [],
     },
   },
   {
@@ -179,6 +194,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_L',
       },
       label: 'L',
+      keywords: [],
     },
   },
   {
@@ -190,6 +206,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_M',
       },
       label: 'M',
+      keywords: [],
     },
   },
   {
@@ -201,6 +218,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_N',
       },
       label: 'N',
+      keywords: [],
     },
   },
   {
@@ -212,6 +230,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_O',
       },
       label: 'O',
+      keywords: [],
     },
   },
   {
@@ -223,6 +242,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P',
       },
       label: 'P',
+      keywords: [],
     },
   },
   {
@@ -234,6 +254,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_Q',
       },
       label: 'Q',
+      keywords: [],
     },
   },
   {
@@ -245,6 +266,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_R',
       },
       label: 'R',
+      keywords: [],
     },
   },
   {
@@ -256,6 +278,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_S',
       },
       label: 'S',
+      keywords: [],
     },
   },
   {
@@ -267,6 +290,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_T',
       },
       label: 'T',
+      keywords: [],
     },
   },
   {
@@ -278,6 +302,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_U',
       },
       label: 'U',
+      keywords: [],
     },
   },
   {
@@ -289,6 +314,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_V',
       },
       label: 'V',
+      keywords: [],
     },
   },
   {
@@ -300,6 +326,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_W',
       },
       label: 'W',
+      keywords: [],
     },
   },
   {
@@ -311,6 +338,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_X',
       },
       label: 'X',
+      keywords: [],
     },
   },
   {
@@ -322,6 +350,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_Y',
       },
       label: 'Y',
+      keywords: [],
     },
   },
   {
@@ -333,6 +362,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_Z',
       },
       label: 'Z',
+      keywords: [],
     },
   },
   {
@@ -344,6 +374,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_1',
       },
       label: '1',
+      keywords: [],
     },
   },
   {
@@ -355,6 +386,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_2',
       },
       label: '2',
+      keywords: [],
     },
   },
   {
@@ -366,6 +398,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_3',
       },
       label: '3',
+      keywords: [],
     },
   },
   {
@@ -377,6 +410,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_4',
       },
       label: '4',
+      keywords: [],
     },
   },
   {
@@ -388,6 +422,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_5',
       },
       label: '5',
+      keywords: [],
     },
   },
   {
@@ -399,6 +434,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_6',
       },
       label: '6',
+      keywords: [],
     },
   },
   {
@@ -410,6 +446,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_7',
       },
       label: '7',
+      keywords: [],
     },
   },
   {
@@ -421,6 +458,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_8',
       },
       label: '8',
+      keywords: [],
     },
   },
   {
@@ -432,6 +470,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_9',
       },
       label: '9',
+      keywords: [],
     },
   },
   {
@@ -443,6 +482,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_0',
       },
       label: '0',
+      keywords: [],
     },
   },
   {
@@ -454,6 +494,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ENT',
       },
       label: 'Enter',
+      keywords: [],
     },
   },
   {
@@ -465,6 +506,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ESC',
       },
       label: 'Esc',
+
+      keywords: ['escape'],
     },
   },
   {
@@ -476,6 +519,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BSPC',
       },
       label: 'BS',
+
+      keywords: ['backspace', 'delete'],
     },
   },
   {
@@ -487,6 +532,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_TAB',
       },
       label: 'Tab',
+      keywords: [],
     },
   },
   {
@@ -498,6 +544,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SPC',
       },
       label: 'Space',
+      keywords: [],
     },
   },
   {
@@ -509,6 +556,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MINS',
       },
       label: '-',
+
+      keywords: ['minus', 'hyphen'],
     },
   },
   {
@@ -520,6 +569,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_EQL',
       },
       label: '=',
+
+      keywords: ['equal'],
     },
   },
   {
@@ -531,6 +582,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LBRC',
       },
       label: '[',
+      keywords: [],
     },
   },
   {
@@ -542,6 +594,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RBRC',
       },
       label: ']',
+      keywords: [],
     },
   },
   {
@@ -553,6 +606,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BSLS',
       },
       label: '\\',
+      keywords: [],
     },
   },
   {
@@ -564,6 +618,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_NUHS',
       },
       label: 'NUHS',
+      keywords: [],
     },
   },
   {
@@ -575,6 +630,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SCLN',
       },
       label: ';',
+      keywords: [],
     },
   },
   {
@@ -586,6 +642,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_QUOT',
       },
       label: "'",
+      keywords: [],
     },
   },
   {
@@ -597,6 +654,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ZKHK',
       },
       label: '`',
+      keywords: ['zenkaku', 'hankaku'],
     },
   },
   {
@@ -608,6 +666,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_COMM',
       },
       label: ',',
+      keywords: [],
     },
   },
   {
@@ -619,6 +678,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DOT',
       },
       label: '.',
+      keywords: [],
     },
   },
   {
@@ -630,6 +690,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SLSH',
       },
       label: '/',
+      keywords: [],
     },
   },
   {
@@ -641,6 +702,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CAPS',
       },
       label: 'Caps Lock',
+      keywords: [],
     },
   },
   {
@@ -652,6 +714,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F1',
       },
       label: 'F1',
+      keywords: [],
     },
   },
   {
@@ -663,6 +726,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F2',
       },
       label: 'F2',
+      keywords: [],
     },
   },
   {
@@ -674,6 +738,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F3',
       },
       label: 'F3',
+      keywords: [],
     },
   },
   {
@@ -685,6 +750,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F4',
       },
       label: 'F4',
+      keywords: [],
     },
   },
   {
@@ -696,6 +762,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F5',
       },
       label: 'F5',
+      keywords: [],
     },
   },
   {
@@ -707,6 +774,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F6',
       },
       label: 'F6',
+      keywords: [],
     },
   },
   {
@@ -718,6 +786,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F7',
       },
       label: 'F7',
+      keywords: [],
     },
   },
   {
@@ -729,6 +798,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F8',
       },
       label: 'F8',
+      keywords: [],
     },
   },
   {
@@ -740,6 +810,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F9',
       },
       label: 'F9',
+      keywords: [],
     },
   },
   {
@@ -751,6 +822,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F10',
       },
       label: 'F10',
+      keywords: [],
     },
   },
   {
@@ -762,6 +834,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F11',
       },
       label: 'F11',
+      keywords: [],
     },
   },
   {
@@ -773,6 +846,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F12',
       },
       label: 'F12',
+      keywords: [],
     },
   },
   {
@@ -784,6 +858,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PSCR',
       },
       label: 'Print Screen',
+      keywords: [],
     },
   },
   {
@@ -795,6 +870,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BRMD',
       },
       label: 'Scroll Lock',
+      keywords: [],
     },
   },
   {
@@ -806,6 +882,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BRMU',
       },
       label: 'Pause',
+      keywords: [],
     },
   },
   {
@@ -817,6 +894,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_INS',
       },
       label: 'Insert',
+      keywords: [],
     },
   },
   {
@@ -828,6 +906,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HOME',
       },
       label: 'Home',
+      keywords: [],
     },
   },
   {
@@ -839,6 +918,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PGUP',
       },
       label: 'Page Up',
+      keywords: [],
     },
   },
   {
@@ -850,6 +930,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DEL',
       },
       label: 'Del',
+
+      keywords: ['delete'],
     },
   },
   {
@@ -861,6 +943,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_END',
       },
       label: 'End',
+      keywords: [],
     },
   },
   {
@@ -872,6 +955,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PGDN',
       },
       label: 'Page Down',
+      keywords: [],
     },
   },
   {
@@ -883,6 +967,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RGHT',
       },
       label: '→',
+      keywords: ['right arrow'],
     },
   },
   {
@@ -894,6 +979,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LEFT',
       },
       label: '←',
+      keywords: ['left arrow'],
     },
   },
   {
@@ -905,6 +991,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DOWN',
       },
       label: '↓',
+      keywords: ['down arrow'],
     },
   },
   {
@@ -916,6 +1003,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_UP',
       },
       label: '↑',
+      keywords: ['up arrow'],
     },
   },
   {
@@ -927,6 +1015,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_NLCK',
       },
       label: 'Num Lock',
+      keywords: [],
     },
   },
   {
@@ -938,6 +1027,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PSLS',
       },
       label: 'Num /',
+      keywords: [],
     },
   },
   {
@@ -949,6 +1039,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PAST',
       },
       label: 'Num *',
+      keywords: [],
     },
   },
   {
@@ -960,6 +1051,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PMNS',
       },
       label: 'Num -',
+
+      keywords: ['num minus'],
     },
   },
   {
@@ -971,6 +1064,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PPLS',
       },
       label: 'Num +',
+
+      keywords: ['num plus'],
     },
   },
   {
@@ -982,6 +1077,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PENT',
       },
       label: 'Num Enter',
+      keywords: [],
     },
   },
   {
@@ -993,6 +1089,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P1',
       },
       label: 'Num 1',
+      keywords: [],
     },
   },
   {
@@ -1004,6 +1101,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P2',
       },
       label: 'Num 2',
+      keywords: [],
     },
   },
   {
@@ -1015,6 +1113,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P3',
       },
       label: 'Num 3',
+      keywords: [],
     },
   },
   {
@@ -1026,6 +1125,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P4',
       },
       label: 'Num 4',
+      keywords: [],
     },
   },
   {
@@ -1037,6 +1137,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P5',
       },
       label: 'Num 5',
+      keywords: [],
     },
   },
   {
@@ -1048,6 +1149,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P6',
       },
       label: 'Num 6',
+      keywords: [],
     },
   },
   {
@@ -1059,6 +1161,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P7',
       },
       label: 'Num 7',
+      keywords: [],
     },
   },
   {
@@ -1070,6 +1173,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P8',
       },
       label: 'Num 8',
+      keywords: [],
     },
   },
   {
@@ -1081,6 +1185,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P9',
       },
       label: 'Num 9',
+      keywords: [],
     },
   },
   {
@@ -1092,6 +1197,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_P0',
       },
       label: 'Num 0',
+      keywords: [],
     },
   },
   {
@@ -1103,6 +1209,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PDOT',
       },
       label: 'Num .',
+      keywords: [],
     },
   },
   {
@@ -1114,6 +1221,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_NUBS',
       },
       label: 'NUBS',
+      keywords: [],
     },
   },
   {
@@ -1125,6 +1233,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_APP',
       },
       label: 'App',
+      keywords: [],
     },
   },
   {
@@ -1136,6 +1245,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_POWER',
       },
       label: 'Power',
+      keywords: [],
     },
   },
   {
@@ -1147,6 +1257,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PEQL',
       },
       label: 'Num =',
+
+      keywords: ['num equal'],
     },
   },
   {
@@ -1158,6 +1270,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F13',
       },
       label: 'F13',
+      keywords: [],
     },
   },
   {
@@ -1169,6 +1282,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F14',
       },
       label: 'F14',
+      keywords: [],
     },
   },
   {
@@ -1180,6 +1294,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F15',
       },
       label: 'F15',
+      keywords: [],
     },
   },
   {
@@ -1191,6 +1306,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F16',
       },
       label: 'F16',
+      keywords: [],
     },
   },
   {
@@ -1202,6 +1318,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F17',
       },
       label: 'F17',
+      keywords: [],
     },
   },
   {
@@ -1213,6 +1330,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F18',
       },
       label: 'F18',
+      keywords: [],
     },
   },
   {
@@ -1224,6 +1342,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F19',
       },
       label: 'F19',
+      keywords: [],
     },
   },
   {
@@ -1235,6 +1354,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F20',
       },
       label: 'F20',
+      keywords: [],
     },
   },
   {
@@ -1246,6 +1366,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F21',
       },
       label: 'F21',
+      keywords: [],
     },
   },
   {
@@ -1257,6 +1378,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F22',
       },
       label: 'F22',
+      keywords: [],
     },
   },
   {
@@ -1268,6 +1390,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F23',
       },
       label: 'F23',
+      keywords: [],
     },
   },
   {
@@ -1279,6 +1402,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_F24',
       },
       label: 'F24',
+      keywords: [],
     },
   },
   {
@@ -1290,6 +1414,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_EXEC',
       },
       label: 'Execute',
+      keywords: [],
     },
   },
   {
@@ -1301,6 +1426,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HELP',
       },
       label: 'Help',
+      keywords: [],
     },
   },
   {
@@ -1312,6 +1438,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MENU',
       },
       label: 'Menu',
+      keywords: [],
     },
   },
   {
@@ -1323,6 +1450,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SLCT',
       },
       label: 'Select',
+      keywords: [],
     },
   },
   {
@@ -1334,6 +1462,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_STOP',
       },
       label: 'Stop',
+      keywords: [],
     },
   },
   {
@@ -1345,6 +1474,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_AGIN',
       },
       label: 'Again',
+      keywords: [],
     },
   },
   {
@@ -1356,6 +1486,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_UNDO',
       },
       label: 'Undo',
+      keywords: [],
     },
   },
   {
@@ -1367,6 +1498,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CUT',
       },
       label: 'Cut',
+      keywords: [],
     },
   },
   {
@@ -1378,6 +1510,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_COPY',
       },
       label: 'Copy',
+      keywords: [],
     },
   },
   {
@@ -1389,6 +1522,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PSTE',
       },
       label: 'Paste',
+      keywords: [],
     },
   },
   {
@@ -1400,6 +1534,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FIND',
       },
       label: 'Find',
+      keywords: [],
     },
   },
   {
@@ -1411,6 +1546,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC__MUTE',
       },
       label: 'Mute',
+      keywords: [],
     },
   },
   {
@@ -1422,6 +1558,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC__VOLUP',
       },
       label: 'Vol +',
+
+      keywords: ['volume plus'],
     },
   },
   {
@@ -1433,6 +1571,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC__VOLDOWN',
       },
       label: 'Vol -',
+
+      keywords: ['volume minus'],
     },
   },
   {
@@ -1444,6 +1584,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LCAP',
       },
       label: 'Locking Caps Lock',
+      keywords: [],
     },
   },
   {
@@ -1455,6 +1596,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LNUM',
       },
       label: 'Locking Num Lock',
+      keywords: [],
     },
   },
   {
@@ -1466,6 +1608,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LSCR',
       },
       label: 'Locking Scroll Lock',
+      keywords: [],
     },
   },
   {
@@ -1477,6 +1620,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PCMM',
       },
       label: 'Num ,',
+      keywords: [],
     },
   },
   {
@@ -1488,6 +1632,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_KP_EQUAL_AS400',
       },
       label: 'Num = AS400',
+
+      keywords: ['num equal as400'],
     },
   },
   {
@@ -1499,6 +1645,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RO',
       },
       label: 'Ro',
+      keywords: [],
     },
   },
   {
@@ -1510,6 +1657,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_KANA',
       },
       label: 'かな',
+      keywords: ['kana'],
     },
   },
   {
@@ -1521,6 +1669,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_JYEN',
       },
       label: '¥',
+      keywords: ['yen'],
     },
   },
   {
@@ -1532,6 +1681,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HENK',
       },
       label: '変換',
+      keywords: ['henkan'],
     },
   },
   {
@@ -1543,6 +1693,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MHEN',
       },
       label: '無変換',
+      keywords: ['muhenkan'],
     },
   },
   {
@@ -1554,6 +1705,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_INT6',
       },
       label: 'JIS Numpad ,',
+      keywords: [],
     },
   },
   {
@@ -1565,6 +1717,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_INT7',
       },
       label: 'Int 7',
+      keywords: [],
     },
   },
   {
@@ -1576,6 +1729,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_INT8',
       },
       label: 'Int 8',
+      keywords: [],
     },
   },
   {
@@ -1587,6 +1741,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_INT9',
       },
       label: 'Int 9',
+      keywords: [],
     },
   },
   {
@@ -1598,6 +1753,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HAEN',
       },
       label: 'Lang 1',
+      keywords: [],
     },
   },
   {
@@ -1609,6 +1765,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HANJ',
       },
       label: 'Lang 2',
+      keywords: [],
     },
   },
   {
@@ -1620,6 +1777,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG3',
       },
       label: 'JIS Katakana',
+      keywords: [],
     },
   },
   {
@@ -1631,6 +1789,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG4',
       },
       label: 'JIS Hiragana',
+      keywords: [],
     },
   },
   {
@@ -1642,6 +1801,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG5',
       },
       label: 'Lang 5',
+      keywords: [],
     },
   },
   {
@@ -1653,6 +1813,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG6',
       },
       label: 'Lang 6',
+      keywords: [],
     },
   },
   {
@@ -1664,6 +1825,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG7',
       },
       label: 'Lang 7',
+      keywords: [],
     },
   },
   {
@@ -1675,6 +1837,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG8',
       },
       label: 'Lang 8',
+      keywords: [],
     },
   },
   {
@@ -1686,6 +1849,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LANG9',
       },
       label: 'Lang 9',
+      keywords: [],
     },
   },
   {
@@ -1697,6 +1861,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ERAS',
       },
       label: 'Alt Erase',
+      keywords: [],
     },
   },
   {
@@ -1708,6 +1873,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SYSREQ',
       },
       label: 'SysReq',
+      keywords: [],
     },
   },
   {
@@ -1719,6 +1885,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CANCEL',
       },
       label: 'Cancel',
+      keywords: [],
     },
   },
   {
@@ -1730,6 +1897,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CLR',
       },
       label: 'Clear',
+      keywords: [],
     },
   },
   {
@@ -1741,6 +1909,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PRIOR',
       },
       label: 'Prior',
+      keywords: [],
     },
   },
   {
@@ -1752,6 +1921,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RETURN',
       },
       label: 'Return',
+      keywords: [],
     },
   },
   {
@@ -1763,6 +1933,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SEPARATOR',
       },
       label: 'Separator',
+      keywords: [],
     },
   },
   {
@@ -1774,6 +1945,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_OUT',
       },
       label: 'Out',
+      keywords: [],
     },
   },
   {
@@ -1785,6 +1957,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_OPER',
       },
       label: 'Oper',
+      keywords: [],
     },
   },
   {
@@ -1796,6 +1969,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CLEAR_AGAIN',
       },
       label: 'Clear/Again',
+      keywords: [],
     },
   },
   {
@@ -1807,6 +1981,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CRSEL',
       },
       label: 'CrSel/Props',
+      keywords: [],
     },
   },
   {
@@ -1818,6 +1993,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_EXSEL',
       },
       label: 'ExSel',
+      keywords: [],
     },
   },
   {
@@ -1829,6 +2005,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PWR',
       },
       label: 'System Power Down',
+      keywords: [],
     },
   },
   {
@@ -1840,6 +2017,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SLEP',
       },
       label: 'Sleep',
+      keywords: [],
     },
   },
   {
@@ -1851,6 +2029,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WAKE',
       },
       label: 'Wake',
+      keywords: [],
     },
   },
   {
@@ -1862,6 +2041,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MUTE',
       },
       label: 'Audio Mute',
+      keywords: [],
     },
   },
   {
@@ -1873,6 +2053,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_VOLU',
       },
       label: 'Audio Vol +',
+      keywords: ['audio volume plus'],
     },
   },
   {
@@ -1884,6 +2065,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_VOLD',
       },
       label: 'Audio Vol -',
+      keywords: ['audio volume minus'],
     },
   },
   {
@@ -1895,6 +2077,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MNXT',
       },
       label: 'Next',
+      keywords: [],
     },
   },
   {
@@ -1906,6 +2089,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MPRV',
       },
       label: 'Previous',
+      keywords: [],
     },
   },
   {
@@ -1917,6 +2101,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MSTP',
       },
       label: 'Media Stop',
+      keywords: [],
     },
   },
   {
@@ -1928,6 +2113,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MPLY',
       },
       label: 'Play',
+      keywords: [],
     },
   },
   {
@@ -1939,6 +2125,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MSEL',
       },
       label: 'Select',
+      keywords: [],
     },
   },
   {
@@ -1950,6 +2137,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_EJCT',
       },
       label: 'Eject',
+      keywords: [],
     },
   },
   {
@@ -1961,6 +2149,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MAIL',
       },
       label: 'Mail',
+      keywords: [],
     },
   },
   {
@@ -1972,6 +2161,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CALC',
       },
       label: 'Calculator',
+      keywords: [],
     },
   },
   {
@@ -1983,6 +2173,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MYCM',
       },
       label: 'My Computer',
+      keywords: [],
     },
   },
   {
@@ -1994,6 +2185,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WSCH',
       },
       label: 'WWW Search',
+      keywords: [],
     },
   },
   {
@@ -2005,6 +2197,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WHOM',
       },
       label: 'WWW Home',
+      keywords: [],
     },
   },
   {
@@ -2016,6 +2209,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WBAK',
       },
       label: 'WWW Back',
+      keywords: [],
     },
   },
   {
@@ -2027,6 +2221,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WFWD',
       },
       label: 'WWW Forward',
+      keywords: [],
     },
   },
   {
@@ -2038,6 +2233,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WSTP',
       },
       label: 'WWW Stop',
+      keywords: [],
     },
   },
   {
@@ -2049,6 +2245,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WREF',
       },
       label: 'WWW Refresh',
+      keywords: [],
     },
   },
   {
@@ -2060,6 +2257,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WFAV',
       },
       label: 'WWW Favorite',
+      keywords: [],
     },
   },
   {
@@ -2071,6 +2269,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MFFD',
       },
       label: 'Fast Forward',
+      keywords: [],
     },
   },
   {
@@ -2082,6 +2281,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MRWD',
       },
       label: 'Rewind',
+      keywords: [],
     },
   },
   {
@@ -2093,6 +2293,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BRIU',
       },
       label: 'Screen +',
+
+      keywords: ['screen plus'],
     },
   },
   {
@@ -2104,6 +2306,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BRID',
       },
       label: 'Screen -',
+
+      keywords: ['screen minus'],
     },
   },
   {
@@ -2115,6 +2319,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN0',
       },
       label: 'Func0',
+      keywords: [],
     },
   },
   {
@@ -2126,6 +2331,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN1',
       },
       label: 'Func1',
+      keywords: [],
     },
   },
   {
@@ -2137,6 +2343,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN2',
       },
       label: 'Func2',
+      keywords: [],
     },
   },
   {
@@ -2148,6 +2355,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN3',
       },
       label: 'Func3',
+      keywords: [],
     },
   },
   {
@@ -2159,6 +2367,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN4',
       },
       label: 'Func4',
+      keywords: [],
     },
   },
   {
@@ -2170,6 +2379,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN5',
       },
       label: 'Func5',
+      keywords: [],
     },
   },
   {
@@ -2181,6 +2391,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN6',
       },
       label: 'Func6',
+      keywords: [],
     },
   },
   {
@@ -2192,6 +2403,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN7',
       },
       label: 'Func7',
+      keywords: [],
     },
   },
   {
@@ -2203,6 +2415,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN8',
       },
       label: 'Func8',
+      keywords: [],
     },
   },
   {
@@ -2214,6 +2427,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN9',
       },
       label: 'Func9',
+      keywords: [],
     },
   },
   {
@@ -2225,6 +2439,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN10',
       },
       label: 'Func10',
+      keywords: [],
     },
   },
   {
@@ -2236,6 +2451,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN11',
       },
       label: 'Func11',
+      keywords: [],
     },
   },
   {
@@ -2247,6 +2463,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN12',
       },
       label: 'Func12',
+      keywords: [],
     },
   },
   {
@@ -2258,6 +2475,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN13',
       },
       label: 'Func13',
+      keywords: [],
     },
   },
   {
@@ -2269,6 +2487,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN14',
       },
       label: 'Func14',
+      keywords: [],
     },
   },
   {
@@ -2280,6 +2499,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN15',
       },
       label: 'Func15',
+      keywords: [],
     },
   },
   {
@@ -2291,6 +2511,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN16',
       },
       label: 'Func16',
+      keywords: [],
     },
   },
   {
@@ -2302,6 +2523,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN17',
       },
       label: 'Func17',
+      keywords: [],
     },
   },
   {
@@ -2313,6 +2535,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN18',
       },
       label: 'Func18',
+      keywords: [],
     },
   },
   {
@@ -2324,6 +2547,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN19',
       },
       label: 'Func19',
+      keywords: [],
     },
   },
   {
@@ -2335,6 +2559,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN20',
       },
       label: 'Func20',
+      keywords: [],
     },
   },
   {
@@ -2346,6 +2571,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN21',
       },
       label: 'Func21',
+      keywords: [],
     },
   },
   {
@@ -2357,6 +2583,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN22',
       },
       label: 'Func22',
+      keywords: [],
     },
   },
   {
@@ -2368,6 +2595,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN23',
       },
       label: 'Func23',
+      keywords: [],
     },
   },
   {
@@ -2379,6 +2607,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN24',
       },
       label: 'Func24',
+      keywords: [],
     },
   },
   {
@@ -2390,6 +2619,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN25',
       },
       label: 'Func25',
+      keywords: [],
     },
   },
   {
@@ -2401,6 +2631,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN26',
       },
       label: 'Func26',
+      keywords: [],
     },
   },
   {
@@ -2412,6 +2643,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN27',
       },
       label: 'Func27',
+      keywords: [],
     },
   },
   {
@@ -2423,6 +2655,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN28',
       },
       label: 'Func28',
+      keywords: [],
     },
   },
   {
@@ -2434,6 +2667,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN29',
       },
       label: 'Func29',
+      keywords: [],
     },
   },
   {
@@ -2445,6 +2679,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN30',
       },
       label: 'Func30',
+      keywords: [],
     },
   },
   {
@@ -2456,6 +2691,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_FN31',
       },
       label: 'Func31',
+      keywords: [],
     },
   },
   {
@@ -2467,6 +2703,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LCTL',
       },
       label: '*Ctrl',
+      keywords: [],
     },
   },
   {
@@ -2478,6 +2715,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LSFT',
       },
       label: '*Shift',
+      keywords: [],
     },
   },
   {
@@ -2489,6 +2727,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LOPT',
       },
       label: '*Alt',
+      keywords: [],
     },
   },
   {
@@ -2500,6 +2739,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LWIN',
       },
       label: '*Win',
+      keywords: [],
     },
   },
   {
@@ -2511,6 +2751,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RCTL',
       },
       label: 'Ctrl*',
+      keywords: [],
     },
   },
   {
@@ -2522,6 +2763,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RSFT',
       },
       label: 'Shift*',
+      keywords: [],
     },
   },
   {
@@ -2533,6 +2775,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ROPT',
       },
       label: 'Alt*',
+      keywords: [],
     },
   },
   {
@@ -2544,6 +2787,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RWIN',
       },
       label: 'Win*',
+      keywords: [],
     },
   },
   {
@@ -2555,6 +2799,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MS_UP,',
       },
       label: 'Mouse ↑',
+      keywords: ['mouse up'],
     },
   },
   {
@@ -2566,6 +2811,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MS_D',
       },
       label: 'Mouse ↓',
+      keywords: ['mouse down'],
     },
   },
   {
@@ -2577,6 +2823,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MS_L',
       },
       label: 'Mouse ←',
+      keywords: ['mouse left'],
     },
   },
   {
@@ -2588,6 +2835,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_MS_R',
       },
       label: 'Mouse →',
+      keywords: ['mouse right'],
     },
   },
   {
@@ -2599,6 +2847,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BTN1',
       },
       label: 'Mouse Btn1',
+      keywords: [],
     },
   },
   {
@@ -2610,6 +2859,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BTN2',
       },
       label: 'Mouse Btn2',
+      keywords: [],
     },
   },
   {
@@ -2621,6 +2871,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BTN3',
       },
       label: 'Mouse Btn3',
+      keywords: [],
     },
   },
   {
@@ -2632,6 +2883,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BTN4',
       },
       label: 'Mouse Btn4',
+      keywords: [],
     },
   },
   {
@@ -2643,6 +2895,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_BTN5',
       },
       label: 'Mouse Btn5',
+      keywords: [],
     },
   },
   {
@@ -2654,6 +2907,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WH_U',
       },
       label: 'Mouse Wh ↑',
+      keywords: ['mouse wheel up'],
     },
   },
   {
@@ -2665,6 +2919,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WH_D',
       },
       label: 'Mouse Wh ↓',
+      keywords: ['mouse wheel down'],
     },
   },
   {
@@ -2676,6 +2931,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WH_L',
       },
       label: 'Mouse Wh ←',
+      keywords: ['mouse wheel left'],
     },
   },
   {
@@ -2687,6 +2943,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_WH_R',
       },
       label: 'Mouse Wh →',
+      keywords: ['mouse wheel right'],
     },
   },
   {
@@ -2698,6 +2955,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ACL0',
       },
       label: 'Mouse Acc0',
+      keywords: [],
     },
   },
   {
@@ -2709,6 +2967,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ACL1',
       },
       label: 'Mouse Acc1',
+      keywords: [],
     },
   },
   {
@@ -2720,6 +2979,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ACL2',
       },
       label: 'Mouse Acc2',
+      keywords: [],
     },
   },
   {
@@ -2731,6 +2991,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_EXLM',
       },
       label: '!',
+      keywords: [],
     },
   },
   {
@@ -2742,6 +3003,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_AT',
       },
       label: '@',
+      keywords: [],
     },
   },
   {
@@ -2753,6 +3015,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_HASH',
       },
       label: '#',
+      keywords: [],
     },
   },
   {
@@ -2764,6 +3027,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DLR',
       },
       label: '$',
+      keywords: [],
     },
   },
   {
@@ -2775,6 +3039,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PERC',
       },
       label: '%',
+      keywords: [],
     },
   },
   {
@@ -2786,6 +3051,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_CIRC',
       },
       label: '^',
+      keywords: [],
     },
   },
   {
@@ -2797,6 +3063,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_AMPR',
       },
       label: '&',
+      keywords: [],
     },
   },
   {
@@ -2808,6 +3075,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_ASTR',
       },
       label: '*',
+      keywords: [],
     },
   },
   {
@@ -2819,6 +3087,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LPRN',
       },
       label: '(',
+      keywords: [],
     },
   },
   {
@@ -2830,6 +3099,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RPRN',
       },
       label: ')',
+      keywords: [],
     },
   },
   {
@@ -2841,6 +3111,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_UNDS',
       },
       label: '_',
+      keywords: [],
     },
   },
   {
@@ -2852,6 +3123,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PLUS',
       },
       label: '+',
+
+      keywords: ['plus'],
     },
   },
   {
@@ -2863,6 +3136,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LCBR',
       },
       label: '{',
+      keywords: [],
     },
   },
   {
@@ -2874,6 +3148,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RCBR',
       },
       label: '}',
+      keywords: [],
     },
   },
   {
@@ -2885,6 +3160,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PIPE',
       },
       label: '|',
+      keywords: [],
     },
   },
   {
@@ -2896,6 +3172,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_COLN',
       },
       label: ':',
+      keywords: [],
     },
   },
   {
@@ -2907,6 +3184,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DQT',
       },
       label: '"',
+      keywords: [],
     },
   },
   {
@@ -2918,6 +3196,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_TILD',
       },
       label: '~',
+
+      keywords: ['tilde'],
     },
   },
   {
@@ -2929,6 +3209,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LABK',
       },
       label: '<',
+      keywords: [],
     },
   },
   {
@@ -2940,6 +3221,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RABK',
       },
       label: '>',
+      keywords: [],
     },
   },
   {
@@ -2951,6 +3233,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_QUES',
       },
       label: '?',
+      keywords: [],
     },
   },
   {
@@ -2962,6 +3245,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'SPC_FN1',
       },
       label: 'Space Fn1',
+      keywords: [],
     },
   },
   {
@@ -2973,6 +3257,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'SPC_FN2',
       },
       label: 'Space Fn2',
+      keywords: [],
     },
   },
   {
@@ -2984,6 +3269,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'SPC_FN3',
       },
       label: 'Space Fn3',
+      keywords: [],
     },
   },
   {
@@ -2995,6 +3281,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(0)',
       },
       label: 'TO(0)',
+      keywords: [],
     },
   },
   {
@@ -3006,6 +3293,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(1)',
       },
       label: 'TO(1)',
+      keywords: [],
     },
   },
   {
@@ -3017,6 +3305,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(2)',
       },
       label: 'TO(2)',
+      keywords: [],
     },
   },
   {
@@ -3028,6 +3317,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(3)',
       },
       label: 'TO(3)',
+      keywords: [],
     },
   },
   {
@@ -3039,6 +3329,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(4)',
       },
       label: 'TO(4)',
+      keywords: [],
     },
   },
   {
@@ -3050,6 +3341,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(5)',
       },
       label: 'TO(5)',
+      keywords: [],
     },
   },
   {
@@ -3061,6 +3353,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(6)',
       },
       label: 'TO(6)',
+      keywords: [],
     },
   },
   {
@@ -3072,6 +3365,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TO(7)',
       },
       label: 'TO(7)',
+      keywords: [],
     },
   },
   {
@@ -3083,6 +3377,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(0)',
       },
       label: 'MO(0)',
+      keywords: [],
     },
   },
   {
@@ -3094,6 +3389,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(1)',
       },
       label: 'MO(1)',
+      keywords: [],
     },
   },
   {
@@ -3105,6 +3401,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(2)',
       },
       label: 'MO(2)',
+      keywords: [],
     },
   },
   {
@@ -3116,6 +3413,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(3)',
       },
       label: 'MO(3)',
+      keywords: [],
     },
   },
   {
@@ -3127,6 +3425,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(4)',
       },
       label: 'MO(4)',
+      keywords: [],
     },
   },
   {
@@ -3138,6 +3437,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(5)',
       },
       label: 'MO(5)',
+      keywords: [],
     },
   },
   {
@@ -3149,6 +3449,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(6)',
       },
       label: 'MO(6)',
+      keywords: [],
     },
   },
   {
@@ -3160,6 +3461,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MO(7)',
       },
       label: 'MO(7)',
+      keywords: [],
     },
   },
   {
@@ -3171,6 +3473,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(0)',
       },
       label: 'TG(0)',
+      keywords: [],
     },
   },
   {
@@ -3182,6 +3485,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(1)',
       },
       label: 'TG(1)',
+      keywords: [],
     },
   },
   {
@@ -3193,6 +3497,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(2)',
       },
       label: 'TG(2)',
+      keywords: [],
     },
   },
   {
@@ -3204,6 +3509,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(3)',
       },
       label: 'TG(3)',
+      keywords: [],
     },
   },
   {
@@ -3215,6 +3521,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(4)',
       },
       label: 'TG(4)',
+      keywords: [],
     },
   },
   {
@@ -3226,6 +3533,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(5)',
       },
       label: 'TG(5)',
+      keywords: [],
     },
   },
   {
@@ -3237,6 +3545,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(6)',
       },
       label: 'TG(6)',
+      keywords: [],
     },
   },
   {
@@ -3248,6 +3557,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TG(7)',
       },
       label: 'TG(7)',
+      keywords: [],
     },
   },
   {
@@ -3259,6 +3569,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(0)',
       },
       label: 'OSL(0)',
+      keywords: [],
     },
   },
   {
@@ -3270,6 +3581,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(1)',
       },
       label: 'OSL(1)',
+      keywords: [],
     },
   },
   {
@@ -3281,6 +3593,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(2)',
       },
       label: 'OSL(2)',
+      keywords: [],
     },
   },
   {
@@ -3292,6 +3605,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(3)',
       },
       label: 'OSL(3)',
+      keywords: [],
     },
   },
   {
@@ -3303,6 +3617,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(4)',
       },
       label: 'OSL(4)',
+      keywords: [],
     },
   },
   {
@@ -3314,6 +3629,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(5)',
       },
       label: 'OSL(5)',
+      keywords: [],
     },
   },
   {
@@ -3325,6 +3641,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(6)',
       },
       label: 'OSL(6)',
+      keywords: [],
     },
   },
   {
@@ -3336,6 +3653,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'OSL(7)',
       },
       label: 'OSL(7)',
+      keywords: [],
     },
   },
   {
@@ -3347,6 +3665,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(0)',
       },
       label: 'TT(0)',
+      keywords: [],
     },
   },
   {
@@ -3358,6 +3677,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(1)',
       },
       label: 'TT(1)',
+      keywords: [],
     },
   },
   {
@@ -3369,6 +3689,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(2)',
       },
       label: 'TT(2)',
+      keywords: [],
     },
   },
   {
@@ -3380,6 +3701,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(3)',
       },
       label: 'TT(3)',
+      keywords: [],
     },
   },
   {
@@ -3391,6 +3713,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(4)',
       },
       label: 'TT(4)',
+      keywords: [],
     },
   },
   {
@@ -3402,6 +3725,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(5)',
       },
       label: 'TT(5)',
+      keywords: [],
     },
   },
   {
@@ -3413,6 +3737,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(6)',
       },
       label: 'TT(6)',
+      keywords: [],
     },
   },
   {
@@ -3424,6 +3749,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'TT(7)',
       },
       label: 'TT(7)',
+      keywords: [],
     },
   },
   {
@@ -3435,6 +3761,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RESET',
       },
       label: 'Reset',
+      keywords: [],
     },
   },
   {
@@ -3446,6 +3773,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'DEBUG',
       },
       label: 'Debug',
+      keywords: [],
     },
   },
   {
@@ -3457,6 +3785,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CL_SWAP',
       },
       label: 'CL SWAP',
+      keywords: [],
     },
   },
   {
@@ -3468,6 +3797,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CL_CTRL',
       },
       label: 'CL CTRL',
+      keywords: [],
     },
   },
   {
@@ -3479,6 +3809,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'LAG_SWP',
       },
       label: 'LAG SWP',
+      keywords: [],
     },
   },
   {
@@ -3490,6 +3821,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RAG_SWP',
       },
       label: 'RAG SWP',
+      keywords: [],
     },
   },
 
@@ -3502,6 +3834,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'GUI_OFF',
       },
       label: 'GUI OFF',
+      keywords: [],
     },
   },
 
@@ -3514,10 +3847,11 @@ export const keyInfoList: KeyInfo[] = [
         short: 'GE_SWAP',
       },
       label: 'GE SWAP',
+      keywords: [],
     },
   },
   {
-    desc: 'Swap  and Backspace.',
+    desc: 'Swap Backslash and Backspace.',
     keycodeInfo: {
       code: 23560,
       name: {
@@ -3525,6 +3859,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BS_SWAP',
       },
       label: 'BS SWAP',
+      keywords: ['swap', 'backspace', 'backslash'],
     },
   },
   {
@@ -3536,6 +3871,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'NK_ON',
       },
       label: 'NK ON',
+      keywords: [],
     },
   },
   {
@@ -3547,6 +3883,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AG_SWAP',
       },
       label: 'AG SWAP',
+      keywords: [],
     },
   },
   {
@@ -3558,6 +3895,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CL_NORM',
       },
       label: 'CL NORM',
+      keywords: [],
     },
   },
 
@@ -3570,6 +3908,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CL_CAPS',
       },
       label: 'CL CAPS',
+      keywords: [],
     },
   },
 
@@ -3582,6 +3921,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'LAG_NRM',
       },
       label: 'LAG NRM',
+      keywords: [],
     },
   },
 
@@ -3594,6 +3934,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RAG_NRM',
       },
       label: 'RAG NRM',
+      keywords: [],
     },
   },
   {
@@ -3605,6 +3946,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'GUI_ON',
       },
       label: 'GUI ON',
+      keywords: [],
     },
   },
 
@@ -3617,6 +3959,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'GE_SWAP',
       },
       label: 'GE NORM',
+      keywords: [],
     },
   },
 
@@ -3629,6 +3972,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BS_NORM',
       },
       label: 'BS NORM',
+      keywords: [],
     },
   },
   {
@@ -3640,6 +3984,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'NK_OFF',
       },
       label: 'NK OFF',
+      keywords: [],
     },
   },
   {
@@ -3651,6 +3996,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AG_NORM',
       },
       label: 'AG NORM',
+      keywords: [],
     },
   },
   {
@@ -3662,6 +4008,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'NK_TOGG',
       },
       label: 'NK TOGG',
+      keywords: [],
     },
   },
   {
@@ -3673,6 +4020,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AG_TOGG',
       },
       label: 'AG TOGG',
+      keywords: [],
     },
   },
   {
@@ -3684,6 +4032,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_GESC',
       },
       label: 'Esc `',
+      keywords: [],
     },
   },
   {
@@ -3695,6 +4044,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AU_ON',
       },
       label: 'Audio On',
+      keywords: [],
     },
   },
   {
@@ -3706,6 +4056,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AU_OFF',
       },
       label: 'Audio Off',
+      keywords: [],
     },
   },
   {
@@ -3717,6 +4068,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'AU_TOG',
       },
       label: 'Audio Toggle',
+      keywords: [],
     },
   },
   {
@@ -3728,6 +4080,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_TOGGLE',
       },
       label: 'Clicky Toggle',
+      keywords: [],
     },
   },
   {
@@ -3739,6 +4092,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_ENABLE',
       },
       label: 'Clicky Enable',
+      keywords: [],
     },
   },
   {
@@ -3750,6 +4104,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_DISABLE',
       },
       label: 'Clicky Disable',
+      keywords: [],
     },
   },
   {
@@ -3761,6 +4116,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_UP',
       },
       label: 'Clicky Up',
+      keywords: [],
     },
   },
   {
@@ -3772,6 +4128,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_DOWN',
       },
       label: 'Clicky Down',
+      keywords: [],
     },
   },
   {
@@ -3783,6 +4140,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CLICKY_RESET',
       },
       label: 'Clicky Reset',
+      keywords: [],
     },
   },
   {
@@ -3794,6 +4152,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MU_ON',
       },
       label: 'Music On',
+      keywords: [],
     },
   },
   {
@@ -3805,6 +4164,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MU_OFF',
       },
       label: 'Music Off',
+      keywords: [],
     },
   },
   {
@@ -3816,6 +4176,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MU_TOG',
       },
       label: 'Music Toggle',
+      keywords: [],
     },
   },
   {
@@ -3827,6 +4188,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MU_MOD',
       },
       label: 'Music Mode',
+      keywords: [],
     },
   },
 
@@ -3839,6 +4201,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_ON',
       },
       label: 'MIDI On',
+      keywords: [],
     },
   },
   {
@@ -3850,6 +4213,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OFF',
       },
       label: 'MIDI Off',
+      keywords: [],
     },
   },
   {
@@ -3861,6 +4225,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TOG',
       },
       label: 'MIDI Toggle',
+      keywords: [],
     },
   },
   {
@@ -3872,6 +4237,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C',
       },
       label: 'C_0',
+      keywords: [],
     },
   },
   {
@@ -3883,6 +4249,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs',
       },
       label: 'Cs_0, Db_0',
+      keywords: [],
     },
   },
   {
@@ -3894,6 +4261,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D',
       },
       label: 'D_0',
+      keywords: [],
     },
   },
   {
@@ -3905,6 +4273,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds',
       },
       label: 'Ds_0, Eb_0',
+      keywords: [],
     },
   },
   {
@@ -3916,6 +4285,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E',
       },
       label: 'E_0',
+      keywords: [],
     },
   },
   {
@@ -3927,6 +4297,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F',
       },
       label: 'F_0',
+      keywords: [],
     },
   },
   {
@@ -3938,6 +4309,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs',
       },
       label: 'Fs_0, Gb_0',
+      keywords: [],
     },
   },
   {
@@ -3949,6 +4321,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G',
       },
       label: 'G_0',
+      keywords: [],
     },
   },
   {
@@ -3960,6 +4333,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs',
       },
       label: 'Gs_0, Ab_0',
+      keywords: [],
     },
   },
   {
@@ -3971,6 +4345,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A',
       },
       label: 'A_0',
+      keywords: [],
     },
   },
   {
@@ -3982,6 +4357,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As',
       },
       label: 'As_0, Bb_0',
+      keywords: [],
     },
   },
   {
@@ -3993,6 +4369,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B',
       },
       label: 'B_0',
+      keywords: [],
     },
   },
   {
@@ -4004,6 +4381,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C_1',
       },
       label: 'C_1',
+      keywords: [],
     },
   },
   {
@@ -4015,6 +4393,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs_1',
       },
       label: 'Cs_1, Db_1',
+      keywords: [],
     },
   },
   {
@@ -4026,6 +4405,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D_1',
       },
       label: 'D_1',
+      keywords: [],
     },
   },
   {
@@ -4037,6 +4417,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds_1',
       },
       label: 'Ds_1, Eb_1',
+      keywords: [],
     },
   },
   {
@@ -4048,6 +4429,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E_1',
       },
       label: 'E_1',
+      keywords: [],
     },
   },
   {
@@ -4059,6 +4441,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F_1',
       },
       label: 'F_1',
+      keywords: [],
     },
   },
   {
@@ -4070,6 +4453,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs_1',
       },
       label: 'Fs_1, Gb_1',
+      keywords: [],
     },
   },
   {
@@ -4081,6 +4465,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G_1',
       },
       label: 'G_1',
+      keywords: [],
     },
   },
   {
@@ -4092,6 +4477,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs_1',
       },
       label: 'Gs_1, Ab_1',
+      keywords: [],
     },
   },
   {
@@ -4103,6 +4489,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A_1',
       },
       label: 'A_1',
+      keywords: [],
     },
   },
   {
@@ -4114,6 +4501,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As_1',
       },
       label: 'As_1, Bb_1',
+      keywords: [],
     },
   },
   {
@@ -4125,6 +4513,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B_1',
       },
       label: 'B_1',
+      keywords: [],
     },
   },
   {
@@ -4136,6 +4525,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C_2',
       },
       label: 'C_2',
+      keywords: [],
     },
   },
   {
@@ -4147,6 +4537,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs_2',
       },
       label: 'Cs_2, Db_2',
+      keywords: [],
     },
   },
   {
@@ -4158,6 +4549,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D_2',
       },
       label: 'D_2',
+      keywords: [],
     },
   },
   {
@@ -4169,6 +4561,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds_2',
       },
       label: 'Ds_2, Eb_2',
+      keywords: [],
     },
   },
   {
@@ -4180,6 +4573,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E_2',
       },
       label: 'E_2',
+      keywords: [],
     },
   },
   {
@@ -4191,6 +4585,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F_2',
       },
       label: 'F_2',
+      keywords: [],
     },
   },
   {
@@ -4202,6 +4597,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs_2',
       },
       label: 'Fs_2, Gb_2',
+      keywords: [],
     },
   },
   {
@@ -4213,6 +4609,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G_2',
       },
       label: 'G_2',
+      keywords: [],
     },
   },
   {
@@ -4224,6 +4621,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs_2',
       },
       label: 'Gs_2, Ab_2',
+      keywords: [],
     },
   },
   {
@@ -4235,6 +4633,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A_2',
       },
       label: 'A_2',
+      keywords: [],
     },
   },
   {
@@ -4246,6 +4645,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As_2',
       },
       label: 'As_2, Bb_2',
+      keywords: [],
     },
   },
   {
@@ -4257,6 +4657,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B_2',
       },
       label: 'B_2',
+      keywords: [],
     },
   },
   {
@@ -4268,6 +4669,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C_3',
       },
       label: 'C_3',
+      keywords: [],
     },
   },
   {
@@ -4279,6 +4681,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs_3',
       },
       label: 'Cs_3, Db_3',
+      keywords: [],
     },
   },
   {
@@ -4290,6 +4693,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D_3',
       },
       label: 'D_3',
+      keywords: [],
     },
   },
   {
@@ -4301,6 +4705,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds_3',
       },
       label: 'Ds_3, Eb_3',
+      keywords: [],
     },
   },
   {
@@ -4312,6 +4717,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E_3',
       },
       label: 'E_3',
+      keywords: [],
     },
   },
   {
@@ -4323,6 +4729,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F_3',
       },
       label: 'F_3',
+      keywords: [],
     },
   },
   {
@@ -4334,6 +4741,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs_3',
       },
       label: 'Fs_3, Gb_3',
+      keywords: [],
     },
   },
   {
@@ -4345,6 +4753,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G_3',
       },
       label: 'G_3',
+      keywords: [],
     },
   },
   {
@@ -4356,6 +4765,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs_3',
       },
       label: 'Gs_3, Ab_3',
+      keywords: [],
     },
   },
   {
@@ -4367,6 +4777,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A_3',
       },
       label: 'A_3',
+      keywords: [],
     },
   },
   {
@@ -4378,6 +4789,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As_3',
       },
       label: 'As_3, Bb_3',
+      keywords: [],
     },
   },
   {
@@ -4389,6 +4801,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B_3',
       },
       label: 'B_3',
+      keywords: [],
     },
   },
   {
@@ -4400,6 +4813,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C_4',
       },
       label: 'C_4',
+      keywords: [],
     },
   },
   {
@@ -4411,6 +4825,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs_4',
       },
       label: 'Cs_4, Db_4',
+      keywords: [],
     },
   },
   {
@@ -4422,6 +4837,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D_4',
       },
       label: 'D_4',
+      keywords: [],
     },
   },
   {
@@ -4433,6 +4849,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds_4',
       },
       label: 'Ds_4, Eb_4',
+      keywords: [],
     },
   },
   {
@@ -4444,6 +4861,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E_4',
       },
       label: 'E_4',
+      keywords: [],
     },
   },
   {
@@ -4455,6 +4873,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F_4',
       },
       label: 'F_4',
+      keywords: [],
     },
   },
   {
@@ -4466,6 +4885,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs_4',
       },
       label: 'Fs_4, Gb_4',
+      keywords: [],
     },
   },
   {
@@ -4477,6 +4897,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G_4',
       },
       label: 'G_4',
+      keywords: [],
     },
   },
   {
@@ -4488,6 +4909,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs_4',
       },
       label: 'Gs_4, Ab_4',
+      keywords: [],
     },
   },
   {
@@ -4499,6 +4921,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A_4',
       },
       label: 'A_4',
+      keywords: [],
     },
   },
   {
@@ -4510,6 +4933,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As_4',
       },
       label: 'As_4, Bb_4',
+      keywords: [],
     },
   },
   {
@@ -4521,6 +4945,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B_4',
       },
       label: 'B_4',
+      keywords: [],
     },
   },
   {
@@ -4532,6 +4957,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_C_5',
       },
       label: 'C_5',
+      keywords: [],
     },
   },
   {
@@ -4543,6 +4969,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Cs_5',
       },
       label: 'Cs_5, Db_5',
+      keywords: [],
     },
   },
   {
@@ -4554,6 +4981,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_D_5',
       },
       label: 'D_5',
+      keywords: [],
     },
   },
   {
@@ -4565,6 +4993,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Ds_5',
       },
       label: 'Ds_5, Eb_5',
+      keywords: [],
     },
   },
   {
@@ -4576,6 +5005,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_E_5',
       },
       label: 'E_5',
+      keywords: [],
     },
   },
   {
@@ -4587,6 +5017,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_F_5',
       },
       label: 'F_5',
+      keywords: [],
     },
   },
   {
@@ -4598,6 +5029,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Fs_5',
       },
       label: 'Fs_5, Gb_5',
+      keywords: [],
     },
   },
   {
@@ -4609,6 +5041,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_G_5',
       },
       label: 'G_5',
+      keywords: [],
     },
   },
   {
@@ -4620,6 +5053,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_Gs_5',
       },
       label: 'Gs_5, Ab_5',
+      keywords: [],
     },
   },
   {
@@ -4631,6 +5065,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_A_5',
       },
       label: 'A_5',
+      keywords: [],
     },
   },
   {
@@ -4642,6 +5077,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_As_5',
       },
       label: 'As_5, Bb_5',
+      keywords: [],
     },
   },
   {
@@ -4653,6 +5089,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_B_5',
       },
       label: 'B_5',
+      keywords: [],
     },
   },
   {
@@ -4664,6 +5101,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_N2',
       },
       label: 'MIDI Oct N2',
+      keywords: [],
     },
   },
   {
@@ -4675,6 +5113,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_N1',
       },
       label: 'MIDI Oct N1',
+      keywords: [],
     },
   },
   {
@@ -4686,6 +5125,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_0',
       },
       label: 'MIDI Oct 0',
+      keywords: [],
     },
   },
   {
@@ -4697,6 +5137,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_1',
       },
       label: 'MIDI Oct 1',
+      keywords: [],
     },
   },
   {
@@ -4708,6 +5149,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_2',
       },
       label: 'MIDI Oct 2',
+      keywords: [],
     },
   },
   {
@@ -4719,6 +5161,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_3',
       },
       label: 'MIDI Oct 3',
+      keywords: [],
     },
   },
   {
@@ -4730,6 +5173,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_4',
       },
       label: 'MIDI Oct 4',
+      keywords: [],
     },
   },
   {
@@ -4741,6 +5185,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_5',
       },
       label: 'MIDI Oct 5',
+      keywords: [],
     },
   },
   {
@@ -4752,6 +5197,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_6',
       },
       label: 'MIDI Oct 6',
+      keywords: [],
     },
   },
   {
@@ -4763,6 +5209,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCT_7',
       },
       label: 'MIDI Oct 7',
+      keywords: [],
     },
   },
   {
@@ -4774,6 +5221,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCTD',
       },
       label: 'MIDI Oct Down',
+      keywords: [],
     },
   },
   {
@@ -4785,6 +5233,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_OCTU',
       },
       label: 'MIDI Oct Up',
+      keywords: [],
     },
   },
   {
@@ -4796,6 +5245,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N6',
       },
       label: 'MIDI Trans N6',
+      keywords: [],
     },
   },
   {
@@ -4807,6 +5257,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N5',
       },
       label: 'MIDI Trans N5',
+      keywords: [],
     },
   },
   {
@@ -4818,6 +5269,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N4',
       },
       label: 'MIDI Trans N4',
+      keywords: [],
     },
   },
   {
@@ -4829,6 +5281,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N3',
       },
       label: 'MIDI Trans N3',
+      keywords: [],
     },
   },
   {
@@ -4840,6 +5293,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N2',
       },
       label: 'MIDI Trans N2',
+      keywords: [],
     },
   },
   {
@@ -4851,6 +5305,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_N1',
       },
       label: 'MIDI Trans N1',
+      keywords: [],
     },
   },
   {
@@ -4862,6 +5317,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_0',
       },
       label: 'MIDI Trans 0',
+      keywords: [],
     },
   },
   {
@@ -4873,6 +5329,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_1',
       },
       label: 'MIDI Trans 1',
+      keywords: [],
     },
   },
   {
@@ -4884,6 +5341,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_2',
       },
       label: 'MIDI Trans 2',
+      keywords: [],
     },
   },
   {
@@ -4895,6 +5353,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_3',
       },
       label: 'MIDI Trans 3',
+      keywords: [],
     },
   },
   {
@@ -4906,6 +5365,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_4',
       },
       label: 'MIDI Trans 4',
+      keywords: [],
     },
   },
   {
@@ -4917,6 +5377,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_5',
       },
       label: 'MIDI Trans 5',
+      keywords: [],
     },
   },
   {
@@ -4928,6 +5389,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNS_6',
       },
       label: 'MIDI Trans 6',
+      keywords: [],
     },
   },
   {
@@ -4939,6 +5401,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNSD',
       },
       label: 'MIDI Trans Down',
+      keywords: [],
     },
   },
   {
@@ -4950,6 +5413,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_TRNSU',
       },
       label: 'MIDI Trans Up',
+      keywords: [],
     },
   },
   {
@@ -4961,6 +5425,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_1',
       },
       label: 'MIDI Vel 1',
+      keywords: [],
     },
   },
   {
@@ -4972,6 +5437,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_2',
       },
       label: 'MIDI Vel 2',
+      keywords: [],
     },
   },
   {
@@ -4983,6 +5449,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_3',
       },
       label: 'MIDI Vel 3',
+      keywords: [],
     },
   },
   {
@@ -4994,6 +5461,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_4',
       },
       label: 'MIDI Vel 4',
+      keywords: [],
     },
   },
   {
@@ -5005,6 +5473,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_5',
       },
       label: 'MIDI Vel 5',
+      keywords: [],
     },
   },
   {
@@ -5016,6 +5485,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_6',
       },
       label: 'MIDI Vel 6',
+      keywords: [],
     },
   },
   {
@@ -5027,6 +5497,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_7',
       },
       label: 'MIDI Vel 7',
+      keywords: [],
     },
   },
   {
@@ -5038,6 +5509,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_8',
       },
       label: 'MIDI Vel 8',
+      keywords: [],
     },
   },
   {
@@ -5049,6 +5521,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_9',
       },
       label: 'MIDI Vel 9',
+      keywords: [],
     },
   },
   {
@@ -5060,6 +5533,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VEL_10',
       },
       label: 'MIDI Vel 10',
+      keywords: [],
     },
   },
   {
@@ -5071,6 +5545,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VELD',
       },
       label: 'MIDI Vel Down',
+      keywords: [],
     },
   },
   {
@@ -5082,6 +5557,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_VELU',
       },
       label: 'MIDI Vel Up',
+      keywords: [],
     },
   },
   {
@@ -5093,6 +5569,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH1',
       },
       label: 'MIDI CH 1',
+      keywords: [],
     },
   },
   {
@@ -5104,6 +5581,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH2',
       },
       label: 'MIDI CH 2',
+      keywords: [],
     },
   },
   {
@@ -5115,6 +5593,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH3',
       },
       label: 'MIDI CH 3',
+      keywords: [],
     },
   },
   {
@@ -5126,6 +5605,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH4',
       },
       label: 'MIDI CH 4',
+      keywords: [],
     },
   },
   {
@@ -5137,6 +5617,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH5',
       },
       label: 'MIDI CH 5',
+      keywords: [],
     },
   },
   {
@@ -5148,6 +5629,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH6',
       },
       label: 'MIDI CH 6',
+      keywords: [],
     },
   },
   {
@@ -5159,6 +5641,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH7',
       },
       label: 'MIDI CH 7',
+      keywords: [],
     },
   },
   {
@@ -5170,6 +5653,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH8',
       },
       label: 'MIDI CH 8',
+      keywords: [],
     },
   },
   {
@@ -5181,6 +5665,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH9',
       },
       label: 'MIDI CH 9',
+      keywords: [],
     },
   },
   {
@@ -5192,6 +5677,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH10',
       },
       label: 'MIDI CH 10',
+      keywords: [],
     },
   },
   {
@@ -5203,6 +5689,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH11',
       },
       label: 'MIDI CH 11',
+      keywords: [],
     },
   },
   {
@@ -5214,6 +5701,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH12',
       },
       label: 'MIDI CH 12',
+      keywords: [],
     },
   },
   {
@@ -5225,6 +5713,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH13',
       },
       label: 'MIDI CH 13',
+      keywords: [],
     },
   },
   {
@@ -5236,6 +5725,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH14',
       },
       label: 'MIDI CH 14',
+      keywords: [],
     },
   },
   {
@@ -5247,6 +5737,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH15',
       },
       label: 'MIDI CH 15',
+      keywords: [],
     },
   },
   {
@@ -5258,6 +5749,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CH16',
       },
       label: 'MIDI CH 16',
+      keywords: [],
     },
   },
   {
@@ -5269,6 +5761,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CHD',
       },
       label: 'MIDI CH Down',
+      keywords: [],
     },
   },
   {
@@ -5280,6 +5773,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_CHU',
       },
       label: 'MIDI CH Up',
+      keywords: [],
     },
   },
   {
@@ -5291,6 +5785,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_ALLOFF',
       },
       label: 'All Notes Off',
+      keywords: [],
     },
   },
   {
@@ -5302,6 +5797,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_SUS',
       },
       label: 'MIDI Sustain',
+      keywords: [],
     },
   },
   {
@@ -5313,6 +5809,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_PORT',
       },
       label: 'MIDI Portamento',
+      keywords: [],
     },
   },
   {
@@ -5324,6 +5821,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_SOST',
       },
       label: 'MIDI Sostenuto',
+      keywords: [],
     },
   },
   {
@@ -5335,6 +5833,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_SOFT',
       },
       label: 'MIDI Soft Pedal',
+      keywords: [],
     },
   },
   {
@@ -5346,6 +5845,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_LEG',
       },
       label: 'MIDI Legato',
+      keywords: [],
     },
   },
   {
@@ -5357,6 +5857,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_MOD',
       },
       label: 'MIDI Modulation',
+      keywords: [],
     },
   },
   {
@@ -5368,6 +5869,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_MODSD',
       },
       label: 'MIDI Mud Speed -',
+
+      keywords: ['midi modulation speed minus'],
     },
   },
   {
@@ -5379,6 +5882,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_MODSU',
       },
       label: 'MIDI Mod Speed +',
+
+      keywords: ['midi modulation speed plus'],
     },
   },
   {
@@ -5390,6 +5895,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_BENDD',
       },
       label: 'MIDI Bend Down',
+      keywords: [],
     },
   },
   {
@@ -5401,6 +5907,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'MI_BENDU',
       },
       label: 'MIDI Bend Up',
+      keywords: [],
     },
   },
 
@@ -5413,6 +5920,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_ON',
       },
       label: 'BL On',
+
+      keywords: ['backlight on'],
     },
   },
 
@@ -5425,6 +5934,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_OFF',
       },
       label: 'BL Off',
+
+      keywords: ['backlight off'],
     },
   },
 
@@ -5437,6 +5948,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_DEC',
       },
       label: 'BL -',
+
+      keywords: ['backlight minus'],
     },
   },
 
@@ -5449,6 +5962,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_INC',
       },
       label: 'BL +',
+
+      keywords: ['backlight plus'],
     },
   },
 
@@ -5461,6 +5976,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_TOGG',
       },
       label: 'BL Toggle',
+
+      keywords: ['backlight toggle'],
     },
   },
 
@@ -5473,6 +5990,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_STEP',
       },
       label: 'BL Cycle',
+
+      keywords: ['backlight cycle'],
     },
   },
 
@@ -5485,6 +6004,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'BL_BRTG',
       },
       label: 'BR Toggle',
+      keywords: [],
     },
   },
 
@@ -5497,6 +6017,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_TOG',
       },
       label: 'RGB Toggle',
+      keywords: [],
     },
   },
 
@@ -5509,6 +6030,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_FORWARD',
       },
       label: 'RGB Mode +',
+
+      keywords: ['rgb mode plus'],
     },
   },
 
@@ -5522,6 +6045,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_REVERSE',
       },
       label: 'RGB Mode -',
+
+      keywords: ['rgb mode minus'],
     },
   },
 
@@ -5534,6 +6059,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_HUI',
       },
       label: 'Hue +',
+
+      keywords: ['hue plus'],
     },
   },
 
@@ -5546,6 +6073,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_HUD',
       },
       label: 'Hue -',
+
+      keywords: ['hue minus'],
     },
   },
 
@@ -5558,6 +6087,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_SAI',
       },
       label: 'Sat +',
+
+      keywords: ['saturation plus'],
     },
   },
 
@@ -5570,6 +6101,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_SAD',
       },
       label: 'Sat -',
+
+      keywords: ['saturation minus'],
     },
   },
 
@@ -5582,6 +6115,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_VAI',
       },
       label: 'Bright +',
+
+      keywords: ['bright plus'],
     },
   },
 
@@ -5594,6 +6129,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_VAD',
       },
       label: 'Bright -',
+
+      keywords: ['bright minus'],
     },
   },
 
@@ -5607,6 +6144,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_SPI',
       },
       label: 'Effect Speed +',
+
+      keywords: ['effect speed plus'],
     },
   },
 
@@ -5620,6 +6159,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_SPD',
       },
       label: 'Effect Speed -',
+
+      keywords: ['effect speed minus'],
     },
   },
 
@@ -5632,6 +6173,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_PLAIN',
       },
       label: 'RGB Mode P',
+
+      keywords: ['rgb mode plain'],
     },
   },
 
@@ -5644,6 +6187,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_BREATHE',
       },
       label: 'RGB Mode B',
+
+      keywords: ['rgb mode breathe'],
     },
   },
 
@@ -5656,6 +6201,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_RAINBOW',
       },
       label: 'RGB Mode R',
+
+      keywords: ['rgb mode rainbow'],
     },
   },
 
@@ -5668,6 +6215,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_SWIRL',
       },
       label: 'RGB Mode SW',
+
+      keywords: ['rgb mode swirl'],
     },
   },
 
@@ -5680,6 +6229,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_SNAKE',
       },
       label: 'RGB Mode SN',
+
+      keywords: ['rgb mode snake'],
     },
   },
 
@@ -5692,6 +6243,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_KNIGHT',
       },
       label: 'RGB Mode K',
+
+      keywords: ['rgb mode knight'],
     },
   },
 
@@ -5704,6 +6257,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_XMAS',
       },
       label: 'RGB Mode X',
+
+      keywords: ['rgb mode christmas'],
     },
   },
 
@@ -5716,6 +6271,8 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_GRADIENT',
       },
       label: 'RGB Mode G',
+
+      keywords: ['rgb mode gradient'],
     },
   },
 
@@ -5728,6 +6285,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'RGB_MODE_RGBTEST',
       },
       label: 'RGB Mode Test',
+      keywords: [],
     },
   },
 
@@ -5740,6 +6298,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LSPO',
       },
       label: 'LS (',
+      keywords: [],
     },
   },
 
@@ -5752,6 +6311,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RSPC',
       },
       label: 'RS )',
+      keywords: [],
     },
   },
 
@@ -5764,6 +6324,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_SFTENT',
       },
       label: 'SftEnt',
+      keywords: [],
     },
   },
 
@@ -5776,6 +6337,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'EEP_RST',
       },
       label: 'EEPROM RESET',
+      keywords: [],
     },
   },
 
@@ -5788,6 +6350,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LCPO',
       },
       label: 'LC (',
+      keywords: [],
     },
   },
 
@@ -5800,6 +6363,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RCPC',
       },
       label: 'RC )',
+      keywords: [],
     },
   },
 
@@ -5812,6 +6376,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LAPO',
       },
       label: 'LA (',
+      keywords: [],
     },
   },
 
@@ -5824,6 +6389,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RAPC',
       },
       label: 'RA )',
+      keywords: [],
     },
   },
 
@@ -5836,6 +6402,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CMB_ON',
       },
       label: 'Combo On',
+      keywords: [],
     },
   },
 
@@ -5848,6 +6415,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CMB_OFF',
       },
       label: 'Combo Off',
+      keywords: [],
     },
   },
 
@@ -5860,6 +6428,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'CMB_TOG',
       },
       label: 'Combo Toggle',
+      keywords: [],
     },
   },
 
@@ -5872,6 +6441,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'FN_MO13',
       },
       label: 'Fn1 (Fn3)',
+      keywords: [],
     },
   },
 
@@ -5884,6 +6454,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'FN_MO23',
       },
       label: 'Fn2 (Fn3)',
+      keywords: [],
     },
   },
 
@@ -5896,6 +6467,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M0',
       },
       label: 'M0',
+      keywords: [],
     },
   },
 
@@ -5908,6 +6480,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M1',
       },
       label: 'M1',
+      keywords: [],
     },
   },
 
@@ -5920,6 +6493,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M2',
       },
       label: 'M2',
+      keywords: [],
     },
   },
 
@@ -5932,6 +6506,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M3',
       },
       label: 'M3',
+      keywords: [],
     },
   },
 
@@ -5944,6 +6519,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M4',
       },
       label: 'M4',
+      keywords: [],
     },
   },
 
@@ -5956,6 +6532,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M5',
       },
       label: 'M5',
+      keywords: [],
     },
   },
 
@@ -5968,6 +6545,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M6',
       },
       label: 'M6',
+      keywords: [],
     },
   },
 
@@ -5980,6 +6558,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M7',
       },
       label: 'M7',
+      keywords: [],
     },
   },
 
@@ -5992,6 +6571,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M8',
       },
       label: 'M8',
+      keywords: [],
     },
   },
 
@@ -6004,6 +6584,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M9',
       },
       label: 'M9',
+      keywords: [],
     },
   },
 
@@ -6016,6 +6597,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M10',
       },
       label: 'M10',
+      keywords: [],
     },
   },
 
@@ -6028,6 +6610,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M11',
       },
       label: 'M11',
+      keywords: [],
     },
   },
 
@@ -6040,6 +6623,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M12',
       },
       label: 'M12',
+      keywords: [],
     },
   },
 
@@ -6052,6 +6636,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M13',
       },
       label: 'M13',
+      keywords: [],
     },
   },
 
@@ -6064,6 +6649,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M14',
       },
       label: 'M14',
+      keywords: [],
     },
   },
 
@@ -6076,6 +6662,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'M15',
       },
       label: 'M15',
+      keywords: [],
     },
   },
 ];

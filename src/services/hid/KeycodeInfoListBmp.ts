@@ -12,6 +12,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'BLE_DIS',
       },
       label: 'BLE DIS',
+      keywords: [],
     },
   },
   {
@@ -23,6 +24,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'BLE_EN',
       },
       label: 'BLE EN',
+      keywords: [],
     },
   },
   {
@@ -34,6 +36,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'USB_DIS',
       },
       label: 'USB DIS',
+      keywords: [],
     },
   },
   {
@@ -45,6 +48,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'USB_EN',
       },
       label: 'USB EN',
+      keywords: [],
     },
   },
   {
@@ -56,6 +60,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'SEL_BLE',
       },
       label: 'SEL BLE',
+      keywords: [],
     },
   },
   {
@@ -67,6 +72,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'SEL_USB',
       },
       label: 'SEL USB',
+      keywords: [],
     },
   },
   {
@@ -78,6 +84,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID0',
       },
       label: 'ADV ID0',
+      keywords: [],
     },
   },
   {
@@ -89,6 +96,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID1',
       },
       label: 'ADV ID1',
+      keywords: [],
     },
   },
   {
@@ -100,6 +108,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID2',
       },
       label: 'ADV ID2',
+      keywords: [],
     },
   },
   {
@@ -111,6 +120,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID3',
       },
       label: 'ADV ID3',
+      keywords: [],
     },
   },
   {
@@ -122,6 +132,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID4',
       },
       label: 'ADV ID4',
+      keywords: [],
     },
   },
   {
@@ -133,6 +144,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID5',
       },
       label: 'ADV ID5',
+      keywords: [],
     },
   },
   {
@@ -144,6 +156,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID6',
       },
       label: 'ADV ID6',
+      keywords: [],
     },
   },
   {
@@ -155,6 +168,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ADV_ID7',
       },
       label: 'ADV ID7',
+      keywords: [],
     },
   },
   {
@@ -166,6 +180,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'AD_WO_L',
       },
       label: 'AD WO L',
+      keywords: [],
     },
   },
   {
@@ -177,6 +192,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID0',
       },
       label: 'DEL ID0',
+      keywords: [],
     },
   },
   {
@@ -188,6 +204,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID1',
       },
       label: 'DEL ID1',
+      keywords: [],
     },
   },
   {
@@ -199,6 +216,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID2',
       },
       label: 'DEL ID2',
+      keywords: [],
     },
   },
   {
@@ -210,6 +228,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID3',
       },
       label: 'DEL ID3',
+      keywords: [],
     },
   },
   {
@@ -221,6 +240,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID4',
       },
       label: 'DEL ID4',
+      keywords: [],
     },
   },
   {
@@ -232,6 +252,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID5',
       },
       label: 'DEL ID5',
+      keywords: [],
     },
   },
   {
@@ -243,6 +264,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID6',
       },
       label: 'DEL ID6',
+      keywords: [],
     },
   },
   {
@@ -254,6 +276,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_ID7',
       },
       label: 'DEL ID7',
+      keywords: [],
     },
   },
   {
@@ -265,6 +288,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DELBNDS',
       },
       label: 'DELBNDS',
+      keywords: [],
     },
   },
   {
@@ -276,6 +300,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ENT_DFU',
       },
       label: 'ENT DFU',
+      keywords: [],
     },
   },
   {
@@ -287,6 +312,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ENT_WEB',
       },
       label: 'ENT WEB',
+      keywords: [],
     },
   },
   {
@@ -298,6 +324,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'ENT_SLP',
       },
       label: 'ENT SLP',
+      keywords: [],
     },
   },
   {
@@ -309,6 +336,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'BATT_LV',
       },
       label: 'BATT LV',
+      keywords: [],
     },
   },
   {
@@ -320,6 +348,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'SAVE_EE',
       },
       label: 'BLE DIS',
+      keywords: [],
     },
   },
   {
@@ -331,6 +360,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'DEL_EE',
       },
       label: 'BLE DIS',
+      keywords: [],
     },
   },
   {
@@ -342,6 +372,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'xEISU',
       },
       label: 'xEISU',
+      keywords: [],
     },
   },
   {
@@ -353,6 +384,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
         short: 'xKANA',
       },
       label: 'xKANA',
+      keywords: [],
     },
   },
 ];

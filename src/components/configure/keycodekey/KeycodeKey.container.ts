@@ -12,13 +12,15 @@ export class KeycodeInfo implements IKeycodeInfo {
   readonly code: number;
   readonly name: { long: string; short: string };
   readonly label: string;
-  constructor(label: string, code: number) {
+  readonly keywords: string[];
+  constructor(label: string, code: number, keywords?: string[]) {
     this.code = code;
     this.name = {
       long: label,
       short: label,
     };
     this.label = label;
+    this.keywords = keywords ?? [];
   }
 }
 

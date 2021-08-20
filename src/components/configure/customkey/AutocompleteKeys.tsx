@@ -20,13 +20,21 @@ const filterOptions = (
     (option: IKeymap) =>
       0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
   );
+  const matchedKeywords = options.filter(
+    (option: IKeymap) =>
+      0 <=
+      option.keycodeInfo.keywords.reduce(
+        (i, kwd) => Math.max(i, kwd.indexOf(value)),
+        -1
+      )
+  );
   const matchedKinds = options.filter(
     (option: IKeymap) =>
       0 <=
       option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value)
   );
 
-  return matchedLabels.concat(matchedKinds);
+  return matchedLabels.concat(matchedKeywords, matchedKinds);
 };
 
 type OwnProps = {

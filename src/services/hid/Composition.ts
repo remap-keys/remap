@@ -226,6 +226,7 @@ export function anyKeymap(hex: number): IKeymap {
         short: 'Any',
         long: 'Any',
       },
+      keywords: [],
     },
   };
 }
@@ -506,6 +507,7 @@ export class FunctionComposition implements IFunctionComposition {
         code: code,
         label: label,
         name: { short: '', long: '' },
+        keywords: [],
       },
       kinds: ['function'],
       desc: ``,
@@ -549,6 +551,7 @@ export class MacroComposition implements IMacroComposition {
           long: 'M?',
         },
         label: 'Macro',
+        keywords: [],
       },
     };
     return keymap;
@@ -594,6 +597,7 @@ export class LayerTapComposition implements ILayerTapComposition {
         name: this.key.keycodeInfo
           ? this.key.keycodeInfo.name
           : { short: 'LT', long: 'LT' },
+        keywords: [],
       },
       kinds: ['layer_tap'],
       desc: `Momentarily activates Layer(${layer}) when held, and sends keycode when tapped.`,
@@ -639,6 +643,7 @@ export class ToComposition implements IToComposition {
         code: code,
         label: label,
         name: { short: '', long: '' },
+        keywords: [],
       },
       kinds: ['layers', 'to'],
       desc: `Activates layer(${layer}) and de-activates all other layers (except your default layer).`,
@@ -685,6 +690,7 @@ export class MomentaryComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
+        keywords: [],
       },
       kinds: ['layers', 'momentary'],
       desc: `Momentarily activates layer(${layer}). As soon as you let go of the key, the layer is deactivated.`,
@@ -731,6 +737,7 @@ export class DefLayerComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
+        keywords: [],
       },
       kinds: ['def_layer'],
       desc: `Switches the default layer(${layer}). The default layer is the always-active base layer that other layers stack on top of.`,
@@ -777,6 +784,7 @@ export class ToggleLayerComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
+        keywords: [],
       },
       kinds: ['layers', 'toggle_layer'],
       desc: `Toggles layer(${layer}), activating it if it's inactive and vice versa.`,
@@ -823,6 +831,7 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
+        keywords: [],
       },
       kinds: ['layers', 'one_shot_layer'],
       desc: `Momentarily activates layer(${layer}) until the next key is pressed.`,
@@ -875,6 +884,7 @@ export class OneShotModComposition implements IOneShotModComposition {
         code: code,
         label: `OSM`,
         name: { short: 'OSM', long: 'OSM' },
+        keywords: [],
       },
       kinds: ['one_shot_mod'],
       desc: `Momentarily activates modifier(s) until the next key is pressed.`,
@@ -892,6 +902,7 @@ export class OneShotModComposition implements IOneShotModComposition {
           code: WILL_BE_REPLACED_KEYCODE,
           label: `OSM`,
           name: { short: 'OSM', long: 'OSM' },
+          keywords: [],
         },
         kinds: ['one_shot_mod'],
         desc: `Momentarily activates modifier(s) until the next key is pressed.`,
@@ -949,6 +960,7 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
         code: code,
         label: label,
         name: { short: '', long: '' },
+        keywords: [],
       },
       kinds: ['layers', 'layer_tap_toggle'],
       desc: `If you hold the key down, layer(${layer}) is activated, and then is de-activated when you let go.`,
@@ -1004,6 +1016,7 @@ export class LayerModComposition implements ILayerModComposition {
         code: code,
         label: label,
         name: { short: 'LM', long: 'LM' },
+        keywords: [],
       },
       kinds: ['layer_mod'],
       desc: `Momentarily activates Layer(${layer}), but with modifier(s) mod active.`,
@@ -1077,6 +1090,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       code: WILL_BE_REPLACED_KEYCODE,
       label: `Swap-Hands`,
       name: { short: 'SH', long: 'SH' },
+      keywords: [],
     },
     kinds: ['swap_hands'],
     desc:
@@ -1170,6 +1184,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
             code: code,
             label: item.label,
             name: { short: 'SH', long: 'SH' },
+            keywords: [],
           },
           kinds: ['special', 'swap_hands'],
           option: item.option,
@@ -1246,6 +1261,7 @@ export class ModTapComposition implements IModTapComposition {
         name: this.key.keycodeInfo
           ? this.key.keycodeInfo.name
           : { short: 'MT', long: 'MT' },
+        keywords: [],
       },
       kinds: ['mod_tap'],
       desc: `Momentarily activates ${hold} when held, and sends keycode when tapped.`,

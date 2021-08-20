@@ -55,7 +55,12 @@ const genKeyboardView = (
       kinds: [],
       direction: MOD_LEFT,
       modifiers: [],
-      keycodeInfo: { label: model.pos, code: 0, name: { long: '', short: '' } },
+      keycodeInfo: {
+        label: model.pos,
+        code: 0,
+        name: { long: '', short: '' },
+        keywords: [],
+      },
     };
     const remap = null;
     keycaps.push({ model, keymap, remap });

@@ -39,6 +39,7 @@ export interface IKeycodeInfo {
     short: string;
   };
   label: string;
+  keywords: string[]; // implicit labels: for search keycodes
 }
 
 export interface IKeycodeCategoryInfo {
