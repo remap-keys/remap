@@ -448,11 +448,11 @@ type KeyboardCardProps = {
 function KeyboardCard(props: KeyboardCardProps) {
   const onClickCard = () => {
     sendEventToGoogleAnalytics('catalog/open_from_search');
-    location.href = `/catalog/${props.definition.id}`;
+    return true;
   };
 
   return (
-    <Card className="catalog-search-result-card" onClick={onClickCard}>
+    <Card className="catalog-search-result-card">
       {props.definition.imageUrl ? (
         <CardMedia
           image={props.definition.imageUrl}
@@ -460,31 +460,37 @@ function KeyboardCard(props: KeyboardCardProps) {
         />
       ) : null}
       <CardContent className="catalog-search-result-card-container">
-        <div className="catalog-search-result-card-content">
-          <div className="catalog-search-result-card-header">
-            <div className="catalog-search-result-card-header-name-container">
-              <h2 className="catalog-search-result-card-name">
-                {props.definition.name}
-              </h2>
-              <div className="catalog-search-result-card-header-name-row">
-                <Typography variant="caption">
-                  VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
-                  {hexadecimal(props.definition.productId, 4)}
-                </Typography>
-                <Typography variant="caption">
-                  Designed by {getGitHubUserDisplayName(props.definition)}
-                </Typography>
+        <a
+          href={`/catalog/${props.definition.id}`}
+          onClick={onClickCard}
+          rel="noreferrer"
+        >
+          <div className="catalog-search-result-card-content">
+            <div className="catalog-search-result-card-header">
+              <div className="catalog-search-result-card-header-name-container">
+                <h2 className="catalog-search-result-card-name">
+                  {props.definition.name}
+                </h2>
+                <div className="catalog-search-result-card-header-name-row">
+                  <Typography variant="caption">
+                    VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
+                    {hexadecimal(props.definition.productId, 4)}
+                  </Typography>
+                  <Typography variant="caption">
+                    Designed by {getGitHubUserDisplayName(props.definition)}
+                  </Typography>
+                </div>
               </div>
             </div>
+            <div className="catalog-search-result-card-features">
+              <FeatureList
+                definitionId={props.definition.id}
+                features={props.definition.features}
+                size="small"
+              />
+            </div>
           </div>
-          <div className="catalog-search-result-card-features">
-            <FeatureList
-              definitionId={props.definition.id}
-              features={props.definition.features}
-              size="small"
-            />
-          </div>
-        </div>
+        </a>
       </CardContent>
     </Card>
   );
