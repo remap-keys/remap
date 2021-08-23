@@ -14,7 +14,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_NO',
       },
       label: ' ',
-      keywords: [],
+      keywords: ['no', 'noop', 'ignore'],
     },
   },
   {
