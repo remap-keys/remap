@@ -72,12 +72,12 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
     const keywordSortKeys = keywordKeys.sort((k0, k1) => {
       const index0 = k0.keymap.keycodeInfo.keywords.reduce(
-        (i, kwd) => Math.max(i, kwd.indexOf(search)),
-        -1
+        (i, kwd) => Math.min(i, kwd.indexOf(search)),
+        0
       );
       const index1 = k1.keymap.keycodeInfo.keywords.reduce(
-        (i, kwd) => Math.max(i, kwd.indexOf(search)),
-        -1
+        (i, kwd) => Math.min(i, kwd.indexOf(search)),
+        0
       );
       return index0 - index1;
     });
@@ -88,8 +88,10 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
         k1.meta.toLowerCase().indexOf(search)
     );
 
-    // label is more important than meta
-    return labelSortedKeys.concat(keywordSortKeys, metaSortedKeys);
+    // Priority: label > keywords > meta
+    return Array.from(
+      new Set(labelSortedKeys.concat(keywordSortKeys, metaSortedKeys))
+    );
   }
 
   private removeBmpCategory(categoryKeys: { [category: string]: Key[] }) {

@@ -14,7 +14,7 @@ import { KeymapCategory } from '../../../services/hid/KeycodeList';
 const filterOptions = (
   options: IKeymap[],
   { inputValue }: { inputValue: string }
-) => {
+): IKeymap[] => {
   const value = inputValue.toLowerCase();
   const matchedLabels = options.filter(
     (option: IKeymap) =>
@@ -34,7 +34,9 @@ const filterOptions = (
       option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value)
   );
 
-  return matchedLabels.concat(matchedKeywords, matchedKinds);
+  return Array.from(
+    new Set(matchedLabels.concat(matchedKeywords, matchedKinds))
+  );
 };
 
 type OwnProps = {
