@@ -57,6 +57,9 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     const labelKeys = allKeys.filter(
       (key) => 0 <= key.label.toLowerCase().indexOf(search)
     );
+    const keywordKeys = allKeys.filter(
+      (key) => 0 <= key.keymap.keycodeInfo.keywords.join('').indexOf(search)
+    );
     const metaKeys = allKeys.filter(
       (key) => 0 <= key.meta.toLowerCase().indexOf(search)
     );
@@ -67,14 +70,28 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
         k1.label.toLowerCase().indexOf(search)
     );
 
+    const keywordSortKeys = keywordKeys.sort((k0, k1) => {
+      const index0 = k0.keymap.keycodeInfo.keywords.reduce(
+        (i, kwd) => Math.min(i, kwd.indexOf(search)),
+        0
+      );
+      const index1 = k1.keymap.keycodeInfo.keywords.reduce(
+        (i, kwd) => Math.min(i, kwd.indexOf(search)),
+        0
+      );
+      return index0 - index1;
+    });
+
     const metaSortedKeys = metaKeys.sort(
       (k0, k1) =>
         k0.meta.toLowerCase().indexOf(search) -
         k1.meta.toLowerCase().indexOf(search)
     );
 
-    // label is more important than meta
-    return labelSortedKeys.concat(metaSortedKeys);
+    // Priority: label > keywords > meta
+    return Array.from(
+      new Set(labelSortedKeys.concat(keywordSortKeys, metaSortedKeys))
+    );
   }
 
   private removeBmpCategory(categoryKeys: { [category: string]: Key[] }) {

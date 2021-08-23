@@ -96,6 +96,7 @@ export const mockIKeyboad: IKeyboard = {
                 short: 'KC_MOCK',
                 long: 'KC_MOCK',
               },
+              keywords: [],
             },
           },
         },

@@ -50,6 +50,7 @@ class CustomKeyStory extends React.Component<{}, State> {
               short: 'KC_TRNS',
             },
             label: '▽',
+            keywords: ['transparent'],
           },
         },
       },

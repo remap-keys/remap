@@ -13,6 +13,7 @@ import {
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
 import { mods2Number } from '../customkey/Modifiers';
+import _ from 'lodash';
 
 export type Key = {
   label: string;
@@ -22,10 +23,12 @@ export type Key = {
 };
 
 type KeytopWithShift = {
+  keywords: string[]; // for search keys
   label: string;
   meta: string; // label with shift
 };
 type KeytopWithShiftRightALt = {
+  keywords: string[]; // for search keys
   label: string;
   meta: string; // label with shift(show the label at top-center)
   metaRight: string; // label with RightAlt(show the label at mid-right)
@@ -111,6 +114,7 @@ function findKeytopWithShift(
   let keytop: KeytopWithShift = {
     label: keymap.keycodeInfo.label,
     meta: '',
+    keywords: [],
   };
 
   const keyLabel: KeyLabel | undefined = labels.find(
@@ -118,6 +122,7 @@ function findKeytopWithShift(
   );
 
   if (keyLabel) {
+    keytop.keywords = keyLabel.keywords ?? [];
     if (keyLabel.meta) {
       keytop.label = keyLabel.label;
       keytop.meta = getMetaLabel(keyLabel, MOD_SFT);
@@ -138,6 +143,7 @@ function findKeytopWithShiftRightAlt(
     label: keymap.keycodeInfo.label,
     meta: '',
     metaRight: '',
+    keywords: [],
   };
 
   const keyLabel: KeyLabel | undefined = labels.find(
@@ -145,6 +151,7 @@ function findKeytopWithShiftRightAlt(
   );
 
   if (keyLabel) {
+    keytop.keywords = keyLabel.keywords ?? [];
     if (keyLabel.meta) {
       keytop.label = keyLabel.label;
       keytop.meta = getMetaLabel(keyLabel, MOD_SFT);
@@ -175,7 +182,16 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
         keymap,
         KeyLabelLangs.getKeyLabels(lang)
       );
-      return { label: keytop.label, meta: keytop.meta, keymap };
+
+      let newKeymap: IKeymap = keymap;
+      if (0 < keytop.keywords.length) {
+        newKeymap = _.cloneDeep(keymap) as IKeymap;
+        newKeymap.keycodeInfo.keywords = newKeymap.keycodeInfo.keywords.concat(
+          keytop.keywords
+        );
+      }
+
+      return { label: keytop.label, meta: keytop.meta, keymap: newKeymap };
     } else if (KeytopWithShiftRightAltLangs.includes(lang)) {
       const keytop: KeytopWithShiftRightALt = findKeytopWithShiftRightAlt(
         keymap,

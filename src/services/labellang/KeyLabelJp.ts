@@ -248,6 +248,7 @@ export const KeyLabelJp: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['equal'],
   },
   {
     code: 46,
@@ -262,6 +263,7 @@ export const KeyLabelJp: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['tilde'],
   },
   {
     code: 47,
@@ -332,6 +334,7 @@ export const KeyLabelJp: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['plus'],
   },
   {
     code: 52,
@@ -420,6 +423,7 @@ export const KeyLabelJp: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['underscore', 'underline', 'underbar'],
   },
   {
     code: 136,
@@ -454,5 +458,6 @@ export const KeyLabelJp: KeyLabel[] = [
   {
     code: 145,
     label: '英数',
+    keywords: ['eisu'],
   },
 ];

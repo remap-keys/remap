@@ -258,6 +258,7 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['hyphen', 'underscore', 'underline', 'underbar'],
   },
   {
     code: 46,
@@ -272,6 +273,7 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['plus'],
   },
   {
     code: 47,
@@ -342,6 +344,7 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['semicolon', 'colon'],
   },
   {
     code: 52,
@@ -370,6 +373,7 @@ export const KeyLabelUs: KeyLabel[] = [
         modifiers: MOD.RIGHT | MOD.SFT,
       },
     ],
+    keywords: ['tilde'],
   },
   {
     code: 54,

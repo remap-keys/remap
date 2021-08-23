@@ -5,6 +5,7 @@ export type KeyLabel = {
     label: string;
     modifiers: number;
   }[];
+  keywords?: string[];
 };
 
 export const getMetaLabel = (keyLabel: KeyLabel, mods: number): string => {
