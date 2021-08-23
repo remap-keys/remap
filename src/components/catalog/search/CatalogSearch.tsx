@@ -454,10 +454,16 @@ function KeyboardCard(props: KeyboardCardProps) {
   return (
     <Card className="catalog-search-result-card">
       {props.definition.imageUrl ? (
-        <CardMedia
-          image={props.definition.imageUrl}
-          className="catalog-search-result-card-image"
-        />
+        <a
+          href={`/catalog/${props.definition.id}`}
+          onClick={onClickCard}
+          rel="noreferrer"
+        >
+          <CardMedia
+            image={props.definition.imageUrl}
+            className="catalog-search-result-card-image"
+          />
+        </a>
       ) : null}
       <CardContent className="catalog-search-result-card-container">
         <a
@@ -465,29 +471,31 @@ function KeyboardCard(props: KeyboardCardProps) {
           onClick={onClickCard}
           rel="noreferrer"
         >
-          <div className="catalog-search-result-card-content">
-            <div className="catalog-search-result-card-header">
-              <div className="catalog-search-result-card-header-name-container">
-                <h2 className="catalog-search-result-card-name">
-                  {props.definition.name}
-                </h2>
-                <div className="catalog-search-result-card-header-name-row">
-                  <Typography variant="caption">
-                    VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
-                    {hexadecimal(props.definition.productId, 4)}
-                  </Typography>
-                  <Typography variant="caption">
-                    Designed by {getGitHubUserDisplayName(props.definition)}
-                  </Typography>
+          <div className="catalog-search-result-card-wrapper">
+            <div className="catalog-search-result-card-content">
+              <div className="catalog-search-result-card-header">
+                <div className="catalog-search-result-card-header-name-container">
+                  <h2 className="catalog-search-result-card-name">
+                    {props.definition.name}
+                  </h2>
+                  <div className="catalog-search-result-card-header-name-row">
+                    <Typography variant="caption">
+                      VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
+                      {hexadecimal(props.definition.productId, 4)}
+                    </Typography>
+                    <Typography variant="caption">
+                      Designed by {getGitHubUserDisplayName(props.definition)}
+                    </Typography>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="catalog-search-result-card-features">
-              <FeatureList
-                definitionId={props.definition.id}
-                features={props.definition.features}
-                size="small"
-              />
+              <div className="catalog-search-result-card-features">
+                <FeatureList
+                  definitionId={props.definition.id}
+                  features={props.definition.features}
+                  size="small"
+                />
+              </div>
             </div>
           </div>
         </a>
