@@ -68,6 +68,9 @@ type DefinitionFormProps = {
   handleSubmitForReviewButtonClick: () => void;
   isFilledInAllFieldAndAgreed: () => boolean;
   handleUpdateJsonFileButtonClick: () => void;
+  contactInformation?: string;
+  // eslint-disable-next-line no-unused-vars
+  updateContactInformation: (contactInformation: string) => void;
 };
 
 export default function DefinitionForm(props: DefinitionFormProps) {
@@ -162,6 +165,11 @@ export default function DefinitionForm(props: DefinitionFormProps) {
           definitionDocument={props.definitionDocument!}
           agreement={props.agreement!}
           updateAgreement={props.updateAgreement!}
+        />
+        <ContactInformationRow
+          definitionDocument={props.definitionDocument!}
+          contactInformation={props.contactInformation}
+          updateContactInformation={props.updateContactInformation!}
         />
         <div className="edit-definition-form-buttons">
           <SaveAsDraftButton
@@ -269,6 +277,51 @@ function JsonFilenameRow(props: JsonFilenameRowProps) {
           InputProps={{
             readOnly: true,
           }}
+        />
+      </div>
+    );
+  }
+}
+
+type ContactInformationRowProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  contactInformation?: string;
+  // eslint-disable-next-line no-unused-vars
+  updateContactInformation: (contactInformation: string) => void;
+};
+
+function ContactInformationRow(props: ContactInformationRowProps) {
+  if (
+    props.definitionDocument.status === KeyboardDefinitionStatus.in_review ||
+    props.definitionDocument.status === KeyboardDefinitionStatus.approved
+  ) {
+    return (
+      <div className="edit-definition-form-row">
+        <TextField
+          id="edit-definition-contact-information"
+          label="Contact Information"
+          variant="outlined"
+          value={props.contactInformation || ''}
+          multiline
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div className="edit-definition-form-row">
+        <TextField
+          id="edit-definition-contact-information"
+          label="Contact Information"
+          variant="outlined"
+          multiline
+          rows={4}
+          value={props.contactInformation || ''}
+          onChange={(event) =>
+            props.updateContactInformation(event.target.value)
+          }
         />
       </div>
     );

@@ -57,6 +57,7 @@ export interface IKeyboardDefinitionDocument {
   readonly otherPlaceHowToGet: string;
   readonly otherPlaceSourceCodeEvidence: string;
   readonly otherPlacePublisherEvidence: string;
+  readonly contactInformation: string;
   readonly features: IKeyboardFeatures[];
   readonly thumbnailImageUrl: string;
   readonly imageUrl: string;
@@ -189,6 +190,7 @@ export interface IStorage {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
+    contactInformation: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocumentById(
@@ -208,6 +210,7 @@ export interface IStorage {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
+    contactInformation: string,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult>;
   updateKeyboardDefinitionJson(

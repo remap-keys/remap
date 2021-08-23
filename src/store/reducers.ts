@@ -122,6 +122,8 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADED_RATE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADING,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -237,6 +239,8 @@ const keyboardsEditKeyboardReducer = (
         action.value.otherPlaceSourceCodeEvidence;
       draft.keyboards.editdefinition.otherPlacePublisherEvidence =
         action.value.otherPlacePublisherEvidence;
+      draft.keyboards.editdefinition.contactInformation =
+        action.value.contactInformation;
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT:
       draft.keyboards.editdefinition.agreement = action.value;
@@ -318,6 +322,9 @@ const keyboardsEditKeyboardReducer = (
         (_, index) => index !== action.value
       );
       break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION:
+      draft.keyboards.editdefinition.contactInformation = action.value;
+      break;
   }
 };
 
@@ -378,6 +385,9 @@ const keyboardsCreateKeyboardReducer = (
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL:
       draft.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl =
         action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION:
+      draft.keyboards.createdefinition.contactInformation = action.value;
       break;
   }
 };

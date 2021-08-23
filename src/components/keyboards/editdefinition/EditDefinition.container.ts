@@ -33,6 +33,7 @@ const mapStateToProps = (state: RootState) => {
     qmkRepositoryFirstPullRequestUrl:
       state.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
     phase: state.keyboards.app.phase,
+    contactInformation: state.keyboards.editdefinition.contactInformation,
   };
 };
 export type EditKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -138,6 +139,13 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updatePhase: (phase: IKeyboardsPhase) => {
       _dispatch(KeyboardsAppActions.updatePhase(phase));
+    },
+    updateContactInformation: (contactInformation: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateContactInformation(
+          contactInformation
+        )
+      );
     },
   };
 };

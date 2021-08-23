@@ -39,6 +39,7 @@ export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET = `${KEYB
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/OtherPlaceSourceCodeEvidence`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/OtherPlacePublisherEvidence`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/QmkRepositoryFirstPullRequestUrl`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/ContactInformation`;
 export const KeyboardsCreateDefinitionActions = {
   clear: () => {
     return {
@@ -121,6 +122,12 @@ export const KeyboardsCreateDefinitionActions = {
       value: qmkRepositoryFirstPullRequestUrl,
     };
   },
+  updateContactInformation: (contactInformation: string) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION,
+      value: contactInformation,
+    };
+  },
 };
 
 export const KEYBOARDS_EDIT_DEFINITION_ACTIONS = '@FIXME!EditDefinition'; // FIXME!
@@ -138,6 +145,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET = `${KEYBOA
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/OtherPlaceSourceCodeEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/OtherPlacePublisherEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/QmkRepositoryFirstPullRequestUrl`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/ContactInformation`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURES = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFeatures`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFeature`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_MAIN_IMAGE_UPLOADED_RATE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateMainImageUploadedRate`;
@@ -316,6 +324,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS,
       value: index,
+    };
+  },
+  updateContactInformation: (contactInformation: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
+      value: contactInformation,
     };
   },
 };

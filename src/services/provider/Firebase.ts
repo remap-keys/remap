@@ -87,6 +87,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .other_place_source_code_evidence,
       otherPlacePublisherEvidence: documentSnapshot.data()!
         .other_place_publisher_evidence,
+      contactInformation: documentSnapshot.data()!.contact_information,
       features: documentSnapshot.data()!.features || [],
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
       imageUrl: documentSnapshot.data()!.image_url,
@@ -249,6 +250,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
+    contactInformation: string,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult> {
     try {
@@ -272,6 +274,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           other_place_how_to_get: otherPlaceHowToGet,
           other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
           other_place_publisher_evidence: otherPlacePublisherEvidence,
+          contact_information: contactInformation,
           status,
         });
       return {
@@ -341,6 +344,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
+    contactInformation: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult> {
     try {
@@ -368,6 +372,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           other_place_how_to_get: otherPlaceHowToGet,
           other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
           other_place_publisher_evidence: otherPlacePublisherEvidence,
+          contact_information: contactInformation,
         });
       await definitionDocumentReference.collection('secure').doc('github').set({
         github_display_name: githubDisplayName,

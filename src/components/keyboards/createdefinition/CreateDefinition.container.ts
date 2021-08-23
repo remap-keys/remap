@@ -29,6 +29,7 @@ const mapStateToProps = (state: RootState) => {
       state.keyboards.createdefinition.otherPlacePublisherEvidence,
     qmkRepositoryFirstPullRequestUrl:
       state.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
+    contactInformation: state.keyboards.createdefinition.contactInformation,
   };
 };
 export type CreateKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -123,6 +124,13 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateQmkRepositoryFirstPullRequestUrl(
           qmkRepositoryFirstPullRequest
+        )
+      );
+    },
+    updateContactInformation: (contactInformation: string) => {
+      _dispatch(
+        KeyboardsCreateDefinitionActions.updateContactInformation(
+          contactInformation
         )
       );
     },
