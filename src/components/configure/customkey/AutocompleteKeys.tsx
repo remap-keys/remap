@@ -20,9 +20,8 @@ const filterOptions = (
     (option: IKeymap) =>
       0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
   );
-  const matchedKeywords = options.filter(
-    (option: IKeymap) =>
-      option.keycodeInfo.keywords.some((kwd) => 0 <= kwd.indexOf(value))
+  const matchedKeywords = options.filter((option: IKeymap) =>
+    option.keycodeInfo.keywords.some((kwd) => 0 <= kwd.indexOf(value))
   );
   const matchedKinds = options.filter(
     (option: IKeymap) =>
