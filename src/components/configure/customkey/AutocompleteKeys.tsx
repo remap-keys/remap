@@ -22,11 +22,7 @@ const filterOptions = (
   );
   const matchedKeywords = options.filter(
     (option: IKeymap) =>
-      0 <=
-      option.keycodeInfo.keywords.reduce(
-        (i, kwd) => Math.max(i, kwd.indexOf(value)),
-        -1
-      )
+      option.keycodeInfo.keywords.some((kwd) => 0 <= kwd.indexOf(value))
   );
   const matchedKinds = options.filter(
     (option: IKeymap) =>
