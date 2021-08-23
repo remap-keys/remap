@@ -133,7 +133,7 @@ function genKeyLabels(keylabels: KeyLabel[]): KeyLabel[] {
   return list;
 }
 
-const KEY_LABEL_LANGS: {
+export const KEY_LABEL_LANGS: {
   labelLang: KeyboardLabelLang;
   keyLabels: KeyLabel[];
   menuLabel: string;
