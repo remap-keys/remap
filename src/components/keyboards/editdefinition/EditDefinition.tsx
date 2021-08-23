@@ -127,6 +127,7 @@ export default class EditDefinition extends React.Component<
       return (
         !!this.props.productName &&
         !!this.props.keyboardDefinition &&
+        !!this.props.contactInformation &&
         this.props.agreement! &&
         isFilledEvidence
       );
@@ -364,6 +365,10 @@ export default class EditDefinition extends React.Component<
                       handleUpdateJsonFileButtonClick={this.handleUpdateJsonFileButtonClick.bind(
                         this
                       )}
+                      contactInformation={this.props.contactInformation}
+                      updateContactInformation={
+                        this.props.updateContactInformation!
+                      }
                     />
                   ) : null}
                   {this.props.phase === 'catalog' ? <CatalogForm /> : null}

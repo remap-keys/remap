@@ -265,6 +265,7 @@ export type RootState = {
       otherPlaceHowToGet: string;
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
+      contactInformation: string;
       features: IKeyboardFeatures[];
       mainImageUploadedRate: number;
       mainImageUploading: boolean;
@@ -432,6 +433,7 @@ export const INIT_STATE: RootState = {
       otherPlaceHowToGet: '',
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
+      contactInformation: '',
       features: [],
       mainImageUploadedRate: 0,
       mainImageUploading: false,

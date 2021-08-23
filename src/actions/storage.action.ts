@@ -514,6 +514,7 @@ export const storageActionsThunk = {
       keyboards.editdefinition.otherPlaceHowToGet,
       keyboards.editdefinition.otherPlaceSourceCodeEvidence,
       keyboards.editdefinition.otherPlacePublisherEvidence,
+      keyboards.editdefinition.contactInformation,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -552,6 +553,7 @@ export const storageActionsThunk = {
       keyboards.editdefinition.otherPlaceHowToGet,
       keyboards.editdefinition.otherPlaceSourceCodeEvidence,
       keyboards.editdefinition.otherPlacePublisherEvidence,
+      keyboards.editdefinition.contactInformation,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {
