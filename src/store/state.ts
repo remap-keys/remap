@@ -250,6 +250,7 @@ export type RootState = {
       otherPlaceHowToGet: string;
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
+      contactInformation: string;
     };
     editdefinition: {
       jsonFilename: string;
@@ -416,6 +417,7 @@ export const INIT_STATE: RootState = {
       otherPlaceHowToGet: '',
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
+      contactInformation: '',
     },
     editdefinition: {
       jsonFilename: '',

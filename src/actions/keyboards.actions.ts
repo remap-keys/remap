@@ -39,6 +39,7 @@ export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_HOW_TO_GET = `${KEYB
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/OtherPlaceSourceCodeEvidence`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/OtherPlacePublisherEvidence`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/QmkRepositoryFirstPullRequestUrl`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/ContactInformation`;
 export const KeyboardsCreateDefinitionActions = {
   clear: () => {
     return {
@@ -119,6 +120,12 @@ export const KeyboardsCreateDefinitionActions = {
     return {
       type: KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
       value: qmkRepositoryFirstPullRequestUrl,
+    };
+  },
+  updateContactInformation: (contactInformation: string) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION,
+      value: contactInformation,
     };
   },
 };

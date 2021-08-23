@@ -100,6 +100,7 @@ export default class CreateDefinition extends React.Component<
     return (
       !!this.props.productName &&
       !!this.props.keyboardDefinition &&
+      !!this.props.contactInformation &&
       this.props.agreement! &&
       isFilledEvidence
     );
@@ -291,6 +292,20 @@ export default class CreateDefinition extends React.Component<
                         <AgreementCheckbox
                           agreement={this.props.agreement!}
                           updateAgreement={this.props.updateAgreement!}
+                        />
+                      </div>
+                      <div className="create-definition-form-row">
+                        <TextField
+                          id="create-definition-contact-information"
+                          label="Contact Information"
+                          variant="outlined"
+                          multiline
+                          rows={4}
+                          helperText="Fill in your contact information. For example, your email address, Twitter ID, Facebook ID or such information which we can contact you certainly."
+                          value={this.props.contactInformation || ''}
+                          onChange={(e) =>
+                            this.props.updateContactInformation!(e.target.value)
+                          }
                         />
                       </div>
                       <div className="create-definition-form-buttons">

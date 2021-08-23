@@ -122,6 +122,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADED_RATE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADING,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -378,6 +379,9 @@ const keyboardsCreateKeyboardReducer = (
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL:
       draft.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl =
         action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION:
+      draft.keyboards.createdefinition.contactInformation = action.value;
       break;
   }
 };

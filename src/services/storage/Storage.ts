@@ -189,6 +189,7 @@ export interface IStorage {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
+    contactInformation: string,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocumentById(
