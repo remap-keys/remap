@@ -26,6 +26,7 @@ import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
 import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession';
 import { LayoutOption } from './Keymap';
+import { CcProtoKeymap } from '../../../assets/keymaps/CcProto';
 
 export default {
   title: 'Keyboards',
@@ -45,6 +46,9 @@ const genKeyboardView = (
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left, top } = kbd.getKeymap(options);
 
+  console.log(keymaps);
+  console.log(width);
+  console.log(`left: ${left}, top: ${top}`);
   const marginLeft = left != 0 ? -left : 0;
   const marginTop = -top;
   const keycaps: KeycapData[] = [];
@@ -149,6 +153,10 @@ export const SilverBullet44Kai = () =>
 export const Cornelius = () => genKeyboardView('Cornelius', CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView('Aleth42', Aleth42Keymap);
 export const Hotdox = () => genKeyboardView('Hotdox', HotdoxKeymap);
+export const CcProto00 = () =>
+  genKeyboardView('CcProto00', CcProtoKeymap, [{ option: 0, optionChoice: 0 }]);
+export const CcProto01 = () =>
+  genKeyboardView('CcProto01', CcProtoKeymap, [{ option: 0, optionChoice: 1 }]);
 export const Zinc = () =>
   genKeyboardView('Zinc0', ZincKeymap, [{ option: 0, optionChoice: 0 }]);
 export const ZincSymmetrical = () =>
