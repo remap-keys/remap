@@ -575,9 +575,13 @@ export const storageActionsThunk = {
   ) => {
     const { storage, keyboards, entities } = getState();
     const definitionDoc = entities.keyboardDefinitionDocument;
+    // This `keyboardDefinition` value has already been updated by a new
+    // JSON file the user uploaded from local.
+    const keyboardDefinition = keyboards.editdefinition.keyboardDefinition;
     const jsonStr = keyboards.editdefinition.jsonString;
     const result = await storage.instance!.updateKeyboardDefinitionJson(
       definitionDoc!.id,
+      keyboardDefinition!.name,
       jsonStr
     );
     if (result.success) {
