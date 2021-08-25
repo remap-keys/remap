@@ -46,9 +46,6 @@ const genKeyboardView = (
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left, top } = kbd.getKeymap(options);
 
-  console.log(keymaps);
-  console.log(width);
-  console.log(`left: ${left}, top: ${top}`);
   const marginLeft = left != 0 ? -left : 0;
   const marginTop = -top;
   const keycaps: KeycapData[] = [];
