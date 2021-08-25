@@ -215,6 +215,7 @@ export interface IStorage {
   ): Promise<IResult>;
   updateKeyboardDefinitionJson(
     definitionId: string,
+    name: string,
     jsonStr: string
   ): Promise<IResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;

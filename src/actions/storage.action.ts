@@ -575,9 +575,11 @@ export const storageActionsThunk = {
   ) => {
     const { storage, keyboards, entities } = getState();
     const definitionDoc = entities.keyboardDefinitionDocument;
+    const keyboardDefinition = keyboards.editdefinition.keyboardDefinition;
     const jsonStr = keyboards.editdefinition.jsonString;
     const result = await storage.instance!.updateKeyboardDefinitionJson(
       definitionDoc!.id,
+      keyboardDefinition!.name,
       jsonStr
     );
     if (result.success) {

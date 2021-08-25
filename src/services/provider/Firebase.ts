@@ -210,6 +210,7 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async updateKeyboardDefinitionJson(
     definitionId: string,
+    name: string,
     jsonStr: string
   ): Promise<IResult> {
     try {
@@ -221,6 +222,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc(definitionId)
         .update({
           json: jsonStr,
+          name,
           updated_at: now,
         });
       return {
