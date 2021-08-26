@@ -3,6 +3,7 @@ import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 
 export const OPTION_DEFAULT = '-';
+const REGEXP_LABEL_POSITION = RegExp('^([1-9][0-9]*|0),([1-9][0-9]*|0).*');
 
 export default class KeyModel {
   readonly location: string;
@@ -109,8 +110,7 @@ export default class KeyModel {
   private includePosition(pos: string) {
     if (!pos) return false;
 
-    const rx = RegExp('^([1-9][0-9]*|0),([1-9][0-9]*|0).*');
-    return rx.exec(pos) != null;
+    return REGEXP_LABEL_POSITION.test(pos);
   }
 
   get isDefault(): boolean {
