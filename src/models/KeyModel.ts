@@ -53,7 +53,7 @@ export default class KeyModel {
     const locs = location.split('\n');
     this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
     if (!this.includePosition(this.pos)) {
-      // If there is no position label, this Key should be "Decale".
+      // If there is no position label, this Key should be "Decal".
       this.keyOp = Object.assign(this.keyOp || {}, { d: true });
     }
     this.optionLabel =
