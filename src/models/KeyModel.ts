@@ -3,6 +3,7 @@ import { KEY_SIZE } from '../components/configure/keycap/Keycap';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 
 export const OPTION_DEFAULT = '-';
+const REGEXP_LABEL_POSITION = RegExp('^([1-9][0-9]*|0),([1-9][0-9]*|0).*');
 
 export default class KeyModel {
   readonly location: string;
@@ -52,6 +53,10 @@ export default class KeyModel {
     this.location = location;
     const locs = location.split('\n');
     this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
+    if (!this.includePosition(this.pos)) {
+      // If there is no position label, this Key should be "Decal".
+      this.keyOp = Object.assign(this.keyOp || {}, { d: true });
+    }
     this.optionLabel =
       4 <= locs.length ? locs[3] : `${OPTION_DEFAULT},${OPTION_DEFAULT}`;
     const options = this.optionLabel.split(',');
@@ -100,6 +105,12 @@ export default class KeyModel {
       this.w2 = NaN;
       this.h2 = NaN;
     }
+  }
+
+  private includePosition(pos: string) {
+    if (!pos) return false;
+
+    return REGEXP_LABEL_POSITION.test(pos);
   }
 
   get isDefault(): boolean {
