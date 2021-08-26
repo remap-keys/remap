@@ -27,6 +27,7 @@ import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
 import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession';
 import { LayoutOption } from './Keymap';
 import { CcProtoKeymap } from '../../../assets/keymaps/CcProto';
+import { GK6Keymap } from '../../../assets/keymaps/GK6';
 
 export default {
   title: 'Keyboards',
@@ -150,6 +151,7 @@ export const SilverBullet44Kai = () =>
 export const Cornelius = () => genKeyboardView('Cornelius', CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView('Aleth42', Aleth42Keymap);
 export const Hotdox = () => genKeyboardView('Hotdox', HotdoxKeymap);
+export const GK6 = () => genKeyboardView('GK6', GK6Keymap);
 export const CcProto00 = () =>
   genKeyboardView('CcProto00', CcProtoKeymap, [{ option: 0, optionChoice: 0 }]);
 export const CcProto01 = () =>

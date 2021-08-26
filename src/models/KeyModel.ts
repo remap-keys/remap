@@ -52,6 +52,10 @@ export default class KeyModel {
     this.location = location;
     const locs = location.split('\n');
     this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
+    if (!this.includePosition(this.pos)) {
+      // If there is no position label, this Key should be "Decale".
+      this.keyOp = Object.assign(this.keyOp || {}, { d: true });
+    }
     this.optionLabel =
       4 <= locs.length ? locs[3] : `${OPTION_DEFAULT},${OPTION_DEFAULT}`;
     const options = this.optionLabel.split(',');
@@ -100,6 +104,13 @@ export default class KeyModel {
       this.w2 = NaN;
       this.h2 = NaN;
     }
+  }
+
+  private includePosition(pos: string) {
+    if (!pos) return false;
+
+    const rx = RegExp('^([1-9][0-9]*|0),([1-9][0-9]*|0).*');
+    return rx.exec(pos) != null;
   }
 
   get isDefault(): boolean {
