@@ -213,11 +213,15 @@ export default class KeyboardModel {
   }
 
   private parseKeyMap(keymap: (string | KeyOp)[][]) {
+    type Position = {
+      left: number;
+      top: number;
+    };
+
     const keymapsList: KeymapItem[][] = [];
     const optionKeymaps: {
       [option: string]: { [choice: string]: KeymapItem[] };
     } = {};
-    const origKeymaps: { [option: string]: KeymapItem } = {};
 
     // STEP1: build  optionKeymaps
     const curr = new Current();
@@ -265,11 +269,6 @@ export default class KeyboardModel {
           }
 
           optionKeymaps[option][choice].push(keymapItem);
-        } else if (keymapItem.isOrigin) {
-          const option = keymapItem.option;
-          if (!hasProperty(origKeymaps, option)) {
-            origKeymaps[option] = keymapItem;
-          }
         }
       }
     }
@@ -291,15 +290,33 @@ export default class KeyboardModel {
       });
     });
 
-    // STEP3: relocate option keys' position
+    function getTopLeftOfOptionKeymaps(keymapItems: KeymapItem[]): Position {
+      let top = Infinity;
+      let left = Infinity;
+      keymapItems.forEach((item) => {
+        top = Math.min(item.y, top);
+        left = Math.min(item.x - item.x2, left);
+      });
+      return { top, left };
+    }
+
+    /**
+     * STEP3: relocate option-choice keys' position
+     * - Calculate the original option's base position which is left-top location of the default option keys
+     * - Calculate the optional choice's base position which is left-top location of the option-choice keys
+     * - Relocate the option-choice keys by the location diff which is calculated by the original and optional location.
+     */
     Object.keys(optionKeymaps).forEach((option: string) => {
-      if (!hasProperty(origKeymaps, option)) return;
-      const orig = origKeymaps[option];
-      const origCurr: Current = orig.current;
+      const defaultKeyItems = keymapsList
+        .flat()
+        .filter((item) => item.isDefault && item.option === option);
+      const originalOptionPosition = getTopLeftOfOptionKeymaps(defaultKeyItems);
       Object.keys(optionKeymaps[option]).forEach((choice: string) => {
-        const item: KeymapItem = optionKeymaps[option][choice][0];
-        const diffX = item.x + item.x2 - origCurr!.x + origCurr!.x2;
-        const diffY = item.y - origCurr!.y;
+        const optionChoicePosition = getTopLeftOfOptionKeymaps(
+          optionKeymaps[option][choice]
+        );
+        const diffX = optionChoicePosition.left - originalOptionPosition.left;
+        const diffY = optionChoicePosition.top - originalOptionPosition.top;
         optionKeymaps[option][choice].forEach((item: KeymapItem) => {
           item.align(diffX, diffY);
         });
