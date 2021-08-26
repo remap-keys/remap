@@ -57,7 +57,7 @@ const EXPECT_LAYER_TAP_TOGGLE_LIST = [
   0b0101_1000_1111_1111,
 ];
 const EXPECT_LAYER_MOD_LIST = [0b0101_1001_0000_0000, 0b0101_1001_1111_1111];
-const EXPECT_SWAP_HANDS_LIST = [0b0101_1011_0000_0000, 0b0101_1011_1111_1111];
+const EXPECT_SWAP_HANDS_LIST = [0b0101_0110_0000_0000, 0b0101_0110_1111_1111];
 const EXPECT_MOD_TAP_LIST = [0b0110_0000_0000_0000, 0b0111_1111_1111_1111];
 const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
@@ -66,7 +66,7 @@ const EXPECT_LOOSE_KEYCODE_LIST = [
   0b0101_1100_1111_0111,
 ];
 const EXPECT_UNKNOWN_LIST = [
-  0b0101_0110_0000_0000,
+  0b0101_1011_0000_0000,
   0b0101_1111_0000_1111,
   0b0101_1101_0001_0001,
 ];
@@ -528,7 +528,7 @@ describe('Composition', () => {
           label: 'A',
         },
       });
-      expect(subject.getCode()).toEqual(0b0101_1011_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0110_0000_0100);
       subject = new SwapHandsComposition({
         code: 0b0000_0000,
         isAny: false,
@@ -544,21 +544,21 @@ describe('Composition', () => {
           label: '',
         },
       });
-      expect(subject.getCode()).toEqual(0b0101_1011_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0110_0000_0000);
       subject = new SwapHandsComposition(OP_SH_TOGGLE);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0000);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0000);
       subject = new SwapHandsComposition(OP_SH_TAP_TOGGLE);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0001);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0001);
       subject = new SwapHandsComposition(OP_SH_ON_OFF);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0010);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0010);
       subject = new SwapHandsComposition(OP_SH_OFF_ON);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0011);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0011);
       subject = new SwapHandsComposition(OP_SH_OFF);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0100);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0100);
       subject = new SwapHandsComposition(OP_SH_ON);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0101);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0101);
       subject = new SwapHandsComposition(OP_SH_ONESHOT);
-      expect(subject.getCode()).toEqual(0b0101_1011_1111_0110);
+      expect(subject.getCode()).toEqual(0b0101_0110_1111_0110);
     });
   });
 
@@ -1192,7 +1192,7 @@ describe('Composition', () => {
     describe('createSwapHandsComposition', () => {
       test('valid - key', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1011_0000_0100,
+          0b0101_0110_0000_0100,
           'en-us'
         );
         expect(subject.isSwapHands()).toBeTruthy();
@@ -1205,13 +1205,13 @@ describe('Composition', () => {
 
       test('valid - swap hands option', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1011_1111_0001,
+          0b0101_0110_1111_0001,
           'en-us'
         );
         expect(subject.isSwapHands()).toBeTruthy();
         const actual = subject.createSwapHandsComposition();
         expect(actual.isSwapHandsOption()).toBeTruthy();
-        expect(actual.genKeymap()!.code).toEqual(0b0101_1011_1111_0001);
+        expect(actual.genKeymap()!.code).toEqual(0b0101_0110_1111_0001);
         expect(actual.getSwapHandsOption()).not.toBeNull();
         expect(actual.getSwapHandsOption()).toEqual(OP_SH_TAP_TOGGLE);
       });
