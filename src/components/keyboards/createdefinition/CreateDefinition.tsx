@@ -36,6 +36,8 @@ import {
   isOtherFirmwareCode,
   isQmkFirmwareCode,
 } from '../ValidationUtils';
+import productNameDescription from '../../../assets/images/keyboards/product-name-field.png';
+import { HtmlTooltip } from '../../htmltooltip/HtmlTooltip';
 
 type CreateKeyboardState = {
   openConfirmDialog: boolean;
@@ -225,21 +227,27 @@ export default class CreateDefinition extends React.Component<
                         />
                       </div>
                       <div className="create-definition-form-row">
-                        <TextField
-                          inputRef={this.refInputProductName}
-                          id="create-definition-product-name"
-                          label="Product Name"
-                          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
-                          variant="outlined"
-                          required={true}
-                          value={this.props.productName}
-                          onChange={(event) => {
-                            this.props.updateProductName!(event.target.value);
-                          }}
-                          onFocus={(event) => {
-                            event.target.select();
-                          }}
-                        />
+                        <HtmlTooltip
+                          title={
+                            <img src={productNameDescription} width={400} />
+                          }
+                        >
+                          <TextField
+                            inputRef={this.refInputProductName}
+                            id="create-definition-product-name"
+                            label="Product Name"
+                            helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+                            variant="outlined"
+                            required={true}
+                            value={this.props.productName}
+                            onChange={(event) => {
+                              this.props.updateProductName!(event.target.value);
+                            }}
+                            onFocus={(event) => {
+                              event.target.select();
+                            }}
+                          />
+                        </HtmlTooltip>
                       </div>
                       <FirmwareCodePlaceForm
                         firmwareCodePlace={this.props.firmwareCodePlace}
