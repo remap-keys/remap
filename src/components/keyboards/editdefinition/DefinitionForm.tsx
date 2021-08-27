@@ -16,6 +16,8 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
 import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
 import './DefinitionForm.scss';
+import productNameDescription from '../../../assets/images/keyboards/product-name-field.png';
+import { HtmlTooltip } from '../../htmltooltip/HtmlTooltip';
 
 type DefinitionFormProps = {
   definitionDocument: IKeyboardDefinitionDocument | null | undefined;
@@ -358,19 +360,21 @@ function ProductNameRow(props: ProductNameRowProps) {
   } else {
     return (
       <div className="edit-definition-form-row">
-        <TextField
-          inputRef={props.refInputProductName}
-          id="edit-definition-product-name"
-          label="Product Name"
-          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
-          variant="outlined"
-          required={true}
-          value={props.productName}
-          onChange={(event) => props.updateProductName(event.target.value)}
-          onFocus={(event) => {
-            event.target.select();
-          }}
-        />
+        <HtmlTooltip title={<img src={productNameDescription} />}>
+          <TextField
+            inputRef={props.refInputProductName}
+            id="edit-definition-product-name"
+            label="Product Name"
+            helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+            variant="outlined"
+            required={true}
+            value={props.productName}
+            onChange={(event) => props.updateProductName(event.target.value)}
+            onFocus={(event) => {
+              event.target.select();
+            }}
+          />
+        </HtmlTooltip>
       </div>
     );
   }
