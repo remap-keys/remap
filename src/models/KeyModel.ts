@@ -55,7 +55,7 @@ export default class KeyModel {
     this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
     if (!this.includePosition(this.pos)) {
       // If there is no position label, this Key should be "Decal".
-      this.keyOp = Object.assign(this.keyOp || {}, { d: true });
+      this.keyOp = { ...(this.keyOp || {}), ...{ d: true } };
     }
     this.optionLabel =
       4 <= locs.length ? locs[3] : `${OPTION_DEFAULT},${OPTION_DEFAULT}`;
