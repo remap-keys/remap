@@ -33,7 +33,8 @@ export interface IConnectionEventHandler {
 }
 
 export interface IKeycodeInfo {
-  code: number;
+  code: number; // QMK code
+  ascii?: number; // ASCII code if exist
   name: {
     long: string;
     short: string;
@@ -64,6 +65,7 @@ export interface IFetchLayerCountResult extends IResult {
 
 export interface IKeymap {
   isAny: boolean;
+  isAscii?: boolean;
   code: number;
   kinds: KeymapCategory[];
   direction: IModDirection;

@@ -2,6 +2,7 @@ import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 
 import {
+  KEY_CATEGORY_ASCII,
   KEY_SUB_CATEGORY_APPLICATION,
   KEY_SUB_CATEGORY_BACKLIGHT,
   KEY_SUB_CATEGORY_BLANK,
@@ -256,6 +257,7 @@ export interface IComposition {
   genKeymap(): IKeymap | undefined;
 }
 
+export interface IAsciiComposition extends IComposition {}
 export interface IBasicComposition extends IComposition {}
 export interface IModsComposition extends IComposition {
   getModDirection(): IModDirection;
@@ -329,6 +331,70 @@ export interface IUnicodeComposition extends IComposition {
 }
 
 export interface ILooseKeycodeComposition extends IComposition {}
+
+export class AsciiComposition implements IAsciiComposition {
+  private static _keymaps: IKeymap[];
+  private readonly key: IKeymap;
+  constructor(key: IKeymap) {
+    this.key = key;
+  }
+
+  getCode(): number {
+    return this.key.code;
+  }
+  genKeymap(): IKeymap | undefined {
+    if (this.key) {
+      return JSON.parse(JSON.stringify(this.key));
+    } else {
+      return undefined;
+    }
+  }
+
+  static genKeymaps(): IKeymap[] {
+    if (AsciiComposition._keymaps) {
+      return AsciiComposition._keymaps;
+    }
+    const labelDict: { [code: string]: string } = {
+      '8': 'Back Space',
+      '9': 'Tab',
+      '27': 'Esc',
+      '32': 'Space',
+      '42': '*',
+      '127': 'Del',
+    };
+    const category: IKeycodeCategoryInfo = KEY_CATEGORY_ASCII;
+    const keymaps: IKeymap[] = [];
+    const kinds = category.kinds;
+    category.codes.forEach((code) => {
+      const label = Object.prototype.hasOwnProperty.call(labelDict, '' + code)
+        ? labelDict['' + code]
+        : String.fromCharCode(code);
+      const desc = `${label}`;
+      const keycodeInfo = {
+        code: code,
+        name: {
+          long: label,
+          short: label,
+        },
+        label: label,
+        keywords: [],
+      };
+      const km: IKeymap = {
+        code,
+        kinds,
+        desc,
+        keycodeInfo,
+        isAny: false,
+        isAscii: true,
+        direction: MOD_LEFT,
+        modifiers: [],
+      };
+      keymaps.push(km);
+    });
+    AsciiComposition._keymaps = keymaps;
+    return AsciiComposition._keymaps;
+  }
+}
 
 export class BasicComposition implements IBasicComposition {
   private static _keymaps: { [lang: string]: IKeymap[] } = {};

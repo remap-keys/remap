@@ -45,6 +45,8 @@ import {
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
   APP_TEST_MATRIX_UPDATE,
+  MACRO_EDITOR_UPDATE_KEY,
+  MACRO_EDITOR_ACTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -165,6 +167,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
       layoutOptionsReducer(action, draft);
+    } else if (action.type.startsWith(MACRO_EDITOR_ACTIONS)) {
+      macroEditorReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
@@ -702,6 +706,18 @@ const layoutOptionsReducer = (
     }
     case LAYOUT_OPTIONS_INIT_SELECTED_OPTION: {
       draft.configure.layoutOptions.selectedOptions = action.value;
+      break;
+    }
+  }
+};
+
+const macroEditorReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case MACRO_EDITOR_UPDATE_KEY: {
+      draft.configure.macroEditor.key = action.value;
       break;
     }
   }

@@ -232,6 +232,10 @@ export type RootState = {
     layoutOptions: {
       selectedOptions: LayoutOption[];
     };
+    macroEditor: {
+      key: Key | null;
+      keys: Key[];
+    };
   };
   keyboards: {
     app: {
@@ -399,6 +403,10 @@ export const INIT_STATE: RootState = {
     },
     layoutOptions: {
       selectedOptions: [],
+    },
+    macroEditor: {
+      key: null,
+      keys: [],
     },
   },
   keyboards: {

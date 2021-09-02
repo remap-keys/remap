@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
     labelLang: state.app.labelLang,
     bleMicroPro: state.entities.device.bleMicroPro,
     testMatrix: state.configure.keymapToolbar.testMatrix,
+    macroKey: state.configure.macroEditor.key,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

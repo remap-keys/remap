@@ -4,6 +4,7 @@ import { RootState } from '../../../store/state';
 import {
   AnyKeycodeKeyActions,
   KeycodeKeyActions,
+  MacroEditorActions,
 } from '../../../actions/actions';
 import { IKeycodeInfo } from '../../../services/hid/Hid';
 import { Key } from './KeyGen';
@@ -38,6 +39,9 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     selectKey: (key: Key) => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(key));
+    },
+    selectMacroKey: (key: Key) => {
+      _dispatch(MacroEditorActions.updateMacroKey(key));
     },
     hoverKey: (key: Key | null) => {
       _dispatch(KeycodeKeyActions.updateHoverKey(key));

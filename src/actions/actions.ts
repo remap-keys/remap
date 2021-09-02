@@ -391,3 +391,15 @@ export const LayoutOptionsActions = {
     };
   },
 };
+
+export const MACRO_EDITOR_ACTIONS = '@MacroEditor';
+export const MACRO_EDITOR_UPDATE_KEY = `${MACRO_EDITOR_ACTIONS}/UpdateMacroKey`;
+
+export const MacroEditorActions = {
+  updateMacroKey: (key: Key | null) => {
+    return {
+      type: MACRO_EDITOR_UPDATE_KEY,
+      value: key,
+    };
+  },
+};
