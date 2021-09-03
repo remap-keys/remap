@@ -87,6 +87,7 @@ describe('Composition', () => {
             short: 'KC_A',
           },
           label: 'A',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0000_0000_0000_0100);
@@ -103,6 +104,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
@@ -119,6 +121,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0000_0000_1111_1111);
@@ -135,6 +138,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0000_0000_0000_0000);
@@ -159,6 +163,7 @@ describe('Composition', () => {
               short: 'KC_A',
             },
             label: 'A',
+            keywords: [],
           },
         }
       );
@@ -179,6 +184,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -199,6 +205,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -219,6 +226,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -239,6 +247,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -259,6 +268,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -279,6 +289,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -325,6 +336,7 @@ describe('Composition', () => {
             short: 'KC_A',
           },
           label: 'A',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0100_0010_0000_0100);
@@ -341,6 +353,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
@@ -357,6 +370,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0100_1111_1111_1111);
@@ -373,6 +387,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0100_0000_0000_0000);
@@ -526,6 +541,7 @@ describe('Composition', () => {
             short: 'KC_A',
           },
           label: 'A',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0101_0110_0000_0100);
@@ -542,6 +558,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0101_0110_0000_0000);
@@ -580,6 +597,7 @@ describe('Composition', () => {
               short: 'KC_A',
             },
             label: 'A',
+            keywords: [],
           },
         }
       );
@@ -600,6 +618,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -620,6 +639,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -640,6 +660,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -660,6 +681,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -680,6 +702,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -700,6 +723,7 @@ describe('Composition', () => {
               short: '',
             },
             label: '',
+            keywords: [],
           },
         }
       );
@@ -717,6 +741,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0110_0000_1111_1111);
@@ -733,6 +758,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0111_0000_1111_1111);
@@ -767,6 +793,7 @@ describe('Composition', () => {
             short: 'RESET',
           },
           label: 'RESET',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0101_1100_0000_0000);
@@ -783,6 +810,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0101_1111_1111_1111);
@@ -799,6 +827,7 @@ describe('Composition', () => {
             short: '',
           },
           label: '',
+          keywords: [],
         },
       });
       expect(subject.getCode()).toEqual(0b0101_1100_1111_0111);
