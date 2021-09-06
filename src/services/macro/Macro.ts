@@ -31,15 +31,17 @@ export interface IMacro {
    */
   readonly index: number;
   getBytes(): Uint8Array;
-  getMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
+  generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
   updateMacroKeys(macroKeys: IMacroKey[]): void;
 }
 
 export class Macro implements IMacro {
   readonly index: number;
   private bytes: Uint8Array;
+  private macroBuffer: IMacroBuffer;
 
   constructor(macroBuffer: IMacroBuffer, index: number, bytes: Uint8Array) {
+    this.macroBuffer = macroBuffer;
     this.index = index;
     this.bytes = bytes;
   }
@@ -48,7 +50,7 @@ export class Macro implements IMacro {
     return this.bytes;
   }
 
-  getMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult {
+  generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult {
     if (this.bytes.length === 0) {
       return {
         success: false,
@@ -148,7 +150,36 @@ export class Macro implements IMacro {
   }
 
   updateMacroKeys(macroKeys: IMacroKey[]) {
-    // TODO Implement!
+    const bytes: number[] = [];
+    const holdStack: IMacroKey[] = [];
+    for (const macroKey of macroKeys) {
+      if (macroKey.type === 'tap') {
+        let stackedMacroKey = holdStack.pop();
+        while (stackedMacroKey) {
+          bytes.push(SS_UP_CODE);
+          bytes.push(stackedMacroKey.key.keymap.code);
+          stackedMacroKey = holdStack.pop();
+        }
+        if (!macroKey.key.keymap.isAscii) {
+          bytes.push(SS_TAP_CODE);
+        }
+        bytes.push(macroKey.key.keymap.code);
+      } else {
+        // hold
+        bytes.push(SS_DOWN_CODE);
+        bytes.push(macroKey.key.keymap.code);
+        holdStack.push(macroKey);
+      }
+    }
+    let stackedMacroKey = holdStack.pop();
+    while (stackedMacroKey) {
+      bytes.push(SS_UP_CODE);
+      bytes.push(stackedMacroKey.key.keymap.code);
+      stackedMacroKey = holdStack.pop();
+    }
+    bytes.push(END_OF_MACRO_BYTES);
+    this.bytes = new Uint8Array(bytes);
+    this.macroBuffer.updateMacro(this);
   }
 }
 
@@ -229,5 +260,20 @@ export class MacroBuffer implements IMacroBuffer {
     return macros;
   }
 
-  updateMacro(macro: IMacro): void {}
+  updateMacro(macro: IMacro): void {
+    const macros = this.generateMacros();
+    macros[macro.index] = macro;
+    const bytesArray: Uint8Array[] = macros.map((macro) => macro.getBytes());
+    const resultLength = bytesArray.reduce((sum, array) => {
+      sum = sum + array.length;
+      return sum;
+    }, 0);
+    const result = new Uint8Array(resultLength);
+    let offset = 0;
+    for (let i = 0; i < bytesArray.length; i++) {
+      result.set(bytesArray[i], offset);
+      offset = offset + bytesArray[i].length;
+    }
+    this.bytes = result;
+  }
 }
