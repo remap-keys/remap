@@ -57,6 +57,9 @@ import {
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
+  HID_UPDATE_MACRO_BUFFER_BYTES,
+  HID_UPDATE_MACRO_MAX_BUFFER_SIZE,
+  HID_UPDATE_MACRO_MAX_COUNT,
 } from '../actions/hid.action';
 import {
   STORAGE_ACTIONS,
@@ -546,6 +549,18 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_UPDATE_BLE_MICRO_PRO: {
       draft.entities.device.bleMicroPro = action.value;
+      break;
+    }
+    case HID_UPDATE_MACRO_BUFFER_BYTES: {
+      draft.entities.device.macro.bufferBytes = action.value;
+      break;
+    }
+    case HID_UPDATE_MACRO_MAX_BUFFER_SIZE: {
+      draft.entities.device.macro.maxBufferSize = action.value;
+      break;
+    }
+    case HID_UPDATE_MACRO_MAX_COUNT: {
+      draft.entities.device.macro.maxCount = action.value;
       break;
     }
   }

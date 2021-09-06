@@ -165,6 +165,11 @@ export type RootState = {
         [id: number]: string;
       };
       bleMicroPro: boolean;
+      macro: {
+        bufferBytes: Uint8Array;
+        maxBufferSize: number;
+        maxCount: number;
+      };
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -340,6 +345,11 @@ export const INIT_STATE: RootState = {
       keymaps: [],
       macros: {},
       bleMicroPro: false,
+      macro: {
+        bufferBytes: new Uint8Array(),
+        maxBufferSize: 0,
+        maxCount: 0,
+      },
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]

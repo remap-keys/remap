@@ -27,6 +27,9 @@ export const HID_UPDATE_KEYBOARD_LAYER_COUNT = `${HID_ACTIONS}/UpdateKeyboardLay
 export const HID_UPDATE_KEYBOARD_LIST = `${HID_ACTIONS}/UpdateKeyboardList`;
 export const HID_UPDATE_KEYMAPS = `${HID_ACTIONS}/UpdateKeymaps`;
 export const HID_UPDATE_BLE_MICRO_PRO = `${HID_ACTIONS}/UpdateBleMicroPro`;
+export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBytes`;
+export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
+export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -74,6 +77,27 @@ export const HidActions = {
     return {
       type: HID_UPDATE_BLE_MICRO_PRO,
       value: bleMicroPro,
+    };
+  },
+
+  updateMacroBufferBytes: (bytes: Uint8Array) => {
+    return {
+      type: HID_UPDATE_MACRO_BUFFER_BYTES,
+      value: bytes,
+    };
+  },
+
+  updateMacroMaxBufferSize: (size: number) => {
+    return {
+      type: HID_UPDATE_MACRO_MAX_BUFFER_SIZE,
+      value: size,
+    };
+  },
+
+  updateMacroMaxCount: (count: number) => {
+    return {
+      type: HID_UPDATE_MACRO_MAX_COUNT,
+      value: count,
     };
   },
 };
@@ -256,6 +280,37 @@ export const hidActionsThunk = {
       app.labelLang
     );
     dispatch(HidActions.updateKeymaps(keymaps));
+
+    const macroBufferSizeResult = await keyboard.getMacroBufferSize();
+    if (!macroBufferSizeResult.success) {
+      dispatch(
+        NotificationActions.addError(
+          'Fetching the max macro buffer size failed.'
+        )
+      );
+      return;
+    }
+    const macroBufferSize = macroBufferSizeResult.bufferSize!;
+    dispatch(HidActions.updateMacroMaxBufferSize(macroBufferSize));
+    const macroMaxCountResult = await keyboard.getMacroCount();
+    if (!macroMaxCountResult.success) {
+      dispatch(
+        NotificationActions.addError('Fetching the max macro count failed.')
+      );
+      return;
+    }
+    dispatch(HidActions.updateMacroMaxCount(macroMaxCountResult.count!));
+    const macroBufferBytesResult = await keyboard.fetchMacroBuffer(
+      macroBufferSize
+    );
+    if (!macroBufferBytesResult.success) {
+      dispatch(
+        NotificationActions.addError('Fetching the macro buffer bytes failed.')
+      );
+      return;
+    }
+    dispatch(HidActions.updateMacroBufferBytes(macroBufferBytesResult.buffer!));
+
     dispatch(AppActions.remapsInit(layerCount));
     dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
     dispatch(await hidActionsThunk.restoreLayoutOptions());
