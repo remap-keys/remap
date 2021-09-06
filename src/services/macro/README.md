@@ -1,30 +1,26 @@
-# キーボードオープン時
+# When opening a keyboard
 
-マクロ関連の情報を取得する。
+Fetch information about macros from MCU.
 
-- state.entities.macro.buffer: Uint8Array // バッファ全体のバイト列
-- state.entities.macro.maxBufferSize: number // バッファ全体の最大容量
-- state.entities.macro.maxCount: number // マクロの最大登録数
+- state.entities.macro.buffer: Uint8Array // All buffer bytes
+- state.entities.macro.maxBufferSize: number // Max buffer size
+- state.entities.macro.maxCount: number // Max macro count
 
-# マクロ編集開始（ユーザが M0〜M15 のどれかをクリックした）
+# When starting a macro edition (at clicking one of M0 to M15 by a user)
 
-バッファから編集対象の MacroKey[] を生成する。
+Generate an array of MacroKey for the target of editing the buffer.
 
 ```typescript
-// 操作対象のマクロのインデックス
 const macroIndex = ...;
 
-// state からバッファとその情報を取得
 import {IMacroBuffer, MacroBuffer} from "./Macro";
 
 const buffer = state.entities.macro.buffer;
 const maxBufferSize = state.entities.macro.maxBufferSize;
 const maxMacroCount = state.entities.macro.maxCount;
 
-// 選択されている言語を取得
 const labelLang = state.app.labelLang;
 
-// バイト列から操作対象のマクロの MacroKey[] を生成
 const macroBuffer: IMacroBuffer = new MacroBuffer(buffer, maxBufferSize, maxMacroCount);
 state.configure.macroEditor.macroBuffer = macroBuffer;
 const macros = macroBuffer.generateMacros();
@@ -41,30 +37,26 @@ if (macroKeysResult.success) {
 }
 ```
 
-# UI からマクロの内容を変更した時（MacroKey[] の内容が変わった）
+# When modified the MacroKey array from UI (at the content of MacroKey[] was changed)
 
-最新の MacroKey[] の内容から MacroBuffer 内のバイト列を変更する。
+Update the byte array in the MacroBuffer object with the latest MacroKey[] content.
 
 ```typescript
-// UI での変更が state.configure.macroEditor.macroKeys に反映されている
 const macroKeys = state.configure.macroEditor.macroKeys;
 
-// バッファの内容を変更する
 const macro = state.configure.macroEditor.macro;
 macro.updateMacroKeys(macroKeys);
 
-// 現在のバッファの使用量の取得
 const usedMacroBufferSize = state.configure.macroEditor.macroBuffer.getBuffer()
   .length;
-// バッファの残量を計算
 const maxBufferSize = state.entities.macro.maxBufferSize;
 const remainingMacroBufferSize = maxBufferSize - usedMacroBufferSize;
 // do something.
 ```
 
-# UI 上で Save ボタンが押された
+# When clicking the SAVE button on UI
 
-バッファの内容を MCU に書き出す。
+Flash the buffer content to the MCU.
 
 ```typescript
 const macroBuffer = state.configure.macroEditor.maxMacroBuffer;
