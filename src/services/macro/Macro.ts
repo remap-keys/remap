@@ -1,10 +1,21 @@
-import { Key } from '../../components/configure/keycodekey/KeyGen';
+import { genKey, Key } from '../../components/configure/keycodekey/KeyGen';
+import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import {
+  AsciiComposition,
+  KeycodeCompositionFactory,
+} from '../hid/Composition';
 
 export type TapHold = 'tap' | 'hold';
 
 export type IMacroKey = {
   key: Key;
   type: TapHold;
+};
+
+export type IGetMacroKeysResult = {
+  success: boolean;
+  error?: string;
+  macroKeys: IMacroKey[];
 };
 
 export const END_OF_MACRO_BYTES = 0;
@@ -20,7 +31,7 @@ export interface IMacro {
    */
   readonly index: number;
   getBytes(): Uint8Array;
-  getMacroKeys(): IMacroKey[];
+  getMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
   updateMacroKeys(macroKeys: IMacroKey[]): void;
 }
 
@@ -37,9 +48,103 @@ export class Macro implements IMacro {
     return this.bytes;
   }
 
-  getMacroKeys(): IMacroKey[] {
-    // TODO Implement!
-    return [];
+  getMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult {
+    if (this.bytes.length === 0) {
+      return {
+        success: false,
+        error: 'The bytes length is 0.',
+        macroKeys: [],
+      };
+    }
+    const macroKeys: IMacroKey[] = [];
+    const byteLength = this.bytes.length;
+    let pos = 0;
+    let existsNullAtEnd = false;
+    const holdStack: IMacroKey[] = [];
+    while (pos < byteLength) {
+      if (this.bytes[pos] === SS_TAP_CODE) {
+        const keycodeCompositionFactory = new KeycodeCompositionFactory(
+          this.bytes[++pos],
+          labelLang
+        );
+        const basicComposition = keycodeCompositionFactory.createBasicComposition();
+        const keymap = basicComposition.genKeymap()!;
+        const key = genKey(keymap, labelLang);
+        macroKeys.push({ key, type: 'tap' });
+      } else if (this.bytes[pos] === SS_DOWN_CODE) {
+        const keycodeCompositionFactory = new KeycodeCompositionFactory(
+          this.bytes[++pos],
+          labelLang
+        );
+        const basicComposition = keycodeCompositionFactory.createBasicComposition();
+        const keymap = basicComposition.genKeymap()!;
+        const key = genKey(keymap, labelLang);
+        const macroKey: IMacroKey = { key, type: 'hold' };
+        macroKeys.push(macroKey);
+        holdStack.push(macroKey);
+      } else if (this.bytes[pos] === SS_UP_CODE) {
+        const lastHoldMacroKey = holdStack.pop();
+        if (!lastHoldMacroKey) {
+          return {
+            success: false,
+            error: 'Invalid a special code for hold key (down key not exists).',
+            macroKeys: [],
+          };
+        } else if (lastHoldMacroKey.key.keymap.code !== this.bytes[++pos]) {
+          return {
+            success: false,
+            error: 'Invalid a byte combination for hold key.',
+            macroKeys: [],
+          };
+        }
+      } else if (this.bytes[pos] === END_OF_MACRO_BYTES) {
+        if (holdStack.length > 0) {
+          return {
+            success: false,
+            error: 'Invalid a special code for hold key (up key not exists).',
+            macroKeys: [],
+          };
+        }
+        existsNullAtEnd = true;
+        break;
+      } else {
+        if (holdStack.length > 0) {
+          return {
+            success: false,
+            error: 'Invalid a special code for hold key (up key not exists).',
+            macroKeys: [],
+          };
+        }
+        const keycodeCompositionFactory = new KeycodeCompositionFactory(
+          this.bytes[pos],
+          labelLang
+        );
+        if (keycodeCompositionFactory.isAscii()) {
+          const asciiComposition = keycodeCompositionFactory.createAsciiKeycodeComposition();
+          const keymap = asciiComposition.genKeymap()!;
+          const key = genKey(keymap, labelLang);
+          macroKeys.push({ key, type: 'tap' });
+        } else {
+          return {
+            success: false,
+            error: 'non ascii code detected.',
+            macroKeys: [],
+          };
+        }
+      }
+      pos++;
+    }
+    if (!existsNullAtEnd) {
+      return {
+        success: false,
+        error: 'Not end with a null character.',
+        macroKeys: [],
+      };
+    }
+    return {
+      success: true,
+      macroKeys,
+    };
   }
 
   updateMacroKeys(macroKeys: IMacroKey[]) {

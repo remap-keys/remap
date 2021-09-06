@@ -89,6 +89,15 @@ export const genKey = (keymap: IKeymap, lang?: KeyboardLabelLang): Key => {
     };
   }
 
+  if (keymap.isAscii) {
+    return {
+      label: keymap.keycodeInfo.label,
+      meta: '',
+      metaRight: undefined,
+      keymap,
+    };
+  }
+
   if (lang && KeyboardLabelLangs.includes(lang)) {
     const keytop: Keytop = findKeytop(keymap, KeyLabelLangs.getKeyLabels(lang));
 
