@@ -4,6 +4,7 @@ import {
   AsciiComposition,
   KeycodeCompositionFactory,
 } from '../hid/Composition';
+import { cloneUint8Array } from '../../utils/ArrayUtils';
 
 export type TapHold = 'tap' | 'hold';
 
@@ -207,12 +208,15 @@ export class MacroBuffer implements IMacroBuffer {
   private maxMacroCount: number;
   private maxMacroBufferSize: number;
 
+  /**
+   * The specified bytes is cloned and is kept it in this instance.
+   */
   constructor(
     bytes: Uint8Array,
     maxMacroCount: number,
     maxMacroBufferSize: number
   ) {
-    this.bytes = bytes;
+    this.bytes = cloneUint8Array(bytes);
     this.maxMacroCount = maxMacroCount;
     this.maxMacroBufferSize = maxMacroBufferSize;
   }
