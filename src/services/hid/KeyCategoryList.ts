@@ -560,6 +560,7 @@ export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
   kinds: ['ascii'],
   codes: [
     33,
+    34,
     35,
     36,
     37,

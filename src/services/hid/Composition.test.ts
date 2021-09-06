@@ -1,4 +1,5 @@
 import {
+  AsciiComposition,
   BasicComposition,
   DefLayerComposition,
   FunctionComposition,
@@ -35,7 +36,6 @@ import {
   ToggleLayerComposition,
   UnicodeComposition,
 } from './Composition';
-import { IHid, IKeymap } from './Hid';
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
 const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];
@@ -73,7 +73,7 @@ const EXPECT_UNKNOWN_LIST = [
 
 describe('Composition', () => {
   describe('BasicComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new BasicComposition({
         code: 0b0000_0100,
         isAny: false,
@@ -146,7 +146,7 @@ describe('Composition', () => {
   });
 
   describe('ModsComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new ModsComposition(
         ModDirection.right,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -298,7 +298,7 @@ describe('Composition', () => {
   });
 
   describe('FunctionComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new FunctionComposition(0b0000_0000_0000);
       expect(subject.getCode()).toEqual(0b0010_0000_0000_0000);
       subject = new FunctionComposition(0b1111_1111_1111);
@@ -309,7 +309,7 @@ describe('Composition', () => {
   });
 
   describe('MacroComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new MacroComposition(0b0000_0000_0000);
       expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
       expect(subject.isTap()).toBeFalsy();
@@ -322,7 +322,7 @@ describe('Composition', () => {
   });
 
   describe('LayerTapComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new LayerTapComposition(2, {
         code: 0b0000_0100,
         isAny: false,
@@ -395,7 +395,7 @@ describe('Composition', () => {
   });
 
   describe('ToComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new ToComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_0000_0001_0100);
       subject = new ToComposition(0b0000);
@@ -408,7 +408,7 @@ describe('Composition', () => {
   });
 
   describe('MomentaryComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new MomentaryComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_0001_0000_0100);
       subject = new MomentaryComposition(0b0000);
@@ -421,7 +421,7 @@ describe('Composition', () => {
   });
 
   describe('DefLayerComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new DefLayerComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_0010_0000_0100);
       subject = new DefLayerComposition(0b0000);
@@ -434,7 +434,7 @@ describe('Composition', () => {
   });
 
   describe('ToggleLayerComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new ToggleLayerComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_0011_0000_0100);
       subject = new ToggleLayerComposition(0b0000);
@@ -447,7 +447,7 @@ describe('Composition', () => {
   });
 
   describe('OneShotLayerComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new OneShotLayerComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_0100_0000_0100);
       subject = new OneShotLayerComposition(0b0000);
@@ -460,7 +460,7 @@ describe('Composition', () => {
   });
 
   describe('OneShotModComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new OneShotModComposition(ModDirection.right, [
         MOD_CTL,
         MOD_SFT,
@@ -483,7 +483,7 @@ describe('Composition', () => {
   });
 
   describe('TapDanceComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new TapDanceComposition(2);
       expect(subject.getCode()).toEqual(0b0101_0111_0000_0010);
       subject = new TapDanceComposition(0b0000_0000);
@@ -496,7 +496,7 @@ describe('Composition', () => {
   });
 
   describe('LayerTapToggleComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new LayerTapToggleComposition(0b0100);
       expect(subject.getCode()).toEqual(0b0101_1000_0000_0100);
       subject = new LayerTapToggleComposition(0b0000);
@@ -509,7 +509,7 @@ describe('Composition', () => {
   });
 
   describe('LayerModComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new LayerModComposition(0b0100, [MOD_CTL, MOD_ALT]);
       expect(subject.getCode()).toEqual(0b0101_1001_0100_0101);
       subject = new LayerModComposition(0b0000, []);
@@ -527,7 +527,7 @@ describe('Composition', () => {
   });
 
   describe('SwapHandsComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new SwapHandsComposition({
         code: 0b0000_0100,
         isAny: false,
@@ -580,7 +580,7 @@ describe('Composition', () => {
   });
 
   describe('ModTapComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new ModTapComposition(
         ModDirection.right,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -766,7 +766,7 @@ describe('Composition', () => {
   });
 
   describe('UnicodeComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new UnicodeComposition(0b000_0000_0000);
       expect(subject.getCode()).toEqual(0b1000_0000_0000_0000);
       subject = new UnicodeComposition(0b111_1111_1111_1111);
@@ -779,7 +779,7 @@ describe('Composition', () => {
   });
 
   describe('LooseKeycodeComposition', () => {
-    describe('getCode', () => {
+    test('getCode', () => {
       let subject = new LooseKeycodeComposition({
         code: 0b0101_1100_0000_0000,
         isAny: false,
@@ -834,6 +834,28 @@ describe('Composition', () => {
     });
   });
 
+  describe('AsciiComposition', () => {
+    test('getCode', () => {
+      let subject = new AsciiComposition({
+        code: 33,
+        isAny: false,
+        kinds: ['ascii'],
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: {
+          code: 33,
+          name: {
+            long: '!',
+            short: '!',
+          },
+          label: '!',
+          keywords: [],
+        },
+      });
+      expect(subject.getCode()).toEqual(33);
+    });
+  });
+
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
@@ -854,6 +876,43 @@ describe('Composition', () => {
         expect(subject.isBasic()).toBeFalsy();
         expect(() => {
           subject.createBasicComposition();
+        }).toThrowError();
+      });
+    });
+
+    describe('createAsciiComposition', () => {
+      test('supported code', () => {
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0010_0001,
+          'en-us'
+        );
+        expect(subject.isAscii()).toBeTruthy();
+        const actual = subject.createAsciiKeycodeComposition();
+        expect(actual.genKeymap()!.code).toEqual(0b0000_0000_0010_0001);
+        expect(actual.genKeymap()!.isAscii).toBeTruthy();
+        expect(actual.genKeymap()!.isAny).toBeFalsy();
+      });
+
+      test('not supported code', () => {
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_0000_0111,
+          'en-us'
+        );
+        expect(subject.isAscii()).toBeTruthy();
+        const actual = subject.createAsciiKeycodeComposition();
+        expect(actual.genKeymap()!.code).toEqual(0b0000_0000_0000_0111);
+        expect(actual.genKeymap()!.isAscii).toBeTruthy();
+        expect(actual.genKeymap()!.isAny).toBeTruthy();
+      });
+
+      test('not ascii', () => {
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0000_1000_0000,
+          'en-us'
+        );
+        expect(subject.isAscii()).toBeFalsy();
+        expect(() => {
+          subject.createAsciiKeycodeComposition();
         }).toThrowError();
       });
     });
@@ -1346,6 +1405,18 @@ describe('Composition', () => {
           subject.createLooseKeycodeComposition();
         }).toThrowError();
       });
+    });
+
+    test('isAscii', () => {
+      let subject = new KeycodeCompositionFactory(
+        0b0000_0000_0000_0000,
+        'en-us'
+      );
+      expect(subject.isAscii()).toBeTruthy();
+      subject = new KeycodeCompositionFactory(0b0000_0000_0111_1111, 'en-us');
+      expect(subject.isAscii()).toBeTruthy();
+      subject = new KeycodeCompositionFactory(0b0000_0000_1000_0000, 'en-us');
+      expect(subject.isAscii()).toBeFalsy();
     });
 
     describe('getKind', () => {
