@@ -299,7 +299,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
                 index={index}
                 key={`${this.state.category}${index}`}
                 value={key}
-                draggable={!isMacro}
+                draggable={true}
                 clickable={isMacro && !macrEditMode}
               />
             );
