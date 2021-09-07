@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     bleMicroPro: state.entities.device.bleMicroPro,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     macroKey: state.configure.macroEditor.key,
+    maxMacroCount: state.entities.device.macro.maxCount,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

@@ -182,13 +182,16 @@ export class KeyCategory {
     return KeyCategory._midi;
   }
 
-  static macro(): IKeymap[] {
-    if (KeyCategory._macro) return KeyCategory._macro;
-
-    KeyCategory._macro = KEY_SUB_CATEGORY_MACRO.codes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
-    );
-    return KeyCategory._macro;
+  static macro(maxMacroCount: number): IKeymap[] {
+    if (KEY_SUB_CATEGORY_MACRO.codes.length < maxMacroCount) {
+      throw new Error(`Invalid max macro count: ${maxMacroCount}`);
+    }
+    if (!KeyCategory._macro) {
+      KeyCategory._macro = KEY_SUB_CATEGORY_MACRO.codes.map(
+        (code) => LooseKeycodeComposition.findKeymap(code)!
+      );
+    }
+    return KeyCategory._macro.slice(0, maxMacroCount);
   }
 }
 
