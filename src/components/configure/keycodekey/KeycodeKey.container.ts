@@ -4,10 +4,10 @@ import { RootState } from '../../../store/state';
 import {
   AnyKeycodeKeyActions,
   KeycodeKeyActions,
-  MacroEditorActions,
 } from '../../../actions/actions';
 import { IKeycodeInfo } from '../../../services/hid/Hid';
 import { Key } from './KeyGen';
+import { MacroActionsThunk } from '../../../actions/macro.action';
 
 export class KeycodeInfo implements IKeycodeInfo {
   readonly code: number;
@@ -41,7 +41,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(key));
     },
     selectMacroKey: (key: Key) => {
-      _dispatch(MacroEditorActions.updateMacroKey(key));
+      _dispatch(MacroActionsThunk.updateMacroKey(key));
     },
     hoverKey: (key: Key | null) => {
       _dispatch(KeycodeKeyActions.updateHoverKey(key));

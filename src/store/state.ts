@@ -18,6 +18,7 @@ import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
+import { IMacro, IMacroBuffer, IMacroKey } from '../services/macro/Macro';
 
 export type ISetupPhase =
   | 'init'
@@ -240,6 +241,9 @@ export type RootState = {
     macroEditor: {
       key: Key | null;
       keys: Key[];
+      macroBuffer: IMacroBuffer | null;
+      macro: IMacro | null;
+      macroKeys: IMacroKey[];
     };
   };
   keyboards: {
@@ -417,6 +421,9 @@ export const INIT_STATE: RootState = {
     macroEditor: {
       key: null,
       keys: [],
+      macroBuffer: null,
+      macro: null,
+      macroKeys: [],
     },
   },
   keyboards: {
