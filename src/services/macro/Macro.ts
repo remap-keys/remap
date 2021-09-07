@@ -1,9 +1,6 @@
 import { genKey, Key } from '../../components/configure/keycodekey/KeyGen';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import {
-  AsciiComposition,
-  KeycodeCompositionFactory,
-} from '../hid/Composition';
+import { KeycodeCompositionFactory } from '../hid/Composition';
 import { cloneUint8Array } from '../../utils/ArrayUtils';
 
 export type TapHold = 'tap' | 'hold';
@@ -32,7 +29,9 @@ export interface IMacro {
    */
   readonly index: number;
   getBytes(): Uint8Array;
+  // eslint-disable-next-line no-unused-vars
   generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
+  // eslint-disable-next-line no-unused-vars
   updateMacroKeys(macroKeys: IMacroKey[]): void;
 }
 
@@ -195,6 +194,7 @@ export interface IMacroBuffer {
    * The result of `getBytes()` and `generateMacros()` methods will be changed
    * after calling this method.
    */
+  // eslint-disable-next-line no-unused-vars
   updateMacro(macro: IMacro): void;
 
   /**
@@ -246,8 +246,9 @@ export class MacroBuffer implements IMacroBuffer {
     let index = 0;
     for (let i = 0; i < this.bytes.length; i++) {
       if (this.bytes[i] === END_OF_MACRO_BYTES) {
-        macros.push(new Macro(this, index++, this.bytes.slice(start, i + 1)));
+        macros.push(new Macro(this, index, this.bytes.slice(start, i + 1)));
         start = i + 1;
+        index += 1;
       }
       if (this.maxMacroCount < index + 1) {
         break;

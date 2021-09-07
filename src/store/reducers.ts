@@ -45,8 +45,6 @@ import {
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
   APP_TEST_MATRIX_UPDATE,
-  MACRO_EDITOR_UPDATE_KEY,
-  MACRO_EDITOR_ACTIONS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -147,6 +145,14 @@ import {
   CATALOG_SEARCH_UPDATE_KEYWORD,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
+import {
+  MACRO_EDITOR_ACTIONS,
+  MACRO_EDITOR_CLEAR_KEY,
+  MACRO_EDITOR_UPDATE_KEY,
+  MACRO_EDITOR_UPDATE_MACRO,
+  MACRO_EDITOR_UPDATE_MACRO_BUFFER,
+  MACRO_EDITOR_UPDATE_MACRO_KEYS,
+} from '../actions/macro.action';
 
 export type Action = { type: string; value: any };
 
@@ -733,6 +739,25 @@ const macroEditorReducer = (
   switch (action.type) {
     case MACRO_EDITOR_UPDATE_KEY: {
       draft.configure.macroEditor.key = action.value;
+      break;
+    }
+    case MACRO_EDITOR_CLEAR_KEY: {
+      draft.configure.macroEditor.macroBuffer = null;
+      draft.configure.macroEditor.macro = null;
+      draft.configure.macroEditor.macroKeys = [];
+      draft.configure.macroEditor.key = null;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO_BUFFER: {
+      draft.configure.macroEditor.macroBuffer = action.value;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO: {
+      draft.configure.macroEditor.macro = action.value;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO_KEYS: {
+      draft.configure.macroEditor.macroKeys = action.value;
       break;
     }
   }
