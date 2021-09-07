@@ -8,6 +8,7 @@ import {
   MacroBuffer,
 } from '../services/macro/Macro';
 import { NotificationActions } from './actions';
+import { HidActions } from './hid.action';
 
 export const MACRO_EDITOR_ACTIONS = '@MacroEditor';
 export const MACRO_EDITOR_UPDATE_KEY = `${MACRO_EDITOR_ACTIONS}/UpdateMacroKey`;
@@ -127,6 +128,7 @@ export const MacroActionsThunk = {
       dispatch(NotificationActions.addError(result.error!, result.cause));
       return;
     }
+    dispatch(HidActions.updateMacroBufferBytes(newBufferBytes));
     dispatch(MacroEditorActions.clearMacroKey());
   },
 };

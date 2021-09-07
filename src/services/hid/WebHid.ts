@@ -846,9 +846,9 @@ export class Keyboard implements IKeyboard {
       let pos = 0;
       responses.forEach((response) => {
         if (bufferSize <= pos + 28) {
-          buffer.set(response.buffer.slice(4, bufferSize - pos + 4), pos);
+          buffer.set(response.buffer.slice(0, bufferSize - pos), pos);
         } else {
-          buffer.set(response.buffer.slice(4, 32), pos);
+          buffer.set(response.buffer.slice(0, 28), pos);
         }
         pos += 28;
       });
