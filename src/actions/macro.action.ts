@@ -4,8 +4,8 @@ import { RootState } from '../store/state';
 import {
   IMacro,
   IMacroBuffer,
-  IMacroKey,
   MacroBuffer,
+  MacroKeys,
 } from '../services/macro/Macro';
 import { NotificationActions } from './actions';
 import { HidActions } from './hid.action';
@@ -41,7 +41,7 @@ export const MacroEditorActions = {
       value: macro,
     };
   },
-  updateMacroKeys: (macroKeys: IMacroKey[]) => {
+  updateMacroKeys: (macroKeys: MacroKeys) => {
     return {
       type: MACRO_EDITOR_UPDATE_MACRO_KEYS,
       value: macroKeys,
@@ -99,7 +99,7 @@ export const MacroActionsThunk = {
     dispatch(MacroEditorActions.updateMacroKey(key));
   },
 
-  updateMacroKeys: (macroKeys: IMacroKey[]): ThunkPromiseAction<void> => async (
+  updateMacroKeys: (macroKeys: MacroKeys): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
