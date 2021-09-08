@@ -154,7 +154,7 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
                   location.href = `/keyboards/${this.props.doc.id}`;
                 }}
               >
-                Detail
+                Details
               </Button>
             </div>
           </div>
