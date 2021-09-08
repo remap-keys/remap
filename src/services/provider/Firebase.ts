@@ -177,11 +177,12 @@ export class FirebaseProvider implements IStorage, IAuth {
         .where('status', '==', 'approved')
         .get();
       let docs = querySnapshotByVidAndPid.docs;
-      if (docs.length > 1) {
-        docs = docs.filter((doc) =>
-          productName.endsWith(doc.data().product_name)
-        );
-      }
+      // Fix #587 https://github.com/remap-keys/remap/issues/587
+      // Irrespective of the number of the results, filter the results
+      // with the Product name.
+      docs = docs.filter((doc) =>
+        productName.endsWith(doc.data().product_name)
+      );
       if (docs.length === 0) {
         console.warn(
           `Keyboard definition not found: ${vendorId}:${productId}:${productName}`
