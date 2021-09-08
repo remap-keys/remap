@@ -13,6 +13,14 @@ export type Hold = {
   type: 'hold';
 };
 
+export const isTap = (item: Tap | Hold): item is Tap => {
+  return item.type === 'tap';
+};
+
+export const isHold = (item: Tap | Hold): item is Hold => {
+  return item.type === 'hold';
+};
+
 export type MacroKeys = (Tap | Hold)[];
 
 export type IGetMacroKeysResult = {
