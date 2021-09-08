@@ -116,6 +116,7 @@ export default class MacroEditor extends React.Component<
     const remainingBytesLength =
       this.props.maxMacroBufferSize! -
       this.props.macroBuffer!.getBytes().length;
+    const canSave = 0 < remainingBytesLength;
 
     return (
       <>
@@ -158,6 +159,7 @@ export default class MacroEditor extends React.Component<
 
               <DropKeyArea
                 index={this.props.macroKeys!.length}
+                noKeys={this.props.macroKeys!.length === 0}
                 onDrop={(droppedIndex) => {
                   this.onDrop(droppedIndex);
                 }}
@@ -180,6 +182,7 @@ export default class MacroEditor extends React.Component<
                   variant="contained"
                   color="primary"
                   disableElevation
+                  disabled={!canSave}
                   onClick={this.onClickSave.bind(this)}
                 >
                   SAVE
@@ -297,15 +300,18 @@ function MacroKeyView(props: MacroKeyViewProps) {
 
 type DropKeyAreaProps = {
   index: number;
+  noKeys: boolean;
   onDrop: (droppedIndex: number) => void;
 };
 function DropKeyArea(props: DropKeyAreaProps) {
   const [onDragOver, setOnDragOver] = useState<boolean>(false);
   return (
     <div
-      className={['macro-drop-key-area', onDragOver && 'drag-over-left'].join(
-        ' '
-      )}
+      className={[
+        'macro-drop-key-area',
+        props.noKeys && 'macro-drop-key-area-with-message',
+        onDragOver && 'drag-over-left',
+      ].join(' ')}
       onDragOver={(event) => {
         event.preventDefault();
         setOnDragOver(true);
@@ -317,6 +323,8 @@ function DropKeyArea(props: DropKeyAreaProps) {
         setOnDragOver(false);
         props.onDrop(props.index);
       }}
-    />
+    >
+      {props.noKeys ? 'Please drop a keycode here!' : ''}
+    </div>
   );
 }

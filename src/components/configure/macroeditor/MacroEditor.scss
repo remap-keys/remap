@@ -150,4 +150,13 @@
   flex-grow: 1;
   margin-bottom: 8px; // same margin as macro-key-wrapper
   margin-left: -2px; // align the drag mark border(2px)
+  &-with-message {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: medium;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    color: $color-gray-600;
+  }
 }

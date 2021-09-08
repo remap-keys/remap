@@ -13,6 +13,9 @@ const mapStateToProps = (state: RootState) => {
     labelLang: state.app.labelLang,
     bleMicroPro: state.entities.device.bleMicroPro,
     testMatrix: state.configure.keymapToolbar.testMatrix,
+    macroBufferBytes: state.entities.device.macro.bufferBytes,
+    macroMaxBufferSize: state.entities.device.macro.maxBufferSize,
+    macroMaxCount: state.entities.device.macro.maxCount,
     macroKey: state.configure.macroEditor.key,
   };
 };

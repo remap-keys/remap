@@ -15,6 +15,7 @@ import {
   CATEGORY_LABEL_ASCII,
   macroCodeFilter,
 } from '../../../services/hid/MacroCodes';
+import { IMacroBuffer, MacroBuffer } from '../../../services/macro/Macro';
 
 type OwnProps = {};
 
@@ -56,6 +57,18 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     if (!Object.prototype.hasOwnProperty.call(categoryKeys, bmpLabel)) {
       categoryKeys[bmpLabel] = genKeys(bmp, this.props.labelLang!);
     }
+  }
+
+  private createMacroBuffer(): IMacroBuffer {
+    const macroBufferBytes = this.props.macroBufferBytes!;
+    const macroMaxBufferSize = this.props.macroMaxBufferSize!;
+    const macroMaxCount = this.props.macroMaxCount!;
+    const macroBuffer: IMacroBuffer = new MacroBuffer(
+      macroBufferBytes,
+      macroMaxCount,
+      macroMaxBufferSize
+    );
+    return macroBuffer;
   }
 
   /**
@@ -131,6 +144,9 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     labelLang: KeyboardLabelLang,
     macroEditMode: boolean
   ) {
+    const macroBuffer: IMacroBuffer | null = macroEditMode
+      ? null
+      : this.createMacroBuffer();
     const basic = macroEditMode
       ? macroCodeFilter(KeyCategory.basic(labelLang))
       : KeyCategory.basic(labelLang);
@@ -141,7 +157,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       ...(macroEditMode
         ? macroCodeFilter(KeyCategory.functions(labelLang))
         : KeyCategory.functions(labelLang)),
-      ...(macroEditMode ? [] : KeyCategory.macro()),
+      ...(macroEditMode ? [] : KeyCategory.macro(macroBuffer, labelLang)),
     ];
     const layers = macroEditMode
       ? macroCodeFilter(KeyCategory.layer(this.props.layerCount!))

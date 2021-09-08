@@ -13,6 +13,7 @@ import {
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { range } from '../../utils/ArrayUtils';
+import { IMacroBuffer } from '../macro/Macro';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -23,7 +24,6 @@ export class KeyCategory {
   private static _device: { [pos: string]: IKeymap[] } = {};
   private static _midi: IKeymap[];
   private static _bmp: IKeymap[];
-  private static _macro: IKeymap[];
 
   static ascii(): IKeymap[] {
     // No need to be cached here because AsciiComposition has the cache.
@@ -182,13 +182,28 @@ export class KeyCategory {
     return KeyCategory._midi;
   }
 
-  static macro(): IKeymap[] {
-    if (KeyCategory._macro) return KeyCategory._macro;
-
-    KeyCategory._macro = KEY_SUB_CATEGORY_MACRO.codes.map(
+  static macro(
+    macroBuffer: IMacroBuffer | null,
+    labelLang: KeyboardLabelLang
+  ): IKeymap[] {
+    const macroKeymaps = KEY_SUB_CATEGORY_MACRO.codes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
-    return KeyCategory._macro;
+
+    if (macroBuffer) {
+      const macros = macroBuffer.generateMacros();
+      for (let i = 0; i < macros.length; i++) {
+        const macro = macros[i];
+        const macroKeysResult = macro.generateMacroKeys(labelLang);
+        if (!macroKeysResult.success) {
+          console.error(macroKeysResult.error!);
+          continue;
+        }
+        macroKeymaps[i].desc = 'hogehoge'; // TODO: macroの文字列を生成する
+      }
+    }
+    // set desc text
+    return macroKeymaps;
   }
 }
 
