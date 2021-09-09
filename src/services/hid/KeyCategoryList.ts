@@ -183,16 +183,21 @@ export class KeyCategory {
   }
 
   static macro(
+    maxMacroCount: number,
     macroBuffer: IMacroBuffer | null,
     labelLang: KeyboardLabelLang
   ): IKeymap[] {
-    const macroKeymaps = KEY_SUB_CATEGORY_MACRO.codes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
-    );
+    if (KEY_SUB_CATEGORY_MACRO.codes.length < maxMacroCount) {
+      throw new Error(`Invalid max macro count: ${maxMacroCount}`);
+    }
+
+    const macroKeymaps = KEY_SUB_CATEGORY_MACRO.codes
+      .map((code) => LooseKeycodeComposition.findKeymap(code)!)
+      .slice(0, maxMacroCount);
 
     if (macroBuffer) {
       const macros = macroBuffer.generateMacros();
-      for (let i = 0; i < macros.length; i++) {
+      for (let i = 0; i < macroKeymaps.length; i++) {
         const macro = macros[i];
         const macroKeysResult = macro.generateMacroKeys(labelLang);
         if (!macroKeysResult.success) {

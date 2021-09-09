@@ -5,7 +5,7 @@ import {
   MacroActionsThunk,
   MacroEditorActions,
 } from '../../../actions/macro.action';
-import { IMacroKey } from '../../../services/macro/Macro';
+import { MacroKeys } from '../../../services/macro/Macro';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -25,7 +25,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     closeMacroEditor: () => {
       _dispatch(MacroEditorActions.clearMacroKey());
     },
-    updateMacroKeys: (macroKeys: IMacroKey[]) => {
+    updateMacroKeys: (macroKeys: MacroKeys) => {
       _dispatch(MacroActionsThunk.updateMacroKeys(macroKeys));
     },
     saveMacro: () => {

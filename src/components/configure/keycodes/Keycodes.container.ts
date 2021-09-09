@@ -17,6 +17,7 @@ const mapStateToProps = (state: RootState) => {
     macroMaxBufferSize: state.entities.device.macro.maxBufferSize,
     macroMaxCount: state.entities.device.macro.maxCount,
     macroKey: state.configure.macroEditor.key,
+    maxMacroCount: state.entities.device.macro.maxCount,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;

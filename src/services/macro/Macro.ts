@@ -3,17 +3,26 @@ import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { KeycodeCompositionFactory } from '../hid/Composition';
 import { cloneUint8Array } from '../../utils/ArrayUtils';
 
-export type TapHold = 'tap' | 'hold';
-
-export type IMacroKey = {
+export const MacroTap = 'tap';
+export const MacroHold = 'hold';
+export type TapHoldType = typeof MacroTap | typeof MacroHold;
+export type Tap = {
   key: Key;
-  type: TapHold;
+  type: typeof MacroTap;
 };
+
+export type Hold = {
+  keys: Key[];
+  type: typeof MacroHold;
+};
+
+export type MacroKey = Tap | Hold;
+export type MacroKeys = MacroKey[];
 
 export type IGetMacroKeysResult = {
   success: boolean;
   error?: string;
-  macroKeys: IMacroKey[];
+  macroKeys: MacroKeys;
 };
 
 export const END_OF_MACRO_BYTES = 0;
@@ -32,7 +41,7 @@ export interface IMacro {
   // eslint-disable-next-line no-unused-vars
   generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
   // eslint-disable-next-line no-unused-vars
-  updateMacroKeys(macroKeys: IMacroKey[]): void;
+  updateMacroKeys(macroKeys: MacroKeys): void;
 }
 
 export class Macro implements IMacro {
@@ -58,11 +67,12 @@ export class Macro implements IMacro {
         macroKeys: [],
       };
     }
-    const macroKeys: IMacroKey[] = [];
+    const macroKeys: MacroKeys = [];
     const byteLength = this.bytes.length;
     let pos = 0;
     let existsNullAtEnd = false;
-    const holdStack: IMacroKey[] = [];
+    let holdKeys: Key[] = [];
+    const holdStack: Key[] = [];
     while (pos < byteLength) {
       if (this.bytes[pos] === SS_TAP_CODE) {
         const keycodeCompositionFactory = new KeycodeCompositionFactory(
@@ -81,23 +91,26 @@ export class Macro implements IMacro {
         const basicComposition = keycodeCompositionFactory.createBasicComposition();
         const keymap = basicComposition.genKeymap()!;
         const key = genKey(keymap, labelLang);
-        const macroKey: IMacroKey = { key, type: 'hold' };
-        macroKeys.push(macroKey);
-        holdStack.push(macroKey);
+        holdKeys.push(key);
+        holdStack.push(key);
       } else if (this.bytes[pos] === SS_UP_CODE) {
-        const lastHoldMacroKey = holdStack.pop();
-        if (!lastHoldMacroKey) {
+        const lastHoldKey = holdStack.pop();
+        if (!lastHoldKey) {
           return {
             success: false,
             error: 'Invalid a special code for hold key (down key not exists).',
             macroKeys: [],
           };
-        } else if (lastHoldMacroKey.key.keymap.code !== this.bytes[++pos]) {
+        } else if (lastHoldKey.keymap.code !== this.bytes[++pos]) {
           return {
             success: false,
             error: 'Invalid a byte combination for hold key.',
             macroKeys: [],
           };
+        }
+        if (holdStack.length === 0) {
+          macroKeys.push({ keys: holdKeys, type: 'hold' });
+          holdKeys = [];
         }
       } else if (this.bytes[pos] === END_OF_MACRO_BYTES) {
         if (holdStack.length > 0) {
@@ -149,33 +162,25 @@ export class Macro implements IMacro {
     };
   }
 
-  updateMacroKeys(macroKeys: IMacroKey[]) {
-    const bytes: number[] = [];
-    const holdStack: IMacroKey[] = [];
+  updateMacroKeys(macroKeys: MacroKeys) {
+    let bytes: number[] = [];
     for (const macroKey of macroKeys) {
       if (macroKey.type === 'tap') {
-        let stackedMacroKey = holdStack.pop();
-        while (stackedMacroKey) {
-          bytes.push(SS_UP_CODE);
-          bytes.push(stackedMacroKey.key.keymap.code);
-          stackedMacroKey = holdStack.pop();
-        }
         if (!macroKey.key.keymap.isAscii) {
           bytes.push(SS_TAP_CODE);
         }
         bytes.push(macroKey.key.keymap.code);
       } else {
         // hold
-        bytes.push(SS_DOWN_CODE);
-        bytes.push(macroKey.key.keymap.code);
-        holdStack.push(macroKey);
+        const downBytes: number[] = [];
+        let upBytes: number[] = [];
+        for (const key of macroKey.keys) {
+          downBytes.push(SS_DOWN_CODE);
+          downBytes.push(key.keymap.code);
+          upBytes = [SS_UP_CODE, key.keymap.code, ...upBytes];
+        }
+        bytes = [...bytes, ...downBytes, ...upBytes];
       }
-    }
-    let stackedMacroKey = holdStack.pop();
-    while (stackedMacroKey) {
-      bytes.push(SS_UP_CODE);
-      bytes.push(stackedMacroKey.key.keymap.code);
-      stackedMacroKey = holdStack.pop();
     }
     bytes.push(END_OF_MACRO_BYTES);
     this.bytes = new Uint8Array(bytes);

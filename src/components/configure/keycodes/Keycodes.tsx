@@ -157,7 +157,13 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       ...(macroEditMode
         ? macroCodeFilter(KeyCategory.functions(labelLang))
         : KeyCategory.functions(labelLang)),
-      ...(macroEditMode ? [] : KeyCategory.macro(macroBuffer, labelLang)),
+      ...(macroEditMode
+        ? []
+        : KeyCategory.macro(
+            this.props.maxMacroCount || 0,
+            macroBuffer,
+            labelLang
+          )),
     ];
     const layers = macroEditMode
       ? macroCodeFilter(KeyCategory.layer(this.props.layerCount!))
