@@ -160,6 +160,7 @@ export default class MacroEditor extends React.Component<
                       key={`macro-keys-${index}`}
                       index={index}
                       macroKey={macroKey.key}
+                      inHold={false}
                       onDrop={(droppedIndex) => {
                         this.onDrop(droppedIndex);
                       }}
@@ -246,6 +247,7 @@ function doesDragLeftHalf(event: React.DragEvent<HTMLDivElement>) {
 type MacroKeyViewProps = {
   index: number;
   macroKey: Key;
+  inHold: boolean;
   onDragStart: (draggingIndex: number) => void;
   onDrop: (droppedIndex: number) => void;
   onDelete: (index: number) => void;
@@ -307,8 +309,12 @@ function MacroKeyView(props: MacroKeyViewProps) {
           <div className="macro-key-label macro-key-middle">
             {props.macroKey.label}
           </div>
-          <div className="macro-key-label macro-key-bottom">TAP</div>
+          <div className="macro-key-label macro-key-bottom">
+            {!props.inHold && 'TAP'}
+          </div>
         </div>
+      </div>
+      {!props.inHold && (
         <div className="macro-key-under">
           {!props.macroKey.keymap.isAscii && (
             <Button
@@ -326,7 +332,7 @@ function MacroKeyView(props: MacroKeyViewProps) {
             </Button>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -344,13 +350,14 @@ function MacroKeyHold(props: MacroKeyHoldProps) {
   const [onDragOverRight, setOnDragOverRight] = useState<boolean>(false);
 
   return (
-    <div className="macro-hold-wrapper macro-hold">
+    <div className="macro-hold-wrapper macro-hold" draggable={true}>
       {props.macroKey.keys.map((key, index) => {
         return (
           <MacroKeyView
             key={`macro-keys-hold-${index}-${index}`}
             index={index}
             macroKey={key}
+            inHold={true}
             onDrop={(droppedIndex) => {
               //onDrop(droppedIndex);
             }}
@@ -378,7 +385,7 @@ function MacroKeyHold(props: MacroKeyHoldProps) {
           }}
         >
           <SwapHorizIcon />
-          HOLD
+          TAP
         </Button>
       </div>
     </div>
