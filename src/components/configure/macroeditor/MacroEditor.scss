@@ -38,8 +38,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 8px;
-    .macro-editor-encode-text {
-    }
 
     .macro-editor-buttons {
       margin-left: auto;
@@ -51,17 +49,47 @@
 }
 
 .macro-hold {
-  border: 1px solid $primary-light;
-  border-radius: 3px;
+  border: 1px solid $primary-light !important;
+
   &:hover {
     cursor: grab;
+  }
+
+  .macro-hold-keys {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.macro-hold-content {
+  position: relative;
+  z-index: 2;
+  .prevent-drop-macro-key {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: -1px; // border width
+    left: -1px; // border width
+    padding: 4px;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    font-weight: 600;
+    color: white;
   }
 }
 
 .macro-hold-wrapper {
-  padding-top: 6px;
+  padding-top: 8px;
   padding-bottom: 2px;
-  padding-right: 2px;
+  padding-right: 4px;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid white;
+  border-radius: 3px;
 
   .macro-key-wrapper {
     padding: 0 2px;
@@ -151,7 +179,12 @@
 
   .macro-key-under {
     height: 25px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
     .macro-key-toggle-tap-hold-btn {
+      color: $primary;
+      font-weight: 600;
       font-size: 0.6rem !important;
     }
   }
@@ -162,6 +195,10 @@
   flex-grow: 1;
   margin-bottom: 8px; // same margin as macro-key-wrapper
   margin-left: -2px; // align the drag mark border(2px)
+  .macro-drop-key-content {
+    width: 100%;
+    height: 100%;
+  }
   &-with-message {
     padding: 0 16px;
     display: flex;

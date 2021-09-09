@@ -17,7 +17,6 @@ export type Hold = {
 };
 
 export type MacroKey = Tap | Hold;
-export type MacroKeys = MacroKey[];
 
 export const isTap = (item: Tap | Hold): item is Tap => {
   return item.type === MacroTap;

@@ -245,10 +245,12 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       this.props.labelLang != prevProps.labelLang ||
       this.props.macroKey != prevProps.macroKey
     ) {
-      this.refreshCategoryKeys(
-        prevProps.labelLang || 'en-us',
-        Boolean(this.props.macroKey)
-      );
+      const isMacroEditMode = Boolean(this.props.macroKey);
+      this.refreshCategoryKeys(prevProps.labelLang || 'en-us', isMacroEditMode);
+
+      if (!isMacroEditMode && this.state.category === CATEGORY_LABEL_ASCII) {
+        this.selectCategory('Basic');
+      }
     }
   }
 

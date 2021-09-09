@@ -197,14 +197,14 @@ export class KeyCategory {
 
     if (macroBuffer) {
       const macros = macroBuffer.generateMacros();
-      for (let i = 0; i < macroKeymaps.length; i++) {
+      for (let i = 0; i < macros.length; i++) {
         const macro = macros[i];
         const macroKeysResult = macro.generateMacroKeys(labelLang);
         if (!macroKeysResult.success) {
           console.error(macroKeysResult.error!);
           continue;
         }
-        macroKeymaps[i].desc = 'hogehoge'; // TODO: macroの文字列を生成する
+        macroKeymaps[i] = { ...macroKeymaps[i], desc: 'hogehoge' }; // TODO: macroの文字列を生成する
       }
     }
     // set desc text
