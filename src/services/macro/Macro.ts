@@ -19,10 +19,18 @@ export type Hold = {
 export type MacroKey = Tap | Hold;
 export type MacroKeys = MacroKey[];
 
+export const isTap = (item: Tap | Hold): item is Tap => {
+  return item.type === MacroTap;
+};
+
+export const isHold = (item: Tap | Hold): item is Hold => {
+  return item.type === MacroHold;
+};
+
 export type IGetMacroKeysResult = {
   success: boolean;
   error?: string;
-  macroKeys: MacroKeys;
+  macroKeys: MacroKey[];
 };
 
 export const END_OF_MACRO_BYTES = 0;
@@ -41,7 +49,7 @@ export interface IMacro {
   // eslint-disable-next-line no-unused-vars
   generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
   // eslint-disable-next-line no-unused-vars
-  updateMacroKeys(macroKeys: MacroKeys): void;
+  updateMacroKeys(macroKeys: MacroKey[]): void;
 }
 
 export class Macro implements IMacro {
@@ -67,7 +75,7 @@ export class Macro implements IMacro {
         macroKeys: [],
       };
     }
-    const macroKeys: MacroKeys = [];
+    const macroKeys: MacroKey[] = [];
     const byteLength = this.bytes.length;
     let pos = 0;
     let existsNullAtEnd = false;
@@ -162,7 +170,7 @@ export class Macro implements IMacro {
     };
   }
 
-  updateMacroKeys(macroKeys: MacroKeys) {
+  updateMacroKeys(macroKeys: MacroKey[]) {
     let bytes: number[] = [];
     for (const macroKey of macroKeys) {
       if (macroKey.type === 'tap') {

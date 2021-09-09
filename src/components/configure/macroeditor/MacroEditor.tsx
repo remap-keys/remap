@@ -13,10 +13,10 @@ import {
   Hold,
   MacroHold,
   MacroTap,
-  MacroKeys,
-  Tap,
   TapHoldType,
   MacroKey,
+  isHold,
+  isTap,
 } from '../../../services/macro/Macro';
 
 const KEY_DIFF_HEIGHT = 78;
@@ -43,7 +43,7 @@ export default class MacroEditor extends React.Component<
   }
 
   private addKey(index: number, newKey: Key) {
-    let newKeys: MacroKeys = [];
+    let newKeys: MacroKey[] = [];
     for (let i = 0; i < this.props.macroKeys!.length; i++) {
       const macroKey = this.props.macroKeys![i];
       if (i === index) {
@@ -113,12 +113,12 @@ export default class MacroEditor extends React.Component<
   onToggleKeyType(index: number) {
     const macroKey: MacroKey = this.props.macroKeys![index];
 
-    const newKeys: MacroKeys = [];
+    const newKeys: MacroKey[] = [];
     this.props.macroKeys!.forEach((macro, i) => {
       if (i === index) {
-        if (macroKey.type === MacroTap) {
+        if (isTap(macroKey)) {
           newKeys.push({ keys: [macroKey.key], type: MacroHold });
-        } else if (macroKey.type === MacroHold) {
+        } else if (isHold(macroKey)) {
           macroKey.keys.map((key) => {
             newKeys.push({ key: key, type: MacroTap });
           });
@@ -175,7 +175,7 @@ export default class MacroEditor extends React.Component<
                       }}
                     />
                   );
-                } else if (macroKey.type === MacroHold) {
+                } else if (isHold(macroKey)) {
                   return (
                     <MacroKeyHold
                       key={`macro-keys-${index}`}
