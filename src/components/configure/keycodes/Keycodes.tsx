@@ -15,7 +15,11 @@ import {
   CATEGORY_LABEL_ASCII,
   macroCodeFilter,
 } from '../../../services/hid/MacroCodes';
-import { IMacroBuffer, MacroBuffer } from '../../../services/macro/Macro';
+import {
+  convertQmkLabel,
+  IMacroBuffer,
+  MacroBuffer,
+} from '../../../services/macro/Macro';
 
 type OwnProps = {};
 
@@ -211,13 +215,8 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
    * @param keys target Key array
    */
   private rewriteQmkLabels(keys: Key[]) {
-    const codeA = 4; // KC_A
-    const codeZ = 29; // KC_Z
     keys.forEach((key) => {
-      const code = key.keymap.code;
-      if (codeA <= code && code <= codeZ) {
-        key.label = key.label.toLowerCase();
-      }
+      convertQmkLabel(key);
     });
   }
 

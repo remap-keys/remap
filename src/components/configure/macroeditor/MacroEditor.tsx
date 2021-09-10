@@ -599,7 +599,7 @@ function MacroKeyHold(props: MacroKeyHoldProps) {
       {props.isDraggingAscii && onDragOver && (
         <div
           className="prevent-drop-macro"
-          style={{ width: 6 + props.macroKey.keys.length * 64 }}
+          style={{ width: 10 + props.macroKey.keys.length * 64 }}
           onDragOver={(event) => {
             event.preventDefault();
             setOnDragOver(true);

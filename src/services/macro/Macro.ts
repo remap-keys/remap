@@ -2,6 +2,7 @@ import { genKey, Key } from '../../components/configure/keycodekey/KeyGen';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { KeycodeCompositionFactory } from '../hid/Composition';
 import { cloneUint8Array } from '../../utils/ArrayUtils';
+import { IKeymap } from '../hid/Hid';
 
 export const MacroTap = 'tap';
 export const MacroHold = 'hold';
@@ -51,6 +52,24 @@ export interface IMacro {
   updateMacroKeys(macroKeys: MacroKey[]): void;
 }
 
+export function convertQmkLabel(key: Key): Key {
+  const codeA = 4; // KC_A
+  const codeZ = 29; // KC_Z
+  const code = key.keymap.code;
+  if (codeA <= code && code <= codeZ) {
+    key.label = key.label.toLowerCase();
+  }
+  return key;
+}
+
+function genKeyWithQmkLabel(
+  keymap: IKeymap,
+  langLabel: KeyboardLabelLang
+): Key {
+  const key = genKey(keymap, langLabel);
+  return convertQmkLabel(key);
+}
+
 export class Macro implements IMacro {
   readonly index: number;
   private bytes: Uint8Array;
@@ -88,7 +107,7 @@ export class Macro implements IMacro {
         );
         const basicComposition = keycodeCompositionFactory.createBasicComposition();
         const keymap = basicComposition.genKeymap()!;
-        const key = genKey(keymap, labelLang);
+        const key = genKeyWithQmkLabel(keymap, labelLang);
         macroKeys.push({ key, type: 'tap' });
       } else if (this.bytes[pos] === SS_DOWN_CODE) {
         const keycodeCompositionFactory = new KeycodeCompositionFactory(
@@ -97,7 +116,7 @@ export class Macro implements IMacro {
         );
         const basicComposition = keycodeCompositionFactory.createBasicComposition();
         const keymap = basicComposition.genKeymap()!;
-        const key = genKey(keymap, labelLang);
+        const key = genKeyWithQmkLabel(keymap, labelLang);
         holdKeys.push(key);
         holdStack.push(key);
       } else if (this.bytes[pos] === SS_UP_CODE) {
