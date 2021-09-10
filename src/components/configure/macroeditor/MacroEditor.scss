@@ -31,6 +31,20 @@
     z-index: 1;
     padding: 4px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    .macro-hold-with-spacer {
+      display: flex;
+      flex-direction: row;
+      .macro-drop-spacer {
+        width: 4px;
+        height: 90px;
+        margin-top: 2px;
+        margin-right: 2px;
+        background-color: white;
+      }
+      .macro-drop-spacer-over {
+        background-color: $primary;
+      }
+    }
   }
   &-footer {
     width: 100%;
@@ -155,13 +169,6 @@
           cursor: pointer;
         }
       }
-    }
-
-    .macro-key-drop-area {
-      width: 100%;
-      height: calc(var(--key-width));
-      margin-top: calc(var(--key-width) * -1);
-      background-color: rgba(1, 1, 1, 0);
     }
 
     .macro-key-tap {
