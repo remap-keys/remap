@@ -48,21 +48,26 @@ export default class MacroEditor extends React.Component<
     };
   }
 
-  private addKey(index: number, newKey: Key) {
-    let newKeys: MacroKey[] = [];
-    for (let i = 0; i < this.props.macroKeys!.length; i++) {
-      const macroKey = this.props.macroKeys![i];
-      if (i === index) {
-        newKeys.push({ key: newKey, type: MacroTap });
-      }
-      newKeys.push(macroKey);
+  private addKey(index: number, indexInHold: number, newKey: Key) {
+    console.log(`${index} / ${indexInHold}`);
+    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    if (Number.isNaN(indexInHold)) {
+      const tap: Tap = { key: newKey, type: MacroTap };
+      macroKeys.splice(index, 0, tap);
+      this.props.updateMacroKeys!(macroKeys);
+      return;
     }
 
-    if (index === this.props.macroKeys!.length) {
-      newKeys.push({ key: newKey, type: 'tap' });
+    // drop in a HOLD
+    const hold = macroKeys[index];
+    if (!isHold(hold)) {
+      throw new Error(
+        `The macro key MUST BE a hold / index: ${index}, holdIndex: ${indexInHold}`
+      );
     }
 
-    this.props.updateMacroKeys!(newKeys);
+    hold.keys.splice(indexInHold, 0, newKey);
+    this.props.updateMacroKeys!(macroKeys);
   }
 
   private clearDraggingState() {
@@ -79,16 +84,13 @@ export default class MacroEditor extends React.Component<
 
   private moveKey(
     fromIndex: number,
-    fromHolderIndex: number,
+    fromIndexInHold: number,
     toIndex: number,
-    toHolderIndex: number
+    toIndexInHold: number
   ) {
-    console.log(
-      `${fromIndex}/${fromHolderIndex} -> ${toIndex}/${toHolderIndex}`
-    );
     const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
     let dragKey: MacroKey | null = null;
-    if (Number.isNaN(fromHolderIndex)) {
+    if (Number.isNaN(fromIndexInHold)) {
       // drag a tap or a hold
       dragKey = macroKeys.splice(fromIndex, 1)[0];
       if (fromIndex < toIndex) {
@@ -100,13 +102,13 @@ export default class MacroEditor extends React.Component<
       if (isHold(holdKey)) {
         // convert the dragging Key to a Tap
         dragKey = {
-          key: holdKey.keys.splice(fromHolderIndex, 1)[0],
+          key: holdKey.keys.splice(fromIndexInHold, 1)[0],
           type: MacroTap,
         };
 
-        if (fromIndex === toIndex && fromHolderIndex < toHolderIndex) {
+        if (fromIndex === toIndex && fromIndexInHold < toIndexInHold) {
           // move in the same hold
-          toHolderIndex = toHolderIndex - 1;
+          toIndexInHold = toIndexInHold - 1;
         } else {
           if (holdKey.keys.length === 0) {
             // delete the empty Hold
@@ -122,7 +124,7 @@ export default class MacroEditor extends React.Component<
     if (dragKey === null) return;
 
     // copy an dragging key to the macro key list
-    if (Number.isNaN(toHolderIndex)) {
+    if (Number.isNaN(toIndexInHold)) {
       macroKeys.splice(toIndex, 0, dragKey);
       this.props.updateMacroKeys!(macroKeys);
       return;
@@ -133,30 +135,23 @@ export default class MacroEditor extends React.Component<
 
     if (!isHold(dstHoldKey)) {
       throw new Error(
-        `The macro key MUST BE a hold / index: ${toIndex}, holdIndex: ${toHolderIndex}`
+        `The macro key MUST BE a hold / index: ${toIndex}, holdIndex: ${toIndexInHold}`
       );
     }
-    console.log(
-      `inHold: ${fromIndex}/${fromHolderIndex} -> ${toIndex}/${toHolderIndex}`
-    );
 
     function insertDragKeys(index: number, macroKey: MacroKey) {
       if (isHold(macroKey)) {
         dstHoldKey.keys.splice(index, 0, ...macroKey.keys);
       } else {
-        console.log(macroKey.key);
-        console.log(dstHoldKey);
         dstHoldKey.keys.splice(index, 0, macroKey.key);
-        console.log(dstHoldKey);
       }
     }
 
     if (fromIndex === toIndex) {
       // move in the same holder
-      insertDragKeys(toHolderIndex, dragKey);
+      insertDragKeys(toIndexInHold, dragKey);
     } else {
-      console.log('heree');
-      insertDragKeys(toHolderIndex, dragKey);
+      insertDragKeys(toIndexInHold, dragKey);
     }
     this.props.updateMacroKeys!(macroKeys);
   }
@@ -173,7 +168,7 @@ export default class MacroEditor extends React.Component<
     if (Number.isNaN(this.state.draggingIndex)) {
       // from Keycodes
       if (this.props.draggingKey) {
-        this.addKey(droppedIndex, this.props.draggingKey);
+        this.addKey(droppedIndex, droppedHoldIndex, this.props.draggingKey);
       }
     } else {
       // in MacroEditor
@@ -357,12 +352,24 @@ export default class MacroEditor extends React.Component<
 }
 
 function doesDragLeftHalf(event: React.DragEvent<HTMLDivElement>) {
-  const dragX = event.clientX;
+  const cursorX = event.clientX;
   const div = event.target as HTMLDivElement;
-  console.log(event);
-  const divCenter = div.offsetLeft + div.offsetWidth / 2;
-  console.log(`dragX: ${dragX}, divCenter: ${divCenter}`);
-  return dragX < divCenter; // isLeft
+  const rect = div.getBoundingClientRect();
+  const left = rect.left;
+  const center = left + rect.width / 2;
+  const diffLeft = cursorX - left;
+  return 0 <= diffLeft && cursorX < center; // isLeft
+}
+
+function doesDragRightHalf(event: React.DragEvent<HTMLDivElement>) {
+  const cursorX = event.clientX;
+  const div = event.target as HTMLDivElement;
+  const rect = div.getBoundingClientRect();
+  const left = rect.left;
+  const right = rect.right;
+  const center = left + rect.width / 2;
+  const diffRight = right - cursorX;
+  return center <= cursorX && 0 <= diffRight;
 }
 
 type MacroKeyViewProps = {
@@ -388,41 +395,12 @@ function MacroKeyView(props: MacroKeyViewProps) {
           onDragOverLeft && 'drag-over-left',
           onDragOverRight && 'drag-over-right',
         ].join(' ')}
-        onDragOver={(event) => {
-          event.preventDefault();
-          //console.log(event);
-          if (doesDragLeftHalf(event)) {
-            setOnDragOverLeft(true);
-            setOnDragOverRight(false);
-          } else {
-            setOnDragOverLeft(false);
-            setOnDragOverRight(true);
-          }
-        }}
-        onDragLeave={() => {
-          setOnDragOverLeft(false);
-          setOnDragOverRight(false);
-        }}
-        onDrop={() => {
-          if (onDragOverLeft) {
-            props.onDrop(Math.max(props.index, 0));
-          } else if (onDragOverRight) {
-            props.onDrop(props.index + 1);
-          }
-          setOnDragOverLeft(false);
-          setOnDragOverRight(false);
-        }}
       >
         <div
           className={[
             'macro-key',
             inHold ? 'macro-key-hold' : 'macro-key-tap',
           ].join(' ')}
-          draggable={true}
-          onDragStart={(event) => {
-            event.stopPropagation();
-            props.onDragStart(props.index);
-          }}
         >
           <div className="macro-key-label macro-key-top">
             <a
@@ -440,6 +418,41 @@ function MacroKeyView(props: MacroKeyViewProps) {
             {!inHold && 'TAP'}
           </div>
         </div>
+        <div
+          className="macro-key-drop-area"
+          draggable={true}
+          onDragStart={(event) => {
+            event.stopPropagation();
+            props.onDragStart(props.index);
+          }}
+          onDragOver={(event) => {
+            event.preventDefault();
+            //console.log(event);
+            if (doesDragLeftHalf(event)) {
+              setOnDragOverLeft(true);
+              setOnDragOverRight(false);
+            } else if (doesDragRightHalf(event)) {
+              setOnDragOverLeft(false);
+              setOnDragOverRight(true);
+            } else {
+              setOnDragOverLeft(false);
+              setOnDragOverRight(false);
+            }
+          }}
+          onDragLeave={() => {
+            setOnDragOverLeft(false);
+            setOnDragOverRight(false);
+          }}
+          onDrop={() => {
+            if (onDragOverLeft) {
+              props.onDrop(props.index);
+            } else if (onDragOverRight) {
+              props.onDrop(props.index + 1);
+            }
+            setOnDragOverLeft(false);
+            setOnDragOverRight(false);
+          }}
+        ></div>
       </div>
 
       {!inHold && (
@@ -467,6 +480,22 @@ function MacroKeyView(props: MacroKeyViewProps) {
   );
 }
 
+function doesDragRightEdge(event: React.DragEvent<HTMLDivElement>) {
+  const cursorX = event.clientX;
+  const div = event.target as HTMLDivElement;
+  const divRight = div.offsetLeft + div.offsetWidth;
+  const diff = divRight - cursorX;
+  return 0 <= diff && diff < 10;
+}
+
+function doesDragLeftEdge(event: React.DragEvent<HTMLDivElement>) {
+  const cursorX = event.clientX;
+  const div = event.target as HTMLDivElement;
+  const divLeft = div.offsetLeft;
+  const diff = cursorX - divLeft;
+  return 0 <= diff && diff < 10;
+}
+
 type MacroKeyHoldProps = {
   index: number;
   macroKey: Hold;
@@ -482,64 +511,115 @@ type MacroKeyHoldProps = {
 };
 function MacroKeyHold(props: MacroKeyHoldProps) {
   const [onDragOver, setOnDragOver] = useState<boolean>(false);
+  const [onDragOverLeftEdge, setOnDragOverLeftEdge] = useState<boolean>(false);
+  const [onDragOverRightEdge, setOnDragOverRightEdge] = useState<boolean>(
+    false
+  );
+
   return (
-    <div
-      className={['macro-hold-wrapper', 'macro-hold'].join(' ')}
-      draggable={true}
-      onDragStart={(event) => {
-        event.stopPropagation();
-        props.onDragStart(props.index, NaN, props.macroKey);
-      }}
-      onDragOver={(event) => {
-        event.preventDefault();
-        setOnDragOver(true);
-      }}
-      onDragLeave={(event) => {
-        setOnDragOver(false);
-      }}
-      onDrop={(event) => {
-        setOnDragOver(false);
-      }}
-    >
-      <div className="macro-hold-keys">
-        {props.macroKey.keys.map((key, index) => {
-          return (
-            <MacroKeyView
-              key={`macro-keys-hold-${props.index}-${index}`}
-              index={index}
-              macroKey={key}
-              holdIndex={props.index}
-              onDrop={(droppedIndex) => {
-                props.onDrop(props.index, droppedIndex);
-              }}
-              onDragStart={(draggingIndex) => {
-                props.onDragStart(props.index, draggingIndex, {
-                  key: key,
-                  type: MacroTap,
-                });
-              }}
-              onDelete={(index) => {
-                props.onDelete(props.index, index);
-              }}
-            />
-          );
-        })}
+    <div>
+      <div
+        className={[
+          'macro-hold-wrapper',
+          'macro-hold',
+          onDragOverLeftEdge && 'drag-over-left',
+          onDragOverRightEdge && 'drag-over-right',
+        ].join(' ')}
+        draggable={true}
+        onDragStart={(event) => {
+          event.stopPropagation();
+          props.onDragStart(props.index, NaN, props.macroKey);
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setOnDragOver(true);
+
+          if (doesDragLeftEdge(event)) {
+            setOnDragOverLeftEdge(true);
+            setOnDragOverRightEdge(false);
+          } else if (doesDragRightEdge(event)) {
+            setOnDragOverLeftEdge(false);
+            setOnDragOverRightEdge(true);
+          }
+        }}
+        onDrop={() => {
+          if (onDragOverLeftEdge) {
+            props.onDrop(props.index, NaN);
+          } else if (onDragOverRightEdge) {
+            props.onDrop(props.index + 1, NaN);
+          }
+          setOnDragOverLeftEdge(false);
+          setOnDragOverRightEdge(false);
+        }}
+        onDragLeave={() => {
+          setOnDragOverLeftEdge(false);
+          setOnDragOverRightEdge(false);
+        }}
+      >
+        <div className="macro-hold-keys">
+          {props.macroKey.keys.map((key, index) => {
+            return (
+              <MacroKeyView
+                key={`macro-keys-hold-${props.index}-${index}`}
+                index={index}
+                macroKey={key}
+                holdIndex={props.index}
+                onDrop={(droppedIndex) => {
+                  props.onDrop(props.index, droppedIndex);
+                }}
+                onDragStart={(draggingIndex) => {
+                  props.onDragStart(props.index, draggingIndex, {
+                    key: key,
+                    type: MacroTap,
+                  });
+                }}
+                onDelete={(index) => {
+                  props.onDelete(props.index, index);
+                }}
+              />
+            );
+          })}
+        </div>
+        <div className="macro-key-under">
+          <Button
+            className="macro-key-toggle-tap-hold-btn"
+            size="small"
+            color="primary"
+            variant="text"
+            disableElevation
+            onClick={() => {
+              props.onChangeType(props.index);
+            }}
+          >
+            <SwapHorizIcon />
+            TAP
+          </Button>
+        </div>
       </div>
-      <div className="macro-key-under">
-        <Button
-          className="macro-key-toggle-tap-hold-btn"
-          size="small"
-          color="primary"
-          variant="text"
-          disableElevation
-          onClick={() => {
-            props.onChangeType(props.index);
+      {props.isDraggingAscii && onDragOver && (
+        <div
+          className="prevent-drop-macro"
+          style={{ width: 6 + props.macroKey.keys.length * 64 }}
+          onDragOver={(event) => {
+            event.preventDefault();
+            setOnDragOver(true);
+          }}
+          onDragLeave={() => {
+            setOnDragOver(false);
+            setOnDragOverLeftEdge(false);
+            setOnDragOverRightEdge(false);
+          }}
+          onDrop={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            setOnDragOver(false);
+            setOnDragOverLeftEdge(false);
+            setOnDragOverRightEdge(false);
           }}
         >
-          <SwapHorizIcon />
-          TAP
-        </Button>
-      </div>
+          NO ASCII IN HOLD
+        </div>
+      )}
     </div>
   );
 }
@@ -562,7 +642,6 @@ function DropKeyArea(props: DropKeyAreaProps) {
         setOnDragOver(false);
       }}
       onDrop={() => {
-        console.log(`onDrop: ${props.index}`);
         setOnDragOver(false);
         props.onDrop(props.index);
       }}

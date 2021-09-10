@@ -8,7 +8,7 @@
 }
 
 .macro-editor-content {
-  width: 656px;
+  width: 662px;
   display: flex;
   flex-direction: column;
 
@@ -27,7 +27,7 @@
     align-items: center;
     min-height: 90px;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: hidden;
     z-index: 1;
     padding: 4px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -61,37 +61,37 @@
   }
 }
 
-.macro-hold-content {
+.prevent-drop-macro {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 93px;
+  margin-top: -93px;
   z-index: 2;
-  .prevent-drop-macro-key {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    top: -1px; // border width
-    left: -1px; // border width
-    padding: 4px;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 3px;
-    font-weight: 600;
-    color: white;
-  }
+  padding: 2px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-size: 0.67rem;
+  font-weight: 600;
 }
 
 .macro-hold-wrapper {
   padding-top: 8px;
   padding-bottom: 2px;
   padding-right: 4px;
+  padding-left: 4px;
   margin-top: 2px;
   margin-right: 2px;
   border: 1px solid white;
   border-radius: 3px;
 
   .macro-key-wrapper {
+    position: relative;
     padding: 0 2px;
     border-left: 2px solid rgba(1, 1, 1, 0);
     border-right: 2px solid rgba(1, 1, 1, 0);
@@ -99,6 +99,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    z-index: 2;
 
     .macro-key {
       width: calc(var(--key-width));
@@ -109,8 +110,6 @@
       flex-direction: column;
       background-color: white;
       color: #333;
-
-      z-index: 1;
       align-items: center;
       justify-content: center;
 
@@ -158,6 +157,13 @@
       }
     }
 
+    .macro-key-drop-area {
+      width: 100%;
+      height: calc(var(--key-width));
+      margin-top: calc(var(--key-width) * -1);
+      background-color: rgba(1, 1, 1, 0);
+    }
+
     .macro-key-tap {
       border-color: $primary-light;
       color: $primary;
@@ -169,12 +175,6 @@
       color: $primary;
       box-shadow: 0px 0px 2px $primary-pale;
     }
-  }
-  .drag-over-left {
-    border-left: 2px solid $primary;
-  }
-  .drag-over-right {
-    border-right: 2px solid $primary;
   }
 
   .macro-key-under {
@@ -188,6 +188,13 @@
       font-size: 0.6rem !important;
     }
   }
+}
+
+.drag-over-left {
+  border-left: 2px solid $primary !important;
+}
+.drag-over-right {
+  border-right: 2px solid $primary !important;
 }
 
 .macro-drop-key-area {
