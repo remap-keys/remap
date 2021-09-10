@@ -13,7 +13,7 @@ import {
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { range } from '../../utils/ArrayUtils';
-import { IMacroBuffer } from '../macro/Macro';
+import { encodeMacroText, IMacroBuffer } from '../macro/Macro';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -204,7 +204,8 @@ export class KeyCategory {
           console.error(macroKeysResult.error!);
           continue;
         }
-        macroKeymaps[i] = { ...macroKeymaps[i], desc: 'hogehoge' }; // TODO: macroの文字列を生成する
+        const desc = encodeMacroText(macroKeysResult.macroKeys);
+        macroKeymaps[i] = { ...macroKeymaps[i], desc };
       }
     }
     // set desc text

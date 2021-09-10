@@ -27,6 +27,27 @@ export const isHold = (item: Tap | Hold): item is Hold => {
   return item.type === MacroHold;
 };
 
+export function encodeMacroText(macroKeys: MacroKey[]): string {
+  function escape(char: string): string {
+    if (char === ',') {
+      return '\\,';
+    }
+    return char;
+  }
+  const textList: string[] = [];
+  macroKeys.forEach((macro) => {
+    if (isTap(macro)) {
+      textList.push(escape(macro.key.label));
+    } else if (isHold(macro)) {
+      const holdLabel = `{${macro.keys
+        .map((key) => escape(key.label))
+        .join(',')}}`;
+      textList.push(holdLabel);
+    }
+  });
+  return textList.join(',');
+}
+
 export type IGetMacroKeysResult = {
   success: boolean;
   error?: string;
@@ -48,6 +69,7 @@ export interface IMacro {
   getBytes(): Uint8Array;
   // eslint-disable-next-line no-unused-vars
   generateMacroKeys(labelLang: KeyboardLabelLang): IGetMacroKeysResult;
+  generateMacroText(): string;
   // eslint-disable-next-line no-unused-vars
   updateMacroKeys(macroKeys: MacroKey[]): void;
 }
@@ -186,6 +208,10 @@ export class Macro implements IMacro {
       success: true,
       macroKeys,
     };
+  }
+
+  generateMacroText(): string {
+    return '';
   }
 
   updateMacroKeys(macroKeys: MacroKey[]) {
