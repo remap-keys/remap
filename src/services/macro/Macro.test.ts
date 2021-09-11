@@ -179,7 +179,7 @@ describe('Macro', () => {
       }
       expect(actual.macroKeys[1].type).toEqual('tap');
       if (isTap(actual.macroKeys[1])) {
-        expect(actual.macroKeys[1].key.label).toEqual('Y');
+        expect(actual.macroKeys[1].key.label).toEqual('y');
         expect(actual.macroKeys[1].key.meta).toEqual('');
         expect(actual.macroKeys[1].key.metaRight).toBeUndefined();
         expect(actual.macroKeys[1].key.keymap.code).toEqual(0x1c);
@@ -191,7 +191,7 @@ describe('Macro', () => {
       expect(actual.macroKeys[2].type).toEqual('hold');
       if (isHold(actual.macroKeys[2])) {
         expect(actual.macroKeys[2].keys.length).toEqual(1);
-        expect(actual.macroKeys[2].keys[0].label).toEqual('T');
+        expect(actual.macroKeys[2].keys[0].label).toEqual('t');
         expect(actual.macroKeys[2].keys[0].meta).toEqual('');
         expect(actual.macroKeys[2].keys[0].metaRight).toBeUndefined();
         expect(actual.macroKeys[2].keys[0].keymap.code).toEqual(0x17);
@@ -325,7 +325,7 @@ describe('Macro', () => {
       expect(actual.macroKeys.length).toEqual(3);
       expect(actual.macroKeys[0].type).toEqual('tap');
       if (isTap(actual.macroKeys[0])) {
-        expect(actual.macroKeys[0].key.label).toEqual('X');
+        expect(actual.macroKeys[0].key.label).toEqual('x');
         expect(actual.macroKeys[0].key.meta).toEqual('');
         expect(actual.macroKeys[0].key.metaRight).toBeUndefined();
         expect(actual.macroKeys[0].key.keymap.code).toEqual(0x1b);
@@ -336,7 +336,7 @@ describe('Macro', () => {
       }
       expect(actual.macroKeys[1].type).toEqual('tap');
       if (isTap(actual.macroKeys[1])) {
-        expect(actual.macroKeys[1].key.label).toEqual('Y');
+        expect(actual.macroKeys[1].key.label).toEqual('y');
         expect(actual.macroKeys[1].key.meta).toEqual('');
         expect(actual.macroKeys[1].key.metaRight).toBeUndefined();
         expect(actual.macroKeys[1].key.keymap.code).toEqual(0x1c);
@@ -347,7 +347,7 @@ describe('Macro', () => {
       }
       expect(actual.macroKeys[2].type).toEqual('tap');
       if (isTap(actual.macroKeys[2])) {
-        expect(actual.macroKeys[2].key.label).toEqual('Z');
+        expect(actual.macroKeys[2].key.label).toEqual('z');
         expect(actual.macroKeys[2].key.meta).toEqual('');
         expect(actual.macroKeys[2].key.metaRight).toBeUndefined();
         expect(actual.macroKeys[2].key.keymap.code).toEqual(0x1d);
@@ -385,13 +385,13 @@ describe('Macro', () => {
       expect(actual.macroKeys[0].type).toEqual('hold');
       if (isHold(actual.macroKeys[0])) {
         expect(actual.macroKeys[0].keys.length).toEqual(2);
-        expect(actual.macroKeys[0].keys[0].label).toEqual('X');
+        expect(actual.macroKeys[0].keys[0].label).toEqual('x');
         expect(actual.macroKeys[0].keys[0].meta).toEqual('');
         expect(actual.macroKeys[0].keys[0].metaRight).toBeUndefined();
         expect(actual.macroKeys[0].keys[0].keymap.code).toEqual(0x1b);
         expect(actual.macroKeys[0].keys[0].keymap.isAscii).toBeFalsy();
         expect(actual.macroKeys[0].keys[0].keymap.isAny).toBeFalsy();
-        expect(actual.macroKeys[0].keys[1].label).toEqual('Y');
+        expect(actual.macroKeys[0].keys[1].label).toEqual('y');
         expect(actual.macroKeys[0].keys[1].meta).toEqual('');
         expect(actual.macroKeys[0].keys[1].metaRight).toBeUndefined();
         expect(actual.macroKeys[0].keys[1].keymap.code).toEqual(0x1c);
@@ -403,7 +403,7 @@ describe('Macro', () => {
       expect(actual.macroKeys[1].type).toEqual('hold');
       if (isHold(actual.macroKeys[1])) {
         expect(actual.macroKeys[1].keys.length).toEqual(1);
-        expect(actual.macroKeys[1].keys[0].label).toEqual('Z');
+        expect(actual.macroKeys[1].keys[0].label).toEqual('z');
         expect(actual.macroKeys[1].keys[0].meta).toEqual('');
         expect(actual.macroKeys[1].keys[0].metaRight).toBeUndefined();
         expect(actual.macroKeys[1].keys[0].keymap.code).toEqual(0x1d);
