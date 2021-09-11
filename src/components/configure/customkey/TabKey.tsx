@@ -16,6 +16,8 @@ import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import { TabKeyActionsType, TabKeyStateType } from './TabKey.container';
+import { IMacroBuffer, MacroBuffer } from '../../../services/macro/Macro';
 
 type OwnProps = {
   autoFocus: boolean;
@@ -30,10 +32,14 @@ type OwnProps = {
     opt: IKeymap
   ) => void;
 };
+type TabKeyProps = OwnProps &
+  Partial<TabKeyActionsType> &
+  Partial<TabKeyStateType>;
+
 type OwnState = {};
-export default class TabKey extends React.Component<OwnProps, OwnState> {
+export default class TabKey extends React.Component<TabKeyProps, OwnState> {
   private static basicKeymaps: { [pos: string]: IKeymap[] } = {};
-  constructor(props: OwnProps | Readonly<OwnProps>) {
+  constructor(props: TabKeyProps | Readonly<OwnProps>) {
     super(props);
     this.state = {};
   }
@@ -98,6 +104,18 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
     return factory.isLayerMod();
   }
 
+  private createMacroBuffer(): IMacroBuffer {
+    const macroBufferBytes = this.props.macroBufferBytes!;
+    const macroMaxBufferSize = this.props.macroMaxBufferSize!;
+    const macroMaxCount = this.props.macroMaxCount!;
+    const macroBuffer: IMacroBuffer = new MacroBuffer(
+      macroBufferBytes,
+      macroMaxCount,
+      macroMaxBufferSize
+    );
+    return macroBuffer;
+  }
+
   private getBasicKeymaps() {
     const labelLang = this.props.labelLang;
 
@@ -105,6 +123,7 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       return TabKey.basicKeymaps[labelLang];
     }
     const layerCount = this.props.layerCount;
+    const macroBuffer = this.createMacroBuffer();
     const keymaps = [
       ...KeyCategory.basic(labelLang),
       ...KeyCategory.symbol(labelLang),
@@ -115,6 +134,11 @@ export default class TabKey extends React.Component<OwnProps, OwnState> {
       ...KeyCategory.special(labelLang),
       ...KeyCategory.device(labelLang),
       ...KeyCategory.midi(),
+      ...KeyCategory.macro(
+        this.props.macroMaxCount || 0,
+        macroBuffer,
+        labelLang
+      ),
       // ...KeyCategory.macro(),
     ];
 

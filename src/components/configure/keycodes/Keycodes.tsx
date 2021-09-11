@@ -164,7 +164,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       ...(macroEditMode
         ? []
         : KeyCategory.macro(
-            this.props.maxMacroCount || 0,
+            this.props.macroMaxCount || 0,
             macroBuffer,
             labelLang
           )),

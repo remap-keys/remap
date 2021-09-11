@@ -30,7 +30,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(MacroActionsThunk.updateMacroKeys(macroKeys));
     },
     flashMacro: () => {
-      _dispatch(MacroActionsThunk.saveMacro());
+      _dispatch(MacroActionsThunk.flashMacro());
     },
   };
 };
