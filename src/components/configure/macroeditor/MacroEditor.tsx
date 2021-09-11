@@ -86,7 +86,7 @@ export default class MacroEditor extends React.Component<
 
     setTimeout(() => {
       this.setState({ flashButtonState: 'success' });
-    }, 1300);
+    }, 1500);
 
     setTimeout(() => {
       this.setState({ flashButtonState: 'enable' });

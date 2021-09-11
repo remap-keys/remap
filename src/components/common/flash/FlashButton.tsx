@@ -27,13 +27,15 @@ export default class FlashButton extends React.Component<
 
   render() {
     return (
-      <button
-        onClick={this.onClick.bind(this)}
-        className={['flash-button', this.props.buttonState].join(' ')}
-        disabled={this.props.buttonState != 'enable'}
-      >
-        {this.props.label}
-      </button>
+      <div className="flash-button-wrapper">
+        <button
+          onClick={this.onClick.bind(this)}
+          className={['flash-button', this.props.buttonState].join(' ')}
+          disabled={this.props.buttonState != 'enable'}
+        >
+          {this.props.label}
+        </button>
+      </div>
     );
   }
 }

@@ -1,5 +1,11 @@
 @import '../../../_variables.scss';
 
+.flash-button-wrapper {
+  width: 7rem;
+  justify-content: center;
+  align-items: center;
+}
+
 /*==== FLASH BUTTON ====*/
 @keyframes button-disable-intro {
   0% {
@@ -21,16 +27,19 @@
 }
 @keyframes button-flashing {
   0% {
+    margin: auto;
   }
 
   20% {
     color: transparent;
+
     transform: scale(1, 1);
   }
 
   40% {
     border-color: $primary;
     background-color: transparent;
+
     transform: scale(1, 1);
   }
 
@@ -64,6 +73,7 @@
 
   60% {
     opacity: 0.8;
+
     transform: scale(1, 1);
   }
 
@@ -75,6 +85,7 @@
 @keyframes button-dot-pulse {
   0% {
     opacity: 0.6;
+
     transform: scale(0.75, 0.75);
   }
 
@@ -92,6 +103,7 @@
 
   100% {
     opacity: 0.9;
+
     transform: scale(0.75, 0.75);
   }
 }
@@ -108,15 +120,14 @@
 
   20% {
     opacity: 1;
-    margin: 0;
     width: 7rem;
+
     transform: scale(1, 1);
   }
 
   80% {
     opacity: 1;
     width: 7rem;
-    transform: scale(1, 1);
     border-color: $primary;
   }
 
@@ -183,6 +194,8 @@
   }
 
   &.flashing {
+    display: flex;
+    margin: auto;
     height: 40px;
     animation: button-flashing 0.5s forwards;
   }
@@ -203,6 +216,8 @@
   }
 
   &.success {
+    display: flex;
+    margin: auto;
     text-indent: 0;
     color: transparent;
     background-color: white;
