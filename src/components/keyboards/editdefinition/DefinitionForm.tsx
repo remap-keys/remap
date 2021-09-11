@@ -196,10 +196,14 @@ export default function DefinitionForm(props: DefinitionFormProps) {
         </div>
         <div className="edit-definition-form-notice">
           <p>
-            * Only JSON files by the keyboards maintainer will be accepted (specified in the config.h). Do NOT infringe on the rights of the original creator. We will validate authorship of the keyboard you requested in our review process.
+            * Only JSON files by the keyboards maintainer will be accepted
+            (specified in the config.h). Do NOT infringe on the rights of the
+            original creator. We will validate authorship of the keyboard you
+            requested in our review process.
           </p>
           <p>
-            * We will validate if your keyboard has a unique combination of the Vendor ID, Product ID, and Product Name in our review process.
+            * We will validate if your keyboard has a unique combination of the
+            Vendor ID, Product ID, and Product Name in our review process.
           </p>
         </div>
       </div>
