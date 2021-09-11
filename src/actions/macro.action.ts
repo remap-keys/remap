@@ -9,6 +9,7 @@ import {
 } from '../services/macro/Macro';
 import { NotificationActions } from './actions';
 import { HidActions } from './hid.action';
+import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 
 export const MACRO_EDITOR_ACTIONS = '@MacroEditor';
 export const MACRO_EDITOR_UPDATE_KEY = `${MACRO_EDITOR_ACTIONS}/UpdateMacroKey`;
@@ -109,11 +110,18 @@ export const MacroActionsThunk = {
     dispatch(MacroEditorActions.updateMacroKeys(macroKeys));
   },
 
-  saveMacro: (): ThunkPromiseAction<void> => async (
+  flashMacro: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     const { configure, entities } = getState();
+    const keyboard = entities.keyboard!;
+    sendEventToGoogleAnalytics('configure/flash_macro', {
+      vendor_id: keyboard.getInformation().vendorId,
+      product_id: keyboard.getInformation().productId,
+      product_name: keyboard.getInformation().productName,
+    });
+
     const macroBuffer = configure.macroEditor.macroBuffer;
     const bytes = macroBuffer!.getBytes();
     const maxMacroBufferSize = entities.device.macro.maxBufferSize;

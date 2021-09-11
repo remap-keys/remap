@@ -29,7 +29,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateMacroKeys: (macroKeys: MacroKey[]) => {
       _dispatch(MacroActionsThunk.updateMacroKeys(macroKeys));
     },
-    saveMacro: () => {
+    flashMacro: () => {
       _dispatch(MacroActionsThunk.saveMacro());
     },
   };

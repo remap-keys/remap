@@ -80,9 +80,9 @@ export default class MacroEditor extends React.Component<
     });
   }
 
-  private onClickSave() {
+  private onClickFlash() {
     this.setState({ flashButtonState: 'flashing' });
-    this.props.saveMacro!();
+    this.props.flashMacro!();
 
     setTimeout(() => {
       this.setState({ flashButtonState: 'success' });
@@ -417,7 +417,7 @@ export default class MacroEditor extends React.Component<
                 label="FLASH"
                 duration={2500}
                 buttonState={flashButtonState}
-                onClick={this.onClickSave.bind(this)}
+                onClick={this.onClickFlash.bind(this)}
               />
             </div>
           </div>
