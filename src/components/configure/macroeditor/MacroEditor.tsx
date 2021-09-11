@@ -20,6 +20,7 @@ import {
   Tap,
 } from '../../../services/macro/Macro';
 import lodash from 'lodash';
+import FlashButton, { FlashButtonState } from '../../common/flash/FlashButton';
 
 const KEY_DIFF_HEIGHT = 78;
 
@@ -29,6 +30,7 @@ type MacroEditorOwnState = {
   draggingKey: MacroKey | null;
   draggingIndex: number; // index of macro key list
   draggingHoldIndex: number; // index of Hold key list
+  flashButtonState: FlashButtonState;
 };
 
 type MacroEditorProps = MacroEditorOwnProps &
@@ -45,11 +47,11 @@ export default class MacroEditor extends React.Component<
       draggingKey: null,
       draggingIndex: NaN,
       draggingHoldIndex: NaN,
+      flashButtonState: 'enable',
     };
   }
 
   private addKey(index: number, indexInHold: number, newKey: Key) {
-    console.log(`${index} / ${indexInHold}`);
     const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
     if (Number.isNaN(indexInHold)) {
       const tap: Tap = { key: newKey, type: MacroTap };
@@ -79,7 +81,16 @@ export default class MacroEditor extends React.Component<
   }
 
   private onClickSave() {
+    this.setState({ flashButtonState: 'flashing' });
     this.props.saveMacro!();
+
+    setTimeout(() => {
+      this.setState({ flashButtonState: 'success' });
+    }, 1300);
+
+    setTimeout(() => {
+      this.setState({ flashButtonState: 'enable' });
+    }, 2500);
   }
 
   private moveKey(
@@ -165,6 +176,36 @@ export default class MacroEditor extends React.Component<
     this.props.updateMacroKeys!(macroKeys);
   }
 
+  shouldComponentUpdate(
+    _nextProps: MacroEditorProps,
+    nextState: MacroEditorOwnState
+  ) {
+    if (
+      nextState.flashButtonState === 'enable' ||
+      nextState.flashButtonState === 'disable'
+    ) {
+      return true;
+    }
+
+    // in animation: will be changed 'success'
+    if (
+      this.state.flashButtonState === 'flashing' &&
+      nextState.flashButtonState === 'flashing'
+    ) {
+      return false;
+    }
+
+    // in animation: will be changed 'enable'
+    if (
+      this.state.flashButtonState === 'success' &&
+      nextState.flashButtonState === 'success'
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   onDragStart(
     draggingIndex: number,
     draggingHoldIndex: number,
@@ -237,10 +278,26 @@ export default class MacroEditor extends React.Component<
   }
 
   render() {
+    let flashButtonState: FlashButtonState = this.state.flashButtonState;
+
     const remainingBytesLength =
       this.props.maxMacroBufferSize! -
       this.props.macroBuffer!.getBytes().length;
+
     const canSave = 0 < remainingBytesLength;
+    if (!canSave) {
+      flashButtonState = 'disable';
+    }
+
+    if (
+      0 < this.props.notifications!.length &&
+      flashButtonState === 'success'
+    ) {
+      // Prevent to show success action because something wrong with flashing the macro
+      flashButtonState = 'enable';
+      this.setState({ flashButtonState: 'enable' });
+    }
+
     const isDraggingAscii = this.state.draggingKey
       ? isTap(this.state.draggingKey)
         ? Boolean(this.state.draggingKey.key.keymap.isAscii)
@@ -346,28 +403,22 @@ export default class MacroEditor extends React.Component<
               />
             </div>
             <div className="macro-editor-content-footer">
-              <div className="macro-editor-encode-text" />
-              <div className="macro-editor-buttons">
-                <Button
-                  size="small"
-                  variant="text"
-                  color="primary"
-                  disableElevation
-                  onClick={this.props.closeMacroEditor!.bind(this)}
-                >
-                  CANCEL
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  disableElevation
-                  disabled={!canSave}
-                  onClick={this.onClickSave.bind(this)}
-                >
-                  SAVE
-                </Button>
-              </div>
+              <Button
+                size="small"
+                variant="text"
+                color="primary"
+                disableElevation
+                onClick={this.props.closeMacroEditor!.bind(this)}
+              >
+                BACK
+              </Button>
+              <FlashButton
+                size="small"
+                label="FLASH"
+                duration={2500}
+                buttonState={flashButtonState}
+                onClick={this.onClickSave.bind(this)}
+              />
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
-import { KeycodeKeyActions, KeycodesActions } from '../../../actions/actions';
+import { KeycodeKeyActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -24,9 +24,6 @@ export type KeycodesStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    setMacro: (code: number | undefined, text: string) => {
-      _dispatch(KeycodesActions.updateMacro(code, text));
-    },
     releaseSelectedKey: () => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(null));
     },

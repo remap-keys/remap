@@ -53,11 +53,8 @@
     flex-wrap: wrap;
     padding: 8px;
 
-    .macro-editor-buttons {
-      margin-left: auto;
-      :last-child {
-        margin-left: 8px;
-      }
+    :last-child {
+      margin-left: auto !important;
     }
   }
 }

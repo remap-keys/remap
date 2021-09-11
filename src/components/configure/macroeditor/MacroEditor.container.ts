@@ -16,6 +16,7 @@ const mapStateToProps = (state: RootState) => {
     macroKeys: state.configure.macroEditor.macroKeys,
     maxMacroBufferSize: state.entities.device.macro.maxBufferSize,
     macroBuffer: state.configure.macroEditor.macroBuffer,
+    notifications: state.app.notifications,
   };
 };
 export type MacroEditorStateType = ReturnType<typeof mapStateToProps>;

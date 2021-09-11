@@ -129,6 +129,9 @@ export const MacroActionsThunk = {
       return;
     }
     dispatch(HidActions.updateMacroBufferBytes(newBufferBytes));
-    dispatch(MacroEditorActions.clearMacroKey());
+
+    //dispatch(MacroEditorActions.clearMacroKey());
+    const key: Key = configure.macroEditor.key!;
+    dispatch(MacroActionsThunk.updateMacroKey(key));
   },
 };
