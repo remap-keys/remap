@@ -5919,7 +5919,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'MI_MODSD',
         short: 'MI_MODSD',
       },
-      label: 'MIDI Mud Speed -',
+      label: 'MIDI Mod Speed -',
 
       keywords: ['midi modulation speed minus'],
     },
