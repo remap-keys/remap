@@ -10,11 +10,12 @@ import {
   ConfigureActionsType,
   ConfigureStateType,
 } from './Configure.container';
-import appPackage from '../../package.alias.json';
 import { NotificationItem } from '../../actions/actions';
 import { Button } from '@material-ui/core';
 import { IKeyboard } from '../../services/hid/Hid';
 import Footer from '../common/footer/Footer.container';
+
+const APPLICATION_NAME = 'Remap';
 
 type OwnProps = {};
 type ConfigureProps = OwnProps &
@@ -74,7 +75,7 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     const hasKeysToFlush = this.props.remaps!.reduce((has, v) => {
       return 0 < Object.values(v).length || has;
     }, false);
-    const title = hasKeysToFlush ? `*${appPackage.name}` : appPackage.name;
+    const title = hasKeysToFlush ? `*${APPLICATION_NAME}` : APPLICATION_NAME;
     this.props.updateTitle!(title);
   }
 
@@ -104,9 +105,10 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       });
       return;
     }
-    const version = appPackage.version;
-    const name = appPackage.name;
-    this.props.initAppPackage!(name, version);
+    this.props.initAppPackage!(
+      APPLICATION_NAME,
+      String(this.props.buildNumber!)
+    );
 
     if (this.props.auth) {
       this.props.auth.subscribeAuthStatus((user) => {
