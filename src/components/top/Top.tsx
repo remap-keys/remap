@@ -170,66 +170,64 @@ class Top extends React.Component<TopPropsType, TopState> {
                 image={browserAccess}
                 imageTitle="Direct Access"
                 title="Direct Access"
-                description="You can configure your keyboard from Web
-                      Browser directly without installing app."
+                description="Configure your keyboard from the Web
+                      Browser without installing an app."
               />
               <FeatureCard
                 key={2}
                 image={keyAssign}
-                imageTitle="Easy key assign"
+                imageTitle="Easy key Assign"
                 title="Easy key assign"
-                description="Allow you to assign a complex keymap easily including Hold/Tap and etc."
+                description="Easily assign complex keycodes including Hold,Tap, and more."
               />
               <FeatureCard
                 key={3}
                 image={keymap}
-                imageTitle="Save/Restore Keymap"
-                title="Save/Restore Keymap"
-                description="Apply one of saved key mappings, on demand, anytime and easily."
+                imageTitle="Save/Restore Keymaps"
+                title="Save/Restore Keymaps"
+                description="Apply one of your saved key mappings, on demand, anytime and easily."
               />
               <FeatureCard
                 key={4}
                 image={shareKeymap}
-                imageTitle="Share Keymap"
-                title="Share Keymap"
-                description="Find your best key mapping from key mappings shared by users."
+                imageTitle="Share Keymaps"
+                title="Share Keymaps"
+                description="Find or share a keymap with the community."
               />
               <FeatureCard
                 key={5}
                 image={lighting}
                 imageTitle="Lighting Control"
                 title="Lighting Control"
-                description="Simple UI for controlling Backlight and Underglow LED lighting"
+                description="Simple UI for controlling Backlight and Underglow LED lighting."
               />
               <FeatureCard
                 key={6}
                 image={keyLayout}
                 imageTitle="Key Layout"
                 title="Key Layout"
-                description="Intuitive customization according to the actual key
-                      layout."
+                description="Intuitive customization according to the physical key layout."
               />
               <FeatureCard
                 key={7}
                 image={predefinedKeys}
                 imageTitle="Pre-defined Keys"
                 title="Pre-defined Keys"
-                description="Provide many Pre-defined keys to enable remap your key
-                      mapping easily."
+                description="Many Pre-defined keycodes to remap your keyboard easily."
               />
               <FeatureCard
                 key={8}
                 image={diff}
-                imageTitle="Show Difference"
-                title="Show Difference"
-                description="Easy-to-understand display of keymap changes."
+                imageTitle="Compare Changes"
+                title="Compare Changes"
+                description="Easy-to-understand ui to highlight changes made to the keymap."
               />
               <FeatureCard
                 key={9}
                 image={textMatrix}
                 imageTitle="Test Matrix"
                 title="Test Matrix"
-                description="Allows you to test key switches work normally after building your keyboard."
+                description="Allows you to test if your changes work after building the keyboard."
               />
             </Grid>
           </Container>

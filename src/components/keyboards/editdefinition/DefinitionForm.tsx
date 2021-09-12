@@ -196,15 +196,14 @@ export default function DefinitionForm(props: DefinitionFormProps) {
         </div>
         <div className="edit-definition-form-notice">
           <p>
-            * You can submit the JSON file written by you only. Do NOT infringe
-            of the right of person who created the original JSON file. We check
-            whether you are valid author of the keyboard you request in our
-            review process, but notice that we can&quot;t insure the validity
-            completely.
+            * Only JSON files by the keyboards maintainer will be accepted
+            (specified in the config.h). Do NOT infringe on the rights of the
+            original creator. We will validate authorship of the keyboard you
+            requested in our review process.
           </p>
           <p>
-            * We check whether the keyboard you request has a unique combination
-            of the Vendor ID, Product ID and Product Name in our review process.
+            * We will validate if your keyboard has a unique combination of the
+            Vendor ID, Product ID, and Product Name in our review process.
           </p>
         </div>
       </div>
@@ -348,7 +347,7 @@ function ProductNameRow(props: ProductNameRowProps) {
         <TextField
           id="edit-definition-product-name"
           label="Product Name"
-          helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+          helperText="This is the Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
           variant="outlined"
           value={props.productName}
           InputProps={{
@@ -365,7 +364,7 @@ function ProductNameRow(props: ProductNameRowProps) {
             inputRef={props.refInputProductName}
             id="edit-definition-product-name"
             label="Product Name"
-            helperText="This is a Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+            helperText="This is the Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
             variant="outlined"
             required={true}
             value={props.productName}
@@ -431,7 +430,7 @@ function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
       <div className="edit-definition-form-row">
         <TextField
           id="edit-definition-firmware-code-place"
-          label="Where is the source code of this keyboard's firmware?"
+          label="Firmware source location:"
           variant="outlined"
           value={value}
           InputProps={{
@@ -465,7 +464,7 @@ function EvidenceForQmkRepository(props: EvidenceForQmkRepositoryProps) {
             id="edit-definition-qmk-repository-pull-request-url"
             label="1st Pull Request URL"
             variant="outlined"
-            helperText="Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers."
+            helperText="URL of the 1st Pull Request into the QMK repository for this keyboard. This information will be confirmed by reviewers."
             value={props.qmkRepositoryFirstPullRequestUrl || ''}
             onChange={(e) =>
               props.updateQmkRepositoryFirstPullRequestUrl!(e.target.value)
