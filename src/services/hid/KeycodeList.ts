@@ -9,6 +9,7 @@ export type KeymapCategory =
   | IKeycodeCompositionKind
   | 'any'
   | 'app'
+  | 'ascii'
   | 'backlight'
   | 'bootmagic'
   | 'cadet'

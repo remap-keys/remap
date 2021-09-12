@@ -21,6 +21,12 @@
   }
   .key-category {
     margin: 0 $space-m;
+    &.key-category-empty-keys {
+      button:disabled {
+        color: $color-gray-400;
+        background-color: #ffffff00;
+      }
+    }
     button {
       font-weight: 400;
       background-color: #ffffff00;

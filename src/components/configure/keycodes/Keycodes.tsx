@@ -11,6 +11,15 @@ import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { genKeys, Key } from '../keycodekey/KeyGen';
 import { CATEGORY_LABEL_BMP } from '../../../services/hid/KeycodeInfoListBmp';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import {
+  CATEGORY_LABEL_ASCII,
+  macroCodeFilter,
+} from '../../../services/hid/MacroCodes';
+import {
+  convertQmkLabel,
+  IMacroBuffer,
+  MacroBuffer,
+} from '../../../services/macro/Macro';
 
 type OwnProps = {};
 
@@ -34,14 +43,36 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     };
   }
 
-  private addBmpCategory(categoryKeys: { [category: string]: Key[] }) {
-    const bmpLabel: string = CATEGORY_LABEL_BMP;
-    if (!Object.prototype.hasOwnProperty.call(categoryKeys, bmpLabel)) {
-      categoryKeys[bmpLabel] = genKeys(
-        KeyCategory.bmp(),
-        this.props.labelLang!
-      );
+  private addAsciiCategory(categoryKeys: { [category: string]: Key[] }) {
+    const asciiLabel: string = CATEGORY_LABEL_ASCII;
+    if (!Object.prototype.hasOwnProperty.call(categoryKeys, asciiLabel)) {
+      categoryKeys[asciiLabel] = genKeys(KeyCategory.ascii());
     }
+  }
+
+  private addBmpCategory(
+    categoryKeys: { [category: string]: Key[] },
+    macroEditMode: boolean
+  ) {
+    const bmpLabel: string = CATEGORY_LABEL_BMP;
+    const bmp = macroEditMode
+      ? macroCodeFilter(KeyCategory.bmp())
+      : KeyCategory.bmp();
+    if (!Object.prototype.hasOwnProperty.call(categoryKeys, bmpLabel)) {
+      categoryKeys[bmpLabel] = genKeys(bmp, this.props.labelLang!);
+    }
+  }
+
+  private createMacroBuffer(): IMacroBuffer {
+    const macroBufferBytes = this.props.macroBufferBytes!;
+    const macroMaxBufferSize = this.props.macroMaxBufferSize!;
+    const macroMaxCount = this.props.macroMaxCount!;
+    const macroBuffer: IMacroBuffer = new MacroBuffer(
+      macroBufferBytes,
+      macroMaxCount,
+      macroMaxBufferSize
+    );
+    return macroBuffer;
   }
 
   /**
@@ -101,34 +132,92 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     }
   }
 
+  private removeAsciiCategory(categoryKeys: { [category: string]: Key[] }) {
+    const asciiLabel: string = CATEGORY_LABEL_ASCII;
+    if (Object.prototype.hasOwnProperty.call(categoryKeys, asciiLabel)) {
+      delete categoryKeys[asciiLabel];
+    }
+  }
+
   private onChangeSearchText(event: any) {
     const searchText = event.target.value;
     this.setState({ searchText });
   }
 
-  private refreshCategoryKeys(labelLang: KeyboardLabelLang) {
+  private refreshCategoryKeys(
+    labelLang: KeyboardLabelLang,
+    macroEditMode: boolean
+  ) {
+    const macroBuffer: IMacroBuffer | null = macroEditMode
+      ? null
+      : this.createMacroBuffer();
+    const basic = macroEditMode
+      ? macroCodeFilter(KeyCategory.basic(labelLang))
+      : KeyCategory.basic(labelLang);
+    const symbol = macroEditMode
+      ? macroCodeFilter(KeyCategory.symbol(labelLang))
+      : KeyCategory.symbol(labelLang);
+    const functions = [
+      ...(macroEditMode
+        ? macroCodeFilter(KeyCategory.functions(labelLang))
+        : KeyCategory.functions(labelLang)),
+      ...(macroEditMode
+        ? []
+        : KeyCategory.macro(
+            this.props.macroMaxCount || 0,
+            macroBuffer,
+            labelLang
+          )),
+    ];
+    const layers = macroEditMode
+      ? macroCodeFilter(KeyCategory.layer(this.props.layerCount!))
+      : KeyCategory.layer(this.props.layerCount!);
+    const device = macroEditMode
+      ? macroCodeFilter(KeyCategory.device(labelLang))
+      : KeyCategory.device(labelLang);
+    const special = macroEditMode
+      ? macroCodeFilter(KeyCategory.special(labelLang))
+      : KeyCategory.special(labelLang);
+    const midi = macroEditMode
+      ? macroCodeFilter(KeyCategory.midi())
+      : KeyCategory.midi();
+
     const categoryKeys: { [category: string]: Key[] } = {
-      Basic: genKeys(KeyCategory.basic(labelLang), this.props.labelLang!),
-      Symbol: genKeys(KeyCategory.symbol(labelLang), this.props.labelLang!),
-      Functions: genKeys(
-        KeyCategory.functions(labelLang),
-        this.props.labelLang!
-      ),
-      Layer: genKeys(
-        KeyCategory.layer(this.props.layerCount!),
-        this.props.labelLang!
-      ),
-      Device: genKeys(KeyCategory.device(labelLang), this.props.labelLang!),
+      Basic: genKeys(basic, this.props.labelLang!),
+      Symbol: genKeys(symbol, this.props.labelLang!),
+      Functions: genKeys(functions, this.props.labelLang!),
+      Layer: genKeys(layers, this.props.labelLang!),
+      Device: genKeys(device, this.props.labelLang!),
       // Macro: genKeys(KeyCategory.macro()),
-      Special: genKeys(KeyCategory.special(labelLang), this.props.labelLang!),
-      Midi: genKeys(KeyCategory.midi(), this.props.labelLang!),
+      Special: genKeys(special, this.props.labelLang!),
+      Midi: genKeys(midi, this.props.labelLang!),
     };
-    if (this.props.bleMicroPro) {
-      this.addBmpCategory(categoryKeys);
+    if (this.props.bleMicroPro && !macroEditMode) {
+      this.addBmpCategory(categoryKeys, macroEditMode);
     } else {
       this.removeBmpCategory(categoryKeys);
     }
+
+    if (macroEditMode) {
+      this.rewriteQmkLabels(categoryKeys.Basic);
+      this.addAsciiCategory(categoryKeys);
+    } else {
+      this.removeAsciiCategory(categoryKeys);
+    }
+
     this.setState({ categoryKeys });
+  }
+
+  /**
+   * Change the label of A-Z with QMK keycode to lower case when Macro Edit Mode
+   * because it's easy for users to understand the actual keycode the macro has.
+   * The macro which includes KC_A will send the key of 'a' not 'A'.
+   * @param keys target Key array
+   */
+  private rewriteQmkLabels(keys: Key[]) {
+    keys.forEach((key) => {
+      convertQmkLabel(key);
+    });
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -147,12 +236,20 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
   }
 
   componentDidMount() {
-    this.refreshCategoryKeys(this.props.labelLang!);
+    this.refreshCategoryKeys(this.props.labelLang!, false);
   }
 
   componentDidUpdate(prevProps: KeycodesProps) {
-    if (this.props.labelLang != prevProps.labelLang) {
-      this.refreshCategoryKeys(prevProps.labelLang || 'en-us');
+    if (
+      this.props.labelLang != prevProps.labelLang ||
+      this.props.macroKey != prevProps.macroKey
+    ) {
+      const isMacroEditMode = Boolean(this.props.macroKey);
+      this.refreshCategoryKeys(prevProps.labelLang || 'en-us', isMacroEditMode);
+
+      if (!isMacroEditMode && this.state.category === CATEGORY_LABEL_ASCII) {
+        this.selectCategory('Basic');
+      }
     }
   }
 
@@ -171,14 +268,22 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     } else {
       keys = [];
     }
+    const macrEditMode = this.props.macroKey != null;
     return (
       <React.Fragment>
         <div className="key-categories">
           {Object.keys(this.state.categoryKeys).map((cat, index) => {
+            const len = this.state.categoryKeys[cat].length;
             return (
-              <div className="key-category" key={index}>
+              <div
+                className={[
+                  'key-category',
+                  len === 0 && 'key-category-empty-keys',
+                ].join(' ')}
+                key={index}
+              >
                 <Button
-                  disabled={this.state.category === cat}
+                  disabled={this.state.category === cat || len === 0}
                   onClick={this.selectCategory.bind(this, cat)}
                 >
                   {cat}
@@ -211,12 +316,14 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           }}
         >
           {keys.map((key, index) => {
+            const isMacro = key.keymap.kinds.includes('macro');
             return (
               <KeycodeKey
                 index={index}
                 key={`${this.state.category}${index}`}
                 value={key}
                 draggable={true}
+                clickable={isMacro && !macrEditMode}
               />
             );
           })}
@@ -231,46 +338,4 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       </React.Fragment>
     );
   }
-}
-
-type MacroType = {
-  selectedKey?: Key | null;
-  macroText?: string | null;
-
-  // eslint-disable-next-line no-unused-vars
-  onChangeMacroText: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-};
-
-// eslint-disable-next-line no-unused-vars
-function Macro(props: MacroType) {
-  return (
-    <div className="macro-wrapper">
-      <div className="macro">
-        <hr />
-        {props.selectedKey ? (
-          <div>{props.selectedKey!.label}</div>
-        ) : (
-          'Please click above key to input its macro'
-        )}
-
-        <textarea
-          placeholder={'{KC_A,KC_NO,KC_A,KC_B}'}
-          onChange={props.onChangeMacroText}
-          disabled={!props.selectedKey}
-          value={props.macroText || ''}
-        ></textarea>
-        <div>
-          Enter text directry, or wrap{' '}
-          <a href="https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes_basic">
-            Basic Keycodes
-          </a>{' '}
-          in {'{}'}.
-        </div>
-        <div>
-          Single tap: {'{KC_XXX}'}, Chord: {'{KC_XXX, KC_YYY, KC_ZZZ}'}.
-        </div>
-        <div>Type ? to search for keycodes.</div>
-      </div>
-    </div>
-  );
 }

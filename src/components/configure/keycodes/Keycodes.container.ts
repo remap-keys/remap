@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Keycodes from './Keycodes';
 import { RootState } from '../../../store/state';
-import { KeycodeKeyActions, KeycodesActions } from '../../../actions/actions';
+import { KeycodeKeyActions } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -13,15 +13,16 @@ const mapStateToProps = (state: RootState) => {
     labelLang: state.app.labelLang,
     bleMicroPro: state.entities.device.bleMicroPro,
     testMatrix: state.configure.keymapToolbar.testMatrix,
+    macroBufferBytes: state.entities.device.macro.bufferBytes,
+    macroMaxBufferSize: state.entities.device.macro.maxBufferSize,
+    macroMaxCount: state.entities.device.macro.maxCount,
+    macroKey: state.configure.macroEditor.key,
   };
 };
 export type KeycodesStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    setMacro: (code: number | undefined, text: string) => {
-      _dispatch(KeycodesActions.updateMacro(code, text));
-    },
     releaseSelectedKey: () => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(null));
     },

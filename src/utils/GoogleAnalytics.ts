@@ -2,12 +2,13 @@ import firebase from 'firebase/app';
 import 'firebase/analytics';
 
 type IActionName =
-  | 'configure/flash'
-  | 'configure/open'
   | 'configure/cheat_sheet'
   | 'configure/clear_all_changes'
-  | 'configure/lighting'
+  | 'configure/flash'
+  | 'configure/flash_macro'
   | 'configure/import_local_file'
+  | 'configure/lighting'
+  | 'configure/open'
   | 'configure/save_keymap'
   | 'configure/restore_keymap'
   | 'catalog/search'

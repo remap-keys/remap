@@ -55,6 +55,9 @@ import {
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
   HID_UPDATE_KEYMAPS,
+  HID_UPDATE_MACRO_BUFFER_BYTES,
+  HID_UPDATE_MACRO_MAX_BUFFER_SIZE,
+  HID_UPDATE_MACRO_MAX_COUNT,
 } from '../actions/hid.action';
 import {
   STORAGE_ACTIONS,
@@ -142,6 +145,14 @@ import {
   CATALOG_SEARCH_UPDATE_KEYWORD,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
+import {
+  MACRO_EDITOR_ACTIONS,
+  MACRO_EDITOR_CLEAR_KEY,
+  MACRO_EDITOR_UPDATE_KEY,
+  MACRO_EDITOR_UPDATE_MACRO,
+  MACRO_EDITOR_UPDATE_MACRO_BUFFER,
+  MACRO_EDITOR_UPDATE_MACRO_KEYS,
+} from '../actions/macro.action';
 
 export type Action = { type: string; value: any };
 
@@ -165,6 +176,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
       layoutOptionsReducer(action, draft);
+    } else if (action.type.startsWith(MACRO_EDITOR_ACTIONS)) {
+      macroEditorReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
@@ -544,6 +557,18 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.device.bleMicroPro = action.value;
       break;
     }
+    case HID_UPDATE_MACRO_BUFFER_BYTES: {
+      draft.entities.device.macro.bufferBytes = action.value;
+      break;
+    }
+    case HID_UPDATE_MACRO_MAX_BUFFER_SIZE: {
+      draft.entities.device.macro.maxBufferSize = action.value;
+      break;
+    }
+    case HID_UPDATE_MACRO_MAX_COUNT: {
+      draft.entities.device.macro.maxCount = action.value;
+      break;
+    }
   }
 };
 
@@ -702,6 +727,37 @@ const layoutOptionsReducer = (
     }
     case LAYOUT_OPTIONS_INIT_SELECTED_OPTION: {
       draft.configure.layoutOptions.selectedOptions = action.value;
+      break;
+    }
+  }
+};
+
+const macroEditorReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case MACRO_EDITOR_UPDATE_KEY: {
+      draft.configure.macroEditor.key = action.value;
+      break;
+    }
+    case MACRO_EDITOR_CLEAR_KEY: {
+      draft.configure.macroEditor.macroBuffer = null;
+      draft.configure.macroEditor.macro = null;
+      draft.configure.macroEditor.macroKeys = [];
+      draft.configure.macroEditor.key = null;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO_BUFFER: {
+      draft.configure.macroEditor.macroBuffer = action.value;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO: {
+      draft.configure.macroEditor.macro = action.value;
+      break;
+    }
+    case MACRO_EDITOR_UPDATE_MACRO_KEYS: {
+      draft.configure.macroEditor.macroKeys = action.value;
       break;
     }
   }

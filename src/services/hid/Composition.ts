@@ -2,6 +2,7 @@ import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 
 import {
+  KEY_CATEGORY_ASCII,
   KEY_SUB_CATEGORY_APPLICATION,
   KEY_SUB_CATEGORY_BACKLIGHT,
   KEY_SUB_CATEGORY_BLANK,
@@ -91,6 +92,9 @@ export const QK_UNICODE_MAX = 0b1111_1111_1111_1111;
 export const LOOSE_KEYCODE_MIN = 0b0101_1100_0000_0000;
 export const LOOSE_KEYCODE_MAX = 0b0101_1111_1111_1111;
 
+export const ASCII_MIN = 0b0000_0000_0000_0000;
+export const ASCII_MAX = 0b0000_0000_0111_1111;
+
 export type IKeycodeCompositionKind =
   | 'basic'
   | 'mods'
@@ -109,7 +113,8 @@ export type IKeycodeCompositionKind =
   | 'swap_hands'
   | 'mod_tap'
   | 'unicode'
-  | 'loose_keycode';
+  | 'loose_keycode'
+  | 'ascii';
 export const KeycodeCompositionKind: {
   // eslint-disable-next-line no-unused-vars
   [p in IKeycodeCompositionKind]: IKeycodeCompositionKind;
@@ -132,6 +137,7 @@ export const KeycodeCompositionKind: {
   mod_tap: 'mod_tap',
   unicode: 'unicode',
   loose_keycode: 'loose_keycode',
+  ascii: 'ascii',
 };
 
 const keycodeCompositionKindRangeMap: {
@@ -159,6 +165,7 @@ const keycodeCompositionKindRangeMap: {
   mod_tap: { min: QK_MOD_TAP_MIN, max: QK_MOD_TAP_MAX },
   unicode: { min: QK_UNICODE_MIN, max: QK_UNICODE_MAX },
   loose_keycode: { min: LOOSE_KEYCODE_MIN, max: LOOSE_KEYCODE_MAX },
+  ascii: { min: Number.MIN_VALUE, max: Number.MIN_VALUE }, // never match
 };
 
 export const MOD_CTL = 0b0001;
@@ -256,6 +263,7 @@ export interface IComposition {
   genKeymap(): IKeymap | undefined;
 }
 
+export interface IAsciiComposition extends IComposition {}
 export interface IBasicComposition extends IComposition {}
 export interface IModsComposition extends IComposition {
   getModDirection(): IModDirection;
@@ -329,6 +337,110 @@ export interface IUnicodeComposition extends IComposition {
 }
 
 export interface ILooseKeycodeComposition extends IComposition {}
+
+export class AsciiComposition implements IAsciiComposition {
+  private static _keymaps: IKeymap[];
+  private static _supportedAsciiCodes: number[];
+  private readonly key: IKeymap;
+
+  private static LABEL_DICT: { [code: string]: string } = {
+    '8': 'Back Space',
+    '9': 'Tab',
+    '27': 'Esc',
+    '32': 'Space',
+    '42': '*',
+    '127': 'Del',
+  };
+
+  constructor(key: IKeymap) {
+    this.key = key;
+  }
+
+  getCode(): number {
+    return this.key.code;
+  }
+
+  genKeymap(): IKeymap | undefined {
+    if (this.key) {
+      return JSON.parse(JSON.stringify(this.key));
+    } else {
+      return undefined;
+    }
+  }
+
+  static genKeymaps(): IKeymap[] {
+    if (AsciiComposition._keymaps) {
+      return AsciiComposition._keymaps;
+    }
+    AsciiComposition._keymaps = KEY_CATEGORY_ASCII.codes.map((code) =>
+      AsciiComposition.createKeymap(code)
+    );
+    return AsciiComposition._keymaps;
+  }
+
+  static createKeymap(code: number): IKeymap {
+    if (AsciiComposition.getSupportedAsciiCodes().includes(code)) {
+      const label = Object.prototype.hasOwnProperty.call(
+        AsciiComposition.LABEL_DICT,
+        '' + code
+      )
+        ? AsciiComposition.LABEL_DICT['' + code]
+        : String.fromCharCode(code);
+      const desc = `${label}`;
+      const keycodeInfo = {
+        code,
+        name: {
+          long: label,
+          short: label,
+        },
+        label: label,
+        keywords: [],
+      };
+      return {
+        code,
+        kinds: KEY_CATEGORY_ASCII.kinds,
+        desc,
+        keycodeInfo,
+        isAny: false,
+        isAscii: true,
+        direction: MOD_LEFT,
+        modifiers: [],
+      };
+    } else {
+      const label = hexadecimal(code);
+      return {
+        code,
+        kinds: KEY_CATEGORY_ASCII.kinds,
+        desc: label,
+        keycodeInfo: {
+          code,
+          name: {
+            long: label,
+            short: label,
+          },
+          label,
+          keywords: [],
+        },
+        isAny: true,
+        isAscii: true,
+        direction: MOD_LEFT,
+        modifiers: [],
+      };
+    }
+  }
+
+  static getSupportedAsciiCodes(): number[] {
+    if (AsciiComposition._supportedAsciiCodes) {
+      return AsciiComposition._supportedAsciiCodes;
+    }
+    const codes = keyInfoList.flatMap((info) => info.keycodeInfo.ascii || []);
+    AsciiComposition._supportedAsciiCodes = [
+      ...KEY_CATEGORY_ASCII.codes,
+      ...codes,
+    ].sort();
+    return AsciiComposition._supportedAsciiCodes;
+  }
+}
 
 export class BasicComposition implements IBasicComposition {
   private static _keymaps: { [lang: string]: IKeymap[] } = {};
@@ -1439,6 +1551,7 @@ export interface IKeycodeCompositionFactory {
   isUnicode(): boolean;
   isLooseKeycode(): boolean;
   isUnknown(): boolean;
+  isAscii(): boolean;
   getKind(): IKeycodeCompositionKind | null;
   createBasicComposition(): IBasicComposition;
   createModsComposition(): IModsComposition;
@@ -1458,6 +1571,7 @@ export interface IKeycodeCompositionFactory {
   createModTapComposition(): IModTapComposition;
   createUnicodeComposition(): IUnicodeComposition;
   createLooseKeycodeComposition(): ILooseKeycodeComposition;
+  createAsciiKeycodeComposition(): IAsciiComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -1569,6 +1683,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isUnknown(): boolean {
     return this.getKind() === null;
+  }
+
+  isAscii(): boolean {
+    return ASCII_MIN <= this.code && this.code <= ASCII_MAX;
   }
 
   createBasicComposition(): IBasicComposition {
@@ -1828,5 +1946,14 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       keymap = anyKeymap(this.code);
     }
     return new LooseKeycodeComposition(keymap);
+  }
+
+  createAsciiKeycodeComposition(): IAsciiComposition {
+    if (!this.isAscii()) {
+      throw new Error(
+        `This code is not an ascii code: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    return new AsciiComposition(AsciiComposition.createKeymap(this.code));
   }
 }

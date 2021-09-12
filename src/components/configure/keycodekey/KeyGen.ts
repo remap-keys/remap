@@ -78,7 +78,7 @@ function findKeytop(keymap: IKeymap, labels: KeyLabel[]): Keytop {
   return keytop;
 }
 
-export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
+export const genKey = (keymap: IKeymap, lang?: KeyboardLabelLang): Key => {
   if (keymap.isAny) {
     return {
       label: keymap.keycodeInfo
@@ -89,7 +89,16 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
     };
   }
 
-  if (KeyboardLabelLangs.includes(lang)) {
+  if (keymap.isAscii) {
+    return {
+      label: keymap.keycodeInfo.label,
+      meta: '',
+      metaRight: undefined,
+      keymap,
+    };
+  }
+
+  if (lang && KeyboardLabelLangs.includes(lang)) {
     const keytop: Keytop = findKeytop(keymap, KeyLabelLangs.getKeyLabels(lang));
 
     let newKeymap: IKeymap = keymap;
@@ -119,7 +128,7 @@ export const genKey = (keymap: IKeymap, lang: KeyboardLabelLang): Key => {
 
 export const genKeys = (
   keymaps: IKeymap[],
-  labelLang: KeyboardLabelLang
+  labelLang?: KeyboardLabelLang
 ): Key[] => {
   return keymaps.map<Key>((keymap) => genKey(keymap, labelLang));
 };

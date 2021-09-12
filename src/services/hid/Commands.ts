@@ -408,6 +408,57 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
   }
 }
 
+export interface IDynamicKeymapMacroGetCountResponse extends ICommandResponse {
+  count: number;
+}
+
+export class DynamicKeymapMacroGetCountCommand extends AbstractCommand<
+  ICommandRequest,
+  IDynamicKeymapMacroGetCountResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x0c]);
+  }
+
+  createResponse(resultArray: Uint8Array): IDynamicKeymapMacroGetCountResponse {
+    const count = resultArray[1];
+    return {
+      count,
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x0c;
+  }
+}
+
+export interface IDynamicKeymapMacroGetBufferSizeResponse
+  extends ICommandResponse {
+  bufferSize: number;
+}
+
+export class DynamicKeymapMacroGetBufferSizeCommand extends AbstractCommand<
+  ICommandRequest,
+  IDynamicKeymapMacroGetBufferSizeResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x0d]);
+  }
+
+  createResponse(
+    resultArray: Uint8Array
+  ): IDynamicKeymapMacroGetBufferSizeResponse {
+    const bufferSize = resultArray[1] << 8 || resultArray[2];
+    return {
+      bufferSize,
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x0d;
+  }
+}
+
 export interface ISwitchLayerStateResponse extends ICommandResponse {
   state: Uint8Array;
 }
@@ -456,6 +507,100 @@ export class GetLayoutOptionsCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return resultArray[0] === 0x02 && resultArray[1] === 0x02;
+  }
+}
+
+export interface IDynamicKeymapMacroGetBufferRequest extends ICommandRequest {
+  offset: number;
+  size: number;
+}
+
+export interface IDynamicKeymapMacroGetBufferResponse extends ICommandResponse {
+  offset: number;
+  size: number;
+  buffer: Uint8Array;
+}
+
+export class DynamicKeymapMacroGetBufferCommand extends AbstractCommand<
+  IDynamicKeymapMacroGetBufferRequest,
+  IDynamicKeymapMacroGetBufferResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([0x0e, req.offset >> 8, req.offset & 0xff, req.size]);
+  }
+
+  createResponse(
+    resultArray: Uint8Array
+  ): IDynamicKeymapMacroGetBufferResponse {
+    const offset = (resultArray[1] << 8) | resultArray[2];
+    const size = resultArray[3];
+    return {
+      offset,
+      size,
+      buffer: resultArray.slice(4),
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x0e &&
+      resultArray[1] === req.offset >> 8 &&
+      resultArray[2] === (req.offset & 0xff) &&
+      resultArray[3] === req.size
+    );
+  }
+}
+
+export interface IDynamicKeymapMacroSetBufferRequest extends ICommandRequest {
+  offset: number;
+  size: number;
+  buffer: Uint8Array;
+}
+
+export interface IDynamicKeymapMacroSetBufferResponse extends ICommandResponse {
+  offset: number;
+  size: number;
+  buffer: Uint8Array;
+}
+
+export class DynamicKeymapMacroSetBufferCommand extends AbstractCommand<
+  IDynamicKeymapMacroSetBufferRequest,
+  IDynamicKeymapMacroSetBufferResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    const buf = new Uint8Array(4 + Math.min(req.buffer.length, 28));
+    buf[0] = 0x0f;
+    buf[1] = req.offset >> 8;
+    buf[2] = req.offset & 0xff;
+    buf[3] = req.size;
+    buf.set(req.buffer, 4);
+    return buf;
+  }
+
+  createResponse(
+    resultArray: Uint8Array
+  ): IDynamicKeymapMacroSetBufferResponse {
+    const offset = (resultArray[1] << 8) | resultArray[2];
+    const size = resultArray[3];
+    const buffer = resultArray.slice(4);
+    return {
+      offset,
+      size,
+      buffer,
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x0f &&
+      resultArray[1] === req.offset >> 8 &&
+      resultArray[2] === (req.offset & 0xff) &&
+      resultArray[3] === req.size
+    );
   }
 }
 

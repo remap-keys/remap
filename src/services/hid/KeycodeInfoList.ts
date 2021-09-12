@@ -57,6 +57,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 4,
+      ascii: 97,
       name: {
         long: 'KC_A',
         short: 'KC_A',
@@ -69,6 +70,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 5,
+      ascii: 98,
       name: {
         long: 'KC_B',
         short: 'KC_B',
@@ -81,6 +83,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 6,
+      ascii: 99,
       name: {
         long: 'KC_C',
         short: 'KC_C',
@@ -93,6 +96,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 7,
+      ascii: 100,
       name: {
         long: 'KC_D',
         short: 'KC_D',
@@ -105,6 +109,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 8,
+      ascii: 101,
       name: {
         long: 'KC_E',
         short: 'KC_E',
@@ -117,6 +122,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 9,
+      ascii: 102,
       name: {
         long: 'KC_F',
         short: 'KC_F',
@@ -129,6 +135,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 10,
+      ascii: 103,
       name: {
         long: 'KC_G',
         short: 'KC_G',
@@ -141,6 +148,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 11,
+      ascii: 104,
       name: {
         long: 'KC_H',
         short: 'KC_H',
@@ -153,6 +161,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 12,
+      ascii: 105,
       name: {
         long: 'KC_I',
         short: 'KC_I',
@@ -165,6 +174,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 13,
+      ascii: 106,
       name: {
         long: 'KC_J',
         short: 'KC_J',
@@ -177,6 +187,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 14,
+      ascii: 107,
       name: {
         long: 'KC_K',
         short: 'KC_K',
@@ -189,6 +200,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 15,
+      ascii: 108,
       name: {
         long: 'KC_L',
         short: 'KC_L',
@@ -201,6 +213,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 16,
+      ascii: 109,
       name: {
         long: 'KC_M',
         short: 'KC_M',
@@ -213,6 +226,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 17,
+      ascii: 110,
       name: {
         long: 'KC_N',
         short: 'KC_N',
@@ -225,6 +239,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 18,
+      ascii: 111,
       name: {
         long: 'KC_O',
         short: 'KC_O',
@@ -237,6 +252,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 19,
+      ascii: 112,
       name: {
         long: 'KC_P',
         short: 'KC_P',
@@ -249,6 +265,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 20,
+      ascii: 113,
       name: {
         long: 'KC_Q',
         short: 'KC_Q',
@@ -261,6 +278,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 21,
+      ascii: 114,
       name: {
         long: 'KC_R',
         short: 'KC_R',
@@ -273,6 +291,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 22,
+      ascii: 115,
       name: {
         long: 'KC_S',
         short: 'KC_S',
@@ -285,6 +304,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 23,
+      ascii: 116,
       name: {
         long: 'KC_T',
         short: 'KC_T',
@@ -297,6 +317,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 24,
+      ascii: 117,
       name: {
         long: 'KC_U',
         short: 'KC_U',
@@ -309,6 +330,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 25,
+      ascii: 118,
       name: {
         long: 'KC_V',
         short: 'KC_V',
@@ -321,6 +343,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 26,
+      ascii: 119,
       name: {
         long: 'KC_W',
         short: 'KC_W',
@@ -333,6 +356,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 27,
+      ascii: 120,
       name: {
         long: 'KC_X',
         short: 'KC_X',
@@ -345,6 +369,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 28,
+      ascii: 121,
       name: {
         long: 'KC_Y',
         short: 'KC_Y',
@@ -357,6 +382,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 29,
+      ascii: 122,
       name: {
         long: 'KC_Z',
         short: 'KC_Z',
@@ -369,6 +395,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 30,
+      ascii: 49,
       name: {
         long: 'KC_1',
         short: 'KC_1',
@@ -381,6 +408,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 31,
+      ascii: 50,
       name: {
         long: 'KC_2',
         short: 'KC_2',
@@ -393,6 +421,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 32,
+      ascii: 51,
       name: {
         long: 'KC_3',
         short: 'KC_3',
@@ -405,6 +434,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 33,
+      ascii: 52,
       name: {
         long: 'KC_4',
         short: 'KC_4',
@@ -417,6 +447,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 34,
+      ascii: 53,
       name: {
         long: 'KC_5',
         short: 'KC_5',
@@ -429,6 +460,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 35,
+      ascii: 54,
       name: {
         long: 'KC_6',
         short: 'KC_6',
@@ -441,6 +473,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 36,
+      ascii: 55,
       name: {
         long: 'KC_7',
         short: 'KC_7',
@@ -453,6 +486,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 37,
+      ascii: 56,
       name: {
         long: 'KC_8',
         short: 'KC_8',
@@ -465,6 +499,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 38,
+      ascii: 57,
       name: {
         long: 'KC_9',
         short: 'KC_9',
@@ -477,6 +512,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 39,
+      ascii: 48,
       name: {
         long: 'KC_0',
         short: 'KC_0',
@@ -501,6 +537,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 41,
+      ascii: 27,
       name: {
         long: 'KC_ESCAPE',
         short: 'KC_ESC',
@@ -514,6 +551,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Delete (Backspace)',
     keycodeInfo: {
       code: 42,
+      ascii: 8,
       name: {
         long: 'KC_BSPACE',
         short: 'KC_BSPC',
@@ -527,6 +565,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 43,
+      ascii: 9,
       name: {
         long: 'KC_TAB',
         short: 'KC_TAB',
@@ -539,6 +578,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 44,
+      ascii: 32,
       name: {
         long: 'KC_SPACE',
         short: 'KC_SPC',
@@ -551,6 +591,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 45,
+      ascii: 45,
       name: {
         long: 'KC_MINUS',
         short: 'KC_MINS',
@@ -564,6 +605,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 46,
+      ascii: 61,
       name: {
         long: 'KC_EQUAL',
         short: 'KC_EQL',
@@ -577,6 +619,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 47,
+      ascii: 91,
       name: {
         long: 'KC_LBRACKET',
         short: 'KC_LBRC',
@@ -601,6 +644,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 49,
+      ascii: 92,
       name: {
         long: 'KC_BSLASH',
         short: 'KC_BSLS',
@@ -625,6 +669,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 51,
+      ascii: 59,
       name: {
         long: 'KC_SCOLON',
         short: 'KC_SCLN',
@@ -637,6 +682,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 52,
+      ascii: 39,
       name: {
         long: 'KC_QUOTE',
         short: 'KC_QUOT',
@@ -649,6 +695,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '` and ~, JIS Zenkaku/Hankaku',
     keycodeInfo: {
       code: 53,
+      ascii: 96,
       name: {
         long: 'KC_GRAVE',
         short: 'KC_ZKHK',
@@ -661,6 +708,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 54,
+      ascii: 44,
       name: {
         long: 'KC_COMMA',
         short: 'KC_COMM',
@@ -673,6 +721,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 55,
+      ascii: 46,
       name: {
         long: 'KC_DOT',
         short: 'KC_DOT',
@@ -685,6 +734,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 56,
+      ascii: 47,
       name: {
         long: 'KC_SLASH',
         short: 'KC_SLSH',
@@ -925,6 +975,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Forward Delete',
     keycodeInfo: {
       code: 76,
+      ascii: 127,
       name: {
         long: 'KC_DELETE',
         short: 'KC_DEL',

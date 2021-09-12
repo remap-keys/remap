@@ -32,3 +32,10 @@ export const outputUint8Array = (title: string, array: Uint8Array) => {
 
 export const range = (start: number, end: number): number[] =>
   Array.from({ length: end - start + 1 }, (v, k) => k + start);
+
+export const cloneUint8Array = (source: Uint8Array): Uint8Array => {
+  const newBuffer = new ArrayBuffer(source.byteLength);
+  const newArray = new Uint8Array(newBuffer);
+  newArray.set(source);
+  return newArray;
+};

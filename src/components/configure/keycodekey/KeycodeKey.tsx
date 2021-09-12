@@ -6,6 +6,7 @@ import {
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
 import { Key } from './KeyGen';
+import { Edit as EditIcon } from '@material-ui/icons';
 
 export type AnyKey = {
   label: string;
@@ -22,6 +23,7 @@ export type KeycodeKeyOwnProps = {
   index?: number;
   value: Key;
   draggable: boolean;
+  clickable?: boolean;
 };
 
 export type KeycodeKeyProps = KeycodeKeyOwnProps &
@@ -45,11 +47,19 @@ export default class KeycodeKey extends React.Component<
   };
 
   private clickKey = (value: Key) => {
-    if (value.keymap.isAny && !!value.keymap.keycodeInfo) {
-      const info = value.keymap.keycodeInfo;
-      this.setState({ openDialog: true, selectedKey: { ...info } });
+    if (!this.props.clickable) return;
+
+    if (value.keymap.isAny) {
+      if (value.keymap.keycodeInfo) {
+        const info = value.keymap.keycodeInfo;
+        this.setState({ openDialog: true, selectedKey: { ...info } });
+      }
     } else {
-      this.props.selectKey!(value);
+      if (value.keymap.kinds.includes('macro')) {
+        this.props.selectMacroKey!(value);
+      } else {
+        this.props.selectKey!(value);
+      }
     }
   };
 
@@ -82,11 +92,11 @@ export default class KeycodeKey extends React.Component<
             'keycodekey',
             this.props.selected && 'selected',
             draggable && 'grabbable',
+            this.props.clickable && 'clickable',
             this.state.dragging && 'dragging',
           ].join(' ')}
           onMouseEnter={this.hoverKey.bind(this, this.props.value)}
           onMouseLeave={this.hoverKey.bind(this, null)}
-          onClick={this.clickKey.bind(this, this.props.value)}
           draggable={draggable}
           onDragStart={() => {
             this.setState({ dragging: true });
@@ -103,6 +113,14 @@ export default class KeycodeKey extends React.Component<
             modifierLabel={modifierLabel}
             modifierRightLabel={modifierRightLabel}
           />
+          {this.props.clickable ? (
+            <div
+              className="edit-icon"
+              onClick={this.clickKey.bind(this, this.props.value)}
+            >
+              <EditIcon color="action" fontSize="small" />
+            </div>
+          ) : null}
         </div>
         <AnyKeyDialog
           open={this.state.openDialog}

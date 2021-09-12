@@ -12,6 +12,8 @@
   margin-right: 8px;
   margin-top: 8px;
   z-index: 1;
+  position: relative;
+
   &.grabbable {
     cursor: grab;
   }
@@ -24,15 +26,22 @@
   &.dragging-keycodekey {
   }
 
-  &.clickable {
-    cursor: pointer;
-  }
-
   &.addkey {
     border: 1px dashed #ccc;
     &:hover {
       background-color: $primary-pale;
       transition: background-color 0.5s;
+    }
+  }
+
+  .edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 2px;
+    cursor: pointer;
+    svg {
+      width: 14px;
+      height: 14px;
     }
   }
 

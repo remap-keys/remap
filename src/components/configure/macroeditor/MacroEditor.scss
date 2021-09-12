@@ -1,0 +1,222 @@
+@import '../../../variables';
+
+.macro-editor-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.macro-editor-content {
+  width: 662px;
+  display: flex;
+  flex-direction: column;
+
+  &-title {
+    background-color: white;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 1;
+    padding: 8px;
+  }
+  &-keys {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 90px;
+    width: 100%;
+    overflow-x: hidden;
+    z-index: 1;
+    padding: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    .macro-hold-with-spacer {
+      display: flex;
+      flex-direction: row;
+      .macro-drop-spacer {
+        width: 4px;
+        height: 90px;
+        margin-top: 2px;
+        margin-right: 2px;
+        background-color: white;
+      }
+      .macro-drop-spacer-over {
+        background-color: $primary;
+      }
+    }
+  }
+  &-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px;
+
+    :last-child {
+      margin-left: auto !important;
+    }
+  }
+}
+
+.macro-hold {
+  border: 1px solid $primary-light !important;
+
+  &:hover {
+    cursor: grab;
+  }
+
+  .macro-hold-keys {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.prevent-drop-macro {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 93px;
+  margin-top: -93px;
+  z-index: 2;
+  padding: 2px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-size: 0.67rem;
+  font-weight: 600;
+}
+
+.macro-hold-wrapper {
+  padding-top: 8px;
+  padding-bottom: 2px;
+  padding-right: 4px;
+  padding-left: 4px;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid white;
+  border-radius: 3px;
+
+  .macro-key-wrapper {
+    position: relative;
+    padding: 0 2px;
+    border-left: 2px solid rgba(1, 1, 1, 0);
+    border-right: 2px solid rgba(1, 1, 1, 0);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+
+    .macro-key {
+      width: calc(var(--key-width));
+      height: calc(var(--key-height));
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      color: #333;
+      align-items: center;
+      justify-content: center;
+
+      &-label {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.1;
+        font-size: 0.72rem;
+        overflow-wrap: anywhere;
+        overflow: hidden;
+        padding: 2px;
+        height: 40%;
+      }
+
+      &:hover {
+        cursor: grab;
+      }
+
+      &-top {
+        display: flex;
+        width: 100%;
+        padding: 0 4px;
+        justify-content: flex-end;
+        a {
+          font-size: 0.7rem;
+          cursor: pointer;
+          color: $primary-light;
+        }
+      }
+
+      &-middle {
+        font-weight: 600;
+        a {
+          cursor: pointer;
+        }
+      }
+
+      &-bottom {
+        font-size: 0.6rem;
+        a {
+          font-size: 0.7rem;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .macro-key-tap {
+      border-color: $primary-light;
+      color: $primary;
+      box-shadow: 0px 0px 4px $primary-light;
+    }
+
+    .macro-key-hold {
+      border-color: $primary-pale;
+      color: $primary;
+      box-shadow: 0px 0px 2px $primary-pale;
+    }
+  }
+
+  .macro-key-under {
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    .macro-key-toggle-tap-hold-btn {
+      color: $primary;
+      font-weight: 600;
+      font-size: 0.6rem !important;
+    }
+  }
+}
+
+.drag-over-left {
+  border-left: 2px solid $primary !important;
+}
+.drag-over-right {
+  border-right: 2px solid $primary !important;
+}
+
+.macro-drop-key-area {
+  height: 81px; // same height as macro-key-wrapper
+  flex-grow: 1;
+  margin-bottom: 8px; // same margin as macro-key-wrapper
+  margin-left: -2px; // align the drag mark border(2px)
+  .macro-drop-key-content {
+    width: 100%;
+    height: 100%;
+  }
+  &-with-message {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    font-size: medium;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    color: $color-gray-600;
+  }
+}

@@ -7,6 +7,7 @@ import {
 } from '../../../actions/actions';
 import { IKeycodeInfo } from '../../../services/hid/Hid';
 import { Key } from './KeyGen';
+import { MacroActionsThunk } from '../../../actions/macro.action';
 
 export class KeycodeInfo implements IKeycodeInfo {
   readonly code: number;
@@ -38,6 +39,9 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     selectKey: (key: Key) => {
       _dispatch(KeycodeKeyActions.updateSelectedKey(key));
+    },
+    selectMacroKey: (key: Key) => {
+      _dispatch(MacroActionsThunk.updateMacroKey(key));
     },
     hoverKey: (key: Key | null) => {
       _dispatch(KeycodeKeyActions.updateHoverKey(key));

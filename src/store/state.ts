@@ -18,6 +18,7 @@ import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
+import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 
 export type ISetupPhase =
   | 'init'
@@ -165,6 +166,11 @@ export type RootState = {
         [id: number]: string;
       };
       bleMicroPro: boolean;
+      macro: {
+        bufferBytes: Uint8Array;
+        maxBufferSize: number;
+        maxCount: number;
+      };
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -231,6 +237,13 @@ export type RootState = {
     };
     layoutOptions: {
       selectedOptions: LayoutOption[];
+    };
+    macroEditor: {
+      key: Key | null;
+      keys: Key[];
+      macroBuffer: IMacroBuffer | null;
+      macro: IMacro | null;
+      macroKeys: MacroKey[];
     };
   };
   keyboards: {
@@ -336,6 +349,11 @@ export const INIT_STATE: RootState = {
       keymaps: [],
       macros: {},
       bleMicroPro: false,
+      macro: {
+        bufferBytes: new Uint8Array(),
+        maxBufferSize: 0,
+        maxCount: 0,
+      },
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]
@@ -399,6 +417,13 @@ export const INIT_STATE: RootState = {
     },
     layoutOptions: {
       selectedOptions: [],
+    },
+    macroEditor: {
+      key: null,
+      keys: [],
+      macroBuffer: null,
+      macro: null,
+      macroKeys: [],
     },
   },
   keyboards: {

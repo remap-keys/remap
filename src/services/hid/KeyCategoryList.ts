@@ -1,5 +1,6 @@
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import {
+  AsciiComposition,
   BasicComposition,
   DefLayerComposition,
   LayerTapToggleComposition,
@@ -12,6 +13,7 @@ import {
 } from './Composition';
 import { IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { range } from '../../utils/ArrayUtils';
+import { encodeMacroText, IMacroBuffer } from '../macro/Macro';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -22,7 +24,12 @@ export class KeyCategory {
   private static _device: { [pos: string]: IKeymap[] } = {};
   private static _midi: IKeymap[];
   private static _bmp: IKeymap[];
-  private static _macro: IKeymap[];
+
+  static ascii(): IKeymap[] {
+    // No need to be cached here because AsciiComposition has the cache.
+    const keymaps: IKeymap[] = AsciiComposition.genKeymaps();
+    return keymaps;
+  }
 
   static basic(labelLang: KeyboardLabelLang): IKeymap[] {
     if (Object.prototype.hasOwnProperty.call(KeyCategory._basic, labelLang)) {
@@ -175,13 +182,34 @@ export class KeyCategory {
     return KeyCategory._midi;
   }
 
-  static macro(): IKeymap[] {
-    if (KeyCategory._macro) return KeyCategory._macro;
+  static macro(
+    maxMacroCount: number,
+    macroBuffer: IMacroBuffer | null,
+    labelLang: KeyboardLabelLang
+  ): IKeymap[] {
+    if (KEY_SUB_CATEGORY_MACRO.codes.length < maxMacroCount) {
+      throw new Error(`Invalid max macro count: ${maxMacroCount}`);
+    }
 
-    KeyCategory._macro = KEY_SUB_CATEGORY_MACRO.codes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
-    );
-    return KeyCategory._macro;
+    const macroKeymaps = KEY_SUB_CATEGORY_MACRO.codes
+      .map((code) => LooseKeycodeComposition.findKeymap(code)!)
+      .slice(0, maxMacroCount);
+
+    if (macroBuffer) {
+      const macros = macroBuffer.generateMacros();
+      for (let i = 0; i < macros.length; i++) {
+        const macro = macros[i];
+        const macroKeysResult = macro.generateMacroKeys(labelLang);
+        if (!macroKeysResult.success) {
+          console.error(macroKeysResult.error!);
+          continue;
+        }
+        const desc = encodeMacroText(macroKeysResult.macroKeys);
+        macroKeymaps[i] = { ...macroKeymaps[i], desc };
+      }
+    }
+    // set desc text
+    return macroKeymaps;
   }
 }
 
@@ -546,4 +574,57 @@ export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
 export const KEY_SUB_CATEGORY_MIDI: IKeycodeCategoryInfo = {
   kinds: ['midi'],
   codes: range(23596, 23738),
+};
+
+// ASCII
+export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
+  kinds: ['ascii'],
+  codes: [
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    40,
+    41,
+    42,
+    43,
+    60,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    94,
+    95,
+    123,
+    124,
+    125,
+    126,
+  ],
 };

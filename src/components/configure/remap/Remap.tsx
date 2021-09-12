@@ -7,6 +7,7 @@ import Keymap from '../keymap/Keymap.container';
 import { RemapActionsType, RemapStateType } from './Remap.container';
 import { Key } from '../keycodekey/KeyGen';
 import { kinds2CategoriyLabel } from '../customkey/AutocompleteKeys';
+import MacroEditor from '../macroeditor/MacroEditor.container';
 
 type OwnProp = {};
 type RemapPropType = OwnProp &
@@ -42,9 +43,7 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
           className="keyboard-wrapper"
           style={{ minWidth: this.state.minWidth }}
         >
-          <div className="keymap">
-            <Keymap />
-          </div>
+          <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
         </div>
         <div className="keycode" style={{ minWidth: this.state.minWidth }}>
           <Keycodes />
@@ -52,6 +51,27 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
         <Desc value={this.props.hoverKey} />
       </React.Fragment>
     );
+  }
+}
+
+type EditModeType = {
+  mode: 'keymap' | 'macro';
+};
+function EditMode(props: EditModeType) {
+  if (props.mode === 'keymap') {
+    return (
+      <div className="keymap">
+        <Keymap />
+      </div>
+    );
+  } else if (props.mode === 'macro') {
+    return (
+      <div className="macro">
+        <MacroEditor />
+      </div>
+    );
+  } else {
+    return <div></div>;
   }
 }
 
@@ -63,16 +83,19 @@ function Desc(props: DescType) {
   if (props.value.keymap.isAny) return <div className="keycode-desc">Any</div>;
   if (props.value.keymap.keycodeInfo) {
     const info = props.value.keymap.keycodeInfo!;
-    const hex = hexadecimal(info.code);
+    const isAscii = props.value.keymap.isAscii;
+    const code = info.code;
+    const hex = hexadecimal(code);
     const categories = kinds2CategoriyLabel(props.value.keymap.kinds);
     const desc = props.value.keymap.desc ? ': ' + props.value.keymap.desc : '';
     const keycodeName = props.value.keymap.keycodeInfo.name.long;
+    const label = isAscii ? `ASCII(${keycodeName})` : keycodeName;
     return (
       <div className="keycode-desc">
         <div className="keycode-desc-label">
           {`/${categories}/${props.value.label}${desc}`}
         </div>
-        <div className="keycode-desc-detail">{`${keycodeName} | ${hex}(${info.code})`}</div>
+        <div className="keycode-desc-detail">{`${label} | ${hex}(${code})`}</div>
       </div>
     );
   } else {
