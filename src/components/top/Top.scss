@@ -26,3 +26,11 @@
 .card-content {
   flex-grow: 1;
 }
+
+.feature-image {
+  width: 100%;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}

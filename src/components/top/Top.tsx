@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
   Container,
   CssBaseline,
   Grid,
@@ -22,6 +21,7 @@ import diff from '../../assets/images/top/diff.png';
 import keymap from '../../assets/images/top/keymap.png';
 import shareKeymap from '../../assets/images/top/share-keymap.png';
 import textMatrix from '../../assets/images/top/text-matrix.png';
+import macro from '../../assets/images/top/macro.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -39,9 +39,11 @@ const FeatureCard = (props: IFeatureCardProps) => {
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className="card">
-        <CardMedia
-          className="card-media"
-          image={props.image}
+        <div
+          className="feature-image"
+          style={{
+            backgroundImage: `url(${props.image})`,
+          }}
           title={props.imageTitle}
         />
         <CardContent className="card-content">
@@ -203,6 +205,13 @@ class Top extends React.Component<TopPropsType, TopState> {
               />
               <FeatureCard
                 key={6}
+                image={macro}
+                imageTitle="Macro"
+                title="Macro Editor"
+                description="Macro Editor provides a way to define multiple keystrokes easily"
+              />
+              <FeatureCard
+                key={7}
                 image={keyLayout}
                 imageTitle="Key Layout"
                 title="Key Layout"
@@ -210,7 +219,7 @@ class Top extends React.Component<TopPropsType, TopState> {
                       layout."
               />
               <FeatureCard
-                key={7}
+                key={8}
                 image={predefinedKeys}
                 imageTitle="Pre-defined Keys"
                 title="Pre-defined Keys"
@@ -218,14 +227,14 @@ class Top extends React.Component<TopPropsType, TopState> {
                       mapping easily."
               />
               <FeatureCard
-                key={8}
+                key={9}
                 image={diff}
                 imageTitle="Show Difference"
                 title="Show Difference"
                 description="Easy-to-understand display of keymap changes."
               />
               <FeatureCard
-                key={9}
+                key={10}
                 image={textMatrix}
                 imageTitle="Test Matrix"
                 title="Test Matrix"
