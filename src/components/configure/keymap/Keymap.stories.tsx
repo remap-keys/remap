@@ -28,6 +28,7 @@ import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession
 import { LayoutOption } from './Keymap';
 import { CcProtoKeymap } from '../../../assets/keymaps/CcProto';
 import { GK6Keymap } from '../../../assets/keymaps/GK6';
+import { CtMacropadKeymap } from '../../../assets/keymaps/CtMacropadKeymap';
 
 export default {
   title: 'Keyboards',
@@ -156,6 +157,14 @@ export const CcProto00 = () =>
   genKeyboardView('CcProto00', CcProtoKeymap, [{ option: 0, optionChoice: 0 }]);
 export const CcProto01 = () =>
   genKeyboardView('CcProto01', CcProtoKeymap, [{ option: 0, optionChoice: 1 }]);
+export const CtMacropad00 = () =>
+  genKeyboardView('CcMacropad00', CtMacropadKeymap, [
+    { option: 0, optionChoice: 0 },
+  ]);
+export const CtMacropad01 = () =>
+  genKeyboardView('CcMacropad01', CtMacropadKeymap, [
+    { option: 0, optionChoice: 1 },
+  ]);
 export const Zinc = () =>
   genKeyboardView('Zinc0', ZincKeymap, [{ option: 0, optionChoice: 0 }]);
 export const ZincSymmetrical = () =>
