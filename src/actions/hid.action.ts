@@ -242,17 +242,12 @@ export const hidActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { entities } = getState();
+    const { app, entities } = getState();
     const keyboard = entities.keyboard!;
     const result = await keyboard.open();
     if (!result.success) {
-      console.error(`Could not open: ${result.error}`);
-      dispatch(
-        NotificationActions.addError(
-          `Could not open: ${result.error}`,
-          result.cause
-        )
-      );
+      console.error('Could not open');
+      dispatch(NotificationActions.addError('Could not open', result.cause));
       return;
     }
     sendEventToGoogleAnalytics('configure/open', {
@@ -276,7 +271,15 @@ export const hidActionsThunk = {
     }
     const layerCount = layerResult.layerCount!;
     dispatch(HidActions.updateKeyboardLayerCount(layerCount));
-    dispatch(await hidActionsThunk.refreshKeymaps());
+    const keymaps: IKeymaps[] = await loadKeymap(
+      dispatch,
+      keyboard,
+      layerCount,
+      entities.keyboardDefinition!.matrix.rows,
+      entities.keyboardDefinition!.matrix.cols,
+      app.labelLang
+    );
+    dispatch(HidActions.updateKeymaps(keymaps));
 
     const macroBufferSizeResult = await keyboard.getMacroBufferSize();
     if (!macroBufferSizeResult.success) {
@@ -418,20 +421,6 @@ export const hidActionsThunk = {
         return;
       }
     }
-    dispatch(await hidActionsThunk.refreshKeymaps());
-    dispatch(AppActions.remapsInit(entities.device.layerCount));
-    dispatch(KeydiffActions.clearKeydiff());
-    dispatch(KeycodeKeyActions.clear());
-    dispatch(KeymapActions.clearSelectedPos());
-    dispatch(HeaderActions.updateFlashing(false));
-  },
-
-  refreshKeymaps: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
     const keymaps: IKeymaps[] = await loadKeymap(
       dispatch,
       keyboard,
@@ -441,6 +430,11 @@ export const hidActionsThunk = {
       app.labelLang
     );
     dispatch(HidActions.updateKeymaps(keymaps));
+    dispatch(AppActions.remapsInit(entities.device.layerCount));
+    dispatch(KeydiffActions.clearKeydiff());
+    dispatch(KeycodeKeyActions.clear());
+    dispatch(KeymapActions.clearSelectedPos());
+    dispatch(HeaderActions.updateFlashing(false));
   },
 
   fetchSwitchMatrixState: (): ThunkPromiseAction<void> => async (
