@@ -9,6 +9,7 @@ import {
 } from '../../actions/actions';
 import { IKeyboard } from '../../services/hid/Hid';
 import { MetaActions } from '../../actions/meta.action';
+import { MacroEditorActions } from '../../actions/macro.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -60,6 +61,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       }
 
       _dispatch(HidActions.disconnectKeyboard(keyboard));
+      _dispatch(MacroEditorActions.clearMacroKey());
       _dispatch(KeymapToolbarActions.updateTestMatrix(false));
     },
 
