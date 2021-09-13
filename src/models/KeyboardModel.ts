@@ -3,6 +3,14 @@ import KeyModel, { OPTION_DEFAULT } from './KeyModel';
 import { hasProperty } from '../utils/ObjectUtils';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 
+export type KeyboardViewContent = {
+  keymaps: KeyModel[];
+  width: number;
+  height: number;
+  left: number;
+  top: number;
+};
+
 class Current {
   x = 0;
   y = -1;
@@ -169,15 +177,7 @@ export default class KeyboardModel {
     return this._keyModels;
   }
 
-  getKeymap(
-    options?: LayoutOption[]
-  ): {
-    keymaps: KeyModel[];
-    width: number;
-    height: number;
-    left: number;
-    top: number;
-  } {
+  getKeymap(options?: LayoutOption[]): KeyboardViewContent {
     let keymaps = this._keyModels;
     if (options) {
       keymaps = this._keyModels.filter((item) => {
@@ -297,6 +297,8 @@ export default class KeyboardModel {
         top = Math.min(item.y, top);
         left = Math.min(item.x - item.x2, left);
       });
+      top = top === Infinity ? 0 : top;
+      left = left === Infinity ? 0 : left;
       return { top, left };
     }
 

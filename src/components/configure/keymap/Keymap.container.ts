@@ -20,6 +20,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardLabels: state.entities.keyboardDefinition?.layouts.labels,
     keydiff: state.configure.keydiff,
     keyboardWidth: state.app.keyboardWidth,
+    keyboardHeight: state.app.keyboardHeight,
     keymaps: state.entities.device.keymaps,
     layerCount: state.entities.device.layerCount,
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,

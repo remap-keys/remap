@@ -7,7 +7,9 @@ import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
-import KeyboardModel from '../../../models/KeyboardModel';
+import KeyboardModel, {
+  KeyboardViewContent,
+} from '../../../models/KeyboardModel';
 import Keycap from '../keycap/Keycap.container';
 import CustomKey, {
   CUSTOMKEY_POPOVER_HEIGHT,
@@ -29,6 +31,8 @@ export type LayoutOption = {
   optionChoice: number;
 };
 
+const BORDER_WIDTH = 4;
+
 type OwnProp = {};
 
 type KeymapPropsType = OwnProp &
@@ -49,8 +53,9 @@ export default class Keymap extends React.Component<
 > {
   constructor(props: KeymapPropsType | Readonly<KeymapPropsType>) {
     super(props);
+    const keyboardModel = new KeyboardModel(this.props.keyboardKeymap!);
     this.state = {
-      keyboardModel: new KeyboardModel(this.props.keyboardKeymap!),
+      keyboardModel: keyboardModel,
       selectedPos: null,
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
@@ -62,7 +67,9 @@ export default class Keymap extends React.Component<
   shouldComponentUpdate(nextProps: KeymapPropsType) {
     if (this.props.keyboardKeymap != nextProps.keyboardKeymap) {
       const kbd = new KeyboardModel(nextProps.keyboardKeymap!);
-      this.setState({ keyboardModel: kbd });
+      this.setState({
+        keyboardModel: kbd,
+      });
     }
     return true;
   }
@@ -180,6 +187,21 @@ export default class Keymap extends React.Component<
         });
       }
     }
+
+    const keyboardViewContent = this.state.keyboardModel.getKeymap(
+      this.props.selectedKeyboardOptions!
+    );
+    const keyboardWidth =
+      keyboardViewContent.width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
+    const keyboardHeight =
+      keyboardViewContent.height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
+
+    if (
+      this.props.keyboardWidth != keyboardWidth ||
+      this.props.keyboardHeight != keyboardHeight
+    ) {
+      this.props.setKeyboardSize!(keyboardWidth, keyboardHeight);
+    }
   }
 
   componentWillUnmount() {
@@ -187,6 +209,13 @@ export default class Keymap extends React.Component<
   }
 
   render() {
+    const selectedLayer = this.props.selectedLayer!;
+    const deviceKeymaps = this.props.keymaps![selectedLayer];
+    const remaps = this.props.remaps![selectedLayer];
+    const keyboardViewContent = this.state.keyboardModel.getKeymap(
+      this.props.selectedKeyboardOptions!
+    );
+
     return (
       <React.Fragment>
         {(this.props.draggingKey || this.props.testMatrix) && (
@@ -242,12 +271,13 @@ export default class Keymap extends React.Component<
           />
 
           <KeyboardView
-            keyboardModel={this.state.keyboardModel}
+            keyboardViewContent={keyboardViewContent}
             layoutOptions={this.props.selectedKeyboardOptions!}
-            keymaps={this.props.keymaps!}
-            selectedLayer={this.props.selectedLayer!}
+            deviceKeymaps={deviceKeymaps}
             selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
-            remaps={this.props.remaps!}
+            remaps={remaps}
+            keyboardWidth={this.props.keyboardWidth!}
+            keyboardHeight={this.props.keyboardHeight!}
             testedMatrix={this.props.testedMatrix!}
             currentTestMatrix={this.props.currentTestMatrix!}
             setKeyboardSize={(width, height) => {
@@ -345,13 +375,14 @@ type KeycapData = {
   down: boolean;
 };
 
-type KeyboardType = {
-  keyboardModel: KeyboardModel;
+type KeyboardViewType = {
+  keyboardViewContent: KeyboardViewContent;
   layoutOptions?: LayoutOption[];
-  keymaps: { [pos: string]: IKeymap }[];
-  selectedLayer: number;
+  deviceKeymaps: { [pos: string]: IKeymap };
   selectedPos: string;
-  remaps: { [pos: string]: IKeymap }[];
+  remaps: { [pos: string]: IKeymap };
+  keyboardWidth: number;
+  keyboardHeight: number;
   testedMatrix: string[];
   currentTestMatrix: string[];
   onClickKeycap: (
@@ -367,28 +398,19 @@ type KeyboardType = {
 };
 
 export const KEYBOARD_LAYOUT_PADDING = 8;
-export function KeyboardView(props: KeyboardType) {
-  const BORDER_WIDTH = 4;
-
-  const { keymaps, width, height, left, top } = props.keyboardModel.getKeymap(
-    props.layoutOptions
-  );
+export function KeyboardView(props: KeyboardViewType) {
+  const { keymaps, width, height, left, top } = props.keyboardViewContent;
   const moveLeft = left != 0 ? -left : 0;
   const moveTop = -top;
 
-  const keyboardWidth = width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
-  const keyboardHeight = height + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
-  props.setKeyboardSize(keyboardWidth, keyboardHeight);
-
   // TODO: performance tuning
-  const deviceKeymaps = props.keymaps![props.selectedLayer!];
-  const remaps = props.remaps![props.selectedLayer!];
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model) => {
     const pos = model.pos;
-    if (pos in deviceKeymaps) {
-      const keymap: IKeymap = deviceKeymaps[pos];
-      const remap: IKeymap | null = pos in remaps ? remaps[pos] : null;
+    if (pos in props.deviceKeymaps) {
+      const keymap: IKeymap = props.deviceKeymaps[pos];
+      const remap: IKeymap | null =
+        pos in props.remaps ? props.remaps[pos] : null;
       const focus: boolean =
         0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
       const down: boolean = 0 <= props.currentTestMatrix.indexOf(pos);
@@ -402,8 +424,8 @@ export function KeyboardView(props: KeyboardType) {
       <div
         className="keyboard-root"
         style={{
-          width: keyboardWidth,
-          height: keyboardHeight,
+          width: props.keyboardWidth,
+          height: props.keyboardHeight,
           padding: KEYBOARD_LAYOUT_PADDING,
         }}
       >
