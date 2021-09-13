@@ -146,7 +146,6 @@ export const storageActionsThunk = {
     dispatch(KeydiffActions.clearKeydiff());
     dispatch(KeycodeKeyActions.clear());
     dispatch(KeymapActions.clearSelectedPos());
-    console.log('refreshKeyboardDefinition - finish');
   },
 
   // eslint-disable-next-line no-undef
