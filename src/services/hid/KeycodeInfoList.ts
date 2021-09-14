@@ -2345,7 +2345,7 @@ export const keyInfoList: KeyInfo[] = [
       },
       label: 'Screen +',
 
-      keywords: ['screen plus'],
+      keywords: ['screen plus', 'brightness up'],
     },
   },
   {
@@ -2358,7 +2358,7 @@ export const keyInfoList: KeyInfo[] = [
       },
       label: 'Screen -',
 
-      keywords: ['screen minus'],
+      keywords: ['screen minus', 'brightness down'],
     },
   },
   {
