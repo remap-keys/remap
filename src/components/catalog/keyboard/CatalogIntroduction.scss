@@ -63,10 +63,25 @@
         width: 80px;
       }
     }
+
+    &-nothing {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: $color-gray-600;
+      width: 438px;
+      height: 328px;
+      background-color: $color-gray-300;
+    }
   }
   @include mq(lg) {
     &-image {
       padding: 0;
+      &-nothing {
+        width: 100%;
+        height: 300px;
+      }
     }
   }
 
