@@ -35,26 +35,53 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 18px 0;
 
-    &-container {
-      width: 400px;
-      height: 300px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
+    .image-gallery-slides {
+      display: flex;
+      width: 438px;
+      align-items: center;
+    }
+    @include mq(lg) {
+      .image-gallery-slides {
+        width: 100%;
+      }
+    }
+    .image-gallery-thumbnail {
+      width: 108px;
+      border: 2px solid transparent;
+
+      &.active,
+      &:focus {
+        outline: none;
+        border: 2px solid $primary;
+      }
     }
 
-    &-paginate {
-      background-color: white !important;
+    @include mq(lg) {
+      .image-gallery-thumbnail {
+        width: 80px;
+      }
     }
 
     &-nothing {
-      width: 400px;
-      height: 300px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      color: $color-gray-600;
+      width: 438px;
+      height: 328px;
+      background-color: $color-gray-300;
+    }
+  }
+  @include mq(lg) {
+    &-image {
+      padding: 0;
+      &-nothing {
+        width: 100%;
+        height: 300px;
+      }
     }
   }
 

@@ -3219,6 +3219,13 @@
   dependencies:
     react-helmet-async "*"
 
+"@types/react-image-gallery@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-image-gallery/-/react-image-gallery-1.0.4.tgz#da1fc9d85ebc223d0f5c72d7a78493be3d381398"
+  integrity sha512-BirrX9wEPIH/6XhScYNyQywxBaVmkO9EJPpjJP0l971k81gE/81tZJnxQcZ8O0zfSGGh0frx3PT62A1aX/W7gQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.14":
   version "7.1.16"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.16.tgz#0fbd04c2500c12105494c83d4a3e45c084e3cb21"
@@ -13167,6 +13174,11 @@ react-hotkeys@2.0.0:
   integrity sha512-3n3OU8vLX/pfcJrR3xJ1zlww6KS1kEJt0Whxc4FiGV+MJrQ1mYSYI3qS/11d2MJDFm8IhOXMTFQirfu6AVOF6Q==
   dependencies:
     prop-types "^15.6.1"
+
+react-image-gallery@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/react-image-gallery/-/react-image-gallery-1.2.7.tgz#2dfb83c52f32828a5340ca565f91bca58241fcfe"
+  integrity sha512-ts7yMWykvZhslGMuvVAUk7a1dJIx9QtIwK6Clv8dOGxPsJid92FRrLvXbZDvkYcUyj48sHalnBhqU6mZNCB2jg==
 
 react-inspector@^5.0.1:
   version "5.1.0"
