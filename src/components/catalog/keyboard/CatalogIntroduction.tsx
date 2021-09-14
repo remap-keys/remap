@@ -1,26 +1,18 @@
-import './CatalogIntroduction.scss';
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React from 'react';
 import {
   CatalogIntroductionActionsType,
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
-import {
-  Button,
-  Grid,
-  Link,
-  MobileStepper,
-  Paper,
-  Tab,
-  Tabs,
-  Typography,
-} from '@material-ui/core';
+import './CatalogIntroduction.scss';
+import { Grid, Link, Paper, Tab, Tabs, Typography } from '@material-ui/core';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import ImageGallery from 'react-image-gallery';
 import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import TweetButton from '../../common/twitter/TweetButton';
 import {
   IAdditionalDescription,
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import FeatureList from '../../common/features/FeatureList';
 
@@ -242,78 +234,31 @@ type ImageListProps = {
 };
 
 function ImageList(props: ImageListProps) {
-  let imageCount = props.definitionDocument.imageUrl ? 1 : 0;
-  imageCount += props.definitionDocument.subImages.length;
-
-  const [activeStep, setActiveStep] = useState<number>(0);
-
-  if (imageCount > 1) {
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setActiveStep((c) => {
-          let nextActiveStep = c + 1;
-          if (imageCount <= nextActiveStep) {
-            nextActiveStep = 0;
-          }
-          return nextActiveStep;
-        });
-      }, 10000);
-      return () => clearInterval(interval);
-    }, []);
+  const hasImage = Boolean(props.definitionDocument.imageUrl);
+  const images = [];
+  if (hasImage) {
+    images.push({
+      original: props.definitionDocument.imageUrl,
+      thumbnail: props.definitionDocument.thumbnailImageUrl,
+    });
+    props.definitionDocument.subImages.forEach((img) => {
+      images.push({
+        original: img.image_url,
+        thumbnail: img.thumbnail_image_url,
+      });
+    });
   }
-
-  // eslint-disable-next-line no-unused-vars
-  const onClickBack = (event: SyntheticEvent) => {
-    let backActiveStep = activeStep - 1;
-    if (backActiveStep < 0) {
-      backActiveStep = imageCount - 1;
-    }
-    setActiveStep(backActiveStep);
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const onClickNext = (event: SyntheticEvent) => {
-    let nextActiveStep = activeStep + 1;
-    if (imageCount <= nextActiveStep) {
-      nextActiveStep = 0;
-    }
-    setActiveStep(nextActiveStep);
-  };
-
-  const imageUrl =
-    activeStep === 0
-      ? props.definitionDocument.imageUrl
-      : props.definitionDocument.subImages[activeStep - 1].image_url;
 
   return (
     <div className="catalog-introduction-image">
-      {props.definitionDocument.imageUrl ? (
+      {hasImage ? (
         <React.Fragment>
-          <div
-            className="catalog-introduction-image-container"
-            style={{
-              backgroundImage: `url('${imageUrl}')`,
-            }}
+          <ImageGallery
+            items={images}
+            showFullscreenButton={false}
+            showNav={false}
+            showPlayButton={false}
           />
-          {imageCount > 1 ? (
-            <MobileStepper
-              variant="dots"
-              position="static"
-              backButton={
-                <Button size="small" onClick={onClickBack}>
-                  <KeyboardArrowLeft />
-                </Button>
-              }
-              nextButton={
-                <Button size="small" onClick={onClickNext}>
-                  <KeyboardArrowRight />
-                </Button>
-              }
-              steps={imageCount}
-              activeStep={activeStep}
-              className="catalog-introduction-image-paginate"
-            />
-          ) : null}
         </React.Fragment>
       ) : (
         <div className="catalog-introduction-image-nothing">No Image</div>

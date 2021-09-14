@@ -34,3 +34,16 @@ $space-l: 16px;
 $space-m: 8px;
 $space-s: 4px;
 $space-xs: 2px;
+
+// media query
+$breakpoints: (
+  'sm': 'screen and (max-width: 414px)',
+  'md': 'screen and (max-width: 768px)',
+  'lg': 'screen and (max-width: 1000px)',
+  'xl': 'screen and (min-width: 1001px)',
+) !default;
+@mixin mq($breakpoint: md) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
