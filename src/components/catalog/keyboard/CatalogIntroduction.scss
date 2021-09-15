@@ -22,6 +22,12 @@
     padding-top: 8px;
   }
 
+  @include mq(sm) {
+    &-container {
+      padding-top: 0;
+    }
+  }
+
   &-content {
     width: 100%;
   }

@@ -10,6 +10,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   &-title {
     display: flex;
@@ -29,12 +30,22 @@
       font-size: 32px;
       font-weight: bold;
     }
+    @include mq(lg) {
+      & h1 {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      & h6 {
+        font-size: 0.8rem;
+      }
+    }
   }
 
   &-links {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: auto;
 
     &-github {
       margin-left: 16px;
@@ -47,5 +58,35 @@
     &-stores {
       margin-left: 16px;
     }
+    @include mq(lg) {
+      &-github {
+        margin-left: 8px;
+        div {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      &-home {
+        width: 32px;
+        height: 32px;
+        margin-left: 8px;
+      }
+
+      &-stores {
+        margin-left: 8px;
+        button {
+          width: 32px;
+          height: 32px;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+@include mq(sm) {
+  .catalog-keyboard-header {
+    margin-bottom: 8px;
   }
 }
