@@ -4,10 +4,9 @@ import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
 import ProfileIcon from '../../common/auth/ProfileIcon.container';
-import { IconButton, Tab, Tabs } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { ArrowBackIos } from '@material-ui/icons';
 import { ICatalogPhase } from '../../../store/state';
-import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 type HeaderState = {};
@@ -43,19 +42,11 @@ class Header extends React.Component<HeaderProps, HeaderState> {
               </IconButton>
             </div>
           ) : null}
-          <div className="catalog-header-logo">
-            <a href="/">
-              <Logo width={100} />
-            </a>
-          </div>
         </div>
-        <div className="catalog-header-nav">
-          <CategoryKeyboardNav
-            phase={this.props.phase!}
-            definitionDocument={this.props.definitionDocument!}
-            goToIntroduction={this.props.goToIntroduction!}
-            goToKeymap={this.props.goToKeymap!}
-          />
+        <div className="catalog-header-logo">
+          <a href="/">
+            <Logo width={100} />
+          </a>
         </div>
         <div className="catalog-header-menu-button">
           <ProfileIcon
@@ -70,44 +61,3 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 }
 
 export default Header;
-
-type CategoryKeyboardNavProps = {
-  phase: ICatalogPhase;
-  definitionDocument: IKeyboardDefinitionDocument;
-  goToIntroduction: () => void;
-  goToKeymap: () => void;
-};
-
-const CategoryKeyboardNav: React.FC<CategoryKeyboardNavProps> = ({
-  phase,
-  definitionDocument,
-  goToIntroduction,
-  goToKeymap,
-}) => {
-  const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
-    if (value === 0) {
-      sendEventToGoogleAnalytics('catalog/introduction');
-      history.pushState(null, 'Remap', `/catalog/${definitionDocument.id}`);
-      goToIntroduction();
-    } else if (value === 1) {
-      sendEventToGoogleAnalytics('catalog/keymap');
-      history.pushState(
-        null,
-        'Remap',
-        `/catalog/${definitionDocument.id}/keymap`
-      );
-      goToKeymap();
-    }
-  };
-  if ((['introduction', 'keymap'] as ICatalogPhase[]).includes(phase)) {
-    const value = phase === 'keymap' ? 1 : 0;
-    return (
-      <Tabs value={value} indicatorColor="primary" onChange={onChangeTab}>
-        <Tab label={definitionDocument.name} />
-        <Tab label="Keymap" />
-      </Tabs>
-    );
-  } else {
-    return null;
-  }
-};

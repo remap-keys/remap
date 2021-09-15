@@ -4,7 +4,22 @@
   position: relative;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 64px;
+
+  &-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    .MuiTabs-root {
+      background-color: white;
+    }
+  }
 
   .catalog-processing-wrapper {
     position: relative;
@@ -17,4 +32,19 @@
     flex: 1 1;
     width: 100%;
   }
+}
+
+@include mq(sm) {
+  .catalog-content {
+    padding-top: calc(var(--key-height));
+  }
+}
+
+.catalog-share-buttons {
+  margin-right: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-left: auto;
+  align-items: center;
 }

@@ -8,8 +8,6 @@ import { Grid, Link, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
-import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
-import TweetButton from '../../common/twitter/TweetButton';
 import {
   IAdditionalDescription,
   IKeyboardDefinitionDocument,
@@ -66,9 +64,6 @@ export default class CatalogIntroduction extends React.Component<
     return (
       <div className="catalog-introduction-wrapper">
         <div className="catalog-introduction-container">
-          <CatalogKeyboardHeader
-            definitionDocument={this.props.definitionDocument!}
-          />
           <Paper elevation={0} className="catalog-introduction-content">
             <Grid container>
               <Grid item sm={6} className="catalog-introduction-column">
@@ -109,15 +104,6 @@ export default class CatalogIntroduction extends React.Component<
                   ) : (
                     <div>Not specified by the owner of this keyboard.</div>
                   )}
-                </section>
-                <section className="catalog-introduction-section">
-                  <div className="catalog-introduction-share-buttons">
-                    <TweetButton
-                      url={`https://remap-keys.app/catalog/${
-                        this.props.definitionDocument!.id
-                      }`}
-                    />
-                  </div>
                 </section>
                 {this.props.sameAuthorKeyboardDocuments!.length > 1 ? (
                   <section className="catalog-introduction-section">
