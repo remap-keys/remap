@@ -32,7 +32,12 @@ export default class Content extends React.Component<
       case 'processing':
         return <PhaseProcessing />;
       case 'list':
-        return <CatalogSearch />;
+        return (
+          <>
+            <CatalogSearch />
+            <Footer />
+          </>
+        );
       case 'introduction':
       case 'keymap':
         return (

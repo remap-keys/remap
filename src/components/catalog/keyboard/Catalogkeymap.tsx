@@ -151,13 +151,17 @@ export default class CatalogKeymap extends React.Component<
       keycaps.push({ model, keymap, remap });
     });
 
-    // eslint-disable-next-line no-undef
-    const windowWidth = this.state.windowWidth || window.innerWidth;
+    const CONTENT_MAX_WIDTH = 960;
+    const contentWidth = Math.min(
+      // eslint-disable-next-line no-undef
+      this.state.windowWidth || window.innerWidth,
+      CONTENT_MAX_WIDTH
+    );
     const keyboardRootWidth = width + 40;
     const keyboardRootHeight = height + 40;
     const scale =
-      windowWidth < keyboardRootWidth
-        ? (windowWidth - 20) / keyboardRootWidth
+      contentWidth < keyboardRootWidth
+        ? (contentWidth - 20) / keyboardRootWidth
         : 1; // considering the padding: 20px
     const marginScaledHeight =
       scale < 1 ? (keyboardRootHeight * (1 - scale)) / 2 : 0;
@@ -194,7 +198,7 @@ export default class CatalogKeymap extends React.Component<
             )}
             <div
               className="catalog-keymap-keyboards"
-              style={{ margin: '0 auto', maxWidth: windowWidth }}
+              style={{ margin: '0 auto', maxWidth: contentWidth }}
             >
               <div
                 className="catalog-keymap-keyboard-root"
@@ -236,7 +240,7 @@ export default class CatalogKeymap extends React.Component<
             </div>
             <div
               className="catalog-keymap-option-container"
-              style={{ marginTop: -marginScaledHeight, maxWidth: windowWidth }}
+              style={{ marginTop: -marginScaledHeight, maxWidth: contentWidth }}
             >
               {this.props.keymaps!.length > 0 ? (
                 <Layer
