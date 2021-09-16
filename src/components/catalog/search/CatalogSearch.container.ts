@@ -37,6 +37,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(CatalogSearchActions.updateKeyword(''));
       _dispatch(CatalogSearchActions.clearFeatures());
     },
+    resetFeatures: (features: IKeyboardFeatures[]) => {
+      _dispatch(CatalogSearchActions.resetFeatures(features));
+    },
   };
 };
 export type CatalogSearchActionsType = ReturnType<typeof mapDispatchToProps>;

@@ -10,10 +10,7 @@ import { storageActionsThunk } from '../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {
-    features: state.catalog.search.features,
-    keyword: state.catalog.search.keyword,
-  };
+  return {};
 };
 export type CatalogSearchFormStateType = ReturnType<typeof mapStateToProps>;
 

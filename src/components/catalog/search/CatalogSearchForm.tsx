@@ -39,6 +39,8 @@ import './CatalogSearchForm.scss';
 
 type CatalogSearchFormState = {};
 type OwnProps = {
+  features: IKeyboardFeatures[];
+  keyword: string;
   onSubmit?: () => void;
 };
 
@@ -54,9 +56,7 @@ export default class CatalogSearchForm extends React.Component<
     props: CatalogSearchFormProps | Readonly<CatalogSearchFormProps>
   ) {
     super(props);
-    this.state = {
-      features: props.features,
-    };
+    this.state = {};
   }
 
   private getFeatureValue(

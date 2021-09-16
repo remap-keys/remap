@@ -24,6 +24,7 @@ import { hexadecimal } from '../../../utils/StringUtils';
 import FeatureList from '../../common/features/FeatureList';
 import CatalogSearchForm from './CatalogSearchForm.container';
 import CatalogSearchDialog from './CatalogSearchDialog';
+import { IKeyboardFeatures } from '../../../store/state';
 
 type CatalogSearchState = {
   showSearchDialog: boolean;
@@ -52,12 +53,21 @@ class CatalogSearch extends React.Component<
     return width < 600;
   }
 
-  private closeSearchDialog() {
+  private closeSearchDialog(
+    originalKeyword: string,
+    originalFeatures: IKeyboardFeatures[]
+  ) {
+    this.props.updateKeyword!(originalKeyword);
+    this.props.resetFeatures!(originalFeatures);
     this.setState({ showSearchDialog: false });
   }
 
   private onClickSearch() {
     this.setState({ showSearchDialog: true });
+  }
+
+  private submitSearchDialog() {
+    this.setState({ showSearchDialog: false });
   }
 
   componentDidMount() {
@@ -109,7 +119,10 @@ class CatalogSearch extends React.Component<
                     </Grid>
                   </Grid>
                 ) : (
-                  <CatalogSearchForm />
+                  <CatalogSearchForm
+                    keyword={this.props.keyword!}
+                    features={this.props.features!}
+                  />
                 )}
               </Grid>
               <Grid item sm={9} xs={12}>
@@ -120,8 +133,10 @@ class CatalogSearch extends React.Component<
         </div>
         <CatalogSearchDialog
           open={this.state.showSearchDialog}
+          keyword={this.props.keyword!}
+          features={this.props.features!}
           onClose={this.closeSearchDialog.bind(this)}
-          onSubmit={this.closeSearchDialog.bind(this)}
+          onSubmit={this.submitSearchDialog.bind(this)}
         />
       </>
     );

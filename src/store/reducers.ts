@@ -141,6 +141,7 @@ import {
   CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
+  CATALOG_SEARCH_RESET_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
 } from '../actions/catalog.action';
@@ -860,6 +861,11 @@ const catalogSearchReducer = (
     }
     case CATALOG_SEARCH_CLEAR_FEATURES: {
       draft.catalog.search.features = [];
+      break;
+    }
+    case CATALOG_SEARCH_RESET_FEATURES: {
+      const newFeatures = [...action.value];
+      draft.catalog.search.features = newFeatures;
       break;
     }
   }
