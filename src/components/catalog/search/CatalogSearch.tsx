@@ -45,6 +45,7 @@ import {
   IKeyboardDefinitionDocument,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { hexadecimal } from '../../../utils/StringUtils';
 import FeatureList from '../../common/features/FeatureList';
@@ -453,18 +454,24 @@ function KeyboardCard(props: KeyboardCardProps) {
 
   return (
     <Card className="catalog-search-result-card">
-      {props.definition.imageUrl ? (
-        <a
-          href={`/catalog/${props.definition.id}`}
-          onClick={onClickCard}
-          rel="noreferrer"
-        >
+      <a
+        href={`/catalog/${props.definition.id}`}
+        onClick={onClickCard}
+        rel="noreferrer"
+      >
+        {props.definition.imageUrl ? (
           <CardMedia
             image={props.definition.imageUrl}
             className="catalog-search-result-card-image"
           />
-        </a>
-      ) : null}
+        ) : (
+          <div className="catalog-search-result-card-no-image">
+            <PhotoLibraryIcon />
+            No Image
+          </div>
+        )}
+      </a>
+
       <CardContent className="catalog-search-result-card-container">
         <a
           href={`/catalog/${props.definition.id}`}
