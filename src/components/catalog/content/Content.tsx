@@ -1,11 +1,15 @@
 import React from 'react';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import './Content.scss';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Tab, Tabs } from '@material-ui/core';
 import Footer from '../../common/footer/Footer.container';
 import { ICatalogPhase } from '../../../store/state';
 import CatalogSearch from '../search/CatalogSearch.container';
 import CatalogKeyboard from '../keyboard/CatalogKeyboard.container';
+import { CatalogKeyboardHeader } from '../keyboard/CatalogKeyboardHeader';
+import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import TweetButton from '../../common/twitter/TweetButton';
 
 type ContentState = {};
 type OwnProps = {};
@@ -22,30 +26,31 @@ export default class Content extends React.Component<
   }
 
   render() {
-    return (
-      <div className="catalog-content">
-        <Contents phase={this.props.phase!} />
-        <Footer />
-      </div>
-    );
-  }
-}
-
-type ContentsProps = {
-  phase: ICatalogPhase;
-};
-function Contents(props: ContentsProps) {
-  switch (props.phase) {
-    case 'init':
-    case 'processing':
-      return <PhaseProcessing />;
-    case 'list':
-      return <CatalogSearch />;
-    case 'introduction':
-    case 'keymap':
-      return <CatalogKeyboard />;
-    default:
-      throw new Error(`Unknown state.catalog.app.phase value: ${props.phase}`);
+    const phase = this.props.phase!;
+    switch (phase) {
+      case 'init':
+      case 'processing':
+        return <PhaseProcessing />;
+      case 'list':
+        return (
+          <>
+            <CatalogSearch />
+            <Footer />
+          </>
+        );
+      case 'introduction':
+      case 'keymap':
+        return (
+          <CategoryKeyboardContent
+            phase={phase}
+            definitionDocument={this.props.definitionDocument!}
+            goToIntroduction={this.props.goToIntroduction!.bind(this)}
+            goToKeymap={this.props.goToKeymap!.bind(this)}
+          />
+        );
+      default:
+        throw new Error(`Unknown state.catalog.app.phase value: ${phase}`);
+    }
   }
 }
 
@@ -59,3 +64,60 @@ function PhaseProcessing() {
     </div>
   );
 }
+
+type CategoryKeyboardContentProps = {
+  phase: ICatalogPhase;
+  definitionDocument: IKeyboardDefinitionDocument;
+  goToIntroduction: () => void;
+  goToKeymap: () => void;
+};
+
+const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
+  phase,
+  definitionDocument,
+  goToIntroduction,
+  goToKeymap,
+}) => {
+  const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
+    if (value === 0) {
+      sendEventToGoogleAnalytics('catalog/introduction');
+      // eslint-disable-next-line no-undef
+      history.pushState(null, 'Remap', `/catalog/${definitionDocument.id}`);
+      goToIntroduction();
+    } else if (value === 1) {
+      sendEventToGoogleAnalytics('catalog/keymap');
+      // eslint-disable-next-line no-undef
+      history.pushState(
+        null,
+        'Remap',
+        `/catalog/${definitionDocument.id}/keymap`
+      );
+      goToKeymap();
+    }
+  };
+  if ((['introduction', 'keymap'] as ICatalogPhase[]).includes(phase)) {
+    const value = phase === 'keymap' ? 1 : 0;
+    // eslint-disable-next-line no-undef
+    const url = `https://remap-keys.app/catalog/${definitionDocument!.id}`;
+    return (
+      <>
+        <div className="catalog-content">
+          <CatalogKeyboardHeader definitionDocument={definitionDocument!} />
+          <div className="catalog-content-nav">
+            <Tabs value={value} indicatorColor="primary" onChange={onChangeTab}>
+              <Tab label="Overview" />
+              <Tab label="Keymap" />
+            </Tabs>
+            <div className="catalog-share-buttons">
+              <TweetButton url={url} />
+            </div>
+          </div>
+          <CatalogKeyboard />
+        </div>
+        <Footer />
+      </>
+    );
+  } else {
+    return null;
+  }
+};

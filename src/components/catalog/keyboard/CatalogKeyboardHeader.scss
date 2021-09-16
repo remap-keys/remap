@@ -5,6 +5,7 @@
   color: white;
   width: 100%;
   max-width: 960px;
+  margin-top: 8px;
   margin-bottom: 16px;
   display: flex;
   flex-direction: row;
@@ -27,8 +28,11 @@
     }
 
     & h1 {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
+    }
+    & h6 {
+      font-size: 0.9rem;
     }
     @include mq(lg) {
       & h1 {
@@ -87,6 +91,7 @@
 
 @include mq(sm) {
   .catalog-keyboard-header {
+    margin-top: 0;
     margin-bottom: 8px;
   }
 }

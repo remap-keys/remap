@@ -18,7 +18,6 @@ import {
 } from '@material-ui/core';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
-import { CatalogKeyboardHeader } from './CatalogKeyboardHeader';
 import LayoutOptionComponentList from '../../configure/layoutoption/LayoutOptionComponentList.container';
 import CatalogKeymapList from './CatalogKeymapList.container';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
@@ -27,7 +26,9 @@ import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import LayerPagination from '../../common/layer/LayerPagination';
 
-type CatalogKeymapState = {};
+type CatalogKeymapState = {
+  windowWidth: number;
+};
 type OwnProps = {};
 type CatalogKeymapProps = OwnProps &
   Partial<CatalogKeymapActionsType> &
@@ -45,6 +46,17 @@ export default class CatalogKeymap extends React.Component<
 > {
   constructor(props: CatalogKeymapProps | Readonly<CatalogKeymapProps>) {
     super(props);
+    this.state = { windowWidth: 0 };
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line no-undef
+    window.addEventListener('resize', this.onResize.bind(this));
+  }
+
+  componentWillUnmount() {
+    // eslint-disable-next-line no-undef
+    window.removeEventListener('resize', this.onResize.bind(this));
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -97,6 +109,14 @@ export default class CatalogKeymap extends React.Component<
     });
   }
 
+  onResize() {
+    // eslint-disable-next-line no-undef
+    const newWidth = window.innerWidth;
+    if (this.state.windowWidth != newWidth) {
+      this.setState({ windowWidth: newWidth });
+    }
+  }
+
   render() {
     const kbd = new KeyboardModel(
       this.props.keyboardDefinition!.layouts.keymap
@@ -130,26 +150,67 @@ export default class CatalogKeymap extends React.Component<
       const remap = null;
       keycaps.push({ model, keymap, remap });
     });
+
+    const CONTENT_MAX_WIDTH = 960;
+    const contentWidth = Math.min(
+      // eslint-disable-next-line no-undef
+      this.state.windowWidth || window.innerWidth,
+      CONTENT_MAX_WIDTH
+    );
+    const keyboardRootWidth = width + 40;
+    const keyboardRootHeight = height + 40;
+    const scale =
+      contentWidth < keyboardRootWidth
+        ? (contentWidth - 20) / keyboardRootWidth
+        : 1; // considering the padding: 20px
+    const marginScaledHeight =
+      scale < 1 ? (keyboardRootHeight * (1 - scale)) / 2 : 0;
     return (
       <div className="catalog-keymap-container-wrapper">
         <div className="catalog-keymap-container">
-          <CatalogKeyboardHeader
-            definitionDocument={this.props.definitionDocument!}
-          />
           <div className="catalog-keymap-wrapper">
+            {this.props.keymaps!.length > 0 && (
+              <div className="catalog-keymap-option-menu">
+                <div className="catalog-keymap-option-pdf">
+                  <Tooltip
+                    arrow={true}
+                    placement="top"
+                    title="Get keymap cheat sheet (PDF)"
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={this.onClickGetCheatsheet.bind(this)}
+                    >
+                      <PictureAsPdfRoundedIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <div className="catalog-keymap-option-lang">
+                  <Typography variant="subtitle1">
+                    {
+                      KeyLabelLangs.KeyLabelLangMenus.find(
+                        (m) => m.labelLang === this.props.langLabel
+                      )!.menuLabel
+                    }
+                  </Typography>
+                </div>
+              </div>
+            )}
             <div
               className="catalog-keymap-keyboards"
-              style={{ margin: '0 auto' }}
+              style={{ margin: '0 auto', maxWidth: contentWidth }}
             >
               <div
                 className="catalog-keymap-keyboard-root"
                 style={{
-                  width: width + 40,
-                  height: height + 40,
+                  width: keyboardRootWidth,
+                  height: keyboardRootHeight,
                   padding: 20,
                   borderWidth: 1,
                   borderColor: 'gray',
                   borderStyle: 'solid',
+                  transform: `scale(${scale})`,
+                  marginTop: -(marginScaledHeight - 8),
                 }}
               >
                 <div
@@ -177,41 +238,16 @@ export default class CatalogKeymap extends React.Component<
                 </div>
               </div>
             </div>
-            <div className="catalog-keymap-option-container">
+            <div
+              className="catalog-keymap-option-container"
+              style={{ marginTop: -marginScaledHeight, maxWidth: contentWidth }}
+            >
               {this.props.keymaps!.length > 0 ? (
-                <>
-                  <div className="catalog-keymap-option-side catalog-keymap-option-side-left"></div>
-                  <Layer
-                    layerCount={this.props.keymaps!.length}
-                    selectedLayer={this.props.selectedLayer!}
-                    onClickLayer={this.props.updateSelectedLayer!}
-                  />
-                  <div className="catalog-keymap-option-side catalog-keymap-option-side-right">
-                    <div className="catalog-keymap-option-pdf">
-                      <Tooltip
-                        arrow={true}
-                        placement="top"
-                        title="Get keymap cheat sheet (PDF)"
-                      >
-                        <IconButton
-                          size="small"
-                          onClick={this.onClickGetCheatsheet.bind(this)}
-                        >
-                          <PictureAsPdfRoundedIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    <div className="catalog-keymap-option-lang">
-                      <Typography variant="subtitle1">
-                        {
-                          KeyLabelLangs.KeyLabelLangMenus.find(
-                            (m) => m.labelLang === this.props.langLabel
-                          )!.menuLabel
-                        }
-                      </Typography>
-                    </div>
-                  </div>
-                </>
+                <Layer
+                  layerCount={this.props.keymaps!.length}
+                  selectedLayer={this.props.selectedLayer!}
+                  onClickLayer={this.props.updateSelectedLayer!}
+                />
               ) : null}
             </div>
           </div>
