@@ -62,7 +62,7 @@ export default class CatalogKeymap extends React.Component<
   // eslint-disable-next-line no-unused-vars
   onClickBackButton(event: React.MouseEvent<{}>) {
     // eslint-disable-next-line no-undef
-    history.pushState(null, 'Remap', '/catalog');
+    this.props.history!.push('/catalog');
     this.props.goToSearch!();
   }
 
@@ -70,9 +70,7 @@ export default class CatalogKeymap extends React.Component<
     sendEventToGoogleAnalytics('catalog/apply_keymap');
     this.props.applySharedKeymapData!(savedKeymapData);
     // eslint-disable-next-line no-undef
-    history.pushState(
-      null,
-      'Remap',
+    this.props.history!.push(
       `/catalog/${this.props.definitionDocument!.id}/keymap?id=${
         savedKeymapData.id
       }`
