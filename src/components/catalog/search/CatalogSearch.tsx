@@ -25,6 +25,7 @@ import FeatureList from '../../common/features/FeatureList';
 import CatalogSearchForm from './CatalogSearchForm.container';
 import CatalogSearchDialog from './CatalogSearchDialog';
 import { IKeyboardFeatures } from '../../../store/state';
+import { isSmallDisplay } from '../../../utils/DisplayUtils';
 
 type CatalogSearchState = {
   showSearchDialog: boolean;
@@ -43,16 +44,9 @@ class CatalogSearch extends React.Component<
     super(props);
     this.state = {
       showSearchDialog: false,
-      isSmallDisplay: this.isSmallDisplay(),
+      isSmallDisplay: isSmallDisplay(),
     };
   }
-
-  private isSmallDisplay() {
-    // eslint-disable-next-line no-undef
-    const width = window.innerWidth;
-    return width < 600;
-  }
-
   private closeSearchDialog(
     originalKeyword: string,
     originalFeatures: IKeyboardFeatures[]
@@ -81,10 +75,9 @@ class CatalogSearch extends React.Component<
   }
 
   onResize() {
-    // eslint-disable-next-line no-undef
-    let isSmallDisplay = this.isSmallDisplay();
-    if (this.state.isSmallDisplay != isSmallDisplay) {
-      this.setState({ isSmallDisplay });
+    let isSmall = isSmallDisplay();
+    if (this.state.isSmallDisplay != isSmall) {
+      this.setState({ isSmallDisplay: isSmall });
     }
   }
 
