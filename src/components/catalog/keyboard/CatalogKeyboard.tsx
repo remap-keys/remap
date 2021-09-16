@@ -44,7 +44,6 @@ export default class CatalogKeyboard extends React.Component<
     }
     this.unregisterHistoryCallback = this.props.history!.listen(
       (location, action) => {
-        // console.log(`location: ${location.search} action: ${action}`);
         if (action === 'POP') {
           const introductionMatch = matchPath(location.pathname, {
             path: '/catalog/:definitionId',
