@@ -14,6 +14,7 @@ import {
 } from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import FeatureList from '../../common/features/FeatureList';
+import { isSmallDisplay } from '../../../utils/DisplayUtils';
 
 type CatalogIntroductionState = {
   selectedDescriptionTabIndex: number;
@@ -46,137 +47,76 @@ export default class CatalogIntroduction extends React.Component<
   }
 
   render() {
-    const convertStringToNodeList = (
-      source: string
-    ): React.ReactNode[] | string => {
-      if (source) {
-        return source.split(/(\n)/).map((item: string, index: number) => {
-          return (
-            <React.Fragment key={index}>
-              {item.match(/\n/) ? <br /> : item}
-            </React.Fragment>
-          );
-        });
-      } else {
-        return 'A description is not specified by the owner of this keyboard.';
-      }
-    };
     return (
       <div className="catalog-introduction-wrapper">
         <div className="catalog-introduction-container">
           <Paper elevation={0} className="catalog-introduction-content">
             <Grid container>
-              <Grid item sm={6} className="catalog-introduction-column">
-                <ImageList
-                  definitionDocument={this.props.definitionDocument!}
-                />
-                <section className="catalog-introduction-section">
-                  <Typography variant="h2">Features</Typography>
-                  <div className="catalog-introduction-chip-container">
-                    <FeatureList
-                      features={this.props.definitionDocument!.features}
-                      size="medium"
+              {isSmallDisplay() ? (
+                <Grid item sm={12} className="catalog-introduction-column">
+                  <ImageList
+                    definitionDocument={this.props.definitionDocument!}
+                  />
+                  <DescriptionSection
+                    definitionDocument={this.props.definitionDocument!}
+                    selectedDescriptionTabIndex={
+                      this.state.selectedDescriptionTabIndex
+                    }
+                    onChangeSelectedDescriptionTabIndex={this.onChangeSelectedDescriptionTabIndex.bind(
+                      this
+                    )}
+                  />
+                  <FeaturesSection
+                    definitionDocument={this.props.definitionDocument!}
+                  />
+                  <StoresSection
+                    definitionDocument={this.props.definitionDocument!}
+                  />
+                  <SameAuthorKeyboardsSection
+                    sameAuthorKeyboardDocuments={
+                      this.props.sameAuthorKeyboardDocuments!
+                    }
+                    definitionDocument={this.props.definitionDocument!}
+                    onClickSameAuthorKeyboard={this.onClickSameAuthorKeyboard.bind(
+                      this
+                    )}
+                  />
+                </Grid>
+              ) : (
+                <React.Fragment>
+                  <Grid item sm={6} className="catalog-introduction-column">
+                    <ImageList
+                      definitionDocument={this.props.definitionDocument!}
                     />
-                  </div>
-                </section>
-                <section className="catalog-introduction-section">
-                  <Typography variant="h2">Stores</Typography>
-                  {this.props.definitionDocument!.stores.length > 0 ? (
-                    <div className="catalog-introduction-stores">
-                      {this.props.definitionDocument!.stores.map(
-                        (store, index) => {
-                          return (
-                            <Typography key={index} variant="body1">
-                              <Link
-                                href={store.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="catalog-introduction-store"
-                              >
-                                {store.name}
-                              </Link>
-                            </Typography>
-                          );
-                        }
-                      )}
-                    </div>
-                  ) : (
-                    <div>Not specified by the owner of this keyboard.</div>
-                  )}
-                </section>
-                {this.props.sameAuthorKeyboardDocuments!.length > 1 ? (
-                  <section className="catalog-introduction-section">
-                    <Typography variant="h2">
-                      Created by Same Designer
-                    </Typography>
-                    {this.props
-                      .sameAuthorKeyboardDocuments!.filter(
-                        (definition) =>
-                          definition.id !== this.props.definitionDocument!.id
-                      )
-                      .map((definition, index) => (
-                        <Paper
-                          key={`same-author-keyboard-${index}`}
-                          elevation={0}
-                          className="catalog-introduction-same-author-keyboard"
-                          onClick={() => {
-                            this.onClickSameAuthorKeyboard(definition);
-                          }}
-                        >
-                          {definition.imageUrl ? (
-                            <div
-                              className="catalog-introduction-same-author-keyboard-image"
-                              style={{
-                                backgroundImage: `url('${definition.imageUrl}')`,
-                              }}
-                            />
-                          ) : (
-                            <div className="catalog-introduction-same-author-keyboard-no-image">
-                              <PhotoLibraryIcon />
-                              No Image
-                            </div>
-                          )}
-                          <Typography
-                            variant="subtitle1"
-                            className="catalog-introduction-same-author-keyboard-name"
-                          >
-                            {definition.name}
-                          </Typography>
-                        </Paper>
-                      ))}
-                  </section>
-                ) : null}
-              </Grid>
-              <Grid item sm={6} className="catalog-introduction-column">
-                <section className="catalog-introduction-section">
-                  <div className="catalog-introduction-description-tab">
-                    <DescriptionTab
-                      additionalDescriptions={
-                        this.props.definitionDocument!.additionalDescriptions
+                    <FeaturesSection
+                      definitionDocument={this.props.definitionDocument!}
+                    />
+                    <StoresSection
+                      definitionDocument={this.props.definitionDocument!}
+                    />
+                    <SameAuthorKeyboardsSection
+                      sameAuthorKeyboardDocuments={
+                        this.props.sameAuthorKeyboardDocuments!
                       }
-                      selectedTabIndex={this.state.selectedDescriptionTabIndex}
-                      onChangeTab={this.onChangeSelectedDescriptionTabIndex.bind(
+                      definitionDocument={this.props.definitionDocument!}
+                      onClickSameAuthorKeyboard={this.onClickSameAuthorKeyboard.bind(
                         this
                       )}
                     />
-                  </div>
-                  {this.state.selectedDescriptionTabIndex === 0 ? (
-                    <Typography variant="body1">
-                      {convertStringToNodeList(
-                        this.props.definitionDocument!.description
+                  </Grid>
+                  <Grid item sm={6} className="catalog-introduction-column">
+                    <DescriptionSection
+                      definitionDocument={this.props.definitionDocument!}
+                      selectedDescriptionTabIndex={
+                        this.state.selectedDescriptionTabIndex
+                      }
+                      onChangeSelectedDescriptionTabIndex={this.onChangeSelectedDescriptionTabIndex.bind(
+                        this
                       )}
-                    </Typography>
-                  ) : (
-                    <Typography variant="body1">
-                      {convertStringToNodeList(
-                        this.props.definitionDocument!.additionalDescriptions[
-                          this.state.selectedDescriptionTabIndex - 1
-                        ].body
-                      )}
-                    </Typography>
-                  )}
-                </section>
-              </Grid>
+                    />
+                  </Grid>
+                </React.Fragment>
+              )}
             </Grid>
           </Paper>
         </div>
@@ -256,5 +196,160 @@ function ImageList(props: ImageListProps) {
         </div>
       )}
     </div>
+  );
+}
+
+type FeaturesSectionProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+};
+
+function FeaturesSection(props: FeaturesSectionProps) {
+  return (
+    <section className="catalog-introduction-section">
+      <Typography variant="h2">Features</Typography>
+      <div className="catalog-introduction-chip-container">
+        <FeatureList
+          features={props.definitionDocument.features}
+          size="medium"
+        />
+      </div>
+    </section>
+  );
+}
+
+type StoresSectionProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+};
+
+function StoresSection(props: StoresSectionProps) {
+  return (
+    <section className="catalog-introduction-section">
+      <Typography variant="h2">Stores</Typography>
+      {props.definitionDocument.stores.length > 0 ? (
+        <div className="catalog-introduction-stores">
+          {props.definitionDocument.stores.map((store, index) => {
+            return (
+              <Typography key={index} variant="body1">
+                <Link
+                  href={store.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="catalog-introduction-store"
+                >
+                  {store.name}
+                </Link>
+              </Typography>
+            );
+          })}
+        </div>
+      ) : (
+        <div>Not specified by the owner of this keyboard.</div>
+      )}
+    </section>
+  );
+}
+
+type SameAuthorKeyboardsSectionProps = {
+  sameAuthorKeyboardDocuments: IKeyboardDefinitionDocument[];
+  definitionDocument: IKeyboardDefinitionDocument;
+  // eslint-disable-next-line no-unused-vars
+  onClickSameAuthorKeyboard: (definition: IKeyboardDefinitionDocument) => void;
+};
+
+function SameAuthorKeyboardsSection(props: SameAuthorKeyboardsSectionProps) {
+  if (props.sameAuthorKeyboardDocuments.length > 1) {
+    return (
+      <section className="catalog-introduction-section">
+        <Typography variant="h2">Created by Same Designer</Typography>
+        {props.sameAuthorKeyboardDocuments
+          .filter(
+            (definition) => definition.id !== props.definitionDocument!.id
+          )
+          .map((definition, index) => (
+            <Paper
+              key={`same-author-keyboard-${index}`}
+              elevation={0}
+              className="catalog-introduction-same-author-keyboard"
+              onClick={() => {
+                props.onClickSameAuthorKeyboard(definition);
+              }}
+            >
+              {definition.imageUrl ? (
+                <div
+                  className="catalog-introduction-same-author-keyboard-image"
+                  style={{
+                    backgroundImage: `url('${definition.imageUrl}')`,
+                  }}
+                />
+              ) : (
+                <div className="catalog-introduction-same-author-keyboard-no-image">
+                  <PhotoLibraryIcon />
+                  No Image
+                </div>
+              )}
+              <Typography
+                variant="subtitle1"
+                className="catalog-introduction-same-author-keyboard-name"
+              >
+                {definition.name}
+              </Typography>
+            </Paper>
+          ))}
+      </section>
+    );
+  } else {
+    return null;
+  }
+}
+
+type DescriptionSectionProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  selectedDescriptionTabIndex: number;
+  // eslint-disable-next-line no-unused-vars
+  onChangeSelectedDescriptionTabIndex: (tabIndex: number) => void;
+};
+
+function DescriptionSection(props: DescriptionSectionProps) {
+  const convertStringToNodeList = (
+    source: string
+  ): React.ReactNode[] | string => {
+    if (source) {
+      return source.split(/(\n)/).map((item: string, index: number) => {
+        return (
+          <React.Fragment key={index}>
+            {item.match(/\n/) ? <br /> : item}
+          </React.Fragment>
+        );
+      });
+    } else {
+      return 'A description is not specified by the owner of this keyboard.';
+    }
+  };
+
+  return (
+    <section className="catalog-introduction-section">
+      <div className="catalog-introduction-description-tab">
+        <DescriptionTab
+          additionalDescriptions={
+            props.definitionDocument.additionalDescriptions
+          }
+          selectedTabIndex={props.selectedDescriptionTabIndex}
+          onChangeTab={props.onChangeSelectedDescriptionTabIndex}
+        />
+      </div>
+      {props.selectedDescriptionTabIndex === 0 ? (
+        <Typography variant="body1">
+          {convertStringToNodeList(props.definitionDocument.description)}
+        </Typography>
+      ) : (
+        <Typography variant="body1">
+          {convertStringToNodeList(
+            props.definitionDocument.additionalDescriptions[
+              props.selectedDescriptionTabIndex - 1
+            ].body
+          )}
+        </Typography>
+      )}
+    </section>
   );
 }
