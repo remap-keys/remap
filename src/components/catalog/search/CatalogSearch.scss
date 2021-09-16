@@ -31,6 +31,19 @@
 .catalog-search-condition {
   margin-bottom: 16px;
 }
+.catalog-search-condition-xm {
+  padding: 8px 16px;
+  &-keyword {
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .MuiChip-root {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+  }
+}
 
 .catalog-search-buttons {
   display: flex;
