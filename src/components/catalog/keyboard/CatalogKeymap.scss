@@ -86,6 +86,7 @@
       align-items: center;
       flex-wrap: wrap;
       padding: $space-l $space-l 0 $space-l;
+      z-index: 2;
     }
 
     &-side {
