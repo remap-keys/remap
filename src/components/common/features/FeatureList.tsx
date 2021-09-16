@@ -129,8 +129,8 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
 };
 
 type FeatureListProps = {
-  definitionId: string;
   features?: IKeyboardFeatures[];
+  noFeatureMessage?: string;
   size: 'small' | 'medium';
 };
 
@@ -138,9 +138,9 @@ export default function FeatureList(props: FeatureListProps) {
   if (props.features && props.features.length > 0) {
     return (
       <React.Fragment>
-        {props.features.map((feature) => (
+        {props.features.map((feature, index) => (
           <Tooltip
-            key={`feature-${props.definitionId}-${feature}`}
+            key={`feature-${feature}-${index}`}
             title={featureMap[feature].description}
           >
             <Chip label={featureMap[feature].label} size={props.size} />
@@ -148,6 +148,8 @@ export default function FeatureList(props: FeatureListProps) {
         ))}
       </React.Fragment>
     );
+  } else if (props.noFeatureMessage != undefined) {
+    return <div> {props.noFeatureMessage} </div>;
   } else {
     return <div>Not specified by the owner of this keyboard.</div>;
   }

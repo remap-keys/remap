@@ -74,7 +74,6 @@ export default class CatalogIntroduction extends React.Component<
                   <Typography variant="h2">Features</Typography>
                   <div className="catalog-introduction-chip-container">
                     <FeatureList
-                      definitionId={this.props.definitionDocument!.id}
                       features={this.props.definitionDocument!.features}
                       size="medium"
                     />

@@ -4,19 +4,15 @@ import {
   IKeyboardFeatures,
   RootState,
 } from '../../../store/state';
-import CatalogSearch from './CatalogSearch';
+import CatalogSearchForm from './CatalogSearchForm';
 import { CatalogSearchActions } from '../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {
-    features: state.catalog.search.features,
-    searchResult: state.entities.searchResultKeyboardDocuments,
-    keyword: state.catalog.search.keyword,
-  };
+  return {};
 };
-export type CatalogSearchStateType = ReturnType<typeof mapStateToProps>;
+export type CatalogSearchFormStateType = ReturnType<typeof mapStateToProps>;
 
 // eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
@@ -37,11 +33,10 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(CatalogSearchActions.updateKeyword(''));
       _dispatch(CatalogSearchActions.clearFeatures());
     },
-    resetFeatures: (features: IKeyboardFeatures[]) => {
-      _dispatch(CatalogSearchActions.resetFeatures(features));
-    },
   };
 };
-export type CatalogSearchActionsType = ReturnType<typeof mapDispatchToProps>;
+export type CatalogSearchFormActionsType = ReturnType<
+  typeof mapDispatchToProps
+>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(CatalogSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogSearchForm);
