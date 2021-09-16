@@ -146,6 +146,13 @@
       width: 100px;
       height: 75px;
       border: 1px dotted $color-gray-300;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: $color-gray-600;
+      background-color: $color-gray-300;
+      font-size: 0.8rem;
     }
 
     &-name {
