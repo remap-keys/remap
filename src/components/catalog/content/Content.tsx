@@ -10,6 +10,7 @@ import { CatalogKeyboardHeader } from '../keyboard/CatalogKeyboardHeader';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import TweetButton from '../../common/twitter/TweetButton';
+import { useHistory } from 'react-router-dom';
 
 type ContentState = {};
 type OwnProps = {};
@@ -78,20 +79,17 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   goToIntroduction,
   goToKeymap,
 }) => {
+  const history = useHistory();
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
     if (value === 0) {
       sendEventToGoogleAnalytics('catalog/introduction');
       // eslint-disable-next-line no-undef
-      history.pushState(null, 'Remap', `/catalog/${definitionDocument.id}`);
+      history.push(`/catalog/${definitionDocument.id}`);
       goToIntroduction();
     } else if (value === 1) {
       sendEventToGoogleAnalytics('catalog/keymap');
       // eslint-disable-next-line no-undef
-      history.pushState(
-        null,
-        'Remap',
-        `/catalog/${definitionDocument.id}/keymap`
-      );
+      history.push(`/catalog/${definitionDocument.id}/keymap`);
       goToKeymap();
     }
   };

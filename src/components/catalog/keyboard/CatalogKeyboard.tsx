@@ -6,6 +6,8 @@ import {
 } from './CatalogKeyboard.container';
 import CatalogIntroduction from './CatalogIntroduction.container';
 import CatalogKeymap from './CatalogKeymap.container';
+import { matchPath } from 'react-router-dom';
+import * as qs from 'qs';
 
 type CatalogKeyboardState = {};
 type OwnProps = {};
@@ -17,6 +19,8 @@ export default class CatalogKeyboard extends React.Component<
   CatalogKeyboardProps,
   CatalogKeyboardState
 > {
+  private unregisterHistoryCallback: any;
+
   constructor(props: CatalogKeyboardProps | Readonly<CatalogKeyboardProps>) {
     super(props);
   }
@@ -38,6 +42,47 @@ export default class CatalogKeyboard extends React.Component<
     } else {
       this.props.initializeMeta!();
     }
+    this.unregisterHistoryCallback = this.props.history!.listen(
+      (location, action) => {
+        if (action === 'POP') {
+          const introductionMatch = matchPath(location.pathname, {
+            path: '/catalog/:definitionId',
+            exact: true,
+            strict: true,
+          });
+          if (introductionMatch) {
+            this.props.goToIntroduction!();
+            return;
+          }
+          const keymapMatch = matchPath<{ definitionId: string }>(
+            location.pathname,
+            {
+              path: '/catalog/:definitionId/keymap',
+              exact: true,
+              strict: true,
+            }
+          );
+          if (keymapMatch) {
+            this.props.goToKeymap!();
+            if (location.search) {
+              const queryParams = qs.parse(location.search, {
+                ignoreQueryPrefix: true,
+              });
+              if (queryParams.id) {
+                this.props.applySharedKeymap!(
+                  keymapMatch.params.definitionId,
+                  queryParams.id as string
+                );
+              }
+            }
+          }
+        }
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.unregisterHistoryCallback && this.unregisterHistoryCallback();
   }
 
   render() {
