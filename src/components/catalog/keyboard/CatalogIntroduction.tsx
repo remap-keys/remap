@@ -131,7 +131,10 @@ export default class CatalogIntroduction extends React.Component<
                               }}
                             />
                           ) : (
-                            <div className="catalog-introduction-same-author-keyboard-no-image" />
+                            <div className="catalog-introduction-same-author-keyboard-no-image">
+                              <PhotoLibraryIcon />
+                              No Image
+                            </div>
                           )}
                           <Typography
                             variant="subtitle1"
