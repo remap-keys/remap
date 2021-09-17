@@ -465,7 +465,7 @@ export const KEY_SUB_CATEGORY_MOUSE: IKeycodeCategoryInfo = {
 // Reset, Debug
 export const KEY_SUB_CATEGORY_KEYBOARD: IKeycodeCategoryInfo = {
   kinds: ['device', 'keyboard'],
-  codes: [23552, 23553, 23775],
+  codes: [23552, 23553, 23774],
 };
 // CL SWAP, CL CTRL, LAG SWP, RAG SWP, GUI OFF, GE SWAP, BS SWAP, NK ON, AG SWAP, CL NORM, CL CAPS, LAG NRM, RAG NRM, GUI ON, GE NORM, BS NORM, NK OFF, AG NORM, NK TOGG, AG TOGG
 export const KEY_SUB_CATEGORY_BOOTMAGIC: IKeycodeCategoryInfo = {
@@ -491,6 +491,7 @@ export const KEY_SUB_CATEGORY_BOOTMAGIC: IKeycodeCategoryInfo = {
     23571,
     23572,
     23573,
+    23802,
     23803,
     23804,
     23805,
@@ -499,7 +500,6 @@ export const KEY_SUB_CATEGORY_BOOTMAGIC: IKeycodeCategoryInfo = {
     23808,
     23809,
     23810,
-    23811,
     23772,
     23773,
     23849,
