@@ -6380,9 +6380,35 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc: "Reinitializes the keyboard's EEPROM (persistent memory)",
+    desc: 'Automatically switch between USB and Bluetooth',
+    keycodeInfo: {
+      code: 23773,
+      name: {
+        long: 'OUT_AUTO',
+        short: 'OUT_AUTO',
+      },
+      label: 'OUT AUTO',
+      keywords: ['out auto', 'bluetooth', 'usb'],
+    },
+  },
+
+  {
+    desc: 'USB only',
     keycodeInfo: {
       code: 23774,
+      name: {
+        long: 'OUT_USB',
+        short: 'OUT_USB',
+      },
+      label: 'OUT USB',
+      keywords: ['out usb', 'bluetooth', 'usb'],
+    },
+  },
+
+  {
+    desc: "Reinitializes the keyboard's EEPROM (persistent memory)",
+    keycodeInfo: {
+      code: 23775,
       name: {
         long: 'EEPROM_RESET',
         short: 'EEP_RST',
@@ -6599,6 +6625,19 @@ export const keyInfoList: KeyInfo[] = [
       },
       label: 'EH RGHT',
       keywords: ['magci_ee_hands_right', 'eh_rght'],
+    },
+  },
+
+  {
+    desc: 'Bluetooth only',
+    keycodeInfo: {
+      code: 23850,
+      name: {
+        long: 'OUT_BT',
+        short: 'OUT_BT',
+      },
+      label: 'OUT BT',
+      keywords: ['out_bt', 'bluetooth', 'usb'],
     },
   },
 
