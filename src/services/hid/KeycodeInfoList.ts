@@ -6382,7 +6382,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Automatically switch between USB and Bluetooth',
     keycodeInfo: {
-      code: 23773,
+      code: 23772,
       name: {
         long: 'OUT_AUTO',
         short: 'OUT_AUTO',
@@ -6395,7 +6395,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'USB only',
     keycodeInfo: {
-      code: 23774,
+      code: 23773,
       name: {
         long: 'OUT_USB',
         short: 'OUT_USB',
@@ -6408,7 +6408,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: "Reinitializes the keyboard's EEPROM (persistent memory)",
     keycodeInfo: {
-      code: 23775,
+      code: 23774,
       name: {
         long: 'EEPROM_RESET',
         short: 'EEP_RST',
@@ -6512,7 +6512,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Left Control and GUI',
     keycodeInfo: {
-      code: 23803,
+      code: 23802,
       name: {
         long: 'MAGIC_SWAP_LCTL_LGUI',
         short: 'LCG_SWP',
@@ -6525,7 +6525,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Right Control and GUI',
     keycodeInfo: {
-      code: 23804,
+      code: 23803,
       name: {
         long: 'MAGIC_SWAP_RCTL_RGUI',
         short: 'RCG_SWP',
@@ -6538,7 +6538,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Left Control and GUI',
     keycodeInfo: {
-      code: 23805,
+      code: 23804,
       name: {
         long: 'MAGIC_UNSWAP_LCTL_LGUI',
         short: 'LCG_NRM',
@@ -6551,7 +6551,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Right Control and GUI',
     keycodeInfo: {
-      code: 23806,
+      code: 23805,
       name: {
         long: 'MAGIC_UNSWAP_RCTL_RGUI',
         short: 'RCG_NRM',
@@ -6564,7 +6564,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Control and GUI on both sides',
     keycodeInfo: {
-      code: 23807,
+      code: 23806,
       name: {
         long: 'MAGIC_SWAP_CTL_GUI',
         short: 'CG_SWAP',
@@ -6577,7 +6577,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Control and GUI on both sides',
     keycodeInfo: {
-      code: 23808,
+      code: 23807,
       name: {
         long: 'MAGIC_UNSWAP_CTL_GUI',
         short: 'CG_NORM',
@@ -6590,7 +6590,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle Control and GUI swap on both sides',
     keycodeInfo: {
-      code: 23809,
+      code: 23808,
       name: {
         long: 'MAGIC_TOGGLE_CTL_GUI',
         short: 'CG_TOGG',
@@ -6604,7 +6604,7 @@ export const keyInfoList: KeyInfo[] = [
     desc:
       'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
     keycodeInfo: {
-      code: 23810,
+      code: 23809,
       name: {
         long: 'MAGIC_EE_HANDS_LEFT',
         short: 'EH_LEFT',
@@ -6618,7 +6618,7 @@ export const keyInfoList: KeyInfo[] = [
     desc:
       'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
     keycodeInfo: {
-      code: 23811,
+      code: 23810,
       name: {
         long: 'MAGIC_EE_HANDS_RIGHT',
         short: 'EH_RGHT',
@@ -6631,7 +6631,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Bluetooth only',
     keycodeInfo: {
-      code: 23850,
+      code: 23849,
       name: {
         long: 'OUT_BT',
         short: 'OUT_BT',
