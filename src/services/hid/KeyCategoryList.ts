@@ -491,6 +491,15 @@ export const KEY_SUB_CATEGORY_BOOTMAGIC: IKeycodeCategoryInfo = {
     23571,
     23572,
     23573,
+    23803,
+    23804,
+    23805,
+    23806,
+    23807,
+    23808,
+    23809,
+    23810,
+    23811,
   ],
 };
 // Audio On, Audio Off, Audio Toggle, Clicky Toggle, Clicky Enable, Clicky Disable, Clicky Up, Clicky Down, Clicky Reset, Music On, Music Off, Music Toggle, Music Mode
