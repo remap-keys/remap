@@ -580,7 +580,7 @@ export const KEY_SUB_CATEGORY_MACRO: IKeycodeCategoryInfo = {
 // Combo
 export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
   kinds: ['function', 'combo'],
-  codes: [23799, 23800, 23801],
+  codes: [23575, 23576, 23577, 23578, 23579, 23580, 23799, 23800, 23801],
 };
 // MIDI
 export const KEY_SUB_CATEGORY_MIDI: IKeycodeCategoryInfo = {

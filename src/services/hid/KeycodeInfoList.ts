@@ -4087,6 +4087,78 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
+    desc: 'Raise the Auto Shift timeout variable (up)',
+    keycodeInfo: {
+      code: 23575,
+      name: {
+        long: 'KC_ASUP',
+        short: 'KC_ASUP',
+      },
+      label: 'ASUP',
+      keywords: ['auto shift', 'timeout', 'up'],
+    },
+  },
+  {
+    desc: 'Lower the Auto Shift timeout variable (down)',
+    keycodeInfo: {
+      code: 23576,
+      name: {
+        long: 'KC_ASDN',
+        short: 'KC_ASDN',
+      },
+      label: 'ASDN',
+      keywords: ['auto shift', 'timeout', 'down'],
+    },
+  },
+  {
+    desc: 'Report your current Auto Shift timeout value',
+    keycodeInfo: {
+      code: 23577,
+      name: {
+        long: 'KC_ASRP',
+        short: 'KC_ASRP',
+      },
+      label: 'ASRP',
+      keywords: ['auto shift', 'timeout'],
+    },
+  },
+  {
+    desc: 'Toggles the state of the Auto Shift feature',
+    keycodeInfo: {
+      code: 23578,
+      name: {
+        long: 'KC_ASTG',
+        short: 'KC_ASTG',
+      },
+      label: 'ASTG',
+      keywords: ['auto shift toggle'],
+    },
+  },
+  {
+    desc: 'Turns on the Auto Shift Function',
+    keycodeInfo: {
+      code: 23579,
+      name: {
+        long: 'KC_ASON',
+        short: 'KC_ASON',
+      },
+      label: 'ASON',
+      keywords: ['auto shift on'],
+    },
+  },
+  {
+    desc: 'Turns off the Auto Shift Function',
+    keycodeInfo: {
+      code: 23580,
+      name: {
+        long: 'KC_ASOFF',
+        short: 'KC_ASOFF',
+      },
+      label: 'ASOFF',
+      keywords: ['auto shift off'],
+    },
+  },
+  {
     desc: 'Audio mode on.',
     keycodeInfo: {
       code: 23581,
