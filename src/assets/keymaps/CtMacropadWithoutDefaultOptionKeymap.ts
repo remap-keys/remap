@@ -1,4 +1,4 @@
-export const CtMacropadKeymap = [
+export const CtMacropadWithoutDefaultOptionKeymap = [
   [
     {
       x: 1.5,
@@ -9,16 +9,7 @@ export const CtMacropadKeymap = [
     '0,10\n\n\n0,1',
     '0,11\n\n\n0,1',
   ],
-  [
-    { y: 0.5 },
-    '0,5',
-    {
-      x: 0.5,
-      w: 5,
-      d: true,
-    },
-    '0,7\n\n\n0,0',
-  ],
+  [{ y: 0.5 }, '0,5'],
   [
     {
       x: 2.5,
