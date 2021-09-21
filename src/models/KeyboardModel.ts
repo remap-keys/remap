@@ -88,6 +88,7 @@ class KeymapItem {
   private pos: string;
   readonly option: string;
   readonly choice: string;
+  private _toBeDelete: boolean;
 
   constructor(curr: Current, label: string, op: KeyOp | null = null) {
     this._curr = new Current(curr);
@@ -99,6 +100,7 @@ class KeymapItem {
       locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
+    this._toBeDelete = false;
   }
 
   get isDefault(): boolean {
@@ -152,12 +154,16 @@ class KeymapItem {
     return 1;
   }
 
-  align(x: number, y: number) {
-    this._curr.minus(x, y);
+  get toBeDeleted(): boolean {
+    return this._toBeDelete;
   }
 
-  hideKey() {
-    this.op.d = true;
+  set toBeDeleted(flag: boolean) {
+    this._toBeDelete = flag;
+  }
+
+  align(x: number, y: number) {
+    this._curr.minus(x, y);
   }
 
   relocate(curr: Current) {
@@ -330,7 +336,7 @@ export default class KeyboardModel {
 
         if (originalOptionPosition === undefined) {
           optionKeymaps[option][choice].forEach((item: KeymapItem) => {
-            item.hideKey();
+            item.toBeDeleted = true;
           });
           return;
         }
@@ -345,6 +351,8 @@ export default class KeyboardModel {
 
     const list: KeyModel[] = [];
     keymapsList.flat().forEach((item: KeymapItem) => {
+      if (item.toBeDeleted) return;
+
       let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
       list.push(model);
     });
