@@ -26,9 +26,10 @@ import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
 import { KeyopsSuccessionKeymap } from '../../../assets/keymaps/KeyopsSuccession';
 import { LayoutOption } from './Keymap';
-import { CcProtoKeymap } from '../../../assets/keymaps/CcProto';
-import { GK6Keymap } from '../../../assets/keymaps/GK6';
+import { GK6Keymap } from '../../../assets/keymaps/GK6Keymap';
 import { CtMacropadKeymap } from '../../../assets/keymaps/CtMacropadKeymap';
+import { CtMacropadWithoutDefaultOptionKeymap } from '../../../assets/keymaps/CtMacropadWithoutDefaultOptionKeymap';
+import { GiabalanaiKeymap } from '../../../assets/keymaps/GiabalanaiKeymap';
 
 export default {
   title: 'Keyboards',
@@ -118,6 +119,46 @@ const genKeyboardView = (
           margin: '24px auto',
         }}
       >
+        {options && (
+          <div>
+            <table
+              style={{
+                textAlign: 'center',
+                borderCollapse: 'collapse',
+                marginBottom: 8,
+                backgroundColor: 'white',
+              }}
+            >
+              <tr>
+                {options.map((op, index) => (
+                  <th
+                    key={`option${index}`}
+                    style={{
+                      border: '1px solid rgba(0,0,0,0.2)',
+                      padding: `0 4px`,
+                    }}
+                  >
+                    option{op.option}
+                  </th>
+                ))}
+              </tr>
+              <tr>
+                {options.map((op, index) => (
+                  <td
+                    key={`optionChoice${index}`}
+                    style={{
+                      border: '1px solid rgba(0,0,0,0.2)',
+                      padding: '0 4px',
+                    }}
+                  >
+                    {op.optionChoice}
+                  </td>
+                ))}
+              </tr>
+            </table>
+          </div>
+        )}
+
         <textarea
           style={{
             fontSize: 14,
@@ -127,7 +168,9 @@ const genKeyboardView = (
             border: '1px solid #ccc',
           }}
           rows={km.length}
-          defaultValue={km.map((row) => format(JSON.stringify(row))).join('\n')}
+          defaultValue={km
+            .map((row) => format(JSON.stringify(row)))
+            .join(',\n')}
         />
       </div>
     </React.Fragment>
@@ -153,16 +196,32 @@ export const Cornelius = () => genKeyboardView('Cornelius', CorneliusKeymap);
 export const Aleth42 = () => genKeyboardView('Aleth42', Aleth42Keymap);
 export const Hotdox = () => genKeyboardView('Hotdox', HotdoxKeymap);
 export const GK6 = () => genKeyboardView('GK6', GK6Keymap);
-export const CcProto00 = () =>
-  genKeyboardView('CcProto00', CcProtoKeymap, [{ option: 0, optionChoice: 0 }]);
-export const CcProto01 = () =>
-  genKeyboardView('CcProto01', CcProtoKeymap, [{ option: 0, optionChoice: 1 }]);
 export const CtMacropad00 = () =>
-  genKeyboardView('CcMacropad00', CtMacropadKeymap, [
+  genKeyboardView('CtMacropad00', CtMacropadKeymap, [
     { option: 0, optionChoice: 0 },
   ]);
 export const CtMacropad01 = () =>
-  genKeyboardView('CcMacropad01', CtMacropadKeymap, [
+  genKeyboardView('CtMacropad01', CtMacropadKeymap, [
+    { option: 0, optionChoice: 1 },
+  ]);
+export const CtMacropadWithoutDefaultOption00 = () =>
+  genKeyboardView(
+    'CtMacropadWithoutDefaultOption00',
+    CtMacropadWithoutDefaultOptionKeymap,
+    [{ option: 0, optionChoice: 0 }]
+  );
+export const CtMacropadWithoutDefaultOption01 = () =>
+  genKeyboardView(
+    'CtMacropadWithoutDefaultOption01',
+    CtMacropadWithoutDefaultOptionKeymap,
+    [{ option: 0, optionChoice: 1 }]
+  );
+export const Giabalanai00 = () =>
+  genKeyboardView('Giabalanai00', GiabalanaiKeymap, [
+    { option: 0, optionChoice: 0 },
+  ]);
+export const Giabalanai01 = () =>
+  genKeyboardView('Giabalanai01', GiabalanaiKeymap, [
     { option: 0, optionChoice: 1 },
   ]);
 export const Zinc = () =>

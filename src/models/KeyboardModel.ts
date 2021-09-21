@@ -83,15 +83,16 @@ class Current {
 
 class KeymapItem {
   private _curr: Current;
-  readonly op: KeyOp | null;
+  readonly op: KeyOp;
   readonly label: string;
   private pos: string;
   readonly option: string;
   readonly choice: string;
+  private _toBeDelete: boolean;
 
   constructor(curr: Current, label: string, op: KeyOp | null = null) {
     this._curr = new Current(curr);
-    this.op = op;
+    this.op = op || {};
     this.label = label;
     const locs = label.split('\n\n\n');
     this.pos = locs[0];
@@ -99,6 +100,7 @@ class KeymapItem {
       locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
+    this._toBeDelete = false;
   }
 
   get isDefault(): boolean {
@@ -150,6 +152,14 @@ class KeymapItem {
       return this.op.w;
     }
     return 1;
+  }
+
+  get toBeDeleted(): boolean {
+    return this._toBeDelete;
+  }
+
+  set toBeDeleted(flag: boolean) {
+    this._toBeDelete = flag;
   }
 
   align(x: number, y: number) {
@@ -290,15 +300,18 @@ export default class KeyboardModel {
       });
     });
 
-    function getTopLeftOfOptionKeymaps(keymapItems: KeymapItem[]): Position {
+    function getTopLeftOfOptionKeymaps(
+      keymapItems: KeymapItem[]
+    ): Position | undefined {
       let top = Infinity;
       let left = Infinity;
       keymapItems.forEach((item) => {
         top = Math.min(item.y, top);
         left = Math.min(item.x - item.x2, left);
       });
-      top = top === Infinity ? 0 : top;
-      left = left === Infinity ? 0 : left;
+
+      if (top === Infinity || left === Infinity) return undefined;
+
       return { top, left };
     }
 
@@ -307,6 +320,7 @@ export default class KeyboardModel {
      * - Calculate the original option's base position which is left-top location of the default option keys
      * - Calculate the optional choice's base position which is left-top location of the option-choice keys
      * - Relocate the option-choice keys by the location diff which is calculated by the original and optional location.
+     * - If there is no default option, its choice keys MUST be deleted.
      */
     Object.keys(optionKeymaps).forEach((option: string) => {
       const defaultKeyItems = keymapsList
@@ -317,6 +331,16 @@ export default class KeyboardModel {
         const optionChoicePosition = getTopLeftOfOptionKeymaps(
           optionKeymaps[option][choice]
         );
+
+        if (optionChoicePosition === undefined) return;
+
+        if (originalOptionPosition === undefined) {
+          optionKeymaps[option][choice].forEach((item: KeymapItem) => {
+            item.toBeDeleted = true;
+          });
+          return;
+        }
+
         const diffX = optionChoicePosition.left - originalOptionPosition.left;
         const diffY = optionChoicePosition.top - originalOptionPosition.top;
         optionKeymaps[option][choice].forEach((item: KeymapItem) => {
@@ -327,6 +351,8 @@ export default class KeyboardModel {
 
     const list: KeyModel[] = [];
     keymapsList.flat().forEach((item: KeymapItem) => {
+      if (item.toBeDeleted) return;
+
       let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
       list.push(model);
     });
