@@ -389,7 +389,7 @@ export const KEY_SUB_CATEGORY_COMMAND: IKeycodeCategoryInfo = {
 };
 // Func0, Func1, Func2, Func3, Func4, Func5, Func6, Func7, Func8, Func9, Func10, Func11, Func12, Func13, Func14, Func15, Func16, Func17, Func18, Func19, Func20, Func21, Func22, Func23, Func24, Func25, Func26, Func27, Func28, Func29, Func30, Func31
 export const KEY_SUB_CATEGORY_EMBED_FUNCTION: IKeycodeCategoryInfo = {
-  kinds: ['special', 'embed_function'],
+  kinds: ['special', 'func'],
   codes: [
     192,
     193,
@@ -437,7 +437,7 @@ export const KEY_SUB_CATEGORY_APPLICATION: IKeycodeCategoryInfo = {
 };
 // Power,  System Power Down, Sleep, Wake, Screen+, Screen-
 export const KEY_SUB_CATEGORY_DEVICE: IKeycodeCategoryInfo = {
-  kinds: ['device'],
+  kinds: ['device', 'device'],
   codes: [102, 165, 166, 167, 189, 190],
 };
 // Mouse↑, Mouse↓, Mouse←, Mouse→, Mouse Btn1, Mouse Btn2, Mouse Btn3, Mouse Btn4, Mouse Btn5, Mouse Wh↑, Mouse Wh↓, Mouse Wh←, Mouse Wh→, Mouse Acc0, Mouse Acc1, Mouse Acc2

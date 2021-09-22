@@ -103,12 +103,12 @@ export type IKeycodeCompositionKind =
   | 'layer_tap'
   | 'to'
   | 'momentary'
-  | 'def_layer'
-  | 'toggle_layer'
-  | 'one_shot_layer'
-  | 'one_shot_mod'
+  | 'df'
+  | 'tl'
+  | 'osl'
+  | 'osm'
   | 'tap_dance'
-  | 'layer_tap_toggle'
+  | 'tt'
   | 'layer_mod'
   | 'swap_hands'
   | 'mod_tap'
@@ -126,12 +126,12 @@ export const KeycodeCompositionKind: {
   layer_tap: 'layer_tap',
   to: 'to',
   momentary: 'momentary',
-  def_layer: 'def_layer',
-  toggle_layer: 'toggle_layer',
-  one_shot_layer: 'one_shot_layer',
-  one_shot_mod: 'one_shot_mod',
+  df: 'df',
+  tl: 'tl',
+  osl: 'osm',
+  osm: 'osm',
   tap_dance: 'tap_dance',
-  layer_tap_toggle: 'layer_tap_toggle',
+  tt: 'tt',
   layer_mod: 'layer_mod',
   swap_hands: 'swap_hands',
   mod_tap: 'mod_tap',
@@ -151,12 +151,12 @@ const keycodeCompositionKindRangeMap: {
   layer_tap: { min: QK_LAYER_TAP_MIN, max: QK_LAYER_TAP_MAX },
   to: { min: QK_TO_MIN, max: QK_TO_MAX },
   momentary: { min: QK_MOMENTARY_MIN, max: QK_MOMENTARY_MAX },
-  def_layer: { min: QK_DEF_LAYER_MIN, max: QK_DEF_LAYER_MAX },
-  toggle_layer: { min: QK_TOGGLE_LAYER_MIN, max: QK_TOGGLE_LAYER_MAX },
-  one_shot_layer: { min: QK_ONE_SHOT_LAYER_MIN, max: QK_ONE_SHOT_LAYER_MAX },
-  one_shot_mod: { min: QK_ONE_SHOT_MOD_MIN, max: QK_ONE_SHOT_MOD_MAX },
+  df: { min: QK_DEF_LAYER_MIN, max: QK_DEF_LAYER_MAX },
+  tl: { min: QK_TOGGLE_LAYER_MIN, max: QK_TOGGLE_LAYER_MAX },
+  osl: { min: QK_ONE_SHOT_LAYER_MIN, max: QK_ONE_SHOT_LAYER_MAX },
+  osm: { min: QK_ONE_SHOT_MOD_MIN, max: QK_ONE_SHOT_MOD_MAX },
   tap_dance: { min: QK_TAP_DANCE_MIN, max: QK_TAP_DANCE_MAX },
-  layer_tap_toggle: {
+  tt: {
     min: QK_LAYER_TAP_TOGGLE_MIN,
     max: QK_LAYER_TAP_TOGGLE_MAX,
   },
@@ -851,7 +851,7 @@ export class DefLayerComposition implements IMomentaryComposition {
         name: { short: label, long: label },
         keywords: [],
       },
-      kinds: ['def_layer'],
+      kinds: ['layers', 'df'],
       desc: `Switches the default layer(${layer}). The default layer is the always-active base layer that other layers stack on top of.`,
       option: layer,
     };
@@ -898,7 +898,7 @@ export class ToggleLayerComposition implements IMomentaryComposition {
         name: { short: label, long: label },
         keywords: [],
       },
-      kinds: ['layers', 'toggle_layer'],
+      kinds: ['layers', 'tl'],
       desc: `Toggles layer(${layer}), activating it if it's inactive and vice versa.`,
       option: layer,
     };
@@ -945,7 +945,7 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
         name: { short: label, long: label },
         keywords: [],
       },
-      kinds: ['layers', 'one_shot_layer'],
+      kinds: ['layers', 'osl'],
       desc: `Momentarily activates layer(${layer}) until the next key is pressed.`,
       option: layer,
     };
@@ -998,7 +998,7 @@ export class OneShotModComposition implements IOneShotModComposition {
         name: { short: 'OSM', long: 'OSM' },
         keywords: [],
       },
-      kinds: ['one_shot_mod'],
+      kinds: ['layers', 'osm'],
       desc: `Momentarily activates modifier(s) until the next key is pressed.`,
     };
   }
@@ -1016,7 +1016,7 @@ export class OneShotModComposition implements IOneShotModComposition {
           name: { short: 'OSM', long: 'OSM' },
           keywords: [],
         },
-        kinds: ['one_shot_mod'],
+        kinds: ['layers', 'osm'],
         desc: `Momentarily activates modifier(s) until the next key is pressed.`,
       },
     ];
@@ -1074,7 +1074,7 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
         name: { short: '', long: '' },
         keywords: [],
       },
-      kinds: ['layers', 'layer_tap_toggle'],
+      kinds: ['layers', 'tt'],
       desc: `If you hold the key down, layer(${layer}) is activated, and then is de-activated when you let go.`,
       option: layer,
     };
@@ -1614,7 +1614,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   }
 
   isDefLayer(): boolean {
-    return this.getKind() === KeycodeCompositionKind.def_layer;
+    return this.getKind() === KeycodeCompositionKind.df;
   }
 
   isFunction(): boolean {
@@ -1630,7 +1630,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   }
 
   isLayerTapToggle(): boolean {
-    return this.getKind() === KeycodeCompositionKind.layer_tap_toggle;
+    return this.getKind() === KeycodeCompositionKind.tt;
   }
 
   isLooseKeycode(): boolean {
@@ -1654,11 +1654,11 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   }
 
   isOneShotLayer(): boolean {
-    return this.getKind() === KeycodeCompositionKind.one_shot_layer;
+    return this.getKind() === KeycodeCompositionKind.osl;
   }
 
   isOneShotMod(): boolean {
-    return this.getKind() === KeycodeCompositionKind.one_shot_mod;
+    return this.getKind() === KeycodeCompositionKind.osm;
   }
 
   isSwapHands(): boolean {
@@ -1674,7 +1674,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   }
 
   isToggleLayer(): boolean {
-    return this.getKind() === KeycodeCompositionKind.toggle_layer;
+    return this.getKind() === KeycodeCompositionKind.tl;
   }
 
   isUnicode(): boolean {

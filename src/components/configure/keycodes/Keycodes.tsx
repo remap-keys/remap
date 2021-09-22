@@ -20,6 +20,7 @@ import {
   IMacroBuffer,
   MacroBuffer,
 } from '../../../services/macro/Macro';
+import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {};
 
@@ -269,6 +270,30 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       keys = [];
     }
     const macrEditMode = this.props.macroKey != null;
+    let subCategory: KeymapCategory = 'basic';
+    let keycodekeys: JSX.Element[] = [];
+    keys.forEach((key, index) => {
+      const isMacro = key.keymap.kinds.includes('macro');
+      const endKind: KeymapCategory =
+        key.keymap.kinds[key.keymap.kinds.length - 1];
+      if (1 < key.keymap.kinds.length && subCategory != endKind) {
+        subCategory = endKind;
+        keycodekeys.push(
+          <div className="sub-category">
+            <span>{subCategory.split('_').join(' ').toUpperCase()}</span>
+          </div>
+        );
+      }
+      keycodekeys.push(
+        <KeycodeKey
+          index={index}
+          key={`${this.state.category}${index}`}
+          value={key}
+          draggable={true}
+          clickable={isMacro && !macrEditMode}
+        />
+      );
+    });
     return (
       <React.Fragment>
         <div className="key-categories">
@@ -315,18 +340,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
               this.props.keyboardWidth! + 144 /* = (PADDING + KeycodeKey)*2 */,
           }}
         >
-          {keys.map((key, index) => {
-            const isMacro = key.keymap.kinds.includes('macro');
-            return (
-              <KeycodeKey
-                index={index}
-                key={`${this.state.category}${index}`}
-                value={key}
-                draggable={true}
-                clickable={isMacro && !macrEditMode}
-              />
-            );
-          })}
+          {keycodekeys}
           {this.state.category == IKeycodeCategory.ANY && (
             <KeycodeAddKey key={'add'} />
           )}

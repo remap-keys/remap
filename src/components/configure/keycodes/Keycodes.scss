@@ -9,6 +9,28 @@
   flex-wrap: wrap;
   max-width: 1280px;
   margin: 0 auto;
+
+  .sub-category {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-wrap: anywhere;
+    width: calc(var(--key-width) * 2);
+    height: calc(var(--key-height));
+    border: 1px solid transparent;
+    margin-right: 16px;
+    margin-top: 8px;
+    span {
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 0 2px;
+      &:hover {
+        color: white;
+        background-color: $primary-pale;
+      }
+    }
+  }
 }
 .key-categories {
   display: flex;
