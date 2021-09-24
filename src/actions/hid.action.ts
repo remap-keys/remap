@@ -474,6 +474,23 @@ export const hidActionsThunk = {
     }
   },
 
+  refreshKeymaps: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { app, entities } = getState();
+    const keyboard: IKeyboard = entities.keyboard!;
+    const keymaps: IKeymaps[] = await loadKeymap(
+      dispatch,
+      keyboard,
+      entities.device.layerCount,
+      entities.keyboardDefinition!.matrix.rows,
+      entities.keyboardDefinition!.matrix.cols,
+      app.labelLang
+    );
+    dispatch(HidActions.updateKeymaps(keymaps));
+  },
+
   resetKeymap: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
