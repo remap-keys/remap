@@ -9,7 +9,7 @@ import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@material-ui/icons/Close';
 import * as qs from 'qs';
 
-type ICatalogDetailMode = 'introduction' | 'keymap';
+type ICatalogDetailMode = 'introduction' | 'keymap' | 'firmware';
 
 type ParamsType = {
   definitionId: string;
@@ -85,6 +85,9 @@ class Catalog extends React.Component<CatalogProps, OwnState> {
       if (keymapId) {
         this.props.applySharedKeymap!(definitionId, keymapId);
       }
+    } else if (this.props.catalogDetailMode === 'firmware') {
+      const definitionId = this.props.match.params.definitionId;
+      this.props.updateKeyboard!(definitionId, 'firmware');
     } else {
       const queryParams = qs.parse(this.props.location.search, {
         ignoreQueryPrefix: true,

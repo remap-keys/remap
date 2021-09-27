@@ -1,0 +1,41 @@
+@import 'src/variables';
+
+.catalog-firmware {
+  &-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  &-panel {
+    width: 100%;
+    //border: 16px solid #fff;
+    padding: 16px;
+    background-color: #fff;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  &-card {
+    width: 100%;
+    margin-bottom: 16px;
+
+    &-buttons {
+      justify-content: flex-end;
+    }
+  }
+}

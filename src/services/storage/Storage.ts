@@ -38,6 +38,14 @@ export interface ISubImage {
   image_url: string;
 }
 
+export interface IFirmware {
+  name: string;
+  created_at: Date;
+  description: string;
+  hash: string;
+  filename: string;
+}
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -66,6 +74,7 @@ export interface IKeyboardDefinitionDocument {
   readonly additionalDescriptions: IAdditionalDescription[];
   readonly stores: IStore[];
   readonly websiteUrl: string;
+  readonly firmwares: IFirmware[];
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }

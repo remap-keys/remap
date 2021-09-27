@@ -21,6 +21,7 @@ import {
   IFetchSharedKeymapResult,
   IAdditionalDescription,
   ISubImage,
+  IFirmware,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -64,6 +65,18 @@ export class FirebaseProvider implements IStorage, IAuth {
   private generateKeyboardDefinitionDocument(
     documentSnapshot: firebase.firestore.DocumentSnapshot
   ): IKeyboardDefinitionDocument {
+    const firmwares: IFirmware[] = [];
+    if (documentSnapshot.data()!.firmwares) {
+      documentSnapshot.data()!.firmwares.forEach((firmware: any) => {
+        firmwares.push({
+          name: firmware.name,
+          description: firmware.description,
+          hash: firmware.hash,
+          filename: firmware.filename,
+          created_at: firmware.created_at.toDate(),
+        });
+      });
+    }
     return {
       id: documentSnapshot.id,
       name: documentSnapshot.data()!.name,
@@ -97,6 +110,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         documentSnapshot.data()!.additional_descriptions || [],
       stores: documentSnapshot.data()!.stores || [],
       websiteUrl: documentSnapshot.data()!.website_url || '',
+      firmwares,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };

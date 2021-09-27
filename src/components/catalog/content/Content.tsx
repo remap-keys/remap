@@ -41,12 +41,14 @@ export default class Content extends React.Component<
         );
       case 'introduction':
       case 'keymap':
+      case 'firmware':
         return (
           <CategoryKeyboardContent
             phase={phase}
             definitionDocument={this.props.definitionDocument!}
             goToIntroduction={this.props.goToIntroduction!.bind(this)}
             goToKeymap={this.props.goToKeymap!.bind(this)}
+            goToFirmware={this.props.goToFirmware!.bind(this)}
           />
         );
       default:
@@ -71,6 +73,7 @@ type CategoryKeyboardContentProps = {
   definitionDocument: IKeyboardDefinitionDocument;
   goToIntroduction: () => void;
   goToKeymap: () => void;
+  goToFirmware: () => void;
 };
 
 const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
@@ -78,6 +81,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   definitionDocument,
   goToIntroduction,
   goToKeymap,
+  goToFirmware,
 }) => {
   const history = useHistory();
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
@@ -91,10 +95,17 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
       // eslint-disable-next-line no-undef
       history.push(`/catalog/${definitionDocument.id}/keymap`);
       goToKeymap();
+    } else if (value === 2) {
+      // FIXME Activate below!
+      // sendEventToGoogleAnalytics('catalog/firmware');
+      history.push(`/catalog/${definitionDocument.id}/firmware`);
+      goToFirmware();
     }
   };
-  if ((['introduction', 'keymap'] as ICatalogPhase[]).includes(phase)) {
-    const value = phase === 'keymap' ? 1 : 0;
+  if (
+    (['introduction', 'keymap', 'firmware'] as ICatalogPhase[]).includes(phase)
+  ) {
+    const value = phase === 'keymap' ? 1 : phase === 'firmware' ? 2 : 0;
     // eslint-disable-next-line no-undef
     const url = `https://remap-keys.app/catalog/${definitionDocument!.id}`;
     return (
@@ -105,6 +116,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
             <Tabs value={value} indicatorColor="primary" onChange={onChangeTab}>
               <Tab label="Overview" />
               <Tab label="Keymap" />
+              <Tab label="Firmware" />
             </Tabs>
             <div className="catalog-share-buttons">
               <TweetButton url={url} />

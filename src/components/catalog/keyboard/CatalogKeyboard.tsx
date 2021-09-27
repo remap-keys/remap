@@ -8,6 +8,7 @@ import CatalogIntroduction from './introduction/CatalogIntroduction.container';
 import CatalogKeymap from './keymap/CatalogKeymap.container';
 import { matchPath } from 'react-router-dom';
 import * as qs from 'qs';
+import CatalogFirmware from './firmware/CatalogFirmware.container';
 
 type CatalogKeyboardState = {};
 type OwnProps = {};
@@ -75,6 +76,19 @@ export default class CatalogKeyboard extends React.Component<
                 );
               }
             }
+            return;
+          }
+          const firmwareMatch = matchPath<{ definitionId: string }>(
+            location.pathname,
+            {
+              path: '/catalog/:definitionId/firmware',
+              exact: true,
+              strict: true,
+            }
+          );
+          if (firmwareMatch) {
+            this.props.goToFirmware!();
+            return;
           }
         }
       }
@@ -90,6 +104,8 @@ export default class CatalogKeyboard extends React.Component<
       return <CatalogIntroduction />;
     } else if (this.props.phase === 'keymap') {
       return <CatalogKeymap />;
+    } else if (this.props.phase === 'firmware') {
+      return <CatalogFirmware />;
     } else {
       throw new Error(`Invalid phase: ${this.props.phase}`);
     }

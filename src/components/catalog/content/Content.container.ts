@@ -24,6 +24,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     goToIntroduction: () => {
       _dispatch(CatalogAppActions.updatePhase('introduction'));
     },
+    goToFirmware: () => {
+      _dispatch(CatalogAppActions.updatePhase('firmware'));
+    },
   };
 };
 export type ContentActionsType = ReturnType<typeof mapDispatchToProps>;
