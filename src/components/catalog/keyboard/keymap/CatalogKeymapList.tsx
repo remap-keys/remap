@@ -1,6 +1,6 @@
 import React from 'react';
 import './CatalogKeymapList.scss';
-import { AbstractKeymapData } from '../../../services/storage/Storage';
+import { AbstractKeymapData } from '../../../../services/storage/Storage';
 import {
   CatalogKeymapListActionsType,
   CatalogKeymapListStateType,

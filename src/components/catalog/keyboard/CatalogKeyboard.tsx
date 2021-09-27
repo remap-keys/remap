@@ -4,8 +4,8 @@ import {
   CatalogKeyboardActionsType,
   CatalogKeyboardStateType,
 } from './CatalogKeyboard.container';
-import CatalogIntroduction from './CatalogIntroduction.container';
-import CatalogKeymap from './CatalogKeymap.container';
+import CatalogIntroduction from './introduction/CatalogIntroduction.container';
+import CatalogKeymap from './keymap/CatalogKeymap.container';
 import { matchPath } from 'react-router-dom';
 import * as qs from 'qs';
 
