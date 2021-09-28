@@ -40,7 +40,13 @@ export default class CatalogFirmware extends React.Component<
                 )
               )}{' '}
             </div>
-          ) : null}
+          ) : (
+            <div className="catalog-firmware-nothing">
+              <Typography variant="body1">
+                There is no firmware provided for this keyboard on Remap.
+              </Typography>
+            </div>
+          )}
         </div>
       </div>
     );
