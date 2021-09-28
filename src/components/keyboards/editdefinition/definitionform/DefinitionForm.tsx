@@ -10,14 +10,14 @@ import React from 'react';
 import {
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
-} from '../../../services/storage/Storage';
-import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
-import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../store/state';
-import { AgreementCheckbox } from '../agreement/AgreementCheckbox';
+} from '../../../../services/storage/Storage';
+import { KeyboardDefinitionFormPart } from '../../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
+import { KeyboardDefinitionSchema } from '../../../../gen/types/KeyboardDefinition';
+import { FirmwareCodePlace, IFirmwareCodePlace } from '../../../../store/state';
+import { AgreementCheckbox } from '../../agreement/AgreementCheckbox';
 import './DefinitionForm.scss';
-import productNameDescription from '../../../assets/images/keyboards/product-name-field.png';
-import { HtmlTooltip } from '../../htmltooltip/HtmlTooltip';
+import productNameDescription from '../../../../assets/images/keyboards/product-name-field.png';
+import { HtmlTooltip } from '../../../htmltooltip/HtmlTooltip';
 
 type DefinitionFormProps = {
   definitionDocument: IKeyboardDefinitionDocument | null | undefined;

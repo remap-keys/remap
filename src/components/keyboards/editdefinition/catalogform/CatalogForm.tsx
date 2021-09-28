@@ -35,14 +35,14 @@ import {
   ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IKeyboardFeatures,
-} from '../../../store/state';
+} from '../../../../store/state';
 import {
   CatalogFormActionsType,
   CatalogFormStateType,
 } from './CatalogForm.container';
 import { Delete } from '@material-ui/icons';
 import StoreAddDialog from './StoreAddDialog';
-import { IStore, ISubImage } from '../../../services/storage/Storage';
+import { IStore, ISubImage } from '../../../../services/storage/Storage';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &

@@ -37,8 +37,8 @@ import {
   isOtherFirmwareCode,
   isQmkFirmwareCode,
 } from '../ValidationUtils';
-import DefinitionForm from './DefinitionForm';
-import CatalogForm from './CatalogForm.container';
+import DefinitionForm from './definitionform/DefinitionForm';
+import CatalogForm from './catalogform/CatalogForm.container';
 
 type ConfirmDialogMode =
   | 'save_as_draft'

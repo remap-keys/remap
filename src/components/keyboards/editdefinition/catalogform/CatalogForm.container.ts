@@ -2,12 +2,12 @@ import {
   IConditionNotSelected,
   IKeyboardFeatures,
   RootState,
-} from '../../../store/state';
+} from '../../../../store/state';
 import { connect } from 'react-redux';
 import CatalogForm from './CatalogForm';
-import { KeyboardsEditDefinitionActions } from '../../../actions/keyboards.actions';
-import { storageActionsThunk } from '../../../actions/storage.action';
-import { IStore } from '../../../services/storage/Storage';
+import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
+import { storageActionsThunk } from '../../../../actions/storage.action';
+import { IStore } from '../../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
