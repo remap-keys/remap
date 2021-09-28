@@ -22,10 +22,12 @@ import {
   IAdditionalDescription,
   ISubImage,
   IFirmware,
+  IFetchFirmwareFileBlobResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
+import * as crypto from 'crypto';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -965,6 +967,102 @@ export class FirebaseProvider implements IStorage, IAuth {
         success: false,
         error: 'Fetching the keyboards created by same author failed',
         cause: error,
+      };
+    }
+  }
+
+  async uploadFirmwareFile(
+    definitionId: string,
+    firmwareFile: File,
+    firmwareName: string,
+    firmwareDescription: string,
+    keyboardName: string,
+    // eslint-disable-next-line no-unused-vars
+    progress?: (uploadedRate: number) => void
+  ): Promise<IResult> {
+    // eslint-disable-next-line no-unused-vars
+    return new Promise<IResult>((resolve, reject) => {
+      const filename = FirebaseProvider.createFirmwareFilename(
+        keyboardName,
+        firmwareFile,
+        new Date().getTime()
+      );
+      const filePath = `/firmware/${this.auth.currentUser!.uid}/${filename}`;
+      const uploadTask = this.storage.ref(filePath).put(firmwareFile);
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          if (progress) {
+            const rate =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            progress(rate);
+          }
+        },
+        (error) => {
+          console.error(error);
+          resolve({
+            success: false,
+            error: 'Uploading firmware file failed.',
+            cause: error,
+          });
+        },
+        async () => {
+          const hash = crypto
+            .createHash('sha256')
+            .update(new Uint8Array(await firmwareFile.arrayBuffer()))
+            .digest('hex');
+          await this.db
+            .collection('keyboards')
+            .doc('v2')
+            .collection('definitions')
+            .doc(definitionId)
+            .update({
+              firmwares: firebase.firestore.FieldValue.arrayUnion({
+                name: firmwareName,
+                description: firmwareDescription,
+                created_at: new Date(),
+                filename: filePath,
+                hash,
+              }),
+            });
+          resolve({
+            success: true,
+          });
+        }
+      );
+    });
+  }
+
+  static createFirmwareFilename(
+    keyboardName: string,
+    firmwareFile: File,
+    timestamp: number
+  ): string {
+    const extname = firmwareFile.name.substring(
+      firmwareFile.name.lastIndexOf('.') + 1
+    );
+    return `${keyboardName}-${timestamp}.${extname}`;
+  }
+
+  async fetchFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult> {
+    // This operation needs CORS setting for the GCS bucket.
+    // cors.json: [{"origin": ["*"], "method": ["GET"], "maxAgeSeconds": 3600}]
+    // gsutil cors set cors.json gs://remap-b2d08.appspot.com
+    const downloadUrl = await this.storage
+      .ref(firmwareFilePath)
+      .getDownloadURL();
+    const response = await fetch(downloadUrl);
+    if (response.ok) {
+      return {
+        success: true,
+        blob: await response.blob(),
+      };
+    } else {
+      return {
+        success: false,
+        error: `Fetching firmware file failed. status=${response.status}`,
       };
     }
   }

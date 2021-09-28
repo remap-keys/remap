@@ -46,6 +46,7 @@ export type IKeyboardsPhase =
   | 'processing'
   | 'edit'
   | 'catalog'
+  | 'firmware'
   | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signing: 'signing',
@@ -55,6 +56,7 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   processing: 'processing',
   edit: 'edit',
   catalog: 'catalog',
+  firmware: 'firmware',
   signout: 'signout',
 };
 
@@ -289,6 +291,9 @@ export type RootState = {
       stores: IStore[];
       websiteUrl: string;
       additionalDescriptions: IAdditionalDescription[];
+      firmwareFile: File | null;
+      firmwareName: string;
+      firmwareDescription: string;
     };
   };
   catalog: {
@@ -469,6 +474,9 @@ export const INIT_STATE: RootState = {
       stores: [],
       websiteUrl: '',
       additionalDescriptions: [],
+      firmwareFile: null,
+      firmwareName: '',
+      firmwareDescription: '',
     },
   },
   catalog: {

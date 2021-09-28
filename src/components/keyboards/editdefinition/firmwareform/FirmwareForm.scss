@@ -1,0 +1,57 @@
+@import 'src/variables';
+
+.edit-definition-firmware-form {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  &-panel {
+    width: 50%;
+  }
+
+  &-row {
+    margin-bottom: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-left: $space-s;
+    }
+  }
+
+  &-upload {
+    &-area {
+      width: 100%;
+      height: 50px;
+      border: 1px dashed rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      &-active {
+        border: 2px dashed rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+      }
+    }
+
+    &-message {
+      color: $color-gray-500;
+    }
+  }
+
+  &-list {
+    flex-grow: 1;
+  }
+}

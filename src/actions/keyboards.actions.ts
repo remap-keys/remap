@@ -158,6 +158,10 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_WEBSITE_URL = `${KEYBOARDS_EDIT_DE
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAdditionalDefinitions`;
 export const KEYBOARDS_EDIT_DEFINITION_ADD_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/AddAdditionalDefinitions`;
 export const KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/DeleteAdditionalDefinitions`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareFile`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_NAME = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareName`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareDescription`;
+export const KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/ClearFirmwareForm`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -330,6 +334,29 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
       value: contactInformation,
+    };
+  },
+  updateFirmwareFile: (firmwareFile: File | null) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE,
+      value: firmwareFile,
+    };
+  },
+  updateFirmwareName: (firmwareName: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_NAME,
+      value: firmwareName,
+    };
+  },
+  updateFirmwareDescription: (firmwareDescription: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION,
+      value: firmwareDescription,
+    };
+  },
+  clearFirmwareForm: () => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
     };
   },
 };

@@ -1022,6 +1022,53 @@ export const storageActionsThunk = {
     }
   },
 
+  uploadFirmwareFile: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { storage, keyboards, entities } = getState();
+    const firmwareFile = keyboards.editdefinition.firmwareFile!;
+    const firmwareName = keyboards.editdefinition.firmwareName;
+    const firmwareDescription = keyboards.editdefinition.firmwareDescription;
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const keyboardName = definitionDocument.name;
+    const result = await storage.instance!.uploadFirmwareFile(
+      definitionDocument.id,
+      firmwareFile,
+      firmwareName,
+      firmwareDescription,
+      keyboardName
+    );
+    if (result.success) {
+      // TODO
+      dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
+      dispatch(KeyboardsAppActions.updatePhase('firmware'));
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  fetchFirmwareFileBlob: (
+    firmwareFilePath: string,
+    callback: (blob: BlobPart) => void
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.fetchFirmwareFileBlob(
+      firmwareFilePath
+    );
+    if (result.success) {
+      callback(result.blob!);
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
   uploadKeyboardCatalogSubImage: (
     definitionId: string,
     file: File

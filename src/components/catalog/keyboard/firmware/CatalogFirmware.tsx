@@ -36,7 +36,11 @@ export default class CatalogFirmware extends React.Component<
             <div className="catalog-firmware-panel">
               {this.props.definitionDocument!.firmwares.map(
                 (firmware, index) => (
-                  <FirmwareCard key={`firmware-${index}`} firmware={firmware} />
+                  <FirmwareCard
+                    key={`firmware-${index}`}
+                    firmware={firmware}
+                    fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
+                  />
                 )
               )}{' '}
             </div>
@@ -55,9 +59,29 @@ export default class CatalogFirmware extends React.Component<
 
 type IFirmwareCardProps = {
   firmware: IFirmware;
+  fetchFirmwareFileBlob: (
+    // eslint-disable-next-line no-unused-vars
+    firmwareFilePath: string,
+    // eslint-disable-next-line no-unused-vars
+    callback: (blob: any) => void
+  ) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
+  const onClickDownload = () => {
+    props.fetchFirmwareFileBlob(props.firmware.filename, (blob: any) => {
+      const downloadUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.download = props.firmware.filename.substring(
+        props.firmware.filename.lastIndexOf('/') + 1
+      );
+      a.href = downloadUrl;
+      a.click();
+      a.remove();
+    });
+  };
+
   return (
     <Card variant="outlined" className="catalog-firmware-card">
       <CardContent>
@@ -73,7 +97,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
         </Typography>
       </CardContent>
       <CardActions className="catalog-firmware-card-buttons">
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={onClickDownload}>
           Download
         </Button>
       </CardActions>

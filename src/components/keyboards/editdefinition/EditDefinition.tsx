@@ -39,6 +39,7 @@ import {
 } from '../ValidationUtils';
 import DefinitionForm from './definitionform/DefinitionForm';
 import CatalogForm from './catalogform/CatalogForm.container';
+import FirmwareForm from './firmwareform/FirmwareForm.container';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -224,6 +225,8 @@ export default class EditDefinition extends React.Component<
       this.props.updatePhase!('edit');
     } else if (tabIndex === 1) {
       this.props.updatePhase!('catalog');
+    } else if (tabIndex === 2) {
+      this.props.updatePhase!('firmware');
     } else {
       throw new Error(`Invalid tabIndex: ${tabIndex}`);
     }
@@ -293,7 +296,13 @@ export default class EditDefinition extends React.Component<
                   {this.isStatus(KeyboardDefinitionStatus.approved) ? (
                     <div className="edit-keyboard-tabs">
                       <Tabs
-                        value={this.props.phase === 'edit' ? 0 : 1}
+                        value={
+                          this.props.phase === 'edit'
+                            ? 0
+                            : this.props.phase === 'catalog'
+                            ? 1
+                            : 2
+                        }
                         indicatorColor="primary"
                         textColor="primary"
                         onChange={this.onChangeTab.bind(this)}
@@ -302,6 +311,7 @@ export default class EditDefinition extends React.Component<
                       >
                         <Tab label="Definition" />
                         <Tab label="Catalog" />
+                        <Tab label="Firmware" />
                       </Tabs>
                     </div>
                   ) : null}
@@ -372,6 +382,7 @@ export default class EditDefinition extends React.Component<
                     />
                   ) : null}
                   {this.props.phase === 'catalog' ? <CatalogForm /> : null}
+                  {this.props.phase === 'firmware' ? <FirmwareForm /> : null}
                 </CardContent>
               </Card>
             </div>

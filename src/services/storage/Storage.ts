@@ -173,6 +173,10 @@ export interface IFetchSharedKeymapResult extends IResult {
   sharedKeymap?: SavedKeymapData;
 }
 
+export interface IFetchFirmwareFileBlobResult extends IResult {
+  blob?: any;
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -275,5 +279,16 @@ export interface IStorage {
     definitionId: string,
     subImageIndex: number
   ): Promise<IResult>;
+
+  uploadFirmwareFile(
+    definitionId: string,
+    firmwareFile: File,
+    firmwareName: string,
+    firmwareDescription: string,
+    keyboardName: string
+  ): Promise<IResult>;
+  fetchFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult>;
 }
 /* eslint-enable no-unused-vars */
