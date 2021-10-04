@@ -128,7 +128,7 @@ export const KeycodeCompositionKind: {
   momentary: 'momentary',
   df: 'df',
   tl: 'tl',
-  osl: 'osm',
+  osl: 'osl',
   osm: 'osm',
   tap_dance: 'tap_dance',
   tt: 'tt',
