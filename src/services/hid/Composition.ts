@@ -709,9 +709,9 @@ export class LayerTapComposition implements ILayerTapComposition {
         name: this.key.keycodeInfo
           ? this.key.keycodeInfo.name
           : { short: 'LT', long: 'LT' },
-        keywords: [],
+        keywords: ['layer tap'],
       },
-      kinds: ['layer_tap'],
+      kinds: ['layers'],
       desc: `Momentarily activates Layer(${layer}) when held, and sends keycode when tapped.`,
       option: layer,
     };
@@ -757,7 +757,7 @@ export class ToComposition implements IToComposition {
         name: { short: '', long: '' },
         keywords: [],
       },
-      kinds: ['layers', 'to'],
+      kinds: ['layers'],
       desc: `Activates layer(${layer}) and de-activates all other layers (except your default layer).`,
       option: layer,
     };
@@ -802,9 +802,9 @@ export class MomentaryComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
-        keywords: [],
+        keywords: ['momentary'],
       },
-      kinds: ['layers', 'momentary'],
+      kinds: ['layers'],
       desc: `Momentarily activates layer(${layer}). As soon as you let go of the key, the layer is deactivated.`,
       option: layer,
     };
@@ -849,9 +849,9 @@ export class DefLayerComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
-        keywords: [],
+        keywords: ['default layer'],
       },
-      kinds: ['layers', 'df'],
+      kinds: ['layers'],
       desc: `Switches the default layer(${layer}). The default layer is the always-active base layer that other layers stack on top of.`,
       option: layer,
     };
@@ -896,9 +896,9 @@ export class ToggleLayerComposition implements IMomentaryComposition {
         code: code,
         label: label,
         name: { short: label, long: label },
-        keywords: [],
+        keywords: ['toggle layer'],
       },
-      kinds: ['layers', 'tl'],
+      kinds: ['layers'],
       desc: `Toggles layer(${layer}), activating it if it's inactive and vice versa.`,
       option: layer,
     };
@@ -945,7 +945,7 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
         name: { short: label, long: label },
         keywords: [],
       },
-      kinds: ['layers', 'osl'],
+      kinds: ['layers'],
       desc: `Momentarily activates layer(${layer}) until the next key is pressed.`,
       option: layer,
     };
@@ -1074,7 +1074,7 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
         name: { short: '', long: '' },
         keywords: [],
       },
-      kinds: ['layers', 'tt'],
+      kinds: ['layers'],
       desc: `If you hold the key down, layer(${layer}) is activated, and then is de-activated when you let go.`,
       option: layer,
     };

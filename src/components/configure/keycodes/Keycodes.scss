@@ -6,29 +6,49 @@
 
 .keycodes {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   max-width: 1280px;
   margin: 0 auto;
-
-  .sub-category {
+  .sub-category-group {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-wrap: anywhere;
-    width: calc(var(--key-width) * 2);
-    height: calc(var(--key-height));
-    border: 1px solid transparent;
-    margin-right: 16px;
-    margin-top: 8px;
-    span {
-      font-size: 0.6rem;
-      font-weight: 600;
-      padding: 0 2px;
-      &:hover {
-        color: white;
+    flex-direction: row;
+    &:hover {
+      .keycodekey {
         background-color: $primary-pale;
+        border-color: white;
+        transition: background-color 0.5s;
       }
+      .sub-category {
+        span {
+          color: $primary-light;
+        }
+      }
+    }
+    .sub-category {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      text-align: right;
+      overflow-wrap: anywhere;
+      width: 90px;
+      min-width: 90px;
+      height: calc(var(--key-height));
+      border: 1px solid transparent;
+      margin-right: 8px;
+      margin-top: 8px;
+      span {
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0 2px;
+      }
+    }
+
+    .sub-category-keys {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
     }
   }
 }

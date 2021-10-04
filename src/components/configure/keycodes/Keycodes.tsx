@@ -81,7 +81,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
    * Sort them with prefix matching.
    * The label keys are listed higher than the meta keys.
    */
-  private filterKeys(searchKey: string): Key[] {
+  protected filterKeys(searchKey: string): Key[] {
     const search = searchKey.toLowerCase();
     let allKeys: Key[] = Object.values(this.state.categoryKeys).flat();
 
@@ -270,21 +270,18 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       keys = [];
     }
     const macrEditMode = this.props.macroKey != null;
-    let subCategory: KeymapCategory = 'basic';
-    let keycodekeys: JSX.Element[] = [];
+    let categoryKeys: { [name: string]: JSX.Element[] } = {};
     keys.forEach((key, index) => {
       const isMacro = key.keymap.kinds.includes('macro');
-      const endKind: KeymapCategory =
+      const subCategoryName: KeymapCategory =
         key.keymap.kinds[key.keymap.kinds.length - 1];
-      if (1 < key.keymap.kinds.length && subCategory != endKind) {
-        subCategory = endKind;
-        keycodekeys.push(
-          <div className="sub-category">
-            <span>{subCategory.split('_').join(' ').toUpperCase()}</span>
-          </div>
-        );
+      if (
+        !Object.prototype.hasOwnProperty.call(categoryKeys, subCategoryName)
+      ) {
+        categoryKeys[subCategoryName] = [];
       }
-      keycodekeys.push(
+
+      categoryKeys[subCategoryName].push(
         <KeycodeKey
           index={index}
           key={`${this.state.category}${index}`}
@@ -294,6 +291,19 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
         />
       );
     });
+
+    const keycodekeys: JSX.Element[] = Object.keys(categoryKeys).map(
+      (sub, index) => {
+        return (
+          <div className="sub-category-group" key={index}>
+            <div className="sub-category">
+              <span>{sub.split('_').join(' ').toUpperCase()}</span>
+            </div>
+            <div className="sub-category-keys">{categoryKeys[sub]}</div>
+          </div>
+        );
+      }
+    );
     return (
       <React.Fragment>
         <div className="key-categories">
