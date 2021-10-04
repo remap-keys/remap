@@ -15,9 +15,7 @@
     flex-direction: row;
     &:hover {
       .keycodekey {
-        background-color: $primary-pale;
-        border-color: white;
-        transition: background-color 0.5s;
+        border-color: $primary-light;
       }
       .sub-category {
         span {
