@@ -17,7 +17,7 @@ export type KeymapCategory =
   | 'device'
   | 'edit'
   | 'f'
-  | 'embed_function'
+  | 'func'
   | 'grave_escape'
   | 'gui'
   | 'int'

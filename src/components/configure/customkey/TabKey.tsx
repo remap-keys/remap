@@ -165,7 +165,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
      * the key's code should be calculated.
      */
     const kinds = keymap.kinds;
-    if (kinds.includes('one_shot_mod')) {
+    if (kinds.includes('osm')) {
       keymap.code = new OneShotModComposition(direction, mods).getCode();
     } else if (kinds.includes('layer_mod')) {
       const layer = keymap.option!;

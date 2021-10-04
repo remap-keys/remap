@@ -1624,7 +1624,7 @@ describe('Composition', () => {
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
         ];
-        checkKind(validList, invalidList, KeycodeCompositionKind.def_layer);
+        checkKind(validList, invalidList, KeycodeCompositionKind.df);
       });
       describe('toggle layer', () => {
         const validList = [EXPECT_TOGGLE_LAYER_LIST];
@@ -1647,7 +1647,7 @@ describe('Composition', () => {
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
         ];
-        checkKind(validList, invalidList, KeycodeCompositionKind.toggle_layer);
+        checkKind(validList, invalidList, KeycodeCompositionKind.tl);
       });
       describe('one shot layer', () => {
         const validList = [EXPECT_ONE_SHOT_LAYER_LIST];
@@ -1670,11 +1670,7 @@ describe('Composition', () => {
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
         ];
-        checkKind(
-          validList,
-          invalidList,
-          KeycodeCompositionKind.one_shot_layer
-        );
+        checkKind(validList, invalidList, KeycodeCompositionKind.osl);
       });
       describe('one shot mod', () => {
         const validList = [EXPECT_ONE_SHOT_MOD_LIST];
@@ -1697,7 +1693,7 @@ describe('Composition', () => {
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
         ];
-        checkKind(validList, invalidList, KeycodeCompositionKind.one_shot_mod);
+        checkKind(validList, invalidList, KeycodeCompositionKind.osm);
       });
       describe('tap dance', () => {
         const validList = [EXPECT_TAP_DANCE_LIST];
@@ -1743,11 +1739,7 @@ describe('Composition', () => {
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
         ];
-        checkKind(
-          validList,
-          invalidList,
-          KeycodeCompositionKind.layer_tap_toggle
-        );
+        checkKind(validList, invalidList, KeycodeCompositionKind.tt);
       });
       describe('layer mod', () => {
         const validList = [EXPECT_LAYER_MOD_LIST];

@@ -153,7 +153,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
   private isMeaningfulChange(km: IKeymap): boolean {
     const dstMods = ModsComposition.genBinary(km.modifiers);
 
-    if (km.kinds.includes('one_shot_mod') && dstMods === 0) {
+    if (km.kinds.includes('osm') && dstMods === 0) {
       // OneShotMods without any modifiers
       return false;
     }

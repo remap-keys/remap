@@ -20,6 +20,7 @@ import {
   IMacroBuffer,
   MacroBuffer,
 } from '../../../services/macro/Macro';
+import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
 type OwnProps = {};
 
@@ -80,7 +81,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
    * Sort them with prefix matching.
    * The label keys are listed higher than the meta keys.
    */
-  private filterKeys(searchKey: string): Key[] {
+  protected filterKeys(searchKey: string): Key[] {
     const search = searchKey.toLowerCase();
     let allKeys: Key[] = Object.values(this.state.categoryKeys).flat();
 
@@ -269,6 +270,40 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       keys = [];
     }
     const macrEditMode = this.props.macroKey != null;
+    let categoryKeys: { [name: string]: JSX.Element[] } = {};
+    keys.forEach((key, index) => {
+      const isMacro = key.keymap.kinds.includes('macro');
+      const subCategoryName: KeymapCategory =
+        key.keymap.kinds[key.keymap.kinds.length - 1];
+      if (
+        !Object.prototype.hasOwnProperty.call(categoryKeys, subCategoryName)
+      ) {
+        categoryKeys[subCategoryName] = [];
+      }
+
+      categoryKeys[subCategoryName].push(
+        <KeycodeKey
+          index={index}
+          key={`${this.state.category}${index}`}
+          value={key}
+          draggable={true}
+          clickable={isMacro && !macrEditMode}
+        />
+      );
+    });
+
+    const keycodekeys: JSX.Element[] = Object.keys(categoryKeys).map(
+      (sub, index) => {
+        return (
+          <div className="sub-category-group" key={index}>
+            <div className="sub-category">
+              <span>{sub.split('_').join(' ').toUpperCase()}</span>
+            </div>
+            <div className="sub-category-keys">{categoryKeys[sub]}</div>
+          </div>
+        );
+      }
+    );
     return (
       <React.Fragment>
         <div className="key-categories">
@@ -315,18 +350,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
               this.props.keyboardWidth! + 144 /* = (PADDING + KeycodeKey)*2 */,
           }}
         >
-          {keys.map((key, index) => {
-            const isMacro = key.keymap.kinds.includes('macro');
-            return (
-              <KeycodeKey
-                index={index}
-                key={`${this.state.category}${index}`}
-                value={key}
-                draggable={true}
-                clickable={isMacro && !macrEditMode}
-              />
-            );
-          })}
+          {keycodekeys}
           {this.state.category == IKeycodeCategory.ANY && (
             <KeycodeAddKey key={'add'} />
           )}
