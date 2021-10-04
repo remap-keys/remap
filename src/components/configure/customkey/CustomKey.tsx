@@ -188,7 +188,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     let comp: ModTapComposition | LayerTapComposition | SwapHandsComposition;
 
     const kinds = holdKey.kinds;
-    if (kinds.includes('layer_tap')) {
+    if (kinds.includes('layers')) {
       comp = new LayerTapComposition(holdKey.option!, tapKey);
     } else if (kinds.includes('mod_tap')) {
       comp = new ModTapComposition(
