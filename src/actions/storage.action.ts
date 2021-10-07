@@ -1041,9 +1041,13 @@ export const storageActionsThunk = {
       keyboardName
     );
     if (result.success) {
-      // TODO
       dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
-      dispatch(KeyboardsAppActions.updatePhase('firmware'));
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
@@ -1052,7 +1056,8 @@ export const storageActionsThunk = {
 
   fetchFirmwareFileBlob: (
     firmwareFilePath: string,
-    callback: (blob: BlobPart) => void
+    // eslint-disable-next-line no-unused-vars
+    callback: (blob: any) => void
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState

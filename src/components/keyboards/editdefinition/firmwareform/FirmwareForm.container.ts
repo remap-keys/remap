@@ -39,6 +39,15 @@ const mapDispatchToProps = (_dispatch: any) => {
     uploadFirmwareFile: () => {
       _dispatch(storageActionsThunk.uploadFirmwareFile());
     },
+    fetchFirmwareFileBlob: (
+      firmwareFilePath: string,
+      // eslint-disable-next-line no-unused-vars
+      callback: (blob: any) => void
+    ) => {
+      _dispatch(
+        storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback)
+      );
+    },
   };
 };
 export type FirmwareFormActionsType = ReturnType<typeof mapDispatchToProps>;

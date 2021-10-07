@@ -4,7 +4,17 @@ import {
   FirmwareFormStateType,
 } from './FirmwareForm.container';
 import './FirmwareForm.scss';
-import { Button, FormControl, TextField } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import { IFirmware } from '../../../../services/storage/Storage';
+import moment from 'moment';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -53,13 +63,31 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     );
   };
 
+  const onClickDownload = (firmware: IFirmware) => {
+    props.fetchFirmwareFileBlob!(firmware.filename, (blob: any) => {
+      const downloadUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.download = firmware.filename.substring(
+        firmware.filename.lastIndexOf('/') + 1
+      );
+      a.href = downloadUrl;
+      a.click();
+      a.remove();
+    });
+  };
+
   const firmwareFileInfo = props.firmwareFile
     ? `${props.firmwareFile!.name} - ${props.firmwareFile!.size} bytes`
     : '';
 
+  const sortedFirmwares = props
+    .definitionDocument!.firmwares.slice()
+    .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
+
   return (
     <div className="edit-definition-firmware-form-container">
-      <div className="edit-definition-firmware-form-panel">
+      <div className="edit-definition-firmware-form-panel-left">
         {!props.firmwareFile ? (
           <div className="edit-definition-firmware-form-row">
             <div
@@ -140,7 +168,55 @@ export default function FirmwareForm(props: FirmwareFormProps) {
           </Button>
         </div>
       </div>
-      <div className="edit-definition-firmware-form-panel">list</div>
+      <div className="edit-definition-firmware-form-panel-right">
+        {sortedFirmwares.map((firmware, index) => (
+          <FirmwareCard
+            key={`firmware-card-${index}`}
+            firmware={firmware}
+            onClickDownload={onClickDownload}
+          />
+        ))}
+      </div>
     </div>
+  );
+}
+
+type IFirmwareCardProps = {
+  firmware: IFirmware;
+  // eslint-disable-next-line no-unused-vars
+  onClickDownload: (firmware: IFirmware) => void;
+};
+
+function FirmwareCard(props: IFirmwareCardProps) {
+  return (
+    <Card variant="outlined" className="edit-definition-firmware-form-card">
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {props.firmware.name}
+        </Typography>
+        <Typography variant="body1" color="textSecondary" gutterBottom>
+          {props.firmware.description}
+        </Typography>
+        <Typography variant="caption" color="textSecondary">
+          {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
+          <br />
+          SHA256: {props.firmware.hash}
+        </Typography>
+      </CardContent>
+      <CardActions className="edit-definition-firmware-form-card-buttons">
+        <Button size="small" color="primary">
+          Delete
+        </Button>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => {
+            props.onClickDownload(props.firmware);
+          }}
+        >
+          Download
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

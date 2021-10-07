@@ -7,8 +7,13 @@
     width: 100%;
   }
 
-  &-panel {
-    width: 50%;
+  &-panel-left {
+    width: 40%;
+    margin-right: 16px;
+  }
+
+  &-panel-right {
+    width: 60%;
   }
 
   &-row {
@@ -51,7 +56,12 @@
     }
   }
 
-  &-list {
-    flex-grow: 1;
+  &-card {
+    width: 100%;
+    margin-bottom: 16px;
+
+    &-buttons {
+      justify-content: flex-end;
+    }
   }
 }

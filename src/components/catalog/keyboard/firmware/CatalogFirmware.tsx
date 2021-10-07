@@ -29,20 +29,22 @@ export default class CatalogFirmware extends React.Component<
   }
 
   render() {
+    const sortedFirmwares = this.props
+      .definitionDocument!.firmwares.slice()
+      .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
+
     return (
       <div className="catalog-firmware-wrapper">
         <div className="catalog-firmware-container">
           {this.props.definitionDocument!.firmwares.length > 0 ? (
             <div className="catalog-firmware-panel">
-              {this.props.definitionDocument!.firmwares.map(
-                (firmware, index) => (
-                  <FirmwareCard
-                    key={`firmware-${index}`}
-                    firmware={firmware}
-                    fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
-                  />
-                )
-              )}{' '}
+              {sortedFirmwares.map((firmware, index) => (
+                <FirmwareCard
+                  key={`firmware-${index}`}
+                  firmware={firmware}
+                  fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
+                />
+              ))}{' '}
             </div>
           ) : (
             <div className="catalog-firmware-nothing">
