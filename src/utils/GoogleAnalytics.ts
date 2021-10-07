@@ -17,9 +17,11 @@ type IActionName =
   | 'catalog/back_to_search'
   | 'catalog/introduction'
   | 'catalog/keymap'
+  | 'catalog/firmware'
   | 'catalog/apply_keymap'
   | 'catalog/cheat_sheet'
-  | 'catalog/same_author_keyboard';
+  | 'catalog/same_author_keyboard'
+  | 'catalog/download_firmware';
 
 interface IActionOptions {
   vendor_id?: string | number;

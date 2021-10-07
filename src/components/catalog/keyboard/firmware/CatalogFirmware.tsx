@@ -11,8 +11,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import './CatalogFirmware.scss';
-import { IFirmware } from '../../../../services/storage/Storage';
+import {
+  IFirmware,
+  IKeyboardDefinitionDocument,
+} from '../../../../services/storage/Storage';
 import moment from 'moment';
+import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 
 type CatalogFirmwareState = {};
 type OwnProps = {};
@@ -43,6 +47,7 @@ export default class CatalogFirmware extends React.Component<
                   key={`firmware-${index}`}
                   firmware={firmware}
                   fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
+                  definitionDocument={this.props.definitionDocument!}
                 />
               ))}{' '}
             </div>
@@ -67,10 +72,16 @@ type IFirmwareCardProps = {
     // eslint-disable-next-line no-unused-vars
     callback: (blob: any) => void
   ) => void;
+  definitionDocument: IKeyboardDefinitionDocument;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
   const onClickDownload = () => {
+    sendEventToGoogleAnalytics('catalog/download_firmware', {
+      vendor_id: props.definitionDocument.vendorId,
+      product_id: props.definitionDocument.productId,
+      product_name: props.definitionDocument.productName,
+    });
     props.fetchFirmwareFileBlob(props.firmware.filename, (blob: any) => {
       const downloadUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');

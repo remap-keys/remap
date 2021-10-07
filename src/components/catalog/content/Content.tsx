@@ -86,18 +86,29 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   const history = useHistory();
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
     if (value === 0) {
-      sendEventToGoogleAnalytics('catalog/introduction');
+      sendEventToGoogleAnalytics('catalog/introduction', {
+        vendor_id: definitionDocument.vendorId,
+        product_id: definitionDocument.productId,
+        product_name: definitionDocument.productName,
+      });
       // eslint-disable-next-line no-undef
       history.push(`/catalog/${definitionDocument.id}`);
       goToIntroduction();
     } else if (value === 1) {
-      sendEventToGoogleAnalytics('catalog/keymap');
+      sendEventToGoogleAnalytics('catalog/keymap', {
+        vendor_id: definitionDocument.vendorId,
+        product_id: definitionDocument.productId,
+        product_name: definitionDocument.productName,
+      });
       // eslint-disable-next-line no-undef
       history.push(`/catalog/${definitionDocument.id}/keymap`);
       goToKeymap();
     } else if (value === 2) {
-      // FIXME Activate below!
-      // sendEventToGoogleAnalytics('catalog/firmware');
+      sendEventToGoogleAnalytics('catalog/firmware', {
+        vendor_id: definitionDocument.vendorId,
+        product_id: definitionDocument.productId,
+        product_name: definitionDocument.productName,
+      });
       history.push(`/catalog/${definitionDocument.id}/firmware`);
       goToFirmware();
     }
