@@ -20,6 +20,7 @@ import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   AbstractKeymapData,
   AppliedKeymapData,
+  IFirmware,
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
   SavedKeymapData,
@@ -1071,6 +1072,30 @@ export const storageActionsThunk = {
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  deleteFirmwareFile: (firmware: IFirmware): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { entities, storage } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const result = await storage.instance!.deleteFirmwareFile(
+      definitionDocument.id,
+      firmware
+    );
+    if (result.success) {
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.error!);
+      dispatch(NotificationActions.addError(result.error!));
     }
   },
 

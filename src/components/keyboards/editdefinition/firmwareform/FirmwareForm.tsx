@@ -9,6 +9,11 @@ import {
   Card,
   CardActions,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   TextField,
   Typography,
@@ -25,6 +30,11 @@ export default function FirmwareForm(props: FirmwareFormProps) {
   const dropTargetRef = React.createRef<HTMLDivElement>();
 
   const [dragging, setDragging] = useState<boolean>(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [
+    targetFirmwareForDeletion,
+    setTargetFirmwareForDeletion,
+  ] = useState<IFirmware | null>(null);
 
   const onDragOverFirmwareFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -77,6 +87,22 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     });
   };
 
+  const onClickDelete = (firmware: IFirmware) => {
+    setTargetFirmwareForDeletion(firmware);
+    setOpenConfirmDialog(true);
+  };
+
+  const onClickConfirmDialogYes = () => {
+    setOpenConfirmDialog(false);
+    const targetFirmware = targetFirmwareForDeletion!;
+    setTargetFirmwareForDeletion(null);
+    props.deleteFirmwareFile!(targetFirmware);
+  };
+  const onClickConfirmDialogNo = () => {
+    setTargetFirmwareForDeletion(null);
+    setOpenConfirmDialog(false);
+  };
+
   const firmwareFileInfo = props.firmwareFile
     ? `${props.firmwareFile!.name} - ${props.firmwareFile!.size} bytes`
     : '';
@@ -86,98 +112,112 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
   return (
-    <div className="edit-definition-firmware-form-container">
-      <div className="edit-definition-firmware-form-panel-left">
-        {!props.firmwareFile ? (
-          <div className="edit-definition-firmware-form-row">
-            <div
-              className={
-                dragging
-                  ? 'edit-definition-firmware-form-upload-area edit-definition-firmware-form-upload-area-active'
-                  : 'edit-definition-firmware-form-upload-area'
-              }
-              onDragOver={onDragOverFirmwareFile}
-              onDrop={onDropFirmwareFile}
-              onDragLeave={onDragLeaveFirmwareFile}
-            >
+    <React.Fragment>
+      <div className="edit-definition-firmware-form-container">
+        <div className="edit-definition-firmware-form-panel-left">
+          {!props.firmwareFile ? (
+            <div className="edit-definition-firmware-form-row">
               <div
-                className="edit-definition-firmware-form-upload-message"
-                ref={dropTargetRef}
+                className={
+                  dragging
+                    ? 'edit-definition-firmware-form-upload-area edit-definition-firmware-form-upload-area-active'
+                    : 'edit-definition-firmware-form-upload-area'
+                }
+                onDragOver={onDragOverFirmwareFile}
+                onDrop={onDropFirmwareFile}
+                onDragLeave={onDragLeaveFirmwareFile}
               >
-                Drop Firmware here
+                <div
+                  className="edit-definition-firmware-form-upload-message"
+                  ref={dropTargetRef}
+                >
+                  Drop Firmware here
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
-        {props.firmwareFile ? (
+          ) : null}
+          {props.firmwareFile ? (
+            <div className="edit-definition-firmware-form-row">
+              <FormControl>
+                <TextField
+                  label="Firmware Local File"
+                  variant="outlined"
+                  value={`${props.firmwareFile ? firmwareFileInfo : ''}`}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </FormControl>
+            </div>
+          ) : null}
           <div className="edit-definition-firmware-form-row">
             <FormControl>
               <TextField
-                label="Firmware Local File"
+                label="Firmware Name"
                 variant="outlined"
-                value={`${props.firmwareFile ? firmwareFileInfo : ''}`}
-                InputProps={{
-                  readOnly: true,
+                value={props.firmwareName}
+                onChange={(event) => {
+                  props.updateFirmwareName!(event.target.value);
                 }}
               />
             </FormControl>
           </div>
-        ) : null}
-        <div className="edit-definition-firmware-form-row">
-          <FormControl>
-            <TextField
-              label="Firmware Name"
-              variant="outlined"
-              value={props.firmwareName}
-              onChange={(event) => {
-                props.updateFirmwareName!(event.target.value);
-              }}
-            />
-          </FormControl>
+          <div className="edit-definition-firmware-form-row">
+            <FormControl>
+              <TextField
+                label="Description"
+                variant="outlined"
+                value={props.firmwareDescription}
+                multiline
+                rows={4}
+                onChange={(event) => {
+                  props.updateFirmwareDescription!(event.target.value);
+                }}
+              />
+            </FormControl>
+          </div>
+          <div className="edit-definition-firmware-form-buttons">
+            <Button
+              color="primary"
+              style={{ marginRight: '8px' }}
+              onClick={onClickClearButton}
+            >
+              Clear
+            </Button>
+            <Button
+              color="primary"
+              style={{ marginRight: '8px' }}
+              variant="contained"
+              onClick={onClickUploadButton}
+              disabled={!isFilledInAllFields()}
+            >
+              Upload
+            </Button>
+          </div>
         </div>
-        <div className="edit-definition-firmware-form-row">
-          <FormControl>
-            <TextField
-              label="Description"
-              variant="outlined"
-              value={props.firmwareDescription}
-              multiline
-              rows={4}
-              onChange={(event) => {
-                props.updateFirmwareDescription!(event.target.value);
-              }}
-            />
-          </FormControl>
-        </div>
-        <div className="edit-definition-firmware-form-buttons">
-          <Button
-            color="primary"
-            style={{ marginRight: '8px' }}
-            onClick={onClickClearButton}
-          >
-            Clear
-          </Button>
-          <Button
-            color="primary"
-            style={{ marginRight: '8px' }}
-            variant="contained"
-            onClick={onClickUploadButton}
-            disabled={!isFilledInAllFields()}
-          >
-            Upload
-          </Button>
+        <div className="edit-definition-firmware-form-panel-right">
+          {sortedFirmwares.length > 0 ? (
+            sortedFirmwares.map((firmware, index) => (
+              <FirmwareCard
+                key={`firmware-card-${index}`}
+                firmware={firmware}
+                onClickDownload={onClickDownload}
+                onClickDelete={onClickDelete}
+              />
+            ))
+          ) : (
+            <div className="edit-definition-firmware-form-nothing">
+              <div>There is no firmware file.</div>
+            </div>
+          )}
         </div>
       </div>
-      <div className="edit-definition-firmware-form-panel-right">
-        {sortedFirmwares.map((firmware, index) => (
-          <FirmwareCard
-            key={`firmware-card-${index}`}
-            firmware={firmware}
-            onClickDownload={onClickDownload}
-          />
-        ))}
-      </div>
-    </div>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClickYes={onClickConfirmDialogYes}
+        onClickNo={onClickConfirmDialogNo}
+      />
+    </React.Fragment>
   );
 }
 
@@ -185,6 +225,8 @@ type IFirmwareCardProps = {
   firmware: IFirmware;
   // eslint-disable-next-line no-unused-vars
   onClickDownload: (firmware: IFirmware) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickDelete: (firmware: IFirmware) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
@@ -204,7 +246,13 @@ function FirmwareCard(props: IFirmwareCardProps) {
         </Typography>
       </CardContent>
       <CardActions className="edit-definition-firmware-form-card-buttons">
-        <Button size="small" color="primary">
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => {
+            props.onClickDelete(props.firmware);
+          }}
+        >
           Delete
         </Button>
         <Button
@@ -218,5 +266,47 @@ function FirmwareCard(props: IFirmwareCardProps) {
         </Button>
       </CardActions>
     </Card>
+  );
+}
+
+type IConfirmDialogProps = {
+  open: boolean;
+  onClickYes: () => void;
+  onClickNo: () => void;
+};
+
+function ConfirmDialog(props: IConfirmDialogProps) {
+  return (
+    <Dialog
+      open={props.open}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Firmware Deletion</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description" color="secondary">
+          Are you sure to delete the firmware file?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          color="primary"
+          autoFocus
+          onClick={() => {
+            props.onClickNo();
+          }}
+        >
+          No
+        </Button>
+        <Button
+          color="primary"
+          onClick={() => {
+            props.onClickYes();
+          }}
+        >
+          Yes
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

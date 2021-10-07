@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import FirmwareForm from './FirmwareForm';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
 import { storageActionsThunk } from '../../../../actions/storage.action';
+import { IFirmware } from '../../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -47,6 +48,10 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback)
       );
+    },
+    // eslint-disable-next-line no-unused-vars
+    deleteFirmwareFile: (firmware: IFirmware) => {
+      _dispatch(storageActionsThunk.deleteFirmwareFile(firmware));
     },
   };
 };
