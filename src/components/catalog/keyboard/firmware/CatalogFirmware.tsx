@@ -42,6 +42,12 @@ export default class CatalogFirmware extends React.Component<
         <div className="catalog-firmware-container">
           {this.props.definitionDocument!.firmwares.length > 0 ? (
             <div className="catalog-firmware-panel">
+              <div className="catalog-firmware-total-download-count">
+                <Typography variant="body2" align="right">
+                  Total Firmware Download Count:{' '}
+                  {this.props.definitionDocument!.totalFirmwareDownloadCount}
+                </Typography>
+              </div>
               {sortedFirmwares.map((firmware, index) => (
                 <FirmwareCard
                   key={`firmware-${index}`}

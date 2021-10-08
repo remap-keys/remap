@@ -75,6 +75,7 @@ export interface IKeyboardDefinitionDocument {
   readonly stores: IStore[];
   readonly websiteUrl: string;
   readonly firmwares: IFirmware[];
+  readonly totalFirmwareDownloadCount: number;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -288,6 +289,7 @@ export interface IStorage {
     keyboardName: string
   ): Promise<IResult>;
   fetchFirmwareFileBlob(
+    definitionId: string,
     firmwareFilePath: string
   ): Promise<IFetchFirmwareFileBlobResult>;
   deleteFirmwareFile(

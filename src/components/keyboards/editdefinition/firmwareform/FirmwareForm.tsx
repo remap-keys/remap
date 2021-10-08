@@ -197,14 +197,22 @@ export default function FirmwareForm(props: FirmwareFormProps) {
         </div>
         <div className="edit-definition-firmware-form-panel-right">
           {sortedFirmwares.length > 0 ? (
-            sortedFirmwares.map((firmware, index) => (
-              <FirmwareCard
-                key={`firmware-card-${index}`}
-                firmware={firmware}
-                onClickDownload={onClickDownload}
-                onClickDelete={onClickDelete}
-              />
-            ))
+            <React.Fragment>
+              <div className="edit-definition-firmware-form-total-download-count">
+                <Typography variant="body2" align="right">
+                  Total Firmware Download Count:{' '}
+                  {props.definitionDocument!.totalFirmwareDownloadCount}
+                </Typography>
+              </div>
+              {sortedFirmwares.map((firmware, index) => (
+                <FirmwareCard
+                  key={`firmware-card-${index}`}
+                  firmware={firmware}
+                  onClickDownload={onClickDownload}
+                  onClickDelete={onClickDelete}
+                />
+              ))}{' '}
+            </React.Fragment>
           ) : (
             <div className="edit-definition-firmware-form-nothing">
               <div>There is no firmware file.</div>

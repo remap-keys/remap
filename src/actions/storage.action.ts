@@ -1063,12 +1063,20 @@ export const storageActionsThunk = {
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
-    const { storage } = getState();
+    const { storage, entities } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
     const result = await storage.instance!.fetchFirmwareFileBlob(
+      definitionDocument.id,
       firmwareFilePath
     );
     if (result.success) {
       callback(result.blob!);
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));

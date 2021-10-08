@@ -113,6 +113,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       stores: documentSnapshot.data()!.stores || [],
       websiteUrl: documentSnapshot.data()!.website_url || '',
       firmwares,
+      totalFirmwareDownloadCount:
+        documentSnapshot.data()!.total_firmware_download_count || 0,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -1045,6 +1047,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async fetchFirmwareFileBlob(
+    definitionId: string,
     firmwareFilePath: string
   ): Promise<IFetchFirmwareFileBlobResult> {
     // This operation needs CORS setting for the GCS bucket.
@@ -1055,9 +1058,22 @@ export class FirebaseProvider implements IStorage, IAuth {
       .getDownloadURL();
     const response = await fetch(downloadUrl);
     if (response.ok) {
+      const blob = await response.blob();
+
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          total_firmware_download_count: firebase.firestore.FieldValue.increment(
+            1
+          ),
+        });
+
       return {
         success: true,
-        blob: await response.blob(),
+        blob,
       };
     } else {
       return {
