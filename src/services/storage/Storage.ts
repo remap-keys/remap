@@ -44,6 +44,7 @@ export interface IFirmware {
   description: string;
   hash: string;
   filename: string;
+  sourceCodeUrl: string;
 }
 
 export interface IKeyboardDefinitionDocument {
@@ -286,6 +287,7 @@ export interface IStorage {
     firmwareFile: File,
     firmwareName: string,
     firmwareDescription: string,
+    firmwareSourceCodeUrl: string,
     keyboardName: string
   ): Promise<IResult>;
   fetchFirmwareFileBlob(

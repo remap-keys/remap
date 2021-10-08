@@ -294,6 +294,7 @@ export type RootState = {
       firmwareFile: File | null;
       firmwareName: string;
       firmwareDescription: string;
+      firmwareSourceCodeUrl: string;
     };
   };
   catalog: {
@@ -477,6 +478,7 @@ export const INIT_STATE: RootState = {
       firmwareFile: null,
       firmwareName: '',
       firmwareDescription: '',
+      firmwareSourceCodeUrl: '',
     },
   },
   catalog: {

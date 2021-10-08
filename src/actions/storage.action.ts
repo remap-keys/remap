@@ -1032,6 +1032,8 @@ export const storageActionsThunk = {
     const firmwareFile = keyboards.editdefinition.firmwareFile!;
     const firmwareName = keyboards.editdefinition.firmwareName;
     const firmwareDescription = keyboards.editdefinition.firmwareDescription;
+    const firmwareSourceCodeUrl =
+      keyboards.editdefinition.firmwareSourceCodeUrl;
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const keyboardName = definitionDocument.name;
     const result = await storage.instance!.uploadFirmwareFile(
@@ -1039,6 +1041,7 @@ export const storageActionsThunk = {
       firmwareFile,
       firmwareName,
       firmwareDescription,
+      firmwareSourceCodeUrl,
       keyboardName
     );
     if (result.success) {

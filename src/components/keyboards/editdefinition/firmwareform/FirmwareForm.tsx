@@ -65,12 +65,23 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     props.clearFirmwareForm!();
   };
 
-  const isFilledInAllFields = () => {
-    return (
-      props.firmwareFile !== null &&
-      props.firmwareName !== '' &&
-      props.firmwareDescription !== ''
-    );
+  const validateFirmwareForm = () => {
+    if (props.firmwareFile === null) {
+      return false;
+    }
+    if (!props.firmwareName) {
+      return false;
+    }
+    if (!props.firmwareDescription) {
+      return false;
+    }
+    if (!props.firmwareSourceCodeUrl) {
+      return false;
+    }
+    if (!props.firmwareSourceCodeUrl.match(/^http(s)?:\/\/.+/)) {
+      return false;
+    }
+    return true;
   };
 
   const onClickDownload = (firmware: IFirmware) => {
@@ -176,6 +187,19 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               />
             </FormControl>
           </div>
+          <div className="edit-definition-firmware-form-row">
+            <FormControl>
+              <TextField
+                label="Source Code URL"
+                variant="outlined"
+                value={props.firmwareSourceCodeUrl}
+                onChange={(event) => {
+                  props.updateFirmwareSourceCodeUrl!(event.target.value);
+                }}
+                helperText="Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`."
+              />
+            </FormControl>
+          </div>
           <div className="edit-definition-firmware-form-buttons">
             <Button
               color="primary"
@@ -189,7 +213,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               style={{ marginRight: '8px' }}
               variant="contained"
               onClick={onClickUploadButton}
-              disabled={!isFilledInAllFields()}
+              disabled={!validateFirmwareForm()}
             >
               Upload
             </Button>
@@ -256,12 +280,20 @@ function FirmwareCard(props: IFirmwareCardProps) {
       <CardActions className="edit-definition-firmware-form-card-buttons">
         <Button
           size="small"
-          color="primary"
+          color="secondary"
           onClick={() => {
             props.onClickDelete(props.firmware);
           }}
         >
           Delete
+        </Button>
+        <Button
+          size="small"
+          href={props.firmware.sourceCodeUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Source Code
         </Button>
         <Button
           size="small"

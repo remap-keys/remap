@@ -110,12 +110,24 @@ function FirmwareCard(props: IFirmwareCardProps) {
         <Typography variant="body1" color="textSecondary" gutterBottom>
           {props.firmware.description}
         </Typography>
-        <Typography variant="caption" color="textSecondary">
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          className="catalog-firmware-card-caption"
+        >
           {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')} |
           SHA256: {props.firmware.hash}
         </Typography>
       </CardContent>
       <CardActions className="catalog-firmware-card-buttons">
+        <Button
+          size="small"
+          href={props.firmware.sourceCodeUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Source Code
+        </Button>
         <Button size="small" color="primary" onClick={onClickDownload}>
           Download
         </Button>

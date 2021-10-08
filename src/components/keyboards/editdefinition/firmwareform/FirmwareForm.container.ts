@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootState) => {
     firmwareFile: state.keyboards.editdefinition.firmwareFile,
     firmwareName: state.keyboards.editdefinition.firmwareName,
     firmwareDescription: state.keyboards.editdefinition.firmwareDescription,
+    firmwareSourceCodeUrl: state.keyboards.editdefinition.firmwareSourceCodeUrl,
   };
 };
 export type FirmwareFormStateType = ReturnType<typeof mapStateToProps>;
@@ -31,6 +32,13 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateFirmwareDescription(
           firmwareDescription
+        )
+      );
+    },
+    updateFirmwareSourceCodeUrl: (firmwareSourceCodeUrl: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateFirmwareSourceCodeUrl(
+          firmwareSourceCodeUrl
         )
       );
     },

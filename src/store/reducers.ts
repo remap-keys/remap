@@ -131,6 +131,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION,
   KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -351,6 +352,9 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION:
       draft.keyboards.editdefinition.firmwareDescription = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL:
+      draft.keyboards.editdefinition.firmwareSourceCodeUrl = action.value;
       break;
     case KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM:
       draft.keyboards.editdefinition.firmwareFile = null;

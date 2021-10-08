@@ -39,6 +39,10 @@
     width: 100%;
     margin-bottom: 16px;
 
+    &-caption {
+      word-break: break-all;
+    }
+
     &-buttons {
       justify-content: flex-end;
     }

@@ -75,6 +75,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           description: firmware.description,
           hash: firmware.hash,
           filename: firmware.filename,
+          sourceCodeUrl: firmware.source_code_url,
           created_at: firmware.created_at.toDate(),
         });
       });
@@ -978,6 +979,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareFile: File,
     firmwareName: string,
     firmwareDescription: string,
+    firmwareSourceCodeUrl: string,
     keyboardName: string,
     // eslint-disable-next-line no-unused-vars
     progress?: (uploadedRate: number) => void
@@ -1022,6 +1024,7 @@ export class FirebaseProvider implements IStorage, IAuth {
               firmwares: firebase.firestore.FieldValue.arrayUnion({
                 name: firmwareName,
                 description: firmwareDescription,
+                source_code_url: firmwareSourceCodeUrl,
                 created_at: new Date(),
                 filename: filePath,
                 hash,

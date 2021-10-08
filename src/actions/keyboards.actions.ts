@@ -161,6 +161,7 @@ export const KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS = `${KEYBO
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareFile`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_NAME = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareName`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareDescription`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareSourceCodeUrl`;
 export const KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/ClearFirmwareForm`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
@@ -352,6 +353,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION,
       value: firmwareDescription,
+    };
+  },
+  updateFirmwareSourceCodeUrl: (firmwareSourceCodeUrl: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
+      value: firmwareSourceCodeUrl,
     };
   },
   clearFirmwareForm: () => {
