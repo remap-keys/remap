@@ -140,7 +140,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <div className="edit-definition-firmware-form-row">
               <FormControl>
                 <TextField
-                  label="Firmware Local File"
+                  label="Firmware File"
                   variant="outlined"
                   value={`${props.firmwareFile ? firmwareFileInfo : ''}`}
                   InputProps={{
