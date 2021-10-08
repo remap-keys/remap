@@ -131,7 +131,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                   className="edit-definition-firmware-form-upload-message"
                   ref={dropTargetRef}
                 >
-                  Drop Firmware here
+                  Drop Firmware here (.hex .bin and etc.)
                 </div>
               </div>
             </div>
