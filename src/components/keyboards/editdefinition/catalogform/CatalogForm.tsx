@@ -40,7 +40,7 @@ import {
 import { Delete } from '@material-ui/icons';
 import StoreAddDialog from './StoreAddDialog';
 import { IStore, ISubImage } from '../../../../services/storage/Storage';
-import CircularProgressWithLabel from '../CircularProgressWithLabel';
+import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &
