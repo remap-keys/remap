@@ -17,6 +17,7 @@ import {
 } from '../../../../services/storage/Storage';
 import moment from 'moment';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
+import { ICatalogPhase } from '../../../../store/state';
 
 type CatalogFirmwareState = {};
 type OwnProps = {};
@@ -54,6 +55,7 @@ export default class CatalogFirmware extends React.Component<
                   firmware={firmware}
                   fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
                   definitionDocument={this.props.definitionDocument!}
+                  updateKeyboard={this.props.updateKeyboard!}
                 />
               ))}{' '}
             </div>
@@ -79,6 +81,8 @@ type IFirmwareCardProps = {
     callback: (blob: any) => void
   ) => void;
   definitionDocument: IKeyboardDefinitionDocument;
+  // eslint-disable-next-line no-unused-vars
+  updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
@@ -98,6 +102,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
       a.href = downloadUrl;
       a.click();
       a.remove();
+      props.updateKeyboard(props.definitionDocument.id, 'firmware');
     });
   };
 

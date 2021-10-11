@@ -95,6 +95,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
       a.href = downloadUrl;
       a.click();
       a.remove();
+      props.updateKeyboard!(props.definitionDocument!.id);
     });
   };
 

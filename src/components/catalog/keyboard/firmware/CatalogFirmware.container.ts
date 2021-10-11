@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../../store/state';
+import { ICatalogPhase, RootState } from '../../../../store/state';
 import CatalogFirmware from './CatalogFirmware';
 import { storageActionsThunk } from '../../../../actions/storage.action';
+import { CatalogAppActions } from '../../../../actions/catalog.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -21,6 +22,15 @@ const mapDispatchToProps = (_dispatch: any) => {
     ) {
       _dispatch(
         storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback)
+      );
+    },
+    updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => {
+      _dispatch(CatalogAppActions.updatePhase('processing'));
+      _dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionForCatalogById(
+          definitionId,
+          nextPhase
+        )
       );
     },
   };

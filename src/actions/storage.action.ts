@@ -1074,12 +1074,6 @@ export const storageActionsThunk = {
     );
     if (result.success) {
       callback(result.blob!);
-      await dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDocument.id,
-          'firmware'
-        )
-      );
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
