@@ -17,7 +17,7 @@ export type KeymapCategory =
   | 'device'
   | 'edit'
   | 'f'
-  | 'embed_function'
+  | 'func'
   | 'grave_escape'
   | 'gui'
   | 'int'
@@ -43,7 +43,13 @@ export type KeymapCategory =
   | 'extends'
   | 'bmp'
   | 'combo'
-  | 'midi';
+  | 'midi'
+  | 'notes'
+  | 'octave'
+  | 'transpose'
+  | 'velocity'
+  | 'channel'
+  | 'misc';
 
 function isDefinedKey(ret: {
   value: IKeymap | null | undefined;

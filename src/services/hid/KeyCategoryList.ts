@@ -176,7 +176,16 @@ export class KeyCategory {
   static midi(): IKeymap[] {
     if (KeyCategory._midi) return KeyCategory._midi;
 
-    KeyCategory._midi = KEY_SUB_CATEGORY_MIDI.codes.map(
+    const midiCodes: number[] = [
+      ...KEY_SUB_CATEGORY_MIDI_NOTES.codes,
+      ...KEY_SUB_CATEGORY_MIDI_OCTAVE.codes,
+      ...KEY_SUB_CATEGORY_MIDI_TRANSPOSE.codes,
+      ...KEY_SUB_CATEGORY_MIDI_VELOCITY.codes,
+      ...KEY_SUB_CATEGORY_MIDI_CHANNEL.codes,
+      ...KEY_SUB_CATEGORY_MIDI_MISC.codes,
+    ];
+
+    KeyCategory._midi = midiCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
     return KeyCategory._midi;
@@ -389,7 +398,7 @@ export const KEY_SUB_CATEGORY_COMMAND: IKeycodeCategoryInfo = {
 };
 // Func0, Func1, Func2, Func3, Func4, Func5, Func6, Func7, Func8, Func9, Func10, Func11, Func12, Func13, Func14, Func15, Func16, Func17, Func18, Func19, Func20, Func21, Func22, Func23, Func24, Func25, Func26, Func27, Func28, Func29, Func30, Func31
 export const KEY_SUB_CATEGORY_EMBED_FUNCTION: IKeycodeCategoryInfo = {
-  kinds: ['special', 'embed_function'],
+  kinds: ['special', 'func'],
   codes: [
     192,
     193,
@@ -437,7 +446,7 @@ export const KEY_SUB_CATEGORY_APPLICATION: IKeycodeCategoryInfo = {
 };
 // Power,  System Power Down, Sleep, Wake, Screen+, Screen-
 export const KEY_SUB_CATEGORY_DEVICE: IKeycodeCategoryInfo = {
-  kinds: ['device'],
+  kinds: ['device', 'device'],
   codes: [102, 165, 166, 167, 189, 190],
 };
 // Mouse↑, Mouse↓, Mouse←, Mouse→, Mouse Btn1, Mouse Btn2, Mouse Btn3, Mouse Btn4, Mouse Btn5, Mouse Wh↑, Mouse Wh↓, Mouse Wh←, Mouse Wh→, Mouse Acc0, Mouse Acc1, Mouse Acc2
@@ -582,10 +591,41 @@ export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
   kinds: ['function', 'combo'],
   codes: [23575, 23576, 23577, 23578, 23579, 23580, 23799, 23800, 23801],
 };
-// MIDI
-export const KEY_SUB_CATEGORY_MIDI: IKeycodeCategoryInfo = {
-  kinds: ['midi'],
-  codes: range(23596, 23738),
+
+// MIDI(Notes)
+export const KEY_SUB_CATEGORY_MIDI_NOTES: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'notes'],
+  codes: range(23599, 23670),
+};
+
+// MIDI(Octave)
+export const KEY_SUB_CATEGORY_MIDI_OCTAVE: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'octave'],
+  codes: range(23671, 23682),
+};
+
+// MIDI(Transpose)
+export const KEY_SUB_CATEGORY_MIDI_TRANSPOSE: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'transpose'],
+  codes: range(23683, 23697),
+};
+
+// MIDI(Velocity)
+export const KEY_SUB_CATEGORY_MIDI_VELOCITY: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'velocity'],
+  codes: range(23698, 23709),
+};
+
+// MIDI(Channel)
+export const KEY_SUB_CATEGORY_MIDI_CHANNEL: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'channel'],
+  codes: range(23710, 23727),
+};
+
+// MIDI(Misc)
+export const KEY_SUB_CATEGORY_MIDI_MISC: IKeycodeCategoryInfo = {
+  kinds: ['midi', 'misc'],
+  codes: [...range(23596, 23598), ...range(23728, 23738)],
 };
 
 // ASCII

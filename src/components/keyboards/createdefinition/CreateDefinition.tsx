@@ -173,7 +173,7 @@ export default class CreateDefinition extends React.Component<
                   <div className="create-definition-form-container">
                     <div className="create-definition-upload-form">
                       <KeyboardDefinitionFormPart
-                        messageHtml={`<span class="create-definition-upload-msg">Please import your file (.json)</b>`}
+                        messageHtml={`<span class="create-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="noreferrer">.json</a>)</span>`}
                         validateDeviceIds={false}
                         size="small"
                         onLoadFile={(kd, name, jsonStr) => {

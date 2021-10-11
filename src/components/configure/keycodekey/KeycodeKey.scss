@@ -13,6 +13,9 @@
   margin-top: 8px;
   z-index: 1;
   position: relative;
+  &:hover {
+    background-color: $primary-pale !important;
+  }
 
   &.grabbable {
     cursor: grab;
