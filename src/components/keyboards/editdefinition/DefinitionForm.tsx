@@ -232,7 +232,7 @@ function JsonUploadForm(props: JsonUploadFormProps) {
     return (
       <div className="edit-definition-upload-form">
         <KeyboardDefinitionFormPart
-          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank">.json</a>)</span>`}
+          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="referrer">.json</a>)</span>`}
           validateDeviceIds={true}
           deviceVendorId={props.definitionDocument.vendorId}
           deviceProductId={props.definitionDocument.productId}
@@ -247,7 +247,7 @@ function JsonUploadForm(props: JsonUploadFormProps) {
     return (
       <div className="edit-definition-upload-form">
         <KeyboardDefinitionFormPart
-          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank">.json</a>)</span>`}
+          messageHtml={`<span class="edit-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="referrer">.json</a>)</span>`}
           validateDeviceIds={false}
           size="small"
           onLoadFile={(kd, name, jsonStr) => {
