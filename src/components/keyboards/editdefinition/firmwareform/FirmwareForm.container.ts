@@ -45,8 +45,8 @@ const mapDispatchToProps = (_dispatch: any) => {
     clearFirmwareForm: () => {
       _dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
     },
-    uploadFirmwareFile: () => {
-      _dispatch(storageActionsThunk.uploadFirmwareFile());
+    uploadFirmware: () => {
+      _dispatch(storageActionsThunk.uploadFirmware());
     },
     fetchFirmwareFileBlob: (
       firmwareFilePath: string,
@@ -58,8 +58,8 @@ const mapDispatchToProps = (_dispatch: any) => {
       );
     },
     // eslint-disable-next-line no-unused-vars
-    deleteFirmwareFile: (firmware: IFirmware) => {
-      _dispatch(storageActionsThunk.deleteFirmwareFile(firmware));
+    deleteFirmware: (firmware: IFirmware) => {
+      _dispatch(storageActionsThunk.deleteFirmware(firmware));
     },
   };
 };

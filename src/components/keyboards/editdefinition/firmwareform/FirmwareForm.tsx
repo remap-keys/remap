@@ -58,7 +58,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
   };
 
   const onClickUploadButton = () => {
-    props.uploadFirmwareFile!();
+    props.uploadFirmware!();
   };
 
   const onClickClearButton = () => {
@@ -107,7 +107,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     setOpenConfirmDialog(false);
     const targetFirmware = targetFirmwareForDeletion!;
     setTargetFirmwareForDeletion(null);
-    props.deleteFirmwareFile!(targetFirmware);
+    props.deleteFirmware!(targetFirmware);
   };
   const onClickConfirmDialogNo = () => {
     setTargetFirmwareForDeletion(null);

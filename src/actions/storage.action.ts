@@ -1023,7 +1023,7 @@ export const storageActionsThunk = {
     }
   },
 
-  uploadFirmwareFile: (): ThunkPromiseAction<void> => async (
+  uploadFirmware: (): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
@@ -1036,7 +1036,7 @@ export const storageActionsThunk = {
       keyboards.editdefinition.firmwareSourceCodeUrl;
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const keyboardName = definitionDocument.name;
-    const result = await storage.instance!.uploadFirmwareFile(
+    const result = await storage.instance!.uploadFirmware(
       definitionDocument.id,
       firmwareFile,
       firmwareName,
@@ -1086,14 +1086,14 @@ export const storageActionsThunk = {
     }
   },
 
-  deleteFirmwareFile: (firmware: IFirmware): ThunkPromiseAction<void> => async (
+  deleteFirmware: (firmware: IFirmware): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
   ) => {
     dispatch(KeyboardsAppActions.updatePhase('processing'));
     const { entities, storage } = getState();
     const definitionDocument = entities.keyboardDefinitionDocument!;
-    const result = await storage.instance!.deleteFirmwareFile(
+    const result = await storage.instance!.deleteFirmware(
       definitionDocument.id,
       firmware
     );

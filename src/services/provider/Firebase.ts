@@ -974,7 +974,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async uploadFirmwareFile(
+  async uploadFirmware(
     definitionId: string,
     firmwareFile: File,
     firmwareName: string,
@@ -1086,7 +1086,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async deleteFirmwareFile(
+  async deleteFirmware(
     definitionId: string,
     firmware: IFirmware
   ): Promise<IResult> {

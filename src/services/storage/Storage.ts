@@ -282,7 +282,7 @@ export interface IStorage {
     subImageIndex: number
   ): Promise<IResult>;
 
-  uploadFirmwareFile(
+  uploadFirmware(
     definitionId: string,
     firmwareFile: File,
     firmwareName: string,
@@ -294,9 +294,6 @@ export interface IStorage {
     definitionId: string,
     firmwareFilePath: string
   ): Promise<IFetchFirmwareFileBlobResult>;
-  deleteFirmwareFile(
-    definitionId: string,
-    firmware: IFirmware
-  ): Promise<IResult>;
+  deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
