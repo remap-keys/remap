@@ -90,7 +90,7 @@ export default class ConfigurationDialog extends React.Component<
         </DialogTitle>
         <DialogContent dividers className="import-file-content">
           <KeyboardDefinitionFormPart
-            messageHtml={`Please import <strong>${this.props.productName}</strong>'s defintion file (.json).`}
+            messageHtml={`Please import <strong>${this.props.productName}</strong>'s definition file (<a href="https://caniusevia.com/docs/specification/" target="_blank">.json</a>).`}
             validateDeviceIds={true}
             deviceVendorId={this.props.vendorId}
             deviceProductId={this.props.productId}
