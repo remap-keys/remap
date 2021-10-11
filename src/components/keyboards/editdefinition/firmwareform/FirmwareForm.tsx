@@ -35,7 +35,6 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     targetFirmwareForDeletion,
     setTargetFirmwareForDeletion,
   ] = useState<IFirmware | null>(null);
-  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
 
   const onDragOverFirmwareFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -104,15 +103,6 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     setOpenConfirmDialog(true);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const onClickEdit = (firmware: IFirmware) => {
-    setOpenEditDialog(true);
-  };
-
-  const onClickEditDialogCancel = () => {
-    setOpenEditDialog(false);
-  };
-
   const onClickEditDialogUpdate = (
     firmware: IFirmware,
     name: string,
@@ -128,6 +118,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     setTargetFirmwareForDeletion(null);
     props.deleteFirmware!(targetFirmware);
   };
+
   const onClickConfirmDialogNo = () => {
     setTargetFirmwareForDeletion(null);
     setOpenConfirmDialog(false);
@@ -248,22 +239,14 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                 </Typography>
               </div>
               {sortedFirmwares.map((firmware, index) => (
-                <React.Fragment key={`firmware-${index}`}>
-                  <FirmwareCard
-                    key={`firmware-card-${index}`}
-                    firmware={firmware}
-                    onClickDownload={onClickDownload}
-                    onClickDelete={onClickDelete}
-                    onClickEdit={onClickEdit}
-                  />
-                  <EditDialog
-                    open={openEditDialog}
-                    firmware={firmware}
-                    onClickCancel={onClickEditDialogCancel}
-                    onClickUpdate={onClickEditDialogUpdate}
-                  />
-                </React.Fragment>
-              ))}{' '}
+                <FirmwareCard
+                  key={`firmware-card-${index}`}
+                  firmware={firmware}
+                  onClickDownload={onClickDownload}
+                  onClickDelete={onClickDelete}
+                  onClickEditDialogUpdate={onClickEditDialogUpdate}
+                />
+              ))}
             </React.Fragment>
           ) : (
             <div className="edit-definition-firmware-form-nothing">
@@ -288,62 +271,94 @@ type IFirmwareCardProps = {
   // eslint-disable-next-line no-unused-vars
   onClickDelete: (firmware: IFirmware) => void;
   // eslint-disable-next-line no-unused-vars
-  onClickEdit: (firmware: IFirmware) => void;
+  onClickEditDialogUpdate: (
+    // eslint-disable-next-line no-unused-vars
+    firmware: IFirmware,
+    // eslint-disable-next-line no-unused-vars
+    name: string,
+    // eslint-disable-next-line no-unused-vars
+    description: string,
+    // eslint-disable-next-line no-unused-vars
+    sourceCodeUrl: string
+  ) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const onClickEdit = () => {
+    setOpen(true);
+  };
+
+  const onClickEditDialogCancel = () => {
+    setOpen(false);
+  };
+
+  const onClickEditDialogUpdate = (
+    firmware: IFirmware,
+    name: string,
+    description: string,
+    sourceCodeUrl: string
+  ) => {
+    setOpen(false);
+    props.onClickEditDialogUpdate(firmware, name, description, sourceCodeUrl);
+  };
+
   return (
-    <Card variant="outlined" className="edit-definition-firmware-form-card">
-      <CardContent>
-        <Typography variant="h5" component="h2">
-          {props.firmware.name}
-        </Typography>
-        <Typography variant="body1" color="textSecondary" gutterBottom>
-          {props.firmware.description}
-        </Typography>
-        <Typography variant="caption" color="textSecondary">
-          {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
-          <br />
-          SHA256: {props.firmware.hash}
-        </Typography>
-      </CardContent>
-      <CardActions className="edit-definition-firmware-form-card-buttons">
-        <Button
-          size="small"
-          onClick={() => {
-            props.onClickEdit(props.firmware);
-          }}
-        >
-          Edit
-        </Button>
-        <Button
-          size="small"
-          color="secondary"
-          onClick={() => {
-            props.onClickDelete(props.firmware);
-          }}
-        >
-          Delete
-        </Button>
-        <Button
-          size="small"
-          href={props.firmware.sourceCodeUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Source Code
-        </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            props.onClickDownload(props.firmware);
-          }}
-        >
-          Download
-        </Button>
-      </CardActions>
-    </Card>
+    <React.Fragment>
+      <Card variant="outlined" className="edit-definition-firmware-form-card">
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            {props.firmware.name}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
+            {props.firmware.description}
+          </Typography>
+          <Typography variant="caption" color="textSecondary">
+            {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
+            <br />
+            SHA256: {props.firmware.hash}
+          </Typography>
+        </CardContent>
+        <CardActions className="edit-definition-firmware-form-card-buttons">
+          <Button size="small" onClick={() => onClickEdit()}>
+            Edit
+          </Button>
+          <Button
+            size="small"
+            color="secondary"
+            onClick={() => {
+              props.onClickDelete(props.firmware);
+            }}
+          >
+            Delete
+          </Button>
+          <Button
+            size="small"
+            href={props.firmware.sourceCodeUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source Code
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              props.onClickDownload(props.firmware);
+            }}
+          >
+            Download
+          </Button>
+        </CardActions>
+      </Card>
+      <EditDialog
+        open={open}
+        firmware={props.firmware}
+        onClickCancel={onClickEditDialogCancel}
+        onClickUpdate={onClickEditDialogUpdate}
+      />
+    </React.Fragment>
   );
 }
 
