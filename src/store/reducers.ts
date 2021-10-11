@@ -360,6 +360,7 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.firmwareFile = null;
       draft.keyboards.editdefinition.firmwareName = '';
       draft.keyboards.editdefinition.firmwareDescription = '';
+      draft.keyboards.editdefinition.firmwareSourceCodeUrl = '';
       break;
   }
 };
