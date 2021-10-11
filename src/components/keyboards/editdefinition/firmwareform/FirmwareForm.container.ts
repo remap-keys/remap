@@ -76,6 +76,14 @@ const mapDispatchToProps = (_dispatch: any) => {
         )
       );
     },
+    updateKeyboard: (definitionId: string) => {
+      _dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionId,
+          'firmware'
+        )
+      );
+    },
   };
 };
 export type FirmwareFormActionsType = ReturnType<typeof mapDispatchToProps>;
