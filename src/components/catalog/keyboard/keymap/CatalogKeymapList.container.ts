@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../store/state';
+import { RootState } from '../../../../store/state';
 import CatalogKeymapList from './CatalogKeymapList';
 
 // eslint-disable-next-line no-unused-vars

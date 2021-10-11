@@ -1,0 +1,79 @@
+@import 'src/variables';
+
+.edit-definition-firmware-form {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  &-panel-left {
+    width: 40%;
+    margin-right: 16px;
+  }
+
+  &-panel-right {
+    width: 60%;
+  }
+
+  &-row {
+    margin-bottom: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    button {
+      margin-left: $space-s;
+    }
+  }
+
+  &-upload {
+    &-area {
+      width: 100%;
+      height: 50px;
+      border: 1px dashed rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      &-active {
+        border: 2px dashed rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+      }
+    }
+
+    &-message {
+      color: $color-gray-500;
+    }
+  }
+
+  &-total-download-count {
+    margin-bottom: 16px;
+  }
+
+  &-card {
+    width: 100%;
+    margin-bottom: 16px;
+
+    &-buttons {
+      justify-content: flex-end;
+    }
+  }
+
+  &-nothing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+}

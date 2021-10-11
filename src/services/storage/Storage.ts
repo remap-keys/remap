@@ -38,6 +38,15 @@ export interface ISubImage {
   image_url: string;
 }
 
+export interface IFirmware {
+  name: string;
+  created_at: Date;
+  description: string;
+  hash: string;
+  filename: string;
+  sourceCodeUrl: string;
+}
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
@@ -66,6 +75,8 @@ export interface IKeyboardDefinitionDocument {
   readonly additionalDescriptions: IAdditionalDescription[];
   readonly stores: IStore[];
   readonly websiteUrl: string;
+  readonly firmwares: IFirmware[];
+  readonly totalFirmwareDownloadCount: number;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -162,6 +173,10 @@ export interface IAppliedKeymapsResult extends IResult {
 
 export interface IFetchSharedKeymapResult extends IResult {
   sharedKeymap?: SavedKeymapData;
+}
+
+export interface IFetchFirmwareFileBlobResult extends IResult {
+  blob?: any;
 }
 
 /* eslint-disable no-unused-vars */
@@ -265,6 +280,27 @@ export interface IStorage {
   deleteKeyboardCatalogSubImage(
     definitionId: string,
     subImageIndex: number
+  ): Promise<IResult>;
+
+  uploadFirmware(
+    definitionId: string,
+    firmwareFile: File,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string,
+    keyboardName: string
+  ): Promise<IResult>;
+  fetchFirmwareFileBlob(
+    definitionId: string,
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult>;
+  deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
+  updateFirmware(
+    definitionId: string,
+    firmware: IFirmware,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string
   ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

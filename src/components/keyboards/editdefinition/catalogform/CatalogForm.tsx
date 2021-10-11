@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import './CatalogForm.scss';
 import {
-  Box,
   Button,
   Card,
   CardContent,
   Checkbox,
-  CircularProgress,
-  CircularProgressProps,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -35,14 +32,15 @@ import {
   ALL_WIRELESS_TYPE,
   CONDITION_NOT_SELECTED,
   IKeyboardFeatures,
-} from '../../../store/state';
+} from '../../../../store/state';
 import {
   CatalogFormActionsType,
   CatalogFormStateType,
 } from './CatalogForm.container';
 import { Delete } from '@material-ui/icons';
 import StoreAddDialog from './StoreAddDialog';
-import { IStore, ISubImage } from '../../../services/storage/Storage';
+import { IStore, ISubImage } from '../../../../services/storage/Storage';
+import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &
@@ -822,32 +820,6 @@ export default function CatalogForm(props: CatalogFormProps) {
         </div>
       </div>
     </div>
-  );
-}
-
-function CircularProgressWithLabel(
-  props: CircularProgressProps & { value: number }
-) {
-  return (
-    <Box position="relative" display="inline-flex">
-      <CircularProgress variant="determinate" {...props} />
-      <Box
-        top={0}
-        left={0}
-        bottom={0}
-        right={0}
-        position="absolute"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="textSecondary"
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
   );
 }
 

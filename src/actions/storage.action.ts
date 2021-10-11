@@ -20,6 +20,7 @@ import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   AbstractKeymapData,
   AppliedKeymapData,
+  IFirmware,
   IKeyboardDefinitionDocument,
   KeyboardDefinitionStatus,
   SavedKeymapData,
@@ -1019,6 +1020,125 @@ export const storageActionsThunk = {
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  uploadFirmware: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { storage, keyboards, entities } = getState();
+    const firmwareFile = keyboards.editdefinition.firmwareFile!;
+    const firmwareName = keyboards.editdefinition.firmwareName;
+    const firmwareDescription = keyboards.editdefinition.firmwareDescription;
+    const firmwareSourceCodeUrl =
+      keyboards.editdefinition.firmwareSourceCodeUrl;
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const keyboardName = definitionDocument.name;
+    const result = await storage.instance!.uploadFirmware(
+      definitionDocument.id,
+      firmwareFile,
+      firmwareName,
+      firmwareDescription,
+      firmwareSourceCodeUrl,
+      keyboardName
+    );
+    if (result.success) {
+      dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  fetchFirmwareFileBlob: (
+    firmwareFilePath: string,
+    // eslint-disable-next-line no-unused-vars
+    callback: (blob: any) => void
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage, entities } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const result = await storage.instance!.fetchFirmwareFileBlob(
+      definitionDocument.id,
+      firmwareFilePath
+    );
+    if (result.success) {
+      callback(result.blob!);
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  deleteFirmware: (firmware: IFirmware): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { entities, storage } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const result = await storage.instance!.deleteFirmware(
+      definitionDocument.id,
+      firmware
+    );
+    if (result.success) {
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.error!);
+      dispatch(NotificationActions.addError(result.error!));
+    }
+  },
+
+  updateFirmware: (
+    firmware: IFirmware,
+    name: string,
+    description: string,
+    sourceCodeUrl: string
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { entities, storage } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const result = await storage.instance!.updateFirmware(
+      definitionDocument.id,
+      firmware,
+      name,
+      description,
+      sourceCodeUrl
+    );
+    if (result.success) {
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.error!);
+      dispatch(NotificationActions.addError(result.error!));
     }
   },
 

@@ -49,6 +49,9 @@ class App extends React.Component<StyledComponentProps, {}> {
             <Route exact path="/catalog">
               <Catalog />
             </Route>
+            <Route path="/catalog/:definitionId/firmware">
+              <Catalog catalogDetailMode="firmware" />
+            </Route>
             <Route path="/catalog/:definitionId/keymap">
               <Catalog catalogDetailMode="keymap" />
             </Route>

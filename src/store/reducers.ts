@@ -127,6 +127,11 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_SUB_IMAGE_UPLOADING,
   KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_NAME,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION,
+  KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -338,6 +343,24 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION:
       draft.keyboards.editdefinition.contactInformation = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_NAME:
+      draft.keyboards.editdefinition.firmwareName = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_FILE:
+      draft.keyboards.editdefinition.firmwareFile = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION:
+      draft.keyboards.editdefinition.firmwareDescription = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL:
+      draft.keyboards.editdefinition.firmwareSourceCodeUrl = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM:
+      draft.keyboards.editdefinition.firmwareFile = null;
+      draft.keyboards.editdefinition.firmwareName = '';
+      draft.keyboards.editdefinition.firmwareDescription = '';
+      draft.keyboards.editdefinition.firmwareSourceCodeUrl = '';
       break;
   }
 };

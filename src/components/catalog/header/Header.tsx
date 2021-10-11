@@ -30,7 +30,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     return (
       <header className="catalog-header">
         <div className="catalog-header-logo-nav">
-          {(['introduction', 'keymap'] as ICatalogPhase[]).includes(
+          {(['introduction', 'keymap', 'firmware'] as ICatalogPhase[]).includes(
             this.props.phase!
           ) ? (
             <div>

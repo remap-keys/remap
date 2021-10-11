@@ -21,10 +21,13 @@ import {
   IFetchSharedKeymapResult,
   IAdditionalDescription,
   ISubImage,
+  IFirmware,
+  IFetchFirmwareFileBlobResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
+import * as crypto from 'crypto';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -64,6 +67,19 @@ export class FirebaseProvider implements IStorage, IAuth {
   private generateKeyboardDefinitionDocument(
     documentSnapshot: firebase.firestore.DocumentSnapshot
   ): IKeyboardDefinitionDocument {
+    const firmwares: IFirmware[] = [];
+    if (documentSnapshot.data()!.firmwares) {
+      documentSnapshot.data()!.firmwares.forEach((firmware: any) => {
+        firmwares.push({
+          name: firmware.name,
+          description: firmware.description,
+          hash: firmware.hash,
+          filename: firmware.filename,
+          sourceCodeUrl: firmware.source_code_url,
+          created_at: firmware.created_at.toDate(),
+        });
+      });
+    }
     return {
       id: documentSnapshot.id,
       name: documentSnapshot.data()!.name,
@@ -97,6 +113,9 @@ export class FirebaseProvider implements IStorage, IAuth {
         documentSnapshot.data()!.additional_descriptions || [],
       stores: documentSnapshot.data()!.stores || [],
       websiteUrl: documentSnapshot.data()!.website_url || '',
+      firmwares,
+      totalFirmwareDownloadCount:
+        documentSnapshot.data()!.total_firmware_download_count || 0,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -951,6 +970,192 @@ export class FirebaseProvider implements IStorage, IAuth {
         success: false,
         error: 'Fetching the keyboards created by same author failed',
         cause: error,
+      };
+    }
+  }
+
+  async uploadFirmware(
+    definitionId: string,
+    firmwareFile: File,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string,
+    keyboardName: string,
+    // eslint-disable-next-line no-unused-vars
+    progress?: (uploadedRate: number) => void
+  ): Promise<IResult> {
+    // eslint-disable-next-line no-unused-vars
+    return new Promise<IResult>((resolve, reject) => {
+      const filename = FirebaseProvider.createFirmwareFilename(
+        keyboardName,
+        firmwareFile,
+        new Date().getTime()
+      );
+      const filePath = `/firmware/${this.auth.currentUser!.uid}/${filename}`;
+      const uploadTask = this.storage.ref(filePath).put(firmwareFile);
+      uploadTask.on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+          if (progress) {
+            const rate =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            progress(rate);
+          }
+        },
+        (error) => {
+          console.error(error);
+          resolve({
+            success: false,
+            error: 'Uploading firmware file failed.',
+            cause: error,
+          });
+        },
+        async () => {
+          const hash = crypto
+            .createHash('sha256')
+            .update(new Uint8Array(await firmwareFile.arrayBuffer()))
+            .digest('hex');
+          await this.db
+            .collection('keyboards')
+            .doc('v2')
+            .collection('definitions')
+            .doc(definitionId)
+            .update({
+              firmwares: firebase.firestore.FieldValue.arrayUnion({
+                name: firmwareName,
+                description: firmwareDescription,
+                source_code_url: firmwareSourceCodeUrl,
+                created_at: new Date(),
+                filename: filePath,
+                hash,
+              }),
+            });
+          resolve({
+            success: true,
+          });
+        }
+      );
+    });
+  }
+
+  static createFirmwareFilename(
+    keyboardName: string,
+    firmwareFile: File,
+    timestamp: number
+  ): string {
+    const extname = firmwareFile.name.substring(
+      firmwareFile.name.lastIndexOf('.') + 1
+    );
+    return `${keyboardName}-${timestamp}.${extname}`;
+  }
+
+  async fetchFirmwareFileBlob(
+    definitionId: string,
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult> {
+    // This operation needs CORS setting for the GCS bucket.
+    // cors.json: [{"origin": ["*"], "method": ["GET"], "maxAgeSeconds": 3600}]
+    // gsutil cors set cors.json gs://remap-b2d08.appspot.com
+    const downloadUrl = await this.storage
+      .ref(firmwareFilePath)
+      .getDownloadURL();
+    const response = await fetch(downloadUrl);
+    if (response.ok) {
+      const blob = await response.blob();
+
+      await this.db
+        .collection('keyboards')
+        .doc('v2')
+        .collection('definitions')
+        .doc(definitionId)
+        .update({
+          total_firmware_download_count: firebase.firestore.FieldValue.increment(
+            1
+          ),
+        });
+
+      return {
+        success: true,
+        blob,
+      };
+    } else {
+      return {
+        success: false,
+        error: `Fetching firmware file failed. status=${response.status}`,
+      };
+    }
+  }
+
+  async deleteFirmware(
+    definitionId: string,
+    firmware: IFirmware
+  ): Promise<IResult> {
+    const definitionDocument = await this.db
+      .collection('keyboards')
+      .doc('v2')
+      .collection('definitions')
+      .doc(definitionId)
+      .get();
+    if (definitionDocument.exists) {
+      const newFirmwares = definitionDocument
+        .data()!
+        .firmwares.filter((x: any) => {
+          return (
+            x.created_at.toDate().getTime() !== firmware.created_at.getTime()
+          );
+        });
+      await definitionDocument.ref.update({
+        firmwares: newFirmwares,
+      });
+      const storageRef = this.storage.ref(firmware.filename);
+      await storageRef.delete();
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: `The keyboard definition[${definitionId}] not found`,
+      };
+    }
+  }
+
+  async updateFirmware(
+    definitionId: string,
+    firmware: IFirmware,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string
+  ): Promise<IResult> {
+    const definitionDocument = await this.db
+      .collection('keyboards')
+      .doc('v2')
+      .collection('definitions')
+      .doc(definitionId)
+      .get();
+    if (definitionDocument.exists) {
+      const newFirmwares = definitionDocument
+        .data()!
+        .firmwares.map((x: any) => {
+          if (
+            x.created_at.toDate().getTime() === firmware.created_at.getTime()
+          ) {
+            x.name = firmwareName;
+            x.description = firmwareDescription;
+            x.source_code_url = firmwareSourceCodeUrl;
+          }
+          return x;
+        });
+      await definitionDocument.ref.update({
+        firmwares: newFirmwares,
+      });
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: `The keyboard definition[${definitionId}] not found`,
       };
     }
   }

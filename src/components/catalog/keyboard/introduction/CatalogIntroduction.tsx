@@ -11,10 +11,10 @@ import ImageGallery from 'react-image-gallery';
 import {
   IAdditionalDescription,
   IKeyboardDefinitionDocument,
-} from '../../../services/storage/Storage';
-import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import FeatureList from '../../common/features/FeatureList';
-import { isSmallDisplay } from '../../../utils/DisplayUtils';
+} from '../../../../services/storage/Storage';
+import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
+import FeatureList from '../../../common/features/FeatureList';
+import { isSmallDisplay } from '../../../../utils/DisplayUtils';
 
 type CatalogIntroductionState = {
   selectedDescriptionTabIndex: number;

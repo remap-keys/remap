@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../store/state';
+import { RootState } from '../../../../store/state';
 import CatalogKeymap from './Catalogkeymap';
 import {
   catalogActionsThunk,
   CatalogAppActions,
   CatalogKeyboardActions,
-} from '../../../actions/catalog.action';
-import { storageActionsThunk } from '../../../actions/storage.action';
-import { AbstractKeymapData } from '../../../services/storage/Storage';
-import { NotificationActions } from '../../../actions/actions';
+} from '../../../../actions/catalog.action';
+import { storageActionsThunk } from '../../../../actions/storage.action';
+import { AbstractKeymapData } from '../../../../services/storage/Storage';
+import { NotificationActions } from '../../../../actions/actions';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 // eslint-disable-next-line no-unused-vars

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../store/state';
+import { RootState } from '../../../../store/state';
 import CatalogIntroduction from './CatalogIntroduction';
-import { CatalogAppActions } from '../../../actions/catalog.action';
-import { storageActionsThunk } from '../../../actions/storage.action';
+import { CatalogAppActions } from '../../../../actions/catalog.action';
+import { storageActionsThunk } from '../../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {

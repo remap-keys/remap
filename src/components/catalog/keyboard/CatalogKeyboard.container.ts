@@ -38,6 +38,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     applySharedKeymap: (definitionId: string, keymapId: string) => {
       _dispatch(catalogActionsThunk.applySharedKeymap(definitionId, keymapId));
     },
+    goToFirmware: () => {
+      _dispatch(CatalogAppActions.updatePhase('firmware'));
+    },
   };
 };
 export type CatalogKeyboardActionsType = ReturnType<typeof mapDispatchToProps>;
