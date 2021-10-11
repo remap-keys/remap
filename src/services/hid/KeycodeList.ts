@@ -43,7 +43,13 @@ export type KeymapCategory =
   | 'extends'
   | 'bmp'
   | 'combo'
-  | 'midi';
+  | 'midi'
+  | 'notes'
+  | 'octave'
+  | 'transpose'
+  | 'velocity'
+  | 'channel'
+  | 'misc';
 
 function isDefinedKey(ret: {
   value: IKeymap | null | undefined;
