@@ -437,6 +437,22 @@ function EditDialog(props: IEditDialogProps) {
     }
   }, [props.open]);
 
+  const validateFirmwareForm = (): boolean => {
+    if (!name) {
+      return false;
+    }
+    if (!description) {
+      return false;
+    }
+    if (!sourceCodeUrl) {
+      return false;
+    }
+    if (!sourceCodeUrl.match(/^http(s)?:\/\/.+/)) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <Dialog
       open={props.open}
@@ -490,6 +506,7 @@ function EditDialog(props: IEditDialogProps) {
               sourceCodeUrl
             )
           }
+          disabled={!validateFirmwareForm()}
         >
           Update
         </Button>
