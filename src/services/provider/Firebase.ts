@@ -1120,6 +1120,46 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async updateFirmware(
+    definitionId: string,
+    firmware: IFirmware,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string
+  ): Promise<IResult> {
+    const definitionDocument = await this.db
+      .collection('keyboards')
+      .doc('v2')
+      .collection('definitions')
+      .doc(definitionId)
+      .get();
+    if (definitionDocument.exists) {
+      const newFirmwares = definitionDocument
+        .data()!
+        .firmwares.map((x: any) => {
+          if (
+            x.created_at.toDate().getTime() === firmware.created_at.getTime()
+          ) {
+            x.name = firmwareName;
+            x.description = firmwareDescription;
+            x.source_code_url = firmwareSourceCodeUrl;
+          }
+          return x;
+        });
+      await definitionDocument.ref.update({
+        firmwares: newFirmwares,
+      });
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        error: `The keyboard definition[${definitionId}] not found`,
+      };
+    }
+  }
+
   async uploadKeyboardCatalogMainImage(
     definitionId: string,
     file: File,

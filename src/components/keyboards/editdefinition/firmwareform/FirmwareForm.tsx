@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FirmwareFormActionsType,
   FirmwareFormStateType,
@@ -35,6 +35,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     targetFirmwareForDeletion,
     setTargetFirmwareForDeletion,
   ] = useState<IFirmware | null>(null);
+  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
 
   const onDragOverFirmwareFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -101,6 +102,24 @@ export default function FirmwareForm(props: FirmwareFormProps) {
   const onClickDelete = (firmware: IFirmware) => {
     setTargetFirmwareForDeletion(firmware);
     setOpenConfirmDialog(true);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const onClickEdit = (firmware: IFirmware) => {
+    setOpenEditDialog(true);
+  };
+
+  const onClickEditDialogCancel = () => {
+    setOpenEditDialog(false);
+  };
+
+  const onClickEditDialogUpdate = (
+    firmware: IFirmware,
+    name: string,
+    description: string,
+    sourceCodeUrl: string
+  ) => {
+    props.updateFirmware!(firmware, name, description, sourceCodeUrl);
   };
 
   const onClickConfirmDialogYes = () => {
@@ -229,12 +248,21 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                 </Typography>
               </div>
               {sortedFirmwares.map((firmware, index) => (
-                <FirmwareCard
-                  key={`firmware-card-${index}`}
-                  firmware={firmware}
-                  onClickDownload={onClickDownload}
-                  onClickDelete={onClickDelete}
-                />
+                <React.Fragment key={`firmware-${index}`}>
+                  <FirmwareCard
+                    key={`firmware-card-${index}`}
+                    firmware={firmware}
+                    onClickDownload={onClickDownload}
+                    onClickDelete={onClickDelete}
+                    onClickEdit={onClickEdit}
+                  />
+                  <EditDialog
+                    open={openEditDialog}
+                    firmware={firmware}
+                    onClickCancel={onClickEditDialogCancel}
+                    onClickUpdate={onClickEditDialogUpdate}
+                  />
+                </React.Fragment>
               ))}{' '}
             </React.Fragment>
           ) : (
@@ -259,6 +287,8 @@ type IFirmwareCardProps = {
   onClickDownload: (firmware: IFirmware) => void;
   // eslint-disable-next-line no-unused-vars
   onClickDelete: (firmware: IFirmware) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickEdit: (firmware: IFirmware) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
@@ -278,6 +308,14 @@ function FirmwareCard(props: IFirmwareCardProps) {
         </Typography>
       </CardContent>
       <CardActions className="edit-definition-firmware-form-card-buttons">
+        <Button
+          size="small"
+          onClick={() => {
+            props.onClickEdit(props.firmware);
+          }}
+        >
+          Edit
+        </Button>
         <Button
           size="small"
           color="secondary"
@@ -345,6 +383,100 @@ function ConfirmDialog(props: IConfirmDialogProps) {
           }}
         >
           Yes
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+type IEditDialogProps = {
+  open: boolean;
+  firmware: IFirmware;
+  onClickCancel: () => void;
+  onClickUpdate: (
+    // eslint-disable-next-line no-unused-vars
+    firmware: IFirmware,
+    // eslint-disable-next-line no-unused-vars
+    name: string,
+    // eslint-disable-next-line no-unused-vars
+    description: string,
+    // eslint-disable-next-line no-unused-vars
+    sourceCodeUrl: string
+  ) => void;
+};
+
+function EditDialog(props: IEditDialogProps) {
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>(
+    props.firmware.description
+  );
+  const [sourceCodeUrl, setSourceCodeUrl] = useState<string>(
+    props.firmware.sourceCodeUrl
+  );
+
+  useEffect(() => {
+    if (props.open) {
+      setName(props.firmware.name);
+      setDescription(props.firmware.description);
+      setSourceCodeUrl(props.firmware.sourceCodeUrl);
+    }
+  }, [props.open]);
+
+  return (
+    <Dialog
+      open={props.open}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">Edit Firmware</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          label="Firmware Name"
+          fullWidth
+          margin="dense"
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
+        />
+        <TextField
+          autoFocus
+          label="Firmware Description"
+          fullWidth
+          multiline
+          rows={4}
+          margin="dense"
+          value={description}
+          onChange={(event) => {
+            setDescription(event.target.value);
+          }}
+        />
+        <TextField
+          autoFocus
+          label="Source Code URL"
+          fullWidth
+          margin="dense"
+          value={sourceCodeUrl}
+          onChange={(event) => {
+            setSourceCodeUrl(event.target.value);
+          }}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => props.onClickCancel()}>Cancel</Button>
+        <Button
+          color="primary"
+          onClick={() =>
+            props.onClickUpdate(
+              props.firmware,
+              name,
+              description,
+              sourceCodeUrl
+            )
+          }
+        >
+          Update
         </Button>
       </DialogActions>
     </Dialog>

@@ -1110,6 +1110,38 @@ export const storageActionsThunk = {
     }
   },
 
+  updateFirmware: (
+    firmware: IFirmware,
+    name: string,
+    description: string,
+    sourceCodeUrl: string
+  ): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    dispatch(KeyboardsAppActions.updatePhase('processing'));
+    const { entities, storage } = getState();
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const result = await storage.instance!.updateFirmware(
+      definitionDocument.id,
+      firmware,
+      name,
+      description,
+      sourceCodeUrl
+    );
+    if (result.success) {
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionById(
+          definitionDocument.id,
+          'firmware'
+        )
+      );
+    } else {
+      console.error(result.error!);
+      dispatch(NotificationActions.addError(result.error!));
+    }
+  },
+
   uploadKeyboardCatalogSubImage: (
     definitionId: string,
     file: File

@@ -61,6 +61,21 @@ const mapDispatchToProps = (_dispatch: any) => {
     deleteFirmware: (firmware: IFirmware) => {
       _dispatch(storageActionsThunk.deleteFirmware(firmware));
     },
+    updateFirmware: (
+      firmware: IFirmware,
+      name: string,
+      description: string,
+      sourceCodeUrl: string
+    ) => {
+      _dispatch(
+        storageActionsThunk.updateFirmware(
+          firmware,
+          name,
+          description,
+          sourceCodeUrl
+        )
+      );
+    },
   };
 };
 export type FirmwareFormActionsType = ReturnType<typeof mapDispatchToProps>;

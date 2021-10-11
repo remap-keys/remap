@@ -295,5 +295,12 @@ export interface IStorage {
     firmwareFilePath: string
   ): Promise<IFetchFirmwareFileBlobResult>;
   deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
+  updateFirmware(
+    definitionId: string,
+    firmware: IFirmware,
+    firmwareName: string,
+    firmwareDescription: string,
+    firmwareSourceCodeUrl: string
+  ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
