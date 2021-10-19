@@ -1,0 +1,353 @@
+import { AbstractBootloader, IBootloaderReadResult } from '../Bootloader';
+import { FirmwareOperationProgressListener } from '../Firmware';
+import { FirmwareFlashType, IMcu, IResult, MCU } from '../Types';
+import { ISerial } from '../Serial';
+import {
+  ExitCommand,
+  FetchAutoAddressIncrementSupportCommand,
+  FetchBufferAccessCommand,
+  FetchBufferSizeCommand,
+  FetchDeviceTypeCommand,
+  FetchExtendedFuseBitsCommand,
+  FetchHighFuseBitsCommand,
+  FetchLockBitsCommand,
+  FetchLowFuseBitsCommand,
+  FetchProgramTypeCommand,
+  FetchBytesFromMemoryCommand,
+  FetchRevisionNumberCommand,
+  FetchSignatureCommand,
+  FetchSoftwareIdentifierCommand,
+  FetchVersionNumberCommand,
+  SetAddressCommand,
+  SetDeviceTypeCommand,
+} from './CaterinaCommands';
+import { concatUint8Array } from '../../../utils/ArrayUtils';
+
+export class CaterinaBootloader extends AbstractBootloader {
+  constructor(serial: ISerial) {
+    super(serial);
+  }
+
+  private async fetchAndCheckBootloaderInformation(
+    progress: FirmwareOperationProgressListener
+  ): Promise<{
+    success: boolean;
+    error?: string;
+    cause?: any;
+    bufferSize?: number;
+  }> {
+    progress('Fetching the Software Identifier.');
+    const softwareIdentifierResult = await new FetchSoftwareIdentifierCommand().writeRequest(
+      this.serial
+    );
+    if (!softwareIdentifierResult.success) {
+      return softwareIdentifierResult;
+    }
+    const softwareIdentifier = softwareIdentifierResult.response!
+      .softwareIdentifier;
+    progress(`The software identifier: ${softwareIdentifier}`);
+    if (softwareIdentifier !== 'CATERIN') {
+      return {
+        success: false,
+        error: `The software identifier is not 'CATERIN': ${softwareIdentifier}`,
+      };
+    }
+
+    progress('Fetching the version information.');
+    const versionNumberResult = await new FetchVersionNumberCommand().writeRequest(
+      this.serial
+    );
+    if (!versionNumberResult.success) {
+      return versionNumberResult;
+    }
+    const versionNumber = versionNumberResult.response!.versionNumber;
+    if (versionNumber !== '?'.charCodeAt(0)) {
+      const revisionNumberResult = await new FetchRevisionNumberCommand().writeRequest(
+        this.serial
+      );
+      if (!revisionNumberResult.success) {
+        return revisionNumberResult;
+      }
+      const revisionNumber = revisionNumberResult.response!.revisionNumber;
+      progress(`The hardware version: ${versionNumber}.${revisionNumber}`);
+    } else {
+      progress(
+        `The hardware version is unknown: ${String.fromCharCode(versionNumber)}`
+      );
+    }
+
+    progress('Fetching the program type.');
+    const programTypeResult = await new FetchProgramTypeCommand().writeRequest(
+      this.serial
+    );
+    if (!programTypeResult.success) {
+      return programTypeResult;
+    }
+    const programType = programTypeResult.response!.programType;
+    progress(`The program type: ${programType}`);
+
+    progress('Fetching the auto address increment support.');
+    const autoAddressIncrementSupportResult = await new FetchAutoAddressIncrementSupportCommand().writeRequest(
+      this.serial
+    );
+    if (!autoAddressIncrementSupportResult.success) {
+      return autoAddressIncrementSupportResult;
+    }
+    const autoAddressIncrementSupport = autoAddressIncrementSupportResult.response!
+      .autoAddressIncrementSupport;
+    progress(
+      `The auto address increment support: ${autoAddressIncrementSupport}`
+    );
+
+    progress('Fetching the buffer access.');
+    const bufferAccessResult = await new FetchBufferAccessCommand().writeRequest(
+      this.serial
+    );
+    if (!bufferAccessResult.success) {
+      return bufferAccessResult;
+    }
+    const bufferAccess = bufferAccessResult.response!.bufferAccess;
+    if (!bufferAccess) {
+      return {
+        success: false,
+        error: 'The buffer access is not supported.',
+      };
+    }
+    progress('The buffer access is supported.');
+
+    progress('Fetching the buffer size.');
+    const bufferSizeResult = await new FetchBufferSizeCommand().writeRequest(
+      this.serial
+    );
+    if (!bufferSizeResult.success) {
+      return bufferSizeResult;
+    }
+    const bufferSize = bufferSizeResult.response!.bufferSize;
+    progress(`The buffer size: ${bufferSize}`);
+
+    progress('Fetching the device type.');
+    const deviceTypeResult = await new FetchDeviceTypeCommand().writeRequest(
+      this.serial
+    );
+    if (!deviceTypeResult.success) {
+      return deviceTypeResult;
+    }
+    const deviceType = deviceTypeResult.response!.deviceType;
+    progress(`The device type: ${deviceType}`);
+
+    const skipReadBytesResult = await this.serial.skipBytesUntilNonZero(1000);
+    if (!skipReadBytesResult.success) {
+      return skipReadBytesResult;
+    }
+
+    progress(`Set the device type: ${deviceType}`);
+    const setDeviceTypeResult = await new SetDeviceTypeCommand({
+      deviceType,
+    }).writeRequest(this.serial);
+    if (!setDeviceTypeResult.success) {
+      return setDeviceTypeResult;
+    }
+
+    progress('Fetching the Extended FUSE Bits.');
+    const extendedFuseBitsResult = await new FetchExtendedFuseBitsCommand().writeRequest(
+      this.serial
+    );
+    if (!extendedFuseBitsResult.success) {
+      return extendedFuseBitsResult;
+    }
+    const extendedFuseBits = extendedFuseBitsResult.response!.extendedFuseBits;
+    progress(`The Extended Fuse Bits: ${extendedFuseBits.toString(16)}`);
+
+    progress('Fetching the Low Fuse Bits.');
+    const lowFuseBitsResult = await new FetchLowFuseBitsCommand().writeRequest(
+      this.serial
+    );
+    if (!lowFuseBitsResult.success) {
+      return lowFuseBitsResult;
+    }
+    const lowFuseBits = lowFuseBitsResult.response!.lowFuseBits;
+    progress(`The Low Fuse Bits: ${lowFuseBits.toString(16)}`);
+
+    progress('Fetching the High Fuse Bits.');
+    const highFuseBitsResult = await new FetchHighFuseBitsCommand().writeRequest(
+      this.serial
+    );
+    if (!highFuseBitsResult.success) {
+      return highFuseBitsResult;
+    }
+    const highFuseBits = highFuseBitsResult.response!.highFuseBits;
+    progress(`The High Fuse Bits: ${highFuseBits.toString(16)}`);
+
+    progress('Fetching the Lock Bits.');
+    const lockBitsResult = await new FetchLockBitsCommand().writeRequest(
+      this.serial
+    );
+    if (!lockBitsResult.success) {
+      return lockBitsResult;
+    }
+    const lockBits = lockBitsResult.response!.lockBits;
+    progress(`The Lock Bits: ${lockBits.toString(16)}`);
+
+    progress('The caterina bootloader is valid.');
+
+    return {
+      success: true,
+      bufferSize,
+    };
+  }
+
+  private async fetchSignature(
+    progress: FirmwareOperationProgressListener
+  ): Promise<{ success: boolean; signature?: number; error?: string }> {
+    progress('Fetch the signature.');
+    const signatureResult = await new FetchSignatureCommand().writeRequest(
+      this.serial
+    );
+    if (signatureResult.success) {
+      progress(`The signature: ${signatureResult.response!.signature}`);
+      return {
+        success: true,
+        signature: signatureResult.response!.signature,
+      };
+    } else {
+      return signatureResult;
+    }
+  }
+
+  private async initialize(
+    progress: FirmwareOperationProgressListener
+  ): Promise<{
+    success: boolean;
+    error?: string;
+    cause?: any;
+    bufferSize?: number;
+    mcu?: IMcu;
+  }> {
+    const detectResult = await this.fetchAndCheckBootloaderInformation(
+      progress
+    );
+    if (!detectResult.success) {
+      progress('Caterina bootloader is not detected.');
+      return detectResult;
+    }
+    const signatureResult = await this.fetchSignature(progress);
+    if (!signatureResult.success) {
+      return signatureResult;
+    }
+    const signature = signatureResult.signature!;
+    if (signature === MCU.atmega32u4.signature) {
+      progress('ATmega32u4 detected.');
+      return {
+        success: true,
+        mcu: MCU.atmega32u4,
+        bufferSize: detectResult.bufferSize,
+      };
+    } else {
+      return {
+        success: false,
+        error: 'Unknown MCU detected.',
+      };
+    }
+  }
+
+  private async setAddress(
+    address: number,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    progress(`Set the address: ${address}`);
+    return await new SetAddressCommand({ address }).writeRequest(this.serial);
+  }
+
+  private async readBytesFromFlashMemory(
+    size: number,
+    flashType: FirmwareFlashType,
+    bufferSize: number,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IBootloaderReadResult> {
+    let address = 0;
+    const setAddressResult = await this.setAddress(address, progress);
+    if (!setAddressResult.success) {
+      return setAddressResult;
+    }
+    progress(`Start reading ${size} bytes from the flash memory.`);
+    let bytes: Uint8Array = new Uint8Array();
+    while (address < size) {
+      const readBytesFromMemoryResult = await new FetchBytesFromMemoryCommand({
+        flashType,
+        bufferSize,
+      }).writeRequest(this.serial);
+      if (!readBytesFromMemoryResult.success) {
+        return readBytesFromMemoryResult;
+      }
+      bytes = concatUint8Array(
+        bytes,
+        readBytesFromMemoryResult.response!.bytes
+      );
+      address += readBytesFromMemoryResult.response!.blockSize;
+      progress('.');
+    }
+    progress('Reading bytes from the flash memory completed.');
+    return {
+      success: true,
+      bytes,
+    };
+  }
+
+  private async exit(): Promise<IResult> {
+    return await new ExitCommand().writeRequest(this.serial);
+  }
+
+  async read(
+    size: number = 0,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IBootloaderReadResult> {
+    try {
+      progress('Initialize a bootloader.');
+      const initializeResult = await this.initialize(progress);
+      if (!initializeResult.success) {
+        return initializeResult;
+      }
+      const mcu = initializeResult.mcu!;
+      const flashMemorySize =
+        size === 0 ? mcu.flashMemorySize : Math.min(mcu.flashMemorySize, size);
+      const readBytesFromFlashMemoryResult = await this.readBytesFromFlashMemory(
+        flashMemorySize,
+        'flash',
+        initializeResult.bufferSize!,
+        progress
+      );
+      if (!readBytesFromFlashMemoryResult.success) {
+        return readBytesFromFlashMemoryResult;
+      }
+      const exitResult = await this.exit();
+      if (!exitResult.success) {
+        return exitResult;
+      }
+      return {
+        success: true,
+        bytes: readBytesFromFlashMemoryResult.bytes!,
+      };
+    } finally {
+      await this.serial.close();
+    }
+  }
+
+  async verify(
+    bytes: Uint8Array,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    return {
+      success: false,
+    };
+  }
+
+  async write(
+    bytes: Uint8Array,
+    eepromBytes: Uint8Array | null,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    return {
+      success: false,
+    };
+  }
+}

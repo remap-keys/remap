@@ -3335,6 +3335,11 @@
   resolved "https://registry.yarnpkg.com/@types/w3c-web-hid/-/w3c-web-hid-1.0.1.tgz#d7bc1af06f4d6a42aac008ff76d5b4ad8b851bc3"
   integrity sha512-zdOo3wWpuxt3UHgx983TyRxkG17yMDjrvSwmVM4kC4ysLsxIjdNNP/jx4xG4LAm6ISu3WohD1ZEIu+p49ToEFA==
 
+"@types/w3c-web-serial@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/w3c-web-serial/-/w3c-web-serial-1.0.2.tgz#8bf21f90b40dda6d2e2e6b188417b6bd66525d03"
+  integrity sha512-Ftx4BtLxgAnel7V7GbHylCYjSq827A+jeEE3SnTS7huCGUN0pSwUn+CchTCT9TkZj9w+NVMUq4Bk2R0GvUNmAQ==
+
 "@types/webpack-env@^1.15.3":
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"

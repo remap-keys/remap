@@ -1,0 +1,33 @@
+.serial {
+  button {
+    margin: 8px;
+  }
+
+  div {
+    margin: 8px;
+
+    &.box {
+      border: 1px solid lightgray;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  input[type='text'] {
+    width: 50px;
+    margin-right: 8px;
+  }
+
+  input[type='number'] {
+    width: 50px;
+    margin-right: 8px;
+  }
+
+  label {
+    margin-right: 8px;
+  }
+
+  textarea {
+    width: 300px;
+  }
+}
