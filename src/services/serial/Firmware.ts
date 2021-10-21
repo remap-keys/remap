@@ -12,13 +12,18 @@ export interface IFirmwareReadResult extends IResult {
 export interface IFirmware {
   read(
     size: number,
-    progressListener: FirmwareOperationProgressListener,
+    progress: FirmwareOperationProgressListener,
     errorHandler: IErrorHandler
   ): Promise<IFirmwareReadResult>;
   verify(
     bytes: Uint8Array,
-    progressListener: FirmwareOperationProgressListener,
+    progress: FirmwareOperationProgressListener,
     errorHandler: IErrorHandler
   ): Promise<IResult>;
-  write(progressListener: FirmwareOperationProgressListener): Promise<void>;
+  write(
+    flashBytes: Uint8Array,
+    eepromBytes: Uint8Array | null,
+    progress: FirmwareOperationProgressListener,
+    errorHandler: IErrorHandler
+  ): Promise<IResult>;
 }

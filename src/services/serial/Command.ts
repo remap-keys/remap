@@ -35,6 +35,10 @@ export abstract class AbstractCommand<
     return 1000;
   }
 
+  protected getVerifyTimeout(): number {
+    return 1000;
+  }
+
   protected isVerify(): boolean {
     return false;
   }

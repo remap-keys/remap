@@ -9,7 +9,7 @@ abstract class AbstractCaterinaCommand<
   TResponse extends ICommandResponse
 > extends AbstractCommand<TRequest, TResponse> {
   protected async verify(serial: ISerial): Promise<IResult> {
-    const readResult = await serial.readBytes(1, 1000);
+    const readResult = await serial.readBytes(1, this.getVerifyTimeout());
     if (!readResult.success) {
       return readResult;
     }
@@ -467,5 +467,118 @@ export class FetchBytesFromMemoryCommand extends AbstractCaterinaCommand<
 
   getReadBytesLength(): number {
     return this.blockSize;
+  }
+}
+
+export class EnterProgramModeCommand extends AbstractCaterinaCommand<
+  ICommandRequest,
+  ICommandResponse
+> {
+  createRequest(): string | Uint8Array | null {
+    return 'P';
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  getReadBytesLength(): number {
+    return 0;
+  }
+
+  protected isVerify(): boolean {
+    return true;
+  }
+}
+
+export class LeaveProgramModeCommand extends AbstractCaterinaCommand<
+  ICommandRequest,
+  ICommandResponse
+> {
+  createRequest(): string | Uint8Array | null {
+    return 'L';
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  getReadBytesLength(): number {
+    return 0;
+  }
+
+  protected isVerify(): boolean {
+    return true;
+  }
+}
+
+export class ClearApplicationSectionOfFlashCommand extends AbstractCaterinaCommand<
+  ICommandRequest,
+  ICommandResponse
+> {
+  createRequest(): string | Uint8Array | null {
+    return 'e';
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  getReadBytesLength(): number {
+    return 0;
+  }
+
+  protected isVerify(): boolean {
+    return true;
+  }
+
+  protected getVerifyTimeout(): number {
+    return 6000;
+  }
+}
+
+export interface IWriteBytesToMemoryRequest extends ICommandRequest {
+  bytes: Uint8Array;
+  flashType: FirmwareFlashType;
+  blockSize: number;
+}
+
+export class WriteBytesToMemoryCommand extends AbstractCaterinaCommand<
+  IWriteBytesToMemoryRequest,
+  ICommandResponse
+> {
+  createRequest(): string | Uint8Array | null {
+    const request = this.getRequest()!;
+    const bytes = request.bytes;
+    const flashType = request.flashType;
+    const blockSize = request.blockSize;
+    const command = Array(4);
+    command[0] = 'B'.charCodeAt(0);
+    command[1] = blockSize >> 8;
+    command[2] = blockSize & 0xff;
+    if (flashType === 'flash') {
+      command[3] = 'F'.charCodeAt(0);
+    } else if (flashType === 'eeprom') {
+      command[3] = 'E'.charCodeAt(0);
+    } else {
+      throw new Error(`Unknown flash type: ${flashType}`);
+    }
+    return concatUint8Array(Uint8Array.from(command), bytes);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  getReadBytesLength(): number {
+    return 0;
+  }
+
+  protected isVerify(): boolean {
+    return true;
   }
 }

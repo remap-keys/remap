@@ -49,7 +49,18 @@ export class FirmwareWebSerialImpl implements IFirmware {
   }
 
   // eslint-disable-next-line no-unused-vars
-  write(progressListener: FirmwareOperationProgressListener): Promise<void> {
-    return Promise.resolve(undefined);
+  async write(
+    flashBytes: Uint8Array,
+    eepromBytes: Uint8Array | null,
+    progress: FirmwareOperationProgressListener,
+    errorHandler: IErrorHandler
+  ): Promise<IResult> {
+    const serial = new WebSerial(CHUNK_SIZE);
+    const openResult = await serial.open(BAUD_RATE, BUFFER_SIZE, errorHandler);
+    if (!openResult.success) {
+      return openResult;
+    }
+    const bootloader = new CaterinaBootloader(serial);
+    return await bootloader.write(flashBytes, eepromBytes, progress);
   }
 }

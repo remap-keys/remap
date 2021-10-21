@@ -15,6 +15,7 @@
     "downloadjs": "^1.4.7",
     "firebase": "^8.2.1",
     "immer": "^8.0.0",
+    "intel-hex": "^0.1.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
     "notistack": "^1.0.3",

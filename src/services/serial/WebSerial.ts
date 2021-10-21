@@ -22,6 +22,7 @@ export class WebSerial implements ISerial {
     bufferSize: number,
     errorHandler: IErrorHandler
   ): Promise<IResult> {
+    // eslint-disable-next-line no-unused-vars
     return new Promise<IResult>((resolve, reject) => {
       this.openPort(baudRate, bufferSize)
         .then((result) => {

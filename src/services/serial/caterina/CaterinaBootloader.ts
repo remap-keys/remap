@@ -20,6 +20,10 @@ import {
   FetchVersionNumberCommand,
   SetAddressCommand,
   SetDeviceTypeCommand,
+  EnterProgramModeCommand,
+  LeaveProgramModeCommand,
+  ClearApplicationSectionOfFlashCommand,
+  WriteBytesToMemoryCommand,
 } from './CaterinaCommands';
 import { concatUint8Array } from '../../../utils/ArrayUtils';
 
@@ -270,7 +274,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     if (!setAddressResult.success) {
       return setAddressResult;
     }
-    progress(`Start reading ${size} bytes from the flash memory.`);
+    progress(`Start reading ${size} bytes from the memory.`);
     let bytes: Uint8Array = new Uint8Array();
     while (address < size) {
       const readBytesFromMemoryResult = await new FetchBytesFromMemoryCommand({
@@ -287,21 +291,23 @@ export class CaterinaBootloader extends AbstractBootloader {
       address += readBytesFromMemoryResult.response!.blockSize;
       progress('.');
     }
-    progress('Reading bytes from the flash memory completed.');
+    progress('Reading bytes from the memory completed.');
     return {
       success: true,
       bytes,
     };
   }
 
-  private async verifyBytesAndFlashMemory(
+  private async verifyBytesAndMemory(
     bytes: Uint8Array,
     bufferSize: number,
+    flashType: FirmwareFlashType,
     progress: FirmwareOperationProgressListener
   ): Promise<IResult> {
+    progress(`Start verifying ${bytes.byteLength} bytes against the memory.`);
     const readResult = await this.readBytesFromFlashMemory(
       bytes.byteLength,
-      'flash',
+      flashType,
       bufferSize,
       progress
     );
@@ -317,6 +323,48 @@ export class CaterinaBootloader extends AbstractBootloader {
         };
       }
     }
+    progress('Verifying bytes against the memory completed.');
+    return {
+      success: true,
+    };
+  }
+
+  private async writeBytesToFlashMemory(
+    bytes: Uint8Array,
+    bufferSize: number,
+    flashType: FirmwareFlashType,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    let address = 0;
+    const setAddressResult = await this.setAddress(address, progress);
+    if (!setAddressResult.success) {
+      return setAddressResult;
+    }
+    progress(`Start writing ${bytes.byteLength} bytes to the memory.`);
+    let blockSize;
+    if (flashType === 'flash') {
+      blockSize = bufferSize;
+    } else if (flashType === 'eeprom') {
+      blockSize = 1;
+    } else {
+      throw new Error(`Unknown flash type: ${flashType}`);
+    }
+    while (address < bytes.byteLength) {
+      if (bytes.byteLength - address < bufferSize) {
+        blockSize = bytes.byteLength - address;
+      }
+      const writeBytesToMemoryResult = await new WriteBytesToMemoryCommand({
+        bytes: bytes.slice(address, address + blockSize),
+        flashType,
+        blockSize,
+      }).writeRequest(this.serial);
+      if (!writeBytesToMemoryResult.success) {
+        return writeBytesToMemoryResult;
+      }
+      address += blockSize;
+      progress('.', false);
+    }
+    progress('Writing bytes to the memory completed.');
     return {
       success: true,
     };
@@ -324,6 +372,23 @@ export class CaterinaBootloader extends AbstractBootloader {
 
   private async exit(): Promise<IResult> {
     return await new ExitCommand().writeRequest(this.serial);
+  }
+
+  private async enterProgramMode(): Promise<IResult> {
+    return await new EnterProgramModeCommand().writeRequest(this.serial);
+  }
+
+  private async leaveProgramMode(): Promise<IResult> {
+    return await new LeaveProgramModeCommand().writeRequest(this.serial);
+  }
+
+  private async clearApplicationSectionOfFlash(
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    progress('Clearing the application section of the flash memory.');
+    return await new ClearApplicationSectionOfFlashCommand().writeRequest(
+      this.serial
+    );
   }
 
   async read(
@@ -376,9 +441,10 @@ export class CaterinaBootloader extends AbstractBootloader {
           error: `Firmware binary file size too large: MCU Boot Address: ${mcu.bootAddress} Firmware Size: ${bytes.byteLength}`,
         };
       }
-      const verifyResult = await this.verifyBytesAndFlashMemory(
+      const verifyResult = await this.verifyBytesAndMemory(
         bytes,
         initializeResult.bufferSize!,
+        'flash',
         progress
       );
       if (!verifyResult.success) {
@@ -397,12 +463,99 @@ export class CaterinaBootloader extends AbstractBootloader {
   }
 
   async write(
-    bytes: Uint8Array,
+    flashBytes: Uint8Array,
     eepromBytes: Uint8Array | null,
     progress: FirmwareOperationProgressListener
   ): Promise<IResult> {
-    return {
-      success: false,
-    };
+    try {
+      const initializeResult = await this.initialize(progress);
+      if (!initializeResult.success) {
+        return initializeResult;
+      }
+      const mcu = initializeResult.mcu!;
+      if (mcu.bootAddress < flashBytes.byteLength) {
+        return {
+          success: false,
+          error: `Firmware flash binary file size too large: MCU Boot Address: ${mcu.bootAddress} Binary Size: ${flashBytes.byteLength}`,
+        };
+      }
+      if (eepromBytes) {
+        if (mcu.eepromSize < eepromBytes.byteLength) {
+          return {
+            success: false,
+            error: `Firmware eeprom binary file size too large: EEPROM size: ${mcu.eepromSize} Binary Size: ${eepromBytes.byteLength}`,
+          };
+        }
+      }
+
+      const enterProgramModeResult = await this.enterProgramMode();
+      if (!enterProgramModeResult.success) {
+        return enterProgramModeResult;
+      }
+
+      const clearApplicationSectionOfFlashResult = await this.clearApplicationSectionOfFlash(
+        progress
+      );
+      if (!clearApplicationSectionOfFlashResult.success) {
+        return clearApplicationSectionOfFlashResult;
+      }
+
+      const writeBytesToMemoryResult = await this.writeBytesToFlashMemory(
+        flashBytes,
+        initializeResult.bufferSize!,
+        'flash',
+        progress
+      );
+      if (!writeBytesToMemoryResult.success) {
+        return writeBytesToMemoryResult;
+      }
+
+      const verifyResult = await this.verifyBytesAndMemory(
+        flashBytes,
+        initializeResult.bufferSize!,
+        'flash',
+        progress
+      );
+      if (!verifyResult.success) {
+        return verifyResult;
+      }
+
+      if (eepromBytes) {
+        const writeBytesToMemoryResult = await this.writeBytesToFlashMemory(
+          eepromBytes,
+          initializeResult.bufferSize!,
+          'eeprom',
+          progress
+        );
+        if (!writeBytesToMemoryResult.success) {
+          return writeBytesToMemoryResult;
+        }
+
+        const verifyResult = await this.verifyBytesAndMemory(
+          eepromBytes,
+          initializeResult.bufferSize!,
+          'eeprom',
+          progress
+        );
+        if (!verifyResult.success) {
+          return verifyResult;
+        }
+      }
+
+      const leaveProgramModeResult = await this.leaveProgramMode();
+      if (!leaveProgramModeResult.success) {
+        return leaveProgramModeResult;
+      }
+
+      const exitResult = await this.exit();
+      if (!exitResult.success) {
+        return exitResult;
+      }
+      return {
+        success: true,
+      };
+    } finally {
+      await this.serial.close();
+    }
   }
 }

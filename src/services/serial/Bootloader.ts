@@ -22,7 +22,7 @@ export abstract class AbstractBootloader {
 
   abstract write(
     // eslint-disable-next-line no-unused-vars
-    bytes: Uint8Array,
+    flashBytes: Uint8Array,
     // eslint-disable-next-line no-unused-vars
     eepromBytes: Uint8Array | null,
     // eslint-disable-next-line no-unused-vars
