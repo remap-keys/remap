@@ -276,6 +276,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     }
     progress(`Start reading ${size} bytes from the memory.`);
     let bytes: Uint8Array = new Uint8Array();
+    progress('');
     while (address < size) {
       const readBytesFromMemoryResult = await new FetchBytesFromMemoryCommand({
         flashType,
@@ -289,7 +290,7 @@ export class CaterinaBootloader extends AbstractBootloader {
         readBytesFromMemoryResult.response!.bytes
       );
       address += readBytesFromMemoryResult.response!.blockSize;
-      progress('.');
+      progress('.', false);
     }
     progress('Reading bytes from the memory completed.');
     return {
@@ -349,6 +350,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     } else {
       throw new Error(`Unknown flash type: ${flashType}`);
     }
+    progress('');
     while (address < bytes.byteLength) {
       if (bytes.byteLength - address < bufferSize) {
         blockSize = bytes.byteLength - address;

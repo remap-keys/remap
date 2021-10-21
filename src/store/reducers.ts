@@ -149,6 +149,9 @@ import {
   CATALOG_SEARCH_RESET_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
+  FLASH_FIRMWARE_DIALOG_ACTIONS,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
 import {
@@ -202,6 +205,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       catalogAppReducer(action, draft);
     } else if (action.type.startsWith(CATALOG_KEYBOARD_ACTIONS)) {
       catalogKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(FLASH_FIRMWARE_DIALOG_ACTIONS)) {
+      flashFirmwareDialogReducer(action, draft);
     } else if (action.type.startsWith(META_ACTIONS)) {
       metaReducer(action, draft);
     }
@@ -937,6 +942,20 @@ const metaReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.meta.og.description = action.value.description;
       draft.app.meta.og.url = action.value.url;
       draft.app.meta.og.image = action.value.image;
+      break;
+  }
+};
+
+const flashFirmwareDialogReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE:
+      draft.catalog.keyboard.flashFirmwareDialog.firmware = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING:
+      draft.catalog.keyboard.flashFirmwareDialog.flashing = action.value;
       break;
   }
 };

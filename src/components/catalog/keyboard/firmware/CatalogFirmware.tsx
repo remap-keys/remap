@@ -18,6 +18,7 @@ import {
 import moment from 'moment';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
+import FlashFirmwareDialog from './FlashFirmwareDialog.container';
 
 type CatalogFirmwareState = {};
 type OwnProps = {};
@@ -33,41 +34,57 @@ export default class CatalogFirmware extends React.Component<
     super(props);
   }
 
+  onCloseFlashFirmwareDialog() {
+    this.props.flashFirmwareDialog!.close();
+  }
+
+  onClickFlash(firmware: IFirmware) {
+    this.props.flashFirmwareDialog!.open(firmware);
+  }
+
   render() {
     const sortedFirmwares = this.props
       .definitionDocument!.firmwares.slice()
       .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
     return (
-      <div className="catalog-firmware-wrapper">
-        <div className="catalog-firmware-container">
-          {this.props.definitionDocument!.firmwares.length > 0 ? (
-            <div className="catalog-firmware-panel">
-              <div className="catalog-firmware-total-download-count">
-                <Typography variant="body2" align="right">
-                  Total Firmware Download Count:{' '}
-                  {this.props.definitionDocument!.totalFirmwareDownloadCount}
+      <React.Fragment>
+        <div className="catalog-firmware-wrapper">
+          <div className="catalog-firmware-container">
+            {this.props.definitionDocument!.firmwares.length > 0 ? (
+              <div className="catalog-firmware-panel">
+                <div className="catalog-firmware-total-download-count">
+                  <Typography variant="body2" align="right">
+                    Total Firmware Download Count:{' '}
+                    {this.props.definitionDocument!.totalFirmwareDownloadCount}
+                  </Typography>
+                </div>
+                {sortedFirmwares.map((firmware, index) => (
+                  <FirmwareCard
+                    key={`firmware-${index}`}
+                    firmware={firmware}
+                    fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
+                    definitionDocument={this.props.definitionDocument!}
+                    updateKeyboard={this.props.updateKeyboard!}
+                    onClickFlash={() => {
+                      this.onClickFlash(firmware);
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="catalog-firmware-nothing">
+                <Typography variant="body1">
+                  There is no firmware provided for this keyboard on Remap.
                 </Typography>
               </div>
-              {sortedFirmwares.map((firmware, index) => (
-                <FirmwareCard
-                  key={`firmware-${index}`}
-                  firmware={firmware}
-                  fetchFirmwareFileBlob={this.props.fetchFirmwareFileBlob!}
-                  definitionDocument={this.props.definitionDocument!}
-                  updateKeyboard={this.props.updateKeyboard!}
-                />
-              ))}{' '}
-            </div>
-          ) : (
-            <div className="catalog-firmware-nothing">
-              <Typography variant="body1">
-                There is no firmware provided for this keyboard on Remap.
-              </Typography>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+        <FlashFirmwareDialog
+          onClose={this.onCloseFlashFirmwareDialog.bind(this)}
+        />
+      </React.Fragment>
     );
   }
 }
@@ -83,6 +100,8 @@ type IFirmwareCardProps = {
   definitionDocument: IKeyboardDefinitionDocument;
   // eslint-disable-next-line no-unused-vars
   updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickFlash: (firmware: IFirmware) => void;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
@@ -106,37 +125,46 @@ function FirmwareCard(props: IFirmwareCardProps) {
     });
   };
 
+  const onClickFlash = () => {
+    props.onClickFlash(props.firmware);
+  };
+
   return (
-    <Card variant="outlined" className="catalog-firmware-card">
-      <CardContent>
-        <Typography variant="h5" component="h2">
-          {props.firmware.name}
-        </Typography>
-        <Typography variant="body1" color="textSecondary" gutterBottom>
-          {props.firmware.description}
-        </Typography>
-        <Typography
-          variant="caption"
-          color="textSecondary"
-          className="catalog-firmware-card-caption"
-        >
-          {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')} |
-          SHA256: {props.firmware.hash}
-        </Typography>
-      </CardContent>
-      <CardActions className="catalog-firmware-card-buttons">
-        <Button
-          size="small"
-          href={props.firmware.sourceCodeUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Source Code
-        </Button>
-        <Button size="small" color="primary" onClick={onClickDownload}>
-          Download
-        </Button>
-      </CardActions>
-    </Card>
+    <React.Fragment>
+      <Card variant="outlined" className="catalog-firmware-card">
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            {props.firmware.name}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
+            {props.firmware.description}
+          </Typography>
+          <Typography
+            variant="caption"
+            color="textSecondary"
+            className="catalog-firmware-card-caption"
+          >
+            {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
+            | SHA256: {props.firmware.hash}
+          </Typography>
+        </CardContent>
+        <CardActions className="catalog-firmware-card-buttons">
+          <Button size="small" color="primary" onClick={onClickFlash}>
+            Flash
+          </Button>
+          <Button
+            size="small"
+            href={props.firmware.sourceCodeUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source Code
+          </Button>
+          <Button size="small" color="primary" onClick={onClickDownload}>
+            Download
+          </Button>
+        </CardActions>
+      </Card>
+    </React.Fragment>
   );
 }

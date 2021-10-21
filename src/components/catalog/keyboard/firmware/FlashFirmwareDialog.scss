@@ -1,0 +1,64 @@
+@import '../../../../variables';
+
+.flash-firmware-dialog {
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    &-item {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 4px;
+
+      &-title {
+        display: block;
+        width: 100px;
+        flex: none;
+      }
+    }
+  }
+
+  &-instruction {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 8px;
+    padding: 8px;
+    border: 1px solid $color-gray-300;
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      width: 200px;
+      align-items: center;
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      & img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  &-progress {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+
+    &-circular {
+      margin-right: 16px;
+      flex: none;
+    }
+
+    &-logs {
+      flex-grow: 1;
+    }
+  }
+}

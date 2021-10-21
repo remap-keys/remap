@@ -6,7 +6,7 @@ import {
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { AbstractKeymapData } from '../services/storage/Storage';
+import { AbstractKeymapData, IFirmware } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
   AppActions,
@@ -59,6 +59,24 @@ export const CatalogSearchActions = {
     return {
       type: CATALOG_SEARCH_RESET_FEATURES,
       value: value,
+    };
+  },
+};
+
+export const FLASH_FIRMWARE_DIALOG_ACTIONS = '@FlashFirmwareDialog';
+export const FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFirmware`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFlashing`;
+export const FlashFirmwareDialogActions = {
+  updateFirmware: (firmware: IFirmware | null) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+      value: firmware,
+    };
+  },
+  updateFlashing: (flashing: boolean) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
+      value: flashing,
     };
   },
 };

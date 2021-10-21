@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Serial.scss';
 import { FirmwareWebSerialImpl } from '../FirmwareWebSerialImpl';
 import { IFirmware } from '../Firmware';
@@ -7,14 +7,29 @@ import hex from 'intel-hex';
 
 export function Serial() {
   const [file, setFile] = useState<File | null>(null);
+  const [logs, setLogs] = useState<string[]>([]);
+
+  const logsRef = React.createRef<HTMLTextAreaElement>();
+
+  useEffect(() => {
+    logsRef.current!.scrollTop = logsRef.current!.scrollHeight;
+  });
 
   const handleFirmwareReadClick = async () => {
     const firmware: IFirmware = new FirmwareWebSerialImpl();
     const readResult = await firmware.read(
       0,
       // eslint-disable-next-line no-unused-vars
-      (message, lineBreak?: boolean) => {
+      (message, lineBreak: boolean = true) => {
         console.log(message);
+        if (lineBreak) {
+          setLogs((prevState) => [...prevState, message]);
+        } else {
+          setLogs((prevState) => [
+            ...prevState.slice(0, prevState.length - 1),
+            `${prevState[prevState.length - 1]}${message}`,
+          ]);
+        }
       },
       (error, cause) => {
         console.error(error);
@@ -48,8 +63,16 @@ export function Serial() {
     const writeResult = await firmware.write(
       parseResult.data,
       null,
-      (message) => {
+      (message, lineBreak: boolean = true) => {
         console.log(message);
+        if (lineBreak) {
+          setLogs((prevState) => [...prevState, message]);
+        } else {
+          setLogs((prevState) => [
+            ...prevState.slice(0, prevState.length - 1),
+            `${prevState[prevState.length - 1]}${message}`,
+          ]);
+        }
       },
       (error, cause) => {
         console.error(error);
@@ -66,6 +89,12 @@ export function Serial() {
         <button onClick={handleFirmwareReadClick}>Firmware.read()</button>
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleFirmwareWriteClick}>Firmware.write()</button>
+        <textarea
+          ref={logsRef}
+          rows={4}
+          value={`${logs.join('\n')}`}
+          readOnly
+        />
       </div>
     </div>
   );

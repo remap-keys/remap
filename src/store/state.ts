@@ -7,6 +7,7 @@ import {
   AbstractKeymapData,
   AppliedKeymapData,
   IAdditionalDescription,
+  IFirmware,
   IKeyboardDefinitionDocument,
   IStorage,
   IStore,
@@ -312,6 +313,10 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
+      flashFirmwareDialog: {
+        firmware: IFirmware | null;
+        flashing: boolean;
+      };
     };
   };
   hid: {
@@ -494,6 +499,10 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
+      flashFirmwareDialog: {
+        firmware: null,
+        flashing: false,
+      },
     },
   },
   hid: {
