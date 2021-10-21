@@ -1,15 +1,9 @@
-import {
-  ISerial,
-  ISerialReadBytesErrorHandler,
-  ISerialReadBytesResult,
-} from './Serial';
-import { IResult } from './Types';
-import { FirmwareOperationProgressListener } from './Firmware';
+import { ISerial, ISerialReadBytesResult } from './Serial';
+import { IErrorHandler, IResult } from './Types';
 import { encodeStringToBytes } from '../../utils/StringUtils';
 
 export class WebSerial implements ISerial {
   private chunkSize: number;
-  private interval: number;
   private connected: boolean;
   // eslint-disable-next-line no-undef
   private serialPort: SerialPort | undefined;
@@ -17,47 +11,37 @@ export class WebSerial implements ISerial {
   private reader: ReadableStreamDefaultReader | null = null;
   private receivedBytesBuffer: number[];
 
-  constructor(chunkSize: number, interval: number) {
+  constructor(chunkSize: number) {
     this.chunkSize = chunkSize;
-    this.interval = interval;
     this.connected = false;
     this.receivedBytesBuffer = [];
   }
 
-  static openWebSerialPort(
-    progress: FirmwareOperationProgressListener
-  ): Promise<ISerial> {
-    // eslint-disable-next-line no-unused-vars
-    return new Promise<ISerial>((resolve, reject) => {
-      const chunkSize = 128;
-      const interval = 5;
-      const serial = new WebSerial(chunkSize, interval);
-      progress('Open a serial port.');
-      serial
-        .open()
+  open(
+    baudRate: number,
+    bufferSize: number,
+    errorHandler: IErrorHandler
+  ): Promise<IResult> {
+    return new Promise<IResult>((resolve, reject) => {
+      this.openPort(baudRate, bufferSize)
         .then((result) => {
           if (!result.success) {
-            return;
+            resolve(result);
           } else {
-            resolve(serial);
-            progress('Start reading bytes from the serial port.');
-            return serial.start(
-              // eslint-disable-next-line no-unused-vars
-              (error, cause) => {
-                console.error(error);
-              }
-            );
+            resolve({ success: true });
+            return this.start(errorHandler);
           }
         })
         .catch((reason) => {
-          // FIXME Should route the error message for somewhere?
-          console.error(reason);
+          errorHandler(`Opening serial port failed: ${reason}`, reason);
         });
     });
   }
 
-  async open(baudRate: number = 115200): Promise<IResult> {
-    const bufferSize = 81920;
+  private async openPort(
+    baudRate: number = 115200,
+    bufferSize: number
+  ): Promise<IResult> {
     let serialPort;
     try {
       serialPort = await navigator.serial.requestPort();
@@ -87,7 +71,7 @@ export class WebSerial implements ISerial {
     }
   }
 
-  async start(errorHandler: ISerialReadBytesErrorHandler): Promise<void> {
+  private async start(errorHandler: IErrorHandler): Promise<void> {
     if (!this.serialPort) {
       errorHandler('Starting failed because there is no serial port.');
       return;

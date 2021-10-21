@@ -12,6 +12,10 @@ export function Serial() {
       // eslint-disable-next-line no-unused-vars
       (message, lineBreak?: boolean) => {
         console.log(message);
+      },
+      (error, cause) => {
+        console.error(error);
+        console.error(cause);
       }
     );
     if (readResult.success) {

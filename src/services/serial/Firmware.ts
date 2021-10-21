@@ -1,4 +1,4 @@
-import { IResult } from './Types';
+import { IErrorHandler, IResult } from './Types';
 
 export type FirmwareOperationProgressListener = (
   message: string,
@@ -12,7 +12,8 @@ export interface IFirmwareReadResult extends IResult {
 export interface IFirmware {
   read(
     size: number,
-    progressListener: FirmwareOperationProgressListener
+    progressListener: FirmwareOperationProgressListener,
+    errorHandler: IErrorHandler
   ): Promise<IFirmwareReadResult>;
   verify(progressListener: FirmwareOperationProgressListener): Promise<void>;
   write(progressListener: FirmwareOperationProgressListener): Promise<void>;

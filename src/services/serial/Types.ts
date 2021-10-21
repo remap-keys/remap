@@ -21,3 +21,5 @@ export const MCU = {
     bootAddress: 0x7000,
   },
 };
+
+export type IErrorHandler = (error: string, cause?: any) => void;
