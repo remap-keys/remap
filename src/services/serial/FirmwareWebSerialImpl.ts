@@ -5,7 +5,11 @@ import {
 } from './Firmware';
 import { CaterinaBootloader } from './caterina/CaterinaBootloader';
 import { WebSerial } from './WebSerial';
-import { IErrorHandler } from './Types';
+import { IErrorHandler, IResult } from './Types';
+
+const BAUD_RATE = 115200;
+const BUFFER_SIZE = 81920;
+const CHUNK_SIZE = 128;
 
 export class FirmwareWebSerialImpl implements IFirmware {
   async read(
@@ -13,8 +17,8 @@ export class FirmwareWebSerialImpl implements IFirmware {
     progress: FirmwareOperationProgressListener,
     errorHandler: IErrorHandler
   ): Promise<IFirmwareReadResult> {
-    const serial = new WebSerial(128);
-    const openResult = await serial.open(115200, 81920, errorHandler);
+    const serial = new WebSerial(CHUNK_SIZE);
+    const openResult = await serial.open(BAUD_RATE, BUFFER_SIZE, errorHandler);
     if (!openResult.success) {
       return openResult;
     }
@@ -30,8 +34,18 @@ export class FirmwareWebSerialImpl implements IFirmware {
   }
 
   // eslint-disable-next-line no-unused-vars
-  verify(progressListener: FirmwareOperationProgressListener): Promise<void> {
-    return Promise.resolve(undefined);
+  async verify(
+    bytes: Uint8Array,
+    progress: FirmwareOperationProgressListener,
+    errorHandler: IErrorHandler
+  ): Promise<IResult> {
+    const serial = new WebSerial(CHUNK_SIZE);
+    const openResult = await serial.open(BAUD_RATE, BUFFER_SIZE, errorHandler);
+    if (!openResult.success) {
+      return openResult;
+    }
+    const bootloader = new CaterinaBootloader(serial);
+    return await bootloader.verify(bytes, progress);
   }
 
   // eslint-disable-next-line no-unused-vars

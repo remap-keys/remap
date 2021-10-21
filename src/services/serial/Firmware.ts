@@ -15,6 +15,10 @@ export interface IFirmware {
     progressListener: FirmwareOperationProgressListener,
     errorHandler: IErrorHandler
   ): Promise<IFirmwareReadResult>;
-  verify(progressListener: FirmwareOperationProgressListener): Promise<void>;
+  verify(
+    bytes: Uint8Array,
+    progressListener: FirmwareOperationProgressListener,
+    errorHandler: IErrorHandler
+  ): Promise<IResult>;
   write(progressListener: FirmwareOperationProgressListener): Promise<void>;
 }

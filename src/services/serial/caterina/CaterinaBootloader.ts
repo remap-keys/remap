@@ -223,6 +223,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     bufferSize?: number;
     mcu?: IMcu;
   }> {
+    progress('Initialize a bootloader.');
     const detectResult = await this.fetchAndCheckBootloaderInformation(
       progress
     );
@@ -293,6 +294,34 @@ export class CaterinaBootloader extends AbstractBootloader {
     };
   }
 
+  private async verifyBytesAndFlashMemory(
+    bytes: Uint8Array,
+    bufferSize: number,
+    progress: FirmwareOperationProgressListener
+  ): Promise<IResult> {
+    const readResult = await this.readBytesFromFlashMemory(
+      bytes.byteLength,
+      'flash',
+      bufferSize,
+      progress
+    );
+    if (!readResult.success) {
+      return readResult;
+    }
+    const bytesFromMcu = readResult.bytes!;
+    for (let i = 0; i < bytes.byteLength; i++) {
+      if (bytes[i] !== bytesFromMcu[i]) {
+        return {
+          success: false,
+          error: `Verification failed: Position:${i} Local:${bytes[i]} MCU:${bytesFromMcu[i]}`,
+        };
+      }
+    }
+    return {
+      success: true,
+    };
+  }
+
   private async exit(): Promise<IResult> {
     return await new ExitCommand().writeRequest(this.serial);
   }
@@ -302,7 +331,6 @@ export class CaterinaBootloader extends AbstractBootloader {
     progress: FirmwareOperationProgressListener
   ): Promise<IBootloaderReadResult> {
     try {
-      progress('Initialize a bootloader.');
       const initializeResult = await this.initialize(progress);
       if (!initializeResult.success) {
         return initializeResult;
@@ -336,9 +364,36 @@ export class CaterinaBootloader extends AbstractBootloader {
     bytes: Uint8Array,
     progress: FirmwareOperationProgressListener
   ): Promise<IResult> {
-    return {
-      success: false,
-    };
+    try {
+      const initializeResult = await this.initialize(progress);
+      if (!initializeResult.success) {
+        return initializeResult;
+      }
+      const mcu = initializeResult.mcu!;
+      if (mcu.bootAddress < bytes.byteLength) {
+        return {
+          success: false,
+          error: `Firmware binary file size too large: MCU Boot Address: ${mcu.bootAddress} Firmware Size: ${bytes.byteLength}`,
+        };
+      }
+      const verifyResult = await this.verifyBytesAndFlashMemory(
+        bytes,
+        initializeResult.bufferSize!,
+        progress
+      );
+      if (!verifyResult.success) {
+        return verifyResult;
+      }
+      const exitResult = await this.exit();
+      if (!exitResult.success) {
+        return exitResult;
+      }
+      return {
+        success: true,
+      };
+    } finally {
+      await this.serial.close();
+    }
   }
 
   async write(
