@@ -28,6 +28,7 @@ import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
+import { IBootloaderType, IMcuType } from '../serial/Types';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -77,6 +78,9 @@ export class FirebaseProvider implements IStorage, IAuth {
           filename: firmware.filename,
           sourceCodeUrl: firmware.source_code_url,
           created_at: firmware.created_at.toDate(),
+          flash_support: firmware.flash_support || false,
+          mcu_type: firmware.mcu_type,
+          bootloader_type: firmware.bootloader_type,
         });
       });
     }
@@ -980,6 +984,9 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType,
     keyboardName: string,
     // eslint-disable-next-line no-unused-vars
     progress?: (uploadedRate: number) => void
@@ -1015,20 +1022,26 @@ export class FirebaseProvider implements IStorage, IAuth {
             .createHash('sha256')
             .update(new Uint8Array(await firmwareFile.arrayBuffer()))
             .digest('hex');
+          const data: any = {
+            name: firmwareName,
+            description: firmwareDescription,
+            source_code_url: firmwareSourceCodeUrl,
+            created_at: new Date(),
+            filename: filePath,
+            hash,
+            flash_support: flashSupport,
+          };
+          if (flashSupport) {
+            data.mcu_type = mcuType;
+            data.bootloader_type = bootloaderType;
+          }
           await this.db
             .collection('keyboards')
             .doc('v2')
             .collection('definitions')
             .doc(definitionId)
             .update({
-              firmwares: firebase.firestore.FieldValue.arrayUnion({
-                name: firmwareName,
-                description: firmwareDescription,
-                source_code_url: firmwareSourceCodeUrl,
-                created_at: new Date(),
-                filename: filePath,
-                hash,
-              }),
+              firmwares: firebase.firestore.FieldValue.arrayUnion(data),
             });
           resolve({
             success: true,
@@ -1125,7 +1138,10 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmware: IFirmware,
     firmwareName: string,
     firmwareDescription: string,
-    firmwareSourceCodeUrl: string
+    firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ): Promise<IResult> {
     const definitionDocument = await this.db
       .collection('keyboards')
@@ -1143,6 +1159,11 @@ export class FirebaseProvider implements IStorage, IAuth {
             x.name = firmwareName;
             x.description = firmwareDescription;
             x.source_code_url = firmwareSourceCodeUrl;
+            x.flash_support = flashSupport;
+            if (flashSupport) {
+              x.mcu_type = mcuType;
+              x.bootloader_type = bootloaderType;
+            }
           }
           return x;
         });

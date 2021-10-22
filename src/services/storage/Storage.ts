@@ -2,6 +2,7 @@ import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { IBootloaderType, IMcuType } from '../serial/Types';
 
 export interface IResult {
   readonly success: boolean;
@@ -45,6 +46,9 @@ export interface IFirmware {
   hash: string;
   filename: string;
   sourceCodeUrl: string;
+  flash_support: boolean;
+  mcu_type?: IMcuType;
+  bootloader_type?: IBootloaderType;
 }
 
 export interface IKeyboardDefinitionDocument {
@@ -288,6 +292,9 @@ export interface IStorage {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType,
     keyboardName: string
   ): Promise<IResult>;
   fetchFirmwareFileBlob(
@@ -300,7 +307,10 @@ export interface IStorage {
     firmware: IFirmware,
     firmwareName: string,
     firmwareDescription: string,
-    firmwareSourceCodeUrl: string
+    firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */
