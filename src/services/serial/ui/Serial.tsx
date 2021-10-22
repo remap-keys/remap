@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Serial.scss';
-import { FirmwareWebSerialImpl } from '../FirmwareWebSerialImpl';
-import { IFirmware } from '../Firmware';
+import { FirmwareWriterWebSerialImpl } from '../FirmwareWriterWebSerialImpl';
+import { IFirmwareWriter } from '../FirmwareWriter';
 import { outputUint8Array } from '../../../utils/ArrayUtils';
 import hex from 'intel-hex';
 
@@ -16,7 +16,7 @@ export function Serial() {
   });
 
   const handleFirmwareReadClick = async () => {
-    const firmware: IFirmware = new FirmwareWebSerialImpl();
+    const firmware: IFirmwareWriter = new FirmwareWriterWebSerialImpl();
     const readResult = await firmware.read(
       0,
       // eslint-disable-next-line no-unused-vars
@@ -30,6 +30,9 @@ export function Serial() {
             `${prevState[prevState.length - 1]}${message}`,
           ]);
         }
+      },
+      (phase) => {
+        console.log(phase);
       },
       (error, cause) => {
         console.error(error);
@@ -59,7 +62,7 @@ export function Serial() {
     const parseResult = hex.parse(
       Buffer.from(new Uint8Array(await file.arrayBuffer()))
     );
-    const firmware: IFirmware = new FirmwareWebSerialImpl();
+    const firmware: IFirmwareWriter = new FirmwareWriterWebSerialImpl();
     const writeResult = await firmware.write(
       parseResult.data,
       null,
@@ -73,6 +76,9 @@ export function Serial() {
             `${prevState[prevState.length - 1]}${message}`,
           ]);
         }
+      },
+      (phase) => {
+        console.log(phase);
       },
       (error, cause) => {
         console.error(error);

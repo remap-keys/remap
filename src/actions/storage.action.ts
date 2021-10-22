@@ -1077,7 +1077,8 @@ export const storageActionsThunk = {
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const result = await storage.instance!.fetchFirmwareFileBlob(
       definitionDocument.id,
-      firmwareFilePath
+      firmwareFilePath,
+      'download'
     );
     if (result.success) {
       callback(result.blob!);

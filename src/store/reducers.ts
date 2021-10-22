@@ -153,8 +153,13 @@ import {
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
   FLASH_FIRMWARE_DIALOG_ACTIONS,
+  FLASH_FIRMWARE_DIALOG_APPEND_LOG,
+  FLASH_FIRMWARE_DIALOG_CLEAR,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
+  FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
+  FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
 import {
@@ -972,6 +977,39 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING:
       draft.catalog.keyboard.flashFirmwareDialog.flashing = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE:
+      draft.catalog.keyboard.flashFirmwareDialog.progressRate = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_APPEND_LOG: {
+      const prevLogs: string[] =
+        draft.catalog.keyboard.flashFirmwareDialog.logs;
+      const message: string = action.value.message;
+      const lineBreak: boolean = action.value.lineBreak;
+      if (lineBreak) {
+        draft.catalog.keyboard.flashFirmwareDialog.logs = [
+          ...prevLogs,
+          message,
+        ];
+      } else {
+        draft.catalog.keyboard.flashFirmwareDialog.logs = [
+          ...prevLogs.slice(0, prevLogs.length - 1),
+          `${prevLogs[prevLogs.length - 1]}${message}`,
+        ];
+      }
+      break;
+    }
+    case FLASH_FIRMWARE_DIALOG_UPDATE_MODE:
+      draft.catalog.keyboard.flashFirmwareDialog.mode = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_CLEAR:
+      draft.catalog.keyboard.flashFirmwareDialog.flashing = false;
+      draft.catalog.keyboard.flashFirmwareDialog.progressRate = 0;
+      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
+      draft.catalog.keyboard.flashFirmwareDialog.mode = 'instruction';
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
+      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
       break;
   }
 };

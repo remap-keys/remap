@@ -55,8 +55,11 @@ export default class CatalogFirmware extends React.Component<
               <div className="catalog-firmware-panel">
                 <div className="catalog-firmware-total-download-count">
                   <Typography variant="body2" align="right">
-                    Total Firmware Download Count:{' '}
+                    Total Download Count:{' '}
                     {this.props.definitionDocument!.totalFirmwareDownloadCount}
+                    {' / '}
+                    Total Flash Count:{' '}
+                    {this.props.definitionDocument!.totalFirmwareFlashCount}
                   </Typography>
                 </div>
                 {sortedFirmwares.map((firmware, index) => (
@@ -149,9 +152,11 @@ function FirmwareCard(props: IFirmwareCardProps) {
           </Typography>
         </CardContent>
         <CardActions className="catalog-firmware-card-buttons">
-          <Button size="small" color="primary" onClick={onClickFlash}>
-            Flash
-          </Button>
+          {props.firmware.flash_support ? (
+            <Button size="small" color="primary" onClick={onClickFlash}>
+              Flash
+            </Button>
+          ) : null}
           <Button
             size="small"
             href={props.firmware.sourceCodeUrl}

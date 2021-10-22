@@ -23,6 +23,7 @@ import {
   ISubImage,
   IFirmware,
   IFetchFirmwareFileBlobResult,
+  IFirmwareCounterType,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -120,6 +121,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       firmwares,
       totalFirmwareDownloadCount:
         documentSnapshot.data()!.total_firmware_download_count || 0,
+      totalFirmwareFlashCount:
+        documentSnapshot.data()!.total_firmware_flash_count || 0,
       createdAt: documentSnapshot.data()!.created_at.toDate(),
       updatedAt: documentSnapshot.data()!.updated_at.toDate(),
     };
@@ -1064,7 +1067,8 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async fetchFirmwareFileBlob(
     definitionId: string,
-    firmwareFilePath: string
+    firmwareFilePath: string,
+    firmwareCounterType: IFirmwareCounterType
   ): Promise<IFetchFirmwareFileBlobResult> {
     // This operation needs CORS setting for the GCS bucket.
     // cors.json: [{"origin": ["*"], "method": ["GET"], "maxAgeSeconds": 3600}]
@@ -1076,16 +1080,33 @@ export class FirebaseProvider implements IStorage, IAuth {
     if (response.ok) {
       const blob = await response.blob();
 
-      await this.db
-        .collection('keyboards')
-        .doc('v2')
-        .collection('definitions')
-        .doc(definitionId)
-        .update({
-          total_firmware_download_count: firebase.firestore.FieldValue.increment(
-            1
-          ),
-        });
+      if (firmwareCounterType === 'download') {
+        await this.db
+          .collection('keyboards')
+          .doc('v2')
+          .collection('definitions')
+          .doc(definitionId)
+          .update({
+            total_firmware_download_count: firebase.firestore.FieldValue.increment(
+              1
+            ),
+          });
+      } else if (firmwareCounterType === 'flash') {
+        await this.db
+          .collection('keyboards')
+          .doc('v2')
+          .collection('definitions')
+          .doc(definitionId)
+          .update({
+            total_firmware_flash_count: firebase.firestore.FieldValue.increment(
+              1
+            ),
+          });
+      } else {
+        throw new Error(
+          `Unknown firmware counter type: ${firmwareCounterType}`
+        );
+      }
 
       return {
         success: true,

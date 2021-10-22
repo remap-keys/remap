@@ -1,6 +1,7 @@
 import {
   ICatalogPhase,
   IConditionNotSelected,
+  IFlashFirmwareDialogMode,
   IKeyboardFeatures,
   RootState,
 } from '../store/state';
@@ -14,6 +15,7 @@ import {
   NotificationActions,
 } from './actions';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import intelHex from 'intel-hex';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -66,6 +68,11 @@ export const CatalogSearchActions = {
 export const FLASH_FIRMWARE_DIALOG_ACTIONS = '@FlashFirmwareDialog';
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFirmware`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFlashing`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateProgressRate`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_MODE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateMode`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_LOGS = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateLogs`;
+export const FLASH_FIRMWARE_DIALOG_APPEND_LOG = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/AppendLog`;
+export const FLASH_FIRMWARE_DIALOG_CLEAR = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/Clear`;
 export const FlashFirmwareDialogActions = {
   updateFirmware: (firmware: IFirmware | null) => {
     return {
@@ -77,6 +84,38 @@ export const FlashFirmwareDialogActions = {
     return {
       type: FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
       value: flashing,
+    };
+  },
+  updateProgressRate: (progressRate: number) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
+      value: progressRate,
+    };
+  },
+  updateLogs: (logs: string[]) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
+      value: logs,
+    };
+  },
+  appendLog: (message: string, lineBreak: boolean = true) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_APPEND_LOG,
+      value: {
+        message,
+        lineBreak,
+      },
+    };
+  },
+  updateMode: (mode: IFlashFirmwareDialogMode) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
+      value: mode,
+    };
+  },
+  clear: () => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_CLEAR,
     };
   },
 };
@@ -195,5 +234,96 @@ export const catalogActionsThunk = {
     const { auth } = getState();
     dispatch(AppActions.updateSignedIn(false));
     await auth.instance!.signOut();
+  },
+  flashFirmware: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const handleError = (error: string, cause?: any) => {
+      console.error(error);
+      dispatch(NotificationActions.addError(error, cause));
+      dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
+      dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+    };
+
+    dispatch(FlashFirmwareDialogActions.updateLogs([]));
+    dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
+    dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
+    dispatch(FlashFirmwareDialogActions.updateFlashing(true));
+    const { entities, catalog, storage, serial } = getState();
+    const firmwareWriter = serial.writer;
+    const definitionDocument = entities.keyboardDefinitionDocument!;
+    const firmware = catalog.keyboard.flashFirmwareDialog.firmware!;
+    dispatch(
+      FlashFirmwareDialogActions.appendLog(
+        'Reading the firmware binary from the server.',
+        false
+      )
+    );
+    const fetchBlobResult = await storage.instance!.fetchFirmwareFileBlob(
+      definitionDocument.id,
+      firmware.filename,
+      'flash'
+    );
+    if (!fetchBlobResult.success) {
+      handleError(fetchBlobResult.error!, fetchBlobResult.cause);
+      return;
+    }
+    const blob: Blob = fetchBlobResult.blob!;
+    const flashBytes = intelHex.parse(
+      Buffer.from(new Uint8Array(await blob.arrayBuffer()))
+    ).data;
+    dispatch(
+      FlashFirmwareDialogActions.appendLog('Reading the firmware binary done.')
+    );
+    dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
+    const writeResult = await firmwareWriter.write(
+      flashBytes,
+      null,
+      (message, lineBreak) => {
+        dispatch(FlashFirmwareDialogActions.appendLog(message, lineBreak));
+      },
+      (phase) => {
+        let rate;
+        switch (phase) {
+          case 'opened':
+            rate = 30;
+            break;
+          case 'initialized':
+            rate = 45;
+            break;
+          case 'cleared':
+            rate = 60;
+            break;
+          case 'wrote':
+            rate = 75;
+            break;
+          case 'verified':
+            rate = 90;
+            break;
+          case 'closed':
+            rate = 100;
+            break;
+          default:
+            throw new Error(`Unknown phase: ${phase}`);
+        }
+        dispatch(FlashFirmwareDialogActions.updateProgressRate(rate));
+        if (phase === 'closed') {
+          dispatch(
+            FlashFirmwareDialogActions.appendLog(
+              'Writing the firmware finished successfully.'
+            )
+          );
+          dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+        }
+      },
+      (error, cause) => {
+        handleError(error, cause);
+      }
+    );
+    if (!writeResult.success) {
+      handleError(writeResult.error!, writeResult.cause);
+      return;
+    }
   },
 };

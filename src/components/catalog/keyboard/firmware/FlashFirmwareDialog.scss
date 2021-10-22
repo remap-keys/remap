@@ -20,11 +20,17 @@
 
   &-instruction {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     margin: 8px;
     padding: 8px;
     border: 1px solid $color-gray-300;
+
+    &-items {
+      display: flex;
+      flex-direction: row;
+      margin-top: 8px;
+    }
 
     &-item {
       display: flex;

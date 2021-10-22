@@ -1,5 +1,8 @@
 import { AbstractBootloader, IBootloaderReadResult } from '../Bootloader';
-import { FirmwareOperationProgressListener } from '../Firmware';
+import {
+  FirmwareWriterPhaseListener,
+  FirmwareWriterProgressListener,
+} from '../FirmwareWriter';
 import { FirmwareFlashType, IMcu, IResult, MCU } from '../Types';
 import { ISerial } from '../Serial';
 import {
@@ -33,7 +36,7 @@ export class CaterinaBootloader extends AbstractBootloader {
   }
 
   private async fetchAndCheckBootloaderInformation(
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<{
     success: boolean;
     error?: string;
@@ -201,7 +204,7 @@ export class CaterinaBootloader extends AbstractBootloader {
   }
 
   private async fetchSignature(
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<{ success: boolean; signature?: number; error?: string }> {
     progress('Fetch the signature.');
     const signatureResult = await new FetchSignatureCommand().writeRequest(
@@ -219,7 +222,7 @@ export class CaterinaBootloader extends AbstractBootloader {
   }
 
   private async initialize(
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<{
     success: boolean;
     error?: string;
@@ -257,7 +260,7 @@ export class CaterinaBootloader extends AbstractBootloader {
 
   private async setAddress(
     address: number,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<IResult> {
     progress(`Set the address: ${address}`);
     return await new SetAddressCommand({ address }).writeRequest(this.serial);
@@ -267,7 +270,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     size: number,
     flashType: FirmwareFlashType,
     bufferSize: number,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<IBootloaderReadResult> {
     let address = 0;
     const setAddressResult = await this.setAddress(address, progress);
@@ -303,7 +306,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     bytes: Uint8Array,
     bufferSize: number,
     flashType: FirmwareFlashType,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<IResult> {
     progress(`Start verifying ${bytes.byteLength} bytes against the memory.`);
     const readResult = await this.readBytesFromFlashMemory(
@@ -334,7 +337,7 @@ export class CaterinaBootloader extends AbstractBootloader {
     bytes: Uint8Array,
     bufferSize: number,
     flashType: FirmwareFlashType,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<IResult> {
     let address = 0;
     const setAddressResult = await this.setAddress(address, progress);
@@ -385,7 +388,7 @@ export class CaterinaBootloader extends AbstractBootloader {
   }
 
   private async clearApplicationSectionOfFlash(
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener
   ): Promise<IResult> {
     progress('Clearing the application section of the flash memory.');
     return await new ClearApplicationSectionOfFlashCommand().writeRequest(
@@ -395,13 +398,15 @@ export class CaterinaBootloader extends AbstractBootloader {
 
   async read(
     size: number = 0,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener,
+    phase: FirmwareWriterPhaseListener
   ): Promise<IBootloaderReadResult> {
     try {
       const initializeResult = await this.initialize(progress);
       if (!initializeResult.success) {
         return initializeResult;
       }
+      phase('initialized');
       const mcu = initializeResult.mcu!;
       const flashMemorySize =
         size === 0 ? mcu.flashMemorySize : Math.min(mcu.flashMemorySize, size);
@@ -414,6 +419,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       if (!readBytesFromFlashMemoryResult.success) {
         return readBytesFromFlashMemoryResult;
       }
+      phase('read');
       const exitResult = await this.exit();
       if (!exitResult.success) {
         return exitResult;
@@ -424,18 +430,21 @@ export class CaterinaBootloader extends AbstractBootloader {
       };
     } finally {
       await this.serial.close();
+      phase('closed');
     }
   }
 
   async verify(
     bytes: Uint8Array,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener,
+    phase: FirmwareWriterPhaseListener
   ): Promise<IResult> {
     try {
       const initializeResult = await this.initialize(progress);
       if (!initializeResult.success) {
         return initializeResult;
       }
+      phase('initialized');
       const mcu = initializeResult.mcu!;
       if (mcu.bootAddress < bytes.byteLength) {
         return {
@@ -452,6 +461,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       if (!verifyResult.success) {
         return verifyResult;
       }
+      phase('verified');
       const exitResult = await this.exit();
       if (!exitResult.success) {
         return exitResult;
@@ -461,19 +471,22 @@ export class CaterinaBootloader extends AbstractBootloader {
       };
     } finally {
       await this.serial.close();
+      phase('closed');
     }
   }
 
   async write(
     flashBytes: Uint8Array,
     eepromBytes: Uint8Array | null,
-    progress: FirmwareOperationProgressListener
+    progress: FirmwareWriterProgressListener,
+    phase: FirmwareWriterPhaseListener
   ): Promise<IResult> {
     try {
       const initializeResult = await this.initialize(progress);
       if (!initializeResult.success) {
         return initializeResult;
       }
+      phase('initialized');
       const mcu = initializeResult.mcu!;
       if (mcu.bootAddress < flashBytes.byteLength) {
         return {
@@ -501,6 +514,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       if (!clearApplicationSectionOfFlashResult.success) {
         return clearApplicationSectionOfFlashResult;
       }
+      phase('cleared');
 
       const writeBytesToMemoryResult = await this.writeBytesToFlashMemory(
         flashBytes,
@@ -511,6 +525,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       if (!writeBytesToMemoryResult.success) {
         return writeBytesToMemoryResult;
       }
+      phase('wrote');
 
       const verifyResult = await this.verifyBytesAndMemory(
         flashBytes,
@@ -521,6 +536,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       if (!verifyResult.success) {
         return verifyResult;
       }
+      phase('verified');
 
       if (eepromBytes) {
         const writeBytesToMemoryResult = await this.writeBytesToFlashMemory(
@@ -532,6 +548,7 @@ export class CaterinaBootloader extends AbstractBootloader {
         if (!writeBytesToMemoryResult.success) {
           return writeBytesToMemoryResult;
         }
+        phase('wrote');
 
         const verifyResult = await this.verifyBytesAndMemory(
           eepromBytes,
@@ -542,6 +559,7 @@ export class CaterinaBootloader extends AbstractBootloader {
         if (!verifyResult.success) {
           return verifyResult;
         }
+        phase('verified');
       }
 
       const leaveProgramModeResult = await this.leaveProgramMode();
@@ -558,6 +576,7 @@ export class CaterinaBootloader extends AbstractBootloader {
       };
     } finally {
       await this.serial.close();
+      phase('closed');
     }
   }
 }

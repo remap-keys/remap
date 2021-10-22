@@ -312,8 +312,11 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <React.Fragment>
               <div className="edit-definition-firmware-form-total-download-count">
                 <Typography variant="body2" align="right">
-                  Total Firmware Download Count:{' '}
+                  Total Download Count:{' '}
                   {props.definitionDocument!.totalFirmwareDownloadCount}
+                  {' / '}
+                  Total Flash Count:{' '}
+                  {props.definitionDocument!.totalFirmwareFlashCount}
                 </Typography>
               </div>
               {sortedFirmwares.map((firmware, index) => (

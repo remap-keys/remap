@@ -197,7 +197,6 @@ export class WebSerial implements ISerial {
         console.error(e);
       }
     }
-    console.log('Serial port closed.');
   }
 
   private async sleep(ms: number): Promise<void> {

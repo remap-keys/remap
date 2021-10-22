@@ -81,6 +81,7 @@ export interface IKeyboardDefinitionDocument {
   readonly websiteUrl: string;
   readonly firmwares: IFirmware[];
   readonly totalFirmwareDownloadCount: number;
+  readonly totalFirmwareFlashCount: number;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -182,6 +183,8 @@ export interface IFetchSharedKeymapResult extends IResult {
 export interface IFetchFirmwareFileBlobResult extends IResult {
   blob?: any;
 }
+
+export type IFirmwareCounterType = 'download' | 'flash';
 
 /* eslint-disable no-unused-vars */
 export interface IStorage {
@@ -299,7 +302,8 @@ export interface IStorage {
   ): Promise<IResult>;
   fetchFirmwareFileBlob(
     definitionId: string,
-    firmwareFilePath: string
+    firmwareFilePath: string,
+    firmwareCounterType: IFirmwareCounterType
   ): Promise<IFetchFirmwareFileBlobResult>;
   deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
   updateFirmware(
