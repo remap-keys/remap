@@ -15,11 +15,20 @@ import {
   DialogContentText,
   DialogTitle,
   FormControl,
+  FormLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from '@material-ui/core';
 import { IFirmware } from '../../../../services/storage/Storage';
 import moment from 'moment';
+import {
+  ALL_BOOTLOADER_TYPE,
+  ALL_MCU_TYPE,
+  IBootloaderType,
+  IMcuType,
+} from '../../../../services/serial/Types';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -108,9 +117,20 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     firmware: IFirmware,
     name: string,
     description: string,
-    sourceCodeUrl: string
+    sourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ) => {
-    props.updateFirmware!(firmware, name, description, sourceCodeUrl);
+    props.updateFirmware!(
+      firmware,
+      name,
+      description,
+      sourceCodeUrl,
+      flashSupport,
+      mcuType,
+      bootloaderType
+    );
   };
 
   const onClickConfirmDialogYes = () => {
@@ -211,6 +231,63 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               />
             </FormControl>
           </div>
+          <div className="edit-definition-firmware-form-row">
+            <FormControl>
+              <FormLabel component="legend">Flash Firmware Support</FormLabel>
+              <Select
+                value={props.flashSupport ? 'yes' : 'no'}
+                onChange={(event) => {
+                  props.updateFlashSupport!(event.target.value === 'yes');
+                }}
+              >
+                <MenuItem value="no">No</MenuItem>
+                <MenuItem value="yes">Yes</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          {props.flashSupport ? (
+            <React.Fragment>
+              <div className="edit-definition-firmware-form-row">
+                <FormControl>
+                  <FormLabel component="legend">MCU Type</FormLabel>
+                  <Select
+                    value={props.mcuType}
+                    onChange={(event) => {
+                      props.updateMcuType!(event.target.value as IMcuType);
+                    }}
+                  >
+                    {ALL_MCU_TYPE.map((mcuType) => (
+                      <MenuItem key={`mcu-type-${mcuType}`} value={mcuType}>
+                        {mcuType}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="edit-definition-firmware-form-row">
+                <FormControl>
+                  <FormLabel component="legend">Bootloader Type</FormLabel>
+                  <Select
+                    value={props.bootloaderType}
+                    onChange={(event) => {
+                      props.updateBootloaderType!(
+                        event.target.value as IBootloaderType
+                      );
+                    }}
+                  >
+                    {ALL_BOOTLOADER_TYPE.map((bootloaderType) => (
+                      <MenuItem
+                        key={`bootloader-type-${bootloaderType}`}
+                        value={bootloaderType}
+                      >
+                        {bootloaderType}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </React.Fragment>
+          ) : null}
           <div className="edit-definition-firmware-form-buttons">
             <Button
               color="primary"
@@ -235,8 +312,11 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <React.Fragment>
               <div className="edit-definition-firmware-form-total-download-count">
                 <Typography variant="body2" align="right">
-                  Total Firmware Download Count:{' '}
+                  Total Download Count:{' '}
                   {props.definitionDocument!.totalFirmwareDownloadCount}
+                  {' / '}
+                  Total Flash Count:{' '}
+                  {props.definitionDocument!.totalFirmwareFlashCount}
                 </Typography>
               </div>
               {sortedFirmwares.map((firmware, index) => (
@@ -280,7 +360,13 @@ type IFirmwareCardProps = {
     // eslint-disable-next-line no-unused-vars
     description: string,
     // eslint-disable-next-line no-unused-vars
-    sourceCodeUrl: string
+    sourceCodeUrl: string,
+    // eslint-disable-next-line no-unused-vars
+    flashSupport: boolean,
+    // eslint-disable-next-line no-unused-vars
+    mcuType: IMcuType,
+    // eslint-disable-next-line no-unused-vars
+    bootloaderType: IBootloaderType
   ) => void;
 };
 
@@ -299,10 +385,21 @@ function FirmwareCard(props: IFirmwareCardProps) {
     firmware: IFirmware,
     name: string,
     description: string,
-    sourceCodeUrl: string
+    sourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ) => {
     setOpen(false);
-    props.onClickEditDialogUpdate(firmware, name, description, sourceCodeUrl);
+    props.onClickEditDialogUpdate(
+      firmware,
+      name,
+      description,
+      sourceCodeUrl,
+      flashSupport,
+      mcuType,
+      bootloaderType
+    );
   };
 
   return (
@@ -319,6 +416,11 @@ function FirmwareCard(props: IFirmwareCardProps) {
             {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
             <br />
             SHA256: {props.firmware.hash}
+            <br />
+            Flash Support:{' '}
+            {props.firmware.flash_support
+              ? `${props.firmware.mcu_type} ${props.firmware.bootloader_type}`
+              : 'No'}
           </Typography>
         </CardContent>
         <CardActions className="edit-definition-firmware-form-card-buttons">
@@ -417,17 +519,24 @@ type IEditDialogProps = {
     // eslint-disable-next-line no-unused-vars
     description: string,
     // eslint-disable-next-line no-unused-vars
-    sourceCodeUrl: string
+    sourceCodeUrl: string,
+    // eslint-disable-next-line no-unused-vars
+    flashSupport: boolean,
+    // eslint-disable-next-line no-unused-vars
+    mcuType: IMcuType,
+    // eslint-disable-next-line no-unused-vars
+    bootloaderType: IBootloaderType
   ) => void;
 };
 
 function EditDialog(props: IEditDialogProps) {
   const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>(
-    props.firmware.description
-  );
-  const [sourceCodeUrl, setSourceCodeUrl] = useState<string>(
-    props.firmware.sourceCodeUrl
+  const [description, setDescription] = useState<string>('');
+  const [sourceCodeUrl, setSourceCodeUrl] = useState<string>('');
+  const [flashSupport, setFlashSupport] = useState<boolean>(false);
+  const [mcuType, setMcuType] = useState<IMcuType>(ALL_MCU_TYPE[0]);
+  const [bootloaderType, setBootloaderType] = useState<IBootloaderType>(
+    ALL_BOOTLOADER_TYPE[0]
   );
 
   useEffect(() => {
@@ -435,6 +544,11 @@ function EditDialog(props: IEditDialogProps) {
       setName(props.firmware.name);
       setDescription(props.firmware.description);
       setSourceCodeUrl(props.firmware.sourceCodeUrl);
+      setFlashSupport(props.firmware.flash_support);
+      setMcuType(props.firmware.mcu_type || ALL_MCU_TYPE[0]);
+      setBootloaderType(
+        props.firmware.bootloader_type || ALL_BOOTLOADER_TYPE[0]
+      );
     }
   }, [props.open]);
 
@@ -457,43 +571,95 @@ function EditDialog(props: IEditDialogProps) {
   return (
     <Dialog
       open={props.open}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby="edit-firmware-dialog-title"
+      aria-describedby="edit-firmware-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Edit Firmware</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          label="Firmware Name"
-          fullWidth
-          margin="dense"
-          value={name}
-          onChange={(event) => {
-            setName(event.target.value);
-          }}
-        />
-        <TextField
-          autoFocus
-          label="Firmware Description"
-          fullWidth
-          multiline
-          rows={4}
-          margin="dense"
-          value={description}
-          onChange={(event) => {
-            setDescription(event.target.value);
-          }}
-        />
-        <TextField
-          autoFocus
-          label="Source Code URL"
-          fullWidth
-          margin="dense"
-          value={sourceCodeUrl}
-          onChange={(event) => {
-            setSourceCodeUrl(event.target.value);
-          }}
-        />
+      <DialogTitle id="edit-firmware-dialog-title">Edit Firmware</DialogTitle>
+      <DialogContent className="edit-firmware-dialog-content">
+        <FormControl className="edit-firmware-dialog-item">
+          <TextField
+            autoFocus
+            label="Firmware Name"
+            fullWidth
+            margin="dense"
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+        </FormControl>
+        <FormControl className="edit-firmware-dialog-item">
+          <TextField
+            autoFocus
+            label="Firmware Description"
+            fullWidth
+            multiline
+            rows={4}
+            margin="dense"
+            value={description}
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
+          />
+        </FormControl>
+        <FormControl className="edit-firmware-dialog-item">
+          <TextField
+            autoFocus
+            label="Source Code URL"
+            fullWidth
+            margin="dense"
+            value={sourceCodeUrl}
+            onChange={(event) => {
+              setSourceCodeUrl(event.target.value);
+            }}
+          />
+        </FormControl>
+        <FormControl className="edit-firmware-dialog-item">
+          <FormLabel component="legend">Flash Firmware Support</FormLabel>
+          <Select
+            value={flashSupport ? 'yes' : 'no'}
+            onChange={(event) => {
+              setFlashSupport(event.target.value === 'yes');
+            }}
+          >
+            <MenuItem value="no">No</MenuItem>
+            <MenuItem value="yes">Yes</MenuItem>
+          </Select>
+        </FormControl>
+        {flashSupport ? (
+          <React.Fragment>
+            <FormControl className="edit-firmware-dialog-item">
+              <FormLabel component="legend">MCU Type</FormLabel>
+              <Select
+                value={mcuType}
+                onChange={(event) => {
+                  setMcuType(event.target.value as IMcuType);
+                }}
+              >
+                {ALL_MCU_TYPE.map((x) => (
+                  <MenuItem key={`mcu-type-${x}`} value={x}>
+                    {x}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl className="edit-firmware-dialog-item">
+              <FormLabel component="legend">Bootloader Type</FormLabel>
+              <Select
+                value={bootloaderType}
+                onChange={(event) => {
+                  setBootloaderType(event.target.value as IBootloaderType);
+                }}
+              >
+                {ALL_BOOTLOADER_TYPE.map((x) => (
+                  <MenuItem key={`bootloader-type-${x}`} value={x}>
+                    {x}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </React.Fragment>
+        ) : null}
       </DialogContent>
       <DialogActions>
         <Button onClick={() => props.onClickCancel()}>Cancel</Button>
@@ -504,7 +670,10 @@ function EditDialog(props: IEditDialogProps) {
               props.firmware,
               name,
               description,
-              sourceCodeUrl
+              sourceCodeUrl,
+              flashSupport,
+              mcuType,
+              bootloaderType
             )
           }
           disabled={!validateFirmwareForm()}

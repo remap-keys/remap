@@ -132,6 +132,9 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION,
   KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_MCU_TYPE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_BOOTLOADER_TYPE,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -149,6 +152,14 @@ import {
   CATALOG_SEARCH_RESET_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
+  FLASH_FIRMWARE_DIALOG_ACTIONS,
+  FLASH_FIRMWARE_DIALOG_APPEND_LOG,
+  FLASH_FIRMWARE_DIALOG_CLEAR,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
+  FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
+  FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
 import {
@@ -159,6 +170,7 @@ import {
   MACRO_EDITOR_UPDATE_MACRO_BUFFER,
   MACRO_EDITOR_UPDATE_MACRO_KEYS,
 } from '../actions/macro.action';
+import { ALL_BOOTLOADER_TYPE, ALL_MCU_TYPE } from '../services/serial/Types';
 
 export type Action = { type: string; value: any };
 
@@ -202,6 +214,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       catalogAppReducer(action, draft);
     } else if (action.type.startsWith(CATALOG_KEYBOARD_ACTIONS)) {
       catalogKeyboardReducer(action, draft);
+    } else if (action.type.startsWith(FLASH_FIRMWARE_DIALOG_ACTIONS)) {
+      flashFirmwareDialogReducer(action, draft);
     } else if (action.type.startsWith(META_ACTIONS)) {
       metaReducer(action, draft);
     }
@@ -361,6 +375,18 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.firmwareName = '';
       draft.keyboards.editdefinition.firmwareDescription = '';
       draft.keyboards.editdefinition.firmwareSourceCodeUrl = '';
+      draft.keyboards.editdefinition.flashSupport = false;
+      draft.keyboards.editdefinition.mcuType = ALL_MCU_TYPE[0];
+      draft.keyboards.editdefinition.bootloaderType = ALL_BOOTLOADER_TYPE[0];
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT:
+      draft.keyboards.editdefinition.flashSupport = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_MCU_TYPE:
+      draft.keyboards.editdefinition.mcuType = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_BOOTLOADER_TYPE:
+      draft.keyboards.editdefinition.bootloaderType = action.value;
       break;
   }
 };
@@ -937,6 +963,53 @@ const metaReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.meta.og.description = action.value.description;
       draft.app.meta.og.url = action.value.url;
       draft.app.meta.og.image = action.value.image;
+      break;
+  }
+};
+
+const flashFirmwareDialogReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE:
+      draft.catalog.keyboard.flashFirmwareDialog.firmware = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING:
+      draft.catalog.keyboard.flashFirmwareDialog.flashing = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE:
+      draft.catalog.keyboard.flashFirmwareDialog.progressRate = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_APPEND_LOG: {
+      const prevLogs: string[] =
+        draft.catalog.keyboard.flashFirmwareDialog.logs;
+      const message: string = action.value.message;
+      const lineBreak: boolean = action.value.lineBreak;
+      if (lineBreak) {
+        draft.catalog.keyboard.flashFirmwareDialog.logs = [
+          ...prevLogs,
+          message,
+        ];
+      } else {
+        draft.catalog.keyboard.flashFirmwareDialog.logs = [
+          ...prevLogs.slice(0, prevLogs.length - 1),
+          `${prevLogs[prevLogs.length - 1]}${message}`,
+        ];
+      }
+      break;
+    }
+    case FLASH_FIRMWARE_DIALOG_UPDATE_MODE:
+      draft.catalog.keyboard.flashFirmwareDialog.mode = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_CLEAR:
+      draft.catalog.keyboard.flashFirmwareDialog.flashing = false;
+      draft.catalog.keyboard.flashFirmwareDialog.progressRate = 0;
+      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
+      draft.catalog.keyboard.flashFirmwareDialog.mode = 'instruction';
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
+      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
       break;
   }
 };

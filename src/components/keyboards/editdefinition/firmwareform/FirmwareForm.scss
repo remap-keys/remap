@@ -77,3 +77,15 @@
     height: 100%;
   }
 }
+
+.edit-firmware-dialog {
+  &-content {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+  }
+
+  &-item {
+    margin-bottom: 12px !important;
+  }
+}

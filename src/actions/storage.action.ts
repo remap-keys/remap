@@ -34,6 +34,7 @@ import { IDeviceInformation } from '../services/hid/Hid';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { CatalogAppActions } from './catalog.action';
 import * as qs from 'qs';
+import { IBootloaderType, IMcuType } from '../services/serial/Types';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -1034,6 +1035,9 @@ export const storageActionsThunk = {
     const firmwareDescription = keyboards.editdefinition.firmwareDescription;
     const firmwareSourceCodeUrl =
       keyboards.editdefinition.firmwareSourceCodeUrl;
+    const flashSupport = keyboards.editdefinition.flashSupport;
+    const mcuType = keyboards.editdefinition.mcuType;
+    const bootloaderType = keyboards.editdefinition.bootloaderType;
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const keyboardName = definitionDocument.name;
     const result = await storage.instance!.uploadFirmware(
@@ -1042,6 +1046,9 @@ export const storageActionsThunk = {
       firmwareName,
       firmwareDescription,
       firmwareSourceCodeUrl,
+      flashSupport,
+      mcuType,
+      bootloaderType,
       keyboardName
     );
     if (result.success) {
@@ -1070,7 +1077,8 @@ export const storageActionsThunk = {
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const result = await storage.instance!.fetchFirmwareFileBlob(
       definitionDocument.id,
-      firmwareFilePath
+      firmwareFilePath,
+      'download'
     );
     if (result.success) {
       callback(result.blob!);
@@ -1108,7 +1116,10 @@ export const storageActionsThunk = {
     firmware: IFirmware,
     name: string,
     description: string,
-    sourceCodeUrl: string
+    sourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ): ThunkPromiseAction<void> => async (
     dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
     getState: () => RootState
@@ -1121,7 +1132,10 @@ export const storageActionsThunk = {
       firmware,
       name,
       description,
-      sourceCodeUrl
+      sourceCodeUrl,
+      flashSupport,
+      mcuType,
+      bootloaderType
     );
     if (result.success) {
       await dispatch(

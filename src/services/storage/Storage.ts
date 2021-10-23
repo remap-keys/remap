@@ -2,6 +2,7 @@ import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { IBootloaderType, IMcuType } from '../serial/Types';
 
 export interface IResult {
   readonly success: boolean;
@@ -45,6 +46,9 @@ export interface IFirmware {
   hash: string;
   filename: string;
   sourceCodeUrl: string;
+  flash_support: boolean;
+  mcu_type?: IMcuType;
+  bootloader_type?: IBootloaderType;
 }
 
 export interface IKeyboardDefinitionDocument {
@@ -77,6 +81,7 @@ export interface IKeyboardDefinitionDocument {
   readonly websiteUrl: string;
   readonly firmwares: IFirmware[];
   readonly totalFirmwareDownloadCount: number;
+  readonly totalFirmwareFlashCount: number;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -178,6 +183,8 @@ export interface IFetchSharedKeymapResult extends IResult {
 export interface IFetchFirmwareFileBlobResult extends IResult {
   blob?: any;
 }
+
+export type IFirmwareCounterType = 'download' | 'flash';
 
 /* eslint-disable no-unused-vars */
 export interface IStorage {
@@ -288,11 +295,15 @@ export interface IStorage {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType,
     keyboardName: string
   ): Promise<IResult>;
   fetchFirmwareFileBlob(
     definitionId: string,
-    firmwareFilePath: string
+    firmwareFilePath: string,
+    firmwareCounterType: IFirmwareCounterType
   ): Promise<IFetchFirmwareFileBlobResult>;
   deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
   updateFirmware(
@@ -300,7 +311,10 @@ export interface IStorage {
     firmware: IFirmware,
     firmwareName: string,
     firmwareDescription: string,
-    firmwareSourceCodeUrl: string
+    firmwareSourceCodeUrl: string,
+    flashSupport: boolean,
+    mcuType: IMcuType,
+    bootloaderType: IBootloaderType
   ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

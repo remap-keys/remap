@@ -8,6 +8,7 @@ import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top.container';
 import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
 import Catalog from './components/catalog/Catalog.container';
+import { Serial } from './services/serial/ui/Serial';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -36,6 +37,7 @@ class App extends React.Component<StyledComponentProps, {}> {
         <BrowserRouter>
           <Switch>
             <Route exact path="/hid" component={Hid} />
+            <Route exact path="/serial" component={Serial} />
             <Route exact path="/configure" component={Configure} />
             <Route
               exact

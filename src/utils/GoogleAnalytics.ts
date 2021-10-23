@@ -21,7 +21,8 @@ type IActionName =
   | 'catalog/apply_keymap'
   | 'catalog/cheat_sheet'
   | 'catalog/same_author_keyboard'
-  | 'catalog/download_firmware';
+  | 'catalog/download_firmware'
+  | 'catalog/flash_firmware';
 
 interface IActionOptions {
   vendor_id?: string | number;

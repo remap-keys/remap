@@ -7,6 +7,7 @@ import {
   AbstractKeymapData,
   AppliedKeymapData,
   IAdditionalDescription,
+  IFirmware,
   IKeyboardDefinitionDocument,
   IStorage,
   IStore,
@@ -19,6 +20,14 @@ import buildInfo from '../assets/files/build-info.json';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
+import {
+  ALL_BOOTLOADER_TYPE,
+  ALL_MCU_TYPE,
+  IBootloaderType,
+  IMcuType,
+} from '../services/serial/Types';
+import { IFirmwareWriter } from '../services/serial/FirmwareWriter';
+import { FirmwareWriterWebSerialImpl } from '../services/serial/FirmwareWriterWebSerialImpl';
 
 export type ISetupPhase =
   | 'init'
@@ -141,6 +150,13 @@ export type IKeyboardWirelessType = wirelessTuple[number];
 
 export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
+
+export const ALL_FLASH_FIRMWARE_DIALOG_MODE = [
+  'instruction',
+  'flashing',
+] as const;
+type flashFirmwareDialogModeTuple = typeof ALL_FLASH_FIRMWARE_DIALOG_MODE;
+export type IFlashFirmwareDialogMode = flashFirmwareDialogModeTuple[number];
 
 export type IKeyboardFeatures =
   | IKeyboardKeyCountType
@@ -295,6 +311,9 @@ export type RootState = {
       firmwareName: string;
       firmwareDescription: string;
       firmwareSourceCodeUrl: string;
+      flashSupport: boolean;
+      mcuType: IMcuType;
+      bootloaderType: IBootloaderType;
     };
   };
   catalog: {
@@ -312,6 +331,13 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
+      flashFirmwareDialog: {
+        firmware: IFirmware | null;
+        flashing: boolean;
+        progressRate: number;
+        logs: string[];
+        mode: IFlashFirmwareDialogMode;
+      };
     };
   };
   hid: {
@@ -325,6 +351,9 @@ export type RootState = {
   };
   github: {
     instance: IGitHub;
+  };
+  serial: {
+    writer: IFirmwareWriter;
   };
 };
 
@@ -343,6 +372,8 @@ try {
 }
 
 const gitHub = new GitHub();
+
+const firmwareWriter = new FirmwareWriterWebSerialImpl();
 
 export const INIT_STATE: RootState = {
   entities: {
@@ -479,6 +510,9 @@ export const INIT_STATE: RootState = {
       firmwareName: '',
       firmwareDescription: '',
       firmwareSourceCodeUrl: '',
+      flashSupport: false,
+      mcuType: ALL_MCU_TYPE[0],
+      bootloaderType: ALL_BOOTLOADER_TYPE[0],
     },
   },
   catalog: {
@@ -494,6 +528,13 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
+      flashFirmwareDialog: {
+        firmware: null,
+        flashing: false,
+        progressRate: 0,
+        logs: [''],
+        mode: 'instruction',
+      },
     },
   },
   hid: {
@@ -507,5 +548,8 @@ export const INIT_STATE: RootState = {
   },
   github: {
     instance: gitHub,
+  },
+  serial: {
+    writer: firmwareWriter,
   },
 };
