@@ -16,6 +16,7 @@ import {
 } from './actions';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import intelHex from 'intel-hex';
+import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -254,6 +255,11 @@ export const catalogActionsThunk = {
     const firmwareWriter = serial.writer;
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const firmware = catalog.keyboard.flashFirmwareDialog.firmware!;
+    sendEventToGoogleAnalytics('catalog/flash_firmware', {
+      vendor_id: definitionDocument.vendorId,
+      product_id: definitionDocument.productId,
+      product_name: definitionDocument.productName,
+    });
     dispatch(
       FlashFirmwareDialogActions.appendLog(
         'Reading the firmware binary from the server.',
