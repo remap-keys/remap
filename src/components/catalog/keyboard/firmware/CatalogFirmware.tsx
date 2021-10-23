@@ -20,7 +20,9 @@ import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
 import FlashFirmwareDialog from './FlashFirmwareDialog.container';
 
-type CatalogFirmwareState = {};
+type CatalogFirmwareState = {
+  supportedBrowser: boolean;
+};
 type OwnProps = {};
 type CatalogFirmwareProps = OwnProps &
   Partial<CatalogFirmwareActionsType> &
@@ -32,6 +34,19 @@ export default class CatalogFirmware extends React.Component<
 > {
   constructor(props: CatalogFirmwareProps | Readonly<CatalogFirmwareProps>) {
     super(props);
+    this.state = {
+      supportedBrowser: true,
+    };
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line no-undef
+    if ((navigator as any).serial === undefined) {
+      this.setState({
+        supportedBrowser: false,
+      });
+      return;
+    }
   }
 
   onCloseFlashFirmwareDialog() {
@@ -72,6 +87,7 @@ export default class CatalogFirmware extends React.Component<
                     onClickFlash={() => {
                       this.onClickFlash(firmware);
                     }}
+                    supportedBrowser={this.state.supportedBrowser}
                   />
                 ))}
               </div>
@@ -105,6 +121,7 @@ type IFirmwareCardProps = {
   updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => void;
   // eslint-disable-next-line no-unused-vars
   onClickFlash: (firmware: IFirmware) => void;
+  supportedBrowser: boolean;
 };
 
 function FirmwareCard(props: IFirmwareCardProps) {
@@ -152,7 +169,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
           </Typography>
         </CardContent>
         <CardActions className="catalog-firmware-card-buttons">
-          {props.firmware.flash_support ? (
+          {props.supportedBrowser && props.firmware.flash_support ? (
             <Button size="small" color="primary" onClick={onClickFlash}>
               Flash
             </Button>
