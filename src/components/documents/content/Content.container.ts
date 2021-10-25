@@ -2,10 +2,9 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import Content from './Content';
 
+// eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {
-    page: state.documents.page,
-  };
+  return {};
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;
 

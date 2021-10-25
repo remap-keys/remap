@@ -7,7 +7,6 @@ import {
 import { CssBaseline } from '@material-ui/core';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
-import { IDocumentPage } from '../../store/state';
 import Footer from '../common/footer/Footer';
 import './Documents.scss';
 import { sendEventToGoogleAnalytics } from '../../utils/GoogleAnalytics';
@@ -35,20 +34,16 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
         this.props.updateSignedIn!(!!user);
       });
     }
-
-    const page = this.props.match.params.docId as IDocumentPage;
-    if (page === 'review_policy') {
-      sendEventToGoogleAnalytics('docs/review_policy');
-      this.props.updateDocumentPage!('review_policy');
-    } else if (page === 'terms_of_use') {
-      sendEventToGoogleAnalytics('docs/terms_of_use');
-      this.props.updateDocumentPage!('terms_of_use');
-    } else {
-      this.props.updateDocumentPage!(null);
-    }
   }
 
   render() {
+    const page = this.props.match.params.docId;
+    if (page === 'review_policy') {
+      sendEventToGoogleAnalytics('docs/review_policy');
+    } else if (page === 'terms_of_use') {
+      sendEventToGoogleAnalytics('docs/terms_of_use');
+    }
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -56,7 +51,7 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
         <main>
           <div className="documents-wrapper">
             <div className="documents-container">
-              <Content />
+              <Content page={page} />
             </div>
           </div>
           <Footer />

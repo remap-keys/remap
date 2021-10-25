@@ -4,7 +4,7 @@ import ReviewPolicy from '../ReviewPolicy/ReviewPolicy';
 import TermsOfUse from '../TermsOfUse/TermsOfUse';
 
 type ContentState = {};
-type OwnProps = {};
+type OwnProps = { page: string | null };
 type ContentProps = OwnProps &
   Partial<ContentActionsType> &
   Partial<ContentStateType>;
@@ -18,17 +18,14 @@ export default class Content extends React.Component<
   }
 
   render() {
-    const page = this.props.page;
-    console.log(page);
-    if (page) {
-      switch (page) {
-        case 'review_policy':
-          return <ReviewPolicy />;
-        case 'terms_of_use':
-          return <TermsOfUse />;
-      }
-    } else {
-      return null;
+    switch (this.props.page) {
+      case 'review_policy':
+        return <ReviewPolicy />;
+      case 'terms_of_use':
+        return <TermsOfUse />;
+      default:
+        location.href = '/';
+        return null;
     }
   }
 }

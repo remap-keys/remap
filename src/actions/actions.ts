@@ -3,12 +3,7 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import {
-  IDocumentPage,
-  ISetupPhase,
-  RootState,
-  SetupPhase,
-} from '../store/state';
+import { ISetupPhase, RootState, SetupPhase } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { hidActionsThunk } from './hid.action';
@@ -393,17 +388,6 @@ export const LayoutOptionsActions = {
     return {
       type: LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
       value: list,
-    };
-  },
-};
-
-export const DOCUMENTS_ACTIONS = '@Documents';
-export const DOCUMENTS_UPDATE_PAGE = `${DOCUMENTS_ACTIONS}/UpdatePage`;
-export const DocumentsActions = {
-  updatePage: (page: IDocumentPage | null) => {
-    return {
-      type: DOCUMENTS_UPDATE_PAGE,
-      value: page,
     };
   },
 };
