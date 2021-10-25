@@ -9,6 +9,7 @@ import Top from './components/top/Top.container';
 import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinitionManagement.container';
 import Catalog from './components/catalog/Catalog.container';
 import { Serial } from './services/serial/ui/Serial';
+import Documents from './components/documents/Documents.container';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -60,6 +61,7 @@ class App extends React.Component<StyledComponentProps, {}> {
             <Route path="/catalog/:definitionId">
               <Catalog catalogDetailMode="introduction" />
             </Route>
+            <Route exact path="/docs/:docId" component={Documents} />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>

@@ -32,13 +32,10 @@ export default class Footer extends React.Component<
         </div>
         <div className="footer-contents">
           <span className="footer-content">
-            <a
-              href="https://docs.google.com/document/d/1Fo2-cbPcTNkckwJOl-YqnBuVeyREuYtyoY8mecdiUxE/edit"
-              target={'_blank'}
-              rel={'noreferrer'}
-            >
-              Terms of Use
-            </a>
+            <a href="/docs/terms_of_use">Terms of Use</a>
+          </span>
+          <span className="footer-content">
+            <a href="/docs/review_policy">Review Policy</a>
           </span>
           <span className="footer-content">
             <a
