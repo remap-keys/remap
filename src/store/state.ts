@@ -169,6 +169,8 @@ export type IKeyboardFeatures =
   | IKeyboardSpeakerType
   | IKeyboardWirelessType;
 
+export type IDocumentPage = 'review_policy' | 'terms_of_use';
+
 export type RootState = {
   entities: {
     device: {
@@ -339,6 +341,9 @@ export type RootState = {
         mode: IFlashFirmwareDialogMode;
       };
     };
+  };
+  documents: {
+    page: IDocumentPage | null;
   };
   hid: {
     instance: IHid;
@@ -536,6 +541,9 @@ export const INIT_STATE: RootState = {
         mode: 'instruction',
       },
     },
+  },
+  documents: {
+    page: null,
   },
   hid: {
     instance: new WebHid(),

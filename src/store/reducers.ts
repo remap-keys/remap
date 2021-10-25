@@ -45,6 +45,8 @@ import {
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
   APP_TEST_MATRIX_UPDATE,
+  DOCUMENTS_ACTIONS,
+  DOCUMENTS_UPDATE_PAGE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -218,6 +220,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       flashFirmwareDialogReducer(action, draft);
     } else if (action.type.startsWith(META_ACTIONS)) {
       metaReducer(action, draft);
+    } else if (action.type.startsWith(DOCUMENTS_ACTIONS)) {
+      documentsReducer(action, draft);
     }
   });
 
@@ -1010,6 +1014,14 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
       draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
+      break;
+  }
+};
+
+const documentsReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  switch (action.type) {
+    case DOCUMENTS_UPDATE_PAGE:
+      draft.documents.page = action.value;
       break;
   }
 };
