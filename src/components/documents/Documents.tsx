@@ -30,6 +30,7 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
   }
 
   componentDidMount() {
+    this.props.initializeMeta!();
     if (this.props.auth) {
       this.props.auth.subscribeAuthStatus((user) => {
         this.props.updateSignedIn!(!!user);
