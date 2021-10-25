@@ -22,7 +22,9 @@ type IActionName =
   | 'catalog/cheat_sheet'
   | 'catalog/same_author_keyboard'
   | 'catalog/download_firmware'
-  | 'catalog/flash_firmware';
+  | 'catalog/flash_firmware'
+  | 'docs/review_policy'
+  | 'docs/terms_of_use';
 
 interface IActionOptions {
   vendor_id?: string | number;

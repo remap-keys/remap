@@ -10,6 +10,7 @@ import Content from './content/Content.container';
 import { IDocumentPage } from '../../store/state';
 import Footer from '../common/footer/Footer';
 import './Documents.scss';
+import { sendEventToGoogleAnalytics } from '../../utils/GoogleAnalytics';
 
 type DocumentsState = {};
 
@@ -37,8 +38,10 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
 
     const page = this.props.match.params.docId as IDocumentPage;
     if (page === 'review_policy') {
+      sendEventToGoogleAnalytics('docs/review_policy');
       this.props.updateDocumentPage!('review_policy');
     } else if (page === 'terms_of_use') {
+      sendEventToGoogleAnalytics('docs/terms_of_use');
       this.props.updateDocumentPage!('terms_of_use');
     } else {
       this.props.updateDocumentPage!(null);
