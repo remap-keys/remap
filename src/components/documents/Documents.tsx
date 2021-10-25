@@ -6,10 +6,11 @@ import {
 } from './Documents.container';
 import { CssBaseline } from '@material-ui/core';
 import Header from './header/Header.container';
-import Content from './content/Content.container';
 import Footer from '../common/footer/Footer';
 import './Documents.scss';
 import { sendEventToGoogleAnalytics } from '../../utils/GoogleAnalytics';
+import ReviewPolicy from './ReviewPolicy/ReviewPolicy';
+import TermsOfUse from './TermsOfUse/TermsOfUse';
 
 type DocumentsState = {};
 
@@ -37,11 +38,16 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
   }
 
   render() {
-    const page = this.props.match.params.docId;
-    if (page === 'review_policy') {
+    const docId = this.props.match.params.docId;
+    let page;
+    if (docId === 'review_policy') {
+      page = <ReviewPolicy />;
       sendEventToGoogleAnalytics('docs/review_policy');
-    } else if (page === 'terms_of_use') {
+    } else if (docId === 'terms_of_use') {
+      page = <TermsOfUse />;
       sendEventToGoogleAnalytics('docs/terms_of_use');
+    } else {
+      page = <div>Not Found.</div>;
     }
 
     return (
@@ -50,9 +56,7 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
         <Header />
         <main>
           <div className="documents-wrapper">
-            <div className="documents-container">
-              <Content page={page} />
-            </div>
+            <div className="documents-container">{page}</div>
           </div>
           <Footer />
         </main>
