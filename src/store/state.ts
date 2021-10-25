@@ -25,9 +25,9 @@ import {
   ALL_MCU_TYPE,
   IBootloaderType,
   IMcuType,
-} from '../services/serial/Types';
-import { IFirmwareWriter } from '../services/serial/FirmwareWriter';
-import { FirmwareWriterWebSerialImpl } from '../services/serial/FirmwareWriterWebSerialImpl';
+} from '../services/firmware/Types';
+import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
+import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 
 export type ISetupPhase =
   | 'init'
@@ -373,7 +373,7 @@ try {
 
 const gitHub = new GitHub();
 
-const firmwareWriter = new FirmwareWriterWebSerialImpl();
+const firmwareWriter = new FirmwareWriterWebApiImpl();
 
 export const INIT_STATE: RootState = {
   entities: {

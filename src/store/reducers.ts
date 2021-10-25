@@ -170,7 +170,7 @@ import {
   MACRO_EDITOR_UPDATE_MACRO_BUFFER,
   MACRO_EDITOR_UPDATE_MACRO_KEYS,
 } from '../actions/macro.action';
-import { ALL_BOOTLOADER_TYPE, ALL_MCU_TYPE } from '../services/serial/Types';
+import { ALL_BOOTLOADER_TYPE, ALL_MCU_TYPE } from '../services/firmware/Types';
 
 export type Action = { type: string; value: any };
 

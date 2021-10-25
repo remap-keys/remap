@@ -13,7 +13,7 @@ import {
   IStore,
 } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IBootloaderType, IMcuType } from '../services/serial/Types';
+import { IBootloaderType, IMcuType } from '../services/firmware/Types';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;

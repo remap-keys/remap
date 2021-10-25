@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './Serial.scss';
-import { FirmwareWriterWebSerialImpl } from '../FirmwareWriterWebSerialImpl';
+import './Firmware.scss';
+import { FirmwareWriterWebApiImpl } from '../FirmwareWriterWebApiImpl';
 import { IFirmwareWriter } from '../FirmwareWriter';
 import { outputUint8Array } from '../../../utils/ArrayUtils';
 import hex from 'intel-hex';
+import { IFirmware } from '../../storage/Storage';
 
-export function Serial() {
+export function Firmware() {
   const [file, setFile] = useState<File | null>(null);
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -16,8 +17,20 @@ export function Serial() {
   });
 
   const handleFirmwareReadClick = async () => {
-    const firmware: IFirmwareWriter = new FirmwareWriterWebSerialImpl();
-    const readResult = await firmware.read(
+    const firmware: IFirmware = {
+      mcu_type: 'atmega32u4',
+      bootloader_type: 'caterina',
+      flash_support: true,
+      name: 'name1',
+      created_at: new Date(),
+      sourceCodeUrl: '',
+      description: '',
+      hash: '',
+      filename: '',
+    };
+    const firmwareWriter: IFirmwareWriter = new FirmwareWriterWebApiImpl();
+    const readResult = await firmwareWriter.read(
+      firmware,
       0,
       // eslint-disable-next-line no-unused-vars
       (message, lineBreak: boolean = true) => {
@@ -59,11 +72,23 @@ export function Serial() {
     if (!file) {
       return;
     }
+    const firmware: IFirmware = {
+      mcu_type: 'atmega32u4',
+      bootloader_type: 'caterina',
+      flash_support: true,
+      name: 'name1',
+      created_at: new Date(),
+      sourceCodeUrl: '',
+      description: '',
+      hash: '',
+      filename: '',
+    };
     const parseResult = hex.parse(
       Buffer.from(new Uint8Array(await file.arrayBuffer()))
     );
-    const firmware: IFirmwareWriter = new FirmwareWriterWebSerialImpl();
-    const writeResult = await firmware.write(
+    const firmwareWriter: IFirmwareWriter = new FirmwareWriterWebApiImpl();
+    const writeResult = await firmwareWriter.write(
+      firmware,
       parseResult.data,
       null,
       (message, lineBreak: boolean = true) => {

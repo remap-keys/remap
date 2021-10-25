@@ -34,7 +34,7 @@ import { IDeviceInformation } from '../services/hid/Hid';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { CatalogAppActions } from './catalog.action';
 import * as qs from 'qs';
-import { IBootloaderType, IMcuType } from '../services/serial/Types';
+import { IBootloaderType, IMcuType } from '../services/firmware/Types';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;

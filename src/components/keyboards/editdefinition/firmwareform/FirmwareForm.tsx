@@ -28,7 +28,7 @@ import {
   ALL_MCU_TYPE,
   IBootloaderType,
   IMcuType,
-} from '../../../../services/serial/Types';
+} from '../../../../services/firmware/Types';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &

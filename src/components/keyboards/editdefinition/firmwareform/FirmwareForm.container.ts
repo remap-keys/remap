@@ -4,7 +4,7 @@ import FirmwareForm from './FirmwareForm';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import { IFirmware } from '../../../../services/storage/Storage';
-import { IBootloaderType, IMcuType } from '../../../../services/serial/Types';
+import { IBootloaderType, IMcuType } from '../../../../services/firmware/Types';
 
 const mapStateToProps = (state: RootState) => {
   return {

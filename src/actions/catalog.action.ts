@@ -284,6 +284,7 @@ export const catalogActionsThunk = {
     );
     dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
     const writeResult = await firmwareWriter.write(
+      firmware,
       flashBytes,
       null,
       (message, lineBreak) => {

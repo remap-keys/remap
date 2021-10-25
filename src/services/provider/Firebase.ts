@@ -29,7 +29,7 @@ import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
-import { IBootloaderType, IMcuType } from '../serial/Types';
+import { IBootloaderType, IMcuType } from '../firmware/Types';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
