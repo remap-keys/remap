@@ -1,6 +1,6 @@
 import { AbstractCommand, ICommandRequest, ICommandResponse } from '../Command';
 import { FirmwareFlashType, IResult } from '../Types';
-import { ISerial } from '../Serial';
+import { ISerial } from '../serial/Serial';
 import { encodeStringToBytes } from '../../../utils/StringUtils';
 import { concatUint8Array } from '../../../utils/ArrayUtils';
 

@@ -3,7 +3,7 @@ import {
   FirmwareWriterProgressListener,
 } from './FirmwareWriter';
 import { IResult } from './Types';
-import { ISerial } from './Serial';
+import { ISerial } from './serial/Serial';
 
 export interface IBootloaderReadResult extends IResult {
   bytes?: Uint8Array;

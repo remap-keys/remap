@@ -5,9 +5,10 @@ import {
   IFirmwareWriterReadResult,
 } from './FirmwareWriter';
 import { CaterinaBootloader } from './caterina/CaterinaBootloader';
-import { WebSerial } from './WebSerial';
+import { WebSerial } from './serial/WebSerial';
 import { IErrorHandler, IResult } from './Types';
 import { IFirmware } from '../storage/Storage';
+import { ISerial } from './serial/Serial';
 
 const BAUD_RATE = 115200;
 const BUFFER_SIZE = 81920;
@@ -22,7 +23,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     errorHandler: IErrorHandler
   ): Promise<IFirmwareWriterReadResult> {
     if (firmware.bootloader_type === 'caterina') {
-      const serial = new WebSerial(CHUNK_SIZE);
+      const serial: ISerial = new WebSerial(CHUNK_SIZE);
       const openResult = await serial.open(
         BAUD_RATE,
         BUFFER_SIZE,
@@ -57,7 +58,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     errorHandler: IErrorHandler
   ): Promise<IResult> {
     if (firmware.bootloader_type === 'caterina') {
-      const serial = new WebSerial(CHUNK_SIZE);
+      const serial: ISerial = new WebSerial(CHUNK_SIZE);
       const openResult = await serial.open(
         BAUD_RATE,
         BUFFER_SIZE,
@@ -86,7 +87,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     errorHandler: IErrorHandler
   ): Promise<IResult> {
     if (firmware.bootloader_type === 'caterina') {
-      const serial = new WebSerial(CHUNK_SIZE);
+      const serial: ISerial = new WebSerial(CHUNK_SIZE);
       const openResult = await serial.open(
         BAUD_RATE,
         BUFFER_SIZE,

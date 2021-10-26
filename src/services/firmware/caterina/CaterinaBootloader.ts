@@ -4,7 +4,7 @@ import {
   FirmwareWriterProgressListener,
 } from '../FirmwareWriter';
 import { FirmwareFlashType, IMcu, IResult, MCU } from '../Types';
-import { ISerial } from '../Serial';
+import { ISerial } from '../serial/Serial';
 import {
   ExitCommand,
   FetchAutoAddressIncrementSupportCommand,

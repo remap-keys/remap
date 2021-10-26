@@ -1,4 +1,4 @@
-import { IErrorHandler, IResult } from './Types';
+import { IErrorHandler, IResult } from '../Types';
 
 export interface ISerialReadBytesResult extends IResult {
   bytes?: Uint8Array;

@@ -1,6 +1,6 @@
 import { ISerial, ISerialReadBytesResult } from './Serial';
-import { IErrorHandler, IResult } from './Types';
-import { encodeStringToBytes } from '../../utils/StringUtils';
+import { IErrorHandler, IResult } from '../Types';
+import { encodeStringToBytes } from '../../../utils/StringUtils';
 
 export class WebSerial implements ISerial {
   private chunkSize: number;
