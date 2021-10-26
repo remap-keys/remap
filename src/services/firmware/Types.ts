@@ -32,7 +32,7 @@ export const MCU: IMcuMap = {
   },
 };
 
-export const ALL_BOOTLOADER_TYPE = ['caterina'] as const;
+export const ALL_BOOTLOADER_TYPE = ['caterina', 'dfu'] as const;
 type bootloaderTypeTuple = typeof ALL_BOOTLOADER_TYPE;
 export type IBootloaderType = bootloaderTypeTuple[number];
 

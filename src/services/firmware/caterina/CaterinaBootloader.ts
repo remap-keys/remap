@@ -1,4 +1,4 @@
-import { AbstractBootloader, IBootloaderReadResult } from '../Bootloader';
+import { IBootloader, IBootloaderReadResult } from '../Bootloader';
 import {
   FirmwareWriterPhaseListener,
   FirmwareWriterProgressListener,
@@ -30,9 +30,11 @@ import {
 } from './CaterinaCommands';
 import { concatUint8Array } from '../../../utils/ArrayUtils';
 
-export class CaterinaBootloader extends AbstractBootloader {
+export class CaterinaBootloader implements IBootloader {
+  private readonly serial: ISerial;
+
   constructor(serial: ISerial) {
-    super(serial);
+    this.serial = serial;
   }
 
   private async fetchAndCheckBootloaderInformation(
