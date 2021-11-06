@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import browserAccess from '../../assets/images/top/browser-access.png';
+import catalog from '../../assets/images/top/catalog.png';
 import keyAssign from '../../assets/images/top/key-assign.png';
 import lighting from '../../assets/images/top/lighting.png';
 import keyLayout from '../../assets/images/top/key-layout.png';
@@ -22,6 +22,7 @@ import keymap from '../../assets/images/top/keymap.png';
 import shareKeymap from '../../assets/images/top/share-keymap.png';
 import textMatrix from '../../assets/images/top/text-matrix.png';
 import macro from '../../assets/images/top/macro.png';
+import firmwareWriting from '../../assets/images/top/firmware-writing.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -169,74 +170,80 @@ class Top extends React.Component<TopPropsType, TopState> {
             <Grid container spacing={4}>
               <FeatureCard
                 key={1}
-                image={browserAccess}
-                imageTitle="Direct Access"
-                title="Direct Access"
-                description="Configure your keyboard from the Web
-                      Browser without installing an app."
+                image={catalog}
+                imageTitle="Keyboard Catalog"
+                title="Keyboard Catalog"
+                description="Find a favorite keyboard supporting Remap by flexible conditions."
               />
               <FeatureCard
                 key={2}
+                image={firmwareWriting}
+                imageTitle="Write Firmware"
+                title="Write Firmware"
+                description="Write a firmware to microcomputer unit directly."
+              />
+              <FeatureCard
+                key={3}
+                image={textMatrix}
+                imageTitle="Test Matrix"
+                title="Test Matrix"
+                description="Allows you to test if your changes work after building the keyboard."
+              />
+              <FeatureCard
+                key={4}
                 image={keyAssign}
                 imageTitle="Easy key Assign"
                 title="Easy key assign"
                 description="Easily assign complex keycodes including Hold,Tap, and more."
               />
               <FeatureCard
-                key={3}
+                key={5}
                 image={keymap}
                 imageTitle="Save/Restore Keymaps"
                 title="Save/Restore Keymaps"
                 description="Apply one of your saved key mappings, on demand, anytime and easily."
               />
               <FeatureCard
-                key={4}
+                key={6}
                 image={shareKeymap}
                 imageTitle="Share Keymaps"
                 title="Share Keymaps"
                 description="Find or share a keymap with the community."
               />
               <FeatureCard
-                key={5}
+                key={7}
                 image={lighting}
                 imageTitle="Lighting Control"
                 title="Lighting Control"
                 description="Simple UI for controlling Backlight and Underglow LED lighting."
               />
               <FeatureCard
-                key={6}
+                key={8}
                 image={macro}
                 imageTitle="Macro"
                 title="Macro Editor"
                 description="Macro Editor provides a way to define multiple keystrokes easily"
               />
               <FeatureCard
-                key={7}
+                key={9}
                 image={keyLayout}
                 imageTitle="Key Layout"
                 title="Key Layout"
                 description="Intuitive customization according to the physical key layout."
               />
               <FeatureCard
-                key={8}
+                key={10}
                 image={predefinedKeys}
                 imageTitle="Pre-defined Keys"
                 title="Pre-defined Keys"
                 description="Many Pre-defined keycodes to remap your keyboard easily."
               />
               <FeatureCard
-                key={9}
+                key={11}
                 image={diff}
                 imageTitle="Compare Changes"
                 title="Compare Changes"
                 description="Easy-to-understand ui to highlight changes made to the keymap."
-              />
-              <FeatureCard
-                key={10}
-                image={textMatrix}
-                imageTitle="Test Matrix"
-                title="Test Matrix"
-                description="Allows you to test if your changes work after building the keyboard."
               />
             </Grid>
           </Container>
