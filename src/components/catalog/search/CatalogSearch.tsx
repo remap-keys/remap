@@ -30,6 +30,7 @@ import { isSmallDisplay } from '../../../utils/DisplayUtils';
 type CatalogSearchState = {
   showSearchDialog: boolean;
   isSmallDisplay: boolean;
+  containerRef: React.RefObject<HTMLDivElement>;
 };
 type OwnProps = {};
 type CatalogSearchProps = OwnProps &
@@ -45,6 +46,7 @@ class CatalogSearch extends React.Component<
     this.state = {
       showSearchDialog: false,
       isSmallDisplay: isSmallDisplay(),
+      containerRef: React.createRef<HTMLDivElement>(),
     };
   }
   private closeSearchDialog(
@@ -85,7 +87,10 @@ class CatalogSearch extends React.Component<
     return (
       <>
         <div className="catalog-search-wrapper">
-          <div className="catalog-search-container">
+          <div
+            className="catalog-search-container"
+            ref={this.state.containerRef}
+          >
             <Grid container>
               <Grid item sm={3} xs={12}>
                 {this.state.isSmallDisplay ? (
@@ -119,7 +124,10 @@ class CatalogSearch extends React.Component<
                 )}
               </Grid>
               <Grid item sm={9} xs={12}>
-                <SearchResult definitionDocuments={this.props.searchResult!} />
+                <SearchResult
+                  definitionDocuments={this.props.searchResult!}
+                  containerRef={this.state.containerRef}
+                />
               </Grid>
             </Grid>
           </div>
@@ -142,6 +150,7 @@ const SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE = 5;
 
 type SearchResultProps = {
   definitionDocuments: IKeyboardDefinitionDocument[];
+  containerRef?: React.RefObject<HTMLDivElement>;
 };
 
 function SearchResult(props: SearchResultProps) {
@@ -149,6 +158,9 @@ function SearchResult(props: SearchResultProps) {
 
   const onChangePage = (event: any, page: number): void => {
     setOffset((page - 1) * SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE);
+    if (props.containerRef && props.containerRef.current) {
+      props.containerRef.current.scrollTop = 0;
+    }
   };
 
   return (
