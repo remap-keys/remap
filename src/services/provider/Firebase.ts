@@ -29,7 +29,6 @@ import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
-import { IBootloaderType, IMcuType } from '../serial/Types';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -80,8 +79,6 @@ export class FirebaseProvider implements IStorage, IAuth {
           sourceCodeUrl: firmware.source_code_url,
           created_at: firmware.created_at.toDate(),
           flash_support: firmware.flash_support || false,
-          mcu_type: firmware.mcu_type,
-          bootloader_type: firmware.bootloader_type,
         });
       });
     }
@@ -988,8 +985,6 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
-    mcuType: IMcuType,
-    bootloaderType: IBootloaderType,
     keyboardName: string,
     // eslint-disable-next-line no-unused-vars
     progress?: (uploadedRate: number) => void
@@ -1034,10 +1029,6 @@ export class FirebaseProvider implements IStorage, IAuth {
             hash,
             flash_support: flashSupport,
           };
-          if (flashSupport) {
-            data.mcu_type = mcuType;
-            data.bootloader_type = bootloaderType;
-          }
           await this.db
             .collection('keyboards')
             .doc('v2')
@@ -1160,9 +1151,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
-    flashSupport: boolean,
-    mcuType: IMcuType,
-    bootloaderType: IBootloaderType
+    flashSupport: boolean
   ): Promise<IResult> {
     const definitionDocument = await this.db
       .collection('keyboards')
@@ -1181,10 +1170,6 @@ export class FirebaseProvider implements IStorage, IAuth {
             x.description = firmwareDescription;
             x.source_code_url = firmwareSourceCodeUrl;
             x.flash_support = flashSupport;
-            if (flashSupport) {
-              x.mcu_type = mcuType;
-              x.bootloader_type = bootloaderType;
-            }
           }
           return x;
         });

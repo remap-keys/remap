@@ -133,8 +133,6 @@ import {
   KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT,
-  KEYBOARDS_EDIT_DEFINITION_UPDATE_MCU_TYPE,
-  KEYBOARDS_EDIT_DEFINITION_UPDATE_BOOTLOADER_TYPE,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -155,6 +153,7 @@ import {
   FLASH_FIRMWARE_DIALOG_ACTIONS,
   FLASH_FIRMWARE_DIALOG_APPEND_LOG,
   FLASH_FIRMWARE_DIALOG_CLEAR,
+  FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
   FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
@@ -170,7 +169,6 @@ import {
   MACRO_EDITOR_UPDATE_MACRO_BUFFER,
   MACRO_EDITOR_UPDATE_MACRO_KEYS,
 } from '../actions/macro.action';
-import { ALL_BOOTLOADER_TYPE, ALL_MCU_TYPE } from '../services/serial/Types';
 
 export type Action = { type: string; value: any };
 
@@ -376,17 +374,9 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.firmwareDescription = '';
       draft.keyboards.editdefinition.firmwareSourceCodeUrl = '';
       draft.keyboards.editdefinition.flashSupport = false;
-      draft.keyboards.editdefinition.mcuType = ALL_MCU_TYPE[0];
-      draft.keyboards.editdefinition.bootloaderType = ALL_BOOTLOADER_TYPE[0];
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT:
       draft.keyboards.editdefinition.flashSupport = action.value;
-      break;
-    case KEYBOARDS_EDIT_DEFINITION_UPDATE_MCU_TYPE:
-      draft.keyboards.editdefinition.mcuType = action.value;
-      break;
-    case KEYBOARDS_EDIT_DEFINITION_UPDATE_BOOTLOADER_TYPE:
-      draft.keyboards.editdefinition.bootloaderType = action.value;
       break;
   }
 };
@@ -1010,6 +1000,9 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
       draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE:
+      draft.catalog.keyboard.flashFirmwareDialog.bootloaderType = action.value;
       break;
   }
 };

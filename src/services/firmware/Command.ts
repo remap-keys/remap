@@ -1,4 +1,4 @@
-import { ISerial } from './Serial';
+import { ISerial } from './serial/Serial';
 import { IResult } from './Types';
 
 export interface ICommandRequest {}
