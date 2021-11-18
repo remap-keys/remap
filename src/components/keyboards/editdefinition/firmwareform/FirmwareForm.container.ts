@@ -4,7 +4,6 @@ import FirmwareForm from './FirmwareForm';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import { IFirmware } from '../../../../services/storage/Storage';
-import { IBootloaderType, IMcuType } from '../../../../services/firmware/Types';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -14,8 +13,6 @@ const mapStateToProps = (state: RootState) => {
     firmwareDescription: state.keyboards.editdefinition.firmwareDescription,
     firmwareSourceCodeUrl: state.keyboards.editdefinition.firmwareSourceCodeUrl,
     flashSupport: state.keyboards.editdefinition.flashSupport,
-    mcuType: state.keyboards.editdefinition.mcuType,
-    bootloaderType: state.keyboards.editdefinition.bootloaderType,
   };
 };
 export type FirmwareFormStateType = ReturnType<typeof mapStateToProps>;
@@ -51,14 +48,6 @@ const mapDispatchToProps = (_dispatch: any) => {
         KeyboardsEditDefinitionActions.updateFlashSupport(flashSupport)
       );
     },
-    updateMcuType: (mcuType: IMcuType) => {
-      _dispatch(KeyboardsEditDefinitionActions.updateMcuType(mcuType));
-    },
-    updateBootloaderType: (bootloaderType: IBootloaderType) => {
-      _dispatch(
-        KeyboardsEditDefinitionActions.updateBootloaderType(bootloaderType)
-      );
-    },
     clearFirmwareForm: () => {
       _dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
     },
@@ -83,9 +72,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       name: string,
       description: string,
       sourceCodeUrl: string,
-      flashSupport: boolean,
-      mcuType: IMcuType,
-      bootloaderType: IBootloaderType
+      flashSupport: boolean
     ) => {
       _dispatch(
         storageActionsThunk.updateFirmware(
@@ -93,9 +80,7 @@ const mapDispatchToProps = (_dispatch: any) => {
           name,
           description,
           sourceCodeUrl,
-          flashSupport,
-          mcuType,
-          bootloaderType
+          flashSupport
         )
       );
     },

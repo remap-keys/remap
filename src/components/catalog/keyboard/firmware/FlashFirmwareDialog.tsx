@@ -4,6 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -17,6 +19,10 @@ import instructionImage1 from '../../../../assets/images/catalog/flash-firmware-
 import instructionImage2 from '../../../../assets/images/catalog/flash-firmware-dialog-2.png';
 import instructionImage3 from '../../../../assets/images/catalog/flash-firmware-dialog-3.png';
 import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
+import {
+  ALL_BOOTLOADER_TYPE,
+  IBootloaderType,
+} from '../../../../services/firmware/Types';
 
 type OwnProps = {
   onClose: () => void;
@@ -48,6 +54,12 @@ export default function FlashFirmwareDialog(
     props.onClose();
   };
 
+  const onChangeBootloaderType = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    props.updateBootloaderType!(event.target.value as IBootloaderType);
+  };
+
   return (
     <Dialog
       open={isOpen()}
@@ -68,17 +80,23 @@ export default function FlashFirmwareDialog(
           </div>
           <div className="flash-firmware-dialog-info-item">
             <div className="flash-firmware-dialog-info-item-title">
-              MCU Type:
-            </div>
-            <div className="flash-firmware-dialog-info-item-body">
-              atmega32u4
-            </div>
-          </div>
-          <div className="flash-firmware-dialog-info-item">
-            <div className="flash-firmware-dialog-info-item-title">
               Bootloader:
             </div>
-            <div className="flash-firmware-dialog-info-item-body">catarina</div>
+            <div className="flash-firmware-dialog-info-item-body">
+              <Select
+                value={props.bootloaderType}
+                onChange={onChangeBootloaderType}
+              >
+                {ALL_BOOTLOADER_TYPE.map((bootloaderType, index) => (
+                  <MenuItem
+                    key={`bootloaderType-${index}`}
+                    value={bootloaderType}
+                  >
+                    {bootloaderType}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
           </div>
         </div>
         {props.mode === 'flashing' ? (

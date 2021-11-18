@@ -17,6 +17,7 @@ import {
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import intelHex from 'intel-hex';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
+import { IBootloaderType } from '../services/firmware/Types';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -68,6 +69,7 @@ export const CatalogSearchActions = {
 
 export const FLASH_FIRMWARE_DIALOG_ACTIONS = '@FlashFirmwareDialog';
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFirmware`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateBootloaderType`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFlashing`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateProgressRate`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_MODE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateMode`;
@@ -79,6 +81,12 @@ export const FlashFirmwareDialogActions = {
     return {
       type: FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
       value: firmware,
+    };
+  },
+  updateBootloaderType: (bootloaderType: IBootloaderType) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
+      value: bootloaderType,
     };
   },
   updateFlashing: (flashing: boolean) => {
@@ -255,6 +263,7 @@ export const catalogActionsThunk = {
     const firmwareWriter = serial.writer;
     const definitionDocument = entities.keyboardDefinitionDocument!;
     const firmware = catalog.keyboard.flashFirmwareDialog.firmware!;
+    const bootloaderType = catalog.keyboard.flashFirmwareDialog.bootloaderType!;
     sendEventToGoogleAnalytics('catalog/flash_firmware', {
       vendor_id: definitionDocument.vendorId,
       product_id: definitionDocument.productId,
@@ -284,7 +293,7 @@ export const catalogActionsThunk = {
     );
     dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
     const writeResult = await firmwareWriter.write(
-      firmware,
+      bootloaderType,
       flashBytes,
       null,
       (message, lineBreak) => {

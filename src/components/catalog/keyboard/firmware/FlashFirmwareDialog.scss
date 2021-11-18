@@ -11,7 +11,9 @@
       margin-bottom: 4px;
 
       &-title {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 100px;
         flex: none;
       }

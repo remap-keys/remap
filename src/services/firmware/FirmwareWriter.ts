@@ -1,5 +1,4 @@
-import { IErrorHandler, IResult } from './Types';
-import { IFirmware } from '../storage/Storage';
+import { IBootloaderType, IErrorHandler, IResult } from './Types';
 
 export type FirmwareWriterProgressListener = (
   message: string,
@@ -22,22 +21,8 @@ export type IFirmwareWriterPhase =
 export type FirmwareWriterPhaseListener = (phase: IFirmwareWriterPhase) => void;
 
 export interface IFirmwareWriter {
-  read(
-    firmware: IFirmware,
-    size: number,
-    progress: FirmwareWriterProgressListener,
-    phase: FirmwareWriterPhaseListener,
-    errorHandler: IErrorHandler
-  ): Promise<IFirmwareWriterReadResult>;
-  verify(
-    firmware: IFirmware,
-    bytes: Uint8Array,
-    progress: FirmwareWriterProgressListener,
-    phase: FirmwareWriterPhaseListener,
-    errorHandler: IErrorHandler
-  ): Promise<IResult>;
   write(
-    firmware: IFirmware,
+    bootloaderType: IBootloaderType,
     flashBytes: Uint8Array,
     eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,

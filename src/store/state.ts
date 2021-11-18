@@ -20,14 +20,9 @@ import buildInfo from '../assets/files/build-info.json';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
-import {
-  ALL_BOOTLOADER_TYPE,
-  ALL_MCU_TYPE,
-  IBootloaderType,
-  IMcuType,
-} from '../services/firmware/Types';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
+import { IBootloaderType } from '../services/firmware/Types';
 
 export type ISetupPhase =
   | 'init'
@@ -312,8 +307,6 @@ export type RootState = {
       firmwareDescription: string;
       firmwareSourceCodeUrl: string;
       flashSupport: boolean;
-      mcuType: IMcuType;
-      bootloaderType: IBootloaderType;
     };
   };
   catalog: {
@@ -337,6 +330,7 @@ export type RootState = {
         progressRate: number;
         logs: string[];
         mode: IFlashFirmwareDialogMode;
+        bootloaderType: IBootloaderType;
       };
     };
   };
@@ -511,8 +505,6 @@ export const INIT_STATE: RootState = {
       firmwareDescription: '',
       firmwareSourceCodeUrl: '',
       flashSupport: false,
-      mcuType: ALL_MCU_TYPE[0],
-      bootloaderType: ALL_BOOTLOADER_TYPE[0],
     },
   },
   catalog: {
@@ -534,6 +526,7 @@ export const INIT_STATE: RootState = {
         progressRate: 0,
         logs: [''],
         mode: 'instruction',
+        bootloaderType: 'caterina',
       },
     },
   },
