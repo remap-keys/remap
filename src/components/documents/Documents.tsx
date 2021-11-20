@@ -11,6 +11,7 @@ import './Documents.scss';
 import { sendEventToGoogleAnalytics } from '../../utils/GoogleAnalytics';
 import ReviewPolicy from './ReviewPolicy/ReviewPolicy';
 import TermsOfUse from './TermsOfUse/TermsOfUse';
+import Faq from './faq/Faq';
 
 type DocumentsState = {};
 
@@ -47,6 +48,9 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
     } else if (docId === 'terms_of_use') {
       page = <TermsOfUse />;
       sendEventToGoogleAnalytics('docs/terms_of_use');
+    } else if (docId === 'faq') {
+      page = <Faq />;
+      sendEventToGoogleAnalytics('docs/faq');
     } else {
       page = <div>Not Found.</div>;
     }

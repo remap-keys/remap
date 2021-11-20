@@ -38,6 +38,9 @@ export default class Footer extends React.Component<
             <a href="/docs/review_policy">Review Policy</a>
           </span>
           <span className="footer-content">
+            <a href="/docs/faq">FAQ</a>
+          </span>
+          <span className="footer-content">
             <a
               href="https://discord.gg/uf7v5DruMB"
               target={'_blank'}
