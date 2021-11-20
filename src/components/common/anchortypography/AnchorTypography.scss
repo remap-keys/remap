@@ -1,0 +1,19 @@
+@import '../../../variables';
+
+.anchor-typography {
+  &-link {
+    margin-left: 8px;
+    display: none;
+
+    &-icon {
+      width: 0.98em !important;
+      height: 0.98em !important;
+    }
+  }
+
+  &:hover {
+    .anchor-typography-link {
+      display: inline-block;
+    }
+  }
+}

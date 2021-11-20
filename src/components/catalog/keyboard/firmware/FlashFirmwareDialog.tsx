@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Link,
   MenuItem,
   Select,
   TextField,
@@ -148,6 +149,15 @@ export default function FlashFirmwareDialog(
             <Typography variant="caption">
               * If pushing the FLASH button, you agree to write the firmware to
               your MCU by your own risk.
+              <br />* Please read{' '}
+              <Link
+                href="/docs/faq#faq-firmware-writing-feature"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Frequently Asked Questions
+              </Link>
+              .
             </Typography>
           </React.Fragment>
         )}

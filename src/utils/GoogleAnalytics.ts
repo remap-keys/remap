@@ -24,7 +24,8 @@ type IActionName =
   | 'catalog/download_firmware'
   | 'catalog/flash_firmware'
   | 'docs/review_policy'
-  | 'docs/terms_of_use';
+  | 'docs/terms_of_use'
+  | 'docs/faq';
 
 interface IActionOptions {
   vendor_id?: string | number;
