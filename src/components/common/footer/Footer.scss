@@ -16,22 +16,46 @@
   a {
     color: $primary-light;
   }
-  .dev-team {
+  &-dev-team {
     text-align: start;
+
+    &-years {
+      display: inline-block;
+      margin-right: 4px;
+    }
   }
-  .footer-contents {
+  &-contents {
     text-align: center;
 
-    .footer-content {
+    & .footer-content {
       display: inline-block;
 
       &:not(:first-child) {
         margin-left: 16px;
       }
     }
+    &-mobile {
+      display: none;
+    }
   }
   .app-version {
     text-align: end;
     color: $color-gray-400;
+  }
+
+  @include mq(sm) {
+    &-dev-team {
+      &-years {
+        display: none;
+      }
+    }
+    &-contents {
+      display: none;
+
+      &-mobile {
+        display: block;
+        text-align: center;
+      }
+    }
   }
 }

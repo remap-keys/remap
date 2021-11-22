@@ -20,14 +20,17 @@ export default class Footer extends React.Component<
   render() {
     return (
       <footer className="footer">
-        <div className="dev-team">
-          ©2020-{moment().format('YYYY')}{' '}
+        <div className="footer-dev-team">
+          ©{' '}
+          <span className="footer-dev-team-years">
+            2020-{moment().format('YYYY')}
+          </span>
           <a
             href="https://github.com/remap-keys"
             target={'_blank'}
             rel={'noreferrer'}
           >
-            Remap team.
+            Remap team
           </a>
         </div>
         <div className="footer-contents">
@@ -48,6 +51,11 @@ export default class Footer extends React.Component<
             >
               User Community
             </a>
+          </span>
+        </div>
+        <div className="footer-contents-mobile">
+          <span className="footer-content">
+            <a href="/docs">Resources</a>
           </span>
         </div>
         <div className="app-version">Build: {this.props.buildNumber}</div>
