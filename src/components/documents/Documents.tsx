@@ -9,9 +9,10 @@ import Header from './header/Header.container';
 import Footer from '../common/footer/Footer';
 import './Documents.scss';
 import { sendEventToGoogleAnalytics } from '../../utils/GoogleAnalytics';
-import ReviewPolicy from './ReviewPolicy/ReviewPolicy';
-import TermsOfUse from './TermsOfUse/TermsOfUse';
+import ReviewPolicy from './reviewpolicy/ReviewPolicy';
+import TermsOfUse from './termsofuse/TermsOfUse';
 import Faq from './faq/Faq';
+import Index from './index/Index';
 
 type DocumentsState = {};
 
@@ -52,7 +53,7 @@ class Documents extends React.Component<DocumentsPropsType, DocumentsState> {
       page = <Faq />;
       sendEventToGoogleAnalytics('docs/faq');
     } else {
-      page = <div>Not Found.</div>;
+      page = <Index />;
     }
 
     return (

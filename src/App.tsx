@@ -62,6 +62,7 @@ class App extends React.Component<StyledComponentProps, {}> {
               <Catalog catalogDetailMode="introduction" />
             </Route>
             <Route exact path="/docs/:docId" component={Documents} />
+            <Route exact path="/docs" component={Documents} />
             <Route component={Top} />
           </Switch>
         </BrowserRouter>
