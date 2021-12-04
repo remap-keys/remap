@@ -6,7 +6,10 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
+    keyboardDefinitionSchema: state.entities.keyboardDefinition,
+  };
 };
 export type ConfigurationDialogStateType = ReturnType<typeof mapStateToProps>;
 

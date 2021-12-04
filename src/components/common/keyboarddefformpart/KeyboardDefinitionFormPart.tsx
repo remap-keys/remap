@@ -6,6 +6,7 @@ import {
   SchemaValidateError,
   validateIds,
   validateKeyboardDefinitionSchema,
+  validateRowsAndCols,
 } from '../../../services/storage/Validator';
 import {
   Accordion,
@@ -18,6 +19,7 @@ import {
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import './KeyboardDefinitionFormPart.scss';
+import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
 
 // eslint-disable-next-line no-undef
 const loadDefinitionFile = async (file: File): Promise<string> => {
@@ -48,6 +50,8 @@ export type KeyboardDefinitionFormPartProps = {
     fileName: string,
     jsonStr: string
   ) => void;
+  keyboardDefinitionDocument?: IKeyboardDefinitionDocument | null;
+  keyboardDefinitionSchema?: KeyboardDefinitionSchema | null;
 };
 /* eslint-enable no-unused-vars */
 
@@ -129,6 +133,22 @@ export class KeyboardDefinitionFormPart extends React.Component<
       if (msg) {
         this.stopLoading();
         this.showErrorMessage('INVALID IDs', msg);
+        return Promise.reject(msg);
+      }
+    }
+
+    if (
+      this.props.keyboardDefinitionDocument &&
+      this.props.keyboardDefinitionSchema &&
+      this.props.keyboardDefinitionDocument.status === 'approved'
+    ) {
+      const msg = validateRowsAndCols(
+        keyboardDefinition,
+        this.props.keyboardDefinitionSchema
+      );
+      if (msg) {
+        this.stopLoading();
+        this.showErrorMessage('INVALID Row and Col', msg);
         return Promise.reject(msg);
       }
     }

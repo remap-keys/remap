@@ -98,6 +98,8 @@ export default class ConfigurationDialog extends React.Component<
               this.onLoadFile(kd, name);
             }}
             size="small"
+            keyboardDefinitionDocument={this.props.keyboardDefinitionDocument}
+            keyboardDefinitionSchema={this.props.keyboardDefinitionSchema}
           />
 
           {this.state.keyboardDefinition && (

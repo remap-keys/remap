@@ -52,6 +52,19 @@ export const validateIds = (
   return null;
 };
 
+export const validateRowsAndCols = (
+  source: KeyboardDefinitionSchema,
+  target: KeyboardDefinitionSchema
+): string | null => {
+  if (source.matrix.rows !== target.matrix.rows) {
+    return `Not match the Rows: Server:${target.matrix.rows}, Local:${source.matrix.rows}`;
+  }
+  if (source.matrix.cols !== target.matrix.cols) {
+    return `Not match the Cols: Server:${target.matrix.cols}, Local:${source.matrix.cols}`;
+  }
+  return null;
+};
+
 export const validateKeyboardDefinitionSchema = (
   json: Object,
   schemaObject: Object = schema
