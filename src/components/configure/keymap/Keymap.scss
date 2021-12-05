@@ -55,6 +55,7 @@
     align-items: flex-start;
     min-width: 80px;
     padding-left: $space-l;
+    z-index: 2;
 
     .MuiPagination-ul {
       flex-direction: column;
