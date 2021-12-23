@@ -1,0 +1,107 @@
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+
+        match /keyboards/v1/definitions/{definitionID} {
+            allow read;
+        }
+
+        match /keyboards/v2/definitions/{definitionID} {
+            allow read: if isIndividualAuthor(request.auth.uid, resource)
+                        || (resource.data.status == 'approved')
+                        || isOrganizationAuthor(request.auth.uid, resource);
+            allow create: if isAuthor(request.auth.uid, resource)
+                             && (request.resource.data.status in ['draft', 'in_review']);
+            allow delete: if isAuthor(request.auth.uid, resource);
+            allow update: if (
+                isAuthor(request.auth.uid, resource)
+                && (
+                    (request.resource.data.status in ['draft', 'rejected', 'in_review'])
+                    || (
+                        (resource.data.status == 'approved')
+                        && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(
+                                ["json", "updated_at", "features", "thumbnail_image_url",
+                            "image_url", "description", "stores", "website_url",
+                            "additional_descriptions", "sub_images", "name",
+                            "firmwares", "total_firmware_download_count"])
+                        )
+                    )
+                )
+            ) || (
+                (resource.data.status == 'approved')
+                && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(
+                        ["total_firmware_download_count", "total_firmware_flash_count"])
+                )
+            );
+
+            match /secure/github {
+                allow read: if isAuthenticated()
+                               && (request.auth.uid == getDefinition(definitionID).data.author_uid);
+                allow create, delete: if isAuthenticated()
+                                         && (request.auth.uid == getDefinition(definitionID).data.author_uid);
+            }
+
+            function getDefinition(definitionID) {
+                return get(/databases/$(database)/documents/keyboards/v2/definitions/$(definitionID));
+            }
+
+            function getOrganization(organizationID) {
+                return get(/databases/$(database)/documents/organizations/v1/$(organizationID));
+            }
+
+            function isIndividualAuthor(requestAuthUid, resourceDefinition) {
+                return
+                    (resourceDefinition.data.author_type == 'individual')
+                    &&
+                    (requestAuthUid == resourceDefinition.data.author_uid);
+            }
+
+            function isOrganizationAuthor(requestAuthUid, resourceDefinition) {
+                return
+                    (resourceDefinition.data.author_type == 'organization')
+                    &&
+                    (requestAuthUid in getOrganization(resourceDefinition.data.organization_id).data.members);
+            }
+
+            function isAuthor(requestAuthUid, resourceDefinition) {
+                return
+                    isIndividualAuthor(requestAuthUid, resourceDefinition)
+                    ||
+                    isOrganizationAuthor(requestAuthUid, resourceDefinition);
+            }
+        }
+
+        match /configurations/{configuration} {
+            allow read;
+        }
+
+        match /keymaps/v1/saved-keymaps/{keymapId} {
+            allow create: if (request.auth.uid == request.resource.data.author_uid);
+            allow read: if (request.auth.uid == resource.data.author_uid)
+                           || (resource.data.status == 'shared');
+            allow update: if (request.auth.uid == resource.data.author_uid)
+                             &&  (request.resource.data.diff(resource.data).affectedKeys().hasOnly(["title", "desc", "updated_at", "status", "author_display_name"]));
+            allow delete: if (request.auth.uid == resource.data.author_uid);
+        }
+
+        match /keymaps/v1/applied-keymaps/{keymapId} {
+            allow create: if (request.auth.uid == request.resource.data.applied_uid);
+            allow read: if (request.auth.uid == resource.data.applied_uid);
+            allow update: if (request.auth.uid == resource.data.applied_uid);
+            allow delete: if (request.auth.uid == resource.data.applied_uid);
+        }
+
+        match /organizations/v1/{organizationId} {
+            allow create: if false;
+            allow delete: if false;
+            allow update: if isAuthenticated()
+                             && (request.auth.uid in resource.data.members)
+                             && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(["name", "icon_image_url", "contact_email_address", "members", "updated_at"]));
+            allow read;
+        }
+
+        function isAuthenticated() {
+            return request.auth.uid != null;
+        }
+    }
+}

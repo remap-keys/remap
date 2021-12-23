@@ -23,3 +23,7 @@ yarn-error.log*
 
 .firebase/
 .envrc
+remap-firestore-export-*/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

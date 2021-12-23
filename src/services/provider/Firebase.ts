@@ -53,6 +53,10 @@ export class FirebaseProvider implements IStorage, IAuth {
     this.db = app.firestore();
     this.auth = app.auth();
     this.storage = app.storage();
+    // FIXME Remove it!
+    if (location.hostname === 'localhost') {
+      this.db.useEmulator('localhost', 8080);
+    }
   }
 
   private createResult(
