@@ -379,6 +379,16 @@ export default class EditDefinition extends React.Component<
                       updateContactInformation={
                         this.props.updateContactInformation!
                       }
+                      organizationEvidence={this.props.organizationEvidence!}
+                      updateOrganizationEvidence={
+                        this.props.updateOrganizationEvidence!
+                      }
+                      authorType={this.props.authorType!}
+                      organizations={this.props.organizations!}
+                      organization={this.props.organization}
+                      organizationId={this.props.organizationId}
+                      updateOrganizationId={this.props.updateOrganizationId!}
+                      updateAuthorType={this.props.updateAuthorType!}
                     />
                   ) : null}
                   {this.props.phase === 'catalog' ? <CatalogForm /> : null}

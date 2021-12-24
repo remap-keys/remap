@@ -48,9 +48,13 @@ export interface IFirmware {
   flash_support: boolean;
 }
 
+export type IKeyboardDefinitionAuthorType = 'individual' | 'organization';
+
 export interface IKeyboardDefinitionDocument {
   readonly id: string;
   readonly authorUid: string;
+  readonly authorType: IKeyboardDefinitionAuthorType;
+  readonly organizationId: string | undefined;
   readonly name: string;
   readonly vendorId: number;
   readonly productId: number;
@@ -67,6 +71,7 @@ export interface IKeyboardDefinitionDocument {
   readonly otherPlaceHowToGet: string;
   readonly otherPlaceSourceCodeEvidence: string;
   readonly otherPlacePublisherEvidence: string;
+  readonly organizationEvidence: string;
   readonly contactInformation: string;
   readonly features: IKeyboardFeatures[];
   readonly thumbnailImageUrl: string;
@@ -183,6 +188,33 @@ export interface IFetchFirmwareFileBlobResult extends IResult {
 
 export type IFirmwareCounterType = 'download' | 'flash';
 
+export interface IOrganization {
+  id?: string;
+  name: string;
+  description: string;
+  icon_image_url: string;
+  website_url: string;
+  contact_email_address: string;
+  contact_person_name: string;
+  contact_tel: string;
+  contact_address: string;
+  members: string[];
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface IFetchOrganizationByIdResult extends IResult {
+  organization?: IOrganization;
+}
+
+export interface IFetchOrganizationsByIdsResult extends IResult {
+  organizationMap?: Record<string, IOrganization>;
+}
+
+export interface IFetchMyOrganizationsResult extends IResult {
+  organizationMap?: Record<string, IOrganization>;
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -210,6 +242,9 @@ export interface IStorage {
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
     contactInformation: string,
+    organizationEvidence: string,
+    authorType: IKeyboardDefinitionAuthorType,
+    organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocumentById(
@@ -230,6 +265,9 @@ export interface IStorage {
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
     contactInformation: string,
+    organizationEvidence: string,
+    authorType: IKeyboardDefinitionAuthorType,
+    organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult>;
   updateKeyboardDefinitionJson(
@@ -268,7 +306,7 @@ export interface IStorage {
     additionalDescriptions: IAdditionalDescription[]
   ): Promise<IResult>;
   fetchKeyboardsCreatedBySameAuthor(
-    authorUid: string
+    definitionDocument: IKeyboardDefinitionDocument
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
 
   uploadKeyboardCatalogMainImage(
@@ -309,5 +347,13 @@ export interface IStorage {
     firmwareSourceCodeUrl: string,
     flashSupport: boolean
   ): Promise<IResult>;
+
+  fetchOrganizationById(
+    organizationId: string
+  ): Promise<IFetchOrganizationByIdResult>;
+  fetchOrganizationsByIds(
+    organizationIds: string[]
+  ): Promise<IFetchOrganizationsByIdsResult>;
+  fetchMyOrganizations(): Promise<IFetchMyOrganizationsResult>;
 }
 /* eslint-enable no-unused-vars */

@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     features: state.catalog.search.features,
     searchResult: state.entities.searchResultKeyboardDocuments,
     keyword: state.catalog.search.keyword,
+    organizationMap: state.entities.searchResultOrganizationMap,
   };
 };
 export type CatalogSearchStateType = ReturnType<typeof mapStateToProps>;

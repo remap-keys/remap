@@ -8,7 +8,9 @@ import {
   AppliedKeymapData,
   IAdditionalDescription,
   IFirmware,
+  IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
+  IOrganization,
   IStorage,
   IStore,
   SavedKeymapData,
@@ -195,7 +197,10 @@ export type RootState = {
     sharedKeymaps: SavedKeymapData[];
     appliedKeymaps: AppliedKeymapData[];
     searchResultKeyboardDocuments: IKeyboardDefinitionDocument[];
+    searchResultOrganizationMap: Record<string, IOrganization>;
     sameAuthorKeyboardDocuments: IKeyboardDefinitionDocument[];
+    organization: IOrganization | null;
+    organizationMap: Record<string, IOrganization>;
   };
   app: {
     package: {
@@ -278,6 +283,9 @@ export type RootState = {
       otherPlaceSourceCodeEvidence: string;
       otherPlacePublisherEvidence: string;
       contactInformation: string;
+      authorType: IKeyboardDefinitionAuthorType;
+      organizationId: string | undefined;
+      organizationEvidence: string;
     };
     editdefinition: {
       jsonFilename: string;
@@ -307,6 +315,9 @@ export type RootState = {
       firmwareDescription: string;
       firmwareSourceCodeUrl: string;
       flashSupport: boolean;
+      authorType: IKeyboardDefinitionAuthorType;
+      organizationId: string | undefined;
+      organizationEvidence: string;
     };
   };
   catalog: {
@@ -396,7 +407,10 @@ export const INIT_STATE: RootState = {
     sharedKeymaps: [],
     appliedKeymaps: [],
     searchResultKeyboardDocuments: [],
+    searchResultOrganizationMap: {},
     sameAuthorKeyboardDocuments: [],
+    organization: null,
+    organizationMap: {},
   },
   app: {
     package: {
@@ -476,6 +490,9 @@ export const INIT_STATE: RootState = {
       otherPlaceSourceCodeEvidence: '',
       otherPlacePublisherEvidence: '',
       contactInformation: '',
+      authorType: 'individual',
+      organizationId: undefined,
+      organizationEvidence: '',
     },
     editdefinition: {
       jsonFilename: '',
@@ -505,6 +522,9 @@ export const INIT_STATE: RootState = {
       firmwareDescription: '',
       firmwareSourceCodeUrl: '',
       flashSupport: false,
+      authorType: 'individual',
+      organizationId: undefined,
+      organizationEvidence: '',
     },
   },
   catalog: {

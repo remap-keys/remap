@@ -24,7 +24,9 @@ import {
   TextField,
 } from '@material-ui/core';
 import {
+  IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionStatus,
+  IOrganization,
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
@@ -68,6 +70,12 @@ export default class CreateDefinition extends React.Component<
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
 
+  componentDidMount() {
+    if (this.props.organizations && this.props.organizations.length > 0) {
+      this.props.updateOrganizationId!(this.props.organizations[0].id!);
+    }
+  }
+
   private onLoadFile(
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
@@ -99,12 +107,16 @@ export default class CreateDefinition extends React.Component<
         !!this.props.otherPlaceSourceCodeEvidence &&
         !!this.props.otherPlacePublisherEvidence;
     }
+    const isOrganizationEvidence: boolean =
+      this.props.authorType === 'individual' ||
+      !!this.props.organizationEvidence;
     return (
       !!this.props.productName &&
       !!this.props.keyboardDefinition &&
       !!this.props.contactInformation &&
       this.props.agreement! &&
-      isFilledEvidence
+      isFilledEvidence &&
+      isOrganizationEvidence
     );
   }
 
@@ -249,6 +261,17 @@ export default class CreateDefinition extends React.Component<
                           />
                         </HtmlTooltip>
                       </div>
+                      <div className="create-definition-form-row">
+                        <AuthorTypeForm
+                          authorType={this.props.authorType!}
+                          organizations={this.props.organizations!}
+                          updateAuthorType={this.props.updateAuthorType!}
+                          organizationId={this.props.organizationId}
+                          updateOrganizationId={
+                            this.props.updateOrganizationId!
+                          }
+                        />
+                      </div>
                       <FirmwareCodePlaceForm
                         firmwareCodePlace={this.props.firmwareCodePlace}
                         updateFirmwareCodePlace={
@@ -296,6 +319,14 @@ export default class CreateDefinition extends React.Component<
                           this.props.updateOtherPlacePublisherEvidence!
                         }
                       />
+                      {this.props.authorType === 'organization' ? (
+                        <EvidenceForOrganizationForm
+                          organizationEvidence={this.props.organizationEvidence}
+                          updateOrganizationEvidence={
+                            this.props.updateOrganizationEvidence!
+                          }
+                        />
+                      ) : null}
                       <div className="create-definition-form-row">
                         <AgreementCheckbox
                           agreement={this.props.agreement!}
@@ -564,4 +595,90 @@ function EvidenceForOtherPlaceForm(props: EvidenceForOtherPlaceFormProps) {
   } else {
     return null;
   }
+}
+
+type EvidenceForOrganizationProps = {
+  organizationEvidence: string | undefined;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationEvidence: (organizationEvidence: string) => void;
+};
+
+function EvidenceForOrganizationForm(props: EvidenceForOrganizationProps) {
+  return (
+    <div className="create-definition-form-row">
+      <TextField
+        id="create-definition-organization-evidence"
+        label="Evidence Information for Organization"
+        variant="outlined"
+        multiline
+        rows={4}
+        helperText="Provide information to prove that the organization owns the rights to this keyboard."
+        value={props.organizationEvidence || ''}
+        onChange={(e) => props.updateOrganizationEvidence(e.target.value)}
+      />
+    </div>
+  );
+}
+
+type AuthorTypeFormProps = {
+  authorType: IKeyboardDefinitionAuthorType;
+  organizations: IOrganization[];
+  organizationId: string | undefined;
+  // eslint-disable-next-line no-unused-vars
+  updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => void;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationId: (organizationId: string) => void;
+};
+
+function AuthorTypeForm(props: AuthorTypeFormProps) {
+  return (
+    <React.Fragment>
+      <div className="create-definition-form-row">
+        <FormControl>
+          <InputLabel id="create-definition-author-type">
+            The author type of this keyboard is
+          </InputLabel>
+          <Select
+            labelId="create-definition-author-type"
+            value={props.authorType}
+            onChange={(e) =>
+              props.updateAuthorType(
+                e.target.value as IKeyboardDefinitionAuthorType
+              )
+            }
+          >
+            <MenuItem value="individual">Individual</MenuItem>
+            {props.organizations.length > 0 ? (
+              <MenuItem value="organization">Organization</MenuItem>
+            ) : null}
+          </Select>
+        </FormControl>
+      </div>
+      {props.authorType === 'organization' ? (
+        <div className="create-definition-form-row">
+          <FormControl>
+            <InputLabel id="create-definition-organization-id">
+              Organization
+            </InputLabel>
+            <Select
+              labelId="create-definition-organization-id"
+              value={props.organizationId}
+              onChange={(e) =>
+                props.updateOrganizationId(e.target.value as string)
+              }
+            >
+              {props.organizations.map((organization) => (
+                <MenuItem
+                  value={organization.id}
+                  key={`organization-${organization.id}`}
+                >
+                  {organization.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      ) : null}
+    </React.Fragment>
+  );
 }

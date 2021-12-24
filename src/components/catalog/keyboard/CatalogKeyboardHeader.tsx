@@ -3,6 +3,7 @@ import {
   getGitHubUserDisplayName,
   getGitHubUserName,
   IKeyboardDefinitionDocument,
+  IOrganization,
 } from '../../../services/storage/Storage';
 import {
   Avatar,
@@ -17,10 +18,12 @@ import './CatalogKeyboardHeader.scss';
 
 type CategoryHeaderProps = {
   definitionDocument: IKeyboardDefinitionDocument;
+  organization: IOrganization | null;
 };
 
 export const CatalogKeyboardHeader = ({
   definitionDocument,
+  organization,
 }: CategoryHeaderProps) => {
   const [
     storesMenuAnchorEl,
@@ -35,6 +38,24 @@ export const CatalogKeyboardHeader = ({
     setStoresMenuAnchorEl(null);
   };
 
+  const designerName =
+    !definitionDocument.authorType ||
+    definitionDocument.authorType === 'individual'
+      ? getGitHubUserDisplayName(definitionDocument)
+      : organization!.name;
+  const designerWebsiteUrl =
+    !definitionDocument.authorType ||
+    definitionDocument.authorType === 'individual'
+      ? definitionDocument.githubUrl
+      : organization!.website_url;
+  const designerIconImageUrl =
+    !definitionDocument.authorType ||
+    definitionDocument.authorType === 'individual'
+      ? `https://avatars.githubusercontent.com/${getGitHubUserName(
+          definitionDocument
+        )}`
+      : organization!.icon_image_url;
+
   return (
     <header className="catalog-keyboard-header">
       <div className="catalog-keyboard-header-title">
@@ -42,29 +63,24 @@ export const CatalogKeyboardHeader = ({
         <Typography variant="subtitle1">
           designed by{' '}
           <a
-            href={definitionDocument.githubUrl}
+            href={designerWebsiteUrl}
             target="_blank"
             rel="noreferrer"
-            title="Keyboard Owner GitHub Account"
+            title="Keyboard Owner"
           >
-            {getGitHubUserDisplayName(definitionDocument)}
+            {designerName}
           </a>
         </Typography>
       </div>
       <div className="catalog-keyboard-header-links">
         <div className="catalog-keyboard-header-links-github">
           <a
-            href={definitionDocument.githubUrl}
+            href={designerWebsiteUrl}
             target="_blank"
             rel="noreferrer"
-            title="Keyboard Owner GitHub Account"
+            title="Keyboard Owner"
           >
-            <Avatar
-              alt={getGitHubUserDisplayName(definitionDocument)}
-              src={`https://avatars.githubusercontent.com/${getGitHubUserName(
-                definitionDocument
-              )}`}
-            />
+            <Avatar alt={designerName} src={designerIconImageUrl} />
           </a>
         </div>
         {definitionDocument.stores.length > 0 ? (

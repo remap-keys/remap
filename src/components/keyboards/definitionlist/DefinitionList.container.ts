@@ -5,6 +5,7 @@ import {
   KeyboardsAppActions,
   KeyboardsCreateDefinitionActions,
 } from '../../../actions/keyboards.actions';
+import { storageActionsThunk } from '../../../actions/storage.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -17,6 +18,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     createKeyboard: () => {
       _dispatch(KeyboardsCreateDefinitionActions.clear());
+      _dispatch(storageActionsThunk.fetchMyOrganizations());
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.create));
     },
   };

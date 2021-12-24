@@ -11,6 +11,7 @@ import {
 } from '../../../actions/keyboards.actions';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { storageActionsThunk } from '../../../actions/storage.action';
+import { IKeyboardDefinitionAuthorType } from '../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -30,6 +31,10 @@ const mapStateToProps = (state: RootState) => {
     qmkRepositoryFirstPullRequestUrl:
       state.keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
     contactInformation: state.keyboards.createdefinition.contactInformation,
+    organizations: Object.values(state.entities.organizationMap),
+    authorType: state.keyboards.createdefinition.authorType,
+    organizationId: state.keyboards.createdefinition.organizationId,
+    organizationEvidence: state.keyboards.createdefinition.organizationEvidence,
   };
 };
 export type CreateKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -131,6 +136,21 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateContactInformation(
           contactInformation
+        )
+      );
+    },
+    updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {
+      _dispatch(KeyboardsCreateDefinitionActions.updateAuthorType(authorType));
+    },
+    updateOrganizationId: (organizationId: string) => {
+      _dispatch(
+        KeyboardsCreateDefinitionActions.updateOrganizationId(organizationId)
+      );
+    },
+    updateOrganizationEvidence: (organizationEvidence: string) => {
+      _dispatch(
+        KeyboardsCreateDefinitionActions.updateOrganizationEvidence(
+          organizationEvidence
         )
       );
     },

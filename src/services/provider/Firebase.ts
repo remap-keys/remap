@@ -24,6 +24,11 @@ import {
   IFirmware,
   IFetchFirmwareFileBlobResult,
   IFirmwareCounterType,
+  IFetchOrganizationByIdResult,
+  IOrganization,
+  IFetchOrganizationsByIdsResult,
+  IFetchMyOrganizationsResult,
+  IKeyboardDefinitionAuthorType,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -93,6 +98,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       productId: documentSnapshot.data()!.product_id,
       productName: documentSnapshot.data()!.product_name,
       authorUid: documentSnapshot.data()!.author_uid,
+      authorType: documentSnapshot.data()!.author_type || 'individual',
+      organizationId: documentSnapshot.data()!.organization_id,
       status: documentSnapshot.data()!.status,
       json: documentSnapshot.data()!.json,
       rejectReason: documentSnapshot.data()!.reject_reason,
@@ -109,6 +116,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .other_place_source_code_evidence,
       otherPlacePublisherEvidence: documentSnapshot.data()!
         .other_place_publisher_evidence,
+      organizationEvidence: documentSnapshot.data()!.organization_evidence,
       contactInformation: documentSnapshot.data()!.contact_information,
       features: documentSnapshot.data()!.features || [],
       thumbnailImageUrl: documentSnapshot.data()!.thumbnail_image_url,
@@ -133,20 +141,17 @@ export class FirebaseProvider implements IStorage, IAuth {
     definitionId: string
   ): Promise<IFetchKeyboardDefinitionDocumentResult> {
     try {
-      const queryDocumentSnapshot = await this.db
+      const documentSnapshot = await this.db
         .collection('keyboards')
         .doc('v2')
         .collection('definitions')
-        .where('author_uid', '==', this.auth.currentUser!.uid)
+        .doc(definitionId)
         .get();
-      const result = queryDocumentSnapshot.docs.find(
-        (value) => value.id === definitionId
-      );
-      if (result) {
+      if (documentSnapshot.exists) {
         return {
           success: true,
           exists: true,
-          document: this.generateKeyboardDefinitionDocument(result),
+          document: this.generateKeyboardDefinitionDocument(documentSnapshot),
         };
       } else {
         return {
@@ -166,17 +171,40 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
     try {
-      const querySnapshot = await this.db
+      const definitionMap: Record<string, IKeyboardDefinitionDocument> = {};
+      const fetchMyDefinitionDocumentResult = await this.db
         .collection('keyboards')
         .doc('v2')
         .collection('definitions')
+        .where('author_type', '==', 'individual')
         .where('author_uid', '==', this.auth.currentUser!.uid)
-        .orderBy('updated_at', 'desc')
         .get();
+      fetchMyDefinitionDocumentResult.forEach((doc) => {
+        definitionMap[doc.id] = this.generateKeyboardDefinitionDocument(doc);
+      });
+      const fetchMyOrganizationsResult = await this.db
+        .collection('organizations')
+        .doc('v1')
+        .collection('profiles')
+        .where('members', 'array-contains', this.auth.currentUser!.uid)
+        .get();
+      for (const doc of fetchMyOrganizationsResult.docs) {
+        // FIXME Create a new index to use organization_id
+        const fetchDefinitionDocumentByOrganizationIdResult = await this.db
+          .collection('keyboards')
+          .doc('v2')
+          .collection('definitions')
+          .where('author_type', '==', 'organization')
+          .where('organization_id', '==', doc.id)
+          .get();
+        fetchDefinitionDocumentByOrganizationIdResult.forEach((doc) => {
+          definitionMap[doc.id] = this.generateKeyboardDefinitionDocument(doc);
+        });
+      }
       return {
         success: true,
-        documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
-          this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
+        documents: Object.values(definitionMap).sort(
+          (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()
         ),
       };
     } catch (error) {
@@ -280,32 +308,41 @@ export class FirebaseProvider implements IStorage, IAuth {
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
     contactInformation: string,
+    organizationEvidence: string,
+    authorType: IKeyboardDefinitionAuthorType,
+    organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
   ): Promise<IResult> {
     try {
       const now = new Date();
+      const data: any = {
+        updated_at: now,
+        json: jsonStr,
+        name,
+        product_id: productId,
+        vendor_id: vendorId,
+        product_name: productName,
+        firmware_code_place: firmwareCodePlace,
+        qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
+        forked_repository_url: forkedRepositoryUrl,
+        forked_repository_evidence: forkedRepositoryEvidence,
+        other_place_how_to_get: otherPlaceHowToGet,
+        other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
+        other_place_publisher_evidence: otherPlacePublisherEvidence,
+        contact_information: contactInformation,
+        author_type: authorType,
+        organization_evidence: organizationEvidence,
+        status,
+      };
+      if (authorType === 'organization') {
+        data.organization_id = organizationId;
+      }
       await this.db
         .collection('keyboards')
         .doc('v2')
         .collection('definitions')
         .doc(definitionId)
-        .update({
-          updated_at: now,
-          json: jsonStr,
-          name,
-          product_id: productId,
-          vendor_id: vendorId,
-          product_name: productName,
-          firmware_code_place: firmwareCodePlace,
-          qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
-          forked_repository_url: forkedRepositoryUrl,
-          forked_repository_evidence: forkedRepositoryEvidence,
-          other_place_how_to_get: otherPlaceHowToGet,
-          other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
-          other_place_publisher_evidence: otherPlacePublisherEvidence,
-          contact_information: contactInformation,
-          status,
-        });
+        .update(data);
       return {
         success: true,
       };
@@ -374,35 +411,44 @@ export class FirebaseProvider implements IStorage, IAuth {
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
     contactInformation: string,
+    organizationEvidence: string,
+    authorType: IKeyboardDefinitionAuthorType,
+    organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
   ): Promise<ICreateKeyboardDefinitionDocumentResult> {
     try {
       const now = new Date();
+      const data: any = {
+        author_uid: authorUid,
+        created_at: now,
+        updated_at: now,
+        json: jsonStr,
+        name,
+        product_id: productId,
+        vendor_id: vendorId,
+        product_name: productName,
+        status,
+        github_display_name: githubDisplayName,
+        github_url: githubUrl,
+        firmware_code_place: firmwareCodePlace,
+        qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
+        forked_repository_url: forkedRepositoryUrl,
+        forked_repository_evidence: forkedRepositoryEvidence,
+        other_place_how_to_get: otherPlaceHowToGet,
+        other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
+        other_place_publisher_evidence: otherPlacePublisherEvidence,
+        contact_information: contactInformation,
+        organization_evidence: organizationEvidence,
+        author_type: authorType,
+      };
+      if (authorType === 'organization') {
+        data.organization_id = organizationId;
+      }
       const definitionDocumentReference = await this.db
         .collection('keyboards')
         .doc('v2')
         .collection('definitions')
-        .add({
-          author_uid: authorUid,
-          created_at: now,
-          updated_at: now,
-          json: jsonStr,
-          name,
-          product_id: productId,
-          vendor_id: vendorId,
-          product_name: productName,
-          status,
-          github_display_name: githubDisplayName,
-          github_url: githubUrl,
-          firmware_code_place: firmwareCodePlace,
-          qmk_repository_first_pull_request_url: qmkRepositoryFirstPullRequestUrl,
-          forked_repository_url: forkedRepositoryUrl,
-          forked_repository_evidence: forkedRepositoryEvidence,
-          other_place_how_to_get: otherPlaceHowToGet,
-          other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
-          other_place_publisher_evidence: otherPlacePublisherEvidence,
-          contact_information: contactInformation,
-        });
+        .add(data);
       await definitionDocumentReference.collection('secure').doc('github').set({
         github_display_name: githubDisplayName,
         github_email: githubEmail,
@@ -956,22 +1002,40 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async fetchKeyboardsCreatedBySameAuthor(
-    authorUid: string
+    definitionDocument: IKeyboardDefinitionDocument
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
     try {
-      const querySnapshot = await this.db
-        .collection('keyboards')
-        .doc('v2')
-        .collection('definitions')
-        .where('status', '==', 'approved')
-        .where('author_uid', '==', authorUid)
-        .get();
-      return {
-        success: true,
-        documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
-          this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
-        ),
-      };
+      if (definitionDocument.authorType === 'individual') {
+        const querySnapshot = await this.db
+          .collection('keyboards')
+          .doc('v2')
+          .collection('definitions')
+          .where('status', '==', 'approved')
+          .where('author_type', '==', 'individual')
+          .where('author_uid', '==', definitionDocument.authorUid)
+          .get();
+        return {
+          success: true,
+          documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
+            this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
+          ),
+        };
+      } else {
+        const querySnapshot = await this.db
+          .collection('keyboards')
+          .doc('v2')
+          .collection('definitions')
+          .where('status', '==', 'approved')
+          .where('author_type', '==', 'organization')
+          .where('organization_id', '==', definitionDocument.organizationId)
+          .get();
+        return {
+          success: true,
+          documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
+            this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
+          ),
+        };
+      }
     } catch (error) {
       console.error(error);
       return {
@@ -1340,6 +1404,83 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: `The target keyboard definition document [${definitionId}} not found.`,
+      };
+    }
+  }
+
+  async fetchOrganizationById(
+    organizationId: string
+  ): Promise<IFetchOrganizationByIdResult> {
+    const documentSnapshot = await this.db
+      .collection('organizations')
+      .doc('v1')
+      .collection('profiles')
+      .doc(organizationId)
+      .get();
+    if (documentSnapshot.exists) {
+      return {
+        success: true,
+        organization: {
+          id: documentSnapshot.id,
+          ...documentSnapshot.data(),
+        } as IOrganization,
+      };
+    } else {
+      return {
+        success: false,
+        error: `The target organization document [${organizationId}] not found.`,
+      };
+    }
+  }
+
+  async fetchOrganizationsByIds(
+    organizationIds: string[]
+  ): Promise<IFetchOrganizationsByIdsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('organizations')
+        .doc('v1')
+        .collection('profiles')
+        .where(firebase.firestore.FieldPath.documentId(), 'in', organizationIds)
+        .get();
+      return {
+        success: true,
+        organizationMap: querySnapshot.docs.reduce((result, doc) => {
+          result[doc.id] = { id: doc.id, ...doc.data() } as IOrganization;
+          return result;
+        }, {} as Record<string, IOrganization>),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching organizations failed',
+        cause: error,
+      };
+    }
+  }
+
+  async fetchMyOrganizations(): Promise<IFetchMyOrganizationsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('organizations')
+        .doc('v1')
+        .collection('profiles')
+        .where('members', 'array-contains', this.auth.currentUser!.uid)
+        .get();
+      return {
+        success: true,
+        organizationMap: querySnapshot.docs.reduce((result, doc) => {
+          result[doc.id] = { id: doc.id, ...doc.data() } as IOrganization;
+          return result;
+        }, {} as Record<string, IOrganization>),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching my organizations failed',
+        cause: error,
       };
     }
   }

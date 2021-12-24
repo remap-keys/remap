@@ -18,6 +18,7 @@ import {
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
   IKeyboardDefinitionDocument,
+  IOrganization,
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
@@ -138,6 +139,7 @@ export default class InfoDialog extends React.Component<
                   ? this.props.auth.getCurrentAuthenticatedUser()
                   : undefined
               }
+              organization={this.props.organization}
             />
           </Grid>
         </DialogContent>
@@ -151,10 +153,21 @@ type IKeyboardDefinitionSectionProps = {
   keyboardDefinition: KeyboardDefinitionSchema | null | undefined;
   googleFormUrl: string;
   authenticatedUser: firebase.User | undefined;
+  organization: IOrganization | null | undefined;
 };
 
 function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
   if (props.keyboardDefinition) {
+    const designerName =
+      !props.keyboardDefinitionDocument?.authorType ||
+      props.keyboardDefinitionDocument.authorType === 'individual'
+        ? props.keyboardDefinitionDocument?.githubDisplayName
+        : props.organization?.name;
+    const designerWebsite =
+      !props.keyboardDefinitionDocument?.authorType ||
+      props.keyboardDefinitionDocument.authorType === 'individual'
+        ? props.keyboardDefinitionDocument?.githubUrl
+        : props.organization?.website_url;
     return (
       <React.Fragment>
         <Grid item xs={12} className="option-info-label">
@@ -175,12 +188,8 @@ function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
             <InfoRow
               label="Registered by"
               value={
-                <a
-                  href={props.keyboardDefinitionDocument.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {props.keyboardDefinitionDocument.githubDisplayName}
+                <a href={designerWebsite} target="_blank" rel="noreferrer">
+                  {designerName}
                 </a>
               }
             />

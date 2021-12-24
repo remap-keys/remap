@@ -10,7 +10,7 @@ service cloud.firestore {
             allow read: if isIndividualAuthor(request.auth.uid, resource)
                         || (resource.data.status == 'approved')
                         || isOrganizationAuthor(request.auth.uid, resource);
-            allow create: if isAuthor(request.auth.uid, resource)
+            allow create: if isAuthor(request.auth.uid, request.resource)
                              && (request.resource.data.status in ['draft', 'in_review']);
             allow delete: if isAuthor(request.auth.uid, resource);
             allow update: if (
@@ -46,12 +46,12 @@ service cloud.firestore {
             }
 
             function getOrganization(organizationID) {
-                return get(/databases/$(database)/documents/organizations/v1/$(organizationID));
+                return get(/databases/$(database)/documents/organizations/v1/profiles/$(organizationID));
             }
 
             function isIndividualAuthor(requestAuthUid, resourceDefinition) {
                 return
-                    (resourceDefinition.data.author_type == 'individual')
+                    (isUndefined(resourceDefinition.data, 'author_type') || resourceDefinition.data.author_type == 'individual')
                     &&
                     (requestAuthUid == resourceDefinition.data.author_uid);
             }
@@ -91,7 +91,7 @@ service cloud.firestore {
             allow delete: if (request.auth.uid == resource.data.applied_uid);
         }
 
-        match /organizations/v1/{organizationId} {
+        match /organizations/v1/profiles/{organizationId} {
             allow create: if false;
             allow delete: if false;
             allow update: if isAuthenticated()
@@ -102,6 +102,10 @@ service cloud.firestore {
 
         function isAuthenticated() {
             return request.auth.uid != null;
+        }
+
+        function isUndefined(data, field) {
+            return !data.keys().hasAll([field]);
         }
     }
 }

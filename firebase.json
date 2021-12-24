@@ -19,10 +19,16 @@
     ]
   },
   "firestore": {
-    "rules": "firestore.rules"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "emulators": {
+    "ui": {
+      "host": "0.0.0.0",
+      "port": "4000"
+    },
     "firestore": {
+      "host": "0.0.0.0",
       "port": "8080"
     }
   }
