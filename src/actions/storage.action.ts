@@ -969,29 +969,31 @@ export const storageActionsThunk = {
           }
           return result;
         }, [] as string[]);
-      const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
-        organizationIds
-      );
-      if (fetchOrganizationsByIdsResult.success) {
-        dispatch(
-          StorageActions.updateSearchResultKeyboardDefinitionDocument(
-            filteredDocs
-          )
+      if (organizationIds.length > 0) {
+        const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
+          organizationIds
         );
-        dispatch(
-          StorageActions.updateSearchResultOrganizationMap(
-            fetchOrganizationsByIdsResult.organizationMap!
-          )
-        );
-      } else {
-        console.error(fetchOrganizationsByIdsResult.cause!);
-        dispatch(
-          NotificationActions.addError(
-            fetchOrganizationsByIdsResult.error!,
-            fetchOrganizationsByIdsResult.cause
-          )
-        );
+        if (fetchOrganizationsByIdsResult.success) {
+          dispatch(
+            StorageActions.updateSearchResultOrganizationMap(
+              fetchOrganizationsByIdsResult.organizationMap!
+            )
+          );
+        } else {
+          console.error(fetchOrganizationsByIdsResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationsByIdsResult.error!,
+              fetchOrganizationsByIdsResult.cause
+            )
+          );
+        }
       }
+      dispatch(
+        StorageActions.updateSearchResultKeyboardDefinitionDocument(
+          filteredDocs
+        )
+      );
     } else {
       console.error(searchKeyboardsByFeaturesResult.cause!);
       dispatch(
