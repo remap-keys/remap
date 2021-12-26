@@ -86,6 +86,7 @@ type DefinitionFormProps = {
   updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => void;
   // eslint-disable-next-line no-unused-vars
   updateOrganizationId: (organizationId: string) => void;
+  handleBackToDraftButtonClick: () => void;
 };
 
 export default function DefinitionForm(props: DefinitionFormProps) {
@@ -213,6 +214,10 @@ export default function DefinitionForm(props: DefinitionFormProps) {
               props.handleSubmitForReviewButtonClick
             }
             isFilledInAllFieldAndAgreed={props.isFilledInAllFieldAndAgreed}
+          />
+          <BackToDraftButton
+            definitionDocument={props.definitionDocument!}
+            handleBackToDraftButtonClick={props.handleBackToDraftButtonClick}
           />
           <UpdateJsonButton
             definitionDocument={props.definitionDocument!}
@@ -938,6 +943,23 @@ function SubmitForReviewButton(props: SubmitForReviewButtonProps) {
         disabled={!props.isFilledInAllFieldAndAgreed()}
       >
         Submit for Review
+      </Button>
+    );
+  } else {
+    return null;
+  }
+}
+
+type BackToDraftButtonProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  handleBackToDraftButtonClick: () => void;
+};
+
+function BackToDraftButton(props: BackToDraftButtonProps) {
+  if (props.definitionDocument.status === KeyboardDefinitionStatus.approved) {
+    return (
+      <Button color="primary" onClick={props.handleBackToDraftButtonClick}>
+        Back to Draft
       </Button>
     );
   } else {

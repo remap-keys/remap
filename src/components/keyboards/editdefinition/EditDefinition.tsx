@@ -45,7 +45,8 @@ type ConfirmDialogMode =
   | 'save_as_draft'
   | 'submit_for_review'
   | 'delete'
-  | 'upload_json';
+  | 'upload_json'
+  | 'back_to_draft';
 
 type EditKeyboardState = {
   openConfirmDialog: boolean;
@@ -153,6 +154,13 @@ export default class EditDefinition extends React.Component<
     });
   };
 
+  handleBackToDraftButtonClick = () => {
+    this.setState({
+      openConfirmDialog: true,
+      confirmDialogMode: 'back_to_draft',
+    });
+  };
+
   handleUpdateJsonFileButtonClick = () => {
     this.setState({
       openConfirmDialog: true,
@@ -172,6 +180,8 @@ export default class EditDefinition extends React.Component<
       this.props.submitForReview!();
     } else if (this.state.confirmDialogMode === 'delete') {
       this.props.delete!();
+    } else if (this.state.confirmDialogMode === 'back_to_draft') {
+      this.props.saveAsDraft!();
     }
   };
 
@@ -389,6 +399,9 @@ export default class EditDefinition extends React.Component<
                       organizationId={this.props.organizationId}
                       updateOrganizationId={this.props.updateOrganizationId!}
                       updateAuthorType={this.props.updateAuthorType!}
+                      handleBackToDraftButtonClick={this.handleBackToDraftButtonClick.bind(
+                        this
+                      )}
                     />
                   ) : null}
                   {this.props.phase === 'catalog' ? <CatalogForm /> : null}
@@ -410,7 +423,8 @@ export default class EditDefinition extends React.Component<
             <DialogContentText
               id="alert-dialog-description"
               color={
-                this.state.confirmDialogMode === 'delete'
+                this.state.confirmDialogMode === 'delete' ||
+                this.state.confirmDialogMode === 'back_to_draft'
                   ? 'secondary'
                   : 'initial'
               }
@@ -423,7 +437,9 @@ export default class EditDefinition extends React.Component<
                 ? 'Are you sure to register and submit this new keyboard for review?'
                 : this.state.confirmDialogMode === 'delete'
                 ? 'Are you sure to delete?'
-                : ''}
+                : this.state.confirmDialogMode === 'back_to_draft'
+                ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
+                : `Unknown confirmDialogMode: ${this.state.confirmDialogMode}`}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
