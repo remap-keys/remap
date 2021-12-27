@@ -8,7 +8,9 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import {
+  IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
+  IOrganization,
   KeyboardDefinitionStatus,
 } from '../../../../services/storage/Storage';
 import { KeyboardDefinitionFormPart } from '../../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
@@ -73,6 +75,18 @@ type DefinitionFormProps = {
   contactInformation?: string;
   // eslint-disable-next-line no-unused-vars
   updateContactInformation: (contactInformation: string) => void;
+  authorType: IKeyboardDefinitionAuthorType;
+  organizationEvidence?: string;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationEvidence: (organizationEvidence: string) => void;
+  organizations: IOrganization[];
+  organization?: IOrganization | null;
+  organizationId?: string;
+  // eslint-disable-next-line no-unused-vars
+  updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => void;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationId: (organizationId: string) => void;
+  handleBackToDraftButtonClick: () => void;
 };
 
 export default function DefinitionForm(props: DefinitionFormProps) {
@@ -126,6 +140,15 @@ export default function DefinitionForm(props: DefinitionFormProps) {
           refInputProductName={props.refInputProductName}
           updateProductName={props.updateProductName}
         />
+        <AuthorTypeForm
+          definitionDocument={props.definitionDocument!}
+          authorType={props.authorType}
+          organizations={props.organizations}
+          organizationId={props.organizationId}
+          updateAuthorType={props.updateAuthorType}
+          updateOrganizationId={props.updateOrganizationId}
+          organization={props.organization}
+        />
         <FirmwareCodePlaceField
           definitionDocument={props.definitionDocument!}
           firmwareCodePlace={props.firmwareCodePlace}
@@ -163,6 +186,12 @@ export default function DefinitionForm(props: DefinitionFormProps) {
             props.updateOtherPlacePublisherEvidence
           }
         />
+        <EvidenceForOrganization
+          definitionDocument={props.definitionDocument!}
+          authorType={props.authorType}
+          organizationEvidence={props.organizationEvidence}
+          updateOrganizationEvidence={props.updateOrganizationEvidence}
+        />
         <AgreementRow
           definitionDocument={props.definitionDocument!}
           agreement={props.agreement!}
@@ -185,6 +214,10 @@ export default function DefinitionForm(props: DefinitionFormProps) {
               props.handleSubmitForReviewButtonClick
             }
             isFilledInAllFieldAndAgreed={props.isFilledInAllFieldAndAgreed}
+          />
+          <BackToDraftButton
+            definitionDocument={props.definitionDocument!}
+            handleBackToDraftButtonClick={props.handleBackToDraftButtonClick}
           />
           <UpdateJsonButton
             definitionDocument={props.definitionDocument!}
@@ -689,6 +722,157 @@ function EvidenceForOtherPlace(props: EvidenceForOtherPlaceProps) {
   }
 }
 
+type EvidenceForOrganizationProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  authorType: IKeyboardDefinitionAuthorType;
+  organizationEvidence?: string;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationEvidence: (organizationEvidence: string) => void;
+};
+
+function EvidenceForOrganization(props: EvidenceForOrganizationProps) {
+  if (props.authorType === 'organization') {
+    if (
+      props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
+      props.definitionDocument.status === KeyboardDefinitionStatus.rejected
+    ) {
+      return (
+        <div className="edit-definition-form-row">
+          <TextField
+            id="edit-definition-organization-evidence"
+            label="Evidence Information for Organization"
+            variant="outlined"
+            multiline
+            rows={4}
+            helperText="Provide information to prove that the organization owns the rights to this keyboard."
+            value={props.organizationEvidence || ''}
+            onChange={(e) => props.updateOrganizationEvidence(e.target.value)}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="edit-definition-form-row">
+          <TextField
+            id="edit-definition-organization-evidence"
+            label="Evidence Information for Organization"
+            variant="outlined"
+            multiline
+            rows={4}
+            value={props.organizationEvidence || ''}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+      );
+    }
+  } else {
+    return null;
+  }
+}
+
+type AuthorTypeFormProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  authorType: IKeyboardDefinitionAuthorType;
+  organizations: IOrganization[];
+  organizationId: string | undefined;
+  // eslint-disable-next-line no-unused-vars
+  updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => void;
+  // eslint-disable-next-line no-unused-vars
+  updateOrganizationId: (organizationId: string) => void;
+  organization?: IOrganization | null;
+};
+
+function AuthorTypeForm(props: AuthorTypeFormProps) {
+  if (
+    props.definitionDocument.status === KeyboardDefinitionStatus.draft ||
+    props.definitionDocument.status === KeyboardDefinitionStatus.rejected
+  ) {
+    return (
+      <React.Fragment>
+        <div className="create-definition-form-row">
+          <FormControl>
+            <InputLabel id="create-definition-author-type">
+              The author type of this keyboard is
+            </InputLabel>
+            <Select
+              labelId="create-definition-author-type"
+              value={props.authorType}
+              onChange={(e) =>
+                props.updateAuthorType(
+                  e.target.value as IKeyboardDefinitionAuthorType
+                )
+              }
+            >
+              <MenuItem value="individual">Individual</MenuItem>
+              {props.organizations.length > 0 ? (
+                <MenuItem value="organization">Organization</MenuItem>
+              ) : null}
+            </Select>
+          </FormControl>
+        </div>
+        {props.authorType === 'organization' ? (
+          <div className="create-definition-form-row">
+            <FormControl>
+              <InputLabel id="create-definition-organization-id">
+                Organization
+              </InputLabel>
+              <Select
+                labelId="create-definition-organization-id"
+                value={props.organizationId}
+                onChange={(e) =>
+                  props.updateOrganizationId(e.target.value as string)
+                }
+              >
+                {props.organizations.map((organization) => (
+                  <MenuItem
+                    value={organization.id}
+                    key={`organization-${organization.id}`}
+                  >
+                    {organization.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        ) : null}
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <div className="create-definition-form-row">
+          <TextField
+            id="edit-definition-author-type"
+            label="The author type of this keyboard is"
+            variant="outlined"
+            value={
+              props.authorType === 'individual' ? 'Individual' : 'Organization'
+            }
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </div>
+        {props.authorType === 'organization' ? (
+          <div className="create-definition-form-row">
+            <TextField
+              id="edit-definition-organization-id"
+              label="Organization"
+              variant="outlined"
+              value={props.organization!.name}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+        ) : null}
+      </React.Fragment>
+    );
+  }
+}
+
 type AgreementRowProps = {
   definitionDocument: IKeyboardDefinitionDocument;
   agreement: boolean;
@@ -759,6 +943,23 @@ function SubmitForReviewButton(props: SubmitForReviewButtonProps) {
         disabled={!props.isFilledInAllFieldAndAgreed()}
       >
         Submit for Review
+      </Button>
+    );
+  } else {
+    return null;
+  }
+}
+
+type BackToDraftButtonProps = {
+  definitionDocument: IKeyboardDefinitionDocument;
+  handleBackToDraftButtonClick: () => void;
+};
+
+function BackToDraftButton(props: BackToDraftButtonProps) {
+  if (props.definitionDocument.status === KeyboardDefinitionStatus.approved) {
+    return (
+      <Button color="primary" onClick={props.handleBackToDraftButtonClick}>
+        Back to Draft
       </Button>
     );
   } else {

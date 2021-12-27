@@ -7,7 +7,10 @@ import { ICatalogPhase } from '../../../store/state';
 import CatalogSearch from '../search/CatalogSearch.container';
 import CatalogKeyboard from '../keyboard/CatalogKeyboard.container';
 import { CatalogKeyboardHeader } from '../keyboard/CatalogKeyboardHeader';
-import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import {
+  IKeyboardDefinitionDocument,
+  IOrganization,
+} from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import TweetButton from '../../common/twitter/TweetButton';
 import { useHistory } from 'react-router-dom';
@@ -49,6 +52,7 @@ export default class Content extends React.Component<
             goToIntroduction={this.props.goToIntroduction!.bind(this)}
             goToKeymap={this.props.goToKeymap!.bind(this)}
             goToFirmware={this.props.goToFirmware!.bind(this)}
+            organization={this.props.organization!}
           />
         );
       default:
@@ -74,6 +78,7 @@ type CategoryKeyboardContentProps = {
   goToIntroduction: () => void;
   goToKeymap: () => void;
   goToFirmware: () => void;
+  organization: IOrganization | null;
 };
 
 const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
@@ -82,6 +87,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   goToIntroduction,
   goToKeymap,
   goToFirmware,
+  organization,
 }) => {
   const history = useHistory();
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
@@ -122,7 +128,10 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
     return (
       <>
         <div className="catalog-content">
-          <CatalogKeyboardHeader definitionDocument={definitionDocument!} />
+          <CatalogKeyboardHeader
+            definitionDocument={definitionDocument!}
+            organization={organization}
+          />
           <div className="catalog-content-nav">
             <Tabs value={value} indicatorColor="primary" onChange={onChangeTab}>
               <Tab label="Overview" />

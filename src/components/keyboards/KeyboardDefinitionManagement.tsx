@@ -72,10 +72,11 @@ class KeyboardDefinitionManagement extends React.Component<
         if (getGitHubProviderData(user).exists) {
           this.props.startInitializing!();
           this.updateNotifications();
-          this.props.updateKeyboards!();
           const definitionId = this.props.match.params.definitionId;
           if (definitionId) {
             this.props.updateKeyboard!(definitionId);
+          } else {
+            this.props.updateKeyboards!();
           }
         } else {
           this.props.auth!.linkToGitHub().then(() => {

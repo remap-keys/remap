@@ -65,9 +65,12 @@ import {
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
+  STORAGE_UPDATE_ORGANIZATION,
+  STORAGE_UPDATE_ORGANIZATION_MAP,
   STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS,
   STORAGE_UPDATE_SAVED_KEYMAPS,
   STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT,
+  STORAGE_UPDATE_SEARCH_RESULT_ORGANIZATION_MAP,
   STORAGE_UPDATE_SHARED_KEYMAPS,
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
@@ -133,6 +136,12 @@ import {
   KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_AUTHOR_TYPE,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_ID,
+  KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -272,6 +281,11 @@ const keyboardsEditKeyboardReducer = (
         action.value.otherPlacePublisherEvidence;
       draft.keyboards.editdefinition.contactInformation =
         action.value.contactInformation;
+      draft.keyboards.editdefinition.organizationEvidence =
+        action.value.organizationEvidence;
+      draft.keyboards.editdefinition.organizationId =
+        action.value.organizationId;
+      draft.keyboards.editdefinition.authorType = action.value.authorType;
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT:
       draft.keyboards.editdefinition.agreement = action.value;
@@ -378,6 +392,15 @@ const keyboardsEditKeyboardReducer = (
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT:
       draft.keyboards.editdefinition.flashSupport = action.value;
       break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE:
+      draft.keyboards.editdefinition.organizationEvidence = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID:
+      draft.keyboards.editdefinition.organizationId = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE:
+      draft.keyboards.editdefinition.authorType = action.value;
+      break;
   }
 };
 
@@ -399,6 +422,7 @@ const keyboardsCreateKeyboardReducer = (
       draft.keyboards.createdefinition.otherPlaceHowToGet = '';
       draft.keyboards.createdefinition.otherPlaceSourceCodeEvidence = '';
       draft.keyboards.createdefinition.otherPlacePublisherEvidence = '';
+      draft.keyboards.createdefinition.authorType = 'individual';
       break;
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_JSON_FILENAME:
       draft.keyboards.createdefinition.jsonFilename = action.value;
@@ -441,6 +465,15 @@ const keyboardsCreateKeyboardReducer = (
       break;
     case KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION:
       draft.keyboards.createdefinition.contactInformation = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_AUTHOR_TYPE:
+      draft.keyboards.createdefinition.authorType = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_ID:
+      draft.keyboards.createdefinition.organizationId = action.value;
+      break;
+    case KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE:
+      draft.keyboards.createdefinition.organizationEvidence = action.value;
       break;
   }
 };
@@ -489,6 +522,18 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS: {
       draft.entities.sameAuthorKeyboardDocuments = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_SEARCH_RESULT_ORGANIZATION_MAP: {
+      draft.entities.searchResultOrganizationMap = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_ORGANIZATION: {
+      draft.entities.organization = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_ORGANIZATION_MAP: {
+      draft.entities.organizationMap = action.value;
       break;
     }
   }

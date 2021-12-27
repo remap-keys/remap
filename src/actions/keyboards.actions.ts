@@ -9,6 +9,7 @@ import {
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IAdditionalDescription,
+  IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
   IStore,
 } from '../services/storage/Storage';
@@ -40,6 +41,9 @@ export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_PUBLISHER_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/OtherPlacePublisherEvidence`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/QmkRepositoryFirstPullRequestUrl`;
 export const KEYBOARDS_CREATE_DEFINITION_UPDATE_CONTACT_INFORMATION = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/ContactInformation`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateAuthorType`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateOrganizationId`;
+export const KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE = `${KEYBOARDS_CREATE_DEFINITION_ACTIONS}/UpdateOrganizationEvidence`;
 export const KeyboardsCreateDefinitionActions = {
   clear: () => {
     return {
@@ -128,6 +132,24 @@ export const KeyboardsCreateDefinitionActions = {
       value: contactInformation,
     };
   },
+  updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_AUTHOR_TYPE,
+      value: authorType,
+    };
+  },
+  updateOrganizationId: (organizationId: string) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_ID,
+      value: organizationId,
+    };
+  },
+  updateOrganizationEvidence: (organizationEvidence: string) => {
+    return {
+      type: KEYBOARDS_CREATE_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE,
+      value: organizationEvidence,
+    };
+  },
 };
 
 export const KEYBOARDS_EDIT_DEFINITION_ACTIONS = '@FIXME!EditDefinition'; // FIXME!
@@ -164,6 +186,9 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION = `${KEYBOARD
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareSourceCodeUrl`;
 export const KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/ClearFirmwareForm`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFlashSupport`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationEvidence`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationId`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAuthorType`;
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -371,6 +396,24 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT,
       value: flashSupport,
+    };
+  },
+  updateOrganizationEvidence: (organizationEvidence: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE,
+      value: organizationEvidence,
+    };
+  },
+  updateOrganizationId: (organizationId: string) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID,
+      value: organizationId,
+    };
+  },
+  updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
+      value: authorType,
     };
   },
 };

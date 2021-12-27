@@ -10,6 +10,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     phase: state.catalog.app.phase,
+    organization: state.entities.organization,
   };
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;

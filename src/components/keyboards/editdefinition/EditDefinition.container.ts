@@ -12,6 +12,7 @@ import {
 } from '../../../actions/keyboards.actions';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { storageActionsThunk } from '../../../actions/storage.action';
+import { IKeyboardDefinitionAuthorType } from '../../../services/storage/Storage';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -34,6 +35,11 @@ const mapStateToProps = (state: RootState) => {
       state.keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
     phase: state.keyboards.app.phase,
     contactInformation: state.keyboards.editdefinition.contactInformation,
+    organizationEvidence: state.keyboards.editdefinition.organizationEvidence,
+    organizationId: state.keyboards.editdefinition.organizationId,
+    authorType: state.keyboards.editdefinition.authorType,
+    organizations: Object.values(state.entities.organizationMap),
+    organization: state.entities.organization,
   };
 };
 export type EditKeyboardStateType = ReturnType<typeof mapStateToProps>;
@@ -146,6 +152,21 @@ const mapDispatchToProps = (_dispatch: any) => {
           contactInformation
         )
       );
+    },
+    updateOrganizationEvidence: (organizationEvidence: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateOrganizationEvidence(
+          organizationEvidence
+        )
+      );
+    },
+    updateOrganizationId: (organizationId: string) => {
+      _dispatch(
+        KeyboardsEditDefinitionActions.updateOrganizationId(organizationId)
+      );
+    },
+    updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {
+      _dispatch(KeyboardsEditDefinitionActions.updateAuthorType(authorType));
     },
   };
 };

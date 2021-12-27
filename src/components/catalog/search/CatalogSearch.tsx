@@ -16,6 +16,7 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import {
   getGitHubUserDisplayName,
   IKeyboardDefinitionDocument,
+  IOrganization,
 } from '../../../services/storage/Storage';
 import { Pagination } from '@material-ui/lab';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -127,6 +128,7 @@ class CatalogSearch extends React.Component<
                 <SearchResult
                   definitionDocuments={this.props.searchResult!}
                   containerRef={this.state.containerRef}
+                  organizationMap={this.props.organizationMap!}
                 />
               </Grid>
             </Grid>
@@ -151,6 +153,7 @@ const SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE = 5;
 type SearchResultProps = {
   definitionDocuments: IKeyboardDefinitionDocument[];
   containerRef?: React.RefObject<HTMLDivElement>;
+  organizationMap: Record<string, IOrganization>;
 };
 
 function SearchResult(props: SearchResultProps) {
@@ -170,6 +173,7 @@ function SearchResult(props: SearchResultProps) {
         .map((result) => (
           <KeyboardCard
             definition={result}
+            organizationMap={props.organizationMap}
             key={`search-result-${result.id}`}
           />
         ))}
@@ -189,6 +193,7 @@ function SearchResult(props: SearchResultProps) {
 
 type KeyboardCardProps = {
   definition: IKeyboardDefinitionDocument;
+  organizationMap: Record<string, IOrganization>;
 };
 
 function KeyboardCard(props: KeyboardCardProps) {
@@ -196,6 +201,11 @@ function KeyboardCard(props: KeyboardCardProps) {
     sendEventToGoogleAnalytics('catalog/open_from_search');
     return true;
   };
+
+  const designerName =
+    !props.definition.authorType || props.definition.authorType === 'individual'
+      ? getGitHubUserDisplayName(props.definition)
+      : props.organizationMap[props.definition.organizationId!].name;
 
   return (
     <Card className="catalog-search-result-card">
@@ -236,7 +246,7 @@ function KeyboardCard(props: KeyboardCardProps) {
                       {hexadecimal(props.definition.productId, 4)}
                     </Typography>
                     <Typography variant="caption">
-                      Designed by {getGitHubUserDisplayName(props.definition)}
+                      Designed by {designerName}
                     </Typography>
                   </div>
                 </div>

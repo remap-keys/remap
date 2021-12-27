@@ -22,6 +22,7 @@ import {
   AppliedKeymapData,
   IFirmware,
   IKeyboardDefinitionDocument,
+  IOrganization,
   KeyboardDefinitionStatus,
   SavedKeymapData,
 } from '../services/storage/Storage';
@@ -44,6 +45,9 @@ export const STORAGE_UPDATE_SHARED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateSharedKey
 export const STORAGE_UPDATE_APPLIED_KEYMAPS = `${STORAGE_ACTIONS}/UpdateAppliedKeymaps`;
 export const STORAGE_UPDATE_SEARCH_RESULT_KEYBOARD_DEFINITION_DOCUMENT = `${STORAGE_ACTIONS}/UpdateSearchResultKeyboardDefinitionDocument`;
 export const STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateSameAuthorKeyboardDefinitionDocuments`;
+export const STORAGE_UPDATE_SEARCH_RESULT_ORGANIZATION_MAP = `${STORAGE_ACTIONS}/UpdateSearchResultOrganizationMap`;
+export const STORAGE_UPDATE_ORGANIZATION = `${STORAGE_ACTIONS}/UpdateOrganization`;
+export const STORAGE_UPDATE_ORGANIZATION_MAP = `${STORAGE_ACTIONS}/UpdateOrganizationMap`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -105,6 +109,26 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS,
       value: definitions,
+    };
+  },
+  updateSearchResultOrganizationMap: (
+    organizationMap: Record<string, IOrganization>
+  ) => {
+    return {
+      type: STORAGE_UPDATE_SEARCH_RESULT_ORGANIZATION_MAP,
+      value: organizationMap,
+    };
+  },
+  updateOrganization: (organization: IOrganization) => {
+    return {
+      type: STORAGE_UPDATE_ORGANIZATION,
+      value: organization,
+    };
+  },
+  updateOrganizationMap: (organizationMap: Record<string, IOrganization>) => {
+    return {
+      type: STORAGE_UPDATE_ORGANIZATION_MAP,
+      value: organizationMap,
     };
   },
 };
@@ -191,6 +215,42 @@ export const storageActionsThunk = {
     }
     if (fetchKeyboardDefinitionResult.exists!) {
       const definitionDocument = fetchKeyboardDefinitionResult.document!;
+      if (definitionDocument.authorType === 'organization') {
+        const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
+          definitionDocument.organizationId!
+        );
+        if (!fetchOrganizationByIdResult.success) {
+          console.error(fetchOrganizationByIdResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationByIdResult.error!,
+              fetchOrganizationByIdResult.cause
+            )
+          );
+          return;
+        }
+        dispatch(
+          StorageActions.updateOrganization(
+            fetchOrganizationByIdResult.organization!
+          )
+        );
+      }
+      const fetchMyOrganizationsResult = await storage.instance!.fetchMyOrganizations();
+      if (!fetchMyOrganizationsResult.success) {
+        console.error(fetchMyOrganizationsResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchMyOrganizationsResult.error!,
+            fetchMyOrganizationsResult.cause
+          )
+        );
+        return;
+      }
+      dispatch(
+        StorageActions.updateOrganizationMap(
+          fetchMyOrganizationsResult.organizationMap!
+        )
+      );
       dispatch(
         StorageActions.updateKeyboardDefinitionDocument(definitionDocument)
       );
@@ -319,6 +379,27 @@ export const storageActionsThunk = {
       return;
     }
 
+    if (keyboardDefinitionDocument.authorType === 'organization') {
+      const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
+        keyboardDefinitionDocument.organizationId!
+      );
+      if (!fetchOrganizationByIdResult.success) {
+        console.error(fetchOrganizationByIdResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationByIdResult.error!,
+            fetchOrganizationByIdResult.cause
+          )
+        );
+        return;
+      }
+      dispatch(
+        StorageActions.updateOrganization(
+          fetchOrganizationByIdResult.organization!
+        )
+      );
+    }
+
     dispatch(
       StorageActions.updateKeyboardDefinitionDocument(
         keyboardDefinitionDocument
@@ -352,6 +433,35 @@ export const storageActionsThunk = {
       );
       return;
     }
+    const organizationIds: string[] = fetchMyKeyboardDefinitionsResult
+      .documents!.filter((doc) => doc.authorType === 'organization')
+      .map((doc) => doc.organizationId)
+      .reduce((result, id) => {
+        if (id !== undefined) {
+          result.push(id);
+        }
+        return result;
+      }, [] as string[]);
+    if (organizationIds.length !== 0) {
+      const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
+        organizationIds
+      );
+      if (!fetchOrganizationsByIdsResult.success) {
+        console.error(fetchOrganizationsByIdsResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationsByIdsResult.error!,
+            fetchOrganizationsByIdsResult.cause
+          )
+        );
+        return;
+      }
+      dispatch(
+        StorageActions.updateOrganizationMap(
+          fetchOrganizationsByIdsResult.organizationMap!
+        )
+      );
+    }
     dispatch(
       StorageActions.updateKeyboardDefinitionDocuments(
         fetchMyKeyboardDefinitionsResult.documents!
@@ -367,8 +477,8 @@ export const storageActionsThunk = {
     const { storage, auth, keyboards, github } = getState();
     const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
     const user = auth.instance!.getCurrentAuthenticatedUser();
-    const githubProviderDataResutl = getGitHubProviderData(user);
-    if (!githubProviderDataResutl.exists) {
+    const githubProviderDataResult = getGitHubProviderData(user);
+    if (!githubProviderDataResult.exists) {
       console.error('The user does not have a GitHub Provider data.');
       dispatch(
         NotificationActions.addError(
@@ -377,7 +487,7 @@ export const storageActionsThunk = {
       );
       return;
     }
-    const githubProviderData = githubProviderDataResutl.userInfo!;
+    const githubProviderData = githubProviderDataResult.userInfo!;
 
     const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
       githubProviderData.uid
@@ -414,6 +524,9 @@ export const storageActionsThunk = {
       keyboards.createdefinition.otherPlaceSourceCodeEvidence,
       keyboards.createdefinition.otherPlacePublisherEvidence,
       keyboards.createdefinition.contactInformation,
+      keyboards.createdefinition.organizationEvidence,
+      keyboards.createdefinition.authorType,
+      keyboards.createdefinition.organizationId,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -479,6 +592,9 @@ export const storageActionsThunk = {
       keyboards.createdefinition.otherPlaceSourceCodeEvidence,
       keyboards.createdefinition.otherPlacePublisherEvidence,
       keyboards.createdefinition.contactInformation,
+      keyboards.createdefinition.organizationEvidence,
+      keyboards.createdefinition.authorType,
+      keyboards.createdefinition.organizationId,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {
@@ -517,6 +633,9 @@ export const storageActionsThunk = {
       keyboards.editdefinition.otherPlaceSourceCodeEvidence,
       keyboards.editdefinition.otherPlacePublisherEvidence,
       keyboards.editdefinition.contactInformation,
+      keyboards.editdefinition.organizationEvidence,
+      keyboards.editdefinition.authorType,
+      keyboards.editdefinition.organizationId,
       KeyboardDefinitionStatus.draft
     );
     if (result.success) {
@@ -556,6 +675,9 @@ export const storageActionsThunk = {
       keyboards.editdefinition.otherPlaceSourceCodeEvidence,
       keyboards.editdefinition.otherPlacePublisherEvidence,
       keyboards.editdefinition.contactInformation,
+      keyboards.editdefinition.organizationEvidence,
+      keyboards.editdefinition.authorType,
+      keyboards.editdefinition.organizationId,
       KeyboardDefinitionStatus.in_review
     );
     if (result.success) {
@@ -809,10 +931,12 @@ export const storageActionsThunk = {
     const { catalog, storage } = getState();
     const features = catalog.search.features;
     const keyword = catalog.search.keyword;
-    let result = await storage.instance!.searchKeyboardsByFeatures(features);
-    if (result.success) {
-      const definitionDocs = result.documents!.filter((doc) =>
-        doc.name.toLowerCase().includes(keyword.toLowerCase())
+    let searchKeyboardsByFeaturesResult = await storage.instance!.searchKeyboardsByFeatures(
+      features
+    );
+    if (searchKeyboardsByFeaturesResult.success) {
+      const definitionDocs = searchKeyboardsByFeaturesResult.documents!.filter(
+        (doc) => doc.name.toLowerCase().includes(keyword.toLowerCase())
       );
       const filteredDocs = definitionDocs.filter((doc) => {
         if (features.length === 0) return true;
@@ -835,14 +959,49 @@ export const storageActionsThunk = {
           return countB - countA;
         }
       });
+
+      const organizationIds: string[] = filteredDocs
+        .filter((doc) => doc.authorType === 'organization')
+        .map((doc) => doc.organizationId)
+        .reduce((result, id) => {
+          if (id !== undefined) {
+            result.push(id);
+          }
+          return result;
+        }, [] as string[]);
+      if (organizationIds.length > 0) {
+        const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
+          organizationIds
+        );
+        if (fetchOrganizationsByIdsResult.success) {
+          dispatch(
+            StorageActions.updateSearchResultOrganizationMap(
+              fetchOrganizationsByIdsResult.organizationMap!
+            )
+          );
+        } else {
+          console.error(fetchOrganizationsByIdsResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationsByIdsResult.error!,
+              fetchOrganizationsByIdsResult.cause
+            )
+          );
+        }
+      }
       dispatch(
         StorageActions.updateSearchResultKeyboardDefinitionDocument(
           filteredDocs
         )
       );
     } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
+      console.error(searchKeyboardsByFeaturesResult.cause!);
+      dispatch(
+        NotificationActions.addError(
+          searchKeyboardsByFeaturesResult.error!,
+          searchKeyboardsByFeaturesResult.cause
+        )
+      );
     }
     const query: { [p: string]: string | string[] } = {};
     if (keyword) {
@@ -886,6 +1045,29 @@ export const storageActionsThunk = {
         )
       );
 
+      if (keyboardDefinitionDocument.authorType === 'organization') {
+        const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
+          keyboardDefinitionDocument.organizationId!
+        );
+        if (!fetchOrganizationByIdResult.success) {
+          console.error(fetchOrganizationByIdResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationByIdResult.error!,
+              fetchOrganizationByIdResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateOrganization(
+            fetchOrganizationByIdResult.organization!
+          )
+        );
+      }
+
       let keyboardDefinition: KeyboardDefinitionSchema;
       const jsonStr: string = keyboardDefinitionDocument.json;
       try {
@@ -918,7 +1100,7 @@ export const storageActionsThunk = {
         )
       );
       const fetchKeyboardsCreatedBySameAuthorResult = await storage.instance!.fetchKeyboardsCreatedBySameAuthor(
-        keyboardDefinitionDocument.authorUid
+        keyboardDefinitionDocument
       );
       if (!fetchKeyboardsCreatedBySameAuthorResult.success) {
         dispatch(
@@ -1203,6 +1385,20 @@ export const storageActionsThunk = {
           'catalog'
         )
       );
+    } else {
+      console.error(result.cause!);
+      dispatch(NotificationActions.addError(result.error!, result.cause));
+    }
+  },
+
+  fetchMyOrganizations: (): ThunkPromiseAction<void> => async (
+    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+    getState: () => RootState
+  ) => {
+    const { storage } = getState();
+    const result = await storage.instance!.fetchMyOrganizations();
+    if (result.success) {
+      dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
     } else {
       console.error(result.cause!);
       dispatch(NotificationActions.addError(result.error!, result.cause));
