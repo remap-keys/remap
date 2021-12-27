@@ -58,10 +58,6 @@ export class FirebaseProvider implements IStorage, IAuth {
     this.db = app.firestore();
     this.auth = app.auth();
     this.storage = app.storage();
-    // FIXME Remove it!
-    if (location.hostname === 'localhost') {
-      this.db.useEmulator('localhost', 8080);
-    }
   }
 
   private createResult(
@@ -189,7 +185,6 @@ export class FirebaseProvider implements IStorage, IAuth {
         .where('members', 'array-contains', this.auth.currentUser!.uid)
         .get();
       for (const doc of fetchMyOrganizationsResult.docs) {
-        // FIXME Create a new index to use organization_id
         const fetchDefinitionDocumentByOrganizationIdResult = await this.db
           .collection('keyboards')
           .doc('v2')
