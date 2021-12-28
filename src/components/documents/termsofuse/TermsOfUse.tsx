@@ -38,6 +38,11 @@ export default function TermsOfUse() {
           released or uploaded by Remap developers under names such as “terms,”
           “guidelines,” “policies,” or the like.
         </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          1.5 “Organization” means some group including a corporation, a
+          voluntary association, a community and etc. An organization can become
+          a publisher of keyboards in Remap.
+        </Typography>
       </section>
       <section>
         <Typography variant="h4">
@@ -410,7 +415,53 @@ export default function TermsOfUse() {
         </Typography>
       </section>
       <section>
-        <Typography variant="h4">12. NO WARRANTY</Typography>
+        <Typography variant="h4">12. Organizations</Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.1 It is necessary that all organizations registered to the Remap
+          must have activities related to keyboards continuously.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.2 If an organization is a corporation, the corporation has a
+          responsibility for the organization. On the other hand, if an
+          organization is not a corporation, the contact person has a
+          responsibility for the organization.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.3 Organizations comply with laws, regulations, and these Terms, and
+          in the event of any dispute resulting from the use of the Remap, the
+          organization must solve the issue at its expense and responsibility
+          and must not cause any inconvenience or inconvenience or any damage to
+          the Remap team.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.4 An organization must keep that the Remap team can contact the
+          organization anytime using the registered contact information. If the
+          contact information is changed, the organization must report it to the
+          Remap team and must update it immediately.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.5 The members of an organization can add other members only who are
+          related to the organization and must not add unrelated users as the
+          member.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.6 The Remap team has an ability to restrict and delete
+          organizations which act that violate the laws and regulations, court
+          verdicts, resolutions or orders, or administrative measures that are
+          legally binding, or act that may be in violation of public order,
+          morals or customs.
+        </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          12.7 If the registered information of an organization is incomplete or
+          false, or if the organization violates this agreement, or if the Remap
+          team determines that there is a risk of these, the Remap team can take
+          measures such as deleting it and related information or temporarily
+          making the organization unavailable without contacting the
+          organization in advance from the Remap team.
+        </Typography>
+      </section>
+      <section>
+        <Typography variant="h4">13. NO WARRANTY</Typography>
         <Typography variant="body1" gutterBottom={true}>
           REMAP DEVELOPERS SHALL PROVIDE NO WARRANTY, EITHER EXPRESSLY OR
           IMPLIEDLY, WITH RESPECT TO THE SERVICES (INCLUDING THE SUBJECT
@@ -424,10 +475,10 @@ export default function TermsOfUse() {
       </section>
       <section>
         <Typography variant="h4">
-          13. REMAP DEVELOPERS&apos; LIMITATION OF LIABILITY
+          14. REMAP DEVELOPERS&apos; LIMITATION OF LIABILITY
         </Typography>
         <Typography variant="body1" gutterBottom={true}>
-          13.1 REMAP DEVELOPERS WILL NOT BE LIABLE FOR ANY DAMAGE INCURRED BY
+          14.1 REMAP DEVELOPERS WILL NOT BE LIABLE FOR ANY DAMAGE INCURRED BY
           USERS FROM THE USE OF THE SERVICES, UNLESS SUCH DAMAGE IS ATTRIBUTABLE
           TO THE INTENTIONAL OR GROSSLY NEGLIGENT ACTS OF REMAP DEVELOPERS;
           PROVIDED, HOWEVER, THAT, IN THE CASE THAT THE AGREEMENT BETWEEN THE
@@ -443,7 +494,7 @@ export default function TermsOfUse() {
           IN WHICH SUCH DAMAGE HAS BEEN INCURRED, AT MAXIMUM.
         </Typography>
         <Typography variant="body1" gutterBottom={true}>
-          13.2 IF A USER INCURS DAMAGE AS A RESULT OF GROSS NEGLIGENCE ON THE
+          14.2 IF A USER INCURS DAMAGE AS A RESULT OF GROSS NEGLIGENCE ON THE
           PART OF REMAP DEVELOPERS, REMAP DEVELOPERS WILL BE RESPONSIBLE TO
           PROVIDE COMPENSATION FOR THE DAMAGE INCURRED BUT ONLY WITHIN THE RANGE
           OF (A) THE DAMAGE WHICH IS NORMALLY INCURRED (I.E., EXCLUSIVE OF LOST
@@ -457,7 +508,7 @@ export default function TermsOfUse() {
       </section>
       <section>
         <Typography variant="h4">
-          14. Relationship between these Terms and Conditions and Laws and
+          15. Relationship between these Terms and Conditions and Laws and
           Regulations
         </Typography>
         <Typography variant="body1" gutterBottom={true}>
@@ -471,22 +522,22 @@ export default function TermsOfUse() {
         </Typography>
       </section>
       <section>
-        <Typography variant="h4">15. Notification and Contact</Typography>
+        <Typography variant="h4">16. Notification and Contact</Typography>
         <Typography variant="body1" gutterBottom={true}>
-          15.1 For notifications from Remap developers to Users regarding the
+          16.1 For notifications from Remap developers to Users regarding the
           Services, Remap developers will use a method that Remap developers
           considers appropriate, such as posting in an appropriate place within
           the Services or on Remap developers&apos; website.
         </Typography>
         <Typography variant="body1" gutterBottom={true}>
-          15.2 For notifications from Users to Remap developers regarding the
+          16.2 For notifications from Users to Remap developers regarding the
           Services, Users shall use the customer inquiry form available on the
           Services or on Remap developers&apos; website, or through other means
           designated by Remap developers.
         </Typography>
       </section>
       <section>
-        <Typography variant="h4">16. Governing Law and Jurisdiction</Typography>
+        <Typography variant="h4">17. Governing Law and Jurisdiction</Typography>
         <Typography variant="body1" gutterBottom={true}>
           These Terms and Conditions will be governed by the laws of Japan. Any
           conflicts between Users and Remap developers that arise from or in
@@ -502,7 +553,7 @@ export default function TermsOfUse() {
       </section>
       <section>
         <Typography variant="body1">
-          Last updated: January 15th, 2021
+          Last updated: December 28th, 2021
         </Typography>
       </section>
     </React.Fragment>
