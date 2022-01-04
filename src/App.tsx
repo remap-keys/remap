@@ -10,6 +10,7 @@ import KeyboardDefinitionManagement from './components/keyboards/KeyboardDefinit
 import Catalog from './components/catalog/Catalog.container';
 import { Firmware } from './services/firmware/ui/Firmware';
 import Documents from './components/documents/Documents.container';
+import OrganizationManagement from './components/organizations/OrganizationManagement.container';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -48,6 +49,15 @@ class App extends React.Component<StyledComponentProps, {}> {
             <Route
               path="/keyboards/:definitionId"
               component={KeyboardDefinitionManagement}
+            />
+            <Route
+              exact
+              path="/organizations"
+              component={OrganizationManagement}
+            />
+            <Route
+              path="/organizations/:organizationId"
+              component={OrganizationManagement}
             />
             <Route exact path="/catalog">
               <Catalog />

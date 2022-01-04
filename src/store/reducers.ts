@@ -178,6 +178,13 @@ import {
   MACRO_EDITOR_UPDATE_MACRO_BUFFER,
   MACRO_EDITOR_UPDATE_MACRO_KEYS,
 } from '../actions/macro.action';
+import {
+  ORGANIZATIONS_APP_ACTIONS,
+  ORGANIZATIONS_APP_UPDATE_PHASE,
+  ORGANIZATIONS_EDIT_ORGANIZATION_ACTIONS,
+  ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL,
+  ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_ORGANIZATION_MEMBERS,
+} from '../actions/organizations.actions';
 
 export type Action = { type: string; value: any };
 
@@ -225,6 +232,12 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       flashFirmwareDialogReducer(action, draft);
     } else if (action.type.startsWith(META_ACTIONS)) {
       metaReducer(action, draft);
+    } else if (action.type.startsWith(ORGANIZATIONS_APP_ACTIONS)) {
+      organizationsAppReducer(action, draft);
+    } else if (
+      action.type.startsWith(ORGANIZATIONS_EDIT_ORGANIZATION_ACTIONS)
+    ) {
+      organizationsEditOrganizationReducer(action, draft);
     }
   });
 
@@ -1048,6 +1061,31 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE:
       draft.catalog.keyboard.flashFirmwareDialog.bootloaderType = action.value;
+      break;
+  }
+};
+
+const organizationsAppReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case ORGANIZATIONS_APP_UPDATE_PHASE:
+      draft.organizations.app.phase = action.value;
+      break;
+  }
+};
+
+const organizationsEditOrganizationReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_ORGANIZATION_MEMBERS:
+      draft.organizations.editorganization.organizationMembers = action.value;
+      break;
+    case ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL:
+      draft.organizations.editorganization.email = action.value;
       break;
   }
 };

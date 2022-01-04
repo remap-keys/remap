@@ -87,6 +87,10 @@ class Top extends React.Component<TopPropsType, TopState> {
     this.props.history.push('/catalog');
   };
 
+  onClickManageOrganizations = () => {
+    this.props.history.push('/organizations');
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -139,16 +143,16 @@ class Top extends React.Component<TopPropsType, TopState> {
                       color="primary"
                       onClick={this.onClickStartRemap}
                     >
-                      Start Remap for your keyboard
+                      Start Remap for Your Keyboard
                     </Button>
                   </Grid>
                   <Grid item>
                     <Button
                       variant="outlined"
                       color="primary"
-                      onClick={this.onClickManageKeyboardDefinitions}
+                      onClick={this.onClickKeyboardCatalog}
                     >
-                      Register/Manage Keyboard Definitions
+                      Keyboard Catalog
                     </Button>
                   </Grid>
                 </Grid>
@@ -157,9 +161,18 @@ class Top extends React.Component<TopPropsType, TopState> {
                     <Button
                       variant="text"
                       color="primary"
-                      onClick={this.onClickKeyboardCatalog}
+                      onClick={this.onClickManageKeyboardDefinitions}
                     >
-                      Keyboard Catalog
+                      Register/Manage Keyboards
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={this.onClickManageOrganizations}
+                    >
+                      Manage Organizations
                     </Button>
                   </Grid>
                 </Grid>

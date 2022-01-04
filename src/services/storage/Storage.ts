@@ -215,6 +215,17 @@ export interface IFetchMyOrganizationsResult extends IResult {
   organizationMap?: Record<string, IOrganization>;
 }
 
+export type IOrganizationMember = {
+  uid: string;
+  email: string;
+  displayName: string;
+  me: boolean;
+};
+
+export interface IFetchOrganizationMembersResult extends IResult {
+  members?: IOrganizationMember[];
+}
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -355,5 +366,16 @@ export interface IStorage {
     organizationIds: string[]
   ): Promise<IFetchOrganizationsByIdsResult>;
   fetchMyOrganizations(): Promise<IFetchMyOrganizationsResult>;
+  fetchOrganizationMembers(
+    organizationId: string
+  ): Promise<IFetchOrganizationMembersResult>;
+  addOrganizationMember(
+    organizationId: string,
+    email: string
+  ): Promise<IResult>;
+  deleteOrganizationMember(
+    organizationId: string,
+    uid: string
+  ): Promise<IResult>;
 }
 /* eslint-enable no-unused-vars */

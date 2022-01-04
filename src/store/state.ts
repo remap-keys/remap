@@ -11,6 +11,7 @@ import {
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
   IOrganization,
+  IOrganizationMember,
   IStorage,
   IStore,
   SavedKeymapData,
@@ -154,6 +155,17 @@ export const ALL_FLASH_FIRMWARE_DIALOG_MODE = [
 ] as const;
 type flashFirmwareDialogModeTuple = typeof ALL_FLASH_FIRMWARE_DIALOG_MODE;
 export type IFlashFirmwareDialogMode = flashFirmwareDialogModeTuple[number];
+
+export const ALL_ORGANIZATIONS_PHASE = [
+  'signing',
+  'init',
+  'processing',
+  'list',
+  'edit',
+  'signout',
+] as const;
+type organizationsPhaseTuple = typeof ALL_ORGANIZATIONS_PHASE;
+export type IOrganizationsPhase = organizationsPhaseTuple[number];
 
 export type IKeyboardFeatures =
   | IKeyboardKeyCountType
@@ -343,6 +355,15 @@ export type RootState = {
         mode: IFlashFirmwareDialogMode;
         bootloaderType: IBootloaderType;
       };
+    };
+  };
+  organizations: {
+    app: {
+      phase: IOrganizationsPhase;
+    };
+    editorganization: {
+      organizationMembers: IOrganizationMember[];
+      email: string;
     };
   };
   hid: {
@@ -548,6 +569,15 @@ export const INIT_STATE: RootState = {
         mode: 'instruction',
         bootloaderType: 'caterina',
       },
+    },
+  },
+  organizations: {
+    app: {
+      phase: 'signing',
+    },
+    editorganization: {
+      organizationMembers: [],
+      email: '',
     },
   },
   hid: {
