@@ -26,7 +26,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     deleteOrganizationMember: (uid: string) => {
       _dispatch(organizationsActionsThunk.deleteOrganizationMember(uid));
-    }
+    },
   };
 };
 export type EditOrganizationActionsType = ReturnType<typeof mapDispatchToProps>;
