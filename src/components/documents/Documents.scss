@@ -37,6 +37,10 @@
       & a {
         margin: auto 4px;
       }
+
+      & code {
+        background-color: $color-gray-200;
+      }
     }
   }
 }
