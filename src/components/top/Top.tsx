@@ -113,7 +113,7 @@ class Top extends React.Component<TopPropsType, TopState> {
           >
             Remap Review Policy
           </Link>{' '}
-          has been updated on December 28th, 2012.
+          has been updated on January 5th, 2022.
         </Alert>
         <main>
           <div className="hero-content">

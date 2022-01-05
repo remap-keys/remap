@@ -62,6 +62,13 @@ export default function ReviewPolicy() {
           without any announcements.
         </Typography>
       </section>
+      <section>
+        <Typography variant="body1" align="right">
+          Last updated: January 5th, 2022
+          <br />
+          Created: January 15th, 2021
+        </Typography>
+      </section>
     </React.Fragment>
   );
 }
