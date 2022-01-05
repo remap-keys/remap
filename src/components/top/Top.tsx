@@ -97,18 +97,23 @@ class Top extends React.Component<TopPropsType, TopState> {
           </Toolbar>
         </AppBar>
         <Alert severity="info">
-          <strong>For Keyboard Owners: </strong>The{' '}
-          <Link href="/catalog">Keyboard Catalog</Link> feature has been
-          released. Please fill in information for your keyboard so that it will
-          be listed in the keyboard catalog. See{' '}
+          <strong>For all users: </strong>The{' '}
           <Link
-            href="https://docs.google.com/document/d/1vuQTFeUgReWO9QbcCwxHVqARINp0wVH2lTaZhnNJGBU/edit?usp=sharing"
+            href="https://remap-keys.app/docs/terms_of_use"
             target="_blank"
             rel="noreferrer"
           >
-            this document
-          </Link>
-          .
+            Remap Terms of Use
+          </Link>{' '}
+          and{' '}
+          <Link
+            href="https://remap-keys.app/docs/review_policy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Remap Review Policy
+          </Link>{' '}
+          has been updated on January 5th, 2022.
         </Alert>
         <main>
           <div className="hero-content">
