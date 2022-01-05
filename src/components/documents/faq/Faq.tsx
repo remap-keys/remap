@@ -7,6 +7,35 @@ export default function Faq() {
     <React.Fragment>
       <Typography variant="h3">Frequently Asked Questions</Typography>
       <section>
+        <AnchorTypography id="faq-remap-your-keyboard-feature" variant="h4">
+          Remap Your Keyboard feature
+        </AnchorTypography>
+        <AnchorTypography
+          id="faq-remap-your-keyboard-feature-can-a-layer-count"
+          variant="h5"
+        >
+          Q. Can a layer count be changed? I want to increase or reduce the
+          layer count.
+        </AnchorTypography>
+        <Typography variant="body1" gutterBottom={true}>
+          Unfortunately, Remap does not have an ability to change a layer count
+          dynamically. Instead, it is necessary to build a firmware to change
+          the layer count. The layer count is determined by the{' '}
+          <code>DYNAMIC_KEYMAP_LAYER_COUNT</code> macro value, and the default
+          value is 4. For example, if you want to change the layer count to 3,
+          define the macro value with{' '}
+          <code>#define DYNAMIC_KEYMAP_LAYER_COUNT 3</code> and build a new
+          firmware. Please read the document how to build QMK Firmware:
+          <Link
+            href="https://docs.qmk.fm/#/newbs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            The QMK Tutorial
+          </Link>
+        </Typography>
+      </section>
+      <section>
         <AnchorTypography id="faq-firmware-writing-feature" variant="h4">
           Flash Firmware feature
         </AnchorTypography>
