@@ -1,0 +1,66 @@
+@import '../../../variables';
+
+.edit-organization-wrapper {
+  position: fixed;
+  width: 100%;
+  margin-top: calc(var(--key-height));
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-organization-container {
+  width: 100%;
+  height: calc(100vh - var(--key-height) - 26px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-organization-card {
+  width: 100%;
+  max-width: 960px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.edit-organization-alert {
+  margin: 0 32px 32px 32px;
+}
+
+.edit-organization-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.edit-organization-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 32px 0 32px;
+
+  &-row {
+    margin-bottom: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.edit-organization-form-member-form {
+  display: flex;
+  margin: auto 16px auto 16px;
+
+  &-email {
+    flex: auto;
+    margin-right: 16px !important;
+  }
+
+  &-button {
+  }
+}

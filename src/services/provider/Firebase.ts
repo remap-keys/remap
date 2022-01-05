@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import 'firebase/storage';
+import 'firebase/functions';
 import {
   ICreateKeyboardDefinitionDocumentResult,
   IFetchKeyboardDefinitionDocumentResult,
@@ -29,6 +30,7 @@ import {
   IFetchOrganizationsByIdsResult,
   IFetchMyOrganizationsResult,
   IKeyboardDefinitionAuthorType,
+  IFetchOrganizationMembersResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -45,10 +47,13 @@ const config = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
+const FUNCTIONS_REGION = 'asia-northeast1';
+
 export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
   private auth: firebase.auth.Auth;
   private storage: firebase.storage.Storage;
+  private functions: firebase.functions.Functions;
   private unsubscribeAuthStateChanged?: firebase.Unsubscribe;
 
   constructor() {
@@ -58,6 +63,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     this.db = app.firestore();
     this.auth = app.auth();
     this.storage = app.storage();
+    this.functions = app.functions(FUNCTIONS_REGION);
   }
 
   private createResult(
@@ -1466,7 +1472,12 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: true,
         organizationMap: querySnapshot.docs.reduce((result, doc) => {
-          result[doc.id] = { id: doc.id, ...doc.data() } as IOrganization;
+          result[doc.id] = {
+            id: doc.id,
+            ...doc.data(),
+            created_at: doc.data()!.created_at.toDate(),
+            updated_at: doc.data()!.updated_at.toDate(),
+          } as IOrganization;
           return result;
         }, {} as Record<string, IOrganization>),
       };
@@ -1475,6 +1486,107 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: 'Fetching my organizations failed',
+        cause: error,
+      };
+    }
+  }
+
+  async fetchOrganizationMembers(
+    organizationId: string
+  ): Promise<IFetchOrganizationMembersResult> {
+    try {
+      const fetchOrganizationMembers = this.functions.httpsCallable(
+        'fetchOrganizationMembers'
+      );
+      const fetchOrganizationMembersResult = await fetchOrganizationMembers({
+        organizationId,
+      });
+      const data = fetchOrganizationMembersResult.data;
+      if (data.success) {
+        return {
+          success: true,
+          members: data.members,
+        };
+      } else {
+        console.error(data.errorMessage);
+        return {
+          success: false,
+          error: data.errorMessage,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: `Fetching Organization Members failed: ${error}`,
+        cause: error,
+      };
+    }
+  }
+
+  async addOrganizationMember(
+    organizationId: string,
+    email: string
+  ): Promise<IResult> {
+    try {
+      const addOrganizationMember = this.functions.httpsCallable(
+        'addOrganizationMember'
+      );
+      const addOrganizationMemberResult = await addOrganizationMember({
+        organizationId,
+        email,
+      });
+      const data = addOrganizationMemberResult.data;
+      if (data.success) {
+        return {
+          success: true,
+        };
+      } else {
+        console.error(data.errorMessage);
+        return {
+          success: false,
+          error: data.errorMessage,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: `Adding Organization Member failed: ${error}`,
+        cause: error,
+      };
+    }
+  }
+
+  async deleteOrganizationMember(
+    organizationId: string,
+    uid: string
+  ): Promise<IResult> {
+    try {
+      const deleteOrganizationMember = this.functions.httpsCallable(
+        'deleteOrganizationMember'
+      );
+      const deleteOrganizationMemberResult = await deleteOrganizationMember({
+        organizationId,
+        uid,
+      });
+      const data = deleteOrganizationMemberResult.data;
+      if (data.success) {
+        return {
+          success: true,
+        };
+      } else {
+        console.error(data.errorMessage);
+        return {
+          success: false,
+          error: data.errorMessage,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: `Deleting Organization Member failed: ${error}`,
         cause: error,
       };
     }
