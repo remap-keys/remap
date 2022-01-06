@@ -101,8 +101,8 @@ export default function Faq() {
           as individual identified by GitHub authentication. On the other hand,
           there are keyboards designed and provided by an organization including
           a corporation, a voluntary association, a community and etc. The
-          &quot;Organizations&quot; feature brings you to register keyboards
-          with an organization name, instead of your individual name.
+          &quot;Organizations&quot; feature brings you to register and publish
+          keyboards with an organization name, instead of your individual name.
         </Typography>
         <AnchorTypography
           id="faq-organizations-feature-what-conditions-of-keyboards"
@@ -117,16 +117,16 @@ export default function Faq() {
           for the keyboards to treat them as the designer and/or the provider.
           Remap team respects a right of original keyboard owners. If the Remap
           team is not able to confirm an organization has a right for a keyboard
-          it requests for review, the review request will be rejected.
+          requested for review, the review request will be rejected.
         </Typography>
         <AnchorTypography
           id="faq-organizations-feature-how-can-i-create"
           variant="h5"
         >
-          Q. How can I create an organization?
+          Q. How can I create an organization in Remap?
         </AnchorTypography>
         <Typography variant="body1" gutterBottom={true}>
-          Visit <Link href="/organizations">the top page</Link>
+          Please visit <Link href="/organizations">the top page</Link>
           of the organizations feature.
         </Typography>
       </section>
