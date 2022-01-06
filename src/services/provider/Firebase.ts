@@ -332,11 +332,11 @@ export class FirebaseProvider implements IStorage, IAuth {
         other_place_publisher_evidence: otherPlacePublisherEvidence,
         contact_information: contactInformation,
         author_type: authorType,
-        organization_evidence: organizationEvidence,
         status,
       };
       if (authorType === 'organization') {
         data.organization_id = organizationId;
+        data.organization_evidence = organizationEvidence || '';
       }
       await this.db
         .collection('keyboards')
@@ -439,11 +439,11 @@ export class FirebaseProvider implements IStorage, IAuth {
         other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
         other_place_publisher_evidence: otherPlacePublisherEvidence,
         contact_information: contactInformation,
-        organization_evidence: organizationEvidence,
         author_type: authorType,
       };
       if (authorType === 'organization') {
         data.organization_id = organizationId;
+        data.organization_evidence = organizationEvidence || '';
       }
       const definitionDocumentReference = await this.db
         .collection('keyboards')
