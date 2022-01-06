@@ -86,6 +86,50 @@ export default function Faq() {
           </Link>
         </Typography>
       </section>
+      <section>
+        <AnchorTypography id="faq-organizations-feature" variant="h4">
+          Organizations feature
+        </AnchorTypography>
+        <AnchorTypography
+          id="faq-organizations-feature-what-is-organizations"
+          variant="h5"
+        >
+          Q. What is &quot;Organizations&quot; feature?
+        </AnchorTypography>
+        <Typography variant="body1" gutterBottom={true}>
+          Basically, a keyboard owner can register and publish his/her keyboard
+          as individual identified by GitHub authentication. On the other hand,
+          there are keyboards designed and provided by an organization including
+          a corporation, a voluntary association, a community and etc. The
+          &quot;Organizations&quot; feature brings you to register and publish
+          keyboards with an organization name, instead of your individual name.
+        </Typography>
+        <AnchorTypography
+          id="faq-organizations-feature-what-conditions-of-keyboards"
+          variant="h5"
+        >
+          Q. What conditions of keyboards registered by an organization are
+          there?
+        </AnchorTypography>
+        <Typography variant="body1" gutterBottom={true}>
+          Keyboards registered by an organization have to be designed and
+          provided by the organization. Or, the organization must have a right
+          for the keyboards to treat them as the designer and/or the provider.
+          Remap team respects a right of original keyboard owners. If the Remap
+          team is not able to confirm an organization has a right for a keyboard
+          requested for review, the review request will be rejected.
+        </Typography>
+        <AnchorTypography
+          id="faq-organizations-feature-how-can-i-create"
+          variant="h5"
+        >
+          Q. How can I create an organization in Remap?
+        </AnchorTypography>
+        <Typography variant="body1" gutterBottom={true}>
+          Please visit <Link href="/organizations">the top page</Link>
+          of the organizations feature.
+        </Typography>
+      </section>
     </React.Fragment>
   );
 }
