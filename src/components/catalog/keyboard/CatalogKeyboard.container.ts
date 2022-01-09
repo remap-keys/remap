@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import CatalogKeyboard from './CatalogKeyboard';
 import { IMetaData, MetaActions } from '../../../actions/meta.action';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   catalogActionsThunk,
   CatalogAppActions,
@@ -16,8 +15,7 @@ const mapStateToProps = (state: RootState) => {
     definitionDocument: state.entities.keyboardDefinitionDocument,
   };
 };
-export type CatalogKeyboardStateType = ReturnType<typeof mapStateToProps> &
-  RouteComponentProps;
+export type CatalogKeyboardStateType = ReturnType<typeof mapStateToProps>;
 
 // eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
@@ -45,6 +43,4 @@ const mapDispatchToProps = (_dispatch: any) => {
 };
 export type CatalogKeyboardActionsType = ReturnType<typeof mapDispatchToProps>;
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CatalogKeyboard)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogKeyboard);

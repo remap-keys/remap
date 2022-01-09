@@ -1,7 +1,7 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { StyledComponentProps, withStyles } from '@material-ui/core/styles';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
@@ -37,44 +37,41 @@ class App extends React.Component<StyledComponentProps, {}> {
         }}
       >
         <BrowserRouter>
-          <Switch>
-            <Route exact path="/hid" component={Hid} />
-            <Route exact path="/firmware" component={Firmware} />
-            <Route exact path="/configure" component={Configure} />
+          <Routes>
+            <Route path="/hid" element={<Hid />} />
+            <Route path="/firmware" element={<Firmware />} />
+            <Route path="/configure" element={<Configure />} />
             <Route
-              exact
               path="/keyboards"
-              component={KeyboardDefinitionManagement}
+              element={<KeyboardDefinitionManagement />}
             />
             <Route
               path="/keyboards/:definitionId"
-              component={KeyboardDefinitionManagement}
+              element={<KeyboardDefinitionManagement />}
             />
-            <Route
-              exact
-              path="/organizations"
-              component={OrganizationManagement}
-            />
+            <Route path="/organizations" element={<OrganizationManagement />} />
             <Route
               path="/organizations/:organizationId"
-              component={OrganizationManagement}
+              element={<OrganizationManagement />}
             />
-            <Route exact path="/catalog">
-              <Catalog />
-            </Route>
-            <Route path="/catalog/:definitionId/firmware">
-              <Catalog catalogDetailMode="firmware" />
-            </Route>
-            <Route path="/catalog/:definitionId/keymap">
-              <Catalog catalogDetailMode="keymap" />
-            </Route>
-            <Route path="/catalog/:definitionId">
-              <Catalog catalogDetailMode="introduction" />
-            </Route>
-            <Route exact path="/docs/:docId" component={Documents} />
-            <Route exact path="/docs" component={Documents} />
-            <Route component={Top} />
-          </Switch>
+            <Route path="/catalog" element={<Catalog />} />
+            <Route
+              path="/catalog/:definitionId/firmware"
+              element={<Catalog catalogDetailMode="firmware" />}
+            />
+            <Route
+              path="/catalog/:definitionId/keymap"
+              element={<Catalog catalogDetailMode="keymap" />}
+            />
+            <Route
+              path="/catalog/:definitionId"
+              element={<Catalog catalogDetailMode="introduction" />}
+            />
+            <Route path="/docs/:docId" element={<Documents />} />
+            <Route path="/docs" element={<Documents />} />
+            <Route path="/" element={<Top />} />
+            <Route path="/*" element={<Navigate to="/" replace />} />
+          </Routes>
         </BrowserRouter>
       </SnackbarProvider>
     );

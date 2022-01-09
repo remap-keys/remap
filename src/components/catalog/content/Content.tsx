@@ -13,7 +13,7 @@ import {
 } from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import TweetButton from '../../common/twitter/TweetButton';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type ContentState = {};
 type OwnProps = {};
@@ -89,7 +89,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   goToFirmware,
   organization,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const onChangeTab = (event: React.ChangeEvent<{}>, value: number) => {
     if (value === 0) {
       sendEventToGoogleAnalytics('catalog/introduction', {
@@ -97,8 +97,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
         product_id: definitionDocument.productId,
         product_name: definitionDocument.productName,
       });
-      // eslint-disable-next-line no-undef
-      history.push(`/catalog/${definitionDocument.id}`);
+      navigate(`/catalog/${definitionDocument.id}`);
       goToIntroduction();
     } else if (value === 1) {
       sendEventToGoogleAnalytics('catalog/keymap', {
@@ -106,8 +105,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
         product_id: definitionDocument.productId,
         product_name: definitionDocument.productName,
       });
-      // eslint-disable-next-line no-undef
-      history.push(`/catalog/${definitionDocument.id}/keymap`);
+      navigate(`/catalog/${definitionDocument.id}/keymap`);
       goToKeymap();
     } else if (value === 2) {
       sendEventToGoogleAnalytics('catalog/firmware', {
@@ -115,7 +113,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
         product_id: definitionDocument.productId,
         product_name: definitionDocument.productName,
       });
-      history.push(`/catalog/${definitionDocument.id}/firmware`);
+      navigate(`/catalog/${definitionDocument.id}/firmware`);
       goToFirmware();
     }
   };
