@@ -9,7 +9,6 @@ import {
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import { AbstractKeymapData } from '../../../../services/storage/Storage';
 import { NotificationActions } from '../../../../actions/actions';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -22,8 +21,7 @@ const mapStateToProps = (state: RootState) => {
     langLabel: state.catalog.keyboard.langLabel,
   };
 };
-export type CatalogKeymapStateType = ReturnType<typeof mapStateToProps> &
-  RouteComponentProps;
+export type CatalogKeymapStateType = ReturnType<typeof mapStateToProps>;
 
 // eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
@@ -47,6 +45,4 @@ const mapDispatchToProps = (_dispatch: any) => {
 };
 export type CatalogKeymapActionsType = ReturnType<typeof mapDispatchToProps>;
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CatalogKeymap)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogKeymap);
