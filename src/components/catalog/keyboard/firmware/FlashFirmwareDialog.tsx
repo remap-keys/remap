@@ -7,9 +7,10 @@ import {
   Link,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useEffect } from 'react';
 import './FlashFirmwareDialog.scss';
 import {
@@ -55,9 +56,7 @@ export default function FlashFirmwareDialog(
     props.onClose();
   };
 
-  const onChangeBootloaderType = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
+  const onChangeBootloaderType = (event: SelectChangeEvent) => {
     props.updateBootloaderType!(event.target.value as IBootloaderType);
   };
 

@@ -3,8 +3,8 @@ import {
   ProfileIconActionsType,
   ProfileIconStateType,
 } from './ProfileIcon.container';
-import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { Person, PersonOutline } from '@material-ui/icons';
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
+import { Person, PersonOutline } from '@mui/icons-material';
 import AuthProviderDialog from './AuthProviderDialog.container';
 import {
   getGitHubProviderData,
@@ -78,7 +78,6 @@ export default class ProfileIcon extends React.Component<
       return (
         <MenuItem
           key="auth-menu-link-google-account"
-          button={true}
           onClick={() => this.handleLinkGoogleAccountMenuClick()}
         >
           Link Google Account
@@ -95,7 +94,6 @@ export default class ProfileIcon extends React.Component<
       return (
         <MenuItem
           key="auth-menu-link-github-account"
-          button={true}
           onClick={() => this.handleLinkGitHubAccountMenuClick()}
         >
           Link GitHub Account
@@ -146,7 +144,6 @@ export default class ProfileIcon extends React.Component<
             {this.renderLinkGitHubAccountMenu()}
             <MenuItem
               key="profile-icon-menu-logout"
-              button={true}
               onClick={() => this.handleLogoutMenuClick()}
             >
               Logout
@@ -173,7 +170,6 @@ export default class ProfileIcon extends React.Component<
           >
             <MenuItem
               key="profile-icon-menu-login"
-              button={true}
               onClick={() => this.handleLoginMenuClick()}
             >
               Login

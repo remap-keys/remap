@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import {
   IKeyboardDefinitionAuthorType,

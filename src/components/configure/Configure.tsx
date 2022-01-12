@@ -4,16 +4,15 @@ import './Configure.scss';
 import { ProviderContext, withSnackbar } from 'notistack';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import CloseIcon from '@material-ui/icons/Close';
 import {
   ConfigureActionsType,
   ConfigureStateType,
 } from './Configure.container';
 import { NotificationItem } from '../../actions/actions';
-import { Button } from '@material-ui/core';
 import { IKeyboard } from '../../services/hid/Hid';
 import Footer from '../common/footer/Footer.container';
+import { Button, CssBaseline } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const APPLICATION_NAME = 'Remap';
 

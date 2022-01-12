@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keycodes.scss';
-import { Button, TextField, InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { Button, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/Hid';

@@ -7,7 +7,7 @@ import {
   FormGroup,
   Radio,
   RadioGroup,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   IMod,
   IModDirection,

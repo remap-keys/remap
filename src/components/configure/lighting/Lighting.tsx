@@ -9,7 +9,7 @@ import {
   Slider,
   Switch,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 import { IKeyboard } from '../../../services/hid/Hid';
 
@@ -320,7 +320,7 @@ function Underglow(props: UnderglowProps) {
         <h4>UNDERGLOW</h4>
       </Grid>
       <Grid item xs={6}>
-        <Grid container spacing={1} justify="center" alignItems="center">
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
           <Grid item xs={12}>
             <div className="lighting-label">Effect Mode</div>
             <div>

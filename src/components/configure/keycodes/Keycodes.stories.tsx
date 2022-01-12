@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import Keycodes from './Keycodes';
 import { Key } from '../keycodekey/KeyGen';
 import { Provider } from 'react-redux';
@@ -14,8 +14,8 @@ import { errorReportingLogger } from '../../../utils/ErrorReportingLogger';
 import './Keycodes.stories.scss';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
-import SearchIcon from '@material-ui/icons/Search';
-import { Button, TextField, InputAdornment } from '@material-ui/core';
+import SearchIcon from '@mui/icons-material/Search';
+import { Button, TextField, InputAdornment } from '@mui/material';
 
 const store = createStore(
   reducers,

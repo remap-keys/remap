@@ -12,8 +12,8 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from '@material-ui/core';
-import { Home, Store } from '@material-ui/icons';
+} from '@mui/material';
+import { Home, Store } from '@mui/icons-material';
 import './CatalogKeyboardHeader.scss';
 
 type CategoryHeaderProps = {

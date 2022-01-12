@@ -3,7 +3,7 @@ import {
   DocumentsActionsType,
   DocumentsStateType,
 } from './Documents.container';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@mui/material';
 import Header from './header/Header.container';
 import Footer from '../common/footer/Footer';
 import './Documents.scss';

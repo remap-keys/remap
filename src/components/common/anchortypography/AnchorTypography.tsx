@@ -1,7 +1,7 @@
 import React from 'react';
 import './AnchorTypography.scss';
-import { Typography } from '@material-ui/core';
-import { Link } from '@material-ui/icons';
+import { Typography } from '@mui/material';
+import { Link } from '@mui/icons-material';
 
 export type IAnchorLinkProps = {
   id: string;

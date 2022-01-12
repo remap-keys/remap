@@ -15,9 +15,9 @@ import {
   Button,
   CircularProgress,
   Typography,
-} from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { Alert, AlertTitle } from '@mui/lab';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './KeyboardDefinitionFormPart.scss';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
 

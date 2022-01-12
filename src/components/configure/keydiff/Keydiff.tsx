@@ -1,7 +1,7 @@
 import React from 'react';
 import './Keydiff.scss';
-import { Button } from '@material-ui/core';
-import { Clear } from '@material-ui/icons';
+import { Button } from '@mui/material';
+import { Clear } from '@mui/icons-material';
 import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';

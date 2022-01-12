@@ -1,7 +1,7 @@
 import React from 'react';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import './Content.scss';
-import { CircularProgress, Tab, Tabs } from '@material-ui/core';
+import { CircularProgress, Tab, Tabs } from '@mui/material';
 import Footer from '../../common/footer/Footer.container';
 import { ICatalogPhase } from '../../../store/state';
 import CatalogSearch from '../search/CatalogSearch.container';

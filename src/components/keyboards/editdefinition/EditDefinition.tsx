@@ -22,16 +22,16 @@ import {
   Stepper,
   Tab,
   Tabs,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import moment from 'moment-timezone';
-import { MoreVert } from '@material-ui/icons';
+import { MoreVert } from '@mui/icons-material';
 import {
   isForkedQmkFirmwareCode,
   isOtherFirmwareCode,
@@ -475,18 +475,14 @@ function MenuUI(props: MenuUIProps) {
   const menuItems = [];
   if (props.keyboardDefinition) {
     menuItems.push(
-      <MenuItem
-        key="1"
-        onClick={props.handleDownloadJsonMenuClick}
-        button={true}
-      >
+      <MenuItem key="1" onClick={props.handleDownloadJsonMenuClick}>
         Download JSON
       </MenuItem>
     );
   }
   if (props.definitionDocument.status !== KeyboardDefinitionStatus.in_review) {
     menuItems.push(
-      <MenuItem key="2" onClick={props.handleDeleteMenuClick} button={true}>
+      <MenuItem key="2" onClick={props.handleDeleteMenuClick}>
         Delete
       </MenuItem>
     );

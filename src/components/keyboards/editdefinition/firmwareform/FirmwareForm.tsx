@@ -20,7 +20,7 @@ import {
   Select,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { IFirmware } from '../../../../services/storage/Storage';
 import moment from 'moment';
 

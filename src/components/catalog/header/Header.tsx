@@ -4,8 +4,8 @@ import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
 import ProfileIcon from '../../common/auth/ProfileIcon.container';
-import { IconButton } from '@material-ui/core';
-import { ArrowBackIos } from '@material-ui/icons';
+import { IconButton } from '@mui/material';
+import { ArrowBackIos } from '@mui/icons-material';
 import { ICatalogPhase } from '../../../store/state';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 

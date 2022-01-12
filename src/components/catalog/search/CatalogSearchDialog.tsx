@@ -1,7 +1,7 @@
 import React from 'react';
 import './CatalogSearchDialog.scss';
-import { Dialog, IconButton } from '@material-ui/core';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { Dialog, IconButton } from '@mui/material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CatalogSearchForm from './CatalogSearchForm.container';
 import { IKeyboardFeatures } from '../../../store/state';
 
@@ -50,7 +50,9 @@ export default class CatalogSearchDialog extends React.Component<
       <Dialog
         open={this.props.open}
         fullScreen={true}
-        onEnter={this.onEnter.bind(this)}
+        TransitionProps={{
+          onEnter: this.onEnter.bind(this),
+        }}
         className="catalog-search-dialog"
       >
         <div className="catalog-search-dialog-header">

@@ -3,8 +3,8 @@ import React from 'react';
 import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
-import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { Person } from '@material-ui/icons';
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
+import { Person } from '@mui/icons-material';
 import { getGitHubProviderData } from '../../../services/auth/Auth';
 
 type HeaderState = {
@@ -83,11 +83,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             open={Boolean(menuAnchorEl)}
             onClose={this.handleMenuClose}
           >
-            <MenuItem
-              key="1"
-              button={true}
-              onClick={() => this.handleLogoutMenuClick()}
-            >
+            <MenuItem key="1" onClick={() => this.handleLogoutMenuClick()}>
               Logout
             </MenuItem>
           </Menu>

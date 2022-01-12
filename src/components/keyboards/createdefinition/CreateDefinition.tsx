@@ -22,7 +22,7 @@ import {
   StepLabel,
   Stepper,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionStatus,

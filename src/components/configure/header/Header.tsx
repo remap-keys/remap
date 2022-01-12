@@ -2,8 +2,8 @@
 import React from 'react';
 import './Header.scss';
 import { hexadecimal } from '../../../utils/StringUtils';
-import { Button, IconButton, Menu, MenuItem } from '@material-ui/core';
-import { ArrowDropDown, Link } from '@material-ui/icons';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { ArrowDropDown, Link } from '@mui/icons-material';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';

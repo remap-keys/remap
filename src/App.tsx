@@ -2,7 +2,6 @@ import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { StyledComponentProps, withStyles } from '@material-ui/core/styles';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top.container';
@@ -11,6 +10,7 @@ import Catalog from './components/catalog/Catalog.container';
 import { Firmware } from './services/firmware/ui/Firmware';
 import Documents from './components/documents/Documents.container';
 import OrganizationManagement from './components/organizations/OrganizationManagement.container';
+import { StyledComponentProps, withStyles } from '@mui/styles';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

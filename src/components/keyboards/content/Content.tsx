@@ -2,7 +2,7 @@ import React from 'react';
 import { ContentActionsType } from '../../configure/content/Content.container';
 import { ContentStateType } from './Content.container';
 import './Content.scss';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import KeyboardList from '../definitionlist/DefinitionList.container';
 import CreateKeyboard from '../createdefinition/CreateDefinition.container';
 import Footer from '../../common/footer/Footer.container';

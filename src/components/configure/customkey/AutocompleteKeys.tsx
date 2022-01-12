@@ -1,7 +1,7 @@
 import React from 'react';
 import './AutocompleteKeys.scss';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField } from '@material-ui/core';
+import Autocomplete from '@mui/lab/Autocomplete';
+import { TextField } from '@mui/material';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
@@ -91,7 +91,7 @@ export default class AutocompleteKeys extends React.Component<
         getOptionLabel={(option) => {
           return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
-        renderOption={(option) => (
+        renderOption={(props, option) => (
           <div className="customkey-auto-select-item">
             <div className="keycode-auto-label-wrapper">
               <div className="keycode-auto-label">

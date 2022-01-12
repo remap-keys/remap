@@ -4,7 +4,7 @@ import {
   KeyboardListActionsType,
   KeyboardListStateType,
 } from './DefinitionList.container';
-import { Button, Card, CardContent, Chip } from '@material-ui/core';
+import { Button, Card, CardContent, Chip } from '@mui/material';
 import {
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,

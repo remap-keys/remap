@@ -4,8 +4,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import {
   ALL_HOTSWAP_TYPE,
@@ -74,105 +75,63 @@ export default class CatalogSearchForm extends React.Component<
     );
   }
 
-  onChangeKeyCount(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeKeyCount(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardKeyCountType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_KEY_COUNT_TYPE);
   }
 
-  onChangeSplitType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeSplitType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardSplitType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_SPLIT_TYPE);
   }
 
-  onChangeStaggeredType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeStaggeredType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardStaggeredType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_STAGGERED_TYPE);
   }
 
-  onChangeLedType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeLedType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardLedType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_LED_TYPE);
   }
 
-  onChangeKeySwitchType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeKeySwitchType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardKeySwitchType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_KEY_SWITCH_TYPE);
   }
 
-  onChangeHotswapType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeHotswapType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardHotswapType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_HOTSWAP_TYPE);
   }
 
-  onChangeOledType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeOledType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardOledType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_OLED_TYPE);
   }
 
-  onChangeSpeakerType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeSpeakerType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardSpeakerType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_SPEAKER_TYPE);
   }
 
-  onChangeWirelessType(
-    event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) {
+  onChangeWirelessType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardWirelessType
       | IConditionNotSelected;

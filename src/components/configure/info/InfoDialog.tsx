@@ -8,8 +8,8 @@ import {
   Grid,
   Paper,
   PaperProps,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import Draggable from 'react-draggable';
 import {
   InfoDialogActionsType,
@@ -103,8 +103,10 @@ export default class InfoDialog extends React.Component<
         maxWidth={'sm'}
         PaperComponent={PaperComponent}
         className="info-dialog"
-        onEnter={() => {
-          this.onEnter();
+        TransitionProps={{
+          onEnter: () => {
+            this.onEnter();
+          },
         }}
       >
         <DialogTitle id="info-dialog-title" style={{ cursor: 'move' }}>
