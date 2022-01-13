@@ -29,11 +29,26 @@
     padding: $space-m;
     margin-bottom: $space-xl;
 
+    &-entry {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &-field {
+        flex: auto;
+        margin-right: $space-m !important;
+      }
+    }
+
     &-row {
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-bottom: $space-s;
+      margin-top: $space-m;
+
+      &:last-child {
+        margin-top: $space-l;
+      }
 
       &-buttons {
         width: 100%;

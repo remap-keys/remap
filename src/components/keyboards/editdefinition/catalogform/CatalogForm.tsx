@@ -452,32 +452,31 @@ export default function CatalogForm(props: CatalogFormProps) {
                   className="edit-definition-catalog-form-row"
                   key={`additional-description-${index}`}
                 >
-                  <FormControl variant="outlined">
-                    <InputLabel htmlFor={`additional-description-${index}`}>
-                      Additional Description ({item.title})
-                    </InputLabel>
-                    <OutlinedInput
-                      id={`additional-description-${index}`}
-                      type="text"
-                      multiline
-                      rows={4}
-                      value={item.body}
-                      onChange={onChangeDescription}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="Delete this additional description"
-                            onClick={() => {
-                              onClickAdditionalDescriptionDelete(index);
-                            }}
-                            edge="end"
-                          >
-                            <Delete />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      readOnly={true}
-                    />
+                  <FormControl>
+                    <div className="edit-definition-catalog-form-additional-description-entry">
+                      <TextField
+                        className="edit-definition-catalog-form-additional-description-entry-field"
+                        label={`Additional Description (${item.title})`}
+                        multiline
+                        rows={4}
+                        value={item.body}
+                        onChange={onChangeDescription}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                      <div>
+                        <IconButton
+                          aria-label="Delete this additional description"
+                          onClick={() => {
+                            onClickAdditionalDescriptionDelete(index);
+                          }}
+                          edge="end"
+                        >
+                          <Delete />
+                        </IconButton>
+                      </div>
+                    </div>
                   </FormControl>
                 </div>
               ))}
