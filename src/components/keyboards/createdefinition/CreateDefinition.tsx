@@ -171,7 +171,7 @@ export default class CreateDefinition extends React.Component<
                   >
                     &lt; Keyboard List
                   </Button>
-                  <Stepper>
+                  <Stepper className="create-definition-stepper">
                     {statusSteps.map((label) => {
                       const stepProps = {};
                       const labelProps = {};
@@ -427,12 +427,13 @@ type FirmwareCodePlaceFormProps = {
 function FirmwareCodePlaceForm(props: FirmwareCodePlaceFormProps) {
   return (
     <div className="create-definition-form-row">
-      <FormControl>
+      <FormControl fullWidth={true}>
         <InputLabel id="create-definition-firmware-code-place">
           Where is the source code of this keyboard&apos;s firmware?
         </InputLabel>
         <Select
           labelId="create-definition-firmware-code-place"
+          label="Where is the source code of this keyboard's firmware?"
           value={props.firmwareCodePlace}
           onChange={(e) =>
             props.updateFirmwareCodePlace(e.target.value as IFirmwareCodePlace)
@@ -634,12 +635,13 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
   return (
     <React.Fragment>
       <div className="create-definition-form-row">
-        <FormControl>
+        <FormControl fullWidth={true}>
           <InputLabel id="create-definition-author-type">
             The author type of this keyboard is
           </InputLabel>
           <Select
             labelId="create-definition-author-type"
+            label="The author type of this keyboard is"
             value={props.authorType}
             onChange={(e) =>
               props.updateAuthorType(
@@ -656,12 +658,13 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
       </div>
       {props.authorType === 'organization' ? (
         <div className="create-definition-form-row">
-          <FormControl>
+          <FormControl fullWidth={true}>
             <InputLabel id="create-definition-organization-id">
               Organization
             </InputLabel>
             <Select
               labelId="create-definition-organization-id"
+              label="Organization"
               value={props.organizationId}
               onChange={(e) =>
                 props.updateOrganizationId(e.target.value as string)

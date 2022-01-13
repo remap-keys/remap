@@ -19,6 +19,11 @@
   align-items: center;
 }
 
+.create-definition-stepper {
+  margin-top: $space-l;
+  margin-bottom: $space-l !important;
+}
+
 .create-definition-card {
   width: 100%;
   max-width: 960px;
