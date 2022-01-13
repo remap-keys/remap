@@ -34,7 +34,7 @@ const useLayerPaginationStyles = makeStyles({
     display: 'flex',
   },
   unselected: {
-    border: 0,
+    border: '0 !important',
   },
 });
 
