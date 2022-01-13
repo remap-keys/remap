@@ -330,10 +330,12 @@ export class FirebaseProvider implements IStorage, IAuth {
         other_place_how_to_get: otherPlaceHowToGet,
         other_place_source_code_evidence: otherPlaceSourceCodeEvidence,
         other_place_publisher_evidence: otherPlacePublisherEvidence,
-        contact_information: contactInformation,
         author_type: authorType,
         status,
       };
+      if (contactInformation) {
+        data.contact_information = contactInformation;
+      }
       if (authorType === 'organization') {
         data.organization_id = organizationId;
         data.organization_evidence = organizationEvidence || '';
