@@ -166,6 +166,7 @@ export default class CatalogSearchForm extends React.Component<
       <div className="catalog-search-condition-container">
         <div className="catalog-search-condition">
           <TextField
+            variant="standard"
             label="Keyboard Name"
             fullWidth={true}
             value={this.props.keyword}
@@ -180,6 +181,7 @@ export default class CatalogSearchForm extends React.Component<
             </InputLabel>
             <Select
               labelId="catalog-search-key-count"
+              label="Number of Keys"
               value={this.getFeatureValue(ALL_KEY_COUNT_TYPE)}
               onChange={this.onChangeKeyCount.bind(this)}
             >
@@ -202,6 +204,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-split">Integrated/Split</InputLabel>
             <Select
               labelId="catalog-search-split"
+              label="Integrated/Split"
               value={this.getFeatureValue(ALL_SPLIT_TYPE)}
               onChange={this.onChangeSplitType.bind(this)}
             >
@@ -216,6 +219,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-staggered">Staggered</InputLabel>
             <Select
               labelId="catalog-search-staggered"
+              label="Staggered"
               value={this.getFeatureValue(ALL_STAGGERED_TYPE)}
               onChange={this.onChangeStaggeredType.bind(this)}
             >
@@ -233,6 +237,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-lighting">Lighting</InputLabel>
             <Select
               labelId="catalog-search-lighting"
+              label="Lighting"
               value={this.getFeatureValue(ALL_LED_TYPE)}
               onChange={this.onChangeLedType.bind(this)}
             >
@@ -247,6 +252,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-key-switch">Key Switch</InputLabel>
             <Select
               labelId="catalog-search-key-switch"
+              label="Key Switch"
               value={this.getFeatureValue(ALL_KEY_SWITCH_TYPE)}
               onChange={this.onChangeKeySwitchType.bind(this)}
             >
@@ -268,6 +274,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-hot-swap">Hot Swap</InputLabel>
             <Select
               labelId="catalog-search-hot-swap"
+              label="Hot Swap"
               value={this.getFeatureValue(ALL_HOTSWAP_TYPE)}
               onChange={this.onChangeHotswapType.bind(this)}
             >
@@ -281,6 +288,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-oled">OLED</InputLabel>
             <Select
               labelId="catalog-search-oled"
+              label="OLED"
               value={this.getFeatureValue(ALL_OLED_TYPE)}
               onChange={this.onChangeOledType.bind(this)}
             >
@@ -294,6 +302,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-speaker">Speaker</InputLabel>
             <Select
               labelId="catalog-search-speaker"
+              label="Speaker"
               value={this.getFeatureValue(ALL_SPEAKER_TYPE)}
               onChange={this.onChangeSpeakerType.bind(this)}
             >
@@ -307,6 +316,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-wireless">Wireless</InputLabel>
             <Select
               labelId="catalog-search-wireless"
+              label="Wireless"
               value={this.getFeatureValue(ALL_WIRELESS_TYPE)}
               onChange={this.onChangeWirelessType.bind(this)}
             >
