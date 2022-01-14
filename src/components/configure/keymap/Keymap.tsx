@@ -351,6 +351,7 @@ type LabelLangProps = {
 function LabelLang(props: LabelLangProps) {
   return (
     <Select
+      variant="standard"
       value={props.labelLang!}
       onChange={(e) => {
         props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);
