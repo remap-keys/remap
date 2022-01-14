@@ -287,7 +287,10 @@ export default class EditDefinition extends React.Component<
                       menuAnchorEl={this.state.menuAnchorEl}
                     />
                   </div>
-                  <Stepper activeStep={activeStep}>
+                  <Stepper
+                    activeStep={activeStep}
+                    className="edit-keyboard-stepper"
+                  >
                     {statusSteps.map((label) => {
                       const stepProps = {
                         completed,
