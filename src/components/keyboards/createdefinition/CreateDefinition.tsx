@@ -70,8 +70,12 @@ export default class CreateDefinition extends React.Component<
     this.refInputProductName = React.createRef<HTMLInputElement>();
   }
 
-  componentDidMount() {
-    if (this.props.organizations && this.props.organizations.length > 0) {
+  componentDidUpdate() {
+    if (
+      this.props.organizations &&
+      this.props.organizations.length > 0 &&
+      this.props.organizationId === undefined
+    ) {
       this.props.updateOrganizationId!(this.props.organizations[0].id!);
     }
   }
