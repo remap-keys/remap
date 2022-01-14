@@ -308,7 +308,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     otherPlaceHowToGet: string,
     otherPlaceSourceCodeEvidence: string,
     otherPlacePublisherEvidence: string,
-    contactInformation: string,
+    contactInformation: string | undefined,
     organizationEvidence: string,
     authorType: IKeyboardDefinitionAuthorType,
     organizationId: string | undefined,
