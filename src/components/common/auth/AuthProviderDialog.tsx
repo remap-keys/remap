@@ -8,11 +8,11 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import './AuthProviderDialog.scss';
-import { GitHub, Person } from '@material-ui/icons';
+import { GitHub, Person } from '@mui/icons-material';
 
 type OwnState = {};
 

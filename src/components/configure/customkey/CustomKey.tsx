@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './CustomKey.scss';
-import Popover from '@material-ui/core/Popover';
-import { AppBar, Tab, Tabs, TextField } from '@material-ui/core';
+import Popover from '@mui/material/Popover';
+import { AppBar, Tab, Tabs, TextField } from '@mui/material';
 import { Key } from '../keycodekey/KeyGen';
 import TabKey from './TabKey.container';
 import {
@@ -302,7 +302,9 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
         open={this.props.open}
         anchorReference="anchorPosition"
         anchorPosition={this.props.position}
-        onEnter={this.onEnter.bind(this)}
+        TransitionProps={{
+          onEnter: this.onEnter.bind(this),
+        }}
         onClose={() => {
           this.props.onClose();
         }}

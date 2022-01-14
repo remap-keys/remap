@@ -3,7 +3,7 @@ import {
   LayoutOptionComponentListActionsType,
   LayoutOptionComponentListStateType,
 } from './LayoutOptionComponentList.container';
-import { Grid, MenuItem, Select, Switch } from '@material-ui/core';
+import { Grid, MenuItem, Select, Switch } from '@mui/material';
 import './LayoutOptionComponentList.scss';
 
 type OwnProps = {

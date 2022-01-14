@@ -1,6 +1,6 @@
 import React from 'react';
 import './Keymap.scss';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import KeyboardModel from '../../../models/KeyboardModel';
 import KeyModel from '../../../models/KeyModel';
 import Keycap from '../keycap/Keycap';

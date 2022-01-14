@@ -4,8 +4,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import {
   ALL_HOTSWAP_TYPE,
@@ -74,105 +75,63 @@ export default class CatalogSearchForm extends React.Component<
     );
   }
 
-  onChangeKeyCount(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeKeyCount(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardKeyCountType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_KEY_COUNT_TYPE);
   }
 
-  onChangeSplitType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeSplitType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardSplitType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_SPLIT_TYPE);
   }
 
-  onChangeStaggeredType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeStaggeredType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardStaggeredType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_STAGGERED_TYPE);
   }
 
-  onChangeLedType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeLedType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardLedType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_LED_TYPE);
   }
 
-  onChangeKeySwitchType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeKeySwitchType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardKeySwitchType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_KEY_SWITCH_TYPE);
   }
 
-  onChangeHotswapType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeHotswapType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardHotswapType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_HOTSWAP_TYPE);
   }
 
-  onChangeOledType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeOledType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardOledType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_OLED_TYPE);
   }
 
-  onChangeSpeakerType(
-    event: React.ChangeEvent<{
-      name?: string | undefined;
-      value: unknown;
-    }>
-  ) {
+  onChangeSpeakerType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardSpeakerType
       | IConditionNotSelected;
     this.props.updateFeatures!(value, ALL_SPEAKER_TYPE);
   }
 
-  onChangeWirelessType(
-    event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) {
+  onChangeWirelessType(event: SelectChangeEvent) {
     const value = event.target.value as
       | IKeyboardWirelessType
       | IConditionNotSelected;
@@ -207,6 +166,7 @@ export default class CatalogSearchForm extends React.Component<
       <div className="catalog-search-condition-container">
         <div className="catalog-search-condition">
           <TextField
+            variant="standard"
             label="Keyboard Name"
             fullWidth={true}
             value={this.props.keyword}
@@ -221,6 +181,7 @@ export default class CatalogSearchForm extends React.Component<
             </InputLabel>
             <Select
               labelId="catalog-search-key-count"
+              label="Number of Keys"
               value={this.getFeatureValue(ALL_KEY_COUNT_TYPE)}
               onChange={this.onChangeKeyCount.bind(this)}
             >
@@ -243,6 +204,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-split">Integrated/Split</InputLabel>
             <Select
               labelId="catalog-search-split"
+              label="Integrated/Split"
               value={this.getFeatureValue(ALL_SPLIT_TYPE)}
               onChange={this.onChangeSplitType.bind(this)}
             >
@@ -257,6 +219,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-staggered">Staggered</InputLabel>
             <Select
               labelId="catalog-search-staggered"
+              label="Staggered"
               value={this.getFeatureValue(ALL_STAGGERED_TYPE)}
               onChange={this.onChangeStaggeredType.bind(this)}
             >
@@ -274,6 +237,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-lighting">Lighting</InputLabel>
             <Select
               labelId="catalog-search-lighting"
+              label="Lighting"
               value={this.getFeatureValue(ALL_LED_TYPE)}
               onChange={this.onChangeLedType.bind(this)}
             >
@@ -288,6 +252,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-key-switch">Key Switch</InputLabel>
             <Select
               labelId="catalog-search-key-switch"
+              label="Key Switch"
               value={this.getFeatureValue(ALL_KEY_SWITCH_TYPE)}
               onChange={this.onChangeKeySwitchType.bind(this)}
             >
@@ -309,6 +274,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-hot-swap">Hot Swap</InputLabel>
             <Select
               labelId="catalog-search-hot-swap"
+              label="Hot Swap"
               value={this.getFeatureValue(ALL_HOTSWAP_TYPE)}
               onChange={this.onChangeHotswapType.bind(this)}
             >
@@ -322,6 +288,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-oled">OLED</InputLabel>
             <Select
               labelId="catalog-search-oled"
+              label="OLED"
               value={this.getFeatureValue(ALL_OLED_TYPE)}
               onChange={this.onChangeOledType.bind(this)}
             >
@@ -335,6 +302,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-speaker">Speaker</InputLabel>
             <Select
               labelId="catalog-search-speaker"
+              label="Speaker"
               value={this.getFeatureValue(ALL_SPEAKER_TYPE)}
               onChange={this.onChangeSpeakerType.bind(this)}
             >
@@ -348,6 +316,7 @@ export default class CatalogSearchForm extends React.Component<
             <InputLabel id="catalog-search-wireless">Wireless</InputLabel>
             <Select
               labelId="catalog-search-wireless"
+              label="Wireless"
               value={this.getFeatureValue(ALL_WIRELESS_TYPE)}
               onChange={this.onChangeWirelessType.bind(this)}
             >

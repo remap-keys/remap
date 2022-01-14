@@ -6,9 +6,9 @@ import {
   KeyboardListStateType,
 } from './KeyboardList.container';
 import './KeyboardList.scss';
-import KeyboardIcon from '@material-ui/icons/Keyboard';
-import ForwardIcon from '@material-ui/icons/Forward';
-import LaptopChromebookIcon from '@material-ui/icons/LaptopChromebook';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
+import ForwardIcon from '@mui/icons-material/Forward';
+import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
 
 type OwnProps = {};
 type KeyboardListProps = OwnProps &

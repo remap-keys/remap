@@ -1,6 +1,6 @@
 import { IKeyboardFeatures } from '../../../store/state';
 import React from 'react';
-import { Chip, Tooltip } from '@material-ui/core';
+import { Chip, Tooltip } from '@mui/material';
 
 const featureMap: { [p: string]: { [p: string]: string } } = {
   over_100: {

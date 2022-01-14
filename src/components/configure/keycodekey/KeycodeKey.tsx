@@ -6,7 +6,7 @@ import {
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
 import { Key } from './KeyGen';
-import { Edit as EditIcon } from '@material-ui/icons';
+import { Edit as EditIcon } from '@mui/icons-material';
 
 export type AnyKey = {
   label: string;

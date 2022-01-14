@@ -4,8 +4,8 @@ import {
   CatalogIntroductionStateType,
 } from './CatalogIntroduction.container';
 import './CatalogIntroduction.scss';
-import { Grid, Link, Paper, Tab, Tabs, Typography } from '@material-ui/core';
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import { Grid, Link, Paper, Tab, Tabs, Typography } from '@mui/material';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import {

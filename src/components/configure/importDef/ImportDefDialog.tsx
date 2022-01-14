@@ -5,10 +5,10 @@ import {
   ConfigurationDialogActionsType,
   ConfigurationDialogStateType,
 } from './ImportDefDialog.container';
-import { Button, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import Paper, { PaperProps } from '@material-ui/core/Paper';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import Paper, { PaperProps } from '@mui/material/Paper';
+import { Alert, AlertTitle } from '@mui/lab';
 
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';

@@ -1,11 +1,6 @@
-import {
-  Badge,
-  Chip,
-  IconButton,
-  makeStyles,
-  withStyles,
-} from '@material-ui/core';
-import { usePagination } from '@material-ui/lab';
+import { Badge, Chip, IconButton } from '@mui/material';
+import { makeStyles, withStyles } from '@mui/styles';
+import { usePagination } from '@mui/lab';
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
@@ -13,7 +8,7 @@ import {
   KeyboardArrowUp,
   MoreHoriz,
   MoreVert,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import React from 'react';
 
 const useLayerPaginationStyles = makeStyles({
@@ -39,7 +34,7 @@ const useLayerPaginationStyles = makeStyles({
     display: 'flex',
   },
   unselected: {
-    border: 0,
+    border: '0 !important',
   },
 });
 

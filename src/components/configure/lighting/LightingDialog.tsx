@@ -7,8 +7,8 @@ import {
   DialogTitle,
   Paper,
   PaperProps,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import Draggable from 'react-draggable';
 import Lighting, { defaultUnderglowEffects, Hsv } from './Lighting';
 import { IKeyboard } from '../../../services/hid/Hid';

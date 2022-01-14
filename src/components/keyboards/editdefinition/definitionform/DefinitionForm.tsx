@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import {
   IKeyboardDefinitionAuthorType,
@@ -432,6 +432,7 @@ function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
           </InputLabel>
           <Select
             labelId="edit-definition-firmware-code-place"
+            label="Where is the source code of this keyboard's firmware?"
             value={props.firmwareCodePlace}
             onChange={(e) =>
               props.updateFirmwareCodePlace(
@@ -798,6 +799,7 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
             </InputLabel>
             <Select
               labelId="create-definition-author-type"
+              label="The author type of this keyboard is"
               value={props.authorType}
               onChange={(e) =>
                 props.updateAuthorType(
@@ -820,6 +822,7 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
               </InputLabel>
               <Select
                 labelId="create-definition-organization-id"
+                label="Organization"
                 value={props.organizationId}
                 onChange={(e) =>
                   props.updateOrganizationId(e.target.value as string)

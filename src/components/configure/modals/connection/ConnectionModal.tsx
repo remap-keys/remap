@@ -1,6 +1,6 @@
 import React from 'react';
 import './ConnectionModal.scss';
-import { Backdrop, Fade, Modal } from '@material-ui/core';
+import { Backdrop, Fade, Modal } from '@mui/material';
 
 type OnCloseHandler = () => void;
 

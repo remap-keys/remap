@@ -1,7 +1,7 @@
 import React from 'react';
 import './AutocompleteKeys.scss';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField } from '@material-ui/core';
+import Autocomplete from '@mui/lab/Autocomplete';
+import { TextField } from '@mui/material';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
 
@@ -91,22 +91,24 @@ export default class AutocompleteKeys extends React.Component<
         getOptionLabel={(option) => {
           return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
-        renderOption={(option) => (
-          <div className="customkey-auto-select-item">
-            <div className="keycode-auto-label-wrapper">
-              <div className="keycode-auto-label">
-                {option.keycodeInfo!.label}
-              </div>
-              {this.props.showKinds != false && (
-                <div className="keycode-auto-category">
-                  {kinds2CategoriyLabel(option.kinds)}
+        renderOption={(props, option) => (
+          <li {...props}>
+            <div className="customkey-auto-select-item">
+              <div className="keycode-auto-label-wrapper">
+                <div className="keycode-auto-label">
+                  {option.keycodeInfo!.label}
                 </div>
+                {this.props.showKinds != false && (
+                  <div className="keycode-auto-category">
+                    {kinds2CategoryLabel(option.kinds)}
+                  </div>
+                )}
+              </div>
+              {option.desc && (
+                <div className="keycode-auto-desc">{option.desc}</div>
               )}
             </div>
-            {option.desc && (
-              <div className="keycode-auto-desc">{option.desc}</div>
-            )}
-          </div>
+          </li>
         )}
         renderInput={(params) => (
           <TextField
@@ -127,7 +129,7 @@ export default class AutocompleteKeys extends React.Component<
   }
 }
 
-export const kinds2CategoriyLabel = (kinds: KeymapCategory[]): string => {
+export const kinds2CategoryLabel = (kinds: KeymapCategory[]): string => {
   const cat = kinds
     .map((k) => {
       return k

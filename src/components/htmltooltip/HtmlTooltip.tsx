@@ -1,7 +1,7 @@
-import { withStyles } from '@material-ui/core/styles';
-import { Theme, Tooltip } from '@material-ui/core';
+import { Theme, Tooltip } from '@mui/material';
+import { withStyles } from 'tss-react/mui';
 
-export const HtmlTooltip = withStyles((theme: Theme) => ({
+export const HtmlTooltip = withStyles(Tooltip, (theme: Theme) => ({
   tooltip: {
     backgroundColor: '#f5f5f9',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -9,4 +9,4 @@ export const HtmlTooltip = withStyles((theme: Theme) => ({
     fontSize: theme.typography.pxToRem(12),
     border: '1px solid #dadde9',
   },
-}))(Tooltip);
+}));

@@ -13,10 +13,10 @@ import {
   Switch,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import Draggable from 'react-draggable';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   KeymapSaveDialogActionsType,
   KeymapSaveDialogStateType,
@@ -154,7 +154,9 @@ export default class LayoutOptionPopover extends React.Component<
         maxWidth={'md'}
         PaperComponent={PaperComponent}
         className="keymap-save-dialog"
-        onEnter={this.onEnter.bind(this)}
+        TransitionProps={{
+          onEnter: this.onEnter.bind(this),
+        }}
       >
         <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
           {this.isEdit ? 'Edit saved keymap' : 'Save a new keymap'}

@@ -9,7 +9,7 @@ import {
   Slider,
   Switch,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 import { IKeyboard } from '../../../services/hid/Hid';
 
@@ -320,11 +320,12 @@ function Underglow(props: UnderglowProps) {
         <h4>UNDERGLOW</h4>
       </Grid>
       <Grid item xs={6}>
-        <Grid container spacing={1} justify="center" alignItems="center">
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
           <Grid item xs={12}>
             <div className="lighting-label">Effect Mode</div>
             <div>
               <Select
+                variant="standard"
                 className="lighting-value"
                 defaultValue={props.underglowEffectIndex}
                 value={props.underglowEffectIndex}
@@ -353,6 +354,7 @@ function Underglow(props: UnderglowProps) {
             </div>
             <div className="underglow-color">
               <TextField
+                variant="standard"
                 label="RGB"
                 className="underglow-color-value color-rgb"
                 value={props.underglowHex}
@@ -360,6 +362,7 @@ function Underglow(props: UnderglowProps) {
                 onChange={(e) => props.onChangeColorHex(e.target.value)}
               />
               <TextField
+                variant="standard"
                 label="Hue"
                 className="underglow-color-value color-hue"
                 type="number"
@@ -374,6 +377,7 @@ function Underglow(props: UnderglowProps) {
                 }}
               />
               <TextField
+                variant="standard"
                 label="Saturation"
                 className="underglow-color-value color-saturation"
                 type="number"
@@ -388,6 +392,7 @@ function Underglow(props: UnderglowProps) {
                 }}
               />
               <TextField
+                variant="standard"
                 label="Brightness"
                 className="underglow-color-value color-brightness"
                 type="number"

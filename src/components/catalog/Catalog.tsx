@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CssBaseline } from '@material-ui/core';
+import { Button, CssBaseline } from '@mui/material';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
 import { ProviderContext, withSnackbar } from 'notistack';
 import { CatalogActionsType, CatalogStateType } from './Catalog.container';
 import { NotificationItem } from '../../actions/actions';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import * as qs from 'qs';
 import { useLocation, useParams } from 'react-router-dom';
 

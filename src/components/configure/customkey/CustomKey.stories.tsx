@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import CustomKey from './CustomKey';
 import Keycap from '../keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';

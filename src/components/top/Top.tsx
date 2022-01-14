@@ -1,15 +1,3 @@
-import {
-  AppBar,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  CssBaseline,
-  Grid,
-  Link,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
 import React, { useEffect } from 'react';
 import catalog from '../../assets/images/top/catalog.png';
 import keyAssign from '../../assets/images/top/key-assign.png';
@@ -25,9 +13,21 @@ import firmwareWriting from '../../assets/images/top/firmware-writing.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
-import { Alert } from '@material-ui/lab';
 import { TopActionsType, TopStateType } from './Top.container';
 import { useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  CssBaseline,
+  Grid,
+  Link,
+  Toolbar,
+  Typography,
+  Alert,
+} from '@mui/material';
 
 type IFeatureCardProps = {
   image: any;
@@ -133,7 +133,7 @@ export default function Top(props: TopPropsType) {
               keyboard with QMK firmware in Web Browser.
             </Typography>
             <div className="hero-buttons">
-              <Grid container spacing={2} justify="center">
+              <Grid container spacing={2} justifyContent="center">
                 <Grid item>
                   <Button
                     variant="contained"
@@ -153,7 +153,7 @@ export default function Top(props: TopPropsType) {
                   </Button>
                 </Grid>
               </Grid>
-              <Grid container spacing={2} justify="center">
+              <Grid container spacing={2} justifyContent="center">
                 <Grid item>
                   <Button
                     variant="text"

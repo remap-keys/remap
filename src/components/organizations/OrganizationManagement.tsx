@@ -5,8 +5,8 @@ import {
 import { ProviderContext, withSnackbar } from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import React, { useEffect, useState } from 'react';
-import { Button, CssBaseline } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Button, CssBaseline } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { getGitHubProviderData } from '../../services/auth/Auth';
 import Header from './header/Header.container';
 import Content from './content/Content.container';

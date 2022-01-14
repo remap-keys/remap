@@ -6,8 +6,8 @@ import {
   MacroEditorActionsType,
   MacroEditorStateType,
 } from './MacroEditor.container';
-import { Button } from '@material-ui/core';
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import { Button } from '@mui/material';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Key } from '../keycodekey/KeyGen';
 import {
   Hold,

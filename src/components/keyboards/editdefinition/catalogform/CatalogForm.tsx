@@ -10,19 +10,17 @@ import {
   FormGroup,
   FormLabel,
   IconButton,
-  InputAdornment,
-  InputLabel,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
   MenuItem,
-  OutlinedInput,
   Paper,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   ALL_HOTSWAP_TYPE,
   ALL_OLED_TYPE,
@@ -37,7 +35,7 @@ import {
   CatalogFormActionsType,
   CatalogFormStateType,
 } from './CatalogForm.container';
-import { Delete } from '@material-ui/icons';
+import { Delete } from '@mui/icons-material';
 import StoreAddDialog from './StoreAddDialog';
 import { IStore, ISubImage } from '../../../../services/storage/Storage';
 import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
@@ -84,7 +82,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeKeyboardType = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -95,7 +93,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeKeyLayout = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -177,7 +175,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeCapacitiveSensingType = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: SelectChangeEvent,
     checked: boolean
   ): void => {
     props.updateFeature!(
@@ -187,7 +185,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeHotSwap = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -198,7 +196,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeOled = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -209,7 +207,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeSpeaker = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -220,7 +218,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeWireless = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>,
+    event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
     child: React.ReactNode
   ): void => {
@@ -451,33 +449,31 @@ export default function CatalogForm(props: CatalogFormProps) {
                   className="edit-definition-catalog-form-row"
                   key={`additional-description-${index}`}
                 >
-                  <FormControl variant="outlined">
-                    <InputLabel htmlFor={`additional-description-${index}`}>
-                      Additional Description ({item.title})
-                    </InputLabel>
-                    <OutlinedInput
-                      id={`additional-description-${index}`}
-                      type="text"
-                      multiline
-                      rows={4}
-                      value={item.body}
-                      onChange={onChangeDescription}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="Delete this additional description"
-                            onClick={() => {
-                              onClickAdditionalDescriptionDelete(index);
-                            }}
-                            edge="end"
-                          >
-                            <Delete />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      labelWidth={(item.title.length + 25) * 8.5}
-                      readOnly={true}
-                    />
+                  <FormControl>
+                    <div className="edit-definition-catalog-form-additional-description-entry">
+                      <TextField
+                        className="edit-definition-catalog-form-additional-description-entry-field"
+                        label={`Additional Description (${item.title})`}
+                        multiline
+                        rows={4}
+                        value={item.body}
+                        onChange={onChangeDescription}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                      <div>
+                        <IconButton
+                          aria-label="Delete this additional description"
+                          onClick={() => {
+                            onClickAdditionalDescriptionDelete(index);
+                          }}
+                          edge="end"
+                        >
+                          <Delete />
+                        </IconButton>
+                      </div>
+                    </div>
                   </FormControl>
                 </div>
               ))}
@@ -506,7 +502,6 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <div className="edit-definition-catalog-form-additional-description-row-buttons">
                       <Button
                         variant="contained"
-                        color="default"
                         onClick={onClickAdditionalDescriptionAdd}
                         disabled={
                           !(

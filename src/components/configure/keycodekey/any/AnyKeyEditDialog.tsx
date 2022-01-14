@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-} from '@material-ui/core';
+} from '@mui/material';
 import './AnyKeyEditDialog.scss';
 import { AnyKey } from '../KeycodeKey';
 
@@ -90,7 +90,9 @@ export default class AnyKeyDialog extends React.Component<
       <Dialog
         open={this.props.open}
         aria-labelledby="form-dialog-title"
-        onEnter={this.onInit.bind(this)}
+        TransitionProps={{
+          onEnter: this.onInit.bind(this),
+        }}
         className="anykey-dialog"
       >
         <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>

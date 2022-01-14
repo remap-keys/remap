@@ -9,18 +9,12 @@ import KeyModel from '../../../../models/KeyModel';
 import { IKeymap } from '../../../../services/hid/Hid';
 import { MOD_LEFT } from '../../../../services/hid/Composition';
 import Keycap from '../../../configure/keycap/Keycap.container';
-import {
-  Grid,
-  IconButton,
-  Paper,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Grid, IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { AbstractKeymapData } from '../../../../services/storage/Storage';
 import { KeyLabelLangs } from '../../../../services/labellang/KeyLabelLangs';
 import LayoutOptionComponentList from '../../../configure/layoutoption/LayoutOptionComponentList.container';
 import CatalogKeymapList from './CatalogKeymapList.container';
-import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
 import { genKey, Key } from '../../../configure/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../../services/pdf/KeymapPdfGenerator';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';

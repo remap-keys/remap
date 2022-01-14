@@ -16,8 +16,8 @@ import {
   Tab,
   Tabs,
   Typography,
-} from '@material-ui/core';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
+} from '@mui/material';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import KeymapSaveDialog from './KeymapSaveDialog.container';
 import {
   AbstractKeymapData,
@@ -29,7 +29,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import { Link } from '@material-ui/icons';
+import { Link } from '@mui/icons-material';
 
 type PopoverPosition = {
   left: number;
@@ -156,7 +156,9 @@ export default class KeymapListPopover extends React.Component<
         open={this.props.open}
         anchorReference="anchorPosition"
         anchorPosition={this.state.popoverPosition}
-        onEnter={this.onEnter.bind(this)}
+        TransitionProps={{
+          onEnter: this.onEnter.bind(this),
+        }}
         onClose={() => {
           this.props.onClose();
         }}

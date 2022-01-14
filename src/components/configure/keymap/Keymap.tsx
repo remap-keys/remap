@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import { IconButton, MenuItem, Select } from '@material-ui/core';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { IconButton, MenuItem, Select } from '@mui/material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
 import { IKeymap } from '../../../services/hid/Hid';
@@ -351,6 +351,7 @@ type LabelLangProps = {
 function LabelLang(props: LabelLangProps) {
   return (
     <Select
+      variant="standard"
       value={props.labelLang!}
       onChange={(e) => {
         props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);

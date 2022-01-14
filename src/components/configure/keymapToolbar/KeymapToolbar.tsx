@@ -14,12 +14,12 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-} from '@material-ui/core';
-import ClearAllRoundedIcon from '@material-ui/icons/ClearAllRounded';
-import FlareRoundedIcon from '@material-ui/icons/FlareRounded';
-import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
-import ViewQuiltRoundedIcon from '@material-ui/icons/ViewQuiltRounded';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+} from '@mui/material';
+import ClearAllRoundedIcon from '@mui/icons-material/ClearAllRounded';
+import FlareRoundedIcon from '@mui/icons-material/FlareRounded';
+import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
+import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {
   KeymapMenuActionsType,
   KeymapMenuStateType,
@@ -31,11 +31,11 @@ import LightingDialog from '../lighting/LightingDialog';
 import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';
 import { ImportFileIcon } from '../../common/icons/ImportFileIcon';
 import ImportDefDialog from '../importDef/ImportDefDialog.container';
-import SwapHorizRoundedIcon from '@material-ui/icons/SwapHorizRounded';
-import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import SwapHorizRoundedIcon from '@mui/icons-material/SwapHorizRounded';
+import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import { Restore as RestoreIcon } from '@material-ui/icons';
+import { Restore as RestoreIcon } from '@mui/icons-material';
 
 type OwnProp = {};
 
@@ -315,7 +315,6 @@ export default class KeymapMenu extends React.Component<
               className="keymap-menu-item-submenu"
             >
               <MenuItem
-                button
                 onClick={this.onClickOpenImportDefFileDialog.bind(this)}
               >
                 <ListItemIcon>
@@ -324,14 +323,14 @@ export default class KeymapMenu extends React.Component<
                 <ListItemText primary="Import keyboard definition file" />
               </MenuItem>
 
-              <MenuItem button onClick={this.onClickTestMatrixMode.bind(this)}>
+              <MenuItem onClick={this.onClickTestMatrixMode.bind(this)}>
                 <ListItemIcon>
                   <ViewComfyIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Test Matrix mode" />
               </MenuItem>
 
-              <MenuItem button onClick={this.onClickResetKeymap.bind(this)}>
+              <MenuItem onClick={this.onClickResetKeymap.bind(this)}>
                 <ListItemIcon>
                   <RestoreIcon fontSize="small" />
                 </ListItemIcon>

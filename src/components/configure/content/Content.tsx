@@ -5,7 +5,7 @@ import KeyboardList from '../keyboardlist/KeyboardList.container';
 import { ISetupPhase, SetupPhase } from '../../../store/state';
 import KeyboardDefinitionForm from '../keyboarddefform/KeyboardDefinitionForm.container';
 import Remap from '../remap/Remap.container';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import { isApprovedKeyboard } from '../../../services/storage/Storage';
 
 type ContentState = {};

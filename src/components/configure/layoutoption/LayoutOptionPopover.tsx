@@ -5,7 +5,7 @@ import {
   LayoutOptionPopoverActionsType,
   LayoutOptionPopoverStateType,
 } from './LayoutOptionPopover.container';
-import { Grid, Popover } from '@material-ui/core';
+import { Grid, Popover } from '@mui/material';
 import LayoutOptionComponentList from './LayoutOptionComponentList.container';
 
 type PopoverPosition = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, FormControlLabel, Link } from '@material-ui/core';
+import { Checkbox, FormControlLabel, Link } from '@mui/material';
 
 export type IProps = {
   agreement: boolean;

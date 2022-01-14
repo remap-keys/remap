@@ -19,9 +19,9 @@ import {
   ListItemText,
   TextField,
   Typography,
-} from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+} from '@mui/material';
+import { Button } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import { IOrganizationMember } from '../../../services/storage/Storage';
 
 type EditOrganizationState = {

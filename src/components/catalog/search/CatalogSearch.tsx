@@ -11,15 +11,15 @@ import {
   Typography,
   CardMedia,
   IconButton,
-} from '@material-ui/core';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+  Pagination,
+} from '@mui/material';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import {
   getGitHubUserDisplayName,
   IKeyboardDefinitionDocument,
   IOrganization,
 } from '../../../services/storage/Storage';
-import { Pagination } from '@material-ui/lab';
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { hexadecimal } from '../../../utils/StringUtils';
 import FeatureList from '../../common/features/FeatureList';

@@ -5,7 +5,7 @@ import {
   CatalogKeymapListActionsType,
   CatalogKeymapListStateType,
 } from './CatalogKeymapList.container';
-import { List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
 
 type OwnProps = {
   // eslint-disable-next-line no-unused-vars
