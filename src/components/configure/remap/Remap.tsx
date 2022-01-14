@@ -6,7 +6,7 @@ import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap.container';
 import { RemapActionsType, RemapStateType } from './Remap.container';
 import { Key } from '../keycodekey/KeyGen';
-import { kinds2CategoriyLabel } from '../customkey/AutocompleteKeys';
+import { kinds2CategoryLabel } from '../customkey/AutocompleteKeys';
 import MacroEditor from '../macroeditor/MacroEditor.container';
 
 type OwnProp = {};
@@ -86,7 +86,7 @@ function Desc(props: DescType) {
     const isAscii = props.value.keymap.isAscii;
     const code = info.code;
     const hex = hexadecimal(code);
-    const categories = kinds2CategoriyLabel(props.value.keymap.kinds);
+    const categories = kinds2CategoryLabel(props.value.keymap.kinds);
     const desc = props.value.keymap.desc ? ': ' + props.value.keymap.desc : '';
     const keycodeName = props.value.keymap.keycodeInfo.name.long;
     const label = isAscii ? `ASCII(${keycodeName})` : keycodeName;
