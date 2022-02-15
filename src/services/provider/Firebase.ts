@@ -1440,18 +1440,29 @@ export class FirebaseProvider implements IStorage, IAuth {
     organizationIds: string[]
   ): Promise<IFetchOrganizationsByIdsResult> {
     try {
-      const querySnapshot = await this.db
-        .collection('organizations')
-        .doc('v1')
-        .collection('profiles')
-        .where(firebase.firestore.FieldPath.documentId(), 'in', organizationIds)
-        .get();
+      const organizationMap: Record<string, IOrganization> = {};
+      for (const organizationId of organizationIds) {
+        const documentSnapshot = await this.db
+          .collection('organizations')
+          .doc('v1')
+          .collection('profiles')
+          .doc(organizationId)
+          .get();
+        if (documentSnapshot.exists) {
+          organizationMap[documentSnapshot.id] = {
+            id: documentSnapshot.id,
+            ...documentSnapshot.data(),
+          } as IOrganization;
+        } else {
+          return {
+            success: false,
+            error: `The organization[${organizationId}}] not found`,
+          };
+        }
+      }
       return {
         success: true,
-        organizationMap: querySnapshot.docs.reduce((result, doc) => {
-          result[doc.id] = { id: doc.id, ...doc.data() } as IOrganization;
-          return result;
-        }, {} as Record<string, IOrganization>),
+        organizationMap,
       };
     } catch (error) {
       console.error(error);

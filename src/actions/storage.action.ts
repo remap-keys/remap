@@ -437,7 +437,7 @@ export const storageActionsThunk = {
       .documents!.filter((doc) => doc.authorType === 'organization')
       .map((doc) => doc.organizationId)
       .reduce((result, id) => {
-        if (id !== undefined) {
+        if (id !== undefined && !result.includes(id)) {
           result.push(id);
         }
         return result;
@@ -964,7 +964,7 @@ export const storageActionsThunk = {
         .filter((doc) => doc.authorType === 'organization')
         .map((doc) => doc.organizationId)
         .reduce((result, id) => {
-          if (id !== undefined) {
+          if (id !== undefined && !result.includes(id)) {
             result.push(id);
           }
           return result;
