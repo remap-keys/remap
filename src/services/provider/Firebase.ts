@@ -108,16 +108,16 @@ export class FirebaseProvider implements IStorage, IAuth {
       githubDisplayName: documentSnapshot.data()!.github_display_name,
       githubUrl: documentSnapshot.data()!.github_url,
       firmwareCodePlace: documentSnapshot.data()!.firmware_code_place,
-      qmkRepositoryFirstPullRequestUrl: documentSnapshot.data()!
-        .qmk_repository_first_pull_request_url,
+      qmkRepositoryFirstPullRequestUrl:
+        documentSnapshot.data()!.qmk_repository_first_pull_request_url,
       forkedRepositoryUrl: documentSnapshot.data()!.forked_repository_url,
-      forkedRepositoryEvidence: documentSnapshot.data()!
-        .forked_repository_evidence,
+      forkedRepositoryEvidence:
+        documentSnapshot.data()!.forked_repository_evidence,
       otherPlaceHowToGet: documentSnapshot.data()!.other_place_how_to_get,
-      otherPlaceSourceCodeEvidence: documentSnapshot.data()!
-        .other_place_source_code_evidence,
-      otherPlacePublisherEvidence: documentSnapshot.data()!
-        .other_place_publisher_evidence,
+      otherPlaceSourceCodeEvidence:
+        documentSnapshot.data()!.other_place_source_code_evidence,
+      otherPlacePublisherEvidence:
+        documentSnapshot.data()!.other_place_publisher_evidence,
       organizationEvidence: documentSnapshot.data()!.organization_evidence,
       contactInformation: documentSnapshot.data()!.contact_information,
       features: documentSnapshot.data()!.features || [],
@@ -531,7 +531,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           error: 'Authenticating with GitHub Account failed.',
         };
       }
-    } catch (err) {
+    } catch (err: any) {
       return {
         success: false,
         error: err.message,
@@ -554,7 +554,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           error: 'Authenticating with Google Account failed.',
         };
       }
-    } catch (err) {
+    } catch (err: any) {
       return {
         success: false,
         error: err.message,
@@ -579,7 +579,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             error: 'Linking to Google Account failed.',
           };
         }
-      } catch (err) {
+      } catch (err: any) {
         return {
           success: false,
           error: err.message,
@@ -610,7 +610,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             error: 'Linking to GitHub Account failed.',
           };
         }
-      } catch (err) {
+      } catch (err: any) {
         return {
           success: false,
           error: err.message,
@@ -681,10 +681,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       .where('product_id', '==', info.productId)
       .orderBy('created_at', 'desc')
       .get();
-    let keymaps: SavedKeymapData[] = this.filterKeymapsByProductName<SavedKeymapData>(
-      snapshot,
-      info
-    );
+    let keymaps: SavedKeymapData[] =
+      this.filterKeymapsByProductName<SavedKeymapData>(snapshot, info);
     if (withoutMine) {
       keymaps = keymaps.filter(
         (keymap) => keymap.author_uid !== this.auth.currentUser!.uid
@@ -1149,9 +1147,8 @@ export class FirebaseProvider implements IStorage, IAuth {
           .collection('definitions')
           .doc(definitionId)
           .update({
-            total_firmware_download_count: firebase.firestore.FieldValue.increment(
-              1
-            ),
+            total_firmware_download_count:
+              firebase.firestore.FieldValue.increment(1),
           });
       } else if (firmwareCounterType === 'flash') {
         await this.db
@@ -1160,9 +1157,8 @@ export class FirebaseProvider implements IStorage, IAuth {
           .collection('definitions')
           .doc(definitionId)
           .update({
-            total_firmware_flash_count: firebase.firestore.FieldValue.increment(
-              1
-            ),
+            total_firmware_flash_count:
+              firebase.firestore.FieldValue.increment(1),
           });
       } else {
         throw new Error(

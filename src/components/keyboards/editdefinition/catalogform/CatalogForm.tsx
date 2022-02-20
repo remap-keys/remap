@@ -51,14 +51,10 @@ export default function CatalogForm(props: CatalogFormProps) {
   const [mainImageDragging, setMainImageDragging] = useState<boolean>(false);
   const [subImageDragging, setSubImageDragging] = useState<boolean>(false);
   const [openStoreAddDialog, setOpenStoreAddDialog] = useState<boolean>(false);
-  const [
-    additionalDescriptionTitle,
-    setAdditionalDescriptionTitle,
-  ] = useState<string>('');
-  const [
-    additionalDescriptionBody,
-    setAdditionalDescriptionBody,
-  ] = useState<string>('');
+  const [additionalDescriptionTitle, setAdditionalDescriptionTitle] =
+    useState<string>('');
+  const [additionalDescriptionBody, setAdditionalDescriptionBody] =
+    useState<string>('');
 
   const getFeatureValue = (features: readonly string[]): string => {
     for (const feature of props.features!) {

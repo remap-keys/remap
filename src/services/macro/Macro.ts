@@ -127,7 +127,8 @@ export class Macro implements IMacro {
           this.bytes[++pos],
           labelLang
         );
-        const basicComposition = keycodeCompositionFactory.createBasicComposition();
+        const basicComposition =
+          keycodeCompositionFactory.createBasicComposition();
         const keymap = basicComposition.genKeymap()!;
         const key = genKeyWithQmkLabel(keymap, labelLang);
         macroKeys.push({ key, type: 'tap' });
@@ -136,7 +137,8 @@ export class Macro implements IMacro {
           this.bytes[++pos],
           labelLang
         );
-        const basicComposition = keycodeCompositionFactory.createBasicComposition();
+        const basicComposition =
+          keycodeCompositionFactory.createBasicComposition();
         const keymap = basicComposition.genKeymap()!;
         const key = genKeyWithQmkLabel(keymap, labelLang);
         holdKeys.push(key);
@@ -183,7 +185,8 @@ export class Macro implements IMacro {
           labelLang
         );
         if (keycodeCompositionFactory.isAscii()) {
-          const asciiComposition = keycodeCompositionFactory.createAsciiKeycodeComposition();
+          const asciiComposition =
+            keycodeCompositionFactory.createAsciiKeycodeComposition();
           const keymap = asciiComposition.genKeymap()!;
           const key = genKey(keymap, labelLang);
           macroKeys.push({ key, type: 'tap' });

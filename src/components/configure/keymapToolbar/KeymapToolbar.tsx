@@ -207,11 +207,8 @@ export default class KeymapMenu extends React.Component<
       this.props.keyboardDefinition!.lighting
     );
     const hasLayoutOptions = 0 < this.props.selectedKeyboardOptions!.length;
-    const {
-      vendorId,
-      productId,
-      productName,
-    } = this.props.keyboard!.getInformation();
+    const { vendorId, productId, productName } =
+      this.props.keyboard!.getInformation();
     return (
       <React.Fragment>
         <div className="keymap-menu">

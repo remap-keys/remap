@@ -46,14 +46,13 @@ export class CaterinaBootloader implements IBootloader {
     bufferSize?: number;
   }> {
     progress('Fetching the Software Identifier.');
-    const softwareIdentifierResult = await new FetchSoftwareIdentifierCommand().writeRequest(
-      this.serial
-    );
+    const softwareIdentifierResult =
+      await new FetchSoftwareIdentifierCommand().writeRequest(this.serial);
     if (!softwareIdentifierResult.success) {
       return softwareIdentifierResult;
     }
-    const softwareIdentifier = softwareIdentifierResult.response!
-      .softwareIdentifier;
+    const softwareIdentifier =
+      softwareIdentifierResult.response!.softwareIdentifier;
     progress(`The software identifier: ${softwareIdentifier}`);
     if (softwareIdentifier !== 'CATERIN') {
       return {
@@ -63,17 +62,15 @@ export class CaterinaBootloader implements IBootloader {
     }
 
     progress('Fetching the version information.');
-    const versionNumberResult = await new FetchVersionNumberCommand().writeRequest(
-      this.serial
-    );
+    const versionNumberResult =
+      await new FetchVersionNumberCommand().writeRequest(this.serial);
     if (!versionNumberResult.success) {
       return versionNumberResult;
     }
     const versionNumber = versionNumberResult.response!.versionNumber;
     if (versionNumber !== '?'.charCodeAt(0)) {
-      const revisionNumberResult = await new FetchRevisionNumberCommand().writeRequest(
-        this.serial
-      );
+      const revisionNumberResult =
+        await new FetchRevisionNumberCommand().writeRequest(this.serial);
       if (!revisionNumberResult.success) {
         return revisionNumberResult;
       }
@@ -96,22 +93,22 @@ export class CaterinaBootloader implements IBootloader {
     progress(`The program type: ${programType}`);
 
     progress('Fetching the auto address increment support.');
-    const autoAddressIncrementSupportResult = await new FetchAutoAddressIncrementSupportCommand().writeRequest(
-      this.serial
-    );
+    const autoAddressIncrementSupportResult =
+      await new FetchAutoAddressIncrementSupportCommand().writeRequest(
+        this.serial
+      );
     if (!autoAddressIncrementSupportResult.success) {
       return autoAddressIncrementSupportResult;
     }
-    const autoAddressIncrementSupport = autoAddressIncrementSupportResult.response!
-      .autoAddressIncrementSupport;
+    const autoAddressIncrementSupport =
+      autoAddressIncrementSupportResult.response!.autoAddressIncrementSupport;
     progress(
       `The auto address increment support: ${autoAddressIncrementSupport}`
     );
 
     progress('Fetching the buffer access.');
-    const bufferAccessResult = await new FetchBufferAccessCommand().writeRequest(
-      this.serial
-    );
+    const bufferAccessResult =
+      await new FetchBufferAccessCommand().writeRequest(this.serial);
     if (!bufferAccessResult.success) {
       return bufferAccessResult;
     }
@@ -158,9 +155,8 @@ export class CaterinaBootloader implements IBootloader {
     }
 
     progress('Fetching the Extended FUSE Bits.');
-    const extendedFuseBitsResult = await new FetchExtendedFuseBitsCommand().writeRequest(
-      this.serial
-    );
+    const extendedFuseBitsResult =
+      await new FetchExtendedFuseBitsCommand().writeRequest(this.serial);
     if (!extendedFuseBitsResult.success) {
       return extendedFuseBitsResult;
     }
@@ -178,9 +174,8 @@ export class CaterinaBootloader implements IBootloader {
     progress(`The Low Fuse Bits: ${lowFuseBits.toString(16)}`);
 
     progress('Fetching the High Fuse Bits.');
-    const highFuseBitsResult = await new FetchHighFuseBitsCommand().writeRequest(
-      this.serial
-    );
+    const highFuseBitsResult =
+      await new FetchHighFuseBitsCommand().writeRequest(this.serial);
     if (!highFuseBitsResult.success) {
       return highFuseBitsResult;
     }
@@ -223,9 +218,7 @@ export class CaterinaBootloader implements IBootloader {
     }
   }
 
-  private async initialize(
-    progress: FirmwareWriterProgressListener
-  ): Promise<{
+  private async initialize(progress: FirmwareWriterProgressListener): Promise<{
     success: boolean;
     error?: string;
     cause?: any;
@@ -412,12 +405,13 @@ export class CaterinaBootloader implements IBootloader {
       const mcu = initializeResult.mcu!;
       const flashMemorySize =
         size === 0 ? mcu.flashMemorySize : Math.min(mcu.flashMemorySize, size);
-      const readBytesFromFlashMemoryResult = await this.readBytesFromFlashMemory(
-        flashMemorySize,
-        'flash',
-        initializeResult.bufferSize!,
-        progress
-      );
+      const readBytesFromFlashMemoryResult =
+        await this.readBytesFromFlashMemory(
+          flashMemorySize,
+          'flash',
+          initializeResult.bufferSize!,
+          progress
+        );
       if (!readBytesFromFlashMemoryResult.success) {
         return readBytesFromFlashMemoryResult;
       }
@@ -510,9 +504,8 @@ export class CaterinaBootloader implements IBootloader {
         return enterProgramModeResult;
       }
 
-      const clearApplicationSectionOfFlashResult = await this.clearApplicationSectionOfFlash(
-        progress
-      );
+      const clearApplicationSectionOfFlashResult =
+        await this.clearApplicationSectionOfFlash(progress);
       if (!clearApplicationSectionOfFlashResult.success) {
         return clearApplicationSectionOfFlashResult;
       }

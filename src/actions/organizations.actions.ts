@@ -48,170 +48,171 @@ type ThunkPromiseAction<T> = ThunkAction<
 >;
 export const organizationsActionsThunk = {
   // eslint-disable-next-line no-undef
-  logout: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { auth } = getState();
-    dispatch(OrganizationsAppActions.updatePhase('signout'));
-    await auth.instance!.signOut();
-  },
+  logout:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { auth } = getState();
+      dispatch(OrganizationsAppActions.updatePhase('signout'));
+      await auth.instance!.signOut();
+    },
 
-  fetchMyOrganizations: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const fetchMyOrganizationsResult = await storage.instance!.fetchMyOrganizations();
-    if (!fetchMyOrganizationsResult.success) {
-      console.error(fetchMyOrganizationsResult.error!);
+  fetchMyOrganizations:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchMyOrganizationsResult =
+        await storage.instance!.fetchMyOrganizations();
+      if (!fetchMyOrganizationsResult.success) {
+        console.error(fetchMyOrganizationsResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            fetchMyOrganizationsResult.error!,
+            fetchMyOrganizationsResult.cause
+          )
+        );
+      }
       dispatch(
-        NotificationActions.addError(
-          fetchMyOrganizationsResult.error!,
-          fetchMyOrganizationsResult.cause
+        StorageActions.updateOrganizationMap(
+          fetchMyOrganizationsResult.organizationMap!
         )
       );
-    }
-    dispatch(
-      StorageActions.updateOrganizationMap(
-        fetchMyOrganizationsResult.organizationMap!
-      )
-    );
-    dispatch(OrganizationsAppActions.updatePhase('list'));
-  },
+      dispatch(OrganizationsAppActions.updatePhase('list'));
+    },
 
-  fetchOrganization: (
-    organizationId: string
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const fetchOrganizationResult = await storage.instance!.fetchOrganizationById(
-      organizationId
-    );
-    if (!fetchOrganizationResult.success) {
-      console.error(fetchOrganizationResult.error!);
+  fetchOrganization:
+    (organizationId: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchOrganizationResult =
+        await storage.instance!.fetchOrganizationById(organizationId);
+      if (!fetchOrganizationResult.success) {
+        console.error(fetchOrganizationResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationResult.error!,
+            fetchOrganizationResult.cause
+          )
+        );
+      }
       dispatch(
-        NotificationActions.addError(
-          fetchOrganizationResult.error!,
-          fetchOrganizationResult.cause
+        StorageActions.updateOrganization(fetchOrganizationResult.organization!)
+      );
+      const fetchOrganizationMembersResult =
+        await storage.instance!.fetchOrganizationMembers(organizationId);
+      if (!fetchOrganizationMembersResult.success) {
+        console.error(fetchOrganizationMembersResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.cause
+          )
+        );
+      }
+      dispatch(
+        OrganizationsEditOrganizationActions.updateOrganizationMembers(
+          fetchOrganizationMembersResult.members!
         )
       );
-    }
-    dispatch(
-      StorageActions.updateOrganization(fetchOrganizationResult.organization!)
-    );
-    const fetchOrganizationMembersResult = await storage.instance!.fetchOrganizationMembers(
-      organizationId
-    );
-    if (!fetchOrganizationMembersResult.success) {
-      console.error(fetchOrganizationMembersResult.error!);
-      dispatch(
-        NotificationActions.addError(
-          fetchOrganizationMembersResult.error!,
-          fetchOrganizationMembersResult.cause
-        )
-      );
-    }
-    dispatch(
-      OrganizationsEditOrganizationActions.updateOrganizationMembers(
-        fetchOrganizationMembersResult.members!
-      )
-    );
-    dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
-    dispatch(OrganizationsAppActions.updatePhase('edit'));
-  },
+      dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
+      dispatch(OrganizationsAppActions.updatePhase('edit'));
+    },
 
-  addOrganizationMember: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    dispatch(OrganizationsAppActions.updatePhase('processing'));
-    const { organizations, entities, storage } = getState();
-    const email = organizations.editorganization.email;
-    const organizationId = entities.organization!.id!;
-    const addOrganizationMemberResult = await storage.instance!.addOrganizationMember(
-      organizationId,
-      email
-    );
-    if (!addOrganizationMemberResult.success) {
-      dispatch(OrganizationsAppActions.updatePhase('edit'));
-      console.error(addOrganizationMemberResult.error!);
+  addOrganizationMember:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      dispatch(OrganizationsAppActions.updatePhase('processing'));
+      const { organizations, entities, storage } = getState();
+      const email = organizations.editorganization.email;
+      const organizationId = entities.organization!.id!;
+      const addOrganizationMemberResult =
+        await storage.instance!.addOrganizationMember(organizationId, email);
+      if (!addOrganizationMemberResult.success) {
+        dispatch(OrganizationsAppActions.updatePhase('edit'));
+        console.error(addOrganizationMemberResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            addOrganizationMemberResult.error!,
+            addOrganizationMemberResult.cause
+          )
+        );
+      }
+      const fetchOrganizationMembersResult =
+        await storage.instance!.fetchOrganizationMembers(organizationId);
+      if (!fetchOrganizationMembersResult.success) {
+        dispatch(OrganizationsAppActions.updatePhase('edit'));
+        console.error(fetchOrganizationMembersResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.cause
+          )
+        );
+      }
       dispatch(
-        NotificationActions.addError(
-          addOrganizationMemberResult.error!,
-          addOrganizationMemberResult.cause
+        OrganizationsEditOrganizationActions.updateOrganizationMembers(
+          fetchOrganizationMembersResult.members!
         )
       );
-    }
-    const fetchOrganizationMembersResult = await storage.instance!.fetchOrganizationMembers(
-      organizationId
-    );
-    if (!fetchOrganizationMembersResult.success) {
+      dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
       dispatch(OrganizationsAppActions.updatePhase('edit'));
-      console.error(fetchOrganizationMembersResult.error!);
-      dispatch(
-        NotificationActions.addError(
-          fetchOrganizationMembersResult.error!,
-          fetchOrganizationMembersResult.cause
-        )
-      );
-    }
-    dispatch(
-      OrganizationsEditOrganizationActions.updateOrganizationMembers(
-        fetchOrganizationMembersResult.members!
-      )
-    );
-    dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
-    dispatch(OrganizationsAppActions.updatePhase('edit'));
-  },
+    },
 
-  deleteOrganizationMember: (uid: string): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    dispatch(OrganizationsAppActions.updatePhase('processing'));
-    const { entities, storage } = getState();
-    const organizationId = entities.organization!.id!;
-    const deleteOrganizationMemberResult = await storage.instance!.deleteOrganizationMember(
-      organizationId,
-      uid
-    );
-    if (!deleteOrganizationMemberResult.success) {
-      dispatch(OrganizationsAppActions.updatePhase('edit'));
-      console.error(deleteOrganizationMemberResult.error!);
+  deleteOrganizationMember:
+    (uid: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      dispatch(OrganizationsAppActions.updatePhase('processing'));
+      const { entities, storage } = getState();
+      const organizationId = entities.organization!.id!;
+      const deleteOrganizationMemberResult =
+        await storage.instance!.deleteOrganizationMember(organizationId, uid);
+      if (!deleteOrganizationMemberResult.success) {
+        dispatch(OrganizationsAppActions.updatePhase('edit'));
+        console.error(deleteOrganizationMemberResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            deleteOrganizationMemberResult.error!,
+            deleteOrganizationMemberResult.cause
+          )
+        );
+      }
+      const fetchOrganizationMembersResult =
+        await storage.instance!.fetchOrganizationMembers(organizationId);
+      if (!fetchOrganizationMembersResult.success) {
+        dispatch(OrganizationsAppActions.updatePhase('edit'));
+        console.error(fetchOrganizationMembersResult.error!);
+        dispatch(
+          NotificationActions.addError(
+            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.cause
+          )
+        );
+      }
       dispatch(
-        NotificationActions.addError(
-          deleteOrganizationMemberResult.error!,
-          deleteOrganizationMemberResult.cause
+        OrganizationsEditOrganizationActions.updateOrganizationMembers(
+          fetchOrganizationMembersResult.members!
         )
       );
-    }
-    const fetchOrganizationMembersResult = await storage.instance!.fetchOrganizationMembers(
-      organizationId
-    );
-    if (!fetchOrganizationMembersResult.success) {
+      dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
       dispatch(OrganizationsAppActions.updatePhase('edit'));
-      console.error(fetchOrganizationMembersResult.error!);
-      dispatch(
-        NotificationActions.addError(
-          fetchOrganizationMembersResult.error!,
-          fetchOrganizationMembersResult.cause
-        )
-      );
-    }
-    dispatch(
-      OrganizationsEditOrganizationActions.updateOrganizationMembers(
-        fetchOrganizationMembersResult.members!
-      )
-    );
-    dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
-    dispatch(OrganizationsAppActions.updatePhase('edit'));
-  },
+    },
 };

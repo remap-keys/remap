@@ -150,185 +150,165 @@ type ThunkPromiseAction<T> = ThunkAction<
 >;
 export const storageActionsThunk = {
   // eslint-disable-next-line no-undef
-  refreshKeyboardDefinition: (
-    keyboardDefinition: KeyboardDefinitionSchema
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { entities } = getState();
-    dispatch(
-      LayoutOptionsActions.initSelectedOptions(
-        keyboardDefinition.layouts.labels
-          ? keyboardDefinition.layouts.labels
-          : []
-      )
-    );
-    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
-    await dispatch(hidActionsThunk.refreshKeymaps());
-    dispatch(AppActions.remapsInit(entities.device.layerCount));
-    dispatch(KeydiffActions.clearKeydiff());
-    dispatch(KeycodeKeyActions.clear());
-    dispatch(KeymapActions.clearSelectedPos());
-  },
-
-  // eslint-disable-next-line no-undef
-  uploadKeyboardDefinition: (
-    keyboardDefinition: KeyboardDefinitionSchema
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
-    dispatch(
-      LayoutOptionsActions.initSelectedOptions(
-        keyboardDefinition.layouts.labels
-          ? keyboardDefinition.layouts.labels
-          : []
-      )
-    );
-    dispatch(hidActionsThunk.openKeyboard());
-  },
-
-  fetchKeyboardDefinitionById: (
-    definitionId: string,
-    nextPhase: IKeyboardsPhase
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const fetchKeyboardDefinitionResult = await storage.instance!.fetchMyKeyboardDefinitionDocumentById(
-      definitionId
-    );
-    if (!fetchKeyboardDefinitionResult.success) {
-      console.error(fetchKeyboardDefinitionResult.cause!);
+  refreshKeyboardDefinition:
+    (keyboardDefinition: KeyboardDefinitionSchema): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { entities } = getState();
       dispatch(
-        NotificationActions.addError(
-          fetchKeyboardDefinitionResult.error!,
-          fetchKeyboardDefinitionResult.cause
+        LayoutOptionsActions.initSelectedOptions(
+          keyboardDefinition.layouts.labels
+            ? keyboardDefinition.layouts.labels
+            : []
         )
       );
-      return;
-    }
-    if (fetchKeyboardDefinitionResult.exists!) {
-      const definitionDocument = fetchKeyboardDefinitionResult.document!;
-      if (definitionDocument.authorType === 'organization') {
-        const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
-          definitionDocument.organizationId!
+      dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+      await dispatch(hidActionsThunk.refreshKeymaps());
+      dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(KeydiffActions.clearKeydiff());
+      dispatch(KeycodeKeyActions.clear());
+      dispatch(KeymapActions.clearSelectedPos());
+    },
+
+  // eslint-disable-next-line no-undef
+  uploadKeyboardDefinition:
+    (keyboardDefinition: KeyboardDefinitionSchema): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+      dispatch(
+        LayoutOptionsActions.initSelectedOptions(
+          keyboardDefinition.layouts.labels
+            ? keyboardDefinition.layouts.labels
+            : []
+        )
+      );
+      dispatch(hidActionsThunk.openKeyboard());
+    },
+
+  fetchKeyboardDefinitionById:
+    (
+      definitionId: string,
+      nextPhase: IKeyboardsPhase
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchKeyboardDefinitionResult =
+        await storage.instance!.fetchMyKeyboardDefinitionDocumentById(
+          definitionId
         );
-        if (!fetchOrganizationByIdResult.success) {
-          console.error(fetchOrganizationByIdResult.cause!);
+      if (!fetchKeyboardDefinitionResult.success) {
+        console.error(fetchKeyboardDefinitionResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.cause
+          )
+        );
+        return;
+      }
+      if (fetchKeyboardDefinitionResult.exists!) {
+        const definitionDocument = fetchKeyboardDefinitionResult.document!;
+        if (definitionDocument.authorType === 'organization') {
+          const fetchOrganizationByIdResult =
+            await storage.instance!.fetchOrganizationById(
+              definitionDocument.organizationId!
+            );
+          if (!fetchOrganizationByIdResult.success) {
+            console.error(fetchOrganizationByIdResult.cause!);
+            dispatch(
+              NotificationActions.addError(
+                fetchOrganizationByIdResult.error!,
+                fetchOrganizationByIdResult.cause
+              )
+            );
+            return;
+          }
+          dispatch(
+            StorageActions.updateOrganization(
+              fetchOrganizationByIdResult.organization!
+            )
+          );
+        }
+        const fetchMyOrganizationsResult =
+          await storage.instance!.fetchMyOrganizations();
+        if (!fetchMyOrganizationsResult.success) {
+          console.error(fetchMyOrganizationsResult.cause!);
           dispatch(
             NotificationActions.addError(
-              fetchOrganizationByIdResult.error!,
-              fetchOrganizationByIdResult.cause
+              fetchMyOrganizationsResult.error!,
+              fetchMyOrganizationsResult.cause
             )
           );
           return;
         }
         dispatch(
-          StorageActions.updateOrganization(
-            fetchOrganizationByIdResult.organization!
+          StorageActions.updateOrganizationMap(
+            fetchMyOrganizationsResult.organizationMap!
           )
         );
-      }
-      const fetchMyOrganizationsResult = await storage.instance!.fetchMyOrganizations();
-      if (!fetchMyOrganizationsResult.success) {
-        console.error(fetchMyOrganizationsResult.cause!);
         dispatch(
-          NotificationActions.addError(
-            fetchMyOrganizationsResult.error!,
-            fetchMyOrganizationsResult.cause
+          StorageActions.updateKeyboardDefinitionDocument(definitionDocument)
+        );
+        dispatch(KeyboardsEditDefinitionActions.clear());
+        dispatch(KeyboardsEditDefinitionActions.init(definitionDocument));
+        dispatch(
+          KeyboardsEditDefinitionActions.updateFeatures(
+            definitionDocument.features
           )
         );
-        return;
+        dispatch(
+          KeyboardsEditDefinitionActions.updateDescription(
+            definitionDocument.description
+          )
+        );
+        dispatch(
+          KeyboardsEditDefinitionActions.updateStores(
+            definitionDocument.stores || []
+          )
+        );
+        dispatch(
+          KeyboardsEditDefinitionActions.updateWebsiteUrl(
+            definitionDocument.websiteUrl
+          )
+        );
+        dispatch(
+          KeyboardsEditDefinitionActions.updateAdditionalDescriptions(
+            definitionDocument.additionalDescriptions
+          )
+        );
+        dispatch(KeyboardsAppActions.updatePhase(nextPhase));
+      } else {
+        dispatch(NotificationActions.addWarn('No such keyboard.'));
+        dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
       }
-      dispatch(
-        StorageActions.updateOrganizationMap(
-          fetchMyOrganizationsResult.organizationMap!
-        )
-      );
-      dispatch(
-        StorageActions.updateKeyboardDefinitionDocument(definitionDocument)
-      );
-      dispatch(KeyboardsEditDefinitionActions.clear());
-      dispatch(KeyboardsEditDefinitionActions.init(definitionDocument));
-      dispatch(
-        KeyboardsEditDefinitionActions.updateFeatures(
-          definitionDocument.features
-        )
-      );
-      dispatch(
-        KeyboardsEditDefinitionActions.updateDescription(
-          definitionDocument.description
-        )
-      );
-      dispatch(
-        KeyboardsEditDefinitionActions.updateStores(
-          definitionDocument.stores || []
-        )
-      );
-      dispatch(
-        KeyboardsEditDefinitionActions.updateWebsiteUrl(
-          definitionDocument.websiteUrl
-        )
-      );
-      dispatch(
-        KeyboardsEditDefinitionActions.updateAdditionalDescriptions(
-          definitionDocument.additionalDescriptions
-        )
-      );
-      dispatch(KeyboardsAppActions.updatePhase(nextPhase));
-    } else {
-      dispatch(NotificationActions.addWarn('No such keyboard.'));
-      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
-    }
-  },
+    },
 
-  fetchKeyboardDefinitionByDeviceInfo: (
-    vendorId: number,
-    productId: number,
-    productName: string
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, app } = getState();
+  fetchKeyboardDefinitionByDeviceInfo:
+    (
+      vendorId: number,
+      productId: number,
+      productName: string
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, app } = getState();
 
-    if (storage.instance === null) {
-      console.warn(
-        'To work Remap locally, skip accessing to Firebase and move to the uploading phase.'
-      );
-      dispatch(
-        AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
-      );
-      return;
-    }
-
-    let keyboardDefinitionDocument: IKeyboardDefinitionDocument | undefined;
-
-    const fetchKeyboardDefinitionResult = await storage.instance!.fetchKeyboardDefinitionDocumentByDeviceInfo(
-      vendorId,
-      productId,
-      productName
-    );
-    if (!fetchKeyboardDefinitionResult.success) {
-      console.error(fetchKeyboardDefinitionResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          fetchKeyboardDefinitionResult.error!,
-          fetchKeyboardDefinitionResult.cause
-        )
-      );
-      return;
-    }
-    if (fetchKeyboardDefinitionResult.exists!) {
-      keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
-    } else {
-      if (!app.signedIn) {
+      if (storage.instance === null) {
+        console.warn(
+          'To work Remap locally, skip accessing to Firebase and move to the uploading phase.'
+        );
         dispatch(
           AppActions.updateSetupPhase(
             SetupPhase.waitingKeyboardDefinitionUpload
@@ -336,736 +316,64 @@ export const storageActionsThunk = {
         );
         return;
       }
-      const myKeyboardDefinitionDocumentsResult = await storage.instance!.fetchMyKeyboardDefinitionDocuments();
-      if (!myKeyboardDefinitionDocumentsResult.success) {
-        console.error(myKeyboardDefinitionDocumentsResult.cause!);
+
+      let keyboardDefinitionDocument: IKeyboardDefinitionDocument | undefined;
+
+      const fetchKeyboardDefinitionResult =
+        await storage.instance!.fetchKeyboardDefinitionDocumentByDeviceInfo(
+          vendorId,
+          productId,
+          productName
+        );
+      if (!fetchKeyboardDefinitionResult.success) {
+        console.error(fetchKeyboardDefinitionResult.cause!);
         dispatch(
           NotificationActions.addError(
-            myKeyboardDefinitionDocumentsResult.error!,
-            myKeyboardDefinitionDocumentsResult.cause
+            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.cause
           )
         );
         return;
       }
-      keyboardDefinitionDocument = myKeyboardDefinitionDocumentsResult.documents!.find(
-        (doc) =>
-          doc.vendorId === vendorId &&
-          doc.productId === productId &&
-          productName.endsWith(doc.productName)
-      );
-    }
-
-    if (!keyboardDefinitionDocument) {
-      dispatch(
-        AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
-      );
-      return;
-    }
-
-    let keyboardDefinition: KeyboardDefinitionSchema;
-    const jsonStr: string = keyboardDefinitionDocument.json;
-    try {
-      keyboardDefinition = JSON.parse(jsonStr);
-    } catch (error) {
-      dispatch(NotificationActions.addError('JSON parse error'));
-      return;
-    }
-    const validateResult = validateKeyboardDefinitionSchema(keyboardDefinition);
-    if (!validateResult.valid) {
-      dispatch(NotificationActions.addError(validateResult.errors![0].message));
-      dispatch(
-        AppActions.updateSetupPhase(SetupPhase.waitingKeyboardDefinitionUpload)
-      );
-      return;
-    }
-
-    if (keyboardDefinitionDocument.authorType === 'organization') {
-      const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
-        keyboardDefinitionDocument.organizationId!
-      );
-      if (!fetchOrganizationByIdResult.success) {
-        console.error(fetchOrganizationByIdResult.cause!);
-        dispatch(
-          NotificationActions.addError(
-            fetchOrganizationByIdResult.error!,
-            fetchOrganizationByIdResult.cause
-          )
-        );
-        return;
-      }
-      dispatch(
-        StorageActions.updateOrganization(
-          fetchOrganizationByIdResult.organization!
-        )
-      );
-    }
-
-    dispatch(
-      StorageActions.updateKeyboardDefinitionDocument(
-        keyboardDefinitionDocument
-      )
-    );
-    dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
-    dispatch(
-      LayoutOptionsActions.initSelectedOptions(
-        keyboardDefinition.layouts.labels
-          ? keyboardDefinition.layouts.labels
-          : []
-      )
-    );
-    dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
-    await dispatch(hidActionsThunk.openKeyboard());
-  },
-
-  fetchMyKeyboardDefinitionDocuments: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const fetchMyKeyboardDefinitionsResult = await storage.instance!.fetchMyKeyboardDefinitionDocuments();
-    if (!fetchMyKeyboardDefinitionsResult.success) {
-      console.error(fetchMyKeyboardDefinitionsResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          fetchMyKeyboardDefinitionsResult.error!,
-          fetchMyKeyboardDefinitionsResult.cause
-        )
-      );
-      return;
-    }
-    const organizationIds: string[] = fetchMyKeyboardDefinitionsResult
-      .documents!.filter((doc) => doc.authorType === 'organization')
-      .map((doc) => doc.organizationId)
-      .reduce((result, id) => {
-        if (id !== undefined && !result.includes(id)) {
-          result.push(id);
-        }
-        return result;
-      }, [] as string[]);
-    if (organizationIds.length !== 0) {
-      const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
-        organizationIds
-      );
-      if (!fetchOrganizationsByIdsResult.success) {
-        console.error(fetchOrganizationsByIdsResult.cause!);
-        dispatch(
-          NotificationActions.addError(
-            fetchOrganizationsByIdsResult.error!,
-            fetchOrganizationsByIdsResult.cause
-          )
-        );
-        return;
-      }
-      dispatch(
-        StorageActions.updateOrganizationMap(
-          fetchOrganizationsByIdsResult.organizationMap!
-        )
-      );
-    }
-    dispatch(
-      StorageActions.updateKeyboardDefinitionDocuments(
-        fetchMyKeyboardDefinitionsResult.documents!
-      )
-    );
-    dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
-  },
-
-  createKeyboardDefinitionAsDraft: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, auth, keyboards, github } = getState();
-    const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
-    const user = auth.instance!.getCurrentAuthenticatedUser();
-    const githubProviderDataResult = getGitHubProviderData(user);
-    if (!githubProviderDataResult.exists) {
-      console.error('The user does not have a GitHub Provider data.');
-      dispatch(
-        NotificationActions.addError(
-          'The user does not have a GitHub Provider data.'
-        )
-      );
-      return;
-    }
-    const githubProviderData = githubProviderDataResult.userInfo!;
-
-    const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
-      githubProviderData.uid
-    );
-    if (!fetchAccountInfoResult.success) {
-      console.error(fetchAccountInfoResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          fetchAccountInfoResult.error!,
-          fetchAccountInfoResult.cause
-        )
-      );
-      return;
-    }
-    const githubAccountInfo = fetchAccountInfoResult.info!;
-
-    const jsonStr = keyboards.createdefinition.jsonString;
-    const result = await storage.instance!.createKeyboardDefinitionDocument(
-      user.uid,
-      keyboardDefinition.name,
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      keyboards.createdefinition.productName,
-      jsonStr,
-      githubProviderData.uid,
-      githubProviderData.displayName || '',
-      githubProviderData.email || '',
-      githubAccountInfo.html_url,
-      keyboards.createdefinition.firmwareCodePlace,
-      keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
-      keyboards.createdefinition.forkedRepositoryUrl,
-      keyboards.createdefinition.forkedRepositoryEvidence,
-      keyboards.createdefinition.otherPlaceHowToGet,
-      keyboards.createdefinition.otherPlaceSourceCodeEvidence,
-      keyboards.createdefinition.otherPlacePublisherEvidence,
-      keyboards.createdefinition.contactInformation,
-      keyboards.createdefinition.organizationEvidence,
-      keyboards.createdefinition.authorType,
-      keyboards.createdefinition.organizationId,
-      KeyboardDefinitionStatus.draft
-    );
-    if (result.success) {
-      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  createAndSubmitKeyboardDefinition: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, auth, keyboards, github } = getState();
-    const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
-
-    const user = auth.instance!.getCurrentAuthenticatedUser();
-    const githubProviderDataResutl = getGitHubProviderData(user);
-    if (!githubProviderDataResutl.exists) {
-      console.error('The user does not have a GitHub Provider data.');
-      dispatch(
-        NotificationActions.addError(
-          'The user does not have a GitHub Provider data.'
-        )
-      );
-      return;
-    }
-    const githubProviderData = githubProviderDataResutl.userInfo!;
-
-    const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
-      githubProviderData.uid
-    );
-    if (!fetchAccountInfoResult.success) {
-      console.error(fetchAccountInfoResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          fetchAccountInfoResult.error!,
-          fetchAccountInfoResult.cause
-        )
-      );
-      return;
-    }
-    const githubAccountInfo = fetchAccountInfoResult.info!;
-
-    const jsonStr = keyboards.createdefinition.jsonString;
-    const result = await storage.instance!.createKeyboardDefinitionDocument(
-      user.uid,
-      keyboardDefinition.name,
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      keyboards.createdefinition.productName,
-      jsonStr,
-      githubProviderData.uid,
-      githubProviderData.displayName || '',
-      githubProviderData.email || '',
-      githubAccountInfo.html_url,
-      keyboards.createdefinition.firmwareCodePlace,
-      keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
-      keyboards.createdefinition.forkedRepositoryUrl,
-      keyboards.createdefinition.forkedRepositoryEvidence,
-      keyboards.createdefinition.otherPlaceHowToGet,
-      keyboards.createdefinition.otherPlaceSourceCodeEvidence,
-      keyboards.createdefinition.otherPlacePublisherEvidence,
-      keyboards.createdefinition.contactInformation,
-      keyboards.createdefinition.organizationEvidence,
-      keyboards.createdefinition.authorType,
-      keyboards.createdefinition.organizationId,
-      KeyboardDefinitionStatus.in_review
-    );
-    if (result.success) {
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          result.definitionId!,
-          'edit'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  updateKeyboardDefinitionAsDraft: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, keyboards, entities } = getState();
-    const definitionDoc = entities.keyboardDefinitionDocument;
-    const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
-    const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance!.updateKeyboardDefinitionDocument(
-      definitionDoc!.id,
-      keyboardDefinition.name,
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      keyboards.editdefinition.productName,
-      jsonStr,
-      keyboards.editdefinition.firmwareCodePlace!,
-      keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
-      keyboards.editdefinition.forkedRepositoryUrl,
-      keyboards.editdefinition.forkedRepositoryEvidence,
-      keyboards.editdefinition.otherPlaceHowToGet,
-      keyboards.editdefinition.otherPlaceSourceCodeEvidence,
-      keyboards.editdefinition.otherPlacePublisherEvidence,
-      keyboards.editdefinition.contactInformation,
-      keyboards.editdefinition.organizationEvidence,
-      keyboards.editdefinition.authorType,
-      keyboards.editdefinition.organizationId,
-      KeyboardDefinitionStatus.draft
-    );
-    if (result.success) {
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDoc!.id,
-          'edit'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  updateAndSubmitKeyboardDefinition: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, keyboards, entities } = getState();
-    const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
-
-    const definitionDoc = entities.keyboardDefinitionDocument;
-    const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance!.updateKeyboardDefinitionDocument(
-      definitionDoc!.id,
-      keyboardDefinition.name,
-      parseInt(keyboardDefinition.vendorId, 16),
-      parseInt(keyboardDefinition.productId, 16),
-      keyboards.editdefinition.productName,
-      jsonStr,
-      keyboards.editdefinition.firmwareCodePlace!,
-      keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
-      keyboards.editdefinition.forkedRepositoryUrl,
-      keyboards.editdefinition.forkedRepositoryEvidence,
-      keyboards.editdefinition.otherPlaceHowToGet,
-      keyboards.editdefinition.otherPlaceSourceCodeEvidence,
-      keyboards.editdefinition.otherPlacePublisherEvidence,
-      keyboards.editdefinition.contactInformation,
-      keyboards.editdefinition.organizationEvidence,
-      keyboards.editdefinition.authorType,
-      keyboards.editdefinition.organizationId,
-      KeyboardDefinitionStatus.in_review
-    );
-    if (result.success) {
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDoc!.id,
-          'edit'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  updateKeyboardDefinitionJsonFile: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, keyboards, entities } = getState();
-    const definitionDoc = entities.keyboardDefinitionDocument;
-    // This `keyboardDefinition` value has already been updated by a new
-    // JSON file the user uploaded from local.
-    const keyboardDefinition = keyboards.editdefinition.keyboardDefinition;
-    const jsonStr = keyboards.editdefinition.jsonString;
-    const result = await storage.instance!.updateKeyboardDefinitionJson(
-      definitionDoc!.id,
-      keyboardDefinition!.name,
-      jsonStr
-    );
-    if (result.success) {
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDoc!.id,
-          'edit'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  deleteKeyboardDefinition: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, entities } = getState();
-    const definitionDoc = entities.keyboardDefinitionDocument;
-    const result = await storage.instance!.deleteKeyboardDefinitionDocument(
-      definitionDoc!.id
-    );
-    if (result.success) {
-      dispatch(await storageActionsThunk.fetchMyKeyboardDefinitionDocuments());
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  fetchMySavedKeymaps: (
-    info: IDeviceInformation
-  ): ThunkPromiseAction<void> => async (
-    // eslint-disable-next-line no-unused-vars
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const resultList = await storage.instance!.fetchMySavedKeymaps(info);
-
-    if (resultList.success) {
-      dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
-    } else {
-      console.error(resultList.cause!);
-      dispatch(
-        NotificationActions.addError(resultList.error!, resultList.cause)
-      );
-    }
-  },
-
-  fetchSharedKeymaps: (
-    info: IDeviceInformation,
-    withoutMine: boolean
-  ): ThunkPromiseAction<void> => async (
-    // eslint-disable-next-line no-unused-vars
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const resultList = await storage.instance!.fetchSharedKeymaps(
-      info,
-      withoutMine
-    );
-
-    if (resultList.success) {
-      dispatch(StorageActions.updateSharedKeymaps(resultList.savedKeymaps));
-    } else {
-      console.error(resultList.cause!);
-      dispatch(
-        NotificationActions.addError(resultList.error!, resultList.cause)
-      );
-    }
-  },
-
-  createSavedKeymap: (
-    keymapData: SavedKeymapData
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-
-    sendEventToGoogleAnalytics('configure/save_keymap', {
-      vendor_id: keymapData.vendor_id,
-      product_id: keymapData.product_id,
-      product_name: keymapData.product_name,
-    });
-
-    const result = await storage.instance!.createSavedKeymap(keymapData);
-    if (!result.success) {
-      console.error(result.cause!);
-      dispatch(
-        NotificationActions.addError(
-          `Couldn't save the keymap: ${result.error!}`,
-          result.cause
-        )
-      );
-      return;
-    }
-    const info: IDeviceInformation = {
-      vendorId: keymapData.vendor_id,
-      productId: keymapData.product_id,
-      productName: keymapData.product_name,
-    };
-    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
-  },
-
-  updateSavedKeymap: (
-    keymapData: SavedKeymapData
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const result = await storage.instance!.updateSavedKeymap(keymapData);
-    if (!result.success) {
-      console.error(result.cause!);
-      dispatch(
-        NotificationActions.addError(
-          `Couldn't update the keymap: ${result.error!}`,
-          result.cause
-        )
-      );
-      return;
-    }
-
-    const info: IDeviceInformation = {
-      vendorId: keymapData.vendor_id,
-      productId: keymapData.product_id,
-      productName: keymapData.product_name,
-    };
-    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
-  },
-
-  deleteSavedKeymap: (
-    keymapData: SavedKeymapData
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const result = await storage.instance!.deleteSavedKeymap(keymapData.id!);
-    if (!result.success) {
-      console.error(result.cause!);
-      dispatch(
-        NotificationActions.addError(
-          `Couldn't delete the keymap: ${result.error!}`,
-          result.cause
-        )
-      );
-      return;
-    }
-
-    const info: IDeviceInformation = {
-      vendorId: keymapData.vendor_id,
-      productId: keymapData.product_id,
-      productName: keymapData.product_name,
-    };
-    dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
-  },
-
-  createOrUpdateAppliedKeymap: (
-    keymapData: AbstractKeymapData
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const result = await storage.instance!.createOrUpdateAppliedKeymap(
-      keymapData
-    );
-    if (!result.success) {
-      console.error(result.cause!);
-      dispatch(
-        NotificationActions.addError(
-          `Creating or updating the applied keymap failed: ${result.error!}`,
-          result.cause
-        )
-      );
-      return;
-    }
-    const info: IDeviceInformation = {
-      vendorId: keymapData.vendor_id,
-      productId: keymapData.product_id,
-      productName: keymapData.product_name,
-    };
-    dispatch(await storageActionsThunk.fetchMyAppliedKeymaps(info));
-  },
-
-  fetchMyAppliedKeymaps: (
-    info: IDeviceInformation
-  ): ThunkPromiseAction<void> => async (
-    // eslint-disable-next-line no-unused-vars
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const resultList = await storage.instance!.fetchMyAppliedKeymaps(info);
-
-    if (resultList.success) {
-      dispatch(StorageActions.updateAppliedKeymaps(resultList.appliedKeymaps));
-    } else {
-      console.error(resultList.cause!);
-      dispatch(
-        NotificationActions.addError(resultList.error!, resultList.cause)
-      );
-    }
-  },
-
-  searchKeyboardsForCatalog: (): ThunkPromiseAction<void> => async (
-    // eslint-disable-next-line no-unused-vars
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    sendEventToGoogleAnalytics('catalog/search');
-    dispatch(CatalogAppActions.updatePhase('processing'));
-    const { catalog, storage } = getState();
-    const features = catalog.search.features;
-    const keyword = catalog.search.keyword;
-    let searchKeyboardsByFeaturesResult = await storage.instance!.searchKeyboardsByFeatures(
-      features
-    );
-    if (searchKeyboardsByFeaturesResult.success) {
-      const definitionDocs = searchKeyboardsByFeaturesResult.documents!.filter(
-        (doc) => doc.name.toLowerCase().includes(keyword.toLowerCase())
-      );
-      const filteredDocs = definitionDocs.filter((doc) => {
-        if (features.length === 0) return true;
-
-        let allMatch = true;
-        features.forEach((feat) => {
-          allMatch = allMatch && doc.features.includes(feat);
-        });
-
-        return allMatch;
-      });
-
-      filteredDocs.sort((a, b) => {
-        const countA = a.imageUrl ? 1 : 0; // sort higher with a image
-        const countB = b.imageUrl ? 1 : 0; // sort higher with a image
-
-        if (countA === countB) {
-          return Math.random() - 0.5;
-        } else {
-          return countB - countA;
-        }
-      });
-
-      const organizationIds: string[] = filteredDocs
-        .filter((doc) => doc.authorType === 'organization')
-        .map((doc) => doc.organizationId)
-        .reduce((result, id) => {
-          if (id !== undefined && !result.includes(id)) {
-            result.push(id);
-          }
-          return result;
-        }, [] as string[]);
-      if (organizationIds.length > 0) {
-        const fetchOrganizationsByIdsResult = await storage.instance!.fetchOrganizationsByIds(
-          organizationIds
-        );
-        if (fetchOrganizationsByIdsResult.success) {
+      if (fetchKeyboardDefinitionResult.exists!) {
+        keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
+      } else {
+        if (!app.signedIn) {
           dispatch(
-            StorageActions.updateSearchResultOrganizationMap(
-              fetchOrganizationsByIdsResult.organizationMap!
+            AppActions.updateSetupPhase(
+              SetupPhase.waitingKeyboardDefinitionUpload
             )
           );
-        } else {
-          console.error(fetchOrganizationsByIdsResult.cause!);
-          dispatch(
-            NotificationActions.addError(
-              fetchOrganizationsByIdsResult.error!,
-              fetchOrganizationsByIdsResult.cause
-            )
-          );
-        }
-      }
-      dispatch(
-        StorageActions.updateSearchResultKeyboardDefinitionDocument(
-          filteredDocs
-        )
-      );
-    } else {
-      console.error(searchKeyboardsByFeaturesResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          searchKeyboardsByFeaturesResult.error!,
-          searchKeyboardsByFeaturesResult.cause
-        )
-      );
-    }
-    const query: { [p: string]: string | string[] } = {};
-    if (keyword) {
-      query.keyword = keyword;
-    }
-    if (features && features.length > 0) {
-      query.features = features.join(',');
-    }
-    history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
-    dispatch(CatalogAppActions.updatePhase('list'));
-  },
-
-  fetchKeyboardDefinitionForCatalogById: (
-    definitionId: string,
-    nextPhase: ICatalogPhase
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const fetchKeyboardDefinitionResult = await storage.instance!.fetchKeyboardDefinitionDocumentById(
-      definitionId
-    );
-    if (!fetchKeyboardDefinitionResult.success) {
-      console.error(fetchKeyboardDefinitionResult.cause!);
-      dispatch(
-        NotificationActions.addError(
-          fetchKeyboardDefinitionResult.error!,
-          fetchKeyboardDefinitionResult.cause
-        )
-      );
-      dispatch(CatalogAppActions.updatePhase('init'));
-      dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
-      return;
-    }
-    if (fetchKeyboardDefinitionResult.exists!) {
-      const keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
-      dispatch(
-        StorageActions.updateKeyboardDefinitionDocument(
-          keyboardDefinitionDocument
-        )
-      );
-
-      if (keyboardDefinitionDocument.authorType === 'organization') {
-        const fetchOrganizationByIdResult = await storage.instance!.fetchOrganizationById(
-          keyboardDefinitionDocument.organizationId!
-        );
-        if (!fetchOrganizationByIdResult.success) {
-          console.error(fetchOrganizationByIdResult.cause!);
-          dispatch(
-            NotificationActions.addError(
-              fetchOrganizationByIdResult.error!,
-              fetchOrganizationByIdResult.cause
-            )
-          );
-          dispatch(CatalogAppActions.updatePhase('init'));
-          dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
           return;
         }
+        const myKeyboardDefinitionDocumentsResult =
+          await storage.instance!.fetchMyKeyboardDefinitionDocuments();
+        if (!myKeyboardDefinitionDocumentsResult.success) {
+          console.error(myKeyboardDefinitionDocumentsResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              myKeyboardDefinitionDocumentsResult.error!,
+              myKeyboardDefinitionDocumentsResult.cause
+            )
+          );
+          return;
+        }
+        keyboardDefinitionDocument =
+          myKeyboardDefinitionDocumentsResult.documents!.find(
+            (doc) =>
+              doc.vendorId === vendorId &&
+              doc.productId === productId &&
+              productName.endsWith(doc.productName)
+          );
+      }
+
+      if (!keyboardDefinitionDocument) {
         dispatch(
-          StorageActions.updateOrganization(
-            fetchOrganizationByIdResult.organization!
+          AppActions.updateSetupPhase(
+            SetupPhase.waitingKeyboardDefinitionUpload
           )
         );
+        return;
       }
 
       let keyboardDefinition: KeyboardDefinitionSchema;
@@ -1076,15 +384,47 @@ export const storageActionsThunk = {
         dispatch(NotificationActions.addError('JSON parse error'));
         return;
       }
-      const validateResult = validateKeyboardDefinitionSchema(
-        keyboardDefinition
-      );
+      const validateResult =
+        validateKeyboardDefinitionSchema(keyboardDefinition);
       if (!validateResult.valid) {
         dispatch(
           NotificationActions.addError(validateResult.errors![0].message)
         );
+        dispatch(
+          AppActions.updateSetupPhase(
+            SetupPhase.waitingKeyboardDefinitionUpload
+          )
+        );
         return;
       }
+
+      if (keyboardDefinitionDocument.authorType === 'organization') {
+        const fetchOrganizationByIdResult =
+          await storage.instance!.fetchOrganizationById(
+            keyboardDefinitionDocument.organizationId!
+          );
+        if (!fetchOrganizationByIdResult.success) {
+          console.error(fetchOrganizationByIdResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationByIdResult.error!,
+              fetchOrganizationByIdResult.cause
+            )
+          );
+          return;
+        }
+        dispatch(
+          StorageActions.updateOrganization(
+            fetchOrganizationByIdResult.organization!
+          )
+        );
+      }
+
+      dispatch(
+        StorageActions.updateKeyboardDefinitionDocument(
+          keyboardDefinitionDocument
+        )
+      );
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       dispatch(
         LayoutOptionsActions.initSelectedOptions(
@@ -1093,16 +433,646 @@ export const storageActionsThunk = {
             : []
         )
       );
+      dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
+      await dispatch(hidActionsThunk.openKeyboard());
+    },
+
+  fetchMyKeyboardDefinitionDocuments:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchMyKeyboardDefinitionsResult =
+        await storage.instance!.fetchMyKeyboardDefinitionDocuments();
+      if (!fetchMyKeyboardDefinitionsResult.success) {
+        console.error(fetchMyKeyboardDefinitionsResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchMyKeyboardDefinitionsResult.error!,
+            fetchMyKeyboardDefinitionsResult.cause
+          )
+        );
+        return;
+      }
+      const organizationIds: string[] = fetchMyKeyboardDefinitionsResult
+        .documents!.filter((doc) => doc.authorType === 'organization')
+        .map((doc) => doc.organizationId)
+        .reduce((result, id) => {
+          if (id !== undefined && !result.includes(id)) {
+            result.push(id);
+          }
+          return result;
+        }, [] as string[]);
+      if (organizationIds.length !== 0) {
+        const fetchOrganizationsByIdsResult =
+          await storage.instance!.fetchOrganizationsByIds(organizationIds);
+        if (!fetchOrganizationsByIdsResult.success) {
+          console.error(fetchOrganizationsByIdsResult.cause!);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationsByIdsResult.error!,
+              fetchOrganizationsByIdsResult.cause
+            )
+          );
+          return;
+        }
+        dispatch(
+          StorageActions.updateOrganizationMap(
+            fetchOrganizationsByIdsResult.organizationMap!
+          )
+        );
+      }
       dispatch(
-        await storageActionsThunk.fetchSharedKeymaps(
-          keyboardDefinitionDocument,
-          false
+        StorageActions.updateKeyboardDefinitionDocuments(
+          fetchMyKeyboardDefinitionsResult.documents!
         )
       );
-      const fetchKeyboardsCreatedBySameAuthorResult = await storage.instance!.fetchKeyboardsCreatedBySameAuthor(
-        keyboardDefinitionDocument
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
+    },
+
+  createKeyboardDefinitionAsDraft:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, keyboards, github } = getState();
+      const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
+      const user = auth.instance!.getCurrentAuthenticatedUser();
+      const githubProviderDataResult = getGitHubProviderData(user);
+      if (!githubProviderDataResult.exists) {
+        console.error('The user does not have a GitHub Provider data.');
+        dispatch(
+          NotificationActions.addError(
+            'The user does not have a GitHub Provider data.'
+          )
+        );
+        return;
+      }
+      const githubProviderData = githubProviderDataResult.userInfo!;
+
+      const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
+        githubProviderData.uid
       );
-      if (!fetchKeyboardsCreatedBySameAuthorResult.success) {
+      if (!fetchAccountInfoResult.success) {
+        console.error(fetchAccountInfoResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchAccountInfoResult.error!,
+            fetchAccountInfoResult.cause
+          )
+        );
+        return;
+      }
+      const githubAccountInfo = fetchAccountInfoResult.info!;
+
+      const jsonStr = keyboards.createdefinition.jsonString;
+      const result = await storage.instance!.createKeyboardDefinitionDocument(
+        user.uid,
+        keyboardDefinition.name,
+        parseInt(keyboardDefinition.vendorId, 16),
+        parseInt(keyboardDefinition.productId, 16),
+        keyboards.createdefinition.productName,
+        jsonStr,
+        githubProviderData.uid,
+        githubProviderData.displayName || '',
+        githubProviderData.email || '',
+        githubAccountInfo.html_url,
+        keyboards.createdefinition.firmwareCodePlace,
+        keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
+        keyboards.createdefinition.forkedRepositoryUrl,
+        keyboards.createdefinition.forkedRepositoryEvidence,
+        keyboards.createdefinition.otherPlaceHowToGet,
+        keyboards.createdefinition.otherPlaceSourceCodeEvidence,
+        keyboards.createdefinition.otherPlacePublisherEvidence,
+        keyboards.createdefinition.contactInformation,
+        keyboards.createdefinition.organizationEvidence,
+        keyboards.createdefinition.authorType,
+        keyboards.createdefinition.organizationId,
+        KeyboardDefinitionStatus.draft
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchMyKeyboardDefinitionDocuments()
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  createAndSubmitKeyboardDefinition:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, keyboards, github } = getState();
+      const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
+
+      const user = auth.instance!.getCurrentAuthenticatedUser();
+      const githubProviderDataResutl = getGitHubProviderData(user);
+      if (!githubProviderDataResutl.exists) {
+        console.error('The user does not have a GitHub Provider data.');
+        dispatch(
+          NotificationActions.addError(
+            'The user does not have a GitHub Provider data.'
+          )
+        );
+        return;
+      }
+      const githubProviderData = githubProviderDataResutl.userInfo!;
+
+      const fetchAccountInfoResult = await github.instance.fetchAccountInfo(
+        githubProviderData.uid
+      );
+      if (!fetchAccountInfoResult.success) {
+        console.error(fetchAccountInfoResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            fetchAccountInfoResult.error!,
+            fetchAccountInfoResult.cause
+          )
+        );
+        return;
+      }
+      const githubAccountInfo = fetchAccountInfoResult.info!;
+
+      const jsonStr = keyboards.createdefinition.jsonString;
+      const result = await storage.instance!.createKeyboardDefinitionDocument(
+        user.uid,
+        keyboardDefinition.name,
+        parseInt(keyboardDefinition.vendorId, 16),
+        parseInt(keyboardDefinition.productId, 16),
+        keyboards.createdefinition.productName,
+        jsonStr,
+        githubProviderData.uid,
+        githubProviderData.displayName || '',
+        githubProviderData.email || '',
+        githubAccountInfo.html_url,
+        keyboards.createdefinition.firmwareCodePlace,
+        keyboards.createdefinition.qmkRepositoryFirstPullRequestUrl,
+        keyboards.createdefinition.forkedRepositoryUrl,
+        keyboards.createdefinition.forkedRepositoryEvidence,
+        keyboards.createdefinition.otherPlaceHowToGet,
+        keyboards.createdefinition.otherPlaceSourceCodeEvidence,
+        keyboards.createdefinition.otherPlacePublisherEvidence,
+        keyboards.createdefinition.contactInformation,
+        keyboards.createdefinition.organizationEvidence,
+        keyboards.createdefinition.authorType,
+        keyboards.createdefinition.organizationId,
+        KeyboardDefinitionStatus.in_review
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            result.definitionId!,
+            'edit'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  updateKeyboardDefinitionAsDraft:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, keyboards, entities } = getState();
+      const definitionDoc = entities.keyboardDefinitionDocument;
+      const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
+      const jsonStr = keyboards.editdefinition.jsonString;
+      const result = await storage.instance!.updateKeyboardDefinitionDocument(
+        definitionDoc!.id,
+        keyboardDefinition.name,
+        parseInt(keyboardDefinition.vendorId, 16),
+        parseInt(keyboardDefinition.productId, 16),
+        keyboards.editdefinition.productName,
+        jsonStr,
+        keyboards.editdefinition.firmwareCodePlace!,
+        keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
+        keyboards.editdefinition.forkedRepositoryUrl,
+        keyboards.editdefinition.forkedRepositoryEvidence,
+        keyboards.editdefinition.otherPlaceHowToGet,
+        keyboards.editdefinition.otherPlaceSourceCodeEvidence,
+        keyboards.editdefinition.otherPlacePublisherEvidence,
+        keyboards.editdefinition.contactInformation,
+        keyboards.editdefinition.organizationEvidence,
+        keyboards.editdefinition.authorType,
+        keyboards.editdefinition.organizationId,
+        KeyboardDefinitionStatus.draft
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDoc!.id,
+            'edit'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  updateAndSubmitKeyboardDefinition:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, keyboards, entities } = getState();
+      const keyboardDefinition = keyboards.editdefinition.keyboardDefinition!;
+
+      const definitionDoc = entities.keyboardDefinitionDocument;
+      const jsonStr = keyboards.editdefinition.jsonString;
+      const result = await storage.instance!.updateKeyboardDefinitionDocument(
+        definitionDoc!.id,
+        keyboardDefinition.name,
+        parseInt(keyboardDefinition.vendorId, 16),
+        parseInt(keyboardDefinition.productId, 16),
+        keyboards.editdefinition.productName,
+        jsonStr,
+        keyboards.editdefinition.firmwareCodePlace!,
+        keyboards.editdefinition.qmkRepositoryFirstPullRequestUrl,
+        keyboards.editdefinition.forkedRepositoryUrl,
+        keyboards.editdefinition.forkedRepositoryEvidence,
+        keyboards.editdefinition.otherPlaceHowToGet,
+        keyboards.editdefinition.otherPlaceSourceCodeEvidence,
+        keyboards.editdefinition.otherPlacePublisherEvidence,
+        keyboards.editdefinition.contactInformation,
+        keyboards.editdefinition.organizationEvidence,
+        keyboards.editdefinition.authorType,
+        keyboards.editdefinition.organizationId,
+        KeyboardDefinitionStatus.in_review
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDoc!.id,
+            'edit'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  updateKeyboardDefinitionJsonFile:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, keyboards, entities } = getState();
+      const definitionDoc = entities.keyboardDefinitionDocument;
+      // This `keyboardDefinition` value has already been updated by a new
+      // JSON file the user uploaded from local.
+      const keyboardDefinition = keyboards.editdefinition.keyboardDefinition;
+      const jsonStr = keyboards.editdefinition.jsonString;
+      const result = await storage.instance!.updateKeyboardDefinitionJson(
+        definitionDoc!.id,
+        keyboardDefinition!.name,
+        jsonStr
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDoc!.id,
+            'edit'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  deleteKeyboardDefinition:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, entities } = getState();
+      const definitionDoc = entities.keyboardDefinitionDocument;
+      const result = await storage.instance!.deleteKeyboardDefinitionDocument(
+        definitionDoc!.id
+      );
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchMyKeyboardDefinitionDocuments()
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  fetchMySavedKeymaps:
+    (info: IDeviceInformation): ThunkPromiseAction<void> =>
+    async (
+      // eslint-disable-next-line no-unused-vars
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const resultList = await storage.instance!.fetchMySavedKeymaps(info);
+
+      if (resultList.success) {
+        dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
+      } else {
+        console.error(resultList.cause!);
+        dispatch(
+          NotificationActions.addError(resultList.error!, resultList.cause)
+        );
+      }
+    },
+
+  fetchSharedKeymaps:
+    (
+      info: IDeviceInformation,
+      withoutMine: boolean
+    ): ThunkPromiseAction<void> =>
+    async (
+      // eslint-disable-next-line no-unused-vars
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const resultList = await storage.instance!.fetchSharedKeymaps(
+        info,
+        withoutMine
+      );
+
+      if (resultList.success) {
+        dispatch(StorageActions.updateSharedKeymaps(resultList.savedKeymaps));
+      } else {
+        console.error(resultList.cause!);
+        dispatch(
+          NotificationActions.addError(resultList.error!, resultList.cause)
+        );
+      }
+    },
+
+  createSavedKeymap:
+    (keymapData: SavedKeymapData): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+
+      sendEventToGoogleAnalytics('configure/save_keymap', {
+        vendor_id: keymapData.vendor_id,
+        product_id: keymapData.product_id,
+        product_name: keymapData.product_name,
+      });
+
+      const result = await storage.instance!.createSavedKeymap(keymapData);
+      if (!result.success) {
+        console.error(result.cause!);
+        dispatch(
+          NotificationActions.addError(
+            `Couldn't save the keymap: ${result.error!}`,
+            result.cause
+          )
+        );
+        return;
+      }
+      const info: IDeviceInformation = {
+        vendorId: keymapData.vendor_id,
+        productId: keymapData.product_id,
+        productName: keymapData.product_name,
+      };
+      dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+    },
+
+  updateSavedKeymap:
+    (keymapData: SavedKeymapData): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.updateSavedKeymap(keymapData);
+      if (!result.success) {
+        console.error(result.cause!);
+        dispatch(
+          NotificationActions.addError(
+            `Couldn't update the keymap: ${result.error!}`,
+            result.cause
+          )
+        );
+        return;
+      }
+
+      const info: IDeviceInformation = {
+        vendorId: keymapData.vendor_id,
+        productId: keymapData.product_id,
+        productName: keymapData.product_name,
+      };
+      dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+    },
+
+  deleteSavedKeymap:
+    (keymapData: SavedKeymapData): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.deleteSavedKeymap(keymapData.id!);
+      if (!result.success) {
+        console.error(result.cause!);
+        dispatch(
+          NotificationActions.addError(
+            `Couldn't delete the keymap: ${result.error!}`,
+            result.cause
+          )
+        );
+        return;
+      }
+
+      const info: IDeviceInformation = {
+        vendorId: keymapData.vendor_id,
+        productId: keymapData.product_id,
+        productName: keymapData.product_name,
+      };
+      dispatch(storageActionsThunk.fetchMySavedKeymaps(info));
+    },
+
+  createOrUpdateAppliedKeymap:
+    (keymapData: AbstractKeymapData): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.createOrUpdateAppliedKeymap(
+        keymapData
+      );
+      if (!result.success) {
+        console.error(result.cause!);
+        dispatch(
+          NotificationActions.addError(
+            `Creating or updating the applied keymap failed: ${result.error!}`,
+            result.cause
+          )
+        );
+        return;
+      }
+      const info: IDeviceInformation = {
+        vendorId: keymapData.vendor_id,
+        productId: keymapData.product_id,
+        productName: keymapData.product_name,
+      };
+      dispatch(await storageActionsThunk.fetchMyAppliedKeymaps(info));
+    },
+
+  fetchMyAppliedKeymaps:
+    (info: IDeviceInformation): ThunkPromiseAction<void> =>
+    async (
+      // eslint-disable-next-line no-unused-vars
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const resultList = await storage.instance!.fetchMyAppliedKeymaps(info);
+
+      if (resultList.success) {
+        dispatch(
+          StorageActions.updateAppliedKeymaps(resultList.appliedKeymaps)
+        );
+      } else {
+        console.error(resultList.cause!);
+        dispatch(
+          NotificationActions.addError(resultList.error!, resultList.cause)
+        );
+      }
+    },
+
+  searchKeyboardsForCatalog:
+    (): ThunkPromiseAction<void> =>
+    async (
+      // eslint-disable-next-line no-unused-vars
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      sendEventToGoogleAnalytics('catalog/search');
+      dispatch(CatalogAppActions.updatePhase('processing'));
+      const { catalog, storage } = getState();
+      const features = catalog.search.features;
+      const keyword = catalog.search.keyword;
+      let searchKeyboardsByFeaturesResult =
+        await storage.instance!.searchKeyboardsByFeatures(features);
+      if (searchKeyboardsByFeaturesResult.success) {
+        const definitionDocs =
+          searchKeyboardsByFeaturesResult.documents!.filter((doc) =>
+            doc.name.toLowerCase().includes(keyword.toLowerCase())
+          );
+        const filteredDocs = definitionDocs.filter((doc) => {
+          if (features.length === 0) return true;
+
+          let allMatch = true;
+          features.forEach((feat) => {
+            allMatch = allMatch && doc.features.includes(feat);
+          });
+
+          return allMatch;
+        });
+
+        filteredDocs.sort((a, b) => {
+          const countA = a.imageUrl ? 1 : 0; // sort higher with a image
+          const countB = b.imageUrl ? 1 : 0; // sort higher with a image
+
+          if (countA === countB) {
+            return Math.random() - 0.5;
+          } else {
+            return countB - countA;
+          }
+        });
+
+        const organizationIds: string[] = filteredDocs
+          .filter((doc) => doc.authorType === 'organization')
+          .map((doc) => doc.organizationId)
+          .reduce((result, id) => {
+            if (id !== undefined && !result.includes(id)) {
+              result.push(id);
+            }
+            return result;
+          }, [] as string[]);
+        if (organizationIds.length > 0) {
+          const fetchOrganizationsByIdsResult =
+            await storage.instance!.fetchOrganizationsByIds(organizationIds);
+          if (fetchOrganizationsByIdsResult.success) {
+            dispatch(
+              StorageActions.updateSearchResultOrganizationMap(
+                fetchOrganizationsByIdsResult.organizationMap!
+              )
+            );
+          } else {
+            console.error(fetchOrganizationsByIdsResult.cause!);
+            dispatch(
+              NotificationActions.addError(
+                fetchOrganizationsByIdsResult.error!,
+                fetchOrganizationsByIdsResult.cause
+              )
+            );
+          }
+        }
+        dispatch(
+          StorageActions.updateSearchResultKeyboardDefinitionDocument(
+            filteredDocs
+          )
+        );
+      } else {
+        console.error(searchKeyboardsByFeaturesResult.cause!);
+        dispatch(
+          NotificationActions.addError(
+            searchKeyboardsByFeaturesResult.error!,
+            searchKeyboardsByFeaturesResult.cause
+          )
+        );
+      }
+      const query: { [p: string]: string | string[] } = {};
+      if (keyword) {
+        query.keyword = keyword;
+      }
+      if (features && features.length > 0) {
+        query.features = features.join(',');
+      }
+      history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
+      dispatch(CatalogAppActions.updatePhase('list'));
+    },
+
+  fetchKeyboardDefinitionForCatalogById:
+    (
+      definitionId: string,
+      nextPhase: ICatalogPhase
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchKeyboardDefinitionResult =
+        await storage.instance!.fetchKeyboardDefinitionDocumentById(
+          definitionId
+        );
+      if (!fetchKeyboardDefinitionResult.success) {
+        console.error(fetchKeyboardDefinitionResult.cause!);
         dispatch(
           NotificationActions.addError(
             fetchKeyboardDefinitionResult.error!,
@@ -1113,295 +1083,385 @@ export const storageActionsThunk = {
         dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
         return;
       }
-      dispatch(
-        StorageActions.updateSameAuthorKeyboardDefinitionDocuments(
-          fetchKeyboardsCreatedBySameAuthorResult.documents!
-        )
-      );
-
-      dispatch(CatalogAppActions.updatePhase(nextPhase));
-    } else {
-      dispatch(NotificationActions.addWarn('No such keyboard.'));
-      dispatch(CatalogAppActions.updatePhase('init'));
-    }
-  },
-
-  updateKeyboardDefinitionForCatalog: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsAppActions.updatePhase('processing'));
-    const { storage, keyboards, entities } = getState();
-    const definitionDoc = entities.keyboardDefinitionDocument;
-    const features = keyboards.editdefinition.features;
-    const description = keyboards.editdefinition.description;
-    const stores = keyboards.editdefinition.stores;
-    const websiteUrl = keyboards.editdefinition.websiteUrl;
-    const additionalDescriptions =
-      keyboards.editdefinition.additionalDescriptions;
-    const result = await storage.instance!.updateKeyboardDefinitionDocumentForCatalog(
-      definitionDoc!.id,
-      features,
-      description,
-      stores,
-      websiteUrl,
-      additionalDescriptions
-    );
-    if (result.success) {
-      dispatch(
-        NotificationActions.addSuccess(
-          'Updating the keyboard definition succeeded.'
-        )
-      );
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDoc!.id,
-          'catalog'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  uploadKeyboardCatalogImage: (
-    definitionId: string,
-    file: File
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsEditDefinitionActions.updateMainImageUploading(true));
-    dispatch(KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0));
-    const { storage } = getState();
-    const result = await storage.instance!.uploadKeyboardCatalogMainImage(
-      definitionId,
-      file,
-      (uploadedRate) =>
+      if (fetchKeyboardDefinitionResult.exists!) {
+        const keyboardDefinitionDocument =
+          fetchKeyboardDefinitionResult.document!;
         dispatch(
-          KeyboardsEditDefinitionActions.updateMainImageUploadedRate(
-            uploadedRate
+          StorageActions.updateKeyboardDefinitionDocument(
+            keyboardDefinitionDocument
           )
-        )
-    );
-    if (result.success) {
-      dispatch(KeyboardsAppActions.updatePhase('processing'));
-      setTimeout(async () => {
-        dispatch(KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0));
-        dispatch(
-          KeyboardsEditDefinitionActions.updateMainImageUploading(false)
         );
+
+        if (keyboardDefinitionDocument.authorType === 'organization') {
+          const fetchOrganizationByIdResult =
+            await storage.instance!.fetchOrganizationById(
+              keyboardDefinitionDocument.organizationId!
+            );
+          if (!fetchOrganizationByIdResult.success) {
+            console.error(fetchOrganizationByIdResult.cause!);
+            dispatch(
+              NotificationActions.addError(
+                fetchOrganizationByIdResult.error!,
+                fetchOrganizationByIdResult.cause
+              )
+            );
+            dispatch(CatalogAppActions.updatePhase('init'));
+            dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+            return;
+          }
+          dispatch(
+            StorageActions.updateOrganization(
+              fetchOrganizationByIdResult.organization!
+            )
+          );
+        }
+
+        let keyboardDefinition: KeyboardDefinitionSchema;
+        const jsonStr: string = keyboardDefinitionDocument.json;
+        try {
+          keyboardDefinition = JSON.parse(jsonStr);
+        } catch (error) {
+          dispatch(NotificationActions.addError('JSON parse error'));
+          return;
+        }
+        const validateResult =
+          validateKeyboardDefinitionSchema(keyboardDefinition);
+        if (!validateResult.valid) {
+          dispatch(
+            NotificationActions.addError(validateResult.errors![0].message)
+          );
+          return;
+        }
+        dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+        dispatch(
+          LayoutOptionsActions.initSelectedOptions(
+            keyboardDefinition.layouts.labels
+              ? keyboardDefinition.layouts.labels
+              : []
+          )
+        );
+        dispatch(
+          await storageActionsThunk.fetchSharedKeymaps(
+            keyboardDefinitionDocument,
+            false
+          )
+        );
+        const fetchKeyboardsCreatedBySameAuthorResult =
+          await storage.instance!.fetchKeyboardsCreatedBySameAuthor(
+            keyboardDefinitionDocument
+          );
+        if (!fetchKeyboardsCreatedBySameAuthorResult.success) {
+          dispatch(
+            NotificationActions.addError(
+              fetchKeyboardDefinitionResult.error!,
+              fetchKeyboardDefinitionResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateSameAuthorKeyboardDefinitionDocuments(
+            fetchKeyboardsCreatedBySameAuthorResult.documents!
+          )
+        );
+
+        dispatch(CatalogAppActions.updatePhase(nextPhase));
+      } else {
+        dispatch(NotificationActions.addWarn('No such keyboard.'));
+        dispatch(CatalogAppActions.updatePhase('init'));
+      }
+    },
+
+  updateKeyboardDefinitionForCatalog:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      const { storage, keyboards, entities } = getState();
+      const definitionDoc = entities.keyboardDefinitionDocument;
+      const features = keyboards.editdefinition.features;
+      const description = keyboards.editdefinition.description;
+      const stores = keyboards.editdefinition.stores;
+      const websiteUrl = keyboards.editdefinition.websiteUrl;
+      const additionalDescriptions =
+        keyboards.editdefinition.additionalDescriptions;
+      const result =
+        await storage.instance!.updateKeyboardDefinitionDocumentForCatalog(
+          definitionDoc!.id,
+          features,
+          description,
+          stores,
+          websiteUrl,
+          additionalDescriptions
+        );
+      if (result.success) {
+        dispatch(
+          NotificationActions.addSuccess(
+            'Updating the keyboard definition succeeded.'
+          )
+        );
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDoc!.id,
+            'catalog'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  uploadKeyboardCatalogImage:
+    (definitionId: string, file: File): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(KeyboardsEditDefinitionActions.updateMainImageUploading(true));
+      dispatch(KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0));
+      const { storage } = getState();
+      const result = await storage.instance!.uploadKeyboardCatalogMainImage(
+        definitionId,
+        file,
+        (uploadedRate) =>
+          dispatch(
+            KeyboardsEditDefinitionActions.updateMainImageUploadedRate(
+              uploadedRate
+            )
+          )
+      );
+      if (result.success) {
+        dispatch(KeyboardsAppActions.updatePhase('processing'));
+        setTimeout(async () => {
+          dispatch(
+            KeyboardsEditDefinitionActions.updateMainImageUploadedRate(0)
+          );
+          dispatch(
+            KeyboardsEditDefinitionActions.updateMainImageUploading(false)
+          );
+          dispatch(
+            await storageActionsThunk.fetchKeyboardDefinitionById(
+              definitionId,
+              'catalog'
+            )
+          );
+        }, 3000);
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  uploadFirmware:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      const { storage, keyboards, entities } = getState();
+      const firmwareFile = keyboards.editdefinition.firmwareFile!;
+      const firmwareName = keyboards.editdefinition.firmwareName;
+      const firmwareDescription = keyboards.editdefinition.firmwareDescription;
+      const firmwareSourceCodeUrl =
+        keyboards.editdefinition.firmwareSourceCodeUrl;
+      const flashSupport = keyboards.editdefinition.flashSupport;
+      const definitionDocument = entities.keyboardDefinitionDocument!;
+      const keyboardName = definitionDocument.name;
+      const result = await storage.instance!.uploadFirmware(
+        definitionDocument.id,
+        firmwareFile,
+        firmwareName,
+        firmwareDescription,
+        firmwareSourceCodeUrl,
+        flashSupport,
+        keyboardName
+      );
+      if (result.success) {
+        dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
+        await dispatch(
+          storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDocument.id,
+            'firmware'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  fetchFirmwareFileBlob:
+    (
+      firmwareFilePath: string,
+      // eslint-disable-next-line no-unused-vars
+      callback: (blob: any) => void
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, entities } = getState();
+      const definitionDocument = entities.keyboardDefinitionDocument!;
+      const result = await storage.instance!.fetchFirmwareFileBlob(
+        definitionDocument.id,
+        firmwareFilePath,
+        'download'
+      );
+      if (result.success) {
+        callback(result.blob!);
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  deleteFirmware:
+    (firmware: IFirmware): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      const { entities, storage } = getState();
+      const definitionDocument = entities.keyboardDefinitionDocument!;
+      const result = await storage.instance!.deleteFirmware(
+        definitionDocument.id,
+        firmware
+      );
+      if (result.success) {
+        await dispatch(
+          storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDocument.id,
+            'firmware'
+          )
+        );
+      } else {
+        console.error(result.error!);
+        dispatch(NotificationActions.addError(result.error!));
+      }
+    },
+
+  updateFirmware:
+    (
+      firmware: IFirmware,
+      name: string,
+      description: string,
+      sourceCodeUrl: string,
+      flashSupport: boolean
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(KeyboardsAppActions.updatePhase('processing'));
+      const { entities, storage } = getState();
+      const definitionDocument = entities.keyboardDefinitionDocument!;
+      const result = await storage.instance!.updateFirmware(
+        definitionDocument.id,
+        firmware,
+        name,
+        description,
+        sourceCodeUrl,
+        flashSupport
+      );
+      if (result.success) {
+        await dispatch(
+          storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionDocument.id,
+            'firmware'
+          )
+        );
+      } else {
+        console.error(result.error!);
+        dispatch(NotificationActions.addError(result.error!));
+      }
+    },
+
+  uploadKeyboardCatalogSubImage:
+    (definitionId: string, file: File): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, entities } = getState();
+      if (entities.keyboardDefinitionDocument!.subImages.length === 3) {
+        dispatch(
+          NotificationActions.addWarn('The number of Sub Images are until 3.')
+        );
+        return;
+      }
+      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(true));
+      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
+      const result = await storage.instance!.uploadKeyboardCatalogSubImage(
+        definitionId,
+        file,
+        (uploadedRate) =>
+          dispatch(
+            KeyboardsEditDefinitionActions.updateSubImageUploadedRate(
+              uploadedRate
+            )
+          )
+      );
+      if (result.success) {
+        dispatch(KeyboardsAppActions.updatePhase('processing'));
+        dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
+        dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(false));
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionId,
             'catalog'
           )
         );
-      }, 3000);
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
 
-  uploadFirmware: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsAppActions.updatePhase('processing'));
-    const { storage, keyboards, entities } = getState();
-    const firmwareFile = keyboards.editdefinition.firmwareFile!;
-    const firmwareName = keyboards.editdefinition.firmwareName;
-    const firmwareDescription = keyboards.editdefinition.firmwareDescription;
-    const firmwareSourceCodeUrl =
-      keyboards.editdefinition.firmwareSourceCodeUrl;
-    const flashSupport = keyboards.editdefinition.flashSupport;
-    const definitionDocument = entities.keyboardDefinitionDocument!;
-    const keyboardName = definitionDocument.name;
-    const result = await storage.instance!.uploadFirmware(
-      definitionDocument.id,
-      firmwareFile,
-      firmwareName,
-      firmwareDescription,
-      firmwareSourceCodeUrl,
-      flashSupport,
-      keyboardName
-    );
-    if (result.success) {
-      dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
-      await dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDocument.id,
-          'firmware'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  fetchFirmwareFileBlob: (
-    firmwareFilePath: string,
-    // eslint-disable-next-line no-unused-vars
-    callback: (blob: any) => void
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, entities } = getState();
-    const definitionDocument = entities.keyboardDefinitionDocument!;
-    const result = await storage.instance!.fetchFirmwareFileBlob(
-      definitionDocument.id,
-      firmwareFilePath,
-      'download'
-    );
-    if (result.success) {
-      callback(result.blob!);
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  deleteFirmware: (firmware: IFirmware): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsAppActions.updatePhase('processing'));
-    const { entities, storage } = getState();
-    const definitionDocument = entities.keyboardDefinitionDocument!;
-    const result = await storage.instance!.deleteFirmware(
-      definitionDocument.id,
-      firmware
-    );
-    if (result.success) {
-      await dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDocument.id,
-          'firmware'
-        )
-      );
-    } else {
-      console.error(result.error!);
-      dispatch(NotificationActions.addError(result.error!));
-    }
-  },
-
-  updateFirmware: (
-    firmware: IFirmware,
-    name: string,
-    description: string,
-    sourceCodeUrl: string,
-    flashSupport: boolean
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsAppActions.updatePhase('processing'));
-    const { entities, storage } = getState();
-    const definitionDocument = entities.keyboardDefinitionDocument!;
-    const result = await storage.instance!.updateFirmware(
-      definitionDocument.id,
-      firmware,
-      name,
-      description,
-      sourceCodeUrl,
-      flashSupport
-    );
-    if (result.success) {
-      await dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionDocument.id,
-          'firmware'
-        )
-      );
-    } else {
-      console.error(result.error!);
-      dispatch(NotificationActions.addError(result.error!));
-    }
-  },
-
-  uploadKeyboardCatalogSubImage: (
-    definitionId: string,
-    file: File
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage, entities } = getState();
-    if (entities.keyboardDefinitionDocument!.subImages.length === 3) {
-      dispatch(
-        NotificationActions.addWarn('The number of Sub Images are until 3.')
-      );
-      return;
-    }
-    dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(true));
-    dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
-    const result = await storage.instance!.uploadKeyboardCatalogSubImage(
-      definitionId,
-      file,
-      (uploadedRate) =>
-        dispatch(
-          KeyboardsEditDefinitionActions.updateSubImageUploadedRate(
-            uploadedRate
-          )
-        )
-    );
-    if (result.success) {
+  deleteKeyboardCatalogSubImage:
+    (definitionId: string, subImageIndex: number): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
       dispatch(KeyboardsAppActions.updatePhase('processing'));
-      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
-      dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(false));
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionId,
-          'catalog'
-        )
+      const { storage } = getState();
+      const result = await storage.instance!.deleteKeyboardCatalogSubImage(
+        definitionId,
+        subImageIndex
       );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
+      if (result.success) {
+        dispatch(
+          await storageActionsThunk.fetchKeyboardDefinitionById(
+            definitionId,
+            'catalog'
+          )
+        );
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
 
-  deleteKeyboardCatalogSubImage: (
-    definitionId: string,
-    subImageIndex: number
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    dispatch(KeyboardsAppActions.updatePhase('processing'));
-    const { storage } = getState();
-    const result = await storage.instance!.deleteKeyboardCatalogSubImage(
-      definitionId,
-      subImageIndex
-    );
-    if (result.success) {
-      dispatch(
-        await storageActionsThunk.fetchKeyboardDefinitionById(
-          definitionId,
-          'catalog'
-        )
-      );
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
-
-  fetchMyOrganizations: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const result = await storage.instance!.fetchMyOrganizations();
-    if (result.success) {
-      dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
-    } else {
-      console.error(result.cause!);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-    }
-  },
+  fetchMyOrganizations:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.fetchMyOrganizations();
+      if (result.success) {
+        dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
 };

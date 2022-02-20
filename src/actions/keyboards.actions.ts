@@ -429,13 +429,15 @@ type ThunkPromiseAction<T> = ThunkAction<
 >;
 export const keyboardsActionsThunk = {
   // eslint-disable-next-line no-undef
-  logout: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { auth } = getState();
-    dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.signout));
-    await auth.instance!.signOut();
-  },
+  logout:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { auth } = getState();
+      dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.signout));
+      await auth.instance!.signOut();
+    },
 };

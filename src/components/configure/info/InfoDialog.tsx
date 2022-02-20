@@ -88,7 +88,8 @@ export default class InfoDialog extends React.Component<
       ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument.id);
 
       this.githubUrl = this.props.keyboardDefinitionDocument.githubUrl;
-      this.githubDisplayName = this.props.keyboardDefinitionDocument.githubDisplayName;
+      this.githubDisplayName =
+        this.props.keyboardDefinitionDocument.githubDisplayName;
     }
 
     const deviceInfo = this.props.keyboard!.getInformation();

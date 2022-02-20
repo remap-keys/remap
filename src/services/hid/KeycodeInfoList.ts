@@ -6159,8 +6159,7 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc:
-      'Cycle through modes in reverse, forward direction when Shift is held.',
+    desc: 'Cycle through modes in reverse, forward direction when Shift is held.',
     keycodeInfo: {
       code: 23748,
       name: {
@@ -6258,8 +6257,7 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc:
-      'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held.',
+    desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held.',
     keycodeInfo: {
       code: 23755,
       name: {
@@ -6273,8 +6271,7 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc:
-      'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held.',
+    desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held.',
     keycodeInfo: {
       code: 23756,
       name: {
@@ -6673,8 +6670,7 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc:
-      'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
+    desc: 'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
     keycodeInfo: {
       code: 23809,
       name: {
@@ -6687,8 +6683,7 @@ export const keyInfoList: KeyInfo[] = [
   },
 
   {
-    desc:
-      'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
+    desc: 'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
     keycodeInfo: {
       code: 23810,
       name: {

@@ -9,7 +9,8 @@ import { outputUint8Array } from '../../utils/ArrayUtils';
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
   TResponse extends ICommandResponse
-> implements ICommand {
+> implements ICommand
+{
   private readonly request: TRequest;
   private readonly responseHandler: ICommandResponseHandler<TResponse>;
 

@@ -25,10 +25,8 @@ export const CatalogKeyboardHeader = ({
   definitionDocument,
   organization,
 }: CategoryHeaderProps) => {
-  const [
-    storesMenuAnchorEl,
-    setStoresMenuAnchorEl,
-  ] = useState<HTMLElement | null>(null);
+  const [storesMenuAnchorEl, setStoresMenuAnchorEl] =
+    useState<HTMLElement | null>(null);
 
   const onClickStoresMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setStoresMenuAnchorEl(event.currentTarget);
