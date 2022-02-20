@@ -339,6 +339,7 @@ export type RootState = {
     search: {
       features: IKeyboardFeatures[];
       keyword: string;
+      organizationId: string | undefined;
     };
     keyboard: {
       keymaps: {
@@ -555,6 +556,7 @@ export const INIT_STATE: RootState = {
     search: {
       features: [],
       keyword: '',
+      organizationId: undefined,
     },
     keyboard: {
       keymaps: [],

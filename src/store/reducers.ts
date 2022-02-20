@@ -159,6 +159,7 @@ import {
   CATALOG_SEARCH_RESET_FEATURES,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
+  CATALOG_SEARCH_UPDATE_ORGANIZATION,
   FLASH_FIRMWARE_DIALOG_ACTIONS,
   FLASH_FIRMWARE_DIALOG_APPEND_LOG,
   FLASH_FIRMWARE_DIALOG_CLEAR,
@@ -964,6 +965,10 @@ const catalogSearchReducer = (
     case CATALOG_SEARCH_RESET_FEATURES: {
       const newFeatures = [...action.value];
       draft.catalog.search.features = newFeatures;
+      break;
+    }
+    case CATALOG_SEARCH_UPDATE_ORGANIZATION: {
+      draft.catalog.search.organizationId = action.value;
       break;
     }
   }

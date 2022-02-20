@@ -31,6 +31,7 @@ import {
   IFetchMyOrganizationsResult,
   IKeyboardDefinitionAuthorType,
   IFetchOrganizationMembersResult,
+  IFetchAllOrganizationsResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -931,27 +932,30 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async searchKeyboardsByFeatures(
-    features: IKeyboardFeatures[]
+  async searchKeyboards(
+    features: IKeyboardFeatures[],
+    organizationId: string | undefined
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult> {
     try {
-      let querySnapshot;
+      let query;
       if (features.length === 0) {
-        querySnapshot = await this.db
+        query = this.db
           .collection('keyboards')
           .doc('v2')
           .collection('definitions')
-          .where('status', '==', 'approved')
-          .get();
+          .where('status', '==', 'approved');
       } else {
-        querySnapshot = await this.db
+        query = this.db
           .collection('keyboards')
           .doc('v2')
           .collection('definitions')
           .where('features', 'array-contains-any', features)
-          .where('status', '==', 'approved')
-          .get();
+          .where('status', '==', 'approved');
       }
+      if (organizationId) {
+        query = query.where('organization_id', '==', organizationId);
+      }
+      const querySnapshot = await query.get();
       return {
         success: true,
         documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
@@ -1495,6 +1499,35 @@ export class FirebaseProvider implements IStorage, IAuth {
       return {
         success: false,
         error: 'Fetching my organizations failed',
+        cause: error,
+      };
+    }
+  }
+
+  async fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult> {
+    try {
+      const querySnapshot = await this.db
+        .collection('organizations')
+        .doc('v1')
+        .collection('profiles')
+        .get();
+      return {
+        success: true,
+        organizationMap: querySnapshot.docs.reduce((result, doc) => {
+          result[doc.id] = {
+            id: doc.id,
+            ...doc.data(),
+            created_at: doc.data()!.created_at.toDate(),
+            updated_at: doc.data()!.updated_at.toDate(),
+          } as IOrganization;
+          return result;
+        }, {} as Record<string, IOrganization>),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching all organizations failed',
         cause: error,
       };
     }
