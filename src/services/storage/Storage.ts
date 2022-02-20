@@ -215,6 +215,10 @@ export interface IFetchMyOrganizationsResult extends IResult {
   organizationMap?: Record<string, IOrganization>;
 }
 
+export interface IFetchAllOrganizationsResult extends IResult {
+  organizationMap?: Record<string, IOrganization>;
+}
+
 export type IOrganizationMember = {
   uid: string;
   email: string;
@@ -302,8 +306,9 @@ export interface IStorage {
   ): Promise<IAppliedKeymapsResult>;
   fetchSharedKeymap(keymapId: string): Promise<IFetchSharedKeymapResult>;
 
-  searchKeyboardsByFeatures(
-    features: IKeyboardFeatures[]
+  searchKeyboards(
+    features: IKeyboardFeatures[],
+    organizationId: string | undefined
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
   fetchKeyboardDefinitionDocumentById(
     definitionId: string
@@ -377,5 +382,6 @@ export interface IStorage {
     organizationId: string,
     uid: string
   ): Promise<IResult>;
+  fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult>;
 }
 /* eslint-enable no-unused-vars */

@@ -35,6 +35,7 @@ export const CATALOG_SEARCH_UPDATE_FEATURES = `${CATALOG_SEARCH_ACTIONS}/UpdateF
 export const CATALOG_SEARCH_UPDATE_KEYWORD = `${CATALOG_SEARCH_ACTIONS}/UpdateKeyword`;
 export const CATALOG_SEARCH_CLEAR_FEATURES = `${CATALOG_SEARCH_ACTIONS}/ClearFeatures`;
 export const CATALOG_SEARCH_RESET_FEATURES = `${CATALOG_SEARCH_ACTIONS}/ResetFeatures`;
+export const CATALOG_SEARCH_UPDATE_ORGANIZATION = `${CATALOG_SEARCH_ACTIONS}/UpdateOrganization`;
 export const CatalogSearchActions = {
   updateFeatures: (
     value: IKeyboardFeatures | IConditionNotSelected,
@@ -63,6 +64,12 @@ export const CatalogSearchActions = {
     return {
       type: CATALOG_SEARCH_RESET_FEATURES,
       value: value,
+    };
+  },
+  updateOrganizationId: (organizationId: string | undefined) => {
+    return {
+      type: CATALOG_SEARCH_UPDATE_ORGANIZATION,
+      value: organizationId,
     };
   },
 };

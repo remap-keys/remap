@@ -10,7 +10,10 @@ import { storageActionsThunk } from '../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    organizations: Object.values(state.entities.organizationMap),
+    organizationId: state.catalog.search.organizationId,
+  };
 };
 export type CatalogSearchFormStateType = ReturnType<typeof mapStateToProps>;
 
@@ -31,7 +34,11 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     resetSearchConditions: () => {
       _dispatch(CatalogSearchActions.updateKeyword(''));
+      _dispatch(CatalogSearchActions.updateOrganizationId(undefined));
       _dispatch(CatalogSearchActions.clearFeatures());
+    },
+    updateOrganizationId: (organizationId: string | undefined) => {
+      _dispatch(CatalogSearchActions.updateOrganizationId(organizationId));
     },
   };
 };

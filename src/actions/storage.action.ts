@@ -975,8 +975,9 @@ export const storageActionsThunk = {
       const { catalog, storage } = getState();
       const features = catalog.search.features;
       const keyword = catalog.search.keyword;
+      const organizationId = catalog.search.organizationId;
       let searchKeyboardsByFeaturesResult =
-        await storage.instance!.searchKeyboardsByFeatures(features);
+        await storage.instance!.searchKeyboards(features, organizationId);
       if (searchKeyboardsByFeaturesResult.success) {
         const definitionDocs =
           searchKeyboardsByFeaturesResult.documents!.filter((doc) =>
@@ -1052,6 +1053,9 @@ export const storageActionsThunk = {
       }
       if (features && features.length > 0) {
         query.features = features.join(',');
+      }
+      if (organizationId) {
+        query.organizationId = organizationId;
       }
       history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
       dispatch(CatalogAppActions.updatePhase('list'));
@@ -1457,6 +1461,22 @@ export const storageActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.fetchMyOrganizations();
+      if (result.success) {
+        dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
+      } else {
+        console.error(result.cause!);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+      }
+    },
+
+  fetchAllOrganizations:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.fetchAllOrganizations();
       if (result.success) {
         dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
       } else {

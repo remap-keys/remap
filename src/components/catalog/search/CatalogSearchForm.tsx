@@ -143,6 +143,14 @@ export default class CatalogSearchForm extends React.Component<
     this.props.updateKeyword!(event.target.value);
   }
 
+  onChangeOrganizationId(event: SelectChangeEvent) {
+    if (event.target.value === '---') {
+      this.props.updateOrganizationId!(undefined);
+    } else {
+      this.props.updateOrganizationId!(event.target.value);
+    }
+  }
+
   onClickSearch() {
     this.props.search!();
     if (this.props.onSubmit) {
@@ -173,6 +181,31 @@ export default class CatalogSearchForm extends React.Component<
             onChange={this.onChangeKeyword.bind(this)}
             onKeyDown={this.onKeyDownKeyword.bind(this)}
           />
+        </div>
+        <div className="catalog-search-condition">
+          <FormControl fullWidth={true}>
+            <InputLabel id="catalog-search-organization">
+              Organization
+            </InputLabel>
+            <Select
+              labelId="catalog-search-organization"
+              label="Organization"
+              value={this.props.organizationId || '---'}
+              onChange={this.onChangeOrganizationId.bind(this)}
+            >
+              <MenuItem key="catalog-search-organization-undefined" value="---">
+                ---
+              </MenuItem>
+              {this.props.organizations!.map((organization) => (
+                <MenuItem
+                  key={`catalog-search-organization-${organization.id}`}
+                  value={organization.id}
+                >
+                  {organization.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>

@@ -58,6 +58,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       );
     },
     init: () => {
+      _dispatch(storageActionsThunk.fetchAllOrganizations());
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
     applySharedKeymap: (definitionId: string, keymapId: string) => {
@@ -69,6 +70,13 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateSearchCondition: (params: ParsedQs) => {
       if (params.keyword) {
         _dispatch(CatalogSearchActions.updateKeyword(params.keyword as string));
+      }
+      if (params.organizationId) {
+        _dispatch(
+          CatalogSearchActions.updateOrganizationId(
+            params.organizationId as string
+          )
+        );
       }
       if (params.features) {
         (params.features as string).split(',').forEach((feature: string) => {
