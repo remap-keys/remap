@@ -115,219 +115,75 @@ type ThunkPromiseAction<T> = ThunkAction<
   ActionTypes
 >;
 export const hidActionsThunk = {
-  updateKeymaps: (
-    labelLang: KeyboardLabelLang
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { entities } = getState();
-    const layerCount = entities.device.layerCount;
-    const keymaps: { [pos: string]: IKeymap }[] = entities.device.keymaps;
-    let newKeymaps: { [pos: string]: IKeymap }[] = [];
-    for (let i = 0; i < layerCount; i++) {
-      const keymap = keymaps[i];
-      let kmap: { [pos: string]: IKeymap } = {};
-      Object.keys(keymap).forEach((pos) => {
-        const km = keymap[pos];
-        const newKm = KeycodeList.getKeymap(km.code, labelLang);
-        kmap[pos] = newKm;
-      });
-      newKeymaps.push(kmap);
-    }
+  updateKeymaps:
+    (labelLang: KeyboardLabelLang): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { entities } = getState();
+      const layerCount = entities.device.layerCount;
+      const keymaps: { [pos: string]: IKeymap }[] = entities.device.keymaps;
+      let newKeymaps: { [pos: string]: IKeymap }[] = [];
+      for (let i = 0; i < layerCount; i++) {
+        const keymap = keymaps[i];
+        let kmap: { [pos: string]: IKeymap } = {};
+        Object.keys(keymap).forEach((pos) => {
+          const km = keymap[pos];
+          const newKm = KeycodeList.getKeymap(km.code, labelLang);
+          kmap[pos] = newKm;
+        });
+        newKeymaps.push(kmap);
+      }
 
-    dispatch(HidActions.updateKeymaps(newKeymaps));
-  },
-  connectAnotherKeyboard: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { hid, entities } = getState();
-    const keyboards: IKeyboard[] = entities.keyboards;
+      dispatch(HidActions.updateKeymaps(newKeymaps));
+    },
+  connectAnotherKeyboard:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { hid, entities } = getState();
+      const keyboards: IKeyboard[] = entities.keyboards;
 
-    const result = await hid.instance.connect();
-    if (!result.success) {
-      // cancel: do nothing
-      return;
-    }
-
-    const keyboard: IKeyboard = result.keyboard!;
-
-    if (0 < keyboards.length) {
-      // If the connecting keyboard had already added Remap state, do nothing
-      const listed = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
-      if (listed) {
+      const result = await hid.instance.connect();
+      if (!result.success) {
+        // cancel: do nothing
         return;
       }
-    }
 
-    // Opened keyboard MUST had been authorized
-    if (keyboard.isOpened()) {
-      const msg = 'This device has already opened by another application';
-      dispatch(NotificationActions.addWarn(msg));
-      return;
-    }
+      const keyboard: IKeyboard = result.keyboard!;
 
-    /**
-     * If the connected device has already included in state, use the keyboard object in state in order not to effect the keyboard list state.
-     * Unless the connected device has included in state, use it and add to the keyboard list in state.
-     */
-    dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
-    await dispatch(hidActionsThunk.closeOpenedKeyboard());
-    const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
-    const targetKbd = listedKbd ? listedKbd : keyboard;
-    if (!listedKbd) {
-      dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
-    }
-
-    console.log(targetKbd);
-    dispatch(HidActions.updateKeyboard(targetKbd));
-    const keyboardInfo = keyboard.getInformation();
-    dispatch(
-      AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
-    );
-    await dispatch(
-      storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
-        keyboardInfo.vendorId,
-        keyboardInfo.productId,
-        keyboardInfo.productName
-      )
-    );
-  },
-
-  connectKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { entities } = getState();
-    const keyboards: IKeyboard[] = entities.keyboards;
-
-    if (keyboard.isOpened()) {
-      /**
-       * If this keyboard is opening by this app, do nothing.
-       * If this keyboard is NOT opened by this app, show warning message.
-       */
-      if (entities.keyboard?.isSameDevice(keyboard)) {
-        return; // do nothing
+      if (0 < keyboards.length) {
+        // If the connecting keyboard had already added Remap state, do nothing
+        const listed = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
+        if (listed) {
+          return;
+        }
       }
 
-      const msg = 'This device has already opened by another application';
-      dispatch(NotificationActions.addWarn(msg));
-      return;
-    }
-    dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
-    await dispatch(hidActionsThunk.closeOpenedKeyboard());
+      // Opened keyboard MUST had been authorized
+      if (keyboard.isOpened()) {
+        const msg = 'This device has already opened by another application';
+        dispatch(NotificationActions.addWarn(msg));
+        return;
+      }
 
-    const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
-    const targetKbd = listedKbd ? listedKbd : keyboard;
-    if (!listedKbd) {
-      dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
-    }
+      /**
+       * If the connected device has already included in state, use the keyboard object in state in order not to effect the keyboard list state.
+       * Unless the connected device has included in state, use it and add to the keyboard list in state.
+       */
+      dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+      await dispatch(hidActionsThunk.closeOpenedKeyboard());
+      const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
+      const targetKbd = listedKbd ? listedKbd : keyboard;
+      if (!listedKbd) {
+        dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
+      }
 
-    dispatch(HidActions.updateKeyboard(targetKbd));
-    const keyboardInfo = keyboard.getInformation();
-    dispatch(
-      AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
-    );
-    await dispatch(
-      storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
-        keyboardInfo.vendorId,
-        keyboardInfo.productId,
-        keyboardInfo.productName
-      )
-    );
-  },
-
-  openKeyboard: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { app, entities } = getState();
-    const keyboard = entities.keyboard!;
-    const result = await keyboard.open();
-    if (!result.success) {
-      console.error('Could not open');
-      dispatch(NotificationActions.addError('Could not open', result.cause));
-      return;
-    }
-    sendEventToGoogleAnalytics('configure/open', {
-      vendor_id: keyboard.getInformation().vendorId,
-      product_id: keyboard.getInformation().productId,
-      product_name: keyboard.getInformation().productName,
-    });
-    dispatch(
-      HidActions.updateBleMicroPro(
-        keyboard
-          .getInformation()
-          .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
-      )
-    );
-    const layerResult = await keyboard.fetchLayerCount();
-    if (!layerResult.success) {
-      dispatch(
-        NotificationActions.addError('Fetching the layer count failed.')
-      );
-      return;
-    }
-    const layerCount = layerResult.layerCount!;
-    dispatch(HidActions.updateKeyboardLayerCount(layerCount));
-    const keymaps: IKeymaps[] = await loadKeymap(
-      dispatch,
-      keyboard,
-      layerCount,
-      entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols,
-      app.labelLang
-    );
-    dispatch(HidActions.updateKeymaps(keymaps));
-
-    const macroBufferSizeResult = await keyboard.getMacroBufferSize();
-    if (!macroBufferSizeResult.success) {
-      dispatch(
-        NotificationActions.addError(
-          'Fetching the max macro buffer size failed.'
-        )
-      );
-      return;
-    }
-    const macroBufferSize = macroBufferSizeResult.bufferSize!;
-    dispatch(HidActions.updateMacroMaxBufferSize(macroBufferSize));
-    const macroMaxCountResult = await keyboard.getMacroCount();
-    if (!macroMaxCountResult.success) {
-      dispatch(
-        NotificationActions.addError('Fetching the max macro count failed.')
-      );
-      return;
-    }
-    dispatch(HidActions.updateMacroMaxCount(macroMaxCountResult.count!));
-    const macroBufferBytesResult = await keyboard.fetchMacroBuffer(
-      macroBufferSize
-    );
-    if (!macroBufferBytesResult.success) {
-      dispatch(
-        NotificationActions.addError('Fetching the macro buffer bytes failed.')
-      );
-      return;
-    }
-    dispatch(HidActions.updateMacroBufferBytes(macroBufferBytesResult.buffer!));
-
-    dispatch(AppActions.remapsInit(layerCount));
-    dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
-    dispatch(await hidActionsThunk.restoreLayoutOptions());
-    dispatch(HidActions.updateKeyboard(keyboard));
-    dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
-  },
-
-  updateAuthorizedKeyboardList: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { hid } = getState();
-    const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
-    dispatch(HidActions.updateKeyboardList(keyboards));
-    if (keyboards.length === 1) {
-      const keyboard = keyboards[0];
-      dispatch(HidActions.updateKeyboard(keyboard));
+      console.log(targetKbd);
+      dispatch(HidActions.updateKeyboard(targetKbd));
       const keyboardInfo = keyboard.getInformation();
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
@@ -339,239 +195,411 @@ export const hidActionsThunk = {
           keyboardInfo.productName
         )
       );
-    } else {
+    },
+
+  connectKeyboard:
+    (keyboard: IKeyboard): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { entities } = getState();
+      const keyboards: IKeyboard[] = entities.keyboards;
+
+      if (keyboard.isOpened()) {
+        /**
+         * If this keyboard is opening by this app, do nothing.
+         * If this keyboard is NOT opened by this app, show warning message.
+         */
+        if (entities.keyboard?.isSameDevice(keyboard)) {
+          return; // do nothing
+        }
+
+        const msg = 'This device has already opened by another application';
+        dispatch(NotificationActions.addWarn(msg));
+        return;
+      }
+      dispatch(AppActions.updateSetupPhase(SetupPhase.connectingKeyboard));
+      await dispatch(hidActionsThunk.closeOpenedKeyboard());
+
+      const listedKbd = keyboards.find((kbd) => kbd.isSameDevice(keyboard));
+      const targetKbd = listedKbd ? listedKbd : keyboard;
+      if (!listedKbd) {
+        dispatch(HidActions.updateKeyboardList([...keyboards, keyboard]));
+      }
+
+      dispatch(HidActions.updateKeyboard(targetKbd));
+      const keyboardInfo = keyboard.getInformation();
+      dispatch(
+        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+      );
+      await dispatch(
+        storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
+          keyboardInfo.vendorId,
+          keyboardInfo.productId,
+          keyboardInfo.productName
+        )
+      );
+    },
+
+  openKeyboard:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { app, entities } = getState();
+      const keyboard = entities.keyboard!;
+      const result = await keyboard.open();
+      if (!result.success) {
+        console.error('Could not open');
+        dispatch(NotificationActions.addError('Could not open', result.cause));
+        return;
+      }
+      sendEventToGoogleAnalytics('configure/open', {
+        vendor_id: keyboard.getInformation().vendorId,
+        product_id: keyboard.getInformation().productId,
+        product_name: keyboard.getInformation().productName,
+      });
+      dispatch(
+        HidActions.updateBleMicroPro(
+          keyboard
+            .getInformation()
+            .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
+        )
+      );
+      const layerResult = await keyboard.fetchLayerCount();
+      if (!layerResult.success) {
+        dispatch(
+          NotificationActions.addError('Fetching the layer count failed.')
+        );
+        return;
+      }
+      const layerCount = layerResult.layerCount!;
+      dispatch(HidActions.updateKeyboardLayerCount(layerCount));
+      const keymaps: IKeymaps[] = await loadKeymap(
+        dispatch,
+        keyboard,
+        layerCount,
+        entities.keyboardDefinition!.matrix.rows,
+        entities.keyboardDefinition!.matrix.cols,
+        app.labelLang
+      );
+      dispatch(HidActions.updateKeymaps(keymaps));
+
+      const macroBufferSizeResult = await keyboard.getMacroBufferSize();
+      if (!macroBufferSizeResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Fetching the max macro buffer size failed.'
+          )
+        );
+        return;
+      }
+      const macroBufferSize = macroBufferSizeResult.bufferSize!;
+      dispatch(HidActions.updateMacroMaxBufferSize(macroBufferSize));
+      const macroMaxCountResult = await keyboard.getMacroCount();
+      if (!macroMaxCountResult.success) {
+        dispatch(
+          NotificationActions.addError('Fetching the max macro count failed.')
+        );
+        return;
+      }
+      dispatch(HidActions.updateMacroMaxCount(macroMaxCountResult.count!));
+      const macroBufferBytesResult = await keyboard.fetchMacroBuffer(
+        macroBufferSize
+      );
+      if (!macroBufferBytesResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Fetching the macro buffer bytes failed.'
+          )
+        );
+        return;
+      }
+      dispatch(
+        HidActions.updateMacroBufferBytes(macroBufferBytesResult.buffer!)
+      );
+
+      dispatch(AppActions.remapsInit(layerCount));
+      dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
+      dispatch(await hidActionsThunk.restoreLayoutOptions());
+      dispatch(HidActions.updateKeyboard(keyboard));
+      dispatch(AppActions.updateSetupPhase(SetupPhase.openedKeyboard));
+    },
+
+  updateAuthorizedKeyboardList:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { hid } = getState();
+      const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
+      dispatch(HidActions.updateKeyboardList(keyboards));
+      if (keyboards.length === 1) {
+        const keyboard = keyboards[0];
+        dispatch(HidActions.updateKeyboard(keyboard));
+        const keyboardInfo = keyboard.getInformation();
+        dispatch(
+          AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+        );
+        await dispatch(
+          storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
+            keyboardInfo.vendorId,
+            keyboardInfo.productId,
+            keyboardInfo.productName
+          )
+        );
+      } else {
+        dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+      }
+    },
+
+  closeKeyboard:
+    (keyboard: IKeyboard): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      await keyboard.close();
       dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
-    }
-  },
-
-  closeKeyboard: (keyboard: IKeyboard): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    await keyboard.close();
-    dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
-    dispatch(AppActions.remapsClear());
-    dispatch(KeydiffActions.clearKeydiff());
-    dispatch(KeycodeKeyActions.clear());
-    dispatch(KeymapActions.clearSelectedPos());
-    dispatch(StorageActions.updateKeyboardDefinition(null));
-    dispatch(HidActions.updateKeyboard(null));
-  },
-
-  closeOpenedKeyboard: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const { entities } = getState();
-    const openedKeyboard = entities.keyboard;
-    if (openedKeyboard && openedKeyboard.isOpened()) {
-      await openedKeyboard.close();
       dispatch(AppActions.remapsClear());
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedPos());
       dispatch(StorageActions.updateKeyboardDefinition(null));
-      dispatch(StorageActions.clearKeyboardDefinitionDocument());
-      dispatch(StorageActions.updateSavedKeymaps([]));
       dispatch(HidActions.updateKeyboard(null));
-    }
-  },
+    },
 
-  flash: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
-    sendEventToGoogleAnalytics('configure/flash', {
-      vendor_id: keyboard.getInformation().vendorId,
-      product_id: keyboard.getInformation().productId,
-      product_name: keyboard.getInformation().productName,
-    });
-    const remaps = app.remaps;
-    for (let layer = 0; layer < remaps.length; layer++) {
-      const remap = remaps[layer];
-      for (const pos of Object.keys(remap)) {
-        const key = remap[pos];
-        const row = Number(pos.substring(0, pos.indexOf(',')));
-        const col = Number(pos.substring(pos.indexOf(',') + 1));
-        const code = key.code;
-        const result = await keyboard.updateKeymap(layer, row, col, code);
+  closeOpenedKeyboard:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const { entities } = getState();
+      const openedKeyboard = entities.keyboard;
+      if (openedKeyboard && openedKeyboard.isOpened()) {
+        await openedKeyboard.close();
+        dispatch(AppActions.remapsClear());
+        dispatch(KeydiffActions.clearKeydiff());
+        dispatch(KeycodeKeyActions.clear());
+        dispatch(KeymapActions.clearSelectedPos());
+        dispatch(StorageActions.updateKeyboardDefinition(null));
+        dispatch(StorageActions.clearKeyboardDefinitionDocument());
+        dispatch(StorageActions.updateSavedKeymaps([]));
+        dispatch(HidActions.updateKeyboard(null));
+      }
+    },
+
+  flash:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { app, entities } = getState();
+      const keyboard: IKeyboard = entities.keyboard!;
+      sendEventToGoogleAnalytics('configure/flash', {
+        vendor_id: keyboard.getInformation().vendorId,
+        product_id: keyboard.getInformation().productId,
+        product_name: keyboard.getInformation().productName,
+      });
+      const remaps = app.remaps;
+      for (let layer = 0; layer < remaps.length; layer++) {
+        const remap = remaps[layer];
+        for (const pos of Object.keys(remap)) {
+          const key = remap[pos];
+          const row = Number(pos.substring(0, pos.indexOf(',')));
+          const col = Number(pos.substring(pos.indexOf(',') + 1));
+          const code = key.code;
+          const result = await keyboard.updateKeymap(layer, row, col, code);
+          if (!result.success) {
+            console.error(result.cause);
+            dispatch(
+              NotificationActions.addError(
+                `Flush error: [${pos}] ${result.error!}`,
+                result.cause
+              )
+            );
+            dispatch(HeaderActions.updateFlashing(false));
+            return;
+          }
+        }
+      }
+      if (entities.device.bleMicroPro) {
+        const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
         if (!result.success) {
           console.error(result.cause);
-          dispatch(
-            NotificationActions.addError(
-              `Flush error: [${pos}] ${result.error!}`,
-              result.cause
-            )
-          );
+          dispatch(NotificationActions.addError(result.error!, result.cause));
           dispatch(HeaderActions.updateFlashing(false));
           return;
         }
       }
-    }
-    if (entities.device.bleMicroPro) {
-      const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
+      const keymaps: IKeymaps[] = await loadKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        entities.keyboardDefinition!.matrix.rows,
+        entities.keyboardDefinition!.matrix.cols,
+        app.labelLang
+      );
+      dispatch(HidActions.updateKeymaps(keymaps));
+      dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(KeydiffActions.clearKeydiff());
+      dispatch(KeycodeKeyActions.clear());
+      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(HeaderActions.updateFlashing(false));
+    },
+
+  fetchSwitchMatrixState:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      // eslint-disable-next-line no-unused-vars
+      const { app, entities } = getState();
+      const keyboard: IKeyboard = entities.keyboard!;
+
+      const result = await keyboard.fetchSwitchMatrixState();
       if (!result.success) {
         console.error(result.cause);
         dispatch(NotificationActions.addError(result.error!, result.cause));
-        dispatch(HeaderActions.updateFlashing(false));
         return;
       }
-    }
-    const keymaps: IKeymaps[] = await loadKeymap(
-      dispatch,
-      keyboard,
-      entities.device.layerCount,
-      entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols,
-      app.labelLang
-    );
-    dispatch(HidActions.updateKeymaps(keymaps));
-    dispatch(AppActions.remapsInit(entities.device.layerCount));
-    dispatch(KeydiffActions.clearKeydiff());
-    dispatch(KeycodeKeyActions.clear());
-    dispatch(KeymapActions.clearSelectedPos());
-    dispatch(HeaderActions.updateFlashing(false));
-  },
 
-  fetchSwitchMatrixState: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    // eslint-disable-next-line no-unused-vars
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
+      const rows = entities.keyboardDefinition!.matrix.rows;
+      const cols = entities.keyboardDefinition!.matrix.cols;
+      const state = result.state!;
 
-    const result = await keyboard.fetchSwitchMatrixState();
-    if (!result.success) {
-      console.error(result.cause);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-      return;
-    }
-
-    const rows = entities.keyboardDefinition!.matrix.rows;
-    const cols = entities.keyboardDefinition!.matrix.cols;
-    const state = result.state!;
-
-    let i = 0;
-    const pushed: Array<string> = [];
-    for (let row = 0; row < rows; row++) {
-      let rowState = 0;
-      for (let colIdx = 0; colIdx < Math.ceil(cols / 8); colIdx++) {
-        rowState = (rowState << 8) | state[i++];
-      }
-
-      for (let col = 0; col < cols; col++) {
-        if ((rowState & (1 << col)) !== 0) {
-          pushed.push(row + ',' + col);
+      let i = 0;
+      const pushed: Array<string> = [];
+      for (let row = 0; row < rows; row++) {
+        let rowState = 0;
+        for (let colIdx = 0; colIdx < Math.ceil(cols / 8); colIdx++) {
+          rowState = (rowState << 8) | state[i++];
         }
+
+        for (let col = 0; col < cols; col++) {
+          if ((rowState & (1 << col)) !== 0) {
+            pushed.push(row + ',' + col);
+          }
+        }
+
+        dispatch(AppActions.updateCurrentTestMatrix(pushed.slice()));
       }
+    },
 
-      dispatch(AppActions.updateCurrentTestMatrix(pushed.slice()));
-    }
-  },
-
-  refreshKeymaps: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
-    const keymaps: IKeymaps[] = await loadKeymap(
-      dispatch,
-      keyboard,
-      entities.device.layerCount,
-      entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols,
-      app.labelLang
-    );
-    dispatch(HidActions.updateKeymaps(keymaps));
-  },
-
-  resetKeymap: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { app, entities } = getState();
-    const keyboard: IKeyboard = entities.keyboard!;
-    const result = await keyboard.resetDynamicKeymap();
-    if (!result.success) {
-      console.error(result.cause);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-      return;
-    }
-    const keymaps: IKeymaps[] = await loadKeymap(
-      dispatch,
-      keyboard,
-      entities.device.layerCount,
-      entities.keyboardDefinition!.matrix.rows,
-      entities.keyboardDefinition!.matrix.cols,
-      app.labelLang
-    );
-    dispatch(HidActions.updateKeymaps(keymaps));
-    dispatch(AppActions.remapsInit(entities.device.layerCount));
-    dispatch(KeydiffActions.clearKeydiff());
-    dispatch(KeycodeKeyActions.clear());
-    dispatch(KeymapActions.clearSelectedPos());
-    dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
-  },
-
-  restoreLayoutOptions: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { entities } = getState();
-    const keyboard = entities.keyboard!;
-    const layoutOptionsResult = await keyboard.fetchLayoutOptions();
-    if (!layoutOptionsResult.success) {
-      console.error(layoutOptionsResult);
-      dispatch(
-        NotificationActions.addError(
-          `Fetching layout options failed: ${layoutOptionsResult.error}`
-        )
+  refreshKeymaps:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { app, entities } = getState();
+      const keyboard: IKeyboard = entities.keyboard!;
+      const keymaps: IKeymaps[] = await loadKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        entities.keyboardDefinition!.matrix.rows,
+        entities.keyboardDefinition!.matrix.cols,
+        app.labelLang
       );
-      return;
-    }
-    const layoutOptionValue = layoutOptionsResult.value!;
-    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
-    const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
-    const layoutOptions = createLayoutOptions(
-      layoutOptionValue,
-      layoutValueBitLengths
-    );
-    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
-  },
+      dispatch(HidActions.updateKeymaps(keymaps));
+    },
 
-  updateLayoutOptions: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { entities, configure } = getState();
-    const keyboard = entities.keyboard!;
-    const layoutOptions = configure.layoutOptions.selectedOptions;
-    const layoutChoices = layoutOptions
-      .slice()
-      .sort((a, b) => a.option - b.option)
-      .map((layoutOption) => layoutOption.optionChoice);
-    const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
-    const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
-    let layoutOptionValue = 0;
-    let shifted = 0;
-    for (let i = layoutValueBitLengths.length - 1; i >= 0; i--) {
-      const layoutValueBitLength = layoutValueBitLengths[i];
-      const value = layoutChoices[i] << shifted;
-      layoutOptionValue = layoutOptionValue | value;
-      shifted = shifted + layoutValueBitLength;
-    }
-    const result = await keyboard.updateLayoutOptions(layoutOptionValue);
-    if (!result.success) {
-      console.error(result.cause);
-      dispatch(NotificationActions.addError(result.error!));
-    }
-  },
+  resetKeymap:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { app, entities } = getState();
+      const keyboard: IKeyboard = entities.keyboard!;
+      const result = await keyboard.resetDynamicKeymap();
+      if (!result.success) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      const keymaps: IKeymaps[] = await loadKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        entities.keyboardDefinition!.matrix.rows,
+        entities.keyboardDefinition!.matrix.cols,
+        app.labelLang
+      );
+      dispatch(HidActions.updateKeymaps(keymaps));
+      dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(KeydiffActions.clearKeydiff());
+      dispatch(KeycodeKeyActions.clear());
+      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
+    },
+
+  restoreLayoutOptions:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { entities } = getState();
+      const keyboard = entities.keyboard!;
+      const layoutOptionsResult = await keyboard.fetchLayoutOptions();
+      if (!layoutOptionsResult.success) {
+        console.error(layoutOptionsResult);
+        dispatch(
+          NotificationActions.addError(
+            `Fetching layout options failed: ${layoutOptionsResult.error}`
+          )
+        );
+        return;
+      }
+      const layoutOptionValue = layoutOptionsResult.value!;
+      const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
+      const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
+      const layoutOptions = createLayoutOptions(
+        layoutOptionValue,
+        layoutValueBitLengths
+      );
+      dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+    },
+
+  updateLayoutOptions:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { entities, configure } = getState();
+      const keyboard = entities.keyboard!;
+      const layoutOptions = configure.layoutOptions.selectedOptions;
+      const layoutChoices = layoutOptions
+        .slice()
+        .sort((a, b) => a.option - b.option)
+        .map((layoutOption) => layoutOption.optionChoice);
+      const layoutLabels = entities.keyboardDefinition!.layouts.labels || [];
+      const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
+      let layoutOptionValue = 0;
+      let shifted = 0;
+      for (let i = layoutValueBitLengths.length - 1; i >= 0; i--) {
+        const layoutValueBitLength = layoutValueBitLengths[i];
+        const value = layoutChoices[i] << shifted;
+        layoutOptionValue = layoutOptionValue | value;
+        shifted = shifted + layoutValueBitLength;
+      }
+      const result = await keyboard.updateLayoutOptions(layoutOptionValue);
+      if (!result.success) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error!));
+      }
+    },
 };
 
 const getAuthorizedKeyboard = async (hid: IHid): Promise<IKeyboard[]> => {

@@ -34,10 +34,8 @@ export default function FirmwareForm(props: FirmwareFormProps) {
 
   const [dragging, setDragging] = useState<boolean>(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
-  const [
-    targetFirmwareForDeletion,
-    setTargetFirmwareForDeletion,
-  ] = useState<IFirmware | null>(null);
+  const [targetFirmwareForDeletion, setTargetFirmwareForDeletion] =
+    useState<IFirmware | null>(null);
 
   const onDragOverFirmwareFile = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();

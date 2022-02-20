@@ -1172,8 +1172,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     {
       option: OP_SH_ON_OFF,
       label: 'SH_MON',
-      desc:
-        'Swaps hands when pressed, returns to normal when released (momentary).',
+      desc: 'Swaps hands when pressed, returns to normal when released (momentary).',
     },
     {
       option: OP_SH_OFF_ON,
@@ -1183,8 +1182,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     {
       option: OP_SH_OFF,
       label: 'SH OFF',
-      desc:
-        'Turn off swapping and leaves it off. Good for returning to a known state.',
+      desc: 'Turn off swapping and leaves it off. Good for returning to a known state.',
     },
     {
       option: OP_SH_ON,
@@ -1194,8 +1192,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     {
       option: OP_SH_ONESHOT,
       label: 'SH ON',
-      desc:
-        'One shot swap hands: toggles while pressed or until next key press.',
+      desc: 'One shot swap hands: toggles while pressed or until next key press.',
     },
   ];
   static readonly holdKey: IKeymap = {
@@ -1210,8 +1207,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
       keywords: [],
     },
     kinds: ['swap_hands'],
-    desc:
-      'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+    desc: 'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
   };
 
   private readonly key: IKeymap | undefined;
@@ -1260,8 +1256,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
         modifiers: [],
         keycodeInfo: this.key!.keycodeInfo,
         kinds: ['swap_hands'],
-        desc:
-          'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
+        desc: 'Momentary swap when held, sends keycode when tapped. Depends on your keyboard whether this function is available.',
       };
     }
     return keymap;
@@ -1288,8 +1283,8 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     if (SwapHandsComposition._swapHandsOptionKeymaps)
       return SwapHandsComposition._swapHandsOptionKeymaps;
 
-    SwapHandsComposition._swapHandsOptionKeymaps = SwapHandsComposition._swapHandsOptionItems.map(
-      (item) => {
+    SwapHandsComposition._swapHandsOptionKeymaps =
+      SwapHandsComposition._swapHandsOptionItems.map((item) => {
         const comp = new SwapHandsComposition(item.option);
         const code = comp.getCode();
         const keymap: IKeymap = {
@@ -1308,8 +1303,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
           desc: item.desc,
         };
         return keymap;
-      }
-    );
+      });
 
     return SwapHandsComposition._swapHandsOptionKeymaps;
   }

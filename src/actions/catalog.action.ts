@@ -185,161 +185,170 @@ type ThunkPromiseAction<T> = ThunkAction<
 >;
 export const catalogActionsThunk = {
   // eslint-disable-next-line no-undef
-  applySharedKeymapData: (
-    savedKeymapData: AbstractKeymapData
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    // eslint-disable-next-line no-unused-vars
-    getState: () => RootState
-  ) => {
-    const labelLang = savedKeymapData.label_lang;
-    const layoutOptions = savedKeymapData.layout_options;
-    let keycodes: { [pos: string]: IKeymap }[] = [];
-    const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
-    for (let i = 0; i < savedKeycodes.length; i++) {
-      const savedCode = savedKeycodes[i];
-      const changes: { [pos: string]: IKeymap } = {};
-      // When the savedKeycodes was stored for BMP MCU, the length may be 11.
-      // Therefore, the target layer must be checked to ensure that the value
-      // is less than the savedKeycodes length.
-      // See: https://github.com/remap-keys/remap/issues/454
-      if (i < savedKeycodes.length) {
-        Object.keys(savedCode).forEach((pos) => {
-          changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
-        });
+  applySharedKeymapData:
+    (savedKeymapData: AbstractKeymapData): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      // eslint-disable-next-line no-unused-vars
+      getState: () => RootState
+    ) => {
+      const labelLang = savedKeymapData.label_lang;
+      const layoutOptions = savedKeymapData.layout_options;
+      let keycodes: { [pos: string]: IKeymap }[] = [];
+      const savedKeycodes: { [pos: string]: number }[] =
+        savedKeymapData.keycodes;
+      for (let i = 0; i < savedKeycodes.length; i++) {
+        const savedCode = savedKeycodes[i];
+        const changes: { [pos: string]: IKeymap } = {};
+        // When the savedKeycodes was stored for BMP MCU, the length may be 11.
+        // Therefore, the target layer must be checked to ensure that the value
+        // is less than the savedKeycodes length.
+        // See: https://github.com/remap-keys/remap/issues/454
+        if (i < savedKeycodes.length) {
+          Object.keys(savedCode).forEach((pos) => {
+            changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+          });
+        }
+        keycodes.push(changes);
       }
-      keycodes.push(changes);
-    }
-    dispatch(CatalogKeyboardActions.updateLangLabel(labelLang));
-    dispatch(AppActions.updateLangLabel(labelLang));
-    dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
-    dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
-    dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
-    dispatch(CatalogKeyboardActions.updateSelectedKeymapData(savedKeymapData));
-  },
-  applySharedKeymap: (
-    definitionId: string,
-    keymapId: string
-  ): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { storage } = getState();
-    const result = await storage.instance!.fetchSharedKeymap(keymapId);
-    if (result.success) {
+      dispatch(CatalogKeyboardActions.updateLangLabel(labelLang));
+      dispatch(AppActions.updateLangLabel(labelLang));
+      dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
+      dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
+      dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
       dispatch(
-        await catalogActionsThunk.applySharedKeymapData(result.sharedKeymap!)
+        CatalogKeyboardActions.updateSelectedKeymapData(savedKeymapData)
       );
-    } else {
-      console.error(result.error);
-      dispatch(NotificationActions.addError(result.error!, result.cause));
-      history.replaceState(null, 'Remap', `/catalog/${definitionId}/keymap`);
-    }
-  },
-  logout: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const { auth } = getState();
-    dispatch(AppActions.updateSignedIn(false));
-    await auth.instance!.signOut();
-  },
-  flashFirmware: (): ThunkPromiseAction<void> => async (
-    dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-    getState: () => RootState
-  ) => {
-    const handleError = (error: string, cause?: any) => {
-      console.error(error);
-      dispatch(NotificationActions.addError(error, cause));
-      dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
-      dispatch(FlashFirmwareDialogActions.updateFlashing(false));
-    };
-
-    dispatch(FlashFirmwareDialogActions.updateLogs([]));
-    dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
-    dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
-    dispatch(FlashFirmwareDialogActions.updateFlashing(true));
-    const { entities, catalog, storage, serial } = getState();
-    const firmwareWriter = serial.writer;
-    const definitionDocument = entities.keyboardDefinitionDocument!;
-    const firmware = catalog.keyboard.flashFirmwareDialog.firmware!;
-    const bootloaderType = catalog.keyboard.flashFirmwareDialog.bootloaderType!;
-    sendEventToGoogleAnalytics('catalog/flash_firmware', {
-      vendor_id: definitionDocument.vendorId,
-      product_id: definitionDocument.productId,
-      product_name: definitionDocument.productName,
-    });
-    dispatch(
-      FlashFirmwareDialogActions.appendLog(
-        'Reading the firmware binary from the server.',
-        false
-      )
-    );
-    const fetchBlobResult = await storage.instance!.fetchFirmwareFileBlob(
-      definitionDocument.id,
-      firmware.filename,
-      'flash'
-    );
-    if (!fetchBlobResult.success) {
-      handleError(fetchBlobResult.error!, fetchBlobResult.cause);
-      return;
-    }
-    const blob: Blob = fetchBlobResult.blob!;
-    const flashBytes = intelHex.parse(
-      Buffer.from(new Uint8Array(await blob.arrayBuffer()))
-    ).data;
-    dispatch(
-      FlashFirmwareDialogActions.appendLog('Reading the firmware binary done.')
-    );
-    dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
-    const writeResult = await firmwareWriter.write(
-      bootloaderType,
-      flashBytes,
-      null,
-      (message, lineBreak) => {
-        dispatch(FlashFirmwareDialogActions.appendLog(message, lineBreak));
-      },
-      (phase) => {
-        let rate;
-        switch (phase) {
-          case 'opened':
-            rate = 30;
-            break;
-          case 'initialized':
-            rate = 45;
-            break;
-          case 'cleared':
-            rate = 60;
-            break;
-          case 'wrote':
-            rate = 75;
-            break;
-          case 'verified':
-            rate = 90;
-            break;
-          case 'closed':
-            rate = 100;
-            break;
-          default:
-            throw new Error(`Unknown phase: ${phase}`);
-        }
-        dispatch(FlashFirmwareDialogActions.updateProgressRate(rate));
-        if (phase === 'closed') {
-          dispatch(
-            FlashFirmwareDialogActions.appendLog(
-              'Writing the firmware finished successfully.'
-            )
-          );
-          dispatch(FlashFirmwareDialogActions.updateFlashing(false));
-        }
-      },
-      (error, cause) => {
-        handleError(error, cause);
+    },
+  applySharedKeymap:
+    (definitionId: string, keymapId: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.fetchSharedKeymap(keymapId);
+      if (result.success) {
+        dispatch(
+          await catalogActionsThunk.applySharedKeymapData(result.sharedKeymap!)
+        );
+      } else {
+        console.error(result.error);
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        history.replaceState(null, 'Remap', `/catalog/${definitionId}/keymap`);
       }
-    );
-    if (!writeResult.success) {
-      handleError(writeResult.error!, writeResult.cause);
-      return;
-    }
-  },
+    },
+  logout:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { auth } = getState();
+      dispatch(AppActions.updateSignedIn(false));
+      await auth.instance!.signOut();
+    },
+  flashFirmware:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const handleError = (error: string, cause?: any) => {
+        console.error(error);
+        dispatch(NotificationActions.addError(error, cause));
+        dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
+        dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+      };
+
+      dispatch(FlashFirmwareDialogActions.updateLogs([]));
+      dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
+      dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
+      dispatch(FlashFirmwareDialogActions.updateFlashing(true));
+      const { entities, catalog, storage, serial } = getState();
+      const firmwareWriter = serial.writer;
+      const definitionDocument = entities.keyboardDefinitionDocument!;
+      const firmware = catalog.keyboard.flashFirmwareDialog.firmware!;
+      const bootloaderType =
+        catalog.keyboard.flashFirmwareDialog.bootloaderType!;
+      sendEventToGoogleAnalytics('catalog/flash_firmware', {
+        vendor_id: definitionDocument.vendorId,
+        product_id: definitionDocument.productId,
+        product_name: definitionDocument.productName,
+      });
+      dispatch(
+        FlashFirmwareDialogActions.appendLog(
+          'Reading the firmware binary from the server.',
+          false
+        )
+      );
+      const fetchBlobResult = await storage.instance!.fetchFirmwareFileBlob(
+        definitionDocument.id,
+        firmware.filename,
+        'flash'
+      );
+      if (!fetchBlobResult.success) {
+        handleError(fetchBlobResult.error!, fetchBlobResult.cause);
+        return;
+      }
+      const blob: Blob = fetchBlobResult.blob!;
+      const flashBytes = intelHex.parse(
+        Buffer.from(new Uint8Array(await blob.arrayBuffer()))
+      ).data;
+      dispatch(
+        FlashFirmwareDialogActions.appendLog(
+          'Reading the firmware binary done.'
+        )
+      );
+      dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
+      const writeResult = await firmwareWriter.write(
+        bootloaderType,
+        flashBytes,
+        null,
+        (message, lineBreak) => {
+          dispatch(FlashFirmwareDialogActions.appendLog(message, lineBreak));
+        },
+        (phase) => {
+          let rate;
+          switch (phase) {
+            case 'opened':
+              rate = 30;
+              break;
+            case 'initialized':
+              rate = 45;
+              break;
+            case 'cleared':
+              rate = 60;
+              break;
+            case 'wrote':
+              rate = 75;
+              break;
+            case 'verified':
+              rate = 90;
+              break;
+            case 'closed':
+              rate = 100;
+              break;
+            default:
+              throw new Error(`Unknown phase: ${phase}`);
+          }
+          dispatch(FlashFirmwareDialogActions.updateProgressRate(rate));
+          if (phase === 'closed') {
+            dispatch(
+              FlashFirmwareDialogActions.appendLog(
+                'Writing the firmware finished successfully.'
+              )
+            );
+            dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+          }
+        },
+        (error, cause) => {
+          handleError(error, cause);
+        }
+      );
+      if (!writeResult.success) {
+        handleError(writeResult.error!, writeResult.cause);
+        return;
+      }
+    },
 };

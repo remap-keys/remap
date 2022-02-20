@@ -145,9 +145,8 @@ export default class Keymap extends React.Component<
   }
 
   private onChangeKeymap(dstKey: Key) {
-    const orgKm: IKeymap = this.props.keymaps![this.props.selectedLayer!][
-      this.state.selectedPos!
-    ];
+    const orgKm: IKeymap =
+      this.props.keymaps![this.props.selectedLayer!][this.state.selectedPos!];
     const dstKm = dstKey.keymap;
 
     if (

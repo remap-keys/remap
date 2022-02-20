@@ -376,9 +376,10 @@ const keyboardsEditKeyboardReducer = (
       ];
       break;
     case KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS:
-      draft.keyboards.editdefinition.additionalDescriptions = draft.keyboards.editdefinition.additionalDescriptions.filter(
-        (_, index) => index !== action.value
-      );
+      draft.keyboards.editdefinition.additionalDescriptions =
+        draft.keyboards.editdefinition.additionalDescriptions.filter(
+          (_, index) => index !== action.value
+        );
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION:
       draft.keyboards.editdefinition.contactInformation = action.value;
@@ -769,11 +770,10 @@ const keycodeAddKeyReducer = (
         },
       };
       console.log(draft.configure.keycodes.keys[IKeycodeCategory.ANY]);
-      draft.configure.keycodes.keys[
-        IKeycodeCategory.ANY
-      ] = draft.configure.keycodes.keys[IKeycodeCategory.ANY].map((k, i) => {
-        return i == index ? key : k;
-      });
+      draft.configure.keycodes.keys[IKeycodeCategory.ANY] =
+        draft.configure.keycodes.keys[IKeycodeCategory.ANY].map((k, i) => {
+          return i == index ? key : k;
+        });
       console.log(draft.configure.keycodes.keys[IKeycodeCategory.ANY]);
 
       break;
@@ -816,11 +816,12 @@ const layoutOptionsReducer = (
     }
     case LAYOUT_OPTIONS_UPDATE_SELECTED_OPTION: {
       const { option, optionChoice } = action.value;
-      draft.configure.layoutOptions.selectedOptions = draft.configure.layoutOptions.selectedOptions.map(
-        (value: LayoutOption) => {
-          return value.option == option ? { option, optionChoice } : value;
-        }
-      );
+      draft.configure.layoutOptions.selectedOptions =
+        draft.configure.layoutOptions.selectedOptions.map(
+          (value: LayoutOption) => {
+            return value.option == option ? { option, optionChoice } : value;
+          }
+        );
       break;
     }
     case LAYOUT_OPTIONS_INIT_SELECTED_OPTION: {

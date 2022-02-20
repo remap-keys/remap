@@ -207,12 +207,11 @@ export class DfuBootloader {
     const vendorId = getDeviceInformationResult.vendorId!;
     const productId = getDeviceInformationResult.productId!;
     progress(`Device detected: Vendor ID:${vendorId}, Product ID:${productId}`);
-    const dfuTargetMapping:
-      | IDfuTargetMapping
-      | undefined = dfuTargetMappings.find(
-      (mapping) =>
-        mapping.vendorId === vendorId && mapping.productId === productId
-    );
+    const dfuTargetMapping: IDfuTargetMapping | undefined =
+      dfuTargetMappings.find(
+        (mapping) =>
+          mapping.vendorId === vendorId && mapping.productId === productId
+      );
     if (!dfuTargetMapping) {
       return {
         success: false,
