@@ -7,11 +7,7 @@ import {
 } from '../store/state';
 import { IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import {
-  AbstractKeymapData,
-  IFirmware,
-  IOrganization,
-} from '../services/storage/Storage';
+import { AbstractKeymapData, IFirmware } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
   AppActions,
