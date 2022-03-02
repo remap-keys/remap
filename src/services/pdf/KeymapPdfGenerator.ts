@@ -53,8 +53,29 @@ export class KeymapPdfGenerator {
   ) {
     this.model = new KeyboardModel(keymap);
     this.keys = keys;
-    this.layerCount = layerCount;
+    this.layerCount = this.getActiveLayerCount(layerCount);
     this.labelLang = labelLang;
+  }
+
+  /**
+   * This function calculates the last layer number that does not contain meaningful keys after it.
+   *
+   * @param layerCount the number of layers
+   * @returns the active layer number
+   */
+  getActiveLayerCount(layerCount: number): number {
+    let lastActiveLayerCount = 0;
+    for (let i = 0; i < layerCount; i++) {
+      let hasLabel = false;
+      Object.keys(this.keys[i]).forEach((pos) => {
+        const key: Key = this.keys[i][pos];
+        hasLabel = hasLabel || key.keymap.code != 0; // NOT NOOP
+      });
+      if (hasLabel) {
+        lastActiveLayerCount = i;
+      }
+    }
+    return lastActiveLayerCount + 1;
   }
 
   async genPdf(name: string, options?: LayoutOption[]) {
