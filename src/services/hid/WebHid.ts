@@ -20,10 +20,12 @@ import {
   IGetMacroCountResult,
   IGetMacroBufferSizeResult,
   IFetchMacroBufferResult,
+  IGetBmpExtendedKeycodeCountResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
   BleMicroProStoreKeymapPersistentlyCommand,
+  BleMicroProGetExtendedKeycodeCountCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapMacroGetBufferSizeCommand,
@@ -695,6 +697,24 @@ export class Keyboard implements IKeyboard {
           }
         }
       );
+      return this.enqueue(command);
+    });
+  }
+
+  getBmpExtendedKeycodeCount(): Promise<IGetBmpExtendedKeycodeCountResult> {
+    return new Promise<IGetBmpExtendedKeycodeCountResult>((resolve)=>{
+      const command = new BleMicroProGetExtendedKeycodeCountCommand({},
+        async (result) => {
+          if (result.success) {
+            resolve({ success: true, count: result.response!.count });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        });
       return this.enqueue(command);
     });
   }

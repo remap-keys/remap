@@ -6,6 +6,7 @@ import {
   IConnectionEventHandler,
   IConnectParams,
   IFetchLayoutOptionsResult,
+  IGetBmpExtendedKeycodeCountResult,
   IGetMacroCountResult,
   IHid,
   IKeyboard,
@@ -177,6 +178,11 @@ export const mockIKeyboad: IKeyboard = {
   storeKeymapPersistentlyForBleMicroPro: (): Promise<IResult> => {
     return new Promise<IResult>((resolve) => {
       resolve({ success: true });
+    });
+  },
+  getBmpExtendedKeycodeCount: (): Promise<IGetBmpExtendedKeycodeCountResult> => {
+    return new Promise<IGetBmpExtendedKeycodeCountResult>((resolve) => {
+      resolve({ success: true, count: 32 });
     });
   },
   fetchSwitchMatrixState: () => {

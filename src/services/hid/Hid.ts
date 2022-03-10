@@ -126,6 +126,9 @@ export interface IFetchMacroBufferResult extends IResult {
   buffer?: Uint8Array;
 }
 
+export interface IGetBmpExtendedKeycodeCountResult extends IResult {
+  count?: number;
+}
 export interface IKeyboard {
   getDevice(): HIDDevice;
   getHid(): IHid;
@@ -162,6 +165,7 @@ export interface IKeyboard {
   updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
   resetDynamicKeymap(): Promise<IResult>;
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
+  getBmpExtendedKeycodeCount(): Promise<IGetBmpExtendedKeycodeCountResult>;
   fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
   fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
   updateLayoutOptions(value: number): Promise<IResult>;

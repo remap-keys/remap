@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { WebHid } from '../WebHid';
 import React, { useEffect, useState } from 'react';
 import './Hid.scss';
@@ -346,6 +345,10 @@ const Hid = () => {
     console.log(await keyboard!.fetchMacroBuffer(macroSize));
   };
 
+  const handleBmpExtendedKeycodeGetCountClick = async () => {
+    console.log(await keyboard!.getBmpExtendedKeycodeCount());
+  };
+
   return (
     <div className="hid">
       <h1>WebHid Test</h1>
@@ -586,6 +589,11 @@ const Hid = () => {
       <div className="box">
         <label htmlFor="Test">Test</label>
         <input type="text" style={{ width: '300px' }} />
+      </div>
+      <div className="box">
+        <button onClick={handleBmpExtendedKeycodeGetCountClick}>
+          BMP Extended Keycode Get Count
+        </button>
       </div>
       <div>{message}</div>
     </div>

@@ -409,6 +409,33 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
   }
 }
 
+export interface IBleMicroProGetExtendedKeycodeCountCommandResponse
+  extends ICommandResponse {
+  count: number;
+}
+
+export class BleMicroProGetExtendedKeycodeCountCommand extends AbstractCommand<
+  ICommandRequest,
+  IBleMicroProGetExtendedKeycodeCountCommandResponse
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x02, 0xfe, 0x01]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(
+    resultArray: Uint8Array
+  ): IBleMicroProGetExtendedKeycodeCountCommandResponse {
+    return {
+      count: resultArray[3],
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x02 && resultArray[1] === 0xfe && resultArray[2] === 0x01;
+  }
+}
+
 export interface IDynamicKeymapMacroGetCountResponse extends ICommandResponse {
   count: number;
 }

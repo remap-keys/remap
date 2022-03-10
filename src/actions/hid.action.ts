@@ -30,6 +30,7 @@ export const HID_UPDATE_BLE_MICRO_PRO = `${HID_ACTIONS}/UpdateBleMicroPro`;
 export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBytes`;
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
+export const HID_UPDATE_BMP_EXTENDED_KEYCODE_MAX_COUNT = `${HID_ACTIONS}/UpdateBmpExtendedKeycodeMaxCount`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -97,6 +98,13 @@ export const HidActions = {
   updateMacroMaxCount: (count: number) => {
     return {
       type: HID_UPDATE_MACRO_MAX_COUNT,
+      value: count,
+    };
+  },
+
+  updateBmpExtendedKeycodeMaxCount: (count: number) => {
+    return {
+      type: HID_UPDATE_BMP_EXTENDED_KEYCODE_MAX_COUNT,
       value: count,
     };
   },
@@ -261,13 +269,27 @@ export const hidActionsThunk = {
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
-      dispatch(
-        HidActions.updateBleMicroPro(
-          keyboard
-            .getInformation()
-            .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
-        )
-      );
+
+      const isBmp = keyboard
+        .getInformation()
+        .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO);
+      dispatch(HidActions.updateBleMicroPro(isBmp));
+      if (isBmp) {
+        const bmpExtendedKeycodeCountResult =
+          await keyboard.getBmpExtendedKeycodeCount();
+        if (!bmpExtendedKeycodeCountResult.success) {
+          dispatch(
+            NotificationActions.addError(
+              'Fetching the max bmp extend keycode count failed.'
+            )
+          );
+        }
+        const bmpExtendedKeycodeCount = bmpExtendedKeycodeCountResult.count!;
+        dispatch(
+          HidActions.updateBmpExtendedKeycodeMaxCount(bmpExtendedKeycodeCount)
+        );
+      }
+
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {
         dispatch(
