@@ -194,6 +194,9 @@ export type RootState = {
         [id: number]: string;
       };
       bleMicroPro: boolean;
+      extendedKeycode: {
+        maxCount: number;
+      }
       macro: {
         bufferBytes: Uint8Array;
         maxBufferSize: number;
@@ -414,6 +417,9 @@ export const INIT_STATE: RootState = {
       keymaps: [],
       macros: {},
       bleMicroPro: false,
+      extendedKeycode: {
+        maxCount: 0,
+      },
       macro: {
         bufferBytes: new Uint8Array(),
         maxBufferSize: 0,
