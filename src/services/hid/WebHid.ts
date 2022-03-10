@@ -21,11 +21,13 @@ import {
   IGetMacroBufferSizeResult,
   IFetchMacroBufferResult,
   IGetBmpExtendedKeycodeCountResult,
+  IGetBmpExtendedKeycodeResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
   BleMicroProStoreKeymapPersistentlyCommand,
   BleMicroProGetExtendedKeycodeCountCommand,
+  BleMicroProGetExtendedKeycodeCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapMacroGetBufferSizeCommand,
@@ -718,6 +720,27 @@ export class Keyboard implements IKeyboard {
       return this.enqueue(command);
     });
   }
+
+  getBmpExtendedKeycode(index: number): Promise<IGetBmpExtendedKeycodeResult> {
+    return new Promise<IGetBmpExtendedKeycodeResult>((resolve)=>{
+      const command = new BleMicroProGetExtendedKeycodeCommand({
+        index
+      },
+        async (result) => {
+          if (result.success) {
+            resolve({ success: true, buffer: result.response!.buffer });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        });
+      return this.enqueue(command);
+    });
+  }
+
 
   getMacroCount(): Promise<IGetMacroCountResult> {
     return new Promise<IGetMacroCountResult>((resolve) => {

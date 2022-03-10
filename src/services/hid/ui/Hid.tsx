@@ -35,6 +35,8 @@ const Hid = () => {
   const [layoutOptionsValue, setLayoutOptionsValue] = useState<number>(0);
   const [macroOffset, setMacroOffset] = useState<number>(0);
   const [macroSize, setMacroSize] = useState<number>(0);
+  const [bmpExtendedKeycodeIndex, setBmpExtendedKeycodeIndex] =
+    useState<number>(0);
 
   useEffect(() => {
     webHid
@@ -349,6 +351,16 @@ const Hid = () => {
     console.log(await keyboard!.getBmpExtendedKeycodeCount());
   };
 
+  const handleBmpExtendedKeycodeGetClick = async () => {
+    console.log(await keyboard!.getBmpExtendedKeycode(bmpExtendedKeycodeIndex));
+  };
+
+  const handleBmpExtendKeycodeIndexChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBmpExtendedKeycodeIndex(Number(event.target.value));
+  };
+
   return (
     <div className="hid">
       <h1>WebHid Test</h1>
@@ -593,6 +605,17 @@ const Hid = () => {
       <div className="box">
         <button onClick={handleBmpExtendedKeycodeGetCountClick}>
           BMP Extended Keycode Get Count
+        </button>
+        <label htmlFor="extendedKeycodeIndex">Index</label>
+        <input
+          type="number"
+          id="extendedKeycodeIndex"
+          min={0}
+          value={bmpExtendedKeycodeIndex}
+          onChange={handleBmpExtendKeycodeIndexChange}
+        />
+        <button onClick={handleBmpExtendedKeycodeGetClick}>
+          Get Extended Keycode
         </button>
       </div>
       <div>{message}</div>

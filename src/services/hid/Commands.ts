@@ -436,6 +436,38 @@ export class BleMicroProGetExtendedKeycodeCountCommand extends AbstractCommand<
   }
 }
 
+export interface IBleMicroProGetExtendedKeycodeCommandRequest
+  extends ICommandRequest {
+  index: number;
+}
+
+export interface IBleMicroProGetExtendedKeycodeCommandResponse
+  extends ICommandResponse {
+  buffer: Uint8Array;
+}
+
+export class BleMicroProGetExtendedKeycodeCommand extends AbstractCommand<
+  IBleMicroProGetExtendedKeycodeCommandRequest,
+  IBleMicroProGetExtendedKeycodeCommandResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([0x02, 0xfe, 0x02, req.index & 0xff]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(
+    resultArray: Uint8Array
+  ): IBleMicroProGetExtendedKeycodeCommandResponse {
+    return {
+      buffer: resultArray.slice(4,10),
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x02 && resultArray[1] === 0xfe && resultArray[2] === 0x02;
+  }
+}
 export interface IDynamicKeymapMacroGetCountResponse extends ICommandResponse {
   count: number;
 }

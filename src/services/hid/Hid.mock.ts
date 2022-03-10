@@ -6,7 +6,6 @@ import {
   IConnectionEventHandler,
   IConnectParams,
   IFetchLayoutOptionsResult,
-  IGetBmpExtendedKeycodeCountResult,
   IGetMacroCountResult,
   IHid,
   IKeyboard,
@@ -180,9 +179,14 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true });
     });
   },
-  getBmpExtendedKeycodeCount: (): Promise<IGetBmpExtendedKeycodeCountResult> => {
-    return new Promise<IGetBmpExtendedKeycodeCountResult>((resolve) => {
+  getBmpExtendedKeycodeCount: () => {
+    return new Promise((resolve) => {
       resolve({ success: true, count: 32 });
+    });
+  },
+  getBmpExtendedKeycode: ()  => {
+    return new Promise((resolve) => {
+      resolve({ success: true, buffer: new Uint8Array(6) });
     });
   },
   fetchSwitchMatrixState: () => {
