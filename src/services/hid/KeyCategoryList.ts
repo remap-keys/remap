@@ -171,7 +171,9 @@ export class KeyCategory {
 
     const looseKeymaps: IKeymap[] =
       LooseKeycodeComposition.genExtendsBmpKeymaps();
-    KeyCategory._bmp = looseKeymaps;
+    const extendedKeymaps: IKeymap[] =
+      LooseKeycodeComposition.genExtendsBmpExKeymaps();
+    KeyCategory._bmp = [...looseKeymaps, ...extendedKeymaps];
     return KeyCategory._bmp;
   }
 
@@ -440,5 +442,15 @@ export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
     33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 60, 62, 63, 64, 65, 66, 67, 68, 69,
     70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88,
     89, 90, 94, 95, 123, 124, 125, 126,
+  ],
+};
+
+// BMP Extended
+export const KEY_SUB_CATEGORY_BMP_EXTENDED: IKeycodeCategoryInfo = {
+  kinds: ['extends', 'bmp', 'bmp-extended'],
+  codes: [
+    24095, 24096, 24097, 24098, 24099, 24100, 24101, 24102, 24103, 24104, 24105,
+    24106, 24107, 24108, 24109, 24110, 24111, 24112, 24113, 24114, 24115, 24116,
+    24117, 24118, 24119, 24120, 24121, 24122, 24123, 24124, 24125, 24126,
   ],
 };

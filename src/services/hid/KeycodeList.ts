@@ -42,6 +42,7 @@ export type KeymapCategory =
   | 'us-symbol'
   | 'extends'
   | 'bmp'
+  | 'bmp-extended'
   | 'combo'
   | 'midi'
   | 'notes'

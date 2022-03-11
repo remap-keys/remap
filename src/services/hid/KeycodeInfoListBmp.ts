@@ -1,6 +1,8 @@
 import { KeyInfo } from './KeycodeInfoList';
 
 export const CATEGORY_LABEL_BMP = 'BMP';
+export const BMP_EXTENDED_MIN = 24096;
+export const BMP_EXTENDED_MAX = 24127;
 
 export const bmpKeyInfoList: KeyInfo[] = [
   {
@@ -385,6 +387,402 @@ export const bmpKeyInfoList: KeyInfo[] = [
       },
       label: 'xKANA',
       keywords: [],
+    },
+  },
+  {
+    desc: 'Extended keycode 0',
+    keycodeInfo: {
+      code: 24096,
+      name: {
+        long: 'EXTENDED0',
+        short: 'Ex0',
+      },
+      label: 'Ex0',
+      keywords: ['ex0'],
+    },
+  },
+  {
+    desc: 'Extended keycode 1',
+    keycodeInfo: {
+      code: 24097,
+      name: {
+        long: 'EXTENDED1',
+        short: 'Ex1',
+      },
+      label: 'Ex1',
+      keywords: ['ex1'],
+    },
+  },
+  {
+    desc: 'Extended keycode 2',
+    keycodeInfo: {
+      code: 24098,
+      name: {
+        long: 'EXTENDED2',
+        short: 'Ex2',
+      },
+      label: 'Ex2',
+      keywords: ['ex2'],
+    },
+  },
+  {
+    desc: 'Extended keycode 3',
+    keycodeInfo: {
+      code: 24099,
+      name: {
+        long: 'EXTENDED3',
+        short: 'Ex3',
+      },
+      label: 'Ex3',
+      keywords: ['ex3'],
+    },
+  },
+  {
+    desc: 'Extended keycode 4',
+    keycodeInfo: {
+      code: 24100,
+      name: {
+        long: 'EXTENDED4',
+        short: 'Ex4',
+      },
+      label: 'Ex4',
+      keywords: ['ex4'],
+    },
+  },
+  {
+    desc: 'Extended keycode 5',
+    keycodeInfo: {
+      code: 24101,
+      name: {
+        long: 'EXTENDED5',
+        short: 'Ex5',
+      },
+      label: 'Ex5',
+      keywords: ['ex5'],
+    },
+  },
+  {
+    desc: 'Extended keycode 6',
+    keycodeInfo: {
+      code: 24102,
+      name: {
+        long: 'EXTENDED6',
+        short: 'Ex6',
+      },
+      label: 'Ex6',
+      keywords: ['ex6'],
+    },
+  },
+  {
+    desc: 'Extended keycode 7',
+    keycodeInfo: {
+      code: 24103,
+      name: {
+        long: 'EXTENDED7',
+        short: 'Ex7',
+      },
+      label: 'Ex7',
+      keywords: ['ex7'],
+    },
+  },
+  {
+    desc: 'Extended keycode 8',
+    keycodeInfo: {
+      code: 24104,
+      name: {
+        long: 'EXTENDED8',
+        short: 'Ex8',
+      },
+      label: 'Ex8',
+      keywords: ['ex8'],
+    },
+  },
+  {
+    desc: 'Extended keycode 9',
+    keycodeInfo: {
+      code: 24105,
+      name: {
+        long: 'EXTENDED9',
+        short: 'Ex9',
+      },
+      label: 'Ex9',
+      keywords: ['ex9'],
+    },
+  },
+  {
+    desc: 'Extended keycode 10',
+    keycodeInfo: {
+      code: 24106,
+      name: {
+        long: 'EXTENDED10',
+        short: 'Ex10',
+      },
+      label: 'Ex10',
+      keywords: ['ex10'],
+    },
+  },
+  {
+    desc: 'Extended keycode 11',
+    keycodeInfo: {
+      code: 24107,
+      name: {
+        long: 'EXTENDED11',
+        short: 'Ex11',
+      },
+      label: 'Ex11',
+      keywords: ['ex11'],
+    },
+  },
+  {
+    desc: 'Extended keycode 11',
+    keycodeInfo: {
+      code: 24107,
+      name: {
+        long: 'EXTENDED11',
+        short: 'Ex11',
+      },
+      label: 'Ex11',
+      keywords: ['ex11'],
+    },
+  },
+  {
+    desc: 'Extended keycode 12',
+    keycodeInfo: {
+      code: 24108,
+      name: {
+        long: 'EXTENDED12',
+        short: 'Ex12',
+      },
+      label: 'Ex12',
+      keywords: ['ex12'],
+    },
+  },
+  {
+    desc: 'Extended keycode 13',
+    keycodeInfo: {
+      code: 24109,
+      name: {
+        long: 'EXTENDED13',
+        short: 'Ex13',
+      },
+      label: 'Ex13',
+      keywords: ['ex13'],
+    },
+  },
+  {
+    desc: 'Extended keycode 14',
+    keycodeInfo: {
+      code: 24110,
+      name: {
+        long: 'EXTENDED14',
+        short: 'Ex14',
+      },
+      label: 'Ex14',
+      keywords: ['ex14'],
+    },
+  },
+  {
+    desc: 'Extended keycode 15',
+    keycodeInfo: {
+      code: 24111,
+      name: {
+        long: 'EXTENDED15',
+        short: 'Ex15',
+      },
+      label: 'Ex15',
+      keywords: ['ex15'],
+    },
+  },
+  {
+    desc: 'Extended keycode 16',
+    keycodeInfo: {
+      code: 24112,
+      name: {
+        long: 'EXTENDED16',
+        short: 'Ex16',
+      },
+      label: 'Ex16',
+      keywords: ['ex16'],
+    },
+  },
+  {
+    desc: 'Extended keycode 17',
+    keycodeInfo: {
+      code: 24113,
+      name: {
+        long: 'EXTENDED17',
+        short: 'Ex17',
+      },
+      label: 'Ex17',
+      keywords: ['ex17'],
+    },
+  },
+  {
+    desc: 'Extended keycode 18',
+    keycodeInfo: {
+      code: 24114,
+      name: {
+        long: 'EXTENDED18',
+        short: 'Ex18',
+      },
+      label: 'Ex18',
+      keywords: ['ex18'],
+    },
+  },
+  {
+    desc: 'Extended keycode 19',
+    keycodeInfo: {
+      code: 24115,
+      name: {
+        long: 'EXTENDED19',
+        short: 'Ex19',
+      },
+      label: 'Ex19',
+      keywords: ['ex19'],
+    },
+  },
+  {
+    desc: 'Extended keycode 20',
+    keycodeInfo: {
+      code: 24116,
+      name: {
+        long: 'EXTENDED20',
+        short: 'Ex20',
+      },
+      label: 'Ex20',
+      keywords: ['ex20'],
+    },
+  },
+  {
+    desc: 'Extended keycode 21',
+    keycodeInfo: {
+      code: 24117,
+      name: {
+        long: 'EXTENDED21',
+        short: 'Ex21',
+      },
+      label: 'Ex21',
+      keywords: ['ex21'],
+    },
+  },
+  {
+    desc: 'Extended keycode 22',
+    keycodeInfo: {
+      code: 24118,
+      name: {
+        long: 'EXTENDED22',
+        short: 'Ex22',
+      },
+      label: 'Ex22',
+      keywords: ['ex22'],
+    },
+  },
+  {
+    desc: 'Extended keycode 23',
+    keycodeInfo: {
+      code: 24119,
+      name: {
+        long: 'EXTENDED23',
+        short: 'Ex23',
+      },
+      label: 'Ex23',
+      keywords: ['ex23'],
+    },
+  },
+  {
+    desc: 'Extended keycode 24',
+    keycodeInfo: {
+      code: 24120,
+      name: {
+        long: 'EXTENDED24',
+        short: 'Ex24',
+      },
+      label: 'Ex24',
+      keywords: ['ex24'],
+    },
+  },
+  {
+    desc: 'Extended keycode 25',
+    keycodeInfo: {
+      code: 24121,
+      name: {
+        long: 'EXTENDED25',
+        short: 'Ex25',
+      },
+      label: 'Ex25',
+      keywords: ['ex25'],
+    },
+  },
+  {
+    desc: 'Extended keycode 26',
+    keycodeInfo: {
+      code: 24122,
+      name: {
+        long: 'EXTENDED26',
+        short: 'Ex26',
+      },
+      label: 'Ex26',
+      keywords: ['ex26'],
+    },
+  },
+  {
+    desc: 'Extended keycode 27',
+    keycodeInfo: {
+      code: 24123,
+      name: {
+        long: 'EXTENDED27',
+        short: 'Ex27',
+      },
+      label: 'Ex27',
+      keywords: ['ex27'],
+    },
+  },
+  {
+    desc: 'Extended keycode 28',
+    keycodeInfo: {
+      code: 24124,
+      name: {
+        long: 'EXTENDED28',
+        short: 'Ex28',
+      },
+      label: 'Ex28',
+      keywords: ['ex28'],
+    },
+  },
+  {
+    desc: 'Extended keycode 29',
+    keycodeInfo: {
+      code: 24125,
+      name: {
+        long: 'EXTENDED29',
+        short: 'Ex29',
+      },
+      label: 'Ex29',
+      keywords: ['ex29'],
+    },
+  },
+  {
+    desc: 'Extended keycode 30',
+    keycodeInfo: {
+      code: 24126,
+      name: {
+        long: 'EXTENDED30',
+        short: 'Ex30',
+      },
+      label: 'Ex30',
+      keywords: ['ex30'],
+    },
+  },
+  {
+    desc: 'Extended keycode 31',
+    keycodeInfo: {
+      code: 24127,
+      name: {
+        long: 'EXTENDED31',
+        short: 'Ex31',
+      },
+      label: 'Ex31',
+      keywords: ['ex31'],
     },
   },
 ];

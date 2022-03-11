@@ -41,7 +41,11 @@ import {
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 import { KeyLabel } from '../labellang/KeyLabel';
 import { KeyLabelLangs, KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import { bmpKeyInfoList } from './KeycodeInfoListBmp';
+import {
+  bmpKeyInfoList,
+  BMP_EXTENDED_MIN,
+  BMP_EXTENDED_MAX,
+} from './KeycodeInfoListBmp';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -1467,17 +1471,39 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
   }
 
   static genExtendsBmpKeymaps(): IKeymap[] {
-    return bmpKeyInfoList.map((info) => {
-      return {
-        code: info.keycodeInfo.code,
-        isAny: false,
-        direction: MOD_LEFT,
-        modifiers: [],
-        keycodeInfo: info.keycodeInfo,
-        kinds: ['extends', 'bmp'],
-        desc: info.desc,
-      };
-    });
+    return bmpKeyInfoList
+      .filter((k) => k.keycodeInfo.code < BMP_EXTENDED_MIN)
+      .map((info) => {
+        return {
+          code: info.keycodeInfo.code,
+          isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
+          keycodeInfo: info.keycodeInfo,
+          kinds: ['extends', 'bmp'],
+          desc: info.desc,
+        };
+      });
+  }
+
+  static genExtendsBmpExKeymaps(): IKeymap[] {
+    return bmpKeyInfoList
+      .filter(
+        (k) =>
+          k.keycodeInfo.code >= BMP_EXTENDED_MIN &&
+          k.keycodeInfo.code <= BMP_EXTENDED_MAX
+      )
+      .map((info) => {
+        return {
+          code: info.keycodeInfo.code,
+          isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
+          keycodeInfo: info.keycodeInfo,
+          kinds: ['extends', 'bmp-extended'],
+          desc: 'Extended keycode',
+        };
+      });
   }
 
   static genKeymaps(): IKeymap[] {
@@ -1941,9 +1967,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     );
 
     if (keymap === undefined) {
-      keymap = LooseKeycodeComposition.genExtendsBmpKeymaps().find(
-        (km) => km.code === this.code
-      );
+      keymap = [
+        ...LooseKeycodeComposition.genExtendsBmpKeymaps(),
+        ...LooseKeycodeComposition.genExtendsBmpExKeymaps(),
+      ].find((km) => km.code === this.code);
     }
 
     if (keymap === undefined) {
