@@ -16,6 +16,7 @@ import { StorageActions, storageActionsThunk } from './storage.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
+import { array } from 'prop-types';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -31,6 +32,7 @@ export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBy
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HID_UPDATE_BMP_EXTENDED_KEYCODE_MAX_COUNT = `${HID_ACTIONS}/UpdateBmpExtendedKeycodeMaxCount`;
+export const HID_UPDATE_BMP_EXTENDED_KEYCODE = `${HID_ACTIONS}/UpdateBmpExtendedKeycode`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -106,6 +108,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_BMP_EXTENDED_KEYCODE_MAX_COUNT,
       value: count,
+    };
+  },
+
+  updateBmpExtendedKeycode: (id: number, buffer: Uint8Array) => {
+    return {
+      type: HID_UPDATE_BMP_EXTENDED_KEYCODE,
+      value: { id: id, buffer: buffer },
     };
   },
 };
@@ -283,11 +292,30 @@ export const hidActionsThunk = {
               'Fetching the max bmp extend keycode count failed.'
             )
           );
+          return;
         }
         const bmpExtendedKeycodeCount = bmpExtendedKeycodeCountResult.count!;
         dispatch(
           HidActions.updateBmpExtendedKeycodeMaxCount(bmpExtendedKeycodeCount)
         );
+        for (let idx = 0; idx < bmpExtendedKeycodeCount; idx++) {
+          let extendedKeycodeResult = await keyboard.getBmpExtendedKeycode(idx);
+          if (!extendedKeycodeResult.success) {
+            dispatch(
+              NotificationActions.addError(
+                `Fetching extended keycode ${idx} failed.`
+              )
+            );
+            return;
+          }
+
+          dispatch(
+            HidActions.updateBmpExtendedKeycode(
+              idx,
+              extendedKeycodeResult.buffer!
+            )
+          );
+        }
       }
 
       const layerResult = await keyboard.fetchLayerCount();

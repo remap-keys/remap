@@ -196,7 +196,8 @@ export type RootState = {
       bleMicroPro: boolean;
       extendedKeycode: {
         maxCount: number;
-      }
+        [id: number]: Uint8Array;
+      };
       macro: {
         bufferBytes: Uint8Array;
         maxBufferSize: number;
