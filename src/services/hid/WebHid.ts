@@ -704,8 +704,9 @@ export class Keyboard implements IKeyboard {
   }
 
   getBmpExtendedKeycodeCount(): Promise<IGetBmpExtendedKeycodeCountResult> {
-    return new Promise<IGetBmpExtendedKeycodeCountResult>((resolve)=>{
-      const command = new BleMicroProGetExtendedKeycodeCountCommand({},
+    return new Promise<IGetBmpExtendedKeycodeCountResult>((resolve) => {
+      const command = new BleMicroProGetExtendedKeycodeCountCommand(
+        {},
         async (result) => {
           if (result.success) {
             resolve({ success: true, count: result.response!.count });
@@ -716,16 +717,18 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        });
+        }
+      );
       return this.enqueue(command);
     });
   }
 
   getBmpExtendedKeycode(index: number): Promise<IGetBmpExtendedKeycodeResult> {
-    return new Promise<IGetBmpExtendedKeycodeResult>((resolve)=>{
-      const command = new BleMicroProGetExtendedKeycodeCommand({
-        index
-      },
+    return new Promise<IGetBmpExtendedKeycodeResult>((resolve) => {
+      const command = new BleMicroProGetExtendedKeycodeCommand(
+        {
+          index,
+        },
         async (result) => {
           if (result.success) {
             resolve({ success: true, buffer: result.response!.buffer });
@@ -736,11 +739,11 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        });
+        }
+      );
       return this.enqueue(command);
     });
   }
-
 
   getMacroCount(): Promise<IGetMacroCountResult> {
     return new Promise<IGetMacroCountResult>((resolve) => {

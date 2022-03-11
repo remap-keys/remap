@@ -184,7 +184,7 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true, count: 32 });
     });
   },
-  getBmpExtendedKeycode: ()  => {
+  getBmpExtendedKeycode: () => {
     return new Promise((resolve) => {
       resolve({ success: true, buffer: new Uint8Array(6) });
     });

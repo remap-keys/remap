@@ -432,7 +432,11 @@ export class BleMicroProGetExtendedKeycodeCountCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === 0x02 && resultArray[1] === 0xfe && resultArray[2] === 0x01;
+    return (
+      resultArray[0] === 0x02 &&
+      resultArray[1] === 0xfe &&
+      resultArray[2] === 0x01
+    );
   }
 }
 
@@ -460,12 +464,16 @@ export class BleMicroProGetExtendedKeycodeCommand extends AbstractCommand<
     resultArray: Uint8Array
   ): IBleMicroProGetExtendedKeycodeCommandResponse {
     return {
-      buffer: resultArray.slice(4,10),
+      buffer: resultArray.slice(4, 10),
     };
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === 0x02 && resultArray[1] === 0xfe && resultArray[2] === 0x02;
+    return (
+      resultArray[0] === 0x02 &&
+      resultArray[1] === 0xfe &&
+      resultArray[2] === 0x02
+    );
   }
 }
 export interface IDynamicKeymapMacroGetCountResponse extends ICommandResponse {
