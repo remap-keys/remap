@@ -8,6 +8,7 @@ import {
 import { IKeycodeInfo } from '../../../services/hid/Hid';
 import { Key } from './KeyGen';
 import { MacroActionsThunk } from '../../../actions/macro.action';
+import { BmpExtendedKeycodeActionsThunk } from '../../../actions/bmpExtendedKeycode.action';
 
 export class KeycodeInfo implements IKeycodeInfo {
   readonly code: number;
@@ -54,6 +55,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateAnyKey: (index: number, anyKey: AnyKey) => {
       _dispatch(AnyKeycodeKeyActions.updateAnyKey(index, anyKey));
+    },
+    selectBmpExtendedKey: (key: Key) => {
+      _dispatch(BmpExtendedKeycodeActionsThunk.updateBmpExtendedKey(key));
     },
   };
 };

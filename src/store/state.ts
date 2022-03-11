@@ -280,6 +280,13 @@ export type RootState = {
       macro: IMacro | null;
       macroKeys: MacroKey[];
     };
+    bmpExtendedKeycodeEditor: {
+      key: Key | null;
+      keys: Key[];
+      macroBuffer: IMacroBuffer | null;
+      macro: IMacro | null;
+      macroKeys: MacroKey[];
+    };
   };
   keyboards: {
     app: {
@@ -494,6 +501,13 @@ export const INIT_STATE: RootState = {
       selectedOptions: [],
     },
     macroEditor: {
+      key: null,
+      keys: [],
+      macroBuffer: null,
+      macro: null,
+      macroKeys: [],
+    },
+    bmpExtendedKeycodeEditor: {
       key: null,
       keys: [],
       macroBuffer: null,

@@ -188,6 +188,11 @@ import {
   ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL,
   ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_ORGANIZATION_MEMBERS,
 } from '../actions/organizations.actions';
+import {
+  BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS,
+  BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_KEY,
+  BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY,
+} from '../actions/bmpExtendedKeycode.action';
 
 export type Action = { type: string; value: any };
 
@@ -213,6 +218,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       layoutOptionsReducer(action, draft);
     } else if (action.type.startsWith(MACRO_EDITOR_ACTIONS)) {
       macroEditorReducer(action, draft);
+    } else if (action.type.startsWith(BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS)) {
+      bmpExtendedKeycodeReducer(action, draft);
     } else if (action.type.startsWith(NOTIFICATION_ACTIONS)) {
       notificationReducer(action, draft);
     } else if (action.type.startsWith(APP_ACTIONS)) {
@@ -869,6 +876,22 @@ const macroEditorReducer = (
     }
     case MACRO_EDITOR_UPDATE_MACRO_KEYS: {
       draft.configure.macroEditor.macroKeys = action.value;
+      break;
+    }
+  }
+};
+
+const bmpExtendedKeycodeReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_KEY: {
+      draft.configure.bmpExtendedKeycodeEditor.key = action.value;
+      break;
+    }
+    case BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY: {
+      draft.configure.bmpExtendedKeycodeEditor.key = null;
       break;
     }
   }

@@ -57,6 +57,8 @@ export default class KeycodeKey extends React.Component<
     } else {
       if (value.keymap.kinds.includes('macro')) {
         this.props.selectMacroKey!(value);
+      } else if (value.keymap.kinds.includes('bmp-extended')) {
+        this.props.selectBmpExtendedKey!(value);
       } else {
         this.props.selectKey!(value);
       }

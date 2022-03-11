@@ -8,6 +8,7 @@ import { RemapActionsType, RemapStateType } from './Remap.container';
 import { Key } from '../keycodekey/KeyGen';
 import { kinds2CategoryLabel } from '../customkey/AutocompleteKeys';
 import MacroEditor from '../macroeditor/MacroEditor.container';
+import BmpExtendedKeycodeEditor from '../bmpExtendedKeycodeEditor/BmpExtendedKeycodeEditor.container';
 
 type OwnProp = {};
 type RemapPropType = OwnProp &
@@ -43,7 +44,15 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
           className="keyboard-wrapper"
           style={{ minWidth: this.state.minWidth }}
         >
-          <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
+          <EditMode
+            mode={
+              this.props.macroKey
+                ? 'macro'
+                : this.props.bmpExtendedKey
+                ? 'bmpExtended'
+                : 'keymap'
+            }
+          />
         </div>
         <div className="keycode" style={{ minWidth: this.state.minWidth }}>
           <Keycodes />
@@ -55,7 +64,7 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
 }
 
 type EditModeType = {
-  mode: 'keymap' | 'macro';
+  mode: 'keymap' | 'macro' | 'bmpExtended';
 };
 function EditMode(props: EditModeType) {
   if (props.mode === 'keymap') {
@@ -68,6 +77,12 @@ function EditMode(props: EditModeType) {
     return (
       <div className="macro">
         <MacroEditor />
+      </div>
+    );
+  } else if (props.mode === 'bmpExtended') {
+    return (
+      <div className="bmp-extended">
+        <BmpExtendedKeycodeEditor />
       </div>
     );
   } else {

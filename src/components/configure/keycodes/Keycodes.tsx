@@ -273,6 +273,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     let categoryKeys: { [name: string]: JSX.Element[] } = {};
     keys.forEach((key, index) => {
       const isMacro = key.keymap.kinds.includes('macro');
+      const isBmpExtended = key.keymap.kinds.includes('bmp-extended');
       const subCategoryName: KeymapCategory =
         key.keymap.kinds[key.keymap.kinds.length - 1];
       if (
@@ -287,7 +288,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           key={`${this.state.category}${index}`}
           value={key}
           draggable={true}
-          clickable={isMacro && !macrEditMode}
+          clickable={(isMacro || isBmpExtended) && !macrEditMode}
         />
       );
     });
