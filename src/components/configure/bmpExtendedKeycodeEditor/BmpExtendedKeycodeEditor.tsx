@@ -22,8 +22,6 @@ import { Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
-const KEY_DIFF_HEIGHT = 78;
-
 type BmpExtendedKeycodeEditorOwnProps = {};
 type BmpExtendedKeycodeEditorOwnState = {};
 
@@ -51,35 +49,32 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
           <div className="bmp-extended-keycode-editor-content-title">
             Bmp Extended Keycode Editor (ID:{this.props.extendedKeyId})
           </div>
-          <div>
-            <ExtendedKindSelect
-              extendedKeycode={this.props.extendedKeycode!}
-              onChange={(value) => {
-                this.props.updateBmpExtendedKeycode!(
-                  this.props.extendedKeyId!,
-                  value
-                );
-              }}
-            ></ExtendedKindSelect>
-
-            <div
-              style={{
-                height: this.props.keyboardHeight,
-              }}
-            >
-              <ExtendedKey
+          <div className="bmp-extended-keycode-editor-content-keys">
+            <div>
+              <ExtendedKindSelect
                 extendedKeycode={this.props.extendedKeycode!}
-                labelLang={this.props.labelLang!}
-                onChange={(key) =>
+                onChange={(value) => {
                   this.props.updateBmpExtendedKeycode!(
                     this.props.extendedKeyId!,
-                    key
-                  )
-                }
-              ></ExtendedKey>
+                    value
+                  );
+                }}
+              ></ExtendedKindSelect>
+
+              <div>
+                <ExtendedKey
+                  extendedKeycode={this.props.extendedKeycode!}
+                  labelLang={this.props.labelLang!}
+                  onChange={(key) =>
+                    this.props.updateBmpExtendedKeycode!(
+                      this.props.extendedKeyId!,
+                      key
+                    )
+                  }
+                ></ExtendedKey>
+              </div>
             </div>
           </div>
-
           <div className="bmp-extended-keycode-editor-content-footer">
             <Button
               size="small"
@@ -151,19 +146,24 @@ function ExtendedKeyElement(props: {
   keymap: IKeymap;
   onDrop: (dropped: Key) => void;
 }) {
+  const [onDragOver, setOnDragOver] = useState(false);
   const draggingKey = useSelector((state: RootState) => {
     return state.configure.keycodeKey.draggingKey;
   });
 
   return (
     <div
-      className="bmp-extneded-keycode-editor-key"
+      className={['keycodekey', onDragOver && 'drag-over'].join(' ')}
       onDragOver={(event) => {
         event.preventDefault();
+        setOnDragOver(true);
       }}
-      onDragLeave={() => {}}
+      onDragLeave={() => {
+        setOnDragOver(false);
+      }}
       onDrop={() => {
         if (draggingKey) props.onDrop(draggingKey);
+        setOnDragOver(false);
       }}
     >
       {props.keymap.keycodeInfo.label}
@@ -260,14 +260,16 @@ function TddExtend(props: BmpExtendedKeyProp) {
   return (
     <div>
       <div>Tap-Dance-Double</div>
-      <ExtendedKeyElement
-        keymap={tdd.getKey1(props.labelLang)}
-        onDrop={handleDrop1}
-      />
-      <ExtendedKeyElement
-        keymap={tdd.getKey2(props.labelLang)}
-        onDrop={handleDrop2}
-      />
+      <div className="bmp-extended-keycode-editor-key-area">
+        <ExtendedKeyElement
+          keymap={tdd.getKey1(props.labelLang)}
+          onDrop={handleDrop1}
+        />
+        <ExtendedKeyElement
+          keymap={tdd.getKey2(props.labelLang)}
+          onDrop={handleDrop2}
+        />
+      </div>
     </div>
   );
 }
@@ -287,14 +289,16 @@ function TdhExtend(props: BmpExtendedKeyProp) {
   return (
     <div>
       <div>Tap-Dance-Hold</div>
-      <ExtendedKeyElement
-        keymap={tdh.getKey1(props.labelLang)}
-        onDrop={handleDrop1}
-      />
-      <ExtendedKeyElement
-        keymap={tdh.getKey2(props.labelLang)}
-        onDrop={handleDrop2}
-      />
+      <div className="bmp-extended-keycode-editor-key-area">
+        <ExtendedKeyElement
+          keymap={tdh.getKey1(props.labelLang)}
+          onDrop={handleDrop1}
+        />
+        <ExtendedKeyElement
+          keymap={tdh.getKey2(props.labelLang)}
+          onDrop={handleDrop2}
+        />
+      </div>
     </div>
   );
 }
