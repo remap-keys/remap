@@ -7,21 +7,16 @@ import {
   BmpExtendedKeycodeEditorActionsType,
   BmpExtendedKeycodeEditorStateType,
 } from './BmpExtendedKeycodeEditor.container';
+import {
+  ExtendedKind,
+  IBmpExtendedKeycode,
+} from '../../../services/hid/bmp/BmpExtendedKeycode';
+import lodash from 'lodash';
 
 const KEY_DIFF_HEIGHT = 78;
 
-enum ExtendedKind {
-  NONE,
-  TLT,
-  LTE,
-  TDH,
-  TDD,
-}
-
 type BmpExtendedKeycodeEditorOwnProps = {};
-type BmpExtendedKeycodeEditorOwnState = {
-  extendedKind: ExtendedKind;
-};
+type BmpExtendedKeycodeEditorOwnState = {};
 
 type BmpExtendedKeycodeEditorProps = BmpExtendedKeycodeEditorOwnProps &
   Partial<BmpExtendedKeycodeEditorStateType> &
@@ -37,7 +32,7 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
       | Readonly<BmpExtendedKeycodeEditorProps>
   ) {
     super(props);
-    this.state = { extendedKind: props.extendedKeycode![0] };
+    this.state = {};
   }
 
   render() {
@@ -52,14 +47,13 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
           </div>
           <div>
             <ExtendedKindSelect
-              kind={this.state.extendedKind}
-              onChangeKind={(kind) => {
-                this.setState({ extendedKind: kind });
+              extendedKeycode={this.props.extendedKeycode!}
+              onChange={(value) => {
+                this.props.updateBmpExtendedKeycode!(value);
               }}
             ></ExtendedKindSelect>
             <ExtendedKey
-              kind={this.state.extendedKind}
-              onUpdate={(extendedKeycode) => {}}
+              extendedKeycode={this.props.extendedKeycode!}
             ></ExtendedKey>
           </div>
           <div className="bmp-extended-keycode-editor-content-footer">
@@ -80,15 +74,17 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
 }
 
 function ExtendedKindSelect(props: {
-  kind: ExtendedKind;
-  onChangeKind: (kind: ExtendedKind) => void;
+  extendedKeycode: IBmpExtendedKeycode;
+  onChange: (value: IBmpExtendedKeycode) => void;
 }) {
   return (
     <Select
       variant="standard"
-      value={props.kind}
+      value={props.extendedKeycode.getKind()}
       onChange={(e) => {
-        props.onChangeKind(e.target.value as ExtendedKind);
+        const extendedKeycode = lodash.cloneDeep(props.extendedKeycode);
+        extendedKeycode.changeKind(e.target.value as ExtendedKind);
+        props.onChange(extendedKeycode);
       }}
     >
       {Object.keys(ExtendedKind)
@@ -107,36 +103,33 @@ function ExtendedKindSelect(props: {
   );
 }
 
-function ExtendedKey(props: {
-  kind: ExtendedKind;
-  onUpdate: (extendedKeycode: Uint8Array) => void;
-}) {
-  switch (props.kind) {
+function ExtendedKey(props: { extendedKeycode: IBmpExtendedKeycode }) {
+  switch (props.extendedKeycode.getKind()) {
     case ExtendedKind.TLT:
-      return <TltExtend onUpdate={props.onUpdate}></TltExtend>;
+      return <TltExtend extendedKeycode={props.extendedKeycode}></TltExtend>;
     case ExtendedKind.LTE:
-      return <LteExtend onUpdate={props.onUpdate}></LteExtend>;
+      return <LteExtend extendedKeycode={props.extendedKeycode}></LteExtend>;
     case ExtendedKind.TDH:
-      return <TdhExtend onUpdate={props.onUpdate}></TdhExtend>;
+      return <TdhExtend extendedKeycode={props.extendedKeycode}></TdhExtend>;
     case ExtendedKind.TDD:
-      return <TddExtend onUpdate={props.onUpdate}></TddExtend>;
+      return <TddExtend extendedKeycode={props.extendedKeycode}></TddExtend>;
     default:
       return <div>None</div>;
   }
 }
 
-function TltExtend(props: { onUpdate: (extendedKeycode: Uint8Array) => void }) {
+function TltExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
   return <div>TLT</div>;
 }
 
-function LteExtend(props: { onUpdate: (extendedKeycode: Uint8Array) => void }) {
+function LteExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
   return <div>LTE</div>;
 }
 
-function TddExtend(props: { onUpdate: (extendedKeycode: Uint8Array) => void }) {
+function TddExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
   return <div>TDD</div>;
 }
 
-function TdhExtend(props: { onUpdate: (extendedKeycode: Uint8Array) => void }) {
+function TdhExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
   return <div>TDH</div>;
 }

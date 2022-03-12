@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { IBmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
 import {
   IKeycodeCompositionFactory,
   IMod,
@@ -131,7 +132,7 @@ export interface IGetBmpExtendedKeycodeCountResult extends IResult {
 }
 
 export interface IGetBmpExtendedKeycodeResult extends IResult {
-  buffer?: Uint8Array;
+  extendedKeycode?: IBmpExtendedKeycode;
 }
 
 export interface IKeyboard {

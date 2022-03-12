@@ -1,4 +1,4 @@
-import { KeyInfo } from './KeycodeInfoList';
+import { KeyInfo } from '../KeycodeInfoList';
 
 export const CATEGORY_LABEL_BMP = 'BMP';
 export const BMP_EXTENDED_MIN = 24096;

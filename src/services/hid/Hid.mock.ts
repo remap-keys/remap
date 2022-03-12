@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { BmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
 import { MOD_LEFT } from './Composition';
 import {
   ICommand,
@@ -186,7 +187,10 @@ export const mockIKeyboad: IKeyboard = {
   },
   getBmpExtendedKeycode: () => {
     return new Promise((resolve) => {
-      resolve({ success: true, buffer: new Uint8Array(6) });
+      resolve({
+        success: true,
+        extendedKeycode: new BmpExtendedKeycode(new Uint8Array(6)),
+      });
     });
   },
   fetchSwitchMatrixState: () => {

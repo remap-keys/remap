@@ -2,7 +2,8 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootState } from '../store/state';
 import { NotificationActions } from './actions';
-import { BMP_EXTENDED_MIN } from '../services/hid/KeycodeInfoListBmp';
+import { BMP_EXTENDED_MIN } from '../services/hid/bmp/KeycodeInfoListBmp';
+import { IBmpExtendedKeycode } from '../services/hid/bmp/BmpExtendedKeycode';
 
 export const BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS = '@BmpExtendedKeyEditor';
 export const BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_KEY = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/UpdateBmpExtendedKey`;
@@ -16,7 +17,7 @@ export const BmpExtendedKeycodeEditorActions = {
       value: id,
     };
   },
-  updateExtendedKeycode: (extendedKeycode: Uint8Array) => {
+  updateExtendedKeycode: (extendedKeycode: IBmpExtendedKeycode) => {
     return {
       type: BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_EXTENDED_KEY_CODE,
       value: extendedKeycode,

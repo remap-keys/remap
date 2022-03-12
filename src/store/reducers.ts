@@ -685,7 +685,7 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_UPDATE_BMP_EXTENDED_KEYCODE: {
       draft.entities.device.extendedKeycode[action.value.id] =
-        action.value.buffer;
+        action.value.extendedKeycode;
       break;
     }
   }

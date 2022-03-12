@@ -52,6 +52,7 @@ import {
 } from './Composition';
 import { outputUint8Array } from '../../utils/ArrayUtils';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { BmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -731,7 +732,10 @@ export class Keyboard implements IKeyboard {
         },
         async (result) => {
           if (result.success) {
-            resolve({ success: true, buffer: result.response!.buffer });
+            resolve({
+              success: true,
+              extendedKeycode: new BmpExtendedKeycode(result.response!.buffer),
+            });
           } else {
             resolve({
               success: false,

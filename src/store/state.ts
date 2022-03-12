@@ -26,6 +26,7 @@ import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 import { IBootloaderType } from '../services/firmware/Types';
+import { IBmpExtendedKeycode } from '../services/hid/bmp/BmpExtendedKeycode';
 
 export type ISetupPhase =
   | 'init'
@@ -196,7 +197,7 @@ export type RootState = {
       bleMicroPro: boolean;
       extendedKeycode: {
         maxCount: number;
-        [id: number]: Uint8Array;
+        [id: number]: IBmpExtendedKeycode;
       };
       macro: {
         bufferBytes: Uint8Array;
@@ -282,7 +283,7 @@ export type RootState = {
     };
     bmpExtendedKeycodeEditor: {
       id: number | null;
-      extendedKeycode: Uint8Array | null;
+      extendedKeycode: IBmpExtendedKeycode | null;
     };
   };
   keyboards: {

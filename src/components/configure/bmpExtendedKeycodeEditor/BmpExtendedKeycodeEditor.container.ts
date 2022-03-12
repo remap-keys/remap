@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import BmpExtendedKeycodeEditor from './BmpExtendedKeycodeEditor';
 import { RootState } from '../../../store/state';
 import { BmpExtendedKeycodeEditorActions } from '../../../actions/bmpExtendedKeycode.action';
+import { IBmpExtendedKeycode } from '../../../services/hid/bmp/BmpExtendedKeycode';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -19,6 +20,11 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     closeBmpExtendedKeycodeEditor: () => {
       _dispatch(BmpExtendedKeycodeEditorActions.clearExtendedKey());
+    },
+    updateBmpExtendedKeycode: (extendedKeycode: IBmpExtendedKeycode) => {
+      _dispatch(
+        BmpExtendedKeycodeEditorActions.updateExtendedKeycode(extendedKeycode)
+      );
     },
   };
 };

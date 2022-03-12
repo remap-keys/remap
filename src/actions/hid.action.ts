@@ -16,7 +16,7 @@ import { StorageActions, storageActionsThunk } from './storage.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
-import { array } from 'prop-types';
+import { IBmpExtendedKeycode } from '../services/hid/bmp/BmpExtendedKeycode';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -111,10 +111,13 @@ export const HidActions = {
     };
   },
 
-  updateBmpExtendedKeycode: (id: number, buffer: Uint8Array) => {
+  updateBmpExtendedKeycode: (
+    id: number,
+    extendedKeycode: IBmpExtendedKeycode
+  ) => {
     return {
       type: HID_UPDATE_BMP_EXTENDED_KEYCODE,
-      value: { id: id, buffer: buffer },
+      value: { id: id, extendedKeycode: extendedKeycode },
     };
   },
 };
@@ -312,7 +315,7 @@ export const hidActionsThunk = {
           dispatch(
             HidActions.updateBmpExtendedKeycode(
               idx,
-              extendedKeycodeResult.buffer!
+              extendedKeycodeResult.extendedKeycode!
             )
           );
         }

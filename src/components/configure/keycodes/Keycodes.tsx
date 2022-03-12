@@ -9,7 +9,7 @@ import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { genKeys, Key } from '../keycodekey/KeyGen';
-import { CATEGORY_LABEL_BMP } from '../../../services/hid/KeycodeInfoListBmp';
+import { CATEGORY_LABEL_BMP } from '../../../services/hid/bmp/KeycodeInfoListBmp';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import {
   CATEGORY_LABEL_ASCII,

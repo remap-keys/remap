@@ -45,7 +45,7 @@ import {
   bmpKeyInfoList,
   BMP_EXTENDED_MIN,
   BMP_EXTENDED_MAX,
-} from './KeycodeInfoListBmp';
+} from './bmp/KeycodeInfoListBmp';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
