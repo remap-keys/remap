@@ -303,7 +303,7 @@ type KeyLabelType = {
   optionChoiceLabel?: string;
   debug?: boolean;
 };
-function KeyLabel(props: KeyLabelType) {
+export function KeyLabel(props: KeyLabelType) {
   if (props.debug) {
     return (
       <React.Fragment>

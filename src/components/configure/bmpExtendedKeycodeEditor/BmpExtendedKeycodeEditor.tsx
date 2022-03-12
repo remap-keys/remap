@@ -22,6 +22,9 @@ import { genKey, Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import CustomKey, { PopoverPosition } from '../customkey/CustomKey';
+import { KeyLabel } from '../keycap/Keycap';
+import { buildHoldKeyLabel } from '../customkey/TabHoldTapKey';
+import { buildModLabel } from '../customkey/Modifiers';
 
 type BmpExtendedKeycodeEditorOwnProps = {};
 type BmpExtendedKeycodeEditorOwnState = {};
@@ -159,6 +162,16 @@ function ExtendedKeyElement(props: {
     return state.configure.keycodeKey.draggingKey;
   });
 
+  const key = genKey(props.keymap, props.labelLang);
+  const holdLabel = buildHoldKeyLabel(props.keymap, props.keymap.isAny);
+  let modifierLabel =
+    holdLabel === ''
+      ? buildModLabel(props.keymap.modifiers || null, props.keymap.direction!)
+      : '';
+  const modifierRightLabel = key.metaRight;
+  const meta = key.meta;
+  modifierLabel = meta ? meta : modifierLabel;
+
   return (
     <div>
       <div
@@ -183,7 +196,18 @@ function ExtendedKeyElement(props: {
           setOpenCustomKey(true);
         }}
       >
-        {props.keymap.keycodeInfo.label}
+        <div className="keycap-base bmp-extended-keycode-editor-keycode-base">
+          <div className="keyroof">
+            <KeyLabel
+              label={key.label}
+              meta={key.meta}
+              modifierLabel={modifierLabel}
+              modifierRightLabel={modifierRightLabel}
+              holdLabel={holdLabel}
+              hasDiff={false}
+            />
+          </div>
+        </div>
       </div>
       <CustomKey
         id="customkey-popover"
