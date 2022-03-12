@@ -281,11 +281,8 @@ export type RootState = {
       macroKeys: MacroKey[];
     };
     bmpExtendedKeycodeEditor: {
-      key: Key | null;
-      keys: Key[];
-      macroBuffer: IMacroBuffer | null;
-      macro: IMacro | null;
-      macroKeys: MacroKey[];
+      id: number | null;
+      extendedKeycode: Uint8Array | null;
     };
   };
   keyboards: {
@@ -508,11 +505,8 @@ export const INIT_STATE: RootState = {
       macroKeys: [],
     },
     bmpExtendedKeycodeEditor: {
-      key: null,
-      keys: [],
-      macroBuffer: null,
-      macro: null,
-      macroKeys: [],
+      id: null,
+      extendedKeycode: null,
     },
   },
   keyboards: {

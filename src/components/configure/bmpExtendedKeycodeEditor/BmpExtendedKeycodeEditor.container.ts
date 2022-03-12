@@ -5,7 +5,8 @@ import { BmpExtendedKeycodeEditorActions } from '../../../actions/bmpExtendedKey
 
 const mapStateToProps = (state: RootState) => {
   return {
-    extendedKey: state.configure.bmpExtendedKeycodeEditor.key,
+    extendedKeyId: state.configure.bmpExtendedKeycodeEditor.id,
+    extendedKeycode: state.configure.bmpExtendedKeycodeEditor.extendedKeycode,
     keyboardWidth: state.app.keyboardWidth,
     keyboardHeight: state.app.keyboardHeight,
   };

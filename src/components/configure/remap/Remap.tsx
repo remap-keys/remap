@@ -48,7 +48,7 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
             mode={
               this.props.macroKey
                 ? 'macro'
-                : this.props.bmpExtendedKey
+                : this.props.bmpExtendedKey != null
                 ? 'bmpExtended'
                 : 'keymap'
             }
