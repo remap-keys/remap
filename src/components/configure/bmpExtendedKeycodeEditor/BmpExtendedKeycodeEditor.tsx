@@ -89,6 +89,21 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
             >
               BACK
             </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              disableElevation
+              onClick={() => {
+                this.props.applyBmpExtendedKeycodeUpdate!(
+                  this.props.extendedKeyId!,
+                  this.props.extendedKeycode!
+                );
+                this.props.closeBmpExtendedKeycodeEditor!();
+              }}
+            >
+              APPPLY
+            </Button>
           </div>
         </div>
       </div>

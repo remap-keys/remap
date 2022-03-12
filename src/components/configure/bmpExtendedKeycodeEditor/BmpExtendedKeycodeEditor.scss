@@ -38,6 +38,10 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 8px;
+
+    :last-child {
+      margin-left: auto !important;
+    }
   }
   .drag-over {
     background-color: gray;
