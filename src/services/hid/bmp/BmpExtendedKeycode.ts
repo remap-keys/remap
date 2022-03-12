@@ -2,19 +2,19 @@ import { KeyboardLabelLang } from '../../labellang/KeyLabelLangs';
 import { IKeymap } from '../Hid';
 import { KeycodeList } from '../KeycodeList';
 
+/* eslint-disable no-unused-vars */
 export enum ExtendedKind {
   NONE,
-  LTE,
-  TLT,
-  TDD,
-  TDH,
+  LAYER_TAP_EXTENDED,
+  TRI_LAYER_TAP,
+  TAP_DANCE_DOUBLE,
+  TAP_DANCE_HOLD,
 }
+/* eslint-enable no-unused-vars */
 
 export interface IBmpExtendedKeycode {
   getKind(): ExtendedKind;
   getBytes(): Uint8Array;
-  // eslint-disable-next-line no-unused-vars
-  updateBytes(bytes: Uint8Array): void;
   // eslint-disable-next-line no-unused-vars
   changeKind(kind: ExtendedKind): void;
 }
@@ -31,10 +31,6 @@ export class BmpExtendedKeycode implements IBmpExtendedKeycode {
 
   getBytes(): Uint8Array {
     return this.bytes;
-  }
-
-  updateBytes(bytes: Uint8Array): void {
-    this.bytes = bytes;
   }
 
   changeKind(kind: ExtendedKind): void {

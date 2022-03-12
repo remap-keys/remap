@@ -51,7 +51,7 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
       <div className="bmp-extended-keycode-editor-wrapper">
         <div className="bmp-extended-keycode-editor-content">
           <div className="bmp-extended-keycode-editor-content-title">
-            Bmp Extended Keycode Editor (ID:{this.props.extendedKeyId})
+            BMP Extended Keycode Editor (ID:{this.props.extendedKeyId})
           </div>
           <div className="bmp-extended-keycode-editor-content-keys">
             <div>
@@ -148,16 +148,16 @@ interface BmpExtendedKeyProp {
 
 function ExtendedKey(props: BmpExtendedKeyProp) {
   switch (props.extendedKeycode.getKind()) {
-    case ExtendedKind.TLT:
+    case ExtendedKind.TRI_LAYER_TAP:
       return TltExtend(props);
-    case ExtendedKind.LTE:
+    case ExtendedKind.LAYER_TAP_EXTENDED:
       return LteExtend(props);
-    case ExtendedKind.TDD:
+    case ExtendedKind.TAP_DANCE_DOUBLE:
       return TddExtend(props);
-    case ExtendedKind.TDH:
+    case ExtendedKind.TAP_DANCE_HOLD:
       return TdhExtend(props);
     default:
-      return <div>None</div>;
+      return <div></div>;
   }
 }
 
@@ -269,7 +269,6 @@ function TltExtend(props: BmpExtendedKeyProp) {
 
   return (
     <div>
-      <div>Tri-Layer-Tap</div>
       <label htmlFor="layer1">Layer1:</label>
       {LayerInput(tlt.getLayer1(), 'layer1', (e) => {
         tlt.setLayer1(Number(e.target.value));
@@ -304,7 +303,6 @@ function LteExtend(props: BmpExtendedKeyProp) {
 
   return (
     <div>
-      <div>Layer-Tap-Extend</div>
       <label htmlFor="layer1">Layer1:</label>
       {LayerInput(lte.getLayer(), 'layer1', (e) => {
         lte.setLayer(Number(e.target.value));
@@ -333,7 +331,6 @@ function TddExtend(props: BmpExtendedKeyProp) {
 
   return (
     <div>
-      <div>Tap-Dance-Double</div>
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
           keymap={tdd.getKey1(props.labelLang)}
@@ -364,7 +361,6 @@ function TdhExtend(props: BmpExtendedKeyProp) {
 
   return (
     <div>
-      <div>Tap-Dance-Hold</div>
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
           keymap={tdh.getKey1(props.labelLang)}
