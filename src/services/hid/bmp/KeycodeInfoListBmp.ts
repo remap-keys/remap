@@ -534,18 +534,6 @@ export const bmpKeyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Extended keycode 11',
-    keycodeInfo: {
-      code: 24107,
-      name: {
-        long: 'EXTENDED11',
-        short: 'Ex11',
-      },
-      label: 'Ex11',
-      keywords: ['ex11'],
-    },
-  },
-  {
     desc: 'Extended keycode 12',
     keycodeInfo: {
       code: 24108,

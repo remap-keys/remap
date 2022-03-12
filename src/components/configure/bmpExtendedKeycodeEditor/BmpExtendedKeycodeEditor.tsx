@@ -21,7 +21,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import CustomKey from '../customkey/CustomKey';
+import CustomKey, { PopoverPosition } from '../customkey/CustomKey';
 
 type BmpExtendedKeycodeEditorOwnProps = {};
 type BmpExtendedKeycodeEditorOwnState = {};
@@ -150,6 +150,11 @@ function ExtendedKeyElement(props: {
 }) {
   const [onDragOver, setOnDragOver] = useState(false);
   const [openCustomKey, setOpenCustomKey] = useState(false);
+  const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>({
+    left: 0,
+    top: 0,
+    side: 'right',
+  });
   const draggingKey = useSelector((state: RootState) => {
     return state.configure.keycodeKey.draggingKey;
   });
@@ -169,7 +174,12 @@ function ExtendedKeyElement(props: {
           if (draggingKey) props.onChange(draggingKey);
           setOnDragOver(false);
         }}
-        onClick={() => {
+        onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+          setPopoverPosition({
+            left: e.clientX,
+            top: e.clientY,
+            side: 'right',
+          });
           setOpenCustomKey(true);
         }}
       >
@@ -178,7 +188,7 @@ function ExtendedKeyElement(props: {
       <CustomKey
         id="customkey-popover"
         open={openCustomKey}
-        position={{ left: 0, top: 0, side: 'right' }}
+        position={popoverPosition}
         value={genKey(props.keymap)}
         layerCount={0}
         labelLang={props.labelLang}
@@ -187,7 +197,6 @@ function ExtendedKeyElement(props: {
           setOpenCustomKey(false);
         }}
         onChange={(key: Key) => {
-          console.log(key);
           props.onChange(key);
         }}
       ></CustomKey>
