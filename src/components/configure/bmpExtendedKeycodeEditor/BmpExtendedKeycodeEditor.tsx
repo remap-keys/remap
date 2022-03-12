@@ -18,9 +18,10 @@ import {
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { IKeymap } from '../../../services/hid/Hid';
-import { Key } from '../keycodekey/KeyGen';
+import { genKey, Key } from '../keycodekey/KeyGen';
 import { RootState } from '../../../store/state';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import CustomKey from '../customkey/CustomKey';
 
 type BmpExtendedKeycodeEditorOwnProps = {};
 type BmpExtendedKeycodeEditorOwnState = {};
@@ -144,29 +145,52 @@ function ExtendedKey(props: BmpExtendedKeyProp) {
 
 function ExtendedKeyElement(props: {
   keymap: IKeymap;
-  onDrop: (dropped: Key) => void;
+  labelLang: KeyboardLabelLang;
+  onChange: (key: Key) => void;
 }) {
   const [onDragOver, setOnDragOver] = useState(false);
+  const [openCustomKey, setOpenCustomKey] = useState(false);
   const draggingKey = useSelector((state: RootState) => {
     return state.configure.keycodeKey.draggingKey;
   });
 
   return (
-    <div
-      className={['keycodekey', onDragOver && 'drag-over'].join(' ')}
-      onDragOver={(event) => {
-        event.preventDefault();
-        setOnDragOver(true);
-      }}
-      onDragLeave={() => {
-        setOnDragOver(false);
-      }}
-      onDrop={() => {
-        if (draggingKey) props.onDrop(draggingKey);
-        setOnDragOver(false);
-      }}
-    >
-      {props.keymap.keycodeInfo.label}
+    <div>
+      <div
+        className={['keycodekey', onDragOver && 'drag-over'].join(' ')}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setOnDragOver(true);
+        }}
+        onDragLeave={() => {
+          setOnDragOver(false);
+        }}
+        onDrop={() => {
+          if (draggingKey) props.onChange(draggingKey);
+          setOnDragOver(false);
+        }}
+        onClick={() => {
+          setOpenCustomKey(true);
+        }}
+      >
+        {props.keymap.keycodeInfo.label}
+      </div>
+      <CustomKey
+        id="customkey-popover"
+        open={openCustomKey}
+        position={{ left: 0, top: 0, side: 'right' }}
+        value={genKey(props.keymap)}
+        layerCount={0}
+        labelLang={props.labelLang}
+        bleMicroPro={true}
+        onClose={() => {
+          setOpenCustomKey(false);
+        }}
+        onChange={(key: Key) => {
+          console.log(key);
+          props.onChange(key);
+        }}
+      ></CustomKey>
     </div>
   );
 }
@@ -215,7 +239,8 @@ function TltExtend(props: BmpExtendedKeyProp) {
       })}
       <ExtendedKeyElement
         keymap={tlt.getKey(props.labelLang)}
-        onDrop={handleDrop}
+        labelLang={props.labelLang}
+        onChange={handleDrop}
       />
     </div>
   );
@@ -239,7 +264,8 @@ function LteExtend(props: BmpExtendedKeyProp) {
       })}
       <ExtendedKeyElement
         keymap={lte.getKey(props.labelLang)}
-        onDrop={handleDrop}
+        labelLang={props.labelLang}
+        onChange={handleDrop}
       />
     </div>
   );
@@ -263,11 +289,13 @@ function TddExtend(props: BmpExtendedKeyProp) {
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
           keymap={tdd.getKey1(props.labelLang)}
-          onDrop={handleDrop1}
+          labelLang={props.labelLang}
+          onChange={handleDrop1}
         />
         <ExtendedKeyElement
           keymap={tdd.getKey2(props.labelLang)}
-          onDrop={handleDrop2}
+          labelLang={props.labelLang}
+          onChange={handleDrop2}
         />
       </div>
     </div>
@@ -292,11 +320,13 @@ function TdhExtend(props: BmpExtendedKeyProp) {
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
           keymap={tdh.getKey1(props.labelLang)}
-          onDrop={handleDrop1}
+          labelLang={props.labelLang}
+          onChange={handleDrop1}
         />
         <ExtendedKeyElement
           keymap={tdh.getKey2(props.labelLang)}
-          onDrop={handleDrop2}
+          labelLang={props.labelLang}
+          onChange={handleDrop2}
         />
       </div>
     </div>
