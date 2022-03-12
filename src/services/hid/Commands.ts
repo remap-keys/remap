@@ -5,6 +5,7 @@ import {
 } from './WebHid';
 import { ICommand } from './Hid';
 import { outputUint8Array } from '../../utils/ArrayUtils';
+import { IBmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
@@ -459,7 +460,6 @@ export class BleMicroProGetExtendedKeycodeCommand extends AbstractCommand<
     return new Uint8Array([0x02, 0xfe, 0x02, req.index & 0xff]);
   }
 
-  // eslint-disable-next-line no-unused-vars
   createResponse(
     resultArray: Uint8Array
   ): IBleMicroProGetExtendedKeycodeCommandResponse {
@@ -473,6 +473,40 @@ export class BleMicroProGetExtendedKeycodeCommand extends AbstractCommand<
       resultArray[0] === 0x02 &&
       resultArray[1] === 0xfe &&
       resultArray[2] === 0x02
+    );
+  }
+}
+
+export interface IBleMicroProSetExtendedKeycodeCommandRequest
+  extends ICommandRequest {
+  index: number;
+  extendedKeycode: IBmpExtendedKeycode;
+}
+
+export class BleMicroProSetExtendedKeycodeCommand extends AbstractCommand<
+  IBleMicroProSetExtendedKeycodeCommandRequest,
+  ICommandResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    const cmd = new Uint8Array(10);
+    cmd.set([0x03, 0xfe, 0x02, req.index & 0xff], 0);
+    cmd.set(req.extendedKeycode.getBytes(), 4);
+    return cmd;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x03 &&
+      resultArray[1] === 0xfe &&
+      resultArray[2] === 0x02 &&
+      resultArray[3] === (req.index & 0xff)
     );
   }
 }

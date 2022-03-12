@@ -284,6 +284,7 @@ export type RootState = {
     bmpExtendedKeycodeEditor: {
       id: number | null;
       extendedKeycode: IBmpExtendedKeycode | null;
+      modified: boolean;
     };
   };
   keyboards: {
@@ -508,6 +509,7 @@ export const INIT_STATE: RootState = {
     bmpExtendedKeycodeEditor: {
       id: null,
       extendedKeycode: null,
+      modified: false,
     },
   },
   keyboards: {

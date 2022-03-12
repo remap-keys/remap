@@ -8,7 +8,8 @@ import { IBmpExtendedKeycode } from '../services/hid/bmp/BmpExtendedKeycode';
 export const BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS = '@BmpExtendedKeyEditor';
 export const BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_KEY = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/UpdateBmpExtendedKey`;
 export const BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_EXTENDED_KEY_CODE = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/UpdateBmpExtendedKeycode`;
-export const BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/UpdateBmpExtendedKey`;
+export const BMP_EXTENDED_KEYCODE_EDITOR_SET_MODIFIED = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/SetModified`;
+export const BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY = `${BMP_EXTENDED_KEYCODE_EDITOR_ACTIONS}/ClearBmpExtendedKey`;
 
 export const BmpExtendedKeycodeEditorActions = {
   updateExtendedKey: (id: number) => {
@@ -21,6 +22,12 @@ export const BmpExtendedKeycodeEditorActions = {
     return {
       type: BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_EXTENDED_KEY_CODE,
       value: extendedKeycode,
+    };
+  },
+  setModified: (modified: boolean) => {
+    return {
+      type: BMP_EXTENDED_KEYCODE_EDITOR_SET_MODIFIED,
+      value: modified,
     };
   },
   clearExtendedKey: () => {

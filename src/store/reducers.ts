@@ -193,6 +193,7 @@ import {
   BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_KEY,
   BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY,
   BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_EXTENDED_KEY_CODE,
+  BMP_EXTENDED_KEYCODE_EDITOR_SET_MODIFIED,
 } from '../actions/bmpExtendedKeycode.action';
 
 export type Action = { type: string; value: any };
@@ -893,6 +894,10 @@ const bmpExtendedKeycodeReducer = (
     }
     case BMP_EXTENDED_KEYCODE_EDITOR_UPDATE_EXTENDED_KEY_CODE: {
       draft.configure.bmpExtendedKeycodeEditor.extendedKeycode = action.value;
+      break;
+    }
+    case BMP_EXTENDED_KEYCODE_EDITOR_SET_MODIFIED: {
+      draft.configure.bmpExtendedKeycodeEditor.modified = action.value;
       break;
     }
     case BMP_EXTENDED_KEYCODE_EDITOR_CLEAR_KEY: {

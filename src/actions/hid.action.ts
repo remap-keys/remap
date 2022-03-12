@@ -484,6 +484,22 @@ export const hidActionsThunk = {
         }
       }
       if (entities.device.bleMicroPro) {
+        for (
+          let idx = 0;
+          idx < entities.device.extendedKeycode.maxCount;
+          idx++
+        ) {
+          const result = await keyboard.setBmpExtendedKeycode(
+            idx,
+            entities.device.extendedKeycode[idx]
+          );
+          if (!result.success) {
+            console.error(result.cause);
+            dispatch(NotificationActions.addError(result.error!, result.cause));
+            dispatch(HeaderActions.updateFlashing(false));
+            return;
+          }
+        }
         const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
         if (!result.success) {
           console.error(result.cause);

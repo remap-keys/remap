@@ -173,6 +173,10 @@ export interface IKeyboard {
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
   getBmpExtendedKeycodeCount(): Promise<IGetBmpExtendedKeycodeCountResult>;
   getBmpExtendedKeycode(index: number): Promise<IGetBmpExtendedKeycodeResult>;
+  setBmpExtendedKeycode(
+    index: number,
+    extendedKeycode: IBmpExtendedKeycode
+  ): Promise<IResult>;
   fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
   fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
   updateLayoutOptions(value: number): Promise<IResult>;

@@ -103,12 +103,14 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
   }
 
   render() {
-    this.hasKeysToFlash = this.props.remaps!.reduce(
-      (has: boolean, v: { [pos: string]: IKeymap }) => {
-        return 0 < Object.values(v).length || has;
-      },
-      false
-    );
+    this.hasKeysToFlash =
+      this.props.extendedKeycodeModified ||
+      this.props.remaps!.reduce(
+        (has: boolean, v: { [pos: string]: IKeymap }) => {
+          return 0 < Object.values(v).length || has;
+        },
+        false
+      );
 
     let flashBtnState: FlashButtonState = this.hasKeysToFlash
       ? 'enable'

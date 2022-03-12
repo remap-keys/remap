@@ -31,6 +31,7 @@ const mapDispatchToProps = (_dispatch: any) => {
         BmpExtendedKeycodeEditorActions.updateExtendedKeycode(extendedKeycode)
       );
       _dispatch(HidActions.updateBmpExtendedKeycode(id, extendedKeycode));
+      _dispatch(BmpExtendedKeycodeEditorActions.setModified(true));
     },
   };
 };

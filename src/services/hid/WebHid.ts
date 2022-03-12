@@ -28,6 +28,7 @@ import {
   BleMicroProStoreKeymapPersistentlyCommand,
   BleMicroProGetExtendedKeycodeCountCommand,
   BleMicroProGetExtendedKeycodeCommand,
+  BleMicroProSetExtendedKeycodeCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapMacroGetBufferSizeCommand,
@@ -52,7 +53,10 @@ import {
 } from './Composition';
 import { outputUint8Array } from '../../utils/ArrayUtils';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import { BmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
+import {
+  BmpExtendedKeycode,
+  IBmpExtendedKeycode,
+} from './bmp/BmpExtendedKeycode';
 
 export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
@@ -735,6 +739,34 @@ export class Keyboard implements IKeyboard {
             resolve({
               success: true,
               extendedKeycode: new BmpExtendedKeycode(result.response!.buffer),
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  setBmpExtendedKeycode(
+    index: number,
+    extendedKeycode: IBmpExtendedKeycode
+  ): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new BleMicroProSetExtendedKeycodeCommand(
+        {
+          index,
+          extendedKeycode,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
             });
           } else {
             resolve({

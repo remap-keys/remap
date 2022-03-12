@@ -193,6 +193,13 @@ export const mockIKeyboad: IKeyboard = {
       });
     });
   },
+  setBmpExtendedKeycode: () => {
+    return new Promise((resolve) => {
+      resolve({
+        success: true,
+      });
+    });
+  },
   fetchSwitchMatrixState: () => {
     return new Promise<IResult>((resolve) => {
       resolve({ success: true });
