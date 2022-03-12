@@ -3,6 +3,7 @@ import BmpExtendedKeycodeEditor from './BmpExtendedKeycodeEditor';
 import { RootState } from '../../../store/state';
 import { BmpExtendedKeycodeEditorActions } from '../../../actions/bmpExtendedKeycode.action';
 import { IBmpExtendedKeycode } from '../../../services/hid/bmp/BmpExtendedKeycode';
+import { HidActions } from '../../../actions/hid.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -10,6 +11,7 @@ const mapStateToProps = (state: RootState) => {
     extendedKeycode: state.configure.bmpExtendedKeycodeEditor.extendedKeycode,
     keyboardWidth: state.app.keyboardWidth,
     keyboardHeight: state.app.keyboardHeight,
+    labelLang: state.app.labelLang,
   };
 };
 export type BmpExtendedKeycodeEditorStateType = ReturnType<
@@ -21,10 +23,14 @@ const mapDispatchToProps = (_dispatch: any) => {
     closeBmpExtendedKeycodeEditor: () => {
       _dispatch(BmpExtendedKeycodeEditorActions.clearExtendedKey());
     },
-    updateBmpExtendedKeycode: (extendedKeycode: IBmpExtendedKeycode) => {
+    updateBmpExtendedKeycode: (
+      id: number,
+      extendedKeycode: IBmpExtendedKeycode
+    ) => {
       _dispatch(
         BmpExtendedKeycodeEditorActions.updateExtendedKeycode(extendedKeycode)
       );
+      _dispatch(HidActions.updateBmpExtendedKeycode(id, extendedKeycode));
     },
   };
 };

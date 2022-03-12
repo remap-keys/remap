@@ -2,16 +2,25 @@
 /* eslint-disable no-undef */
 import React, { useState } from 'react';
 import './BmpExtendedKeycodeEditor.scss';
-import { Button, Select, MenuItem } from '@mui/material';
+import { Button, Select, MenuItem, Input } from '@mui/material';
 import {
   BmpExtendedKeycodeEditorActionsType,
   BmpExtendedKeycodeEditorStateType,
 } from './BmpExtendedKeycodeEditor.container';
 import {
+  BmpExtendedKeycodeLte,
+  BmpExtendedKeycodeTlt,
+  BmpExtendedKeycodeTdh,
+  BmpExtendedKeycodeTdd,
   ExtendedKind,
   IBmpExtendedKeycode,
 } from '../../../services/hid/bmp/BmpExtendedKeycode';
 import lodash from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { IKeymap } from '../../../services/hid/Hid';
+import { Key } from '../keycodekey/KeyGen';
+import { RootState } from '../../../store/state';
+import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 
 const KEY_DIFF_HEIGHT = 78;
 
@@ -37,10 +46,7 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
 
   render() {
     return (
-      <div
-        className="bmp-extended-keycode-editor-wrapper"
-        style={{ height: this.props.keyboardHeight! + KEY_DIFF_HEIGHT }}
-      >
+      <div className="bmp-extended-keycode-editor-wrapper">
         <div className="bmp-extended-keycode-editor-content">
           <div className="bmp-extended-keycode-editor-content-title">
             Bmp Extended Keycode Editor (ID:{this.props.extendedKeyId})
@@ -49,13 +55,31 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
             <ExtendedKindSelect
               extendedKeycode={this.props.extendedKeycode!}
               onChange={(value) => {
-                this.props.updateBmpExtendedKeycode!(value);
+                this.props.updateBmpExtendedKeycode!(
+                  this.props.extendedKeyId!,
+                  value
+                );
               }}
             ></ExtendedKindSelect>
-            <ExtendedKey
-              extendedKeycode={this.props.extendedKeycode!}
-            ></ExtendedKey>
+
+            <div
+              style={{
+                height: this.props.keyboardHeight,
+              }}
+            >
+              <ExtendedKey
+                extendedKeycode={this.props.extendedKeycode!}
+                labelLang={this.props.labelLang!}
+                onChange={(key) =>
+                  this.props.updateBmpExtendedKeycode!(
+                    this.props.extendedKeyId!,
+                    key
+                  )
+                }
+              ></ExtendedKey>
+            </div>
           </div>
+
           <div className="bmp-extended-keycode-editor-content-footer">
             <Button
               size="small"
@@ -102,34 +126,175 @@ function ExtendedKindSelect(props: {
     </Select>
   );
 }
+interface BmpExtendedKeyProp {
+  extendedKeycode: IBmpExtendedKeycode;
+  labelLang: KeyboardLabelLang;
+  onChange: (update: IBmpExtendedKeycode) => void;
+}
 
-function ExtendedKey(props: { extendedKeycode: IBmpExtendedKeycode }) {
+function ExtendedKey(props: BmpExtendedKeyProp) {
   switch (props.extendedKeycode.getKind()) {
     case ExtendedKind.TLT:
-      return <TltExtend extendedKeycode={props.extendedKeycode}></TltExtend>;
+      return TltExtend(props);
     case ExtendedKind.LTE:
-      return <LteExtend extendedKeycode={props.extendedKeycode}></LteExtend>;
-    case ExtendedKind.TDH:
-      return <TdhExtend extendedKeycode={props.extendedKeycode}></TdhExtend>;
+      return LteExtend(props);
     case ExtendedKind.TDD:
-      return <TddExtend extendedKeycode={props.extendedKeycode}></TddExtend>;
+      return TddExtend(props);
+    case ExtendedKind.TDH:
+      return TdhExtend(props);
     default:
       return <div>None</div>;
   }
 }
 
-function TltExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
-  return <div>TLT</div>;
+function ExtendedKeyElement(props: {
+  keymap: IKeymap;
+  onDrop: (dropped: Key) => void;
+}) {
+  const draggingKey = useSelector((state: RootState) => {
+    return state.configure.keycodeKey.draggingKey;
+  });
+
+  return (
+    <div
+      className="bmp-extneded-keycode-editor-key"
+      onDragOver={(event) => {
+        event.preventDefault();
+      }}
+      onDragLeave={() => {}}
+      onDrop={() => {
+        if (draggingKey) props.onDrop(draggingKey);
+      }}
+    >
+      {props.keymap.keycodeInfo.label}
+    </div>
+  );
 }
 
-function LteExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
-  return <div>LTE</div>;
+function LayerInput(
+  value: number,
+  id: string,
+  onInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+) {
+  return (
+    <Input
+      className="bmp-extended-keycode-editor-layer-input"
+      type="number"
+      id={id}
+      value={value}
+      onInput={onInput}
+    />
+  );
 }
 
-function TddExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
-  return <div>TDD</div>;
+function TltExtend(props: BmpExtendedKeyProp) {
+  const newKeycode = lodash.cloneDeep(props.extendedKeycode);
+  const tlt = new BmpExtendedKeycodeTlt(newKeycode);
+  const handleDrop = (dropped: Key) => {
+    tlt.setKey(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+
+  return (
+    <div>
+      <div>Tri-Layer-Tap</div>
+      <label htmlFor="layer1">Layer1:</label>
+      {LayerInput(tlt.getLayer1(), 'layer1', (e) => {
+        tlt.setLayer1(Number(e.target.value));
+        props.onChange(newKeycode);
+      })}
+      <label htmlFor="layer2">Layer2:</label>
+      {LayerInput(tlt.getLayer2(), 'layer2', (e) => {
+        tlt.setLayer2(Number(e.target.value));
+        props.onChange(newKeycode);
+      })}
+      <label htmlFor="layer3">Layer3:</label>
+      {LayerInput(tlt.getLayer3(), 'layer3', (e) => {
+        tlt.setLayer3(Number(e.target.value));
+        props.onChange(newKeycode);
+      })}
+      <ExtendedKeyElement
+        keymap={tlt.getKey(props.labelLang)}
+        onDrop={handleDrop}
+      />
+    </div>
+  );
 }
 
-function TdhExtend(props: { extendedKeycode: IBmpExtendedKeycode }) {
-  return <div>TDH</div>;
+function LteExtend(props: BmpExtendedKeyProp) {
+  const newKeycode = lodash.cloneDeep(props.extendedKeycode);
+  const lte = new BmpExtendedKeycodeLte(newKeycode);
+  const handleDrop = (dropped: Key) => {
+    lte.setKey(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+
+  return (
+    <div>
+      <div>Layer-Tap-Extend</div>
+      <label htmlFor="layer1">Layer1:</label>
+      {LayerInput(lte.getLayer(), 'layer1', (e) => {
+        lte.setLayer(Number(e.target.value));
+        props.onChange(newKeycode);
+      })}
+      <ExtendedKeyElement
+        keymap={lte.getKey(props.labelLang)}
+        onDrop={handleDrop}
+      />
+    </div>
+  );
+}
+
+function TddExtend(props: BmpExtendedKeyProp) {
+  const newKeycode = lodash.cloneDeep(props.extendedKeycode);
+  const tdd = new BmpExtendedKeycodeTdd(newKeycode);
+  const handleDrop1 = (dropped: Key) => {
+    tdd.setKey1(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+  const handleDrop2 = (dropped: Key) => {
+    tdd.setKey2(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+
+  return (
+    <div>
+      <div>Tap-Dance-Double</div>
+      <ExtendedKeyElement
+        keymap={tdd.getKey1(props.labelLang)}
+        onDrop={handleDrop1}
+      />
+      <ExtendedKeyElement
+        keymap={tdd.getKey2(props.labelLang)}
+        onDrop={handleDrop2}
+      />
+    </div>
+  );
+}
+
+function TdhExtend(props: BmpExtendedKeyProp) {
+  const newKeycode = lodash.cloneDeep(props.extendedKeycode);
+  const tdh = new BmpExtendedKeycodeTdh(newKeycode);
+  const handleDrop1 = (dropped: Key) => {
+    tdh.setKey1(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+  const handleDrop2 = (dropped: Key) => {
+    tdh.setKey2(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+
+  return (
+    <div>
+      <div>Tap-Dance-Hold</div>
+      <ExtendedKeyElement
+        keymap={tdh.getKey1(props.labelLang)}
+        onDrop={handleDrop1}
+      />
+      <ExtendedKeyElement
+        keymap={tdh.getKey2(props.labelLang)}
+        onDrop={handleDrop2}
+      />
+    </div>
+  );
 }
