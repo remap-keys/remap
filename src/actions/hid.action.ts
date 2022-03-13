@@ -17,6 +17,7 @@ import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
 import { IBmpExtendedKeycode } from '../services/hid/bmp/BmpExtendedKeycode';
+import { BmpExtendedKeycodeEditorActions } from './bmpExtendedKeycode.action';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -500,6 +501,7 @@ export const hidActionsThunk = {
             return;
           }
         }
+        dispatch(BmpExtendedKeycodeEditorActions.setModified(false));
         const result = await keyboard.storeKeymapPersistentlyForBleMicroPro();
         if (!result.success) {
           console.error(result.cause);
