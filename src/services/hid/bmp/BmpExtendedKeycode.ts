@@ -55,15 +55,13 @@ export class BmpExtendedKeycodeLte {
 
   setLayer(layer: number) {
     const bytes = this.extendedKey.getBytes();
-    bytes[1] = layer & 0xff;
+    bytes[1] = layer & 0x1f;
   }
 
-  setKey(code: number): IBmpExtendedKeycode {
-    let bytes = Uint8Array.from(this.extendedKey.getBytes());
+  setKey(code: number) {
+    const bytes = this.extendedKey.getBytes();
     bytes[2] = code & 0xff;
     bytes[3] = (code >> 8) & 0xff;
-
-    return new BmpExtendedKeycode(bytes);
   }
 }
 
@@ -90,17 +88,17 @@ export class BmpExtendedKeycodeTlt {
 
   setLayer1(layer: number) {
     const bytes = this.extendedKey.getBytes();
-    bytes[1] = layer & 0xff;
+    bytes[1] = layer & 0x1f;
   }
 
   setLayer2(layer: number) {
     const bytes = this.extendedKey.getBytes();
-    bytes[2] = layer & 0xff;
+    bytes[2] = layer & 0x1f;
   }
 
   setLayer3(layer: number) {
     const bytes = this.extendedKey.getBytes();
-    bytes[3] = layer & 0xff;
+    bytes[3] = layer & 0x1f;
   }
 
   setKey(code: number) {
