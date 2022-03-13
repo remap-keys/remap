@@ -9,6 +9,7 @@ export enum ExtendedKind {
   TRI_LAYER_TAP,
   TAP_DANCE_DOUBLE,
   TAP_DANCE_HOLD,
+  COMBO,
 }
 /* eslint-enable no-unused-vars */
 
@@ -108,7 +109,7 @@ export class BmpExtendedKeycodeTlt {
   }
 }
 
-export class BmpExtendedKeycodeTdd {
+export class BmpExtendedKeycodeTwoKeyCombination {
   private extendedKey: IBmpExtendedKeycode;
   constructor(extendedKey: IBmpExtendedKeycode) {
     this.extendedKey = extendedKey;
@@ -136,7 +137,7 @@ export class BmpExtendedKeycodeTdd {
   }
 }
 
-export class BmpExtendedKeycodeTdh {
+export class BmpExtendedKeycodeCombo {
   private extendedKey: IBmpExtendedKeycode;
   constructor(extendedKey: IBmpExtendedKeycode) {
     this.extendedKey = extendedKey;
@@ -148,7 +149,11 @@ export class BmpExtendedKeycodeTdh {
   }
   getKey2(labelLange: KeyboardLabelLang): IKeymap {
     const bytes = this.extendedKey.getBytes();
-    return KeycodeList.getKeymap(bytes[3] + (bytes[4] << 8), labelLange);
+    return KeycodeList.getKeymap(bytes[3], labelLange);
+  }
+  getKey3(labelLange: KeyboardLabelLang): IKeymap {
+    const bytes = this.extendedKey.getBytes();
+    return KeycodeList.getKeymap(bytes[4] + (bytes[5] << 8), labelLange);
   }
 
   setKey1(code: number) {
@@ -156,10 +161,13 @@ export class BmpExtendedKeycodeTdh {
     bytes[1] = code & 0xff;
     bytes[2] = (code >> 8) & 0xff;
   }
-
   setKey2(code: number) {
     const bytes = this.extendedKey.getBytes();
     bytes[3] = code & 0xff;
-    bytes[4] = (code >> 8) & 0xff;
+  }
+  setKey3(code: number) {
+    const bytes = this.extendedKey.getBytes();
+    bytes[4] = code & 0xff;
+    bytes[5] = (code >> 8) & 0xff;
   }
 }

@@ -10,8 +10,8 @@ import {
 import {
   BmpExtendedKeycodeLte,
   BmpExtendedKeycodeTlt,
-  BmpExtendedKeycodeTdh,
-  BmpExtendedKeycodeTdd,
+  BmpExtendedKeycodeTwoKeyCombination,
+  BmpExtendedKeycodeCombo,
   ExtendedKind,
   IBmpExtendedKeycode,
 } from '../../../services/hid/bmp/BmpExtendedKeycode';
@@ -153,9 +153,10 @@ function ExtendedKey(props: BmpExtendedKeyProp) {
     case ExtendedKind.LAYER_TAP_EXTENDED:
       return LteExtend(props);
     case ExtendedKind.TAP_DANCE_DOUBLE:
-      return TddExtend(props);
     case ExtendedKind.TAP_DANCE_HOLD:
-      return TdhExtend(props);
+      return TwoKeyCombinationExtend(props);
+    case ExtendedKind.COMBO:
+      return ComboExtend(props);
     default:
       return <div></div>;
   }
@@ -317,15 +318,15 @@ function LteExtend(props: BmpExtendedKeyProp) {
   );
 }
 
-function TddExtend(props: BmpExtendedKeyProp) {
+function TwoKeyCombinationExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const tdd = new BmpExtendedKeycodeTdd(newKeycode);
+  const combination = new BmpExtendedKeycodeTwoKeyCombination(newKeycode);
   const handleDrop1 = (dropped: Key) => {
-    tdd.setKey1(dropped.keymap.code);
+    combination.setKey1(dropped.keymap.code);
     props.onChange(newKeycode);
   };
   const handleDrop2 = (dropped: Key) => {
-    tdd.setKey2(dropped.keymap.code);
+    combination.setKey2(dropped.keymap.code);
     props.onChange(newKeycode);
   };
 
@@ -333,12 +334,12 @@ function TddExtend(props: BmpExtendedKeyProp) {
     <div>
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
-          keymap={tdd.getKey1(props.labelLang)}
+          keymap={combination.getKey1(props.labelLang)}
           labelLang={props.labelLang}
           onChange={handleDrop1}
         />
         <ExtendedKeyElement
-          keymap={tdd.getKey2(props.labelLang)}
+          keymap={combination.getKey2(props.labelLang)}
           labelLang={props.labelLang}
           onChange={handleDrop2}
         />
@@ -347,15 +348,19 @@ function TddExtend(props: BmpExtendedKeyProp) {
   );
 }
 
-function TdhExtend(props: BmpExtendedKeyProp) {
+function ComboExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const tdh = new BmpExtendedKeycodeTdh(newKeycode);
+  const combo = new BmpExtendedKeycodeCombo(newKeycode);
   const handleDrop1 = (dropped: Key) => {
-    tdh.setKey1(dropped.keymap.code);
+    combo.setKey1(dropped.keymap.code);
     props.onChange(newKeycode);
   };
   const handleDrop2 = (dropped: Key) => {
-    tdh.setKey2(dropped.keymap.code);
+    combo.setKey2(dropped.keymap.code);
+    props.onChange(newKeycode);
+  };
+  const handleDrop3 = (dropped: Key) => {
+    combo.setKey3(dropped.keymap.code);
     props.onChange(newKeycode);
   };
 
@@ -363,14 +368,19 @@ function TdhExtend(props: BmpExtendedKeyProp) {
     <div>
       <div className="bmp-extended-keycode-editor-key-area">
         <ExtendedKeyElement
-          keymap={tdh.getKey1(props.labelLang)}
+          keymap={combo.getKey1(props.labelLang)}
           labelLang={props.labelLang}
           onChange={handleDrop1}
         />
         <ExtendedKeyElement
-          keymap={tdh.getKey2(props.labelLang)}
+          keymap={combo.getKey2(props.labelLang)}
           labelLang={props.labelLang}
           onChange={handleDrop2}
+        />
+        <ExtendedKeyElement
+          keymap={combo.getKey3(props.labelLang)}
+          labelLang={props.labelLang}
+          onChange={handleDrop3}
         />
       </div>
     </div>
