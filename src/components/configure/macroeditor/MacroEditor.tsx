@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import React, { useState } from 'react';
+import React, { KeyboardEvent, useState } from 'react';
 import './MacroEditor.scss';
 import {
   MacroEditorActionsType,
@@ -8,7 +8,7 @@ import {
 } from './MacroEditor.container';
 import { Button } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import { Key } from '../keycodekey/KeyGen';
+import { genKey, Key } from '../keycodekey/KeyGen';
 import {
   Hold,
   MacroHold,
@@ -21,6 +21,7 @@ import {
 } from '../../../services/macro/Macro';
 import lodash from 'lodash';
 import FlashButton, { FlashButtonState } from '../../common/flash/FlashButton';
+import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
 
 const KEY_DIFF_HEIGHT = 78;
 
@@ -70,6 +71,20 @@ export default class MacroEditor extends React.Component<
 
     hold.keys.splice(indexInHold, 0, newKey);
     this.props.updateMacroKeys!(macroKeys);
+  }
+
+  private addTapKeys(index: number, newKeys: Key[]) {
+    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    const taps: Tap[] = newKeys.map((v) => {
+      return { key: v, type: MacroTap };
+    });
+    macroKeys.splice(index, 0, ...taps);
+    this.props.updateMacroKeys!(macroKeys);
+  }
+
+  private popKey() {
+    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    this.props.updateMacroKeys!(macroKeys.slice(0, -1));
   }
 
   private clearDraggingState() {
@@ -277,6 +292,51 @@ export default class MacroEditor extends React.Component<
     this.props.updateMacroKeys!(newKeys);
   }
 
+  onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    const key = e.key;
+    if (key.toLowerCase() === 'v' && (e.ctrlKey || e.metaKey)) {
+      // ignore paste shortcut
+      return;
+    } else if (key === 'Backspace') {
+      this.popKey();
+      return;
+    } else if (key.length != 1) {
+      return;
+    }
+
+    const keycodeCompositionFactory = new KeycodeCompositionFactory(
+      key.charCodeAt(0),
+      this.props.labelLang!
+    );
+
+    if (keycodeCompositionFactory.isAscii()) {
+      const asciiComposition =
+        keycodeCompositionFactory.createAsciiKeycodeComposition();
+      const keymap = asciiComposition.genKeymap()!;
+      const key = genKey(keymap, this.props.labelLang);
+      this.addKey(this.props.macroKeys?.length ?? 0, NaN, key);
+    }
+  }
+
+  onPaste(text: string) {
+    const keys = text
+      .split('')
+      .map((c) => {
+        return new KeycodeCompositionFactory(
+          c.charCodeAt(0),
+          this.props.labelLang!
+        );
+      })
+      .filter((c) => c.isAscii())
+      .map((c) => {
+        const asciiComposition = c.createAsciiKeycodeComposition();
+        const keymap = asciiComposition.genKeymap()!;
+        const key = genKey(keymap, this.props.labelLang);
+        return key;
+      });
+    this.addTapKeys(this.props.macroKeys?.length ?? 0, keys);
+  }
+
   render() {
     let flashButtonState: FlashButtonState = this.state.flashButtonState;
 
@@ -321,6 +381,13 @@ export default class MacroEditor extends React.Component<
             <div
               className="macro-editor-content-keys"
               style={{ maxHeight: this.props.keyboardHeight! }}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                this.onKeyDown(e);
+              }}
+              onPaste={(e) => {
+                this.onPaste(e.clipboardData.getData('text/plain'));
+              }}
             >
               {this.props.macroKeys!.map((macroKey, index) => {
                 if (macroKey.type === MacroTap) {
@@ -702,7 +769,7 @@ function DropKeyArea(props: DropKeyAreaProps) {
           onDragOver && 'drag-over-left',
         ].join(' ')}
       >
-        {props.noKeys ? 'Please drop a keycode here!' : ''}
+        {props.noKeys ? 'Please drop a keycode or enter text here!' : ''}
       </div>
     </div>
   );
