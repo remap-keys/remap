@@ -14,6 +14,7 @@ import {
   BmpExtendedKeycodeCombo,
   ExtendedKind,
   IBmpExtendedKeycode,
+  BmpExtendedKeycode,
 } from '../../../services/hid/bmp/BmpExtendedKeycode';
 import lodash from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -122,7 +123,9 @@ function ExtendedKindSelect(props: {
       onChange={(e) => {
         const extendedKeycode = lodash.cloneDeep(props.extendedKeycode);
         extendedKeycode.changeKind(e.target.value as ExtendedKind);
-        props.onChange(extendedKeycode);
+        props.onChange(
+          BmpExtendedKeycode.createExtendedKeycode(extendedKeycode.getBytes())
+        );
       }}
     >
       {Object.keys(ExtendedKind)
@@ -262,7 +265,7 @@ function LayerInput(
 
 function TltExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const tlt = new BmpExtendedKeycodeTlt(newKeycode);
+  const tlt = new BmpExtendedKeycodeTlt(newKeycode.getBytes());
   const handleDrop = (dropped: Key) => {
     tlt.setKey(dropped.keymap.code);
     props.onChange(newKeycode);
@@ -296,7 +299,7 @@ function TltExtend(props: BmpExtendedKeyProp) {
 
 function LteExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const lte = new BmpExtendedKeycodeLte(newKeycode);
+  const lte = new BmpExtendedKeycodeLte(newKeycode.getBytes());
   const handleDrop = (dropped: Key) => {
     lte.setKey(dropped.keymap.code);
     props.onChange(newKeycode);
@@ -320,7 +323,9 @@ function LteExtend(props: BmpExtendedKeyProp) {
 
 function TwoKeyCombinationExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const combination = new BmpExtendedKeycodeTwoKeyCombination(newKeycode);
+  const combination = new BmpExtendedKeycodeTwoKeyCombination(
+    newKeycode.getBytes()
+  );
   const handleDrop1 = (dropped: Key) => {
     combination.setKey1(dropped.keymap.code);
     props.onChange(newKeycode);
@@ -350,7 +355,7 @@ function TwoKeyCombinationExtend(props: BmpExtendedKeyProp) {
 
 function ComboExtend(props: BmpExtendedKeyProp) {
   const newKeycode = lodash.cloneDeep(props.extendedKeycode);
-  const combo = new BmpExtendedKeycodeCombo(newKeycode);
+  const combo = new BmpExtendedKeycodeCombo(newKeycode.getBytes());
   const handleDrop1 = (dropped: Key) => {
     combo.setKey1(dropped.keymap.code);
     props.onChange(newKeycode);

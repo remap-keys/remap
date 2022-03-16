@@ -148,7 +148,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
 
   get basicKeymapsWithBmp() {
     if (this.props.bleMicroPro) {
-      const extendKeymaps = KeyCategory.bmp();
+      const extendKeymaps = KeyCategory.bmp(this.props.labelLang);
       return [...this.getBasicKeymaps(), ...extendKeymaps];
     } else {
       return this.getBasicKeymaps();

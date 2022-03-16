@@ -21,6 +21,7 @@ import {
   MacroBuffer,
 } from '../../../services/macro/Macro';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
+import { IBmpExtendedKeycode } from '../../../services/hid/bmp/BmpExtendedKeycode';
 
 type OwnProps = {};
 
@@ -53,12 +54,17 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
   private addBmpCategory(
     categoryKeys: { [category: string]: Key[] },
+    bmpExtendedKeycodes: {
+      [id: number]: IBmpExtendedKeycode;
+    },
     macroEditMode: boolean
   ) {
     const bmpLabel: string = CATEGORY_LABEL_BMP;
     const bmp = macroEditMode
-      ? macroCodeFilter(KeyCategory.bmp())
-      : KeyCategory.bmp();
+      ? macroCodeFilter(
+          KeyCategory.bmp(this.props.labelLang!, bmpExtendedKeycodes)
+        )
+      : KeyCategory.bmp(this.props.labelLang!, bmpExtendedKeycodes);
     if (!Object.prototype.hasOwnProperty.call(categoryKeys, bmpLabel)) {
       categoryKeys[bmpLabel] = genKeys(bmp, this.props.labelLang!);
     }
@@ -194,7 +200,11 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       Midi: genKeys(midi, this.props.labelLang!),
     };
     if (this.props.bleMicroPro && !macroEditMode) {
-      this.addBmpCategory(categoryKeys, macroEditMode);
+      this.addBmpCategory(
+        categoryKeys,
+        this.props.bmpExtendedKeycodes!,
+        macroEditMode
+      );
     } else {
       this.removeBmpCategory(categoryKeys);
     }
@@ -243,7 +253,8 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
   componentDidUpdate(prevProps: KeycodesProps) {
     if (
       this.props.labelLang != prevProps.labelLang ||
-      this.props.macroKey != prevProps.macroKey
+      this.props.macroKey != prevProps.macroKey ||
+      this.props.bmpExtendedKeycodes != prevProps.bmpExtendedKeycodes
     ) {
       const isMacroEditMode = Boolean(this.props.macroKey);
       this.refreshCategoryKeys(prevProps.labelLang || 'en-us', isMacroEditMode);

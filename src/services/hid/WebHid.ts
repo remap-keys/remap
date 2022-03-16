@@ -738,7 +738,9 @@ export class Keyboard implements IKeyboard {
           if (result.success) {
             resolve({
               success: true,
-              extendedKeycode: new BmpExtendedKeycode(result.response!.buffer),
+              extendedKeycode: BmpExtendedKeycode.createExtendedKeycode(
+                result.response!.buffer
+              ),
             });
           } else {
             resolve({

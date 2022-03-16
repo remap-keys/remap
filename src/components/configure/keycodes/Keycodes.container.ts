@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     layerCount: state.entities.device.layerCount,
     labelLang: state.app.labelLang,
     bleMicroPro: state.entities.device.bleMicroPro,
+    bmpExtendedKeycodes: state.entities.device.extendedKeycode,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     macroBufferBytes: state.entities.device.macro.bufferBytes,
     macroMaxBufferSize: state.entities.device.macro.maxBufferSize,

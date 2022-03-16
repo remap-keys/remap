@@ -46,6 +46,7 @@ import {
   BMP_EXTENDED_MIN,
   BMP_EXTENDED_MAX,
 } from './bmp/KeycodeInfoListBmp';
+import { IBmpExtendedKeycode } from './bmp/BmpExtendedKeycode';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
@@ -1486,7 +1487,12 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       });
   }
 
-  static genExtendsBmpExKeymaps(): IKeymap[] {
+  static genExtendsBmpExKeymaps(
+    labelLang: KeyboardLabelLang,
+    extendedKeycodes?: {
+      [id: number]: IBmpExtendedKeycode;
+    }
+  ): IKeymap[] {
     return bmpKeyInfoList
       .filter(
         (k) =>
@@ -1494,6 +1500,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
           k.keycodeInfo.code <= BMP_EXTENDED_MAX
       )
       .map((info) => {
+        const id = info.keycodeInfo.code - BMP_EXTENDED_MIN;
         return {
           code: info.keycodeInfo.code,
           isAny: false,
@@ -1501,7 +1508,9 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
           modifiers: [],
           keycodeInfo: info.keycodeInfo,
           kinds: ['extends', 'bmp-extended'],
-          desc: 'Extended keycode',
+          desc: extendedKeycodes
+            ? extendedKeycodes[id]?.getDescription(labelLang)
+            : '',
         };
       });
   }
@@ -1969,7 +1978,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     if (keymap === undefined) {
       keymap = [
         ...LooseKeycodeComposition.genExtendsBmpKeymaps(),
-        ...LooseKeycodeComposition.genExtendsBmpExKeymaps(),
+        ...LooseKeycodeComposition.genExtendsBmpExKeymaps(this.labelLang),
       ].find((km) => km.code === this.code);
     }
 

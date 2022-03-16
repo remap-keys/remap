@@ -189,7 +189,9 @@ export const mockIKeyboad: IKeyboard = {
     return new Promise((resolve) => {
       resolve({
         success: true,
-        extendedKeycode: new BmpExtendedKeycode(new Uint8Array(6)),
+        extendedKeycode: BmpExtendedKeycode.createExtendedKeycode(
+          new Uint8Array(6)
+        ),
       });
     });
   },
