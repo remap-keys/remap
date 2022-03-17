@@ -209,6 +209,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
                       {...keycap}
                       focus={false}
                       down={false}
+                      isCustomKeyOpen={false}
                     />
                   );
                 })}

@@ -27,21 +27,14 @@ const mapDispatchToProps = (_dispatch: any) => {
       orgKey: Key,
       dstKey: Key | null
     ) => {
-      if (isSelectedKey) {
-        // toggle selected keycap
-        _dispatch(KeydiffActions.clearKeydiff());
-        _dispatch(KeymapActions.clearSelectedPos());
-
-        return;
-      }
-
-      // set new selected Position and show key diff
       if (dstKey) {
+        // show key diff
         _dispatch(KeydiffActions.updateKeydiff(orgKey.keymap, dstKey.keymap));
-      } else {
+      } else if (!isSelectedKey) {
+        // clear diff display
         _dispatch(KeydiffActions.clearKeydiff());
       }
-
+      // set new selected Position and
       _dispatch(KeymapActions.updateSelectedPos(pos));
     },
     onDropKeycode: (

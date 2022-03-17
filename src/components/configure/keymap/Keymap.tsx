@@ -25,6 +25,7 @@ import {
 } from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 import LayerPagination from '../../common/layer/LayerPagination';
+import KeyEventCapture from '../keyEventCapture/keyEventCapture';
 
 export type LayoutOption = {
   option: number;
@@ -80,10 +81,6 @@ export default class Keymap extends React.Component<
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
     });
-
-    if (this.props.keydiff!.destination === null) {
-      this.props.clearSelectedPos!();
-    }
   }
 
   private onClickKeycapForTestMatrix(pos: string) {
@@ -216,7 +213,14 @@ export default class Keymap extends React.Component<
     );
 
     return (
-      <React.Fragment>
+      <KeyEventCapture
+        labelLang={this.props.labelLang!}
+        selectedLayer={this.props.selectedLayer!}
+        selectedPos={this.props.selectedPos!}
+        onKeyDown={this.props.onKeyDown!}
+        isTestMatrix={this.props.testMatrix!}
+        keyModels={keyboardViewContent.keymaps}
+      >
         {(this.props.draggingKey || this.props.testMatrix) && (
           <div className="dragMask"></div>
         )}
@@ -282,6 +286,7 @@ export default class Keymap extends React.Component<
             setKeyboardSize={(width, height) => {
               this.props.setKeyboardSize!(width, height);
             }}
+            isCustomKeyOpen={Boolean(this.state.selectedPos)}
             onClickKeycap={(pos, key, ref) => {
               if (this.props.testMatrix) {
                 this.onClickKeycapForTestMatrix(pos);
@@ -306,7 +311,7 @@ export default class Keymap extends React.Component<
             }}
           />
         </div>
-      </React.Fragment>
+      </KeyEventCapture>
     );
   }
 }
@@ -385,6 +390,7 @@ type KeyboardViewType = {
   keyboardHeight: number;
   testedMatrix: string[];
   currentTestMatrix: string[];
+  isCustomKeyOpen: boolean;
   onClickKeycap: (
     // eslint-disable-next-line no-unused-vars
     pos: string,
@@ -447,6 +453,7 @@ export function KeyboardView(props: KeyboardViewType) {
                 }}
                 focus={keycap.focus}
                 down={keycap.down}
+                isCustomKeyOpen={props.isCustomKeyOpen}
               />
             );
           })}

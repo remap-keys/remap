@@ -106,6 +106,7 @@ const genKeyboardView = (
                     {...keycap}
                     focus={false}
                     down={false}
+                    isCustomKeyOpen={false}
                   />
                 );
               })}
