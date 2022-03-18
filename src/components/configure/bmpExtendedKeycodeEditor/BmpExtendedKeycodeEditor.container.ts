@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardWidth: state.app.keyboardWidth,
     keyboardHeight: state.app.keyboardHeight,
     labelLang: state.app.labelLang,
+    layerCount: state.entities.device.layerCount,
   };
 };
 export type BmpExtendedKeycodeEditorStateType = ReturnType<
@@ -23,10 +24,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     closeBmpExtendedKeycodeEditor: () => {
       _dispatch(BmpExtendedKeycodeEditorActions.clearExtendedKey());
     },
-    updateBmpExtendedKeycode: (
-      id: number,
-      extendedKeycode: IBmpExtendedKeycode
-    ) => {
+    updateBmpExtendedKeycode: (extendedKeycode: IBmpExtendedKeycode) => {
       _dispatch(
         BmpExtendedKeycodeEditorActions.updateExtendedKeycode(extendedKeycode)
       );

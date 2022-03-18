@@ -59,10 +59,7 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
               <ExtendedKindSelect
                 extendedKeycode={this.props.extendedKeycode!}
                 onChange={(value) => {
-                  this.props.updateBmpExtendedKeycode!(
-                    this.props.extendedKeyId!,
-                    value
-                  );
+                  this.props.updateBmpExtendedKeycode!(value);
                 }}
               ></ExtendedKindSelect>
 
@@ -70,12 +67,8 @@ export default class BmpExtendedKeycodeEditor extends React.Component<
                 <ExtendedKey
                   extendedKeycode={this.props.extendedKeycode!}
                   labelLang={this.props.labelLang!}
-                  onChange={(key) =>
-                    this.props.updateBmpExtendedKeycode!(
-                      this.props.extendedKeyId!,
-                      key
-                    )
-                  }
+                  layerCount={this.props.layerCount!}
+                  onChange={(key) => this.props.updateBmpExtendedKeycode!(key)}
                 ></ExtendedKey>
               </div>
             </div>
@@ -146,6 +139,7 @@ function ExtendedKindSelect(props: {
 interface BmpExtendedKeyProp {
   extendedKeycode: IBmpExtendedKeycode;
   labelLang: KeyboardLabelLang;
+  layerCount: number;
   onChange: (update: IBmpExtendedKeycode) => void;
 }
 
@@ -168,6 +162,7 @@ function ExtendedKey(props: BmpExtendedKeyProp) {
 function ExtendedKeyElement(props: {
   keymap: IKeymap;
   labelLang: KeyboardLabelLang;
+  layerCount: number;
   onChange: (key: Key) => void;
 }) {
   const [onDragOver, setOnDragOver] = useState(false);
@@ -233,7 +228,7 @@ function ExtendedKeyElement(props: {
         open={openCustomKey}
         position={popoverPosition}
         value={genKey(props.keymap)}
-        layerCount={0}
+        layerCount={props.layerCount}
         labelLang={props.labelLang}
         bleMicroPro={true}
         onClose={() => {
@@ -291,6 +286,7 @@ function TltExtend(props: BmpExtendedKeyProp) {
       <ExtendedKeyElement
         keymap={tlt.getKey(props.labelLang)}
         labelLang={props.labelLang}
+        layerCount={props.layerCount}
         onChange={handleDrop}
       />
     </div>
@@ -315,6 +311,7 @@ function LteExtend(props: BmpExtendedKeyProp) {
       <ExtendedKeyElement
         keymap={lte.getKey(props.labelLang)}
         labelLang={props.labelLang}
+        layerCount={props.layerCount}
         onChange={handleDrop}
       />
     </div>
@@ -341,11 +338,13 @@ function TwoKeyCombinationExtend(props: BmpExtendedKeyProp) {
         <ExtendedKeyElement
           keymap={combination.getKey1(props.labelLang)}
           labelLang={props.labelLang}
+          layerCount={props.layerCount}
           onChange={handleDrop1}
         />
         <ExtendedKeyElement
           keymap={combination.getKey2(props.labelLang)}
           labelLang={props.labelLang}
+          layerCount={props.layerCount}
           onChange={handleDrop2}
         />
       </div>
@@ -375,16 +374,19 @@ function ComboExtend(props: BmpExtendedKeyProp) {
         <ExtendedKeyElement
           keymap={combo.getKey1(props.labelLang)}
           labelLang={props.labelLang}
+          layerCount={props.layerCount}
           onChange={handleDrop1}
         />
         <ExtendedKeyElement
           keymap={combo.getKey2(props.labelLang)}
           labelLang={props.labelLang}
+          layerCount={props.layerCount}
           onChange={handleDrop2}
         />
         <ExtendedKeyElement
           keymap={combo.getKey3(props.labelLang)}
           labelLang={props.labelLang}
+          layerCount={props.layerCount}
           onChange={handleDrop3}
         />
       </div>
