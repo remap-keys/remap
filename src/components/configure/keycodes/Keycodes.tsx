@@ -9,7 +9,10 @@ import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { genKeys, Key } from '../keycodekey/KeyGen';
-import { CATEGORY_LABEL_BMP } from '../../../services/hid/bmp/KeycodeInfoListBmp';
+import {
+  BMP_EXTENDED_MIN,
+  CATEGORY_LABEL_BMP,
+} from '../../../services/hid/bmp/KeycodeInfoListBmp';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import {
   CATEGORY_LABEL_ASCII,
@@ -284,7 +287,10 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     let categoryKeys: { [name: string]: JSX.Element[] } = {};
     keys.forEach((key, index) => {
       const isMacro = key.keymap.kinds.includes('macro');
-      const isBmpExtended = key.keymap.kinds.includes('bmp-extended');
+      const isEditableBmpExtended =
+        key.keymap.kinds.includes('bmp-extended') &&
+        key.keymap.code - BMP_EXTENDED_MIN <
+          this.props.bmpExtendedKeycodes!.maxCount!;
       const subCategoryName: KeymapCategory =
         key.keymap.kinds[key.keymap.kinds.length - 1];
       if (
@@ -299,7 +305,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           key={`${this.state.category}${index}`}
           value={key}
           draggable={true}
-          clickable={(isMacro || isBmpExtended) && !macrEditMode}
+          clickable={(isMacro || isEditableBmpExtended) && !macrEditMode}
         />
       );
     });
