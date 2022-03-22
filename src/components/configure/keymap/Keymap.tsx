@@ -220,6 +220,7 @@ export default class Keymap extends React.Component<
         onKeyDown={this.props.onKeyDown!}
         isTestMatrix={this.props.testMatrix!}
         keyModels={keyboardViewContent.keymaps}
+        keymaps={deviceKeymaps}
       >
         {(this.props.draggingKey || this.props.testMatrix) && (
           <div className="dragMask"></div>

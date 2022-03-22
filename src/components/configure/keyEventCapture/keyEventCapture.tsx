@@ -1,6 +1,7 @@
 import React from 'react';
 import KeyModel from '../../../models/KeyModel';
 import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
+import { IKeymap } from '../../../services/hid/Hid';
 import { keyInfoList } from '../../../services/hid/KeycodeInfoList';
 import {
   KeyboardLabelLang,
@@ -16,6 +17,8 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     newKey: Key,
     // eslint-disable-next-line no-unused-vars
+    oldKeycode: number,
+    // eslint-disable-next-line no-unused-vars
     selectedLayer: number,
     // eslint-disable-next-line no-unused-vars
     selectedPos: string,
@@ -24,6 +27,7 @@ type OwnProps = {
   ) => void;
   isTestMatrix: boolean;
   keyModels: KeyModel[];
+  keymaps: { [pos: string]: IKeymap };
 };
 type KeyEventCaptureProps = OwnProps;
 
@@ -54,6 +58,7 @@ export default class KeyEventCapture extends React.Component<
 
     this.props.onKeyDown!(
       newKey,
+      this.props.keymaps[this.props.selectedPos].code,
       this.props.selectedLayer,
       this.props.selectedPos,
       nextPos
