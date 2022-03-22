@@ -25,7 +25,7 @@ import {
 } from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 import LayerPagination from '../../common/layer/LayerPagination';
-import KeyEventCapture from '../keyEventCapture/keyEventCapture';
+import KeyEventCapture from '../keyeventcapture/KeyEventCapture';
 
 export type LayoutOption = {
   option: number;
