@@ -23,10 +23,8 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
   Toolbar,
   Typography,
-  Alert,
 } from '@mui/material';
 
 type IFeatureCardProps = {
