@@ -87,12 +87,13 @@ const mapDispatchToProps = (_dispatch: any) => {
       newKey: Key,
       oldKeycode: number,
       selectedLayer: number,
-      pos: string,
-      nextPos: string
+      pos: string
     ) => {
       if (newKey.keymap.code != oldKeycode) {
         _dispatch(AppActions.remapsSetKey(selectedLayer, pos, newKey.keymap));
       }
+    },
+    onKeyUp: (nextPos: string) => {
       _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(KeymapActions.updateSelectedPos(nextPos));
     },

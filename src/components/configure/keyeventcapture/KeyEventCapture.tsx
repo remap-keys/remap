@@ -1,13 +1,19 @@
 import React from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
+import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { keyInfoList } from '../../../services/hid/KeycodeInfoList';
 import {
   KeyboardLabelLang,
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
 import { genKey, Key } from '../keycodekey/KeyGen';
+import {
+  MOD_ALT,
+  MOD_CTL,
+  MOD_GUI,
+  MOD_SFT,
+} from '../../../services/hid/Composition';
 
 type OwnProps = {
   labelLang: KeyboardLabelLang;
@@ -21,17 +27,17 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     selectedLayer: number,
     // eslint-disable-next-line no-unused-vars
-    selectedPos: string,
-    // eslint-disable-next-line no-unused-vars
-    nextPos: string
+    selectedPos: string
   ) => void;
+  // eslint-disable-next-line no-unused-vars
+  onKeyUp: (nextPos: string) => void;
   isTestMatrix: boolean;
   keyModels: KeyModel[];
   keymaps: { [pos: string]: IKeymap };
 };
 type KeyEventCaptureProps = OwnProps;
 
-type OwnState = {};
+type OwnState = { holdingKeyCount: number };
 
 export default class KeyEventCapture extends React.Component<
   KeyEventCaptureProps,
@@ -39,14 +45,37 @@ export default class KeyEventCapture extends React.Component<
 > {
   constructor(props: KeyEventCaptureProps | Readonly<KeyEventCaptureProps>) {
     super(props);
+    this.state = { holdingKeyCount: 0 };
   }
-  private onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+  onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.repeat || (e.target as HTMLElement).tagName === 'INPUT') {
       return;
     }
+    e.preventDefault();
 
     const newKey = this.keycodeFromKeyboardEvent(e);
     if (!newKey) {
+      return;
+    }
+
+    this.props.onKeyDown!(
+      newKey,
+      this.props.keymaps[this.props.selectedPos].code,
+      this.props.selectedLayer,
+      this.props.selectedPos
+    );
+
+    this.setState({ holdingKeyCount: this.state.holdingKeyCount + 1 });
+  }
+
+  onKeyUp() {
+    if (this.state.holdingKeyCount == 0) {
+      return;
+    }
+
+    const holdingKeyCount = this.state.holdingKeyCount - 1;
+    this.setState({ holdingKeyCount: holdingKeyCount });
+    if (holdingKeyCount != 0) {
       return;
     }
 
@@ -55,17 +84,11 @@ export default class KeyEventCapture extends React.Component<
     );
     const nextIndex = (currentIndex + 1) % this.props.keyModels.length;
     const nextPos = this.props.keyModels[nextIndex].pos;
-
-    this.props.onKeyDown!(
-      newKey,
-      this.props.keymaps[this.props.selectedPos].code,
-      this.props.selectedLayer,
-      this.props.selectedPos,
-      nextPos
-    );
+    this.props.onKeyUp(nextPos);
   }
 
   keycodeFromKeyboardEvent(e: React.KeyboardEvent<HTMLDivElement>): Key | null {
+    // Modify e.key to find from KeyLabels
     let keyString =
       e.location == KeyboardEvent.DOM_KEY_LOCATION_LEFT
         ? `l${e.key}`
@@ -78,42 +101,35 @@ export default class KeyEventCapture extends React.Component<
         : e.key === ' '
         ? `Space`
         : e.key;
+    keyString = keyString.toLowerCase();
     const keyLabels = KeyLabelLangs.getKeyLabels(this.props.labelLang!);
-    let info = keyLabels.find(
-      (k) =>
-        k.label === keyString.toLowerCase() ||
-        k.keywords?.some((k) => k === keyString.toLowerCase())
+    let code = keyLabels.find(
+      (k) => k.label === keyString || k.keywords?.some((k) => k === keyString)
     )?.code;
 
-    if (!info) {
-      info = keyInfoList.find(
+    if (!code) {
+      code = keyInfoList.find(
         (k) =>
           k.keycodeInfo.label
             .toLowerCase()
-            .split(' ')
-            .join('')
-            .toLowerCase() === keyString.toLowerCase() ||
+            .replaceAll(' ', '')
+            .toLowerCase() === keyString ||
           k.keycodeInfo.keywords.some(
-            (keyword) => keyword.toLowerCase() === keyString.toLowerCase()
+            (keyword) => keyword.toLowerCase() === keyString
           )
       )?.keycodeInfo.code;
 
-      if (!info) {
+      if (!code) {
         return null;
       }
     }
 
-    const compositionFactory = new KeycodeCompositionFactory(
-      info,
-      this.props.labelLang!
-    );
+    if (e.key !== 'Control' && e.ctrlKey) code |= MOD_CTL << 8;
+    if (e.key !== 'Shift' && e.shiftKey) code |= MOD_SFT << 8;
+    if (e.key !== 'Alt' && e.altKey) code |= MOD_ALT << 8;
+    if (e.key !== 'Meta' && e.metaKey) code |= MOD_GUI << 8;
 
-    if (!compositionFactory.isBasic()) {
-      return null;
-    }
-
-    const keymap = compositionFactory.createBasicComposition().genKeymap();
-
+    const keymap = KeycodeList.getKeymap(code, this.props.labelLang);
     if (!keymap) {
       return null;
     }
@@ -129,6 +145,14 @@ export default class KeyEventCapture extends React.Component<
           if (!this.props.isTestMatrix) {
             this.onKeyDown(e);
           }
+        }}
+        onKeyUp={() => {
+          if (!this.props.isTestMatrix) {
+            this.onKeyUp();
+          }
+        }}
+        onBlur={() => {
+          this.setState({ holdingKeyCount: 0 });
         }}
         style={{ outline: 'none' }}
       >

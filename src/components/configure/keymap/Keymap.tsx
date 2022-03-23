@@ -218,6 +218,7 @@ export default class Keymap extends React.Component<
         selectedLayer={this.props.selectedLayer!}
         selectedPos={this.props.selectedPos!}
         onKeyDown={this.props.onKeyDown!}
+        onKeyUp={this.props.onKeyUp!}
         isTestMatrix={this.props.testMatrix!}
         keyModels={keyboardViewContent.keymaps}
         keymaps={deviceKeymaps}
