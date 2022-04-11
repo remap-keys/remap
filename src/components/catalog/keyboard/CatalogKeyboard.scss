@@ -30,18 +30,6 @@
     width: 100%;
   }
 
-  &-header {
-    background-color: $primary;
-    color: white;
-    padding: 16px;
-    margin-bottom: 16px;
-
-    & h1 {
-      font-size: 32px;
-      font-weight: bold;
-    }
-  }
-
   @include mq(sm) {
     &-header {
       padding: 8px;

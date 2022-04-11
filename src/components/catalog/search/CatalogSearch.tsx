@@ -5,6 +5,7 @@ import {
 } from './CatalogSearch.container';
 import './CatalogSearch.scss';
 import {
+  Avatar,
   Grid,
   Card,
   CardContent,
@@ -16,6 +17,7 @@ import {
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import {
   getGitHubUserDisplayName,
+  getGitHubUserName,
   IKeyboardDefinitionDocument,
   IOrganization,
 } from '../../../services/storage/Storage';
@@ -202,10 +204,19 @@ function KeyboardCard(props: KeyboardCardProps) {
     return true;
   };
 
+  const isIndividual = props.definition.authorType === 'individual';
+  const organization: IOrganization =
+    props.organizationMap[props.definition.organizationId!];
   const designerName =
-    !props.definition.authorType || props.definition.authorType === 'individual'
+    !props.definition.authorType || isIndividual
       ? getGitHubUserDisplayName(props.definition)
-      : props.organizationMap[props.definition.organizationId!].name;
+      : organization.name;
+  const designerIconImageUrl =
+    !props.definition.authorType || isIndividual
+      ? `https://avatars.githubusercontent.com/${getGitHubUserName(
+          props.definition
+        )}`
+      : organization.icon_image_url;
 
   return (
     <Card className="catalog-search-result-card">
@@ -236,6 +247,9 @@ function KeyboardCard(props: KeyboardCardProps) {
           <div className="catalog-search-result-card-wrapper">
             <div className="catalog-search-result-card-content">
               <div className="catalog-search-result-card-header">
+                <div className="catalog-search-result-card-icon">
+                  <Avatar alt={designerName} src={designerIconImageUrl} />
+                </div>
                 <div className="catalog-search-result-card-header-name-container">
                   <h2 className="catalog-search-result-card-name">
                     {props.definition.name}
