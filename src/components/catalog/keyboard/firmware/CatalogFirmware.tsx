@@ -19,6 +19,7 @@ import moment from 'moment';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
 import FlashFirmwareDialog from './FlashFirmwareDialog.container';
+import { hexadecimal } from '../../../../utils/StringUtils';
 
 type CatalogFirmwareState = {
   supportedBrowser: boolean;
@@ -66,6 +67,28 @@ export default class CatalogFirmware extends React.Component<
       <React.Fragment>
         <div className="catalog-firmware-wrapper">
           <div className="catalog-firmware-container">
+            <div className="catalog-firmware-panel">
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h6">Device Information</Typography>
+                  <Typography variant="body2">
+                    <span className="catalog-firmware-device-info-item">
+                      Vendor ID:{' '}
+                      {hexadecimal(this.props.definitionDocument!.vendorId, 4)}
+                    </span>{' '}
+                    /{' '}
+                    <span className="catalog-firmware-device-info-item">
+                      Product ID:{' '}
+                      {hexadecimal(this.props.definitionDocument!.productId, 4)}
+                    </span>{' '}
+                    /{' '}
+                    <span className="catalog-firmware-device-info-item">
+                      PRODUCT: {this.props.definitionDocument!.productName}
+                    </span>
+                  </Typography>
+                </CardContent>
+              </Card>
+            </div>
             {this.props.definitionDocument!.firmwares.length > 0 ? (
               <div className="catalog-firmware-panel">
                 <div className="catalog-firmware-total-download-count">

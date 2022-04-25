@@ -23,7 +23,6 @@ import {
 } from '../../../services/storage/Storage';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
-import { hexadecimal } from '../../../utils/StringUtils';
 import FeatureList from '../../common/features/FeatureList';
 import CatalogSearchForm from './CatalogSearchForm.container';
 import CatalogSearchDialog from './CatalogSearchDialog';
@@ -255,10 +254,6 @@ function KeyboardCard(props: KeyboardCardProps) {
                     {props.definition.name}
                   </h2>
                   <div className="catalog-search-result-card-header-name-row">
-                    <Typography variant="caption">
-                      VID: {hexadecimal(props.definition.vendorId, 4)} / PID:{' '}
-                      {hexadecimal(props.definition.productId, 4)}
-                    </Typography>
                     <Typography variant="caption">
                       Designed by {designerName}
                     </Typography>
