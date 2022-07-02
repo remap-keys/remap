@@ -31,6 +31,9 @@
     z-index: 1;
     padding: 4px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    &:focus {
+      outline: 2px solid gray;
+    }
     .macro-hold-with-spacer {
       display: flex;
       flex-direction: row;

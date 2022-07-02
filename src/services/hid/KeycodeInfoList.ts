@@ -632,6 +632,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 48,
+      ascii: 93,
       name: {
         long: 'KC_RBRACKET',
         short: 'KC_RBRC',
@@ -3218,6 +3219,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '',
     keycodeInfo: {
       code: 563,
+      ascii: 58,
       name: {
         long: 'KC_COLON',
         short: 'KC_COLN',
