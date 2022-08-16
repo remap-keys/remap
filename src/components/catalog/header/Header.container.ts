@@ -29,6 +29,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActionsThunk.linkToGitHubAccount());
     },
     goToSearch: () => {
+      _dispatch(storageActionsThunk.fetchAllOrganizations());
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
       _dispatch(MetaActions.initialize());
     },
