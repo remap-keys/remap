@@ -11,6 +11,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import { Key } from '../keycodekey/KeyGen';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -81,6 +82,20 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     fetchSwitchMatrixState: () => {
       _dispatch(hidActionsThunk.fetchSwitchMatrixState());
+    },
+    onKeyDown: (
+      newKey: Key,
+      oldKeycode: number,
+      selectedLayer: number,
+      pos: string
+    ) => {
+      if (newKey.keymap.code != oldKeycode) {
+        _dispatch(AppActions.remapsSetKey(selectedLayer, pos, newKey.keymap));
+      }
+    },
+    onKeyUp: (nextPos: string) => {
+      _dispatch(KeydiffActions.clearKeydiff());
+      _dispatch(KeymapActions.updateSelectedPos(nextPos));
     },
   };
 };
