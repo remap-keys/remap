@@ -54,6 +54,11 @@ export default class KeyEventCapture extends React.Component<
     if (e.repeat || tagName === 'INPUT' || tagName === 'TEXTAREA') {
       return;
     }
+
+    if (!this.props.selectedPos) {
+      return;
+    }
+
     e.preventDefault();
 
     const newKey = this.keycodeFromKeyboardEvent(e);
