@@ -142,6 +142,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE,
 } from '../actions/keyboards.actions';
 import { MOD_LEFT } from '../services/hid/Composition';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
@@ -406,6 +407,9 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT:
       draft.keyboards.editdefinition.flashSupport = action.value;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE:
+      draft.keyboards.editdefinition.defaultBootloaderType = action.value;
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE:
       draft.keyboards.editdefinition.organizationEvidence = action.value;

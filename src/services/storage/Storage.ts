@@ -2,6 +2,7 @@ import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { IBootloaderType } from '../firmware/Types';
 
 export interface IResult {
   readonly success: boolean;
@@ -46,6 +47,7 @@ export interface IFirmware {
   filename: string;
   sourceCodeUrl: string;
   flash_support: boolean;
+  default_bootloader_type: IBootloaderType;
 }
 
 export type IKeyboardDefinitionAuthorType = 'individual' | 'organization';
@@ -347,6 +349,7 @@ export interface IStorage {
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType,
     keyboardName: string
   ): Promise<IResult>;
   fetchFirmwareFileBlob(
@@ -361,7 +364,8 @@ export interface IStorage {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
-    flashSupport: boolean
+    flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType
   ): Promise<IResult>;
 
   fetchOrganizationById(

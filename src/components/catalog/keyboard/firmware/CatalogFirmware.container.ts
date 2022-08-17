@@ -40,6 +40,11 @@ const mapDispatchToProps = (_dispatch: any) => {
     flashFirmwareDialog: {
       open: (firmware: IFirmware) => {
         _dispatch(FlashFirmwareDialogActions.clear());
+        _dispatch(
+          FlashFirmwareDialogActions.updateBootloaderType(
+            firmware.default_bootloader_type
+          )
+        );
         _dispatch(FlashFirmwareDialogActions.updateFirmware(firmware));
       },
       close: () => {

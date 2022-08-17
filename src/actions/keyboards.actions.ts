@@ -14,6 +14,7 @@ import {
   IStore,
 } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { IBootloaderType } from '../services/firmware/Types';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;
@@ -186,6 +187,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_DESCRIPTION = `${KEYBOARD
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FIRMWARE_SOURCE_CODE_URL = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFirmwareSourceCodeUrl`;
 export const KEYBOARDS_EDIT_DEFINITION_CLEAR_FIRMWARE_FORM = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/ClearFirmwareForm`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateFlashSupport`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateDefaultBootloaderType`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationId`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAuthorType`;
@@ -396,6 +398,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FLASH_SUPPORT,
       value: flashSupport,
+    };
+  },
+  updateDefaultBootloaderType: (defaultBootloaderType: IBootloaderType) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE,
+      value: defaultBootloaderType,
     };
   },
   updateOrganizationEvidence: (organizationEvidence: string) => {
