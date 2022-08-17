@@ -25,7 +25,7 @@ import {
 } from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 import LayerPagination from '../../common/layer/LayerPagination';
-import KeyEventCapture from '../keyeventcapture/KeyEventCapture';
+import KeyEventCapture from '../keyeventcapture/KeyEventCapture.container';
 
 export type LayoutOption = {
   option: number;
@@ -214,12 +214,8 @@ export default class Keymap extends React.Component<
 
     return (
       <KeyEventCapture
-        labelLang={this.props.labelLang!}
-        selectedLayer={this.props.selectedLayer!}
-        selectedPos={this.props.selectedPos!}
         onKeyDown={this.props.onKeyDown!}
         onKeyUp={this.props.onKeyUp!}
-        isTestMatrix={this.props.testMatrix!}
         keyModels={keyboardViewContent.keymaps}
         keymaps={deviceKeymaps}
       >

@@ -3,10 +3,7 @@ import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { keyInfoList } from '../../../services/hid/KeycodeInfoList';
-import {
-  KeyboardLabelLang,
-  KeyLabelLangs,
-} from '../../../services/labellang/KeyLabelLangs';
+import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import {
   MOD_ALT,
@@ -14,11 +11,13 @@ import {
   MOD_GUI,
   MOD_SFT,
 } from '../../../services/hid/Composition';
+import {
+  KeyEventCaptureActionsType,
+  KeyEventCaptureStateType,
+} from './KeyEventCapture.container';
+import './KeyEventCapture.scss';
 
 type OwnProps = {
-  labelLang: KeyboardLabelLang;
-  selectedLayer: number;
-  selectedPos: string;
   onKeyDown: (
     // eslint-disable-next-line no-unused-vars
     newKey: Key,
@@ -31,11 +30,13 @@ type OwnProps = {
   ) => void;
   // eslint-disable-next-line no-unused-vars
   onKeyUp: (nextPos: string) => void;
-  isTestMatrix: boolean;
   keyModels: KeyModel[];
   keymaps: { [pos: string]: IKeymap };
+  children?: React.ReactNode | React.ReactNode[];
 };
-type KeyEventCaptureProps = OwnProps;
+type KeyEventCaptureProps = OwnProps &
+  Partial<KeyEventCaptureStateType> &
+  Partial<KeyEventCaptureActionsType>;
 
 type OwnState = { holdingKeyCount: number };
 
@@ -47,6 +48,7 @@ export default class KeyEventCapture extends React.Component<
     super(props);
     this.state = { holdingKeyCount: 0 };
   }
+
   onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (e.repeat || (e.target as HTMLElement).tagName === 'INPUT') {
       return;
@@ -60,9 +62,9 @@ export default class KeyEventCapture extends React.Component<
 
     this.props.onKeyDown!(
       newKey,
-      this.props.keymaps[this.props.selectedPos].code,
-      this.props.selectedLayer,
-      this.props.selectedPos
+      this.props.keymaps[this.props.selectedPos!].code,
+      this.props.selectedLayer!,
+      this.props.selectedPos!
     );
 
     this.setState({ holdingKeyCount: this.state.holdingKeyCount + 1 });
@@ -129,7 +131,7 @@ export default class KeyEventCapture extends React.Component<
     if (e.key !== 'Alt' && e.altKey) code |= MOD_ALT << 8;
     if (e.key !== 'Meta' && e.metaKey) code |= MOD_GUI << 8;
 
-    const keymap = KeycodeList.getKeymap(code, this.props.labelLang);
+    const keymap = KeycodeList.getKeymap(code, this.props.labelLang!);
     if (!keymap) {
       return null;
     }
@@ -142,19 +144,19 @@ export default class KeyEventCapture extends React.Component<
       <div
         tabIndex={-1}
         onKeyDown={(e) => {
-          if (!this.props.isTestMatrix) {
+          if (!this.props.testMatrix!) {
             this.onKeyDown(e);
           }
         }}
         onKeyUp={() => {
-          if (!this.props.isTestMatrix) {
+          if (!this.props.testMatrix!) {
             this.onKeyUp();
           }
         }}
         onBlur={() => {
           this.setState({ holdingKeyCount: 0 });
         }}
-        style={{ outline: 'none' }}
+        className="key-event-capture"
       >
         {this.props.children}
       </div>
