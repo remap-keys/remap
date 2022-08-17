@@ -35,6 +35,7 @@ import { IDeviceInformation } from '../services/hid/Hid';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { CatalogAppActions } from './catalog.action';
 import * as qs from 'qs';
+import { IBootloaderType } from '../services/firmware/Types';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;
@@ -1275,6 +1276,8 @@ export const storageActionsThunk = {
       const firmwareSourceCodeUrl =
         keyboards.editdefinition.firmwareSourceCodeUrl;
       const flashSupport = keyboards.editdefinition.flashSupport;
+      const defaultBootloaderType =
+        keyboards.editdefinition.defaultBootloaderType;
       const definitionDocument = entities.keyboardDefinitionDocument!;
       const keyboardName = definitionDocument.name;
       const result = await storage.instance!.uploadFirmware(
@@ -1284,6 +1287,7 @@ export const storageActionsThunk = {
         firmwareDescription,
         firmwareSourceCodeUrl,
         flashSupport,
+        defaultBootloaderType,
         keyboardName
       );
       if (result.success) {
@@ -1357,7 +1361,8 @@ export const storageActionsThunk = {
       name: string,
       description: string,
       sourceCodeUrl: string,
-      flashSupport: boolean
+      flashSupport: boolean,
+      defaultBootloaderType: IBootloaderType
     ): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -1372,7 +1377,8 @@ export const storageActionsThunk = {
         name,
         description,
         sourceCodeUrl,
-        flashSupport
+        flashSupport,
+        defaultBootloaderType
       );
       if (result.success) {
         await dispatch(

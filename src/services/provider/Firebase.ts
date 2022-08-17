@@ -37,6 +37,7 @@ import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
+import { IBootloaderType } from '../firmware/Types';
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -91,6 +92,8 @@ export class FirebaseProvider implements IStorage, IAuth {
           sourceCodeUrl: firmware.source_code_url,
           created_at: firmware.created_at.toDate(),
           flash_support: firmware.flash_support || false,
+          default_bootloader_type:
+            firmware.default_bootloader_type || 'caterina',
         });
       });
     }
@@ -1058,6 +1061,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType,
     keyboardName: string,
     // eslint-disable-next-line no-unused-vars
     progress?: (uploadedRate: number) => void
@@ -1101,6 +1105,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             filename: filePath,
             hash,
             flash_support: flashSupport,
+            default_bootloader_type: defaultBootloaderType,
           };
           await this.db
             .collection('keyboards')
@@ -1222,7 +1227,8 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareName: string,
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
-    flashSupport: boolean
+    flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType
   ): Promise<IResult> {
     const definitionDocument = await this.db
       .collection('keyboards')
@@ -1241,6 +1247,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             x.description = firmwareDescription;
             x.source_code_url = firmwareSourceCodeUrl;
             x.flash_support = flashSupport;
+            x.default_bootloader_type = defaultBootloaderType;
           }
           return x;
         });

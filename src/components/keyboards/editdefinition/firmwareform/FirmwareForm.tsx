@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import { IFirmware } from '../../../../services/storage/Storage';
 import moment from 'moment';
+import { IBootloaderType } from '../../../../services/firmware/Types';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -110,14 +111,16 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     name: string,
     description: string,
     sourceCodeUrl: string,
-    flashSupport: boolean
+    flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType
   ) => {
     props.updateFirmware!(
       firmware,
       name,
       description,
       sourceCodeUrl,
-      flashSupport
+      flashSupport,
+      defaultBootloaderType
     );
   };
 
@@ -233,6 +236,28 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               </Select>
             </FormControl>
           </div>
+          {props.flashSupport ? (
+            <div className="edit-definition-firmware-form-row">
+              <FormControl>
+                <FormLabel component="legend">
+                  Default Bootloader Type
+                </FormLabel>
+                <Select
+                  value={props.defaultBootloaderType}
+                  onChange={(event) => {
+                    props.updateDefaultBootloaderType!(
+                      event.target.value as IBootloaderType
+                    );
+                  }}
+                >
+                  <MenuItem value="caterina">caterina</MenuItem>
+                  <MenuItem value="dfu">dfu</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          ) : (
+            ''
+          )}
           <div className="edit-definition-firmware-form-buttons">
             <Button
               color="primary"
@@ -307,7 +332,9 @@ type IFirmwareCardProps = {
     // eslint-disable-next-line no-unused-vars
     sourceCodeUrl: string,
     // eslint-disable-next-line no-unused-vars
-    flashSupport: boolean
+    flashSupport: boolean,
+    // eslint-disable-next-line no-unused-vars
+    defaultBootloaderType: IBootloaderType
   ) => void;
 };
 
@@ -327,7 +354,8 @@ function FirmwareCard(props: IFirmwareCardProps) {
     name: string,
     description: string,
     sourceCodeUrl: string,
-    flashSupport: boolean
+    flashSupport: boolean,
+    defaultBootloaderType: IBootloaderType
   ) => {
     setOpen(false);
     props.onClickEditDialogUpdate(
@@ -335,7 +363,8 @@ function FirmwareCard(props: IFirmwareCardProps) {
       name,
       description,
       sourceCodeUrl,
-      flashSupport
+      flashSupport,
+      defaultBootloaderType
     );
   };
 
@@ -355,6 +384,15 @@ function FirmwareCard(props: IFirmwareCardProps) {
             SHA256: {props.firmware.hash}
             <br />
             Flash Support: {props.firmware.flash_support ? 'Yes' : 'No'}
+            {props.firmware.flash_support ? (
+              <React.Fragment>
+                <br />
+                Default Bootloader Type:{' '}
+                {props.firmware.default_bootloader_type}
+              </React.Fragment>
+            ) : (
+              ''
+            )}
           </Typography>
         </CardContent>
         <CardActions className="edit-definition-firmware-form-card-buttons">
@@ -455,7 +493,9 @@ type IEditDialogProps = {
     // eslint-disable-next-line no-unused-vars
     sourceCodeUrl: string,
     // eslint-disable-next-line no-unused-vars
-    flashSupport: boolean
+    flashSupport: boolean,
+    // eslint-disable-next-line no-unused-vars
+    defaultBootloaderType: IBootloaderType
   ) => void;
 };
 
@@ -464,6 +504,8 @@ function EditDialog(props: IEditDialogProps) {
   const [description, setDescription] = useState<string>('');
   const [sourceCodeUrl, setSourceCodeUrl] = useState<string>('');
   const [flashSupport, setFlashSupport] = useState<boolean>(false);
+  const [defaultBootloaderType, setDefaultBootloaderType] =
+    useState<IBootloaderType>('caterina');
 
   useEffect(() => {
     if (props.open) {
@@ -471,6 +513,7 @@ function EditDialog(props: IEditDialogProps) {
       setDescription(props.firmware.description);
       setSourceCodeUrl(props.firmware.sourceCodeUrl);
       setFlashSupport(props.firmware.flash_support);
+      setDefaultBootloaderType(props.firmware.default_bootloader_type);
     }
   }, [props.open]);
 
@@ -548,6 +591,22 @@ function EditDialog(props: IEditDialogProps) {
             <MenuItem value="yes">Yes</MenuItem>
           </Select>
         </FormControl>
+        {flashSupport ? (
+          <FormControl className="edit-firmware-dialog-item">
+            <FormLabel component="legend">Default Bootloader Type</FormLabel>
+            <Select
+              value={defaultBootloaderType}
+              onChange={(event) => {
+                setDefaultBootloaderType(event.target.value as IBootloaderType);
+              }}
+            >
+              <MenuItem value="caterina">caterina</MenuItem>
+              <MenuItem value="dfu">dfu</MenuItem>
+            </Select>
+          </FormControl>
+        ) : (
+          ''
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={() => props.onClickCancel()}>Cancel</Button>
@@ -559,7 +618,8 @@ function EditDialog(props: IEditDialogProps) {
               name,
               description,
               sourceCodeUrl,
-              flashSupport
+              flashSupport,
+              defaultBootloaderType
             )
           }
           disabled={!validateFirmwareForm()}

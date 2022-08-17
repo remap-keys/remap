@@ -327,6 +327,7 @@ export type RootState = {
       firmwareDescription: string;
       firmwareSourceCodeUrl: string;
       flashSupport: boolean;
+      defaultBootloaderType: IBootloaderType;
       authorType: IKeyboardDefinitionAuthorType;
       organizationId: string | undefined;
       organizationEvidence: string;
@@ -544,6 +545,7 @@ export const INIT_STATE: RootState = {
       firmwareDescription: '',
       firmwareSourceCodeUrl: '',
       flashSupport: false,
+      defaultBootloaderType: 'caterina',
       authorType: 'individual',
       organizationId: undefined,
       organizationEvidence: '',
