@@ -213,12 +213,7 @@ export default class Keymap extends React.Component<
     );
 
     return (
-      <KeyEventCapture
-        onKeyDown={this.props.onKeyDown!}
-        onKeyUp={this.props.onKeyUp!}
-        keyModels={keyboardViewContent.keymaps}
-        keymaps={deviceKeymaps}
-      >
+      <React.Fragment>
         {(this.props.draggingKey || this.props.testMatrix) && (
           <div className="dragMask"></div>
         )}
@@ -271,28 +266,35 @@ export default class Keymap extends React.Component<
             }}
           />
 
-          <KeyboardView
-            keyboardViewContent={keyboardViewContent}
-            layoutOptions={this.props.selectedKeyboardOptions!}
-            deviceKeymaps={deviceKeymaps}
-            selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
-            remaps={remaps}
-            keyboardWidth={this.props.keyboardWidth!}
-            keyboardHeight={this.props.keyboardHeight!}
-            testedMatrix={this.props.testedMatrix!}
-            currentTestMatrix={this.props.currentTestMatrix!}
-            setKeyboardSize={(width, height) => {
-              this.props.setKeyboardSize!(width, height);
-            }}
-            isCustomKeyOpen={Boolean(this.state.selectedPos)}
-            onClickKeycap={(pos, key, ref) => {
-              if (this.props.testMatrix) {
-                this.onClickKeycapForTestMatrix(pos);
-              } else {
-                this.onClickKeycapForKeyCustom(pos, key, ref);
-              }
-            }}
-          />
+          <KeyEventCapture
+            onKeyDown={this.props.onKeyDown!}
+            onKeyUp={this.props.onKeyUp!}
+            keyModels={keyboardViewContent.keymaps}
+            keymaps={deviceKeymaps}
+          >
+            <KeyboardView
+              keyboardViewContent={keyboardViewContent}
+              layoutOptions={this.props.selectedKeyboardOptions!}
+              deviceKeymaps={deviceKeymaps}
+              selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
+              remaps={remaps}
+              keyboardWidth={this.props.keyboardWidth!}
+              keyboardHeight={this.props.keyboardHeight!}
+              testedMatrix={this.props.testedMatrix!}
+              currentTestMatrix={this.props.currentTestMatrix!}
+              setKeyboardSize={(width, height) => {
+                this.props.setKeyboardSize!(width, height);
+              }}
+              isCustomKeyOpen={Boolean(this.state.selectedPos)}
+              onClickKeycap={(pos, key, ref) => {
+                if (this.props.testMatrix) {
+                  this.onClickKeycapForTestMatrix(pos);
+                } else {
+                  this.onClickKeycapForKeyCustom(pos, key, ref);
+                }
+              }}
+            />
+          </KeyEventCapture>
           <KeymapToolbar />
           <div className="spacer"></div>
           <CustomKey
@@ -309,7 +311,7 @@ export default class Keymap extends React.Component<
             }}
           />
         </div>
-      </KeyEventCapture>
+      </React.Fragment>
     );
   }
 }
