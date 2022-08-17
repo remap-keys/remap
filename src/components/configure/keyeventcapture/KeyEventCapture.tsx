@@ -50,7 +50,8 @@ export default class KeyEventCapture extends React.Component<
   }
 
   onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.repeat || (e.target as HTMLElement).tagName === 'INPUT') {
+    const tagName = (e.target as HTMLElement).tagName;
+    if (e.repeat || tagName === 'INPUT' || tagName === 'TEXTAREA') {
       return;
     }
     e.preventDefault();
