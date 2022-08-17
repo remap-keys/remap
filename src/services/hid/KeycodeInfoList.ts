@@ -1019,7 +1019,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RGHT',
       },
       label: '→',
-      keywords: ['right arrow', 'rght', 'arrow'],
+      keywords: ['right arrow', 'rght', 'arrow', 'arrowright'],
     },
   },
   {
@@ -1031,7 +1031,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LEFT',
       },
       label: '←',
-      keywords: ['left arrow', 'arrow'],
+      keywords: ['left arrow', 'arrow', 'arrowleft'],
     },
   },
   {
@@ -1043,7 +1043,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_DOWN',
       },
       label: '↓',
-      keywords: ['down arrow', 'arrow'],
+      keywords: ['down arrow', 'arrow', 'arrowdown'],
     },
   },
   {
@@ -1055,7 +1055,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_UP',
       },
       label: '↑',
-      keywords: ['up arrow', 'arrow'],
+      keywords: ['up arrow', 'arrow', 'arrowup'],
     },
   },
   {
@@ -1079,7 +1079,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PSLS',
       },
       label: 'Num /',
-      keywords: ['kp_slash', 'psls'],
+      keywords: ['kp_slash', 'psls', 'kp_/'],
     },
   },
   {
@@ -1091,7 +1091,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PAST',
       },
       label: 'Num *',
-      keywords: ['kp_asterisk', 'past'],
+      keywords: ['kp_asterisk', 'past', 'kp_*'],
     },
   },
   {
@@ -1104,7 +1104,7 @@ export const keyInfoList: KeyInfo[] = [
       },
       label: 'Num -',
 
-      keywords: ['num minus', 'kp_minus', 'pmns'],
+      keywords: ['num minus', 'kp_minus', 'pmns', 'kp_-'],
     },
   },
   {
@@ -1117,7 +1117,7 @@ export const keyInfoList: KeyInfo[] = [
       },
       label: 'Num +',
 
-      keywords: ['num plus', 'kp_plus', 'ppls'],
+      keywords: ['num plus', 'kp_plus', 'ppls', 'kp_+'],
     },
   },
   {
@@ -1261,7 +1261,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_PDOT',
       },
       label: 'Num .',
-      keywords: ['kp_dot', 'pdot'],
+      keywords: ['kp_dot', 'pdot', 'kp_.'],
     },
   },
   {
@@ -2755,7 +2755,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LCTL',
       },
       label: '*Ctrl',
-      keywords: ['lctrl', 'lctl'],
+      keywords: ['lctrl', 'lctl', 'lcontrol'],
     },
   },
   {
@@ -2791,7 +2791,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_LWIN',
       },
       label: '*Win',
-      keywords: ['lgui', 'lwin'],
+      keywords: ['lgui', 'lwin', 'meta', 'lmeta'],
     },
   },
   {
@@ -2803,7 +2803,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RCTL',
       },
       label: 'Ctrl*',
-      keywords: ['rctrl', 'rctl'],
+      keywords: ['rctrl', 'rctl', 'rcontrol'],
     },
   },
   {
@@ -2839,7 +2839,7 @@ export const keyInfoList: KeyInfo[] = [
         short: 'KC_RWIN',
       },
       label: 'Win*',
-      keywords: ['rgui', 'rwin'],
+      keywords: ['rgui', 'rwin', 'rmeta'],
     },
   },
   {

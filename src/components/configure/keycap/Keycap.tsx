@@ -29,6 +29,7 @@ export type KeycapOwnProps = {
   remap: IKeymap | null;
   // eslint-disable-next-line no-undef
   anchorRef?: React.RefObject<HTMLDivElement>;
+  isCustomKeyOpen: boolean;
   // eslint-disable-next-line no-unused-vars
   onClick?: (pos: string, key: Key) => void;
 };
@@ -61,7 +62,7 @@ export default class Keycap extends React.Component<
     if (this.props.testMatrix) return;
 
     this.props.onClickKeycap!(pos, isSelectedKey, orgKey, dstKey);
-    if (!isSelectedKey && this.props.onClick) {
+    if (!this.props.isCustomKeyOpen && this.props.onClick) {
       this.props.onClick(pos, dstKey ? dstKey : orgKey);
     }
   }
