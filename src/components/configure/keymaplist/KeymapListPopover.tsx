@@ -187,9 +187,7 @@ export default class KeymapListPopover extends React.Component<
                 open={this.state.openKeymapSaveDialog}
                 savedKeymapData={this.state.savedKeymapData}
                 authorUid={this.props.auth!.getCurrentAuthenticatedUser().uid}
-                authorDisplayName={
-                  this.props.auth!.getCurrentAuthenticatedUser().displayName!
-                }
+                authorDisplayName={this.props.auth!.getCurrentAuthenticatedUserDisplayName()}
                 onClose={() => {
                   this.onCloseKeymapSaveDialog();
                 }}
