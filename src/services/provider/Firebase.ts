@@ -643,6 +643,25 @@ export class FirebaseProvider implements IStorage, IAuth {
     return this.auth.currentUser!;
   }
 
+  getCurrentAuthenticatedUserDisplayName(): string {
+    const user = this.getCurrentAuthenticatedUser();
+    let displayName: string | undefined | null = user.displayName;
+    if (displayName) {
+      return displayName;
+    }
+    for (const userInfo of user.providerData) {
+      displayName = userInfo?.displayName;
+      if (displayName) {
+        return displayName;
+      }
+    }
+    const email = user.email;
+    if (email && 0 < email.indexOf('@')) {
+      return email.substring(0, email.indexOf('@'));
+    }
+    return '(no name)';
+  }
+
   async signOut(): Promise<void> {
     await this.auth.signOut();
   }
