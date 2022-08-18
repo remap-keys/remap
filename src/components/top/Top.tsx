@@ -23,10 +23,8 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
   Toolbar,
   Typography,
-  Alert,
 } from '@mui/material';
 
 type IFeatureCardProps = {
@@ -92,25 +90,6 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
-      <Alert severity="info">
-        <strong>For all users: </strong>The{' '}
-        <Link
-          href="https://remap-keys.app/docs/terms_of_use"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Remap Terms of Use
-        </Link>{' '}
-        and{' '}
-        <Link
-          href="https://remap-keys.app/docs/review_policy"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Remap Review Policy
-        </Link>{' '}
-        has been updated on January 5th, 2022.
-      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">
