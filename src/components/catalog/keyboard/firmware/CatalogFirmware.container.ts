@@ -2,11 +2,9 @@ import { connect } from 'react-redux';
 import { ICatalogPhase, RootState } from '../../../../store/state';
 import CatalogFirmware from './CatalogFirmware';
 import { storageActionsThunk } from '../../../../actions/storage.action';
-import {
-  CatalogAppActions,
-  FlashFirmwareDialogActions,
-} from '../../../../actions/catalog.action';
+import { CatalogAppActions } from '../../../../actions/catalog.action';
 import { IFirmware } from '../../../../services/storage/Storage';
+import { FlashFirmwareDialogActions } from '../../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -46,9 +44,6 @@ const mapDispatchToProps = (_dispatch: any) => {
           )
         );
         _dispatch(FlashFirmwareDialogActions.updateFirmware(firmware));
-      },
-      close: () => {
-        _dispatch(FlashFirmwareDialogActions.updateFirmware(null));
       },
     },
   };

@@ -1,22 +1,21 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../../store/state';
+import { RootState } from '../../../store/state';
 import FlashFirmwareDialog from './FlashFirmwareDialog';
+import { IBootloaderType } from '../../../services/firmware/Types';
 import {
-  catalogActionsThunk,
+  firmwareActionsThunk,
   FlashFirmwareDialogActions,
-} from '../../../../actions/catalog.action';
-import { IBootloaderType } from '../../../../services/firmware/Types';
+} from '../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {
-    firmware: state.catalog.keyboard.flashFirmwareDialog.firmware,
-    definitionDocument: state.entities.keyboardDefinitionDocument,
-    flashing: state.catalog.keyboard.flashFirmwareDialog.flashing,
-    logs: state.catalog.keyboard.flashFirmwareDialog.logs,
-    progressRate: state.catalog.keyboard.flashFirmwareDialog.progressRate,
-    mode: state.catalog.keyboard.flashFirmwareDialog.mode,
-    bootloaderType: state.catalog.keyboard.flashFirmwareDialog.bootloaderType,
+    firmware: state.common.firmware.flashFirmwareDialog.firmware,
+    flashing: state.common.firmware.flashFirmwareDialog.flashing,
+    logs: state.common.firmware.flashFirmwareDialog.logs,
+    progressRate: state.common.firmware.flashFirmwareDialog.progressRate,
+    mode: state.common.firmware.flashFirmwareDialog.mode,
+    bootloaderType: state.common.firmware.flashFirmwareDialog.bootloaderType,
   };
 };
 export type FlashFirmwareDialogStateType = ReturnType<typeof mapStateToProps>;
@@ -24,8 +23,8 @@ export type FlashFirmwareDialogStateType = ReturnType<typeof mapStateToProps>;
 // eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    flashFirmware: () => {
-      _dispatch(catalogActionsThunk.flashFirmware());
+    fetchAndFlashFirmware: () => {
+      _dispatch(firmwareActionsThunk.fetchAndFlashFirmware());
     },
     updateBootloaderType: (bootloaderType: IBootloaderType) => {
       _dispatch(

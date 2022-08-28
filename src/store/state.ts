@@ -349,14 +349,6 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
-      flashFirmwareDialog: {
-        firmware: IFirmware | null;
-        flashing: boolean;
-        progressRate: number;
-        logs: string[];
-        mode: IFlashFirmwareDialogMode;
-        bootloaderType: IBootloaderType;
-      };
     };
   };
   organizations: {
@@ -366,6 +358,18 @@ export type RootState = {
     editorganization: {
       organizationMembers: IOrganizationMember[];
       email: string;
+    };
+  };
+  common: {
+    firmware: {
+      flashFirmwareDialog: {
+        firmware: IFirmware | null;
+        flashing: boolean;
+        progressRate: number;
+        logs: string[];
+        mode: IFlashFirmwareDialogMode;
+        bootloaderType: IBootloaderType;
+      };
     };
   };
   hid: {
@@ -565,14 +569,6 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
-      flashFirmwareDialog: {
-        firmware: null,
-        flashing: false,
-        progressRate: 0,
-        logs: [''],
-        mode: 'instruction',
-        bootloaderType: 'caterina',
-      },
     },
   },
   organizations: {
@@ -582,6 +578,18 @@ export const INIT_STATE: RootState = {
     editorganization: {
       organizationMembers: [],
       email: '',
+    },
+  },
+  common: {
+    firmware: {
+      flashFirmwareDialog: {
+        firmware: null,
+        flashing: false,
+        progressRate: 0,
+        logs: [''],
+        mode: 'instruction',
+        bootloaderType: 'caterina',
+      },
     },
   },
   hid: {

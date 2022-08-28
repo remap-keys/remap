@@ -161,15 +161,6 @@ import {
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
   CATALOG_SEARCH_UPDATE_ORGANIZATION,
-  FLASH_FIRMWARE_DIALOG_ACTIONS,
-  FLASH_FIRMWARE_DIALOG_APPEND_LOG,
-  FLASH_FIRMWARE_DIALOG_CLEAR,
-  FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
-  FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
-  FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
-  FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
-  FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
-  FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
 } from '../actions/catalog.action';
 import { META_ACTIONS, META_UPDATE } from '../actions/meta.action';
 import {
@@ -187,6 +178,17 @@ import {
   ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL,
   ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_ORGANIZATION_MEMBERS,
 } from '../actions/organizations.actions';
+import {
+  FLASH_FIRMWARE_DIALOG_ACTIONS,
+  FLASH_FIRMWARE_DIALOG_APPEND_LOG,
+  FLASH_FIRMWARE_DIALOG_CLEAR,
+  FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
+  FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
+  FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
+} from '../actions/firmware.action';
 
 export type Action = { type: string; value: any };
 
@@ -1031,26 +1033,22 @@ const flashFirmwareDialogReducer = (
 ) => {
   switch (action.type) {
     case FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE:
-      draft.catalog.keyboard.flashFirmwareDialog.firmware = action.value;
+      draft.common.firmware.flashFirmwareDialog.firmware = action.value;
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING:
-      draft.catalog.keyboard.flashFirmwareDialog.flashing = action.value;
+      draft.common.firmware.flashFirmwareDialog.flashing = action.value;
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE:
-      draft.catalog.keyboard.flashFirmwareDialog.progressRate = action.value;
+      draft.common.firmware.flashFirmwareDialog.progressRate = action.value;
       break;
     case FLASH_FIRMWARE_DIALOG_APPEND_LOG: {
-      const prevLogs: string[] =
-        draft.catalog.keyboard.flashFirmwareDialog.logs;
+      const prevLogs: string[] = draft.common.firmware.flashFirmwareDialog.logs;
       const message: string = action.value.message;
       const lineBreak: boolean = action.value.lineBreak;
       if (lineBreak) {
-        draft.catalog.keyboard.flashFirmwareDialog.logs = [
-          ...prevLogs,
-          message,
-        ];
+        draft.common.firmware.flashFirmwareDialog.logs = [...prevLogs, message];
       } else {
-        draft.catalog.keyboard.flashFirmwareDialog.logs = [
+        draft.common.firmware.flashFirmwareDialog.logs = [
           ...prevLogs.slice(0, prevLogs.length - 1),
           `${prevLogs[prevLogs.length - 1]}${message}`,
         ];
@@ -1058,19 +1056,19 @@ const flashFirmwareDialogReducer = (
       break;
     }
     case FLASH_FIRMWARE_DIALOG_UPDATE_MODE:
-      draft.catalog.keyboard.flashFirmwareDialog.mode = action.value;
+      draft.common.firmware.flashFirmwareDialog.mode = action.value;
       break;
     case FLASH_FIRMWARE_DIALOG_CLEAR:
-      draft.catalog.keyboard.flashFirmwareDialog.flashing = false;
-      draft.catalog.keyboard.flashFirmwareDialog.progressRate = 0;
-      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
-      draft.catalog.keyboard.flashFirmwareDialog.mode = 'instruction';
+      draft.common.firmware.flashFirmwareDialog.flashing = false;
+      draft.common.firmware.flashFirmwareDialog.progressRate = 0;
+      draft.common.firmware.flashFirmwareDialog.logs = [''];
+      draft.common.firmware.flashFirmwareDialog.mode = 'instruction';
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
-      draft.catalog.keyboard.flashFirmwareDialog.logs = [''];
+      draft.common.firmware.flashFirmwareDialog.logs = [''];
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE:
-      draft.catalog.keyboard.flashFirmwareDialog.bootloaderType = action.value;
+      draft.common.firmware.flashFirmwareDialog.bootloaderType = action.value;
       break;
   }
 };
