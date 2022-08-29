@@ -49,6 +49,7 @@ export type KeymapCategory =
   | 'transpose'
   | 'velocity'
   | 'channel'
+  | 'fnmo'
   | 'misc';
 
 function isDefinedKey(ret: {
