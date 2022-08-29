@@ -5,6 +5,7 @@ import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
 import { storageActionsThunk } from '../../../actions/storage.action';
 import { MetaActions } from '../../../actions/meta.action';
+import { UploadFirmwareDialogActions } from '../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -32,6 +33,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(storageActionsThunk.fetchAllOrganizations());
       _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
       _dispatch(MetaActions.initialize());
+    },
+    openUploadFirmwareDialog: () => {
+      _dispatch(UploadFirmwareDialogActions.updateOpen(true));
     },
   };
 };

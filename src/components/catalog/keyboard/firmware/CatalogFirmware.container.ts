@@ -3,7 +3,10 @@ import { ICatalogPhase, RootState } from '../../../../store/state';
 import CatalogFirmware from './CatalogFirmware';
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import { CatalogAppActions } from '../../../../actions/catalog.action';
-import { IFirmware } from '../../../../services/storage/Storage';
+import {
+  IFirmware,
+  IKeyboardDefinitionDocument,
+} from '../../../../services/storage/Storage';
 import { FlashFirmwareDialogActions } from '../../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
@@ -36,12 +39,21 @@ const mapDispatchToProps = (_dispatch: any) => {
       );
     },
     flashFirmwareDialog: {
-      open: (firmware: IFirmware) => {
+      open: (
+        definitionDocument: IKeyboardDefinitionDocument,
+        firmware: IFirmware
+      ) => {
         _dispatch(FlashFirmwareDialogActions.clear());
         _dispatch(
           FlashFirmwareDialogActions.updateBootloaderType(
             firmware.default_bootloader_type
           )
+        );
+        _dispatch(
+          FlashFirmwareDialogActions.updateKeyboardName(definitionDocument.name)
+        );
+        _dispatch(
+          FlashFirmwareDialogActions.updateFlashMode('fetch_and_flash')
         );
         _dispatch(FlashFirmwareDialogActions.updateFirmware(firmware));
       },

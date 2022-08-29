@@ -3,7 +3,7 @@ import {
   ProfileIconActionsType,
   ProfileIconStateType,
 } from './ProfileIcon.container';
-import { Avatar, Divider, IconButton, Menu, MenuItem } from '@mui/material';
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import { Person, PersonOutline } from '@mui/icons-material';
 import AuthProviderDialog from './AuthProviderDialog.container';
 import {
@@ -70,10 +70,6 @@ export default class ProfileIcon extends React.Component<
 
   async handleLoginMenuClick() {
     this.setState({ authMenuAnchorEl: null, openAuthProviderDialog: true });
-  }
-
-  async handleFlashFirmwareClick() {
-    this.setState({ authMenuAnchorEl: null });
   }
 
   renderLinkGoogleAccountMenu() {
@@ -144,10 +140,6 @@ export default class ProfileIcon extends React.Component<
             open={Boolean(authMenuAnchorEl)}
             onClose={this.handleAuthMenuClose}
           >
-            <MenuItem onClick={() => this.handleFlashFirmwareClick()}>
-              Flash Firmware
-            </MenuItem>
-            <Divider />
             {this.renderLinkGoogleAccountMenu()}
             {this.renderLinkGitHubAccountMenu()}
             <MenuItem
@@ -176,10 +168,6 @@ export default class ProfileIcon extends React.Component<
             open={Boolean(authMenuAnchorEl)}
             onClose={this.handleAuthMenuClose}
           >
-            <MenuItem onClick={() => this.handleFlashFirmwareClick()}>
-              Flash Firmware
-            </MenuItem>
-            <Divider />
             <MenuItem
               key="profile-icon-menu-login"
               onClick={() => this.handleLoginMenuClick()}

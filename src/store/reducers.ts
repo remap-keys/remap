@@ -184,10 +184,15 @@ import {
   FLASH_FIRMWARE_DIALOG_CLEAR,
   FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
+  FLASH_FIRMWARE_DIALOG_UPDATE_KEYBOARD_NAME,
   FLASH_FIRMWARE_DIALOG_UPDATE_LOGS,
   FLASH_FIRMWARE_DIALOG_UPDATE_MODE,
   FLASH_FIRMWARE_DIALOG_UPDATE_PROGRESS_RATE,
+  UPLOAD_FIRMWARE_DIALOG_ACTIONS,
+  UPLOAD_FIRMWARE_DIALOG_UPDATE_FIRMWARE_FILE_BUFFER,
+  UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN,
 } from '../actions/firmware.action';
 
 export type Action = { type: string; value: any };
@@ -234,6 +239,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       catalogKeyboardReducer(action, draft);
     } else if (action.type.startsWith(FLASH_FIRMWARE_DIALOG_ACTIONS)) {
       flashFirmwareDialogReducer(action, draft);
+    } else if (action.type.startsWith(UPLOAD_FIRMWARE_DIALOG_ACTIONS)) {
+      uploadFirmwareDialogReducer(action, draft);
     } else if (action.type.startsWith(META_ACTIONS)) {
       metaReducer(action, draft);
     } else if (action.type.startsWith(ORGANIZATIONS_APP_ACTIONS)) {
@@ -1027,6 +1034,21 @@ const metaReducer = (action: Action, draft: WritableDraft<RootState>) => {
   }
 };
 
+const uploadFirmwareDialogReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN:
+      draft.common.firmware.uploadFirmwareDialog.open = action.value;
+      break;
+    case UPLOAD_FIRMWARE_DIALOG_UPDATE_FIRMWARE_FILE_BUFFER:
+      draft.common.firmware.uploadFirmwareDialog.firmwareFileBuffer =
+        action.value;
+      break;
+  }
+};
+
 const flashFirmwareDialogReducer = (
   action: Action,
   draft: WritableDraft<RootState>
@@ -1069,6 +1091,12 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE:
       draft.common.firmware.flashFirmwareDialog.bootloaderType = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_KEYBOARD_NAME:
+      draft.common.firmware.flashFirmwareDialog.keyboardName = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE:
+      draft.common.firmware.flashFirmwareDialog.flashMode = action.value;
       break;
   }
 };

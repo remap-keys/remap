@@ -50,7 +50,10 @@ export default class CatalogFirmware extends React.Component<
   }
 
   onClickFlash(firmware: IFirmware) {
-    this.props.flashFirmwareDialog!.open(firmware);
+    this.props.flashFirmwareDialog!.open(
+      this.props.definitionDocument!,
+      firmware
+    );
   }
 
   render() {

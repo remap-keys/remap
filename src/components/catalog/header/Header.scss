@@ -28,6 +28,11 @@
     margin-top: 8px;
   }
 
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+
   &-menu-button {
     //position: fixed;
     //right: 16px;

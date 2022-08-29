@@ -8,7 +8,6 @@ import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@mui/icons-material/Close';
 import * as qs from 'qs';
 import { useLocation, useParams } from 'react-router-dom';
-import FlashFirmwareDialog from '../common/firmware/FlashFirmwareDialog.container';
 
 type ICatalogDetailMode = 'introduction' | 'keymap' | 'firmware';
 
@@ -107,22 +106,12 @@ function Catalog(props: CatalogProps) {
     updateNotifications();
   }, [props.notifications]);
 
-  const onCloseFlashFirmwareDialog = (): void => {
-    props.flashFirmwareDialog!.close();
-  };
-
   return (
     <React.Fragment>
       <CssBaseline />
       <Header />
       <main>
         <Content />
-        <FlashFirmwareDialog
-          keyboardName={props.definitionDocument?.name}
-          onClose={() => {
-            onCloseFlashFirmwareDialog();
-          }}
-        />
       </main>
     </React.Fragment>
   );

@@ -178,6 +178,10 @@ export type IKeyboardFeatures =
   | IKeyboardSpeakerType
   | IKeyboardWirelessType;
 
+export type IFlashFirmwareDialogFlashMode =
+  | 'upload_and_flash'
+  | 'fetch_and_flash';
+
 export type RootState = {
   entities: {
     device: {
@@ -363,12 +367,18 @@ export type RootState = {
   common: {
     firmware: {
       flashFirmwareDialog: {
+        keyboardName: string;
         firmware: IFirmware | null;
         flashing: boolean;
         progressRate: number;
         logs: string[];
         mode: IFlashFirmwareDialogMode;
         bootloaderType: IBootloaderType;
+        flashMode: IFlashFirmwareDialogFlashMode;
+      };
+      uploadFirmwareDialog: {
+        open: boolean;
+        firmwareFileBuffer: ArrayBuffer | undefined;
       };
     };
   };
@@ -583,12 +593,18 @@ export const INIT_STATE: RootState = {
   common: {
     firmware: {
       flashFirmwareDialog: {
+        keyboardName: '',
         firmware: null,
         flashing: false,
         progressRate: 0,
         logs: [''],
         mode: 'instruction',
         bootloaderType: 'caterina',
+        flashMode: 'fetch_and_flash',
+      },
+      uploadFirmwareDialog: {
+        open: false,
+        firmwareFileBuffer: undefined,
       },
     },
   },

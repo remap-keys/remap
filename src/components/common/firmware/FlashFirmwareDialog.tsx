@@ -26,10 +26,7 @@ import {
   IBootloaderType,
 } from '../../../services/firmware/Types';
 
-type OwnProps = {
-  keyboardName: string | undefined;
-  onClose: () => void;
-};
+type OwnProps = {};
 type FlashFirmwareDialogProps = OwnProps &
   Partial<FlashFirmwareDialogActionsType> &
   Partial<FlashFirmwareDialogStateType>;
@@ -54,7 +51,7 @@ export default function FlashFirmwareDialog(
   };
 
   const onClickClose = () => {
-    props.onClose();
+    props.close!();
   };
 
   const onChangeBootloaderType = (event: SelectChangeEvent) => {
@@ -77,11 +74,7 @@ export default function FlashFirmwareDialog(
             </div>
             <div className="flash-firmware-dialog-info-item-body">
               {props.firmware?.name}
-              {props.keyboardName || '' ? (
-                <span> for {props.keyboardName}</span>
-              ) : (
-                ''
-              )}
+              {props.keyboardName ? <span> for {props.keyboardName}</span> : ''}
             </div>
           </div>
           <div className="flash-firmware-dialog-info-item">

@@ -10,6 +10,7 @@ import {
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {
+    keyboardName: state.common.firmware.flashFirmwareDialog.keyboardName,
     firmware: state.common.firmware.flashFirmwareDialog.firmware,
     flashing: state.common.firmware.flashFirmwareDialog.flashing,
     logs: state.common.firmware.flashFirmwareDialog.logs,
@@ -24,12 +25,15 @@ export type FlashFirmwareDialogStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     fetchAndFlashFirmware: () => {
-      _dispatch(firmwareActionsThunk.fetchAndFlashFirmware());
+      _dispatch(firmwareActionsThunk.flashFirmware());
     },
     updateBootloaderType: (bootloaderType: IBootloaderType) => {
       _dispatch(
         FlashFirmwareDialogActions.updateBootloaderType(bootloaderType)
       );
+    },
+    close: () => {
+      _dispatch(FlashFirmwareDialogActions.updateFirmware(null));
     },
   };
 };

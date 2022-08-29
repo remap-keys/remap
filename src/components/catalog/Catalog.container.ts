@@ -32,14 +32,12 @@ import {
 import { storageActionsThunk } from '../../actions/storage.action';
 import { ParsedQs } from 'qs';
 import { MetaActions } from '../../actions/meta.action';
-import { FlashFirmwareDialogActions } from '../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
   return {
     notifications: state.app.notifications,
     auth: state.auth.instance,
-    definitionDocument: state.entities.keyboardDefinitionDocument,
   };
 };
 export type CatalogStateType = ReturnType<typeof mapStateToProps>;
@@ -159,11 +157,6 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     initializeMeta: () => {
       _dispatch(MetaActions.initialize());
-    },
-    flashFirmwareDialog: {
-      close: () => {
-        _dispatch(FlashFirmwareDialogActions.updateFirmware(null));
-      },
     },
   };
 };
