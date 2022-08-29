@@ -102,6 +102,11 @@ export class KeyCategory {
     if (Object.prototype.hasOwnProperty.call(KeyCategory._layer, layerCount))
       return KeyCategory._layer[layerCount];
 
+    const fnmoCodes: number[] = [...KEY_SUB_CATEGORY_FNMO.codes];
+    const fnmoKeymaps: IKeymap[] = fnmoCodes.map(
+      (code) => LooseKeycodeComposition.findKeymap(code)!
+    );
+
     const keymaps: IKeymap[] = [
       ...ToComposition.genKeymaps(layerCount),
       ...ToggleLayerComposition.genKeymaps(layerCount),
@@ -109,6 +114,7 @@ export class KeyCategory {
       ...MomentaryComposition.genKeymaps(layerCount),
       ...OneShotLayerComposition.genKeymaps(layerCount),
       ...DefLayerComposition.genKeymaps(layerCount),
+      ...fnmoKeymaps,
     ];
     KeyCategory._layer[layerCount] = keymaps;
 
@@ -441,4 +447,10 @@ export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
     70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88,
     89, 90, 94, 95, 123, 124, 125, 126,
   ],
+};
+
+// FN_MO13, FN_MO23
+export const KEY_SUB_CATEGORY_FNMO: IKeycodeCategoryInfo = {
+  kinds: ['fnmo'],
+  codes: [24336, 24337],
 };

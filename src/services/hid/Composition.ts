@@ -37,6 +37,7 @@ import {
   KEY_SUB_CATEGORY_SOUND,
   KEY_SUB_CATEGORY_SPACE_CADET,
   KEY_SUB_CATEGORY_UNDERGLOW,
+  KEY_SUB_CATEGORY_FNMO,
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 import { KeyLabel } from '../labellang/KeyLabel';
@@ -1504,6 +1505,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       KEY_SUB_CATEGORY_MIDI_VELOCITY,
       KEY_SUB_CATEGORY_MIDI_CHANNEL,
       KEY_SUB_CATEGORY_MIDI_MISC,
+      KEY_SUB_CATEGORY_FNMO,
     ];
 
     LooseKeycodeComposition._looseKeycodeKeymaps = [];
