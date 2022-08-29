@@ -178,6 +178,10 @@ export type IKeyboardFeatures =
   | IKeyboardSpeakerType
   | IKeyboardWirelessType;
 
+export type IFlashFirmwareDialogFlashMode =
+  | 'upload_and_flash'
+  | 'fetch_and_flash';
+
 export type RootState = {
   entities: {
     device: {
@@ -349,14 +353,6 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
-      flashFirmwareDialog: {
-        firmware: IFirmware | null;
-        flashing: boolean;
-        progressRate: number;
-        logs: string[];
-        mode: IFlashFirmwareDialogMode;
-        bootloaderType: IBootloaderType;
-      };
     };
   };
   organizations: {
@@ -366,6 +362,24 @@ export type RootState = {
     editorganization: {
       organizationMembers: IOrganizationMember[];
       email: string;
+    };
+  };
+  common: {
+    firmware: {
+      flashFirmwareDialog: {
+        keyboardName: string;
+        firmware: IFirmware | null;
+        flashing: boolean;
+        progressRate: number;
+        logs: string[];
+        mode: IFlashFirmwareDialogMode;
+        bootloaderType: IBootloaderType;
+        flashMode: IFlashFirmwareDialogFlashMode;
+      };
+      uploadFirmwareDialog: {
+        open: boolean;
+        firmwareFileBuffer: ArrayBuffer | undefined;
+      };
     };
   };
   hid: {
@@ -565,14 +579,6 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
-      flashFirmwareDialog: {
-        firmware: null,
-        flashing: false,
-        progressRate: 0,
-        logs: [''],
-        mode: 'instruction',
-        bootloaderType: 'caterina',
-      },
     },
   },
   organizations: {
@@ -582,6 +588,24 @@ export const INIT_STATE: RootState = {
     editorganization: {
       organizationMembers: [],
       email: '',
+    },
+  },
+  common: {
+    firmware: {
+      flashFirmwareDialog: {
+        keyboardName: '',
+        firmware: null,
+        flashing: false,
+        progressRate: 0,
+        logs: [''],
+        mode: 'instruction',
+        bootloaderType: 'caterina',
+        flashMode: 'fetch_and_flash',
+      },
+      uploadFirmwareDialog: {
+        open: false,
+        firmwareFileBuffer: undefined,
+      },
     },
   },
   hid: {

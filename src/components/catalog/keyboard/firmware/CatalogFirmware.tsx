@@ -18,7 +18,6 @@ import {
 import moment from 'moment';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
-import FlashFirmwareDialog from './FlashFirmwareDialog.container';
 import { hexadecimal } from '../../../../utils/StringUtils';
 
 type CatalogFirmwareState = {
@@ -50,12 +49,11 @@ export default class CatalogFirmware extends React.Component<
     }
   }
 
-  onCloseFlashFirmwareDialog() {
-    this.props.flashFirmwareDialog!.close();
-  }
-
   onClickFlash(firmware: IFirmware) {
-    this.props.flashFirmwareDialog!.open(firmware);
+    this.props.flashFirmwareDialog!.open(
+      this.props.definitionDocument!,
+      firmware
+    );
   }
 
   render() {
@@ -123,9 +121,6 @@ export default class CatalogFirmware extends React.Component<
             )}
           </div>
         </div>
-        <FlashFirmwareDialog
-          onClose={this.onCloseFlashFirmwareDialog.bind(this)}
-        />
       </React.Fragment>
     );
   }

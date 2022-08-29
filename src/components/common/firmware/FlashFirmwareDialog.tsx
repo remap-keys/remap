@@ -17,18 +17,16 @@ import {
   FlashFirmwareDialogActionsType,
   FlashFirmwareDialogStateType,
 } from './FlashFirmwareDialog.container';
-import instructionImage1 from '../../../../assets/images/catalog/flash-firmware-dialog-1.png';
-import instructionImage2 from '../../../../assets/images/catalog/flash-firmware-dialog-2.png';
-import instructionImage3 from '../../../../assets/images/catalog/flash-firmware-dialog-3.png';
-import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
+import instructionImage1 from '../../../assets/images/catalog/flash-firmware-dialog-1.png';
+import instructionImage2 from '../../../assets/images/catalog/flash-firmware-dialog-2.png';
+import instructionImage3 from '../../../assets/images/catalog/flash-firmware-dialog-3.png';
+import CircularProgressWithLabel from '../circularprogress/CircularProgressWithLabel';
 import {
   ALL_BOOTLOADER_TYPE,
   IBootloaderType,
-} from '../../../../services/firmware/Types';
+} from '../../../services/firmware/Types';
 
-type OwnProps = {
-  onClose: () => void;
-};
+type OwnProps = {};
 type FlashFirmwareDialogProps = OwnProps &
   Partial<FlashFirmwareDialogActionsType> &
   Partial<FlashFirmwareDialogStateType>;
@@ -49,11 +47,11 @@ export default function FlashFirmwareDialog(
   };
 
   const onClickFlash = () => {
-    props.flashFirmware!();
+    props.fetchAndFlashFirmware!();
   };
 
   const onClickClose = () => {
-    props.onClose();
+    props.close!();
   };
 
   const onChangeBootloaderType = (event: SelectChangeEvent) => {
@@ -75,7 +73,8 @@ export default function FlashFirmwareDialog(
               Firmware:
             </div>
             <div className="flash-firmware-dialog-info-item-body">
-              {props.firmware?.name} for {props.definitionDocument!.name}
+              {props.firmware?.name}
+              {props.keyboardName ? <span> for {props.keyboardName}</span> : ''}
             </div>
           </div>
           <div className="flash-firmware-dialog-info-item">

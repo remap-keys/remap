@@ -1,0 +1,30 @@
+@import '../../../variables';
+
+.upload-firmware-dialog {
+  &-upload-file-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 16px;
+
+    &-area {
+      width: 400px;
+      height: 150px;
+      border: 1px dashed rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      &-active {
+        border: 2px dashed rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+      }
+    }
+
+    &-message {
+      color: $color-gray-500;
+    }
+  }
+}
