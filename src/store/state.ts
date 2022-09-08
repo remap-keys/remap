@@ -189,8 +189,6 @@ export type RootState = {
       productId: number;
       name: string | null;
       layerCount: number;
-      rowCount: number;
-      columnCount: number;
       keymaps: {
         [pos: string]: IKeymap;
       }[];
@@ -424,8 +422,6 @@ export const INIT_STATE: RootState = {
       productId: NaN,
       name: null,
       layerCount: NaN,
-      rowCount: NaN,
-      columnCount: NaN,
       keymaps: [],
       macros: {},
       bleMicroPro: false,
