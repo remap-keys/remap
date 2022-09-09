@@ -9,6 +9,7 @@ const mapStateToProps = (state: RootState) => {
     keyboardDefinitionDocument: state.entities.keyboardDefinitionDocument,
     auth: state.auth.instance,
     organization: state.entities.organization,
+    viaProtocolVersion: state.entities.device.viaProtocolVersion,
   };
 };
 export type InfoDialogStateType = ReturnType<typeof mapStateToProps>;

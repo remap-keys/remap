@@ -634,3 +634,26 @@ export class SetLayoutOptionsCommand extends AbstractCommand<
     return resultArray[0] === 0x03 && resultArray[1] === 0x02;
   }
 }
+
+export interface IGetProtocolVersionResult extends ICommandResponse {
+  protocolVersion: number;
+}
+
+export class GetProtocolVersionCommand extends AbstractCommand<
+  ICommandRequest,
+  IGetProtocolVersionResult
+> {
+  createReport(): Uint8Array {
+    return new Uint8Array([0x01]);
+  }
+
+  createResponse(resultArray: Uint8Array): IGetProtocolVersionResult {
+    return {
+      protocolVersion: (resultArray[1] << 8) | resultArray[2],
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    return resultArray[0] === 0x01;
+  }
+}

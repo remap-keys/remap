@@ -189,8 +189,6 @@ export type RootState = {
       productId: number;
       name: string | null;
       layerCount: number;
-      rowCount: number;
-      columnCount: number;
       keymaps: {
         [pos: string]: IKeymap;
       }[];
@@ -203,6 +201,7 @@ export type RootState = {
         maxBufferSize: number;
         maxCount: number;
       };
+      viaProtocolVersion: number;
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -424,8 +423,6 @@ export const INIT_STATE: RootState = {
       productId: NaN,
       name: null,
       layerCount: NaN,
-      rowCount: NaN,
-      columnCount: NaN,
       keymaps: [],
       macros: {},
       bleMicroPro: false,
@@ -434,6 +431,7 @@ export const INIT_STATE: RootState = {
         maxBufferSize: 0,
         maxCount: 0,
       },
+      viaProtocolVersion: NaN,
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]

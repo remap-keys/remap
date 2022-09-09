@@ -6,6 +6,7 @@ import {
   IConnectionEventHandler,
   IConnectParams,
   IFetchLayoutOptionsResult,
+  IFetchViaProtocolVersionResult,
   IGetMacroCountResult,
   IHid,
   IKeyboard,
@@ -212,6 +213,11 @@ export const mockIKeyboad: IKeyboard = {
   updateMacroBuffer: (offset: number, buffer: Uint8Array) => {
     return new Promise((resolve) => {
       resolve({ success: true });
+    });
+  },
+  fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult> {
+    return new Promise((resolve) => {
+      resolve({ success: true, viaProtocolVersion: 0x0a });
     });
   },
 };

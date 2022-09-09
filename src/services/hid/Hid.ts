@@ -126,6 +126,10 @@ export interface IFetchMacroBufferResult extends IResult {
   buffer?: Uint8Array;
 }
 
+export interface IFetchViaProtocolVersionResult extends IResult {
+  viaProtocolVersion?: number;
+}
+
 export interface IKeyboard {
   getDevice(): HIDDevice;
   getHid(): IHid;
@@ -169,6 +173,7 @@ export interface IKeyboard {
   getMacroBufferSize(): Promise<IGetMacroBufferSizeResult>;
   fetchMacroBuffer(bufferSize: number): Promise<IFetchMacroBufferResult>;
   updateMacroBuffer(offset: number, buffer: Uint8Array): Promise<IResult>;
+  fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult>;
 }
 
 export interface ICommand {

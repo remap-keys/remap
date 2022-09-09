@@ -32,6 +32,7 @@ type OwnState = {
     productName: string;
     vendorId: number;
     productId: number;
+    viaProtocolVersion: number;
   };
   keyboardDef: {
     name: string;
@@ -67,6 +68,7 @@ export default class InfoDialog extends React.Component<
         productName: '',
         vendorId: NaN,
         productId: NaN,
+        viaProtocolVersion: NaN,
       },
       keyboardDef: {
         name: '',
@@ -92,7 +94,10 @@ export default class InfoDialog extends React.Component<
         this.props.keyboardDefinitionDocument.githubDisplayName;
     }
 
-    const deviceInfo = this.props.keyboard!.getInformation();
+    const deviceInfo = {
+      ...this.props.keyboard!.getInformation(),
+      viaProtocolVersion: this.props.viaProtocolVersion!,
+    };
     const keyboardDef = this.props.keyboardDefinition!;
     this.setState({ deviceInfo, keyboardDef });
   }
@@ -132,6 +137,10 @@ export default class InfoDialog extends React.Component<
             <InfoRow
               label="Product ID"
               value={hexadecimal(this.state.deviceInfo.productId, 4)}
+            />
+            <InfoRow
+              label="VIA Protocol Version"
+              value={hexadecimal(this.state.deviceInfo.viaProtocolVersion, 4)}
             />
             <KeyboardDefinitionSection
               keyboardDefinitionDocument={this.props.keyboardDefinitionDocument}
