@@ -3,9 +3,11 @@ import { WebHid } from '../WebHid';
 import React, { useEffect, useState } from 'react';
 import './Hid.scss';
 import {
+  DynamicKeymapGetEncoderCommand,
   DynamicKeymapGetKeycodeCommand,
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapReadBufferCommand,
+  DynamicKeymapSetEncoderCommand,
   LightingGetValueCommand,
   LightingSetValueCommand,
 } from '../Commands';
@@ -36,6 +38,10 @@ const Hid = () => {
   const [layoutOptionsValue, setLayoutOptionsValue] = useState<number>(0);
   const [macroOffset, setMacroOffset] = useState<number>(0);
   const [macroSize, setMacroSize] = useState<number>(0);
+  const [layer3, setLayer3] = useState<number>(0);
+  const [encoderId, setEncoderId] = useState<number>(0);
+  const [clockwise, setClockwise] = useState<number>(1);
+  const [code2, setCode2] = useState<number>(0);
 
   useEffect(() => {
     webHid
@@ -157,6 +163,24 @@ const Hid = () => {
     setLayer2(Number(event.target.value));
   };
 
+  const handleLayer3Change = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setLayer3(Number(event.target.value));
+  };
+
+  const handleEncoderIdChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setEncoderId(Number(event.target.value));
+  };
+
+  const handleClockwiseChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setClockwise(Number(event.target.value));
+  };
+
   const handleRowChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -185,6 +209,12 @@ const Hid = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setCode(Number(event.target.value));
+  };
+
+  const handleCode2Change = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setCode2(Number(event.target.value));
   };
 
   const handleBufferOffsetChange = async (
@@ -344,6 +374,36 @@ const Hid = () => {
 
   const handleMacroAllGetBufferClick = async () => {
     console.log(await keyboard!.fetchMacroBuffer(macroSize));
+  };
+
+  const handleGetEncoderClick = async () => {
+    const command = new DynamicKeymapGetEncoderCommand(
+      {
+        layer: layer3,
+        encoderId,
+        clockwise: clockwise === 1,
+      },
+      async (result) => {
+        console.log(result);
+        setCode2(result.response!.code!);
+      }
+    );
+    await keyboard!.enqueue(command);
+  };
+
+  const handleSetEncoderClick = async () => {
+    const command = new DynamicKeymapSetEncoderCommand(
+      {
+        layer: layer3,
+        encoderId,
+        clockwise: clockwise === 1,
+        code: code2,
+      },
+      async (result) => {
+        console.log(result);
+      }
+    );
+    await keyboard!.enqueue(command);
   };
 
   return (
@@ -582,6 +642,45 @@ const Hid = () => {
         />
         <button onClick={handleMacroGetBufferClick}>Get Buffer</button>
         <button onClick={handleMacroAllGetBufferClick}>Get All Buffer</button>
+      </div>
+      <div className="box">
+        <label htmlFor="layer3">Layer</label>
+        <input
+          type="number"
+          id="layer3"
+          min={0}
+          max={layerCount}
+          value={layer3}
+          onChange={handleLayer3Change}
+        />
+        <label htmlFor="encoderId">Encoder ID</label>
+        <input
+          type="number"
+          id="encoderId"
+          min={0}
+          value={encoderId}
+          onChange={handleEncoderIdChange}
+        />
+        <label htmlFor="Clockwise">Clockwise</label>
+        <select
+          value={clockwise}
+          onChange={handleClockwiseChange}
+          className="uk-select"
+        >
+          <option value={1}>Clockwise</option>
+          <option value={0}>Counterclockwise</option>
+        </select>
+        <button onClick={handleGetEncoderClick}>Get Encoder</button>
+        <select value={code2} onChange={handleCode2Change}>
+          {KeycodeArray.map((keycode) => {
+            return (
+              <option key={keycode.code} value={keycode.code}>
+                {keycode.name.long}
+              </option>
+            );
+          })}
+        </select>
+        <button onClick={handleSetEncoderClick}>Set Encoder</button>
       </div>
       <div className="box">
         <label htmlFor="Test">Test</label>

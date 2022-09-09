@@ -635,19 +635,19 @@ export class SetLayoutOptionsCommand extends AbstractCommand<
   }
 }
 
-export interface IGetProtocolVersionResult extends ICommandResponse {
+export interface IGetProtocolVersionResponse extends ICommandResponse {
   protocolVersion: number;
 }
 
 export class GetProtocolVersionCommand extends AbstractCommand<
   ICommandRequest,
-  IGetProtocolVersionResult
+  IGetProtocolVersionResponse
 > {
   createReport(): Uint8Array {
     return new Uint8Array([0x01]);
   }
 
-  createResponse(resultArray: Uint8Array): IGetProtocolVersionResult {
+  createResponse(resultArray: Uint8Array): IGetProtocolVersionResponse {
     return {
       protocolVersion: (resultArray[1] << 8) | resultArray[2],
     };
@@ -655,5 +655,87 @@ export class GetProtocolVersionCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return resultArray[0] === 0x01;
+  }
+}
+
+export interface IDynamicKeymapGetEncoderRequest extends ICommandRequest {
+  layer: number;
+  encoderId: number;
+  clockwise: boolean;
+}
+
+export interface IDynamicKeymapGetEncoderResponse extends ICommandResponse {
+  code: number;
+}
+
+export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
+  IDynamicKeymapGetEncoderRequest,
+  IDynamicKeymapGetEncoderResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([
+      0x14,
+      req.layer,
+      req.encoderId,
+      req.clockwise ? 0x01 : 0x00,
+    ]);
+  }
+
+  createResponse(resultArray: Uint8Array): IDynamicKeymapGetEncoderResponse {
+    return {
+      code: (resultArray[4] << 8) | resultArray[5],
+    };
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x14 &&
+      resultArray[1] === req.layer &&
+      resultArray[2] === req.encoderId &&
+      resultArray[3] === (req.clockwise ? 0x01 : 0x00)
+    );
+  }
+}
+
+export interface IDynamicKeymapSetEncoderRequest extends ICommandRequest {
+  layer: number;
+  encoderId: number;
+  clockwise: boolean;
+  code: number;
+}
+
+export class DynamicKeymapSetEncoderCommand extends AbstractCommand<
+  IDynamicKeymapSetEncoderRequest,
+  ICommandResponse
+> {
+  createReport(): Uint8Array {
+    const req = this.getRequest();
+    return new Uint8Array([
+      0x15,
+      req.layer,
+      req.encoderId,
+      req.clockwise ? 0x01 : 0x00,
+      req.code >> 8,
+      req.code & 0xff,
+    ]);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  createResponse(resultArray: Uint8Array): ICommandResponse {
+    return {};
+  }
+
+  isSameRequest(resultArray: Uint8Array): boolean {
+    const req = this.getRequest();
+    return (
+      resultArray[0] === 0x15 &&
+      resultArray[1] === req.layer &&
+      resultArray[2] === req.encoderId &&
+      resultArray[3] === (req.clockwise ? 0x01 : 0x00) &&
+      resultArray[4] === req.code >> 8 &&
+      resultArray[5] === (req.code & 0xff)
+    );
   }
 }
