@@ -20,6 +20,7 @@ import {
   IGetMacroCountResult,
   IGetMacroBufferSizeResult,
   IFetchMacroBufferResult,
+  IFetchViaProtocolVersionResult,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
@@ -33,6 +34,7 @@ import {
   DynamicKeymapResetCommand,
   DynamicKeymapSetKeycodeCommand,
   GetLayoutOptionsCommand,
+  GetProtocolVersionCommand,
   IDynamicKeymapMacroGetBufferResponse,
   IDynamicKeymapMacroSetBufferResponse,
   IDynamicKeymapReadBufferResponse,
@@ -267,6 +269,26 @@ export class Keyboard implements IKeyboard {
           }
         }
       );
+      return this.enqueue(command);
+    });
+  }
+
+  fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult> {
+    return new Promise<IFetchViaProtocolVersionResult>((resolve) => {
+      const command = new GetProtocolVersionCommand({}, async (result) => {
+        if (result.success) {
+          resolve({
+            success: true,
+            viaProtocolVersion: result.response!.protocolVersion,
+          });
+        } else {
+          resolve({
+            success: false,
+            error: result.error,
+            cause: result.cause,
+          });
+        }
+      });
       return this.enqueue(command);
     });
   }

@@ -58,6 +58,7 @@ import {
   HID_UPDATE_MACRO_BUFFER_BYTES,
   HID_UPDATE_MACRO_MAX_BUFFER_SIZE,
   HID_UPDATE_MACRO_MAX_COUNT,
+  HID_UPDATE_VIA_PROTOCOL_VERSION,
 } from '../actions/hid.action';
 import {
   STORAGE_ACTIONS,
@@ -680,6 +681,10 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_UPDATE_MACRO_MAX_COUNT: {
       draft.entities.device.macro.maxCount = action.value;
+      break;
+    }
+    case HID_UPDATE_VIA_PROTOCOL_VERSION: {
+      draft.entities.device.viaProtocolVersion = action.value;
       break;
     }
   }

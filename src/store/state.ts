@@ -201,6 +201,7 @@ export type RootState = {
         maxBufferSize: number;
         maxCount: number;
       };
+      viaProtocolVersion: number;
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -430,6 +431,7 @@ export const INIT_STATE: RootState = {
         maxBufferSize: 0,
         maxCount: 0,
       },
+      viaProtocolVersion: NaN,
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]

@@ -30,6 +30,7 @@ export const HID_UPDATE_BLE_MICRO_PRO = `${HID_ACTIONS}/UpdateBleMicroPro`;
 export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBytes`;
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
+export const HID_UPDATE_VIA_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateViaProtocolVersion`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -98,6 +99,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_MACRO_MAX_COUNT,
       value: count,
+    };
+  },
+
+  updateViaProtocolVersion: (version: number) => {
+    return {
+      type: HID_UPDATE_VIA_PROTOCOL_VERSION,
+      value: version,
     };
   },
 };
@@ -268,6 +276,17 @@ export const hidActionsThunk = {
             .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
         )
       );
+      const viaProtocolVersionResult = await keyboard.fetchViaProtocolVersion();
+      if (!viaProtocolVersionResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Fetching the VIA protocol version failed.'
+          )
+        );
+        return;
+      }
+      const viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
+      dispatch(HidActions.updateViaProtocolVersion(viaProtocolVersion));
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {
         dispatch(
