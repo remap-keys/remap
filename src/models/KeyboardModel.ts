@@ -11,7 +11,7 @@ export type KeyboardViewContent = {
   top: number;
 };
 
-class Current {
+export class Current {
   x = 0;
   y = -1;
   c = '#cccccc';
@@ -81,7 +81,7 @@ class Current {
   }
 }
 
-class KeymapItem {
+export class KeymapItem {
   private _curr: Current;
   readonly op: KeyOp;
   readonly label: string;
@@ -89,6 +89,7 @@ class KeymapItem {
   readonly option: string;
   readonly choice: string;
   private _toBeDelete: boolean;
+  private readonly _encoderId: number | null;
 
   constructor(curr: Current, label: string, op: KeyOp | null = null) {
     this._curr = new Current(curr);
@@ -101,6 +102,13 @@ class KeymapItem {
     this.option = options[0];
     this.choice = options[1];
     this._toBeDelete = false;
+    // Check whether this key is an encoder or not
+    const positions = label.split('\n');
+    if (10 <= positions.length && positions[9].match(/^e[0-9]+$/i)) {
+      this._encoderId = Number(positions[9].substring(1));
+    } else {
+      this._encoderId = null;
+    }
   }
 
   get isDefault(): boolean {
@@ -168,6 +176,10 @@ class KeymapItem {
 
   relocate(curr: Current) {
     this._curr = curr;
+  }
+
+  get encoderId(): number | null {
+    return this._encoderId;
   }
 }
 
@@ -353,7 +365,17 @@ export default class KeyboardModel {
     keymapsList.flat().forEach((item: KeymapItem) => {
       if (item.toBeDeleted) return;
 
-      let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
+      const model = new KeyModel(
+        item.op,
+        item.label,
+        item.x,
+        item.y,
+        item.c,
+        item.r,
+        item.rx,
+        item.ry,
+        item.encoderId
+      );
       list.push(model);
     });
     return list;
