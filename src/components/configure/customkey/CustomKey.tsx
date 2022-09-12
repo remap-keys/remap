@@ -15,7 +15,7 @@ import {
   SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
-import { IKeymap } from '../../../services/hid/Hid';
+import { ICustomKeycode, IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { buildModLabel, mods2Number } from './Modifiers';
 import {
@@ -48,6 +48,7 @@ type OwnProps = {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
+  customKeycodes: ICustomKeycode[] | undefined;
 };
 
 type OwnState = {
@@ -220,10 +221,18 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     this.setState({ hexCode });
     const code = parseInt(hexCode, 16);
     if (Number.isNaN(code)) {
-      const km = KeycodeList.getKeymap(0, this.props.labelLang);
+      const km = KeycodeList.getKeymap(
+        0,
+        this.props.labelLang,
+        this.props.customKeycodes
+      );
       this.setState({ value: km });
     } else {
-      const ret = KeycodeList.getKeymaps(code, this.props.labelLang);
+      const ret = KeycodeList.getKeymaps(
+        code,
+        this.props.labelLang,
+        this.props.customKeycodes
+      );
       if (ret.value) {
         this.onChangeKey(ret.value);
       } else if (ret.holdKey && ret.tapKey) {

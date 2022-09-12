@@ -6943,4 +6943,212 @@ export const keyInfoList: KeyInfo[] = [
       keywords: ['macro15'],
     },
   },
+
+  {
+    desc: 'User 0',
+    keycodeInfo: {
+      code: 24448,
+      name: {
+        long: 'Custom Keycode 0',
+        short: 'USER 0',
+      },
+      label: 'USER 0',
+      keywords: ['user0'],
+    },
+  },
+
+  {
+    desc: 'User 1',
+    keycodeInfo: {
+      code: 24449,
+      name: {
+        long: 'Custom Keycode 1',
+        short: 'USER 1',
+      },
+      label: 'USER 1',
+      keywords: ['user1'],
+    },
+  },
+
+  {
+    desc: 'User 2',
+    keycodeInfo: {
+      code: 24450,
+      name: {
+        long: 'Custom Keycode 2',
+        short: 'USER 2',
+      },
+      label: 'USER 2',
+      keywords: ['user2'],
+    },
+  },
+
+  {
+    desc: 'User 3',
+    keycodeInfo: {
+      code: 24451,
+      name: {
+        long: 'Custom Keycode 3',
+        short: 'USER 3',
+      },
+      label: 'USER 3',
+      keywords: ['user3'],
+    },
+  },
+
+  {
+    desc: 'User 4',
+    keycodeInfo: {
+      code: 24452,
+      name: {
+        long: 'Custom Keycode 4',
+        short: 'USER 4',
+      },
+      label: 'USER 4',
+      keywords: ['user4'],
+    },
+  },
+
+  {
+    desc: 'User 5',
+    keycodeInfo: {
+      code: 24453,
+      name: {
+        long: 'Custom Keycode 5',
+        short: 'USER 5',
+      },
+      label: 'USER 5',
+      keywords: ['user5'],
+    },
+  },
+
+  {
+    desc: 'User 6',
+    keycodeInfo: {
+      code: 24454,
+      name: {
+        long: 'Custom Keycode 6',
+        short: 'USER 6',
+      },
+      label: 'USER 6',
+      keywords: ['user6'],
+    },
+  },
+
+  {
+    desc: 'User 7',
+    keycodeInfo: {
+      code: 24455,
+      name: {
+        long: 'Custom Keycode 7',
+        short: 'USER 7',
+      },
+      label: 'USER 7',
+      keywords: ['user7'],
+    },
+  },
+
+  {
+    desc: 'User 8',
+    keycodeInfo: {
+      code: 24456,
+      name: {
+        long: 'Custom Keycode 8',
+        short: 'USER 8',
+      },
+      label: 'USER 8',
+      keywords: ['user8'],
+    },
+  },
+
+  {
+    desc: 'User 9',
+    keycodeInfo: {
+      code: 24457,
+      name: {
+        long: 'Custom Keycode 9',
+        short: 'USER 9',
+      },
+      label: 'USER 9',
+      keywords: ['user9'],
+    },
+  },
+
+  {
+    desc: 'User 10',
+    keycodeInfo: {
+      code: 24458,
+      name: {
+        long: 'Custom Keycode 10',
+        short: 'USER 10',
+      },
+      label: 'USER 10',
+      keywords: ['user10'],
+    },
+  },
+
+  {
+    desc: 'User 11',
+    keycodeInfo: {
+      code: 24459,
+      name: {
+        long: 'Custom Keycode 11',
+        short: 'USER 11',
+      },
+      label: 'USER 11',
+      keywords: ['user11'],
+    },
+  },
+
+  {
+    desc: 'User 12',
+    keycodeInfo: {
+      code: 24460,
+      name: {
+        long: 'Custom Keycode 12',
+        short: 'USER 12',
+      },
+      label: 'USER 12',
+      keywords: ['user12'],
+    },
+  },
+
+  {
+    desc: 'User 13',
+    keycodeInfo: {
+      code: 24461,
+      name: {
+        long: 'Custom Keycode 13',
+        short: 'USER 13',
+      },
+      label: 'USER 13',
+      keywords: ['user13'],
+    },
+  },
+
+  {
+    desc: 'User 14',
+    keycodeInfo: {
+      code: 24462,
+      name: {
+        long: 'Custom Keycode 14',
+        short: 'USER 14',
+      },
+      label: 'USER 14',
+      keywords: ['user14'],
+    },
+  },
+
+  {
+    desc: 'User 15',
+    keycodeInfo: {
+      code: 24463,
+      name: {
+        long: 'Custom Keycode 15',
+        short: 'USER 15',
+      },
+      label: 'USER 15',
+      keywords: ['user15'],
+    },
+  },
 ];

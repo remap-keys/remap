@@ -160,8 +160,16 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       : KeyCategory.symbol(labelLang);
     const functions = [
       ...(macroEditMode
-        ? macroCodeFilter(KeyCategory.functions(labelLang))
-        : KeyCategory.functions(labelLang)),
+        ? macroCodeFilter(
+            KeyCategory.functions(
+              labelLang,
+              this.props.keyboardDefinition!.customKeycodes
+            )
+          )
+        : KeyCategory.functions(
+            labelLang,
+            this.props.keyboardDefinition!.customKeycodes
+          )),
       ...(macroEditMode
         ? []
         : KeyCategory.macro(

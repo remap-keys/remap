@@ -133,6 +133,7 @@ export const catalogActionsThunk = {
       // eslint-disable-next-line no-unused-vars
       getState: () => RootState
     ) => {
+      const { entities } = getState();
       const labelLang = savedKeymapData.label_lang;
       const layoutOptions = savedKeymapData.layout_options;
       let keycodes: { [pos: string]: IKeymap }[] = [];
@@ -147,7 +148,11 @@ export const catalogActionsThunk = {
         // See: https://github.com/remap-keys/remap/issues/454
         if (i < savedKeycodes.length) {
           Object.keys(savedCode).forEach((pos) => {
-            changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+            changes[pos] = KeycodeList.getKeymap(
+              savedCode[pos],
+              labelLang,
+              entities.keyboardDefinition!.customKeycodes
+            );
           });
         }
         keycodes.push(changes);

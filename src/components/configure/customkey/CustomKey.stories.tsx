@@ -99,6 +99,7 @@ class CustomKeyStory extends React.Component<{}, State> {
           onChange={(key: Key) => {
             this.setKey(key);
           }}
+          customKeycodes={undefined}
         />
       </React.Fragment>
     );

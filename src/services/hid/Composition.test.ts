@@ -35,6 +35,7 @@ import {
   ToComposition,
   ToggleLayerComposition,
   UnicodeComposition,
+  ViaUserKeyComposition,
 } from './Composition';
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
@@ -61,6 +62,7 @@ const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
   0b0101_1100_0000_0000, 0b0101_1111_0010_0001, 0b0101_1100_1111_0111,
 ];
+const EXPECT_VIA_USER_KEY_LIST = [0b0101_1111_1000_0000, 0b0101_1111_1000_1111];
 const EXPECT_UNKNOWN_LIST = [
   0b0101_1011_0000_0000, 0b0101_1111_0000_1111, 0b0101_1101_0001_0001,
 ];
@@ -850,6 +852,45 @@ describe('Composition', () => {
     });
   });
 
+  describe('ViaUserKeyComposition', () => {
+    test('getCode', () => {
+      let subject = new ViaUserKeyComposition({
+        code: 0b0101_1111_1000_0000,
+        isAny: false,
+        kinds: ['via_user_key'],
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: {
+          code: 0b0101_1111_1000_0000,
+          name: {
+            long: 'Custom User 0',
+            short: 'USER 0',
+          },
+          label: 'User 0',
+          keywords: ['user0'],
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0101_1111_1000_0000);
+      subject = new ViaUserKeyComposition({
+        code: 0b0101_1111_1000_1111,
+        isAny: false,
+        kinds: ['via_user_key'],
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: {
+          code: 0,
+          name: {
+            long: '',
+            short: '',
+          },
+          label: '',
+          keywords: [],
+        },
+      });
+      expect(subject.getCode()).toEqual(0b0101_1111_1000_1111);
+    });
+  });
+
   describe('KeycodeCompositionFactory', () => {
     describe('createBasicComposition', () => {
       test('valid', () => {
@@ -1401,6 +1442,29 @@ describe('Composition', () => {
       });
     });
 
+    describe('createViaUserKeyComposition', () => {
+      test('valid', () => {
+        const subject = new KeycodeCompositionFactory(
+          0b0101_1111_1000_0000,
+          'en-us'
+        );
+        expect(subject.isViaUserKey()).toBeTruthy();
+        const actual = subject.createViaUserKeyComposition();
+        expect(actual.genKeymap()!.code).toEqual(0b0101_1111_1000_0000);
+      });
+
+      test('not via user key', () => {
+        const subject = new KeycodeCompositionFactory(
+          0b0000_0001_0000_0000,
+          'en-us'
+        );
+        expect(subject.isViaUserKey()).toBeFalsy();
+        expect(() => {
+          subject.createViaUserKeyComposition();
+        }).toThrowError();
+      });
+    });
+
     test('isAscii', () => {
       let subject = new KeycodeCompositionFactory(
         0b0000_0000_0000_0000,
@@ -1456,6 +1520,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.basic);
       });
@@ -1479,6 +1544,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.mods);
       });
@@ -1502,6 +1568,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.function);
       });
@@ -1525,6 +1592,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.macro);
       });
@@ -1548,6 +1616,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.layer_tap);
       });
@@ -1571,6 +1640,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.to);
       });
@@ -1594,6 +1664,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.momentary);
       });
@@ -1617,6 +1688,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.df);
       });
@@ -1640,6 +1712,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.tl);
       });
@@ -1663,6 +1736,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.osl);
       });
@@ -1686,6 +1760,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.osm);
       });
@@ -1709,6 +1784,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.tap_dance);
       });
@@ -1732,6 +1808,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.tt);
       });
@@ -1755,6 +1832,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.layer_mod);
       });
@@ -1778,6 +1856,7 @@ describe('Composition', () => {
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.swap_hands);
       });
@@ -1801,6 +1880,7 @@ describe('Composition', () => {
           EXPECT_SWAP_HANDS_LIST,
           EXPECT_UNICODE_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.mod_tap);
       });
@@ -1824,6 +1904,7 @@ describe('Composition', () => {
           EXPECT_SWAP_HANDS_LIST,
           EXPECT_MOD_TAP_LIST,
           EXPECT_LOOSE_KEYCODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.unicode);
       });
@@ -1847,8 +1928,33 @@ describe('Composition', () => {
           EXPECT_SWAP_HANDS_LIST,
           EXPECT_MOD_TAP_LIST,
           EXPECT_UNICODE_LIST,
+          EXPECT_VIA_USER_KEY_LIST,
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.loose_keycode);
+      });
+      describe('via user key', () => {
+        const validList = [EXPECT_VIA_USER_KEY_LIST];
+        const invalidList = [
+          EXPECT_BASIC_LIST,
+          EXPECT_MODS_LIST,
+          EXPECT_FUNCTION_LIST,
+          EXPECT_MACRO_LIST,
+          EXPECT_LAYER_TAP_LIST,
+          EXPECT_TO_LIST,
+          EXPECT_MOMENTARY_LIST,
+          EXPECT_DEF_LAYER_LIST,
+          EXPECT_TOGGLE_LAYER_LIST,
+          EXPECT_ONE_SHOT_LAYER_LIST,
+          EXPECT_ONE_SHOT_MOD_LIST,
+          EXPECT_TAP_DANCE_LIST,
+          EXPECT_LAYER_TAP_TOGGLE_LIST,
+          EXPECT_LAYER_MOD_LIST,
+          EXPECT_SWAP_HANDS_LIST,
+          EXPECT_MOD_TAP_LIST,
+          EXPECT_UNICODE_LIST,
+          EXPECT_LOOSE_KEYCODE_LIST,
+        ];
+        checkKind(validList, invalidList, KeycodeCompositionKind.via_user_key);
       });
       describe('unknown', () => {
         test.each(EXPECT_UNKNOWN_LIST)(`unknown`, (value) => {

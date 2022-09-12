@@ -7,6 +7,7 @@ const mapStateToProps = (state: RootState) => {
     macroBufferBytes: state.entities.device.macro.bufferBytes,
     macroMaxBufferSize: state.entities.device.macro.maxBufferSize,
     macroMaxCount: state.entities.device.macro.maxCount,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type TabKeyStateType = ReturnType<typeof mapStateToProps>;

@@ -79,6 +79,13 @@ export type IKeymaps = {
   [pos: string]: IKeymap;
 };
 
+export type ICustomKeycode = {
+  name: string;
+  title: string;
+  shortName: string;
+  [k: string]: unknown;
+};
+
 export interface IFetchKeymapResult extends IResult {
   keymap?: IKeymaps;
 }
@@ -144,7 +151,8 @@ export interface IKeyboard {
     layer: number,
     rowCount: number,
     columnCount: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
   ): Promise<IFetchKeymapResult>;
   updateKeymap(
     layer: number,

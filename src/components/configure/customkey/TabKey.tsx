@@ -59,7 +59,8 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
       f.isLooseKeycode() ||
       (f.isSwapHands() && SwapHandsComposition.isSwapHandsOptions(code)) ||
       f.isToggleLayer() ||
-      f.isLayerMod()
+      f.isLayerMod() ||
+      f.isViaUserKey()
     );
   }
 
@@ -127,7 +128,10 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     const keymaps = [
       ...KeyCategory.basic(labelLang),
       ...KeyCategory.symbol(labelLang),
-      ...KeyCategory.functions(labelLang),
+      ...KeyCategory.functions(
+        labelLang,
+        this.props.keyboardDefinition!.customKeycodes
+      ),
       ...KeyCategory.layer(layerCount),
       ...LayerModComposition.genKeymaps(layerCount),
       ...OneShotModComposition.genKeymaps(),

@@ -248,7 +248,8 @@ export default class Keymap extends React.Component<
                 this.props.onChangeLangLabel!(
                   labelLang,
                   this.props.keydiff!.origin,
-                  this.props.keydiff!.destination
+                  this.props.keydiff!.destination,
+                  this.props.keyboardDefinition!.customKeycodes
                 );
               }}
             />
@@ -309,6 +310,7 @@ export default class Keymap extends React.Component<
             onChange={(key: Key) => {
               this.onChangeKeymap(key);
             }}
+            customKeycodes={this.props.keyboardDefinition!.customKeycodes}
           />
         </div>
       </React.Fragment>

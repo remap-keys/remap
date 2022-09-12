@@ -1,5 +1,11 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IHid, IKeyboard, IKeymap, IKeymaps } from '../services/hid/Hid';
+import {
+  ICustomKeycode,
+  IHid,
+  IKeyboard,
+  IKeymap,
+  IKeymaps,
+} from '../services/hid/Hid';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { RootState, SetupPhase } from '../store/state';
@@ -138,7 +144,11 @@ export const hidActionsThunk = {
         let kmap: { [pos: string]: IKeymap } = {};
         Object.keys(keymap).forEach((pos) => {
           const km = keymap[pos];
-          const newKm = KeycodeList.getKeymap(km.code, labelLang);
+          const newKm = KeycodeList.getKeymap(
+            km.code,
+            labelLang,
+            entities.keyboardDefinition!.customKeycodes
+          );
           kmap[pos] = newKm;
         });
         newKeymaps.push(kmap);
@@ -302,7 +312,8 @@ export const hidActionsThunk = {
         layerCount,
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
-        app.labelLang
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
 
@@ -464,7 +475,8 @@ export const hidActionsThunk = {
         entities.device.layerCount,
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
-        app.labelLang
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       dispatch(AppActions.remapsInit(entities.device.layerCount));
@@ -527,7 +539,8 @@ export const hidActionsThunk = {
         entities.device.layerCount,
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
-        app.labelLang
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
     },
@@ -552,7 +565,8 @@ export const hidActionsThunk = {
         entities.device.layerCount,
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
-        app.labelLang
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       dispatch(AppActions.remapsInit(entities.device.layerCount));
@@ -632,7 +646,8 @@ const loadKeymap = async (
   layerCount: number,
   rowCount: number,
   columnCount: number,
-  labelLang: KeyboardLabelLang
+  labelLang: KeyboardLabelLang,
+  customKeycodes: ICustomKeycode[] | undefined
 ): Promise<IKeymaps[]> => {
   const keymaps: IKeymaps[] = [];
   for (let i = 0; i < layerCount; i++) {
@@ -640,7 +655,8 @@ const loadKeymap = async (
       i,
       rowCount,
       columnCount,
-      labelLang
+      labelLang,
+      customKeycodes
     );
     if (!keymapsResult.success) {
       // TODO: show error message
