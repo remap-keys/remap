@@ -85,7 +85,6 @@ export class KeymapItem {
   private _curr: Current;
   readonly op: KeyOp;
   readonly label: string;
-  private pos: string;
   readonly option: string;
   readonly choice: string;
   private _toBeDelete: boolean;
@@ -95,20 +94,18 @@ export class KeymapItem {
     this._curr = new Current(curr);
     this.op = op || {};
     this.label = label;
-    const locs = label.split('\n\n\n');
-    this.pos = locs[0];
+    const locs = label.split('\n');
     const options =
-      locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
+      4 <= locs.length && 0 < locs[3].length
+        ? locs[3].split(',')
+        : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
+    this._encoderId =
+      10 <= locs.length && locs[9].match(/^e[0-9]+$/i)
+        ? Number(locs[9].substring(1))
+        : null;
     this._toBeDelete = false;
-    // Check whether this key is an encoder or not
-    const positions = label.split('\n');
-    if (10 <= positions.length && positions[9].match(/^e[0-9]+$/i)) {
-      this._encoderId = Number(positions[9].substring(1));
-    } else {
-      this._encoderId = null;
-    }
   }
 
   get isDefault(): boolean {
