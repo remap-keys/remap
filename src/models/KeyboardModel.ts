@@ -11,7 +11,7 @@ export type KeyboardViewContent = {
   top: number;
 };
 
-class Current {
+export class Current {
   x = 0;
   y = -1;
   c = '#cccccc';
@@ -81,25 +81,30 @@ class Current {
   }
 }
 
-class KeymapItem {
+export class KeymapItem {
   private _curr: Current;
   readonly op: KeyOp;
   readonly label: string;
-  private pos: string;
   readonly option: string;
   readonly choice: string;
   private _toBeDelete: boolean;
+  private readonly _encoderId: number | null;
 
   constructor(curr: Current, label: string, op: KeyOp | null = null) {
     this._curr = new Current(curr);
     this.op = op || {};
     this.label = label;
-    const locs = label.split('\n\n\n');
-    this.pos = locs[0];
+    const locs = label.split('\n');
     const options =
-      locs.length == 2 ? locs[1].split(',') : [OPTION_DEFAULT, OPTION_DEFAULT];
+      4 <= locs.length && 0 < locs[3].length
+        ? locs[3].split(',')
+        : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
+    this._encoderId =
+      10 <= locs.length && locs[9].match(/^e[0-9]+$/i)
+        ? Number(locs[9].substring(1))
+        : null;
     this._toBeDelete = false;
   }
 
@@ -168,6 +173,10 @@ class KeymapItem {
 
   relocate(curr: Current) {
     this._curr = curr;
+  }
+
+  get encoderId(): number | null {
+    return this._encoderId;
   }
 }
 
@@ -353,7 +362,17 @@ export default class KeyboardModel {
     keymapsList.flat().forEach((item: KeymapItem) => {
       if (item.toBeDeleted) return;
 
-      let model = new KeyModel(item.op, item.label, item.x, item.y, item.c, item.r, item.rx, item.ry); // prettier-ignore
+      const model = new KeyModel(
+        item.op,
+        item.label,
+        item.x,
+        item.y,
+        item.c,
+        item.r,
+        item.rx,
+        item.ry,
+        item.encoderId
+      );
       list.push(model);
     });
     return list;

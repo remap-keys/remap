@@ -34,6 +34,7 @@ export default class KeyModel {
   readonly h: number;
   readonly w2: number;
   readonly h2: number;
+  readonly encoderId: number | null;
 
   constructor(
     op: KeyOp | null,
@@ -43,13 +44,15 @@ export default class KeyModel {
     c: string,
     r: number = 0,
     rx: number = 0,
-    ry: number = 0
+    ry: number = 0,
+    encoderId: number | null = null
   ) {
     this.keyOp = op;
     this.x = x;
     this.y = y;
     this.rx = rx;
     this.ry = ry;
+    this.encoderId = encoderId;
     this.location = location;
     const locs = location.split('\n');
     this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
@@ -140,6 +143,10 @@ export default class KeyModel {
 
   get isBackwardsEnter(): boolean {
     return this.isOddly && this.top != this.top2;
+  }
+
+  get isEncoder(): boolean {
+    return this.encoderId !== null;
   }
 
   get style(): CSSProperties {
