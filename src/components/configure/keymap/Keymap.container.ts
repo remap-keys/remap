@@ -7,7 +7,7 @@ import {
   KeymapActions,
   KeymapToolbarActions,
 } from '../../../actions/actions';
-import { IKeymap } from '../../../services/hid/Hid';
+import { ICustomKeycode, IKeymap } from '../../../services/hid/Hid';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
@@ -32,6 +32,7 @@ const mapStateToProps = (state: RootState) => {
     testMatrix: state.configure.keymapToolbar.testMatrix,
     testedMatrix: state.app.testedMatrix,
     currentTestMatrix: state.app.currentTestMatrix,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;
@@ -46,14 +47,23 @@ const mapDispatchToProps = (_dispatch: any) => {
     onChangeLangLabel: (
       labelLang: KeyboardLabelLang,
       orgKeymap: IKeymap | null,
-      dstKeymap: IKeymap | null
+      dstKeymap: IKeymap | null,
+      customKeycodes: ICustomKeycode[] | undefined
     ) => {
       _dispatch(AppActions.updateLangLabel(labelLang));
       _dispatch(hidActionsThunk.updateKeymaps(labelLang));
 
       if (orgKeymap && dstKeymap) {
-        const newOrgKeymap = KeycodeList.getKeymap(orgKeymap.code, labelLang);
-        const newDstKeymap = KeycodeList.getKeymap(dstKeymap.code, labelLang);
+        const newOrgKeymap = KeycodeList.getKeymap(
+          orgKeymap.code,
+          labelLang,
+          customKeycodes
+        );
+        const newDstKeymap = KeycodeList.getKeymap(
+          dstKeymap.code,
+          labelLang,
+          customKeycodes
+        );
         _dispatch(KeydiffActions.updateKeydiff(newOrgKeymap, newDstKeymap));
       }
     },

@@ -137,7 +137,11 @@ export default class KeyEventCapture extends React.Component<
     if (e.key !== 'Alt' && e.altKey) code |= MOD_ALT << 8;
     if (e.key !== 'Meta' && e.metaKey) code |= MOD_GUI << 8;
 
-    const keymap = KeycodeList.getKeymap(code, this.props.labelLang!);
+    const keymap = KeycodeList.getKeymap(
+      code,
+      this.props.labelLang!,
+      this.props.keyboardDefinition!.customKeycodes
+    );
     if (!keymap) {
       return null;
     }

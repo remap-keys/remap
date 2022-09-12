@@ -115,7 +115,11 @@ export default class KeymapListPopover extends React.Component<
       if (i < savedKeycodes.length) {
         Object.keys(keymap).forEach((pos) => {
           if (keymap[pos].code != savedCode[pos]) {
-            changes[pos] = KeycodeList.getKeymap(savedCode[pos], labelLang);
+            changes[pos] = KeycodeList.getKeymap(
+              savedCode[pos],
+              labelLang,
+              this.props.keyboardDefinition!.customKeycodes
+            );
           }
         });
       }

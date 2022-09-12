@@ -8,6 +8,7 @@ const mapStateToProps = (state: RootState) => {
     selectedLayer: state.configure.keymap.selectedLayer,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     selectedPos: state.configure.keymap.selectedPos,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type KeyEventCaptureStateType = ReturnType<typeof mapStateToProps>;

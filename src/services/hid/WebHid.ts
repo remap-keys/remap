@@ -21,6 +21,7 @@ import {
   IGetMacroBufferSizeResult,
   IFetchMacroBufferResult,
   IFetchViaProtocolVersionResult,
+  ICustomKeycode,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
@@ -171,7 +172,8 @@ export class Keyboard implements IKeyboard {
     layer: number,
     rowCount: number,
     columnCount: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
   ): Promise<IFetchKeymapResult> {
     const totalSize = rowCount * columnCount * 2;
     let offset = layer * totalSize;
@@ -224,7 +226,7 @@ export class Keyboard implements IKeyboard {
         }
         for (let i = 0; i < buffer.length; i += 2) {
           const code = (buffer[i] << 8) | buffer[i + 1];
-          const keymap = KeycodeList.getKeymap(code, labelLang);
+          const keymap = KeycodeList.getKeymap(code, labelLang, customKeycodes);
           keymapMap[`${row},${column}`] = keymap;
           column = column + 1;
           if (columnCount === column) {

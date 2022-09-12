@@ -1,4 +1,4 @@
-import { IKeymap } from './Hid';
+import { ICustomKeycode, IKeymap } from './Hid';
 import {
   anyKeymap,
   IKeycodeCompositionKind,
@@ -74,7 +74,8 @@ function isDefinedKey(ret: {
 export class KeycodeList {
   static getKeymaps(
     hex: number,
-    langLabel: KeyboardLabelLang
+    langLabel: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
   ): {
     value: IKeymap | null;
     holdKey: IKeymap | null;
@@ -144,6 +145,9 @@ export class KeycodeList {
       const comp = factory.createLayerTapComposition();
       ret.holdKey = comp.genKeymap() || null;
       ret.tapKey = comp.genTapKey() || null;
+    } else if (factory.isViaUserKey()) {
+      const comp = factory.createViaUserKeyComposition(customKeycodes);
+      ret.value = comp.genKeymap() || null;
     }
 
     if (!isDefinedKey(ret)) {
@@ -153,8 +157,16 @@ export class KeycodeList {
     return ret;
   }
 
-  static getKeymap(code: number, labelLang: KeyboardLabelLang): IKeymap {
-    const { value, holdKey, tapKey } = KeycodeList.getKeymaps(code, labelLang);
+  static getKeymap(
+    code: number,
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): IKeymap {
+    const { value, holdKey, tapKey } = KeycodeList.getKeymaps(
+      code,
+      labelLang,
+      customKeycodes
+    );
     if (value) {
       return value;
     }

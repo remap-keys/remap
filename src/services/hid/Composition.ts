@@ -1,4 +1,9 @@
-import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from './Hid';
+import {
+  ICustomKeycode,
+  IKeycodeCategoryInfo,
+  IKeycodeInfo,
+  IKeymap,
+} from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 
 import {
@@ -38,6 +43,7 @@ import {
   KEY_SUB_CATEGORY_SPACE_CADET,
   KEY_SUB_CATEGORY_UNDERGLOW,
   KEY_SUB_CATEGORY_FNMO,
+  KEY_SUB_CATEGORY_VIA_USER_KEY,
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
 import { KeyLabel } from '../labellang/KeyLabel';
@@ -96,7 +102,10 @@ export const QK_UNICODE_MIN = 0b1000_0000_0000_0000;
 export const QK_UNICODE_MAX = 0b1111_1111_1111_1111;
 
 export const LOOSE_KEYCODE_MIN = 0b0101_1100_0000_0000;
-export const LOOSE_KEYCODE_MAX = 0b0101_1111_1111_1111;
+export const LOOSE_KEYCODE_MAX = 0b0101_1111_0111_1111;
+
+export const VIA_USER_KEY_MIN = 0b0101_1111_1000_0000;
+export const VIA_USER_KEY_MAX = 0b0101_1111_1000_1111;
 
 export const ASCII_MIN = 0b0000_0000_0000_0000;
 export const ASCII_MAX = 0b0000_0000_0111_1111;
@@ -120,7 +129,8 @@ export type IKeycodeCompositionKind =
   | 'mod_tap'
   | 'unicode'
   | 'loose_keycode'
-  | 'ascii';
+  | 'ascii'
+  | 'via_user_key';
 export const KeycodeCompositionKind: {
   // eslint-disable-next-line no-unused-vars
   [p in IKeycodeCompositionKind]: IKeycodeCompositionKind;
@@ -144,6 +154,7 @@ export const KeycodeCompositionKind: {
   unicode: 'unicode',
   loose_keycode: 'loose_keycode',
   ascii: 'ascii',
+  via_user_key: 'via_user_key',
 };
 
 const keycodeCompositionKindRangeMap: {
@@ -171,6 +182,7 @@ const keycodeCompositionKindRangeMap: {
   mod_tap: { min: QK_MOD_TAP_MIN, max: QK_MOD_TAP_MAX },
   unicode: { min: QK_UNICODE_MIN, max: QK_UNICODE_MAX },
   loose_keycode: { min: LOOSE_KEYCODE_MIN, max: LOOSE_KEYCODE_MAX },
+  via_user_key: { min: VIA_USER_KEY_MIN, max: VIA_USER_KEY_MAX },
   ascii: { min: Number.MIN_VALUE, max: Number.MIN_VALUE }, // never match
 };
 
@@ -343,6 +355,8 @@ export interface IUnicodeComposition extends IComposition {
 }
 
 export interface ILooseKeycodeComposition extends IComposition {}
+
+export interface IViaUserKeyComposition extends IComposition {}
 
 export class AsciiComposition implements IAsciiComposition {
   private static _keymaps: IKeymap[];
@@ -1537,6 +1551,78 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
   }
 }
 
+export class ViaUserKeyComposition implements IViaUserKeyComposition {
+  private readonly key: IKeymap;
+
+  constructor(keymap: IKeymap) {
+    this.key = keymap;
+  }
+
+  getCode(): number {
+    return VIA_USER_KEY_MIN | this.key.code;
+  }
+
+  genKeymap(): IKeymap {
+    return JSON.parse(JSON.stringify(this.key));
+  }
+
+  static genKeymaps(customKeycodes: ICustomKeycode[] | undefined): IKeymap[] {
+    // It is necessary to generate keymaps every time for custom keycodes.
+
+    const getKeyInfo = (code: number): KeyInfo | undefined => {
+      return keyInfoList.find((info) => info.keycodeInfo.code === code);
+    };
+
+    const viaUserKeymaps: IKeymap[] = [];
+    const kinds = KEY_SUB_CATEGORY_VIA_USER_KEY.kinds;
+    KEY_SUB_CATEGORY_VIA_USER_KEY.codes.forEach((code, index) => {
+      let info: KeyInfo | undefined;
+      const keyInfo = getKeyInfo(code);
+      if (customKeycodes && customKeycodes[index] && keyInfo) {
+        const customKeycode = customKeycodes[index];
+        info = {
+          desc: customKeycode.title || keyInfo.desc,
+          keycodeInfo: {
+            code,
+            label: customKeycode.name || keyInfo.keycodeInfo.label,
+            name: {
+              long: customKeycode.name || keyInfo.keycodeInfo.name.long,
+              short: customKeycode.shortName || keyInfo.keycodeInfo.name.short,
+            },
+            keywords: customKeycode.shortName
+              ? [customKeycode.shortName]
+              : keyInfo.keycodeInfo.keywords,
+          },
+        };
+      } else {
+        info = keyInfo;
+      }
+      if (info) {
+        const keymap: IKeymap = {
+          code,
+          isAny: false,
+          direction: MOD_LEFT,
+          modifiers: [],
+          keycodeInfo: info.keycodeInfo,
+          kinds: kinds,
+          desc: info.desc,
+        };
+        viaUserKeymaps.push(keymap);
+      }
+    });
+
+    return viaUserKeymaps;
+  }
+
+  static findKeymap(
+    code: number,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): IKeymap | undefined {
+    const list: IKeymap[] = ViaUserKeyComposition.genKeymaps(customKeycodes);
+    return list.find((km) => km.code === code);
+  }
+}
+
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
@@ -1558,6 +1644,7 @@ export interface IKeycodeCompositionFactory {
   isLooseKeycode(): boolean;
   isUnknown(): boolean;
   isAscii(): boolean;
+  isViaUserKey(): boolean;
   getKind(): IKeycodeCompositionKind | null;
   createBasicComposition(): IBasicComposition;
   createModsComposition(): IModsComposition;
@@ -1578,6 +1665,10 @@ export interface IKeycodeCompositionFactory {
   createUnicodeComposition(): IUnicodeComposition;
   createLooseKeycodeComposition(): ILooseKeycodeComposition;
   createAsciiKeycodeComposition(): IAsciiComposition;
+  createViaUserKeyComposition(
+    // eslint-disable-next-line no-unused-vars
+    customKeycodes: ICustomKeycode[] | undefined
+  ): IViaUserKeyComposition;
 }
 
 export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
@@ -1693,6 +1784,10 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isAscii(): boolean {
     return ASCII_MIN <= this.code && this.code <= ASCII_MAX;
+  }
+
+  isViaUserKey(): boolean {
+    return this.getKind() === KeycodeCompositionKind.via_user_key;
   }
 
   createBasicComposition(): IBasicComposition {
@@ -1961,5 +2056,18 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       );
     }
     return new AsciiComposition(AsciiComposition.createKeymap(this.code));
+  }
+
+  createViaUserKeyComposition(
+    customKeycodes: ICustomKeycode[] | undefined
+  ): IViaUserKeyComposition {
+    if (!this.isViaUserKey()) {
+      throw new Error(
+        `This code is not a via user key: ${hexadecimal(this.code, 16)}`
+      );
+    }
+    return new ViaUserKeyComposition(
+      ViaUserKeyComposition.findKeymap(this.code, customKeycodes)!
+    );
   }
 }

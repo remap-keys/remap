@@ -10,8 +10,9 @@ import {
   SwapHandsComposition,
   ToComposition,
   ToggleLayerComposition,
+  ViaUserKeyComposition,
 } from './Composition';
-import { IKeycodeCategoryInfo, IKeymap } from './Hid';
+import { ICustomKeycode, IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { range } from '../../utils/ArrayUtils';
 import { encodeMacroText, IMacroBuffer } from '../macro/Macro';
 
@@ -74,27 +75,33 @@ export class KeyCategory {
     return KeyCategory._symbol[labelLang];
   }
 
-  static functions(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (
-      Object.prototype.hasOwnProperty.call(KeyCategory._functions, labelLang)
-    ) {
-      return KeyCategory._functions[labelLang];
-    }
-
-    const basicCodes: number[] = [
+  static functions(
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): IKeymap[] {
+    // It is necessary to build keymaps every time for custom keycodes.
+    const functionsCodes: number[] = [
       ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_INTERNATIONAL.codes,
       ...KEY_SUB_CATEGORY_LANGUAGE.codes,
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
-    const looseCodes: number[] = [...KEY_SUB_CATEGORY_COMBO.codes];
-    const basicKeymaps: IKeymap[] = basicCodes.map(
+    const comboCodes: number[] = [...KEY_SUB_CATEGORY_COMBO.codes];
+    const viaUserCodes: number[] = [...KEY_SUB_CATEGORY_VIA_USER_KEY.codes];
+    const functionsKeymaps: IKeymap[] = functionsCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    const looseKeymaps: IKeymap[] = looseCodes.map(
+    const comboKeymaps: IKeymap[] = comboCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
-    KeyCategory._functions[labelLang] = [...basicKeymaps, ...looseKeymaps];
+    const viaUserKeymaps: IKeymap[] = viaUserCodes.map(
+      (code) => ViaUserKeyComposition.findKeymap(code, customKeycodes)!
+    );
+    KeyCategory._functions[labelLang] = [
+      ...functionsKeymaps,
+      ...comboKeymaps,
+      ...viaUserKeymaps,
+    ];
     return KeyCategory._functions[labelLang];
   }
 
@@ -453,4 +460,10 @@ export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
 export const KEY_SUB_CATEGORY_FNMO: IKeycodeCategoryInfo = {
   kinds: ['fnmo'],
   codes: [24336, 24337],
+};
+
+// VIA USER
+export const KEY_SUB_CATEGORY_VIA_USER_KEY: IKeycodeCategoryInfo = {
+  kinds: ['via_user_key'],
+  codes: range(24448, 24463),
 };

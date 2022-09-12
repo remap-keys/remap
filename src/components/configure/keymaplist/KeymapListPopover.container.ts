@@ -22,6 +22,7 @@ const mapStateToProps = (state: RootState) => {
     sharedKeymaps: state.entities.sharedKeymaps,
     appliedKeymaps: state.entities.appliedKeymaps,
     definitionDocument: state.entities.keyboardDefinitionDocument,
+    keyboardDefinition: state.entities.keyboardDefinition,
   };
 };
 export type KeymapListPopoverStateType = ReturnType<typeof mapStateToProps>;
