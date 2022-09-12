@@ -1577,22 +1577,25 @@ export class ViaUserKeyComposition implements IViaUserKeyComposition {
     const kinds = KEY_SUB_CATEGORY_VIA_USER_KEY.kinds;
     KEY_SUB_CATEGORY_VIA_USER_KEY.codes.forEach((code, index) => {
       let info: KeyInfo | undefined;
-      if (customKeycodes && customKeycodes[index]) {
+      const keyInfo = getKeyInfo(code);
+      if (customKeycodes && customKeycodes[index] && keyInfo) {
         const customKeycode = customKeycodes[index];
         info = {
-          desc: customKeycode.title,
+          desc: customKeycode.title || keyInfo.desc,
           keycodeInfo: {
             code,
-            label: customKeycode.name,
+            label: customKeycode.name || keyInfo.keycodeInfo.label,
             name: {
-              long: customKeycode.name,
-              short: customKeycode.shortName,
+              long: customKeycode.name || keyInfo.keycodeInfo.name.long,
+              short: customKeycode.shortName || keyInfo.keycodeInfo.name.short,
             },
-            keywords: [customKeycode.shortName],
+            keywords: customKeycode.shortName
+              ? [customKeycode.shortName]
+              : keyInfo.keycodeInfo.keywords,
           },
         };
       } else {
-        info = getKeyInfo(code);
+        info = keyInfo;
       }
       if (info) {
         const keymap: IKeymap = {

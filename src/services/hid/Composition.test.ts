@@ -889,6 +889,58 @@ describe('Composition', () => {
       });
       expect(subject.getCode()).toEqual(0b0101_1111_1000_1111);
     });
+
+    describe('findKeymap', () => {
+      test('customKeycodes is not specified', () => {
+        const actual = ViaUserKeyComposition.findKeymap(
+          0b0101_1111_1000_0000,
+          undefined
+        );
+        expect(actual).not.toBeUndefined();
+        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
+        expect(actual!.desc).toEqual('User 0');
+        expect(actual!.kinds).toEqual(['via_user_key']);
+        expect(actual!.keycodeInfo.name.short).toEqual('USER 0');
+        expect(actual!.keycodeInfo.name.long).toEqual('Custom Keycode 0');
+        expect(actual!.keycodeInfo.label).toEqual('USER 0');
+      });
+
+      test('customKeycodes is specified', () => {
+        const actual = ViaUserKeyComposition.findKeymap(0b0101_1111_1000_0000, [
+          {
+            name: 'customKeycodeName1',
+            shortName: 'customKeycodeShortName1',
+            title: 'customKeycodeTitle1',
+          },
+        ]);
+        expect(actual).not.toBeUndefined();
+        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
+        expect(actual!.desc).toEqual('customKeycodeTitle1');
+        expect(actual!.kinds).toEqual(['via_user_key']);
+        expect(actual!.keycodeInfo.name.short).toEqual(
+          'customKeycodeShortName1'
+        );
+        expect(actual!.keycodeInfo.name.long).toEqual('customKeycodeName1');
+        expect(actual!.keycodeInfo.label).toEqual('customKeycodeName1');
+      });
+
+      test('customKeycodes is specified but empty', () => {
+        const actual = ViaUserKeyComposition.findKeymap(0b0101_1111_1000_0000, [
+          {
+            name: '',
+            shortName: '',
+            title: '',
+          },
+        ]);
+        expect(actual).not.toBeUndefined();
+        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
+        expect(actual!.desc).toEqual('User 0');
+        expect(actual!.kinds).toEqual(['via_user_key']);
+        expect(actual!.keycodeInfo.name.short).toEqual('USER 0');
+        expect(actual!.keycodeInfo.name.long).toEqual('Custom Keycode 0');
+        expect(actual!.keycodeInfo.label).toEqual('USER 0');
+      });
+    });
   });
 
   describe('KeycodeCompositionFactory', () => {
@@ -1449,7 +1501,7 @@ describe('Composition', () => {
           'en-us'
         );
         expect(subject.isViaUserKey()).toBeTruthy();
-        const actual = subject.createViaUserKeyComposition();
+        const actual = subject.createViaUserKeyComposition(undefined);
         expect(actual.genKeymap()!.code).toEqual(0b0101_1111_1000_0000);
       });
 
@@ -1460,7 +1512,7 @@ describe('Composition', () => {
         );
         expect(subject.isViaUserKey()).toBeFalsy();
         expect(() => {
-          subject.createViaUserKeyComposition();
+          subject.createViaUserKeyComposition(undefined);
         }).toThrowError();
       });
     });
