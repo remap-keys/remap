@@ -192,7 +192,8 @@
         "x2": { "type": "number" },
         "y2": { "type": "number" },
         "w2": { "type": "number" },
-        "h2": { "type": "number" }
+        "h2": { "type": "number" },
+        "a": { "type": "number" }
       }
     }
   }
