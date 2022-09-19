@@ -84,12 +84,6 @@ export class Current {
   }
 }
 
-// For an encoder: There are following patterns:
-//   (Left Top) (Center) (Right Bottom) -> (Label)
-//              e0                      -> "{a:3},"e0",{a:4}" or "{a:7},"e0",{a:4}"
-//   0,1        e0                      -> "0,1\n\n\n\n\n\n\n\n\ne0"
-//              e0        0,1           -> "\n\n\n0,1\n\n\n\n\n\ne0"
-//   0,1        e0        0,2           -> "0,1\n\n\n0,2\n\n\n\n\n\ne0"
 export class KeymapItem {
   private _curr: Current;
   readonly op: KeyOp;
@@ -110,6 +104,13 @@ export class KeymapItem {
         : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
+
+    // For an encoder: There are following patterns:
+    //   (Left Top) (Center) (Right Bottom) -> (Label)
+    //              e0                      -> "{a:3},"e0",{a:4}" or "{a:7},"e0",{a:4}"
+    //   0,1        e0                      -> "0,1\n\n\n\n\n\n\n\n\ne0"
+    //              e0        0,1           -> "\n\n\n0,1\n\n\n\n\n\ne0"
+    //   0,1        e0        0,2           -> "0,1\n\n\n0,2\n\n\n\n\n\ne0"
     if (10 <= locs.length && locs[9].match(/^e[0-9]+$/i)) {
       this._encoderId = Number(locs[9].substring(1));
     } else if (
@@ -121,6 +122,7 @@ export class KeymapItem {
     } else {
       this._encoderId = null;
     }
+
     this._toBeDelete = false;
   }
 
