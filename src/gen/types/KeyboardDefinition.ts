@@ -70,5 +70,6 @@ export interface KeyOp {
   y2?: number;
   w2?: number;
   h2?: number;
+  a?: number;
   [k: string]: unknown;
 }

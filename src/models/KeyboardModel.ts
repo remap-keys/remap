@@ -20,6 +20,7 @@ export class Current {
   ry = 0;
   x2 = 0;
   y2 = 0;
+  a = 4;
 
   constructor(curr?: Current) {
     if (curr) {
@@ -31,6 +32,7 @@ export class Current {
       this.ry = curr.ry;
       this.x2 = curr.x2;
       this.y2 = curr.y2;
+      this.a = curr.a;
     }
   }
 
@@ -72,6 +74,7 @@ export class Current {
     this.x2 = op.x2 != undefined ? op.x2 : this.x2;
     this.y2 = op.y2 != undefined ? op.y2 : this.y2;
     this.c = op.c != undefined ? op.c : this.c;
+    this.a = op.a != undefined ? op.a : this.a;
   }
 
   next(w: number) {
@@ -101,10 +104,25 @@ export class KeymapItem {
         : [OPTION_DEFAULT, OPTION_DEFAULT];
     this.option = options[0];
     this.choice = options[1];
-    this._encoderId =
-      10 <= locs.length && locs[9].match(/^e[0-9]+$/i)
-        ? Number(locs[9].substring(1))
-        : null;
+
+    // For an encoder: There are following patterns:
+    //   (Left Top) (Center) (Right Bottom) -> (Label)
+    //              e0                      -> "{a:3},"e0",{a:4}" or "{a:7},"e0",{a:4}"
+    //   0,1        e0                      -> "0,1\n\n\n\n\n\n\n\n\ne0"
+    //              e0        0,1           -> "\n\n\n0,1\n\n\n\n\n\ne0"
+    //   0,1        e0        0,2           -> "0,1\n\n\n0,2\n\n\n\n\n\ne0"
+    if (10 <= locs.length && locs[9].match(/^e[0-9]+$/i)) {
+      this._encoderId = Number(locs[9].substring(1));
+    } else if (
+      locs.length === 1 &&
+      (this._curr.a === 3 || this._curr.a === 7) &&
+      locs[0].match(/e[0-9]+$/i)
+    ) {
+      this._encoderId = Number(locs[0].substring(1));
+    } else {
+      this._encoderId = null;
+    }
+
     this._toBeDelete = false;
   }
 
@@ -157,6 +175,10 @@ export class KeymapItem {
       return this.op.w;
     }
     return 1;
+  }
+
+  get a(): number {
+    return this._curr.a;
   }
 
   get toBeDeleted(): boolean {

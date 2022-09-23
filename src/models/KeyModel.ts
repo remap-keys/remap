@@ -55,9 +55,10 @@ export default class KeyModel {
     this.encoderId = encoderId;
     this.location = location;
     const locs = location.split('\n');
-    this.pos = locs[0]; // 0 < locs[0].length ? locs[0] : locs[3];
-    if (!this.includePosition(this.pos)) {
-      // If there is no position label, this Key should be "Decal".
+    this.pos = locs[0];
+    if (!this.includePosition(this.pos) && this.encoderId === null) {
+      // If there is no position label and this is not an encoder,
+      // this Key should be "Decal".
       this.keyOp = { ...(this.keyOp || {}), ...{ d: true } };
     }
     this.optionLabel =
