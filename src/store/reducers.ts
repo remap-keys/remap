@@ -51,6 +51,7 @@ import {
   HID_CONNECT_KEYBOARD,
   HID_DISCONNECT_KEYBOARD,
   HID_UPDATE_BLE_MICRO_PRO,
+  HID_UPDATE_ENCODERS_KEYMAPS,
   HID_UPDATE_KEYBOARD,
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
@@ -685,6 +686,10 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_UPDATE_VIA_PROTOCOL_VERSION: {
       draft.entities.device.viaProtocolVersion = action.value;
+      break;
+    }
+    case HID_UPDATE_ENCODERS_KEYMAPS: {
+      draft.entities.device.encodersKeymaps = action.value;
       break;
     }
   }

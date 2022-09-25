@@ -86,8 +86,21 @@ export type ICustomKeycode = {
   [k: string]: unknown;
 };
 
+export type IEncoderKeymap = {
+  clockwise: IKeymap;
+  counterclockwise: IKeymap;
+};
+
+export type IEncoderKeymaps = {
+  [id: number]: IEncoderKeymap;
+};
+
 export interface IFetchKeymapResult extends IResult {
   keymap?: IKeymaps;
+}
+
+export interface IFetchEncodersKeymapsResult extends IResult {
+  keymap?: IEncoderKeymaps;
 }
 
 export interface IFetchBrightnessResult extends IResult {
@@ -154,6 +167,12 @@ export interface IKeyboard {
     labelLang: KeyboardLabelLang,
     customKeycodes: ICustomKeycode[] | undefined
   ): Promise<IFetchKeymapResult>;
+  fetchEncodersKeymaps(
+    layer: number,
+    encoderIds: number[],
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): Promise<IFetchEncodersKeymapsResult>;
   updateKeymap(
     layer: number,
     row: number,

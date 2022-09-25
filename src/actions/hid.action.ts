@@ -1,6 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
   ICustomKeycode,
+  IEncoderKeymaps,
   IHid,
   IKeyboard,
   IKeymap,
@@ -12,16 +13,18 @@ import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
   HeaderActions,
-  KeymapActions,
   KeycodeKeyActions,
   KeydiffActions,
-  NotificationActions,
+  KeymapActions,
   LayoutOptionsActions,
+  NotificationActions,
 } from './actions';
 import { StorageActions, storageActionsThunk } from './storage.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
+import { KeyOp } from '../gen/types/KeyboardDefinition';
+import KeyboardModel from '../models/KeyboardModel';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -37,6 +40,7 @@ export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBy
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HID_UPDATE_VIA_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateViaProtocolVersion`;
+export const HID_UPDATE_ENCODERS_KEYMAPS = `${HID_ACTIONS}/UpdateEncodersKeymaps`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -112,6 +116,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_VIA_PROTOCOL_VERSION,
       value: version,
+    };
+  },
+
+  updateEncodersKeymaps: (keymaps: IEncoderKeymaps[]) => {
+    return {
+      type: HID_UPDATE_ENCODERS_KEYMAPS,
+      value: keymaps,
     };
   },
 };
@@ -316,6 +327,16 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
       const macroBufferSizeResult = await keyboard.getMacroBufferSize();
       if (!macroBufferSizeResult.success) {
@@ -479,6 +500,17 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
+
       dispatch(AppActions.remapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
@@ -543,6 +575,16 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
     },
 
   resetKeymap:
@@ -569,6 +611,17 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
+
       dispatch(AppActions.remapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
@@ -672,6 +725,57 @@ const loadKeymap = async (
     keymaps.push(keymapsResult.keymap!);
   }
   return keymaps;
+};
+
+const loadEncodersKeymap = async (
+  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+  keyboard: IKeyboard,
+  layerCount: number,
+  labelLang: KeyboardLabelLang,
+  customKeycodes: ICustomKeycode[] | undefined,
+  keymapDefinition: ((string | KeyOp)[] | { name: string })[],
+  viaProtocolVersion: number
+): Promise<IEncoderKeymaps[]> => {
+  const keymaps: IEncoderKeymaps[] = [];
+  const encoderIdList = getEncoderIdList(keymapDefinition);
+  for (let i = 0; i < layerCount; i++) {
+    if (0x0a <= viaProtocolVersion) {
+      const encodersKeymapsResult = await keyboard.fetchEncodersKeymaps(
+        i,
+        encoderIdList,
+        labelLang,
+        customKeycodes
+      );
+      if (!encodersKeymapsResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            encodersKeymapsResult.error!,
+            encodersKeymapsResult.cause!
+          )
+        );
+        console.error(encodersKeymapsResult);
+        console.error(`layer:${i}, encoderId:[${encoderIdList.join(' ')}]`);
+        Promise.reject('something wrong in loading encoders keymaps');
+      }
+      keymaps.push(encodersKeymapsResult.keymap!);
+    } else {
+      keymaps.push({});
+    }
+  }
+  return keymaps;
+};
+
+const getEncoderIdList = (
+  keymapDefinition: ((string | KeyOp)[] | { name: string })[]
+): number[] => {
+  const keyboardModel = new KeyboardModel(keymapDefinition);
+  const keyModels = keyboardModel.keyModels;
+  return keyModels.reduce<number[]>((result, keyModel) => {
+    if (keyModel.isEncoder) {
+      result.push(keyModel.encoderId!);
+    }
+    return result;
+  }, []);
 };
 
 const createLayoutValueBitLengths = (

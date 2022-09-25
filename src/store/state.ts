@@ -1,6 +1,6 @@
 import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeyGen';
-import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
+import { IEncoderKeymaps, IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
@@ -202,6 +202,7 @@ export type RootState = {
         maxCount: number;
       };
       viaProtocolVersion: number;
+      encodersKeymaps: IEncoderKeymaps[];
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -432,6 +433,7 @@ export const INIT_STATE: RootState = {
         maxCount: 0,
       },
       viaProtocolVersion: NaN,
+      encodersKeymaps: [],
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]
