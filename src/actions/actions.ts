@@ -1,7 +1,7 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
-import { IKeymap } from '../services/hid/Hid';
+import { IEncoderKeymap, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { ISetupPhase, RootState, SetupPhase } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
@@ -193,6 +193,11 @@ export const APP_REMAPS_SET_KEY = `${APP_ACTIONS}/RemapsSetKey`;
 export const APP_REMAPS_SET_KEYS = `${APP_ACTIONS}/RemapsSetKeys`;
 export const APP_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/RemapsRemoveKey`;
 export const APP_REMAPS_CLEAR = `${APP_ACTIONS}/Clear`;
+export const APP_ENCODERS_REMAPS_INIT = `${APP_ACTIONS}/EncodersRemapsInit`;
+export const APP_ENCODERS_REMAPS_SET_KEY = `${APP_ACTIONS}/EncodersRemapsSetKey`;
+export const APP_ENCODERS_REMAPS_SET_KEYS = `${APP_ACTIONS}/EncodersRemapsSetKeys`;
+export const APP_ENCODERS_REMAPS_REMOVE_KEY = `${APP_ACTIONS}/EncodersRemapsRemoveKey`;
+export const APP_ENCODERS_REMAPS_CLEAR = `${APP_ACTIONS}/EncodersRemapsClear`;
 export const APP_PACKAGE_INIT = `${APP_ACTIONS}/PackageInit`;
 export const APP_UPDATE_KEYBOARD_SIZE = `${APP_ACTIONS}/UpdateKeyboardSize`;
 export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
@@ -243,6 +248,45 @@ export const AppActions = {
   remapsClear: () => {
     return {
       type: APP_REMAPS_CLEAR,
+    };
+  },
+  encodersRemapsInit: (layerCount: number) => {
+    const encodersRemaps: { [id: number]: IEncoderKeymap }[] = new Array(
+      layerCount
+    ).fill({});
+    return {
+      type: APP_ENCODERS_REMAPS_INIT,
+      value: encodersRemaps,
+    };
+  },
+  encodersRemapsSetKey: (layer: number, id: number, keymap: IEncoderKeymap) => {
+    return {
+      type: APP_ENCODERS_REMAPS_SET_KEY,
+      value: {
+        layer,
+        id,
+        keymap,
+      },
+    };
+  },
+  encodersRemapsSetKeys: (keymaps: { [id: number]: IEncoderKeymap }[]) => {
+    return {
+      type: APP_ENCODERS_REMAPS_SET_KEYS,
+      value: keymaps,
+    };
+  },
+  encodersRemapsRemoveKey: (layer: number, id: number) => {
+    return {
+      type: APP_ENCODERS_REMAPS_REMOVE_KEY,
+      value: {
+        id,
+        layer,
+      },
+    };
+  },
+  encodersRemapsClear: () => {
+    return {
+      type: APP_ENCODERS_REMAPS_CLEAR,
     };
   },
   initAppPackage: (name: string, version: string) => {

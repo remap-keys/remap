@@ -1,6 +1,12 @@
 import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeyGen';
-import { IEncoderKeymaps, IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
+import {
+  IEncoderKeymap,
+  IEncoderKeymaps,
+  IHid,
+  IKeyboard,
+  IKeymap,
+} from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
@@ -226,8 +232,12 @@ export type RootState = {
     buildNumber: number;
     setupPhase: ISetupPhase;
     remaps: {
-      // remap candidates and show keydiff
+      // remap candidates and show keydiff for clickable keys
       [pos: string]: IKeymap;
+    }[];
+    encodersRemaps: {
+      // remap candidates and show keydiff for encoders
+      [id: number]: IEncoderKeymap;
     }[];
     testedMatrix: string[]; // 'row,col' string list which are pressed keys in TEST MATRIX MODE
     currentTestMatrix: string[]; // 'row,col' string list which are pressed down keys currently in TEST MATRIX MODE
@@ -457,6 +467,7 @@ export const INIT_STATE: RootState = {
     buildNumber: buildInfo.buildNumber,
     setupPhase: SetupPhase.init,
     remaps: [],
+    encodersRemaps: [],
     testedMatrix: [],
     currentTestMatrix: [],
     notifications: [],
