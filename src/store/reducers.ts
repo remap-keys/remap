@@ -45,6 +45,11 @@ import {
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
   APP_TESTED_MATRIX_CLEAR,
   APP_TEST_MATRIX_UPDATE,
+  APP_ENCODERS_REMAPS_INIT,
+  APP_ENCODERS_REMAPS_SET_KEY,
+  APP_ENCODERS_REMAPS_SET_KEYS,
+  APP_ENCODERS_REMAPS_REMOVE_KEY,
+  APP_ENCODERS_REMAPS_CLEAR,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -596,6 +601,29 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_REMAPS_CLEAR: {
       draft.app.remaps = [];
+      break;
+    }
+    case APP_ENCODERS_REMAPS_INIT: {
+      draft.app.encodersRemaps = action.value;
+      break;
+    }
+    case APP_ENCODERS_REMAPS_SET_KEY: {
+      const layer = action.value.layer;
+      draft.app.encodersRemaps[layer][action.value.id] = action.value.keymap;
+      break;
+    }
+    case APP_ENCODERS_REMAPS_SET_KEYS: {
+      draft.app.encodersRemaps = action.value;
+      break;
+    }
+    case APP_ENCODERS_REMAPS_REMOVE_KEY: {
+      const layer = action.value.layer;
+      const id = action.value.id;
+      delete draft.app.remaps[layer][id];
+      break;
+    }
+    case APP_ENCODERS_REMAPS_CLEAR: {
+      draft.app.encodersRemaps = [];
       break;
     }
     case APP_PACKAGE_INIT: {
