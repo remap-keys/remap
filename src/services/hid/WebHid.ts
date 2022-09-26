@@ -22,10 +22,13 @@ import {
   IFetchMacroBufferResult,
   IFetchViaProtocolVersionResult,
   ICustomKeycode,
+  IFetchEncodersKeymapsResult,
+  IEncoderKeymaps,
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
   BleMicroProStoreKeymapPersistentlyCommand,
+  DynamicKeymapGetEncoderCommand,
   DynamicKeymapGetLayerCountCommand,
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapMacroGetBufferSizeCommand,
@@ -36,6 +39,7 @@ import {
   DynamicKeymapSetKeycodeCommand,
   GetLayoutOptionsCommand,
   GetProtocolVersionCommand,
+  IDynamicKeymapGetEncoderResponse,
   IDynamicKeymapMacroGetBufferResponse,
   IDynamicKeymapMacroSetBufferResponse,
   IDynamicKeymapReadBufferResponse,
@@ -164,6 +168,73 @@ export class Keyboard implements IKeyboard {
       return {
         success: false,
         error: 'Not connected or opened.',
+      };
+    }
+  }
+
+  async fetchEncodersKeymaps(
+    layer: number,
+    encoderIds: number[],
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): Promise<IFetchEncodersKeymapsResult> {
+    const commandResults: Promise<IDynamicKeymapGetEncoderResponse>[] = [];
+    encoderIds.forEach((encoderId) => {
+      [true, false].forEach((clockwise) => {
+        commandResults.push(
+          new Promise<IDynamicKeymapGetEncoderResponse>((resolve, reject) => {
+            const command = new DynamicKeymapGetEncoderCommand(
+              {
+                layer,
+                encoderId,
+                clockwise,
+              },
+              async (result) => {
+                if (result.success) {
+                  resolve(result.response!);
+                } else {
+                  console.error(result.cause!);
+                  reject(result.error!);
+                }
+              }
+            );
+            return this.enqueue(command);
+          })
+        );
+      });
+    });
+    try {
+      const responses = await Promise.all<IDynamicKeymapGetEncoderResponse>(
+        commandResults
+      );
+      const keymap: IEncoderKeymaps = {};
+      let i = 0;
+      encoderIds.forEach((encoderId) => {
+        const clockwiseResponse = responses[i++];
+        const counterclockwiseResponse = responses[i++];
+        keymap[encoderId] = {
+          clockwise: KeycodeList.getKeymap(
+            clockwiseResponse.code!,
+            labelLang,
+            customKeycodes
+          ),
+          counterclockwise: KeycodeList.getKeymap(
+            counterclockwiseResponse.code!,
+            labelLang,
+            customKeycodes
+          ),
+        };
+      });
+      return {
+        success: true,
+        keymap,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: 'Fetching encoders keymaps failed.',
+        cause: error,
       };
     }
   }

@@ -5,6 +5,8 @@ import {
   ICommand,
   IConnectionEventHandler,
   IConnectParams,
+  ICustomKeycode,
+  IFetchEncodersKeymapsResult,
   IFetchLayoutOptionsResult,
   IFetchViaProtocolVersionResult,
   IGetMacroCountResult,
@@ -99,6 +101,54 @@ export const mockIKeyboad: IKeyboard = {
                 long: 'KC_MOCK',
               },
               keywords: [],
+            },
+          },
+        },
+      });
+    });
+  },
+  fetchEncodersKeymaps(
+    layer: number,
+    encoderIds: number[],
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): Promise<IFetchEncodersKeymapsResult> {
+    return new Promise((resolve) => {
+      resolve({
+        success: true,
+        keymap: {
+          0: {
+            clockwise: {
+              isAny: false,
+              code: 0,
+              kinds: [],
+              direction: MOD_LEFT,
+              modifiers: [],
+              keycodeInfo: {
+                code: 0,
+                label: 'Mock(0,0)',
+                name: {
+                  short: 'KC_MOCK',
+                  long: 'KC_MOCK',
+                },
+                keywords: [],
+              },
+            },
+            counterclockwise: {
+              isAny: false,
+              code: 0,
+              kinds: [],
+              direction: MOD_LEFT,
+              modifiers: [],
+              keycodeInfo: {
+                code: 0,
+                label: 'Mock(0,0)',
+                name: {
+                  short: 'KC_MOCK',
+                  long: 'KC_MOCK',
+                },
+                keywords: [],
+              },
             },
           },
         },
