@@ -21,7 +21,7 @@ import {
   KeymapSaveDialogActionsType,
   KeymapSaveDialogStateType,
 } from './KeymapSaveDialog.container';
-import { IKeymap } from '../../../services/hid/Hid';
+import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import {
   isApprovedKeyboard,
@@ -92,6 +92,36 @@ export default class LayoutOptionPopover extends React.Component<
     return keycodes;
   }
 
+  private buildCurrentEncodersKeymapKeycodes(): {
+    [id: number]: { clockwise: number; counterclockwise: number };
+  }[] {
+    if (this.props.encodersKeymaps === undefined) {
+      return (
+        new Array(this.props.layerCount!) as {
+          [id: number]: { clockwise: number; counterclockwise: number };
+        }[]
+      ).fill({});
+    }
+    const keymaps: IEncoderKeymaps[] = this.props.encodersKeymaps;
+    const keycodes: {
+      [id: number]: { clockwise: number; counterclockwise: number };
+    }[] = [];
+    for (let i = 0; i < this.props.layerCount!; i++) {
+      const keymap: {
+        [id: number]: { clockwise: number; counterclockwise: number };
+      } = {};
+      const km = keymaps[i];
+      Object.keys(km).forEach((id) => {
+        keymap[Number(id)] = {
+          clockwise: km[Number(id)].clockwise.code,
+          counterclockwise: km[Number(id)].counterclockwise.code,
+        };
+      });
+      keycodes.push(keymap);
+    }
+    return keycodes;
+  }
+
   private onClickDeleteButton() {
     if (!this.props.savedKeymapData) return;
 
@@ -120,6 +150,9 @@ export default class LayoutOptionPopover extends React.Component<
     const keycodes: {
       [pos: string]: number;
     }[] = this.buildCurrentKeymapKeycodes();
+    const encoderKeycodes: {
+      [id: number]: { clockwise: number; counterclockwise: number };
+    }[] = this.buildCurrentEncodersKeymapKeycodes();
 
     let info: { vendorId: number; productId: number; productName: string };
     if (isApprovedKeyboard(this.props.keyboardDefinitionDocument)) {
@@ -143,6 +176,7 @@ export default class LayoutOptionPopover extends React.Component<
       label_lang: labelLang,
       layout_options: this.props.selectedLayoutOptions!,
       keycodes,
+      encoderKeycodes,
     };
     this.props.createSavedKeymap!(savedKeymap);
   }

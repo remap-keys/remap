@@ -25,7 +25,7 @@ import {
   IKeyboardDefinitionDocument,
   SavedKeymapData,
 } from '../../../services/storage/Storage';
-import { IKeymap } from '../../../services/hid/Hid';
+import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
@@ -101,7 +101,8 @@ export default class KeymapListPopover extends React.Component<
 
     const labelLang = savedKeymapData.label_lang;
     const layoutOptions = savedKeymapData.layout_options;
-    let keycodes: { [pos: string]: IKeymap }[] = [];
+
+    const keycodes: { [pos: string]: IKeymap }[] = [];
     const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
     for (let i = 0; i < keymaps.length; i++) {
@@ -126,7 +127,55 @@ export default class KeymapListPopover extends React.Component<
       keycodes.push(changes);
     }
 
-    this.props.applySavedKeymapData!(keycodes, layoutOptions, labelLang);
+    const encodersKeycodes: IEncoderKeymaps[] = [];
+    const savedEncodersKeycodes: {
+      [id: number]: { clockwise: number; counterclockwise: number };
+    }[] = savedKeymapData.encoderKeycodes;
+    if (savedEncodersKeycodes) {
+      const encodersKeymaps: IEncoderKeymaps[] =
+        this.props.encodersKeymaps ||
+        (new Array(keymaps.length) as IEncoderKeymaps[]).fill({});
+      for (let i = 0; i < encodersKeymaps.length; i++) {
+        const encoderKeymap = encodersKeymaps[i];
+        const savedCode = savedEncodersKeycodes[i];
+        const changes: IEncoderKeymaps = {};
+        // When the savedKeycodes was stored for BMP MCU, the length may be 11.
+        // Therefore, the target layer must be checked to ensure that the value
+        // is less than the savedKeycodes length.
+        // See: https://github.com/remap-keys/remap/issues/454
+        if (i < savedKeycodes.length) {
+          Object.keys(encoderKeymap).forEach((id: string) => {
+            if (
+              encoderKeymap[Number(id)].clockwise.code !=
+                savedCode[Number(id)].clockwise ||
+              encoderKeymap[Number(id)].counterclockwise.code !=
+                savedCode[Number(id)].counterclockwise
+            ) {
+              changes[Number(id)] = {
+                clockwise: KeycodeList.getKeymap(
+                  savedCode[Number(id)].clockwise,
+                  labelLang,
+                  this.props.keyboardDefinition!.customKeycodes
+                ),
+                counterclockwise: KeycodeList.getKeymap(
+                  savedCode[Number(id)].counterclockwise,
+                  labelLang,
+                  this.props.keyboardDefinition!.customKeycodes
+                ),
+              };
+            }
+          });
+        }
+        encodersKeycodes.push(changes);
+      }
+    }
+
+    this.props.applySavedKeymapData!(
+      keycodes,
+      encodersKeycodes,
+      layoutOptions,
+      labelLang
+    );
 
     const uid = this.props.auth!.getCurrentAuthenticatedUser().uid;
     if (uid !== savedKeymapData.author_uid) {
