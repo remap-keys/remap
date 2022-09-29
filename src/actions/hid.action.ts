@@ -472,7 +472,7 @@ export const hidActionsThunk = {
             console.error(result.cause);
             dispatch(
               NotificationActions.addError(
-                `Flush error: [${pos}] ${result.error!}`,
+                `Flash error: [${pos}] ${result.error!}`,
                 result.cause
               )
             );
@@ -488,6 +488,50 @@ export const hidActionsThunk = {
           dispatch(NotificationActions.addError(result.error!, result.cause));
           dispatch(HeaderActions.updateFlashing(false));
           return;
+        }
+      }
+      if (0x0a <= entities.device.viaProtocolVersion) {
+        const encodersRemaps = app.encodersRemaps;
+        for (let layer = 0; layer < encodersRemaps.length; layer++) {
+          const encodersRemap = encodersRemaps[layer];
+          for (const encoderIdString of Object.keys(encodersRemap)) {
+            const encoderId = Number(encoderIdString);
+            const encoderKeymap = encodersRemap[encoderId];
+            let result = await keyboard.updateEncoderKeymap(
+              layer,
+              encoderId,
+              true,
+              encoderKeymap.clockwise.code
+            );
+            if (!result.success) {
+              console.error(result.cause);
+              dispatch(
+                NotificationActions.addError(
+                  `Flash error: [${encoderId}-clockwise] ${result.error!}`,
+                  result.cause
+                )
+              );
+              dispatch(HeaderActions.updateFlashing(false));
+              return;
+            }
+            result = await keyboard.updateEncoderKeymap(
+              layer,
+              encoderId,
+              false,
+              encoderKeymap.counterclockwise.code
+            );
+            if (!result.success) {
+              console.error(result.cause);
+              dispatch(
+                NotificationActions.addError(
+                  `Flash error: [${encoderId}-counterclockwise] ${result.error!}`,
+                  result.cause
+                )
+              );
+              dispatch(HeaderActions.updateFlashing(false));
+              return;
+            }
+          }
         }
       }
       const keymaps: IKeymaps[] = await loadKeymap(

@@ -36,6 +36,7 @@ import {
   DynamicKeymapMacroSetBufferCommand,
   DynamicKeymapReadBufferCommand,
   DynamicKeymapResetCommand,
+  DynamicKeymapSetEncoderCommand,
   DynamicKeymapSetKeycodeCommand,
   GetLayoutOptionsCommand,
   GetProtocolVersionCommand,
@@ -378,6 +379,38 @@ export class Keyboard implements IKeyboard {
           layer,
           row,
           column,
+          code,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        }
+      );
+      return this.enqueue(command);
+    });
+  }
+
+  updateEncoderKeymap(
+    layer: number,
+    encoderId: number,
+    clockwise: boolean,
+    code: number
+  ): Promise<IResult> {
+    return new Promise<IResult>((resolve) => {
+      const command = new DynamicKeymapSetEncoderCommand(
+        {
+          layer,
+          encoderId,
+          clockwise,
           code,
         },
         async (result) => {

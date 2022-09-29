@@ -179,6 +179,12 @@ export interface IKeyboard {
     column: number,
     code: number
   ): Promise<IResult>;
+  updateEncoderKeymap(
+    layer: number,
+    encoderId: number,
+    clockwise: boolean,
+    code: number
+  ): Promise<IResult>;
   fetchBacklightBrightness(): Promise<IFetchBrightnessResult>;
   fetchBacklightEffect(): Promise<IFetchBacklightEffectResult>;
   fetchRGBLightBrightness(): Promise<IFetchBrightnessResult>;

@@ -160,6 +160,16 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true });
     });
   },
+  updateEncoderKeymap(
+    layer: number,
+    encoderId: number,
+    clockwise: boolean,
+    code: number
+  ): Promise<IResult> {
+    return new Promise((resolve) => {
+      resolve({ success: true });
+    });
+  },
   fetchBacklightBrightness: () => {
     return new Promise((resolve) => {
       resolve({ success: true, brightness: 100 });
