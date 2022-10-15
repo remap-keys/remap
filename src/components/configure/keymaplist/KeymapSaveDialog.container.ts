@@ -8,6 +8,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     keyboard: state.entities.keyboard,
     keymaps: state.entities.device.keymaps,
+    encodersKeymaps: state.entities.device.encodersKeymaps,
     labelLang: state.app.labelLang,
     layerCount: state.entities.device.layerCount,
     layoutLabels: state.entities.keyboardDefinition?.layouts.labels,

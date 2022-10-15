@@ -853,6 +853,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           label_lang: keymapData.label_lang,
           layout_options: keymapData.layout_options,
           keycodes: keymapData.keycodes,
+          encoderKeycodes: keymapData.encoderKeycodes,
           created_at: now,
           updated_at: now,
         };
@@ -879,6 +880,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             label_lang: keymapData.label_lang,
             layout_options: keymapData.layout_options,
             keycodes: keymapData.keycodes,
+            encoderKeycodes: keymapData.encoderKeycodes,
             updated_at: new Date(),
           });
         return {

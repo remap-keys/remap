@@ -158,6 +158,7 @@ import {
   CATALOG_APP_UPDATE_PHASE,
   CATALOG_KEYBOARD_ACTIONS,
   CATALOG_KEYBOARD_CLEAR_KEYMAP,
+  CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
   CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
@@ -1040,6 +1041,9 @@ const catalogKeyboardReducer = (
   switch (action.type) {
     case CATALOG_KEYBOARD_UPDATE_KEYMAPS:
       draft.catalog.keyboard.keymaps = action.value;
+      break;
+    case CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS:
+      draft.catalog.keyboard.encodersKeymaps = action.value;
       break;
     case CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER:
       draft.catalog.keyboard.selectedLayer = action.value;

@@ -24,7 +24,7 @@ import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
-import KeyboardModel from '../models/KeyboardModel';
+import { getEncoderIdList } from './utils';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -807,19 +807,6 @@ const loadEncodersKeymap = async (
     }
   }
   return keymaps;
-};
-
-const getEncoderIdList = (
-  keymapDefinition: ((string | KeyOp)[] | { name: string })[]
-): number[] => {
-  const keyboardModel = new KeyboardModel(keymapDefinition);
-  const keyModels = keyboardModel.keyModels;
-  return keyModels.reduce<number[]>((result, keyModel) => {
-    if (keyModel.isEncoder) {
-      result.push(keyModel.encoderId!);
-    }
-    return result;
-  }, []);
 };
 
 const createLayoutValueBitLengths = (
