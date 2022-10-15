@@ -360,6 +360,7 @@ export type RootState = {
       keymaps: {
         [pos: string]: IKeymap;
       }[];
+      encodersKeymaps: IEncoderKeymaps[];
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
@@ -587,6 +588,7 @@ export const INIT_STATE: RootState = {
     },
     keyboard: {
       keymaps: [],
+      encodersKeymaps: [],
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,

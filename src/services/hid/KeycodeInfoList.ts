@@ -1,5 +1,7 @@
 import { IKeycodeInfo } from './Hid';
 
+export const KC_NO = 0;
+
 export type KeyInfo = {
   desc: string;
   keycodeInfo: IKeycodeInfo;
@@ -8,7 +10,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Ignore this key (NOOP)',
     keycodeInfo: {
-      code: 0,
+      code: KC_NO,
       name: {
         long: 'KC_NO',
         short: 'KC_NO',
