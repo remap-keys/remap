@@ -3328,7 +3328,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20496,
+      code: 20480,
       name: {
         long: 'TO(0)',
         short: 'TO(0)',
@@ -3340,7 +3340,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20497,
+      code: 20481,
       name: {
         long: 'TO(1)',
         short: 'TO(1)',
@@ -3352,7 +3352,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20498,
+      code: 20482,
       name: {
         long: 'TO(2)',
         short: 'TO(2)',
@@ -3364,7 +3364,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20499,
+      code: 20483,
       name: {
         long: 'TO(3)',
         short: 'TO(3)',
@@ -3376,7 +3376,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20500,
+      code: 20484,
       name: {
         long: 'TO(4)',
         short: 'TO(4)',
@@ -3388,7 +3388,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20501,
+      code: 20485,
       name: {
         long: 'TO(5)',
         short: 'TO(5)',
@@ -3400,7 +3400,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20502,
+      code: 20486,
       name: {
         long: 'TO(6)',
         short: 'TO(6)',
@@ -3412,7 +3412,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '',
     keycodeInfo: {
-      code: 20503,
+      code: 20487,
       name: {
         long: 'TO(7)',
         short: 'TO(7)',
