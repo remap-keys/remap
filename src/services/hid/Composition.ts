@@ -209,8 +209,6 @@ export const ModDirection: { [p in IModDirectionLabel]: IModDirection } = {
   right: MOD_RIGHT,
 };
 
-export const ON_PRESS = 0b0001;
-
 export const OP_SH_TOGGLE = 0b1111_0000;
 export const OP_SH_TAP_TOGGLE = 0b1111_0001;
 export const OP_SH_ON_OFF = 0b1111_0010;
@@ -759,7 +757,7 @@ export class ToComposition implements IToComposition {
   }
 
   getCode(): number {
-    return QK_TO_MIN | ((ON_PRESS << 4) | (this.layer & 0b1111));
+    return QK_TO_MIN | (this.layer & 0b1111_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1867,7 +1865,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a to key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const layer = this.code & 0b1111;
+    const layer = this.code & 0b1111_1111;
     return new ToComposition(layer);
   }
 
