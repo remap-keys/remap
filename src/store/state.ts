@@ -419,19 +419,6 @@ const gitHub = new GitHub();
 
 const firmwareWriter = new FirmwareWriterWebApiImpl();
 
-const getKeyLabel = () => {
-  const defaultKeyLabel = 'en-us';
-  const storageValue = localStorage.getItem('LabelLang');
-  if (storageValue === null) {
-    return defaultKeyLabel;
-  }
-  const keyLabelLang = KEY_LABEL_LANGS.find((v) => v.labelLang == storageValue);
-  if (keyLabelLang == undefined) {
-    return defaultKeyLabel;
-  }
-  return keyLabelLang.labelLang;
-};
-
 export const INIT_STATE: RootState = {
   entities: {
     device: {
