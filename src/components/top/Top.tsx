@@ -16,6 +16,7 @@ import './Top.scss';
 import { TopActionsType, TopStateType } from './Top.container';
 import { useNavigate } from 'react-router-dom';
 import {
+  Alert,
   AppBar,
   Button,
   Card,
@@ -23,6 +24,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Link,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -90,6 +92,21 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
+      <Alert severity="warning">
+        <strong>Warning: </strong>
+        There is an issue about internal key code structures/values between
+        current Remap and latest QMK Firmware. Remap cannot customize key
+        mappings normally for firmwares built on and after November 26, 2022.
+        See{' '}
+        <Link
+          href="https://github.com/remap-keys/remap/issues/751"
+          target="_blank"
+          rel="noreferrer"
+        >
+          more detail
+        </Link>
+        .
+      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">
