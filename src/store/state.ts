@@ -20,7 +20,10 @@ import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
-import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
+import {
+  KeyboardLabelLang,
+  KEY_LABEL_LANGS,
+} from '../services/labellang/KeyLabelLangs';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
@@ -460,7 +463,20 @@ export const INIT_STATE: RootState = {
     notifications: [],
     keyboardHeight: 0,
     keyboardWidth: 0,
-    labelLang: 'en-us',
+    labelLang: (() => {
+      const defaultKeyLabel = 'en-us';
+      const storageValue = localStorage.getItem('LabelLang');
+      if (storageValue === null) {
+        return defaultKeyLabel;
+      }
+      const keyLabelLang = KEY_LABEL_LANGS.find(
+        (v) => v.labelLang == storageValue
+      );
+      if (keyLabelLang == undefined) {
+        return defaultKeyLabel;
+      }
+      return keyLabelLang.labelLang;
+    })(),
     signedIn: false,
     meta: {
       title: '',

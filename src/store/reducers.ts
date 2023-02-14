@@ -609,6 +609,8 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_UPDATE_LANG_LABEL: {
       draft.app.labelLang = action.value;
+      // Save the value to storage
+      localStorage.setItem('LabelLang', action.value);
       break;
     }
     case APP_UPDATE_SIGNED_IN: {
