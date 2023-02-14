@@ -19,7 +19,7 @@ jobs:
           ref: main
           token: ${{ secrets.INCREMENT_VALUE_PAT }}
       - name: Increment value
-        uses: yoichiro/gh-action-increment-value@main
+        uses: yoichiro/gh-action-increment-value@v4
         with:
           target_directory: 'src/assets/files'
           target_file: 'build-info.json'
