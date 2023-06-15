@@ -11,7 +11,7 @@ import {
 } from '../store/state';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import intelHex from 'intel-hex';
-import { IFirmware } from '../services/storage/Storage';
+import { IFirmware, isError } from '../services/storage/Storage';
 import { IBootloaderType } from '../services/firmware/Types';
 
 export const UPLOAD_FIRMWARE_DIALOG_ACTIONS = '@UploadFirmwareDialog';
@@ -206,11 +206,11 @@ export const firmwareActionsThunk = {
           firmware.filename,
           'flash'
         );
-        if (!fetchBlobResult.success) {
-          handleError(fetchBlobResult.error!, fetchBlobResult.cause);
+        if (isError(fetchBlobResult)) {
+          handleError(fetchBlobResult.error, fetchBlobResult.cause);
           return;
         }
-        const blob: Blob = fetchBlobResult.blob!;
+        const blob: Blob = fetchBlobResult.value.blob;
         try {
           flashBytes = intelHex.parse(
             Buffer.from(new Uint8Array(await blob.arrayBuffer()))

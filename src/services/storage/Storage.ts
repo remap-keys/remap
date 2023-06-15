@@ -4,11 +4,51 @@ import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { IBootloaderType } from '../firmware/Types';
 
-export interface IResult {
-  readonly success: boolean;
-  readonly error?: string;
+export type ISuccessResult<V> = {
+  readonly type: 'success';
+  readonly value: V;
+};
+
+export type IErrorResult = {
+  readonly type: 'error';
+  readonly error: string;
   readonly cause?: any;
-}
+};
+
+export type IResult<V> = ISuccessResult<V> | IErrorResult;
+export type IEmptyResult = IResult<undefined>;
+
+export const isSuccessful = <V>(
+  result: IResult<V>
+): result is ISuccessResult<V> => {
+  return result.type === 'success';
+};
+
+export const isError = <V>(result: IResult<V>): result is IErrorResult => {
+  return result.type === 'error';
+};
+
+export const successResultOf = <V>(value: V): ISuccessResult<V> => {
+  return {
+    type: 'success',
+    value,
+  };
+};
+
+export const successResult = (): ISuccessResult<undefined> => {
+  return {
+    type: 'success',
+    value: undefined,
+  };
+};
+
+export const errorResultOf = (error: string, cause?: any): IErrorResult => {
+  return {
+    type: 'error',
+    error,
+    cause,
+  };
+};
 
 export type IKeyboardDefinitionStatus =
   | 'draft'
@@ -156,37 +196,32 @@ export function isAppliedKeymapDataInstance(
   );
 }
 
-export interface IExistsResult extends IResult {
-  exists?: boolean;
-}
+export type IExistsResult = IResult<{ exists: boolean }>;
 
-export interface IFetchKeyboardDefinitionDocumentResult extends IExistsResult {
+export type IFetchKeyboardDefinitionDocumentResult = IResult<{
+  exists: boolean;
   document?: IKeyboardDefinitionDocument;
-}
+}>;
 
-export interface IFetchMyKeyboardDefinitionDocumentsResult extends IResult {
-  documents?: IKeyboardDefinitionDocument[];
-}
+export type IFetchMyKeyboardDefinitionDocumentsResult = IResult<{
+  documents: IKeyboardDefinitionDocument[];
+}>;
 
-export interface ICreateKeyboardDefinitionDocumentResult extends IResult {
-  definitionId?: string;
-}
+export type ICreateKeyboardDefinitionDocumentResult = IResult<{
+  definitionId: string;
+}>;
 
-export interface ISavedKeymapResult extends IResult {
-  savedKeymaps: SavedKeymapData[];
-}
+export type ISavedKeymapResult = IResult<{ savedKeymaps: SavedKeymapData[] }>;
 
-export interface IAppliedKeymapsResult extends IResult {
+export type IAppliedKeymapsResult = IResult<{
   appliedKeymaps: AppliedKeymapData[];
-}
+}>;
 
-export interface IFetchSharedKeymapResult extends IResult {
-  sharedKeymap?: SavedKeymapData;
-}
+export type IFetchSharedKeymapResult = IResult<{
+  sharedKeymap: SavedKeymapData;
+}>;
 
-export interface IFetchFirmwareFileBlobResult extends IResult {
-  blob?: any;
-}
+export type IFetchFirmwareFileBlobResult = IResult<{ blob: any }>;
 
 export type IFirmwareCounterType = 'download' | 'flash';
 
@@ -205,21 +240,21 @@ export interface IOrganization {
   updated_at?: Date;
 }
 
-export interface IFetchOrganizationByIdResult extends IResult {
-  organization?: IOrganization;
-}
+export type IFetchOrganizationByIdResult = IResult<{
+  organization: IOrganization;
+}>;
 
-export interface IFetchOrganizationsByIdsResult extends IResult {
-  organizationMap?: Record<string, IOrganization>;
-}
+export type IFetchOrganizationsByIdsResult = IResult<{
+  organizationMap: Record<string, IOrganization>;
+}>;
 
-export interface IFetchMyOrganizationsResult extends IResult {
-  organizationMap?: Record<string, IOrganization>;
-}
+export type IFetchMyOrganizationsResult = IResult<{
+  organizationMap: Record<string, IOrganization>;
+}>;
 
-export interface IFetchAllOrganizationsResult extends IResult {
-  organizationMap?: Record<string, IOrganization>;
-}
+export type IFetchAllOrganizationsResult = IResult<{
+  organizationMap: Record<string, IOrganization>;
+}>;
 
 export type IOrganizationMember = {
   uid: string;
@@ -228,9 +263,9 @@ export type IOrganizationMember = {
   me: boolean;
 };
 
-export interface IFetchOrganizationMembersResult extends IResult {
-  members?: IOrganizationMember[];
-}
+export type IFetchOrganizationMembersResult = IResult<{
+  members: IOrganizationMember[];
+}>;
 
 /* eslint-disable no-unused-vars */
 export interface IStorage {
@@ -286,23 +321,25 @@ export interface IStorage {
     authorType: IKeyboardDefinitionAuthorType,
     organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   updateKeyboardDefinitionJson(
     definitionId: string,
     name: string,
     jsonStr: string
-  ): Promise<IResult>;
-  deleteKeyboardDefinitionDocument(definitionId: string): Promise<IResult>;
+  ): Promise<IEmptyResult>;
+  deleteKeyboardDefinitionDocument(definitionId: string): Promise<IEmptyResult>;
 
   fetchMySavedKeymaps(info: IDeviceInformation): Promise<ISavedKeymapResult>;
-  createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
-  updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult>;
-  deleteSavedKeymap(savedKeymapId: string): Promise<IResult>;
+  createSavedKeymap(keymapData: SavedKeymapData): Promise<IEmptyResult>;
+  updateSavedKeymap(keymapData: SavedKeymapData): Promise<IEmptyResult>;
+  deleteSavedKeymap(savedKeymapId: string): Promise<IEmptyResult>;
   fetchSharedKeymaps(
     info: IDeviceInformation,
     withoutMine: boolean
   ): Promise<ISavedKeymapResult>;
-  createOrUpdateAppliedKeymap(keymapData: AbstractKeymapData): Promise<IResult>;
+  createOrUpdateAppliedKeymap(
+    keymapData: AbstractKeymapData
+  ): Promise<IEmptyResult>;
   fetchMyAppliedKeymaps(
     info: IDeviceInformation
   ): Promise<IAppliedKeymapsResult>;
@@ -322,7 +359,7 @@ export interface IStorage {
     stores: IStore[],
     websiteUrl: string,
     additionalDescriptions: IAdditionalDescription[]
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   fetchKeyboardsCreatedBySameAuthor(
     definitionDocument: IKeyboardDefinitionDocument
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
@@ -331,16 +368,16 @@ export interface IStorage {
     definitionId: string,
     file: File,
     progress: (uploadedRate: number) => void
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   uploadKeyboardCatalogSubImage(
     definitionId: string,
     file: File,
     progress: (uploadedRate: number) => void
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   deleteKeyboardCatalogSubImage(
     definitionId: string,
     subImageIndex: number
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 
   uploadFirmware(
     definitionId: string,
@@ -351,13 +388,16 @@ export interface IStorage {
     flashSupport: boolean,
     defaultBootloaderType: IBootloaderType,
     keyboardName: string
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   fetchFirmwareFileBlob(
     definitionId: string,
     firmwareFilePath: string,
     firmwareCounterType: IFirmwareCounterType
   ): Promise<IFetchFirmwareFileBlobResult>;
-  deleteFirmware(definitionId: string, firmware: IFirmware): Promise<IResult>;
+  deleteFirmware(
+    definitionId: string,
+    firmware: IFirmware
+  ): Promise<IEmptyResult>;
   updateFirmware(
     definitionId: string,
     firmware: IFirmware,
@@ -366,7 +406,7 @@ export interface IStorage {
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
     defaultBootloaderType: IBootloaderType
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 
   fetchOrganizationById(
     organizationId: string
@@ -381,11 +421,11 @@ export interface IStorage {
   addOrganizationMember(
     organizationId: string,
     email: string
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   deleteOrganizationMember(
     organizationId: string,
     uid: string
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult>;
 }
 /* eslint-enable no-unused-vars */
