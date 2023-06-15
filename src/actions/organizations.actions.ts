@@ -2,7 +2,7 @@ import { IOrganizationsPhase, RootState } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
-import { IOrganizationMember } from '../services/storage/Storage';
+import { IOrganizationMember, isError } from '../services/storage/Storage';
 
 export const ORGANIZATIONS_APP_ACTIONS = '@Organizations!App';
 export const ORGANIZATIONS_APP_UPDATE_PHASE = `${ORGANIZATIONS_APP_ACTIONS}/UpdatePhase`;
@@ -70,18 +70,19 @@ export const organizationsActionsThunk = {
       const { storage } = getState();
       const fetchMyOrganizationsResult =
         await storage.instance!.fetchMyOrganizations();
-      if (!fetchMyOrganizationsResult.success) {
-        console.error(fetchMyOrganizationsResult.error!);
+      if (isError(fetchMyOrganizationsResult)) {
+        console.error(fetchMyOrganizationsResult.error);
         dispatch(
           NotificationActions.addError(
-            fetchMyOrganizationsResult.error!,
+            fetchMyOrganizationsResult.error,
             fetchMyOrganizationsResult.cause
           )
         );
+        return;
       }
       dispatch(
         StorageActions.updateOrganizationMap(
-          fetchMyOrganizationsResult.organizationMap!
+          fetchMyOrganizationsResult.value.organizationMap
         )
       );
       dispatch(OrganizationsAppActions.updatePhase('list'));
@@ -97,32 +98,36 @@ export const organizationsActionsThunk = {
       const { storage } = getState();
       const fetchOrganizationResult =
         await storage.instance!.fetchOrganizationById(organizationId);
-      if (!fetchOrganizationResult.success) {
-        console.error(fetchOrganizationResult.error!);
+      if (isError(fetchOrganizationResult)) {
+        console.error(fetchOrganizationResult.error);
         dispatch(
           NotificationActions.addError(
-            fetchOrganizationResult.error!,
+            fetchOrganizationResult.error,
             fetchOrganizationResult.cause
           )
         );
+        return;
       }
       dispatch(
-        StorageActions.updateOrganization(fetchOrganizationResult.organization!)
+        StorageActions.updateOrganization(
+          fetchOrganizationResult.value.organization
+        )
       );
       const fetchOrganizationMembersResult =
         await storage.instance!.fetchOrganizationMembers(organizationId);
-      if (!fetchOrganizationMembersResult.success) {
-        console.error(fetchOrganizationMembersResult.error!);
+      if (isError(fetchOrganizationMembersResult)) {
+        console.error(fetchOrganizationMembersResult.error);
         dispatch(
           NotificationActions.addError(
-            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.error,
             fetchOrganizationMembersResult.cause
           )
         );
+        return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.members!
+          fetchOrganizationMembersResult.value.members
         )
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
@@ -142,31 +147,33 @@ export const organizationsActionsThunk = {
       const organizationId = entities.organization!.id!;
       const addOrganizationMemberResult =
         await storage.instance!.addOrganizationMember(organizationId, email);
-      if (!addOrganizationMemberResult.success) {
+      if (isError(addOrganizationMemberResult)) {
         dispatch(OrganizationsAppActions.updatePhase('edit'));
-        console.error(addOrganizationMemberResult.error!);
+        console.error(addOrganizationMemberResult.error);
         dispatch(
           NotificationActions.addError(
-            addOrganizationMemberResult.error!,
+            addOrganizationMemberResult.error,
             addOrganizationMemberResult.cause
           )
         );
+        return;
       }
       const fetchOrganizationMembersResult =
         await storage.instance!.fetchOrganizationMembers(organizationId);
-      if (!fetchOrganizationMembersResult.success) {
+      if (isError(fetchOrganizationMembersResult)) {
         dispatch(OrganizationsAppActions.updatePhase('edit'));
-        console.error(fetchOrganizationMembersResult.error!);
+        console.error(fetchOrganizationMembersResult.error);
         dispatch(
           NotificationActions.addError(
-            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.error,
             fetchOrganizationMembersResult.cause
           )
         );
+        return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.members!
+          fetchOrganizationMembersResult.value.members
         )
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
@@ -185,31 +192,33 @@ export const organizationsActionsThunk = {
       const organizationId = entities.organization!.id!;
       const deleteOrganizationMemberResult =
         await storage.instance!.deleteOrganizationMember(organizationId, uid);
-      if (!deleteOrganizationMemberResult.success) {
+      if (isError(deleteOrganizationMemberResult)) {
         dispatch(OrganizationsAppActions.updatePhase('edit'));
-        console.error(deleteOrganizationMemberResult.error!);
+        console.error(deleteOrganizationMemberResult.error);
         dispatch(
           NotificationActions.addError(
-            deleteOrganizationMemberResult.error!,
+            deleteOrganizationMemberResult.error,
             deleteOrganizationMemberResult.cause
           )
         );
+        return;
       }
       const fetchOrganizationMembersResult =
         await storage.instance!.fetchOrganizationMembers(organizationId);
-      if (!fetchOrganizationMembersResult.success) {
+      if (isError(fetchOrganizationMembersResult)) {
         dispatch(OrganizationsAppActions.updatePhase('edit'));
-        console.error(fetchOrganizationMembersResult.error!);
+        console.error(fetchOrganizationMembersResult.error);
         dispatch(
           NotificationActions.addError(
-            fetchOrganizationMembersResult.error!,
+            fetchOrganizationMembersResult.error,
             fetchOrganizationMembersResult.cause
           )
         );
+        return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.members!
+          fetchOrganizationMembersResult.value.members
         )
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));

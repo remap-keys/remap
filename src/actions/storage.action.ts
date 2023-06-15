@@ -23,6 +23,8 @@ import {
   IFirmware,
   IKeyboardDefinitionDocument,
   IOrganization,
+  isError,
+  isSuccessful,
   KeyboardDefinitionStatus,
   SavedKeymapData,
 } from '../services/storage/Storage';
@@ -207,28 +209,29 @@ export const storageActionsThunk = {
         await storage.instance!.fetchMyKeyboardDefinitionDocumentById(
           definitionId
         );
-      if (!fetchKeyboardDefinitionResult.success) {
-        console.error(fetchKeyboardDefinitionResult.cause!);
+      if (isError(fetchKeyboardDefinitionResult)) {
+        console.error(fetchKeyboardDefinitionResult.cause);
         dispatch(
           NotificationActions.addError(
-            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.error,
             fetchKeyboardDefinitionResult.cause
           )
         );
         return;
       }
-      if (fetchKeyboardDefinitionResult.exists!) {
-        const definitionDocument = fetchKeyboardDefinitionResult.document!;
+      if (fetchKeyboardDefinitionResult.value.exists) {
+        const definitionDocument =
+          fetchKeyboardDefinitionResult.value.document!;
         if (definitionDocument.authorType === 'organization') {
           const fetchOrganizationByIdResult =
             await storage.instance!.fetchOrganizationById(
               definitionDocument.organizationId!
             );
-          if (!fetchOrganizationByIdResult.success) {
-            console.error(fetchOrganizationByIdResult.cause!);
+          if (isError(fetchOrganizationByIdResult)) {
+            console.error(fetchOrganizationByIdResult.cause);
             dispatch(
               NotificationActions.addError(
-                fetchOrganizationByIdResult.error!,
+                fetchOrganizationByIdResult.error,
                 fetchOrganizationByIdResult.cause
               )
             );
@@ -236,17 +239,17 @@ export const storageActionsThunk = {
           }
           dispatch(
             StorageActions.updateOrganization(
-              fetchOrganizationByIdResult.organization!
+              fetchOrganizationByIdResult.value.organization
             )
           );
         }
         const fetchMyOrganizationsResult =
           await storage.instance!.fetchMyOrganizations();
-        if (!fetchMyOrganizationsResult.success) {
-          console.error(fetchMyOrganizationsResult.cause!);
+        if (isError(fetchMyOrganizationsResult)) {
+          console.error(fetchMyOrganizationsResult.cause);
           dispatch(
             NotificationActions.addError(
-              fetchMyOrganizationsResult.error!,
+              fetchMyOrganizationsResult.error,
               fetchMyOrganizationsResult.cause
             )
           );
@@ -254,7 +257,7 @@ export const storageActionsThunk = {
         }
         dispatch(
           StorageActions.updateOrganizationMap(
-            fetchMyOrganizationsResult.organizationMap!
+            fetchMyOrganizationsResult.value.organizationMap
           )
         );
         dispatch(
@@ -326,18 +329,19 @@ export const storageActionsThunk = {
           productId,
           productName
         );
-      if (!fetchKeyboardDefinitionResult.success) {
-        console.error(fetchKeyboardDefinitionResult.cause!);
+      if (isError(fetchKeyboardDefinitionResult)) {
+        console.error(fetchKeyboardDefinitionResult.cause);
         dispatch(
           NotificationActions.addError(
-            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.error,
             fetchKeyboardDefinitionResult.cause
           )
         );
         return;
       }
-      if (fetchKeyboardDefinitionResult.exists!) {
-        keyboardDefinitionDocument = fetchKeyboardDefinitionResult.document!;
+      if (fetchKeyboardDefinitionResult.value.exists) {
+        keyboardDefinitionDocument =
+          fetchKeyboardDefinitionResult.value.document;
       } else {
         if (!app.signedIn) {
           dispatch(
@@ -349,18 +353,18 @@ export const storageActionsThunk = {
         }
         const myKeyboardDefinitionDocumentsResult =
           await storage.instance!.fetchMyKeyboardDefinitionDocuments();
-        if (!myKeyboardDefinitionDocumentsResult.success) {
-          console.error(myKeyboardDefinitionDocumentsResult.cause!);
+        if (isError(myKeyboardDefinitionDocumentsResult)) {
+          console.error(myKeyboardDefinitionDocumentsResult.cause);
           dispatch(
             NotificationActions.addError(
-              myKeyboardDefinitionDocumentsResult.error!,
+              myKeyboardDefinitionDocumentsResult.error,
               myKeyboardDefinitionDocumentsResult.cause
             )
           );
           return;
         }
         keyboardDefinitionDocument =
-          myKeyboardDefinitionDocumentsResult.documents!.find(
+          myKeyboardDefinitionDocumentsResult.value.documents.find(
             (doc) =>
               doc.vendorId === vendorId &&
               doc.productId === productId &&
@@ -404,11 +408,11 @@ export const storageActionsThunk = {
           await storage.instance!.fetchOrganizationById(
             keyboardDefinitionDocument.organizationId!
           );
-        if (!fetchOrganizationByIdResult.success) {
-          console.error(fetchOrganizationByIdResult.cause!);
+        if (isError(fetchOrganizationByIdResult)) {
+          console.error(fetchOrganizationByIdResult.cause);
           dispatch(
             NotificationActions.addError(
-              fetchOrganizationByIdResult.error!,
+              fetchOrganizationByIdResult.error,
               fetchOrganizationByIdResult.cause
             )
           );
@@ -416,7 +420,7 @@ export const storageActionsThunk = {
         }
         dispatch(
           StorageActions.updateOrganization(
-            fetchOrganizationByIdResult.organization!
+            fetchOrganizationByIdResult.value.organization
           )
         );
       }
@@ -447,33 +451,34 @@ export const storageActionsThunk = {
       const { storage } = getState();
       const fetchMyKeyboardDefinitionsResult =
         await storage.instance!.fetchMyKeyboardDefinitionDocuments();
-      if (!fetchMyKeyboardDefinitionsResult.success) {
-        console.error(fetchMyKeyboardDefinitionsResult.cause!);
+      if (isError(fetchMyKeyboardDefinitionsResult)) {
+        console.error(fetchMyKeyboardDefinitionsResult.cause);
         dispatch(
           NotificationActions.addError(
-            fetchMyKeyboardDefinitionsResult.error!,
+            fetchMyKeyboardDefinitionsResult.error,
             fetchMyKeyboardDefinitionsResult.cause
           )
         );
         return;
       }
-      const organizationIds: string[] = fetchMyKeyboardDefinitionsResult
-        .documents!.filter((doc) => doc.authorType === 'organization')
-        .map((doc) => doc.organizationId)
-        .reduce((result, id) => {
-          if (id !== undefined && !result.includes(id)) {
-            result.push(id);
-          }
-          return result;
-        }, [] as string[]);
+      const organizationIds: string[] =
+        fetchMyKeyboardDefinitionsResult.value.documents
+          .filter((doc) => doc.authorType === 'organization')
+          .map((doc) => doc.organizationId)
+          .reduce((result, id) => {
+            if (id !== undefined && !result.includes(id)) {
+              result.push(id);
+            }
+            return result;
+          }, [] as string[]);
       if (organizationIds.length !== 0) {
         const fetchOrganizationsByIdsResult =
           await storage.instance!.fetchOrganizationsByIds(organizationIds);
-        if (!fetchOrganizationsByIdsResult.success) {
-          console.error(fetchOrganizationsByIdsResult.cause!);
+        if (isError(fetchOrganizationsByIdsResult)) {
+          console.error(fetchOrganizationsByIdsResult.cause);
           dispatch(
             NotificationActions.addError(
-              fetchOrganizationsByIdsResult.error!,
+              fetchOrganizationsByIdsResult.error,
               fetchOrganizationsByIdsResult.cause
             )
           );
@@ -481,13 +486,13 @@ export const storageActionsThunk = {
         }
         dispatch(
           StorageActions.updateOrganizationMap(
-            fetchOrganizationsByIdsResult.organizationMap!
+            fetchOrganizationsByIdsResult.value.organizationMap
           )
         );
       }
       dispatch(
         StorageActions.updateKeyboardDefinitionDocuments(
-          fetchMyKeyboardDefinitionsResult.documents!
+          fetchMyKeyboardDefinitionsResult.value.documents
         )
       );
       dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.list));
@@ -554,13 +559,13 @@ export const storageActionsThunk = {
         keyboards.createdefinition.organizationId,
         KeyboardDefinitionStatus.draft
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchMyKeyboardDefinitionDocuments()
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -626,10 +631,10 @@ export const storageActionsThunk = {
         keyboards.createdefinition.organizationId,
         KeyboardDefinitionStatus.in_review
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
-            result.definitionId!,
+            result.value.definitionId,
             'edit'
           )
         );
@@ -669,7 +674,7 @@ export const storageActionsThunk = {
         keyboards.editdefinition.organizationId,
         KeyboardDefinitionStatus.draft
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionDoc!.id,
@@ -677,8 +682,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -713,7 +718,7 @@ export const storageActionsThunk = {
         keyboards.editdefinition.organizationId,
         KeyboardDefinitionStatus.in_review
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionDoc!.id,
@@ -721,8 +726,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -743,7 +748,7 @@ export const storageActionsThunk = {
         keyboardDefinition!.name,
         jsonStr
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionDoc!.id,
@@ -751,8 +756,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -767,13 +772,13 @@ export const storageActionsThunk = {
       const result = await storage.instance!.deleteKeyboardDefinitionDocument(
         definitionDoc!.id
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchMyKeyboardDefinitionDocuments()
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -788,12 +793,14 @@ export const storageActionsThunk = {
       const { storage } = getState();
       const resultList = await storage.instance!.fetchMySavedKeymaps(info);
 
-      if (resultList.success) {
-        dispatch(StorageActions.updateSavedKeymaps(resultList.savedKeymaps));
-      } else {
-        console.error(resultList.cause!);
+      if (isSuccessful(resultList)) {
         dispatch(
-          NotificationActions.addError(resultList.error!, resultList.cause)
+          StorageActions.updateSavedKeymaps(resultList.value.savedKeymaps)
+        );
+      } else {
+        console.error(resultList.cause);
+        dispatch(
+          NotificationActions.addError(resultList.error, resultList.cause)
         );
       }
     },
@@ -815,12 +822,14 @@ export const storageActionsThunk = {
         withoutMine
       );
 
-      if (resultList.success) {
-        dispatch(StorageActions.updateSharedKeymaps(resultList.savedKeymaps));
-      } else {
-        console.error(resultList.cause!);
+      if (isSuccessful(resultList)) {
         dispatch(
-          NotificationActions.addError(resultList.error!, resultList.cause)
+          StorageActions.updateSharedKeymaps(resultList.value.savedKeymaps)
+        );
+      } else {
+        console.error(resultList.cause);
+        dispatch(
+          NotificationActions.addError(resultList.error, resultList.cause)
         );
       }
     },
@@ -840,11 +849,11 @@ export const storageActionsThunk = {
       });
 
       const result = await storage.instance!.createSavedKeymap(keymapData);
-      if (!result.success) {
-        console.error(result.cause!);
+      if (isError(result)) {
+        console.error(result.cause);
         dispatch(
           NotificationActions.addError(
-            `Couldn't save the keymap: ${result.error!}`,
+            `Couldn't save the keymap: ${result.error}`,
             result.cause
           )
         );
@@ -866,11 +875,11 @@ export const storageActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.updateSavedKeymap(keymapData);
-      if (!result.success) {
-        console.error(result.cause!);
+      if (isError(result)) {
+        console.error(result.cause);
         dispatch(
           NotificationActions.addError(
-            `Couldn't update the keymap: ${result.error!}`,
+            `Couldn't update the keymap: ${result.error}`,
             result.cause
           )
         );
@@ -893,11 +902,11 @@ export const storageActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.deleteSavedKeymap(keymapData.id!);
-      if (!result.success) {
-        console.error(result.cause!);
+      if (isError(result)) {
+        console.error(result.cause);
         dispatch(
           NotificationActions.addError(
-            `Couldn't delete the keymap: ${result.error!}`,
+            `Couldn't delete the keymap: ${result.error}`,
             result.cause
           )
         );
@@ -922,11 +931,11 @@ export const storageActionsThunk = {
       const result = await storage.instance!.createOrUpdateAppliedKeymap(
         keymapData
       );
-      if (!result.success) {
-        console.error(result.cause!);
+      if (isError(result)) {
+        console.error(result.cause);
         dispatch(
           NotificationActions.addError(
-            `Creating or updating the applied keymap failed: ${result.error!}`,
+            `Creating or updating the applied keymap failed: ${result.error}`,
             result.cause
           )
         );
@@ -951,14 +960,14 @@ export const storageActionsThunk = {
       const { storage } = getState();
       const resultList = await storage.instance!.fetchMyAppliedKeymaps(info);
 
-      if (resultList.success) {
+      if (isSuccessful(resultList)) {
         dispatch(
-          StorageActions.updateAppliedKeymaps(resultList.appliedKeymaps)
+          StorageActions.updateAppliedKeymaps(resultList.value.appliedKeymaps)
         );
       } else {
-        console.error(resultList.cause!);
+        console.error(resultList.cause);
         dispatch(
-          NotificationActions.addError(resultList.error!, resultList.cause)
+          NotificationActions.addError(resultList.error, resultList.cause)
         );
       }
     },
@@ -979,9 +988,9 @@ export const storageActionsThunk = {
       const organizationId = catalog.search.organizationId;
       let searchKeyboardsByFeaturesResult =
         await storage.instance!.searchKeyboards(features, organizationId);
-      if (searchKeyboardsByFeaturesResult.success) {
+      if (isSuccessful(searchKeyboardsByFeaturesResult)) {
         const definitionDocs =
-          searchKeyboardsByFeaturesResult.documents!.filter((doc) =>
+          searchKeyboardsByFeaturesResult.value.documents.filter((doc) =>
             doc.name.toLowerCase().includes(keyword.toLowerCase())
           );
         const filteredDocs = definitionDocs.filter((doc) => {
@@ -1018,17 +1027,17 @@ export const storageActionsThunk = {
         if (organizationIds.length > 0) {
           const fetchOrganizationsByIdsResult =
             await storage.instance!.fetchOrganizationsByIds(organizationIds);
-          if (fetchOrganizationsByIdsResult.success) {
+          if (isSuccessful(fetchOrganizationsByIdsResult)) {
             dispatch(
               StorageActions.updateSearchResultOrganizationMap(
-                fetchOrganizationsByIdsResult.organizationMap!
+                fetchOrganizationsByIdsResult.value.organizationMap
               )
             );
           } else {
-            console.error(fetchOrganizationsByIdsResult.cause!);
+            console.error(fetchOrganizationsByIdsResult.cause);
             dispatch(
               NotificationActions.addError(
-                fetchOrganizationsByIdsResult.error!,
+                fetchOrganizationsByIdsResult.error,
                 fetchOrganizationsByIdsResult.cause
               )
             );
@@ -1040,10 +1049,10 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(searchKeyboardsByFeaturesResult.cause!);
+        console.error(searchKeyboardsByFeaturesResult.cause);
         dispatch(
           NotificationActions.addError(
-            searchKeyboardsByFeaturesResult.error!,
+            searchKeyboardsByFeaturesResult.error,
             searchKeyboardsByFeaturesResult.cause
           )
         );
@@ -1076,11 +1085,11 @@ export const storageActionsThunk = {
         await storage.instance!.fetchKeyboardDefinitionDocumentById(
           definitionId
         );
-      if (!fetchKeyboardDefinitionResult.success) {
-        console.error(fetchKeyboardDefinitionResult.cause!);
+      if (isError(fetchKeyboardDefinitionResult)) {
+        console.error(fetchKeyboardDefinitionResult.cause);
         dispatch(
           NotificationActions.addError(
-            fetchKeyboardDefinitionResult.error!,
+            fetchKeyboardDefinitionResult.error,
             fetchKeyboardDefinitionResult.cause
           )
         );
@@ -1088,9 +1097,9 @@ export const storageActionsThunk = {
         dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
         return;
       }
-      if (fetchKeyboardDefinitionResult.exists!) {
+      if (fetchKeyboardDefinitionResult.value.exists) {
         const keyboardDefinitionDocument =
-          fetchKeyboardDefinitionResult.document!;
+          fetchKeyboardDefinitionResult.value.document!;
         dispatch(
           StorageActions.updateKeyboardDefinitionDocument(
             keyboardDefinitionDocument
@@ -1102,11 +1111,11 @@ export const storageActionsThunk = {
             await storage.instance!.fetchOrganizationById(
               keyboardDefinitionDocument.organizationId!
             );
-          if (!fetchOrganizationByIdResult.success) {
-            console.error(fetchOrganizationByIdResult.cause!);
+          if (isError(fetchOrganizationByIdResult)) {
+            console.error(fetchOrganizationByIdResult.cause);
             dispatch(
               NotificationActions.addError(
-                fetchOrganizationByIdResult.error!,
+                fetchOrganizationByIdResult.error,
                 fetchOrganizationByIdResult.cause
               )
             );
@@ -1116,7 +1125,7 @@ export const storageActionsThunk = {
           }
           dispatch(
             StorageActions.updateOrganization(
-              fetchOrganizationByIdResult.organization!
+              fetchOrganizationByIdResult.value.organization
             )
           );
         }
@@ -1155,11 +1164,11 @@ export const storageActionsThunk = {
           await storage.instance!.fetchKeyboardsCreatedBySameAuthor(
             keyboardDefinitionDocument
           );
-        if (!fetchKeyboardsCreatedBySameAuthorResult.success) {
+        if (isError(fetchKeyboardsCreatedBySameAuthorResult)) {
           dispatch(
             NotificationActions.addError(
-              fetchKeyboardDefinitionResult.error!,
-              fetchKeyboardDefinitionResult.cause
+              fetchKeyboardsCreatedBySameAuthorResult.error,
+              fetchKeyboardsCreatedBySameAuthorResult.cause
             )
           );
           dispatch(CatalogAppActions.updatePhase('init'));
@@ -1168,7 +1177,7 @@ export const storageActionsThunk = {
         }
         dispatch(
           StorageActions.updateSameAuthorKeyboardDefinitionDocuments(
-            fetchKeyboardsCreatedBySameAuthorResult.documents!
+            fetchKeyboardsCreatedBySameAuthorResult.value.documents
           )
         );
 
@@ -1203,7 +1212,7 @@ export const storageActionsThunk = {
           websiteUrl,
           additionalDescriptions
         );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           NotificationActions.addSuccess(
             'Updating the keyboard definition succeeded.'
@@ -1216,8 +1225,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1240,7 +1249,7 @@ export const storageActionsThunk = {
             )
           )
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(KeyboardsAppActions.updatePhase('processing'));
         setTimeout(async () => {
           dispatch(
@@ -1257,8 +1266,8 @@ export const storageActionsThunk = {
           );
         }, 3000);
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1290,7 +1299,7 @@ export const storageActionsThunk = {
         defaultBootloaderType,
         keyboardName
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(KeyboardsEditDefinitionActions.clearFirmwareForm());
         await dispatch(
           storageActionsThunk.fetchKeyboardDefinitionById(
@@ -1299,8 +1308,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1321,11 +1330,11 @@ export const storageActionsThunk = {
         firmwareFilePath,
         'download'
       );
-      if (result.success) {
-        callback(result.blob!);
+      if (isSuccessful(result)) {
+        callback(result.value.blob);
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1342,7 +1351,7 @@ export const storageActionsThunk = {
         definitionDocument.id,
         firmware
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         await dispatch(
           storageActionsThunk.fetchKeyboardDefinitionById(
             definitionDocument.id,
@@ -1350,8 +1359,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.error!);
-        dispatch(NotificationActions.addError(result.error!));
+        console.error(result.error);
+        dispatch(NotificationActions.addError(result.error));
       }
     },
 
@@ -1380,7 +1389,7 @@ export const storageActionsThunk = {
         flashSupport,
         defaultBootloaderType
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         await dispatch(
           storageActionsThunk.fetchKeyboardDefinitionById(
             definitionDocument.id,
@@ -1388,8 +1397,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.error!);
-        dispatch(NotificationActions.addError(result.error!));
+        console.error(result.error);
+        dispatch(NotificationActions.addError(result.error));
       }
     },
 
@@ -1418,7 +1427,7 @@ export const storageActionsThunk = {
             )
           )
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(KeyboardsAppActions.updatePhase('processing'));
         dispatch(KeyboardsEditDefinitionActions.updateSubImageUploadedRate(0));
         dispatch(KeyboardsEditDefinitionActions.updateSubImageUploading(false));
@@ -1429,8 +1438,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1446,7 +1455,7 @@ export const storageActionsThunk = {
         definitionId,
         subImageIndex
       );
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
           await storageActionsThunk.fetchKeyboardDefinitionById(
             definitionId,
@@ -1454,8 +1463,8 @@ export const storageActionsThunk = {
           )
         );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1467,11 +1476,13 @@ export const storageActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.fetchMyOrganizations();
-      if (result.success) {
-        dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
+      if (isSuccessful(result)) {
+        dispatch(
+          StorageActions.updateOrganizationMap(result.value.organizationMap)
+        );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 
@@ -1483,11 +1494,13 @@ export const storageActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.fetchAllOrganizations();
-      if (result.success) {
-        dispatch(StorageActions.updateOrganizationMap(result.organizationMap!));
+      if (isSuccessful(result)) {
+        dispatch(
+          StorageActions.updateOrganizationMap(result.value.organizationMap)
+        );
       } else {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 };
