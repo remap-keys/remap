@@ -2190,7 +2190,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_MY_COMPUTER',
         short: 'KC_MYCM',
       },
-      keywords: ['my_comuter', 'mycm'],
+      keywords: ['my_computer', 'mycm'],
     },
   },
   {
@@ -2341,264 +2341,264 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Launch Context-Aware Assistant',
     keycodeInfo: {
       code: 192,
-      label: 'Func0',
+      label: 'Assistant',
       name: {
         long: 'KC_ASSISTANT',
         short: 'KC_ASST',
       },
-      keywords: ['fn0'],
+      keywords: ['assistant'],
     },
   },
   {
     desc: 'Open Mission Control',
     keycodeInfo: {
       code: 193,
-      label: 'Func1',
+      label: 'Mission Control',
       name: {
         long: 'KC_MISSION_CONTROL',
         short: 'KC_MCTL',
       },
-      keywords: ['fn1'],
+      keywords: ['mission control'],
     },
   },
   {
     desc: 'Open Launchpad',
     keycodeInfo: {
       code: 194,
-      label: 'Func2',
+      label: 'Launchpad',
       name: {
         long: 'KC_LAUNCHPAD',
         short: 'KC_LPAD',
       },
-      keywords: ['fn2'],
+      keywords: ['launchpad'],
     },
   },
   {
     desc: 'Mouse Cursor Up',
     keycodeInfo: {
       code: 205,
-      label: 'Func13',
+      label: 'Mouse ↑',
       name: {
         long: 'KC_MS_UP',
         short: 'KC_MS_U',
       },
-      keywords: ['fn13'],
+      keywords: ['mouse cursor up'],
     },
   },
   {
     desc: 'Mouse Cursor Down',
     keycodeInfo: {
       code: 206,
-      label: 'Func14',
+      label: 'Mouse ↓',
       name: {
         long: 'KC_MS_DOWN',
         short: 'KC_MS_D',
       },
-      keywords: ['fn14'],
+      keywords: ['mouse cursor down'],
     },
   },
   {
     desc: 'Mouse Cursor Left',
     keycodeInfo: {
       code: 207,
-      label: 'Func15',
+      label: 'Mouse ←',
       name: {
         long: 'KC_MS_LEFT',
         short: 'KC_MS_L',
       },
-      keywords: ['fn15'],
+      keywords: ['mouse cursor left'],
     },
   },
   {
     desc: 'Mouse Cursor Right',
     keycodeInfo: {
       code: 208,
-      label: 'Func16',
+      label: 'Mouse →',
       name: {
         long: 'KC_MS_RIGHT',
         short: 'KC_MS_R',
       },
-      keywords: ['fn16'],
+      keywords: ['mouse cursor right'],
     },
   },
   {
     desc: 'Mouse Button 1',
     keycodeInfo: {
       code: 209,
-      label: 'Func17',
+      label: 'Mouse Btn1',
       name: {
         long: 'KC_MS_BTN1',
         short: 'KC_BTN1',
       },
-      keywords: ['fn17'],
+      keywords: ['mouse button 1'],
     },
   },
   {
     desc: 'Mouse Button 2',
     keycodeInfo: {
       code: 210,
-      label: 'Func18',
+      label: 'Mouse Btn2',
       name: {
         long: 'KC_MS_BTN2',
         short: 'KC_BTN2',
       },
-      keywords: ['fn18'],
+      keywords: ['mouse button 2'],
     },
   },
   {
     desc: 'Mouse Button 3',
     keycodeInfo: {
       code: 211,
-      label: 'Func19',
+      label: 'Mouse Btn3',
       name: {
         long: 'KC_MS_BTN3',
         short: 'KC_BTN3',
       },
-      keywords: ['fn19'],
+      keywords: ['mouse button 3'],
     },
   },
   {
     desc: 'Mouse Button 4',
     keycodeInfo: {
       code: 212,
-      label: 'Func20',
+      label: 'Mouse Btn4',
       name: {
         long: 'KC_MS_BTN4',
         short: 'KC_BTN4',
       },
-      keywords: ['fn20'],
+      keywords: ['mouse button 4'],
     },
   },
   {
     desc: 'Mouse Button 5',
     keycodeInfo: {
       code: 213,
-      label: 'Func21',
+      label: 'Mouse Btn5',
       name: {
         long: 'KC_MS_BTN5',
         short: 'KC_BTN5',
       },
-      keywords: ['fn21'],
+      keywords: ['mouse button 5'],
     },
   },
   {
     desc: 'Press button 6',
     keycodeInfo: {
       code: 214,
-      label: 'Func22',
+      label: 'Mouse Btn6',
       name: {
         long: 'KC_MS_BTN6',
         short: 'KC_BTN6',
       },
-      keywords: ['fn22'],
+      keywords: ['mouse button 6'],
     },
   },
   {
     desc: 'Press button 7',
     keycodeInfo: {
       code: 215,
-      label: 'Func23',
+      label: 'Mouse Btn7',
       name: {
         long: 'KC_MS_BTN7',
         short: 'KC_BTN7',
       },
-      keywords: ['fn23'],
+      keywords: ['mouse button 7'],
     },
   },
   {
     desc: 'Press button 8',
     keycodeInfo: {
       code: 216,
-      label: 'Func24',
+      label: 'Mouse Btn8',
       name: {
         long: 'KC_MS_BTN8',
         short: 'KC_BTN8',
       },
-      keywords: ['fn24'],
+      keywords: ['mouse button 8'],
     },
   },
   {
     desc: 'Mouse Wheel Up',
     keycodeInfo: {
       code: 217,
-      label: 'Func25',
+      label: 'Mouse Wh ↑',
       name: {
         long: 'KC_MS_WH_UP',
         short: 'KC_WH_U',
       },
-      keywords: ['fn25'],
+      keywords: ['mouse wheel up'],
     },
   },
   {
     desc: 'Mouse Wheel Down',
     keycodeInfo: {
       code: 218,
-      label: 'Func26',
+      label: 'Mouse Wh ↓',
       name: {
         long: 'KC_MS_WH_DOWN',
         short: 'KC_WH_D',
       },
-      keywords: ['fn26'],
+      keywords: ['mouse wheel down'],
     },
   },
   {
     desc: 'Mouse Wheel Left',
     keycodeInfo: {
       code: 219,
-      label: 'Func27',
+      label: 'Mouse Wh ←',
       name: {
         long: 'KC_MS_WH_LEFT',
         short: 'KC_WH_L',
       },
-      keywords: ['fn27'],
+      keywords: ['mouse wheel left'],
     },
   },
   {
     desc: 'Mouse Wheel Right',
     keycodeInfo: {
       code: 220,
-      label: 'Func28',
+      label: 'Mouse Wh →',
       name: {
         long: 'KC_MS_WH_RIGHT',
         short: 'KC_WH_R',
       },
-      keywords: ['fn28'],
+      keywords: ['mouse wheel right'],
     },
   },
   {
     desc: 'Set mouse acceleration to 0',
     keycodeInfo: {
       code: 221,
-      label: 'Func29',
+      label: 'Mouse Acc0',
       name: {
         long: 'KC_MS_ACCEL0',
         short: 'KC_ACL0',
       },
-      keywords: ['fn29'],
+      keywords: ['mouse acceleration 0'],
     },
   },
   {
     desc: 'Set mouse acceleration to 1',
     keycodeInfo: {
       code: 222,
-      label: 'Func30',
+      label: 'Mouse Acc1',
       name: {
         long: 'KC_MS_ACCEL1',
         short: 'KC_ACL1',
       },
-      keywords: ['fn30'],
+      keywords: ['mouse acceleration 1'],
     },
   },
   {
     desc: 'Set mouse acceleration to 2',
     keycodeInfo: {
       code: 223,
-      label: 'Func31',
+      label: 'Mouse Acc2',
       name: {
         long: 'KC_MS_ACCEL2',
         short: 'KC_ACL2',
       },
-      keywords: ['fn31'],
+      keywords: ['mouse acceleration 2'],
     },
   },
   {
@@ -5866,7 +5866,7 @@ export const keyInfoList: KeyInfo[] = [
     },
   },
   {
-    desc: 'Turns on Audio clicky mode',
+    desc: 'Turns off Audio clicky mode',
     keycodeInfo: {
       code: 29836,
       label: 'Audio Clicky Off',

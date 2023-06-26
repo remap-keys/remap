@@ -109,7 +109,7 @@ export class KeyCategory {
     if (Object.prototype.hasOwnProperty.call(KeyCategory._layer, layerCount))
       return KeyCategory._layer[layerCount];
 
-    const fnmoCodes: number[] = [...KEY_SUB_CATEGORY_FNMO.codes];
+    const fnmoCodes: number[] = [...KEY_SUB_CATEGORY_TRI_LAYER.codes];
     const fnmoKeymaps: IKeymap[] = fnmoCodes.map(
       (code) => LooseKeycodeComposition.findKeymap(code)!
     );
@@ -138,7 +138,6 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_COMMAND.codes,
       ...KEY_SUB_CATEGORY_MEDIA.codes,
       ...KEY_SUB_CATEGORY_APPLICATION.codes,
-      ...KEY_SUB_CATEGORY_EMBED_FUNCTION.codes,
     ];
     const basicKeymaps: IKeymap[] = basicCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
@@ -298,28 +297,28 @@ export const KEY_SUB_CATEGORY_PUNCTUATION: IKeycodeCategoryInfo = {
   kinds: ['symbol', 'punctuation'],
   codes: [45, 46, 53, 47, 48, 49, 50, 51, 52, 54, 55, 56, 100],
 };
-// Num 1, Num 2, Num 3, Num 4, Num 5, Num 6, Num 7, Num 8, Num 9, Num 0, Num +, Num -, Num *, Num /, Num =, Num ,, Num = AS400, Num ., Num Enter, JIS Numpad ,
+// Num 1, Num 2, Num 3, Num 4, Num 5, Num 6, Num 7, Num 8, Num 9, Num 0, Num +, Num -, Num *, Num /, Num =, Num ,, Num = AS400, Num ., Num Enter,
 export const KEY_SUB_CATEGORY_NUMPAD: IKeycodeCategoryInfo = {
   kinds: ['basic', 'numpad'],
   codes: [
     89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 87, 86, 85, 84, 103, 133, 134, 99,
-    88, 140,
+    88,
   ],
 };
 // LS (, RS ), SftEnt, LC (, RC ), LA (, RA )
 export const KEY_SUB_CATEGORY_SPACE_CADET: IKeycodeCategoryInfo = {
   kinds: ['symbol', 'cadet'],
-  codes: [23767, 23768, 23769, 23795, 23796, 23797, 23798],
+  codes: [31770, 31771, 31774, 31768, 31769, 31772, 31773],
 };
 // ESC `
 export const KEY_SUB_CATEGORY_GRAVE_ESCAPE: IKeycodeCategoryInfo = {
   kinds: ['symbol', 'grave_escape'],
-  codes: [23574],
+  codes: [31766],
 };
-// App, Menu
+// App, Menu, Assistant, Mission Control, Launchpad
 export const KEY_SUB_CATEGORY_GUI: IKeycodeCategoryInfo = {
   kinds: ['special', 'gui'],
-  codes: [101, 118],
+  codes: [101, 118, 192, 193, 194],
 };
 // Print Screen, Pause, Execute, Help, Select, Stop, Again, Find, Alt Erase, SysReq, Cancel, Clear, Prior, Return, Separator, Out, Oper, Clear/Again, CrSel/Props, ExSel
 export const KEY_SUB_CATEGORY_COMMAND: IKeycodeCategoryInfo = {
@@ -327,15 +326,6 @@ export const KEY_SUB_CATEGORY_COMMAND: IKeycodeCategoryInfo = {
   codes: [
     70, 72, 116, 117, 119, 120, 121, 126, 153, 154, 155, 156, 157, 158, 159,
     160, 161, 162, 163, 164,
-  ],
-};
-// Func0, Func1, Func2, Func3, Func4, Func5, Func6, Func7, Func8, Func9, Func10, Func11, Func12, Func13, Func14, Func15, Func16, Func17, Func18, Func19, Func20, Func21, Func22, Func23, Func24, Func25, Func26, Func27, Func28, Func29, Func30, Func31
-export const KEY_SUB_CATEGORY_EMBED_FUNCTION: IKeycodeCategoryInfo = {
-  kinds: ['special', 'func'],
-  codes: [
-    192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206,
-    207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221,
-    222, 223,
   ],
 };
 // Audio Mute, Audio Vol+, Audio Vol-, Next, Previous, Media Stop, Play, Select, Eject, Mute, Vol+, Vol-, Fast Forward, Rewind
@@ -353,97 +343,94 @@ export const KEY_SUB_CATEGORY_DEVICE: IKeycodeCategoryInfo = {
   kinds: ['device', 'device'],
   codes: [102, 165, 166, 167, 189, 190],
 };
-// Mouse↑, Mouse↓, Mouse←, Mouse→, Mouse Btn1, Mouse Btn2, Mouse Btn3, Mouse Btn4, Mouse Btn5, Mouse Wh↑, Mouse Wh↓, Mouse Wh←, Mouse Wh→, Mouse Acc0, Mouse Acc1, Mouse Acc2
+// Mouse↑, Mouse↓, Mouse←, Mouse→, Mouse Btn1, Mouse Btn2, Mouse Btn3, Mouse Btn4, Mouse Btn5, Mouse Btn6, Mouse Btn7, Mouse Btn8, Mouse Wh↑, Mouse Wh↓, Mouse Wh←, Mouse Wh→, Mouse Acc0, Mouse Acc1, Mouse Acc2
 export const KEY_SUB_CATEGORY_MOUSE: IKeycodeCategoryInfo = {
   kinds: ['device', 'mouse'],
   codes: [
-    240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254,
-    255,
+    205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
+    220, 221, 222, 223,
   ],
 };
-// Reset, Debug
+// Reset, Debug, Clear EEPROM
 export const KEY_SUB_CATEGORY_KEYBOARD: IKeycodeCategoryInfo = {
   kinds: ['device', 'keyboard'],
-  codes: [23552, 23553, 23774],
+  codes: [31745, 31746, 31747],
 };
 // CL SWAP, CL CTRL, LAG SWP, RAG SWP, GUI OFF, GE SWAP, BS SWAP, NK ON, AG SWAP, CL NORM, CL CAPS, LAG NRM, RAG NRM, GUI ON, GE NORM, BS NORM, NK OFF, AG NORM, NK TOGG, AG TOGG
 export const KEY_SUB_CATEGORY_BOOTMAGIC: IKeycodeCategoryInfo = {
   kinds: ['device', 'bootmagic'],
   codes: [
-    23554, 23555, 23556, 23557, 23558, 23559, 23560, 23561, 23562, 23563, 23564,
-    23565, 23566, 23567, 23568, 23569, 23570, 23571, 23572, 23573, 23802, 23803,
-    23804, 23805, 23806, 23807, 23808, 23809, 23810, 23772, 23773, 23849,
+    28672, 28676, 28677, 28679, 28682, 28684, 28686, 28689, 28692, 28673, 28675,
+    28678, 28680, 28681, 28685, 28687, 28690, 28693, 28691, 28694, 28695, 28697,
+    28696, 28698, 28699, 28700, 28701, 28702, 28703, 31776, 31777, 31778,
   ],
 };
 // Audio On, Audio Off, Audio Toggle, Clicky Toggle, Clicky Enable, Clicky Disable, Clicky Up, Clicky Down, Clicky Reset, Music On, Music Off, Music Toggle, Music Mode
 export const KEY_SUB_CATEGORY_SOUND: IKeycodeCategoryInfo = {
   kinds: ['device', 'sound'],
   codes: [
-    23581, 23582, 23583, 23584, 23585, 23586, 23587, 23588, 23589, 23590, 23591,
-    23592, 23593,
+    29824, 29825, 29826, 29834, 29835, 29836, 29837, 29838, 29839, 29840, 29841,
+    29842, 29843,
   ],
 };
 // BL On, BL Off, BL-, BL+, BL Toggle, BL Cycle, BR Toggle
 export const KEY_SUB_CATEGORY_BACKLIGHT: IKeycodeCategoryInfo = {
   kinds: ['device', 'backlight'],
-  codes: [23739, 23740, 23741, 23742, 23743, 23744, 23745],
+  codes: [30720, 30721, 30723, 30724, 30722, 30725, 30726],
 };
 // RGB Toggle, RGB Mode+, RGB Mode-, Hue+, Hue-, Sat+, Sat-, Bright+, Bright-, Effect Speed+, Effect Speed-, RGB Mode P, RGB Mode R, RGB Mode SW, RGB Mode SN, RGB Mode K, RGB Mode X, RGB Mode G
 export const KEY_SUB_CATEGORY_UNDERGLOW: IKeycodeCategoryInfo = {
   kinds: ['device', 'underglow'],
   codes: [
-    23746, 23747, 23748, 23749, 23750, 23751, 23752, 23753, 23754, 23755, 23756,
-    23757, 23758, 23759, 23760, 23761, 23762, 23763, 23764, 23765,
+    30752, 30753, 30754, 30755, 30756, 30757, 30758, 30759, 30760, 30761, 30762,
+    30763, 30764, 30765, 30766, 30767, 30768, 30769, 30770, 30771,
   ],
 };
 // Macro
 export const KEY_SUB_CATEGORY_MACRO: IKeycodeCategoryInfo = {
   kinds: ['macro'],
-  codes: [
-    24338, 24339, 24340, 24341, 24342, 24343, 24344, 24345, 24346, 24347, 24348,
-    24349, 24350, 24351, 24352, 24353,
-  ],
+  codes: range(30464, 30495),
 };
 // Combo
 export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
   kinds: ['function', 'combo'],
-  codes: [23575, 23576, 23577, 23578, 23579, 23580, 23799, 23800, 23801],
+  codes: [31761, 31760, 31762, 31765, 31763, 31764, 31824, 31825, 31826],
 };
 
 // MIDI(Notes)
 export const KEY_SUB_CATEGORY_MIDI_NOTES: IKeycodeCategoryInfo = {
   kinds: ['midi', 'notes'],
-  codes: range(23599, 23670),
+  codes: range(28931, 29002),
 };
 
 // MIDI(Octave)
 export const KEY_SUB_CATEGORY_MIDI_OCTAVE: IKeycodeCategoryInfo = {
   kinds: ['midi', 'octave'],
-  codes: range(23671, 23682),
+  codes: range(29003, 29014),
 };
 
 // MIDI(Transpose)
 export const KEY_SUB_CATEGORY_MIDI_TRANSPOSE: IKeycodeCategoryInfo = {
   kinds: ['midi', 'transpose'],
-  codes: range(23683, 23697),
+  codes: range(29015, 29029),
 };
 
 // MIDI(Velocity)
 export const KEY_SUB_CATEGORY_MIDI_VELOCITY: IKeycodeCategoryInfo = {
   kinds: ['midi', 'velocity'],
-  codes: range(23698, 23709),
+  codes: range(29030, 29042),
 };
 
 // MIDI(Channel)
 export const KEY_SUB_CATEGORY_MIDI_CHANNEL: IKeycodeCategoryInfo = {
   kinds: ['midi', 'channel'],
-  codes: range(23710, 23727),
+  codes: range(29043, 29060),
 };
 
 // MIDI(Misc)
 export const KEY_SUB_CATEGORY_MIDI_MISC: IKeycodeCategoryInfo = {
   kinds: ['midi', 'misc'],
-  codes: [...range(23596, 23598), ...range(23728, 23738)],
+  codes: [...range(28928, 28930), ...range(29061, 29071)],
 };
 
 // ASCII
@@ -456,14 +443,14 @@ export const KEY_CATEGORY_ASCII: IKeycodeCategoryInfo = {
   ],
 };
 
-// FN_MO13, FN_MO23
-export const KEY_SUB_CATEGORY_FNMO: IKeycodeCategoryInfo = {
-  kinds: ['fnmo'],
-  codes: [24336, 24337],
+// Tri Layer
+export const KEY_SUB_CATEGORY_TRI_LAYER: IKeycodeCategoryInfo = {
+  kinds: ['tri_layer'],
+  codes: [31863, 31864],
 };
 
 // VIA USER
 export const KEY_SUB_CATEGORY_VIA_USER_KEY: IKeycodeCategoryInfo = {
   kinds: ['via_user_key'],
-  codes: range(24448, 24463),
+  codes: range(32256, 32287),
 };

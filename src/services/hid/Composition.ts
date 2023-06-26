@@ -42,7 +42,7 @@ import {
   KEY_SUB_CATEGORY_SOUND,
   KEY_SUB_CATEGORY_SPACE_CADET,
   KEY_SUB_CATEGORY_UNDERGLOW,
-  KEY_SUB_CATEGORY_FNMO,
+  KEY_SUB_CATEGORY_TRI_LAYER,
   KEY_SUB_CATEGORY_VIA_USER_KEY,
 } from './KeyCategoryList';
 import { KeyInfo, keyInfoList } from './KeycodeInfoList';
@@ -1517,7 +1517,7 @@ export class LooseKeycodeComposition implements ILooseKeycodeComposition {
       KEY_SUB_CATEGORY_MIDI_VELOCITY,
       KEY_SUB_CATEGORY_MIDI_CHANNEL,
       KEY_SUB_CATEGORY_MIDI_MISC,
-      KEY_SUB_CATEGORY_FNMO,
+      KEY_SUB_CATEGORY_TRI_LAYER,
     ];
 
     LooseKeycodeComposition._looseKeycodeKeymaps = [];
