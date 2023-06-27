@@ -86,7 +86,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     function isAvailableModifiers(code: number) {
       const factory = new KeycodeCompositionFactory(code, 'en-us');
       const flag =
-        (factory.isBasic() && !factory.isBasicFunc()) ||
+        factory.isBasic() ||
         factory.isMods() ||
         factory.isLayerMod() ||
         factory.isOneShotMod();

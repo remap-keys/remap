@@ -16,7 +16,6 @@ import {
   KEY_SUB_CATEGORY_COMMAND,
   KEY_SUB_CATEGORY_DEVICE,
   KEY_SUB_CATEGORY_EDIT,
-  KEY_SUB_CATEGORY_EMBED_FUNCTION,
   KEY_SUB_CATEGORY_F,
   KEY_SUB_CATEGORY_GRAVE_ESCAPE,
   KEY_SUB_CATEGORY_GUI,
@@ -505,7 +504,6 @@ export class BasicComposition implements IBasicComposition {
       // special
       KEY_SUB_CATEGORY_GUI,
       KEY_SUB_CATEGORY_COMMAND,
-      KEY_SUB_CATEGORY_EMBED_FUNCTION,
       KEY_SUB_CATEGORY_MEDIA,
       KEY_SUB_CATEGORY_APPLICATION,
       // device
@@ -1702,10 +1700,6 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
     //return this.getKind() === KeycodeCompositionKind.basic;
     const km = BasicComposition.findKeymap(this.code, 'en-us');
     return Boolean(km);
-  }
-
-  isBasicFunc(): boolean {
-    return KEY_SUB_CATEGORY_EMBED_FUNCTION.codes.includes(this.code);
   }
 
   isDefLayer(): boolean {
