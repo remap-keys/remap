@@ -46,7 +46,7 @@ const EXPECT_LAYER_TAP_LIST = [0b0100_0000_0000_0000, 0b0100_1111_1111_1111];
 const EXPECT_TO_LIST = [0b0101_0010_0000_0000, 0b0101_0010_0001_1111];
 const EXPECT_MOMENTARY_LIST = [0b0101_0010_0010_0000, 0b0101_0010_0011_1111];
 const EXPECT_DEF_LAYER_LIST = [0b0101_0010_0100_0000, 0b0101_0010_0101_1111];
-const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0011_0000_0000, 0b0101_0011_1111_1111];
+const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0010_0110_0000, 0b0101_0010_0111_1111];
 const EXPECT_ONE_SHOT_LAYER_LIST = [
   0b0101_0100_0000_0000, 0b0101_0100_1111_1111,
 ];
@@ -434,13 +434,13 @@ describe('Composition', () => {
   describe('ToggleLayerComposition', () => {
     test('getCode', () => {
       let subject = new ToggleLayerComposition(0b0100);
-      expect(subject.getCode()).toEqual(0b0101_0011_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_0110_0100);
       subject = new ToggleLayerComposition(0b0000);
-      expect(subject.getCode()).toEqual(0b0101_0011_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0110_0000);
       subject = new ToggleLayerComposition(0b1111);
-      expect(subject.getCode()).toEqual(0b0101_0011_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_0110_1111);
       subject = new ToggleLayerComposition(0b1_0000_0000);
-      expect(subject.getCode()).toEqual(0b0101_0011_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0110_0000);
     });
   });
 
@@ -1207,7 +1207,7 @@ describe('Composition', () => {
     describe('createToggleLayerComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0011_0000_0100,
+          0b0101_0010_0110_0100,
           'en-us'
         );
         expect(subject.isToggleLayer()).toBeTruthy();

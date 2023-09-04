@@ -73,8 +73,8 @@ export const QK_MOMENTARY_MAX = 0b0101_0010_0011_1111;
 export const QK_DEF_LAYER_MIN = 0b0101_0010_0100_0000;
 export const QK_DEF_LAYER_MAX = 0b0101_0010_0101_1111;
 
-export const QK_TOGGLE_LAYER_MIN = 0b0101_0011_0000_0000;
-export const QK_TOGGLE_LAYER_MAX = 0b0101_0011_1111_1111;
+export const QK_TOGGLE_LAYER_MIN = 0b0101_0010_0110_0000;
+export const QK_TOGGLE_LAYER_MAX = 0b0101_0010_0111_1111;
 
 export const QK_ONE_SHOT_LAYER_MIN = 0b0101_0100_0000_0000;
 export const QK_ONE_SHOT_LAYER_MAX = 0b0101_0100_1111_1111;
@@ -896,7 +896,7 @@ export class ToggleLayerComposition implements IMomentaryComposition {
   }
 
   getCode(): number {
-    return QK_TOGGLE_LAYER_MIN | (this.layer & 0b1111_1111);
+    return QK_TOGGLE_LAYER_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1892,7 +1892,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new ToggleLayerComposition(layer);
   }
 
