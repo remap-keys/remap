@@ -44,7 +44,7 @@ const EXPECT_FUNCTION_LIST = [0b0010_0000_0000_0000, 0b0010_1111_1111_1111];
 const EXPECT_MACRO_LIST = [0b0011_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_LAYER_TAP_LIST = [0b0100_0000_0000_0000, 0b0100_1111_1111_1111];
 const EXPECT_TO_LIST = [0b0101_0010_0000_0000, 0b0101_0010_0001_1111];
-const EXPECT_MOMENTARY_LIST = [0b0101_0001_0000_0000, 0b0101_0001_1111_1111];
+const EXPECT_MOMENTARY_LIST = [0b0101_0010_0010_0000, 0b0101_0010_0011_1111];
 const EXPECT_DEF_LAYER_LIST = [0b0101_0010_0000_0000, 0b0101_0010_1111_1111];
 const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0011_0000_0000, 0b0101_0011_1111_1111];
 const EXPECT_ONE_SHOT_LAYER_LIST = [
@@ -408,13 +408,13 @@ describe('Composition', () => {
   describe('MomentaryComposition', () => {
     test('getCode', () => {
       let subject = new MomentaryComposition(0b0100);
-      expect(subject.getCode()).toEqual(0b0101_0001_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_0010_0100);
       subject = new MomentaryComposition(0b0000);
-      expect(subject.getCode()).toEqual(0b0101_0001_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0010_0000);
       subject = new MomentaryComposition(0b1111);
-      expect(subject.getCode()).toEqual(0b0101_0001_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_0010_1111);
       subject = new MomentaryComposition(0b1_0000_0000);
-      expect(subject.getCode()).toEqual(0b0101_0001_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0010_0000);
     });
   });
 
@@ -1161,7 +1161,7 @@ describe('Composition', () => {
     describe('createMomentaryComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0001_0000_0100,
+          0b0101_0010_0010_0100,
           'en-us'
         );
         expect(subject.isMomentary()).toBeTruthy();

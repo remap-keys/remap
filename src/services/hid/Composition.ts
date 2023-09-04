@@ -67,8 +67,8 @@ export const QK_LAYER_TAP_MAX = 0b0100_1111_1111_1111;
 export const QK_TO_MIN = 0b0101_0010_0000_0000;
 export const QK_TO_MAX = 0b0101_0010_0001_1111;
 
-export const QK_MOMENTARY_MIN = 0b0101_0001_0000_0000;
-export const QK_MOMENTARY_MAX = 0b0101_0001_1111_1111;
+export const QK_MOMENTARY_MIN = 0b0101_0010_0010_0000;
+export const QK_MOMENTARY_MAX = 0b0101_0010_0011_1111;
 
 export const QK_DEF_LAYER_MIN = 0b0101_0010_0000_0000;
 export const QK_DEF_LAYER_MAX = 0b0101_0010_1111_1111;
@@ -802,7 +802,7 @@ export class MomentaryComposition implements IMomentaryComposition {
   }
 
   getCode(): number {
-    return QK_MOMENTARY_MIN | (this.layer & 0b1111_1111);
+    return QK_MOMENTARY_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1869,7 +1869,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a momentary key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new MomentaryComposition(layer);
   }
 
