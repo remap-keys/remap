@@ -64,8 +64,8 @@ export const QK_MACRO_MAX = 0b0011_1111_1111_1111;
 export const QK_LAYER_TAP_MIN = 0b0100_0000_0000_0000;
 export const QK_LAYER_TAP_MAX = 0b0100_1111_1111_1111;
 
-export const QK_TO_MIN = 0b0101_0000_0000_0000;
-export const QK_TO_MAX = 0b0101_0000_1111_1111;
+export const QK_TO_MIN = 0b0101_0010_0000_0000;
+export const QK_TO_MAX = 0b0101_0010_0001_1111;
 
 export const QK_MOMENTARY_MIN = 0b0101_0001_0000_0000;
 export const QK_MOMENTARY_MAX = 0b0101_0001_1111_1111;
@@ -755,7 +755,7 @@ export class ToComposition implements IToComposition {
   }
 
   getCode(): number {
-    return QK_TO_MIN | (this.layer & 0b1111_1111);
+    return QK_TO_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1859,7 +1859,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a to key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new ToComposition(layer);
   }
 

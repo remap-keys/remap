@@ -43,7 +43,7 @@ const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];
 const EXPECT_FUNCTION_LIST = [0b0010_0000_0000_0000, 0b0010_1111_1111_1111];
 const EXPECT_MACRO_LIST = [0b0011_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_LAYER_TAP_LIST = [0b0100_0000_0000_0000, 0b0100_1111_1111_1111];
-const EXPECT_TO_LIST = [0b0101_0000_0000_0000, 0b0101_0000_1111_1111];
+const EXPECT_TO_LIST = [0b0101_0010_0000_0000, 0b0101_0010_0001_1111];
 const EXPECT_MOMENTARY_LIST = [0b0101_0001_0000_0000, 0b0101_0001_1111_1111];
 const EXPECT_DEF_LAYER_LIST = [0b0101_0010_0000_0000, 0b0101_0010_1111_1111];
 const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0011_0000_0000, 0b0101_0011_1111_1111];
@@ -393,15 +393,15 @@ describe('Composition', () => {
   describe('ToComposition', () => {
     test('getCode', () => {
       let subject = new ToComposition(0b0100);
-      expect(subject.getCode()).toEqual(0b0101_0000_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_0100);
       subject = new ToComposition(0b0000);
-      expect(subject.getCode()).toEqual(0b0101_0000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_0000);
       subject = new ToComposition(0b1111);
-      expect(subject.getCode()).toEqual(0b0101_0000_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_0000_1111);
       subject = new ToComposition(0b1_0000);
-      expect(subject.getCode()).toEqual(0b0101_0000_0001_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_0001_0000);
       subject = new ToComposition(0b1111_1111);
-      expect(subject.getCode()).toEqual(0b0101_0000_1111_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_0001_1111);
     });
   });
 
@@ -1138,7 +1138,7 @@ describe('Composition', () => {
     describe('createToComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0000_0001_0100,
+          0b0101_0010_0001_0100,
           'en-us'
         );
         expect(subject.isTo()).toBeTruthy();
