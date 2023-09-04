@@ -55,7 +55,7 @@ const EXPECT_TAP_DANCE_LIST = [0b0101_0111_0000_0000, 0b0101_0111_1111_1111];
 const EXPECT_LAYER_TAP_TOGGLE_LIST = [
   0b0101_1000_0000_0000, 0b0101_1000_1111_1111,
 ];
-const EXPECT_LAYER_MOD_LIST = [0b0101_1001_0000_0000, 0b0101_1001_1111_1111];
+const EXPECT_LAYER_MOD_LIST = [0b0101_0000_0000_0000, 0b0101_0001_1111_1111];
 const EXPECT_SWAP_HANDS_LIST = [0b0101_0110_0000_0000, 0b0101_0110_1111_1111];
 const EXPECT_MOD_TAP_LIST = [0b0010_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
@@ -509,18 +509,18 @@ describe('Composition', () => {
   describe('LayerModComposition', () => {
     test('getCode', () => {
       let subject = new LayerModComposition(0b0100, [MOD_CTL, MOD_ALT]);
-      expect(subject.getCode()).toEqual(0b0101_1001_0100_0101);
+      expect(subject.getCode()).toEqual(0b0101_0000_1000_0101);
       subject = new LayerModComposition(0b0000, []);
-      expect(subject.getCode()).toEqual(0b0101_1001_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0000_0000_0000);
       subject = new LayerModComposition(0b1111, [
         MOD_CTL,
         MOD_ALT,
         MOD_GUI,
         MOD_SFT,
       ]);
-      expect(subject.getCode()).toEqual(0b0101_1001_1111_1111);
+      expect(subject.getCode()).toEqual(0b0101_0001_1110_1111);
       subject = new LayerModComposition(0b1_0000_0000, []);
-      expect(subject.getCode()).toEqual(0b0101_1001_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0000_0000_0000);
     });
   });
 
@@ -1342,12 +1342,12 @@ describe('Composition', () => {
     describe('createLayerModComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1001_0010_0111,
+          0b0101_0001_0010_0111,
           'en-us'
         );
         expect(subject.isLayerMod()).toBeTruthy();
         const actual = subject.createLayerModComposition();
-        expect(actual.getLayer()).toEqual(2);
+        expect(actual.getLayer()).toEqual(9);
         expect(actual.getModifiers().length).toEqual(3);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
         expect(actual.getModifiers().includes(MOD_SFT)).toBeTruthy();

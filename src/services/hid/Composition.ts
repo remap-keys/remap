@@ -91,8 +91,8 @@ export const QK_TAP_DANCE_MAX = 0b0101_0111_1111_1111;
 export const QK_LAYER_TAP_TOGGLE_MIN = 0b0101_1000_0000_0000;
 export const QK_LAYER_TAP_TOGGLE_MAX = 0b0101_1000_1111_1111;
 
-export const QK_LAYER_MOD_MIN = 0b0101_1001_0000_0000;
-export const QK_LAYER_MOD_MAX = 0b0101_1001_1111_1111;
+export const QK_LAYER_MOD_MIN = 0b0101_0000_0000_0000;
+export const QK_LAYER_MOD_MAX = 0b0101_0001_1111_1111;
 
 export const QK_MOD_TAP_MIN = 0b0010_0000_0000_0000;
 export const QK_MOD_TAP_MAX = 0b0011_1111_1111_1111;
@@ -1128,7 +1128,7 @@ export class LayerModComposition implements ILayerModComposition {
     const mods = this.modifiers.reduce<number>((result, current) => {
       return result | current;
     }, 0);
-    return QK_LAYER_MOD_MIN | ((this.layer & 0b1111) << 4) | mods;
+    return QK_LAYER_MOD_MIN | ((this.layer & 0b1111) << 5) | (mods & 0x1f);
   }
 
   genKeymap(): IKeymap {
@@ -1958,9 +1958,9 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a layer mod key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const layer = (this.code >> 4) & 0b1111;
+    const layer = (this.code >> 5) & 0b1111;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
-      if ((this.code & 0b1111 & current) === current) {
+      if ((this.code & 0x1f & current) === current) {
         result.push(current);
       }
       return result;
