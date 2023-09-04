@@ -452,5 +452,5 @@ export const KEY_SUB_CATEGORY_TRI_LAYER: IKeycodeCategoryInfo = {
 // VIA USER
 export const KEY_SUB_CATEGORY_VIA_USER_KEY: IKeycodeCategoryInfo = {
   kinds: ['via_user_key'],
-  codes: range(32256, 32287),
+  codes: range(32256, 32287), // QK_KB_0 - QK_KB_31
 };

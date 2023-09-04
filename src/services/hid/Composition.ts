@@ -103,8 +103,8 @@ export const QK_UNICODE_MAX = 0b1111_1111_1111_1111;
 export const LOOSE_KEYCODE_MIN = 0b0101_1100_0000_0000;
 export const LOOSE_KEYCODE_MAX = 0b0101_1111_0111_1111;
 
-export const VIA_USER_KEY_MIN = 0b0101_1111_1000_0000;
-export const VIA_USER_KEY_MAX = 0b0101_1111_1000_1111;
+export const VIA_USER_KEY_MIN = 0b0111_1110_0000_0000; // This is same as QK_KB_0.
+export const VIA_USER_KEY_MAX = 0b0111_1110_0001_1111; // This is same as QK_KB_31.
 
 export const ASCII_MIN = 0b0000_0000_0000_0000;
 export const ASCII_MAX = 0b0000_0000_0111_1111;

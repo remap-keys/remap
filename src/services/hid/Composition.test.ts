@@ -62,7 +62,7 @@ const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
   0b0101_1100_0000_0000, 0b0101_1111_0010_0001, 0b0101_1100_1111_0111,
 ];
-const EXPECT_VIA_USER_KEY_LIST = [0b0101_1111_1000_0000, 0b0101_1111_1000_1111];
+const EXPECT_VIA_USER_KEY_LIST = [0b0111_1110_0000_0000, 0b0111_1110_0001_1111];
 const EXPECT_UNKNOWN_LIST = [
   0b0101_1011_0000_0000, 0b0101_1111_0000_1111, 0b0101_1101_0001_0001,
 ];
@@ -857,13 +857,13 @@ describe('Composition', () => {
   describe('ViaUserKeyComposition', () => {
     test('getCode', () => {
       let subject = new ViaUserKeyComposition({
-        code: 0b0101_1111_1000_0000,
+        code: 0b0111_1110_0000_0000,
         isAny: false,
         kinds: ['via_user_key'],
         direction: MOD_LEFT,
         modifiers: [],
         keycodeInfo: {
-          code: 0b0101_1111_1000_0000,
+          code: 0b0111_1110_0000_0000,
           name: {
             long: 'Custom User 0',
             short: 'USER 0',
@@ -872,9 +872,9 @@ describe('Composition', () => {
           keywords: ['user0'],
         },
       });
-      expect(subject.getCode()).toEqual(0b0101_1111_1000_0000);
+      expect(subject.getCode()).toEqual(0b0111_1110_0000_0000);
       subject = new ViaUserKeyComposition({
-        code: 0b0101_1111_1000_1111,
+        code: 0b0111_1110_0001_1111,
         isAny: false,
         kinds: ['via_user_key'],
         direction: MOD_LEFT,
@@ -889,26 +889,26 @@ describe('Composition', () => {
           keywords: [],
         },
       });
-      expect(subject.getCode()).toEqual(0b0101_1111_1000_1111);
+      expect(subject.getCode()).toEqual(0b0111_1110_0001_1111);
     });
 
     describe('findKeymap', () => {
       test('customKeycodes is not specified', () => {
         const actual = ViaUserKeyComposition.findKeymap(
-          0b0101_1111_1000_0000,
+          0b0111_1110_0000_0000,
           undefined
         );
         expect(actual).not.toBeUndefined();
-        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
-        expect(actual!.desc).toEqual('User 0');
+        expect(actual!.code).toEqual(0b0111_1110_0000_0000);
+        expect(actual!.desc).toEqual('Kb 0');
         expect(actual!.kinds).toEqual(['via_user_key']);
-        expect(actual!.keycodeInfo.name.short).toEqual('USER 0');
-        expect(actual!.keycodeInfo.name.long).toEqual('Custom Keycode 0');
-        expect(actual!.keycodeInfo.label).toEqual('USER 0');
+        expect(actual!.keycodeInfo.name.short).toEqual('QK_KB_0');
+        expect(actual!.keycodeInfo.name.long).toEqual('QK_KB_0');
+        expect(actual!.keycodeInfo.label).toEqual('Kb 0');
       });
 
       test('customKeycodes is specified', () => {
-        const actual = ViaUserKeyComposition.findKeymap(0b0101_1111_1000_0000, [
+        const actual = ViaUserKeyComposition.findKeymap(0b0111_1110_0000_0000, [
           {
             name: 'customKeycodeName1',
             shortName: 'customKeycodeShortName1',
@@ -916,7 +916,7 @@ describe('Composition', () => {
           },
         ]);
         expect(actual).not.toBeUndefined();
-        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
+        expect(actual!.code).toEqual(0b0111_1110_0000_0000);
         expect(actual!.desc).toEqual('customKeycodeTitle1');
         expect(actual!.kinds).toEqual(['via_user_key']);
         expect(actual!.keycodeInfo.name.short).toEqual(
@@ -927,7 +927,7 @@ describe('Composition', () => {
       });
 
       test('customKeycodes is specified but empty', () => {
-        const actual = ViaUserKeyComposition.findKeymap(0b0101_1111_1000_0000, [
+        const actual = ViaUserKeyComposition.findKeymap(0b0111_1110_0000_0000, [
           {
             name: '',
             shortName: '',
@@ -935,12 +935,12 @@ describe('Composition', () => {
           },
         ]);
         expect(actual).not.toBeUndefined();
-        expect(actual!.code).toEqual(0b0101_1111_1000_0000);
-        expect(actual!.desc).toEqual('User 0');
+        expect(actual!.code).toEqual(0b0111_1110_0000_0000);
+        expect(actual!.desc).toEqual('Kb 0');
         expect(actual!.kinds).toEqual(['via_user_key']);
-        expect(actual!.keycodeInfo.name.short).toEqual('USER 0');
-        expect(actual!.keycodeInfo.name.long).toEqual('Custom Keycode 0');
-        expect(actual!.keycodeInfo.label).toEqual('USER 0');
+        expect(actual!.keycodeInfo.name.short).toEqual('QK_KB_0');
+        expect(actual!.keycodeInfo.name.long).toEqual('QK_KB_0');
+        expect(actual!.keycodeInfo.label).toEqual('Kb 0');
       });
     });
   });
@@ -1499,12 +1499,12 @@ describe('Composition', () => {
     describe('createViaUserKeyComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1111_1000_0000,
+          0b0111_1110_0000_0000,
           'en-us'
         );
         expect(subject.isViaUserKey()).toBeTruthy();
         const actual = subject.createViaUserKeyComposition(undefined);
-        expect(actual.genKeymap()!.code).toEqual(0b0101_1111_1000_0000);
+        expect(actual.genKeymap()!.code).toEqual(0b0111_1110_0000_0000);
       });
 
       test('not via user key', () => {
