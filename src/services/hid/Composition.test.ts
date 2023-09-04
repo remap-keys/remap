@@ -57,7 +57,7 @@ const EXPECT_LAYER_TAP_TOGGLE_LIST = [
 ];
 const EXPECT_LAYER_MOD_LIST = [0b0101_1001_0000_0000, 0b0101_1001_1111_1111];
 const EXPECT_SWAP_HANDS_LIST = [0b0101_0110_0000_0000, 0b0101_0110_1111_1111];
-const EXPECT_MOD_TAP_LIST = [0b0110_0000_0000_0000, 0b0111_1111_1111_1111];
+const EXPECT_MOD_TAP_LIST = [0b0010_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
   0b0101_1100_0000_0000, 0b0101_1111_0010_0001, 0b0101_1100_1111_0111,
@@ -599,7 +599,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0111_1111_0000_0100);
+      expect(subject.getCode()).toEqual(0b0011_1111_0000_0100);
       subject = new ModTapComposition(
         ModDirection.left,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -620,7 +620,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
+      expect(subject.getCode()).toEqual(0b0010_1111_0000_0000);
       subject = new ModTapComposition(
         ModDirection.right,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -641,7 +641,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
+      expect(subject.getCode()).toEqual(0b0011_1111_0000_0000);
       subject = new ModTapComposition(
         ModDirection.left,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -662,7 +662,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0110_1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b0010_1111_1111_1111);
       subject = new ModTapComposition(
         ModDirection.right,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -683,7 +683,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0111_1111_1111_1111);
+      expect(subject.getCode()).toEqual(0b0011_1111_1111_1111);
       subject = new ModTapComposition(
         ModDirection.left,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -704,7 +704,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0110_1111_0000_0000);
+      expect(subject.getCode()).toEqual(0b0010_1111_0000_0000);
       subject = new ModTapComposition(
         ModDirection.right,
         [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI],
@@ -725,7 +725,7 @@ describe('Composition', () => {
           },
         }
       );
-      expect(subject.getCode()).toEqual(0b0111_1111_0000_0000);
+      expect(subject.getCode()).toEqual(0b0011_1111_0000_0000);
       subject = new ModTapComposition(ModDirection.left, [], {
         code: 0b1111_1111,
         isAny: false,
@@ -742,7 +742,7 @@ describe('Composition', () => {
           keywords: [],
         },
       });
-      expect(subject.getCode()).toEqual(0b0110_0000_1111_1111);
+      expect(subject.getCode()).toEqual(0b0010_0000_1111_1111);
       subject = new ModTapComposition(ModDirection.right, [], {
         code: 0b1111_1111,
         isAny: false,
@@ -759,7 +759,7 @@ describe('Composition', () => {
           keywords: [],
         },
       });
-      expect(subject.getCode()).toEqual(0b0111_0000_1111_1111);
+      expect(subject.getCode()).toEqual(0b0011_0000_1111_1111);
     });
   });
 
@@ -1408,12 +1408,12 @@ describe('Composition', () => {
     describe('createModTapComposition', () => {
       test('valid - left', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0110_1111_0000_0100,
+          0b0010_1111_0000_0100,
           'en-us'
         );
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.genKeymap()!.keycodeInfo!.code).toEqual(0b0000_0100);
+        expect(actual.genKeymap()!.code).toEqual(0b0010_1111_0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_LEFT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
@@ -1424,12 +1424,12 @@ describe('Composition', () => {
 
       test('valid - right', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0111_1111_0000_0100,
+          0b0011_1111_0000_0100,
           'en-us'
         );
         expect(subject.isModTap()).toBeTruthy();
         const actual = subject.createModTapComposition();
-        expect(actual.genKeymap()!.code).toEqual(0b0111_1111_0000_0100);
+        expect(actual.genKeymap()!.code).toEqual(0b0011_1111_0000_0100);
         expect(actual.getModDirection()).toEqual(MOD_RIGHT);
         expect(actual.getModifiers().length).toEqual(4);
         expect(actual.getModifiers().includes(MOD_CTL)).toBeTruthy();
