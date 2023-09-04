@@ -70,8 +70,8 @@ export const QK_TO_MAX = 0b0101_0010_0001_1111;
 export const QK_MOMENTARY_MIN = 0b0101_0010_0010_0000;
 export const QK_MOMENTARY_MAX = 0b0101_0010_0011_1111;
 
-export const QK_DEF_LAYER_MIN = 0b0101_0010_0000_0000;
-export const QK_DEF_LAYER_MAX = 0b0101_0010_1111_1111;
+export const QK_DEF_LAYER_MIN = 0b0101_0010_0100_0000;
+export const QK_DEF_LAYER_MAX = 0b0101_0010_0101_1111;
 
 export const QK_TOGGLE_LAYER_MIN = 0b0101_0011_0000_0000;
 export const QK_TOGGLE_LAYER_MAX = 0b0101_0011_1111_1111;
@@ -849,7 +849,7 @@ export class DefLayerComposition implements IMomentaryComposition {
   }
 
   getCode(): number {
-    return QK_DEF_LAYER_MIN | (this.layer & 0b1111_1111);
+    return QK_DEF_LAYER_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1879,7 +1879,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a def layer key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new DefLayerComposition(layer);
   }
 
