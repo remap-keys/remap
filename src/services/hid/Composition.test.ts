@@ -48,7 +48,7 @@ const EXPECT_MOMENTARY_LIST = [0b0101_0010_0010_0000, 0b0101_0010_0011_1111];
 const EXPECT_DEF_LAYER_LIST = [0b0101_0010_0100_0000, 0b0101_0010_0101_1111];
 const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0010_0110_0000, 0b0101_0010_0111_1111];
 const EXPECT_ONE_SHOT_LAYER_LIST = [
-  0b0101_0100_0000_0000, 0b0101_0100_1111_1111,
+  0b0101_0010_1000_0000, 0b0101_0010_1001_1111,
 ];
 const EXPECT_ONE_SHOT_MOD_LIST = [0b0101_0101_0000_0000, 0b0101_0101_1111_1111];
 const EXPECT_TAP_DANCE_LIST = [0b0101_0111_0000_0000, 0b0101_0111_1111_1111];
@@ -447,13 +447,13 @@ describe('Composition', () => {
   describe('OneShotLayerComposition', () => {
     test('getCode', () => {
       let subject = new OneShotLayerComposition(0b0100);
-      expect(subject.getCode()).toEqual(0b0101_0100_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_1000_0100);
       subject = new OneShotLayerComposition(0b0000);
-      expect(subject.getCode()).toEqual(0b0101_0100_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1000_0000);
       subject = new OneShotLayerComposition(0b1111);
-      expect(subject.getCode()).toEqual(0b0101_0100_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_1000_1111);
       subject = new OneShotLayerComposition(0b1_0000_0000);
-      expect(subject.getCode()).toEqual(0b0101_0100_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1000_0000);
     });
   });
 
@@ -1230,7 +1230,7 @@ describe('Composition', () => {
     describe('createOneShotLayerComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0100_0000_0100,
+          0b0101_0010_1000_0100,
           'en-us'
         );
         expect(subject.isOneShotLayer()).toBeTruthy();

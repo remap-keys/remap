@@ -76,8 +76,8 @@ export const QK_DEF_LAYER_MAX = 0b0101_0010_0101_1111;
 export const QK_TOGGLE_LAYER_MIN = 0b0101_0010_0110_0000;
 export const QK_TOGGLE_LAYER_MAX = 0b0101_0010_0111_1111;
 
-export const QK_ONE_SHOT_LAYER_MIN = 0b0101_0100_0000_0000;
-export const QK_ONE_SHOT_LAYER_MAX = 0b0101_0100_1111_1111;
+export const QK_ONE_SHOT_LAYER_MIN = 0b0101_0010_1000_0000;
+export const QK_ONE_SHOT_LAYER_MAX = 0b0101_0010_1001_1111;
 
 export const QK_ONE_SHOT_MOD_MIN = 0b0101_0101_0000_0000;
 export const QK_ONE_SHOT_MOD_MAX = 0b0101_0101_1111_1111;
@@ -943,7 +943,7 @@ export class OneShotLayerComposition implements IOneShotLayerComposition {
   }
 
   getCode(): number {
-    return QK_ONE_SHOT_LAYER_MIN | (this.layer & 0b1111_1111);
+    return QK_ONE_SHOT_LAYER_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1905,7 +1905,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new OneShotLayerComposition(layer);
   }
 
