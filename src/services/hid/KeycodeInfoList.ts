@@ -8,7 +8,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Ignore this key (NOOP)',
     keycodeInfo: {
-      code: 0,
+      code: 0x0, // 0 0b0
       label: ' ',
       name: {
         long: 'KC_NO',
@@ -20,7 +20,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Use the next lowest non-transparent key',
     keycodeInfo: {
-      code: 1,
+      code: 0x1, // 1 0b1
       label: '▽',
       name: {
         long: 'KC_TRANSPARENT',
@@ -32,7 +32,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'a and A',
     keycodeInfo: {
-      code: 4,
+      code: 0x4, // 4 0b100
       label: 'A',
       name: {
         long: 'KC_A',
@@ -45,7 +45,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'b and B',
     keycodeInfo: {
-      code: 5,
+      code: 0x5, // 5 0b101
       label: 'B',
       name: {
         long: 'KC_B',
@@ -58,7 +58,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'c and C',
     keycodeInfo: {
-      code: 6,
+      code: 0x6, // 6 0b110
       label: 'C',
       name: {
         long: 'KC_C',
@@ -71,7 +71,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'd and D',
     keycodeInfo: {
-      code: 7,
+      code: 0x7, // 7 0b111
       label: 'D',
       name: {
         long: 'KC_D',
@@ -84,7 +84,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'e and E',
     keycodeInfo: {
-      code: 8,
+      code: 0x8, // 8 0b1000
       label: 'E',
       name: {
         long: 'KC_E',
@@ -97,7 +97,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'f and F',
     keycodeInfo: {
-      code: 9,
+      code: 0x9, // 9 0b1001
       label: 'F',
       name: {
         long: 'KC_F',
@@ -110,7 +110,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'g and G',
     keycodeInfo: {
-      code: 10,
+      code: 0xa, // 10 0b1010
       label: 'G',
       name: {
         long: 'KC_G',
@@ -123,7 +123,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'h and H',
     keycodeInfo: {
-      code: 11,
+      code: 0xb, // 11 0b1011
       label: 'H',
       name: {
         long: 'KC_H',
@@ -136,7 +136,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'i and I',
     keycodeInfo: {
-      code: 12,
+      code: 0xc, // 12 0b1100
       label: 'I',
       name: {
         long: 'KC_I',
@@ -149,7 +149,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'j and J',
     keycodeInfo: {
-      code: 13,
+      code: 0xd, // 13 0b1101
       label: 'J',
       name: {
         long: 'KC_J',
@@ -162,7 +162,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'k and K',
     keycodeInfo: {
-      code: 14,
+      code: 0xe, // 14 0b1110
       label: 'K',
       name: {
         long: 'KC_K',
@@ -175,7 +175,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'l and L',
     keycodeInfo: {
-      code: 15,
+      code: 0xf, // 15 0b1111
       label: 'L',
       name: {
         long: 'KC_L',
@@ -188,7 +188,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'm and M',
     keycodeInfo: {
-      code: 16,
+      code: 0x10, // 16 0b10000
       label: 'M',
       name: {
         long: 'KC_M',
@@ -201,7 +201,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'n and N',
     keycodeInfo: {
-      code: 17,
+      code: 0x11, // 17 0b10001
       label: 'N',
       name: {
         long: 'KC_N',
@@ -214,7 +214,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'o and O',
     keycodeInfo: {
-      code: 18,
+      code: 0x12, // 18 0b10010
       label: 'O',
       name: {
         long: 'KC_O',
@@ -227,7 +227,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'p and P',
     keycodeInfo: {
-      code: 19,
+      code: 0x13, // 19 0b10011
       label: 'P',
       name: {
         long: 'KC_P',
@@ -240,7 +240,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'q and Q',
     keycodeInfo: {
-      code: 20,
+      code: 0x14, // 20 0b10100
       label: 'Q',
       name: {
         long: 'KC_Q',
@@ -253,7 +253,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'r and R',
     keycodeInfo: {
-      code: 21,
+      code: 0x15, // 21 0b10101
       label: 'R',
       name: {
         long: 'KC_R',
@@ -266,7 +266,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 's and S',
     keycodeInfo: {
-      code: 22,
+      code: 0x16, // 22 0b10110
       label: 'S',
       name: {
         long: 'KC_S',
@@ -279,7 +279,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 't and T',
     keycodeInfo: {
-      code: 23,
+      code: 0x17, // 23 0b10111
       label: 'T',
       name: {
         long: 'KC_T',
@@ -292,7 +292,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'u and U',
     keycodeInfo: {
-      code: 24,
+      code: 0x18, // 24 0b11000
       label: 'U',
       name: {
         long: 'KC_U',
@@ -305,7 +305,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'v and V',
     keycodeInfo: {
-      code: 25,
+      code: 0x19, // 25 0b11001
       label: 'V',
       name: {
         long: 'KC_V',
@@ -318,7 +318,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'w and W',
     keycodeInfo: {
-      code: 26,
+      code: 0x1a, // 26 0b11010
       label: 'W',
       name: {
         long: 'KC_W',
@@ -331,7 +331,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'x and X',
     keycodeInfo: {
-      code: 27,
+      code: 0x1b, // 27 0b11011
       label: 'X',
       name: {
         long: 'KC_X',
@@ -344,7 +344,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'y and Y',
     keycodeInfo: {
-      code: 28,
+      code: 0x1c, // 28 0b11100
       label: 'Y',
       name: {
         long: 'KC_Y',
@@ -357,7 +357,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'z and Z',
     keycodeInfo: {
-      code: 29,
+      code: 0x1d, // 29 0b11101
       label: 'Z',
       name: {
         long: 'KC_Z',
@@ -370,7 +370,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '1 and !',
     keycodeInfo: {
-      code: 30,
+      code: 0x1e, // 30 0b11110
       label: '1',
       name: {
         long: 'KC_1',
@@ -383,7 +383,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '2 and @',
     keycodeInfo: {
-      code: 31,
+      code: 0x1f, // 31 0b11111
       label: '2',
       name: {
         long: 'KC_2',
@@ -396,7 +396,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '3 and #',
     keycodeInfo: {
-      code: 32,
+      code: 0x20, // 32 0b100000
       label: '3',
       name: {
         long: 'KC_3',
@@ -409,7 +409,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '4 and $',
     keycodeInfo: {
-      code: 33,
+      code: 0x21, // 33 0b100001
       label: '4',
       name: {
         long: 'KC_4',
@@ -422,7 +422,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '5 and %',
     keycodeInfo: {
-      code: 34,
+      code: 0x22, // 34 0b100010
       label: '5',
       name: {
         long: 'KC_5',
@@ -435,7 +435,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '6 and ^',
     keycodeInfo: {
-      code: 35,
+      code: 0x23, // 35 0b100011
       label: '6',
       name: {
         long: 'KC_6',
@@ -448,7 +448,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '7 and &',
     keycodeInfo: {
-      code: 36,
+      code: 0x24, // 36 0b100100
       label: '7',
       name: {
         long: 'KC_7',
@@ -461,7 +461,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '8 and *',
     keycodeInfo: {
-      code: 37,
+      code: 0x25, // 37 0b100101
       label: '8',
       name: {
         long: 'KC_8',
@@ -474,7 +474,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '9 and (',
     keycodeInfo: {
-      code: 38,
+      code: 0x26, // 38 0b100110
       label: '9',
       name: {
         long: 'KC_9',
@@ -487,7 +487,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '0 and )',
     keycodeInfo: {
-      code: 39,
+      code: 0x27, // 39 0b100111
       label: '0',
       name: {
         long: 'KC_0',
@@ -500,7 +500,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Return (Enter)',
     keycodeInfo: {
-      code: 40,
+      code: 0x28, // 40 0b101000
       label: 'Enter',
       name: {
         long: 'KC_ENTER',
@@ -512,7 +512,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Escape',
     keycodeInfo: {
-      code: 41,
+      code: 0x29, // 41 0b101001
       label: 'Esc',
       name: {
         long: 'KC_ESCAPE',
@@ -525,7 +525,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Delete (Backspace)',
     keycodeInfo: {
-      code: 42,
+      code: 0x2a, // 42 0b101010
       label: 'BS',
       name: {
         long: 'KC_BACKSPACE',
@@ -538,7 +538,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Tab',
     keycodeInfo: {
-      code: 43,
+      code: 0x2b, // 43 0b101011
       label: 'Tab',
       name: {
         long: 'KC_TAB',
@@ -551,7 +551,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Spacebar',
     keycodeInfo: {
-      code: 44,
+      code: 0x2c, // 44 0b101100
       label: 'Space',
       name: {
         long: 'KC_SPACE',
@@ -564,7 +564,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '- and _',
     keycodeInfo: {
-      code: 45,
+      code: 0x2d, // 45 0b101101
       label: '-',
       name: {
         long: 'KC_MINUS',
@@ -577,7 +577,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '= and +',
     keycodeInfo: {
-      code: 46,
+      code: 0x2e, // 46 0b101110
       label: '=',
       name: {
         long: 'KC_EQUAL',
@@ -590,7 +590,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '[ and {',
     keycodeInfo: {
-      code: 47,
+      code: 0x2f, // 47 0b101111
       label: '[',
       name: {
         long: 'KC_LEFT_BRACKET',
@@ -603,7 +603,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '] and }',
     keycodeInfo: {
-      code: 48,
+      code: 0x30, // 48 0b110000
       label: ']',
       name: {
         long: 'KC_RIGHT_BRACKET',
@@ -616,7 +616,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '\\ and |',
     keycodeInfo: {
-      code: 49,
+      code: 0x31, // 49 0b110001
       label: '\\',
       name: {
         long: 'KC_BACKSLASH',
@@ -629,7 +629,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Non-US # and ~',
     keycodeInfo: {
-      code: 50,
+      code: 0x32, // 50 0b110010
       label: 'NUHS',
       name: {
         long: 'KC_NONUS_HASH',
@@ -641,7 +641,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '; and :',
     keycodeInfo: {
-      code: 51,
+      code: 0x33, // 51 0b110011
       label: ';',
       name: {
         long: 'KC_SEMICOLON',
@@ -654,7 +654,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '\' and "',
     keycodeInfo: {
-      code: 52,
+      code: 0x34, // 52 0b110100
       label: "'",
       name: {
         long: 'KC_QUOTE',
@@ -667,7 +667,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '` and ~',
     keycodeInfo: {
-      code: 53,
+      code: 0x35, // 53 0b110101
       label: '`',
       name: {
         long: 'KC_GRAVE',
@@ -680,7 +680,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: ', and <',
     keycodeInfo: {
-      code: 54,
+      code: 0x36, // 54 0b110110
       label: ',',
       name: {
         long: 'KC_COMMA',
@@ -693,7 +693,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '. and >',
     keycodeInfo: {
-      code: 55,
+      code: 0x37, // 55 0b110111
       label: '.',
       name: {
         long: 'KC_DOT',
@@ -706,7 +706,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '/ and ?',
     keycodeInfo: {
-      code: 56,
+      code: 0x38, // 56 0b111000
       label: '/',
       name: {
         long: 'KC_SLASH',
@@ -719,7 +719,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Caps Lock',
     keycodeInfo: {
-      code: 57,
+      code: 0x39, // 57 0b111001
       label: 'Caps Lock',
       name: {
         long: 'KC_CAPS_LOCK',
@@ -731,7 +731,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F1',
     keycodeInfo: {
-      code: 58,
+      code: 0x3a, // 58 0b111010
       label: 'F1',
       name: {
         long: 'KC_F1',
@@ -743,7 +743,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F2',
     keycodeInfo: {
-      code: 59,
+      code: 0x3b, // 59 0b111011
       label: 'F2',
       name: {
         long: 'KC_F2',
@@ -755,7 +755,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F3',
     keycodeInfo: {
-      code: 60,
+      code: 0x3c, // 60 0b111100
       label: 'F3',
       name: {
         long: 'KC_F3',
@@ -767,7 +767,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F4',
     keycodeInfo: {
-      code: 61,
+      code: 0x3d, // 61 0b111101
       label: 'F4',
       name: {
         long: 'KC_F4',
@@ -779,7 +779,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F5',
     keycodeInfo: {
-      code: 62,
+      code: 0x3e, // 62 0b111110
       label: 'F5',
       name: {
         long: 'KC_F5',
@@ -791,7 +791,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F6',
     keycodeInfo: {
-      code: 63,
+      code: 0x3f, // 63 0b111111
       label: 'F6',
       name: {
         long: 'KC_F6',
@@ -803,7 +803,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F7',
     keycodeInfo: {
-      code: 64,
+      code: 0x40, // 64 0b1000000
       label: 'F7',
       name: {
         long: 'KC_F7',
@@ -815,7 +815,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F8',
     keycodeInfo: {
-      code: 65,
+      code: 0x41, // 65 0b1000001
       label: 'F8',
       name: {
         long: 'KC_F8',
@@ -827,7 +827,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F9',
     keycodeInfo: {
-      code: 66,
+      code: 0x42, // 66 0b1000010
       label: 'F9',
       name: {
         long: 'KC_F9',
@@ -839,7 +839,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F10',
     keycodeInfo: {
-      code: 67,
+      code: 0x43, // 67 0b1000011
       label: 'F10',
       name: {
         long: 'KC_F10',
@@ -851,7 +851,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F11',
     keycodeInfo: {
-      code: 68,
+      code: 0x44, // 68 0b1000100
       label: 'F11',
       name: {
         long: 'KC_F11',
@@ -863,7 +863,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F12',
     keycodeInfo: {
-      code: 69,
+      code: 0x45, // 69 0b1000101
       label: 'F12',
       name: {
         long: 'KC_F12',
@@ -875,7 +875,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Print Screen',
     keycodeInfo: {
-      code: 70,
+      code: 0x46, // 70 0b1000110
       label: 'Print Screen',
       name: {
         long: 'KC_PRINT_SCREEN',
@@ -887,7 +887,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Scroll Lock, Brightness Down (macOS)',
     keycodeInfo: {
-      code: 71,
+      code: 0x47, // 71 0b1000111
       label: 'Scroll Lock',
       name: {
         long: 'KC_SCROLL_LOCK',
@@ -899,7 +899,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Pause, Brightness Up (macOS)',
     keycodeInfo: {
-      code: 72,
+      code: 0x48, // 72 0b1001000
       label: 'Pause',
       name: {
         long: 'KC_PAUSE',
@@ -911,7 +911,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Insert',
     keycodeInfo: {
-      code: 73,
+      code: 0x49, // 73 0b1001001
       label: 'Insert',
       name: {
         long: 'KC_INSERT',
@@ -923,7 +923,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Home',
     keycodeInfo: {
-      code: 74,
+      code: 0x4a, // 74 0b1001010
       label: 'Home',
       name: {
         long: 'KC_HOME',
@@ -935,7 +935,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Page Up',
     keycodeInfo: {
-      code: 75,
+      code: 0x4b, // 75 0b1001011
       label: 'Page Up',
       name: {
         long: 'KC_PAGE_UP',
@@ -947,7 +947,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Forward Delete',
     keycodeInfo: {
-      code: 76,
+      code: 0x4c, // 76 0b1001100
       label: 'Del',
       name: {
         long: 'KC_DELETE',
@@ -960,7 +960,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'End',
     keycodeInfo: {
-      code: 77,
+      code: 0x4d, // 77 0b1001101
       label: 'End',
       name: {
         long: 'KC_END',
@@ -972,7 +972,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Page Down',
     keycodeInfo: {
-      code: 78,
+      code: 0x4e, // 78 0b1001110
       label: 'Page Down',
       name: {
         long: 'KC_PAGE_DOWN',
@@ -984,7 +984,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Arrow',
     keycodeInfo: {
-      code: 79,
+      code: 0x4f, // 79 0b1001111
       label: '→',
       name: {
         long: 'KC_RIGHT',
@@ -996,7 +996,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Arrow',
     keycodeInfo: {
-      code: 80,
+      code: 0x50, // 80 0b1010000
       label: '←',
       name: {
         long: 'KC_LEFT',
@@ -1008,7 +1008,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Down Arrow',
     keycodeInfo: {
-      code: 81,
+      code: 0x51, // 81 0b1010001
       label: '↓',
       name: {
         long: 'KC_DOWN',
@@ -1020,7 +1020,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Up Arrow',
     keycodeInfo: {
-      code: 82,
+      code: 0x52, // 82 0b1010010
       label: '↑',
       name: {
         long: 'KC_UP',
@@ -1032,7 +1032,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad Num Lock and Clear',
     keycodeInfo: {
-      code: 83,
+      code: 0x53, // 83 0b1010011
       label: 'Num Lock',
       name: {
         long: 'KC_NUM_LOCK',
@@ -1044,7 +1044,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad /',
     keycodeInfo: {
-      code: 84,
+      code: 0x54, // 84 0b1010100
       label: 'Num /',
       name: {
         long: 'KC_KP_SLASH',
@@ -1056,7 +1056,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad *',
     keycodeInfo: {
-      code: 85,
+      code: 0x55, // 85 0b1010101
       label: 'Num *',
       name: {
         long: 'KC_KP_ASTERISK',
@@ -1068,7 +1068,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad -',
     keycodeInfo: {
-      code: 86,
+      code: 0x56, // 86 0b1010110
       label: 'Num -',
       name: {
         long: 'KC_KP_MINUS',
@@ -1080,7 +1080,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad +',
     keycodeInfo: {
-      code: 87,
+      code: 0x57, // 87 0b1010111
       label: 'Num +',
       name: {
         long: 'KC_KP_PLUS',
@@ -1092,7 +1092,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad Enter',
     keycodeInfo: {
-      code: 88,
+      code: 0x58, // 88 0b1011000
       label: 'Num Enter',
       name: {
         long: 'KC_KP_ENTER',
@@ -1104,7 +1104,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 1 and End',
     keycodeInfo: {
-      code: 89,
+      code: 0x59, // 89 0b1011001
       label: 'Num 1',
       name: {
         long: 'KC_KP_1',
@@ -1116,7 +1116,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 2 and Down Arrow',
     keycodeInfo: {
-      code: 90,
+      code: 0x5a, // 90 0b1011010
       label: 'Num 2',
       name: {
         long: 'KC_KP_2',
@@ -1128,7 +1128,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 3 and Page Down',
     keycodeInfo: {
-      code: 91,
+      code: 0x5b, // 91 0b1011011
       label: 'Num 3',
       name: {
         long: 'KC_KP_3',
@@ -1140,7 +1140,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 4 and Left Arrow',
     keycodeInfo: {
-      code: 92,
+      code: 0x5c, // 92 0b1011100
       label: 'Num 4',
       name: {
         long: 'KC_KP_4',
@@ -1152,7 +1152,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 5',
     keycodeInfo: {
-      code: 93,
+      code: 0x5d, // 93 0b1011101
       label: 'Num 5',
       name: {
         long: 'KC_KP_5',
@@ -1164,7 +1164,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 6 and Right Arrow',
     keycodeInfo: {
-      code: 94,
+      code: 0x5e, // 94 0b1011110
       label: 'Num 6',
       name: {
         long: 'KC_KP_6',
@@ -1176,7 +1176,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 7 and Home',
     keycodeInfo: {
-      code: 95,
+      code: 0x5f, // 95 0b1011111
       label: 'Num 7',
       name: {
         long: 'KC_KP_7',
@@ -1188,7 +1188,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 8 and Up Arrow',
     keycodeInfo: {
-      code: 96,
+      code: 0x60, // 96 0b1100000
       label: 'Num 8',
       name: {
         long: 'KC_KP_8',
@@ -1200,7 +1200,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 9 and Page Up',
     keycodeInfo: {
-      code: 97,
+      code: 0x61, // 97 0b1100001
       label: 'Num 9',
       name: {
         long: 'KC_KP_9',
@@ -1212,7 +1212,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad 0 and Insert',
     keycodeInfo: {
-      code: 98,
+      code: 0x62, // 98 0b1100010
       label: 'Num 0',
       name: {
         long: 'KC_KP_0',
@@ -1224,7 +1224,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad . and Delete',
     keycodeInfo: {
-      code: 99,
+      code: 0x63, // 99 0b1100011
       label: 'Num .',
       name: {
         long: 'KC_KP_DOT',
@@ -1236,7 +1236,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Non-US \\ and |',
     keycodeInfo: {
-      code: 100,
+      code: 0x64, // 100 0b1100100
       label: 'NUBS',
       name: {
         long: 'KC_NONUS_BACKSLASH',
@@ -1248,7 +1248,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Application (Windows Context Menu Key)',
     keycodeInfo: {
-      code: 101,
+      code: 0x65, // 101 0b1100101
       label: 'App',
       name: {
         long: 'KC_APPLICATION',
@@ -1260,7 +1260,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'System Power',
     keycodeInfo: {
-      code: 102,
+      code: 0x66, // 102 0b1100110
       label: 'Power',
       name: {
         long: 'KC_KB_POWER',
@@ -1272,7 +1272,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad =',
     keycodeInfo: {
-      code: 103,
+      code: 0x67, // 103 0b1100111
       label: 'Num =',
       name: {
         long: 'KC_KP_EQUAL',
@@ -1284,7 +1284,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F13',
     keycodeInfo: {
-      code: 104,
+      code: 0x68, // 104 0b1101000
       label: 'F13',
       name: {
         long: 'KC_F13',
@@ -1296,7 +1296,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F14',
     keycodeInfo: {
-      code: 105,
+      code: 0x69, // 105 0b1101001
       label: 'F14',
       name: {
         long: 'KC_F14',
@@ -1308,7 +1308,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F15',
     keycodeInfo: {
-      code: 106,
+      code: 0x6a, // 106 0b1101010
       label: 'F15',
       name: {
         long: 'KC_F15',
@@ -1320,7 +1320,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F16',
     keycodeInfo: {
-      code: 107,
+      code: 0x6b, // 107 0b1101011
       label: 'F16',
       name: {
         long: 'KC_F16',
@@ -1332,7 +1332,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F17',
     keycodeInfo: {
-      code: 108,
+      code: 0x6c, // 108 0b1101100
       label: 'F17',
       name: {
         long: 'KC_F17',
@@ -1344,7 +1344,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F18',
     keycodeInfo: {
-      code: 109,
+      code: 0x6d, // 109 0b1101101
       label: 'F18',
       name: {
         long: 'KC_F18',
@@ -1356,7 +1356,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F19',
     keycodeInfo: {
-      code: 110,
+      code: 0x6e, // 110 0b1101110
       label: 'F19',
       name: {
         long: 'KC_F19',
@@ -1368,7 +1368,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F20',
     keycodeInfo: {
-      code: 111,
+      code: 0x6f, // 111 0b1101111
       label: 'F20',
       name: {
         long: 'KC_F20',
@@ -1380,7 +1380,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F21',
     keycodeInfo: {
-      code: 112,
+      code: 0x70, // 112 0b1110000
       label: 'F21',
       name: {
         long: 'KC_F21',
@@ -1392,7 +1392,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F22',
     keycodeInfo: {
-      code: 113,
+      code: 0x71, // 113 0b1110001
       label: 'F22',
       name: {
         long: 'KC_F22',
@@ -1404,7 +1404,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F23',
     keycodeInfo: {
-      code: 114,
+      code: 0x72, // 114 0b1110010
       label: 'F23',
       name: {
         long: 'KC_F23',
@@ -1416,7 +1416,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F24',
     keycodeInfo: {
-      code: 115,
+      code: 0x73, // 115 0b1110011
       label: 'F24',
       name: {
         long: 'KC_F24',
@@ -1428,7 +1428,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Execute',
     keycodeInfo: {
-      code: 116,
+      code: 0x74, // 116 0b1110100
       label: 'Execute',
       name: {
         long: 'KC_EXECUTE',
@@ -1440,7 +1440,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Help',
     keycodeInfo: {
-      code: 117,
+      code: 0x75, // 117 0b1110101
       label: 'Help',
       name: {
         long: 'KC_HELP',
@@ -1452,7 +1452,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Menu',
     keycodeInfo: {
-      code: 118,
+      code: 0x76, // 118 0b1110110
       label: 'Menu',
       name: {
         long: 'KC_MENU',
@@ -1464,7 +1464,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Select',
     keycodeInfo: {
-      code: 119,
+      code: 0x77, // 119 0b1110111
       label: 'Select',
       name: {
         long: 'KC_SELECT',
@@ -1476,7 +1476,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Stop',
     keycodeInfo: {
-      code: 120,
+      code: 0x78, // 120 0b1111000
       label: 'Stop',
       name: {
         long: 'KC_STOP',
@@ -1488,7 +1488,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Again',
     keycodeInfo: {
-      code: 121,
+      code: 0x79, // 121 0b1111001
       label: 'Again',
       name: {
         long: 'KC_AGAIN',
@@ -1500,7 +1500,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Undo',
     keycodeInfo: {
-      code: 122,
+      code: 0x7a, // 122 0b1111010
       label: 'Undo',
       name: {
         long: 'KC_UNDO',
@@ -1512,7 +1512,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cut',
     keycodeInfo: {
-      code: 123,
+      code: 0x7b, // 123 0b1111011
       label: 'Cut',
       name: {
         long: 'KC_CUT',
@@ -1524,7 +1524,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Copy',
     keycodeInfo: {
-      code: 124,
+      code: 0x7c, // 124 0b1111100
       label: 'Copy',
       name: {
         long: 'KC_COPY',
@@ -1536,7 +1536,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Paste',
     keycodeInfo: {
-      code: 125,
+      code: 0x7d, // 125 0b1111101
       label: 'Paste',
       name: {
         long: 'KC_PASTE',
@@ -1548,7 +1548,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Find',
     keycodeInfo: {
-      code: 126,
+      code: 0x7e, // 126 0b1111110
       label: 'Find',
       name: {
         long: 'KC_FIND',
@@ -1560,7 +1560,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mute',
     keycodeInfo: {
-      code: 127,
+      code: 0x7f, // 127 0b1111111
       label: 'Mute',
       name: {
         long: 'KC_KB_MUTE',
@@ -1572,7 +1572,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Volume Up',
     keycodeInfo: {
-      code: 128,
+      code: 0x80, // 128 0b10000000
       label: 'Vol +',
       name: {
         long: 'KC_KB_VOLUME_UP',
@@ -1584,7 +1584,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Volume Down',
     keycodeInfo: {
-      code: 129,
+      code: 0x81, // 129 0b10000001
       label: 'Vol -',
       name: {
         long: 'KC_KB_VOLUME_DOWN',
@@ -1596,7 +1596,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Locking Caps Lock',
     keycodeInfo: {
-      code: 130,
+      code: 0x82, // 130 0b10000010
       label: 'Locking Caps Lock',
       name: {
         long: 'KC_LOCKING_CAPS_LOCK',
@@ -1608,7 +1608,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Locking Num Lock',
     keycodeInfo: {
-      code: 131,
+      code: 0x83, // 131 0b10000011
       label: 'Locking Num Lock',
       name: {
         long: 'KC_LOCKING_NUM_LOCK',
@@ -1620,7 +1620,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Locking Scroll Lock',
     keycodeInfo: {
-      code: 132,
+      code: 0x84, // 132 0b10000100
       label: 'Locking Scroll Lock',
       name: {
         long: 'KC_LOCKING_SCROLL_LOCK',
@@ -1632,7 +1632,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad ,',
     keycodeInfo: {
-      code: 133,
+      code: 0x85, // 133 0b10000101
       label: 'Num ,',
       name: {
         long: 'KC_KP_COMMA',
@@ -1644,7 +1644,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Keypad = on AS/400 keyboards',
     keycodeInfo: {
-      code: 134,
+      code: 0x86, // 134 0b10000110
       label: 'Num = AS400',
       name: {
         long: 'KC_KP_EQUAL_AS400',
@@ -1656,7 +1656,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 1',
     keycodeInfo: {
-      code: 135,
+      code: 0x87, // 135 0b10000111
       label: 'Ro',
       name: {
         long: 'KC_INTERNATIONAL_1',
@@ -1668,7 +1668,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 2',
     keycodeInfo: {
-      code: 136,
+      code: 0x88, // 136 0b10001000
       label: 'かな',
       name: {
         long: 'KC_INTERNATIONAL_2',
@@ -1680,7 +1680,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 3',
     keycodeInfo: {
-      code: 137,
+      code: 0x89, // 137 0b10001001
       label: '¥',
       name: {
         long: 'KC_INTERNATIONAL_3',
@@ -1692,7 +1692,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 4',
     keycodeInfo: {
-      code: 138,
+      code: 0x8a, // 138 0b10001010
       label: '変換',
       name: {
         long: 'KC_INTERNATIONAL_4',
@@ -1704,7 +1704,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 5',
     keycodeInfo: {
-      code: 139,
+      code: 0x8b, // 139 0b10001011
       label: '無変換',
       name: {
         long: 'KC_INTERNATIONAL_5',
@@ -1716,7 +1716,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 6',
     keycodeInfo: {
-      code: 140,
+      code: 0x8c, // 140 0b10001100
       label: 'JIS Numpad ,',
       name: {
         long: 'KC_INTERNATIONAL_6',
@@ -1728,7 +1728,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 7',
     keycodeInfo: {
-      code: 141,
+      code: 0x8d, // 141 0b10001101
       label: 'Int 7',
       name: {
         long: 'KC_INTERNATIONAL_7',
@@ -1740,7 +1740,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 8',
     keycodeInfo: {
-      code: 142,
+      code: 0x8e, // 142 0b10001110
       label: 'Int 8',
       name: {
         long: 'KC_INTERNATIONAL_8',
@@ -1752,7 +1752,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'International 9',
     keycodeInfo: {
-      code: 143,
+      code: 0x8f, // 143 0b10001111
       label: 'Int 9',
       name: {
         long: 'KC_INTERNATIONAL_9',
@@ -1764,7 +1764,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 1',
     keycodeInfo: {
-      code: 144,
+      code: 0x90, // 144 0b10010000
       label: 'Lang 1',
       name: {
         long: 'KC_LANGUAGE_1',
@@ -1776,7 +1776,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 2',
     keycodeInfo: {
-      code: 145,
+      code: 0x91, // 145 0b10010001
       label: 'Lang 2',
       name: {
         long: 'KC_LANGUAGE_2',
@@ -1788,7 +1788,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 3',
     keycodeInfo: {
-      code: 146,
+      code: 0x92, // 146 0b10010010
       label: 'JIS Katakana',
       name: {
         long: 'KC_LANGUAGE_3',
@@ -1800,7 +1800,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 4',
     keycodeInfo: {
-      code: 147,
+      code: 0x93, // 147 0b10010011
       label: 'JIS Hiragana',
       name: {
         long: 'KC_LANGUAGE_4',
@@ -1812,7 +1812,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 5',
     keycodeInfo: {
-      code: 148,
+      code: 0x94, // 148 0b10010100
       label: 'Lang 5',
       name: {
         long: 'KC_LANGUAGE_5',
@@ -1824,7 +1824,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 6',
     keycodeInfo: {
-      code: 149,
+      code: 0x95, // 149 0b10010101
       label: 'Lang 6',
       name: {
         long: 'KC_LANGUAGE_6',
@@ -1836,7 +1836,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 7',
     keycodeInfo: {
-      code: 150,
+      code: 0x96, // 150 0b10010110
       label: 'Lang 7',
       name: {
         long: 'KC_LANGUAGE_7',
@@ -1848,7 +1848,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 8',
     keycodeInfo: {
-      code: 151,
+      code: 0x97, // 151 0b10010111
       label: 'Lang 8',
       name: {
         long: 'KC_LANGUAGE_8',
@@ -1860,7 +1860,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Language 9',
     keycodeInfo: {
-      code: 152,
+      code: 0x98, // 152 0b10011000
       label: 'Lang 9',
       name: {
         long: 'KC_LANGUAGE_9',
@@ -1872,7 +1872,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Alternate Erase',
     keycodeInfo: {
-      code: 153,
+      code: 0x99, // 153 0b10011001
       label: 'Alt Erase',
       name: {
         long: 'KC_ALTERNATE_ERASE',
@@ -1884,7 +1884,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'SysReq/Attention',
     keycodeInfo: {
-      code: 154,
+      code: 0x9a, // 154 0b10011010
       label: 'SysReq',
       name: {
         long: 'KC_SYSTEM_REQUEST',
@@ -1896,7 +1896,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cancel',
     keycodeInfo: {
-      code: 155,
+      code: 0x9b, // 155 0b10011011
       label: 'Cancel',
       name: {
         long: 'KC_CANCEL',
@@ -1908,7 +1908,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Clear',
     keycodeInfo: {
-      code: 156,
+      code: 0x9c, // 156 0b10011100
       label: 'Clear',
       name: {
         long: 'KC_CLEAR',
@@ -1920,7 +1920,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Prior',
     keycodeInfo: {
-      code: 157,
+      code: 0x9d, // 157 0b10011101
       label: 'Prior',
       name: {
         long: 'KC_PRIOR',
@@ -1932,7 +1932,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Return',
     keycodeInfo: {
-      code: 158,
+      code: 0x9e, // 158 0b10011110
       label: 'Return',
       name: {
         long: 'KC_RETURN',
@@ -1944,7 +1944,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Separator',
     keycodeInfo: {
-      code: 159,
+      code: 0x9f, // 159 0b10011111
       label: 'Separator',
       name: {
         long: 'KC_SEPARATOR',
@@ -1956,7 +1956,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Out',
     keycodeInfo: {
-      code: 160,
+      code: 0xa0, // 160 0b10100000
       label: 'Out',
       name: {
         long: 'KC_OUT',
@@ -1968,7 +1968,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Oper',
     keycodeInfo: {
-      code: 161,
+      code: 0xa1, // 161 0b10100001
       label: 'Oper',
       name: {
         long: 'KC_OPER',
@@ -1980,7 +1980,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Clear/Again',
     keycodeInfo: {
-      code: 162,
+      code: 0xa2, // 162 0b10100010
       label: 'Clear/Again',
       name: {
         long: 'KC_CLEAR_AGAIN',
@@ -1992,7 +1992,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'CrSel/Props',
     keycodeInfo: {
-      code: 163,
+      code: 0xa3, // 163 0b10100011
       label: 'CrSel/Props',
       name: {
         long: 'KC_CRSEL',
@@ -2004,7 +2004,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'ExSel',
     keycodeInfo: {
-      code: 164,
+      code: 0xa4, // 164 0b10100100
       label: 'ExSel',
       name: {
         long: 'KC_EXSEL',
@@ -2016,7 +2016,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'System Power Down',
     keycodeInfo: {
-      code: 165,
+      code: 0xa5, // 165 0b10100101
       label: 'System Power Down',
       name: {
         long: 'KC_SYSTEM_POWER',
@@ -2028,7 +2028,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'System Sleep',
     keycodeInfo: {
-      code: 166,
+      code: 0xa6, // 166 0b10100110
       label: 'Sleep',
       name: {
         long: 'KC_SYSTEM_SLEEP',
@@ -2040,7 +2040,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'System Wake',
     keycodeInfo: {
-      code: 167,
+      code: 0xa7, // 167 0b10100111
       label: 'Wake',
       name: {
         long: 'KC_SYSTEM_WAKE',
@@ -2052,7 +2052,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mute',
     keycodeInfo: {
-      code: 168,
+      code: 0xa8, // 168 0b10101000
       label: 'Audio Mute',
       name: {
         long: 'KC_AUDIO_MUTE',
@@ -2064,7 +2064,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Volume Up',
     keycodeInfo: {
-      code: 169,
+      code: 0xa9, // 169 0b10101001
       label: 'Audio Vol +',
       name: {
         long: 'KC_AUDIO_VOL_UP',
@@ -2076,7 +2076,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Volume Down',
     keycodeInfo: {
-      code: 170,
+      code: 0xaa, // 170 0b10101010
       label: 'Audio Vol -',
       name: {
         long: 'KC_AUDIO_VOL_DOWN',
@@ -2088,7 +2088,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Next Track',
     keycodeInfo: {
-      code: 171,
+      code: 0xab, // 171 0b10101011
       label: 'Next',
       name: {
         long: 'KC_MEDIA_NEXT_TRACK',
@@ -2100,7 +2100,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Previous Track',
     keycodeInfo: {
-      code: 172,
+      code: 0xac, // 172 0b10101100
       label: 'Previous',
       name: {
         long: 'KC_MEDIA_PREV_TRACK',
@@ -2112,7 +2112,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Stop Track',
     keycodeInfo: {
-      code: 173,
+      code: 0xad, // 173 0b10101101
       label: 'Media Stop',
       name: {
         long: 'KC_MEDIA_STOP',
@@ -2124,7 +2124,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Play/Pause Track',
     keycodeInfo: {
-      code: 174,
+      code: 0xae, // 174 0b10101110
       label: 'Play',
       name: {
         long: 'KC_MEDIA_PLAY_PAUSE',
@@ -2136,7 +2136,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Launch Media Player',
     keycodeInfo: {
-      code: 175,
+      code: 0xaf, // 175 0b10101111
       label: 'Select',
       name: {
         long: 'KC_MEDIA_SELECT',
@@ -2148,7 +2148,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Eject',
     keycodeInfo: {
-      code: 176,
+      code: 0xb0, // 176 0b10110000
       label: 'Eject',
       name: {
         long: 'KC_MEDIA_EJECT',
@@ -2160,7 +2160,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Launch Mail',
     keycodeInfo: {
-      code: 177,
+      code: 0xb1, // 177 0b10110001
       label: 'Mail',
       name: {
         long: 'KC_MAIL',
@@ -2172,7 +2172,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Launch Calculator',
     keycodeInfo: {
-      code: 178,
+      code: 0xb2, // 178 0b10110010
       label: 'Calculator',
       name: {
         long: 'KC_CALCULATOR',
@@ -2184,7 +2184,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Launch My Computer',
     keycodeInfo: {
-      code: 179,
+      code: 0xb3, // 179 0b10110011
       label: 'My Computer',
       name: {
         long: 'KC_MY_COMPUTER',
@@ -2196,7 +2196,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Search',
     keycodeInfo: {
-      code: 180,
+      code: 0xb4, // 180 0b10110100
       label: 'WWW Search',
       name: {
         long: 'KC_WWW_SEARCH',
@@ -2208,7 +2208,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Home',
     keycodeInfo: {
-      code: 181,
+      code: 0xb5, // 181 0b10110101
       label: 'WWW Home',
       name: {
         long: 'KC_WWW_HOME',
@@ -2220,7 +2220,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Back',
     keycodeInfo: {
-      code: 182,
+      code: 0xb6, // 182 0b10110110
       label: 'WWW Back',
       name: {
         long: 'KC_WWW_BACK',
@@ -2232,7 +2232,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Forward',
     keycodeInfo: {
-      code: 183,
+      code: 0xb7, // 183 0b10110111
       label: 'WWW Forward',
       name: {
         long: 'KC_WWW_FORWARD',
@@ -2244,7 +2244,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Stop',
     keycodeInfo: {
-      code: 184,
+      code: 0xb8, // 184 0b10111000
       label: 'WWW Stop',
       name: {
         long: 'KC_WWW_STOP',
@@ -2256,7 +2256,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Refresh',
     keycodeInfo: {
-      code: 185,
+      code: 0xb9, // 185 0b10111001
       label: 'WWW Refresh',
       name: {
         long: 'KC_WWW_REFRESH',
@@ -2268,7 +2268,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Browser Favorites',
     keycodeInfo: {
-      code: 186,
+      code: 0xba, // 186 0b10111010
       label: 'WWW Favorite',
       name: {
         long: 'KC_WWW_FAVORITES',
@@ -2280,7 +2280,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Next Track',
     keycodeInfo: {
-      code: 187,
+      code: 0xbb, // 187 0b10111011
       label: 'Fast Forward',
       name: {
         long: 'KC_MEDIA_FAST_FORWARD',
@@ -2292,7 +2292,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Previous Track',
     keycodeInfo: {
-      code: 188,
+      code: 0xbc, // 188 0b10111100
       label: 'Rewind',
       name: {
         long: 'KC_MEDIA_REWIND',
@@ -2304,7 +2304,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Brightness Up',
     keycodeInfo: {
-      code: 189,
+      code: 0xbd, // 189 0b10111101
       label: 'Screen +',
       name: {
         long: 'KC_BRIGHTNESS_UP',
@@ -2316,7 +2316,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Brightness Down',
     keycodeInfo: {
-      code: 190,
+      code: 0xbe, // 190 0b10111110
       label: 'Screen -',
       name: {
         long: 'KC_BRIGHTNESS_DOWN',
@@ -2328,7 +2328,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Open Control Panel',
     keycodeInfo: {
-      code: 191,
+      code: 0xbf, // 191 0b10111111
       label: 'Open Control Panel',
       name: {
         long: 'KC_CONTROL_PANEL',
@@ -2340,7 +2340,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Launch Context-Aware Assistant',
     keycodeInfo: {
-      code: 192,
+      code: 0xc0, // 192 0b11000000
       label: 'Assistant',
       name: {
         long: 'KC_ASSISTANT',
@@ -2352,7 +2352,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Open Mission Control',
     keycodeInfo: {
-      code: 193,
+      code: 0xc1, // 193 0b11000001
       label: 'Mission Control',
       name: {
         long: 'KC_MISSION_CONTROL',
@@ -2364,7 +2364,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Open Launchpad',
     keycodeInfo: {
-      code: 194,
+      code: 0xc2, // 194 0b11000010
       label: 'Launchpad',
       name: {
         long: 'KC_LAUNCHPAD',
@@ -2376,7 +2376,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Cursor Up',
     keycodeInfo: {
-      code: 205,
+      code: 0xcd, // 205 0b11001101
       label: 'Mouse ↑',
       name: {
         long: 'KC_MS_UP',
@@ -2388,7 +2388,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Cursor Down',
     keycodeInfo: {
-      code: 206,
+      code: 0xce, // 206 0b11001110
       label: 'Mouse ↓',
       name: {
         long: 'KC_MS_DOWN',
@@ -2400,7 +2400,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Cursor Left',
     keycodeInfo: {
-      code: 207,
+      code: 0xcf, // 207 0b11001111
       label: 'Mouse ←',
       name: {
         long: 'KC_MS_LEFT',
@@ -2412,7 +2412,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Cursor Right',
     keycodeInfo: {
-      code: 208,
+      code: 0xd0, // 208 0b11010000
       label: 'Mouse →',
       name: {
         long: 'KC_MS_RIGHT',
@@ -2424,7 +2424,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Button 1',
     keycodeInfo: {
-      code: 209,
+      code: 0xd1, // 209 0b11010001
       label: 'Mouse Btn1',
       name: {
         long: 'KC_MS_BTN1',
@@ -2436,7 +2436,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Button 2',
     keycodeInfo: {
-      code: 210,
+      code: 0xd2, // 210 0b11010010
       label: 'Mouse Btn2',
       name: {
         long: 'KC_MS_BTN2',
@@ -2448,7 +2448,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Button 3',
     keycodeInfo: {
-      code: 211,
+      code: 0xd3, // 211 0b11010011
       label: 'Mouse Btn3',
       name: {
         long: 'KC_MS_BTN3',
@@ -2460,7 +2460,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Button 4',
     keycodeInfo: {
-      code: 212,
+      code: 0xd4, // 212 0b11010100
       label: 'Mouse Btn4',
       name: {
         long: 'KC_MS_BTN4',
@@ -2472,7 +2472,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Button 5',
     keycodeInfo: {
-      code: 213,
+      code: 0xd5, // 213 0b11010101
       label: 'Mouse Btn5',
       name: {
         long: 'KC_MS_BTN5',
@@ -2484,7 +2484,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Press button 6',
     keycodeInfo: {
-      code: 214,
+      code: 0xd6, // 214 0b11010110
       label: 'Mouse Btn6',
       name: {
         long: 'KC_MS_BTN6',
@@ -2496,7 +2496,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Press button 7',
     keycodeInfo: {
-      code: 215,
+      code: 0xd7, // 215 0b11010111
       label: 'Mouse Btn7',
       name: {
         long: 'KC_MS_BTN7',
@@ -2508,7 +2508,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Press button 8',
     keycodeInfo: {
-      code: 216,
+      code: 0xd8, // 216 0b11011000
       label: 'Mouse Btn8',
       name: {
         long: 'KC_MS_BTN8',
@@ -2520,7 +2520,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Wheel Up',
     keycodeInfo: {
-      code: 217,
+      code: 0xd9, // 217 0b11011001
       label: 'Mouse Wh ↑',
       name: {
         long: 'KC_MS_WH_UP',
@@ -2532,7 +2532,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Wheel Down',
     keycodeInfo: {
-      code: 218,
+      code: 0xda, // 218 0b11011010
       label: 'Mouse Wh ↓',
       name: {
         long: 'KC_MS_WH_DOWN',
@@ -2544,7 +2544,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Wheel Left',
     keycodeInfo: {
-      code: 219,
+      code: 0xdb, // 219 0b11011011
       label: 'Mouse Wh ←',
       name: {
         long: 'KC_MS_WH_LEFT',
@@ -2556,7 +2556,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Mouse Wheel Right',
     keycodeInfo: {
-      code: 220,
+      code: 0xdc, // 220 0b11011100
       label: 'Mouse Wh →',
       name: {
         long: 'KC_MS_WH_RIGHT',
@@ -2568,7 +2568,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set mouse acceleration to 0',
     keycodeInfo: {
-      code: 221,
+      code: 0xdd, // 221 0b11011101
       label: 'Mouse Acc0',
       name: {
         long: 'KC_MS_ACCEL0',
@@ -2580,7 +2580,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set mouse acceleration to 1',
     keycodeInfo: {
-      code: 222,
+      code: 0xde, // 222 0b11011110
       label: 'Mouse Acc1',
       name: {
         long: 'KC_MS_ACCEL1',
@@ -2592,7 +2592,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set mouse acceleration to 2',
     keycodeInfo: {
-      code: 223,
+      code: 0xdf, // 223 0b11011111
       label: 'Mouse Acc2',
       name: {
         long: 'KC_MS_ACCEL2',
@@ -2604,7 +2604,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Control',
     keycodeInfo: {
-      code: 224,
+      code: 0xe0, // 224 0b11100000
       label: '*Ctrl',
       name: {
         long: 'KC_LEFT_CTRL',
@@ -2616,7 +2616,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Shift',
     keycodeInfo: {
-      code: 225,
+      code: 0xe1, // 225 0b11100001
       label: '*Shift',
       name: {
         long: 'KC_LEFT_SHIFT',
@@ -2628,7 +2628,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Alt (Option)',
     keycodeInfo: {
-      code: 226,
+      code: 0xe2, // 226 0b11100010
       label: '*Alt',
       name: {
         long: 'KC_LEFT_ALT',
@@ -2640,7 +2640,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left GUI (Windows/Command/Meta key)',
     keycodeInfo: {
-      code: 227,
+      code: 0xe3, // 227 0b11100011
       label: '*Win',
       name: {
         long: 'KC_LEFT_GUI',
@@ -2652,7 +2652,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Control',
     keycodeInfo: {
-      code: 228,
+      code: 0xe4, // 228 0b11100100
       label: 'Ctrl*',
       name: {
         long: 'KC_RIGHT_CTRL',
@@ -2664,7 +2664,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Shift',
     keycodeInfo: {
-      code: 229,
+      code: 0xe5, // 229 0b11100101
       label: 'Shift*',
       name: {
         long: 'KC_RIGHT_SHIFT',
@@ -2676,7 +2676,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Alt (Option/AltGr)',
     keycodeInfo: {
-      code: 230,
+      code: 0xe6, // 230 0b11100110
       label: 'Alt*',
       name: {
         long: 'KC_RIGHT_ALT',
@@ -2688,7 +2688,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right GUI (Windows/Command/Meta key)',
     keycodeInfo: {
-      code: 231,
+      code: 0xe7, // 231 0b11100111
       label: 'Win*',
       name: {
         long: 'KC_RIGHT_GUI',
@@ -2700,7 +2700,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle hand swap',
     keycodeInfo: {
-      code: 22256,
+      code: 0x56f0, // 22256 0b101011011110000
       label: 'Swap Hands Toggle',
       name: {
         long: 'QK_SWAP_HANDS_TOGGLE',
@@ -2712,7 +2712,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Momentary swap when held, toggle when tapped',
     keycodeInfo: {
-      code: 22257,
+      code: 0x56f1, // 22257 0b101011011110001
       label: 'Swap Hands Tap Toggle',
       name: {
         long: 'QK_SWAP_HANDS_TAP_TOGGLE',
@@ -2724,7 +2724,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn on hand swap while held',
     keycodeInfo: {
-      code: 22258,
+      code: 0x56f2, // 22258 0b101011011110010
       label: 'Swap Hands Momentary On',
       name: {
         long: 'QK_SWAP_HANDS_MOMENTARY_ON',
@@ -2736,7 +2736,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn off hand swap while held',
     keycodeInfo: {
-      code: 22259,
+      code: 0x56f3, // 22259 0b101011011110011
       label: 'Swap Hands Momentary Off',
       name: {
         long: 'QK_SWAP_HANDS_MOMENTARY_OFF',
@@ -2748,7 +2748,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn off hand swap',
     keycodeInfo: {
-      code: 22260,
+      code: 0x56f4, // 22260 0b101011011110100
       label: 'Swap Hands Off',
       name: {
         long: 'QK_SWAP_HANDS_OFF',
@@ -2760,7 +2760,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn on hand swap',
     keycodeInfo: {
-      code: 22261,
+      code: 0x56f5, // 22261 0b101011011110101
       label: 'Swap Hands On',
       name: {
         long: 'QK_SWAP_HANDS_ON',
@@ -2772,7 +2772,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn on hand swap while held or until next key press',
     keycodeInfo: {
-      code: 22262,
+      code: 0x56f6, // 22262 0b101011011110110
       label: 'Swap Hands One Shot',
       name: {
         long: 'QK_SWAP_HANDS_ONE_SHOT',
@@ -2784,7 +2784,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Caps Lock and Left Control',
     keycodeInfo: {
-      code: 28672,
+      code: 0x7000, // 28672 0b111000000000000
       label: 'Magic Swap Control Caps Lock',
       name: {
         long: 'QK_MAGIC_SWAP_CONTROL_CAPS_LOCK',
@@ -2796,7 +2796,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Caps Lock and Left Control',
     keycodeInfo: {
-      code: 28673,
+      code: 0x7001, // 28673 0b111000000000001
       label: 'Magic Unswap Control Caps Lock',
       name: {
         long: 'QK_MAGIC_UNSWAP_CONTROL_CAPS_LOCK',
@@ -2808,7 +2808,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle Caps Lock and Left Control swap',
     keycodeInfo: {
-      code: 28674,
+      code: 0x7002, // 28674 0b111000000000010
       label: 'Magic Toggle Control Caps Lock',
       name: {
         long: 'QK_MAGIC_TOGGLE_CONTROL_CAPS_LOCK',
@@ -2820,7 +2820,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Stop treating Caps Lock as Control',
     keycodeInfo: {
-      code: 28675,
+      code: 0x7003, // 28675 0b111000000000011
       label: 'Magic Caps Lock As Control Off',
       name: {
         long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_OFF',
@@ -2832,7 +2832,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Treat Caps Lock as Control',
     keycodeInfo: {
-      code: 28676,
+      code: 0x7004, // 28676 0b111000000000100
       label: 'Magic Caps Lock As Control On',
       name: {
         long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_ON',
@@ -2844,7 +2844,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Left Alt and GUI',
     keycodeInfo: {
-      code: 28677,
+      code: 0x7005, // 28677 0b111000000000101
       label: 'Magic Swap Lalt Lgui',
       name: {
         long: 'QK_MAGIC_SWAP_LALT_LGUI',
@@ -2856,7 +2856,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Left Alt and GUI',
     keycodeInfo: {
-      code: 28678,
+      code: 0x7006, // 28678 0b111000000000110
       label: 'Magic Unswap Lalt Lgui',
       name: {
         long: 'QK_MAGIC_UNSWAP_LALT_LGUI',
@@ -2868,7 +2868,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Right Alt and GUI',
     keycodeInfo: {
-      code: 28679,
+      code: 0x7007, // 28679 0b111000000000111
       label: 'Magic Swap Ralt Rgui',
       name: {
         long: 'QK_MAGIC_SWAP_RALT_RGUI',
@@ -2880,7 +2880,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Right Alt and GUI',
     keycodeInfo: {
-      code: 28680,
+      code: 0x7008, // 28680 0b111000000001000
       label: 'Magic Unswap Ralt Rgui',
       name: {
         long: 'QK_MAGIC_UNSWAP_RALT_RGUI',
@@ -2892,7 +2892,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Enable the GUI keys',
     keycodeInfo: {
-      code: 28681,
+      code: 0x7009, // 28681 0b111000000001001
       label: 'Magic Gui On',
       name: {
         long: 'QK_MAGIC_GUI_ON',
@@ -2904,7 +2904,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Disable the GUI keys',
     keycodeInfo: {
-      code: 28682,
+      code: 0x700a, // 28682 0b111000000001010
       label: 'Magic Gui Off',
       name: {
         long: 'QK_MAGIC_GUI_OFF',
@@ -2916,7 +2916,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles the status of the GUI keys',
     keycodeInfo: {
-      code: 28683,
+      code: 0x700b, // 28683 0b111000000001011
       label: 'Magic Toggle Gui',
       name: {
         long: 'QK_MAGIC_TOGGLE_GUI',
@@ -2928,7 +2928,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap ` and Escape',
     keycodeInfo: {
-      code: 28684,
+      code: 0x700c, // 28684 0b111000000001100
       label: 'Magic Swap Grave Esc',
       name: {
         long: 'QK_MAGIC_SWAP_GRAVE_ESC',
@@ -2940,7 +2940,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap ` and Escape',
     keycodeInfo: {
-      code: 28685,
+      code: 0x700d, // 28685 0b111000000001101
       label: 'Magic Unswap Grave Esc',
       name: {
         long: 'QK_MAGIC_UNSWAP_GRAVE_ESC',
@@ -2952,7 +2952,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap \\ and Backspace',
     keycodeInfo: {
-      code: 28686,
+      code: 0x700e, // 28686 0b111000000001110
       label: 'Magic Swap Backslash Backspace',
       name: {
         long: 'QK_MAGIC_SWAP_BACKSLASH_BACKSPACE',
@@ -2964,7 +2964,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap \\ and Backspace',
     keycodeInfo: {
-      code: 28687,
+      code: 0x700f, // 28687 0b111000000001111
       label: 'Magic Unswap Backslash Backspace',
       name: {
         long: 'QK_MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
@@ -2976,7 +2976,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle \\ and Backspace swap state',
     keycodeInfo: {
-      code: 28688,
+      code: 0x7010, // 28688 0b111000000010000
       label: 'Magic Toggle Backslash Backspace',
       name: {
         long: 'QK_MAGIC_TOGGLE_BACKSLASH_BACKSPACE',
@@ -2988,7 +2988,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Enable N-key rollover',
     keycodeInfo: {
-      code: 28689,
+      code: 0x7011, // 28689 0b111000000010001
       label: 'Magic Nkro On',
       name: {
         long: 'QK_MAGIC_NKRO_ON',
@@ -3000,7 +3000,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Disable N-key rollover',
     keycodeInfo: {
-      code: 28690,
+      code: 0x7012, // 28690 0b111000000010010
       label: 'Magic Nkro Off',
       name: {
         long: 'QK_MAGIC_NKRO_OFF',
@@ -3012,7 +3012,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle N-key rollover',
     keycodeInfo: {
-      code: 28691,
+      code: 0x7013, // 28691 0b111000000010011
       label: 'Magic Toggle Nkro',
       name: {
         long: 'QK_MAGIC_TOGGLE_NKRO',
@@ -3024,7 +3024,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Alt and GUI on both sides',
     keycodeInfo: {
-      code: 28692,
+      code: 0x7014, // 28692 0b111000000010100
       label: 'Magic Swap Alt Gui',
       name: {
         long: 'QK_MAGIC_SWAP_ALT_GUI',
@@ -3036,7 +3036,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Alt and GUI on both sides',
     keycodeInfo: {
-      code: 28693,
+      code: 0x7015, // 28693 0b111000000010101
       label: 'Magic Unswap Alt Gui',
       name: {
         long: 'QK_MAGIC_UNSWAP_ALT_GUI',
@@ -3048,7 +3048,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle Alt and GUI swap on both sides',
     keycodeInfo: {
-      code: 28694,
+      code: 0x7016, // 28694 0b111000000010110
       label: 'Magic Toggle Alt Gui',
       name: {
         long: 'QK_MAGIC_TOGGLE_ALT_GUI',
@@ -3060,7 +3060,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Left Control and GUI',
     keycodeInfo: {
-      code: 28695,
+      code: 0x7017, // 28695 0b111000000010111
       label: 'Magic Swap Lctl Lgui',
       name: {
         long: 'QK_MAGIC_SWAP_LCTL_LGUI',
@@ -3072,7 +3072,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Left Control and GUI',
     keycodeInfo: {
-      code: 28696,
+      code: 0x7018, // 28696 0b111000000011000
       label: 'Magic Unswap Lctl Lgui',
       name: {
         long: 'QK_MAGIC_UNSWAP_LCTL_LGUI',
@@ -3084,7 +3084,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Right Control and GUI',
     keycodeInfo: {
-      code: 28697,
+      code: 0x7019, // 28697 0b111000000011001
       label: 'Magic Swap Rctl Rgui',
       name: {
         long: 'QK_MAGIC_SWAP_RCTL_RGUI',
@@ -3096,7 +3096,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Right Control and GUI',
     keycodeInfo: {
-      code: 28698,
+      code: 0x701a, // 28698 0b111000000011010
       label: 'Magic Unswap Rctl Rgui',
       name: {
         long: 'QK_MAGIC_UNSWAP_RCTL_RGUI',
@@ -3108,7 +3108,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Control and GUI on both sides',
     keycodeInfo: {
-      code: 28699,
+      code: 0x701b, // 28699 0b111000000011011
       label: 'Magic Swap Ctl Gui',
       name: {
         long: 'QK_MAGIC_SWAP_CTL_GUI',
@@ -3120,7 +3120,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Control and GUI on both sides',
     keycodeInfo: {
-      code: 28700,
+      code: 0x701c, // 28700 0b111000000011100
       label: 'Magic Unswap Ctl Gui',
       name: {
         long: 'QK_MAGIC_UNSWAP_CTL_GUI',
@@ -3132,7 +3132,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle Control and GUI swap on both sides',
     keycodeInfo: {
-      code: 28701,
+      code: 0x701d, // 28701 0b111000000011101
       label: 'Magic Toggle Ctl Gui',
       name: {
         long: 'QK_MAGIC_TOGGLE_CTL_GUI',
@@ -3144,7 +3144,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
     keycodeInfo: {
-      code: 28702,
+      code: 0x701e, // 28702 0b111000000011110
       label: 'Magic Ee Hands Left',
       name: {
         long: 'QK_MAGIC_EE_HANDS_LEFT',
@@ -3156,7 +3156,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
     keycodeInfo: {
-      code: 28703,
+      code: 0x701f, // 28703 0b111000000011111
       label: 'Magic Ee Hands Right',
       name: {
         long: 'QK_MAGIC_EE_HANDS_RIGHT',
@@ -3168,7 +3168,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swap Caps Lock and Escape',
     keycodeInfo: {
-      code: 28704,
+      code: 0x7020, // 28704 0b111000000100000
       label: 'Magic Swap Escape Caps Lock',
       name: {
         long: 'QK_MAGIC_SWAP_ESCAPE_CAPS_LOCK',
@@ -3180,7 +3180,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Unswap Caps Lock and Escape',
     keycodeInfo: {
-      code: 28705,
+      code: 0x7021, // 28705 0b111000000100001
       label: 'Magic Unswap Escape Caps Lock',
       name: {
         long: 'QK_MAGIC_UNSWAP_ESCAPE_CAPS_LOCK',
@@ -3192,7 +3192,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle Caps Lock and Escape swap',
     keycodeInfo: {
-      code: 28706,
+      code: 0x7022, // 28706 0b111000000100010
       label: 'Magic Toggle Escape Caps Lock',
       name: {
         long: 'QK_MAGIC_TOGGLE_ESCAPE_CAPS_LOCK',
@@ -3204,7 +3204,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn MIDI on',
     keycodeInfo: {
-      code: 28928,
+      code: 0x7100, // 28928 0b111000100000000
       label: 'Midi On',
       name: {
         long: 'QK_MIDI_ON',
@@ -3216,7 +3216,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn MIDI off',
     keycodeInfo: {
-      code: 28929,
+      code: 0x7101, // 28929 0b111000100000001
       label: 'Midi Off',
       name: {
         long: 'QK_MIDI_OFF',
@@ -3228,7 +3228,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle MIDI enabled',
     keycodeInfo: {
-      code: 28930,
+      code: 0x7102, // 28930 0b111000100000010
       label: 'Midi Toggle',
       name: {
         long: 'QK_MIDI_TOGGLE',
@@ -3240,7 +3240,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 0',
     keycodeInfo: {
-      code: 28931,
+      code: 0x7103, // 28931 0b111000100000011
       label: 'Midi Note C 0',
       name: {
         long: 'QK_MIDI_NOTE_C_0',
@@ -3252,7 +3252,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 0',
     keycodeInfo: {
-      code: 28932,
+      code: 0x7104, // 28932 0b111000100000100
       label: 'Midi Note C Sharp 0',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_0',
@@ -3264,7 +3264,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 0',
     keycodeInfo: {
-      code: 28933,
+      code: 0x7105, // 28933 0b111000100000101
       label: 'Midi Note D 0',
       name: {
         long: 'QK_MIDI_NOTE_D_0',
@@ -3276,7 +3276,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 0',
     keycodeInfo: {
-      code: 28934,
+      code: 0x7106, // 28934 0b111000100000110
       label: 'Midi Note D Sharp 0',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_0',
@@ -3288,7 +3288,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 0',
     keycodeInfo: {
-      code: 28935,
+      code: 0x7107, // 28935 0b111000100000111
       label: 'Midi Note E 0',
       name: {
         long: 'QK_MIDI_NOTE_E_0',
@@ -3300,7 +3300,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 0',
     keycodeInfo: {
-      code: 28936,
+      code: 0x7108, // 28936 0b111000100001000
       label: 'Midi Note F 0',
       name: {
         long: 'QK_MIDI_NOTE_F_0',
@@ -3312,7 +3312,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 0',
     keycodeInfo: {
-      code: 28937,
+      code: 0x7109, // 28937 0b111000100001001
       label: 'Midi Note F Sharp 0',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_0',
@@ -3324,7 +3324,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 0',
     keycodeInfo: {
-      code: 28938,
+      code: 0x710a, // 28938 0b111000100001010
       label: 'Midi Note G 0',
       name: {
         long: 'QK_MIDI_NOTE_G_0',
@@ -3336,7 +3336,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 0',
     keycodeInfo: {
-      code: 28939,
+      code: 0x710b, // 28939 0b111000100001011
       label: 'Midi Note G Sharp 0',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_0',
@@ -3348,7 +3348,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 0',
     keycodeInfo: {
-      code: 28940,
+      code: 0x710c, // 28940 0b111000100001100
       label: 'Midi Note A 0',
       name: {
         long: 'QK_MIDI_NOTE_A_0',
@@ -3360,7 +3360,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 0',
     keycodeInfo: {
-      code: 28941,
+      code: 0x710d, // 28941 0b111000100001101
       label: 'Midi Note A Sharp 0',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_0',
@@ -3372,7 +3372,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 0',
     keycodeInfo: {
-      code: 28942,
+      code: 0x710e, // 28942 0b111000100001110
       label: 'Midi Note B 0',
       name: {
         long: 'QK_MIDI_NOTE_B_0',
@@ -3384,7 +3384,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 1',
     keycodeInfo: {
-      code: 28943,
+      code: 0x710f, // 28943 0b111000100001111
       label: 'Midi Note C 1',
       name: {
         long: 'QK_MIDI_NOTE_C_1',
@@ -3396,7 +3396,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 1',
     keycodeInfo: {
-      code: 28944,
+      code: 0x7110, // 28944 0b111000100010000
       label: 'Midi Note C Sharp 1',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_1',
@@ -3408,7 +3408,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 1',
     keycodeInfo: {
-      code: 28945,
+      code: 0x7111, // 28945 0b111000100010001
       label: 'Midi Note D 1',
       name: {
         long: 'QK_MIDI_NOTE_D_1',
@@ -3420,7 +3420,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 1',
     keycodeInfo: {
-      code: 28946,
+      code: 0x7112, // 28946 0b111000100010010
       label: 'Midi Note D Sharp 1',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_1',
@@ -3432,7 +3432,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 1',
     keycodeInfo: {
-      code: 28947,
+      code: 0x7113, // 28947 0b111000100010011
       label: 'Midi Note E 1',
       name: {
         long: 'QK_MIDI_NOTE_E_1',
@@ -3444,7 +3444,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 1',
     keycodeInfo: {
-      code: 28948,
+      code: 0x7114, // 28948 0b111000100010100
       label: 'Midi Note F 1',
       name: {
         long: 'QK_MIDI_NOTE_F_1',
@@ -3456,7 +3456,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 1',
     keycodeInfo: {
-      code: 28949,
+      code: 0x7115, // 28949 0b111000100010101
       label: 'Midi Note F Sharp 1',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_1',
@@ -3468,7 +3468,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 1',
     keycodeInfo: {
-      code: 28950,
+      code: 0x7116, // 28950 0b111000100010110
       label: 'Midi Note G 1',
       name: {
         long: 'QK_MIDI_NOTE_G_1',
@@ -3480,7 +3480,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 1',
     keycodeInfo: {
-      code: 28951,
+      code: 0x7117, // 28951 0b111000100010111
       label: 'Midi Note G Sharp 1',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_1',
@@ -3492,7 +3492,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 1',
     keycodeInfo: {
-      code: 28952,
+      code: 0x7118, // 28952 0b111000100011000
       label: 'Midi Note A 1',
       name: {
         long: 'QK_MIDI_NOTE_A_1',
@@ -3504,7 +3504,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 1',
     keycodeInfo: {
-      code: 28953,
+      code: 0x7119, // 28953 0b111000100011001
       label: 'Midi Note A Sharp 1',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_1',
@@ -3516,7 +3516,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 1',
     keycodeInfo: {
-      code: 28954,
+      code: 0x711a, // 28954 0b111000100011010
       label: 'Midi Note B 1',
       name: {
         long: 'QK_MIDI_NOTE_B_1',
@@ -3528,7 +3528,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 2',
     keycodeInfo: {
-      code: 28955,
+      code: 0x711b, // 28955 0b111000100011011
       label: 'Midi Note C 2',
       name: {
         long: 'QK_MIDI_NOTE_C_2',
@@ -3540,7 +3540,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 2',
     keycodeInfo: {
-      code: 28956,
+      code: 0x711c, // 28956 0b111000100011100
       label: 'Midi Note C Sharp 2',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_2',
@@ -3552,7 +3552,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 2',
     keycodeInfo: {
-      code: 28957,
+      code: 0x711d, // 28957 0b111000100011101
       label: 'Midi Note D 2',
       name: {
         long: 'QK_MIDI_NOTE_D_2',
@@ -3564,7 +3564,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 2',
     keycodeInfo: {
-      code: 28958,
+      code: 0x711e, // 28958 0b111000100011110
       label: 'Midi Note D Sharp 2',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_2',
@@ -3576,7 +3576,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 2',
     keycodeInfo: {
-      code: 28959,
+      code: 0x711f, // 28959 0b111000100011111
       label: 'Midi Note E 2',
       name: {
         long: 'QK_MIDI_NOTE_E_2',
@@ -3588,7 +3588,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 2',
     keycodeInfo: {
-      code: 28960,
+      code: 0x7120, // 28960 0b111000100100000
       label: 'Midi Note F 2',
       name: {
         long: 'QK_MIDI_NOTE_F_2',
@@ -3600,7 +3600,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 2',
     keycodeInfo: {
-      code: 28961,
+      code: 0x7121, // 28961 0b111000100100001
       label: 'Midi Note F Sharp 2',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_2',
@@ -3612,7 +3612,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 2',
     keycodeInfo: {
-      code: 28962,
+      code: 0x7122, // 28962 0b111000100100010
       label: 'Midi Note G 2',
       name: {
         long: 'QK_MIDI_NOTE_G_2',
@@ -3624,7 +3624,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 2',
     keycodeInfo: {
-      code: 28963,
+      code: 0x7123, // 28963 0b111000100100011
       label: 'Midi Note G Sharp 2',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_2',
@@ -3636,7 +3636,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 2',
     keycodeInfo: {
-      code: 28964,
+      code: 0x7124, // 28964 0b111000100100100
       label: 'Midi Note A 2',
       name: {
         long: 'QK_MIDI_NOTE_A_2',
@@ -3648,7 +3648,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 2',
     keycodeInfo: {
-      code: 28965,
+      code: 0x7125, // 28965 0b111000100100101
       label: 'Midi Note A Sharp 2',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_2',
@@ -3660,7 +3660,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 2',
     keycodeInfo: {
-      code: 28966,
+      code: 0x7126, // 28966 0b111000100100110
       label: 'Midi Note B 2',
       name: {
         long: 'QK_MIDI_NOTE_B_2',
@@ -3672,7 +3672,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 3',
     keycodeInfo: {
-      code: 28967,
+      code: 0x7127, // 28967 0b111000100100111
       label: 'Midi Note C 3',
       name: {
         long: 'QK_MIDI_NOTE_C_3',
@@ -3684,7 +3684,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 3',
     keycodeInfo: {
-      code: 28968,
+      code: 0x7128, // 28968 0b111000100101000
       label: 'Midi Note C Sharp 3',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_3',
@@ -3696,7 +3696,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 3',
     keycodeInfo: {
-      code: 28969,
+      code: 0x7129, // 28969 0b111000100101001
       label: 'Midi Note D 3',
       name: {
         long: 'QK_MIDI_NOTE_D_3',
@@ -3708,7 +3708,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 3',
     keycodeInfo: {
-      code: 28970,
+      code: 0x712a, // 28970 0b111000100101010
       label: 'Midi Note D Sharp 3',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_3',
@@ -3720,7 +3720,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 3',
     keycodeInfo: {
-      code: 28971,
+      code: 0x712b, // 28971 0b111000100101011
       label: 'Midi Note E 3',
       name: {
         long: 'QK_MIDI_NOTE_E_3',
@@ -3732,7 +3732,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 3',
     keycodeInfo: {
-      code: 28972,
+      code: 0x712c, // 28972 0b111000100101100
       label: 'Midi Note F 3',
       name: {
         long: 'QK_MIDI_NOTE_F_3',
@@ -3744,7 +3744,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 3',
     keycodeInfo: {
-      code: 28973,
+      code: 0x712d, // 28973 0b111000100101101
       label: 'Midi Note F Sharp 3',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_3',
@@ -3756,7 +3756,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 3',
     keycodeInfo: {
-      code: 28974,
+      code: 0x712e, // 28974 0b111000100101110
       label: 'Midi Note G 3',
       name: {
         long: 'QK_MIDI_NOTE_G_3',
@@ -3768,7 +3768,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 3',
     keycodeInfo: {
-      code: 28975,
+      code: 0x712f, // 28975 0b111000100101111
       label: 'Midi Note G Sharp 3',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_3',
@@ -3780,7 +3780,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 3',
     keycodeInfo: {
-      code: 28976,
+      code: 0x7130, // 28976 0b111000100110000
       label: 'Midi Note A 3',
       name: {
         long: 'QK_MIDI_NOTE_A_3',
@@ -3792,7 +3792,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 3',
     keycodeInfo: {
-      code: 28977,
+      code: 0x7131, // 28977 0b111000100110001
       label: 'Midi Note A Sharp 3',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_3',
@@ -3804,7 +3804,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 3',
     keycodeInfo: {
-      code: 28978,
+      code: 0x7132, // 28978 0b111000100110010
       label: 'Midi Note B 3',
       name: {
         long: 'QK_MIDI_NOTE_B_3',
@@ -3816,7 +3816,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 4',
     keycodeInfo: {
-      code: 28979,
+      code: 0x7133, // 28979 0b111000100110011
       label: 'Midi Note C 4',
       name: {
         long: 'QK_MIDI_NOTE_C_4',
@@ -3828,7 +3828,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 4',
     keycodeInfo: {
-      code: 28980,
+      code: 0x7134, // 28980 0b111000100110100
       label: 'Midi Note C Sharp 4',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_4',
@@ -3840,7 +3840,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 4',
     keycodeInfo: {
-      code: 28981,
+      code: 0x7135, // 28981 0b111000100110101
       label: 'Midi Note D 4',
       name: {
         long: 'QK_MIDI_NOTE_D_4',
@@ -3852,7 +3852,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 4',
     keycodeInfo: {
-      code: 28982,
+      code: 0x7136, // 28982 0b111000100110110
       label: 'Midi Note D Sharp 4',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_4',
@@ -3864,7 +3864,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 4',
     keycodeInfo: {
-      code: 28983,
+      code: 0x7137, // 28983 0b111000100110111
       label: 'Midi Note E 4',
       name: {
         long: 'QK_MIDI_NOTE_E_4',
@@ -3876,7 +3876,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 4',
     keycodeInfo: {
-      code: 28984,
+      code: 0x7138, // 28984 0b111000100111000
       label: 'Midi Note F 4',
       name: {
         long: 'QK_MIDI_NOTE_F_4',
@@ -3888,7 +3888,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 4',
     keycodeInfo: {
-      code: 28985,
+      code: 0x7139, // 28985 0b111000100111001
       label: 'Midi Note F Sharp 4',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_4',
@@ -3900,7 +3900,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 4',
     keycodeInfo: {
-      code: 28986,
+      code: 0x713a, // 28986 0b111000100111010
       label: 'Midi Note G 4',
       name: {
         long: 'QK_MIDI_NOTE_G_4',
@@ -3912,7 +3912,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 4',
     keycodeInfo: {
-      code: 28987,
+      code: 0x713b, // 28987 0b111000100111011
       label: 'Midi Note G Sharp 4',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_4',
@@ -3924,7 +3924,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 4',
     keycodeInfo: {
-      code: 28988,
+      code: 0x713c, // 28988 0b111000100111100
       label: 'Midi Note A 4',
       name: {
         long: 'QK_MIDI_NOTE_A_4',
@@ -3936,7 +3936,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 4',
     keycodeInfo: {
-      code: 28989,
+      code: 0x713d, // 28989 0b111000100111101
       label: 'Midi Note A Sharp 4',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_4',
@@ -3948,7 +3948,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 4',
     keycodeInfo: {
-      code: 28990,
+      code: 0x713e, // 28990 0b111000100111110
       label: 'Midi Note B 4',
       name: {
         long: 'QK_MIDI_NOTE_B_4',
@@ -3960,7 +3960,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C octave 5',
     keycodeInfo: {
-      code: 28991,
+      code: 0x713f, // 28991 0b111000100111111
       label: 'Midi Note C 5',
       name: {
         long: 'QK_MIDI_NOTE_C_5',
@@ -3972,7 +3972,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'C♯/D♭ octave 5',
     keycodeInfo: {
-      code: 28992,
+      code: 0x7140, // 28992 0b111000101000000
       label: 'Midi Note C Sharp 5',
       name: {
         long: 'QK_MIDI_NOTE_C_SHARP_5',
@@ -3984,7 +3984,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D octave 5',
     keycodeInfo: {
-      code: 28993,
+      code: 0x7141, // 28993 0b111000101000001
       label: 'Midi Note D 5',
       name: {
         long: 'QK_MIDI_NOTE_D_5',
@@ -3996,7 +3996,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'D♯/E♭ octave 5',
     keycodeInfo: {
-      code: 28994,
+      code: 0x7142, // 28994 0b111000101000010
       label: 'Midi Note D Sharp 5',
       name: {
         long: 'QK_MIDI_NOTE_D_SHARP_5',
@@ -4008,7 +4008,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'E octave 5',
     keycodeInfo: {
-      code: 28995,
+      code: 0x7143, // 28995 0b111000101000011
       label: 'Midi Note E 5',
       name: {
         long: 'QK_MIDI_NOTE_E_5',
@@ -4020,7 +4020,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F octave 5',
     keycodeInfo: {
-      code: 28996,
+      code: 0x7144, // 28996 0b111000101000100
       label: 'Midi Note F 5',
       name: {
         long: 'QK_MIDI_NOTE_F_5',
@@ -4032,7 +4032,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'F♯/G♭ octave 5',
     keycodeInfo: {
-      code: 28997,
+      code: 0x7145, // 28997 0b111000101000101
       label: 'Midi Note F Sharp 5',
       name: {
         long: 'QK_MIDI_NOTE_F_SHARP_5',
@@ -4044,7 +4044,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G octave 5',
     keycodeInfo: {
-      code: 28998,
+      code: 0x7146, // 28998 0b111000101000110
       label: 'Midi Note G 5',
       name: {
         long: 'QK_MIDI_NOTE_G_5',
@@ -4056,7 +4056,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'G♯/A♭ octave 5',
     keycodeInfo: {
-      code: 28999,
+      code: 0x7147, // 28999 0b111000101000111
       label: 'Midi Note G Sharp 5',
       name: {
         long: 'QK_MIDI_NOTE_G_SHARP_5',
@@ -4068,7 +4068,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A octave 5',
     keycodeInfo: {
-      code: 29000,
+      code: 0x7148, // 29000 0b111000101001000
       label: 'Midi Note A 5',
       name: {
         long: 'QK_MIDI_NOTE_A_5',
@@ -4080,7 +4080,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'A♯/B♭ octave 5',
     keycodeInfo: {
-      code: 29001,
+      code: 0x7149, // 29001 0b111000101001001
       label: 'Midi Note A Sharp 5',
       name: {
         long: 'QK_MIDI_NOTE_A_SHARP_5',
@@ -4092,7 +4092,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'B octave 5',
     keycodeInfo: {
-      code: 29002,
+      code: 0x714a, // 29002 0b111000101001010
       label: 'Midi Note B 5',
       name: {
         long: 'QK_MIDI_NOTE_B_5',
@@ -4104,7 +4104,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to -2',
     keycodeInfo: {
-      code: 29003,
+      code: 0x714b, // 29003 0b111000101001011
       label: 'Midi Octave N2',
       name: {
         long: 'QK_MIDI_OCTAVE_N2',
@@ -4116,7 +4116,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to -1',
     keycodeInfo: {
-      code: 29004,
+      code: 0x714c, // 29004 0b111000101001100
       label: 'Midi Octave N1',
       name: {
         long: 'QK_MIDI_OCTAVE_N1',
@@ -4128,7 +4128,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 0',
     keycodeInfo: {
-      code: 29005,
+      code: 0x714d, // 29005 0b111000101001101
       label: 'Midi Octave 0',
       name: {
         long: 'QK_MIDI_OCTAVE_0',
@@ -4140,7 +4140,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 1',
     keycodeInfo: {
-      code: 29006,
+      code: 0x714e, // 29006 0b111000101001110
       label: 'Midi Octave 1',
       name: {
         long: 'QK_MIDI_OCTAVE_1',
@@ -4152,7 +4152,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 2',
     keycodeInfo: {
-      code: 29007,
+      code: 0x714f, // 29007 0b111000101001111
       label: 'Midi Octave 2',
       name: {
         long: 'QK_MIDI_OCTAVE_2',
@@ -4164,7 +4164,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 3',
     keycodeInfo: {
-      code: 29008,
+      code: 0x7150, // 29008 0b111000101010000
       label: 'Midi Octave 3',
       name: {
         long: 'QK_MIDI_OCTAVE_3',
@@ -4176,7 +4176,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 4',
     keycodeInfo: {
-      code: 29009,
+      code: 0x7151, // 29009 0b111000101010001
       label: 'Midi Octave 4',
       name: {
         long: 'QK_MIDI_OCTAVE_4',
@@ -4188,7 +4188,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 5',
     keycodeInfo: {
-      code: 29010,
+      code: 0x7152, // 29010 0b111000101010010
       label: 'Midi Octave 5',
       name: {
         long: 'QK_MIDI_OCTAVE_5',
@@ -4200,7 +4200,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 6',
     keycodeInfo: {
-      code: 29011,
+      code: 0x7153, // 29011 0b111000101010011
       label: 'Midi Octave 6',
       name: {
         long: 'QK_MIDI_OCTAVE_6',
@@ -4212,7 +4212,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set octave to 7',
     keycodeInfo: {
-      code: 29012,
+      code: 0x7154, // 29012 0b111000101010100
       label: 'Midi Octave 7',
       name: {
         long: 'QK_MIDI_OCTAVE_7',
@@ -4224,7 +4224,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Move down an octave',
     keycodeInfo: {
-      code: 29013,
+      code: 0x7155, // 29013 0b111000101010101
       label: 'Midi Octave Down',
       name: {
         long: 'QK_MIDI_OCTAVE_DOWN',
@@ -4236,7 +4236,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Move up an octave',
     keycodeInfo: {
-      code: 29014,
+      code: 0x7156, // 29014 0b111000101010110
       label: 'Midi Octave Up',
       name: {
         long: 'QK_MIDI_OCTAVE_UP',
@@ -4248,7 +4248,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -6 semitones',
     keycodeInfo: {
-      code: 29015,
+      code: 0x7157, // 29015 0b111000101010111
       label: 'Midi Transpose N6',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N6',
@@ -4260,7 +4260,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -5 semitones',
     keycodeInfo: {
-      code: 29016,
+      code: 0x7158, // 29016 0b111000101011000
       label: 'Midi Transpose N5',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N5',
@@ -4272,7 +4272,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -4 semitones',
     keycodeInfo: {
-      code: 29017,
+      code: 0x7159, // 29017 0b111000101011001
       label: 'Midi Transpose N4',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N4',
@@ -4284,7 +4284,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -3 semitones',
     keycodeInfo: {
-      code: 29018,
+      code: 0x715a, // 29018 0b111000101011010
       label: 'Midi Transpose N3',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N3',
@@ -4296,7 +4296,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -2 semitones',
     keycodeInfo: {
-      code: 29019,
+      code: 0x715b, // 29019 0b111000101011011
       label: 'Midi Transpose N2',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N2',
@@ -4308,7 +4308,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to -1 semitone',
     keycodeInfo: {
-      code: 29020,
+      code: 0x715c, // 29020 0b111000101011100
       label: 'Midi Transpose N1',
       name: {
         long: 'QK_MIDI_TRANSPOSE_N1',
@@ -4320,7 +4320,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'No transposition',
     keycodeInfo: {
-      code: 29021,
+      code: 0x715d, // 29021 0b111000101011101
       label: 'Midi Transpose 0',
       name: {
         long: 'QK_MIDI_TRANSPOSE_0',
@@ -4332,7 +4332,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +1 semitone',
     keycodeInfo: {
-      code: 29022,
+      code: 0x715e, // 29022 0b111000101011110
       label: 'Midi Transpose 1',
       name: {
         long: 'QK_MIDI_TRANSPOSE_1',
@@ -4344,7 +4344,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +2 semitones',
     keycodeInfo: {
-      code: 29023,
+      code: 0x715f, // 29023 0b111000101011111
       label: 'Midi Transpose 2',
       name: {
         long: 'QK_MIDI_TRANSPOSE_2',
@@ -4356,7 +4356,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +3 semitones',
     keycodeInfo: {
-      code: 29024,
+      code: 0x7160, // 29024 0b111000101100000
       label: 'Midi Transpose 3',
       name: {
         long: 'QK_MIDI_TRANSPOSE_3',
@@ -4368,7 +4368,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +4 semitones',
     keycodeInfo: {
-      code: 29025,
+      code: 0x7161, // 29025 0b111000101100001
       label: 'Midi Transpose 4',
       name: {
         long: 'QK_MIDI_TRANSPOSE_4',
@@ -4380,7 +4380,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +5 semitones',
     keycodeInfo: {
-      code: 29026,
+      code: 0x7162, // 29026 0b111000101100010
       label: 'Midi Transpose 5',
       name: {
         long: 'QK_MIDI_TRANSPOSE_5',
@@ -4392,7 +4392,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set transposition to +6 semitones',
     keycodeInfo: {
-      code: 29027,
+      code: 0x7163, // 29027 0b111000101100011
       label: 'Midi Transpose 6',
       name: {
         long: 'QK_MIDI_TRANSPOSE_6',
@@ -4404,7 +4404,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease transposition',
     keycodeInfo: {
-      code: 29028,
+      code: 0x7164, // 29028 0b111000101100100
       label: 'Midi Transpose Down',
       name: {
         long: 'QK_MIDI_TRANSPOSE_DOWN',
@@ -4416,7 +4416,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase transposition',
     keycodeInfo: {
-      code: 29029,
+      code: 0x7165, // 29029 0b111000101100101
       label: 'Midi Transpose Up',
       name: {
         long: 'QK_MIDI_TRANSPOSE_UP',
@@ -4428,7 +4428,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 0',
     keycodeInfo: {
-      code: 29030,
+      code: 0x7166, // 29030 0b111000101100110
       label: 'Midi Velocity 0',
       name: {
         long: 'QK_MIDI_VELOCITY_0',
@@ -4440,7 +4440,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 12',
     keycodeInfo: {
-      code: 29031,
+      code: 0x7167, // 29031 0b111000101100111
       label: 'Midi Velocity 1',
       name: {
         long: 'QK_MIDI_VELOCITY_1',
@@ -4452,7 +4452,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 25',
     keycodeInfo: {
-      code: 29032,
+      code: 0x7168, // 29032 0b111000101101000
       label: 'Midi Velocity 2',
       name: {
         long: 'QK_MIDI_VELOCITY_2',
@@ -4464,7 +4464,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 38',
     keycodeInfo: {
-      code: 29033,
+      code: 0x7169, // 29033 0b111000101101001
       label: 'Midi Velocity 3',
       name: {
         long: 'QK_MIDI_VELOCITY_3',
@@ -4476,7 +4476,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 51',
     keycodeInfo: {
-      code: 29034,
+      code: 0x716a, // 29034 0b111000101101010
       label: 'Midi Velocity 4',
       name: {
         long: 'QK_MIDI_VELOCITY_4',
@@ -4488,7 +4488,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 64',
     keycodeInfo: {
-      code: 29035,
+      code: 0x716b, // 29035 0b111000101101011
       label: 'Midi Velocity 5',
       name: {
         long: 'QK_MIDI_VELOCITY_5',
@@ -4500,7 +4500,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 76',
     keycodeInfo: {
-      code: 29036,
+      code: 0x716c, // 29036 0b111000101101100
       label: 'Midi Velocity 6',
       name: {
         long: 'QK_MIDI_VELOCITY_6',
@@ -4512,7 +4512,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 89',
     keycodeInfo: {
-      code: 29037,
+      code: 0x716d, // 29037 0b111000101101101
       label: 'Midi Velocity 7',
       name: {
         long: 'QK_MIDI_VELOCITY_7',
@@ -4524,7 +4524,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 102',
     keycodeInfo: {
-      code: 29038,
+      code: 0x716e, // 29038 0b111000101101110
       label: 'Midi Velocity 8',
       name: {
         long: 'QK_MIDI_VELOCITY_8',
@@ -4536,7 +4536,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 114',
     keycodeInfo: {
-      code: 29039,
+      code: 0x716f, // 29039 0b111000101101111
       label: 'Midi Velocity 9',
       name: {
         long: 'QK_MIDI_VELOCITY_9',
@@ -4548,7 +4548,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set velocity to 127',
     keycodeInfo: {
-      code: 29040,
+      code: 0x7170, // 29040 0b111000101110000
       label: 'Midi Velocity 10',
       name: {
         long: 'QK_MIDI_VELOCITY_10',
@@ -4560,7 +4560,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease velocity',
     keycodeInfo: {
-      code: 29041,
+      code: 0x7171, // 29041 0b111000101110001
       label: 'Midi Velocity Down',
       name: {
         long: 'QK_MIDI_VELOCITY_DOWN',
@@ -4572,7 +4572,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase velocity',
     keycodeInfo: {
-      code: 29042,
+      code: 0x7172, // 29042 0b111000101110010
       label: 'Midi Velocity Up',
       name: {
         long: 'QK_MIDI_VELOCITY_UP',
@@ -4584,7 +4584,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 1',
     keycodeInfo: {
-      code: 29043,
+      code: 0x7173, // 29043 0b111000101110011
       label: 'Midi Channel 1',
       name: {
         long: 'QK_MIDI_CHANNEL_1',
@@ -4596,7 +4596,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 2',
     keycodeInfo: {
-      code: 29044,
+      code: 0x7174, // 29044 0b111000101110100
       label: 'Midi Channel 2',
       name: {
         long: 'QK_MIDI_CHANNEL_2',
@@ -4608,7 +4608,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 3',
     keycodeInfo: {
-      code: 29045,
+      code: 0x7175, // 29045 0b111000101110101
       label: 'Midi Channel 3',
       name: {
         long: 'QK_MIDI_CHANNEL_3',
@@ -4620,7 +4620,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 4',
     keycodeInfo: {
-      code: 29046,
+      code: 0x7176, // 29046 0b111000101110110
       label: 'Midi Channel 4',
       name: {
         long: 'QK_MIDI_CHANNEL_4',
@@ -4632,7 +4632,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 5',
     keycodeInfo: {
-      code: 29047,
+      code: 0x7177, // 29047 0b111000101110111
       label: 'Midi Channel 5',
       name: {
         long: 'QK_MIDI_CHANNEL_5',
@@ -4644,7 +4644,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 6',
     keycodeInfo: {
-      code: 29048,
+      code: 0x7178, // 29048 0b111000101111000
       label: 'Midi Channel 6',
       name: {
         long: 'QK_MIDI_CHANNEL_6',
@@ -4656,7 +4656,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 7',
     keycodeInfo: {
-      code: 29049,
+      code: 0x7179, // 29049 0b111000101111001
       label: 'Midi Channel 7',
       name: {
         long: 'QK_MIDI_CHANNEL_7',
@@ -4668,7 +4668,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 8',
     keycodeInfo: {
-      code: 29050,
+      code: 0x717a, // 29050 0b111000101111010
       label: 'Midi Channel 8',
       name: {
         long: 'QK_MIDI_CHANNEL_8',
@@ -4680,7 +4680,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 9',
     keycodeInfo: {
-      code: 29051,
+      code: 0x717b, // 29051 0b111000101111011
       label: 'Midi Channel 9',
       name: {
         long: 'QK_MIDI_CHANNEL_9',
@@ -4692,7 +4692,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 10',
     keycodeInfo: {
-      code: 29052,
+      code: 0x717c, // 29052 0b111000101111100
       label: 'Midi Channel 10',
       name: {
         long: 'QK_MIDI_CHANNEL_10',
@@ -4704,7 +4704,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 11',
     keycodeInfo: {
-      code: 29053,
+      code: 0x717d, // 29053 0b111000101111101
       label: 'Midi Channel 11',
       name: {
         long: 'QK_MIDI_CHANNEL_11',
@@ -4716,7 +4716,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 12',
     keycodeInfo: {
-      code: 29054,
+      code: 0x717e, // 29054 0b111000101111110
       label: 'Midi Channel 12',
       name: {
         long: 'QK_MIDI_CHANNEL_12',
@@ -4728,7 +4728,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 13',
     keycodeInfo: {
-      code: 29055,
+      code: 0x717f, // 29055 0b111000101111111
       label: 'Midi Channel 13',
       name: {
         long: 'QK_MIDI_CHANNEL_13',
@@ -4740,7 +4740,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 14',
     keycodeInfo: {
-      code: 29056,
+      code: 0x7180, // 29056 0b111000110000000
       label: 'Midi Channel 14',
       name: {
         long: 'QK_MIDI_CHANNEL_14',
@@ -4752,7 +4752,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 15',
     keycodeInfo: {
-      code: 29057,
+      code: 0x7181, // 29057 0b111000110000001
       label: 'Midi Channel 15',
       name: {
         long: 'QK_MIDI_CHANNEL_15',
@@ -4764,7 +4764,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set channel to 16',
     keycodeInfo: {
-      code: 29058,
+      code: 0x7182, // 29058 0b111000110000010
       label: 'Midi Channel 16',
       name: {
         long: 'QK_MIDI_CHANNEL_16',
@@ -4776,7 +4776,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease channel',
     keycodeInfo: {
-      code: 29059,
+      code: 0x7183, // 29059 0b111000110000011
       label: 'Midi Channel Down',
       name: {
         long: 'QK_MIDI_CHANNEL_DOWN',
@@ -4788,7 +4788,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase channel',
     keycodeInfo: {
-      code: 29060,
+      code: 0x7184, // 29060 0b111000110000100
       label: 'Midi Channel Up',
       name: {
         long: 'QK_MIDI_CHANNEL_UP',
@@ -4800,7 +4800,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Stop all notes',
     keycodeInfo: {
-      code: 29061,
+      code: 0x7185, // 29061 0b111000110000101
       label: 'Midi All Notes Off',
       name: {
         long: 'QK_MIDI_ALL_NOTES_OFF',
@@ -4812,7 +4812,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sustain',
     keycodeInfo: {
-      code: 29062,
+      code: 0x7186, // 29062 0b111000110000110
       label: 'Midi Sustain',
       name: {
         long: 'QK_MIDI_SUSTAIN',
@@ -4824,7 +4824,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Portmento',
     keycodeInfo: {
-      code: 29063,
+      code: 0x7187, // 29063 0b111000110000111
       label: 'Midi Portamento',
       name: {
         long: 'QK_MIDI_PORTAMENTO',
@@ -4836,7 +4836,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sostenuto',
     keycodeInfo: {
-      code: 29064,
+      code: 0x7188, // 29064 0b111000110001000
       label: 'Midi Sostenuto',
       name: {
         long: 'QK_MIDI_SOSTENUTO',
@@ -4848,7 +4848,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Soft Pedal',
     keycodeInfo: {
-      code: 29065,
+      code: 0x7189, // 29065 0b111000110001001
       label: 'Midi Soft',
       name: {
         long: 'QK_MIDI_SOFT',
@@ -4860,7 +4860,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Legato',
     keycodeInfo: {
-      code: 29066,
+      code: 0x718a, // 29066 0b111000110001010
       label: 'Midi Legato',
       name: {
         long: 'QK_MIDI_LEGATO',
@@ -4872,7 +4872,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Modulation',
     keycodeInfo: {
-      code: 29067,
+      code: 0x718b, // 29067 0b111000110001011
       label: 'Midi Modulation',
       name: {
         long: 'QK_MIDI_MODULATION',
@@ -4884,7 +4884,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease modulation speed',
     keycodeInfo: {
-      code: 29068,
+      code: 0x718c, // 29068 0b111000110001100
       label: 'Midi Modulation Speed Down',
       name: {
         long: 'QK_MIDI_MODULATION_SPEED_DOWN',
@@ -4896,7 +4896,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase modulation speed',
     keycodeInfo: {
-      code: 29069,
+      code: 0x718d, // 29069 0b111000110001101
       label: 'Midi Modulation Speed Up',
       name: {
         long: 'QK_MIDI_MODULATION_SPEED_UP',
@@ -4908,7 +4908,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Bend pitch down',
     keycodeInfo: {
-      code: 29070,
+      code: 0x718e, // 29070 0b111000110001110
       label: 'Midi Pitch Bend Down',
       name: {
         long: 'QK_MIDI_PITCH_BEND_DOWN',
@@ -4920,7 +4920,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Bend pitch up',
     keycodeInfo: {
-      code: 29071,
+      code: 0x718f, // 29071 0b111000110001111
       label: 'Midi Pitch Bend Up',
       name: {
         long: 'QK_MIDI_PITCH_BEND_UP',
@@ -4932,7 +4932,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer On',
     keycodeInfo: {
-      code: 29184,
+      code: 0x7200, // 29184 0b111001000000000
       label: 'Sequencer On',
       name: {
         long: 'QK_SEQUENCER_ON',
@@ -4944,7 +4944,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Off',
     keycodeInfo: {
-      code: 29185,
+      code: 0x7201, // 29185 0b111001000000001
       label: 'Sequencer Off',
       name: {
         long: 'QK_SEQUENCER_OFF',
@@ -4956,7 +4956,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Toggle',
     keycodeInfo: {
-      code: 29186,
+      code: 0x7202, // 29186 0b111001000000010
       label: 'Sequencer Toggle',
       name: {
         long: 'QK_SEQUENCER_TOGGLE',
@@ -4968,7 +4968,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Tempo Down',
     keycodeInfo: {
-      code: 29187,
+      code: 0x7203, // 29187 0b111001000000011
       label: 'Sequencer Tempo Down',
       name: {
         long: 'QK_SEQUENCER_TEMPO_DOWN',
@@ -4980,7 +4980,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Tempo Up',
     keycodeInfo: {
-      code: 29188,
+      code: 0x7204, // 29188 0b111001000000100
       label: 'Sequencer Tempo Up',
       name: {
         long: 'QK_SEQUENCER_TEMPO_UP',
@@ -4992,7 +4992,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Resolution Down',
     keycodeInfo: {
-      code: 29189,
+      code: 0x7205, // 29189 0b111001000000101
       label: 'Sequencer Resolution Down',
       name: {
         long: 'QK_SEQUENCER_RESOLUTION_DOWN',
@@ -5004,7 +5004,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Resolution Up',
     keycodeInfo: {
-      code: 29190,
+      code: 0x7206, // 29190 0b111001000000110
       label: 'Sequencer Resolution Up',
       name: {
         long: 'QK_SEQUENCER_RESOLUTION_UP',
@@ -5016,7 +5016,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Steps All',
     keycodeInfo: {
-      code: 29191,
+      code: 0x7207, // 29191 0b111001000000111
       label: 'Sequencer Steps All',
       name: {
         long: 'QK_SEQUENCER_STEPS_ALL',
@@ -5028,7 +5028,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sequencer Steps Clear',
     keycodeInfo: {
-      code: 29192,
+      code: 0x7208, // 29192 0b111001000001000
       label: 'Sequencer Steps Clear',
       name: {
         long: 'QK_SEQUENCER_STEPS_CLEAR',
@@ -5040,7 +5040,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 0',
     keycodeInfo: {
-      code: 29696,
+      code: 0x7400, // 29696 0b111010000000000
       label: 'Joystick Button 0',
       name: {
         long: 'QK_JOYSTICK_BUTTON_0',
@@ -5052,7 +5052,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 1',
     keycodeInfo: {
-      code: 29697,
+      code: 0x7401, // 29697 0b111010000000001
       label: 'Joystick Button 1',
       name: {
         long: 'QK_JOYSTICK_BUTTON_1',
@@ -5064,7 +5064,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 2',
     keycodeInfo: {
-      code: 29698,
+      code: 0x7402, // 29698 0b111010000000010
       label: 'Joystick Button 2',
       name: {
         long: 'QK_JOYSTICK_BUTTON_2',
@@ -5076,7 +5076,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 3',
     keycodeInfo: {
-      code: 29699,
+      code: 0x7403, // 29699 0b111010000000011
       label: 'Joystick Button 3',
       name: {
         long: 'QK_JOYSTICK_BUTTON_3',
@@ -5088,7 +5088,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 4',
     keycodeInfo: {
-      code: 29700,
+      code: 0x7404, // 29700 0b111010000000100
       label: 'Joystick Button 4',
       name: {
         long: 'QK_JOYSTICK_BUTTON_4',
@@ -5100,7 +5100,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 5',
     keycodeInfo: {
-      code: 29701,
+      code: 0x7405, // 29701 0b111010000000101
       label: 'Joystick Button 5',
       name: {
         long: 'QK_JOYSTICK_BUTTON_5',
@@ -5112,7 +5112,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 6',
     keycodeInfo: {
-      code: 29702,
+      code: 0x7406, // 29702 0b111010000000110
       label: 'Joystick Button 6',
       name: {
         long: 'QK_JOYSTICK_BUTTON_6',
@@ -5124,7 +5124,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 7',
     keycodeInfo: {
-      code: 29703,
+      code: 0x7407, // 29703 0b111010000000111
       label: 'Joystick Button 7',
       name: {
         long: 'QK_JOYSTICK_BUTTON_7',
@@ -5136,7 +5136,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 8',
     keycodeInfo: {
-      code: 29704,
+      code: 0x7408, // 29704 0b111010000001000
       label: 'Joystick Button 8',
       name: {
         long: 'QK_JOYSTICK_BUTTON_8',
@@ -5148,7 +5148,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 9',
     keycodeInfo: {
-      code: 29705,
+      code: 0x7409, // 29705 0b111010000001001
       label: 'Joystick Button 9',
       name: {
         long: 'QK_JOYSTICK_BUTTON_9',
@@ -5160,7 +5160,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 10',
     keycodeInfo: {
-      code: 29706,
+      code: 0x740a, // 29706 0b111010000001010
       label: 'Joystick Button 10',
       name: {
         long: 'QK_JOYSTICK_BUTTON_10',
@@ -5172,7 +5172,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 11',
     keycodeInfo: {
-      code: 29707,
+      code: 0x740b, // 29707 0b111010000001011
       label: 'Joystick Button 11',
       name: {
         long: 'QK_JOYSTICK_BUTTON_11',
@@ -5184,7 +5184,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 12',
     keycodeInfo: {
-      code: 29708,
+      code: 0x740c, // 29708 0b111010000001100
       label: 'Joystick Button 12',
       name: {
         long: 'QK_JOYSTICK_BUTTON_12',
@@ -5196,7 +5196,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 13',
     keycodeInfo: {
-      code: 29709,
+      code: 0x740d, // 29709 0b111010000001101
       label: 'Joystick Button 13',
       name: {
         long: 'QK_JOYSTICK_BUTTON_13',
@@ -5208,7 +5208,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 14',
     keycodeInfo: {
-      code: 29710,
+      code: 0x740e, // 29710 0b111010000001110
       label: 'Joystick Button 14',
       name: {
         long: 'QK_JOYSTICK_BUTTON_14',
@@ -5220,7 +5220,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 15',
     keycodeInfo: {
-      code: 29711,
+      code: 0x740f, // 29711 0b111010000001111
       label: 'Joystick Button 15',
       name: {
         long: 'QK_JOYSTICK_BUTTON_15',
@@ -5232,7 +5232,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 16',
     keycodeInfo: {
-      code: 29712,
+      code: 0x7410, // 29712 0b111010000010000
       label: 'Joystick Button 16',
       name: {
         long: 'QK_JOYSTICK_BUTTON_16',
@@ -5244,7 +5244,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 17',
     keycodeInfo: {
-      code: 29713,
+      code: 0x7411, // 29713 0b111010000010001
       label: 'Joystick Button 17',
       name: {
         long: 'QK_JOYSTICK_BUTTON_17',
@@ -5256,7 +5256,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 18',
     keycodeInfo: {
-      code: 29714,
+      code: 0x7412, // 29714 0b111010000010010
       label: 'Joystick Button 18',
       name: {
         long: 'QK_JOYSTICK_BUTTON_18',
@@ -5268,7 +5268,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 19',
     keycodeInfo: {
-      code: 29715,
+      code: 0x7413, // 29715 0b111010000010011
       label: 'Joystick Button 19',
       name: {
         long: 'QK_JOYSTICK_BUTTON_19',
@@ -5280,7 +5280,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 20',
     keycodeInfo: {
-      code: 29716,
+      code: 0x7414, // 29716 0b111010000010100
       label: 'Joystick Button 20',
       name: {
         long: 'QK_JOYSTICK_BUTTON_20',
@@ -5292,7 +5292,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 21',
     keycodeInfo: {
-      code: 29717,
+      code: 0x7415, // 29717 0b111010000010101
       label: 'Joystick Button 21',
       name: {
         long: 'QK_JOYSTICK_BUTTON_21',
@@ -5304,7 +5304,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 22',
     keycodeInfo: {
-      code: 29718,
+      code: 0x7416, // 29718 0b111010000010110
       label: 'Joystick Button 22',
       name: {
         long: 'QK_JOYSTICK_BUTTON_22',
@@ -5316,7 +5316,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 23',
     keycodeInfo: {
-      code: 29719,
+      code: 0x7417, // 29719 0b111010000010111
       label: 'Joystick Button 23',
       name: {
         long: 'QK_JOYSTICK_BUTTON_23',
@@ -5328,7 +5328,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 24',
     keycodeInfo: {
-      code: 29720,
+      code: 0x7418, // 29720 0b111010000011000
       label: 'Joystick Button 24',
       name: {
         long: 'QK_JOYSTICK_BUTTON_24',
@@ -5340,7 +5340,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 25',
     keycodeInfo: {
-      code: 29721,
+      code: 0x7419, // 29721 0b111010000011001
       label: 'Joystick Button 25',
       name: {
         long: 'QK_JOYSTICK_BUTTON_25',
@@ -5352,7 +5352,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 26',
     keycodeInfo: {
-      code: 29722,
+      code: 0x741a, // 29722 0b111010000011010
       label: 'Joystick Button 26',
       name: {
         long: 'QK_JOYSTICK_BUTTON_26',
@@ -5364,7 +5364,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 27',
     keycodeInfo: {
-      code: 29723,
+      code: 0x741b, // 29723 0b111010000011011
       label: 'Joystick Button 27',
       name: {
         long: 'QK_JOYSTICK_BUTTON_27',
@@ -5376,7 +5376,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 28',
     keycodeInfo: {
-      code: 29724,
+      code: 0x741c, // 29724 0b111010000011100
       label: 'Joystick Button 28',
       name: {
         long: 'QK_JOYSTICK_BUTTON_28',
@@ -5388,7 +5388,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 29',
     keycodeInfo: {
-      code: 29725,
+      code: 0x741d, // 29725 0b111010000011101
       label: 'Joystick Button 29',
       name: {
         long: 'QK_JOYSTICK_BUTTON_29',
@@ -5400,7 +5400,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 30',
     keycodeInfo: {
-      code: 29726,
+      code: 0x741e, // 29726 0b111010000011110
       label: 'Joystick Button 30',
       name: {
         long: 'QK_JOYSTICK_BUTTON_30',
@@ -5412,7 +5412,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Button 31',
     keycodeInfo: {
-      code: 29727,
+      code: 0x741f, // 29727 0b111010000011111
       label: 'Joystick Button 31',
       name: {
         long: 'QK_JOYSTICK_BUTTON_31',
@@ -5424,7 +5424,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 1',
     keycodeInfo: {
-      code: 29760,
+      code: 0x7440, // 29760 0b111010001000000
       label: 'Programmable Button 1',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_1',
@@ -5436,7 +5436,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 2',
     keycodeInfo: {
-      code: 29761,
+      code: 0x7441, // 29761 0b111010001000001
       label: 'Programmable Button 2',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_2',
@@ -5448,7 +5448,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 3',
     keycodeInfo: {
-      code: 29762,
+      code: 0x7442, // 29762 0b111010001000010
       label: 'Programmable Button 3',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_3',
@@ -5460,7 +5460,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 4',
     keycodeInfo: {
-      code: 29763,
+      code: 0x7443, // 29763 0b111010001000011
       label: 'Programmable Button 4',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_4',
@@ -5472,7 +5472,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 5',
     keycodeInfo: {
-      code: 29764,
+      code: 0x7444, // 29764 0b111010001000100
       label: 'Programmable Button 5',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_5',
@@ -5484,7 +5484,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 6',
     keycodeInfo: {
-      code: 29765,
+      code: 0x7445, // 29765 0b111010001000101
       label: 'Programmable Button 6',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_6',
@@ -5496,7 +5496,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 7',
     keycodeInfo: {
-      code: 29766,
+      code: 0x7446, // 29766 0b111010001000110
       label: 'Programmable Button 7',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_7',
@@ -5508,7 +5508,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 8',
     keycodeInfo: {
-      code: 29767,
+      code: 0x7447, // 29767 0b111010001000111
       label: 'Programmable Button 8',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_8',
@@ -5520,7 +5520,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 9',
     keycodeInfo: {
-      code: 29768,
+      code: 0x7448, // 29768 0b111010001001000
       label: 'Programmable Button 9',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_9',
@@ -5532,7 +5532,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 10',
     keycodeInfo: {
-      code: 29769,
+      code: 0x7449, // 29769 0b111010001001001
       label: 'Programmable Button 10',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_10',
@@ -5544,7 +5544,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 11',
     keycodeInfo: {
-      code: 29770,
+      code: 0x744a, // 29770 0b111010001001010
       label: 'Programmable Button 11',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_11',
@@ -5556,7 +5556,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 12',
     keycodeInfo: {
-      code: 29771,
+      code: 0x744b, // 29771 0b111010001001011
       label: 'Programmable Button 12',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_12',
@@ -5568,7 +5568,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 13',
     keycodeInfo: {
-      code: 29772,
+      code: 0x744c, // 29772 0b111010001001100
       label: 'Programmable Button 13',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_13',
@@ -5580,7 +5580,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 14',
     keycodeInfo: {
-      code: 29773,
+      code: 0x744d, // 29773 0b111010001001101
       label: 'Programmable Button 14',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_14',
@@ -5592,7 +5592,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 15',
     keycodeInfo: {
-      code: 29774,
+      code: 0x744e, // 29774 0b111010001001110
       label: 'Programmable Button 15',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_15',
@@ -5604,7 +5604,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 16',
     keycodeInfo: {
-      code: 29775,
+      code: 0x744f, // 29775 0b111010001001111
       label: 'Programmable Button 16',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_16',
@@ -5616,7 +5616,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 17',
     keycodeInfo: {
-      code: 29776,
+      code: 0x7450, // 29776 0b111010001010000
       label: 'Programmable Button 17',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_17',
@@ -5628,7 +5628,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 18',
     keycodeInfo: {
-      code: 29777,
+      code: 0x7451, // 29777 0b111010001010001
       label: 'Programmable Button 18',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_18',
@@ -5640,7 +5640,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 19',
     keycodeInfo: {
-      code: 29778,
+      code: 0x7452, // 29778 0b111010001010010
       label: 'Programmable Button 19',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_19',
@@ -5652,7 +5652,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 20',
     keycodeInfo: {
-      code: 29779,
+      code: 0x7453, // 29779 0b111010001010011
       label: 'Programmable Button 20',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_20',
@@ -5664,7 +5664,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 21',
     keycodeInfo: {
-      code: 29780,
+      code: 0x7454, // 29780 0b111010001010100
       label: 'Programmable Button 21',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_21',
@@ -5676,7 +5676,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 22',
     keycodeInfo: {
-      code: 29781,
+      code: 0x7455, // 29781 0b111010001010101
       label: 'Programmable Button 22',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_22',
@@ -5688,7 +5688,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 23',
     keycodeInfo: {
-      code: 29782,
+      code: 0x7456, // 29782 0b111010001010110
       label: 'Programmable Button 23',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_23',
@@ -5700,7 +5700,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 24',
     keycodeInfo: {
-      code: 29783,
+      code: 0x7457, // 29783 0b111010001010111
       label: 'Programmable Button 24',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_24',
@@ -5712,7 +5712,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 25',
     keycodeInfo: {
-      code: 29784,
+      code: 0x7458, // 29784 0b111010001011000
       label: 'Programmable Button 25',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_25',
@@ -5724,7 +5724,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 26',
     keycodeInfo: {
-      code: 29785,
+      code: 0x7459, // 29785 0b111010001011001
       label: 'Programmable Button 26',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_26',
@@ -5736,7 +5736,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 27',
     keycodeInfo: {
-      code: 29786,
+      code: 0x745a, // 29786 0b111010001011010
       label: 'Programmable Button 27',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_27',
@@ -5748,7 +5748,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 28',
     keycodeInfo: {
-      code: 29787,
+      code: 0x745b, // 29787 0b111010001011011
       label: 'Programmable Button 28',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_28',
@@ -5760,7 +5760,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 29',
     keycodeInfo: {
-      code: 29788,
+      code: 0x745c, // 29788 0b111010001011100
       label: 'Programmable Button 29',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_29',
@@ -5772,7 +5772,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 30',
     keycodeInfo: {
-      code: 29789,
+      code: 0x745d, // 29789 0b111010001011101
       label: 'Programmable Button 30',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_30',
@@ -5784,7 +5784,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 31',
     keycodeInfo: {
-      code: 29790,
+      code: 0x745e, // 29790 0b111010001011110
       label: 'Programmable Button 31',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_31',
@@ -5796,7 +5796,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Programmable button 32',
     keycodeInfo: {
-      code: 29791,
+      code: 0x745f, // 29791 0b111010001011111
       label: 'Programmable Button 32',
       name: {
         long: 'QK_PROGRAMMABLE_BUTTON_32',
@@ -5808,7 +5808,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns on Audio Feature',
     keycodeInfo: {
-      code: 29824,
+      code: 0x7480, // 29824 0b111010010000000
       label: 'Audio On',
       name: {
         long: 'QK_AUDIO_ON',
@@ -5820,7 +5820,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns off Audio Feature',
     keycodeInfo: {
-      code: 29825,
+      code: 0x7481, // 29825 0b111010010000001
       label: 'Audio Off',
       name: {
         long: 'QK_AUDIO_OFF',
@@ -5832,7 +5832,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles Audio state',
     keycodeInfo: {
-      code: 29826,
+      code: 0x7482, // 29826 0b111010010000010
       label: 'Audio Toggle',
       name: {
         long: 'QK_AUDIO_TOGGLE',
@@ -5844,7 +5844,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles Audio clicky mode',
     keycodeInfo: {
-      code: 29834,
+      code: 0x748a, // 29834 0b111010010001010
       label: 'Audio Clicky Toggle',
       name: {
         long: 'QK_AUDIO_CLICKY_TOGGLE',
@@ -5856,7 +5856,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns on Audio clicky mode',
     keycodeInfo: {
-      code: 29835,
+      code: 0x748b, // 29835 0b111010010001011
       label: 'Audio Clicky On',
       name: {
         long: 'QK_AUDIO_CLICKY_ON',
@@ -5868,7 +5868,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns off Audio clicky mode',
     keycodeInfo: {
-      code: 29836,
+      code: 0x748c, // 29836 0b111010010001100
       label: 'Audio Clicky Off',
       name: {
         long: 'QK_AUDIO_CLICKY_OFF',
@@ -5880,7 +5880,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increases frequency of the clicks',
     keycodeInfo: {
-      code: 29837,
+      code: 0x748d, // 29837 0b111010010001101
       label: 'Audio Clicky Up',
       name: {
         long: 'QK_AUDIO_CLICKY_UP',
@@ -5892,7 +5892,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decreases frequency of the clicks',
     keycodeInfo: {
-      code: 29838,
+      code: 0x748e, // 29838 0b111010010001110
       label: 'Audio Clicky Down',
       name: {
         long: 'QK_AUDIO_CLICKY_DOWN',
@@ -5904,7 +5904,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Resets frequency to default',
     keycodeInfo: {
-      code: 29839,
+      code: 0x748f, // 29839 0b111010010001111
       label: 'Audio Clicky Reset',
       name: {
         long: 'QK_AUDIO_CLICKY_RESET',
@@ -5916,7 +5916,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns on Music Mode',
     keycodeInfo: {
-      code: 29840,
+      code: 0x7490, // 29840 0b111010010010000
       label: 'Music On',
       name: {
         long: 'QK_MUSIC_ON',
@@ -5928,7 +5928,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns off Music Mode',
     keycodeInfo: {
-      code: 29841,
+      code: 0x7491, // 29841 0b111010010010001
       label: 'Music Off',
       name: {
         long: 'QK_MUSIC_OFF',
@@ -5940,7 +5940,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles Music Mode',
     keycodeInfo: {
-      code: 29842,
+      code: 0x7492, // 29842 0b111010010010010
       label: 'Music Toggle',
       name: {
         long: 'QK_MUSIC_TOGGLE',
@@ -5952,7 +5952,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycles through the music modes',
     keycodeInfo: {
-      code: 29843,
+      code: 0x7493, // 29843 0b111010010010011
       label: 'Music Mode Next',
       name: {
         long: 'QK_MUSIC_MODE_NEXT',
@@ -5964,7 +5964,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycles through the audio voices',
     keycodeInfo: {
-      code: 29844,
+      code: 0x7494, // 29844 0b111010010010100
       label: 'Audio Voice Next',
       name: {
         long: 'QK_AUDIO_VOICE_NEXT',
@@ -5976,7 +5976,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycles through the audio voices in reverse',
     keycodeInfo: {
-      code: 29845,
+      code: 0x7495, // 29845 0b111010010010101
       label: 'Audio Voice Previous',
       name: {
         long: 'QK_AUDIO_VOICE_PREVIOUS',
@@ -5988,7 +5988,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Steno Bolt',
     keycodeInfo: {
-      code: 29936,
+      code: 0x74f0, // 29936 0b111010011110000
       label: 'Steno Bolt',
       name: {
         long: 'QK_STENO_BOLT',
@@ -6000,7 +6000,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Steno Gemini',
     keycodeInfo: {
-      code: 29937,
+      code: 0x74f1, // 29937 0b111010011110001
       label: 'Steno Gemini',
       name: {
         long: 'QK_STENO_GEMINI',
@@ -6012,7 +6012,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Steno Comb',
     keycodeInfo: {
-      code: 29938,
+      code: 0x74f2, // 29938 0b111010011110010
       label: 'Steno Comb',
       name: {
         long: 'QK_STENO_COMB',
@@ -6024,7 +6024,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Steno Comb Max',
     keycodeInfo: {
-      code: 29948,
+      code: 0x74fc, // 29948 0b111010011111100
       label: 'Steno Comb Max',
       name: {
         long: 'QK_STENO_COMB_MAX',
@@ -6036,7 +6036,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 0',
     keycodeInfo: {
-      code: 30464,
+      code: 0x7700, // 30464 0b111011100000000
       label: 'Macro 0',
       name: {
         long: 'QK_MACRO_0',
@@ -6048,7 +6048,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 1',
     keycodeInfo: {
-      code: 30465,
+      code: 0x7701, // 30465 0b111011100000001
       label: 'Macro 1',
       name: {
         long: 'QK_MACRO_1',
@@ -6060,7 +6060,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 2',
     keycodeInfo: {
-      code: 30466,
+      code: 0x7702, // 30466 0b111011100000010
       label: 'Macro 2',
       name: {
         long: 'QK_MACRO_2',
@@ -6072,7 +6072,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 3',
     keycodeInfo: {
-      code: 30467,
+      code: 0x7703, // 30467 0b111011100000011
       label: 'Macro 3',
       name: {
         long: 'QK_MACRO_3',
@@ -6084,7 +6084,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 4',
     keycodeInfo: {
-      code: 30468,
+      code: 0x7704, // 30468 0b111011100000100
       label: 'Macro 4',
       name: {
         long: 'QK_MACRO_4',
@@ -6096,7 +6096,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 5',
     keycodeInfo: {
-      code: 30469,
+      code: 0x7705, // 30469 0b111011100000101
       label: 'Macro 5',
       name: {
         long: 'QK_MACRO_5',
@@ -6108,7 +6108,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 6',
     keycodeInfo: {
-      code: 30470,
+      code: 0x7706, // 30470 0b111011100000110
       label: 'Macro 6',
       name: {
         long: 'QK_MACRO_6',
@@ -6120,7 +6120,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 7',
     keycodeInfo: {
-      code: 30471,
+      code: 0x7707, // 30471 0b111011100000111
       label: 'Macro 7',
       name: {
         long: 'QK_MACRO_7',
@@ -6132,7 +6132,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 8',
     keycodeInfo: {
-      code: 30472,
+      code: 0x7708, // 30472 0b111011100001000
       label: 'Macro 8',
       name: {
         long: 'QK_MACRO_8',
@@ -6144,7 +6144,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 9',
     keycodeInfo: {
-      code: 30473,
+      code: 0x7709, // 30473 0b111011100001001
       label: 'Macro 9',
       name: {
         long: 'QK_MACRO_9',
@@ -6156,7 +6156,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 10',
     keycodeInfo: {
-      code: 30474,
+      code: 0x770a, // 30474 0b111011100001010
       label: 'Macro 10',
       name: {
         long: 'QK_MACRO_10',
@@ -6168,7 +6168,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 11',
     keycodeInfo: {
-      code: 30475,
+      code: 0x770b, // 30475 0b111011100001011
       label: 'Macro 11',
       name: {
         long: 'QK_MACRO_11',
@@ -6180,7 +6180,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 12',
     keycodeInfo: {
-      code: 30476,
+      code: 0x770c, // 30476 0b111011100001100
       label: 'Macro 12',
       name: {
         long: 'QK_MACRO_12',
@@ -6192,7 +6192,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 13',
     keycodeInfo: {
-      code: 30477,
+      code: 0x770d, // 30477 0b111011100001101
       label: 'Macro 13',
       name: {
         long: 'QK_MACRO_13',
@@ -6204,7 +6204,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 14',
     keycodeInfo: {
-      code: 30478,
+      code: 0x770e, // 30478 0b111011100001110
       label: 'Macro 14',
       name: {
         long: 'QK_MACRO_14',
@@ -6216,7 +6216,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 15',
     keycodeInfo: {
-      code: 30479,
+      code: 0x770f, // 30479 0b111011100001111
       label: 'Macro 15',
       name: {
         long: 'QK_MACRO_15',
@@ -6228,7 +6228,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 16',
     keycodeInfo: {
-      code: 30480,
+      code: 0x7710, // 30480 0b111011100010000
       label: 'Macro 16',
       name: {
         long: 'QK_MACRO_16',
@@ -6240,7 +6240,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 17',
     keycodeInfo: {
-      code: 30481,
+      code: 0x7711, // 30481 0b111011100010001
       label: 'Macro 17',
       name: {
         long: 'QK_MACRO_17',
@@ -6252,7 +6252,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 18',
     keycodeInfo: {
-      code: 30482,
+      code: 0x7712, // 30482 0b111011100010010
       label: 'Macro 18',
       name: {
         long: 'QK_MACRO_18',
@@ -6264,7 +6264,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 19',
     keycodeInfo: {
-      code: 30483,
+      code: 0x7713, // 30483 0b111011100010011
       label: 'Macro 19',
       name: {
         long: 'QK_MACRO_19',
@@ -6276,7 +6276,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 20',
     keycodeInfo: {
-      code: 30484,
+      code: 0x7714, // 30484 0b111011100010100
       label: 'Macro 20',
       name: {
         long: 'QK_MACRO_20',
@@ -6288,7 +6288,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 21',
     keycodeInfo: {
-      code: 30485,
+      code: 0x7715, // 30485 0b111011100010101
       label: 'Macro 21',
       name: {
         long: 'QK_MACRO_21',
@@ -6300,7 +6300,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 22',
     keycodeInfo: {
-      code: 30486,
+      code: 0x7716, // 30486 0b111011100010110
       label: 'Macro 22',
       name: {
         long: 'QK_MACRO_22',
@@ -6312,7 +6312,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 23',
     keycodeInfo: {
-      code: 30487,
+      code: 0x7717, // 30487 0b111011100010111
       label: 'Macro 23',
       name: {
         long: 'QK_MACRO_23',
@@ -6324,7 +6324,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 24',
     keycodeInfo: {
-      code: 30488,
+      code: 0x7718, // 30488 0b111011100011000
       label: 'Macro 24',
       name: {
         long: 'QK_MACRO_24',
@@ -6336,7 +6336,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 25',
     keycodeInfo: {
-      code: 30489,
+      code: 0x7719, // 30489 0b111011100011001
       label: 'Macro 25',
       name: {
         long: 'QK_MACRO_25',
@@ -6348,7 +6348,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 26',
     keycodeInfo: {
-      code: 30490,
+      code: 0x771a, // 30490 0b111011100011010
       label: 'Macro 26',
       name: {
         long: 'QK_MACRO_26',
@@ -6360,7 +6360,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 27',
     keycodeInfo: {
-      code: 30491,
+      code: 0x771b, // 30491 0b111011100011011
       label: 'Macro 27',
       name: {
         long: 'QK_MACRO_27',
@@ -6372,7 +6372,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 28',
     keycodeInfo: {
-      code: 30492,
+      code: 0x771c, // 30492 0b111011100011100
       label: 'Macro 28',
       name: {
         long: 'QK_MACRO_28',
@@ -6384,7 +6384,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 29',
     keycodeInfo: {
-      code: 30493,
+      code: 0x771d, // 30493 0b111011100011101
       label: 'Macro 29',
       name: {
         long: 'QK_MACRO_29',
@@ -6396,7 +6396,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 30',
     keycodeInfo: {
-      code: 30494,
+      code: 0x771e, // 30494 0b111011100011110
       label: 'Macro 30',
       name: {
         long: 'QK_MACRO_30',
@@ -6408,7 +6408,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Macro 31',
     keycodeInfo: {
-      code: 30495,
+      code: 0x771f, // 30495 0b111011100011111
       label: 'Macro 31',
       name: {
         long: 'QK_MACRO_31',
@@ -6420,7 +6420,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Set the backlight to max brightness',
     keycodeInfo: {
-      code: 30720,
+      code: 0x7800, // 30720 0b111100000000000
       label: 'Backlight On',
       name: {
         long: 'QK_BACKLIGHT_ON',
@@ -6432,7 +6432,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn the backlight off',
     keycodeInfo: {
-      code: 30721,
+      code: 0x7801, // 30721 0b111100000000001
       label: 'Backlight Off',
       name: {
         long: 'QK_BACKLIGHT_OFF',
@@ -6444,7 +6444,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turn the backlight on or off',
     keycodeInfo: {
-      code: 30722,
+      code: 0x7802, // 30722 0b111100000000010
       label: 'Backlight Toggle',
       name: {
         long: 'QK_BACKLIGHT_TOGGLE',
@@ -6456,7 +6456,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease the backlight level',
     keycodeInfo: {
-      code: 30723,
+      code: 0x7803, // 30723 0b111100000000011
       label: 'Backlight Down',
       name: {
         long: 'QK_BACKLIGHT_DOWN',
@@ -6468,7 +6468,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase the backlight level',
     keycodeInfo: {
-      code: 30724,
+      code: 0x7804, // 30724 0b111100000000100
       label: 'Backlight Up',
       name: {
         long: 'QK_BACKLIGHT_UP',
@@ -6480,7 +6480,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through backlight levels',
     keycodeInfo: {
-      code: 30725,
+      code: 0x7805, // 30725 0b111100000000101
       label: 'Backlight Step',
       name: {
         long: 'QK_BACKLIGHT_STEP',
@@ -6492,7 +6492,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle backlight breathing',
     keycodeInfo: {
-      code: 30726,
+      code: 0x7806, // 30726 0b111100000000110
       label: 'Backlight Toggle Breathing',
       name: {
         long: 'QK_BACKLIGHT_TOGGLE_BREATHING',
@@ -6504,7 +6504,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle RGB lighting on or off',
     keycodeInfo: {
-      code: 30752,
+      code: 0x7820, // 30752 0b111100000100000
       label: 'Rgb Tog',
       name: {
         long: 'RGB_TOG',
@@ -6516,7 +6516,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through modes, reverse direction when Shift is held',
     keycodeInfo: {
-      code: 30753,
+      code: 0x7821, // 30753 0b111100000100001
       label: 'Rgb Mode Forward',
       name: {
         long: 'RGB_MODE_FORWARD',
@@ -6528,7 +6528,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through modes in reverse, forward direction when Shift is held',
     keycodeInfo: {
-      code: 30754,
+      code: 0x7822, // 30754 0b111100000100010
       label: 'Rgb Mode Reverse',
       name: {
         long: 'RGB_MODE_REVERSE',
@@ -6540,7 +6540,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase hue, decrease hue when Shift is held',
     keycodeInfo: {
-      code: 30755,
+      code: 0x7823, // 30755 0b111100000100011
       label: 'Rgb Hui',
       name: {
         long: 'RGB_HUI',
@@ -6552,7 +6552,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease hue, increase hue when Shift is held',
     keycodeInfo: {
-      code: 30756,
+      code: 0x7824, // 30756 0b111100000100100
       label: 'Rgb Hud',
       name: {
         long: 'RGB_HUD',
@@ -6564,7 +6564,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase saturation, decrease saturation when Shift is held',
     keycodeInfo: {
-      code: 30757,
+      code: 0x7825, // 30757 0b111100000100101
       label: 'Rgb Sai',
       name: {
         long: 'RGB_SAI',
@@ -6576,7 +6576,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease saturation, increase saturation when Shift is held',
     keycodeInfo: {
-      code: 30758,
+      code: 0x7826, // 30758 0b111100000100110
       label: 'Rgb Sad',
       name: {
         long: 'RGB_SAD',
@@ -6588,7 +6588,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase value (brightness), decrease value when Shift is held',
     keycodeInfo: {
-      code: 30759,
+      code: 0x7827, // 30759 0b111100000100111
       label: 'Rgb Vai',
       name: {
         long: 'RGB_VAI',
@@ -6600,7 +6600,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease value (brightness), increase value when Shift is held',
     keycodeInfo: {
-      code: 30760,
+      code: 0x7828, // 30760 0b111100000101000
       label: 'Rgb Vad',
       name: {
         long: 'RGB_VAD',
@@ -6612,7 +6612,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held',
     keycodeInfo: {
-      code: 30761,
+      code: 0x7829, // 30761 0b111100000101001
       label: 'Rgb Spi',
       name: {
         long: 'RGB_SPI',
@@ -6624,7 +6624,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held',
     keycodeInfo: {
-      code: 30762,
+      code: 0x782a, // 30762 0b111100000101010
       label: 'Rgb Spd',
       name: {
         long: 'RGB_SPD',
@@ -6636,7 +6636,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Static (no animation) mode',
     keycodeInfo: {
-      code: 30763,
+      code: 0x782b, // 30763 0b111100000101011
       label: 'Rgb Mode Plain',
       name: {
         long: 'RGB_MODE_PLAIN',
@@ -6648,7 +6648,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Breathing animation mode',
     keycodeInfo: {
-      code: 30764,
+      code: 0x782c, // 30764 0b111100000101100
       label: 'Rgb Mode Breathe',
       name: {
         long: 'RGB_MODE_BREATHE',
@@ -6660,7 +6660,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Rainbow animation mode',
     keycodeInfo: {
-      code: 30765,
+      code: 0x782d, // 30765 0b111100000101101
       label: 'Rgb Mode Rainbow',
       name: {
         long: 'RGB_MODE_RAINBOW',
@@ -6672,7 +6672,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Swirl animation mode',
     keycodeInfo: {
-      code: 30766,
+      code: 0x782e, // 30766 0b111100000101110
       label: 'Rgb Mode Swirl',
       name: {
         long: 'RGB_MODE_SWIRL',
@@ -6684,7 +6684,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Snake animation mode',
     keycodeInfo: {
-      code: 30767,
+      code: 0x782f, // 30767 0b111100000101111
       label: 'Rgb Mode Snake',
       name: {
         long: 'RGB_MODE_SNAKE',
@@ -6696,7 +6696,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: '“Knight Rider” animation mode',
     keycodeInfo: {
-      code: 30768,
+      code: 0x7830, // 30768 0b111100000110000
       label: 'Rgb Mode Knight',
       name: {
         long: 'RGB_MODE_KNIGHT',
@@ -6708,7 +6708,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Christmas animation mode',
     keycodeInfo: {
-      code: 30769,
+      code: 0x7831, // 30769 0b111100000110001
       label: 'Rgb Mode Xmas',
       name: {
         long: 'RGB_MODE_XMAS',
@@ -6720,7 +6720,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Static gradient animation mode',
     keycodeInfo: {
-      code: 30770,
+      code: 0x7832, // 30770 0b111100000110010
       label: 'Rgb Mode Gradient',
       name: {
         long: 'RGB_MODE_GRADIENT',
@@ -6732,7 +6732,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Red,Green,Blue test animation mode',
     keycodeInfo: {
-      code: 30771,
+      code: 0x7833, // 30771 0b111100000110011
       label: 'Rgb Mode Rgbtest',
       name: {
         long: 'RGB_MODE_RGBTEST',
@@ -6744,7 +6744,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Rgb Mode Twinkle',
     keycodeInfo: {
-      code: 30772,
+      code: 0x7834, // 30772 0b111100000110100
       label: 'Rgb Mode Twinkle',
       name: {
         long: 'RGB_MODE_TWINKLE',
@@ -6756,7 +6756,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Put the keyboard into bootloader mode for flashing',
     keycodeInfo: {
-      code: 31744,
+      code: 0x7c00, // 31744 0b111110000000000
       label: 'Bootloader',
       name: {
         long: 'QK_BOOTLOADER',
@@ -6768,7 +6768,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Resets the keyboard. Does not load the bootloader',
     keycodeInfo: {
-      code: 31745,
+      code: 0x7c01, // 31745 0b111110000000001
       label: 'Reboot',
       name: {
         long: 'QK_REBOOT',
@@ -6780,7 +6780,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggle debug mode',
     keycodeInfo: {
-      code: 31746,
+      code: 0x7c02, // 31746 0b111110000000010
       label: 'Debug Toggle',
       name: {
         long: 'QK_DEBUG_TOGGLE',
@@ -6792,7 +6792,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Reinitializes the keyboard’s EEPROM (persistent memory)',
     keycodeInfo: {
-      code: 31747,
+      code: 0x7c03, // 31747 0b111110000000011
       label: 'Clear Eeprom',
       name: {
         long: 'QK_CLEAR_EEPROM',
@@ -6804,7 +6804,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Sends qmk compile -kb (keyboard) -km (keymap), or qmk flash if shift is held. Puts keyboard into bootloader mode if shift & control are held',
     keycodeInfo: {
-      code: 31748,
+      code: 0x7c04, // 31748 0b111110000000100
       label: 'Make',
       name: {
         long: 'QK_MAKE',
@@ -6816,7 +6816,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Lower the Auto Shift timeout variable (down)',
     keycodeInfo: {
-      code: 31760,
+      code: 0x7c10, // 31760 0b111110000010000
       label: 'Auto Shift Down',
       name: {
         long: 'QK_AUTO_SHIFT_DOWN',
@@ -6828,7 +6828,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Raise the Auto Shift timeout variable (up)',
     keycodeInfo: {
-      code: 31761,
+      code: 0x7c11, // 31761 0b111110000010001
       label: 'Auto Shift Up',
       name: {
         long: 'QK_AUTO_SHIFT_UP',
@@ -6840,7 +6840,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Report your current Auto Shift timeout value',
     keycodeInfo: {
-      code: 31762,
+      code: 0x7c12, // 31762 0b111110000010010
       label: 'Auto Shift Report',
       name: {
         long: 'QK_AUTO_SHIFT_REPORT',
@@ -6852,7 +6852,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns on the Auto Shift Function',
     keycodeInfo: {
-      code: 31763,
+      code: 0x7c13, // 31763 0b111110000010011
       label: 'Auto Shift On',
       name: {
         long: 'QK_AUTO_SHIFT_ON',
@@ -6864,7 +6864,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns off the Auto Shift Function',
     keycodeInfo: {
-      code: 31764,
+      code: 0x7c14, // 31764 0b111110000010100
       label: 'Auto Shift Off',
       name: {
         long: 'QK_AUTO_SHIFT_OFF',
@@ -6876,7 +6876,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles the state of the Auto Shift feature',
     keycodeInfo: {
-      code: 31765,
+      code: 0x7c15, // 31765 0b111110000010101
       label: 'Auto Shift Toggle',
       name: {
         long: 'QK_AUTO_SHIFT_TOGGLE',
@@ -6888,7 +6888,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Escape when pressed, ` when Shift or GUI are held',
     keycodeInfo: {
-      code: 31766,
+      code: 0x7c16, // 31766 0b111110000010110
       label: 'Grave Escape',
       name: {
         long: 'QK_GRAVE_ESCAPE',
@@ -6900,7 +6900,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Velocikey Toggle',
     keycodeInfo: {
-      code: 31767,
+      code: 0x7c17, // 31767 0b111110000010111
       label: 'Velocikey Toggle',
       name: {
         long: 'QK_VELOCIKEY_TOGGLE',
@@ -6912,7 +6912,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Control when held, ( when tapped',
     keycodeInfo: {
-      code: 31768,
+      code: 0x7c18, // 31768 0b111110000011000
       label: 'Space Cadet Left Ctrl Parenthesis Open',
       name: {
         long: 'QK_SPACE_CADET_LEFT_CTRL_PARENTHESIS_OPEN',
@@ -6924,7 +6924,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Control when held, ) when tapped',
     keycodeInfo: {
-      code: 31769,
+      code: 0x7c19, // 31769 0b111110000011001
       label: 'Space Cadet Right Ctrl Parenthesis Close',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_CTRL_PARENTHESIS_CLOSE',
@@ -6936,7 +6936,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Shift when held, ( when tapped',
     keycodeInfo: {
-      code: 31770,
+      code: 0x7c1a, // 31770 0b111110000011010
       label: 'Space Cadet Left Shift Parenthesis Open',
       name: {
         long: 'QK_SPACE_CADET_LEFT_SHIFT_PARENTHESIS_OPEN',
@@ -6948,7 +6948,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Shift when held, ) when tapped',
     keycodeInfo: {
-      code: 31771,
+      code: 0x7c1b, // 31771 0b111110000011011
       label: 'Space Cadet Right Shift Parenthesis Close',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_SHIFT_PARENTHESIS_CLOSE',
@@ -6960,7 +6960,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Left Alt when held, ( when tapped',
     keycodeInfo: {
-      code: 31772,
+      code: 0x7c1c, // 31772 0b111110000011100
       label: 'Space Cadet Left Alt Parenthesis Open',
       name: {
         long: 'QK_SPACE_CADET_LEFT_ALT_PARENTHESIS_OPEN',
@@ -6972,7 +6972,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Alt when held, ) when tapped',
     keycodeInfo: {
-      code: 31773,
+      code: 0x7c1d, // 31773 0b111110000011101
       label: 'Space Cadet Right Alt Parenthesis Close',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_ALT_PARENTHESIS_CLOSE',
@@ -6984,7 +6984,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Right Shift when held, Enter when tapped',
     keycodeInfo: {
-      code: 31774,
+      code: 0x7c1e, // 31774 0b111110000011110
       label: 'Space Cadet Right Shift Enter',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_SHIFT_ENTER',
@@ -6996,7 +6996,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Automatically switch between USB and Bluetooth',
     keycodeInfo: {
-      code: 31776,
+      code: 0x7c20, // 31776 0b111110000100000
       label: 'Output Auto',
       name: {
         long: 'QK_OUTPUT_AUTO',
@@ -7008,7 +7008,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'USB only',
     keycodeInfo: {
-      code: 31777,
+      code: 0x7c21, // 31777 0b111110000100001
       label: 'Output Usb',
       name: {
         long: 'QK_OUTPUT_USB',
@@ -7020,7 +7020,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Bluetooth only',
     keycodeInfo: {
-      code: 31778,
+      code: 0x7c22, // 31778 0b111110000100010
       label: 'Output Bluetooth',
       name: {
         long: 'QK_OUTPUT_BLUETOOTH',
@@ -7032,7 +7032,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through selected input modes',
     keycodeInfo: {
-      code: 31792,
+      code: 0x7c30, // 31792 0b111110000110000
       label: 'Unicode Mode Next',
       name: {
         long: 'QK_UNICODE_MODE_NEXT',
@@ -7044,7 +7044,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Cycle through selected input modes in reverse',
     keycodeInfo: {
-      code: 31793,
+      code: 0x7c31, // 31793 0b111110000110001
       label: 'Unicode Mode Previous',
       name: {
         long: 'QK_UNICODE_MODE_PREVIOUS',
@@ -7056,7 +7056,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to macOS input',
     keycodeInfo: {
-      code: 31794,
+      code: 0x7c32, // 31794 0b111110000110010
       label: 'Unicode Mode Macos',
       name: {
         long: 'QK_UNICODE_MODE_MACOS',
@@ -7068,7 +7068,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to Linux input',
     keycodeInfo: {
-      code: 31795,
+      code: 0x7c33, // 31795 0b111110000110011
       label: 'Unicode Mode Linux',
       name: {
         long: 'QK_UNICODE_MODE_LINUX',
@@ -7080,7 +7080,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to Windows input',
     keycodeInfo: {
-      code: 31796,
+      code: 0x7c34, // 31796 0b111110000110100
       label: 'Unicode Mode Windows',
       name: {
         long: 'QK_UNICODE_MODE_WINDOWS',
@@ -7092,7 +7092,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to BSD input (not implemented)',
     keycodeInfo: {
-      code: 31797,
+      code: 0x7c35, // 31797 0b111110000110101
       label: 'Unicode Mode Bsd',
       name: {
         long: 'QK_UNICODE_MODE_BSD',
@@ -7104,7 +7104,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to Windows input using WinCompose',
     keycodeInfo: {
-      code: 31798,
+      code: 0x7c36, // 31798 0b111110000110110
       label: 'Unicode Mode Wincompose',
       name: {
         long: 'QK_UNICODE_MODE_WINCOMPOSE',
@@ -7116,7 +7116,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Switch to emacs (C-x-8 RET)',
     keycodeInfo: {
-      code: 31799,
+      code: 0x7c37, // 31799 0b111110000110111
       label: 'Unicode Mode Emacs',
       name: {
         long: 'QK_UNICODE_MODE_EMACS',
@@ -7128,7 +7128,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic On',
     keycodeInfo: {
-      code: 31808,
+      code: 0x7c40, // 31808 0b111110001000000
       label: 'Haptic On',
       name: {
         long: 'QK_HAPTIC_ON',
@@ -7140,7 +7140,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Off',
     keycodeInfo: {
-      code: 31809,
+      code: 0x7c41, // 31809 0b111110001000001
       label: 'Haptic Off',
       name: {
         long: 'QK_HAPTIC_OFF',
@@ -7152,7 +7152,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Toggle',
     keycodeInfo: {
-      code: 31810,
+      code: 0x7c42, // 31810 0b111110001000010
       label: 'Haptic Toggle',
       name: {
         long: 'QK_HAPTIC_TOGGLE',
@@ -7164,7 +7164,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Reset',
     keycodeInfo: {
-      code: 31811,
+      code: 0x7c43, // 31811 0b111110001000011
       label: 'Haptic Reset',
       name: {
         long: 'QK_HAPTIC_RESET',
@@ -7176,7 +7176,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Feedback Toggle',
     keycodeInfo: {
-      code: 31812,
+      code: 0x7c44, // 31812 0b111110001000100
       label: 'Haptic Feedback Toggle',
       name: {
         long: 'QK_HAPTIC_FEEDBACK_TOGGLE',
@@ -7188,7 +7188,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Buzz Toggle',
     keycodeInfo: {
-      code: 31813,
+      code: 0x7c45, // 31813 0b111110001000101
       label: 'Haptic Buzz Toggle',
       name: {
         long: 'QK_HAPTIC_BUZZ_TOGGLE',
@@ -7200,7 +7200,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Mode Next',
     keycodeInfo: {
-      code: 31814,
+      code: 0x7c46, // 31814 0b111110001000110
       label: 'Haptic Mode Next',
       name: {
         long: 'QK_HAPTIC_MODE_NEXT',
@@ -7212,7 +7212,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Mode Previous',
     keycodeInfo: {
-      code: 31815,
+      code: 0x7c47, // 31815 0b111110001000111
       label: 'Haptic Mode Previous',
       name: {
         long: 'QK_HAPTIC_MODE_PREVIOUS',
@@ -7224,7 +7224,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Continuous Toggle',
     keycodeInfo: {
-      code: 31816,
+      code: 0x7c48, // 31816 0b111110001001000
       label: 'Haptic Continuous Toggle',
       name: {
         long: 'QK_HAPTIC_CONTINUOUS_TOGGLE',
@@ -7236,7 +7236,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Continuous Up',
     keycodeInfo: {
-      code: 31817,
+      code: 0x7c49, // 31817 0b111110001001001
       label: 'Haptic Continuous Up',
       name: {
         long: 'QK_HAPTIC_CONTINUOUS_UP',
@@ -7248,7 +7248,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Continuous Down',
     keycodeInfo: {
-      code: 31818,
+      code: 0x7c4a, // 31818 0b111110001001010
       label: 'Haptic Continuous Down',
       name: {
         long: 'QK_HAPTIC_CONTINUOUS_DOWN',
@@ -7260,7 +7260,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Dwell Up',
     keycodeInfo: {
-      code: 31819,
+      code: 0x7c4b, // 31819 0b111110001001011
       label: 'Haptic Dwell Up',
       name: {
         long: 'QK_HAPTIC_DWELL_UP',
@@ -7272,7 +7272,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Haptic Dwell Down',
     keycodeInfo: {
-      code: 31820,
+      code: 0x7c4c, // 31820 0b111110001001100
       label: 'Haptic Dwell Down',
       name: {
         long: 'QK_HAPTIC_DWELL_DOWN',
@@ -7284,7 +7284,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Combo On',
     keycodeInfo: {
-      code: 31824,
+      code: 0x7c50, // 31824 0b111110001010000
       label: 'Combo On',
       name: {
         long: 'QK_COMBO_ON',
@@ -7296,7 +7296,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Combo Off',
     keycodeInfo: {
-      code: 31825,
+      code: 0x7c51, // 31825 0b111110001010001
       label: 'Combo Off',
       name: {
         long: 'QK_COMBO_OFF',
@@ -7308,7 +7308,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Combo Toggle',
     keycodeInfo: {
-      code: 31826,
+      code: 0x7c52, // 31826 0b111110001010010
       label: 'Combo Toggle',
       name: {
         long: 'QK_COMBO_TOGGLE',
@@ -7320,7 +7320,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Start recording Macro 1',
     keycodeInfo: {
-      code: 31827,
+      code: 0x7c53, // 31827 0b111110001010011
       label: 'Dynamic Macro Record Start 1',
       name: {
         long: 'QK_DYNAMIC_MACRO_RECORD_START_1',
@@ -7332,7 +7332,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Start recording Macro 2',
     keycodeInfo: {
-      code: 31828,
+      code: 0x7c54, // 31828 0b111110001010100
       label: 'Dynamic Macro Record Start 2',
       name: {
         long: 'QK_DYNAMIC_MACRO_RECORD_START_2',
@@ -7344,7 +7344,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Finish the macro that is currently being recorded.',
     keycodeInfo: {
-      code: 31829,
+      code: 0x7c55, // 31829 0b111110001010101
       label: 'Dynamic Macro Record Stop',
       name: {
         long: 'QK_DYNAMIC_MACRO_RECORD_STOP',
@@ -7356,7 +7356,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Replay Macro 1',
     keycodeInfo: {
-      code: 31830,
+      code: 0x7c56, // 31830 0b111110001010110
       label: 'Dynamic Macro Play 1',
       name: {
         long: 'QK_DYNAMIC_MACRO_PLAY_1',
@@ -7368,7 +7368,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Replay Macro 2',
     keycodeInfo: {
-      code: 31831,
+      code: 0x7c57, // 31831 0b111110001010111
       label: 'Dynamic Macro Play 2',
       name: {
         long: 'QK_DYNAMIC_MACRO_PLAY_2',
@@ -7380,7 +7380,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Leader',
     keycodeInfo: {
-      code: 31832,
+      code: 0x7c58, // 31832 0b111110001011000
       label: 'Leader',
       name: {
         long: 'QK_LEADER',
@@ -7392,7 +7392,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Hold down the next key pressed, until the key is pressed again',
     keycodeInfo: {
-      code: 31833,
+      code: 0x7c59, // 31833 0b111110001011001
       label: 'Lock',
       name: {
         long: 'QK_LOCK',
@@ -7404,7 +7404,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns One Shot keys on',
     keycodeInfo: {
-      code: 31834,
+      code: 0x7c5a, // 31834 0b111110001011010
       label: 'One Shot On',
       name: {
         long: 'QK_ONE_SHOT_ON',
@@ -7416,7 +7416,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns One Shot keys off',
     keycodeInfo: {
-      code: 31835,
+      code: 0x7c5b, // 31835 0b111110001011011
       label: 'One Shot Off',
       name: {
         long: 'QK_ONE_SHOT_OFF',
@@ -7428,7 +7428,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles One Shot keys status',
     keycodeInfo: {
-      code: 31836,
+      code: 0x7c5c, // 31836 0b111110001011100
       label: 'One Shot Toggle',
       name: {
         long: 'QK_ONE_SHOT_TOGGLE',
@@ -7440,7 +7440,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Key Override Toggle',
     keycodeInfo: {
-      code: 31837,
+      code: 0x7c5d, // 31837 0b111110001011101
       label: 'Key Override Toggle',
       name: {
         long: 'QK_KEY_OVERRIDE_TOGGLE',
@@ -7452,7 +7452,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Key Override On',
     keycodeInfo: {
-      code: 31838,
+      code: 0x7c5e, // 31838 0b111110001011110
       label: 'Key Override On',
       name: {
         long: 'QK_KEY_OVERRIDE_ON',
@@ -7464,7 +7464,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Key Override Off',
     keycodeInfo: {
-      code: 31839,
+      code: 0x7c5f, // 31839 0b111110001011111
       label: 'Key Override Off',
       name: {
         long: 'QK_KEY_OVERRIDE_OFF',
@@ -7476,7 +7476,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Secure Lock',
     keycodeInfo: {
-      code: 31840,
+      code: 0x7c60, // 31840 0b111110001100000
       label: 'Secure Lock',
       name: {
         long: 'QK_SECURE_LOCK',
@@ -7488,7 +7488,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Secure Unlock',
     keycodeInfo: {
-      code: 31841,
+      code: 0x7c61, // 31841 0b111110001100001
       label: 'Secure Unlock',
       name: {
         long: 'QK_SECURE_UNLOCK',
@@ -7500,7 +7500,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Secure Toggle',
     keycodeInfo: {
-      code: 31842,
+      code: 0x7c62, // 31842 0b111110001100010
       label: 'Secure Toggle',
       name: {
         long: 'QK_SECURE_TOGGLE',
@@ -7512,7 +7512,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Secure Request',
     keycodeInfo: {
-      code: 31843,
+      code: 0x7c63, // 31843 0b111110001100011
       label: 'Secure Request',
       name: {
         long: 'QK_SECURE_REQUEST',
@@ -7524,7 +7524,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Types the current tapping term, in milliseconds',
     keycodeInfo: {
-      code: 31856,
+      code: 0x7c70, // 31856 0b111110001110000
       label: 'Dynamic Tapping Term Print',
       name: {
         long: 'QK_DYNAMIC_TAPPING_TERM_PRINT',
@@ -7536,7 +7536,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Increases the current tapping term by DYNAMIC_TAPPING_TERM_INCREMENTms (5ms by default)',
     keycodeInfo: {
-      code: 31857,
+      code: 0x7c71, // 31857 0b111110001110001
       label: 'Dynamic Tapping Term Up',
       name: {
         long: 'QK_DYNAMIC_TAPPING_TERM_UP',
@@ -7548,7 +7548,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Decreases the current tapping term by DYNAMIC_TAPPING_TERM_INCREMENTms (5ms by default)',
     keycodeInfo: {
-      code: 31858,
+      code: 0x7c72, // 31858 0b111110001110010
       label: 'Dynamic Tapping Term Down',
       name: {
         long: 'QK_DYNAMIC_TAPPING_TERM_DOWN',
@@ -7560,7 +7560,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles Caps Word',
     keycodeInfo: {
-      code: 31859,
+      code: 0x7c73, // 31859 0b111110001110011
       label: 'Caps Word Toggle',
       name: {
         long: 'QK_CAPS_WORD_TOGGLE',
@@ -7572,7 +7572,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns on the Autocorrect feature.',
     keycodeInfo: {
-      code: 31860,
+      code: 0x7c74, // 31860 0b111110001110100
       label: 'Autocorrect On',
       name: {
         long: 'QK_AUTOCORRECT_ON',
@@ -7584,7 +7584,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Turns off the Autocorrect feature.',
     keycodeInfo: {
-      code: 31861,
+      code: 0x7c75, // 31861 0b111110001110101
       label: 'Autocorrect Off',
       name: {
         long: 'QK_AUTOCORRECT_OFF',
@@ -7596,7 +7596,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Toggles the status of the Autocorrect feature.',
     keycodeInfo: {
-      code: 31862,
+      code: 0x7c76, // 31862 0b111110001110110
       label: 'Autocorrect Toggle',
       name: {
         long: 'QK_AUTOCORRECT_TOGGLE',
@@ -7608,7 +7608,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Tri Layer Lower',
     keycodeInfo: {
-      code: 31863,
+      code: 0x7c77, // 31863 0b111110001110111
       label: 'Tri Layer Lower',
       name: {
         long: 'QK_TRI_LAYER_LOWER',
@@ -7620,7 +7620,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Tri Layer Upper',
     keycodeInfo: {
-      code: 31864,
+      code: 0x7c78, // 31864 0b111110001111000
       label: 'Tri Layer Upper',
       name: {
         long: 'QK_TRI_LAYER_UPPER',
@@ -7632,7 +7632,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Repeat the last pressed key',
     keycodeInfo: {
-      code: 31865,
+      code: 0x7c79, // 31865 0b111110001111001
       label: 'Repeat Key',
       name: {
         long: 'QK_REPEAT_KEY',
@@ -7644,7 +7644,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Perform alternate of the last key',
     keycodeInfo: {
-      code: 31866,
+      code: 0x7c7a, // 31866 0b111110001111010
       label: 'Alt Repeat Key',
       name: {
         long: 'QK_ALT_REPEAT_KEY',
@@ -7656,7 +7656,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 0',
     keycodeInfo: {
-      code: 32256,
+      code: 0x7e00, // 32256 0b111111000000000
       label: 'Kb 0',
       name: {
         long: 'QK_KB_0',
@@ -7668,7 +7668,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 1',
     keycodeInfo: {
-      code: 32257,
+      code: 0x7e01, // 32257 0b111111000000001
       label: 'Kb 1',
       name: {
         long: 'QK_KB_1',
@@ -7680,7 +7680,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 2',
     keycodeInfo: {
-      code: 32258,
+      code: 0x7e02, // 32258 0b111111000000010
       label: 'Kb 2',
       name: {
         long: 'QK_KB_2',
@@ -7692,7 +7692,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 3',
     keycodeInfo: {
-      code: 32259,
+      code: 0x7e03, // 32259 0b111111000000011
       label: 'Kb 3',
       name: {
         long: 'QK_KB_3',
@@ -7704,7 +7704,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 4',
     keycodeInfo: {
-      code: 32260,
+      code: 0x7e04, // 32260 0b111111000000100
       label: 'Kb 4',
       name: {
         long: 'QK_KB_4',
@@ -7716,7 +7716,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 5',
     keycodeInfo: {
-      code: 32261,
+      code: 0x7e05, // 32261 0b111111000000101
       label: 'Kb 5',
       name: {
         long: 'QK_KB_5',
@@ -7728,7 +7728,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 6',
     keycodeInfo: {
-      code: 32262,
+      code: 0x7e06, // 32262 0b111111000000110
       label: 'Kb 6',
       name: {
         long: 'QK_KB_6',
@@ -7740,7 +7740,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 7',
     keycodeInfo: {
-      code: 32263,
+      code: 0x7e07, // 32263 0b111111000000111
       label: 'Kb 7',
       name: {
         long: 'QK_KB_7',
@@ -7752,7 +7752,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 8',
     keycodeInfo: {
-      code: 32264,
+      code: 0x7e08, // 32264 0b111111000001000
       label: 'Kb 8',
       name: {
         long: 'QK_KB_8',
@@ -7764,7 +7764,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 9',
     keycodeInfo: {
-      code: 32265,
+      code: 0x7e09, // 32265 0b111111000001001
       label: 'Kb 9',
       name: {
         long: 'QK_KB_9',
@@ -7776,7 +7776,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 10',
     keycodeInfo: {
-      code: 32266,
+      code: 0x7e0a, // 32266 0b111111000001010
       label: 'Kb 10',
       name: {
         long: 'QK_KB_10',
@@ -7788,7 +7788,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 11',
     keycodeInfo: {
-      code: 32267,
+      code: 0x7e0b, // 32267 0b111111000001011
       label: 'Kb 11',
       name: {
         long: 'QK_KB_11',
@@ -7800,7 +7800,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 12',
     keycodeInfo: {
-      code: 32268,
+      code: 0x7e0c, // 32268 0b111111000001100
       label: 'Kb 12',
       name: {
         long: 'QK_KB_12',
@@ -7812,7 +7812,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 13',
     keycodeInfo: {
-      code: 32269,
+      code: 0x7e0d, // 32269 0b111111000001101
       label: 'Kb 13',
       name: {
         long: 'QK_KB_13',
@@ -7824,7 +7824,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 14',
     keycodeInfo: {
-      code: 32270,
+      code: 0x7e0e, // 32270 0b111111000001110
       label: 'Kb 14',
       name: {
         long: 'QK_KB_14',
@@ -7836,7 +7836,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 15',
     keycodeInfo: {
-      code: 32271,
+      code: 0x7e0f, // 32271 0b111111000001111
       label: 'Kb 15',
       name: {
         long: 'QK_KB_15',
@@ -7848,7 +7848,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 16',
     keycodeInfo: {
-      code: 32272,
+      code: 0x7e10, // 32272 0b111111000010000
       label: 'Kb 16',
       name: {
         long: 'QK_KB_16',
@@ -7860,7 +7860,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 17',
     keycodeInfo: {
-      code: 32273,
+      code: 0x7e11, // 32273 0b111111000010001
       label: 'Kb 17',
       name: {
         long: 'QK_KB_17',
@@ -7872,7 +7872,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 18',
     keycodeInfo: {
-      code: 32274,
+      code: 0x7e12, // 32274 0b111111000010010
       label: 'Kb 18',
       name: {
         long: 'QK_KB_18',
@@ -7884,7 +7884,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 19',
     keycodeInfo: {
-      code: 32275,
+      code: 0x7e13, // 32275 0b111111000010011
       label: 'Kb 19',
       name: {
         long: 'QK_KB_19',
@@ -7896,7 +7896,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 20',
     keycodeInfo: {
-      code: 32276,
+      code: 0x7e14, // 32276 0b111111000010100
       label: 'Kb 20',
       name: {
         long: 'QK_KB_20',
@@ -7908,7 +7908,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 21',
     keycodeInfo: {
-      code: 32277,
+      code: 0x7e15, // 32277 0b111111000010101
       label: 'Kb 21',
       name: {
         long: 'QK_KB_21',
@@ -7920,7 +7920,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 22',
     keycodeInfo: {
-      code: 32278,
+      code: 0x7e16, // 32278 0b111111000010110
       label: 'Kb 22',
       name: {
         long: 'QK_KB_22',
@@ -7932,7 +7932,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 23',
     keycodeInfo: {
-      code: 32279,
+      code: 0x7e17, // 32279 0b111111000010111
       label: 'Kb 23',
       name: {
         long: 'QK_KB_23',
@@ -7944,7 +7944,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 24',
     keycodeInfo: {
-      code: 32280,
+      code: 0x7e18, // 32280 0b111111000011000
       label: 'Kb 24',
       name: {
         long: 'QK_KB_24',
@@ -7956,7 +7956,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 25',
     keycodeInfo: {
-      code: 32281,
+      code: 0x7e19, // 32281 0b111111000011001
       label: 'Kb 25',
       name: {
         long: 'QK_KB_25',
@@ -7968,7 +7968,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 26',
     keycodeInfo: {
-      code: 32282,
+      code: 0x7e1a, // 32282 0b111111000011010
       label: 'Kb 26',
       name: {
         long: 'QK_KB_26',
@@ -7980,7 +7980,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 27',
     keycodeInfo: {
-      code: 32283,
+      code: 0x7e1b, // 32283 0b111111000011011
       label: 'Kb 27',
       name: {
         long: 'QK_KB_27',
@@ -7992,7 +7992,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 28',
     keycodeInfo: {
-      code: 32284,
+      code: 0x7e1c, // 32284 0b111111000011100
       label: 'Kb 28',
       name: {
         long: 'QK_KB_28',
@@ -8004,7 +8004,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 29',
     keycodeInfo: {
-      code: 32285,
+      code: 0x7e1d, // 32285 0b111111000011101
       label: 'Kb 29',
       name: {
         long: 'QK_KB_29',
@@ -8016,7 +8016,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 30',
     keycodeInfo: {
-      code: 32286,
+      code: 0x7e1e, // 32286 0b111111000011110
       label: 'Kb 30',
       name: {
         long: 'QK_KB_30',
@@ -8028,7 +8028,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Kb 31',
     keycodeInfo: {
-      code: 32287,
+      code: 0x7e1f, // 32287 0b111111000011111
       label: 'Kb 31',
       name: {
         long: 'QK_KB_31',
@@ -8040,7 +8040,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 0',
     keycodeInfo: {
-      code: 32320,
+      code: 0x7e40, // 32320 0b111111001000000
       label: 'User 0',
       name: {
         long: 'QK_USER_0',
@@ -8052,7 +8052,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 1',
     keycodeInfo: {
-      code: 32321,
+      code: 0x7e41, // 32321 0b111111001000001
       label: 'User 1',
       name: {
         long: 'QK_USER_1',
@@ -8064,7 +8064,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 2',
     keycodeInfo: {
-      code: 32322,
+      code: 0x7e42, // 32322 0b111111001000010
       label: 'User 2',
       name: {
         long: 'QK_USER_2',
@@ -8076,7 +8076,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 3',
     keycodeInfo: {
-      code: 32323,
+      code: 0x7e43, // 32323 0b111111001000011
       label: 'User 3',
       name: {
         long: 'QK_USER_3',
@@ -8088,7 +8088,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 4',
     keycodeInfo: {
-      code: 32324,
+      code: 0x7e44, // 32324 0b111111001000100
       label: 'User 4',
       name: {
         long: 'QK_USER_4',
@@ -8100,7 +8100,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 5',
     keycodeInfo: {
-      code: 32325,
+      code: 0x7e45, // 32325 0b111111001000101
       label: 'User 5',
       name: {
         long: 'QK_USER_5',
@@ -8112,7 +8112,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 6',
     keycodeInfo: {
-      code: 32326,
+      code: 0x7e46, // 32326 0b111111001000110
       label: 'User 6',
       name: {
         long: 'QK_USER_6',
@@ -8124,7 +8124,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 7',
     keycodeInfo: {
-      code: 32327,
+      code: 0x7e47, // 32327 0b111111001000111
       label: 'User 7',
       name: {
         long: 'QK_USER_7',
@@ -8136,7 +8136,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 8',
     keycodeInfo: {
-      code: 32328,
+      code: 0x7e48, // 32328 0b111111001001000
       label: 'User 8',
       name: {
         long: 'QK_USER_8',
@@ -8148,7 +8148,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 9',
     keycodeInfo: {
-      code: 32329,
+      code: 0x7e49, // 32329 0b111111001001001
       label: 'User 9',
       name: {
         long: 'QK_USER_9',
@@ -8160,7 +8160,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 10',
     keycodeInfo: {
-      code: 32330,
+      code: 0x7e4a, // 32330 0b111111001001010
       label: 'User 10',
       name: {
         long: 'QK_USER_10',
@@ -8172,7 +8172,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 11',
     keycodeInfo: {
-      code: 32331,
+      code: 0x7e4b, // 32331 0b111111001001011
       label: 'User 11',
       name: {
         long: 'QK_USER_11',
@@ -8184,7 +8184,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 12',
     keycodeInfo: {
-      code: 32332,
+      code: 0x7e4c, // 32332 0b111111001001100
       label: 'User 12',
       name: {
         long: 'QK_USER_12',
@@ -8196,7 +8196,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 13',
     keycodeInfo: {
-      code: 32333,
+      code: 0x7e4d, // 32333 0b111111001001101
       label: 'User 13',
       name: {
         long: 'QK_USER_13',
@@ -8208,7 +8208,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 14',
     keycodeInfo: {
-      code: 32334,
+      code: 0x7e4e, // 32334 0b111111001001110
       label: 'User 14',
       name: {
         long: 'QK_USER_14',
@@ -8220,7 +8220,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 15',
     keycodeInfo: {
-      code: 32335,
+      code: 0x7e4f, // 32335 0b111111001001111
       label: 'User 15',
       name: {
         long: 'QK_USER_15',
@@ -8232,7 +8232,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 16',
     keycodeInfo: {
-      code: 32336,
+      code: 0x7e50, // 32336 0b111111001010000
       label: 'User 16',
       name: {
         long: 'QK_USER_16',
@@ -8244,7 +8244,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 17',
     keycodeInfo: {
-      code: 32337,
+      code: 0x7e51, // 32337 0b111111001010001
       label: 'User 17',
       name: {
         long: 'QK_USER_17',
@@ -8256,7 +8256,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 18',
     keycodeInfo: {
-      code: 32338,
+      code: 0x7e52, // 32338 0b111111001010010
       label: 'User 18',
       name: {
         long: 'QK_USER_18',
@@ -8268,7 +8268,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 19',
     keycodeInfo: {
-      code: 32339,
+      code: 0x7e53, // 32339 0b111111001010011
       label: 'User 19',
       name: {
         long: 'QK_USER_19',
@@ -8280,7 +8280,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 20',
     keycodeInfo: {
-      code: 32340,
+      code: 0x7e54, // 32340 0b111111001010100
       label: 'User 20',
       name: {
         long: 'QK_USER_20',
@@ -8292,7 +8292,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 21',
     keycodeInfo: {
-      code: 32341,
+      code: 0x7e55, // 32341 0b111111001010101
       label: 'User 21',
       name: {
         long: 'QK_USER_21',
@@ -8304,7 +8304,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 22',
     keycodeInfo: {
-      code: 32342,
+      code: 0x7e56, // 32342 0b111111001010110
       label: 'User 22',
       name: {
         long: 'QK_USER_22',
@@ -8316,7 +8316,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 23',
     keycodeInfo: {
-      code: 32343,
+      code: 0x7e57, // 32343 0b111111001010111
       label: 'User 23',
       name: {
         long: 'QK_USER_23',
@@ -8328,7 +8328,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 24',
     keycodeInfo: {
-      code: 32344,
+      code: 0x7e58, // 32344 0b111111001011000
       label: 'User 24',
       name: {
         long: 'QK_USER_24',
@@ -8340,7 +8340,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 25',
     keycodeInfo: {
-      code: 32345,
+      code: 0x7e59, // 32345 0b111111001011001
       label: 'User 25',
       name: {
         long: 'QK_USER_25',
@@ -8352,7 +8352,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 26',
     keycodeInfo: {
-      code: 32346,
+      code: 0x7e5a, // 32346 0b111111001011010
       label: 'User 26',
       name: {
         long: 'QK_USER_26',
@@ -8364,7 +8364,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 27',
     keycodeInfo: {
-      code: 32347,
+      code: 0x7e5b, // 32347 0b111111001011011
       label: 'User 27',
       name: {
         long: 'QK_USER_27',
@@ -8376,7 +8376,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 28',
     keycodeInfo: {
-      code: 32348,
+      code: 0x7e5c, // 32348 0b111111001011100
       label: 'User 28',
       name: {
         long: 'QK_USER_28',
@@ -8388,7 +8388,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 29',
     keycodeInfo: {
-      code: 32349,
+      code: 0x7e5d, // 32349 0b111111001011101
       label: 'User 29',
       name: {
         long: 'QK_USER_29',
@@ -8400,7 +8400,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 30',
     keycodeInfo: {
-      code: 32350,
+      code: 0x7e5e, // 32350 0b111111001011110
       label: 'User 30',
       name: {
         long: 'QK_USER_30',
@@ -8412,7 +8412,7 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'User 31',
     keycodeInfo: {
-      code: 32351,
+      code: 0x7e5f, // 32351 0b111111001011111
       label: 'User 31',
       name: {
         long: 'QK_USER_31',
