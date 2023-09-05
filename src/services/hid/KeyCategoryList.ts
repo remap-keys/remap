@@ -1,20 +1,18 @@
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import {
-  AsciiComposition,
-  BasicComposition,
-  DefLayerComposition,
-  LayerTapToggleComposition,
-  LooseKeycodeComposition,
-  MomentaryComposition,
-  OneShotLayerComposition,
-  SwapHandsComposition,
-  ToComposition,
-  ToggleLayerComposition,
-  ViaUserKeyComposition,
-} from './Composition';
 import { ICustomKeycode, IKeycodeCategoryInfo, IKeymap } from './Hid';
 import { range } from '../../utils/ArrayUtils';
 import { encodeMacroText, IMacroBuffer } from '../macro/Macro';
+import { BasicComposition } from './compositions/BasicComposition';
+import { ToComposition } from './compositions/ToComposition';
+import { MomentaryComposition } from './compositions/MomentaryComposition';
+import { DefLayerComposition } from './compositions/DefLayerComposition';
+import { ToggleLayerComposition } from './compositions/ToggleLayerComposition';
+import { OneShotLayerComposition } from './compositions/OneShotLayerComposition';
+import { SwapHandsComposition } from './compositions/SwapHandsComposition';
+import { LayerTapToggleComposition } from './compositions/LayerTapToggleComposition';
+import { LooseKeycodeComposition } from './compositions/LooseKeycodeComposition';
+import { ViaUserKeyComposition } from './compositions/ViaUserKeyComposition';
+import { AsciiComposition } from './compositions/AsciiComposition';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};

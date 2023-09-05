@@ -18,7 +18,6 @@ import CustomKey, {
   PopoverPosition,
 } from '../customkey/CustomKey';
 import { Key } from '../keycodekey/KeyGen';
-import { ModsComposition } from '../../../services/hid/Composition';
 import {
   KeyboardLabelLang,
   KeyLabelLangs,
@@ -26,6 +25,7 @@ import {
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 import LayerPagination from '../../common/layer/LayerPagination';
 import KeyEventCapture from '../keyeventcapture/KeyEventCapture.container';
+import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
 
 export type LayoutOption = {
   option: number;

@@ -3,16 +3,14 @@ import React from 'react';
 import './TabHoldTapKey.scss';
 import AutocompleteKeys from './AutocompleteKeys';
 import { IKeymap } from '../../../services/hid/Hid';
-import {
-  BasicComposition,
-  KeycodeCompositionFactory,
-  LayerTapComposition,
-  ModTapComposition,
-  SwapHandsComposition,
-} from '../../../services/hid/Composition';
+import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
 import { buildModLabel } from './Modifiers';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
+import { BasicComposition } from '../../../services/hid/compositions/BasicComposition';
+import { LayerTapComposition } from '../../../services/hid/compositions/LayerTapComposition';
+import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
+import { ModTapComposition } from '../../../services/hid/compositions/ModTapComposition';
 
 type OwnProps = {
   holdKey: IKeymap | null;
