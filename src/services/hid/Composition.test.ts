@@ -53,7 +53,7 @@ const EXPECT_ONE_SHOT_LAYER_LIST = [
 const EXPECT_ONE_SHOT_MOD_LIST = [0b0101_0010_1010_0000, 0b0101_0010_1011_1111];
 const EXPECT_TAP_DANCE_LIST = [0b0101_0111_0000_0000, 0b0101_0111_1111_1111];
 const EXPECT_LAYER_TAP_TOGGLE_LIST = [
-  0b0101_1000_0000_0000, 0b0101_1000_1111_1111,
+  0b0101_0010_1100_0000, 0b0101_0010_1101_1111,
 ];
 const EXPECT_LAYER_MOD_LIST = [0b0101_0000_0000_0000, 0b0101_0001_1111_1111];
 const EXPECT_SWAP_HANDS_LIST = [0b0101_0110_0000_0000, 0b0101_0110_1111_1111];
@@ -496,13 +496,13 @@ describe('Composition', () => {
   describe('LayerTapToggleComposition', () => {
     test('getCode', () => {
       let subject = new LayerTapToggleComposition(0b0100);
-      expect(subject.getCode()).toEqual(0b0101_1000_0000_0100);
+      expect(subject.getCode()).toEqual(0b0101_0010_1100_0100);
       subject = new LayerTapToggleComposition(0b0000);
-      expect(subject.getCode()).toEqual(0b0101_1000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1100_0000);
       subject = new LayerTapToggleComposition(0b1111);
-      expect(subject.getCode()).toEqual(0b0101_1000_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_1100_1111);
       subject = new LayerTapToggleComposition(0b1_0000_0000);
-      expect(subject.getCode()).toEqual(0b0101_1000_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1100_0000);
     });
   });
 
@@ -1319,7 +1319,7 @@ describe('Composition', () => {
     describe('createLayerTapToggleComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1000_0000_0100,
+          0b0101_0010_1100_0100,
           'en-us'
         );
         expect(subject.isLayerTapToggle()).toBeTruthy();

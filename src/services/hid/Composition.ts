@@ -88,8 +88,8 @@ export const QK_SWAP_HANDS_MAX = 0b0101_0110_1111_1111;
 export const QK_TAP_DANCE_MIN = 0b0101_0111_0000_0000;
 export const QK_TAP_DANCE_MAX = 0b0101_0111_1111_1111;
 
-export const QK_LAYER_TAP_TOGGLE_MIN = 0b0101_1000_0000_0000;
-export const QK_LAYER_TAP_TOGGLE_MAX = 0b0101_1000_1111_1111;
+export const QK_LAYER_TAP_TOGGLE_MIN = 0b0101_0010_1100_0000;
+export const QK_LAYER_TAP_TOGGLE_MAX = 0b0101_0010_1101_1111;
 
 export const QK_LAYER_MOD_MIN = 0b0101_0000_0000_0000;
 export const QK_LAYER_MOD_MAX = 0b0101_0001_1111_1111;
@@ -1072,7 +1072,7 @@ export class LayerTapToggleComposition implements ILayerTapToggleComposition {
   }
 
   getCode(): number {
-    return QK_LAYER_TAP_TOGGLE_MIN | (this.layer & 0b1111_1111);
+    return QK_LAYER_TAP_TOGGLE_MIN | (this.layer & 0b0001_1111);
   }
 
   genKeymap(): IKeymap {
@@ -1948,7 +1948,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         )}`
       );
     }
-    const layer = this.code & 0b1111_1111;
+    const layer = this.code & 0b0001_1111;
     return new LayerTapToggleComposition(layer);
   }
 
