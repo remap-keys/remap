@@ -55,9 +55,6 @@ export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
 export const QK_MODS_MIN = 0b0000_0001_0000_0000;
 export const QK_MODS_MAX = 0b0001_1111_1111_1111;
 
-export const QK_FUNCTION_MIN = 0b0010_0000_0000_0000;
-export const QK_FUNCTION_MAX = 0b0010_1111_1111_1111;
-
 export const QK_MACRO_MIN = 0b0011_0000_0000_0000;
 export const QK_MACRO_MAX = 0b0011_1111_1111_1111;
 
@@ -112,7 +109,6 @@ export const ASCII_MAX = 0b0000_0000_0111_1111;
 export type IKeycodeCompositionKind =
   | 'basic'
   | 'mods'
-  | 'function'
   | 'macro'
   | 'layer_tap'
   | 'to'
@@ -136,7 +132,6 @@ export const KeycodeCompositionKind: {
 } = {
   basic: 'basic',
   mods: 'mods',
-  function: 'function',
   macro: 'macro',
   layer_tap: 'layer_tap',
   to: 'to',
@@ -162,7 +157,6 @@ const keycodeCompositionKindRangeMap: {
 } = {
   basic: { min: QK_BASIC_MIN, max: QK_BASIC_MAX },
   mods: { min: QK_MODS_MIN, max: QK_MODS_MAX },
-  function: { min: QK_FUNCTION_MIN, max: QK_FUNCTION_MAX },
   macro: { min: QK_MACRO_MIN, max: QK_MACRO_MAX },
   layer_tap: { min: QK_LAYER_TAP_MIN, max: QK_LAYER_TAP_MAX },
   to: { min: QK_TO_MIN, max: QK_TO_MAX },
@@ -283,10 +277,6 @@ export interface IBasicComposition extends IComposition {}
 export interface IModsComposition extends IComposition {
   getModDirection(): IModDirection;
   getModifiers(): IMod[];
-}
-
-export interface IFunctionComposition extends IComposition {
-  getFunctionId(): number;
 }
 
 export interface IMacroComposition extends IComposition {
@@ -604,44 +594,6 @@ export class ModsComposition implements IModsComposition {
 
   getModDirection(): IModDirection {
     return this.modDirection;
-  }
-}
-
-export class FunctionComposition implements IFunctionComposition {
-  private readonly functionId: number;
-
-  constructor(functionId: number) {
-    this.functionId = functionId;
-  }
-
-  getCode(): number {
-    return QK_FUNCTION_MIN | (this.functionId & 0b1111_1111_1111);
-  }
-
-  getFunctionId(): number {
-    return this.functionId;
-  }
-
-  genKeymap(): IKeymap {
-    const code = this.getCode();
-    const id = this.functionId;
-    const label = `Func${id}`;
-    const keymap: IKeymap = {
-      code: code,
-      isAny: false,
-      direction: MOD_LEFT,
-      modifiers: [],
-      keycodeInfo: {
-        code: code,
-        label: label,
-        name: { short: '', long: '' },
-        keywords: [],
-      },
-      kinds: ['function'],
-      desc: ``,
-      option: id,
-    };
-    return keymap;
   }
 }
 
@@ -1622,7 +1574,6 @@ export class ViaUserKeyComposition implements IViaUserKeyComposition {
 export interface IKeycodeCompositionFactory {
   isBasic(): boolean;
   isMods(): boolean;
-  isFunction(): boolean;
   isMacro(): boolean;
   isLayerTap(): boolean;
   isTo(): boolean;
@@ -1644,7 +1595,6 @@ export interface IKeycodeCompositionFactory {
   getKind(): IKeycodeCompositionKind | null;
   createBasicComposition(): IBasicComposition;
   createModsComposition(): IModsComposition;
-  createFunctionComposition(): IFunctionComposition;
   createMacroComposition(): IMacroComposition;
   createLayerTapComposition(): ILayerTapComposition;
   createToComposition(): IToComposition;
@@ -1704,10 +1654,6 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
 
   isDefLayer(): boolean {
     return this.getKind() === KeycodeCompositionKind.df;
-  }
-
-  isFunction(): boolean {
-    return this.getKind() === KeycodeCompositionKind.function;
   }
 
   isLayerMod(): boolean {
@@ -1816,16 +1762,6 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       return result;
     }, []);
     return new ModsComposition(modDirection, modifiers, basicKeymap);
-  }
-
-  createFunctionComposition(): IFunctionComposition {
-    if (!this.isFunction()) {
-      throw new Error(
-        `This code is not a function key code: ${hexadecimal(this.code, 16)}`
-      );
-    }
-    const functionId = this.code & 0b1111_1111_1111;
-    return new FunctionComposition(functionId);
   }
 
   createMacroComposition(): IMacroComposition {

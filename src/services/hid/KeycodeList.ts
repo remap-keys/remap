@@ -18,6 +18,7 @@ export type KeymapCategory =
   | 'edit'
   | 'f'
   | 'func'
+  | 'function'
   | 'grave_escape'
   | 'gui'
   | 'int'
@@ -97,9 +98,6 @@ export class KeycodeList {
       ret.value = opt || null;
     } else if (factory.isMods()) {
       const comp = factory.createModsComposition();
-      ret.value = comp.genKeymap() || null;
-    } else if (factory.isFunction()) {
-      const comp = factory.createFunctionComposition();
       ret.value = comp.genKeymap() || null;
     } else if (factory.isTo()) {
       const comp = factory.createToComposition();

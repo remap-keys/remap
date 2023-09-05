@@ -49,7 +49,6 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     return (
       f.isBasic() ||
       f.isMods() ||
-      f.isFunction() ||
       f.isTo() ||
       f.isMomentary() ||
       f.isDefLayer() ||

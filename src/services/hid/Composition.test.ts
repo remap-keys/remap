@@ -2,7 +2,6 @@ import {
   AsciiComposition,
   BasicComposition,
   DefLayerComposition,
-  FunctionComposition,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
   KeycodeCompositionKind,
@@ -40,7 +39,6 @@ import {
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
 const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];
-const EXPECT_FUNCTION_LIST = [0b0010_0000_0000_0000, 0b0010_1111_1111_1111];
 const EXPECT_MACRO_LIST = [0b0011_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_LAYER_TAP_LIST = [0b0100_0000_0000_0000, 0b0100_1111_1111_1111];
 const EXPECT_TO_LIST = [0b0101_0010_0000_0000, 0b0101_0010_0001_1111];
@@ -290,17 +288,6 @@ describe('Composition', () => {
         }
       );
       expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
-    });
-  });
-
-  describe('FunctionComposition', () => {
-    test('getCode', () => {
-      let subject = new FunctionComposition(0b0000_0000_0000);
-      expect(subject.getCode()).toEqual(0b0010_0000_0000_0000);
-      subject = new FunctionComposition(0b1111_1111_1111);
-      expect(subject.getCode()).toEqual(0b0010_1111_1111_1111);
-      subject = new FunctionComposition(0b1_0000_0000_0000);
-      expect(subject.getCode()).toEqual(0b0010_0000_0000_0000);
     });
   });
 
@@ -1051,29 +1038,6 @@ describe('Composition', () => {
       });
     });
 
-    describe('createFunctionComposition', () => {
-      test('valid', () => {
-        const subject = new KeycodeCompositionFactory(
-          0b0010_0000_0000_0100,
-          'en-us'
-        );
-        expect(subject.isFunction()).toBeTruthy();
-        const actual = subject.createFunctionComposition();
-        expect(actual.getFunctionId()).toEqual(0b0000_0000_0100);
-      });
-
-      test('not function', () => {
-        const subject = new KeycodeCompositionFactory(
-          0b0000_0001_0000_0000,
-          'en-us'
-        );
-        expect(subject.isFunction()).toBeFalsy();
-        expect(() => {
-          subject.createFunctionComposition();
-        }).toThrowError();
-      });
-    });
-
     describe('createMacroComposition', () => {
       test('valid - not tap', () => {
         const subject = new KeycodeCompositionFactory(
@@ -1153,7 +1117,7 @@ describe('Composition', () => {
         );
         expect(subject.isTo()).toBeFalsy();
         expect(() => {
-          subject.createFunctionComposition();
+          subject.createToComposition();
         }).toThrowError();
       });
     });
@@ -1558,7 +1522,6 @@ describe('Composition', () => {
         const validList = [EXPECT_BASIC_LIST];
         const invalidList = [
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1582,7 +1545,6 @@ describe('Composition', () => {
         const validList = [EXPECT_MODS_LIST];
         const invalidList = [
           EXPECT_BASIC_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1602,36 +1564,11 @@ describe('Composition', () => {
         ];
         checkKind(validList, invalidList, KeycodeCompositionKind.mods);
       });
-      describe('function', () => {
-        const validList = [EXPECT_FUNCTION_LIST];
-        const invalidList = [
-          EXPECT_BASIC_LIST,
-          EXPECT_MODS_LIST,
-          EXPECT_MACRO_LIST,
-          EXPECT_LAYER_TAP_LIST,
-          EXPECT_TO_LIST,
-          EXPECT_MOMENTARY_LIST,
-          EXPECT_DEF_LAYER_LIST,
-          EXPECT_TOGGLE_LAYER_LIST,
-          EXPECT_ONE_SHOT_LAYER_LIST,
-          EXPECT_ONE_SHOT_MOD_LIST,
-          EXPECT_TAP_DANCE_LIST,
-          EXPECT_LAYER_TAP_TOGGLE_LIST,
-          EXPECT_LAYER_MOD_LIST,
-          EXPECT_SWAP_HANDS_LIST,
-          EXPECT_MOD_TAP_LIST,
-          EXPECT_UNICODE_LIST,
-          EXPECT_LOOSE_KEYCODE_LIST,
-          EXPECT_VIA_USER_KEY_LIST,
-        ];
-        checkKind(validList, invalidList, KeycodeCompositionKind.function);
-      });
       describe('macro', () => {
         const validList = [EXPECT_MACRO_LIST];
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
           EXPECT_MOMENTARY_LIST,
@@ -1655,7 +1592,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_TO_LIST,
           EXPECT_MOMENTARY_LIST,
@@ -1679,7 +1615,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_MOMENTARY_LIST,
@@ -1703,7 +1638,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1727,7 +1661,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1751,7 +1684,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1775,7 +1707,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1799,7 +1730,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1823,7 +1753,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1847,7 +1776,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1871,7 +1799,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1895,7 +1822,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1919,7 +1845,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1943,7 +1868,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1967,7 +1891,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
@@ -1991,7 +1914,6 @@ describe('Composition', () => {
         const invalidList = [
           EXPECT_BASIC_LIST,
           EXPECT_MODS_LIST,
-          EXPECT_FUNCTION_LIST,
           EXPECT_MACRO_LIST,
           EXPECT_LAYER_TAP_LIST,
           EXPECT_TO_LIST,
