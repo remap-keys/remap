@@ -79,8 +79,8 @@ export const QK_TOGGLE_LAYER_MAX = 0b0101_0010_0111_1111;
 export const QK_ONE_SHOT_LAYER_MIN = 0b0101_0010_1000_0000;
 export const QK_ONE_SHOT_LAYER_MAX = 0b0101_0010_1001_1111;
 
-export const QK_ONE_SHOT_MOD_MIN = 0b0101_0101_0000_0000;
-export const QK_ONE_SHOT_MOD_MAX = 0b0101_0101_1111_1111;
+export const QK_ONE_SHOT_MOD_MIN = 0b0101_0010_1010_0000;
+export const QK_ONE_SHOT_MOD_MAX = 0b0101_0010_1011_1111;
 
 export const QK_SWAP_HANDS_MIN = 0b0101_0110_0000_0000;
 export const QK_SWAP_HANDS_MAX = 0b0101_0110_1111_1111;
@@ -990,7 +990,7 @@ export class OneShotModComposition implements IOneShotModComposition {
     const mods = this.modifiers.reduce<number>((result, current) => {
       return result | current;
     }, 0);
-    return QK_ONE_SHOT_MOD_MIN | (this.modDirection << 4) | mods;
+    return QK_ONE_SHOT_MOD_MIN | (((this.modDirection << 4) | mods) & 0x1f);
   }
 
   getModifiers(): IMod[] {

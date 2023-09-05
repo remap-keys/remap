@@ -50,7 +50,7 @@ const EXPECT_TOGGLE_LAYER_LIST = [0b0101_0010_0110_0000, 0b0101_0010_0111_1111];
 const EXPECT_ONE_SHOT_LAYER_LIST = [
   0b0101_0010_1000_0000, 0b0101_0010_1001_1111,
 ];
-const EXPECT_ONE_SHOT_MOD_LIST = [0b0101_0101_0000_0000, 0b0101_0101_1111_1111];
+const EXPECT_ONE_SHOT_MOD_LIST = [0b0101_0010_1010_0000, 0b0101_0010_1011_1111];
 const EXPECT_TAP_DANCE_LIST = [0b0101_0111_0000_0000, 0b0101_0111_1111_1111];
 const EXPECT_LAYER_TAP_TOGGLE_LIST = [
   0b0101_1000_0000_0000, 0b0101_1000_1111_1111,
@@ -465,18 +465,18 @@ describe('Composition', () => {
         MOD_ALT,
         MOD_GUI,
       ]);
-      expect(subject.getCode()).toEqual(0b0101_0101_0001_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_1011_1111);
       subject = new OneShotModComposition(ModDirection.left, [
         MOD_CTL,
         MOD_SFT,
         MOD_ALT,
         MOD_GUI,
       ]);
-      expect(subject.getCode()).toEqual(0b0101_0101_0000_1111);
+      expect(subject.getCode()).toEqual(0b0101_0010_1010_1111);
       subject = new OneShotModComposition(ModDirection.right, []);
-      expect(subject.getCode()).toEqual(0b0101_0101_0001_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1011_0000);
       subject = new OneShotModComposition(ModDirection.left, []);
-      expect(subject.getCode()).toEqual(0b0101_0101_0000_0000);
+      expect(subject.getCode()).toEqual(0b0101_0010_1010_0000);
     });
   });
 
@@ -1253,7 +1253,7 @@ describe('Composition', () => {
     describe('createOneShotModComposition', () => {
       test('valid - left', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0101_0001_1111,
+          0b0101_0010_1011_1111,
           'en-us'
         );
         expect(subject.isOneShotMod()).toBeTruthy();
@@ -1268,7 +1268,7 @@ describe('Composition', () => {
 
       test('valid - left', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_0101_0000_1111,
+          0b0101_0010_1010_1111,
           'en-us'
         );
         expect(subject.isOneShotMod()).toBeTruthy();
