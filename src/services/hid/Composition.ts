@@ -55,8 +55,8 @@ export const QK_BASIC_MAX = 0b0000_0000_1111_1111;
 export const QK_MODS_MIN = 0b0000_0001_0000_0000;
 export const QK_MODS_MAX = 0b0001_1111_1111_1111;
 
-export const QK_MACRO_MIN = 0b0011_0000_0000_0000;
-export const QK_MACRO_MAX = 0b0011_1111_1111_1111;
+export const QK_MACRO_MIN = 0b0111_0111_0000_0000;
+export const QK_MACRO_MAX = 0b0111_0111_0111_1111;
 
 export const QK_LAYER_TAP_MIN = 0b0100_0000_0000_0000;
 export const QK_LAYER_TAP_MAX = 0b0100_1111_1111_1111;
@@ -281,7 +281,6 @@ export interface IModsComposition extends IComposition {
 
 export interface IMacroComposition extends IComposition {
   getMacroId(): number;
-  isTap(): boolean;
 }
 
 export interface ILayerTapComposition extends IComposition, ITapKey {
@@ -605,15 +604,11 @@ export class MacroComposition implements IMacroComposition {
   }
 
   getCode(): number {
-    return QK_MACRO_MIN | (this.macroId & 0b1111_1111_1111);
+    return QK_MACRO_MIN | (this.macroId & 0b0111_1111);
   }
 
   getMacroId(): number {
     return this.macroId;
-  }
-
-  isTap(): boolean {
-    return (this.macroId & 0b1000_0000_0000) === 0b1000_0000_0000;
   }
 
   genKeymap(): IKeymap {
@@ -1770,7 +1765,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         `This code is not a macro key code: ${hexadecimal(this.code, 16)}`
       );
     }
-    const macroId = this.code & 0b1111_1111_1111;
+    const macroId = this.code & 0b0111_1111;
     return new MacroComposition(macroId);
   }
 

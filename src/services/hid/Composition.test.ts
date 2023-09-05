@@ -39,7 +39,7 @@ import {
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
 const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];
-const EXPECT_MACRO_LIST = [0b0011_0000_0000_0000, 0b0011_1111_1111_1111];
+const EXPECT_MACRO_LIST = [0b0111_0111_0000_0000, 0b0111_0111_0111_1111];
 const EXPECT_LAYER_TAP_LIST = [0b0100_0000_0000_0000, 0b0100_1111_1111_1111];
 const EXPECT_TO_LIST = [0b0101_0010_0000_0000, 0b0101_0010_0001_1111];
 const EXPECT_MOMENTARY_LIST = [0b0101_0010_0010_0000, 0b0101_0010_0011_1111];
@@ -293,14 +293,12 @@ describe('Composition', () => {
 
   describe('MacroComposition', () => {
     test('getCode', () => {
-      let subject = new MacroComposition(0b0000_0000_0000);
-      expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
-      expect(subject.isTap()).toBeFalsy();
-      subject = new MacroComposition(0b1111_1111_1111);
-      expect(subject.getCode()).toEqual(0b0011_1111_1111_1111);
-      expect(subject.isTap()).toBeTruthy();
-      subject = new MacroComposition(0b1_0000_0000_0000);
-      expect(subject.getCode()).toEqual(0b0011_0000_0000_0000);
+      let subject = new MacroComposition(0b0000_0000);
+      expect(subject.getCode()).toEqual(0b0111_0111_0000_0000);
+      subject = new MacroComposition(0b0111_1111);
+      expect(subject.getCode()).toEqual(0b0111_0111_0111_1111);
+      subject = new MacroComposition(0b1111_1111);
+      expect(subject.getCode()).toEqual(0b0111_0111_0111_1111);
     });
   });
 
@@ -1039,26 +1037,14 @@ describe('Composition', () => {
     });
 
     describe('createMacroComposition', () => {
-      test('valid - not tap', () => {
+      test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0011_0000_0000_0100,
+          0b0111_0111_0000_0100,
           'en-us'
         );
         expect(subject.isMacro()).toBeTruthy();
         const actual = subject.createMacroComposition();
         expect(actual.getMacroId()).toEqual(0b0000_0000_0100);
-        expect(actual.isTap()).toBeFalsy();
-      });
-
-      test('valid - tap', () => {
-        const subject = new KeycodeCompositionFactory(
-          0b0011_1000_0000_0100,
-          'en-us'
-        );
-        expect(subject.isMacro()).toBeTruthy();
-        const actual = subject.createMacroComposition();
-        expect(actual.getMacroId()).toEqual(0b1000_0000_0100);
-        expect(actual.isTap()).toBeTruthy();
       });
 
       test('not macro', () => {
