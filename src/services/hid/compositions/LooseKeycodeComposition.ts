@@ -1,9 +1,12 @@
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { IKeycodeCategoryInfo, IKeymap } from '../Hid';
 import { bmpKeyInfoList } from '../KeycodeInfoListBmp';
 import { KeyInfo, keyInfoList } from '../KeycodeInfoList';
 import {
+  KEY_SUB_CATEGORY_AUDIO,
   KEY_SUB_CATEGORY_BACKLIGHT,
+  KEY_SUB_CATEGORY_JOYSTICK,
+  KEY_SUB_CATEGORY_MACRO,
   KEY_SUB_CATEGORY_MAGIC,
   KEY_SUB_CATEGORY_MIDI_CHANNEL,
   KEY_SUB_CATEGORY_MIDI_MISC,
@@ -11,16 +14,14 @@ import {
   KEY_SUB_CATEGORY_MIDI_OCTAVE,
   KEY_SUB_CATEGORY_MIDI_TRANSPOSE,
   KEY_SUB_CATEGORY_MIDI_VELOCITY,
-  KEY_SUB_CATEGORY_AUDIO,
-  KEY_SUB_CATEGORY_UNDERGLOW,
-  KEY_SUB_CATEGORY_SEQUENCER,
-  KEY_SUB_CATEGORY_JOYSTICK,
   KEY_SUB_CATEGORY_PROGRAMMABLE_BUTTON,
-  KEY_SUB_CATEGORY_STENO,
   KEY_SUB_CATEGORY_QUANTUM,
+  KEY_SUB_CATEGORY_SEQUENCER,
+  KEY_SUB_CATEGORY_STENO,
+  KEY_SUB_CATEGORY_UNDERGLOW,
   KEY_SUB_CATEGORY_USER,
-  KEY_SUB_CATEGORY_MACRO,
 } from '../KeyCategoryList';
+import { MOD_LEFT } from '../Constraints';
 
 export const QK_MAGIC_MIN = 0x7000;
 export const QK_MAGIC_MAX = 0x70ff;

@@ -8,7 +8,6 @@ import TabKey from './TabKey.container';
 import {
   DIRECTION_LABELS,
   MOD_LABELS,
-  MOD_LEFT,
 } from '../../../services/hid/Composition';
 import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { ICustomKeycode, IKeymap } from '../../../services/hid/Hid';
@@ -23,6 +22,7 @@ import { ModsComposition } from '../../../services/hid/compositions/ModsComposit
 import { LayerTapComposition } from '../../../services/hid/compositions/LayerTapComposition';
 import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
 import { ModTapComposition } from '../../../services/hid/compositions/ModTapComposition';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;

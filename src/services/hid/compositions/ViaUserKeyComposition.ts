@@ -1,7 +1,8 @@
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { ICustomKeycode, IKeymap } from '../Hid';
 import { KeyInfo, keyInfoList } from '../KeycodeInfoList';
 import { KEY_SUB_CATEGORY_VIA_USER_KEY } from '../KeyCategoryList';
+import { MOD_LEFT } from '../Constraints';
 
 export const VIA_USER_KEY_MIN = 0b0111_1110_0000_0000; // This is same as QK_KB_0.
 export const VIA_USER_KEY_MAX = 0b0111_1110_0001_1111; // This is same as QK_KB_31.

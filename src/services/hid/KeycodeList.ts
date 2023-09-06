@@ -1,10 +1,11 @@
 import { ICustomKeycode, IKeymap } from './Hid';
 import {
-  anyKeymap,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
 } from './Composition';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { anyKeymap } from './Constraints';
+
 export type KeymapCategory =
   | IKeycodeCompositionKind
   | 'any'

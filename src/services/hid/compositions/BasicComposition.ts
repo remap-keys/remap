@@ -1,4 +1,4 @@
-import { anyKeymap, IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { IKeycodeCategoryInfo, IKeycodeInfo, IKeymap } from '../Hid';
 import {
   KeyboardLabelLang,
@@ -26,6 +26,7 @@ import {
 } from '../KeyCategoryList';
 import { KeyLabel } from '../../labellang/KeyLabel';
 import { keyInfoList } from '../KeycodeInfoList';
+import { anyKeymap, MOD_LEFT } from '../Constraints';
 
 export const QK_BASIC_MIN = 0b0000_0000_0000_0000;
 export const QK_BASIC_MAX = 0b0000_0000_1111_1111;

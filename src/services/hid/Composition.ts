@@ -1,3 +1,5 @@
+import { anyKeymap, MOD_LEFT, MOD_RIGHT } from './Constraints';
+
 import { ICustomKeycode, IKeymap } from './Hid';
 import { hexadecimal } from '../../utils/StringUtils';
 
@@ -267,9 +269,6 @@ export type IMod =
   | typeof MOD_GUI;
 export const MODIFIERS: IMod[] = [MOD_CTL, MOD_SFT, MOD_ALT, MOD_GUI];
 
-export const MOD_LEFT = 0b0;
-export const MOD_RIGHT = 0b1;
-
 export type IModDirectionLabel = 'left' | 'right';
 export type IModDirection = typeof MOD_LEFT | typeof MOD_RIGHT;
 // eslint-disable-next-line no-unused-vars
@@ -296,29 +295,6 @@ export const SWAP_HANDS_OPTIONS: ISwapHandsOption[] = [
   OP_SH_ONESHOT,
 ];
 
-export function anyKeymap(hex: number): IKeymap {
-  return {
-    code: hex,
-    isAny: true,
-    kinds: ['any'],
-    direction: MOD_LEFT,
-    modifiers: [],
-    keycodeInfo: {
-      code: hex,
-      label: 'Any',
-      name: {
-        short: 'Any',
-        long: 'Any',
-      },
-      keywords: [],
-    },
-  };
-}
-
-export const WILL_BE_REPLACED_KEYCODE = -1;
-export const WILL_BE_REPLACED_KEYMAP: IKeymap = anyKeymap(
-  WILL_BE_REPLACED_KEYCODE
-);
 export const DUMMY_KEYMAP: IKeymap = anyKeymap(0);
 
 export const DIRECTION_LABELS = ['Left', 'Right'] as const;

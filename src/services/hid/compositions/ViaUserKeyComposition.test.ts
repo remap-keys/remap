@@ -1,5 +1,5 @@
 import { ViaUserKeyComposition } from './ViaUserKeyComposition';
-import { MOD_LEFT } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('ViaUserKeyComposition', () => {
   test('getCode', () => {

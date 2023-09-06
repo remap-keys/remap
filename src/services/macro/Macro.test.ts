@@ -9,9 +9,9 @@ import {
   SS_TAP_CODE,
   SS_UP_CODE,
 } from './Macro';
-import { MOD_LEFT } from '../hid/Composition';
 import { Key } from '../../components/configure/keycodekey/KeyGen';
 import sinon from 'sinon';
+import { MOD_LEFT } from '../hid/Constraints';
 
 const createKey = (code: number, label: string, isAscii: boolean): Key => {
   return {

@@ -1,11 +1,6 @@
-import {
-  IComposition,
-  IMod,
-  IModDirection,
-  MOD_LEFT,
-  WILL_BE_REPLACED_KEYCODE,
-} from '../Composition';
+import { IComposition, IMod, IModDirection } from '../Composition';
 import { IKeymap } from '../Hid';
+import { MOD_LEFT, WILL_BE_REPLACED_KEYCODE } from '../Constraints';
 
 export const QK_ONE_SHOT_MOD_MIN = 0b0101_0010_1010_0000;
 export const QK_ONE_SHOT_MOD_MAX = 0b0101_0010_1011_1111;

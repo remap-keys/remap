@@ -5,7 +5,7 @@ import CustomKey from './CustomKey';
 import Keycap from '../keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';
 import { Key } from '../keycodekey/KeyGen';
-import { MOD_LEFT } from '../../../services/hid/Composition';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 export default {
   title: 'CustomKey',

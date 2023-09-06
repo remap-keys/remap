@@ -7,12 +7,10 @@ import {
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
-  MOD_LEFT,
-  MOD_RIGHT,
   MOD_SFT,
-  WILL_BE_REPLACED_KEYMAP,
 } from '../Composition';
 import { IKeymap } from '../Hid';
+import { MOD_LEFT, MOD_RIGHT, WILL_BE_REPLACED_KEYMAP } from '../Constraints';
 
 export const QK_MOD_TAP_MIN = 0b0010_0000_0000_0000;
 export const QK_MOD_TAP_MAX = 0b0011_1111_1111_1111;

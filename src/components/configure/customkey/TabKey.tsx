@@ -4,7 +4,6 @@ import {
   IMod,
   IModDirection,
   KeycodeCompositionFactory,
-  MOD_LEFT,
 } from '../../../services/hid/Composition';
 
 import AutocompleteKeys from './AutocompleteKeys';
@@ -18,6 +17,7 @@ import { ModsComposition } from '../../../services/hid/compositions/ModsComposit
 import { OneShotModComposition } from '../../../services/hid/compositions/OneShotModComposition';
 import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
 import { LayerModComposition } from '../../../services/hid/compositions/LayerModComposition';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 type OwnProps = {
   autoFocus: boolean;

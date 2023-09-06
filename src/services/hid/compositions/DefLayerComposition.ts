@@ -1,6 +1,7 @@
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { IMomentaryComposition } from './MomentaryComposition';
 import { IKeymap } from '../Hid';
+import { MOD_LEFT } from '../Constraints';
 
 export const QK_DEF_LAYER_MIN = 0b0101_0010_0100_0000;
 export const QK_DEF_LAYER_MAX = 0b0101_0010_0101_1111;

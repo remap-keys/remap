@@ -1,10 +1,6 @@
-import {
-  IComposition,
-  ITapKey,
-  MOD_LEFT,
-  WILL_BE_REPLACED_KEYMAP,
-} from '../Composition';
+import { IComposition, ITapKey } from '../Composition';
 import { IKeymap } from '../Hid';
+import { MOD_LEFT, WILL_BE_REPLACED_KEYMAP } from '../Constraints';
 
 export const QK_LAYER_TAP_MIN = 0b0100_0000_0000_0000;
 export const QK_LAYER_TAP_MAX = 0b0100_1111_1111_1111;

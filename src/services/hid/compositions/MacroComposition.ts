@@ -1,7 +1,8 @@
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { IKeymap } from '../Hid';
 import { KeyInfo, keyInfoList } from '../KeycodeInfoList';
 import { KEY_SUB_CATEGORY_MACRO } from '../KeyCategoryList';
+import { MOD_LEFT } from '../Constraints';
 
 export const QK_MACRO_MIN = 0b0111_0111_0000_0000;
 export const QK_MACRO_MAX = 0b0111_0111_0111_1111;

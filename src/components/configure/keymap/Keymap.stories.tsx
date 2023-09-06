@@ -20,7 +20,6 @@ import { OptionChoice2Keymap } from '../../../assets/keymaps/OptionChoice2Keymap
 import { CrkbdKeymap } from '../../../assets/keymaps/CrkbdKeymap';
 import { Jisplit89Keymap } from '../../../assets/keymaps/Jisplit89Keymap';
 import { Naked64SFKeymap } from '../../../assets/keymaps/Naked64SFKeymap';
-import { MOD_LEFT } from '../../../services/hid/Composition';
 import { HotdoxKeymap } from '../../../assets/keymaps/HotdoxKeymap';
 import { BigAssEnterKeymap } from '../../../assets/keymaps/BigAssEnterKeymap';
 import { VerticalSplitKeymap } from '../../../assets/keymaps/VerticalSplit';
@@ -30,6 +29,7 @@ import { GK6Keymap } from '../../../assets/keymaps/GK6Keymap';
 import { CtMacropadKeymap } from '../../../assets/keymaps/CtMacropadKeymap';
 import { CtMacropadWithoutDefaultOptionKeymap } from '../../../assets/keymaps/CtMacropadWithoutDefaultOptionKeymap';
 import { GiabalanaiKeymap } from '../../../assets/keymaps/GiabalanaiKeymap';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 export default {
   title: 'Keyboards',

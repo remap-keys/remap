@@ -1,17 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
-import { MOD_LEFT } from './Composition';
 import {
   ICommand,
   IConnectionEventHandler,
   IConnectParams,
   IFetchLayoutOptionsResult,
   IFetchViaProtocolVersionResult,
-  IGetMacroCountResult,
   IHid,
   IKeyboard,
   IResult,
 } from './Hid';
+import { MOD_LEFT } from './Constraints';
 
 export const IDeviceInformationMock = {
   vendorId: 777,

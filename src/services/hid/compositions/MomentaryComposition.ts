@@ -1,5 +1,6 @@
 import { IKeymap } from '../Hid';
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 export const QK_MOMENTARY_MIN = 0b0101_0010_0010_0000;
 export const QK_MOMENTARY_MAX = 0b0101_0010_0011_1111;

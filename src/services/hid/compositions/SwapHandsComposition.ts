@@ -1,11 +1,6 @@
-import {
-  IComposition,
-  ISwapHandsOption,
-  ITapKey,
-  MOD_LEFT,
-  WILL_BE_REPLACED_KEYCODE,
-} from '../Composition';
+import { IComposition, ISwapHandsOption, ITapKey } from '../Composition';
 import { IKeymap } from '../Hid';
+import { MOD_LEFT, WILL_BE_REPLACED_KEYCODE } from '../Constraints';
 
 export const QK_SWAP_HANDS_MIN = 0b0101_0110_0000_0000;
 export const QK_SWAP_HANDS_MAX = 0b0101_0110_1111_1111;

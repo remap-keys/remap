@@ -1,8 +1,9 @@
-import { IComposition, MOD_LEFT } from '../Composition';
+import { IComposition } from '../Composition';
 import { IKeymap } from '../Hid';
 import { KEY_CATEGORY_ASCII } from '../KeyCategoryList';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { keyInfoList } from '../KeycodeInfoList';
+import { MOD_LEFT } from '../Constraints';
 
 export const ASCII_MIN = 0b0000_0000_0000_0000;
 export const ASCII_MAX = 0b0000_0000_0111_1111;
