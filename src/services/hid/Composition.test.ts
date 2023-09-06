@@ -8,8 +8,8 @@ import {
   MOD_LEFT,
   MOD_RIGHT,
   MOD_SFT,
-  OP_SH_TAP_TOGGLE,
 } from './Composition';
+import { OP_SH_TAP_TOGGLE } from './compositions/SwapHandsComposition';
 
 const EXPECT_BASIC_LIST = [0b0000_0000_0000_0000, 0b0000_0000_1111_1111];
 const EXPECT_MODS_LIST = [0b0000_0001_0000_0000, 0b0001_1111_1111_1111];

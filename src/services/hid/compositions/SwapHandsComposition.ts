@@ -3,19 +3,20 @@ import {
   ISwapHandsOption,
   ITapKey,
   MOD_LEFT,
-  OP_SH_OFF,
-  OP_SH_OFF_ON,
-  OP_SH_ON,
-  OP_SH_ON_OFF,
-  OP_SH_ONESHOT,
-  OP_SH_TAP_TOGGLE,
-  OP_SH_TOGGLE,
   WILL_BE_REPLACED_KEYCODE,
 } from '../Composition';
 import { IKeymap } from '../Hid';
 
 export const QK_SWAP_HANDS_MIN = 0b0101_0110_0000_0000;
 export const QK_SWAP_HANDS_MAX = 0b0101_0110_1111_1111;
+
+export const OP_SH_TOGGLE = 0b1111_0000;
+export const OP_SH_TAP_TOGGLE = 0b1111_0001;
+export const OP_SH_ON_OFF = 0b1111_0010;
+export const OP_SH_OFF_ON = 0b1111_0011;
+export const OP_SH_OFF = 0b1111_0100;
+export const OP_SH_ON = 0b1111_0101;
+export const OP_SH_ONESHOT = 0b1111_0110;
 
 export interface ISwapHandsComposition extends IComposition, ITapKey {
   getSwapHandsOption(): ISwapHandsOption | null;

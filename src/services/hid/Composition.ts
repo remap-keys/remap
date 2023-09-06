@@ -66,6 +66,13 @@ import {
 } from './compositions/OneShotModComposition';
 import {
   ISwapHandsComposition,
+  OP_SH_OFF,
+  OP_SH_OFF_ON,
+  OP_SH_ON,
+  OP_SH_ON_OFF,
+  OP_SH_ONESHOT,
+  OP_SH_TAP_TOGGLE,
+  OP_SH_TOGGLE,
   QK_SWAP_HANDS_MAX,
   QK_SWAP_HANDS_MIN,
   SwapHandsComposition,
@@ -214,14 +221,6 @@ export const ModDirection: { [p in IModDirectionLabel]: IModDirection } = {
   left: MOD_LEFT,
   right: MOD_RIGHT,
 };
-
-export const OP_SH_TOGGLE = 0b1111_0000;
-export const OP_SH_TAP_TOGGLE = 0b1111_0001;
-export const OP_SH_ON_OFF = 0b1111_0010;
-export const OP_SH_OFF_ON = 0b1111_0011;
-export const OP_SH_OFF = 0b1111_0100;
-export const OP_SH_ON = 0b1111_0101;
-export const OP_SH_ONESHOT = 0b1111_0110;
 
 export type ISwapHandsOption =
   | typeof OP_SH_TOGGLE

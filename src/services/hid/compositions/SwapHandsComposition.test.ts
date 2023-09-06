@@ -1,6 +1,4 @@
-import { SwapHandsComposition } from './SwapHandsComposition';
 import {
-  MOD_LEFT,
   OP_SH_OFF,
   OP_SH_OFF_ON,
   OP_SH_ON,
@@ -8,7 +6,9 @@ import {
   OP_SH_ONESHOT,
   OP_SH_TAP_TOGGLE,
   OP_SH_TOGGLE,
-} from '../Composition';
+  SwapHandsComposition,
+} from './SwapHandsComposition';
+import { MOD_LEFT } from '../Composition';
 
 describe('SwapHandsComposition', () => {
   test('getCode', () => {
