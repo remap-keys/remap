@@ -32,7 +32,8 @@ const EXPECT_SWAP_HANDS_LIST = [0b0101_0110_0000_0000, 0b0101_0110_1111_1111];
 const EXPECT_MOD_TAP_LIST = [0b0010_0000_0000_0000, 0b0011_1111_1111_1111];
 const EXPECT_UNICODE_LIST = [0b1000_0000_0000_0000, 0b1111_1111_1111_1111];
 const EXPECT_LOOSE_KEYCODE_LIST = [
-  0b0101_1100_0000_0000, 0b0101_1111_0010_0001, 0b0101_1100_1111_0111,
+  0x7000, 0x7100, 0x7200, 0x7400, 0x7440, 0x7480, 0x74f0, 0x7800, 0x7c00,
+  0x7e40,
 ];
 const EXPECT_VIA_USER_KEY_LIST = [0b0111_1110_0000_0000, 0b0111_1110_0001_1111];
 const EXPECT_UNKNOWN_LIST = [
@@ -536,12 +537,12 @@ describe('Composition', () => {
     describe('createLooseKeycodeComposition', () => {
       test('valid', () => {
         const subject = new KeycodeCompositionFactory(
-          0b0101_1100_0000_0000,
+          0b0111_0000_0000_0000,
           'en-us'
         );
         expect(subject.isLooseKeycode()).toBeTruthy();
         const actual = subject.createLooseKeycodeComposition();
-        expect(actual.genKeymap()!.code).toEqual(0b0101_1100_0000_0000);
+        expect(actual.genKeymap()!.code).toEqual(0b0111_0000_0000_0000);
       });
 
       test('not function', () => {
@@ -594,6 +595,9 @@ describe('Composition', () => {
     describe('getKind', () => {
       const toEqual = (code: number, expected: IKeycodeCompositionKind) => {
         const subject = new KeycodeCompositionFactory(code, 'en-us');
+        if (subject.getKind() === null) {
+          console.log(subject);
+        }
         expect(subject.getKind()).toEqual(expected);
       };
       const notToEqual = (code: number, expected: IKeycodeCompositionKind) => {

@@ -6,7 +6,7 @@ describe('ViaUserKeyComposition', () => {
     let subject = new ViaUserKeyComposition({
       code: 0b0111_1110_0000_0000,
       isAny: false,
-      kinds: ['via_user_key'],
+      kinds: ['function', 'via_user_key'],
       direction: MOD_LEFT,
       modifiers: [],
       keycodeInfo: {
@@ -23,7 +23,7 @@ describe('ViaUserKeyComposition', () => {
     subject = new ViaUserKeyComposition({
       code: 0b0111_1110_0001_1111,
       isAny: false,
-      kinds: ['via_user_key'],
+      kinds: ['function', 'via_user_key'],
       direction: MOD_LEFT,
       modifiers: [],
       keycodeInfo: {
@@ -48,7 +48,7 @@ describe('ViaUserKeyComposition', () => {
       expect(actual).not.toBeUndefined();
       expect(actual!.code).toEqual(0b0111_1110_0000_0000);
       expect(actual!.desc).toEqual('Kb 0');
-      expect(actual!.kinds).toEqual(['via_user_key']);
+      expect(actual!.kinds).toEqual(['function', 'via_user_key']);
       expect(actual!.keycodeInfo.name.short).toEqual('QK_KB_0');
       expect(actual!.keycodeInfo.name.long).toEqual('QK_KB_0');
       expect(actual!.keycodeInfo.label).toEqual('Kb 0');
@@ -65,7 +65,7 @@ describe('ViaUserKeyComposition', () => {
       expect(actual).not.toBeUndefined();
       expect(actual!.code).toEqual(0b0111_1110_0000_0000);
       expect(actual!.desc).toEqual('customKeycodeTitle1');
-      expect(actual!.kinds).toEqual(['via_user_key']);
+      expect(actual!.kinds).toEqual(['function', 'via_user_key']);
       expect(actual!.keycodeInfo.name.short).toEqual('customKeycodeShortName1');
       expect(actual!.keycodeInfo.name.long).toEqual('customKeycodeName1');
       expect(actual!.keycodeInfo.label).toEqual('customKeycodeName1');
@@ -82,7 +82,7 @@ describe('ViaUserKeyComposition', () => {
       expect(actual).not.toBeUndefined();
       expect(actual!.code).toEqual(0b0111_1110_0000_0000);
       expect(actual!.desc).toEqual('Kb 0');
-      expect(actual!.kinds).toEqual(['via_user_key']);
+      expect(actual!.kinds).toEqual(['function', 'via_user_key']);
       expect(actual!.keycodeInfo.name.short).toEqual('QK_KB_0');
       expect(actual!.keycodeInfo.name.long).toEqual('QK_KB_0');
       expect(actual!.keycodeInfo.label).toEqual('Kb 0');

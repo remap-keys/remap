@@ -108,10 +108,30 @@ import {
   UnicodeComposition,
 } from './compositions/UnicodeComposition';
 import {
+  BMP_MAX,
+  BMP_MIN,
   ILooseKeycodeComposition,
-  LOOSE_KEYCODE_MAX,
-  LOOSE_KEYCODE_MIN,
   LooseKeycodeComposition,
+  QK_AUDIO_MAX,
+  QK_AUDIO_MIN,
+  QK_JOYSTICK_MAX,
+  QK_JOYSTICK_MIN,
+  QK_LIGHTING_MAX,
+  QK_LIGHTING_MIN,
+  QK_MAGIC_MAX,
+  QK_MAGIC_MIN,
+  QK_MIDI_MAX,
+  QK_MIDI_MIN,
+  QK_PROGRAMMABLE_BUTTON_MAX,
+  QK_PROGRAMMABLE_BUTTON_MIN,
+  QK_QUANTUM_MAX,
+  QK_QUANTUM_MIN,
+  QK_SEQUENCER_MAX,
+  QK_SEQUENCER_MIN,
+  QK_STENO_MAX,
+  QK_STENO_MIN,
+  QK_USER_MAX,
+  QK_USER_MIN,
 } from './compositions/LooseKeycodeComposition';
 import {
   IViaUserKeyComposition,
@@ -143,9 +163,20 @@ export type IKeycodeCompositionKind =
   | 'swap_hands'
   | 'mod_tap'
   | 'unicode'
-  | 'loose_keycode'
   | 'ascii'
-  | 'via_user_key';
+  | 'via_user_key'
+  | 'magic'
+  | 'midi'
+  | 'sequencer'
+  | 'joystick'
+  | 'programmable_button'
+  | 'audio'
+  | 'steno'
+  | 'lighting'
+  | 'quantum'
+  | 'user'
+  | 'bmp'
+  | 'loose_keycode';
 export const KeycodeCompositionKind: {
   // eslint-disable-next-line no-unused-vars
   [p in IKeycodeCompositionKind]: IKeycodeCompositionKind;
@@ -166,9 +197,20 @@ export const KeycodeCompositionKind: {
   swap_hands: 'swap_hands',
   mod_tap: 'mod_tap',
   unicode: 'unicode',
-  loose_keycode: 'loose_keycode',
   ascii: 'ascii',
   via_user_key: 'via_user_key',
+  magic: 'magic',
+  midi: 'midi',
+  sequencer: 'sequencer',
+  joystick: 'joystick',
+  programmable_button: 'programmable_button',
+  audio: 'audio',
+  steno: 'steno',
+  lighting: 'lighting',
+  quantum: 'quantum',
+  user: 'user',
+  bmp: 'bmp',
+  loose_keycode: 'loose_keycode',
 };
 
 const keycodeCompositionKindRangeMap: {
@@ -194,9 +236,23 @@ const keycodeCompositionKindRangeMap: {
   swap_hands: { min: QK_SWAP_HANDS_MIN, max: QK_SWAP_HANDS_MAX },
   mod_tap: { min: QK_MOD_TAP_MIN, max: QK_MOD_TAP_MAX },
   unicode: { min: QK_UNICODE_MIN, max: QK_UNICODE_MAX },
-  loose_keycode: { min: LOOSE_KEYCODE_MIN, max: LOOSE_KEYCODE_MAX },
   via_user_key: { min: VIA_USER_KEY_MIN, max: VIA_USER_KEY_MAX },
+  magic: { min: QK_MAGIC_MIN, max: QK_MAGIC_MAX },
+  midi: { min: QK_MIDI_MIN, max: QK_MIDI_MAX },
+  sequencer: { min: QK_SEQUENCER_MIN, max: QK_SEQUENCER_MAX },
+  joystick: { min: QK_JOYSTICK_MIN, max: QK_JOYSTICK_MAX },
+  programmable_button: {
+    min: QK_PROGRAMMABLE_BUTTON_MIN,
+    max: QK_PROGRAMMABLE_BUTTON_MAX,
+  },
+  audio: { min: QK_AUDIO_MIN, max: QK_AUDIO_MAX },
+  steno: { min: QK_STENO_MIN, max: QK_STENO_MAX },
+  lighting: { min: QK_LIGHTING_MIN, max: QK_LIGHTING_MAX },
+  quantum: { min: QK_QUANTUM_MIN, max: QK_QUANTUM_MAX },
+  user: { min: QK_USER_MIN, max: QK_USER_MAX },
+  bmp: { min: BMP_MIN, max: BMP_MAX },
   ascii: { min: Number.MIN_VALUE, max: Number.MIN_VALUE }, // never match
+  loose_keycode: { min: Number.MIN_VALUE, max: Number.MIN_VALUE }, // never match
 };
 
 export const MOD_CTL = 0b0001;
@@ -347,16 +403,28 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
         keycodeCompositionKindRangeMap[kind as IKeycodeCompositionKind];
       return range.min <= this.code && this.code <= range.max;
     }) as IKeycodeCompositionKind;
-    if (result === KeycodeCompositionKind.loose_keycode) {
-      let exist = keyInfoList.find(
-        (info) => info.keycodeInfo.code === this.code
-      );
-      if (!exist) {
-        exist = bmpKeyInfoList.find(
+    switch (result) {
+      case KeycodeCompositionKind.magic:
+      case KeycodeCompositionKind.midi:
+      case KeycodeCompositionKind.sequencer:
+      case KeycodeCompositionKind.joystick:
+      case KeycodeCompositionKind.programmable_button:
+      case KeycodeCompositionKind.audio:
+      case KeycodeCompositionKind.steno:
+      case KeycodeCompositionKind.lighting:
+      case KeycodeCompositionKind.quantum:
+      case KeycodeCompositionKind.user:
+      case KeycodeCompositionKind.bmp: {
+        let exist = keyInfoList.find(
           (info) => info.keycodeInfo.code === this.code
         );
+        if (!exist) {
+          exist = bmpKeyInfoList.find(
+            (info) => info.keycodeInfo.code === this.code
+          );
+        }
+        return exist ? KeycodeCompositionKind.loose_keycode : null;
       }
-      return exist ? result : null;
     }
     return result || null;
   }
