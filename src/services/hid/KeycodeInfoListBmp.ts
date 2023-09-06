@@ -6,7 +6,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Disable BLE HID sending',
     keycodeInfo: {
-      code: 24064,
+      code: 0x5e00, // 24064 0b101111000000000
       name: {
         long: 'BLE_DIS',
         short: 'BLE_DIS',
@@ -18,7 +18,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Enable BLE HID sending',
     keycodeInfo: {
-      code: 24065,
+      code: 0x5e01, // 24065 0b101111000000001
       name: {
         long: 'BLE_EN',
         short: 'BLE_EN',
@@ -30,7 +30,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Disable USB HID sending',
     keycodeInfo: {
-      code: 24066,
+      code: 0x5e02, // 24066 0b101111000000010
       name: {
         long: 'USB_DIS',
         short: 'USB_DIS',
@@ -42,7 +42,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Enable USB HID sending',
     keycodeInfo: {
-      code: 24067,
+      code: 0x5e03, // 24067 0b101111000000011
       name: {
         long: 'USB_EN',
         short: 'USB_EN',
@@ -54,7 +54,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Enable BLE and disable USB',
     keycodeInfo: {
-      code: 24068,
+      code: 0x5e04, // 24068 0b101111000000100
       name: {
         long: 'SEL_BLE',
         short: 'SEL_BLE',
@@ -66,7 +66,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Enable USB and disable BLE',
     keycodeInfo: {
-      code: 24069,
+      code: 0x5e05, // 24069 0b101111000000101
       name: {
         long: 'SEL_USB',
         short: 'SEL_USB',
@@ -78,7 +78,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 0',
     keycodeInfo: {
-      code: 24070,
+      code: 0x5e06, // 24070 0b101111000000110
       name: {
         long: 'ADV_ID0',
         short: 'ADV_ID0',
@@ -90,7 +90,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 1',
     keycodeInfo: {
-      code: 24071,
+      code: 0x5e07, // 24071 0b101111000000111
       name: {
         long: 'ADV_ID1',
         short: 'ADV_ID1',
@@ -102,7 +102,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 2',
     keycodeInfo: {
-      code: 24072,
+      code: 0x5e08, // 24072 0b101111000001000
       name: {
         long: 'ADV_ID2',
         short: 'ADV_ID2',
@@ -114,7 +114,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 3',
     keycodeInfo: {
-      code: 24073,
+      code: 0x5e09, // 24073 0b101111000001001
       name: {
         long: 'ADV_ID3',
         short: 'ADV_ID3',
@@ -126,7 +126,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 4',
     keycodeInfo: {
-      code: 24074,
+      code: 0x5e0a, // 24074 0b101111000001010
       name: {
         long: 'ADV_ID4',
         short: 'ADV_ID4',
@@ -138,7 +138,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 5',
     keycodeInfo: {
-      code: 24075,
+      code: 0x5e0b, // 24075 0b101111000001011
       name: {
         long: 'ADV_ID5',
         short: 'ADV_ID5',
@@ -150,7 +150,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 6',
     keycodeInfo: {
-      code: 24076,
+      code: 0x5e0c, // 24076 0b101111000001100
       name: {
         long: 'ADV_ID6',
         short: 'ADV_ID6',
@@ -162,7 +162,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising to PeerID 7',
     keycodeInfo: {
-      code: 24077,
+      code: 0x5e0d, // 24077 0b101111000001101
       name: {
         long: 'ADV_ID7',
         short: 'ADV_ID7',
@@ -174,7 +174,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start advertising without whitelist',
     keycodeInfo: {
-      code: 24078,
+      code: 0x5e0e, // 24078 0b101111000001110
       name: {
         long: 'AD_WO_L',
         short: 'AD_WO_L',
@@ -186,7 +186,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 0',
     keycodeInfo: {
-      code: 24079,
+      code: 0x5e0f, // 24079 0b101111000001111
       name: {
         long: 'DEL_ID0',
         short: 'DEL_ID0',
@@ -198,7 +198,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 1',
     keycodeInfo: {
-      code: 24080,
+      code: 0x5e10, // 24080 0b101111000010000
       name: {
         long: 'DEL_ID1',
         short: 'DEL_ID1',
@@ -210,7 +210,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 2',
     keycodeInfo: {
-      code: 24081,
+      code: 0x5e11, // 24081 0b101111000010001
       name: {
         long: 'DEL_ID2',
         short: 'DEL_ID2',
@@ -222,7 +222,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 3',
     keycodeInfo: {
-      code: 24082,
+      code: 0x5e12, // 24082 0b101111000010010
       name: {
         long: 'DEL_ID3',
         short: 'DEL_ID3',
@@ -234,7 +234,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 4',
     keycodeInfo: {
-      code: 24083,
+      code: 0x5e13, // 24083 0b101111000010011
       name: {
         long: 'DEL_ID4',
         short: 'DEL_ID4',
@@ -246,7 +246,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 5',
     keycodeInfo: {
-      code: 24084,
+      code: 0x5e14, // 24084 0b101111000010100
       name: {
         long: 'DEL_ID5',
         short: 'DEL_ID5',
@@ -258,7 +258,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 6',
     keycodeInfo: {
-      code: 24085,
+      code: 0x5e15, // 24085 0b101111000010101
       name: {
         long: 'DEL_ID6',
         short: 'DEL_ID6',
@@ -270,7 +270,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete bonding of PeerID 7',
     keycodeInfo: {
-      code: 24086,
+      code: 0x5e16, // 24086 0b101111000010110
       name: {
         long: 'DEL_ID7',
         short: 'DEL_ID7',
@@ -282,7 +282,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete all bonding',
     keycodeInfo: {
-      code: 24087,
+      code: 0x5e17, // 24087 0b101111000010111
       name: {
         long: 'DELBNDS',
         short: 'DELBNDS',
@@ -294,7 +294,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start bootloader',
     keycodeInfo: {
-      code: 24088,
+      code: 0x5e18, // 24088 0b101111000011000
       name: {
         long: 'ENT_DFU',
         short: 'ENT_DFU',
@@ -306,7 +306,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Start web configurator',
     keycodeInfo: {
-      code: 24089,
+      code: 0x5e19, // 24089 0b101111000011001
       name: {
         long: 'ENT_WEB',
         short: 'ENT_WEB',
@@ -318,7 +318,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Deep sleep mode',
     keycodeInfo: {
-      code: 24090,
+      code: 0x5e1a, // 24090 0b101111000011010
       name: {
         long: 'ENT_SLP',
         short: 'ENT_SLP',
@@ -330,7 +330,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Display battery level in milli volts',
     keycodeInfo: {
-      code: 24091,
+      code: 0x5e1b, // 24091 0b101111000011011
       name: {
         long: 'BATT_LV',
         short: 'BATT_LV',
@@ -342,7 +342,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Save EEPROM emulation',
     keycodeInfo: {
-      code: 24092,
+      code: 0x5e1c, // 24092 0b101111000011100
       name: {
         long: 'SAVE_EE',
         short: 'SAVE_EE',
@@ -354,7 +354,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Delete EEPROM emulation',
     keycodeInfo: {
-      code: 24093,
+      code: 0x5e1d, // 24093 0b101111000011101
       name: {
         long: 'DEL_EE',
         short: 'DEL_EE',
@@ -366,7 +366,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Send Alt+` or LANG1',
     keycodeInfo: {
-      code: 24094,
+      code: 0x5e1e, // 24094 0b101111000011110
       name: {
         long: 'xEISU',
         short: 'xEISU',
@@ -378,7 +378,7 @@ export const bmpKeyInfoList: KeyInfo[] = [
   {
     desc: 'Send Alt+` or LANG2',
     keycodeInfo: {
-      code: 24095,
+      code: 0x5e1f, // 24095 0b101111000011111
       name: {
         long: 'xKANA',
         short: 'xKANA',
