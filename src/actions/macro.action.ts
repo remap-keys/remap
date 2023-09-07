@@ -10,6 +10,7 @@ import {
 import { NotificationActions } from './actions';
 import { HidActions } from './hid.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
+import { QK_MACRO_MIN } from '../services/hid/compositions/MacroComposition';
 
 export const MACRO_EDITOR_ACTIONS = '@MacroEditor';
 export const MACRO_EDITOR_UPDATE_KEY = `${MACRO_EDITOR_ACTIONS}/UpdateMacroKey`;
@@ -50,7 +51,7 @@ export const MacroEditorActions = {
   },
 };
 
-const M0_KEY_CODE = 24338;
+const M0_KEY_CODE = QK_MACRO_MIN;
 
 type ActionTypes = ReturnType<
   | typeof MacroEditorActions[keyof typeof MacroEditorActions]

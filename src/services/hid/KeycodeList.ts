@@ -147,6 +147,9 @@ export class KeycodeList {
     } else if (factory.isViaUserKey()) {
       const comp = factory.createViaUserKeyComposition(customKeycodes);
       ret.value = comp.genKeymap() || null;
+    } else if (factory.isMacro()) {
+      const comp = factory.createMacroComposition();
+      ret.value = comp.genKeymap() || null;
     }
 
     if (!isDefinedKey(ret)) {
