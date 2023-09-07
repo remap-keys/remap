@@ -28,24 +28,7 @@ export class MacroComposition implements IMacroComposition {
   }
 
   genKeymap(): IKeymap {
-    // TODO
-    const keymap: IKeymap = {
-      code: -1,
-      isAny: false,
-      kinds: ['macro'],
-      direction: MOD_LEFT,
-      modifiers: [],
-      keycodeInfo: {
-        code: -1,
-        name: {
-          short: 'Macro?',
-          long: 'M?',
-        },
-        label: 'Macro',
-        keywords: [],
-      },
-    };
-    return keymap;
+    return MacroComposition.findKeymap(this.getCode())!;
   }
 
   static genKeymaps(): IKeymap[] {
