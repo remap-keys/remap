@@ -116,16 +116,28 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_COMMAND.codes,
       ...KEY_SUB_CATEGORY_MEDIA.codes,
       ...KEY_SUB_CATEGORY_APPLICATION.codes,
+    ];
+    const basicKeymaps: IKeymap[] = basicCodes.map((code) => {
+      return BasicComposition.findKeymap(code, labelLang)!;
+    });
+
+    const shKeymaps: IKeymap[] =
+      SwapHandsComposition.genSwapHandsOptionKeymaps();
+
+    const looseKeycodes: number[] = [
       ...KEY_SUB_CATEGORY_PROGRAMMABLE_BUTTON.codes,
       ...KEY_SUB_CATEGORY_STENO.codes,
       ...KEY_SUB_CATEGORY_USER.codes,
     ];
-    const basicKeymaps: IKeymap[] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
-    );
-    const shKeymaps: IKeymap[] =
-      SwapHandsComposition.genSwapHandsOptionKeymaps();
-    KeyCategory._special[labelLang] = [...basicKeymaps, ...shKeymaps];
+    const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
+      return LooseKeycodeComposition.findKeymap(code)!;
+    });
+
+    KeyCategory._special[labelLang] = [
+      ...basicKeymaps,
+      ...shKeymaps,
+      ...looseKeymaps,
+    ];
     return KeyCategory._special[labelLang];
   }
 
