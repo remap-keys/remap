@@ -25,7 +25,8 @@ type IActionName =
   | 'catalog/flash_firmware'
   | 'docs/review_policy'
   | 'docs/terms_of_use'
-  | 'docs/faq';
+  | 'docs/faq'
+  | 'docs/support-qmk-022';
 
 interface IActionOptions {
   vendor_id?: string | number;
