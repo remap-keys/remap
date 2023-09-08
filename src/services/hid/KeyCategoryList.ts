@@ -16,7 +16,6 @@ import { AsciiComposition } from './compositions/AsciiComposition';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
-  private static _symbol: { [pos: string]: IKeymap[] } = {};
   private static _functions: { [pos: string]: IKeymap[] } = {};
   private static _layer: { [layerCount: number]: IKeymap[] } = {};
   private static _special: { [pos: string]: IKeymap[] } = {};
@@ -35,8 +34,11 @@ export class KeyCategory {
     }
 
     const codes: number[] = [
+      ...KEY_SUB_CATEGORY_BLANK.codes,
       ...KEY_SUB_CATEGORY_LETTER.codes,
       ...KEY_SUB_CATEGORY_NUMBER.codes,
+      ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
+      ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_MODIFIER.codes,
       ...KEY_SUB_CATEGORY_EDIT.codes,
       ...KEY_SUB_CATEGORY_MOVE.codes,
@@ -49,28 +51,12 @@ export class KeyCategory {
     return keymaps;
   }
 
-  static symbol(labelLang: KeyboardLabelLang): IKeymap[] {
-    if (Object.prototype.hasOwnProperty.call(KeyCategory._symbol, labelLang)) {
-      return KeyCategory._symbol[labelLang];
-    }
-    const basicCodes: number[] = [
-      ...KEY_SUB_CATEGORY_BLANK.codes,
-      ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
-    ];
-
-    KeyCategory._symbol[labelLang] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
-    );
-    return KeyCategory._symbol[labelLang];
-  }
-
   static functions(
     labelLang: KeyboardLabelLang,
     customKeycodes: ICustomKeycode[] | undefined
   ): IKeymap[] {
     // It is necessary to build keymaps every time for custom keycodes.
     const functionsCodes: number[] = [
-      ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_INTERNATIONAL.codes,
       ...KEY_SUB_CATEGORY_LANGUAGE.codes,
       ...KEY_SUB_CATEGORY_LOCK.codes,
@@ -82,9 +68,17 @@ export class KeyCategory {
     const viaUserKeymaps: IKeymap[] = viaUserCodes.map(
       (code) => ViaUserKeyComposition.findKeymap(code, customKeycodes)!
     );
+    const looseKeycodes: number[] = [
+      ...KEY_SUB_CATEGORY_PROGRAMMABLE_BUTTON.codes,
+      ...KEY_SUB_CATEGORY_USER.codes,
+    ];
+    const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
+      return LooseKeycodeComposition.findKeymap(code)!;
+    });
     KeyCategory._functions[labelLang] = [
       ...functionsKeymaps,
       ...viaUserKeymaps,
+      ...looseKeymaps,
     ];
     return KeyCategory._functions[labelLang];
   }
@@ -125,9 +119,8 @@ export class KeyCategory {
       SwapHandsComposition.genSwapHandsOptionKeymaps();
 
     const looseKeycodes: number[] = [
-      ...KEY_SUB_CATEGORY_PROGRAMMABLE_BUTTON.codes,
+      ...KEY_SUB_CATEGORY_QUANTUM.codes,
       ...KEY_SUB_CATEGORY_STENO.codes,
-      ...KEY_SUB_CATEGORY_USER.codes,
     ];
     const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
       return LooseKeycodeComposition.findKeymap(code)!;
@@ -135,8 +128,8 @@ export class KeyCategory {
 
     KeyCategory._special[labelLang] = [
       ...basicKeymaps,
-      ...shKeymaps,
       ...looseKeymaps,
+      ...shKeymaps,
     ];
     return KeyCategory._special[labelLang];
   }
@@ -152,12 +145,11 @@ export class KeyCategory {
     ];
 
     const looseCodes: number[] = [
-      ...KEY_SUB_CATEGORY_MAGIC.codes,
-      ...KEY_SUB_CATEGORY_AUDIO.codes,
-      ...KEY_SUB_CATEGORY_BACKLIGHT.codes,
-      ...KEY_SUB_CATEGORY_UNDERGLOW.codes,
       ...KEY_SUB_CATEGORY_JOYSTICK.codes,
-      ...KEY_SUB_CATEGORY_QUANTUM.codes,
+      ...KEY_SUB_CATEGORY_UNDERGLOW.codes,
+      ...KEY_SUB_CATEGORY_BACKLIGHT.codes,
+      ...KEY_SUB_CATEGORY_AUDIO.codes,
+      ...KEY_SUB_CATEGORY_MAGIC.codes,
     ];
 
     const basicKeymaps: IKeymap[] = basicCodes.map(

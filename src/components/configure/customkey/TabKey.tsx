@@ -126,7 +126,6 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     const macroBuffer = this.createMacroBuffer();
     const keymaps = [
       ...KeyCategory.basic(labelLang),
-      ...KeyCategory.symbol(labelLang),
       ...KeyCategory.functions(
         labelLang,
         this.props.keyboardDefinition!.customKeycodes

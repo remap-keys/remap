@@ -155,9 +155,6 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     const basic = macroEditMode
       ? macroCodeFilter(KeyCategory.basic(labelLang))
       : KeyCategory.basic(labelLang);
-    const symbol = macroEditMode
-      ? macroCodeFilter(KeyCategory.symbol(labelLang))
-      : KeyCategory.symbol(labelLang);
     const functions = [
       ...(macroEditMode
         ? macroCodeFilter(
@@ -192,7 +189,6 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       : KeyCategory.midi();
 
     const Basic = genKeys(basic, this.props.labelLang!);
-    const Symbol = genKeys(symbol, this.props.labelLang!);
     const Functions = genKeys(functions, this.props.labelLang!);
     const Layer = genKeys(layers, this.props.labelLang!);
     const Device = genKeys(device, this.props.labelLang!);
@@ -201,7 +197,6 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
     const categoryKeys: { [category: string]: Key[] } = {
       Basic,
-      Symbol,
       Functions,
       Layer,
       Device,
