@@ -296,6 +296,20 @@ export const hidActionsThunk = {
         return;
       }
       const viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
+
+      // If the VIA protocol version of the connected keyboard is less than 0x0C,
+      // show warning message and close the keyboard.
+      if (viaProtocolVersion < 0x0c) {
+        dispatch(
+          NotificationActions.addWarn(
+            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. This version is not supported.`
+          )
+        );
+        await dispatch(hidActionsThunk.closeOpenedKeyboard());
+        dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+        return;
+      }
+
       dispatch(HidActions.updateViaProtocolVersion(viaProtocolVersion));
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {
