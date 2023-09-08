@@ -339,6 +339,7 @@ export default class KeymapMenu extends React.Component<
         <LightingDialog
           open={this.state.openLightingDialog}
           keyboard={this.props.keyboard!}
+          definition={this.props.keyboardDefinition!}
           lightingDef={this.props.keyboardDefinition!.lighting}
           onClose={() => {
             this.setState({ openLightingDialog: false });
