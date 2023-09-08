@@ -496,15 +496,16 @@ export const hidActionsThunk = {
       const { app, entities } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
 
-      const result = await keyboard.fetchSwitchMatrixState();
+      const rows = entities.keyboardDefinition!.matrix.rows;
+      const cols = entities.keyboardDefinition!.matrix.cols;
+
+      const result = await keyboard.fetchSwitchMatrixState(rows, cols);
       if (!result.success) {
         console.error(result.cause);
         dispatch(NotificationActions.addError(result.error!, result.cause));
         return;
       }
 
-      const rows = entities.keyboardDefinition!.matrix.rows;
-      const cols = entities.keyboardDefinition!.matrix.cols;
       const state = result.state!;
 
       let i = 0;

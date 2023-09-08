@@ -43,6 +43,7 @@ import {
   IDynamicKeymapMacroGetBufferResponse,
   IDynamicKeymapMacroSetBufferResponse,
   IDynamicKeymapReadBufferResponse,
+  ISwitchLayerStateResponse,
   RgbLightGetValueCommand,
   RgbLightSaveCommand,
   RgbLightSetValueCommand,
@@ -54,7 +55,7 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
-import { outputUint8Array } from '../../utils/ArrayUtils';
+import { concatUint8Array, outputUint8Array } from '../../utils/ArrayUtils';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export class Keyboard implements IKeyboard {
@@ -776,22 +777,54 @@ export class Keyboard implements IKeyboard {
     });
   }
 
-  fetchSwitchMatrixState(): Promise<IResult> {
-    return new Promise<IFetchSwitchMatrixStateResult>((resolve) => {
-      const command = new SwitchMatrixStateCommand({}, async (result) => {
-        if (result.success) {
-          resolve({
-            success: true,
-            state: result.response!.state,
-          });
-        } else {
-          resolve({
-            success: false,
-            error: result.error,
-            cause: result.cause,
-          });
+  async fetchSwitchMatrixState(
+    rows: number,
+    cols: number
+  ): Promise<IFetchSwitchMatrixStateResult> {
+    try {
+      const rowByteLength = Math.ceil(cols / 8);
+      const requestRowCount = Math.floor(28 / rowByteLength);
+      let states: Uint8Array = new Uint8Array(0);
+      for (let offset = 0; offset < rows; offset += requestRowCount) {
+        const requestSize = Math.min(
+          rows * rowByteLength - states.length,
+          rowByteLength * requestRowCount
+        );
+        const response = await this.executeSwitchMatrixStateCommand(offset);
+        const state = response.state;
+        states = concatUint8Array(states, state.slice(0, requestSize));
+      }
+      return {
+        success: true,
+        state: states,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: 'Fetching keymaps failed.',
+        cause: error,
+      };
+    }
+  }
+
+  private async executeSwitchMatrixStateCommand(
+    offset: number
+  ): Promise<ISwitchLayerStateResponse> {
+    return new Promise<ISwitchLayerStateResponse>((resolve, reject) => {
+      const command = new SwitchMatrixStateCommand(
+        {
+          offset,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve(result.response!);
+          } else {
+            console.log(result.cause!);
+            reject(result.error!);
+          }
         }
-      });
+      );
       return this.enqueue(command);
     });
   }

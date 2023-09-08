@@ -610,28 +610,38 @@ export class DynamicKeymapMacroGetBufferSizeCommand extends AbstractCommand<
   }
 }
 
+export interface ISwitchLayerStateRequest extends ICommandRequest {
+  offset: number;
+}
+
 export interface ISwitchLayerStateResponse extends ICommandResponse {
   state: Uint8Array;
 }
 
 export class SwitchMatrixStateCommand extends AbstractCommand<
-  ICommandRequest,
+  ISwitchLayerStateRequest,
   ISwitchLayerStateResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_get_keyboard_value, id_switch_matrix_state]);
+    const offset = this.getRequest().offset;
+    return new Uint8Array([
+      id_get_keyboard_value,
+      id_switch_matrix_state,
+      offset,
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): ISwitchLayerStateResponse {
     return {
-      state: resultArray.slice(2),
+      state: resultArray.slice(3),
     };
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
       resultArray[0] === id_get_keyboard_value &&
-      resultArray[1] === id_switch_matrix_state
+      resultArray[1] === id_switch_matrix_state &&
+      resultArray[2] === this.getRequest().offset
     );
   }
 }
