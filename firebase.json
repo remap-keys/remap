@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "user-site",
+    "target": "qmk018-site",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

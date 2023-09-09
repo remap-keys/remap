@@ -7,6 +7,9 @@
       "hosting": {
         "user-site": [
           "remap-b2d08"
+        ],
+        "qmk018-site": [
+          "remap-b2d08-qmk018"
         ]
       }
     }
