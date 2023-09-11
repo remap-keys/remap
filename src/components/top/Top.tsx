@@ -90,6 +90,9 @@ export default function Top(props: TopPropsType) {
       <AppBar position="relative">
         <Toolbar>
           <Logo width={128} color={'white'} />
+          <Typography variant="subtitle1" ml={1}>
+            for QMK Firmware 0.18.17 or lower
+          </Typography>
         </Toolbar>
       </AppBar>
       <Alert severity="warning">

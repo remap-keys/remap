@@ -296,6 +296,21 @@ export const hidActionsThunk = {
         return;
       }
       const viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
+
+      // If the VIA protocol version of the connected keyboard is more than 0x0B,
+      // show warning message and close the keyboard.
+      if (viaProtocolVersion > 0x0b) {
+        dispatch(
+          NotificationActions.addWarn(
+            'The VIA protocol version of the connected keyboard is more than 0x0B. ' +
+              'Use "Remap for latest QMK" to customize your keyboard.'
+          )
+        );
+        await dispatch(hidActionsThunk.closeOpenedKeyboard());
+        dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+        return;
+      }
+
       dispatch(HidActions.updateViaProtocolVersion(viaProtocolVersion));
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {

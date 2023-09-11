@@ -58,6 +58,13 @@
     text-align: center;
     height: 100%;
     padding-top: 16px;
+
+    & > a {
+      display: flex;
+      flex-direction: row;
+      text-decoration: none;
+      color: black;
+    }
   }
 
   .header-height {
