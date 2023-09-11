@@ -94,8 +94,8 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        The new version of Remap is now available. This environment for latest
-        QMK Firmware version. See{' '}
+        [Sep 11th 2023] The new version of Remap is now available. This
+        environment for latest QMK Firmware version. See{' '}
         <Link
           href="https://github.com/remap-keys/remap/issues/751"
           target="_blank"
