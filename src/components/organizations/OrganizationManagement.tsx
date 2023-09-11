@@ -43,7 +43,8 @@ function OrganizationManagement(props: OrganizationManagementProps) {
       props.enqueueSnackbar(item.message, {
         key: item.key,
         variant: item.type,
-        autoHideDuration: 5000,
+        // autoHideDuration: 5000,
+        persist: true,
         onExited: (event, key: React.ReactText) => {
           props.removeNotification!(key as string);
           removeDisplayedNotification(key as string);

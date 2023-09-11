@@ -92,12 +92,10 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
-      <Alert severity="warning">
-        <strong>Warning: </strong>
-        There is an issue about internal key code structures/values between
-        current Remap and latest QMK Firmware. Remap cannot customize key
-        mappings normally for firmwares built on and after November 26, 2022.
-        See{' '}
+      <Alert severity="info">
+        <strong>Info: </strong>
+        The new version of Remap is now available. This environment for latest
+        QMK Firmware version. See{' '}
         <Link
           href="https://github.com/remap-keys/remap/issues/751"
           target="_blank"

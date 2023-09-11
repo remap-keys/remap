@@ -302,7 +302,7 @@ export const hidActionsThunk = {
       if (viaProtocolVersion < 0x0c) {
         dispatch(
           NotificationActions.addWarn(
-            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. This version is not supported.`
+            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. Use "Remap for QMK 0.18" to customize the keyboard.`
           )
         );
         await dispatch(hidActionsThunk.closeOpenedKeyboard());
