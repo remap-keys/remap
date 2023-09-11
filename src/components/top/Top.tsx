@@ -96,11 +96,7 @@ export default function Top(props: TopPropsType) {
         <strong>Info: </strong>
         [Sep 11th 2023] The new version of Remap is now available. This
         environment for latest QMK Firmware version. See{' '}
-        <Link
-          href="https://github.com/remap-keys/remap/issues/751"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
           more detail
         </Link>
         .
