@@ -174,7 +174,10 @@ export interface IKeyboard {
   updateRGBLightColor(hue: number, sat: number): Promise<IResult>;
   resetDynamicKeymap(): Promise<IResult>;
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
-  fetchSwitchMatrixState(): Promise<IFetchSwitchMatrixStateResult>;
+  fetchSwitchMatrixState(
+    rows: number,
+    cols: number
+  ): Promise<IFetchSwitchMatrixStateResult>;
   fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
   updateLayoutOptions(value: number): Promise<IResult>;
   getMacroCount(): Promise<IGetMacroCountResult>;

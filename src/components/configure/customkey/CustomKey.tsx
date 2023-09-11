@@ -7,12 +7,7 @@ import { Key } from '../keycodekey/KeyGen';
 import TabKey from './TabKey.container';
 import {
   DIRECTION_LABELS,
-  LayerTapComposition,
-  ModsComposition,
-  ModTapComposition,
   MOD_LABELS,
-  MOD_LEFT,
-  SwapHandsComposition,
 } from '../../../services/hid/Composition';
 import TabHoldTapKey, { buildHoldKeyLabel } from './TabHoldTapKey';
 import { ICustomKeycode, IKeymap } from '../../../services/hid/Hid';
@@ -23,6 +18,11 @@ import {
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
 import { getMetaLabel } from '../../../services/labellang/KeyLabel';
+import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
+import { LayerTapComposition } from '../../../services/hid/compositions/LayerTapComposition';
+import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
+import { ModTapComposition } from '../../../services/hid/compositions/ModTapComposition';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;

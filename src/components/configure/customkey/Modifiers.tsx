@@ -14,10 +14,9 @@ import {
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
-  MOD_LEFT,
-  MOD_RIGHT,
   MOD_SFT,
 } from '../../../services/hid/Composition';
+import { MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Constraints';
 
 type OwnProps = {
   mods: IMod[];

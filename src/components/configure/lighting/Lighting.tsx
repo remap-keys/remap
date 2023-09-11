@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import ReinventedColorWheel from 'reinvented-color-wheel';
 import { IKeyboard } from '../../../services/hid/Hid';
+import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import LightingDialog from './LightingDialog';
 
 export type Hsv = {
   h: number;
@@ -22,6 +24,7 @@ export type Hsv = {
 type Props = {
   underglowEffects: [string, number][];
   keyboard: IKeyboard;
+  definition: KeyboardDefinitionSchema;
   showBacklight: boolean;
   showUnderglow: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -78,30 +81,47 @@ export default class Lighting extends React.Component<Props, State> {
   private async fetchKeyboardLightValues() {
     // device lighting values
     const kbd: IKeyboard = this.props.keyboard!;
-    const bkb = await kbd.fetchBacklightBrightness();
-    const backlightBrightness =
-      bkb.success && bkb.brightness
-        ? Math.round(100 * (bkb.brightness / 255))
-        : 0;
+    const supportedLighting = this.props.definition.lighting;
 
-    const bke = await kbd.fetchBacklightEffect();
-    const backlightBreathing = bke.success ? Boolean(bke.isBreathing) : false;
+    let backlightBrightness = 0;
+    let backlightBreathing = false;
 
-    const le = await kbd.fetchRGBLightEffect();
-    const underglowEffectMode = le.success && le.mode ? le.mode : 0;
+    if (LightingDialog.isBacklightAvailable(supportedLighting)) {
+      const bkb = await kbd.fetchBacklightBrightness();
+      backlightBrightness =
+        bkb.success && bkb.brightness
+          ? Math.round(100 * (bkb.brightness / 255))
+          : 0;
 
-    const lb = await kbd.fetchRGBLightBrightness();
-    const v =
-      lb.success && lb.brightness ? Math.round(100 * (lb.brightness / 255)) : 0;
+      const bke = await kbd.fetchBacklightEffect();
+      backlightBreathing = bke.success ? Boolean(bke.isBreathing) : false;
+    }
 
-    const lc = await kbd.fetchRGBLightColor();
-    const hs =
-      lc.success && typeof lc.hue != 'undefined' && typeof lc.sat != 'undefined'
-        ? {
-            h: Math.round(360 * (lc.hue / 255)),
-            s: Math.round(100 * (lc.sat / 255)),
-          }
-        : { h: 0, s: 0 };
+    let underglowEffectMode = 0;
+    let v = 0;
+    let hs = { h: 0, s: 0 };
+
+    if (LightingDialog.isRgbLightAvailable(supportedLighting)) {
+      const le = await kbd.fetchRGBLightEffect();
+      underglowEffectMode = le.success && le.mode ? le.mode : 0;
+
+      const lb = await kbd.fetchRGBLightBrightness();
+      v =
+        lb.success && lb.brightness
+          ? Math.round(100 * (lb.brightness / 255))
+          : 0;
+
+      const lc = await kbd.fetchRGBLightColor();
+      hs =
+        lc.success &&
+        typeof lc.hue != 'undefined' &&
+        typeof lc.sat != 'undefined'
+          ? {
+              h: Math.round(360 * (lc.hue / 255)),
+              s: Math.round(100 * (lc.sat / 255)),
+            }
+          : { h: 0, s: 0 };
+    }
 
     const hex = ReinventedColorWheel.rgb2hex(
       ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v])

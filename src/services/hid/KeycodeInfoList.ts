@@ -8,7147 +8,8417 @@ export const keyInfoList: KeyInfo[] = [
   {
     desc: 'Ignore this key (NOOP)',
     keycodeInfo: {
-      code: 0,
+      code: 0x0, // 0 0b0
+      label: ' ',
       name: {
         long: 'KC_NO',
-        short: 'KC_NO',
+        short: 'XXXXXXX',
       },
-      label: ' ',
       keywords: ['no', 'noop', 'ignore'],
     },
   },
   {
     desc: 'Use the next lowest non-transparent key',
     keycodeInfo: {
-      code: 1,
+      code: 0x1, // 1 0b1
+      label: '▽',
       name: {
         long: 'KC_TRANSPARENT',
-        short: 'KC_TRNS',
+        short: '_______',
       },
-      label: '▽',
       keywords: ['transparent', 'trns'],
     },
   },
   {
-    desc: '',
+    desc: 'a and A',
     keycodeInfo: {
-      code: 2,
-      name: {
-        long: 'KC_POST_FAIL',
-        short: 'KC_POST_FAIL',
-      },
-      label: 'PFAIL',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 3,
-      name: {
-        long: 'KC_UNDEFINED',
-        short: 'KC_UNDEFINED',
-      },
-      label: 'UNDEF',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 4,
-      ascii: 97,
+      code: 0x4, // 4 0b100
+      label: 'A',
       name: {
         long: 'KC_A',
         short: 'KC_A',
       },
-      label: 'A',
       keywords: [],
+      ascii: 97,
     },
   },
   {
-    desc: '',
+    desc: 'b and B',
     keycodeInfo: {
-      code: 5,
-      ascii: 98,
+      code: 0x5, // 5 0b101
+      label: 'B',
       name: {
         long: 'KC_B',
         short: 'KC_B',
       },
-      label: 'B',
       keywords: [],
+      ascii: 98,
     },
   },
   {
-    desc: '',
+    desc: 'c and C',
     keycodeInfo: {
-      code: 6,
-      ascii: 99,
+      code: 0x6, // 6 0b110
+      label: 'C',
       name: {
         long: 'KC_C',
         short: 'KC_C',
       },
-      label: 'C',
       keywords: [],
+      ascii: 99,
     },
   },
   {
-    desc: '',
+    desc: 'd and D',
     keycodeInfo: {
-      code: 7,
-      ascii: 100,
+      code: 0x7, // 7 0b111
+      label: 'D',
       name: {
         long: 'KC_D',
         short: 'KC_D',
       },
-      label: 'D',
       keywords: [],
+      ascii: 100,
     },
   },
   {
-    desc: '',
+    desc: 'e and E',
     keycodeInfo: {
-      code: 8,
-      ascii: 101,
+      code: 0x8, // 8 0b1000
+      label: 'E',
       name: {
         long: 'KC_E',
         short: 'KC_E',
       },
-      label: 'E',
       keywords: [],
+      ascii: 101,
     },
   },
   {
-    desc: '',
+    desc: 'f and F',
     keycodeInfo: {
-      code: 9,
-      ascii: 102,
+      code: 0x9, // 9 0b1001
+      label: 'F',
       name: {
         long: 'KC_F',
         short: 'KC_F',
       },
-      label: 'F',
       keywords: [],
+      ascii: 102,
     },
   },
   {
-    desc: '',
+    desc: 'g and G',
     keycodeInfo: {
-      code: 10,
-      ascii: 103,
+      code: 0xa, // 10 0b1010
+      label: 'G',
       name: {
         long: 'KC_G',
         short: 'KC_G',
       },
-      label: 'G',
       keywords: [],
+      ascii: 103,
     },
   },
   {
-    desc: '',
+    desc: 'h and H',
     keycodeInfo: {
-      code: 11,
-      ascii: 104,
+      code: 0xb, // 11 0b1011
+      label: 'H',
       name: {
         long: 'KC_H',
         short: 'KC_H',
       },
-      label: 'H',
       keywords: [],
+      ascii: 104,
     },
   },
   {
-    desc: '',
+    desc: 'i and I',
     keycodeInfo: {
-      code: 12,
-      ascii: 105,
+      code: 0xc, // 12 0b1100
+      label: 'I',
       name: {
         long: 'KC_I',
         short: 'KC_I',
       },
-      label: 'I',
       keywords: [],
+      ascii: 105,
     },
   },
   {
-    desc: '',
+    desc: 'j and J',
     keycodeInfo: {
-      code: 13,
-      ascii: 106,
+      code: 0xd, // 13 0b1101
+      label: 'J',
       name: {
         long: 'KC_J',
         short: 'KC_J',
       },
-      label: 'J',
       keywords: [],
+      ascii: 106,
     },
   },
   {
-    desc: '',
+    desc: 'k and K',
     keycodeInfo: {
-      code: 14,
-      ascii: 107,
+      code: 0xe, // 14 0b1110
+      label: 'K',
       name: {
         long: 'KC_K',
         short: 'KC_K',
       },
-      label: 'K',
       keywords: [],
+      ascii: 107,
     },
   },
   {
-    desc: '',
+    desc: 'l and L',
     keycodeInfo: {
-      code: 15,
-      ascii: 108,
+      code: 0xf, // 15 0b1111
+      label: 'L',
       name: {
         long: 'KC_L',
         short: 'KC_L',
       },
-      label: 'L',
       keywords: [],
+      ascii: 108,
     },
   },
   {
-    desc: '',
+    desc: 'm and M',
     keycodeInfo: {
-      code: 16,
-      ascii: 109,
+      code: 0x10, // 16 0b10000
+      label: 'M',
       name: {
         long: 'KC_M',
         short: 'KC_M',
       },
-      label: 'M',
       keywords: [],
+      ascii: 109,
     },
   },
   {
-    desc: '',
+    desc: 'n and N',
     keycodeInfo: {
-      code: 17,
-      ascii: 110,
+      code: 0x11, // 17 0b10001
+      label: 'N',
       name: {
         long: 'KC_N',
         short: 'KC_N',
       },
-      label: 'N',
       keywords: [],
+      ascii: 110,
     },
   },
   {
-    desc: '',
+    desc: 'o and O',
     keycodeInfo: {
-      code: 18,
-      ascii: 111,
+      code: 0x12, // 18 0b10010
+      label: 'O',
       name: {
         long: 'KC_O',
         short: 'KC_O',
       },
-      label: 'O',
       keywords: [],
+      ascii: 111,
     },
   },
   {
-    desc: '',
+    desc: 'p and P',
     keycodeInfo: {
-      code: 19,
-      ascii: 112,
+      code: 0x13, // 19 0b10011
+      label: 'P',
       name: {
         long: 'KC_P',
         short: 'KC_P',
       },
-      label: 'P',
       keywords: [],
+      ascii: 112,
     },
   },
   {
-    desc: '',
+    desc: 'q and Q',
     keycodeInfo: {
-      code: 20,
-      ascii: 113,
+      code: 0x14, // 20 0b10100
+      label: 'Q',
       name: {
         long: 'KC_Q',
         short: 'KC_Q',
       },
-      label: 'Q',
       keywords: [],
+      ascii: 113,
     },
   },
   {
-    desc: '',
+    desc: 'r and R',
     keycodeInfo: {
-      code: 21,
-      ascii: 114,
+      code: 0x15, // 21 0b10101
+      label: 'R',
       name: {
         long: 'KC_R',
         short: 'KC_R',
       },
-      label: 'R',
       keywords: [],
+      ascii: 114,
     },
   },
   {
-    desc: '',
+    desc: 's and S',
     keycodeInfo: {
-      code: 22,
-      ascii: 115,
+      code: 0x16, // 22 0b10110
+      label: 'S',
       name: {
         long: 'KC_S',
         short: 'KC_S',
       },
-      label: 'S',
       keywords: [],
+      ascii: 115,
     },
   },
   {
-    desc: '',
+    desc: 't and T',
     keycodeInfo: {
-      code: 23,
-      ascii: 116,
+      code: 0x17, // 23 0b10111
+      label: 'T',
       name: {
         long: 'KC_T',
         short: 'KC_T',
       },
-      label: 'T',
       keywords: [],
+      ascii: 116,
     },
   },
   {
-    desc: '',
+    desc: 'u and U',
     keycodeInfo: {
-      code: 24,
-      ascii: 117,
+      code: 0x18, // 24 0b11000
+      label: 'U',
       name: {
         long: 'KC_U',
         short: 'KC_U',
       },
-      label: 'U',
       keywords: [],
+      ascii: 117,
     },
   },
   {
-    desc: '',
+    desc: 'v and V',
     keycodeInfo: {
-      code: 25,
-      ascii: 118,
+      code: 0x19, // 25 0b11001
+      label: 'V',
       name: {
         long: 'KC_V',
         short: 'KC_V',
       },
-      label: 'V',
       keywords: [],
+      ascii: 118,
     },
   },
   {
-    desc: '',
+    desc: 'w and W',
     keycodeInfo: {
-      code: 26,
-      ascii: 119,
+      code: 0x1a, // 26 0b11010
+      label: 'W',
       name: {
         long: 'KC_W',
         short: 'KC_W',
       },
-      label: 'W',
       keywords: [],
+      ascii: 119,
     },
   },
   {
-    desc: '',
+    desc: 'x and X',
     keycodeInfo: {
-      code: 27,
-      ascii: 120,
+      code: 0x1b, // 27 0b11011
+      label: 'X',
       name: {
         long: 'KC_X',
         short: 'KC_X',
       },
-      label: 'X',
       keywords: [],
+      ascii: 120,
     },
   },
   {
-    desc: '',
+    desc: 'y and Y',
     keycodeInfo: {
-      code: 28,
-      ascii: 121,
+      code: 0x1c, // 28 0b11100
+      label: 'Y',
       name: {
         long: 'KC_Y',
         short: 'KC_Y',
       },
-      label: 'Y',
       keywords: [],
+      ascii: 121,
     },
   },
   {
-    desc: '',
+    desc: 'z and Z',
     keycodeInfo: {
-      code: 29,
-      ascii: 122,
+      code: 0x1d, // 29 0b11101
+      label: 'Z',
       name: {
         long: 'KC_Z',
         short: 'KC_Z',
       },
-      label: 'Z',
       keywords: [],
+      ascii: 122,
     },
   },
   {
-    desc: '',
+    desc: '1 and !',
     keycodeInfo: {
-      code: 30,
-      ascii: 49,
+      code: 0x1e, // 30 0b11110
+      label: '1',
       name: {
         long: 'KC_1',
         short: 'KC_1',
       },
-      label: '1',
       keywords: [],
+      ascii: 49,
     },
   },
   {
-    desc: '',
+    desc: '2 and @',
     keycodeInfo: {
-      code: 31,
-      ascii: 50,
+      code: 0x1f, // 31 0b11111
+      label: '2',
       name: {
         long: 'KC_2',
         short: 'KC_2',
       },
-      label: '2',
       keywords: [],
+      ascii: 50,
     },
   },
   {
-    desc: '',
+    desc: '3 and #',
     keycodeInfo: {
-      code: 32,
-      ascii: 51,
+      code: 0x20, // 32 0b100000
+      label: '3',
       name: {
         long: 'KC_3',
         short: 'KC_3',
       },
-      label: '3',
       keywords: [],
+      ascii: 51,
     },
   },
   {
-    desc: '',
+    desc: '4 and $',
     keycodeInfo: {
-      code: 33,
-      ascii: 52,
+      code: 0x21, // 33 0b100001
+      label: '4',
       name: {
         long: 'KC_4',
         short: 'KC_4',
       },
-      label: '4',
       keywords: [],
+      ascii: 52,
     },
   },
   {
-    desc: '',
+    desc: '5 and %',
     keycodeInfo: {
-      code: 34,
-      ascii: 53,
+      code: 0x22, // 34 0b100010
+      label: '5',
       name: {
         long: 'KC_5',
         short: 'KC_5',
       },
-      label: '5',
       keywords: [],
+      ascii: 53,
     },
   },
   {
-    desc: '',
+    desc: '6 and ^',
     keycodeInfo: {
-      code: 35,
-      ascii: 54,
+      code: 0x23, // 35 0b100011
+      label: '6',
       name: {
         long: 'KC_6',
         short: 'KC_6',
       },
-      label: '6',
       keywords: [],
+      ascii: 54,
     },
   },
   {
-    desc: '',
+    desc: '7 and &',
     keycodeInfo: {
-      code: 36,
-      ascii: 55,
+      code: 0x24, // 36 0b100100
+      label: '7',
       name: {
         long: 'KC_7',
         short: 'KC_7',
       },
-      label: '7',
       keywords: [],
+      ascii: 55,
     },
   },
   {
-    desc: '',
+    desc: '8 and *',
     keycodeInfo: {
-      code: 37,
-      ascii: 56,
+      code: 0x25, // 37 0b100101
+      label: '8',
       name: {
         long: 'KC_8',
         short: 'KC_8',
       },
-      label: '8',
       keywords: [],
+      ascii: 56,
     },
   },
   {
-    desc: '',
+    desc: '9 and (',
     keycodeInfo: {
-      code: 38,
-      ascii: 57,
+      code: 0x26, // 38 0b100110
+      label: '9',
       name: {
         long: 'KC_9',
         short: 'KC_9',
       },
-      label: '9',
       keywords: [],
+      ascii: 57,
     },
   },
   {
-    desc: '',
+    desc: '0 and )',
     keycodeInfo: {
-      code: 39,
-      ascii: 48,
+      code: 0x27, // 39 0b100111
+      label: '0',
       name: {
         long: 'KC_0',
         short: 'KC_0',
       },
-      label: '0',
       keywords: [],
+      ascii: 48,
     },
   },
   {
     desc: 'Return (Enter)',
     keycodeInfo: {
-      code: 40,
+      code: 0x28, // 40 0b101000
+      label: 'Enter',
       name: {
         long: 'KC_ENTER',
         short: 'KC_ENT',
       },
-      label: 'Enter',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Escape',
     keycodeInfo: {
-      code: 41,
-      ascii: 27,
+      code: 0x29, // 41 0b101001
+      label: 'Esc',
       name: {
         long: 'KC_ESCAPE',
         short: 'KC_ESC',
       },
-      label: 'Esc',
-
       keywords: ['escape'],
+      ascii: 27,
     },
   },
   {
     desc: 'Delete (Backspace)',
     keycodeInfo: {
-      code: 42,
-      ascii: 8,
+      code: 0x2a, // 42 0b101010
+      label: 'BS',
       name: {
-        long: 'KC_BSPACE',
+        long: 'KC_BACKSPACE',
         short: 'KC_BSPC',
       },
-      label: 'BS',
-
       keywords: ['backspace', 'delete', 'bspace', 'bspc'],
+      ascii: 8,
     },
   },
   {
-    desc: '',
+    desc: 'Tab',
     keycodeInfo: {
-      code: 43,
-      ascii: 9,
+      code: 0x2b, // 43 0b101011
+      label: 'Tab',
       name: {
         long: 'KC_TAB',
         short: 'KC_TAB',
       },
-      label: 'Tab',
       keywords: [],
+      ascii: 9,
     },
   },
   {
-    desc: '',
+    desc: 'Spacebar',
     keycodeInfo: {
-      code: 44,
-      ascii: 32,
+      code: 0x2c, // 44 0b101100
+      label: 'Space',
       name: {
         long: 'KC_SPACE',
         short: 'KC_SPC',
       },
-      label: 'Space',
       keywords: ['spc'],
+      ascii: 32,
     },
   },
   {
-    desc: '',
+    desc: '- and _',
     keycodeInfo: {
-      code: 45,
-      ascii: 45,
+      code: 0x2d, // 45 0b101101
+      label: '-',
       name: {
         long: 'KC_MINUS',
         short: 'KC_MINS',
       },
-      label: '-',
-
       keywords: ['minus', 'mins', 'hyphen'],
+      ascii: 45,
     },
   },
   {
-    desc: '',
+    desc: '= and +',
     keycodeInfo: {
-      code: 46,
-      ascii: 61,
+      code: 0x2e, // 46 0b101110
+      label: '=',
       name: {
         long: 'KC_EQUAL',
         short: 'KC_EQL',
       },
-      label: '=',
-
       keywords: ['equal', 'eql'],
+      ascii: 61,
     },
   },
   {
-    desc: '',
+    desc: '[ and {',
     keycodeInfo: {
-      code: 47,
-      ascii: 91,
+      code: 0x2f, // 47 0b101111
+      label: '[',
       name: {
-        long: 'KC_LBRACKET',
+        long: 'KC_LEFT_BRACKET',
         short: 'KC_LBRC',
       },
-      label: '[',
       keywords: ['lbracket', 'lbrc'],
+      ascii: 91,
     },
   },
   {
-    desc: '',
+    desc: '] and }',
     keycodeInfo: {
-      code: 48,
-      ascii: 93,
+      code: 0x30, // 48 0b110000
+      label: ']',
       name: {
-        long: 'KC_RBRACKET',
+        long: 'KC_RIGHT_BRACKET',
         short: 'KC_RBRC',
       },
-      label: ']',
       keywords: ['rbracket', 'rbrc'],
+      ascii: 93,
     },
   },
   {
-    desc: '',
+    desc: '\\ and |',
     keycodeInfo: {
-      code: 49,
-      ascii: 92,
+      code: 0x31, // 49 0b110001
+      label: '\\',
       name: {
-        long: 'KC_BSLASH',
+        long: 'KC_BACKSLASH',
         short: 'KC_BSLS',
       },
-      label: '\\',
       keywords: ['bslash', 'bsls'],
+      ascii: 92,
     },
   },
   {
     desc: 'Non-US # and ~',
     keycodeInfo: {
-      code: 50,
+      code: 0x32, // 50 0b110010
+      label: 'NUHS',
       name: {
         long: 'KC_NONUS_HASH',
         short: 'KC_NUHS',
       },
-      label: 'NUHS',
       keywords: ['nonus_hash'],
     },
   },
   {
-    desc: '',
+    desc: '; and :',
     keycodeInfo: {
-      code: 51,
-      ascii: 59,
+      code: 0x33, // 51 0b110011
+      label: ';',
       name: {
-        long: 'KC_SCOLON',
+        long: 'KC_SEMICOLON',
         short: 'KC_SCLN',
       },
-      label: ';',
       keywords: ['scolon', 'scln', 'semi colon', 'colon'],
+      ascii: 59,
     },
   },
   {
-    desc: '',
+    desc: '\' and "',
     keycodeInfo: {
-      code: 52,
-      ascii: 39,
+      code: 0x34, // 52 0b110100
+      label: "'",
       name: {
         long: 'KC_QUOTE',
         short: 'KC_QUOT',
       },
-      label: "'",
       keywords: ['quote', 'quot'],
+      ascii: 39,
     },
   },
   {
-    desc: '` and ~, JIS Zenkaku/Hankaku',
+    desc: '` and ~',
     keycodeInfo: {
-      code: 53,
-      ascii: 96,
+      code: 0x35, // 53 0b110101
+      label: '`',
       name: {
         long: 'KC_GRAVE',
-        short: 'KC_ZKHK',
+        short: 'KC_GRV',
       },
-      label: '`',
       keywords: ['zenkaku', 'hankaku', 'grave', 'zkhk'],
+      ascii: 96,
     },
   },
   {
-    desc: '',
+    desc: ', and <',
     keycodeInfo: {
-      code: 54,
-      ascii: 44,
+      code: 0x36, // 54 0b110110
+      label: ',',
       name: {
         long: 'KC_COMMA',
         short: 'KC_COMM',
       },
-      label: ',',
       keywords: ['comma'],
+      ascii: 44,
     },
   },
   {
-    desc: '',
+    desc: '. and >',
     keycodeInfo: {
-      code: 55,
-      ascii: 46,
+      code: 0x37, // 55 0b110111
+      label: '.',
       name: {
         long: 'KC_DOT',
         short: 'KC_DOT',
       },
-      label: '.',
       keywords: ['dot'],
+      ascii: 46,
     },
   },
   {
-    desc: '',
+    desc: '/ and ?',
     keycodeInfo: {
-      code: 56,
-      ascii: 47,
+      code: 0x38, // 56 0b111000
+      label: '/',
       name: {
         long: 'KC_SLASH',
         short: 'KC_SLSH',
       },
-      label: '/',
       keywords: ['slash', 'slsh'],
+      ascii: 47,
     },
   },
   {
-    desc: '',
+    desc: 'Caps Lock',
     keycodeInfo: {
-      code: 57,
+      code: 0x39, // 57 0b111001
+      label: 'Caps Lock',
       name: {
-        long: 'KC_CAPSLOCK',
+        long: 'KC_CAPS_LOCK',
         short: 'KC_CAPS',
       },
-      label: 'Caps Lock',
       keywords: ['capslock'],
     },
   },
   {
-    desc: '',
+    desc: 'F1',
     keycodeInfo: {
-      code: 58,
+      code: 0x3a, // 58 0b111010
+      label: 'F1',
       name: {
         long: 'KC_F1',
         short: 'KC_F1',
       },
-      label: 'F1',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F2',
     keycodeInfo: {
-      code: 59,
+      code: 0x3b, // 59 0b111011
+      label: 'F2',
       name: {
         long: 'KC_F2',
         short: 'KC_F2',
       },
-      label: 'F2',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F3',
     keycodeInfo: {
-      code: 60,
+      code: 0x3c, // 60 0b111100
+      label: 'F3',
       name: {
         long: 'KC_F3',
         short: 'KC_F3',
       },
-      label: 'F3',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F4',
     keycodeInfo: {
-      code: 61,
+      code: 0x3d, // 61 0b111101
+      label: 'F4',
       name: {
         long: 'KC_F4',
         short: 'KC_F4',
       },
-      label: 'F4',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F5',
     keycodeInfo: {
-      code: 62,
+      code: 0x3e, // 62 0b111110
+      label: 'F5',
       name: {
         long: 'KC_F5',
         short: 'KC_F5',
       },
-      label: 'F5',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F6',
     keycodeInfo: {
-      code: 63,
+      code: 0x3f, // 63 0b111111
+      label: 'F6',
       name: {
         long: 'KC_F6',
         short: 'KC_F6',
       },
-      label: 'F6',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F7',
     keycodeInfo: {
-      code: 64,
+      code: 0x40, // 64 0b1000000
+      label: 'F7',
       name: {
         long: 'KC_F7',
         short: 'KC_F7',
       },
-      label: 'F7',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F8',
     keycodeInfo: {
-      code: 65,
+      code: 0x41, // 65 0b1000001
+      label: 'F8',
       name: {
         long: 'KC_F8',
         short: 'KC_F8',
       },
-      label: 'F8',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F9',
     keycodeInfo: {
-      code: 66,
+      code: 0x42, // 66 0b1000010
+      label: 'F9',
       name: {
         long: 'KC_F9',
         short: 'KC_F9',
       },
-      label: 'F9',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F10',
     keycodeInfo: {
-      code: 67,
+      code: 0x43, // 67 0b1000011
+      label: 'F10',
       name: {
         long: 'KC_F10',
         short: 'KC_F10',
       },
-      label: 'F10',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F11',
     keycodeInfo: {
-      code: 68,
+      code: 0x44, // 68 0b1000100
+      label: 'F11',
       name: {
         long: 'KC_F11',
         short: 'KC_F11',
       },
-      label: 'F11',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F12',
     keycodeInfo: {
-      code: 69,
+      code: 0x45, // 69 0b1000101
+      label: 'F12',
       name: {
         long: 'KC_F12',
         short: 'KC_F12',
       },
-      label: 'F12',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Print Screen',
     keycodeInfo: {
-      code: 70,
+      code: 0x46, // 70 0b1000110
+      label: 'Print Screen',
       name: {
-        long: 'KC_PSCREEN',
+        long: 'KC_PRINT_SCREEN',
         short: 'KC_PSCR',
       },
-      label: 'Print Screen',
       keywords: ['pscreen', 'pscr'],
     },
   },
   {
     desc: 'Scroll Lock, Brightness Down (macOS)',
     keycodeInfo: {
-      code: 71,
-      name: {
-        long: 'KC_SCROLLLOCK',
-        short: 'KC_BRMD',
-      },
+      code: 0x47, // 71 0b1000111
       label: 'Scroll Lock',
+      name: {
+        long: 'KC_SCROLL_LOCK',
+        short: 'KC_SCRL',
+      },
       keywords: ['scrolllock', 'brmd'],
     },
   },
   {
     desc: 'Pause, Brightness Up (macOS)',
     keycodeInfo: {
-      code: 72,
+      code: 0x48, // 72 0b1001000
+      label: 'Pause',
       name: {
         long: 'KC_PAUSE',
-        short: 'KC_BRMU',
+        short: 'KC_PAUS',
       },
-      label: 'Pause',
       keywords: ['brmu'],
     },
   },
   {
-    desc: '',
+    desc: 'Insert',
     keycodeInfo: {
-      code: 73,
+      code: 0x49, // 73 0b1001001
+      label: 'Insert',
       name: {
         long: 'KC_INSERT',
         short: 'KC_INS',
       },
-      label: 'Insert',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Home',
     keycodeInfo: {
-      code: 74,
+      code: 0x4a, // 74 0b1001010
+      label: 'Home',
       name: {
         long: 'KC_HOME',
         short: 'KC_HOME',
       },
-      label: 'Home',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Page Up',
     keycodeInfo: {
-      code: 75,
+      code: 0x4b, // 75 0b1001011
+      label: 'Page Up',
       name: {
-        long: 'KC_PGUP',
+        long: 'KC_PAGE_UP',
         short: 'KC_PGUP',
       },
-      label: 'Page Up',
       keywords: ['pgup'],
     },
   },
   {
     desc: 'Forward Delete',
     keycodeInfo: {
-      code: 76,
-      ascii: 127,
+      code: 0x4c, // 76 0b1001100
+      label: 'Del',
       name: {
         long: 'KC_DELETE',
         short: 'KC_DEL',
       },
-      label: 'Del',
-
       keywords: ['delete'],
+      ascii: 127,
     },
   },
   {
-    desc: '',
+    desc: 'End',
     keycodeInfo: {
-      code: 77,
+      code: 0x4d, // 77 0b1001101
+      label: 'End',
       name: {
         long: 'KC_END',
         short: 'KC_END',
       },
-      label: 'End',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Page Down',
     keycodeInfo: {
-      code: 78,
+      code: 0x4e, // 78 0b1001110
+      label: 'Page Down',
       name: {
-        long: 'KC_PGDOWN',
+        long: 'KC_PAGE_DOWN',
         short: 'KC_PGDN',
       },
-      label: 'Page Down',
       keywords: ['pgdown', 'pgdn'],
     },
   },
   {
-    desc: 'Right',
+    desc: 'Right Arrow',
     keycodeInfo: {
-      code: 79,
+      code: 0x4f, // 79 0b1001111
+      label: '→',
       name: {
         long: 'KC_RIGHT',
         short: 'KC_RGHT',
       },
-      label: '→',
       keywords: ['right arrow', 'rght', 'arrow', 'arrowright'],
     },
   },
   {
-    desc: 'Left',
+    desc: 'Left Arrow',
     keycodeInfo: {
-      code: 80,
+      code: 0x50, // 80 0b1010000
+      label: '←',
       name: {
         long: 'KC_LEFT',
         short: 'KC_LEFT',
       },
-      label: '←',
       keywords: ['left arrow', 'arrow', 'arrowleft'],
     },
   },
   {
-    desc: 'Down',
+    desc: 'Down Arrow',
     keycodeInfo: {
-      code: 81,
+      code: 0x51, // 81 0b1010001
+      label: '↓',
       name: {
         long: 'KC_DOWN',
         short: 'KC_DOWN',
       },
-      label: '↓',
       keywords: ['down arrow', 'arrow', 'arrowdown'],
     },
   },
   {
-    desc: 'Up',
+    desc: 'Up Arrow',
     keycodeInfo: {
-      code: 82,
+      code: 0x52, // 82 0b1010010
+      label: '↑',
       name: {
         long: 'KC_UP',
         short: 'KC_UP',
       },
-      label: '↑',
       keywords: ['up arrow', 'arrow', 'arrowup'],
     },
   },
   {
     desc: 'Keypad Num Lock and Clear',
     keycodeInfo: {
-      code: 83,
-      name: {
-        long: 'KC_NUMLOCK',
-        short: 'KC_NLCK',
-      },
+      code: 0x53, // 83 0b1010011
       label: 'Num Lock',
+      name: {
+        long: 'KC_NUM_LOCK',
+        short: 'KC_NUM',
+      },
       keywords: ['numlock', 'nlck'],
     },
   },
   {
-    desc: '',
+    desc: 'Keypad /',
     keycodeInfo: {
-      code: 84,
+      code: 0x54, // 84 0b1010100
+      label: 'Num /',
       name: {
         long: 'KC_KP_SLASH',
         short: 'KC_PSLS',
       },
-      label: 'Num /',
       keywords: ['kp_slash', 'psls', 'kp_/'],
     },
   },
   {
-    desc: '',
+    desc: 'Keypad *',
     keycodeInfo: {
-      code: 85,
+      code: 0x55, // 85 0b1010101
+      label: 'Num *',
       name: {
         long: 'KC_KP_ASTERISK',
         short: 'KC_PAST',
       },
-      label: 'Num *',
       keywords: ['kp_asterisk', 'past', 'kp_*'],
     },
   },
   {
-    desc: '',
+    desc: 'Keypad -',
     keycodeInfo: {
-      code: 86,
+      code: 0x56, // 86 0b1010110
+      label: 'Num -',
       name: {
         long: 'KC_KP_MINUS',
         short: 'KC_PMNS',
       },
-      label: 'Num -',
-
       keywords: ['num minus', 'kp_minus', 'pmns', 'kp_-'],
     },
   },
   {
-    desc: '',
+    desc: 'Keypad +',
     keycodeInfo: {
-      code: 87,
+      code: 0x57, // 87 0b1010111
+      label: 'Num +',
       name: {
         long: 'KC_KP_PLUS',
         short: 'KC_PPLS',
       },
-      label: 'Num +',
-
       keywords: ['num plus', 'kp_plus', 'ppls', 'kp_+'],
     },
   },
   {
     desc: 'Keypad Enter',
     keycodeInfo: {
-      code: 88,
+      code: 0x58, // 88 0b1011000
+      label: 'Num Enter',
       name: {
         long: 'KC_KP_ENTER',
         short: 'KC_PENT',
       },
-      label: 'Num Enter',
       keywords: ['kp_enter', 'pent'],
     },
   },
   {
     desc: 'Keypad 1 and End',
     keycodeInfo: {
-      code: 89,
+      code: 0x59, // 89 0b1011001
+      label: 'Num 1',
       name: {
         long: 'KC_KP_1',
         short: 'KC_P1',
       },
-      label: 'Num 1',
       keywords: ['kp_1', 'p1'],
     },
   },
   {
     desc: 'Keypad 2 and Down Arrow',
     keycodeInfo: {
-      code: 90,
+      code: 0x5a, // 90 0b1011010
+      label: 'Num 2',
       name: {
         long: 'KC_KP_2',
         short: 'KC_P2',
       },
-      label: 'Num 2',
       keywords: ['kp_2', 'p2'],
     },
   },
   {
     desc: 'Keypad 3 and Page Down',
     keycodeInfo: {
-      code: 91,
+      code: 0x5b, // 91 0b1011011
+      label: 'Num 3',
       name: {
         long: 'KC_KP_3',
         short: 'KC_P3',
       },
-      label: 'Num 3',
       keywords: ['kp_3', 'p3'],
     },
   },
   {
     desc: 'Keypad 4 and Left Arrow',
     keycodeInfo: {
-      code: 92,
+      code: 0x5c, // 92 0b1011100
+      label: 'Num 4',
       name: {
         long: 'KC_KP_4',
         short: 'KC_P4',
       },
-      label: 'Num 4',
       keywords: ['kp_4', 'p4'],
     },
   },
   {
     desc: 'Keypad 5',
     keycodeInfo: {
-      code: 93,
+      code: 0x5d, // 93 0b1011101
+      label: 'Num 5',
       name: {
         long: 'KC_KP_5',
         short: 'KC_P5',
       },
-      label: 'Num 5',
       keywords: ['kp_5', 'p5'],
     },
   },
   {
     desc: 'Keypad 6 and Right Arrow',
     keycodeInfo: {
-      code: 94,
+      code: 0x5e, // 94 0b1011110
+      label: 'Num 6',
       name: {
         long: 'KC_KP_6',
         short: 'KC_P6',
       },
-      label: 'Num 6',
       keywords: ['kp_6', 'p6'],
     },
   },
   {
     desc: 'Keypad 7 and Home',
     keycodeInfo: {
-      code: 95,
+      code: 0x5f, // 95 0b1011111
+      label: 'Num 7',
       name: {
         long: 'KC_KP_7',
         short: 'KC_P7',
       },
-      label: 'Num 7',
       keywords: ['kp_7', 'p7'],
     },
   },
   {
     desc: 'Keypad 8 and Up Arrow',
     keycodeInfo: {
-      code: 96,
+      code: 0x60, // 96 0b1100000
+      label: 'Num 8',
       name: {
         long: 'KC_KP_8',
         short: 'KC_P8',
       },
-      label: 'Num 8',
       keywords: ['kp_8', 'p8'],
     },
   },
   {
     desc: 'Keypad 9 and Page Up',
     keycodeInfo: {
-      code: 97,
+      code: 0x61, // 97 0b1100001
+      label: 'Num 9',
       name: {
         long: 'KC_KP_9',
         short: 'KC_P9',
       },
-      label: 'Num 9',
       keywords: ['kp_9', 'p9'],
     },
   },
   {
     desc: 'Keypad 0 and Insert',
     keycodeInfo: {
-      code: 98,
+      code: 0x62, // 98 0b1100010
+      label: 'Num 0',
       name: {
         long: 'KC_KP_0',
         short: 'KC_P0',
       },
-      label: 'Num 0',
       keywords: ['kp_0', 'p0'],
     },
   },
   {
     desc: 'Keypad . and Delete',
     keycodeInfo: {
-      code: 99,
+      code: 0x63, // 99 0b1100011
+      label: 'Num .',
       name: {
         long: 'KC_KP_DOT',
         short: 'KC_PDOT',
       },
-      label: 'Num .',
       keywords: ['kp_dot', 'pdot', 'kp_.'],
     },
   },
   {
-    desc: 'Non-US  and |',
+    desc: 'Non-US \\ and |',
     keycodeInfo: {
-      code: 100,
+      code: 0x64, // 100 0b1100100
+      label: 'NUBS',
       name: {
-        long: 'KC_NONUS_BSLASH',
+        long: 'KC_NONUS_BACKSLASH',
         short: 'KC_NUBS',
       },
-      label: 'NUBS',
       keywords: ['nonus_bslash'],
     },
   },
   {
     desc: 'Application (Windows Context Menu Key)',
     keycodeInfo: {
-      code: 101,
+      code: 0x65, // 101 0b1100101
+      label: 'App',
       name: {
         long: 'KC_APPLICATION',
         short: 'KC_APP',
       },
-      label: 'App',
       keywords: ['application'],
     },
   },
   {
     desc: 'System Power',
     keycodeInfo: {
-      code: 102,
-      name: {
-        long: 'KC_POWER',
-        short: 'KC_POWER',
-      },
+      code: 0x66, // 102 0b1100110
       label: 'Power',
+      name: {
+        long: 'KC_KB_POWER',
+        short: 'KC_KB_POWER',
+      },
       keywords: [],
     },
   },
   {
     desc: 'Keypad =',
     keycodeInfo: {
-      code: 103,
+      code: 0x67, // 103 0b1100111
+      label: 'Num =',
       name: {
         long: 'KC_KP_EQUAL',
         short: 'KC_PEQL',
       },
-      label: 'Num =',
-
       keywords: ['num equal', 'kq_equal', 'peql'],
     },
   },
   {
-    desc: '',
+    desc: 'F13',
     keycodeInfo: {
-      code: 104,
+      code: 0x68, // 104 0b1101000
+      label: 'F13',
       name: {
         long: 'KC_F13',
         short: 'KC_F13',
       },
-      label: 'F13',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F14',
     keycodeInfo: {
-      code: 105,
+      code: 0x69, // 105 0b1101001
+      label: 'F14',
       name: {
         long: 'KC_F14',
         short: 'KC_F14',
       },
-      label: 'F14',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F15',
     keycodeInfo: {
-      code: 106,
+      code: 0x6a, // 106 0b1101010
+      label: 'F15',
       name: {
         long: 'KC_F15',
         short: 'KC_F15',
       },
-      label: 'F15',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F16',
     keycodeInfo: {
-      code: 107,
+      code: 0x6b, // 107 0b1101011
+      label: 'F16',
       name: {
         long: 'KC_F16',
         short: 'KC_F16',
       },
-      label: 'F16',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F17',
     keycodeInfo: {
-      code: 108,
+      code: 0x6c, // 108 0b1101100
+      label: 'F17',
       name: {
         long: 'KC_F17',
         short: 'KC_F17',
       },
-      label: 'F17',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F18',
     keycodeInfo: {
-      code: 109,
+      code: 0x6d, // 109 0b1101101
+      label: 'F18',
       name: {
         long: 'KC_F18',
         short: 'KC_F18',
       },
-      label: 'F18',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F19',
     keycodeInfo: {
-      code: 110,
+      code: 0x6e, // 110 0b1101110
+      label: 'F19',
       name: {
         long: 'KC_F19',
         short: 'KC_F19',
       },
-      label: 'F19',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F20',
     keycodeInfo: {
-      code: 111,
+      code: 0x6f, // 111 0b1101111
+      label: 'F20',
       name: {
         long: 'KC_F20',
         short: 'KC_F20',
       },
-      label: 'F20',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F21',
     keycodeInfo: {
-      code: 112,
+      code: 0x70, // 112 0b1110000
+      label: 'F21',
       name: {
         long: 'KC_F21',
         short: 'KC_F21',
       },
-      label: 'F21',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F22',
     keycodeInfo: {
-      code: 113,
+      code: 0x71, // 113 0b1110001
+      label: 'F22',
       name: {
         long: 'KC_F22',
         short: 'KC_F22',
       },
-      label: 'F22',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F23',
     keycodeInfo: {
-      code: 114,
+      code: 0x72, // 114 0b1110010
+      label: 'F23',
       name: {
         long: 'KC_F23',
         short: 'KC_F23',
       },
-      label: 'F23',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'F24',
     keycodeInfo: {
-      code: 115,
+      code: 0x73, // 115 0b1110011
+      label: 'F24',
       name: {
         long: 'KC_F24',
         short: 'KC_F24',
       },
-      label: 'F24',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Execute',
     keycodeInfo: {
-      code: 116,
+      code: 0x74, // 116 0b1110100
+      label: 'Execute',
       name: {
         long: 'KC_EXECUTE',
         short: 'KC_EXEC',
       },
-      label: 'Execute',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Help',
     keycodeInfo: {
-      code: 117,
+      code: 0x75, // 117 0b1110101
+      label: 'Help',
       name: {
         long: 'KC_HELP',
         short: 'KC_HELP',
       },
-      label: 'Help',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Menu',
     keycodeInfo: {
-      code: 118,
+      code: 0x76, // 118 0b1110110
+      label: 'Menu',
       name: {
         long: 'KC_MENU',
         short: 'KC_MENU',
       },
-      label: 'Menu',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Select',
     keycodeInfo: {
-      code: 119,
+      code: 0x77, // 119 0b1110111
+      label: 'Select',
       name: {
         long: 'KC_SELECT',
         short: 'KC_SLCT',
       },
-      label: 'Select',
       keywords: ['slct'],
     },
   },
   {
-    desc: '',
+    desc: 'Stop',
     keycodeInfo: {
-      code: 120,
+      code: 0x78, // 120 0b1111000
+      label: 'Stop',
       name: {
         long: 'KC_STOP',
         short: 'KC_STOP',
       },
-      label: 'Stop',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Again',
     keycodeInfo: {
-      code: 121,
+      code: 0x79, // 121 0b1111001
+      label: 'Again',
       name: {
         long: 'KC_AGAIN',
         short: 'KC_AGIN',
       },
-      label: 'Again',
       keywords: ['agin'],
     },
   },
   {
-    desc: '',
+    desc: 'Undo',
     keycodeInfo: {
-      code: 122,
+      code: 0x7a, // 122 0b1111010
+      label: 'Undo',
       name: {
         long: 'KC_UNDO',
         short: 'KC_UNDO',
       },
-      label: 'Undo',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Cut',
     keycodeInfo: {
-      code: 123,
+      code: 0x7b, // 123 0b1111011
+      label: 'Cut',
       name: {
         long: 'KC_CUT',
         short: 'KC_CUT',
       },
-      label: 'Cut',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Copy',
     keycodeInfo: {
-      code: 124,
+      code: 0x7c, // 124 0b1111100
+      label: 'Copy',
       name: {
         long: 'KC_COPY',
         short: 'KC_COPY',
       },
-      label: 'Copy',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Paste',
     keycodeInfo: {
-      code: 125,
+      code: 0x7d, // 125 0b1111101
+      label: 'Paste',
       name: {
         long: 'KC_PASTE',
         short: 'KC_PSTE',
       },
-      label: 'Paste',
       keywords: ['pste'],
     },
   },
   {
-    desc: '',
+    desc: 'Find',
     keycodeInfo: {
-      code: 126,
+      code: 0x7e, // 126 0b1111110
+      label: 'Find',
       name: {
         long: 'KC_FIND',
         short: 'KC_FIND',
       },
-      label: 'Find',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Mute',
     keycodeInfo: {
-      code: 127,
-      name: {
-        long: 'KC__MUTE',
-        short: 'KC__MUTE',
-      },
+      code: 0x7f, // 127 0b1111111
       label: 'Mute',
+      name: {
+        long: 'KC_KB_MUTE',
+        short: 'KC_KB_MUTE',
+      },
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Volume Up',
     keycodeInfo: {
-      code: 128,
-      name: {
-        long: 'KC__VOLUP',
-        short: 'KC__VOLUP',
-      },
+      code: 0x80, // 128 0b10000000
       label: 'Vol +',
-
+      name: {
+        long: 'KC_KB_VOLUME_UP',
+        short: 'KC_KB_VOLUME_UP',
+      },
       keywords: ['volume plus', 'volup'],
     },
   },
   {
-    desc: '',
+    desc: 'Volume Down',
     keycodeInfo: {
-      code: 129,
-      name: {
-        long: 'KC__VOLDOWN',
-        short: 'KC__VOLDOWN',
-      },
+      code: 0x81, // 129 0b10000001
       label: 'Vol -',
-
+      name: {
+        long: 'KC_KB_VOLUME_DOWN',
+        short: 'KC_KB_VOLUME_DOWN',
+      },
       keywords: ['volume minus', 'voldown'],
     },
   },
   {
-    desc: '',
+    desc: 'Locking Caps Lock',
     keycodeInfo: {
-      code: 130,
+      code: 0x82, // 130 0b10000010
+      label: 'Locking Caps Lock',
       name: {
-        long: 'KC_LOCKING_CAPS',
+        long: 'KC_LOCKING_CAPS_LOCK',
         short: 'KC_LCAP',
       },
-      label: 'Locking Caps Lock',
       keywords: ['locking_caps', 'lcap'],
     },
   },
   {
-    desc: '',
+    desc: 'Locking Num Lock',
     keycodeInfo: {
-      code: 131,
+      code: 0x83, // 131 0b10000011
+      label: 'Locking Num Lock',
       name: {
-        long: 'KC_LOCKING_NUM',
+        long: 'KC_LOCKING_NUM_LOCK',
         short: 'KC_LNUM',
       },
-      label: 'Locking Num Lock',
       keywords: ['locking_num', 'lnum'],
     },
   },
   {
-    desc: '',
+    desc: 'Locking Scroll Lock',
     keycodeInfo: {
-      code: 132,
+      code: 0x84, // 132 0b10000100
+      label: 'Locking Scroll Lock',
       name: {
-        long: 'KC_LOCKING_SCROLL',
+        long: 'KC_LOCKING_SCROLL_LOCK',
         short: 'KC_LSCR',
       },
-      label: 'Locking Scroll Lock',
       keywords: ['locking_scroll', 'lscr'],
     },
   },
   {
-    desc: '',
+    desc: 'Keypad ,',
     keycodeInfo: {
-      code: 133,
+      code: 0x85, // 133 0b10000101
+      label: 'Num ,',
       name: {
         long: 'KC_KP_COMMA',
         short: 'KC_PCMM',
       },
-      label: 'Num ,',
       keywords: ['kp_comma', 'pcmm'],
     },
   },
   {
     desc: 'Keypad = on AS/400 keyboards',
     keycodeInfo: {
-      code: 134,
+      code: 0x86, // 134 0b10000110
+      label: 'Num = AS400',
       name: {
         long: 'KC_KP_EQUAL_AS400',
         short: 'KC_KP_EQUAL_AS400',
       },
-      label: 'Num = AS400',
-
       keywords: ['num equal as400', 'kp_equal_as400'],
     },
   },
   {
-    desc: 'JIS \\ and _',
+    desc: 'International 1',
     keycodeInfo: {
-      code: 135,
-      name: {
-        long: 'KC_INT1',
-        short: 'KC_RO',
-      },
+      code: 0x87, // 135 0b10000111
       label: 'Ro',
+      name: {
+        long: 'KC_INTERNATIONAL_1',
+        short: 'KC_INT1',
+      },
       keywords: ['int1'],
     },
   },
   {
-    desc: 'JIS Katakana/Hiragana',
+    desc: 'International 2',
     keycodeInfo: {
-      code: 136,
-      name: {
-        long: 'KC_INT2',
-        short: 'KC_KANA',
-      },
+      code: 0x88, // 136 0b10001000
       label: 'かな',
+      name: {
+        long: 'KC_INTERNATIONAL_2',
+        short: 'KC_INT2',
+      },
       keywords: ['kana', 'int2'],
     },
   },
   {
-    desc: 'JIS ¥ and |',
+    desc: 'International 3',
     keycodeInfo: {
-      code: 137,
-      name: {
-        long: 'KC_INT3',
-        short: 'KC_JYEN',
-      },
+      code: 0x89, // 137 0b10001001
       label: '¥',
+      name: {
+        long: 'KC_INTERNATIONAL_3',
+        short: 'KC_INT3',
+      },
       keywords: ['yen', 'int3'],
     },
   },
   {
-    desc: 'JIS Henkan',
+    desc: 'International 4',
     keycodeInfo: {
-      code: 138,
-      name: {
-        long: 'KC_INT4',
-        short: 'KC_HENK',
-      },
+      code: 0x8a, // 138 0b10001010
       label: '変換',
+      name: {
+        long: 'KC_INTERNATIONAL_4',
+        short: 'KC_INT4',
+      },
       keywords: ['henkan', 'int4'],
     },
   },
   {
-    desc: 'JIS Muhenkan',
+    desc: 'International 5',
     keycodeInfo: {
-      code: 139,
-      name: {
-        long: 'KC_INT5',
-        short: 'KC_MHEN',
-      },
+      code: 0x8b, // 139 0b10001011
       label: '無変換',
+      name: {
+        long: 'KC_INTERNATIONAL_5',
+        short: 'KC_INT5',
+      },
       keywords: ['muhenkan', 'int5'],
     },
   },
   {
-    desc: '',
+    desc: 'International 6',
     keycodeInfo: {
-      code: 140,
+      code: 0x8c, // 140 0b10001100
+      label: 'JIS Numpad ,',
       name: {
-        long: 'KC_INT6',
+        long: 'KC_INTERNATIONAL_6',
         short: 'KC_INT6',
       },
-      label: 'JIS Numpad ,',
       keywords: ['int6'],
     },
   },
   {
     desc: 'International 7',
     keycodeInfo: {
-      code: 141,
+      code: 0x8d, // 141 0b10001101
+      label: 'Int 7',
       name: {
-        long: 'KC_INT7',
+        long: 'KC_INTERNATIONAL_7',
         short: 'KC_INT7',
       },
-      label: 'Int 7',
       keywords: ['int7'],
     },
   },
   {
     desc: 'International 8',
     keycodeInfo: {
-      code: 142,
+      code: 0x8e, // 142 0b10001110
+      label: 'Int 8',
       name: {
-        long: 'KC_INT8',
+        long: 'KC_INTERNATIONAL_8',
         short: 'KC_INT8',
       },
-      label: 'Int 8',
       keywords: ['int8'],
     },
   },
   {
     desc: 'International 9',
     keycodeInfo: {
-      code: 143,
+      code: 0x8f, // 143 0b10001111
+      label: 'Int 9',
       name: {
-        long: 'KC_INT9',
+        long: 'KC_INTERNATIONAL_9',
         short: 'KC_INT9',
       },
-      label: 'Int 9',
       keywords: ['int9'],
     },
   },
   {
-    desc: 'Hangul/English',
+    desc: 'Language 1',
     keycodeInfo: {
-      code: 144,
-      name: {
-        long: 'KC_LANG1',
-        short: 'KC_HAEN',
-      },
+      code: 0x90, // 144 0b10010000
       label: 'Lang 1',
+      name: {
+        long: 'KC_LANGUAGE_1',
+        short: 'KC_LNG1',
+      },
       keywords: ['lang1', 'haen'],
     },
   },
   {
-    desc: 'Hanja',
+    desc: 'Language 2',
     keycodeInfo: {
-      code: 145,
-      name: {
-        long: 'KC_LANG2',
-        short: 'KC_HANJ',
-      },
+      code: 0x91, // 145 0b10010001
       label: 'Lang 2',
+      name: {
+        long: 'KC_LANGUAGE_2',
+        short: 'KC_LNG2',
+      },
       keywords: ['lang2', 'hanj'],
     },
   },
   {
-    desc: '',
+    desc: 'Language 3',
     keycodeInfo: {
-      code: 146,
-      name: {
-        long: 'KC_LANG3',
-        short: 'KC_LANG3',
-      },
+      code: 0x92, // 146 0b10010010
       label: 'JIS Katakana',
+      name: {
+        long: 'KC_LANGUAGE_3',
+        short: 'KC_LNG3',
+      },
       keywords: ['lang3'],
     },
   },
   {
-    desc: '',
+    desc: 'Language 4',
     keycodeInfo: {
-      code: 147,
-      name: {
-        long: 'KC_LANG4',
-        short: 'KC_LANG4',
-      },
+      code: 0x93, // 147 0b10010011
       label: 'JIS Hiragana',
+      name: {
+        long: 'KC_LANGUAGE_4',
+        short: 'KC_LNG4',
+      },
       keywords: ['lang4'],
     },
   },
   {
     desc: 'Language 5',
     keycodeInfo: {
-      code: 148,
-      name: {
-        long: 'KC_LANG5',
-        short: 'KC_LANG5',
-      },
+      code: 0x94, // 148 0b10010100
       label: 'Lang 5',
+      name: {
+        long: 'KC_LANGUAGE_5',
+        short: 'KC_LNG5',
+      },
       keywords: ['lang5'],
     },
   },
   {
     desc: 'Language 6',
     keycodeInfo: {
-      code: 149,
-      name: {
-        long: 'KC_LANG6',
-        short: 'KC_LANG6',
-      },
+      code: 0x95, // 149 0b10010101
       label: 'Lang 6',
+      name: {
+        long: 'KC_LANGUAGE_6',
+        short: 'KC_LNG6',
+      },
       keywords: ['lang6'],
     },
   },
   {
     desc: 'Language 7',
     keycodeInfo: {
-      code: 150,
-      name: {
-        long: 'KC_LANG7',
-        short: 'KC_LANG7',
-      },
+      code: 0x96, // 150 0b10010110
       label: 'Lang 7',
+      name: {
+        long: 'KC_LANGUAGE_7',
+        short: 'KC_LNG7',
+      },
       keywords: ['lang7'],
     },
   },
   {
     desc: 'Language 8',
     keycodeInfo: {
-      code: 151,
-      name: {
-        long: 'KC_LANG8',
-        short: 'KC_LANG8',
-      },
+      code: 0x97, // 151 0b10010111
       label: 'Lang 8',
+      name: {
+        long: 'KC_LANGUAGE_8',
+        short: 'KC_LNG8',
+      },
       keywords: ['lang8'],
     },
   },
   {
     desc: 'Language 9',
     keycodeInfo: {
-      code: 152,
-      name: {
-        long: 'KC_LANG9',
-        short: 'KC_LANG9',
-      },
+      code: 0x98, // 152 0b10011000
       label: 'Lang 9',
+      name: {
+        long: 'KC_LANGUAGE_9',
+        short: 'KC_LNG9',
+      },
       keywords: ['lang9'],
     },
   },
   {
     desc: 'Alternate Erase',
     keycodeInfo: {
-      code: 153,
+      code: 0x99, // 153 0b10011001
+      label: 'Alt Erase',
       name: {
-        long: 'KC_ALT_ERASE',
+        long: 'KC_ALTERNATE_ERASE',
         short: 'KC_ERAS',
       },
-      label: 'Alt Erase',
       keywords: ['alt_erase', 'eras'],
     },
   },
   {
     desc: 'SysReq/Attention',
     keycodeInfo: {
-      code: 154,
-      name: {
-        long: 'KC_SYSREQ',
-        short: 'KC_SYSREQ',
-      },
+      code: 0x9a, // 154 0b10011010
       label: 'SysReq',
+      name: {
+        long: 'KC_SYSTEM_REQUEST',
+        short: 'KC_SYRQ',
+      },
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Cancel',
     keycodeInfo: {
-      code: 155,
+      code: 0x9b, // 155 0b10011011
+      label: 'Cancel',
       name: {
         long: 'KC_CANCEL',
-        short: 'KC_CANCEL',
+        short: 'KC_CNCL',
       },
-      label: 'Cancel',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Clear',
     keycodeInfo: {
-      code: 156,
+      code: 0x9c, // 156 0b10011100
+      label: 'Clear',
       name: {
         long: 'KC_CLEAR',
         short: 'KC_CLR',
       },
-      label: 'Clear',
       keywords: ['clr'],
     },
   },
   {
-    desc: '',
+    desc: 'Prior',
     keycodeInfo: {
-      code: 157,
+      code: 0x9d, // 157 0b10011101
+      label: 'Prior',
       name: {
         long: 'KC_PRIOR',
-        short: 'KC_PRIOR',
+        short: 'KC_PRIR',
       },
-      label: 'Prior',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Return',
     keycodeInfo: {
-      code: 158,
+      code: 0x9e, // 158 0b10011110
+      label: 'Return',
       name: {
         long: 'KC_RETURN',
-        short: 'KC_RETURN',
+        short: 'KC_RETN',
       },
-      label: 'Return',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Separator',
     keycodeInfo: {
-      code: 159,
+      code: 0x9f, // 159 0b10011111
+      label: 'Separator',
       name: {
         long: 'KC_SEPARATOR',
-        short: 'KC_SEPARATOR',
+        short: 'KC_SEPR',
       },
-      label: 'Separator',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Out',
     keycodeInfo: {
-      code: 160,
+      code: 0xa0, // 160 0b10100000
+      label: 'Out',
       name: {
         long: 'KC_OUT',
         short: 'KC_OUT',
       },
-      label: 'Out',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Oper',
     keycodeInfo: {
-      code: 161,
+      code: 0xa1, // 161 0b10100001
+      label: 'Oper',
       name: {
         long: 'KC_OPER',
         short: 'KC_OPER',
       },
-      label: 'Oper',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'Clear/Again',
     keycodeInfo: {
-      code: 162,
+      code: 0xa2, // 162 0b10100010
+      label: 'Clear/Again',
       name: {
         long: 'KC_CLEAR_AGAIN',
-        short: 'KC_CLEAR_AGAIN',
+        short: 'KC_CLAG',
       },
-      label: 'Clear/Again',
       keywords: ['clear_again'],
     },
   },
   {
-    desc: '',
+    desc: 'CrSel/Props',
     keycodeInfo: {
-      code: 163,
+      code: 0xa3, // 163 0b10100011
+      label: 'CrSel/Props',
       name: {
         long: 'KC_CRSEL',
-        short: 'KC_CRSEL',
+        short: 'KC_CRSL',
       },
-      label: 'CrSel/Props',
       keywords: ['crsel'],
     },
   },
   {
-    desc: '',
+    desc: 'ExSel',
     keycodeInfo: {
-      code: 164,
+      code: 0xa4, // 164 0b10100100
+      label: 'ExSel',
       name: {
         long: 'KC_EXSEL',
-        short: 'KC_EXSEL',
+        short: 'KC_EXSL',
       },
-      label: 'ExSel',
       keywords: [],
     },
   },
   {
-    desc: '',
+    desc: 'System Power Down',
     keycodeInfo: {
-      code: 165,
+      code: 0xa5, // 165 0b10100101
+      label: 'System Power Down',
       name: {
         long: 'KC_SYSTEM_POWER',
         short: 'KC_PWR',
       },
-      label: 'System Power Down',
       keywords: ['system_power', 'pwr'],
     },
   },
   {
-    desc: '',
+    desc: 'System Sleep',
     keycodeInfo: {
-      code: 166,
+      code: 0xa6, // 166 0b10100110
+      label: 'Sleep',
       name: {
         long: 'KC_SYSTEM_SLEEP',
         short: 'KC_SLEP',
       },
-      label: 'Sleep',
       keywords: ['system_sleep', 'slep'],
     },
   },
   {
-    desc: '',
+    desc: 'System Wake',
     keycodeInfo: {
-      code: 167,
+      code: 0xa7, // 167 0b10100111
+      label: 'Wake',
       name: {
         long: 'KC_SYSTEM_WAKE',
         short: 'KC_WAKE',
       },
-      label: 'Wake',
       keywords: ['system_wake', 'wake'],
     },
   },
   {
-    desc: '',
+    desc: 'Mute',
     keycodeInfo: {
-      code: 168,
+      code: 0xa8, // 168 0b10101000
+      label: 'Audio Mute',
       name: {
         long: 'KC_AUDIO_MUTE',
         short: 'KC_MUTE',
       },
-      label: 'Audio Mute',
       keywords: ['audio_mute'],
     },
   },
   {
-    desc: '',
+    desc: 'Volume Up',
     keycodeInfo: {
-      code: 169,
+      code: 0xa9, // 169 0b10101001
+      label: 'Audio Vol +',
       name: {
         long: 'KC_AUDIO_VOL_UP',
         short: 'KC_VOLU',
       },
-      label: 'Audio Vol +',
       keywords: ['audio volume plus', 'audio_vol_up', 'volu'],
     },
   },
   {
-    desc: '',
+    desc: 'Volume Down',
     keycodeInfo: {
-      code: 170,
+      code: 0xaa, // 170 0b10101010
+      label: 'Audio Vol -',
       name: {
         long: 'KC_AUDIO_VOL_DOWN',
         short: 'KC_VOLD',
       },
-      label: 'Audio Vol -',
       keywords: ['audio volume minus', 'audio_vol_down', 'vold'],
     },
   },
   {
-    desc: '',
+    desc: 'Next Track',
     keycodeInfo: {
-      code: 171,
+      code: 0xab, // 171 0b10101011
+      label: 'Next',
       name: {
         long: 'KC_MEDIA_NEXT_TRACK',
         short: 'KC_MNXT',
       },
-      label: 'Next',
       keywords: ['media_next_track', 'mnxt'],
     },
   },
   {
-    desc: '',
+    desc: 'Previous Track',
     keycodeInfo: {
-      code: 172,
+      code: 0xac, // 172 0b10101100
+      label: 'Previous',
       name: {
         long: 'KC_MEDIA_PREV_TRACK',
         short: 'KC_MPRV',
       },
-      label: 'Previous',
       keywords: ['media_prev_track', 'mprv'],
     },
   },
   {
-    desc: '',
+    desc: 'Stop Track',
     keycodeInfo: {
-      code: 173,
+      code: 0xad, // 173 0b10101101
+      label: 'Media Stop',
       name: {
         long: 'KC_MEDIA_STOP',
         short: 'KC_MSTP',
       },
-      label: 'Media Stop',
       keywords: ['medai_stop', 'mstp'],
     },
   },
   {
-    desc: '',
+    desc: 'Play/Pause Track',
     keycodeInfo: {
-      code: 174,
+      code: 0xae, // 174 0b10101110
+      label: 'Play',
       name: {
         long: 'KC_MEDIA_PLAY_PAUSE',
         short: 'KC_MPLY',
       },
-      label: 'Play',
       keywords: ['medai_play_pause', 'mply'],
     },
   },
   {
-    desc: '',
+    desc: 'Launch Media Player',
     keycodeInfo: {
-      code: 175,
+      code: 0xaf, // 175 0b10101111
+      label: 'Select',
       name: {
         long: 'KC_MEDIA_SELECT',
         short: 'KC_MSEL',
       },
-      label: 'Select',
       keywords: ['media_select', 'msel'],
     },
   },
   {
-    desc: '',
+    desc: 'Eject',
     keycodeInfo: {
-      code: 176,
+      code: 0xb0, // 176 0b10110000
+      label: 'Eject',
       name: {
         long: 'KC_MEDIA_EJECT',
         short: 'KC_EJCT',
       },
-      label: 'Eject',
       keywords: ['media_eject', 'ejct'],
     },
   },
   {
     desc: 'Launch Mail',
     keycodeInfo: {
-      code: 177,
+      code: 0xb1, // 177 0b10110001
+      label: 'Mail',
       name: {
         long: 'KC_MAIL',
         short: 'KC_MAIL',
       },
-      label: 'Mail',
       keywords: [],
     },
   },
   {
     desc: 'Launch Calculator',
     keycodeInfo: {
-      code: 178,
+      code: 0xb2, // 178 0b10110010
+      label: 'Calculator',
       name: {
         long: 'KC_CALCULATOR',
         short: 'KC_CALC',
       },
-      label: 'Calculator',
       keywords: [],
     },
   },
   {
     desc: 'Launch My Computer',
     keycodeInfo: {
-      code: 179,
+      code: 0xb3, // 179 0b10110011
+      label: 'My Computer',
       name: {
         long: 'KC_MY_COMPUTER',
         short: 'KC_MYCM',
       },
-      label: 'My Computer',
-      keywords: ['my_comuter', 'mycm'],
+      keywords: ['my_computer', 'mycm'],
     },
   },
   {
     desc: 'Browser Search',
     keycodeInfo: {
-      code: 180,
+      code: 0xb4, // 180 0b10110100
+      label: 'WWW Search',
       name: {
         long: 'KC_WWW_SEARCH',
         short: 'KC_WSCH',
       },
-      label: 'WWW Search',
       keywords: ['www_search', 'wsch'],
     },
   },
   {
     desc: 'Browser Home',
     keycodeInfo: {
-      code: 181,
+      code: 0xb5, // 181 0b10110101
+      label: 'WWW Home',
       name: {
         long: 'KC_WWW_HOME',
         short: 'KC_WHOM',
       },
-      label: 'WWW Home',
       keywords: ['www_home', 'whom'],
     },
   },
   {
     desc: 'Browser Back',
     keycodeInfo: {
-      code: 182,
+      code: 0xb6, // 182 0b10110110
+      label: 'WWW Back',
       name: {
         long: 'KC_WWW_BACK',
         short: 'KC_WBAK',
       },
-      label: 'WWW Back',
       keywords: ['www_back', 'wbak'],
     },
   },
   {
     desc: 'Browser Forward',
     keycodeInfo: {
-      code: 183,
+      code: 0xb7, // 183 0b10110111
+      label: 'WWW Forward',
       name: {
         long: 'KC_WWW_FORWARD',
         short: 'KC_WFWD',
       },
-      label: 'WWW Forward',
       keywords: ['www_forward', 'wfwd'],
     },
   },
   {
     desc: 'Browser Stop',
     keycodeInfo: {
-      code: 184,
+      code: 0xb8, // 184 0b10111000
+      label: 'WWW Stop',
       name: {
         long: 'KC_WWW_STOP',
         short: 'KC_WSTP',
       },
-      label: 'WWW Stop',
       keywords: ['www_stop', 'wstp'],
     },
   },
   {
     desc: 'Browser Refresh',
     keycodeInfo: {
-      code: 185,
+      code: 0xb9, // 185 0b10111001
+      label: 'WWW Refresh',
       name: {
         long: 'KC_WWW_REFRESH',
         short: 'KC_WREF',
       },
-      label: 'WWW Refresh',
       keywords: ['www_refresh', 'wref'],
     },
   },
   {
     desc: 'Browser Favorites',
     keycodeInfo: {
-      code: 186,
+      code: 0xba, // 186 0b10111010
+      label: 'WWW Favorite',
       name: {
         long: 'KC_WWW_FAVORITES',
         short: 'KC_WFAV',
       },
-      label: 'WWW Favorite',
       keywords: ['www_favorites', 'wfav'],
     },
   },
   {
     desc: 'Next Track',
     keycodeInfo: {
-      code: 187,
+      code: 0xbb, // 187 0b10111011
+      label: 'Fast Forward',
       name: {
         long: 'KC_MEDIA_FAST_FORWARD',
         short: 'KC_MFFD',
       },
-      label: 'Fast Forward',
       keywords: ['media_fast_forward', 'mffd'],
     },
   },
   {
     desc: 'Previous Track',
     keycodeInfo: {
-      code: 188,
+      code: 0xbc, // 188 0b10111100
+      label: 'Rewind',
       name: {
         long: 'KC_MEDIA_REWIND',
         short: 'KC_MRWD',
       },
-      label: 'Rewind',
       keywords: ['media_rewind', 'mrwd'],
     },
   },
   {
     desc: 'Brightness Up',
     keycodeInfo: {
-      code: 189,
+      code: 0xbd, // 189 0b10111101
+      label: 'Screen +',
       name: {
         long: 'KC_BRIGHTNESS_UP',
         short: 'KC_BRIU',
       },
-      label: 'Screen +',
-
       keywords: ['screen plus', 'brightness up', 'brightness_up', 'briu'],
     },
   },
   {
     desc: 'Brightness Down',
     keycodeInfo: {
-      code: 190,
+      code: 0xbe, // 190 0b10111110
+      label: 'Screen -',
       name: {
         long: 'KC_BRIGHTNESS_DOWN',
         short: 'KC_BRID',
       },
-      label: 'Screen -',
-
       keywords: ['screen minus', 'brightness down', 'brightness_down', 'brid'],
     },
   },
   {
-    desc: '',
+    desc: 'Open Control Panel',
     keycodeInfo: {
-      code: 192,
+      code: 0xbf, // 191 0b10111111
+      label: 'Open Control Panel',
       name: {
-        long: 'KC_FN0',
-        short: 'KC_FN0',
+        long: 'KC_CONTROL_PANEL',
+        short: 'KC_CPNL',
       },
-      label: 'Func0',
-      keywords: ['fn0'],
+      keywords: ['Open Control Panel'],
     },
   },
   {
-    desc: '',
+    desc: 'Launch Context-Aware Assistant',
     keycodeInfo: {
-      code: 193,
+      code: 0xc0, // 192 0b11000000
+      label: 'Assistant',
       name: {
-        long: 'KC_FN1',
-        short: 'KC_FN1',
+        long: 'KC_ASSISTANT',
+        short: 'KC_ASST',
       },
-      label: 'Func1',
-      keywords: ['fn1'],
+      keywords: ['assistant'],
     },
   },
   {
-    desc: '',
+    desc: 'Open Mission Control',
     keycodeInfo: {
-      code: 194,
+      code: 0xc1, // 193 0b11000001
+      label: 'Mission Control',
       name: {
-        long: 'KC_FN2',
-        short: 'KC_FN2',
+        long: 'KC_MISSION_CONTROL',
+        short: 'KC_MCTL',
       },
-      label: 'Func2',
-      keywords: ['fn2'],
+      keywords: ['mission control'],
     },
   },
   {
-    desc: '',
+    desc: 'Open Launchpad',
     keycodeInfo: {
-      code: 195,
+      code: 0xc2, // 194 0b11000010
+      label: 'Launchpad',
       name: {
-        long: 'KC_FN3',
-        short: 'KC_FN3',
+        long: 'KC_LAUNCHPAD',
+        short: 'KC_LPAD',
       },
-      label: 'Func3',
-      keywords: ['fn3'],
+      keywords: ['launchpad'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Up',
     keycodeInfo: {
-      code: 196,
+      code: 0xcd, // 205 0b11001101
+      label: 'Mouse ↑',
       name: {
-        long: 'KC_FN4',
-        short: 'KC_FN4',
+        long: 'KC_MS_UP',
+        short: 'KC_MS_U',
       },
-      label: 'Func4',
-      keywords: ['fn4'],
+      keywords: ['mouse cursor up'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Down',
     keycodeInfo: {
-      code: 197,
+      code: 0xce, // 206 0b11001110
+      label: 'Mouse ↓',
       name: {
-        long: 'KC_FN5',
-        short: 'KC_FN5',
+        long: 'KC_MS_DOWN',
+        short: 'KC_MS_D',
       },
-      label: 'Func5',
-      keywords: ['fn5'],
+      keywords: ['mouse cursor down'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Left',
     keycodeInfo: {
-      code: 198,
+      code: 0xcf, // 207 0b11001111
+      label: 'Mouse ←',
       name: {
-        long: 'KC_FN6',
-        short: 'KC_FN6',
+        long: 'KC_MS_LEFT',
+        short: 'KC_MS_L',
       },
-      label: 'Func6',
-      keywords: ['fn6'],
+      keywords: ['mouse cursor left'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Cursor Right',
     keycodeInfo: {
-      code: 199,
+      code: 0xd0, // 208 0b11010000
+      label: 'Mouse →',
       name: {
-        long: 'KC_FN7',
-        short: 'KC_FN7',
+        long: 'KC_MS_RIGHT',
+        short: 'KC_MS_R',
       },
-      label: 'Func7',
-      keywords: ['fn7'],
+      keywords: ['mouse cursor right'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 1',
     keycodeInfo: {
-      code: 200,
+      code: 0xd1, // 209 0b11010001
+      label: 'Mouse Btn1',
       name: {
-        long: 'KC_FN8',
-        short: 'KC_FN8',
+        long: 'KC_MS_BTN1',
+        short: 'KC_BTN1',
       },
-      label: 'Func8',
-      keywords: ['fn8'],
+      keywords: ['mouse button 1'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 2',
     keycodeInfo: {
-      code: 201,
+      code: 0xd2, // 210 0b11010010
+      label: 'Mouse Btn2',
       name: {
-        long: 'KC_FN9',
-        short: 'KC_FN9',
+        long: 'KC_MS_BTN2',
+        short: 'KC_BTN2',
       },
-      label: 'Func9',
-      keywords: ['fn9'],
+      keywords: ['mouse button 2'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 3',
     keycodeInfo: {
-      code: 202,
+      code: 0xd3, // 211 0b11010011
+      label: 'Mouse Btn3',
       name: {
-        long: 'KC_FN10',
-        short: 'KC_FN10',
+        long: 'KC_MS_BTN3',
+        short: 'KC_BTN3',
       },
-      label: 'Func10',
-      keywords: ['fn10'],
+      keywords: ['mouse button 3'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 4',
     keycodeInfo: {
-      code: 203,
+      code: 0xd4, // 212 0b11010100
+      label: 'Mouse Btn4',
       name: {
-        long: 'KC_FN11',
-        short: 'KC_FN11',
+        long: 'KC_MS_BTN4',
+        short: 'KC_BTN4',
       },
-      label: 'Func11',
-      keywords: ['fn11'],
+      keywords: ['mouse button 4'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Button 5',
     keycodeInfo: {
-      code: 204,
+      code: 0xd5, // 213 0b11010101
+      label: 'Mouse Btn5',
       name: {
-        long: 'KC_FN12',
-        short: 'KC_FN12',
+        long: 'KC_MS_BTN5',
+        short: 'KC_BTN5',
       },
-      label: 'Func12',
-      keywords: ['fn12'],
+      keywords: ['mouse button 5'],
     },
   },
   {
-    desc: '',
+    desc: 'Press button 6',
     keycodeInfo: {
-      code: 205,
+      code: 0xd6, // 214 0b11010110
+      label: 'Mouse Btn6',
       name: {
-        long: 'KC_FN13',
-        short: 'KC_FN13',
+        long: 'KC_MS_BTN6',
+        short: 'KC_BTN6',
       },
-      label: 'Func13',
-      keywords: ['fn13'],
+      keywords: ['mouse button 6'],
     },
   },
   {
-    desc: '',
+    desc: 'Press button 7',
     keycodeInfo: {
-      code: 206,
+      code: 0xd7, // 215 0b11010111
+      label: 'Mouse Btn7',
       name: {
-        long: 'KC_FN14',
-        short: 'KC_FN14',
+        long: 'KC_MS_BTN7',
+        short: 'KC_BTN7',
       },
-      label: 'Func14',
-      keywords: ['fn14'],
+      keywords: ['mouse button 7'],
     },
   },
   {
-    desc: '',
+    desc: 'Press button 8',
     keycodeInfo: {
-      code: 207,
+      code: 0xd8, // 216 0b11011000
+      label: 'Mouse Btn8',
       name: {
-        long: 'KC_FN15',
-        short: 'KC_FN15',
+        long: 'KC_MS_BTN8',
+        short: 'KC_BTN8',
       },
-      label: 'Func15',
-      keywords: ['fn15'],
+      keywords: ['mouse button 8'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Up',
     keycodeInfo: {
-      code: 208,
+      code: 0xd9, // 217 0b11011001
+      label: 'Mouse Wh ↑',
       name: {
-        long: 'KC_FN16',
-        short: 'KC_FN16',
+        long: 'KC_MS_WH_UP',
+        short: 'KC_WH_U',
       },
-      label: 'Func16',
-      keywords: ['fn16'],
+      keywords: ['mouse wheel up'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Down',
     keycodeInfo: {
-      code: 209,
+      code: 0xda, // 218 0b11011010
+      label: 'Mouse Wh ↓',
       name: {
-        long: 'KC_FN17',
-        short: 'KC_FN17',
+        long: 'KC_MS_WH_DOWN',
+        short: 'KC_WH_D',
       },
-      label: 'Func17',
-      keywords: ['fn17'],
+      keywords: ['mouse wheel down'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Left',
     keycodeInfo: {
-      code: 210,
+      code: 0xdb, // 219 0b11011011
+      label: 'Mouse Wh ←',
       name: {
-        long: 'KC_FN18',
-        short: 'KC_FN18',
+        long: 'KC_MS_WH_LEFT',
+        short: 'KC_WH_L',
       },
-      label: 'Func18',
-      keywords: ['fn18'],
+      keywords: ['mouse wheel left'],
     },
   },
   {
-    desc: '',
+    desc: 'Mouse Wheel Right',
     keycodeInfo: {
-      code: 211,
+      code: 0xdc, // 220 0b11011100
+      label: 'Mouse Wh →',
       name: {
-        long: 'KC_FN19',
-        short: 'KC_FN19',
+        long: 'KC_MS_WH_RIGHT',
+        short: 'KC_WH_R',
       },
-      label: 'Func19',
-      keywords: ['fn19'],
+      keywords: ['mouse wheel right'],
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 0',
     keycodeInfo: {
-      code: 212,
+      code: 0xdd, // 221 0b11011101
+      label: 'Mouse Acc0',
       name: {
-        long: 'KC_FN20',
-        short: 'KC_FN20',
+        long: 'KC_MS_ACCEL0',
+        short: 'KC_ACL0',
       },
-      label: 'Func20',
-      keywords: ['fn20'],
+      keywords: ['mouse acceleration 0'],
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 1',
     keycodeInfo: {
-      code: 213,
+      code: 0xde, // 222 0b11011110
+      label: 'Mouse Acc1',
       name: {
-        long: 'KC_FN21',
-        short: 'KC_FN21',
+        long: 'KC_MS_ACCEL1',
+        short: 'KC_ACL1',
       },
-      label: 'Func21',
-      keywords: ['fn21'],
+      keywords: ['mouse acceleration 1'],
     },
   },
   {
-    desc: '',
+    desc: 'Set mouse acceleration to 2',
     keycodeInfo: {
-      code: 214,
+      code: 0xdf, // 223 0b11011111
+      label: 'Mouse Acc2',
       name: {
-        long: 'KC_FN22',
-        short: 'KC_FN22',
+        long: 'KC_MS_ACCEL2',
+        short: 'KC_ACL2',
       },
-      label: 'Func22',
-      keywords: ['fn22'],
+      keywords: ['mouse acceleration 2'],
     },
   },
   {
-    desc: '',
+    desc: 'Left Control',
     keycodeInfo: {
-      code: 215,
+      code: 0xe0, // 224 0b11100000
+      label: '*Ctrl',
       name: {
-        long: 'KC_FN23',
-        short: 'KC_FN23',
-      },
-      label: 'Func23',
-      keywords: ['fn23'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 216,
-      name: {
-        long: 'KC_FN24',
-        short: 'KC_FN24',
-      },
-      label: 'Func24',
-      keywords: ['fn24'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 217,
-      name: {
-        long: 'KC_FN25',
-        short: 'KC_FN25',
-      },
-      label: 'Func25',
-      keywords: ['fn25'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 218,
-      name: {
-        long: 'KC_FN26',
-        short: 'KC_FN26',
-      },
-      label: 'Func26',
-      keywords: ['fn26'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 219,
-      name: {
-        long: 'KC_FN27',
-        short: 'KC_FN27',
-      },
-      label: 'Func27',
-      keywords: ['fn27'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 220,
-      name: {
-        long: 'KC_FN28',
-        short: 'KC_FN28',
-      },
-      label: 'Func28',
-      keywords: ['fn28'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 221,
-      name: {
-        long: 'KC_FN29',
-        short: 'KC_FN29',
-      },
-      label: 'Func29',
-      keywords: ['fn29'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 222,
-      name: {
-        long: 'KC_FN30',
-        short: 'KC_FN30',
-      },
-      label: 'Func30',
-      keywords: ['fn30'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 223,
-      name: {
-        long: 'KC_FN31',
-        short: 'KC_FN31',
-      },
-      label: 'Func31',
-      keywords: ['fn31'],
-    },
-  },
-  {
-    desc: 'Left Ctrl',
-    keycodeInfo: {
-      code: 224,
-      name: {
-        long: 'KC_LCTRL',
+        long: 'KC_LEFT_CTRL',
         short: 'KC_LCTL',
       },
-      label: '*Ctrl',
       keywords: ['lctrl', 'lctl', 'lcontrol'],
     },
   },
   {
     desc: 'Left Shift',
     keycodeInfo: {
-      code: 225,
+      code: 0xe1, // 225 0b11100001
+      label: '*Shift',
       name: {
-        long: 'KC_LSHIFT',
+        long: 'KC_LEFT_SHIFT',
         short: 'KC_LSFT',
       },
-      label: '*Shift',
       keywords: ['lshift', 'lsft'],
     },
   },
   {
-    desc: 'Left Alt',
+    desc: 'Left Alt (Option)',
     keycodeInfo: {
-      code: 226,
-      name: {
-        long: 'KC_LALT',
-        short: 'KC_LOPT',
-      },
+      code: 0xe2, // 226 0b11100010
       label: '*Alt',
+      name: {
+        long: 'KC_LEFT_ALT',
+        short: 'KC_LALT',
+      },
       keywords: ['lalt', 'lopt'],
     },
   },
   {
     desc: 'Left GUI (Windows/Command/Meta key)',
     keycodeInfo: {
-      code: 227,
-      name: {
-        long: 'KC_LGUI',
-        short: 'KC_LWIN',
-      },
+      code: 0xe3, // 227 0b11100011
       label: '*Win',
+      name: {
+        long: 'KC_LEFT_GUI',
+        short: 'KC_LGUI',
+      },
       keywords: ['lgui', 'lwin', 'meta', 'lmeta'],
     },
   },
   {
-    desc: 'Right Ctrl',
+    desc: 'Right Control',
     keycodeInfo: {
-      code: 228,
+      code: 0xe4, // 228 0b11100100
+      label: 'Ctrl*',
       name: {
-        long: 'KC_RCTRL',
+        long: 'KC_RIGHT_CTRL',
         short: 'KC_RCTL',
       },
-      label: 'Ctrl*',
       keywords: ['rctrl', 'rctl', 'rcontrol'],
     },
   },
   {
     desc: 'Right Shift',
     keycodeInfo: {
-      code: 229,
+      code: 0xe5, // 229 0b11100101
+      label: 'Shift*',
       name: {
-        long: 'KC_RSHIFT',
+        long: 'KC_RIGHT_SHIFT',
         short: 'KC_RSFT',
       },
-      label: 'Shift*',
       keywords: ['rshift', 'rsft'],
     },
   },
   {
-    desc: 'Right Alt',
+    desc: 'Right Alt (Option/AltGr)',
     keycodeInfo: {
-      code: 230,
-      name: {
-        long: 'KC_RALT',
-        short: 'KC_ROPT',
-      },
+      code: 0xe6, // 230 0b11100110
       label: 'Alt*',
+      name: {
+        long: 'KC_RIGHT_ALT',
+        short: 'KC_RALT',
+      },
       keywords: ['ralt', 'ropt'],
     },
   },
   {
     desc: 'Right GUI (Windows/Command/Meta key)',
     keycodeInfo: {
-      code: 231,
-      name: {
-        long: 'KC_RGUI',
-        short: 'KC_RWIN',
-      },
+      code: 0xe7, // 231 0b11100111
       label: 'Win*',
+      name: {
+        long: 'KC_RIGHT_GUI',
+        short: 'KC_RGUI',
+      },
       keywords: ['rgui', 'rwin', 'rmeta'],
     },
   },
   {
-    desc: 'Mouse Cursor Up',
+    desc: 'Toggle hand swap',
     keycodeInfo: {
-      code: 240,
+      code: 0x56f0, // 22256 0b101011011110000
+      label: 'Swap Hands Toggle',
       name: {
-        long: 'KC_MS_UP,',
-        short: 'KC_MS_UP,',
+        long: 'QK_SWAP_HANDS_TOGGLE',
+        short: 'SH_TOGG',
       },
-      label: 'Mouse ↑',
-      keywords: ['mouse up', 'ms_up'],
+      keywords: ['Swap Hands Toggle'],
     },
   },
   {
-    desc: 'Mouse Cursor Down',
+    desc: 'Momentary swap when held, toggle when tapped',
     keycodeInfo: {
-      code: 241,
+      code: 0x56f1, // 22257 0b101011011110001
+      label: 'Swap Hands Tap Toggle',
       name: {
-        long: 'KC_MS_DOWN',
-        short: 'KC_MS_D',
+        long: 'QK_SWAP_HANDS_TAP_TOGGLE',
+        short: 'SH_TT',
       },
-      label: 'Mouse ↓',
-      keywords: ['mouse down', 'ms_down'],
+      keywords: ['Swap Hands Tap Toggle'],
     },
   },
   {
-    desc: 'Mouse Cursor Left',
+    desc: 'Turn on hand swap while held',
     keycodeInfo: {
-      code: 242,
+      code: 0x56f2, // 22258 0b101011011110010
+      label: 'Swap Hands Momentary On',
       name: {
-        long: 'KC_MS_LEFT',
-        short: 'KC_MS_L',
+        long: 'QK_SWAP_HANDS_MOMENTARY_ON',
+        short: 'SH_MON',
       },
-      label: 'Mouse ←',
-      keywords: ['mouse left', 'ms_left'],
+      keywords: ['Swap Hands Momentary On'],
     },
   },
   {
-    desc: 'Mouse Cursor Right',
+    desc: 'Turn off hand swap while held',
     keycodeInfo: {
-      code: 243,
+      code: 0x56f3, // 22259 0b101011011110011
+      label: 'Swap Hands Momentary Off',
       name: {
-        long: 'KC_MS_RIGHT',
-        short: 'KC_MS_R',
+        long: 'QK_SWAP_HANDS_MOMENTARY_OFF',
+        short: 'SH_MOFF',
       },
-      label: 'Mouse →',
-      keywords: ['mouse right', 'ms_right'],
+      keywords: ['Swap Hands Momentary Off'],
     },
   },
   {
-    desc: 'Mouse Button 1',
+    desc: 'Turn off hand swap',
     keycodeInfo: {
-      code: 244,
+      code: 0x56f4, // 22260 0b101011011110100
+      label: 'Swap Hands Off',
       name: {
-        long: 'KC_MS_BTN1',
-        short: 'KC_BTN1',
+        long: 'QK_SWAP_HANDS_OFF',
+        short: 'SH_OFF',
       },
-      label: 'Mouse Btn1',
-      keywords: ['ms_btn1'],
+      keywords: ['Swap Hands Off'],
     },
   },
   {
-    desc: 'Mouse Button 2',
+    desc: 'Turn on hand swap',
     keycodeInfo: {
-      code: 245,
+      code: 0x56f5, // 22261 0b101011011110101
+      label: 'Swap Hands On',
       name: {
-        long: 'KC_MS_BTN2',
-        short: 'KC_BTN2',
+        long: 'QK_SWAP_HANDS_ON',
+        short: 'SH_ON',
       },
-      label: 'Mouse Btn2',
-      keywords: ['ms_btn2'],
+      keywords: ['Swap Hands On'],
     },
   },
   {
-    desc: 'Mouse Button 3',
+    desc: 'Turn on hand swap while held or until next key press',
     keycodeInfo: {
-      code: 246,
+      code: 0x56f6, // 22262 0b101011011110110
+      label: 'Swap Hands One Shot',
       name: {
-        long: 'KC_MS_BTN3',
-        short: 'KC_BTN3',
+        long: 'QK_SWAP_HANDS_ONE_SHOT',
+        short: 'SH_OS',
       },
-      label: 'Mouse Btn3',
-      keywords: ['ms_btn3'],
+      keywords: ['Swap Hands One Shot'],
     },
   },
   {
-    desc: 'Mouse Button 4',
+    desc: 'Swap Caps Lock and Left Control',
     keycodeInfo: {
-      code: 247,
+      code: 0x7000, // 28672 0b111000000000000
+      label: 'Magic Swap Control Caps Lock',
       name: {
-        long: 'KC_MS_BTN4',
-        short: 'KC_BTN4',
-      },
-      label: 'Mouse Btn4',
-      keywords: ['ms_btn4'],
-    },
-  },
-  {
-    desc: 'Mouse Button 5',
-    keycodeInfo: {
-      code: 248,
-      name: {
-        long: 'KC_MS_BTN5',
-        short: 'KC_BTN5',
-      },
-      label: 'Mouse Btn5',
-      keywords: ['ms_btn5'],
-    },
-  },
-  {
-    desc: 'Mouse Wheel Up',
-    keycodeInfo: {
-      code: 249,
-      name: {
-        long: 'KC_MS_WH_UP',
-        short: 'KC_WH_U',
-      },
-      label: 'Mouse Wh ↑',
-      keywords: ['mouse wheel up', 'ms_wh_up'],
-    },
-  },
-  {
-    desc: 'Mouse Wheel Down',
-    keycodeInfo: {
-      code: 250,
-      name: {
-        long: 'KC_MS_WH_DOWN',
-        short: 'KC_WH_D',
-      },
-      label: 'Mouse Wh ↓',
-      keywords: ['mouse wheel down', 'ms_wh_down'],
-    },
-  },
-  {
-    desc: 'Mouse Wheel Left',
-    keycodeInfo: {
-      code: 251,
-      name: {
-        long: 'KC_MS_WH_LEFT',
-        short: 'KC_WH_L',
-      },
-      label: 'Mouse Wh ←',
-      keywords: ['mouse wheel left', 'ms_wh_left'],
-    },
-  },
-  {
-    desc: 'Mouse Wheel Right',
-    keycodeInfo: {
-      code: 252,
-      name: {
-        long: 'KC_MS_WH_RIGHT',
-        short: 'KC_WH_R',
-      },
-      label: 'Mouse Wh →',
-      keywords: ['mouse wheel right', 'ms_wh_right'],
-    },
-  },
-  {
-    desc: 'Set mouse acceleration to 0',
-    keycodeInfo: {
-      code: 253,
-      name: {
-        long: 'KC_MS_ACCEL0',
-        short: 'KC_ACL0',
-      },
-      label: 'Mouse Acc0',
-      keywords: ['ms_accel0', 'acl0'],
-    },
-  },
-  {
-    desc: 'Set mouse acceleration to 1',
-    keycodeInfo: {
-      code: 254,
-      name: {
-        long: 'KC_MS_ACCEL1',
-        short: 'KC_ACL1',
-      },
-      label: 'Mouse Acc1',
-      keywords: ['ms_accel1', 'acl1'],
-    },
-  },
-  {
-    desc: 'Set mouse acceleration to 2',
-    keycodeInfo: {
-      code: 255,
-      name: {
-        long: 'KC_MS_ACCEL2',
-        short: 'KC_ACL2',
-      },
-      label: 'Mouse Acc2',
-      keywords: ['ms_accel2', 'acl2'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 542,
-      name: {
-        long: 'KC_EXCLAIM',
-        short: 'KC_EXLM',
-      },
-      label: '!',
-      keywords: ['exclaim', 'exlm'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 543,
-      name: {
-        long: 'KC_AT',
-        short: 'KC_AT',
-      },
-      label: '@',
-      keywords: ['at'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 544,
-      name: {
-        long: 'KC_HASH',
-        short: 'KC_HASH',
-      },
-      label: '#',
-      keywords: ['hash'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 545,
-      name: {
-        long: 'KC_DOLLAR',
-        short: 'KC_DLR',
-      },
-      label: '$',
-      keywords: ['dollar', 'dlr'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 546,
-      name: {
-        long: 'KC_PERCENT',
-        short: 'KC_PERC',
-      },
-      label: '%',
-      keywords: ['percent', 'perc'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 547,
-      name: {
-        long: 'KC_CIRCUMFLEX',
-        short: 'KC_CIRC',
-      },
-      label: '^',
-      keywords: ['circumflex', 'circ'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 548,
-      name: {
-        long: 'KC_AMPERSAND',
-        short: 'KC_AMPR',
-      },
-      label: '&',
-      keywords: ['ampersand', 'ampr'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 549,
-      name: {
-        long: 'KC_ASTERISK',
-        short: 'KC_ASTR',
-      },
-      label: '*',
-      keywords: ['asterisk', 'astr'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 550,
-      name: {
-        long: 'KC_LEFT_PAREN',
-        short: 'KC_LPRN',
-      },
-      label: '(',
-      keywords: ['left_paren', 'lprn'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 551,
-      name: {
-        long: 'KC_RIGHT_PAREN',
-        short: 'KC_RPRN',
-      },
-      label: ')',
-      keywords: ['right_paren', 'rprn'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 557,
-      name: {
-        long: 'KC_UNDERSCORE',
-        short: 'KC_UNDS',
-      },
-      label: '_',
-      keywords: ['underscore', 'unds'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 558,
-      name: {
-        long: 'KC_PLUS',
-        short: 'KC_PLUS',
-      },
-      label: '+',
-
-      keywords: ['plus'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 559,
-      name: {
-        long: 'KC_LEFT_CURLY_BRACE',
-        short: 'KC_LCBR',
-      },
-      label: '{',
-      keywords: ['left_curly_brace', 'lcbr'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 560,
-      name: {
-        long: 'KC_RIGHT_CURLY_BRACE',
-        short: 'KC_RCBR',
-      },
-      label: '}',
-      keywords: ['right_curly_brace', 'rcbr'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 561,
-      name: {
-        long: 'KC_PIPE',
-        short: 'KC_PIPE',
-      },
-      label: '|',
-      keywords: ['pipe'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 563,
-      ascii: 58,
-      name: {
-        long: 'KC_COLON',
-        short: 'KC_COLN',
-      },
-      label: ':',
-      keywords: ['colon'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 564,
-      name: {
-        long: 'KC_DOUBLE_QUOTE',
-        short: 'KC_DQT',
-      },
-      label: '"',
-      keywords: ['double_quote', 'dqt'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 565,
-      name: {
-        long: 'KC_TILDE',
-        short: 'KC_TILD',
-      },
-      label: '~',
-
-      keywords: ['tilde'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 566,
-      name: {
-        long: 'KC_LEFT_ANGLE_BRACKET',
-        short: 'KC_LABK',
-      },
-      label: '<',
-      keywords: ['left_angle_bracket', 'labk'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 567,
-      name: {
-        long: 'KC_RIGHT_ANGLE_BRACKET',
-        short: 'KC_RABK',
-      },
-      label: '>',
-      keywords: ['right_angle_bracket', 'rabk'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 568,
-      name: {
-        long: 'KC_QUESTION',
-        short: 'KC_QUES',
-      },
-      label: '?',
-      keywords: ['question'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 16684,
-      name: {
-        long: 'SPACE_FN1',
-        short: 'SPC_FN1',
-      },
-      label: 'Space Fn1',
-      keywords: ['space_fn1', 'spc_fn1'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 16940,
-      name: {
-        long: 'SPACE_FN2',
-        short: 'SPC_FN2',
-      },
-      label: 'Space Fn2',
-      keywords: ['space_fn2', 'spc_fn2'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 17196,
-      name: {
-        long: 'SPACE_FN3',
-        short: 'SPC_FN3',
-      },
-      label: 'Space Fn3',
-      keywords: ['space_fn3', 'spc_fn3'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20480,
-      name: {
-        long: 'TO(0)',
-        short: 'TO(0)',
-      },
-      label: 'TO(0)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20481,
-      name: {
-        long: 'TO(1)',
-        short: 'TO(1)',
-      },
-      label: 'TO(1)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20482,
-      name: {
-        long: 'TO(2)',
-        short: 'TO(2)',
-      },
-      label: 'TO(2)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20483,
-      name: {
-        long: 'TO(3)',
-        short: 'TO(3)',
-      },
-      label: 'TO(3)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20484,
-      name: {
-        long: 'TO(4)',
-        short: 'TO(4)',
-      },
-      label: 'TO(4)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20485,
-      name: {
-        long: 'TO(5)',
-        short: 'TO(5)',
-      },
-      label: 'TO(5)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20486,
-      name: {
-        long: 'TO(6)',
-        short: 'TO(6)',
-      },
-      label: 'TO(6)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20487,
-      name: {
-        long: 'TO(7)',
-        short: 'TO(7)',
-      },
-      label: 'TO(7)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20736,
-      name: {
-        long: 'MO(0)',
-        short: 'MO(0)',
-      },
-      label: 'MO(0)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20737,
-      name: {
-        long: 'MO(1)',
-        short: 'MO(1)',
-      },
-      label: 'MO(1)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20738,
-      name: {
-        long: 'MO(2)',
-        short: 'MO(2)',
-      },
-      label: 'MO(2)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20739,
-      name: {
-        long: 'MO(3)',
-        short: 'MO(3)',
-      },
-      label: 'MO(3)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20740,
-      name: {
-        long: 'MO(4)',
-        short: 'MO(4)',
-      },
-      label: 'MO(4)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20741,
-      name: {
-        long: 'MO(5)',
-        short: 'MO(5)',
-      },
-      label: 'MO(5)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20742,
-      name: {
-        long: 'MO(6)',
-        short: 'MO(6)',
-      },
-      label: 'MO(6)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 20743,
-      name: {
-        long: 'MO(7)',
-        short: 'MO(7)',
-      },
-      label: 'MO(7)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21248,
-      name: {
-        long: 'TG(0)',
-        short: 'TG(0)',
-      },
-      label: 'TG(0)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21249,
-      name: {
-        long: 'TG(1)',
-        short: 'TG(1)',
-      },
-      label: 'TG(1)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21250,
-      name: {
-        long: 'TG(2)',
-        short: 'TG(2)',
-      },
-      label: 'TG(2)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21251,
-      name: {
-        long: 'TG(3)',
-        short: 'TG(3)',
-      },
-      label: 'TG(3)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21252,
-      name: {
-        long: 'TG(4)',
-        short: 'TG(4)',
-      },
-      label: 'TG(4)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21253,
-      name: {
-        long: 'TG(5)',
-        short: 'TG(5)',
-      },
-      label: 'TG(5)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21254,
-      name: {
-        long: 'TG(6)',
-        short: 'TG(6)',
-      },
-      label: 'TG(6)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21255,
-      name: {
-        long: 'TG(7)',
-        short: 'TG(7)',
-      },
-      label: 'TG(7)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21504,
-      name: {
-        long: 'OSL(0)',
-        short: 'OSL(0)',
-      },
-      label: 'OSL(0)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21505,
-      name: {
-        long: 'OSL(1)',
-        short: 'OSL(1)',
-      },
-      label: 'OSL(1)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21506,
-      name: {
-        long: 'OSL(2)',
-        short: 'OSL(2)',
-      },
-      label: 'OSL(2)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21507,
-      name: {
-        long: 'OSL(3)',
-        short: 'OSL(3)',
-      },
-      label: 'OSL(3)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21508,
-      name: {
-        long: 'OSL(4)',
-        short: 'OSL(4)',
-      },
-      label: 'OSL(4)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21509,
-      name: {
-        long: 'OSL(5)',
-        short: 'OSL(5)',
-      },
-      label: 'OSL(5)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21510,
-      name: {
-        long: 'OSL(6)',
-        short: 'OSL(6)',
-      },
-      label: 'OSL(6)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 21511,
-      name: {
-        long: 'OSL(7)',
-        short: 'OSL(7)',
-      },
-      label: 'OSL(7)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22528,
-      name: {
-        long: 'TT(0)',
-        short: 'TT(0)',
-      },
-      label: 'TT(0)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22529,
-      name: {
-        long: 'TT(1)',
-        short: 'TT(1)',
-      },
-      label: 'TT(1)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22530,
-      name: {
-        long: 'TT(2)',
-        short: 'TT(2)',
-      },
-      label: 'TT(2)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22531,
-      name: {
-        long: 'TT(3)',
-        short: 'TT(3)',
-      },
-      label: 'TT(3)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22532,
-      name: {
-        long: 'TT(4)',
-        short: 'TT(4)',
-      },
-      label: 'TT(4)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22533,
-      name: {
-        long: 'TT(5)',
-        short: 'TT(5)',
-      },
-      label: 'TT(5)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22534,
-      name: {
-        long: 'TT(6)',
-        short: 'TT(6)',
-      },
-      label: 'TT(6)',
-      keywords: [],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 22535,
-      name: {
-        long: 'TT(7)',
-        short: 'TT(7)',
-      },
-      label: 'TT(7)',
-      keywords: [],
-    },
-  },
-  {
-    desc: 'Put the keyboard into bootloader mode for flashing.',
-    keycodeInfo: {
-      code: 23552,
-      name: {
-        long: 'RESET',
-        short: 'RESET',
-      },
-      label: 'Reset',
-      keywords: [],
-    },
-  },
-  {
-    desc: 'Toggle debug mode.',
-    keycodeInfo: {
-      code: 23553,
-      name: {
-        long: 'DEBUG',
-        short: 'DEBUG',
-      },
-      label: 'Debug',
-      keywords: [],
-    },
-  },
-  {
-    desc: 'Swap Caps Lock and Left Control.',
-    keycodeInfo: {
-      code: 23554,
-      name: {
-        long: 'MAGIC_SWAP_CONTROL_CAPSLOCK',
+        long: 'QK_MAGIC_SWAP_CONTROL_CAPS_LOCK',
         short: 'CL_SWAP',
       },
-      label: 'CL SWAP',
-      keywords: ['magic_swap_control_capslock', 'cl_swap'],
+      keywords: ['Magic Swap Control Caps Lock'],
     },
   },
   {
-    desc: 'Treat Caps Lock as Control.',
+    desc: 'Unswap Caps Lock and Left Control',
     keycodeInfo: {
-      code: 23555,
+      code: 0x7001, // 28673 0b111000000000001
+      label: 'Magic Unswap Control Caps Lock',
       name: {
-        long: 'MAGIC_CAPSLOCK_TO_CONTROL',
-        short: 'CL_CTRL',
-      },
-      label: 'CL CTRL',
-      keywords: ['magic_capslock_to_control', 'cl_ctrl'],
-    },
-  },
-  {
-    desc: 'Swap Left Alt and GUI.',
-    keycodeInfo: {
-      code: 23556,
-      name: {
-        long: 'MAGIC_SWAP_LALT_LGUI',
-        short: 'LAG_SWP',
-      },
-      label: 'LAG SWP',
-      keywords: ['magic_swap_lalt_lgui', 'lag_swp'],
-    },
-  },
-  {
-    desc: 'Swap Right Alt and GUI.',
-    keycodeInfo: {
-      code: 23557,
-      name: {
-        long: 'MAGIC_SWAP_RALT_RGUI',
-        short: 'RAG_SWP',
-      },
-      label: 'RAG SWP',
-      keywords: ['magic_swap_ralt_rgui', 'rag_swp'],
-    },
-  },
-
-  {
-    desc: 'Disable the GUI keys.',
-    keycodeInfo: {
-      code: 23558,
-      name: {
-        long: 'MAGIC_NO_GUI',
-        short: 'GUI_OFF',
-      },
-      label: 'GUI OFF',
-      keywords: ['magic_no_gui', 'gui_off'],
-    },
-  },
-
-  {
-    desc: 'Swap ` and Escape.',
-    keycodeInfo: {
-      code: 23559,
-      name: {
-        long: 'MAGIC_SWAP_GRAVE_ESC',
-        short: 'GE_SWAP',
-      },
-      label: 'GE SWAP',
-      keywords: ['magic_swap_grave_esc', 'ge_swap'],
-    },
-  },
-  {
-    desc: 'Swap Backslash and Backspace.',
-    keycodeInfo: {
-      code: 23560,
-      name: {
-        long: 'MAGIC_SWAP_BACKSLASH_BACKSPACE',
-        short: 'BS_SWAP',
-      },
-      label: 'BS SWAP',
-      keywords: ['bs_swap', 'magic_swap_backslash_backspace'],
-    },
-  },
-  {
-    desc: 'Enable N-key rollover.',
-    keycodeInfo: {
-      code: 23561,
-      name: {
-        long: 'MAGIC_HOST_NKRO',
-        short: 'NK_ON',
-      },
-      label: 'NK ON',
-      keywords: ['magic_host_nkro', 'nk_on'],
-    },
-  },
-  {
-    desc: 'Swap Alt and Win/Cmd on both sides.',
-    keycodeInfo: {
-      code: 23562,
-      name: {
-        long: 'MAGIC_SWAP_ALT_GUI',
-        short: 'AG_SWAP',
-      },
-      label: 'AG SWAP',
-      keywords: ['magic_swap_alt_gui', 'ag_swap'],
-    },
-  },
-  {
-    desc: 'Unswap Caps Lock and Left Control.',
-    keycodeInfo: {
-      code: 23563,
-      name: {
-        long: 'MAGIC_UNSWAP_CONTROL_CAPSLOCK',
+        long: 'QK_MAGIC_UNSWAP_CONTROL_CAPS_LOCK',
         short: 'CL_NORM',
       },
-      label: 'CL NORM',
-      keywords: ['magci_unswap_control_capslock', 'cl_norm'],
+      keywords: ['Magic Unswap Control Caps Lock'],
     },
   },
-
   {
-    desc: 'Stop treating Caps Lock as Control.',
+    desc: 'Toggle Caps Lock and Left Control swap',
     keycodeInfo: {
-      code: 23564,
+      code: 0x7002, // 28674 0b111000000000010
+      label: 'Magic Toggle Control Caps Lock',
       name: {
-        long: 'MAGIC_UNCAPSLOCK_TO_CONTROL',
+        long: 'QK_MAGIC_TOGGLE_CONTROL_CAPS_LOCK',
+        short: 'CL_TOGG',
+      },
+      keywords: ['Magic Toggle Control Caps Lock'],
+    },
+  },
+  {
+    desc: 'Stop treating Caps Lock as Control',
+    keycodeInfo: {
+      code: 0x7003, // 28675 0b111000000000011
+      label: 'Magic Caps Lock As Control Off',
+      name: {
+        long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_OFF',
         short: 'CL_CAPS',
       },
-      label: 'CL CAPS',
-      keywords: ['magic_uncapslock_to_control', 'cl_caps'],
+      keywords: ['Magic Caps Lock As Control Off'],
     },
   },
-
   {
-    desc: 'Unswap Left Alt and Win/Cmd.',
+    desc: 'Treat Caps Lock as Control',
     keycodeInfo: {
-      code: 23565,
+      code: 0x7004, // 28676 0b111000000000100
+      label: 'Magic Caps Lock As Control On',
       name: {
-        long: 'MAGIC_UNSWAP_LALT_LGUI',
-        short: 'LAG_NRM',
+        long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_ON',
+        short: 'CL_CTRL',
       },
-      label: 'LAG NRM',
-      keywords: ['magic_unswap_lalt_lgui', 'lag_nrm'],
+      keywords: ['Magic Caps Lock As Control On'],
     },
   },
-
   {
-    desc: 'Unswap Right Alt and Win/Cmd.',
+    desc: 'Swap Left Alt and GUI',
     keycodeInfo: {
-      code: 23566,
+      code: 0x7005, // 28677 0b111000000000101
+      label: 'Magic Swap Lalt Lgui',
       name: {
-        long: 'MAGIC_UNSWAP_RALT_RGUI',
-        short: 'RAG_NRM',
+        long: 'QK_MAGIC_SWAP_LALT_LGUI',
+        short: 'AG_LSWP',
       },
-      label: 'RAG NRM',
-      keywords: ['magic_unswap_ralt_rgui', 'rag_nrm'],
+      keywords: ['Magic Swap Lalt Lgui'],
     },
   },
   {
-    desc: 'Enable the Win/Cmd keys.',
+    desc: 'Unswap Left Alt and GUI',
     keycodeInfo: {
-      code: 23567,
+      code: 0x7006, // 28678 0b111000000000110
+      label: 'Magic Unswap Lalt Lgui',
       name: {
-        long: 'MAGIC_UNNO_GUI',
-        short: 'GUI_ON',
+        long: 'QK_MAGIC_UNSWAP_LALT_LGUI',
+        short: 'AG_LNRM',
       },
-      label: 'GUI ON',
-      keywords: ['magic_unno_gui', 'gui_on'],
+      keywords: ['Magic Unswap Lalt Lgui'],
     },
   },
-
   {
-    desc: 'Unswap ` and Escape.',
+    desc: 'Swap Right Alt and GUI',
     keycodeInfo: {
-      code: 23568,
+      code: 0x7007, // 28679 0b111000000000111
+      label: 'Magic Swap Ralt Rgui',
       name: {
-        long: 'MAGIC_SWAP_GRAVE_ESC',
+        long: 'QK_MAGIC_SWAP_RALT_RGUI',
+        short: 'AG_RSWP',
+      },
+      keywords: ['Magic Swap Ralt Rgui'],
+    },
+  },
+  {
+    desc: 'Unswap Right Alt and GUI',
+    keycodeInfo: {
+      code: 0x7008, // 28680 0b111000000001000
+      label: 'Magic Unswap Ralt Rgui',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_RALT_RGUI',
+        short: 'AG_RNRM',
+      },
+      keywords: ['Magic Unswap Ralt Rgui'],
+    },
+  },
+  {
+    desc: 'Enable the GUI keys',
+    keycodeInfo: {
+      code: 0x7009, // 28681 0b111000000001001
+      label: 'Magic Gui On',
+      name: {
+        long: 'QK_MAGIC_GUI_ON',
+        short: 'GU_ON',
+      },
+      keywords: ['Magic Gui On'],
+    },
+  },
+  {
+    desc: 'Disable the GUI keys',
+    keycodeInfo: {
+      code: 0x700a, // 28682 0b111000000001010
+      label: 'Magic Gui Off',
+      name: {
+        long: 'QK_MAGIC_GUI_OFF',
+        short: 'GU_OFF',
+      },
+      keywords: ['Magic Gui Off'],
+    },
+  },
+  {
+    desc: 'Toggles the status of the GUI keys',
+    keycodeInfo: {
+      code: 0x700b, // 28683 0b111000000001011
+      label: 'Magic Toggle Gui',
+      name: {
+        long: 'QK_MAGIC_TOGGLE_GUI',
+        short: 'GU_TOGG',
+      },
+      keywords: ['Magic Toggle Gui'],
+    },
+  },
+  {
+    desc: 'Swap ` and Escape',
+    keycodeInfo: {
+      code: 0x700c, // 28684 0b111000000001100
+      label: 'Magic Swap Grave Esc',
+      name: {
+        long: 'QK_MAGIC_SWAP_GRAVE_ESC',
         short: 'GE_SWAP',
       },
-      label: 'GE NORM',
-      keywords: ['magic_swap_grave_esc', 'ge_swap'],
+      keywords: ['Magic Swap Grave Esc'],
     },
   },
-
   {
-    desc: 'Unswap \\ and Backspace.',
+    desc: 'Unswap ` and Escape',
     keycodeInfo: {
-      code: 23569,
+      code: 0x700d, // 28685 0b111000000001101
+      label: 'Magic Unswap Grave Esc',
       name: {
-        long: 'MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
+        long: 'QK_MAGIC_UNSWAP_GRAVE_ESC',
+        short: 'GE_NORM',
+      },
+      keywords: ['Magic Unswap Grave Esc'],
+    },
+  },
+  {
+    desc: 'Swap \\ and Backspace',
+    keycodeInfo: {
+      code: 0x700e, // 28686 0b111000000001110
+      label: 'Magic Swap Backslash Backspace',
+      name: {
+        long: 'QK_MAGIC_SWAP_BACKSLASH_BACKSPACE',
+        short: 'BS_SWAP',
+      },
+      keywords: ['Magic Swap Backslash Backspace'],
+    },
+  },
+  {
+    desc: 'Unswap \\ and Backspace',
+    keycodeInfo: {
+      code: 0x700f, // 28687 0b111000000001111
+      label: 'Magic Unswap Backslash Backspace',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
         short: 'BS_NORM',
       },
-      label: 'BS NORM',
-      keywords: ['magic_unswap_backslash_backspace', 'bs_norm'],
+      keywords: ['Magic Unswap Backslash Backspace'],
     },
   },
   {
-    desc: 'Disable N-key rollover.',
+    desc: 'Toggle \\ and Backspace swap state',
     keycodeInfo: {
-      code: 23570,
+      code: 0x7010, // 28688 0b111000000010000
+      label: 'Magic Toggle Backslash Backspace',
       name: {
-        long: 'MAGIC_UNHOST_NKRO',
+        long: 'QK_MAGIC_TOGGLE_BACKSLASH_BACKSPACE',
+        short: 'BS_TOGG',
+      },
+      keywords: ['Magic Toggle Backslash Backspace'],
+    },
+  },
+  {
+    desc: 'Enable N-key rollover',
+    keycodeInfo: {
+      code: 0x7011, // 28689 0b111000000010001
+      label: 'Magic Nkro On',
+      name: {
+        long: 'QK_MAGIC_NKRO_ON',
+        short: 'NK_ON',
+      },
+      keywords: ['Magic Nkro On'],
+    },
+  },
+  {
+    desc: 'Disable N-key rollover',
+    keycodeInfo: {
+      code: 0x7012, // 28690 0b111000000010010
+      label: 'Magic Nkro Off',
+      name: {
+        long: 'QK_MAGIC_NKRO_OFF',
         short: 'NK_OFF',
       },
-      label: 'NK OFF',
-      keywords: ['magic_unhost_nkro', 'nk_off'],
+      keywords: ['Magic Nkro Off'],
     },
   },
   {
-    desc: 'Unswap Alt and GUI on both sides.',
+    desc: 'Toggle N-key rollover',
     keycodeInfo: {
-      code: 23571,
+      code: 0x7013, // 28691 0b111000000010011
+      label: 'Magic Toggle Nkro',
       name: {
-        long: 'MAGIC_UNSWAP_ALT_GUI',
-        short: 'AG_NORM',
-      },
-      label: 'AG NORM',
-      keywords: ['magci_unswap_alt_gui', 'ag_norm'],
-    },
-  },
-  {
-    desc: 'Toggle N-key rollover.',
-    keycodeInfo: {
-      code: 23572,
-      name: {
-        long: 'MAGIC_TOGGLE_NKRO',
+        long: 'QK_MAGIC_TOGGLE_NKRO',
         short: 'NK_TOGG',
       },
-      label: 'NK TOGG',
-      keywords: ['magci_toggle_nkro', 'nk_togg'],
+      keywords: ['Magic Toggle Nkro'],
     },
   },
   {
-    desc: 'Toggle Alt and Win/Cmd swap on both sides.',
+    desc: 'Swap Alt and GUI on both sides',
     keycodeInfo: {
-      code: 23573,
+      code: 0x7014, // 28692 0b111000000010100
+      label: 'Magic Swap Alt Gui',
       name: {
-        long: 'MAGIC_TOGGLE_ALT_GUI',
+        long: 'QK_MAGIC_SWAP_ALT_GUI',
+        short: 'AG_SWAP',
+      },
+      keywords: ['Magic Swap Alt Gui'],
+    },
+  },
+  {
+    desc: 'Unswap Alt and GUI on both sides',
+    keycodeInfo: {
+      code: 0x7015, // 28693 0b111000000010101
+      label: 'Magic Unswap Alt Gui',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_ALT_GUI',
+        short: 'AG_NORM',
+      },
+      keywords: ['Magic Unswap Alt Gui'],
+    },
+  },
+  {
+    desc: 'Toggle Alt and GUI swap on both sides',
+    keycodeInfo: {
+      code: 0x7016, // 28694 0b111000000010110
+      label: 'Magic Toggle Alt Gui',
+      name: {
+        long: 'QK_MAGIC_TOGGLE_ALT_GUI',
         short: 'AG_TOGG',
       },
-      label: 'AG TOGG',
-      keywords: ['magic_toggle_alt_gui', 'ag_togg'],
+      keywords: ['Magic Toggle Alt Gui'],
     },
   },
   {
-    desc: 'Share the grave key (` and ~) with Escape.',
+    desc: 'Swap Left Control and GUI',
     keycodeInfo: {
-      code: 23574,
+      code: 0x7017, // 28695 0b111000000010111
+      label: 'Magic Swap Lctl Lgui',
       name: {
-        long: 'GRAVE_ESC',
-        short: 'KC_GESC',
+        long: 'QK_MAGIC_SWAP_LCTL_LGUI',
+        short: 'CG_LSWP',
       },
-      label: 'Esc `',
-      keywords: ['grave_esc', 'gesc'],
+      keywords: ['Magic Swap Lctl Lgui'],
     },
   },
   {
-    desc: 'Raise the Auto Shift timeout variable (up)',
+    desc: 'Unswap Left Control and GUI',
     keycodeInfo: {
-      code: 23575,
+      code: 0x7018, // 28696 0b111000000011000
+      label: 'Magic Unswap Lctl Lgui',
       name: {
-        long: 'KC_ASUP',
-        short: 'KC_ASUP',
+        long: 'QK_MAGIC_UNSWAP_LCTL_LGUI',
+        short: 'CG_LNRM',
       },
-      label: 'ASUP',
-      keywords: ['auto shift', 'timeout', 'up'],
+      keywords: ['Magic Unswap Lctl Lgui'],
+    },
+  },
+  {
+    desc: 'Swap Right Control and GUI',
+    keycodeInfo: {
+      code: 0x7019, // 28697 0b111000000011001
+      label: 'Magic Swap Rctl Rgui',
+      name: {
+        long: 'QK_MAGIC_SWAP_RCTL_RGUI',
+        short: 'CG_RSWP',
+      },
+      keywords: ['Magic Swap Rctl Rgui'],
+    },
+  },
+  {
+    desc: 'Unswap Right Control and GUI',
+    keycodeInfo: {
+      code: 0x701a, // 28698 0b111000000011010
+      label: 'Magic Unswap Rctl Rgui',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_RCTL_RGUI',
+        short: 'CG_RNRM',
+      },
+      keywords: ['Magic Unswap Rctl Rgui'],
+    },
+  },
+  {
+    desc: 'Swap Control and GUI on both sides',
+    keycodeInfo: {
+      code: 0x701b, // 28699 0b111000000011011
+      label: 'Magic Swap Ctl Gui',
+      name: {
+        long: 'QK_MAGIC_SWAP_CTL_GUI',
+        short: 'CG_SWAP',
+      },
+      keywords: ['Magic Swap Ctl Gui'],
+    },
+  },
+  {
+    desc: 'Unswap Control and GUI on both sides',
+    keycodeInfo: {
+      code: 0x701c, // 28700 0b111000000011100
+      label: 'Magic Unswap Ctl Gui',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_CTL_GUI',
+        short: 'CG_NORM',
+      },
+      keywords: ['Magic Unswap Ctl Gui'],
+    },
+  },
+  {
+    desc: 'Toggle Control and GUI swap on both sides',
+    keycodeInfo: {
+      code: 0x701d, // 28701 0b111000000011101
+      label: 'Magic Toggle Ctl Gui',
+      name: {
+        long: 'QK_MAGIC_TOGGLE_CTL_GUI',
+        short: 'CG_TOGG',
+      },
+      keywords: ['Magic Toggle Ctl Gui'],
+    },
+  },
+  {
+    desc: 'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
+    keycodeInfo: {
+      code: 0x701e, // 28702 0b111000000011110
+      label: 'Magic Ee Hands Left',
+      name: {
+        long: 'QK_MAGIC_EE_HANDS_LEFT',
+        short: 'EH_LEFT',
+      },
+      keywords: ['Magic Ee Hands Left'],
+    },
+  },
+  {
+    desc: 'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
+    keycodeInfo: {
+      code: 0x701f, // 28703 0b111000000011111
+      label: 'Magic Ee Hands Right',
+      name: {
+        long: 'QK_MAGIC_EE_HANDS_RIGHT',
+        short: 'EH_RGHT',
+      },
+      keywords: ['Magic Ee Hands Right'],
+    },
+  },
+  {
+    desc: 'Swap Caps Lock and Escape',
+    keycodeInfo: {
+      code: 0x7020, // 28704 0b111000000100000
+      label: 'Magic Swap Escape Caps Lock',
+      name: {
+        long: 'QK_MAGIC_SWAP_ESCAPE_CAPS_LOCK',
+        short: 'EC_SWAP',
+      },
+      keywords: ['Magic Swap Escape Caps Lock'],
+    },
+  },
+  {
+    desc: 'Unswap Caps Lock and Escape',
+    keycodeInfo: {
+      code: 0x7021, // 28705 0b111000000100001
+      label: 'Magic Unswap Escape Caps Lock',
+      name: {
+        long: 'QK_MAGIC_UNSWAP_ESCAPE_CAPS_LOCK',
+        short: 'EC_NORM',
+      },
+      keywords: ['Magic Unswap Escape Caps Lock'],
+    },
+  },
+  {
+    desc: 'Toggle Caps Lock and Escape swap',
+    keycodeInfo: {
+      code: 0x7022, // 28706 0b111000000100010
+      label: 'Magic Toggle Escape Caps Lock',
+      name: {
+        long: 'QK_MAGIC_TOGGLE_ESCAPE_CAPS_LOCK',
+        short: 'EC_TOGG',
+      },
+      keywords: ['Magic Toggle Escape Caps Lock'],
+    },
+  },
+  {
+    desc: 'Turn MIDI on',
+    keycodeInfo: {
+      code: 0x7100, // 28928 0b111000100000000
+      label: 'Midi On',
+      name: {
+        long: 'QK_MIDI_ON',
+        short: 'MI_ON',
+      },
+      keywords: ['Midi On'],
+    },
+  },
+  {
+    desc: 'Turn MIDI off',
+    keycodeInfo: {
+      code: 0x7101, // 28929 0b111000100000001
+      label: 'Midi Off',
+      name: {
+        long: 'QK_MIDI_OFF',
+        short: 'MI_OFF',
+      },
+      keywords: ['Midi Off'],
+    },
+  },
+  {
+    desc: 'Toggle MIDI enabled',
+    keycodeInfo: {
+      code: 0x7102, // 28930 0b111000100000010
+      label: 'Midi Toggle',
+      name: {
+        long: 'QK_MIDI_TOGGLE',
+        short: 'MI_TOGG',
+      },
+      keywords: ['Midi Toggle'],
+    },
+  },
+  {
+    desc: 'C octave 0',
+    keycodeInfo: {
+      code: 0x7103, // 28931 0b111000100000011
+      label: 'Midi Note C 0',
+      name: {
+        long: 'QK_MIDI_NOTE_C_0',
+        short: 'MI_C',
+      },
+      keywords: ['Midi Note C 0'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 0',
+    keycodeInfo: {
+      code: 0x7104, // 28932 0b111000100000100
+      label: 'Midi Note C Sharp 0',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_0',
+        short: 'MI_Cs',
+      },
+      keywords: ['Midi Note C Sharp 0'],
+    },
+  },
+  {
+    desc: 'D octave 0',
+    keycodeInfo: {
+      code: 0x7105, // 28933 0b111000100000101
+      label: 'Midi Note D 0',
+      name: {
+        long: 'QK_MIDI_NOTE_D_0',
+        short: 'MI_D',
+      },
+      keywords: ['Midi Note D 0'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 0',
+    keycodeInfo: {
+      code: 0x7106, // 28934 0b111000100000110
+      label: 'Midi Note D Sharp 0',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_0',
+        short: 'MI_Ds',
+      },
+      keywords: ['Midi Note D Sharp 0'],
+    },
+  },
+  {
+    desc: 'E octave 0',
+    keycodeInfo: {
+      code: 0x7107, // 28935 0b111000100000111
+      label: 'Midi Note E 0',
+      name: {
+        long: 'QK_MIDI_NOTE_E_0',
+        short: 'MI_E',
+      },
+      keywords: ['Midi Note E 0'],
+    },
+  },
+  {
+    desc: 'F octave 0',
+    keycodeInfo: {
+      code: 0x7108, // 28936 0b111000100001000
+      label: 'Midi Note F 0',
+      name: {
+        long: 'QK_MIDI_NOTE_F_0',
+        short: 'MI_F',
+      },
+      keywords: ['Midi Note F 0'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 0',
+    keycodeInfo: {
+      code: 0x7109, // 28937 0b111000100001001
+      label: 'Midi Note F Sharp 0',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_0',
+        short: 'MI_Fs',
+      },
+      keywords: ['Midi Note F Sharp 0'],
+    },
+  },
+  {
+    desc: 'G octave 0',
+    keycodeInfo: {
+      code: 0x710a, // 28938 0b111000100001010
+      label: 'Midi Note G 0',
+      name: {
+        long: 'QK_MIDI_NOTE_G_0',
+        short: 'MI_G',
+      },
+      keywords: ['Midi Note G 0'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 0',
+    keycodeInfo: {
+      code: 0x710b, // 28939 0b111000100001011
+      label: 'Midi Note G Sharp 0',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_0',
+        short: 'MI_Gs',
+      },
+      keywords: ['Midi Note G Sharp 0'],
+    },
+  },
+  {
+    desc: 'A octave 0',
+    keycodeInfo: {
+      code: 0x710c, // 28940 0b111000100001100
+      label: 'Midi Note A 0',
+      name: {
+        long: 'QK_MIDI_NOTE_A_0',
+        short: 'MI_A',
+      },
+      keywords: ['Midi Note A 0'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 0',
+    keycodeInfo: {
+      code: 0x710d, // 28941 0b111000100001101
+      label: 'Midi Note A Sharp 0',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_0',
+        short: 'MI_As',
+      },
+      keywords: ['Midi Note A Sharp 0'],
+    },
+  },
+  {
+    desc: 'B octave 0',
+    keycodeInfo: {
+      code: 0x710e, // 28942 0b111000100001110
+      label: 'Midi Note B 0',
+      name: {
+        long: 'QK_MIDI_NOTE_B_0',
+        short: 'MI_B',
+      },
+      keywords: ['Midi Note B 0'],
+    },
+  },
+  {
+    desc: 'C octave 1',
+    keycodeInfo: {
+      code: 0x710f, // 28943 0b111000100001111
+      label: 'Midi Note C 1',
+      name: {
+        long: 'QK_MIDI_NOTE_C_1',
+        short: 'MI_C1',
+      },
+      keywords: ['Midi Note C 1'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 1',
+    keycodeInfo: {
+      code: 0x7110, // 28944 0b111000100010000
+      label: 'Midi Note C Sharp 1',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_1',
+        short: 'MI_Cs1',
+      },
+      keywords: ['Midi Note C Sharp 1'],
+    },
+  },
+  {
+    desc: 'D octave 1',
+    keycodeInfo: {
+      code: 0x7111, // 28945 0b111000100010001
+      label: 'Midi Note D 1',
+      name: {
+        long: 'QK_MIDI_NOTE_D_1',
+        short: 'MI_D1',
+      },
+      keywords: ['Midi Note D 1'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 1',
+    keycodeInfo: {
+      code: 0x7112, // 28946 0b111000100010010
+      label: 'Midi Note D Sharp 1',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_1',
+        short: 'MI_Ds1',
+      },
+      keywords: ['Midi Note D Sharp 1'],
+    },
+  },
+  {
+    desc: 'E octave 1',
+    keycodeInfo: {
+      code: 0x7113, // 28947 0b111000100010011
+      label: 'Midi Note E 1',
+      name: {
+        long: 'QK_MIDI_NOTE_E_1',
+        short: 'MI_E1',
+      },
+      keywords: ['Midi Note E 1'],
+    },
+  },
+  {
+    desc: 'F octave 1',
+    keycodeInfo: {
+      code: 0x7114, // 28948 0b111000100010100
+      label: 'Midi Note F 1',
+      name: {
+        long: 'QK_MIDI_NOTE_F_1',
+        short: 'MI_F1',
+      },
+      keywords: ['Midi Note F 1'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 1',
+    keycodeInfo: {
+      code: 0x7115, // 28949 0b111000100010101
+      label: 'Midi Note F Sharp 1',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_1',
+        short: 'MI_Fs1',
+      },
+      keywords: ['Midi Note F Sharp 1'],
+    },
+  },
+  {
+    desc: 'G octave 1',
+    keycodeInfo: {
+      code: 0x7116, // 28950 0b111000100010110
+      label: 'Midi Note G 1',
+      name: {
+        long: 'QK_MIDI_NOTE_G_1',
+        short: 'MI_G1',
+      },
+      keywords: ['Midi Note G 1'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 1',
+    keycodeInfo: {
+      code: 0x7117, // 28951 0b111000100010111
+      label: 'Midi Note G Sharp 1',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_1',
+        short: 'MI_Gs1',
+      },
+      keywords: ['Midi Note G Sharp 1'],
+    },
+  },
+  {
+    desc: 'A octave 1',
+    keycodeInfo: {
+      code: 0x7118, // 28952 0b111000100011000
+      label: 'Midi Note A 1',
+      name: {
+        long: 'QK_MIDI_NOTE_A_1',
+        short: 'MI_A1',
+      },
+      keywords: ['Midi Note A 1'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 1',
+    keycodeInfo: {
+      code: 0x7119, // 28953 0b111000100011001
+      label: 'Midi Note A Sharp 1',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_1',
+        short: 'MI_As1',
+      },
+      keywords: ['Midi Note A Sharp 1'],
+    },
+  },
+  {
+    desc: 'B octave 1',
+    keycodeInfo: {
+      code: 0x711a, // 28954 0b111000100011010
+      label: 'Midi Note B 1',
+      name: {
+        long: 'QK_MIDI_NOTE_B_1',
+        short: 'MI_B1',
+      },
+      keywords: ['Midi Note B 1'],
+    },
+  },
+  {
+    desc: 'C octave 2',
+    keycodeInfo: {
+      code: 0x711b, // 28955 0b111000100011011
+      label: 'Midi Note C 2',
+      name: {
+        long: 'QK_MIDI_NOTE_C_2',
+        short: 'MI_C2',
+      },
+      keywords: ['Midi Note C 2'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 2',
+    keycodeInfo: {
+      code: 0x711c, // 28956 0b111000100011100
+      label: 'Midi Note C Sharp 2',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_2',
+        short: 'MI_Cs2',
+      },
+      keywords: ['Midi Note C Sharp 2'],
+    },
+  },
+  {
+    desc: 'D octave 2',
+    keycodeInfo: {
+      code: 0x711d, // 28957 0b111000100011101
+      label: 'Midi Note D 2',
+      name: {
+        long: 'QK_MIDI_NOTE_D_2',
+        short: 'MI_D2',
+      },
+      keywords: ['Midi Note D 2'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 2',
+    keycodeInfo: {
+      code: 0x711e, // 28958 0b111000100011110
+      label: 'Midi Note D Sharp 2',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_2',
+        short: 'MI_Ds2',
+      },
+      keywords: ['Midi Note D Sharp 2'],
+    },
+  },
+  {
+    desc: 'E octave 2',
+    keycodeInfo: {
+      code: 0x711f, // 28959 0b111000100011111
+      label: 'Midi Note E 2',
+      name: {
+        long: 'QK_MIDI_NOTE_E_2',
+        short: 'MI_E2',
+      },
+      keywords: ['Midi Note E 2'],
+    },
+  },
+  {
+    desc: 'F octave 2',
+    keycodeInfo: {
+      code: 0x7120, // 28960 0b111000100100000
+      label: 'Midi Note F 2',
+      name: {
+        long: 'QK_MIDI_NOTE_F_2',
+        short: 'MI_F2',
+      },
+      keywords: ['Midi Note F 2'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 2',
+    keycodeInfo: {
+      code: 0x7121, // 28961 0b111000100100001
+      label: 'Midi Note F Sharp 2',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_2',
+        short: 'MI_Fs2',
+      },
+      keywords: ['Midi Note F Sharp 2'],
+    },
+  },
+  {
+    desc: 'G octave 2',
+    keycodeInfo: {
+      code: 0x7122, // 28962 0b111000100100010
+      label: 'Midi Note G 2',
+      name: {
+        long: 'QK_MIDI_NOTE_G_2',
+        short: 'MI_G2',
+      },
+      keywords: ['Midi Note G 2'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 2',
+    keycodeInfo: {
+      code: 0x7123, // 28963 0b111000100100011
+      label: 'Midi Note G Sharp 2',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_2',
+        short: 'MI_Gs2',
+      },
+      keywords: ['Midi Note G Sharp 2'],
+    },
+  },
+  {
+    desc: 'A octave 2',
+    keycodeInfo: {
+      code: 0x7124, // 28964 0b111000100100100
+      label: 'Midi Note A 2',
+      name: {
+        long: 'QK_MIDI_NOTE_A_2',
+        short: 'MI_A2',
+      },
+      keywords: ['Midi Note A 2'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 2',
+    keycodeInfo: {
+      code: 0x7125, // 28965 0b111000100100101
+      label: 'Midi Note A Sharp 2',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_2',
+        short: 'MI_As2',
+      },
+      keywords: ['Midi Note A Sharp 2'],
+    },
+  },
+  {
+    desc: 'B octave 2',
+    keycodeInfo: {
+      code: 0x7126, // 28966 0b111000100100110
+      label: 'Midi Note B 2',
+      name: {
+        long: 'QK_MIDI_NOTE_B_2',
+        short: 'MI_B2',
+      },
+      keywords: ['Midi Note B 2'],
+    },
+  },
+  {
+    desc: 'C octave 3',
+    keycodeInfo: {
+      code: 0x7127, // 28967 0b111000100100111
+      label: 'Midi Note C 3',
+      name: {
+        long: 'QK_MIDI_NOTE_C_3',
+        short: 'MI_C3',
+      },
+      keywords: ['Midi Note C 3'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 3',
+    keycodeInfo: {
+      code: 0x7128, // 28968 0b111000100101000
+      label: 'Midi Note C Sharp 3',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_3',
+        short: 'MI_Cs3',
+      },
+      keywords: ['Midi Note C Sharp 3'],
+    },
+  },
+  {
+    desc: 'D octave 3',
+    keycodeInfo: {
+      code: 0x7129, // 28969 0b111000100101001
+      label: 'Midi Note D 3',
+      name: {
+        long: 'QK_MIDI_NOTE_D_3',
+        short: 'MI_D3',
+      },
+      keywords: ['Midi Note D 3'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 3',
+    keycodeInfo: {
+      code: 0x712a, // 28970 0b111000100101010
+      label: 'Midi Note D Sharp 3',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_3',
+        short: 'MI_Ds3',
+      },
+      keywords: ['Midi Note D Sharp 3'],
+    },
+  },
+  {
+    desc: 'E octave 3',
+    keycodeInfo: {
+      code: 0x712b, // 28971 0b111000100101011
+      label: 'Midi Note E 3',
+      name: {
+        long: 'QK_MIDI_NOTE_E_3',
+        short: 'MI_E3',
+      },
+      keywords: ['Midi Note E 3'],
+    },
+  },
+  {
+    desc: 'F octave 3',
+    keycodeInfo: {
+      code: 0x712c, // 28972 0b111000100101100
+      label: 'Midi Note F 3',
+      name: {
+        long: 'QK_MIDI_NOTE_F_3',
+        short: 'MI_F3',
+      },
+      keywords: ['Midi Note F 3'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 3',
+    keycodeInfo: {
+      code: 0x712d, // 28973 0b111000100101101
+      label: 'Midi Note F Sharp 3',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_3',
+        short: 'MI_Fs3',
+      },
+      keywords: ['Midi Note F Sharp 3'],
+    },
+  },
+  {
+    desc: 'G octave 3',
+    keycodeInfo: {
+      code: 0x712e, // 28974 0b111000100101110
+      label: 'Midi Note G 3',
+      name: {
+        long: 'QK_MIDI_NOTE_G_3',
+        short: 'MI_G3',
+      },
+      keywords: ['Midi Note G 3'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 3',
+    keycodeInfo: {
+      code: 0x712f, // 28975 0b111000100101111
+      label: 'Midi Note G Sharp 3',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_3',
+        short: 'MI_Gs3',
+      },
+      keywords: ['Midi Note G Sharp 3'],
+    },
+  },
+  {
+    desc: 'A octave 3',
+    keycodeInfo: {
+      code: 0x7130, // 28976 0b111000100110000
+      label: 'Midi Note A 3',
+      name: {
+        long: 'QK_MIDI_NOTE_A_3',
+        short: 'MI_A3',
+      },
+      keywords: ['Midi Note A 3'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 3',
+    keycodeInfo: {
+      code: 0x7131, // 28977 0b111000100110001
+      label: 'Midi Note A Sharp 3',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_3',
+        short: 'MI_As3',
+      },
+      keywords: ['Midi Note A Sharp 3'],
+    },
+  },
+  {
+    desc: 'B octave 3',
+    keycodeInfo: {
+      code: 0x7132, // 28978 0b111000100110010
+      label: 'Midi Note B 3',
+      name: {
+        long: 'QK_MIDI_NOTE_B_3',
+        short: 'MI_B3',
+      },
+      keywords: ['Midi Note B 3'],
+    },
+  },
+  {
+    desc: 'C octave 4',
+    keycodeInfo: {
+      code: 0x7133, // 28979 0b111000100110011
+      label: 'Midi Note C 4',
+      name: {
+        long: 'QK_MIDI_NOTE_C_4',
+        short: 'MI_C4',
+      },
+      keywords: ['Midi Note C 4'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 4',
+    keycodeInfo: {
+      code: 0x7134, // 28980 0b111000100110100
+      label: 'Midi Note C Sharp 4',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_4',
+        short: 'MI_Cs4',
+      },
+      keywords: ['Midi Note C Sharp 4'],
+    },
+  },
+  {
+    desc: 'D octave 4',
+    keycodeInfo: {
+      code: 0x7135, // 28981 0b111000100110101
+      label: 'Midi Note D 4',
+      name: {
+        long: 'QK_MIDI_NOTE_D_4',
+        short: 'MI_D4',
+      },
+      keywords: ['Midi Note D 4'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 4',
+    keycodeInfo: {
+      code: 0x7136, // 28982 0b111000100110110
+      label: 'Midi Note D Sharp 4',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_4',
+        short: 'MI_Ds4',
+      },
+      keywords: ['Midi Note D Sharp 4'],
+    },
+  },
+  {
+    desc: 'E octave 4',
+    keycodeInfo: {
+      code: 0x7137, // 28983 0b111000100110111
+      label: 'Midi Note E 4',
+      name: {
+        long: 'QK_MIDI_NOTE_E_4',
+        short: 'MI_E4',
+      },
+      keywords: ['Midi Note E 4'],
+    },
+  },
+  {
+    desc: 'F octave 4',
+    keycodeInfo: {
+      code: 0x7138, // 28984 0b111000100111000
+      label: 'Midi Note F 4',
+      name: {
+        long: 'QK_MIDI_NOTE_F_4',
+        short: 'MI_F4',
+      },
+      keywords: ['Midi Note F 4'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 4',
+    keycodeInfo: {
+      code: 0x7139, // 28985 0b111000100111001
+      label: 'Midi Note F Sharp 4',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_4',
+        short: 'MI_Fs4',
+      },
+      keywords: ['Midi Note F Sharp 4'],
+    },
+  },
+  {
+    desc: 'G octave 4',
+    keycodeInfo: {
+      code: 0x713a, // 28986 0b111000100111010
+      label: 'Midi Note G 4',
+      name: {
+        long: 'QK_MIDI_NOTE_G_4',
+        short: 'MI_G4',
+      },
+      keywords: ['Midi Note G 4'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 4',
+    keycodeInfo: {
+      code: 0x713b, // 28987 0b111000100111011
+      label: 'Midi Note G Sharp 4',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_4',
+        short: 'MI_Gs4',
+      },
+      keywords: ['Midi Note G Sharp 4'],
+    },
+  },
+  {
+    desc: 'A octave 4',
+    keycodeInfo: {
+      code: 0x713c, // 28988 0b111000100111100
+      label: 'Midi Note A 4',
+      name: {
+        long: 'QK_MIDI_NOTE_A_4',
+        short: 'MI_A4',
+      },
+      keywords: ['Midi Note A 4'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 4',
+    keycodeInfo: {
+      code: 0x713d, // 28989 0b111000100111101
+      label: 'Midi Note A Sharp 4',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_4',
+        short: 'MI_As4',
+      },
+      keywords: ['Midi Note A Sharp 4'],
+    },
+  },
+  {
+    desc: 'B octave 4',
+    keycodeInfo: {
+      code: 0x713e, // 28990 0b111000100111110
+      label: 'Midi Note B 4',
+      name: {
+        long: 'QK_MIDI_NOTE_B_4',
+        short: 'MI_B4',
+      },
+      keywords: ['Midi Note B 4'],
+    },
+  },
+  {
+    desc: 'C octave 5',
+    keycodeInfo: {
+      code: 0x713f, // 28991 0b111000100111111
+      label: 'Midi Note C 5',
+      name: {
+        long: 'QK_MIDI_NOTE_C_5',
+        short: 'MI_C5',
+      },
+      keywords: ['Midi Note C 5'],
+    },
+  },
+  {
+    desc: 'C♯/D♭ octave 5',
+    keycodeInfo: {
+      code: 0x7140, // 28992 0b111000101000000
+      label: 'Midi Note C Sharp 5',
+      name: {
+        long: 'QK_MIDI_NOTE_C_SHARP_5',
+        short: 'MI_Cs5',
+      },
+      keywords: ['Midi Note C Sharp 5'],
+    },
+  },
+  {
+    desc: 'D octave 5',
+    keycodeInfo: {
+      code: 0x7141, // 28993 0b111000101000001
+      label: 'Midi Note D 5',
+      name: {
+        long: 'QK_MIDI_NOTE_D_5',
+        short: 'MI_D5',
+      },
+      keywords: ['Midi Note D 5'],
+    },
+  },
+  {
+    desc: 'D♯/E♭ octave 5',
+    keycodeInfo: {
+      code: 0x7142, // 28994 0b111000101000010
+      label: 'Midi Note D Sharp 5',
+      name: {
+        long: 'QK_MIDI_NOTE_D_SHARP_5',
+        short: 'MI_Ds5',
+      },
+      keywords: ['Midi Note D Sharp 5'],
+    },
+  },
+  {
+    desc: 'E octave 5',
+    keycodeInfo: {
+      code: 0x7143, // 28995 0b111000101000011
+      label: 'Midi Note E 5',
+      name: {
+        long: 'QK_MIDI_NOTE_E_5',
+        short: 'MI_E5',
+      },
+      keywords: ['Midi Note E 5'],
+    },
+  },
+  {
+    desc: 'F octave 5',
+    keycodeInfo: {
+      code: 0x7144, // 28996 0b111000101000100
+      label: 'Midi Note F 5',
+      name: {
+        long: 'QK_MIDI_NOTE_F_5',
+        short: 'MI_F5',
+      },
+      keywords: ['Midi Note F 5'],
+    },
+  },
+  {
+    desc: 'F♯/G♭ octave 5',
+    keycodeInfo: {
+      code: 0x7145, // 28997 0b111000101000101
+      label: 'Midi Note F Sharp 5',
+      name: {
+        long: 'QK_MIDI_NOTE_F_SHARP_5',
+        short: 'MI_Fs5',
+      },
+      keywords: ['Midi Note F Sharp 5'],
+    },
+  },
+  {
+    desc: 'G octave 5',
+    keycodeInfo: {
+      code: 0x7146, // 28998 0b111000101000110
+      label: 'Midi Note G 5',
+      name: {
+        long: 'QK_MIDI_NOTE_G_5',
+        short: 'MI_G5',
+      },
+      keywords: ['Midi Note G 5'],
+    },
+  },
+  {
+    desc: 'G♯/A♭ octave 5',
+    keycodeInfo: {
+      code: 0x7147, // 28999 0b111000101000111
+      label: 'Midi Note G Sharp 5',
+      name: {
+        long: 'QK_MIDI_NOTE_G_SHARP_5',
+        short: 'MI_Gs5',
+      },
+      keywords: ['Midi Note G Sharp 5'],
+    },
+  },
+  {
+    desc: 'A octave 5',
+    keycodeInfo: {
+      code: 0x7148, // 29000 0b111000101001000
+      label: 'Midi Note A 5',
+      name: {
+        long: 'QK_MIDI_NOTE_A_5',
+        short: 'MI_A5',
+      },
+      keywords: ['Midi Note A 5'],
+    },
+  },
+  {
+    desc: 'A♯/B♭ octave 5',
+    keycodeInfo: {
+      code: 0x7149, // 29001 0b111000101001001
+      label: 'Midi Note A Sharp 5',
+      name: {
+        long: 'QK_MIDI_NOTE_A_SHARP_5',
+        short: 'MI_As5',
+      },
+      keywords: ['Midi Note A Sharp 5'],
+    },
+  },
+  {
+    desc: 'B octave 5',
+    keycodeInfo: {
+      code: 0x714a, // 29002 0b111000101001010
+      label: 'Midi Note B 5',
+      name: {
+        long: 'QK_MIDI_NOTE_B_5',
+        short: 'MI_B5',
+      },
+      keywords: ['Midi Note B 5'],
+    },
+  },
+  {
+    desc: 'Set octave to -2',
+    keycodeInfo: {
+      code: 0x714b, // 29003 0b111000101001011
+      label: 'Midi Octave N2',
+      name: {
+        long: 'QK_MIDI_OCTAVE_N2',
+        short: 'MI_OCN2',
+      },
+      keywords: ['Midi Octave N2'],
+    },
+  },
+  {
+    desc: 'Set octave to -1',
+    keycodeInfo: {
+      code: 0x714c, // 29004 0b111000101001100
+      label: 'Midi Octave N1',
+      name: {
+        long: 'QK_MIDI_OCTAVE_N1',
+        short: 'MI_OCN1',
+      },
+      keywords: ['Midi Octave N1'],
+    },
+  },
+  {
+    desc: 'Set octave to 0',
+    keycodeInfo: {
+      code: 0x714d, // 29005 0b111000101001101
+      label: 'Midi Octave 0',
+      name: {
+        long: 'QK_MIDI_OCTAVE_0',
+        short: 'MI_OC0',
+      },
+      keywords: ['Midi Octave 0'],
+    },
+  },
+  {
+    desc: 'Set octave to 1',
+    keycodeInfo: {
+      code: 0x714e, // 29006 0b111000101001110
+      label: 'Midi Octave 1',
+      name: {
+        long: 'QK_MIDI_OCTAVE_1',
+        short: 'MI_OC1',
+      },
+      keywords: ['Midi Octave 1'],
+    },
+  },
+  {
+    desc: 'Set octave to 2',
+    keycodeInfo: {
+      code: 0x714f, // 29007 0b111000101001111
+      label: 'Midi Octave 2',
+      name: {
+        long: 'QK_MIDI_OCTAVE_2',
+        short: 'MI_OC2',
+      },
+      keywords: ['Midi Octave 2'],
+    },
+  },
+  {
+    desc: 'Set octave to 3',
+    keycodeInfo: {
+      code: 0x7150, // 29008 0b111000101010000
+      label: 'Midi Octave 3',
+      name: {
+        long: 'QK_MIDI_OCTAVE_3',
+        short: 'MI_OC3',
+      },
+      keywords: ['Midi Octave 3'],
+    },
+  },
+  {
+    desc: 'Set octave to 4',
+    keycodeInfo: {
+      code: 0x7151, // 29009 0b111000101010001
+      label: 'Midi Octave 4',
+      name: {
+        long: 'QK_MIDI_OCTAVE_4',
+        short: 'MI_OC4',
+      },
+      keywords: ['Midi Octave 4'],
+    },
+  },
+  {
+    desc: 'Set octave to 5',
+    keycodeInfo: {
+      code: 0x7152, // 29010 0b111000101010010
+      label: 'Midi Octave 5',
+      name: {
+        long: 'QK_MIDI_OCTAVE_5',
+        short: 'MI_OC5',
+      },
+      keywords: ['Midi Octave 5'],
+    },
+  },
+  {
+    desc: 'Set octave to 6',
+    keycodeInfo: {
+      code: 0x7153, // 29011 0b111000101010011
+      label: 'Midi Octave 6',
+      name: {
+        long: 'QK_MIDI_OCTAVE_6',
+        short: 'MI_OC6',
+      },
+      keywords: ['Midi Octave 6'],
+    },
+  },
+  {
+    desc: 'Set octave to 7',
+    keycodeInfo: {
+      code: 0x7154, // 29012 0b111000101010100
+      label: 'Midi Octave 7',
+      name: {
+        long: 'QK_MIDI_OCTAVE_7',
+        short: 'MI_OC7',
+      },
+      keywords: ['Midi Octave 7'],
+    },
+  },
+  {
+    desc: 'Move down an octave',
+    keycodeInfo: {
+      code: 0x7155, // 29013 0b111000101010101
+      label: 'Midi Octave Down',
+      name: {
+        long: 'QK_MIDI_OCTAVE_DOWN',
+        short: 'MI_OCTD',
+      },
+      keywords: ['Midi Octave Down'],
+    },
+  },
+  {
+    desc: 'Move up an octave',
+    keycodeInfo: {
+      code: 0x7156, // 29014 0b111000101010110
+      label: 'Midi Octave Up',
+      name: {
+        long: 'QK_MIDI_OCTAVE_UP',
+        short: 'MI_OCTU',
+      },
+      keywords: ['Midi Octave Up'],
+    },
+  },
+  {
+    desc: 'Set transposition to -6 semitones',
+    keycodeInfo: {
+      code: 0x7157, // 29015 0b111000101010111
+      label: 'Midi Transpose N6',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N6',
+        short: 'MI_TRN6',
+      },
+      keywords: ['Midi Transpose N6'],
+    },
+  },
+  {
+    desc: 'Set transposition to -5 semitones',
+    keycodeInfo: {
+      code: 0x7158, // 29016 0b111000101011000
+      label: 'Midi Transpose N5',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N5',
+        short: 'MI_TRN5',
+      },
+      keywords: ['Midi Transpose N5'],
+    },
+  },
+  {
+    desc: 'Set transposition to -4 semitones',
+    keycodeInfo: {
+      code: 0x7159, // 29017 0b111000101011001
+      label: 'Midi Transpose N4',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N4',
+        short: 'MI_TRN4',
+      },
+      keywords: ['Midi Transpose N4'],
+    },
+  },
+  {
+    desc: 'Set transposition to -3 semitones',
+    keycodeInfo: {
+      code: 0x715a, // 29018 0b111000101011010
+      label: 'Midi Transpose N3',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N3',
+        short: 'MI_TRN3',
+      },
+      keywords: ['Midi Transpose N3'],
+    },
+  },
+  {
+    desc: 'Set transposition to -2 semitones',
+    keycodeInfo: {
+      code: 0x715b, // 29019 0b111000101011011
+      label: 'Midi Transpose N2',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N2',
+        short: 'MI_TRN2',
+      },
+      keywords: ['Midi Transpose N2'],
+    },
+  },
+  {
+    desc: 'Set transposition to -1 semitone',
+    keycodeInfo: {
+      code: 0x715c, // 29020 0b111000101011100
+      label: 'Midi Transpose N1',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_N1',
+        short: 'MI_TRN1',
+      },
+      keywords: ['Midi Transpose N1'],
+    },
+  },
+  {
+    desc: 'No transposition',
+    keycodeInfo: {
+      code: 0x715d, // 29021 0b111000101011101
+      label: 'Midi Transpose 0',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_0',
+        short: 'MI_TR0',
+      },
+      keywords: ['Midi Transpose 0'],
+    },
+  },
+  {
+    desc: 'Set transposition to +1 semitone',
+    keycodeInfo: {
+      code: 0x715e, // 29022 0b111000101011110
+      label: 'Midi Transpose 1',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_1',
+        short: 'MI_TR1',
+      },
+      keywords: ['Midi Transpose 1'],
+    },
+  },
+  {
+    desc: 'Set transposition to +2 semitones',
+    keycodeInfo: {
+      code: 0x715f, // 29023 0b111000101011111
+      label: 'Midi Transpose 2',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_2',
+        short: 'MI_TR2',
+      },
+      keywords: ['Midi Transpose 2'],
+    },
+  },
+  {
+    desc: 'Set transposition to +3 semitones',
+    keycodeInfo: {
+      code: 0x7160, // 29024 0b111000101100000
+      label: 'Midi Transpose 3',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_3',
+        short: 'MI_TR3',
+      },
+      keywords: ['Midi Transpose 3'],
+    },
+  },
+  {
+    desc: 'Set transposition to +4 semitones',
+    keycodeInfo: {
+      code: 0x7161, // 29025 0b111000101100001
+      label: 'Midi Transpose 4',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_4',
+        short: 'MI_TR4',
+      },
+      keywords: ['Midi Transpose 4'],
+    },
+  },
+  {
+    desc: 'Set transposition to +5 semitones',
+    keycodeInfo: {
+      code: 0x7162, // 29026 0b111000101100010
+      label: 'Midi Transpose 5',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_5',
+        short: 'MI_TR5',
+      },
+      keywords: ['Midi Transpose 5'],
+    },
+  },
+  {
+    desc: 'Set transposition to +6 semitones',
+    keycodeInfo: {
+      code: 0x7163, // 29027 0b111000101100011
+      label: 'Midi Transpose 6',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_6',
+        short: 'MI_TR6',
+      },
+      keywords: ['Midi Transpose 6'],
+    },
+  },
+  {
+    desc: 'Decrease transposition',
+    keycodeInfo: {
+      code: 0x7164, // 29028 0b111000101100100
+      label: 'Midi Transpose Down',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_DOWN',
+        short: 'MI_TRSD',
+      },
+      keywords: ['Midi Transpose Down'],
+    },
+  },
+  {
+    desc: 'Increase transposition',
+    keycodeInfo: {
+      code: 0x7165, // 29029 0b111000101100101
+      label: 'Midi Transpose Up',
+      name: {
+        long: 'QK_MIDI_TRANSPOSE_UP',
+        short: 'MI_TRSU',
+      },
+      keywords: ['Midi Transpose Up'],
+    },
+  },
+  {
+    desc: 'Set velocity to 0',
+    keycodeInfo: {
+      code: 0x7166, // 29030 0b111000101100110
+      label: 'Midi Velocity 0',
+      name: {
+        long: 'QK_MIDI_VELOCITY_0',
+        short: 'MI_VL0',
+      },
+      keywords: ['Midi Velocity 0'],
+    },
+  },
+  {
+    desc: 'Set velocity to 12',
+    keycodeInfo: {
+      code: 0x7167, // 29031 0b111000101100111
+      label: 'Midi Velocity 1',
+      name: {
+        long: 'QK_MIDI_VELOCITY_1',
+        short: 'MI_VL1',
+      },
+      keywords: ['Midi Velocity 1'],
+    },
+  },
+  {
+    desc: 'Set velocity to 25',
+    keycodeInfo: {
+      code: 0x7168, // 29032 0b111000101101000
+      label: 'Midi Velocity 2',
+      name: {
+        long: 'QK_MIDI_VELOCITY_2',
+        short: 'MI_VL2',
+      },
+      keywords: ['Midi Velocity 2'],
+    },
+  },
+  {
+    desc: 'Set velocity to 38',
+    keycodeInfo: {
+      code: 0x7169, // 29033 0b111000101101001
+      label: 'Midi Velocity 3',
+      name: {
+        long: 'QK_MIDI_VELOCITY_3',
+        short: 'MI_VL3',
+      },
+      keywords: ['Midi Velocity 3'],
+    },
+  },
+  {
+    desc: 'Set velocity to 51',
+    keycodeInfo: {
+      code: 0x716a, // 29034 0b111000101101010
+      label: 'Midi Velocity 4',
+      name: {
+        long: 'QK_MIDI_VELOCITY_4',
+        short: 'MI_VL4',
+      },
+      keywords: ['Midi Velocity 4'],
+    },
+  },
+  {
+    desc: 'Set velocity to 64',
+    keycodeInfo: {
+      code: 0x716b, // 29035 0b111000101101011
+      label: 'Midi Velocity 5',
+      name: {
+        long: 'QK_MIDI_VELOCITY_5',
+        short: 'MI_VL5',
+      },
+      keywords: ['Midi Velocity 5'],
+    },
+  },
+  {
+    desc: 'Set velocity to 76',
+    keycodeInfo: {
+      code: 0x716c, // 29036 0b111000101101100
+      label: 'Midi Velocity 6',
+      name: {
+        long: 'QK_MIDI_VELOCITY_6',
+        short: 'MI_VL6',
+      },
+      keywords: ['Midi Velocity 6'],
+    },
+  },
+  {
+    desc: 'Set velocity to 89',
+    keycodeInfo: {
+      code: 0x716d, // 29037 0b111000101101101
+      label: 'Midi Velocity 7',
+      name: {
+        long: 'QK_MIDI_VELOCITY_7',
+        short: 'MI_VL7',
+      },
+      keywords: ['Midi Velocity 7'],
+    },
+  },
+  {
+    desc: 'Set velocity to 102',
+    keycodeInfo: {
+      code: 0x716e, // 29038 0b111000101101110
+      label: 'Midi Velocity 8',
+      name: {
+        long: 'QK_MIDI_VELOCITY_8',
+        short: 'MI_VL8',
+      },
+      keywords: ['Midi Velocity 8'],
+    },
+  },
+  {
+    desc: 'Set velocity to 114',
+    keycodeInfo: {
+      code: 0x716f, // 29039 0b111000101101111
+      label: 'Midi Velocity 9',
+      name: {
+        long: 'QK_MIDI_VELOCITY_9',
+        short: 'MI_VL9',
+      },
+      keywords: ['Midi Velocity 9'],
+    },
+  },
+  {
+    desc: 'Set velocity to 127',
+    keycodeInfo: {
+      code: 0x7170, // 29040 0b111000101110000
+      label: 'Midi Velocity 10',
+      name: {
+        long: 'QK_MIDI_VELOCITY_10',
+        short: 'MI_VL10',
+      },
+      keywords: ['Midi Velocity 10'],
+    },
+  },
+  {
+    desc: 'Decrease velocity',
+    keycodeInfo: {
+      code: 0x7171, // 29041 0b111000101110001
+      label: 'Midi Velocity Down',
+      name: {
+        long: 'QK_MIDI_VELOCITY_DOWN',
+        short: 'MI_VELD',
+      },
+      keywords: ['Midi Velocity Down'],
+    },
+  },
+  {
+    desc: 'Increase velocity',
+    keycodeInfo: {
+      code: 0x7172, // 29042 0b111000101110010
+      label: 'Midi Velocity Up',
+      name: {
+        long: 'QK_MIDI_VELOCITY_UP',
+        short: 'MI_VELU',
+      },
+      keywords: ['Midi Velocity Up'],
+    },
+  },
+  {
+    desc: 'Set channel to 1',
+    keycodeInfo: {
+      code: 0x7173, // 29043 0b111000101110011
+      label: 'Midi Channel 1',
+      name: {
+        long: 'QK_MIDI_CHANNEL_1',
+        short: 'MI_CH1',
+      },
+      keywords: ['Midi Channel 1'],
+    },
+  },
+  {
+    desc: 'Set channel to 2',
+    keycodeInfo: {
+      code: 0x7174, // 29044 0b111000101110100
+      label: 'Midi Channel 2',
+      name: {
+        long: 'QK_MIDI_CHANNEL_2',
+        short: 'MI_CH2',
+      },
+      keywords: ['Midi Channel 2'],
+    },
+  },
+  {
+    desc: 'Set channel to 3',
+    keycodeInfo: {
+      code: 0x7175, // 29045 0b111000101110101
+      label: 'Midi Channel 3',
+      name: {
+        long: 'QK_MIDI_CHANNEL_3',
+        short: 'MI_CH3',
+      },
+      keywords: ['Midi Channel 3'],
+    },
+  },
+  {
+    desc: 'Set channel to 4',
+    keycodeInfo: {
+      code: 0x7176, // 29046 0b111000101110110
+      label: 'Midi Channel 4',
+      name: {
+        long: 'QK_MIDI_CHANNEL_4',
+        short: 'MI_CH4',
+      },
+      keywords: ['Midi Channel 4'],
+    },
+  },
+  {
+    desc: 'Set channel to 5',
+    keycodeInfo: {
+      code: 0x7177, // 29047 0b111000101110111
+      label: 'Midi Channel 5',
+      name: {
+        long: 'QK_MIDI_CHANNEL_5',
+        short: 'MI_CH5',
+      },
+      keywords: ['Midi Channel 5'],
+    },
+  },
+  {
+    desc: 'Set channel to 6',
+    keycodeInfo: {
+      code: 0x7178, // 29048 0b111000101111000
+      label: 'Midi Channel 6',
+      name: {
+        long: 'QK_MIDI_CHANNEL_6',
+        short: 'MI_CH6',
+      },
+      keywords: ['Midi Channel 6'],
+    },
+  },
+  {
+    desc: 'Set channel to 7',
+    keycodeInfo: {
+      code: 0x7179, // 29049 0b111000101111001
+      label: 'Midi Channel 7',
+      name: {
+        long: 'QK_MIDI_CHANNEL_7',
+        short: 'MI_CH7',
+      },
+      keywords: ['Midi Channel 7'],
+    },
+  },
+  {
+    desc: 'Set channel to 8',
+    keycodeInfo: {
+      code: 0x717a, // 29050 0b111000101111010
+      label: 'Midi Channel 8',
+      name: {
+        long: 'QK_MIDI_CHANNEL_8',
+        short: 'MI_CH8',
+      },
+      keywords: ['Midi Channel 8'],
+    },
+  },
+  {
+    desc: 'Set channel to 9',
+    keycodeInfo: {
+      code: 0x717b, // 29051 0b111000101111011
+      label: 'Midi Channel 9',
+      name: {
+        long: 'QK_MIDI_CHANNEL_9',
+        short: 'MI_CH9',
+      },
+      keywords: ['Midi Channel 9'],
+    },
+  },
+  {
+    desc: 'Set channel to 10',
+    keycodeInfo: {
+      code: 0x717c, // 29052 0b111000101111100
+      label: 'Midi Channel 10',
+      name: {
+        long: 'QK_MIDI_CHANNEL_10',
+        short: 'MI_CH10',
+      },
+      keywords: ['Midi Channel 10'],
+    },
+  },
+  {
+    desc: 'Set channel to 11',
+    keycodeInfo: {
+      code: 0x717d, // 29053 0b111000101111101
+      label: 'Midi Channel 11',
+      name: {
+        long: 'QK_MIDI_CHANNEL_11',
+        short: 'MI_CH11',
+      },
+      keywords: ['Midi Channel 11'],
+    },
+  },
+  {
+    desc: 'Set channel to 12',
+    keycodeInfo: {
+      code: 0x717e, // 29054 0b111000101111110
+      label: 'Midi Channel 12',
+      name: {
+        long: 'QK_MIDI_CHANNEL_12',
+        short: 'MI_CH12',
+      },
+      keywords: ['Midi Channel 12'],
+    },
+  },
+  {
+    desc: 'Set channel to 13',
+    keycodeInfo: {
+      code: 0x717f, // 29055 0b111000101111111
+      label: 'Midi Channel 13',
+      name: {
+        long: 'QK_MIDI_CHANNEL_13',
+        short: 'MI_CH13',
+      },
+      keywords: ['Midi Channel 13'],
+    },
+  },
+  {
+    desc: 'Set channel to 14',
+    keycodeInfo: {
+      code: 0x7180, // 29056 0b111000110000000
+      label: 'Midi Channel 14',
+      name: {
+        long: 'QK_MIDI_CHANNEL_14',
+        short: 'MI_CH14',
+      },
+      keywords: ['Midi Channel 14'],
+    },
+  },
+  {
+    desc: 'Set channel to 15',
+    keycodeInfo: {
+      code: 0x7181, // 29057 0b111000110000001
+      label: 'Midi Channel 15',
+      name: {
+        long: 'QK_MIDI_CHANNEL_15',
+        short: 'MI_CH15',
+      },
+      keywords: ['Midi Channel 15'],
+    },
+  },
+  {
+    desc: 'Set channel to 16',
+    keycodeInfo: {
+      code: 0x7182, // 29058 0b111000110000010
+      label: 'Midi Channel 16',
+      name: {
+        long: 'QK_MIDI_CHANNEL_16',
+        short: 'MI_CH16',
+      },
+      keywords: ['Midi Channel 16'],
+    },
+  },
+  {
+    desc: 'Decrease channel',
+    keycodeInfo: {
+      code: 0x7183, // 29059 0b111000110000011
+      label: 'Midi Channel Down',
+      name: {
+        long: 'QK_MIDI_CHANNEL_DOWN',
+        short: 'MI_CHND',
+      },
+      keywords: ['Midi Channel Down'],
+    },
+  },
+  {
+    desc: 'Increase channel',
+    keycodeInfo: {
+      code: 0x7184, // 29060 0b111000110000100
+      label: 'Midi Channel Up',
+      name: {
+        long: 'QK_MIDI_CHANNEL_UP',
+        short: 'MI_CHNU',
+      },
+      keywords: ['Midi Channel Up'],
+    },
+  },
+  {
+    desc: 'Stop all notes',
+    keycodeInfo: {
+      code: 0x7185, // 29061 0b111000110000101
+      label: 'Midi All Notes Off',
+      name: {
+        long: 'QK_MIDI_ALL_NOTES_OFF',
+        short: 'MI_AOFF',
+      },
+      keywords: ['Midi All Notes Off'],
+    },
+  },
+  {
+    desc: 'Sustain',
+    keycodeInfo: {
+      code: 0x7186, // 29062 0b111000110000110
+      label: 'Midi Sustain',
+      name: {
+        long: 'QK_MIDI_SUSTAIN',
+        short: 'MI_SUST',
+      },
+      keywords: ['Midi Sustain'],
+    },
+  },
+  {
+    desc: 'Portmento',
+    keycodeInfo: {
+      code: 0x7187, // 29063 0b111000110000111
+      label: 'Midi Portamento',
+      name: {
+        long: 'QK_MIDI_PORTAMENTO',
+        short: 'MI_PORT',
+      },
+      keywords: ['Midi Portamento'],
+    },
+  },
+  {
+    desc: 'Sostenuto',
+    keycodeInfo: {
+      code: 0x7188, // 29064 0b111000110001000
+      label: 'Midi Sostenuto',
+      name: {
+        long: 'QK_MIDI_SOSTENUTO',
+        short: 'MI_SOST',
+      },
+      keywords: ['Midi Sostenuto'],
+    },
+  },
+  {
+    desc: 'Soft Pedal',
+    keycodeInfo: {
+      code: 0x7189, // 29065 0b111000110001001
+      label: 'Midi Soft',
+      name: {
+        long: 'QK_MIDI_SOFT',
+        short: 'MI_SOFT',
+      },
+      keywords: ['Midi Soft'],
+    },
+  },
+  {
+    desc: 'Legato',
+    keycodeInfo: {
+      code: 0x718a, // 29066 0b111000110001010
+      label: 'Midi Legato',
+      name: {
+        long: 'QK_MIDI_LEGATO',
+        short: 'MI_LEG',
+      },
+      keywords: ['Midi Legato'],
+    },
+  },
+  {
+    desc: 'Modulation',
+    keycodeInfo: {
+      code: 0x718b, // 29067 0b111000110001011
+      label: 'Midi Modulation',
+      name: {
+        long: 'QK_MIDI_MODULATION',
+        short: 'MI_MOD',
+      },
+      keywords: ['Midi Modulation'],
+    },
+  },
+  {
+    desc: 'Decrease modulation speed',
+    keycodeInfo: {
+      code: 0x718c, // 29068 0b111000110001100
+      label: 'Midi Modulation Speed Down',
+      name: {
+        long: 'QK_MIDI_MODULATION_SPEED_DOWN',
+        short: 'MI_MODD',
+      },
+      keywords: ['Midi Modulation Speed Down'],
+    },
+  },
+  {
+    desc: 'Increase modulation speed',
+    keycodeInfo: {
+      code: 0x718d, // 29069 0b111000110001101
+      label: 'Midi Modulation Speed Up',
+      name: {
+        long: 'QK_MIDI_MODULATION_SPEED_UP',
+        short: 'MI_MODU',
+      },
+      keywords: ['Midi Modulation Speed Up'],
+    },
+  },
+  {
+    desc: 'Bend pitch down',
+    keycodeInfo: {
+      code: 0x718e, // 29070 0b111000110001110
+      label: 'Midi Pitch Bend Down',
+      name: {
+        long: 'QK_MIDI_PITCH_BEND_DOWN',
+        short: 'MI_BNDD',
+      },
+      keywords: ['Midi Pitch Bend Down'],
+    },
+  },
+  {
+    desc: 'Bend pitch up',
+    keycodeInfo: {
+      code: 0x718f, // 29071 0b111000110001111
+      label: 'Midi Pitch Bend Up',
+      name: {
+        long: 'QK_MIDI_PITCH_BEND_UP',
+        short: 'MI_BNDU',
+      },
+      keywords: ['Midi Pitch Bend Up'],
+    },
+  },
+  {
+    desc: 'Sequencer On',
+    keycodeInfo: {
+      code: 0x7200, // 29184 0b111001000000000
+      label: 'Sequencer On',
+      name: {
+        long: 'QK_SEQUENCER_ON',
+        short: 'SQ_ON',
+      },
+      keywords: ['Sequencer On'],
+    },
+  },
+  {
+    desc: 'Sequencer Off',
+    keycodeInfo: {
+      code: 0x7201, // 29185 0b111001000000001
+      label: 'Sequencer Off',
+      name: {
+        long: 'QK_SEQUENCER_OFF',
+        short: 'SQ_OFF',
+      },
+      keywords: ['Sequencer Off'],
+    },
+  },
+  {
+    desc: 'Sequencer Toggle',
+    keycodeInfo: {
+      code: 0x7202, // 29186 0b111001000000010
+      label: 'Sequencer Toggle',
+      name: {
+        long: 'QK_SEQUENCER_TOGGLE',
+        short: 'SQ_TOGG',
+      },
+      keywords: ['Sequencer Toggle'],
+    },
+  },
+  {
+    desc: 'Sequencer Tempo Down',
+    keycodeInfo: {
+      code: 0x7203, // 29187 0b111001000000011
+      label: 'Sequencer Tempo Down',
+      name: {
+        long: 'QK_SEQUENCER_TEMPO_DOWN',
+        short: 'SQ_TMPD',
+      },
+      keywords: ['Sequencer Tempo Down'],
+    },
+  },
+  {
+    desc: 'Sequencer Tempo Up',
+    keycodeInfo: {
+      code: 0x7204, // 29188 0b111001000000100
+      label: 'Sequencer Tempo Up',
+      name: {
+        long: 'QK_SEQUENCER_TEMPO_UP',
+        short: 'SQ_TMPU',
+      },
+      keywords: ['Sequencer Tempo Up'],
+    },
+  },
+  {
+    desc: 'Sequencer Resolution Down',
+    keycodeInfo: {
+      code: 0x7205, // 29189 0b111001000000101
+      label: 'Sequencer Resolution Down',
+      name: {
+        long: 'QK_SEQUENCER_RESOLUTION_DOWN',
+        short: 'SQ_RESD',
+      },
+      keywords: ['Sequencer Resolution Down'],
+    },
+  },
+  {
+    desc: 'Sequencer Resolution Up',
+    keycodeInfo: {
+      code: 0x7206, // 29190 0b111001000000110
+      label: 'Sequencer Resolution Up',
+      name: {
+        long: 'QK_SEQUENCER_RESOLUTION_UP',
+        short: 'SQ_RESU',
+      },
+      keywords: ['Sequencer Resolution Up'],
+    },
+  },
+  {
+    desc: 'Sequencer Steps All',
+    keycodeInfo: {
+      code: 0x7207, // 29191 0b111001000000111
+      label: 'Sequencer Steps All',
+      name: {
+        long: 'QK_SEQUENCER_STEPS_ALL',
+        short: 'SQ_SALL',
+      },
+      keywords: ['Sequencer Steps All'],
+    },
+  },
+  {
+    desc: 'Sequencer Steps Clear',
+    keycodeInfo: {
+      code: 0x7208, // 29192 0b111001000001000
+      label: 'Sequencer Steps Clear',
+      name: {
+        long: 'QK_SEQUENCER_STEPS_CLEAR',
+        short: 'SQ_SCLR',
+      },
+      keywords: ['Sequencer Steps Clear'],
+    },
+  },
+  {
+    desc: 'Button 0',
+    keycodeInfo: {
+      code: 0x7400, // 29696 0b111010000000000
+      label: 'Joystick Button 0',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_0',
+        short: 'JS_0',
+      },
+      keywords: ['Joystick Button 0'],
+    },
+  },
+  {
+    desc: 'Button 1',
+    keycodeInfo: {
+      code: 0x7401, // 29697 0b111010000000001
+      label: 'Joystick Button 1',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_1',
+        short: 'JS_1',
+      },
+      keywords: ['Joystick Button 1'],
+    },
+  },
+  {
+    desc: 'Button 2',
+    keycodeInfo: {
+      code: 0x7402, // 29698 0b111010000000010
+      label: 'Joystick Button 2',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_2',
+        short: 'JS_2',
+      },
+      keywords: ['Joystick Button 2'],
+    },
+  },
+  {
+    desc: 'Button 3',
+    keycodeInfo: {
+      code: 0x7403, // 29699 0b111010000000011
+      label: 'Joystick Button 3',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_3',
+        short: 'JS_3',
+      },
+      keywords: ['Joystick Button 3'],
+    },
+  },
+  {
+    desc: 'Button 4',
+    keycodeInfo: {
+      code: 0x7404, // 29700 0b111010000000100
+      label: 'Joystick Button 4',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_4',
+        short: 'JS_4',
+      },
+      keywords: ['Joystick Button 4'],
+    },
+  },
+  {
+    desc: 'Button 5',
+    keycodeInfo: {
+      code: 0x7405, // 29701 0b111010000000101
+      label: 'Joystick Button 5',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_5',
+        short: 'JS_5',
+      },
+      keywords: ['Joystick Button 5'],
+    },
+  },
+  {
+    desc: 'Button 6',
+    keycodeInfo: {
+      code: 0x7406, // 29702 0b111010000000110
+      label: 'Joystick Button 6',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_6',
+        short: 'JS_6',
+      },
+      keywords: ['Joystick Button 6'],
+    },
+  },
+  {
+    desc: 'Button 7',
+    keycodeInfo: {
+      code: 0x7407, // 29703 0b111010000000111
+      label: 'Joystick Button 7',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_7',
+        short: 'JS_7',
+      },
+      keywords: ['Joystick Button 7'],
+    },
+  },
+  {
+    desc: 'Button 8',
+    keycodeInfo: {
+      code: 0x7408, // 29704 0b111010000001000
+      label: 'Joystick Button 8',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_8',
+        short: 'JS_8',
+      },
+      keywords: ['Joystick Button 8'],
+    },
+  },
+  {
+    desc: 'Button 9',
+    keycodeInfo: {
+      code: 0x7409, // 29705 0b111010000001001
+      label: 'Joystick Button 9',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_9',
+        short: 'JS_9',
+      },
+      keywords: ['Joystick Button 9'],
+    },
+  },
+  {
+    desc: 'Button 10',
+    keycodeInfo: {
+      code: 0x740a, // 29706 0b111010000001010
+      label: 'Joystick Button 10',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_10',
+        short: 'JS_10',
+      },
+      keywords: ['Joystick Button 10'],
+    },
+  },
+  {
+    desc: 'Button 11',
+    keycodeInfo: {
+      code: 0x740b, // 29707 0b111010000001011
+      label: 'Joystick Button 11',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_11',
+        short: 'JS_11',
+      },
+      keywords: ['Joystick Button 11'],
+    },
+  },
+  {
+    desc: 'Button 12',
+    keycodeInfo: {
+      code: 0x740c, // 29708 0b111010000001100
+      label: 'Joystick Button 12',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_12',
+        short: 'JS_12',
+      },
+      keywords: ['Joystick Button 12'],
+    },
+  },
+  {
+    desc: 'Button 13',
+    keycodeInfo: {
+      code: 0x740d, // 29709 0b111010000001101
+      label: 'Joystick Button 13',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_13',
+        short: 'JS_13',
+      },
+      keywords: ['Joystick Button 13'],
+    },
+  },
+  {
+    desc: 'Button 14',
+    keycodeInfo: {
+      code: 0x740e, // 29710 0b111010000001110
+      label: 'Joystick Button 14',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_14',
+        short: 'JS_14',
+      },
+      keywords: ['Joystick Button 14'],
+    },
+  },
+  {
+    desc: 'Button 15',
+    keycodeInfo: {
+      code: 0x740f, // 29711 0b111010000001111
+      label: 'Joystick Button 15',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_15',
+        short: 'JS_15',
+      },
+      keywords: ['Joystick Button 15'],
+    },
+  },
+  {
+    desc: 'Button 16',
+    keycodeInfo: {
+      code: 0x7410, // 29712 0b111010000010000
+      label: 'Joystick Button 16',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_16',
+        short: 'JS_16',
+      },
+      keywords: ['Joystick Button 16'],
+    },
+  },
+  {
+    desc: 'Button 17',
+    keycodeInfo: {
+      code: 0x7411, // 29713 0b111010000010001
+      label: 'Joystick Button 17',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_17',
+        short: 'JS_17',
+      },
+      keywords: ['Joystick Button 17'],
+    },
+  },
+  {
+    desc: 'Button 18',
+    keycodeInfo: {
+      code: 0x7412, // 29714 0b111010000010010
+      label: 'Joystick Button 18',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_18',
+        short: 'JS_18',
+      },
+      keywords: ['Joystick Button 18'],
+    },
+  },
+  {
+    desc: 'Button 19',
+    keycodeInfo: {
+      code: 0x7413, // 29715 0b111010000010011
+      label: 'Joystick Button 19',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_19',
+        short: 'JS_19',
+      },
+      keywords: ['Joystick Button 19'],
+    },
+  },
+  {
+    desc: 'Button 20',
+    keycodeInfo: {
+      code: 0x7414, // 29716 0b111010000010100
+      label: 'Joystick Button 20',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_20',
+        short: 'JS_20',
+      },
+      keywords: ['Joystick Button 20'],
+    },
+  },
+  {
+    desc: 'Button 21',
+    keycodeInfo: {
+      code: 0x7415, // 29717 0b111010000010101
+      label: 'Joystick Button 21',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_21',
+        short: 'JS_21',
+      },
+      keywords: ['Joystick Button 21'],
+    },
+  },
+  {
+    desc: 'Button 22',
+    keycodeInfo: {
+      code: 0x7416, // 29718 0b111010000010110
+      label: 'Joystick Button 22',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_22',
+        short: 'JS_22',
+      },
+      keywords: ['Joystick Button 22'],
+    },
+  },
+  {
+    desc: 'Button 23',
+    keycodeInfo: {
+      code: 0x7417, // 29719 0b111010000010111
+      label: 'Joystick Button 23',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_23',
+        short: 'JS_23',
+      },
+      keywords: ['Joystick Button 23'],
+    },
+  },
+  {
+    desc: 'Button 24',
+    keycodeInfo: {
+      code: 0x7418, // 29720 0b111010000011000
+      label: 'Joystick Button 24',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_24',
+        short: 'JS_24',
+      },
+      keywords: ['Joystick Button 24'],
+    },
+  },
+  {
+    desc: 'Button 25',
+    keycodeInfo: {
+      code: 0x7419, // 29721 0b111010000011001
+      label: 'Joystick Button 25',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_25',
+        short: 'JS_25',
+      },
+      keywords: ['Joystick Button 25'],
+    },
+  },
+  {
+    desc: 'Button 26',
+    keycodeInfo: {
+      code: 0x741a, // 29722 0b111010000011010
+      label: 'Joystick Button 26',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_26',
+        short: 'JS_26',
+      },
+      keywords: ['Joystick Button 26'],
+    },
+  },
+  {
+    desc: 'Button 27',
+    keycodeInfo: {
+      code: 0x741b, // 29723 0b111010000011011
+      label: 'Joystick Button 27',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_27',
+        short: 'JS_27',
+      },
+      keywords: ['Joystick Button 27'],
+    },
+  },
+  {
+    desc: 'Button 28',
+    keycodeInfo: {
+      code: 0x741c, // 29724 0b111010000011100
+      label: 'Joystick Button 28',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_28',
+        short: 'JS_28',
+      },
+      keywords: ['Joystick Button 28'],
+    },
+  },
+  {
+    desc: 'Button 29',
+    keycodeInfo: {
+      code: 0x741d, // 29725 0b111010000011101
+      label: 'Joystick Button 29',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_29',
+        short: 'JS_29',
+      },
+      keywords: ['Joystick Button 29'],
+    },
+  },
+  {
+    desc: 'Button 30',
+    keycodeInfo: {
+      code: 0x741e, // 29726 0b111010000011110
+      label: 'Joystick Button 30',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_30',
+        short: 'JS_30',
+      },
+      keywords: ['Joystick Button 30'],
+    },
+  },
+  {
+    desc: 'Button 31',
+    keycodeInfo: {
+      code: 0x741f, // 29727 0b111010000011111
+      label: 'Joystick Button 31',
+      name: {
+        long: 'QK_JOYSTICK_BUTTON_31',
+        short: 'JS_31',
+      },
+      keywords: ['Joystick Button 31'],
+    },
+  },
+  {
+    desc: 'Programmable button 1',
+    keycodeInfo: {
+      code: 0x7440, // 29760 0b111010001000000
+      label: 'Programmable Button 1',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_1',
+        short: 'PB_1',
+      },
+      keywords: ['Programmable Button 1'],
+    },
+  },
+  {
+    desc: 'Programmable button 2',
+    keycodeInfo: {
+      code: 0x7441, // 29761 0b111010001000001
+      label: 'Programmable Button 2',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_2',
+        short: 'PB_2',
+      },
+      keywords: ['Programmable Button 2'],
+    },
+  },
+  {
+    desc: 'Programmable button 3',
+    keycodeInfo: {
+      code: 0x7442, // 29762 0b111010001000010
+      label: 'Programmable Button 3',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_3',
+        short: 'PB_3',
+      },
+      keywords: ['Programmable Button 3'],
+    },
+  },
+  {
+    desc: 'Programmable button 4',
+    keycodeInfo: {
+      code: 0x7443, // 29763 0b111010001000011
+      label: 'Programmable Button 4',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_4',
+        short: 'PB_4',
+      },
+      keywords: ['Programmable Button 4'],
+    },
+  },
+  {
+    desc: 'Programmable button 5',
+    keycodeInfo: {
+      code: 0x7444, // 29764 0b111010001000100
+      label: 'Programmable Button 5',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_5',
+        short: 'PB_5',
+      },
+      keywords: ['Programmable Button 5'],
+    },
+  },
+  {
+    desc: 'Programmable button 6',
+    keycodeInfo: {
+      code: 0x7445, // 29765 0b111010001000101
+      label: 'Programmable Button 6',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_6',
+        short: 'PB_6',
+      },
+      keywords: ['Programmable Button 6'],
+    },
+  },
+  {
+    desc: 'Programmable button 7',
+    keycodeInfo: {
+      code: 0x7446, // 29766 0b111010001000110
+      label: 'Programmable Button 7',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_7',
+        short: 'PB_7',
+      },
+      keywords: ['Programmable Button 7'],
+    },
+  },
+  {
+    desc: 'Programmable button 8',
+    keycodeInfo: {
+      code: 0x7447, // 29767 0b111010001000111
+      label: 'Programmable Button 8',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_8',
+        short: 'PB_8',
+      },
+      keywords: ['Programmable Button 8'],
+    },
+  },
+  {
+    desc: 'Programmable button 9',
+    keycodeInfo: {
+      code: 0x7448, // 29768 0b111010001001000
+      label: 'Programmable Button 9',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_9',
+        short: 'PB_9',
+      },
+      keywords: ['Programmable Button 9'],
+    },
+  },
+  {
+    desc: 'Programmable button 10',
+    keycodeInfo: {
+      code: 0x7449, // 29769 0b111010001001001
+      label: 'Programmable Button 10',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_10',
+        short: 'PB_10',
+      },
+      keywords: ['Programmable Button 10'],
+    },
+  },
+  {
+    desc: 'Programmable button 11',
+    keycodeInfo: {
+      code: 0x744a, // 29770 0b111010001001010
+      label: 'Programmable Button 11',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_11',
+        short: 'PB_11',
+      },
+      keywords: ['Programmable Button 11'],
+    },
+  },
+  {
+    desc: 'Programmable button 12',
+    keycodeInfo: {
+      code: 0x744b, // 29771 0b111010001001011
+      label: 'Programmable Button 12',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_12',
+        short: 'PB_12',
+      },
+      keywords: ['Programmable Button 12'],
+    },
+  },
+  {
+    desc: 'Programmable button 13',
+    keycodeInfo: {
+      code: 0x744c, // 29772 0b111010001001100
+      label: 'Programmable Button 13',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_13',
+        short: 'PB_13',
+      },
+      keywords: ['Programmable Button 13'],
+    },
+  },
+  {
+    desc: 'Programmable button 14',
+    keycodeInfo: {
+      code: 0x744d, // 29773 0b111010001001101
+      label: 'Programmable Button 14',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_14',
+        short: 'PB_14',
+      },
+      keywords: ['Programmable Button 14'],
+    },
+  },
+  {
+    desc: 'Programmable button 15',
+    keycodeInfo: {
+      code: 0x744e, // 29774 0b111010001001110
+      label: 'Programmable Button 15',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_15',
+        short: 'PB_15',
+      },
+      keywords: ['Programmable Button 15'],
+    },
+  },
+  {
+    desc: 'Programmable button 16',
+    keycodeInfo: {
+      code: 0x744f, // 29775 0b111010001001111
+      label: 'Programmable Button 16',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_16',
+        short: 'PB_16',
+      },
+      keywords: ['Programmable Button 16'],
+    },
+  },
+  {
+    desc: 'Programmable button 17',
+    keycodeInfo: {
+      code: 0x7450, // 29776 0b111010001010000
+      label: 'Programmable Button 17',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_17',
+        short: 'PB_17',
+      },
+      keywords: ['Programmable Button 17'],
+    },
+  },
+  {
+    desc: 'Programmable button 18',
+    keycodeInfo: {
+      code: 0x7451, // 29777 0b111010001010001
+      label: 'Programmable Button 18',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_18',
+        short: 'PB_18',
+      },
+      keywords: ['Programmable Button 18'],
+    },
+  },
+  {
+    desc: 'Programmable button 19',
+    keycodeInfo: {
+      code: 0x7452, // 29778 0b111010001010010
+      label: 'Programmable Button 19',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_19',
+        short: 'PB_19',
+      },
+      keywords: ['Programmable Button 19'],
+    },
+  },
+  {
+    desc: 'Programmable button 20',
+    keycodeInfo: {
+      code: 0x7453, // 29779 0b111010001010011
+      label: 'Programmable Button 20',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_20',
+        short: 'PB_20',
+      },
+      keywords: ['Programmable Button 20'],
+    },
+  },
+  {
+    desc: 'Programmable button 21',
+    keycodeInfo: {
+      code: 0x7454, // 29780 0b111010001010100
+      label: 'Programmable Button 21',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_21',
+        short: 'PB_21',
+      },
+      keywords: ['Programmable Button 21'],
+    },
+  },
+  {
+    desc: 'Programmable button 22',
+    keycodeInfo: {
+      code: 0x7455, // 29781 0b111010001010101
+      label: 'Programmable Button 22',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_22',
+        short: 'PB_22',
+      },
+      keywords: ['Programmable Button 22'],
+    },
+  },
+  {
+    desc: 'Programmable button 23',
+    keycodeInfo: {
+      code: 0x7456, // 29782 0b111010001010110
+      label: 'Programmable Button 23',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_23',
+        short: 'PB_23',
+      },
+      keywords: ['Programmable Button 23'],
+    },
+  },
+  {
+    desc: 'Programmable button 24',
+    keycodeInfo: {
+      code: 0x7457, // 29783 0b111010001010111
+      label: 'Programmable Button 24',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_24',
+        short: 'PB_24',
+      },
+      keywords: ['Programmable Button 24'],
+    },
+  },
+  {
+    desc: 'Programmable button 25',
+    keycodeInfo: {
+      code: 0x7458, // 29784 0b111010001011000
+      label: 'Programmable Button 25',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_25',
+        short: 'PB_25',
+      },
+      keywords: ['Programmable Button 25'],
+    },
+  },
+  {
+    desc: 'Programmable button 26',
+    keycodeInfo: {
+      code: 0x7459, // 29785 0b111010001011001
+      label: 'Programmable Button 26',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_26',
+        short: 'PB_26',
+      },
+      keywords: ['Programmable Button 26'],
+    },
+  },
+  {
+    desc: 'Programmable button 27',
+    keycodeInfo: {
+      code: 0x745a, // 29786 0b111010001011010
+      label: 'Programmable Button 27',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_27',
+        short: 'PB_27',
+      },
+      keywords: ['Programmable Button 27'],
+    },
+  },
+  {
+    desc: 'Programmable button 28',
+    keycodeInfo: {
+      code: 0x745b, // 29787 0b111010001011011
+      label: 'Programmable Button 28',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_28',
+        short: 'PB_28',
+      },
+      keywords: ['Programmable Button 28'],
+    },
+  },
+  {
+    desc: 'Programmable button 29',
+    keycodeInfo: {
+      code: 0x745c, // 29788 0b111010001011100
+      label: 'Programmable Button 29',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_29',
+        short: 'PB_29',
+      },
+      keywords: ['Programmable Button 29'],
+    },
+  },
+  {
+    desc: 'Programmable button 30',
+    keycodeInfo: {
+      code: 0x745d, // 29789 0b111010001011101
+      label: 'Programmable Button 30',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_30',
+        short: 'PB_30',
+      },
+      keywords: ['Programmable Button 30'],
+    },
+  },
+  {
+    desc: 'Programmable button 31',
+    keycodeInfo: {
+      code: 0x745e, // 29790 0b111010001011110
+      label: 'Programmable Button 31',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_31',
+        short: 'PB_31',
+      },
+      keywords: ['Programmable Button 31'],
+    },
+  },
+  {
+    desc: 'Programmable button 32',
+    keycodeInfo: {
+      code: 0x745f, // 29791 0b111010001011111
+      label: 'Programmable Button 32',
+      name: {
+        long: 'QK_PROGRAMMABLE_BUTTON_32',
+        short: 'PB_32',
+      },
+      keywords: ['Programmable Button 32'],
+    },
+  },
+  {
+    desc: 'Turns on Audio Feature',
+    keycodeInfo: {
+      code: 0x7480, // 29824 0b111010010000000
+      label: 'Audio On',
+      name: {
+        long: 'QK_AUDIO_ON',
+        short: 'AU_ON',
+      },
+      keywords: ['Audio On'],
+    },
+  },
+  {
+    desc: 'Turns off Audio Feature',
+    keycodeInfo: {
+      code: 0x7481, // 29825 0b111010010000001
+      label: 'Audio Off',
+      name: {
+        long: 'QK_AUDIO_OFF',
+        short: 'AU_OFF',
+      },
+      keywords: ['Audio Off'],
+    },
+  },
+  {
+    desc: 'Toggles Audio state',
+    keycodeInfo: {
+      code: 0x7482, // 29826 0b111010010000010
+      label: 'Audio Toggle',
+      name: {
+        long: 'QK_AUDIO_TOGGLE',
+        short: 'AU_TOGG',
+      },
+      keywords: ['Audio Toggle'],
+    },
+  },
+  {
+    desc: 'Toggles Audio clicky mode',
+    keycodeInfo: {
+      code: 0x748a, // 29834 0b111010010001010
+      label: 'Audio Clicky Toggle',
+      name: {
+        long: 'QK_AUDIO_CLICKY_TOGGLE',
+        short: 'CK_TOGG',
+      },
+      keywords: ['Audio Clicky Toggle'],
+    },
+  },
+  {
+    desc: 'Turns on Audio clicky mode',
+    keycodeInfo: {
+      code: 0x748b, // 29835 0b111010010001011
+      label: 'Audio Clicky On',
+      name: {
+        long: 'QK_AUDIO_CLICKY_ON',
+        short: 'CK_ON',
+      },
+      keywords: ['Audio Clicky On'],
+    },
+  },
+  {
+    desc: 'Turns off Audio clicky mode',
+    keycodeInfo: {
+      code: 0x748c, // 29836 0b111010010001100
+      label: 'Audio Clicky Off',
+      name: {
+        long: 'QK_AUDIO_CLICKY_OFF',
+        short: 'CK_OFF',
+      },
+      keywords: ['Audio Clicky Off'],
+    },
+  },
+  {
+    desc: 'Increases frequency of the clicks',
+    keycodeInfo: {
+      code: 0x748d, // 29837 0b111010010001101
+      label: 'Audio Clicky Up',
+      name: {
+        long: 'QK_AUDIO_CLICKY_UP',
+        short: 'CK_UP',
+      },
+      keywords: ['Audio Clicky Up'],
+    },
+  },
+  {
+    desc: 'Decreases frequency of the clicks',
+    keycodeInfo: {
+      code: 0x748e, // 29838 0b111010010001110
+      label: 'Audio Clicky Down',
+      name: {
+        long: 'QK_AUDIO_CLICKY_DOWN',
+        short: 'CK_DOWN',
+      },
+      keywords: ['Audio Clicky Down'],
+    },
+  },
+  {
+    desc: 'Resets frequency to default',
+    keycodeInfo: {
+      code: 0x748f, // 29839 0b111010010001111
+      label: 'Audio Clicky Reset',
+      name: {
+        long: 'QK_AUDIO_CLICKY_RESET',
+        short: 'CK_RST',
+      },
+      keywords: ['Audio Clicky Reset'],
+    },
+  },
+  {
+    desc: 'Turns on Music Mode',
+    keycodeInfo: {
+      code: 0x7490, // 29840 0b111010010010000
+      label: 'Music On',
+      name: {
+        long: 'QK_MUSIC_ON',
+        short: 'MU_ON',
+      },
+      keywords: ['Music On'],
+    },
+  },
+  {
+    desc: 'Turns off Music Mode',
+    keycodeInfo: {
+      code: 0x7491, // 29841 0b111010010010001
+      label: 'Music Off',
+      name: {
+        long: 'QK_MUSIC_OFF',
+        short: 'MU_OFF',
+      },
+      keywords: ['Music Off'],
+    },
+  },
+  {
+    desc: 'Toggles Music Mode',
+    keycodeInfo: {
+      code: 0x7492, // 29842 0b111010010010010
+      label: 'Music Toggle',
+      name: {
+        long: 'QK_MUSIC_TOGGLE',
+        short: 'MU_TOGG',
+      },
+      keywords: ['Music Toggle'],
+    },
+  },
+  {
+    desc: 'Cycles through the music modes',
+    keycodeInfo: {
+      code: 0x7493, // 29843 0b111010010010011
+      label: 'Music Mode Next',
+      name: {
+        long: 'QK_MUSIC_MODE_NEXT',
+        short: 'MU_NEXT',
+      },
+      keywords: ['Music Mode Next'],
+    },
+  },
+  {
+    desc: 'Cycles through the audio voices',
+    keycodeInfo: {
+      code: 0x7494, // 29844 0b111010010010100
+      label: 'Audio Voice Next',
+      name: {
+        long: 'QK_AUDIO_VOICE_NEXT',
+        short: 'AU_NEXT',
+      },
+      keywords: ['Audio Voice Next'],
+    },
+  },
+  {
+    desc: 'Cycles through the audio voices in reverse',
+    keycodeInfo: {
+      code: 0x7495, // 29845 0b111010010010101
+      label: 'Audio Voice Previous',
+      name: {
+        long: 'QK_AUDIO_VOICE_PREVIOUS',
+        short: 'AU_PREV',
+      },
+      keywords: ['Audio Voice Previous'],
+    },
+  },
+  {
+    desc: 'Steno Bolt',
+    keycodeInfo: {
+      code: 0x74f0, // 29936 0b111010011110000
+      label: 'Steno Bolt',
+      name: {
+        long: 'QK_STENO_BOLT',
+        short: 'QK_STENO_BOLT',
+      },
+      keywords: ['Steno Bolt'],
+    },
+  },
+  {
+    desc: 'Steno Gemini',
+    keycodeInfo: {
+      code: 0x74f1, // 29937 0b111010011110001
+      label: 'Steno Gemini',
+      name: {
+        long: 'QK_STENO_GEMINI',
+        short: 'QK_STENO_GEMINI',
+      },
+      keywords: ['Steno Gemini'],
+    },
+  },
+  {
+    desc: 'Steno Comb',
+    keycodeInfo: {
+      code: 0x74f2, // 29938 0b111010011110010
+      label: 'Steno Comb',
+      name: {
+        long: 'QK_STENO_COMB',
+        short: 'QK_STENO_COMB',
+      },
+      keywords: ['Steno Comb'],
+    },
+  },
+  {
+    desc: 'Steno Comb Max',
+    keycodeInfo: {
+      code: 0x74fc, // 29948 0b111010011111100
+      label: 'Steno Comb Max',
+      name: {
+        long: 'QK_STENO_COMB_MAX',
+        short: 'QK_STENO_COMB_MAX',
+      },
+      keywords: ['Steno Comb Max'],
+    },
+  },
+  {
+    desc: 'Macro 0',
+    keycodeInfo: {
+      code: 0x7700, // 30464 0b111011100000000
+      label: 'Macro 0',
+      name: {
+        long: 'QK_MACRO_0',
+        short: 'MC_0',
+      },
+      keywords: ['Macro 0'],
+    },
+  },
+  {
+    desc: 'Macro 1',
+    keycodeInfo: {
+      code: 0x7701, // 30465 0b111011100000001
+      label: 'Macro 1',
+      name: {
+        long: 'QK_MACRO_1',
+        short: 'MC_1',
+      },
+      keywords: ['Macro 1'],
+    },
+  },
+  {
+    desc: 'Macro 2',
+    keycodeInfo: {
+      code: 0x7702, // 30466 0b111011100000010
+      label: 'Macro 2',
+      name: {
+        long: 'QK_MACRO_2',
+        short: 'MC_2',
+      },
+      keywords: ['Macro 2'],
+    },
+  },
+  {
+    desc: 'Macro 3',
+    keycodeInfo: {
+      code: 0x7703, // 30467 0b111011100000011
+      label: 'Macro 3',
+      name: {
+        long: 'QK_MACRO_3',
+        short: 'MC_3',
+      },
+      keywords: ['Macro 3'],
+    },
+  },
+  {
+    desc: 'Macro 4',
+    keycodeInfo: {
+      code: 0x7704, // 30468 0b111011100000100
+      label: 'Macro 4',
+      name: {
+        long: 'QK_MACRO_4',
+        short: 'MC_4',
+      },
+      keywords: ['Macro 4'],
+    },
+  },
+  {
+    desc: 'Macro 5',
+    keycodeInfo: {
+      code: 0x7705, // 30469 0b111011100000101
+      label: 'Macro 5',
+      name: {
+        long: 'QK_MACRO_5',
+        short: 'MC_5',
+      },
+      keywords: ['Macro 5'],
+    },
+  },
+  {
+    desc: 'Macro 6',
+    keycodeInfo: {
+      code: 0x7706, // 30470 0b111011100000110
+      label: 'Macro 6',
+      name: {
+        long: 'QK_MACRO_6',
+        short: 'MC_6',
+      },
+      keywords: ['Macro 6'],
+    },
+  },
+  {
+    desc: 'Macro 7',
+    keycodeInfo: {
+      code: 0x7707, // 30471 0b111011100000111
+      label: 'Macro 7',
+      name: {
+        long: 'QK_MACRO_7',
+        short: 'MC_7',
+      },
+      keywords: ['Macro 7'],
+    },
+  },
+  {
+    desc: 'Macro 8',
+    keycodeInfo: {
+      code: 0x7708, // 30472 0b111011100001000
+      label: 'Macro 8',
+      name: {
+        long: 'QK_MACRO_8',
+        short: 'MC_8',
+      },
+      keywords: ['Macro 8'],
+    },
+  },
+  {
+    desc: 'Macro 9',
+    keycodeInfo: {
+      code: 0x7709, // 30473 0b111011100001001
+      label: 'Macro 9',
+      name: {
+        long: 'QK_MACRO_9',
+        short: 'MC_9',
+      },
+      keywords: ['Macro 9'],
+    },
+  },
+  {
+    desc: 'Macro 10',
+    keycodeInfo: {
+      code: 0x770a, // 30474 0b111011100001010
+      label: 'Macro 10',
+      name: {
+        long: 'QK_MACRO_10',
+        short: 'MC_10',
+      },
+      keywords: ['Macro 10'],
+    },
+  },
+  {
+    desc: 'Macro 11',
+    keycodeInfo: {
+      code: 0x770b, // 30475 0b111011100001011
+      label: 'Macro 11',
+      name: {
+        long: 'QK_MACRO_11',
+        short: 'MC_11',
+      },
+      keywords: ['Macro 11'],
+    },
+  },
+  {
+    desc: 'Macro 12',
+    keycodeInfo: {
+      code: 0x770c, // 30476 0b111011100001100
+      label: 'Macro 12',
+      name: {
+        long: 'QK_MACRO_12',
+        short: 'MC_12',
+      },
+      keywords: ['Macro 12'],
+    },
+  },
+  {
+    desc: 'Macro 13',
+    keycodeInfo: {
+      code: 0x770d, // 30477 0b111011100001101
+      label: 'Macro 13',
+      name: {
+        long: 'QK_MACRO_13',
+        short: 'MC_13',
+      },
+      keywords: ['Macro 13'],
+    },
+  },
+  {
+    desc: 'Macro 14',
+    keycodeInfo: {
+      code: 0x770e, // 30478 0b111011100001110
+      label: 'Macro 14',
+      name: {
+        long: 'QK_MACRO_14',
+        short: 'MC_14',
+      },
+      keywords: ['Macro 14'],
+    },
+  },
+  {
+    desc: 'Macro 15',
+    keycodeInfo: {
+      code: 0x770f, // 30479 0b111011100001111
+      label: 'Macro 15',
+      name: {
+        long: 'QK_MACRO_15',
+        short: 'MC_15',
+      },
+      keywords: ['Macro 15'],
+    },
+  },
+  {
+    desc: 'Macro 16',
+    keycodeInfo: {
+      code: 0x7710, // 30480 0b111011100010000
+      label: 'Macro 16',
+      name: {
+        long: 'QK_MACRO_16',
+        short: 'MC_16',
+      },
+      keywords: ['Macro 16'],
+    },
+  },
+  {
+    desc: 'Macro 17',
+    keycodeInfo: {
+      code: 0x7711, // 30481 0b111011100010001
+      label: 'Macro 17',
+      name: {
+        long: 'QK_MACRO_17',
+        short: 'MC_17',
+      },
+      keywords: ['Macro 17'],
+    },
+  },
+  {
+    desc: 'Macro 18',
+    keycodeInfo: {
+      code: 0x7712, // 30482 0b111011100010010
+      label: 'Macro 18',
+      name: {
+        long: 'QK_MACRO_18',
+        short: 'MC_18',
+      },
+      keywords: ['Macro 18'],
+    },
+  },
+  {
+    desc: 'Macro 19',
+    keycodeInfo: {
+      code: 0x7713, // 30483 0b111011100010011
+      label: 'Macro 19',
+      name: {
+        long: 'QK_MACRO_19',
+        short: 'MC_19',
+      },
+      keywords: ['Macro 19'],
+    },
+  },
+  {
+    desc: 'Macro 20',
+    keycodeInfo: {
+      code: 0x7714, // 30484 0b111011100010100
+      label: 'Macro 20',
+      name: {
+        long: 'QK_MACRO_20',
+        short: 'MC_20',
+      },
+      keywords: ['Macro 20'],
+    },
+  },
+  {
+    desc: 'Macro 21',
+    keycodeInfo: {
+      code: 0x7715, // 30485 0b111011100010101
+      label: 'Macro 21',
+      name: {
+        long: 'QK_MACRO_21',
+        short: 'MC_21',
+      },
+      keywords: ['Macro 21'],
+    },
+  },
+  {
+    desc: 'Macro 22',
+    keycodeInfo: {
+      code: 0x7716, // 30486 0b111011100010110
+      label: 'Macro 22',
+      name: {
+        long: 'QK_MACRO_22',
+        short: 'MC_22',
+      },
+      keywords: ['Macro 22'],
+    },
+  },
+  {
+    desc: 'Macro 23',
+    keycodeInfo: {
+      code: 0x7717, // 30487 0b111011100010111
+      label: 'Macro 23',
+      name: {
+        long: 'QK_MACRO_23',
+        short: 'MC_23',
+      },
+      keywords: ['Macro 23'],
+    },
+  },
+  {
+    desc: 'Macro 24',
+    keycodeInfo: {
+      code: 0x7718, // 30488 0b111011100011000
+      label: 'Macro 24',
+      name: {
+        long: 'QK_MACRO_24',
+        short: 'MC_24',
+      },
+      keywords: ['Macro 24'],
+    },
+  },
+  {
+    desc: 'Macro 25',
+    keycodeInfo: {
+      code: 0x7719, // 30489 0b111011100011001
+      label: 'Macro 25',
+      name: {
+        long: 'QK_MACRO_25',
+        short: 'MC_25',
+      },
+      keywords: ['Macro 25'],
+    },
+  },
+  {
+    desc: 'Macro 26',
+    keycodeInfo: {
+      code: 0x771a, // 30490 0b111011100011010
+      label: 'Macro 26',
+      name: {
+        long: 'QK_MACRO_26',
+        short: 'MC_26',
+      },
+      keywords: ['Macro 26'],
+    },
+  },
+  {
+    desc: 'Macro 27',
+    keycodeInfo: {
+      code: 0x771b, // 30491 0b111011100011011
+      label: 'Macro 27',
+      name: {
+        long: 'QK_MACRO_27',
+        short: 'MC_27',
+      },
+      keywords: ['Macro 27'],
+    },
+  },
+  {
+    desc: 'Macro 28',
+    keycodeInfo: {
+      code: 0x771c, // 30492 0b111011100011100
+      label: 'Macro 28',
+      name: {
+        long: 'QK_MACRO_28',
+        short: 'MC_28',
+      },
+      keywords: ['Macro 28'],
+    },
+  },
+  {
+    desc: 'Macro 29',
+    keycodeInfo: {
+      code: 0x771d, // 30493 0b111011100011101
+      label: 'Macro 29',
+      name: {
+        long: 'QK_MACRO_29',
+        short: 'MC_29',
+      },
+      keywords: ['Macro 29'],
+    },
+  },
+  {
+    desc: 'Macro 30',
+    keycodeInfo: {
+      code: 0x771e, // 30494 0b111011100011110
+      label: 'Macro 30',
+      name: {
+        long: 'QK_MACRO_30',
+        short: 'MC_30',
+      },
+      keywords: ['Macro 30'],
+    },
+  },
+  {
+    desc: 'Macro 31',
+    keycodeInfo: {
+      code: 0x771f, // 30495 0b111011100011111
+      label: 'Macro 31',
+      name: {
+        long: 'QK_MACRO_31',
+        short: 'MC_31',
+      },
+      keywords: ['Macro 31'],
+    },
+  },
+  {
+    desc: 'Set the backlight to max brightness',
+    keycodeInfo: {
+      code: 0x7800, // 30720 0b111100000000000
+      label: 'Backlight On',
+      name: {
+        long: 'QK_BACKLIGHT_ON',
+        short: 'BL_ON',
+      },
+      keywords: ['Backlight On'],
+    },
+  },
+  {
+    desc: 'Turn the backlight off',
+    keycodeInfo: {
+      code: 0x7801, // 30721 0b111100000000001
+      label: 'Backlight Off',
+      name: {
+        long: 'QK_BACKLIGHT_OFF',
+        short: 'BL_OFF',
+      },
+      keywords: ['Backlight Off'],
+    },
+  },
+  {
+    desc: 'Turn the backlight on or off',
+    keycodeInfo: {
+      code: 0x7802, // 30722 0b111100000000010
+      label: 'Backlight Toggle',
+      name: {
+        long: 'QK_BACKLIGHT_TOGGLE',
+        short: 'BL_TOGG',
+      },
+      keywords: ['Backlight Toggle'],
+    },
+  },
+  {
+    desc: 'Decrease the backlight level',
+    keycodeInfo: {
+      code: 0x7803, // 30723 0b111100000000011
+      label: 'Backlight Down',
+      name: {
+        long: 'QK_BACKLIGHT_DOWN',
+        short: 'BL_DOWN',
+      },
+      keywords: ['Backlight Down'],
+    },
+  },
+  {
+    desc: 'Increase the backlight level',
+    keycodeInfo: {
+      code: 0x7804, // 30724 0b111100000000100
+      label: 'Backlight Up',
+      name: {
+        long: 'QK_BACKLIGHT_UP',
+        short: 'BL_UP',
+      },
+      keywords: ['Backlight Up'],
+    },
+  },
+  {
+    desc: 'Cycle through backlight levels',
+    keycodeInfo: {
+      code: 0x7805, // 30725 0b111100000000101
+      label: 'Backlight Step',
+      name: {
+        long: 'QK_BACKLIGHT_STEP',
+        short: 'BL_STEP',
+      },
+      keywords: ['Backlight Step'],
+    },
+  },
+  {
+    desc: 'Toggle backlight breathing',
+    keycodeInfo: {
+      code: 0x7806, // 30726 0b111100000000110
+      label: 'Backlight Toggle Breathing',
+      name: {
+        long: 'QK_BACKLIGHT_TOGGLE_BREATHING',
+        short: 'BL_BRTG',
+      },
+      keywords: ['Backlight Toggle Breathing'],
+    },
+  },
+  {
+    desc: 'Toggle RGB lighting on or off',
+    keycodeInfo: {
+      code: 0x7820, // 30752 0b111100000100000
+      label: 'Rgb Tog',
+      name: {
+        long: 'RGB_TOG',
+        short: 'RGB_TOG',
+      },
+      keywords: ['Rgb Tog'],
+    },
+  },
+  {
+    desc: 'Cycle through modes, reverse direction when Shift is held',
+    keycodeInfo: {
+      code: 0x7821, // 30753 0b111100000100001
+      label: 'Rgb Mode Forward',
+      name: {
+        long: 'RGB_MODE_FORWARD',
+        short: 'RGB_MOD',
+      },
+      keywords: ['Rgb Mode Forward'],
+    },
+  },
+  {
+    desc: 'Cycle through modes in reverse, forward direction when Shift is held',
+    keycodeInfo: {
+      code: 0x7822, // 30754 0b111100000100010
+      label: 'Rgb Mode Reverse',
+      name: {
+        long: 'RGB_MODE_REVERSE',
+        short: 'RGB_RMOD',
+      },
+      keywords: ['Rgb Mode Reverse'],
+    },
+  },
+  {
+    desc: 'Increase hue, decrease hue when Shift is held',
+    keycodeInfo: {
+      code: 0x7823, // 30755 0b111100000100011
+      label: 'Rgb Hui',
+      name: {
+        long: 'RGB_HUI',
+        short: 'RGB_HUI',
+      },
+      keywords: ['Rgb Hui'],
+    },
+  },
+  {
+    desc: 'Decrease hue, increase hue when Shift is held',
+    keycodeInfo: {
+      code: 0x7824, // 30756 0b111100000100100
+      label: 'Rgb Hud',
+      name: {
+        long: 'RGB_HUD',
+        short: 'RGB_HUD',
+      },
+      keywords: ['Rgb Hud'],
+    },
+  },
+  {
+    desc: 'Increase saturation, decrease saturation when Shift is held',
+    keycodeInfo: {
+      code: 0x7825, // 30757 0b111100000100101
+      label: 'Rgb Sai',
+      name: {
+        long: 'RGB_SAI',
+        short: 'RGB_SAI',
+      },
+      keywords: ['Rgb Sai'],
+    },
+  },
+  {
+    desc: 'Decrease saturation, increase saturation when Shift is held',
+    keycodeInfo: {
+      code: 0x7826, // 30758 0b111100000100110
+      label: 'Rgb Sad',
+      name: {
+        long: 'RGB_SAD',
+        short: 'RGB_SAD',
+      },
+      keywords: ['Rgb Sad'],
+    },
+  },
+  {
+    desc: 'Increase value (brightness), decrease value when Shift is held',
+    keycodeInfo: {
+      code: 0x7827, // 30759 0b111100000100111
+      label: 'Rgb Vai',
+      name: {
+        long: 'RGB_VAI',
+        short: 'RGB_VAI',
+      },
+      keywords: ['Rgb Vai'],
+    },
+  },
+  {
+    desc: 'Decrease value (brightness), increase value when Shift is held',
+    keycodeInfo: {
+      code: 0x7828, // 30760 0b111100000101000
+      label: 'Rgb Vad',
+      name: {
+        long: 'RGB_VAD',
+        short: 'RGB_VAD',
+      },
+      keywords: ['Rgb Vad'],
+    },
+  },
+  {
+    desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held',
+    keycodeInfo: {
+      code: 0x7829, // 30761 0b111100000101001
+      label: 'Rgb Spi',
+      name: {
+        long: 'RGB_SPI',
+        short: 'RGB_SPI',
+      },
+      keywords: ['Rgb Spi'],
+    },
+  },
+  {
+    desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held',
+    keycodeInfo: {
+      code: 0x782a, // 30762 0b111100000101010
+      label: 'Rgb Spd',
+      name: {
+        long: 'RGB_SPD',
+        short: 'RGB_SPD',
+      },
+      keywords: ['Rgb Spd'],
+    },
+  },
+  {
+    desc: 'Static (no animation) mode',
+    keycodeInfo: {
+      code: 0x782b, // 30763 0b111100000101011
+      label: 'Rgb Mode Plain',
+      name: {
+        long: 'RGB_MODE_PLAIN',
+        short: 'RGB_M_P',
+      },
+      keywords: ['Rgb Mode Plain'],
+    },
+  },
+  {
+    desc: 'Breathing animation mode',
+    keycodeInfo: {
+      code: 0x782c, // 30764 0b111100000101100
+      label: 'Rgb Mode Breathe',
+      name: {
+        long: 'RGB_MODE_BREATHE',
+        short: 'RGB_M_B',
+      },
+      keywords: ['Rgb Mode Breathe'],
+    },
+  },
+  {
+    desc: 'Rainbow animation mode',
+    keycodeInfo: {
+      code: 0x782d, // 30765 0b111100000101101
+      label: 'Rgb Mode Rainbow',
+      name: {
+        long: 'RGB_MODE_RAINBOW',
+        short: 'RGB_M_R',
+      },
+      keywords: ['Rgb Mode Rainbow'],
+    },
+  },
+  {
+    desc: 'Swirl animation mode',
+    keycodeInfo: {
+      code: 0x782e, // 30766 0b111100000101110
+      label: 'Rgb Mode Swirl',
+      name: {
+        long: 'RGB_MODE_SWIRL',
+        short: 'RGB_M_SW',
+      },
+      keywords: ['Rgb Mode Swirl'],
+    },
+  },
+  {
+    desc: 'Snake animation mode',
+    keycodeInfo: {
+      code: 0x782f, // 30767 0b111100000101111
+      label: 'Rgb Mode Snake',
+      name: {
+        long: 'RGB_MODE_SNAKE',
+        short: 'RGB_M_SN',
+      },
+      keywords: ['Rgb Mode Snake'],
+    },
+  },
+  {
+    desc: '“Knight Rider” animation mode',
+    keycodeInfo: {
+      code: 0x7830, // 30768 0b111100000110000
+      label: 'Rgb Mode Knight',
+      name: {
+        long: 'RGB_MODE_KNIGHT',
+        short: 'RGB_M_K',
+      },
+      keywords: ['Rgb Mode Knight'],
+    },
+  },
+  {
+    desc: 'Christmas animation mode',
+    keycodeInfo: {
+      code: 0x7831, // 30769 0b111100000110001
+      label: 'Rgb Mode Xmas',
+      name: {
+        long: 'RGB_MODE_XMAS',
+        short: 'RGB_M_X',
+      },
+      keywords: ['Rgb Mode Xmas'],
+    },
+  },
+  {
+    desc: 'Static gradient animation mode',
+    keycodeInfo: {
+      code: 0x7832, // 30770 0b111100000110010
+      label: 'Rgb Mode Gradient',
+      name: {
+        long: 'RGB_MODE_GRADIENT',
+        short: 'RGB_M_G',
+      },
+      keywords: ['Rgb Mode Gradient'],
+    },
+  },
+  {
+    desc: 'Red,Green,Blue test animation mode',
+    keycodeInfo: {
+      code: 0x7833, // 30771 0b111100000110011
+      label: 'Rgb Mode Rgbtest',
+      name: {
+        long: 'RGB_MODE_RGBTEST',
+        short: 'RGB_M_T',
+      },
+      keywords: ['Rgb Mode Rgbtest'],
+    },
+  },
+  {
+    desc: 'Rgb Mode Twinkle',
+    keycodeInfo: {
+      code: 0x7834, // 30772 0b111100000110100
+      label: 'Rgb Mode Twinkle',
+      name: {
+        long: 'RGB_MODE_TWINKLE',
+        short: 'RGB_M_TW',
+      },
+      keywords: ['Rgb Mode Twinkle'],
+    },
+  },
+  {
+    desc: 'Put the keyboard into bootloader mode for flashing',
+    keycodeInfo: {
+      code: 0x7c00, // 31744 0b111110000000000
+      label: 'Bootloader',
+      name: {
+        long: 'QK_BOOTLOADER',
+        short: 'QK_BOOT',
+      },
+      keywords: ['Bootloader'],
+    },
+  },
+  {
+    desc: 'Resets the keyboard. Does not load the bootloader',
+    keycodeInfo: {
+      code: 0x7c01, // 31745 0b111110000000001
+      label: 'Reboot',
+      name: {
+        long: 'QK_REBOOT',
+        short: 'QK_RBT',
+      },
+      keywords: ['Reboot'],
+    },
+  },
+  {
+    desc: 'Toggle debug mode',
+    keycodeInfo: {
+      code: 0x7c02, // 31746 0b111110000000010
+      label: 'Debug Toggle',
+      name: {
+        long: 'QK_DEBUG_TOGGLE',
+        short: 'DB_TOGG',
+      },
+      keywords: ['Debug Toggle'],
+    },
+  },
+  {
+    desc: 'Reinitializes the keyboard’s EEPROM (persistent memory)',
+    keycodeInfo: {
+      code: 0x7c03, // 31747 0b111110000000011
+      label: 'Clear Eeprom',
+      name: {
+        long: 'QK_CLEAR_EEPROM',
+        short: 'EE_CLR',
+      },
+      keywords: ['Clear Eeprom'],
+    },
+  },
+  {
+    desc: 'Sends qmk compile -kb (keyboard) -km (keymap), or qmk flash if shift is held. Puts keyboard into bootloader mode if shift & control are held',
+    keycodeInfo: {
+      code: 0x7c04, // 31748 0b111110000000100
+      label: 'Make',
+      name: {
+        long: 'QK_MAKE',
+        short: 'QK_MAKE',
+      },
+      keywords: ['Make'],
     },
   },
   {
     desc: 'Lower the Auto Shift timeout variable (down)',
     keycodeInfo: {
-      code: 23576,
+      code: 0x7c10, // 31760 0b111110000010000
+      label: 'Auto Shift Down',
       name: {
-        long: 'KC_ASDN',
-        short: 'KC_ASDN',
+        long: 'QK_AUTO_SHIFT_DOWN',
+        short: 'AS_DOWN',
       },
-      label: 'ASDN',
-      keywords: ['auto shift', 'timeout', 'down'],
+      keywords: ['Auto Shift Down'],
+    },
+  },
+  {
+    desc: 'Raise the Auto Shift timeout variable (up)',
+    keycodeInfo: {
+      code: 0x7c11, // 31761 0b111110000010001
+      label: 'Auto Shift Up',
+      name: {
+        long: 'QK_AUTO_SHIFT_UP',
+        short: 'AS_UP',
+      },
+      keywords: ['Auto Shift Up'],
     },
   },
   {
     desc: 'Report your current Auto Shift timeout value',
     keycodeInfo: {
-      code: 23577,
+      code: 0x7c12, // 31762 0b111110000010010
+      label: 'Auto Shift Report',
       name: {
-        long: 'KC_ASRP',
-        short: 'KC_ASRP',
+        long: 'QK_AUTO_SHIFT_REPORT',
+        short: 'AS_RPT',
       },
-      label: 'ASRP',
-      keywords: ['auto shift', 'timeout'],
-    },
-  },
-  {
-    desc: 'Toggles the state of the Auto Shift feature',
-    keycodeInfo: {
-      code: 23578,
-      name: {
-        long: 'KC_ASTG',
-        short: 'KC_ASTG',
-      },
-      label: 'ASTG',
-      keywords: ['auto shift toggle'],
+      keywords: ['Auto Shift Report'],
     },
   },
   {
     desc: 'Turns on the Auto Shift Function',
     keycodeInfo: {
-      code: 23579,
+      code: 0x7c13, // 31763 0b111110000010011
+      label: 'Auto Shift On',
       name: {
-        long: 'KC_ASON',
-        short: 'KC_ASON',
+        long: 'QK_AUTO_SHIFT_ON',
+        short: 'AS_ON',
       },
-      label: 'ASON',
-      keywords: ['auto shift on'],
+      keywords: ['Auto Shift On'],
     },
   },
   {
     desc: 'Turns off the Auto Shift Function',
     keycodeInfo: {
-      code: 23580,
+      code: 0x7c14, // 31764 0b111110000010100
+      label: 'Auto Shift Off',
       name: {
-        long: 'KC_ASOFF',
-        short: 'KC_ASOFF',
+        long: 'QK_AUTO_SHIFT_OFF',
+        short: 'AS_OFF',
       },
-      label: 'ASOFF',
-      keywords: ['auto shift off'],
+      keywords: ['Auto Shift Off'],
     },
   },
   {
-    desc: 'Audio mode on.',
+    desc: 'Toggles the state of the Auto Shift feature',
     keycodeInfo: {
-      code: 23581,
+      code: 0x7c15, // 31765 0b111110000010101
+      label: 'Auto Shift Toggle',
       name: {
-        long: 'AU_ON',
-        short: 'AU_ON',
+        long: 'QK_AUTO_SHIFT_TOGGLE',
+        short: 'AS_TOGG',
       },
-      label: 'Audio On',
-      keywords: ['au_on'],
+      keywords: ['Auto Shift Toggle'],
     },
   },
   {
-    desc: 'Audio mode off.',
+    desc: 'Escape when pressed, ` when Shift or GUI are held',
     keycodeInfo: {
-      code: 23582,
+      code: 0x7c16, // 31766 0b111110000010110
+      label: 'Grave Escape',
       name: {
-        long: 'AU_OFF',
-        short: 'AU_OFF',
+        long: 'QK_GRAVE_ESCAPE',
+        short: 'QK_GESC',
       },
-      label: 'Audio Off',
-      keywords: ['au_off'],
+      keywords: ['Grave Escape'],
     },
   },
   {
-    desc: 'Toggles Audio mode.',
+    desc: 'Velocikey Toggle',
     keycodeInfo: {
-      code: 23583,
+      code: 0x7c17, // 31767 0b111110000010111
+      label: 'Velocikey Toggle',
       name: {
-        long: 'AU_TOG',
-        short: 'AU_TOG',
+        long: 'QK_VELOCIKEY_TOGGLE',
+        short: 'VK_TOGG',
       },
-      label: 'Audio Toggle',
-      keywords: ['au_tog'],
+      keywords: ['Velocikey Toggle'],
     },
   },
-  {
-    desc: 'Toggles Audio clicky mode.',
-    keycodeInfo: {
-      code: 23584,
-      name: {
-        long: 'CLICKY_TOGGLE',
-        short: 'CLICKY_TOGGLE',
-      },
-      label: 'Clicky Toggle',
-      keywords: ['clicky_toggle'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 23585,
-      name: {
-        long: 'CLICKY_ENABLE',
-        short: 'CLICKY_ENABLE',
-      },
-      label: 'Clicky Enable',
-      keywords: ['clicky_enable'],
-    },
-  },
-  {
-    desc: '',
-    keycodeInfo: {
-      code: 23586,
-      name: {
-        long: 'CLICKY_DISABLE',
-        short: 'CLICKY_DISABLE',
-      },
-      label: 'Clicky Disable',
-      keywords: ['clicky_disable'],
-    },
-  },
-  {
-    desc: 'Increases frequency of the clicks.',
-    keycodeInfo: {
-      code: 23587,
-      name: {
-        long: 'CLICKY_UP',
-        short: 'CLICKY_UP',
-      },
-      label: 'Clicky Up',
-      keywords: ['clicky_up'],
-    },
-  },
-  {
-    desc: 'Decreases frequency of the clicks.',
-    keycodeInfo: {
-      code: 23588,
-      name: {
-        long: 'CLICKY_DOWN',
-        short: 'CLICKY_DOWN',
-      },
-      label: 'Clicky Down',
-      keywords: ['clicky_down'],
-    },
-  },
-  {
-    desc: 'Resets frequency to default.',
-    keycodeInfo: {
-      code: 23589,
-      name: {
-        long: 'CLICKY_RESET',
-        short: 'CLICKY_RESET',
-      },
-      label: 'Clicky Reset',
-      keywords: ['clicky_reset'],
-    },
-  },
-  {
-    desc: 'Turn music mode on.',
-    keycodeInfo: {
-      code: 23590,
-      name: {
-        long: 'MU_ON',
-        short: 'MU_ON',
-      },
-      label: 'Music On',
-      keywords: ['mu_on'],
-    },
-  },
-  {
-    desc: 'Music Toggle.',
-    keycodeInfo: {
-      code: 23591,
-      name: {
-        long: 'MU_OFF',
-        short: 'MU_OFF',
-      },
-      label: 'Music Off',
-      keywords: ['mu_off'],
-    },
-  },
-  {
-    desc: 'Toggle music mode.',
-    keycodeInfo: {
-      code: 23592,
-      name: {
-        long: 'MU_TOG',
-        short: 'MU_TOG',
-      },
-      label: 'Music Toggle',
-      keywords: ['mu_tog'],
-    },
-  },
-  {
-    desc: 'Cycle through the music modes.',
-    keycodeInfo: {
-      code: 23593,
-      name: {
-        long: 'MU_MOD',
-        short: 'MU_MOD',
-      },
-      label: 'Music Mode',
-      keywords: ['mu_mod'],
-    },
-  },
-
-  {
-    desc: 'MIDI On',
-    keycodeInfo: {
-      code: 23596,
-      name: {
-        long: 'MI_ON',
-        short: 'MI_ON',
-      },
-      label: 'MIDI On',
-      keywords: ['mi_on'],
-    },
-  },
-  {
-    desc: 'MIDI Off',
-    keycodeInfo: {
-      code: 23597,
-      name: {
-        long: 'MI_OFF',
-        short: 'MI_OFF',
-      },
-      label: 'MIDI Off',
-      keywords: ['mi_off'],
-    },
-  },
-  {
-    desc: 'MIDI Toggle',
-    keycodeInfo: {
-      code: 23598,
-      name: {
-        long: 'MI_TOG',
-        short: 'MI_TOG',
-      },
-      label: 'MIDI Toggle',
-      keywords: ['mi_tog'],
-    },
-  },
-  {
-    desc: 'MIDI C_0',
-    keycodeInfo: {
-      code: 23599,
-      name: {
-        long: 'MI_C',
-        short: 'MI_C',
-      },
-      label: 'C_0',
-      keywords: ['mi_c'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_0, Db_0',
-    keycodeInfo: {
-      code: 23600,
-      name: {
-        long: 'MI_Cs',
-        short: 'MI_Cs',
-      },
-      label: 'Cs_0, Db_0',
-      keywords: ['mi_cs'],
-    },
-  },
-  {
-    desc: 'MIDI D_0',
-    keycodeInfo: {
-      code: 23601,
-      name: {
-        long: 'MI_D',
-        short: 'MI_D',
-      },
-      label: 'D_0',
-      keywords: ['mi_d'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_0, Eb_0',
-    keycodeInfo: {
-      code: 23602,
-      name: {
-        long: 'MI_Ds',
-        short: 'MI_Ds',
-      },
-      label: 'Ds_0, Eb_0',
-      keywords: ['mi_ds'],
-    },
-  },
-  {
-    desc: 'MIDI E_0',
-    keycodeInfo: {
-      code: 23603,
-      name: {
-        long: 'MI_E',
-        short: 'MI_E',
-      },
-      label: 'E_0',
-      keywords: ['mi_e'],
-    },
-  },
-  {
-    desc: 'MIDI F_0',
-    keycodeInfo: {
-      code: 23604,
-      name: {
-        long: 'MI_F',
-        short: 'MI_F',
-      },
-      label: 'F_0',
-      keywords: ['mi_f'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_0, Gb_0',
-    keycodeInfo: {
-      code: 23605,
-      name: {
-        long: 'MI_Fs',
-        short: 'MI_Fs',
-      },
-      label: 'Fs_0, Gb_0',
-      keywords: ['mi_fs'],
-    },
-  },
-  {
-    desc: 'MIDI G_0',
-    keycodeInfo: {
-      code: 23606,
-      name: {
-        long: 'MI_G',
-        short: 'MI_G',
-      },
-      label: 'G_0',
-      keywords: ['mi_g'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_0, Ab_0',
-    keycodeInfo: {
-      code: 23607,
-      name: {
-        long: 'MI_Gs',
-        short: 'MI_Gs',
-      },
-      label: 'Gs_0, Ab_0',
-      keywords: ['mi_gs'],
-    },
-  },
-  {
-    desc: 'MIDI A_0',
-    keycodeInfo: {
-      code: 23608,
-      name: {
-        long: 'MI_A',
-        short: 'MI_A',
-      },
-      label: 'A_0',
-      keywords: ['mi_a'],
-    },
-  },
-  {
-    desc: 'MIDI As_0, Bb_0',
-    keycodeInfo: {
-      code: 23609,
-      name: {
-        long: 'MI_As',
-        short: 'MI_As',
-      },
-      label: 'As_0, Bb_0',
-      keywords: ['mi_as'],
-    },
-  },
-  {
-    desc: 'MIDI B_0',
-    keycodeInfo: {
-      code: 23610,
-      name: {
-        long: 'MI_B',
-        short: 'MI_B',
-      },
-      label: 'B_0',
-      keywords: ['mi_b'],
-    },
-  },
-  {
-    desc: 'MIDI C_1',
-    keycodeInfo: {
-      code: 23611,
-      name: {
-        long: 'MI_C_1',
-        short: 'MI_C_1',
-      },
-      label: 'C_1',
-      keywords: ['mi_c_1'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_1, Db_1',
-    keycodeInfo: {
-      code: 23612,
-      name: {
-        long: 'MI_Cs_1',
-        short: 'MI_Cs_1',
-      },
-      label: 'Cs_1, Db_1',
-      keywords: ['mi_cs_1'],
-    },
-  },
-  {
-    desc: 'MIDI D_1',
-    keycodeInfo: {
-      code: 23613,
-      name: {
-        long: 'MI_D_1',
-        short: 'MI_D_1',
-      },
-      label: 'D_1',
-      keywords: ['mi_d_1'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_1, Eb_1',
-    keycodeInfo: {
-      code: 23614,
-      name: {
-        long: 'MI_Ds_1',
-        short: 'MI_Ds_1',
-      },
-      label: 'Ds_1, Eb_1',
-      keywords: ['mi_ds_1'],
-    },
-  },
-  {
-    desc: 'MIDI E_1',
-    keycodeInfo: {
-      code: 23615,
-      name: {
-        long: 'MI_E_1',
-        short: 'MI_E_1',
-      },
-      label: 'E_1',
-      keywords: ['mi_e_1'],
-    },
-  },
-  {
-    desc: 'MIDI F_1',
-    keycodeInfo: {
-      code: 23616,
-      name: {
-        long: 'MI_F_1',
-        short: 'MI_F_1',
-      },
-      label: 'F_1',
-      keywords: ['mi_f_1'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_1, Gb_1',
-    keycodeInfo: {
-      code: 23617,
-      name: {
-        long: 'MI_Fs_1',
-        short: 'MI_Fs_1',
-      },
-      label: 'Fs_1, Gb_1',
-      keywords: ['mi_fs_1'],
-    },
-  },
-  {
-    desc: 'MIDI G_1',
-    keycodeInfo: {
-      code: 23618,
-      name: {
-        long: 'MI_G_1',
-        short: 'MI_G_1',
-      },
-      label: 'G_1',
-      keywords: ['mi_g_1'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_1, Ab_1',
-    keycodeInfo: {
-      code: 23619,
-      name: {
-        long: 'MI_Gs_1',
-        short: 'MI_Gs_1',
-      },
-      label: 'Gs_1, Ab_1',
-      keywords: ['mi_gs_1'],
-    },
-  },
-  {
-    desc: 'MIDI A_1',
-    keycodeInfo: {
-      code: 23620,
-      name: {
-        long: 'MI_A_1',
-        short: 'MI_A_1',
-      },
-      label: 'A_1',
-      keywords: ['mi_a_1'],
-    },
-  },
-  {
-    desc: 'MIDI As_1, Bb_1',
-    keycodeInfo: {
-      code: 23621,
-      name: {
-        long: 'MI_As_1',
-        short: 'MI_As_1',
-      },
-      label: 'As_1, Bb_1',
-      keywords: ['mi_as_1'],
-    },
-  },
-  {
-    desc: 'MIDI B_1',
-    keycodeInfo: {
-      code: 23622,
-      name: {
-        long: 'MI_B_1',
-        short: 'MI_B_1',
-      },
-      label: 'B_1',
-      keywords: ['mi_b_1'],
-    },
-  },
-  {
-    desc: 'MIDI C_2',
-    keycodeInfo: {
-      code: 23623,
-      name: {
-        long: 'MI_C_2',
-        short: 'MI_C_2',
-      },
-      label: 'C_2',
-      keywords: ['mi_c_2'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_2, Db_2',
-    keycodeInfo: {
-      code: 23624,
-      name: {
-        long: 'MI_Cs_2',
-        short: 'MI_Cs_2',
-      },
-      label: 'Cs_2, Db_2',
-      keywords: ['mi_cs_2'],
-    },
-  },
-  {
-    desc: 'MIDI D_2',
-    keycodeInfo: {
-      code: 23625,
-      name: {
-        long: 'MI_D_2',
-        short: 'MI_D_2',
-      },
-      label: 'D_2',
-      keywords: ['mi_d_2'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_2, Eb_2',
-    keycodeInfo: {
-      code: 23626,
-      name: {
-        long: 'MI_Ds_2',
-        short: 'MI_Ds_2',
-      },
-      label: 'Ds_2, Eb_2',
-      keywords: ['mi_ds_2'],
-    },
-  },
-  {
-    desc: 'MIDI E_2',
-    keycodeInfo: {
-      code: 23627,
-      name: {
-        long: 'MI_E_2',
-        short: 'MI_E_2',
-      },
-      label: 'E_2',
-      keywords: ['mi_e_2'],
-    },
-  },
-  {
-    desc: 'MIDI F_2',
-    keycodeInfo: {
-      code: 23628,
-      name: {
-        long: 'MI_F_2',
-        short: 'MI_F_2',
-      },
-      label: 'F_2',
-      keywords: ['mi_f_2'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_2, Gb_2',
-    keycodeInfo: {
-      code: 23629,
-      name: {
-        long: 'MI_Fs_2',
-        short: 'MI_Fs_2',
-      },
-      label: 'Fs_2, Gb_2',
-      keywords: ['mi_fs_2'],
-    },
-  },
-  {
-    desc: 'MIDI G_2',
-    keycodeInfo: {
-      code: 23630,
-      name: {
-        long: 'MI_G_2',
-        short: 'MI_G_2',
-      },
-      label: 'G_2',
-      keywords: ['mi_g_2'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_2, Ab_2',
-    keycodeInfo: {
-      code: 23631,
-      name: {
-        long: 'MI_Gs_2',
-        short: 'MI_Gs_2',
-      },
-      label: 'Gs_2, Ab_2',
-      keywords: ['mi_gs_2'],
-    },
-  },
-  {
-    desc: 'MIDI A_2',
-    keycodeInfo: {
-      code: 23632,
-      name: {
-        long: 'MI_A_2',
-        short: 'MI_A_2',
-      },
-      label: 'A_2',
-      keywords: ['mi_a_2'],
-    },
-  },
-  {
-    desc: 'MIDI As_2, Bb_2',
-    keycodeInfo: {
-      code: 23633,
-      name: {
-        long: 'MI_As_2',
-        short: 'MI_As_2',
-      },
-      label: 'As_2, Bb_2',
-      keywords: ['mi_as_2'],
-    },
-  },
-  {
-    desc: 'MIDI B_2',
-    keycodeInfo: {
-      code: 23634,
-      name: {
-        long: 'MI_B_2',
-        short: 'MI_B_2',
-      },
-      label: 'B_2',
-      keywords: ['mi_b_2'],
-    },
-  },
-  {
-    desc: 'MIDI C_3',
-    keycodeInfo: {
-      code: 23635,
-      name: {
-        long: 'MI_C_3',
-        short: 'MI_C_3',
-      },
-      label: 'C_3',
-      keywords: ['mi_c_3'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_3, Db_3',
-    keycodeInfo: {
-      code: 23636,
-      name: {
-        long: 'MI_Cs_3',
-        short: 'MI_Cs_3',
-      },
-      label: 'Cs_3, Db_3',
-      keywords: ['mi_cs_3'],
-    },
-  },
-  {
-    desc: 'MIDI D_3',
-    keycodeInfo: {
-      code: 23637,
-      name: {
-        long: 'MI_D_3',
-        short: 'MI_D_3',
-      },
-      label: 'D_3',
-      keywords: ['mi_d_3'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_3, Eb_3',
-    keycodeInfo: {
-      code: 23638,
-      name: {
-        long: 'MI_Ds_3',
-        short: 'MI_Ds_3',
-      },
-      label: 'Ds_3, Eb_3',
-      keywords: ['mi_ds_3'],
-    },
-  },
-  {
-    desc: 'MIDI E_3',
-    keycodeInfo: {
-      code: 23639,
-      name: {
-        long: 'MI_E_3',
-        short: 'MI_E_3',
-      },
-      label: 'E_3',
-      keywords: ['mi_e_3'],
-    },
-  },
-  {
-    desc: 'MIDI F_3',
-    keycodeInfo: {
-      code: 23640,
-      name: {
-        long: 'MI_F_3',
-        short: 'MI_F_3',
-      },
-      label: 'F_3',
-      keywords: ['mi_f_3'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_3, Gb_3',
-    keycodeInfo: {
-      code: 23641,
-      name: {
-        long: 'MI_Fs_3',
-        short: 'MI_Fs_3',
-      },
-      label: 'Fs_3, Gb_3',
-      keywords: ['mi_fs_3'],
-    },
-  },
-  {
-    desc: 'MIDI G_3',
-    keycodeInfo: {
-      code: 23642,
-      name: {
-        long: 'MI_G_3',
-        short: 'MI_G_3',
-      },
-      label: 'G_3',
-      keywords: ['mi_g_3'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_3, Ab_3',
-    keycodeInfo: {
-      code: 23643,
-      name: {
-        long: 'MI_Gs_3',
-        short: 'MI_Gs_3',
-      },
-      label: 'Gs_3, Ab_3',
-      keywords: ['mi_gs_3'],
-    },
-  },
-  {
-    desc: 'MIDI A_3',
-    keycodeInfo: {
-      code: 23644,
-      name: {
-        long: 'MI_A_3',
-        short: 'MI_A_3',
-      },
-      label: 'A_3',
-      keywords: ['mi_a_3'],
-    },
-  },
-  {
-    desc: 'MIDI As_3, Bb_3',
-    keycodeInfo: {
-      code: 23645,
-      name: {
-        long: 'MI_As_3',
-        short: 'MI_As_3',
-      },
-      label: 'As_3, Bb_3',
-      keywords: ['mi_as_3'],
-    },
-  },
-  {
-    desc: 'MIDI B_3',
-    keycodeInfo: {
-      code: 23646,
-      name: {
-        long: 'MI_B_3',
-        short: 'MI_B_3',
-      },
-      label: 'B_3',
-      keywords: ['mi_b_3'],
-    },
-  },
-  {
-    desc: 'MIDI C_4',
-    keycodeInfo: {
-      code: 23647,
-      name: {
-        long: 'MI_C_4',
-        short: 'MI_C_4',
-      },
-      label: 'C_4',
-      keywords: ['mi_c_4'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_4, Db_4',
-    keycodeInfo: {
-      code: 23648,
-      name: {
-        long: 'MI_Cs_4',
-        short: 'MI_Cs_4',
-      },
-      label: 'Cs_4, Db_4',
-      keywords: ['mi_cs_4'],
-    },
-  },
-  {
-    desc: 'MIDI D_4',
-    keycodeInfo: {
-      code: 23649,
-      name: {
-        long: 'MI_D_4',
-        short: 'MI_D_4',
-      },
-      label: 'D_4',
-      keywords: ['mi_d_4'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_4, Eb_4',
-    keycodeInfo: {
-      code: 23650,
-      name: {
-        long: 'MI_Ds_4',
-        short: 'MI_Ds_4',
-      },
-      label: 'Ds_4, Eb_4',
-      keywords: ['mi_ds_4'],
-    },
-  },
-  {
-    desc: 'MIDI E_4',
-    keycodeInfo: {
-      code: 23651,
-      name: {
-        long: 'MI_E_4',
-        short: 'MI_E_4',
-      },
-      label: 'E_4',
-      keywords: ['mi_e_4'],
-    },
-  },
-  {
-    desc: 'MIDI F_4',
-    keycodeInfo: {
-      code: 23652,
-      name: {
-        long: 'MI_F_4',
-        short: 'MI_F_4',
-      },
-      label: 'F_4',
-      keywords: ['mi_f_4'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_4, Gb_4',
-    keycodeInfo: {
-      code: 23653,
-      name: {
-        long: 'MI_Fs_4',
-        short: 'MI_Fs_4',
-      },
-      label: 'Fs_4, Gb_4',
-      keywords: ['mi_fs_4'],
-    },
-  },
-  {
-    desc: 'MIDI G_4',
-    keycodeInfo: {
-      code: 23654,
-      name: {
-        long: 'MI_G_4',
-        short: 'MI_G_4',
-      },
-      label: 'G_4',
-      keywords: ['mi_g_4'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_4, Ab_4',
-    keycodeInfo: {
-      code: 23655,
-      name: {
-        long: 'MI_Gs_4',
-        short: 'MI_Gs_4',
-      },
-      label: 'Gs_4, Ab_4',
-      keywords: ['mi_gs_4'],
-    },
-  },
-  {
-    desc: 'MIDI A_4',
-    keycodeInfo: {
-      code: 23656,
-      name: {
-        long: 'MI_A_4',
-        short: 'MI_A_4',
-      },
-      label: 'A_4',
-      keywords: ['mi_a_4'],
-    },
-  },
-  {
-    desc: 'MIDI As_4, Bb_4',
-    keycodeInfo: {
-      code: 23657,
-      name: {
-        long: 'MI_As_4',
-        short: 'MI_As_4',
-      },
-      label: 'As_4, Bb_4',
-      keywords: ['mi_as_4'],
-    },
-  },
-  {
-    desc: 'MIDI B_4',
-    keycodeInfo: {
-      code: 23658,
-      name: {
-        long: 'MI_B_4',
-        short: 'MI_B_4',
-      },
-      label: 'B_4',
-      keywords: ['mi_b_4'],
-    },
-  },
-  {
-    desc: 'MIDI C_5',
-    keycodeInfo: {
-      code: 23659,
-      name: {
-        long: 'MI_C_5',
-        short: 'MI_C_5',
-      },
-      label: 'C_5',
-      keywords: ['mi_c_5'],
-    },
-  },
-  {
-    desc: 'MIDI Cs_5, Db_5',
-    keycodeInfo: {
-      code: 23660,
-      name: {
-        long: 'MI_Cs_5',
-        short: 'MI_Cs_5',
-      },
-      label: 'Cs_5, Db_5',
-      keywords: ['mi_cs_5'],
-    },
-  },
-  {
-    desc: 'MIDI D_5',
-    keycodeInfo: {
-      code: 23661,
-      name: {
-        long: 'MI_D_5',
-        short: 'MI_D_5',
-      },
-      label: 'D_5',
-      keywords: ['mi_d_5'],
-    },
-  },
-  {
-    desc: 'MIDI Ds_5, Eb_5',
-    keycodeInfo: {
-      code: 23662,
-      name: {
-        long: 'MI_Ds_5',
-        short: 'MI_Ds_5',
-      },
-      label: 'Ds_5, Eb_5',
-      keywords: ['mi_ds_5'],
-    },
-  },
-  {
-    desc: 'MIDI E_5',
-    keycodeInfo: {
-      code: 23663,
-      name: {
-        long: 'MI_E_5',
-        short: 'MI_E_5',
-      },
-      label: 'E_5',
-      keywords: ['mi_e_5'],
-    },
-  },
-  {
-    desc: 'MIDI F_5',
-    keycodeInfo: {
-      code: 23664,
-      name: {
-        long: 'MI_F_5',
-        short: 'MI_F_5',
-      },
-      label: 'F_5',
-      keywords: ['mi_f_5'],
-    },
-  },
-  {
-    desc: 'MIDI Fs_5, Gb_5',
-    keycodeInfo: {
-      code: 23665,
-      name: {
-        long: 'MI_Fs_5',
-        short: 'MI_Fs_5',
-      },
-      label: 'Fs_5, Gb_5',
-      keywords: ['mi_fs_5'],
-    },
-  },
-  {
-    desc: 'MIDI G_5',
-    keycodeInfo: {
-      code: 23666,
-      name: {
-        long: 'MI_G_5',
-        short: 'MI_G_5',
-      },
-      label: 'G_5',
-      keywords: ['mi_g_5'],
-    },
-  },
-  {
-    desc: 'MIDI Gs_5, Ab_5',
-    keycodeInfo: {
-      code: 23667,
-      name: {
-        long: 'MI_Gs_5',
-        short: 'MI_Gs_5',
-      },
-      label: 'Gs_5, Ab_5',
-      keywords: ['mi_gs_5'],
-    },
-  },
-  {
-    desc: 'MIDI A_5',
-    keycodeInfo: {
-      code: 23668,
-      name: {
-        long: 'MI_A_5',
-        short: 'MI_A_5',
-      },
-      label: 'A_5',
-      keywords: ['mi_a_5'],
-    },
-  },
-  {
-    desc: 'MIDI As_5, Bb_5',
-    keycodeInfo: {
-      code: 23669,
-      name: {
-        long: 'MI_As_5',
-        short: 'MI_As_5',
-      },
-      label: 'As_5, Bb_5',
-      keywords: ['mi_as_5'],
-    },
-  },
-  {
-    desc: 'MIDI B_5',
-    keycodeInfo: {
-      code: 23670,
-      name: {
-        long: 'MI_B_5',
-        short: 'MI_B_5',
-      },
-      label: 'B_5',
-      keywords: ['mi_b_5'],
-    },
-  },
-  {
-    desc: 'MIDI Octave N2',
-    keycodeInfo: {
-      code: 23671,
-      name: {
-        long: 'MI_OCT_N2',
-        short: 'MI_OCT_N2',
-      },
-      label: 'MIDI Oct N2',
-      keywords: ['mi_oct_n2'],
-    },
-  },
-  {
-    desc: 'MIDI Octave N1',
-    keycodeInfo: {
-      code: 23672,
-      name: {
-        long: 'MI_OCT_N1',
-        short: 'MI_OCT_N1',
-      },
-      label: 'MIDI Oct N1',
-      keywords: ['mi_oct_n1'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 0',
-    keycodeInfo: {
-      code: 23673,
-      name: {
-        long: 'MI_OCT_0',
-        short: 'MI_OCT_0',
-      },
-      label: 'MIDI Oct 0',
-      keywords: ['mi_oct_0'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 1',
-    keycodeInfo: {
-      code: 23674,
-      name: {
-        long: 'MI_OCT_1',
-        short: 'MI_OCT_1',
-      },
-      label: 'MIDI Oct 1',
-      keywords: ['mi_oct_1'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 2',
-    keycodeInfo: {
-      code: 23675,
-      name: {
-        long: 'MI_OCT_2',
-        short: 'MI_OCT_2',
-      },
-      label: 'MIDI Oct 2',
-      keywords: ['mi_oct_2'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 3',
-    keycodeInfo: {
-      code: 23676,
-      name: {
-        long: 'MI_OCT_3',
-        short: 'MI_OCT_3',
-      },
-      label: 'MIDI Oct 3',
-      keywords: ['mi_oct_3'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 4',
-    keycodeInfo: {
-      code: 23677,
-      name: {
-        long: 'MI_OCT_4',
-        short: 'MI_OCT_4',
-      },
-      label: 'MIDI Oct 4',
-      keywords: ['mi_oct_4'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 5',
-    keycodeInfo: {
-      code: 23678,
-      name: {
-        long: 'MI_OCT_5',
-        short: 'MI_OCT_5',
-      },
-      label: 'MIDI Oct 5',
-      keywords: ['mi_oct_5'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 6',
-    keycodeInfo: {
-      code: 23679,
-      name: {
-        long: 'MI_OCT_6',
-        short: 'MI_OCT_6',
-      },
-      label: 'MIDI Oct 6',
-      keywords: ['mi_oct_6'],
-    },
-  },
-  {
-    desc: 'MIDI Octave 7',
-    keycodeInfo: {
-      code: 23680,
-      name: {
-        long: 'MI_OCT_7',
-        short: 'MI_OCT_7',
-      },
-      label: 'MIDI Oct 7',
-      keywords: ['mi_oct_7'],
-    },
-  },
-  {
-    desc: 'MIDI Octave Down',
-    keycodeInfo: {
-      code: 23681,
-      name: {
-        long: 'MI_OCTD',
-        short: 'MI_OCTD',
-      },
-      label: 'MIDI Oct Down',
-      keywords: ['mi_octd'],
-    },
-  },
-  {
-    desc: 'MIDI Octave Up',
-    keycodeInfo: {
-      code: 23682,
-      name: {
-        long: 'MI_OCTU',
-        short: 'MI_OCTU',
-      },
-      label: 'MIDI Oct Up',
-      keywords: ['mi_octu'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N6',
-    keycodeInfo: {
-      code: 23683,
-      name: {
-        long: 'MI_TRNS_N6',
-        short: 'MI_TRNS_N6',
-      },
-      label: 'MIDI Trans N6',
-      keywords: ['mi_trns_n6'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N5',
-    keycodeInfo: {
-      code: 23684,
-      name: {
-        long: 'MI_TRNS_N5',
-        short: 'MI_TRNS_N5',
-      },
-      label: 'MIDI Trans N5',
-      keywords: ['mi_trns_n5'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N4',
-    keycodeInfo: {
-      code: 23685,
-      name: {
-        long: 'MI_TRNS_N4',
-        short: 'MI_TRNS_N4',
-      },
-      label: 'MIDI Trans N4',
-      keywords: ['mi_trns_n4'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N3',
-    keycodeInfo: {
-      code: 23686,
-      name: {
-        long: 'MI_TRNS_N3',
-        short: 'MI_TRNS_N3',
-      },
-      label: 'MIDI Trans N3',
-      keywords: ['mi_trns_n3'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N2',
-    keycodeInfo: {
-      code: 23687,
-      name: {
-        long: 'MI_TRNS_N2',
-        short: 'MI_TRNS_N2',
-      },
-      label: 'MIDI Trans N2',
-      keywords: ['mi_trns_n2'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose N1',
-    keycodeInfo: {
-      code: 23688,
-      name: {
-        long: 'MI_TRNS_N1',
-        short: 'MI_TRNS_N1',
-      },
-      label: 'MIDI Trans N1',
-      keywords: ['mi_trns_n1'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 0',
-    keycodeInfo: {
-      code: 23689,
-      name: {
-        long: 'MI_TRNS_0',
-        short: 'MI_TRNS_0',
-      },
-      label: 'MIDI Trans 0',
-      keywords: ['mi_trns_n0'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 1',
-    keycodeInfo: {
-      code: 23690,
-      name: {
-        long: 'MI_TRNS_1',
-        short: 'MI_TRNS_1',
-      },
-      label: 'MIDI Trans 1',
-      keywords: ['mi_trns_1'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 2',
-    keycodeInfo: {
-      code: 23691,
-      name: {
-        long: 'MI_TRNS_2',
-        short: 'MI_TRNS_2',
-      },
-      label: 'MIDI Trans 2',
-      keywords: ['mi_trns_2'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 3',
-    keycodeInfo: {
-      code: 23692,
-      name: {
-        long: 'MI_TRNS_3',
-        short: 'MI_TRNS_3',
-      },
-      label: 'MIDI Trans 3',
-      keywords: ['mi_trns_3'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 4',
-    keycodeInfo: {
-      code: 23693,
-      name: {
-        long: 'MI_TRNS_4',
-        short: 'MI_TRNS_4',
-      },
-      label: 'MIDI Trans 4',
-      keywords: ['mi_trns_4'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 5',
-    keycodeInfo: {
-      code: 23694,
-      name: {
-        long: 'MI_TRNS_5',
-        short: 'MI_TRNS_5',
-      },
-      label: 'MIDI Trans 5',
-      keywords: ['mi_trns_5'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose 6',
-    keycodeInfo: {
-      code: 23695,
-      name: {
-        long: 'MI_TRNS_6',
-        short: 'MI_TRNS_6',
-      },
-      label: 'MIDI Trans 6',
-      keywords: ['mi_trns_6'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose Down',
-    keycodeInfo: {
-      code: 23696,
-      name: {
-        long: 'MI_TRNSD',
-        short: 'MI_TRNSD',
-      },
-      label: 'MIDI Trans Down',
-      keywords: ['mi_trnsd'],
-    },
-  },
-  {
-    desc: 'MIDI Transpose Up',
-    keycodeInfo: {
-      code: 23697,
-      name: {
-        long: 'MI_TRNSU',
-        short: 'MI_TRNSU',
-      },
-      label: 'MIDI Trans Up',
-      keywords: ['mi_trnsu'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 1',
-    keycodeInfo: {
-      code: 23698,
-      name: {
-        long: 'MI_VEL_1',
-        short: 'MI_VEL_1',
-      },
-      label: 'MIDI Vel 1',
-      keywords: ['mi_vel_1'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 2',
-    keycodeInfo: {
-      code: 23699,
-      name: {
-        long: 'MI_VEL_2',
-        short: 'MI_VEL_2',
-      },
-      label: 'MIDI Vel 2',
-      keywords: ['mi_vel_2'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 3',
-    keycodeInfo: {
-      code: 23700,
-      name: {
-        long: 'MI_VEL_3',
-        short: 'MI_VEL_3',
-      },
-      label: 'MIDI Vel 3',
-      keywords: ['mi_vel_3'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 4',
-    keycodeInfo: {
-      code: 23701,
-      name: {
-        long: 'MI_VEL_4',
-        short: 'MI_VEL_4',
-      },
-      label: 'MIDI Vel 4',
-      keywords: ['mi_vel_4'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 5',
-    keycodeInfo: {
-      code: 23702,
-      name: {
-        long: 'MI_VEL_5',
-        short: 'MI_VEL_5',
-      },
-      label: 'MIDI Vel 5',
-      keywords: ['mi_vel_5'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 6',
-    keycodeInfo: {
-      code: 23703,
-      name: {
-        long: 'MI_VEL_6',
-        short: 'MI_VEL_6',
-      },
-      label: 'MIDI Vel 6',
-      keywords: ['mi_vel_6'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 7',
-    keycodeInfo: {
-      code: 23704,
-      name: {
-        long: 'MI_VEL_7',
-        short: 'MI_VEL_7',
-      },
-      label: 'MIDI Vel 7',
-      keywords: ['mi_vel_7'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 8',
-    keycodeInfo: {
-      code: 23705,
-      name: {
-        long: 'MI_VEL_8',
-        short: 'MI_VEL_8',
-      },
-      label: 'MIDI Vel 8',
-      keywords: ['mi_vel_8'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 9',
-    keycodeInfo: {
-      code: 23706,
-      name: {
-        long: 'MI_VEL_9',
-        short: 'MI_VEL_9',
-      },
-      label: 'MIDI Vel 9',
-      keywords: ['mi_vel_9'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity 10',
-    keycodeInfo: {
-      code: 23707,
-      name: {
-        long: 'MI_VEL_10',
-        short: 'MI_VEL_10',
-      },
-      label: 'MIDI Vel 10',
-      keywords: ['mi_vel_10'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity Down',
-    keycodeInfo: {
-      code: 23708,
-      name: {
-        long: 'MI_VELD',
-        short: 'MI_VELD',
-      },
-      label: 'MIDI Vel Down',
-      keywords: ['mi_veld'],
-    },
-  },
-  {
-    desc: 'MIDI Velocity Up',
-    keycodeInfo: {
-      code: 23709,
-      name: {
-        long: 'MI_VELU',
-        short: 'MI_VELU',
-      },
-      label: 'MIDI Vel Up',
-      keywords: ['mi_velu'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 1',
-    keycodeInfo: {
-      code: 23710,
-      name: {
-        long: 'MI_CH1',
-        short: 'MI_CH1',
-      },
-      label: 'MIDI CH 1',
-      keywords: ['mi_ch1'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 2',
-    keycodeInfo: {
-      code: 23711,
-      name: {
-        long: 'MI_CH2',
-        short: 'MI_CH2',
-      },
-      label: 'MIDI CH 2',
-      keywords: ['mi_ch2'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 3',
-    keycodeInfo: {
-      code: 23712,
-      name: {
-        long: 'MI_CH3',
-        short: 'MI_CH3',
-      },
-      label: 'MIDI CH 3',
-      keywords: ['mi_ch3'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 4',
-    keycodeInfo: {
-      code: 23713,
-      name: {
-        long: 'MI_CH4',
-        short: 'MI_CH4',
-      },
-      label: 'MIDI CH 4',
-      keywords: ['mi_ch4'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 5',
-    keycodeInfo: {
-      code: 23714,
-      name: {
-        long: 'MI_CH5',
-        short: 'MI_CH5',
-      },
-      label: 'MIDI CH 5',
-      keywords: ['mi_ch5'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 6',
-    keycodeInfo: {
-      code: 23715,
-      name: {
-        long: 'MI_CH6',
-        short: 'MI_CH6',
-      },
-      label: 'MIDI CH 6',
-      keywords: ['mi_ch6'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 7',
-    keycodeInfo: {
-      code: 23716,
-      name: {
-        long: 'MI_CH7',
-        short: 'MI_CH7',
-      },
-      label: 'MIDI CH 7',
-      keywords: ['mi_ch7'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 8',
-    keycodeInfo: {
-      code: 23717,
-      name: {
-        long: 'MI_CH8',
-        short: 'MI_CH8',
-      },
-      label: 'MIDI CH 8',
-      keywords: ['mi_ch8'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 9',
-    keycodeInfo: {
-      code: 23718,
-      name: {
-        long: 'MI_CH9',
-        short: 'MI_CH9',
-      },
-      label: 'MIDI CH 9',
-      keywords: ['mi_ch9'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 10',
-    keycodeInfo: {
-      code: 23719,
-      name: {
-        long: 'MI_CH10',
-        short: 'MI_CH10',
-      },
-      label: 'MIDI CH 10',
-      keywords: ['mi_ch10'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 11',
-    keycodeInfo: {
-      code: 23720,
-      name: {
-        long: 'MI_CH11',
-        short: 'MI_CH11',
-      },
-      label: 'MIDI CH 11',
-      keywords: ['mi_ch11'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 12',
-    keycodeInfo: {
-      code: 23721,
-      name: {
-        long: 'MI_CH12',
-        short: 'MI_CH12',
-      },
-      label: 'MIDI CH 12',
-      keywords: ['mi_ch12'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 13',
-    keycodeInfo: {
-      code: 23722,
-      name: {
-        long: 'MI_CH13',
-        short: 'MI_CH13',
-      },
-      label: 'MIDI CH 13',
-      keywords: ['mi_ch13'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 14',
-    keycodeInfo: {
-      code: 23723,
-      name: {
-        long: 'MI_CH14',
-        short: 'MI_CH14',
-      },
-      label: 'MIDI CH 14',
-      keywords: ['mi_ch14'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 15',
-    keycodeInfo: {
-      code: 23724,
-      name: {
-        long: 'MI_CH15',
-        short: 'MI_CH15',
-      },
-      label: 'MIDI CH 15',
-      keywords: ['mi_ch15'],
-    },
-  },
-  {
-    desc: 'MIDI Channel 16',
-    keycodeInfo: {
-      code: 23725,
-      name: {
-        long: 'MI_CH16',
-        short: 'MI_CH16',
-      },
-      label: 'MIDI CH 16',
-      keywords: ['mi_ch16'],
-    },
-  },
-  {
-    desc: 'MIDI Previous Channel',
-    keycodeInfo: {
-      code: 23726,
-      name: {
-        long: 'MI_CHD',
-        short: 'MI_CHD',
-      },
-      label: 'MIDI CH Down',
-      keywords: ['mi_chd'],
-    },
-  },
-  {
-    desc: 'MIDI Next Channel',
-    keycodeInfo: {
-      code: 23727,
-      name: {
-        long: 'MI_CHU',
-        short: 'MI_CHU',
-      },
-      label: 'MIDI CH Up',
-      keywords: ['mi_chu'],
-    },
-  },
-  {
-    desc: 'MIDI All Notes Off',
-    keycodeInfo: {
-      code: 23728,
-      name: {
-        long: 'MI_ALLOFF',
-        short: 'MI_ALLOFF',
-      },
-      label: 'All Notes Off',
-      keywords: ['mi_alloff'],
-    },
-  },
-  {
-    desc: 'MIDI Sustain',
-    keycodeInfo: {
-      code: 23729,
-      name: {
-        long: 'MI_SUS',
-        short: 'MI_SUS',
-      },
-      label: 'MIDI Sustain',
-      keywords: ['mi_sus'],
-    },
-  },
-  {
-    desc: 'MIDI Portamento',
-    keycodeInfo: {
-      code: 23730,
-      name: {
-        long: 'MI_PORT',
-        short: 'MI_PORT',
-      },
-      label: 'MIDI Portamento',
-      keywords: ['mi_port'],
-    },
-  },
-  {
-    desc: 'MIDI Sostenuto',
-    keycodeInfo: {
-      code: 23731,
-      name: {
-        long: 'MI_SOST',
-        short: 'MI_SOST',
-      },
-      label: 'MIDI Sostenuto',
-      keywords: ['mi_sost'],
-    },
-  },
-  {
-    desc: 'MIDI Soft Pedal',
-    keycodeInfo: {
-      code: 23732,
-      name: {
-        long: 'MI_SOFT',
-        short: 'MI_SOFT',
-      },
-      label: 'MIDI Soft Pedal',
-      keywords: ['mi_soft'],
-    },
-  },
-  {
-    desc: 'MIDI Legato',
-    keycodeInfo: {
-      code: 23733,
-      name: {
-        long: 'MI_LEG',
-        short: 'MI_LEG',
-      },
-      label: 'MIDI Legato',
-      keywords: ['mi_leg'],
-    },
-  },
-  {
-    desc: 'MIDI Modulation',
-    keycodeInfo: {
-      code: 23734,
-      name: {
-        long: 'MI_MOD',
-        short: 'MI_MOD',
-      },
-      label: 'MIDI Modulation',
-      keywords: ['mi_mod'],
-    },
-  },
-  {
-    desc: 'MIDI Decrease Modulation Speed',
-    keycodeInfo: {
-      code: 23735,
-      name: {
-        long: 'MI_MODSD',
-        short: 'MI_MODSD',
-      },
-      label: 'MIDI Mod Speed -',
-
-      keywords: ['midi modulation speed minus', 'mi_modsd'],
-    },
-  },
-  {
-    desc: 'MIDI Increase Modulation Speed',
-    keycodeInfo: {
-      code: 23736,
-      name: {
-        long: 'MI_MODSU',
-        short: 'MI_MODSU',
-      },
-      label: 'MIDI Mod Speed +',
-
-      keywords: ['midi modulation speed plus', 'mi_modsu'],
-    },
-  },
-  {
-    desc: 'MIDI Bend Down',
-    keycodeInfo: {
-      code: 23737,
-      name: {
-        long: 'MI_BENDD',
-        short: 'MI_BENDD',
-      },
-      label: 'MIDI Bend Down',
-      keywords: ['mi_bendd'],
-    },
-  },
-  {
-    desc: 'MIDI Bend Up',
-    keycodeInfo: {
-      code: 23738,
-      name: {
-        long: 'MI_BENDU',
-        short: 'MI_BENDU',
-      },
-      label: 'MIDI Bend Up',
-      keywords: ['mi_bendu'],
-    },
-  },
-
-  {
-    desc: 'Set the backlight to max brightness.',
-    keycodeInfo: {
-      code: 23739,
-      name: {
-        long: 'BL_ON',
-        short: 'BL_ON',
-      },
-      label: 'BL On',
-
-      keywords: ['backlight on', 'bl_on'],
-    },
-  },
-
-  {
-    desc: 'Turn the backlight off.',
-    keycodeInfo: {
-      code: 23740,
-      name: {
-        long: 'BL_OFF',
-        short: 'BL_OFF',
-      },
-      label: 'BL Off',
-
-      keywords: ['backlight off', 'bl_off'],
-    },
-  },
-
-  {
-    desc: 'Decrease the backlight level.',
-    keycodeInfo: {
-      code: 23741,
-      name: {
-        long: 'BL_DEC',
-        short: 'BL_DEC',
-      },
-      label: 'BL -',
-
-      keywords: ['backlight minus', 'bl_dec'],
-    },
-  },
-
-  {
-    desc: 'Increase the backlight level.',
-    keycodeInfo: {
-      code: 23742,
-      name: {
-        long: 'BL_INC',
-        short: 'BL_INC',
-      },
-      label: 'BL +',
-
-      keywords: ['backlight plus', 'bl_inc'],
-    },
-  },
-
-  {
-    desc: 'Turn the backlight on or off.',
-    keycodeInfo: {
-      code: 23743,
-      name: {
-        long: 'BL_TOGG',
-        short: 'BL_TOGG',
-      },
-      label: 'BL Toggle',
-
-      keywords: ['backlight toggle', 'bl_togg'],
-    },
-  },
-
-  {
-    desc: 'Cycle through backlight levels.',
-    keycodeInfo: {
-      code: 23744,
-      name: {
-        long: 'BL_STEP',
-        short: 'BL_STEP',
-      },
-      label: 'BL Cycle',
-
-      keywords: ['backlight cycle', 'bl_step'],
-    },
-  },
-
-  {
-    desc: 'Toggle backlight breathing',
-    keycodeInfo: {
-      code: 23745,
-      name: {
-        long: 'BL_BRTG',
-        short: 'BL_BRTG',
-      },
-      label: 'BR Toggle',
-      keywords: ['bl_brtg'],
-    },
-  },
-
-  {
-    desc: 'Toggle RGB lighting on or off.',
-    keycodeInfo: {
-      code: 23746,
-      name: {
-        long: 'RGB_TOG',
-        short: 'RGB_TOG',
-      },
-      label: 'RGB Toggle',
-      keywords: ['rgb_tog'],
-    },
-  },
-
-  {
-    desc: 'Cycle through modes, reverse direction when Shift is held.',
-    keycodeInfo: {
-      code: 23747,
-      name: {
-        long: 'RGB_MODE_FORWARD',
-        short: 'RGB_MODE_FORWARD',
-      },
-      label: 'RGB Mode +',
-
-      keywords: ['rgb mode plus', 'rgb_mode_forward'],
-    },
-  },
-
-  {
-    desc: 'Cycle through modes in reverse, forward direction when Shift is held.',
-    keycodeInfo: {
-      code: 23748,
-      name: {
-        long: 'RGB_MODE_REVERSE',
-        short: 'RGB_MODE_REVERSE',
-      },
-      label: 'RGB Mode -',
-
-      keywords: ['rgb mode minus', 'rgb_mode_reverse'],
-    },
-  },
-
-  {
-    desc: 'Increase hue, decrease hue when Shift is held.',
-    keycodeInfo: {
-      code: 23749,
-      name: {
-        long: 'RGB_HUI',
-        short: 'RGB_HUI',
-      },
-      label: 'Hue +',
-
-      keywords: ['hue plus', 'rgb_hui'],
-    },
-  },
-
-  {
-    desc: 'Decrease hue, increase hue when Shift is held.',
-    keycodeInfo: {
-      code: 23750,
-      name: {
-        long: 'RGB_HUD',
-        short: 'RGB_HUD',
-      },
-      label: 'Hue -',
-
-      keywords: ['hue minus', 'rgb_hud'],
-    },
-  },
-
-  {
-    desc: 'Increase saturation, decrease saturation when Shift is held.',
-    keycodeInfo: {
-      code: 23751,
-      name: {
-        long: 'RGB_SAI',
-        short: 'RGB_SAI',
-      },
-      label: 'Sat +',
-
-      keywords: ['saturation plus', 'rgb_sai'],
-    },
-  },
-
-  {
-    desc: 'Decrease saturation, increase saturation when Shift is held.',
-    keycodeInfo: {
-      code: 23752,
-      name: {
-        long: 'RGB_SAD',
-        short: 'RGB_SAD',
-      },
-      label: 'Sat -',
-
-      keywords: ['saturation minus', 'rgb_sad'],
-    },
-  },
-
-  {
-    desc: 'Increase value (brightness), decrease value when Shift is held.',
-    keycodeInfo: {
-      code: 23753,
-      name: {
-        long: 'RGB_VAI',
-        short: 'RGB_VAI',
-      },
-      label: 'Bright +',
-
-      keywords: ['bright plus', 'rgb_vai'],
-    },
-  },
-
-  {
-    desc: 'Decrease value (brightness), increase value when Shift is held.',
-    keycodeInfo: {
-      code: 23754,
-      name: {
-        long: 'RGB_VAD',
-        short: 'RGB_VAD',
-      },
-      label: 'Bright -',
-
-      keywords: ['bright minus', 'rgb_vad'],
-    },
-  },
-
-  {
-    desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held.',
-    keycodeInfo: {
-      code: 23755,
-      name: {
-        long: 'RGB_SPI',
-        short: 'RGB_SPI',
-      },
-      label: 'Effect Speed +',
-
-      keywords: ['effect speed plus', 'rgb_spi'],
-    },
-  },
-
-  {
-    desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held.',
-    keycodeInfo: {
-      code: 23756,
-      name: {
-        long: 'RGB_SPD',
-        short: 'RGB_SPD',
-      },
-      label: 'Effect Speed -',
-
-      keywords: ['effect speed minus', 'rgb_spd'],
-    },
-  },
-
-  {
-    desc: 'Static (no animation) mode.',
-    keycodeInfo: {
-      code: 23757,
-      name: {
-        long: 'RGB_MODE_PLAIN',
-        short: 'RGB_MODE_PLAIN',
-      },
-      label: 'RGB Mode P',
-
-      keywords: ['rgb mode plain', 'rgb_mode_plain'],
-    },
-  },
-
-  {
-    desc: 'Breathing animation mode.',
-    keycodeInfo: {
-      code: 23758,
-      name: {
-        long: 'RGB_MODE_BREATHE',
-        short: 'RGB_MODE_BREATHE',
-      },
-      label: 'RGB Mode B',
-
-      keywords: ['rgb mode breathe', 'rgb_mode_breathe'],
-    },
-  },
-
-  {
-    desc: 'Rainbow animation mode.',
-    keycodeInfo: {
-      code: 23759,
-      name: {
-        long: 'RGB_MODE_RAINBOW',
-        short: 'RGB_MODE_RAINBOW',
-      },
-      label: 'RGB Mode R',
-
-      keywords: ['rgb mode rainbow', 'rgb_mode_rainbow'],
-    },
-  },
-
-  {
-    desc: 'Swirl animation mode.',
-    keycodeInfo: {
-      code: 23760,
-      name: {
-        long: 'RGB_MODE_SWIRL',
-        short: 'RGB_MODE_SWIRL',
-      },
-      label: 'RGB Mode SW',
-
-      keywords: ['rgb mode swirl', 'rgb_model_swirl'],
-    },
-  },
-
-  {
-    desc: 'Snake animation mode.',
-    keycodeInfo: {
-      code: 23761,
-      name: {
-        long: 'RGB_MODE_SNAKE',
-        short: 'RGB_MODE_SNAKE',
-      },
-      label: 'RGB Mode SN',
-
-      keywords: ['rgb mode snake', 'rgb_mode_snake'],
-    },
-  },
-
-  {
-    desc: '"Knight Rider" animation mode.',
-    keycodeInfo: {
-      code: 23762,
-      name: {
-        long: 'RGB_MODE_KNIGHT',
-        short: 'RGB_MODE_KNIGHT',
-      },
-      label: 'RGB Mode K',
-
-      keywords: ['rgb mode knight', 'rgb_mode_knight'],
-    },
-  },
-
-  {
-    desc: 'Christmas animation mode.',
-    keycodeInfo: {
-      code: 23763,
-      name: {
-        long: 'RGB_MODE_XMAS',
-        short: 'RGB_MODE_XMAS',
-      },
-      label: 'RGB Mode X',
-
-      keywords: ['rgb mode christmas', 'rgb_mode_xmas'],
-    },
-  },
-
-  {
-    desc: 'Static gradient animation mode.',
-    keycodeInfo: {
-      code: 23764,
-      name: {
-        long: 'RGB_MODE_GRADIENT',
-        short: 'RGB_MODE_GRADIENT',
-      },
-      label: 'RGB Mode G',
-
-      keywords: ['rgb mode gradient', 'rgb_mode_gradient'],
-    },
-  },
-
-  {
-    desc: 'RGB test mode.',
-    keycodeInfo: {
-      code: 23765,
-      name: {
-        long: 'RGB_MODE_RGBTEST',
-        short: 'RGB_MODE_RGBTEST',
-      },
-      label: 'RGB Mode Test',
-      keywords: ['rgb_mode_rgbtest'],
-    },
-  },
-
-  {
-    desc: 'Left Shift when held, ( when tapped.',
-    keycodeInfo: {
-      code: 23767,
-      name: {
-        long: 'KC_LSPO',
-        short: 'KC_LSPO',
-      },
-      label: 'LS (',
-      keywords: ['lspo'],
-    },
-  },
-
-  {
-    desc: 'Right Shift when held, ) when tapped.',
-    keycodeInfo: {
-      code: 23768,
-      name: {
-        long: 'KC_RSPC',
-        short: 'KC_RSPC',
-      },
-      label: 'RS )',
-      keywords: ['rspc'],
-    },
-  },
-
-  {
-    desc: 'Right Shift when held, Enter when tapped.',
-    keycodeInfo: {
-      code: 23769,
-      name: {
-        long: 'KC_SFTENT',
-        short: 'KC_SFTENT',
-      },
-      label: 'SftEnt',
-      keywords: ['sftent'],
-    },
-  },
-
-  {
-    desc: 'Automatically switch between USB and Bluetooth',
-    keycodeInfo: {
-      code: 23772,
-      name: {
-        long: 'OUT_AUTO',
-        short: 'OUT_AUTO',
-      },
-      label: 'OUT AUTO',
-      keywords: ['out auto', 'bluetooth', 'usb'],
-    },
-  },
-
-  {
-    desc: 'USB only',
-    keycodeInfo: {
-      code: 23773,
-      name: {
-        long: 'OUT_USB',
-        short: 'OUT_USB',
-      },
-      label: 'OUT USB',
-      keywords: ['out usb', 'bluetooth', 'usb'],
-    },
-  },
-
-  {
-    desc: "Reinitializes the keyboard's EEPROM (persistent memory)",
-    keycodeInfo: {
-      code: 23774,
-      name: {
-        long: 'EEPROM_RESET',
-        short: 'EEP_RST',
-      },
-      label: 'EEPROM RESET',
-      keywords: ['eeprom_reset', 'eep_rst'],
-    },
-  },
-
   {
     desc: 'Left Control when held, ( when tapped',
     keycodeInfo: {
-      code: 23795,
+      code: 0x7c18, // 31768 0b111110000011000
+      label: 'Space Cadet Left Ctrl Parenthesis Open',
       name: {
-        long: 'KC_LCPO',
-        short: 'KC_LCPO',
+        long: 'QK_SPACE_CADET_LEFT_CTRL_PARENTHESIS_OPEN',
+        short: 'SC_LCPO',
       },
-      label: 'LC (',
-      keywords: ['lcpo'],
+      keywords: ['Space Cadet Left Ctrl Parenthesis Open'],
     },
   },
-
   {
-    desc: 'Right Control when held, ) when tapped.',
+    desc: 'Right Control when held, ) when tapped',
     keycodeInfo: {
-      code: 23796,
+      code: 0x7c19, // 31769 0b111110000011001
+      label: 'Space Cadet Right Ctrl Parenthesis Close',
       name: {
-        long: 'KC_RCPC',
-        short: 'KC_RCPC',
+        long: 'QK_SPACE_CADET_RIGHT_CTRL_PARENTHESIS_CLOSE',
+        short: 'SC_RCPC',
       },
-      label: 'RC )',
-      keywords: ['rcpc'],
+      keywords: ['Space Cadet Right Ctrl Parenthesis Close'],
     },
   },
-
   {
-    desc: 'Left Alt when held, ( when tapped.',
+    desc: 'Left Shift when held, ( when tapped',
     keycodeInfo: {
-      code: 23797,
+      code: 0x7c1a, // 31770 0b111110000011010
+      label: 'Space Cadet Left Shift Parenthesis Open',
       name: {
-        long: 'KC_LAPO',
-        short: 'KC_LAPO',
+        long: 'QK_SPACE_CADET_LEFT_SHIFT_PARENTHESIS_OPEN',
+        short: 'SC_LSPO',
       },
-      label: 'LA (',
-      keywords: ['lapo'],
+      keywords: ['Space Cadet Left Shift Parenthesis Open'],
     },
   },
-
   {
-    desc: 'Right Alt when held, ) when tapped.',
+    desc: 'Right Shift when held, ) when tapped',
     keycodeInfo: {
-      code: 23798,
+      code: 0x7c1b, // 31771 0b111110000011011
+      label: 'Space Cadet Right Shift Parenthesis Close',
       name: {
-        long: 'KC_RAPC',
-        short: 'KC_RAPC',
+        long: 'QK_SPACE_CADET_RIGHT_SHIFT_PARENTHESIS_CLOSE',
+        short: 'SC_RSPC',
       },
-      label: 'RA )',
-      keywords: ['rapc'],
+      keywords: ['Space Cadet Right Shift Parenthesis Close'],
     },
   },
-
   {
-    desc: 'Turns on Combo feature.',
+    desc: 'Left Alt when held, ( when tapped',
     keycodeInfo: {
-      code: 23799,
+      code: 0x7c1c, // 31772 0b111110000011100
+      label: 'Space Cadet Left Alt Parenthesis Open',
       name: {
-        long: 'CMB_ON',
-        short: 'CMB_ON',
+        long: 'QK_SPACE_CADET_LEFT_ALT_PARENTHESIS_OPEN',
+        short: 'SC_LAPO',
       },
-      label: 'Combo On',
-      keywords: ['cmb_on'],
+      keywords: ['Space Cadet Left Alt Parenthesis Open'],
     },
   },
-
   {
-    desc: 'Turns off Combo feature.',
+    desc: 'Right Alt when held, ) when tapped',
     keycodeInfo: {
-      code: 23800,
+      code: 0x7c1d, // 31773 0b111110000011101
+      label: 'Space Cadet Right Alt Parenthesis Close',
       name: {
-        long: 'CMB_OFF',
-        short: 'CMB_OFF',
+        long: 'QK_SPACE_CADET_RIGHT_ALT_PARENTHESIS_CLOSE',
+        short: 'SC_RAPC',
       },
-      label: 'Combo Off',
-      keywords: ['cmb_off'],
+      keywords: ['Space Cadet Right Alt Parenthesis Close'],
     },
   },
-
   {
-    desc: 'Toggles Combo feature on and off.',
+    desc: 'Right Shift when held, Enter when tapped',
     keycodeInfo: {
-      code: 23801,
+      code: 0x7c1e, // 31774 0b111110000011110
+      label: 'Space Cadet Right Shift Enter',
       name: {
-        long: 'CMB_TOG',
-        short: 'CMB_TOG',
+        long: 'QK_SPACE_CADET_RIGHT_SHIFT_ENTER',
+        short: 'SC_SENT',
       },
-      label: 'Combo Toggle',
-      keywords: ['comb_tog'],
+      keywords: ['Space Cadet Right Shift Enter'],
     },
   },
-
   {
-    desc: 'Swap Left Control and GUI',
+    desc: 'Automatically switch between USB and Bluetooth',
     keycodeInfo: {
-      code: 23802,
+      code: 0x7c20, // 31776 0b111110000100000
+      label: 'Output Auto',
       name: {
-        long: 'MAGIC_SWAP_LCTL_LGUI',
-        short: 'LCG_SWP',
+        long: 'QK_OUTPUT_AUTO',
+        short: 'OU_AUTO',
       },
-      label: 'LCG SWP',
-      keywords: ['magci_swap_lctl_lgui', 'lcg_swp'],
+      keywords: ['Output Auto'],
     },
   },
-
   {
-    desc: 'Swap Right Control and GUI',
+    desc: 'USB only',
     keycodeInfo: {
-      code: 23803,
+      code: 0x7c21, // 31777 0b111110000100001
+      label: 'Output Usb',
       name: {
-        long: 'MAGIC_SWAP_RCTL_RGUI',
-        short: 'RCG_SWP',
+        long: 'QK_OUTPUT_USB',
+        short: 'OU_USB',
       },
-      label: 'RCG SWP',
-      keywords: ['magci_swap_rctl_rgui', 'rcg_swp'],
+      keywords: ['Output Usb'],
     },
   },
-
-  {
-    desc: 'Unswap Left Control and GUI',
-    keycodeInfo: {
-      code: 23804,
-      name: {
-        long: 'MAGIC_UNSWAP_LCTL_LGUI',
-        short: 'LCG_NRM',
-      },
-      label: 'LCG NRM',
-      keywords: ['magci_unswap_lctl_lgui', 'lcg_nrm'],
-    },
-  },
-
-  {
-    desc: 'Unswap Right Control and GUI',
-    keycodeInfo: {
-      code: 23805,
-      name: {
-        long: 'MAGIC_UNSWAP_RCTL_RGUI',
-        short: 'RCG_NRM',
-      },
-      label: 'RCG NRM',
-      keywords: ['magci_unswap_rctl_rgui', 'rcg_nrm'],
-    },
-  },
-
-  {
-    desc: 'Swap Control and GUI on both sides',
-    keycodeInfo: {
-      code: 23806,
-      name: {
-        long: 'MAGIC_SWAP_CTL_GUI',
-        short: 'CG_SWAP',
-      },
-      label: 'CG SWAP',
-      keywords: ['magci_swap_ctl_gui', 'cg_swap'],
-    },
-  },
-
-  {
-    desc: 'Unswap Control and GUI on both sides',
-    keycodeInfo: {
-      code: 23807,
-      name: {
-        long: 'MAGIC_UNSWAP_CTL_GUI',
-        short: 'CG_NORM',
-      },
-      label: 'CG NORM',
-      keywords: ['magci_unswap_ctl_gui', 'cg_norm'],
-    },
-  },
-
-  {
-    desc: 'Toggle Control and GUI swap on both sides',
-    keycodeInfo: {
-      code: 23808,
-      name: {
-        long: 'MAGIC_TOGGLE_CTL_GUI',
-        short: 'CG_TOGG',
-      },
-      label: 'CG TOGG',
-      keywords: ['magci_toggle_ctl_gui', 'cg_togg'],
-    },
-  },
-
-  {
-    desc: 'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
-    keycodeInfo: {
-      code: 23809,
-      name: {
-        long: 'MAGIC_EE_HANDS_LEFT',
-        short: 'EH_LEFT',
-      },
-      label: 'EH LEFT',
-      keywords: ['magci_ee_hands_left', 'eh_left'],
-    },
-  },
-
-  {
-    desc: 'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
-    keycodeInfo: {
-      code: 23810,
-      name: {
-        long: 'MAGIC_EE_HANDS_RIGHT',
-        short: 'EH_RGHT',
-      },
-      label: 'EH RGHT',
-      keywords: ['magci_ee_hands_right', 'eh_rght'],
-    },
-  },
-
   {
     desc: 'Bluetooth only',
     keycodeInfo: {
-      code: 23849,
+      code: 0x7c22, // 31778 0b111110000100010
+      label: 'Output Bluetooth',
       name: {
-        long: 'OUT_BT',
-        short: 'OUT_BT',
+        long: 'QK_OUTPUT_BLUETOOTH',
+        short: 'OU_BT',
       },
-      label: 'OUT BT',
-      keywords: ['out_bt', 'bluetooth', 'usb'],
+      keywords: ['Output Bluetooth'],
     },
   },
-
   {
-    desc: '',
+    desc: 'Cycle through selected input modes',
     keycodeInfo: {
-      code: 24336,
+      code: 0x7c30, // 31792 0b111110000110000
+      label: 'Unicode Mode Next',
       name: {
-        long: 'FN_MO13',
-        short: 'FN_MO13',
+        long: 'QK_UNICODE_MODE_NEXT',
+        short: 'UC_NEXT',
       },
-      label: 'Fn MO(13)',
-      keywords: ['fn_mo13'],
+      keywords: ['Unicode Mode Next'],
     },
   },
-
   {
-    desc: '',
+    desc: 'Cycle through selected input modes in reverse',
     keycodeInfo: {
-      code: 24337,
+      code: 0x7c31, // 31793 0b111110000110001
+      label: 'Unicode Mode Previous',
       name: {
-        long: 'FN_MO23',
-        short: 'FN_MO23',
+        long: 'QK_UNICODE_MODE_PREVIOUS',
+        short: 'UC_PREV',
       },
-      label: 'Fn MO(23)',
-      keywords: ['fn_mo23'],
+      keywords: ['Unicode Mode Previous'],
     },
   },
-
   {
-    desc: 'Macro 0',
+    desc: 'Switch to macOS input',
     keycodeInfo: {
-      code: 24338,
+      code: 0x7c32, // 31794 0b111110000110010
+      label: 'Unicode Mode Macos',
       name: {
-        long: 'MACRO00',
-        short: 'M0',
+        long: 'QK_UNICODE_MODE_MACOS',
+        short: 'UC_MAC',
       },
-      label: 'M0',
-      keywords: ['macro00', 'macro0'],
+      keywords: ['Unicode Mode Macos'],
     },
   },
-
   {
-    desc: 'Macro 1',
+    desc: 'Switch to Linux input',
     keycodeInfo: {
-      code: 24339,
+      code: 0x7c33, // 31795 0b111110000110011
+      label: 'Unicode Mode Linux',
       name: {
-        long: 'MACRO01',
-        short: 'M1',
+        long: 'QK_UNICODE_MODE_LINUX',
+        short: 'UC_LINX',
       },
-      label: 'M1',
-      keywords: ['macro01', 'macro1'],
+      keywords: ['Unicode Mode Linux'],
     },
   },
-
   {
-    desc: 'Macro 2',
+    desc: 'Switch to Windows input',
     keycodeInfo: {
-      code: 24340,
+      code: 0x7c34, // 31796 0b111110000110100
+      label: 'Unicode Mode Windows',
       name: {
-        long: 'MACRO02',
-        short: 'M2',
+        long: 'QK_UNICODE_MODE_WINDOWS',
+        short: 'UC_WIN',
       },
-      label: 'M2',
-      keywords: ['macro02', 'macro2'],
+      keywords: ['Unicode Mode Windows'],
     },
   },
-
   {
-    desc: 'Macro 3',
+    desc: 'Switch to BSD input (not implemented)',
     keycodeInfo: {
-      code: 24341,
+      code: 0x7c35, // 31797 0b111110000110101
+      label: 'Unicode Mode Bsd',
       name: {
-        long: 'MACRO03',
-        short: 'M3',
+        long: 'QK_UNICODE_MODE_BSD',
+        short: 'UC_BSD',
       },
-      label: 'M3',
-      keywords: ['macro03', 'macro3'],
+      keywords: ['Unicode Mode Bsd'],
     },
   },
-
   {
-    desc: 'Macro 4',
+    desc: 'Switch to Windows input using WinCompose',
     keycodeInfo: {
-      code: 24342,
+      code: 0x7c36, // 31798 0b111110000110110
+      label: 'Unicode Mode Wincompose',
       name: {
-        long: 'MACRO04',
-        short: 'M4',
+        long: 'QK_UNICODE_MODE_WINCOMPOSE',
+        short: 'UC_WINC',
       },
-      label: 'M4',
-      keywords: ['macro04', 'macro4'],
+      keywords: ['Unicode Mode Wincompose'],
     },
   },
-
   {
-    desc: 'Macro 5',
+    desc: 'Switch to emacs (C-x-8 RET)',
     keycodeInfo: {
-      code: 24343,
+      code: 0x7c37, // 31799 0b111110000110111
+      label: 'Unicode Mode Emacs',
       name: {
-        long: 'MACRO05',
-        short: 'M5',
+        long: 'QK_UNICODE_MODE_EMACS',
+        short: 'UC_EMAC',
       },
-      label: 'M5',
-      keywords: ['macro05', 'macro5'],
+      keywords: ['Unicode Mode Emacs'],
     },
   },
-
   {
-    desc: 'Macro 6',
+    desc: 'Haptic On',
     keycodeInfo: {
-      code: 24344,
+      code: 0x7c40, // 31808 0b111110001000000
+      label: 'Haptic On',
       name: {
-        long: 'MACRO06',
-        short: 'M6',
+        long: 'QK_HAPTIC_ON',
+        short: 'HF_ON',
       },
-      label: 'M6',
-      keywords: ['macro06', 'macro6'],
+      keywords: ['Haptic On'],
     },
   },
-
   {
-    desc: 'Macro 7',
+    desc: 'Haptic Off',
     keycodeInfo: {
-      code: 24345,
+      code: 0x7c41, // 31809 0b111110001000001
+      label: 'Haptic Off',
       name: {
-        long: 'MACRO07',
-        short: 'M7',
+        long: 'QK_HAPTIC_OFF',
+        short: 'HF_OFF',
       },
-      label: 'M7',
-      keywords: ['macro07', 'macro7'],
+      keywords: ['Haptic Off'],
     },
   },
-
   {
-    desc: 'Macro 8',
+    desc: 'Haptic Toggle',
     keycodeInfo: {
-      code: 24346,
+      code: 0x7c42, // 31810 0b111110001000010
+      label: 'Haptic Toggle',
       name: {
-        long: 'MACRO08',
-        short: 'M8',
+        long: 'QK_HAPTIC_TOGGLE',
+        short: 'HF_TOGG',
       },
-      label: 'M8',
-      keywords: ['macro08', 'macro8'],
+      keywords: ['Haptic Toggle'],
     },
   },
-
   {
-    desc: 'Macro 9',
+    desc: 'Haptic Reset',
     keycodeInfo: {
-      code: 24347,
+      code: 0x7c43, // 31811 0b111110001000011
+      label: 'Haptic Reset',
       name: {
-        long: 'MACRO09',
-        short: 'M9',
+        long: 'QK_HAPTIC_RESET',
+        short: 'HF_RST',
       },
-      label: 'M9',
-      keywords: ['macro09', 'macro9'],
+      keywords: ['Haptic Reset'],
     },
   },
-
   {
-    desc: 'Macro 10',
+    desc: 'Haptic Feedback Toggle',
     keycodeInfo: {
-      code: 24348,
+      code: 0x7c44, // 31812 0b111110001000100
+      label: 'Haptic Feedback Toggle',
       name: {
-        long: 'MACRO10',
-        short: 'M10',
+        long: 'QK_HAPTIC_FEEDBACK_TOGGLE',
+        short: 'HF_FDBK',
       },
-      label: 'M10',
-      keywords: ['macro10'],
+      keywords: ['Haptic Feedback Toggle'],
     },
   },
-
   {
-    desc: 'Macro 11',
+    desc: 'Haptic Buzz Toggle',
     keycodeInfo: {
-      code: 24349,
+      code: 0x7c45, // 31813 0b111110001000101
+      label: 'Haptic Buzz Toggle',
       name: {
-        long: 'MACRO11',
-        short: 'M11',
+        long: 'QK_HAPTIC_BUZZ_TOGGLE',
+        short: 'HF_BUZZ',
       },
-      label: 'M11',
-      keywords: ['macro11'],
+      keywords: ['Haptic Buzz Toggle'],
     },
   },
-
   {
-    desc: 'Macro 12',
+    desc: 'Haptic Mode Next',
     keycodeInfo: {
-      code: 24350,
+      code: 0x7c46, // 31814 0b111110001000110
+      label: 'Haptic Mode Next',
       name: {
-        long: 'MACRO12',
-        short: 'M12',
+        long: 'QK_HAPTIC_MODE_NEXT',
+        short: 'HF_NEXT',
       },
-      label: 'M12',
-      keywords: ['macro12'],
+      keywords: ['Haptic Mode Next'],
     },
   },
-
   {
-    desc: 'Macro 13',
+    desc: 'Haptic Mode Previous',
     keycodeInfo: {
-      code: 24351,
+      code: 0x7c47, // 31815 0b111110001000111
+      label: 'Haptic Mode Previous',
       name: {
-        long: 'MACRO13',
-        short: 'M13',
+        long: 'QK_HAPTIC_MODE_PREVIOUS',
+        short: 'HF_PREV',
       },
-      label: 'M13',
-      keywords: ['macro13'],
+      keywords: ['Haptic Mode Previous'],
     },
   },
-
   {
-    desc: 'Macro 14',
+    desc: 'Haptic Continuous Toggle',
     keycodeInfo: {
-      code: 24352,
+      code: 0x7c48, // 31816 0b111110001001000
+      label: 'Haptic Continuous Toggle',
       name: {
-        long: 'MACRO14',
-        short: 'M14',
+        long: 'QK_HAPTIC_CONTINUOUS_TOGGLE',
+        short: 'HF_CONT',
       },
-      label: 'M14',
-      keywords: ['macro14'],
+      keywords: ['Haptic Continuous Toggle'],
     },
   },
-
   {
-    desc: 'Macro 15',
+    desc: 'Haptic Continuous Up',
     keycodeInfo: {
-      code: 24353,
+      code: 0x7c49, // 31817 0b111110001001001
+      label: 'Haptic Continuous Up',
       name: {
-        long: 'MACRO15',
-        short: 'M15',
+        long: 'QK_HAPTIC_CONTINUOUS_UP',
+        short: 'HF_CONU',
       },
-      label: 'M15',
-      keywords: ['macro15'],
+      keywords: ['Haptic Continuous Up'],
     },
   },
-
+  {
+    desc: 'Haptic Continuous Down',
+    keycodeInfo: {
+      code: 0x7c4a, // 31818 0b111110001001010
+      label: 'Haptic Continuous Down',
+      name: {
+        long: 'QK_HAPTIC_CONTINUOUS_DOWN',
+        short: 'HF_COND',
+      },
+      keywords: ['Haptic Continuous Down'],
+    },
+  },
+  {
+    desc: 'Haptic Dwell Up',
+    keycodeInfo: {
+      code: 0x7c4b, // 31819 0b111110001001011
+      label: 'Haptic Dwell Up',
+      name: {
+        long: 'QK_HAPTIC_DWELL_UP',
+        short: 'HF_DWLU',
+      },
+      keywords: ['Haptic Dwell Up'],
+    },
+  },
+  {
+    desc: 'Haptic Dwell Down',
+    keycodeInfo: {
+      code: 0x7c4c, // 31820 0b111110001001100
+      label: 'Haptic Dwell Down',
+      name: {
+        long: 'QK_HAPTIC_DWELL_DOWN',
+        short: 'HF_DWLD',
+      },
+      keywords: ['Haptic Dwell Down'],
+    },
+  },
+  {
+    desc: 'Combo On',
+    keycodeInfo: {
+      code: 0x7c50, // 31824 0b111110001010000
+      label: 'Combo On',
+      name: {
+        long: 'QK_COMBO_ON',
+        short: 'CM_ON',
+      },
+      keywords: ['Combo On'],
+    },
+  },
+  {
+    desc: 'Combo Off',
+    keycodeInfo: {
+      code: 0x7c51, // 31825 0b111110001010001
+      label: 'Combo Off',
+      name: {
+        long: 'QK_COMBO_OFF',
+        short: 'CM_OFF',
+      },
+      keywords: ['Combo Off'],
+    },
+  },
+  {
+    desc: 'Combo Toggle',
+    keycodeInfo: {
+      code: 0x7c52, // 31826 0b111110001010010
+      label: 'Combo Toggle',
+      name: {
+        long: 'QK_COMBO_TOGGLE',
+        short: 'CM_TOGG',
+      },
+      keywords: ['Combo Toggle'],
+    },
+  },
+  {
+    desc: 'Start recording Macro 1',
+    keycodeInfo: {
+      code: 0x7c53, // 31827 0b111110001010011
+      label: 'Dynamic Macro Record Start 1',
+      name: {
+        long: 'QK_DYNAMIC_MACRO_RECORD_START_1',
+        short: 'DM_REC1',
+      },
+      keywords: ['Dynamic Macro Record Start 1'],
+    },
+  },
+  {
+    desc: 'Start recording Macro 2',
+    keycodeInfo: {
+      code: 0x7c54, // 31828 0b111110001010100
+      label: 'Dynamic Macro Record Start 2',
+      name: {
+        long: 'QK_DYNAMIC_MACRO_RECORD_START_2',
+        short: 'DM_REC2',
+      },
+      keywords: ['Dynamic Macro Record Start 2'],
+    },
+  },
+  {
+    desc: 'Finish the macro that is currently being recorded.',
+    keycodeInfo: {
+      code: 0x7c55, // 31829 0b111110001010101
+      label: 'Dynamic Macro Record Stop',
+      name: {
+        long: 'QK_DYNAMIC_MACRO_RECORD_STOP',
+        short: 'DM_RSTP',
+      },
+      keywords: ['Dynamic Macro Record Stop'],
+    },
+  },
+  {
+    desc: 'Replay Macro 1',
+    keycodeInfo: {
+      code: 0x7c56, // 31830 0b111110001010110
+      label: 'Dynamic Macro Play 1',
+      name: {
+        long: 'QK_DYNAMIC_MACRO_PLAY_1',
+        short: 'DM_PLY1',
+      },
+      keywords: ['Dynamic Macro Play 1'],
+    },
+  },
+  {
+    desc: 'Replay Macro 2',
+    keycodeInfo: {
+      code: 0x7c57, // 31831 0b111110001010111
+      label: 'Dynamic Macro Play 2',
+      name: {
+        long: 'QK_DYNAMIC_MACRO_PLAY_2',
+        short: 'DM_PLY2',
+      },
+      keywords: ['Dynamic Macro Play 2'],
+    },
+  },
+  {
+    desc: 'Leader',
+    keycodeInfo: {
+      code: 0x7c58, // 31832 0b111110001011000
+      label: 'Leader',
+      name: {
+        long: 'QK_LEADER',
+        short: 'QK_LEAD',
+      },
+      keywords: ['Leader'],
+    },
+  },
+  {
+    desc: 'Hold down the next key pressed, until the key is pressed again',
+    keycodeInfo: {
+      code: 0x7c59, // 31833 0b111110001011001
+      label: 'Lock',
+      name: {
+        long: 'QK_LOCK',
+        short: 'QK_LOCK',
+      },
+      keywords: ['Lock'],
+    },
+  },
+  {
+    desc: 'Turns One Shot keys on',
+    keycodeInfo: {
+      code: 0x7c5a, // 31834 0b111110001011010
+      label: 'One Shot On',
+      name: {
+        long: 'QK_ONE_SHOT_ON',
+        short: 'OS_ON',
+      },
+      keywords: ['One Shot On'],
+    },
+  },
+  {
+    desc: 'Turns One Shot keys off',
+    keycodeInfo: {
+      code: 0x7c5b, // 31835 0b111110001011011
+      label: 'One Shot Off',
+      name: {
+        long: 'QK_ONE_SHOT_OFF',
+        short: 'OS_OFF',
+      },
+      keywords: ['One Shot Off'],
+    },
+  },
+  {
+    desc: 'Toggles One Shot keys status',
+    keycodeInfo: {
+      code: 0x7c5c, // 31836 0b111110001011100
+      label: 'One Shot Toggle',
+      name: {
+        long: 'QK_ONE_SHOT_TOGGLE',
+        short: 'OS_TOGG',
+      },
+      keywords: ['One Shot Toggle'],
+    },
+  },
+  {
+    desc: 'Key Override Toggle',
+    keycodeInfo: {
+      code: 0x7c5d, // 31837 0b111110001011101
+      label: 'Key Override Toggle',
+      name: {
+        long: 'QK_KEY_OVERRIDE_TOGGLE',
+        short: 'KO_TOGG',
+      },
+      keywords: ['Key Override Toggle'],
+    },
+  },
+  {
+    desc: 'Key Override On',
+    keycodeInfo: {
+      code: 0x7c5e, // 31838 0b111110001011110
+      label: 'Key Override On',
+      name: {
+        long: 'QK_KEY_OVERRIDE_ON',
+        short: 'KO_ON',
+      },
+      keywords: ['Key Override On'],
+    },
+  },
+  {
+    desc: 'Key Override Off',
+    keycodeInfo: {
+      code: 0x7c5f, // 31839 0b111110001011111
+      label: 'Key Override Off',
+      name: {
+        long: 'QK_KEY_OVERRIDE_OFF',
+        short: 'KO_OFF',
+      },
+      keywords: ['Key Override Off'],
+    },
+  },
+  {
+    desc: 'Secure Lock',
+    keycodeInfo: {
+      code: 0x7c60, // 31840 0b111110001100000
+      label: 'Secure Lock',
+      name: {
+        long: 'QK_SECURE_LOCK',
+        short: 'SE_LOCK',
+      },
+      keywords: ['Secure Lock'],
+    },
+  },
+  {
+    desc: 'Secure Unlock',
+    keycodeInfo: {
+      code: 0x7c61, // 31841 0b111110001100001
+      label: 'Secure Unlock',
+      name: {
+        long: 'QK_SECURE_UNLOCK',
+        short: 'SE_UNLK',
+      },
+      keywords: ['Secure Unlock'],
+    },
+  },
+  {
+    desc: 'Secure Toggle',
+    keycodeInfo: {
+      code: 0x7c62, // 31842 0b111110001100010
+      label: 'Secure Toggle',
+      name: {
+        long: 'QK_SECURE_TOGGLE',
+        short: 'SE_TOGG',
+      },
+      keywords: ['Secure Toggle'],
+    },
+  },
+  {
+    desc: 'Secure Request',
+    keycodeInfo: {
+      code: 0x7c63, // 31843 0b111110001100011
+      label: 'Secure Request',
+      name: {
+        long: 'QK_SECURE_REQUEST',
+        short: 'SE_REQ',
+      },
+      keywords: ['Secure Request'],
+    },
+  },
+  {
+    desc: 'Types the current tapping term, in milliseconds',
+    keycodeInfo: {
+      code: 0x7c70, // 31856 0b111110001110000
+      label: 'Dynamic Tapping Term Print',
+      name: {
+        long: 'QK_DYNAMIC_TAPPING_TERM_PRINT',
+        short: 'DT_PRNT',
+      },
+      keywords: ['Dynamic Tapping Term Print'],
+    },
+  },
+  {
+    desc: 'Increases the current tapping term by DYNAMIC_TAPPING_TERM_INCREMENTms (5ms by default)',
+    keycodeInfo: {
+      code: 0x7c71, // 31857 0b111110001110001
+      label: 'Dynamic Tapping Term Up',
+      name: {
+        long: 'QK_DYNAMIC_TAPPING_TERM_UP',
+        short: 'DT_UP',
+      },
+      keywords: ['Dynamic Tapping Term Up'],
+    },
+  },
+  {
+    desc: 'Decreases the current tapping term by DYNAMIC_TAPPING_TERM_INCREMENTms (5ms by default)',
+    keycodeInfo: {
+      code: 0x7c72, // 31858 0b111110001110010
+      label: 'Dynamic Tapping Term Down',
+      name: {
+        long: 'QK_DYNAMIC_TAPPING_TERM_DOWN',
+        short: 'DT_DOWN',
+      },
+      keywords: ['Dynamic Tapping Term Down'],
+    },
+  },
+  {
+    desc: 'Toggles Caps Word',
+    keycodeInfo: {
+      code: 0x7c73, // 31859 0b111110001110011
+      label: 'Caps Word Toggle',
+      name: {
+        long: 'QK_CAPS_WORD_TOGGLE',
+        short: 'CW_TOGG',
+      },
+      keywords: ['Caps Word Toggle'],
+    },
+  },
+  {
+    desc: 'Turns on the Autocorrect feature.',
+    keycodeInfo: {
+      code: 0x7c74, // 31860 0b111110001110100
+      label: 'Autocorrect On',
+      name: {
+        long: 'QK_AUTOCORRECT_ON',
+        short: 'AC_ON',
+      },
+      keywords: ['Autocorrect On'],
+    },
+  },
+  {
+    desc: 'Turns off the Autocorrect feature.',
+    keycodeInfo: {
+      code: 0x7c75, // 31861 0b111110001110101
+      label: 'Autocorrect Off',
+      name: {
+        long: 'QK_AUTOCORRECT_OFF',
+        short: 'AC_OFF',
+      },
+      keywords: ['Autocorrect Off'],
+    },
+  },
+  {
+    desc: 'Toggles the status of the Autocorrect feature.',
+    keycodeInfo: {
+      code: 0x7c76, // 31862 0b111110001110110
+      label: 'Autocorrect Toggle',
+      name: {
+        long: 'QK_AUTOCORRECT_TOGGLE',
+        short: 'AC_TOGG',
+      },
+      keywords: ['Autocorrect Toggle'],
+    },
+  },
+  {
+    desc: 'Tri Layer Lower',
+    keycodeInfo: {
+      code: 0x7c77, // 31863 0b111110001110111
+      label: 'Tri Layer Lower',
+      name: {
+        long: 'QK_TRI_LAYER_LOWER',
+        short: 'TL_LOWR',
+      },
+      keywords: ['Tri Layer Lower'],
+    },
+  },
+  {
+    desc: 'Tri Layer Upper',
+    keycodeInfo: {
+      code: 0x7c78, // 31864 0b111110001111000
+      label: 'Tri Layer Upper',
+      name: {
+        long: 'QK_TRI_LAYER_UPPER',
+        short: 'TL_UPPR',
+      },
+      keywords: ['Tri Layer Upper'],
+    },
+  },
+  {
+    desc: 'Repeat the last pressed key',
+    keycodeInfo: {
+      code: 0x7c79, // 31865 0b111110001111001
+      label: 'Repeat Key',
+      name: {
+        long: 'QK_REPEAT_KEY',
+        short: 'QK_REP',
+      },
+      keywords: ['Repeat Key'],
+    },
+  },
+  {
+    desc: 'Perform alternate of the last key',
+    keycodeInfo: {
+      code: 0x7c7a, // 31866 0b111110001111010
+      label: 'Alt Repeat Key',
+      name: {
+        long: 'QK_ALT_REPEAT_KEY',
+        short: 'QK_AREP',
+      },
+      keywords: ['Alt Repeat Key'],
+    },
+  },
+  {
+    desc: 'Kb 0',
+    keycodeInfo: {
+      code: 0x7e00, // 32256 0b111111000000000
+      label: 'Kb 0',
+      name: {
+        long: 'QK_KB_0',
+        short: 'QK_KB_0',
+      },
+      keywords: ['Kb 0'],
+    },
+  },
+  {
+    desc: 'Kb 1',
+    keycodeInfo: {
+      code: 0x7e01, // 32257 0b111111000000001
+      label: 'Kb 1',
+      name: {
+        long: 'QK_KB_1',
+        short: 'QK_KB_1',
+      },
+      keywords: ['Kb 1'],
+    },
+  },
+  {
+    desc: 'Kb 2',
+    keycodeInfo: {
+      code: 0x7e02, // 32258 0b111111000000010
+      label: 'Kb 2',
+      name: {
+        long: 'QK_KB_2',
+        short: 'QK_KB_2',
+      },
+      keywords: ['Kb 2'],
+    },
+  },
+  {
+    desc: 'Kb 3',
+    keycodeInfo: {
+      code: 0x7e03, // 32259 0b111111000000011
+      label: 'Kb 3',
+      name: {
+        long: 'QK_KB_3',
+        short: 'QK_KB_3',
+      },
+      keywords: ['Kb 3'],
+    },
+  },
+  {
+    desc: 'Kb 4',
+    keycodeInfo: {
+      code: 0x7e04, // 32260 0b111111000000100
+      label: 'Kb 4',
+      name: {
+        long: 'QK_KB_4',
+        short: 'QK_KB_4',
+      },
+      keywords: ['Kb 4'],
+    },
+  },
+  {
+    desc: 'Kb 5',
+    keycodeInfo: {
+      code: 0x7e05, // 32261 0b111111000000101
+      label: 'Kb 5',
+      name: {
+        long: 'QK_KB_5',
+        short: 'QK_KB_5',
+      },
+      keywords: ['Kb 5'],
+    },
+  },
+  {
+    desc: 'Kb 6',
+    keycodeInfo: {
+      code: 0x7e06, // 32262 0b111111000000110
+      label: 'Kb 6',
+      name: {
+        long: 'QK_KB_6',
+        short: 'QK_KB_6',
+      },
+      keywords: ['Kb 6'],
+    },
+  },
+  {
+    desc: 'Kb 7',
+    keycodeInfo: {
+      code: 0x7e07, // 32263 0b111111000000111
+      label: 'Kb 7',
+      name: {
+        long: 'QK_KB_7',
+        short: 'QK_KB_7',
+      },
+      keywords: ['Kb 7'],
+    },
+  },
+  {
+    desc: 'Kb 8',
+    keycodeInfo: {
+      code: 0x7e08, // 32264 0b111111000001000
+      label: 'Kb 8',
+      name: {
+        long: 'QK_KB_8',
+        short: 'QK_KB_8',
+      },
+      keywords: ['Kb 8'],
+    },
+  },
+  {
+    desc: 'Kb 9',
+    keycodeInfo: {
+      code: 0x7e09, // 32265 0b111111000001001
+      label: 'Kb 9',
+      name: {
+        long: 'QK_KB_9',
+        short: 'QK_KB_9',
+      },
+      keywords: ['Kb 9'],
+    },
+  },
+  {
+    desc: 'Kb 10',
+    keycodeInfo: {
+      code: 0x7e0a, // 32266 0b111111000001010
+      label: 'Kb 10',
+      name: {
+        long: 'QK_KB_10',
+        short: 'QK_KB_10',
+      },
+      keywords: ['Kb 10'],
+    },
+  },
+  {
+    desc: 'Kb 11',
+    keycodeInfo: {
+      code: 0x7e0b, // 32267 0b111111000001011
+      label: 'Kb 11',
+      name: {
+        long: 'QK_KB_11',
+        short: 'QK_KB_11',
+      },
+      keywords: ['Kb 11'],
+    },
+  },
+  {
+    desc: 'Kb 12',
+    keycodeInfo: {
+      code: 0x7e0c, // 32268 0b111111000001100
+      label: 'Kb 12',
+      name: {
+        long: 'QK_KB_12',
+        short: 'QK_KB_12',
+      },
+      keywords: ['Kb 12'],
+    },
+  },
+  {
+    desc: 'Kb 13',
+    keycodeInfo: {
+      code: 0x7e0d, // 32269 0b111111000001101
+      label: 'Kb 13',
+      name: {
+        long: 'QK_KB_13',
+        short: 'QK_KB_13',
+      },
+      keywords: ['Kb 13'],
+    },
+  },
+  {
+    desc: 'Kb 14',
+    keycodeInfo: {
+      code: 0x7e0e, // 32270 0b111111000001110
+      label: 'Kb 14',
+      name: {
+        long: 'QK_KB_14',
+        short: 'QK_KB_14',
+      },
+      keywords: ['Kb 14'],
+    },
+  },
+  {
+    desc: 'Kb 15',
+    keycodeInfo: {
+      code: 0x7e0f, // 32271 0b111111000001111
+      label: 'Kb 15',
+      name: {
+        long: 'QK_KB_15',
+        short: 'QK_KB_15',
+      },
+      keywords: ['Kb 15'],
+    },
+  },
+  {
+    desc: 'Kb 16',
+    keycodeInfo: {
+      code: 0x7e10, // 32272 0b111111000010000
+      label: 'Kb 16',
+      name: {
+        long: 'QK_KB_16',
+        short: 'QK_KB_16',
+      },
+      keywords: ['Kb 16'],
+    },
+  },
+  {
+    desc: 'Kb 17',
+    keycodeInfo: {
+      code: 0x7e11, // 32273 0b111111000010001
+      label: 'Kb 17',
+      name: {
+        long: 'QK_KB_17',
+        short: 'QK_KB_17',
+      },
+      keywords: ['Kb 17'],
+    },
+  },
+  {
+    desc: 'Kb 18',
+    keycodeInfo: {
+      code: 0x7e12, // 32274 0b111111000010010
+      label: 'Kb 18',
+      name: {
+        long: 'QK_KB_18',
+        short: 'QK_KB_18',
+      },
+      keywords: ['Kb 18'],
+    },
+  },
+  {
+    desc: 'Kb 19',
+    keycodeInfo: {
+      code: 0x7e13, // 32275 0b111111000010011
+      label: 'Kb 19',
+      name: {
+        long: 'QK_KB_19',
+        short: 'QK_KB_19',
+      },
+      keywords: ['Kb 19'],
+    },
+  },
+  {
+    desc: 'Kb 20',
+    keycodeInfo: {
+      code: 0x7e14, // 32276 0b111111000010100
+      label: 'Kb 20',
+      name: {
+        long: 'QK_KB_20',
+        short: 'QK_KB_20',
+      },
+      keywords: ['Kb 20'],
+    },
+  },
+  {
+    desc: 'Kb 21',
+    keycodeInfo: {
+      code: 0x7e15, // 32277 0b111111000010101
+      label: 'Kb 21',
+      name: {
+        long: 'QK_KB_21',
+        short: 'QK_KB_21',
+      },
+      keywords: ['Kb 21'],
+    },
+  },
+  {
+    desc: 'Kb 22',
+    keycodeInfo: {
+      code: 0x7e16, // 32278 0b111111000010110
+      label: 'Kb 22',
+      name: {
+        long: 'QK_KB_22',
+        short: 'QK_KB_22',
+      },
+      keywords: ['Kb 22'],
+    },
+  },
+  {
+    desc: 'Kb 23',
+    keycodeInfo: {
+      code: 0x7e17, // 32279 0b111111000010111
+      label: 'Kb 23',
+      name: {
+        long: 'QK_KB_23',
+        short: 'QK_KB_23',
+      },
+      keywords: ['Kb 23'],
+    },
+  },
+  {
+    desc: 'Kb 24',
+    keycodeInfo: {
+      code: 0x7e18, // 32280 0b111111000011000
+      label: 'Kb 24',
+      name: {
+        long: 'QK_KB_24',
+        short: 'QK_KB_24',
+      },
+      keywords: ['Kb 24'],
+    },
+  },
+  {
+    desc: 'Kb 25',
+    keycodeInfo: {
+      code: 0x7e19, // 32281 0b111111000011001
+      label: 'Kb 25',
+      name: {
+        long: 'QK_KB_25',
+        short: 'QK_KB_25',
+      },
+      keywords: ['Kb 25'],
+    },
+  },
+  {
+    desc: 'Kb 26',
+    keycodeInfo: {
+      code: 0x7e1a, // 32282 0b111111000011010
+      label: 'Kb 26',
+      name: {
+        long: 'QK_KB_26',
+        short: 'QK_KB_26',
+      },
+      keywords: ['Kb 26'],
+    },
+  },
+  {
+    desc: 'Kb 27',
+    keycodeInfo: {
+      code: 0x7e1b, // 32283 0b111111000011011
+      label: 'Kb 27',
+      name: {
+        long: 'QK_KB_27',
+        short: 'QK_KB_27',
+      },
+      keywords: ['Kb 27'],
+    },
+  },
+  {
+    desc: 'Kb 28',
+    keycodeInfo: {
+      code: 0x7e1c, // 32284 0b111111000011100
+      label: 'Kb 28',
+      name: {
+        long: 'QK_KB_28',
+        short: 'QK_KB_28',
+      },
+      keywords: ['Kb 28'],
+    },
+  },
+  {
+    desc: 'Kb 29',
+    keycodeInfo: {
+      code: 0x7e1d, // 32285 0b111111000011101
+      label: 'Kb 29',
+      name: {
+        long: 'QK_KB_29',
+        short: 'QK_KB_29',
+      },
+      keywords: ['Kb 29'],
+    },
+  },
+  {
+    desc: 'Kb 30',
+    keycodeInfo: {
+      code: 0x7e1e, // 32286 0b111111000011110
+      label: 'Kb 30',
+      name: {
+        long: 'QK_KB_30',
+        short: 'QK_KB_30',
+      },
+      keywords: ['Kb 30'],
+    },
+  },
+  {
+    desc: 'Kb 31',
+    keycodeInfo: {
+      code: 0x7e1f, // 32287 0b111111000011111
+      label: 'Kb 31',
+      name: {
+        long: 'QK_KB_31',
+        short: 'QK_KB_31',
+      },
+      keywords: ['Kb 31'],
+    },
+  },
   {
     desc: 'User 0',
     keycodeInfo: {
-      code: 24448,
+      code: 0x7e40, // 32320 0b111111001000000
+      label: 'User 0',
       name: {
-        long: 'Custom Keycode 0',
-        short: 'USER 0',
+        long: 'QK_USER_0',
+        short: 'QK_USER_0',
       },
-      label: 'USER 0',
-      keywords: ['user0'],
+      keywords: ['User 0'],
     },
   },
-
   {
     desc: 'User 1',
     keycodeInfo: {
-      code: 24449,
+      code: 0x7e41, // 32321 0b111111001000001
+      label: 'User 1',
       name: {
-        long: 'Custom Keycode 1',
-        short: 'USER 1',
+        long: 'QK_USER_1',
+        short: 'QK_USER_1',
       },
-      label: 'USER 1',
-      keywords: ['user1'],
+      keywords: ['User 1'],
     },
   },
-
   {
     desc: 'User 2',
     keycodeInfo: {
-      code: 24450,
+      code: 0x7e42, // 32322 0b111111001000010
+      label: 'User 2',
       name: {
-        long: 'Custom Keycode 2',
-        short: 'USER 2',
+        long: 'QK_USER_2',
+        short: 'QK_USER_2',
       },
-      label: 'USER 2',
-      keywords: ['user2'],
+      keywords: ['User 2'],
     },
   },
-
   {
     desc: 'User 3',
     keycodeInfo: {
-      code: 24451,
+      code: 0x7e43, // 32323 0b111111001000011
+      label: 'User 3',
       name: {
-        long: 'Custom Keycode 3',
-        short: 'USER 3',
+        long: 'QK_USER_3',
+        short: 'QK_USER_3',
       },
-      label: 'USER 3',
-      keywords: ['user3'],
+      keywords: ['User 3'],
     },
   },
-
   {
     desc: 'User 4',
     keycodeInfo: {
-      code: 24452,
+      code: 0x7e44, // 32324 0b111111001000100
+      label: 'User 4',
       name: {
-        long: 'Custom Keycode 4',
-        short: 'USER 4',
+        long: 'QK_USER_4',
+        short: 'QK_USER_4',
       },
-      label: 'USER 4',
-      keywords: ['user4'],
+      keywords: ['User 4'],
     },
   },
-
   {
     desc: 'User 5',
     keycodeInfo: {
-      code: 24453,
+      code: 0x7e45, // 32325 0b111111001000101
+      label: 'User 5',
       name: {
-        long: 'Custom Keycode 5',
-        short: 'USER 5',
+        long: 'QK_USER_5',
+        short: 'QK_USER_5',
       },
-      label: 'USER 5',
-      keywords: ['user5'],
+      keywords: ['User 5'],
     },
   },
-
   {
     desc: 'User 6',
     keycodeInfo: {
-      code: 24454,
+      code: 0x7e46, // 32326 0b111111001000110
+      label: 'User 6',
       name: {
-        long: 'Custom Keycode 6',
-        short: 'USER 6',
+        long: 'QK_USER_6',
+        short: 'QK_USER_6',
       },
-      label: 'USER 6',
-      keywords: ['user6'],
+      keywords: ['User 6'],
     },
   },
-
   {
     desc: 'User 7',
     keycodeInfo: {
-      code: 24455,
+      code: 0x7e47, // 32327 0b111111001000111
+      label: 'User 7',
       name: {
-        long: 'Custom Keycode 7',
-        short: 'USER 7',
+        long: 'QK_USER_7',
+        short: 'QK_USER_7',
       },
-      label: 'USER 7',
-      keywords: ['user7'],
+      keywords: ['User 7'],
     },
   },
-
   {
     desc: 'User 8',
     keycodeInfo: {
-      code: 24456,
+      code: 0x7e48, // 32328 0b111111001001000
+      label: 'User 8',
       name: {
-        long: 'Custom Keycode 8',
-        short: 'USER 8',
+        long: 'QK_USER_8',
+        short: 'QK_USER_8',
       },
-      label: 'USER 8',
-      keywords: ['user8'],
+      keywords: ['User 8'],
     },
   },
-
   {
     desc: 'User 9',
     keycodeInfo: {
-      code: 24457,
+      code: 0x7e49, // 32329 0b111111001001001
+      label: 'User 9',
       name: {
-        long: 'Custom Keycode 9',
-        short: 'USER 9',
+        long: 'QK_USER_9',
+        short: 'QK_USER_9',
       },
-      label: 'USER 9',
-      keywords: ['user9'],
+      keywords: ['User 9'],
     },
   },
-
   {
     desc: 'User 10',
     keycodeInfo: {
-      code: 24458,
+      code: 0x7e4a, // 32330 0b111111001001010
+      label: 'User 10',
       name: {
-        long: 'Custom Keycode 10',
-        short: 'USER 10',
+        long: 'QK_USER_10',
+        short: 'QK_USER_10',
       },
-      label: 'USER 10',
-      keywords: ['user10'],
+      keywords: ['User 10'],
     },
   },
-
   {
     desc: 'User 11',
     keycodeInfo: {
-      code: 24459,
+      code: 0x7e4b, // 32331 0b111111001001011
+      label: 'User 11',
       name: {
-        long: 'Custom Keycode 11',
-        short: 'USER 11',
+        long: 'QK_USER_11',
+        short: 'QK_USER_11',
       },
-      label: 'USER 11',
-      keywords: ['user11'],
+      keywords: ['User 11'],
     },
   },
-
   {
     desc: 'User 12',
     keycodeInfo: {
-      code: 24460,
+      code: 0x7e4c, // 32332 0b111111001001100
+      label: 'User 12',
       name: {
-        long: 'Custom Keycode 12',
-        short: 'USER 12',
+        long: 'QK_USER_12',
+        short: 'QK_USER_12',
       },
-      label: 'USER 12',
-      keywords: ['user12'],
+      keywords: ['User 12'],
     },
   },
-
   {
     desc: 'User 13',
     keycodeInfo: {
-      code: 24461,
+      code: 0x7e4d, // 32333 0b111111001001101
+      label: 'User 13',
       name: {
-        long: 'Custom Keycode 13',
-        short: 'USER 13',
+        long: 'QK_USER_13',
+        short: 'QK_USER_13',
       },
-      label: 'USER 13',
-      keywords: ['user13'],
+      keywords: ['User 13'],
     },
   },
-
   {
     desc: 'User 14',
     keycodeInfo: {
-      code: 24462,
+      code: 0x7e4e, // 32334 0b111111001001110
+      label: 'User 14',
       name: {
-        long: 'Custom Keycode 14',
-        short: 'USER 14',
+        long: 'QK_USER_14',
+        short: 'QK_USER_14',
       },
-      label: 'USER 14',
-      keywords: ['user14'],
+      keywords: ['User 14'],
     },
   },
-
   {
     desc: 'User 15',
     keycodeInfo: {
-      code: 24463,
+      code: 0x7e4f, // 32335 0b111111001001111
+      label: 'User 15',
       name: {
-        long: 'Custom Keycode 15',
-        short: 'USER 15',
+        long: 'QK_USER_15',
+        short: 'QK_USER_15',
       },
-      label: 'USER 15',
-      keywords: ['user15'],
+      keywords: ['User 15'],
+    },
+  },
+  {
+    desc: 'User 16',
+    keycodeInfo: {
+      code: 0x7e50, // 32336 0b111111001010000
+      label: 'User 16',
+      name: {
+        long: 'QK_USER_16',
+        short: 'QK_USER_16',
+      },
+      keywords: ['User 16'],
+    },
+  },
+  {
+    desc: 'User 17',
+    keycodeInfo: {
+      code: 0x7e51, // 32337 0b111111001010001
+      label: 'User 17',
+      name: {
+        long: 'QK_USER_17',
+        short: 'QK_USER_17',
+      },
+      keywords: ['User 17'],
+    },
+  },
+  {
+    desc: 'User 18',
+    keycodeInfo: {
+      code: 0x7e52, // 32338 0b111111001010010
+      label: 'User 18',
+      name: {
+        long: 'QK_USER_18',
+        short: 'QK_USER_18',
+      },
+      keywords: ['User 18'],
+    },
+  },
+  {
+    desc: 'User 19',
+    keycodeInfo: {
+      code: 0x7e53, // 32339 0b111111001010011
+      label: 'User 19',
+      name: {
+        long: 'QK_USER_19',
+        short: 'QK_USER_19',
+      },
+      keywords: ['User 19'],
+    },
+  },
+  {
+    desc: 'User 20',
+    keycodeInfo: {
+      code: 0x7e54, // 32340 0b111111001010100
+      label: 'User 20',
+      name: {
+        long: 'QK_USER_20',
+        short: 'QK_USER_20',
+      },
+      keywords: ['User 20'],
+    },
+  },
+  {
+    desc: 'User 21',
+    keycodeInfo: {
+      code: 0x7e55, // 32341 0b111111001010101
+      label: 'User 21',
+      name: {
+        long: 'QK_USER_21',
+        short: 'QK_USER_21',
+      },
+      keywords: ['User 21'],
+    },
+  },
+  {
+    desc: 'User 22',
+    keycodeInfo: {
+      code: 0x7e56, // 32342 0b111111001010110
+      label: 'User 22',
+      name: {
+        long: 'QK_USER_22',
+        short: 'QK_USER_22',
+      },
+      keywords: ['User 22'],
+    },
+  },
+  {
+    desc: 'User 23',
+    keycodeInfo: {
+      code: 0x7e57, // 32343 0b111111001010111
+      label: 'User 23',
+      name: {
+        long: 'QK_USER_23',
+        short: 'QK_USER_23',
+      },
+      keywords: ['User 23'],
+    },
+  },
+  {
+    desc: 'User 24',
+    keycodeInfo: {
+      code: 0x7e58, // 32344 0b111111001011000
+      label: 'User 24',
+      name: {
+        long: 'QK_USER_24',
+        short: 'QK_USER_24',
+      },
+      keywords: ['User 24'],
+    },
+  },
+  {
+    desc: 'User 25',
+    keycodeInfo: {
+      code: 0x7e59, // 32345 0b111111001011001
+      label: 'User 25',
+      name: {
+        long: 'QK_USER_25',
+        short: 'QK_USER_25',
+      },
+      keywords: ['User 25'],
+    },
+  },
+  {
+    desc: 'User 26',
+    keycodeInfo: {
+      code: 0x7e5a, // 32346 0b111111001011010
+      label: 'User 26',
+      name: {
+        long: 'QK_USER_26',
+        short: 'QK_USER_26',
+      },
+      keywords: ['User 26'],
+    },
+  },
+  {
+    desc: 'User 27',
+    keycodeInfo: {
+      code: 0x7e5b, // 32347 0b111111001011011
+      label: 'User 27',
+      name: {
+        long: 'QK_USER_27',
+        short: 'QK_USER_27',
+      },
+      keywords: ['User 27'],
+    },
+  },
+  {
+    desc: 'User 28',
+    keycodeInfo: {
+      code: 0x7e5c, // 32348 0b111111001011100
+      label: 'User 28',
+      name: {
+        long: 'QK_USER_28',
+        short: 'QK_USER_28',
+      },
+      keywords: ['User 28'],
+    },
+  },
+  {
+    desc: 'User 29',
+    keycodeInfo: {
+      code: 0x7e5d, // 32349 0b111111001011101
+      label: 'User 29',
+      name: {
+        long: 'QK_USER_29',
+        short: 'QK_USER_29',
+      },
+      keywords: ['User 29'],
+    },
+  },
+  {
+    desc: 'User 30',
+    keycodeInfo: {
+      code: 0x7e5e, // 32350 0b111111001011110
+      label: 'User 30',
+      name: {
+        long: 'QK_USER_30',
+        short: 'QK_USER_30',
+      },
+      keywords: ['User 30'],
+    },
+  },
+  {
+    desc: 'User 31',
+    keycodeInfo: {
+      code: 0x7e5f, // 32351 0b111111001011111
+      label: 'User 31',
+      name: {
+        long: 'QK_USER_31',
+        short: 'QK_USER_31',
+      },
+      keywords: ['User 31'],
     },
   },
 ];

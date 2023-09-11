@@ -155,9 +155,6 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     const basic = macroEditMode
       ? macroCodeFilter(KeyCategory.basic(labelLang))
       : KeyCategory.basic(labelLang);
-    const symbol = macroEditMode
-      ? macroCodeFilter(KeyCategory.symbol(labelLang))
-      : KeyCategory.symbol(labelLang);
     const functions = [
       ...(macroEditMode
         ? macroCodeFilter(
@@ -191,15 +188,21 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
       ? macroCodeFilter(KeyCategory.midi())
       : KeyCategory.midi();
 
+    const Basic = genKeys(basic, this.props.labelLang!);
+    const Functions = genKeys(functions, this.props.labelLang!);
+    const Layer = genKeys(layers, this.props.labelLang!);
+    const Device = genKeys(device, this.props.labelLang!);
+    const Special = genKeys(special, this.props.labelLang!);
+    const Midi = genKeys(midi, this.props.labelLang!);
+
     const categoryKeys: { [category: string]: Key[] } = {
-      Basic: genKeys(basic, this.props.labelLang!),
-      Symbol: genKeys(symbol, this.props.labelLang!),
-      Functions: genKeys(functions, this.props.labelLang!),
-      Layer: genKeys(layers, this.props.labelLang!),
-      Device: genKeys(device, this.props.labelLang!),
+      Basic,
+      Functions,
+      Layer,
+      Device,
       // Macro: genKeys(KeyCategory.macro()),
-      Special: genKeys(special, this.props.labelLang!),
-      Midi: genKeys(midi, this.props.labelLang!),
+      Special,
+      Midi,
     };
     if (this.props.bleMicroPro && !macroEditMode) {
       this.addBmpCategory(categoryKeys, macroEditMode);

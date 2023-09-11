@@ -51,7 +51,8 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       this.props.enqueueSnackbar(item.message, {
         key: item.key,
         variant: item.type,
-        autoHideDuration: 5000,
+        // autoHideDuration: 8000,
+        persist: true,
         onExited: (event, key: React.ReactText) => {
           this.props.removeNotification!(key as string);
           this.removeDisplayedNotification(key as string);
