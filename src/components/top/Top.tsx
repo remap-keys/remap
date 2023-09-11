@@ -96,16 +96,9 @@ export default function Top(props: TopPropsType) {
         </Toolbar>
       </AppBar>
       <Alert severity="warning">
-        <strong>Warning: </strong>
-        There is an issue about internal key code structures/values between
-        current Remap and latest QMK Firmware. Remap cannot customize key
-        mappings normally for firmwares built on and after November 26, 2022.
-        See{' '}
-        <Link
-          href="https://github.com/remap-keys/remap/issues/751"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <strong>Warning: </strong>The new version of Remap is now available.
+        This environment is for QMK Firmware 0.18.17 or lower. See{' '}
+        <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
           more detail
         </Link>
         .
