@@ -9,12 +9,20 @@
         "function": "sitemap"
       },
       {
-        "source": "/catalog/**",
-        "function": "catalog"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/catalog/:keyboard_id/:path",
+        "destination": "https://remap-keys.app/catalog/:keyboard_id/:path",
+        "type": 301
+      },
+      {
+        "source": "/catalog/:keyboard_id",
+        "destination": "https://remap-keys.app/catalog/:keyboard_id",
+        "type": 301
       }
     ]
   },
