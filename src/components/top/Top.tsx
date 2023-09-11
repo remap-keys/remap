@@ -96,8 +96,9 @@ export default function Top(props: TopPropsType) {
         </Toolbar>
       </AppBar>
       <Alert severity="warning">
-        <strong>Warning: </strong>The new version of Remap is now available.
-        This environment is for QMK Firmware 0.18.17 or lower. See{' '}
+        <strong>Warning: </strong>[Sep 11th 2023] The new version of Remap is
+        now available. This environment is for QMK Firmware 0.18.17 or lower.
+        See{' '}
         <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
           more detail
         </Link>
