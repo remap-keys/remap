@@ -13,6 +13,7 @@ import TermsOfUse from './termsofuse/TermsOfUse';
 import Faq from './faq/Faq';
 import Index from './index/Index';
 import { useParams } from 'react-router-dom';
+import SupportQmk022 from './support-qmk-022/SupportQmk022';
 
 type RouteParams = {
   docId: string;
@@ -46,6 +47,9 @@ export default function Documents(props: DocumentsPropsType) {
   } else if (docId === 'faq') {
     page = <Faq />;
     sendEventToGoogleAnalytics('docs/faq');
+  } else if (docId === 'support-qmk-022') {
+    page = <SupportQmk022 />;
+    sendEventToGoogleAnalytics('docs/support-qmk-022');
   } else {
     page = <Index />;
   }
