@@ -16,6 +16,7 @@ import { KeymapCategory } from '../../../services/hid/KeycodeList';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, TextField, InputAdornment } from '@mui/material';
+import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 
 const store = createStore(
   reducers,
@@ -143,6 +144,8 @@ class KeycodesLeftSub extends Keycodes {
 }
 
 export const Keycodes_Subcategory = () => {
+  const keyboardDefinition: KeyboardDefinitionSchema =
+    {} as KeyboardDefinitionSchema;
   return (
     <Keycodes
       layerCount={4}
@@ -151,11 +154,14 @@ export const Keycodes_Subcategory = () => {
       macroMaxCount={15}
       macroMaxBufferSize={512}
       macroBufferBytes={new Uint8Array(512)}
+      keyboardDefinition={keyboardDefinition}
     />
   );
 };
 
 export const Keycodes_DoubleWidth = () => {
+  const keyboardDefinition: KeyboardDefinitionSchema =
+    {} as KeyboardDefinitionSchema;
   return (
     <div className="keycodes-2width">
       <Keycodes
@@ -165,12 +171,15 @@ export const Keycodes_DoubleWidth = () => {
         macroMaxCount={15}
         macroMaxBufferSize={512}
         macroBufferBytes={new Uint8Array(512)}
+        keyboardDefinition={keyboardDefinition}
       />
     </div>
   );
 };
 
 export const Keycodes_LeftSubcategory = () => {
+  const keyboardDefinition: KeyboardDefinitionSchema =
+    {} as KeyboardDefinitionSchema;
   return (
     <div className="keycodes-left-subcategory">
       <KeycodesLeftSub
@@ -180,6 +189,7 @@ export const Keycodes_LeftSubcategory = () => {
         macroMaxCount={15}
         macroMaxBufferSize={512}
         macroBufferBytes={new Uint8Array(512)}
+        keyboardDefinition={keyboardDefinition}
       />
     </div>
   );
