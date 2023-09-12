@@ -65,6 +65,8 @@ export type KeymapCategory =
   | 'bluetooth'
   | 'repeat_key'
   | 'leader_key'
+  | 'key_lock'
+  | 'caps_word'
   | 'misc';
 
 function isDefinedKey(ret: {

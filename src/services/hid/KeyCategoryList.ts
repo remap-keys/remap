@@ -44,6 +44,7 @@ export class KeyCategory {
     );
 
     const looseKeycodes: number[] = [
+      ...KEY_SUB_CATEGORY_GRAVE_ESCAPE.codes,
       ...KEY_SUB_CATEGORY_SPACE_CADET_SHIFT.codes,
     ];
     const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
@@ -162,6 +163,8 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_TAPPING_TERM.codes,
       ...KEY_SUB_CATEGORY_AUTO_CORRECT.codes,
       ...KEY_SUB_CATEGORY_REPEAT_KEY.codes,
+      ...KEY_SUB_CATEGORY_KEY_LOCK.codes,
+      ...KEY_SUB_CATEGORY_CAPS_WORD.codes,
       ...KEY_SUB_CATEGORY_STENO.codes,
       ...KEY_SUB_CATEGORY_UNICODE_MODE.codes,
     ];
@@ -331,7 +334,19 @@ export const KEY_SUB_CATEGORY_LANGUAGE: IKeycodeCategoryInfo = {
 // Caps Lock, Scroll Lock, Num Lock, Locking Caps Lock, Locking Num Lock, Locking Scroll Lock
 export const KEY_SUB_CATEGORY_LOCK: IKeycodeCategoryInfo = {
   kinds: ['function', 'lock'],
-  codes: [0x39, 0x47, 0x53, 0x82, 0x83, 0x84, 0x7c59, 0x7c73],
+  codes: [0x39, 0x47, 0x53, 0x82, 0x83, 0x84],
+};
+
+// Caps Word
+export const KEY_SUB_CATEGORY_CAPS_WORD: IKeycodeCategoryInfo = {
+  kinds: ['special', 'caps_word'],
+  codes: [0x7c73],
+};
+
+// Key Lock
+export const KEY_SUB_CATEGORY_KEY_LOCK: IKeycodeCategoryInfo = {
+  kinds: ['special', 'key_lock'],
+  codes: [0x7c59],
 };
 
 // - = ` [ ] | \ NUHS ; ' , . / NUBS
@@ -339,8 +354,14 @@ export const KEY_SUB_CATEGORY_PUNCTUATION: IKeycodeCategoryInfo = {
   kinds: ['symbol', 'punctuation'],
   codes: [
     0x2d, 0x2e, 0x35, 0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x36, 0x37, 0x38,
-    0x64, 0x7c16,
+    0x64,
   ],
+};
+
+// Grave Escape
+export const KEY_SUB_CATEGORY_GRAVE_ESCAPE: IKeycodeCategoryInfo = {
+  kinds: ['symbol', 'grave_escape'],
+  codes: [0x7c16],
 };
 
 // Num 1, Num 2, Num 3, Num 4, Num 5, Num 6, Num 7, Num 8, Num 9, Num 0, Num +, Num -, Num *, Num /, Num =, Num ,, Num = AS400, Num ., Num Enter,
