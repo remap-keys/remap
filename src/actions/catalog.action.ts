@@ -6,7 +6,7 @@ import {
 } from '../store/state';
 import { IEncoderKeymaps, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { AbstractKeymapData } from '../services/storage/Storage';
+import { AbstractKeymapData, isSuccessful } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
   AppActions,
@@ -239,9 +239,11 @@ export const catalogActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.fetchSharedKeymap(keymapId);
-      if (result.success) {
+      if (isSuccessful(result)) {
         dispatch(
-          await catalogActionsThunk.applySharedKeymapData(result.sharedKeymap!)
+          await catalogActionsThunk.applySharedKeymapData(
+            result.value.sharedKeymap
+          )
         );
       } else {
         console.error(result.error);

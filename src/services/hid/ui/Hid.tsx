@@ -8,8 +8,6 @@ import {
   DynamicKeymapMacroGetBufferCommand,
   DynamicKeymapReadBufferCommand,
   DynamicKeymapSetEncoderCommand,
-  LightingGetValueCommand,
-  LightingSetValueCommand,
 } from '../Commands';
 import { IKeyboard } from '../Hid';
 import KeycodeArray from '../assets/keycodes.json';
@@ -294,25 +292,23 @@ const Hid = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const value = Number(event.target.value);
-    const command = new LightingSetValueCommand(
-      { lightingValue: 'qmkRgblightEffect', value1: value, value2: 0 },
-      async (result) => {
-        console.log(result);
-        setLightingKind(result.response!.value1);
-      }
-    );
-    await keyboard!.enqueue(command);
+    const result = await keyboard!.updateRGBLightEffect(value);
+    if (result.success) {
+      setLightingKind(value);
+    } else {
+      setMessage(result.error!);
+      console.log(result.cause);
+    }
   };
 
   const handleGetLightingKindClick = async () => {
-    const command = new LightingGetValueCommand(
-      { lightingValue: 'qmkRgblightEffect' },
-      async (result) => {
-        console.log(result);
-        setLightingKind(result.response!.value1);
-      }
-    );
-    await keyboard!.enqueue(command);
+    const result = await keyboard!.fetchRGBLightEffect();
+    if (result.success) {
+      setLightingKind(result.mode!);
+    } else {
+      setMessage(result.error!);
+      console.log(result.cause);
+    }
   };
 
   const handleGetLightingTestClick = async () => {

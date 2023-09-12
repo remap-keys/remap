@@ -10,7 +10,6 @@ import {
   IFetchMyKeyboardDefinitionDocumentsResult,
   IKeyboardDefinitionDocument,
   IKeyboardDefinitionStatus,
-  IResult,
   IStorage,
   SavedKeymapData,
   ISavedKeymapResult,
@@ -32,6 +31,10 @@ import {
   IKeyboardDefinitionAuthorType,
   IFetchOrganizationMembersResult,
   IFetchAllOrganizationsResult,
+  successResultOf,
+  errorResultOf,
+  IEmptyResult,
+  successResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -71,11 +74,10 @@ export class FirebaseProvider implements IStorage, IAuth {
   private createResult(
     documentSnapshot: firebase.firestore.QueryDocumentSnapshot
   ): IFetchKeyboardDefinitionDocumentResult {
-    return {
-      success: true,
+    return successResultOf({
       exists: true,
       document: this.generateKeyboardDefinitionDocument(documentSnapshot),
-    };
+    });
   }
 
   private generateKeyboardDefinitionDocument(
@@ -154,24 +156,21 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc(definitionId)
         .get();
       if (documentSnapshot.exists) {
-        return {
-          success: true,
+        return successResultOf({
           exists: true,
           document: this.generateKeyboardDefinitionDocument(documentSnapshot),
-        };
+        });
       } else {
-        return {
-          success: true,
+        return successResultOf({
           exists: false,
-        };
+        });
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching the keyboard definition document failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Fetching the keyboard definition document failed',
+        error
+      );
     }
   }
 
@@ -206,19 +205,17 @@ export class FirebaseProvider implements IStorage, IAuth {
           definitionMap[doc.id] = this.generateKeyboardDefinitionDocument(doc);
         });
       }
-      return {
-        success: true,
+      return successResultOf({
         documents: Object.values(definitionMap).sort(
           (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()
         ),
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching the keyboard definition document failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Fetching the keyboard definition document failed',
+        error
+      );
     }
   }
 
@@ -246,25 +243,22 @@ export class FirebaseProvider implements IStorage, IAuth {
         console.warn(
           `Keyboard definition not found: ${vendorId}:${productId}:${productName}`
         );
-        return {
-          success: true,
+        return successResultOf({
           exists: false,
-        };
+        });
       } else if (docs.length > 1) {
-        return {
-          success: false,
-          error: `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`,
-        };
+        return errorResultOf(
+          `There are duplicate keyboard definition documents: ${vendorId}:${productId}:${productName}`
+        );
       } else {
         return this.createResult(docs[0]);
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching the keyboard definition document failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Fetching the keyboard definition document failed',
+        error
+      );
     }
   }
 
@@ -272,7 +266,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     definitionId: string,
     name: string,
     jsonStr: string
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const now = new Date();
       await this.db
@@ -285,16 +279,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           name,
           updated_at: now,
         });
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Updating the Keyboard Definition JSON content failed.',
-        cause: error,
-      };
+      return errorResultOf(
+        'Updating the Keyboard Definition JSON content failed.',
+        error
+      );
     }
   }
 
@@ -317,7 +308,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     authorType: IKeyboardDefinitionAuthorType,
     organizationId: string | undefined,
     status: IKeyboardDefinitionStatus
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const now = new Date();
       const data: any = {
@@ -350,16 +341,10 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('definitions')
         .doc(definitionId)
         .update(data);
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Updating the Keyboard Definition failed.',
-        cause: error,
-      };
+      return errorResultOf('Updating the Keyboard Definition failed.', error);
     }
   }
 
@@ -370,7 +355,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     stores: IStore[],
     websiteUrl: string,
     additionalDescriptions: IAdditionalDescription[]
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const now = new Date();
       await this.db
@@ -386,16 +371,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           website_url: websiteUrl,
           additional_descriptions: additionalDescriptions,
         });
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Updating the Keyboard Definition for Catalog failed.',
-        cause: error,
-      };
+      return errorResultOf(
+        'Updating the Keyboard Definition for Catalog failed.',
+        error
+      );
     }
   }
 
@@ -461,23 +443,18 @@ export class FirebaseProvider implements IStorage, IAuth {
         github_email: githubEmail,
         github_uid: githubUid,
       });
-      return {
-        success: true,
+      return successResultOf({
         definitionId: definitionDocumentReference.id,
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Creating a new Keyboard Definition failed.',
-        cause: error,
-      };
+      return errorResultOf('Creating a new Keyboard Definition failed.', error);
     }
   }
 
   async deleteKeyboardDefinitionDocument(
     definitionId: string
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       await this.db
         .collection('keyboards')
@@ -493,16 +470,10 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('definitions')
         .doc(definitionId)
         .delete();
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Deleting the keyboard definition failed.',
-        cause: error,
-      };
+      return errorResultOf('Deleting the keyboard definition failed.', error);
     }
   }
 
@@ -685,10 +656,9 @@ export class FirebaseProvider implements IStorage, IAuth {
       snapshot,
       info
     );
-    return {
-      success: true,
+    return successResultOf({
       savedKeymaps: keymaps,
-    };
+    });
   }
 
   async fetchSharedKeymaps(
@@ -711,10 +681,9 @@ export class FirebaseProvider implements IStorage, IAuth {
         (keymap) => keymap.author_uid !== this.auth.currentUser!.uid
       );
     }
-    return {
-      success: true,
+    return successResultOf({
       savedKeymaps: keymaps,
-    };
+    });
   }
 
   filterKeymapsByProductName<T extends AbstractKeymapData>(
@@ -754,7 +723,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     return keymaps;
   }
 
-  async createSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
+  async createSavedKeymap(keymapData: SavedKeymapData): Promise<IEmptyResult> {
     try {
       const now = new Date();
       await this.db
@@ -767,17 +736,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           updated_at: now,
         });
 
-      return { success: true };
+      return successResult();
     } catch (error) {
-      return {
-        success: false,
-        error: 'Creating a new Keymap failed.',
-        cause: error,
-      };
+      return errorResultOf('Creating a new Keymap failed.', error);
     }
   }
 
-  async updateSavedKeymap(keymapData: SavedKeymapData): Promise<IResult> {
+  async updateSavedKeymap(keymapData: SavedKeymapData): Promise<IEmptyResult> {
     try {
       const now = new Date();
       const keymapDataId = keymapData.id!;
@@ -794,17 +759,13 @@ export class FirebaseProvider implements IStorage, IAuth {
           updated_at: now,
         });
 
-      return { success: true };
+      return successResult();
     } catch (error) {
-      return {
-        success: false,
-        error: 'Updating a new Keymap failed.',
-        cause: error,
-      };
+      return errorResultOf('Updating a new Keymap failed.', error);
     }
   }
 
-  async deleteSavedKeymap(keymapId: string): Promise<IResult> {
+  async deleteSavedKeymap(keymapId: string): Promise<IEmptyResult> {
     try {
       await this.db
         .collection('keymaps')
@@ -813,19 +774,15 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc(keymapId)
         .delete();
 
-      return { success: true };
+      return successResult();
     } catch (error) {
-      return {
-        success: false,
-        error: 'Deleting a new Keymap failed.',
-        cause: error,
-      };
+      return errorResultOf('Deleting a new Keymap failed.', error);
     }
   }
 
   async createOrUpdateAppliedKeymap(
     keymapData: AbstractKeymapData
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const savedKeymapId = isAppliedKeymapDataInstance(keymapData)
         ? (keymapData as AppliedKeymapData).saved_keymap_id
@@ -862,9 +819,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           .doc('v1')
           .collection('applied-keymaps')
           .add(appliedKeymapData);
-        return {
-          success: true,
-        };
+        return successResult();
       } else if (appliedKeymapsSnapshot.size === 1) {
         // Update
         const appliedKeymapDoc = appliedKeymapsSnapshot.docs[0];
@@ -883,21 +838,17 @@ export class FirebaseProvider implements IStorage, IAuth {
             encoderKeycodes: keymapData.encoderKeycodes,
             updated_at: new Date(),
           });
-        return {
-          success: true,
-        };
+        return successResult();
       } else {
-        return {
-          success: false,
-          error: `Duplicated applied-keymap data found. The count is ${appliedKeymapsSnapshot.size}`,
-        };
+        return errorResultOf(
+          `Duplicated applied-keymap data found. The count is ${appliedKeymapsSnapshot.size}`
+        );
       }
     } catch (error) {
-      return {
-        success: false,
-        error: 'Creating or updating an applied Keymap failed.',
-        cause: error,
-      };
+      return errorResultOf(
+        'Creating or updating an applied Keymap failed.',
+        error
+      );
     }
   }
 
@@ -917,10 +868,9 @@ export class FirebaseProvider implements IStorage, IAuth {
       snapshot,
       info
     );
-    return {
-      success: true,
+    return successResultOf({
       appliedKeymaps: keymaps,
-    };
+    });
   }
 
   async fetchSharedKeymap(keymapId: string): Promise<IFetchSharedKeymapResult> {
@@ -936,23 +886,18 @@ export class FirebaseProvider implements IStorage, IAuth {
           id: keymapSnapshot.id,
           ...(keymapSnapshot.data() as SavedKeymapData),
         };
-        return {
-          success: true,
+        return successResultOf({
           sharedKeymap: data,
-        };
+        });
       } else {
-        return {
-          success: false,
-          error: `Shared keymap data [${keymapId}] not found.`,
-        };
+        return errorResultOf(`Shared keymap data [${keymapId}] not found.`);
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: `Fetching shared keymap [${keymapId}] failed.`,
-        cause: error,
-      };
+      return errorResultOf(
+        `Fetching shared keymap [${keymapId}] failed.`,
+        error
+      );
     }
   }
 
@@ -980,20 +925,17 @@ export class FirebaseProvider implements IStorage, IAuth {
         query = query.where('organization_id', '==', organizationId);
       }
       const querySnapshot = await query.get();
-      return {
-        success: true,
+      return successResultOf({
         documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
           this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
         ),
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error:
-          'Searching the keyboard definition document with features failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Searching the keyboard definition document with features failed',
+        error
+      );
     }
   }
 
@@ -1008,25 +950,21 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc(definitionId)
         .get();
       if (documentSnapshot.exists) {
-        return {
-          success: true,
+        return successResultOf({
           exists: true,
           document: this.generateKeyboardDefinitionDocument(documentSnapshot),
-        };
+        });
       } else {
-        return {
-          success: false,
-          exists: false,
-          error: `The keyboard definition [${definitionId}] not found`,
-        };
+        return errorResultOf(
+          `The keyboard definition [${definitionId}] not found`
+        );
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching the keyboard definition document failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Fetching the keyboard definition document failed',
+        error
+      );
     }
   }
 
@@ -1043,12 +981,11 @@ export class FirebaseProvider implements IStorage, IAuth {
           .where('author_type', '==', 'individual')
           .where('author_uid', '==', definitionDocument.authorUid)
           .get();
-        return {
-          success: true,
+        return successResultOf({
           documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
             this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
           ),
-        };
+        });
       } else {
         const querySnapshot = await this.db
           .collection('keyboards')
@@ -1058,20 +995,18 @@ export class FirebaseProvider implements IStorage, IAuth {
           .where('author_type', '==', 'organization')
           .where('organization_id', '==', definitionDocument.organizationId)
           .get();
-        return {
-          success: true,
+        return successResultOf({
           documents: querySnapshot.docs.map((queryDocumentSnapshot) =>
             this.generateKeyboardDefinitionDocument(queryDocumentSnapshot)
           ),
-        };
+        });
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching the keyboards created by same author failed',
-        cause: error,
-      };
+      return errorResultOf(
+        'Fetching the keyboards created by same author failed',
+        error
+      );
     }
   }
 
@@ -1086,9 +1021,9 @@ export class FirebaseProvider implements IStorage, IAuth {
     keyboardName: string,
     // eslint-disable-next-line no-unused-vars
     progress?: (uploadedRate: number) => void
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, reject) => {
       const filename = FirebaseProvider.createFirmwareFilename(
         keyboardName,
         firmwareFile,
@@ -1107,11 +1042,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         },
         (error) => {
           console.error(error);
-          resolve({
-            success: false,
-            error: 'Uploading firmware file failed.',
-            cause: error,
-          });
+          resolve(errorResultOf('Uploading firmware file failed.', error));
         },
         async () => {
           const hash = crypto
@@ -1136,9 +1067,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             .update({
               firmwares: firebase.firestore.FieldValue.arrayUnion(data),
             });
-          resolve({
-            success: true,
-          });
+          resolve(successResult());
         }
       );
     });
@@ -1196,22 +1125,20 @@ export class FirebaseProvider implements IStorage, IAuth {
         );
       }
 
-      return {
-        success: true,
+      return successResultOf({
         blob,
-      };
+      });
     } else {
-      return {
-        success: false,
-        error: `Fetching firmware file failed. status=${response.status}`,
-      };
+      return errorResultOf(
+        `Fetching firmware file failed. status=${response.status}`
+      );
     }
   }
 
   async deleteFirmware(
     definitionId: string,
     firmware: IFirmware
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     const definitionDocument = await this.db
       .collection('keyboards')
       .doc('v2')
@@ -1231,14 +1158,11 @@ export class FirebaseProvider implements IStorage, IAuth {
       });
       const storageRef = this.storage.ref(firmware.filename);
       await storageRef.delete();
-      return {
-        success: true,
-      };
+      return successResult();
     } else {
-      return {
-        success: false,
-        error: `The keyboard definition[${definitionId}] not found`,
-      };
+      return errorResultOf(
+        `The keyboard definition[${definitionId}] not found`
+      );
     }
   }
 
@@ -1250,7 +1174,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
     defaultBootloaderType: IBootloaderType
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     const definitionDocument = await this.db
       .collection('keyboards')
       .doc('v2')
@@ -1275,14 +1199,11 @@ export class FirebaseProvider implements IStorage, IAuth {
       await definitionDocument.ref.update({
         firmwares: newFirmwares,
       });
-      return {
-        success: true,
-      };
+      return successResult();
     } else {
-      return {
-        success: false,
-        error: `The keyboard definition[${definitionId}] not found`,
-      };
+      return errorResultOf(
+        `The keyboard definition[${definitionId}] not found`
+      );
     }
   }
 
@@ -1291,9 +1212,9 @@ export class FirebaseProvider implements IStorage, IAuth {
     file: File,
     // eslint-disable-next-line no-unused-vars
     progress: (uploadedRate: number) => void
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, reject) => {
       const uploadTask = this.storage.ref(`/catalog/${definitionId}`).put(file);
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
@@ -1303,11 +1224,9 @@ export class FirebaseProvider implements IStorage, IAuth {
         },
         (error) => {
           console.error(error);
-          resolve({
-            success: false,
-            error: 'Uploading keyboard catalog image failed.',
-            cause: error,
-          });
+          resolve(
+            errorResultOf('Uploading keyboard catalog image failed.', error)
+          );
         },
         async () => {
           const thumbnailImageUrl = await this.storage
@@ -1326,9 +1245,7 @@ export class FirebaseProvider implements IStorage, IAuth {
               image_url: imageUrl,
               updated_at: new Date(),
             });
-          resolve({
-            success: true,
-          });
+          resolve(successResult());
         }
       );
     });
@@ -1339,9 +1256,9 @@ export class FirebaseProvider implements IStorage, IAuth {
     file: File,
     // eslint-disable-next-line no-unused-vars
     progress: (uploadedRate: number) => void
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, reject) => {
       const timestamp = new Date().getTime();
       const uploadTask = this.storage
         .ref(`/catalog/${definitionId}_${timestamp}`)
@@ -1354,11 +1271,9 @@ export class FirebaseProvider implements IStorage, IAuth {
         },
         (error) => {
           console.error(error);
-          resolve({
-            success: false,
-            error: 'Uploading keyboard catalog image failed.',
-            cause: error,
-          });
+          resolve(
+            errorResultOf('Uploading keyboard catalog image failed.', error)
+          );
         },
         () => {
           setTimeout(async () => {
@@ -1389,14 +1304,13 @@ export class FirebaseProvider implements IStorage, IAuth {
                   sub_images: subImages,
                   updated_at: new Date(),
                 });
-              resolve({
-                success: true,
-              });
+              resolve(successResult());
             } else {
-              resolve({
-                success: false,
-                error: `The target keyboard definition document [${definitionId}} not found.`,
-              });
+              resolve(
+                errorResultOf(
+                  `The target keyboard definition document [${definitionId}} not found.`
+                )
+              );
             }
           }, 5000);
         }
@@ -1407,7 +1321,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   async deleteKeyboardCatalogSubImage(
     definitionId: string,
     subImageIndex: number
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     const documentSnapshot = await this.db
       .collection('keyboards')
       .doc('v2')
@@ -1428,14 +1342,11 @@ export class FirebaseProvider implements IStorage, IAuth {
           sub_images: newSubImages,
           updated_at: new Date(),
         });
-      return {
-        success: true,
-      };
+      return successResult();
     } else {
-      return {
-        success: false,
-        error: `The target keyboard definition document [${definitionId}} not found.`,
-      };
+      return errorResultOf(
+        `The target keyboard definition document [${definitionId}} not found.`
+      );
     }
   }
 
@@ -1449,18 +1360,16 @@ export class FirebaseProvider implements IStorage, IAuth {
       .doc(organizationId)
       .get();
     if (documentSnapshot.exists) {
-      return {
-        success: true,
+      return successResultOf({
         organization: {
           id: documentSnapshot.id,
           ...documentSnapshot.data(),
         } as IOrganization,
-      };
+      });
     } else {
-      return {
-        success: false,
-        error: `The target organization document [${organizationId}] not found.`,
-      };
+      return errorResultOf(
+        `The target organization document [${organizationId}] not found.`
+      );
     }
   }
 
@@ -1482,23 +1391,17 @@ export class FirebaseProvider implements IStorage, IAuth {
             ...documentSnapshot.data(),
           } as IOrganization;
         } else {
-          return {
-            success: false,
-            error: `The organization[${organizationId}}] not found`,
-          };
+          return errorResultOf(
+            `The organization[${organizationId}}] not found`
+          );
         }
       }
-      return {
-        success: true,
+      return successResultOf({
         organizationMap,
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching organizations failed',
-        cause: error,
-      };
+      return errorResultOf('Fetching organizations failed', error);
     }
   }
 
@@ -1510,8 +1413,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('profiles')
         .where('members', 'array-contains', this.auth.currentUser!.uid)
         .get();
-      return {
-        success: true,
+      return successResultOf({
         organizationMap: querySnapshot.docs.reduce((result, doc) => {
           result[doc.id] = {
             id: doc.id,
@@ -1521,14 +1423,10 @@ export class FirebaseProvider implements IStorage, IAuth {
           } as IOrganization;
           return result;
         }, {} as Record<string, IOrganization>),
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching my organizations failed',
-        cause: error,
-      };
+      return errorResultOf('Fetching my organizations failed', error);
     }
   }
 
@@ -1539,8 +1437,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .doc('v1')
         .collection('profiles')
         .get();
-      return {
-        success: true,
+      return successResultOf({
         organizationMap: querySnapshot.docs.reduce((result, doc) => {
           result[doc.id] = {
             id: doc.id,
@@ -1550,14 +1447,10 @@ export class FirebaseProvider implements IStorage, IAuth {
           } as IOrganization;
           return result;
         }, {} as Record<string, IOrganization>),
-      };
+      });
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: 'Fetching all organizations failed',
-        cause: error,
-      };
+      return errorResultOf('Fetching all organizations failed', error);
     }
   }
 
@@ -1573,31 +1466,26 @@ export class FirebaseProvider implements IStorage, IAuth {
       });
       const data = fetchOrganizationMembersResult.data;
       if (data.success) {
-        return {
-          success: true,
+        return successResultOf({
           members: data.members,
-        };
+        });
       } else {
         console.error(data.errorMessage);
-        return {
-          success: false,
-          error: data.errorMessage,
-        };
+        return errorResultOf(data.errorMessage);
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: `Fetching Organization Members failed: ${error}`,
-        cause: error,
-      };
+      return errorResultOf(
+        `Fetching Organization Members failed: ${error}`,
+        error
+      );
     }
   }
 
   async addOrganizationMember(
     organizationId: string,
     email: string
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const addOrganizationMember = this.functions.httpsCallable(
         'addOrganizationMember'
@@ -1608,30 +1496,24 @@ export class FirebaseProvider implements IStorage, IAuth {
       });
       const data = addOrganizationMemberResult.data;
       if (data.success) {
-        return {
-          success: true,
-        };
+        return successResult();
       } else {
         console.error(data.errorMessage);
-        return {
-          success: false,
-          error: data.errorMessage,
-        };
+        return errorResultOf(data.errorMessage);
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: `Adding Organization Member failed: ${error}`,
-        cause: error,
-      };
+      return errorResultOf(
+        `Adding Organization Member failed: ${error}`,
+        error
+      );
     }
   }
 
   async deleteOrganizationMember(
     organizationId: string,
     uid: string
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const deleteOrganizationMember = this.functions.httpsCallable(
         'deleteOrganizationMember'
@@ -1642,23 +1524,17 @@ export class FirebaseProvider implements IStorage, IAuth {
       });
       const data = deleteOrganizationMemberResult.data;
       if (data.success) {
-        return {
-          success: true,
-        };
+        return successResult();
       } else {
         console.error(data.errorMessage);
-        return {
-          success: false,
-          error: data.errorMessage,
-        };
+        return errorResultOf(data.errorMessage);
       }
     } catch (error) {
       console.error(error);
-      return {
-        success: false,
-        error: `Deleting Organization Member failed: ${error}`,
-        cause: error,
-      };
+      return errorResultOf(
+        `Deleting Organization Member failed: ${error}`,
+        error
+      );
     }
   }
 }

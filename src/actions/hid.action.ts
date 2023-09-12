@@ -307,6 +307,20 @@ export const hidActionsThunk = {
         return;
       }
       const viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
+
+      // If the VIA protocol version of the connected keyboard is less than 0x0C,
+      // show warning message and close the keyboard.
+      if (viaProtocolVersion < 0x0c) {
+        dispatch(
+          NotificationActions.addWarn(
+            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. Use "Remap for QMK 0.18" to customize the keyboard.`
+          )
+        );
+        await dispatch(hidActionsThunk.closeOpenedKeyboard());
+        dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
+        return;
+      }
+
       dispatch(HidActions.updateViaProtocolVersion(viaProtocolVersion));
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {
@@ -572,15 +586,16 @@ export const hidActionsThunk = {
       const { app, entities } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
 
-      const result = await keyboard.fetchSwitchMatrixState();
+      const rows = entities.keyboardDefinition!.matrix.rows;
+      const cols = entities.keyboardDefinition!.matrix.cols;
+
+      const result = await keyboard.fetchSwitchMatrixState(rows, cols);
       if (!result.success) {
         console.error(result.cause);
         dispatch(NotificationActions.addError(result.error!, result.cause));
         return;
       }
 
-      const rows = entities.keyboardDefinition!.matrix.rows;
-      const cols = entities.keyboardDefinition!.matrix.cols;
       const state = result.state!;
 
       let i = 0;

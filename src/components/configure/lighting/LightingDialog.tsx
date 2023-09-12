@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Draggable from 'react-draggable';
 import Lighting, { defaultUnderglowEffects, Hsv } from './Lighting';
 import { IKeyboard } from '../../../services/hid/Hid';
+import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 
 type LightingType =
   | undefined
@@ -38,6 +39,7 @@ type OwnProps = {
   onClose: () => void;
   keyboard: IKeyboard;
   lightingDef: LightingType | undefined;
+  definition: KeyboardDefinitionSchema;
 };
 
 type OwnState = {};
@@ -65,11 +67,18 @@ export default class LightingDialog extends React.Component<
   }
 
   static isLightingAvailable(lighting: LightingType | undefined): boolean {
+    return (
+      LightingDialog.isBacklightAvailable(lighting) ||
+      LightingDialog.isRgbLightAvailable(lighting)
+    );
+  }
+
+  static isBacklightAvailable(lighting: LightingType | undefined): boolean {
     if (!lighting) return false;
 
     if (typeof lighting === 'string') {
       return (
-        0 <= lighting.indexOf('rgblight') || 0 <= lighting.indexOf('backlight')
+        lighting === 'qmk_backlight' || lighting === 'qmk_backlight_rgblight'
       );
     }
 
@@ -77,7 +86,23 @@ export default class LightingDialog extends React.Component<
       return false;
     }
 
-    return true;
+    return lighting.extends === 'qmk_backlight';
+  }
+
+  static isRgbLightAvailable(lighting: LightingType | undefined): boolean {
+    if (!lighting) return false;
+
+    if (typeof lighting === 'string') {
+      return (
+        lighting === 'qmk_rgblight' || lighting === 'qmk_backlight_rgblight'
+      );
+    }
+
+    if (!lighting.extends) {
+      return false;
+    }
+
+    return lighting.extends === 'qmk_rgblight';
   }
 
   private initLighting() {
@@ -173,6 +198,7 @@ export default class LightingDialog extends React.Component<
           <Lighting
             underglowEffects={this.underglowEffects}
             keyboard={this.props.keyboard}
+            definition={this.props.definition}
             showBacklight={this.showBacklight}
             showUnderglow={this.showUnderglow}
             onChangeUnderglow={(underglow) => {

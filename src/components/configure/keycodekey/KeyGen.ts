@@ -1,20 +1,15 @@
 import { getMetaLabel, KeyLabel } from '../../../services/labellang/KeyLabel';
-import {
-  IMod,
-  MOD_ALT,
-  MOD_LEFT,
-  MOD_RIGHT,
-  MOD_SFT,
-} from '../../../services/hid/Composition';
+import { IMod, MOD_ALT, MOD_SFT } from '../../../services/hid/Composition';
 import { IKeymap } from '../../../services/hid/Hid';
 import { hexadecimal } from '../../../utils/StringUtils';
 import {
+  KEY_LABEL_LANGS,
   KeyboardLabelLang,
   KeyLabelLangs,
-  KEY_LABEL_LANGS,
 } from '../../../services/labellang/KeyLabelLangs';
 import { mods2Number } from '../customkey/Modifiers';
 import _ from 'lodash';
+import { MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Constraints';
 
 export type Key = {
   label: string;

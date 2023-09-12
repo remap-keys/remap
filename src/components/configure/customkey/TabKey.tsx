@@ -4,11 +4,6 @@ import {
   IMod,
   IModDirection,
   KeycodeCompositionFactory,
-  LayerModComposition,
-  ModsComposition,
-  MOD_LEFT,
-  OneShotModComposition,
-  SwapHandsComposition,
 } from '../../../services/hid/Composition';
 
 import AutocompleteKeys from './AutocompleteKeys';
@@ -18,6 +13,11 @@ import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import { TabKeyActionsType, TabKeyStateType } from './TabKey.container';
 import { IMacroBuffer, MacroBuffer } from '../../../services/macro/Macro';
+import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
+import { OneShotModComposition } from '../../../services/hid/compositions/OneShotModComposition';
+import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
+import { LayerModComposition } from '../../../services/hid/compositions/LayerModComposition';
+import { MOD_LEFT } from '../../../services/hid/Constraints';
 
 type OwnProps = {
   autoFocus: boolean;
@@ -49,7 +49,6 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     return (
       f.isBasic() ||
       f.isMods() ||
-      f.isFunction() ||
       f.isTo() ||
       f.isMomentary() ||
       f.isDefLayer() ||
@@ -86,7 +85,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     function isAvailableModifiers(code: number) {
       const factory = new KeycodeCompositionFactory(code, 'en-us');
       const flag =
-        (factory.isBasic() && !factory.isBasicFunc()) ||
+        factory.isBasic() ||
         factory.isMods() ||
         factory.isLayerMod() ||
         factory.isOneShotMod();
@@ -127,7 +126,6 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     const macroBuffer = this.createMacroBuffer();
     const keymaps = [
       ...KeyCategory.basic(labelLang),
-      ...KeyCategory.symbol(labelLang),
       ...KeyCategory.functions(
         labelLang,
         this.props.keyboardDefinition!.customKeycodes

@@ -27,6 +27,10 @@ import {
 } from './Hid';
 import { KeycodeList } from './KeycodeList';
 import {
+  BacklightGetValueCommand,
+  BacklightSaveCommand,
+  BacklightSetValueCommand,
+  BacklightValueId,
   BleMicroProStoreKeymapPersistentlyCommand,
   DynamicKeymapGetEncoderCommand,
   DynamicKeymapGetLayerCountCommand,
@@ -44,9 +48,11 @@ import {
   IDynamicKeymapMacroGetBufferResponse,
   IDynamicKeymapMacroSetBufferResponse,
   IDynamicKeymapReadBufferResponse,
-  LightingGetValueCommand,
-  LightingSaveCommand,
-  LightingSetValueCommand,
+  ISwitchLayerStateResponse,
+  RgbLightGetValueCommand,
+  RgbLightSaveCommand,
+  RgbLightSetValueCommand,
+  RgbLightValueId,
   SetLayoutOptionsCommand,
   SwitchMatrixStateCommand,
 } from './Commands';
@@ -54,7 +60,7 @@ import {
   IKeycodeCompositionFactory,
   KeycodeCompositionFactory,
 } from './Composition';
-import { outputUint8Array } from '../../utils/ArrayUtils';
+import { concatUint8Array, outputUint8Array } from '../../utils/ArrayUtils';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 
 export class Keyboard implements IKeyboard {
@@ -433,15 +439,15 @@ export class Keyboard implements IKeyboard {
 
   fetchBacklightBrightness(): Promise<IFetchBrightnessResult> {
     return new Promise<IFetchBrightnessResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new BacklightGetValueCommand(
         {
-          lightingValue: 'qmkBacklightBrightness',
+          valueId: BacklightValueId.id_qmk_backlight_brightness,
         },
         async (result) => {
           if (result.success) {
             resolve({
               success: true,
-              brightness: result.response!.value1,
+              brightness: result.response!.value,
             });
           } else {
             resolve({
@@ -458,15 +464,15 @@ export class Keyboard implements IKeyboard {
 
   fetchBacklightEffect(): Promise<IFetchBacklightEffectResult> {
     return new Promise<IFetchBacklightEffectResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new BacklightGetValueCommand(
         {
-          lightingValue: 'qmkBacklightEffect',
+          valueId: BacklightValueId.id_qmk_backlight_effect,
         },
         async (result) => {
           if (result.success) {
             resolve({
               success: true,
-              isBreathing: result.response!.value1 !== 0,
+              isBreathing: result.response!.value !== 0,
             });
           } else {
             resolve({
@@ -483,9 +489,9 @@ export class Keyboard implements IKeyboard {
 
   fetchRGBLightBrightness(): Promise<IFetchBrightnessResult> {
     return new Promise<IFetchBrightnessResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new RgbLightGetValueCommand(
         {
-          lightingValue: 'qmkRgblightBrightness',
+          valueId: RgbLightValueId.id_qmk_rgblight_brightness,
         },
         async (result) => {
           if (result.success) {
@@ -508,9 +514,9 @@ export class Keyboard implements IKeyboard {
 
   fetchRGBLightColor(): Promise<IFetchRGBLightColorResult> {
     return new Promise<IFetchRGBLightColorResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new RgbLightGetValueCommand(
         {
-          lightingValue: 'qmkRgblightColor',
+          valueId: RgbLightValueId.id_qmk_rgblight_color,
         },
         async (result) => {
           if (result.success) {
@@ -534,9 +540,9 @@ export class Keyboard implements IKeyboard {
 
   fetchRGBLightEffect(): Promise<IFetchRGBLightEffectResult> {
     return new Promise<IFetchRGBLightEffectResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new RgbLightGetValueCommand(
         {
-          lightingValue: 'qmkRgblightEffect',
+          valueId: RgbLightValueId.id_qmk_rgblight_effect,
         },
         async (result) => {
           if (result.success) {
@@ -559,9 +565,9 @@ export class Keyboard implements IKeyboard {
 
   fetchRGBLightEffectSpeed(): Promise<IFetchRGBLightEffectSpeedResult> {
     return new Promise<IFetchRGBLightEffectSpeedResult>((resolve) => {
-      const command = new LightingGetValueCommand(
+      const command = new RgbLightGetValueCommand(
         {
-          lightingValue: 'qmkRgblightEffectSpeed',
+          valueId: RgbLightValueId.id_qmk_rgblight_effect_speed,
         },
         async (result) => {
           if (result.success) {
@@ -582,7 +588,7 @@ export class Keyboard implements IKeyboard {
     });
   }
 
-  private sendUpdateAndSaveLightingSettingCommands(
+  private sendUpdateAndSaveBacklightSettingCommands(
     updateCommand: Promise<IResult>
   ): Promise<IResult> {
     return updateCommand.then((result) => {
@@ -591,7 +597,7 @@ export class Keyboard implements IKeyboard {
           resolve(result);
           return;
         }
-        const saveCommand = new LightingSaveCommand({}, async (result) => {
+        const saveCommand = new BacklightSaveCommand({}, async (result) => {
           if (result.success) {
             resolve({
               success: true,
@@ -610,13 +616,12 @@ export class Keyboard implements IKeyboard {
   }
 
   updateBacklightBrightness(brightness: number): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveBacklightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const command = new LightingSetValueCommand(
+        const command = new BacklightSetValueCommand(
           {
-            lightingValue: 'qmkBacklightBrightness',
-            value1: brightness,
-            value2: 0,
+            valueId: BacklightValueId.id_qmk_backlight_brightness,
+            value: brightness,
           },
           async (result) => {
             if (result.success) {
@@ -638,13 +643,12 @@ export class Keyboard implements IKeyboard {
   }
 
   updateBacklightEffect(isBreathing: boolean): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveBacklightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const command = new LightingSetValueCommand(
+        const command = new BacklightSetValueCommand(
           {
-            lightingValue: 'qmkBacklightEffect',
-            value1: isBreathing ? 1 : 0,
-            value2: 0,
+            valueId: BacklightValueId.id_qmk_backlight_effect,
+            value: isBreathing ? 1 : 0,
           },
           async (result) => {
             if (result.success) {
@@ -665,12 +669,39 @@ export class Keyboard implements IKeyboard {
     );
   }
 
+  private sendUpdateAndSaveRgbLightSettingCommands(
+    updateCommand: Promise<IResult>
+  ): Promise<IResult> {
+    return updateCommand.then((result) => {
+      return new Promise<IResult>((resolve) => {
+        if (!result.success) {
+          resolve(result);
+          return;
+        }
+        const saveCommand = new RgbLightSaveCommand({}, async (result) => {
+          if (result.success) {
+            resolve({
+              success: true,
+            });
+          } else {
+            resolve({
+              success: false,
+              error: result.error,
+              cause: result.cause,
+            });
+          }
+        });
+        return this.enqueue(saveCommand);
+      });
+    });
+  }
+
   updateRGBLightBrightness(brightness: number): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveRgbLightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const command = new LightingSetValueCommand(
+        const command = new RgbLightSetValueCommand(
           {
-            lightingValue: 'qmkRgblightBrightness',
+            valueId: RgbLightValueId.id_qmk_rgblight_brightness,
             value1: brightness,
             value2: 0,
           },
@@ -694,11 +725,11 @@ export class Keyboard implements IKeyboard {
   }
 
   updateRGBLightColor(hue: number, sat: number): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveRgbLightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const command = new LightingSetValueCommand(
+        const command = new RgbLightSetValueCommand(
           {
-            lightingValue: 'qmkRgblightColor',
+            valueId: RgbLightValueId.id_qmk_rgblight_color,
             value1: hue,
             value2: sat,
           },
@@ -722,11 +753,11 @@ export class Keyboard implements IKeyboard {
   }
 
   async updateRGBLightEffect(mode: number): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveRgbLightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const updateCommand = new LightingSetValueCommand(
+        const updateCommand = new RgbLightSetValueCommand(
           {
-            lightingValue: 'qmkRgblightEffect',
+            valueId: RgbLightValueId.id_qmk_rgblight_effect,
             value1: mode,
             value2: 0,
           },
@@ -750,11 +781,11 @@ export class Keyboard implements IKeyboard {
   }
 
   updateRGBLightEffectSpeed(speed: number): Promise<IResult> {
-    return this.sendUpdateAndSaveLightingSettingCommands(
+    return this.sendUpdateAndSaveRgbLightSettingCommands(
       new Promise<IResult>((resolve) => {
-        const command = new LightingSetValueCommand(
+        const command = new RgbLightSetValueCommand(
           {
-            lightingValue: 'qmkRgblightEffectSpeed',
+            valueId: RgbLightValueId.id_qmk_rgblight_effect_speed,
             value1: speed,
             value2: 0,
           },
@@ -850,22 +881,54 @@ export class Keyboard implements IKeyboard {
     });
   }
 
-  fetchSwitchMatrixState(): Promise<IResult> {
-    return new Promise<IFetchSwitchMatrixStateResult>((resolve) => {
-      const command = new SwitchMatrixStateCommand({}, async (result) => {
-        if (result.success) {
-          resolve({
-            success: true,
-            state: result.response!.state,
-          });
-        } else {
-          resolve({
-            success: false,
-            error: result.error,
-            cause: result.cause,
-          });
+  async fetchSwitchMatrixState(
+    rows: number,
+    cols: number
+  ): Promise<IFetchSwitchMatrixStateResult> {
+    try {
+      const rowByteLength = Math.ceil(cols / 8);
+      const requestRowCount = Math.floor(28 / rowByteLength);
+      let states: Uint8Array = new Uint8Array(0);
+      for (let offset = 0; offset < rows; offset += requestRowCount) {
+        const requestSize = Math.min(
+          rows * rowByteLength - states.length,
+          rowByteLength * requestRowCount
+        );
+        const response = await this.executeSwitchMatrixStateCommand(offset);
+        const state = response.state;
+        states = concatUint8Array(states, state.slice(0, requestSize));
+      }
+      return {
+        success: true,
+        state: states,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        success: false,
+        error: 'Fetching keymaps failed.',
+        cause: error,
+      };
+    }
+  }
+
+  private async executeSwitchMatrixStateCommand(
+    offset: number
+  ): Promise<ISwitchLayerStateResponse> {
+    return new Promise<ISwitchLayerStateResponse>((resolve, reject) => {
+      const command = new SwitchMatrixStateCommand(
+        {
+          offset,
+        },
+        async (result) => {
+          if (result.success) {
+            resolve(result.response!);
+          } else {
+            console.log(result.cause!);
+            reject(result.error!);
+          }
         }
-      });
+      );
       return this.enqueue(command);
     });
   }

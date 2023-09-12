@@ -1,4 +1,24 @@
 import { IKeymap } from './Hid';
+import {
+  KEY_CATEGORY_ASCII,
+  KEY_SUB_CATEGORY_APPLICATION,
+  KEY_SUB_CATEGORY_COMMAND,
+  KEY_SUB_CATEGORY_DEVICE,
+  KEY_SUB_CATEGORY_EDIT,
+  KEY_SUB_CATEGORY_F,
+  KEY_SUB_CATEGORY_GUI,
+  KEY_SUB_CATEGORY_INTERNATIONAL,
+  KEY_SUB_CATEGORY_LANGUAGE,
+  KEY_SUB_CATEGORY_LETTER,
+  KEY_SUB_CATEGORY_LOCK,
+  KEY_SUB_CATEGORY_MEDIA,
+  KEY_SUB_CATEGORY_MODIFIER,
+  KEY_SUB_CATEGORY_MOUSE,
+  KEY_SUB_CATEGORY_MOVE,
+  KEY_SUB_CATEGORY_NUMBER,
+  KEY_SUB_CATEGORY_NUMPAD,
+  KEY_SUB_CATEGORY_PUNCTUATION,
+} from './KeyCategoryList';
 
 export const CATEGORY_LABEL_ASCII = 'ASCII';
 
@@ -6,20 +26,41 @@ export function macroCodeFilter(keymaps: IKeymap[]): IKeymap[] {
   return keymaps.filter((km) => MACRO_QMK_KEYCODES.includes(km.code));
 }
 
-const MACRO_QMK_KEYCODES = [
-  42, 43, 41, 44, 49, 52, 4, 54, 45, 55, 56, 39, 30, 31, 32, 33, 34, 35, 36, 37,
-  38, 51, 46, 45, 47, 48, 53, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-  18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 76, 40, 50, 57, 58, 59, 60,
-  61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80,
-  81, 82, 83, 84, 83, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-  100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114,
-  115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
-  130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144,
-  145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
-  160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174,
-  119, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189,
-  190, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205,
-  206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220,
-  221, 222, 223, 224, 225, 226, 227, 228, 229, 153, 231, 240, 241, 242, 243,
-  244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
+const MACRO_QMK_KEYCODES: number[] = [
+  // letter
+  ...KEY_SUB_CATEGORY_LETTER.codes,
+  // number
+  ...KEY_SUB_CATEGORY_NUMBER.codes,
+  // mods
+  ...KEY_SUB_CATEGORY_MODIFIER.codes,
+  // edit
+  ...KEY_SUB_CATEGORY_EDIT.codes,
+  // move
+  ...KEY_SUB_CATEGORY_MOVE.codes,
+  // numpad
+  ...KEY_SUB_CATEGORY_NUMPAD.codes,
+  // punctuation
+  ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
+  // F
+  ...KEY_SUB_CATEGORY_F.codes,
+  // international
+  ...KEY_SUB_CATEGORY_INTERNATIONAL.codes,
+  // language
+  ...KEY_SUB_CATEGORY_LANGUAGE.codes,
+  // lock
+  ...KEY_SUB_CATEGORY_LOCK.codes,
+  // device
+  ...KEY_SUB_CATEGORY_DEVICE.codes,
+  // mouse
+  ...KEY_SUB_CATEGORY_MOUSE.codes,
+  // gui
+  ...KEY_SUB_CATEGORY_GUI.codes,
+  // command
+  ...KEY_SUB_CATEGORY_COMMAND.codes,
+  // media
+  ...KEY_SUB_CATEGORY_MEDIA.codes,
+  // app
+  ...KEY_SUB_CATEGORY_APPLICATION.codes,
+  // ascii
+  ...KEY_CATEGORY_ASCII.codes,
 ];

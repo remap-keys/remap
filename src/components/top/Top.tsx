@@ -16,6 +16,7 @@ import './Top.scss';
 import { TopActionsType, TopStateType } from './Top.container';
 import { useNavigate } from 'react-router-dom';
 import {
+  Alert,
   AppBar,
   Button,
   Card,
@@ -23,6 +24,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Link,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -90,6 +92,15 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
+      <Alert severity="info">
+        <strong>Info: </strong>
+        [Sep 11th 2023] The new version of Remap is now available. This
+        environment for latest QMK Firmware version. See{' '}
+        <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
+          more detail
+        </Link>
+        .
+      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">

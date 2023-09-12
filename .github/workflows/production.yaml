@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main
           token: ${{ secrets.INCREMENT_VALUE_PAT }}
       - name: Increment value
-        uses: yoichiro/gh-action-increment-value@main
+        uses: yoichiro/gh-action-increment-value@v5
         with:
           target_directory: 'src/assets/files'
           target_file: 'build-info.json'

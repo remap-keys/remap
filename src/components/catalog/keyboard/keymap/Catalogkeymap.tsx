@@ -7,7 +7,6 @@ import {
 import KeyboardModel from '../../../../models/KeyboardModel';
 import KeyModel from '../../../../models/KeyModel';
 import { IKeymap } from '../../../../services/hid/Hid';
-import { MOD_LEFT } from '../../../../services/hid/Composition';
 import Keycap from '../../../configure/keycap/Keycap.container';
 import { Grid, IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { AbstractKeymapData } from '../../../../services/storage/Storage';
@@ -20,6 +19,7 @@ import { KeymapPdfGenerator } from '../../../../services/pdf/KeymapPdfGenerator'
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import LayerPagination from '../../../common/layer/LayerPagination';
 import { useNavigate } from 'react-router-dom';
+import { MOD_LEFT } from '../../../../services/hid/Constraints';
 
 type OwnProps = {};
 type CatalogKeymapProps = OwnProps &

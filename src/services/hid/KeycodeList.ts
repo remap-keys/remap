@@ -1,10 +1,11 @@
 import { ICustomKeycode, IKeymap } from './Hid';
 import {
-  anyKeymap,
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
 } from './Composition';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
+import { anyKeymap } from './Constraints';
+
 export type KeymapCategory =
   | IKeycodeCompositionKind
   | 'any'
@@ -18,6 +19,7 @@ export type KeymapCategory =
   | 'edit'
   | 'f'
   | 'func'
+  | 'function'
   | 'grave_escape'
   | 'gui'
   | 'int'
@@ -49,7 +51,22 @@ export type KeymapCategory =
   | 'transpose'
   | 'velocity'
   | 'channel'
-  | 'fnmo'
+  | 'tri_layer'
+  | 'auto_shift'
+  | 'space_cadet'
+  | 'unicode_mode'
+  | 'haptic_feedback'
+  | 'dynamic_macro'
+  | 'one_shot_keys'
+  | 'key_override'
+  | 'secure'
+  | 'tapping_term'
+  | 'auto_correct'
+  | 'bluetooth'
+  | 'repeat_key'
+  | 'leader_key'
+  | 'key_lock'
+  | 'caps_word'
   | 'misc';
 
 function isDefinedKey(ret: {
@@ -98,9 +115,6 @@ export class KeycodeList {
     } else if (factory.isMods()) {
       const comp = factory.createModsComposition();
       ret.value = comp.genKeymap() || null;
-    } else if (factory.isFunction()) {
-      const comp = factory.createFunctionComposition();
-      ret.value = comp.genKeymap() || null;
     } else if (factory.isTo()) {
       const comp = factory.createToComposition();
       ret.value = comp.genKeymap() || null;
@@ -147,6 +161,9 @@ export class KeycodeList {
       ret.tapKey = comp.genTapKey() || null;
     } else if (factory.isViaUserKey()) {
       const comp = factory.createViaUserKeyComposition(customKeycodes);
+      ret.value = comp.genKeymap() || null;
+    } else if (factory.isMacro()) {
+      const comp = factory.createMacroComposition();
       ret.value = comp.genKeymap() || null;
     }
 
