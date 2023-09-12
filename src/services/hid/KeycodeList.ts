@@ -52,6 +52,19 @@ export type KeymapCategory =
   | 'velocity'
   | 'channel'
   | 'tri_layer'
+  | 'auto_shift'
+  | 'space_cadet'
+  | 'unicode_mode'
+  | 'haptic_feedback'
+  | 'dynamic_macro'
+  | 'one_shot_keys'
+  | 'key_override'
+  | 'secure'
+  | 'tapping_term'
+  | 'auto_correct'
+  | 'bluetooth'
+  | 'repeat_key'
+  | 'leader_key'
   | 'misc';
 
 function isDefinedKey(ret: {

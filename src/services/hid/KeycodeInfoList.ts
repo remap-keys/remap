@@ -2785,7 +2785,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Caps Lock and Left Control',
     keycodeInfo: {
       code: 0x7000, // 28672 0b111000000000000
-      label: 'Magic Swap Control Caps Lock',
+      label: 'Swap Ctrl CapsLock',
       name: {
         long: 'QK_MAGIC_SWAP_CONTROL_CAPS_LOCK',
         short: 'CL_SWAP',
@@ -2797,7 +2797,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Caps Lock and Left Control',
     keycodeInfo: {
       code: 0x7001, // 28673 0b111000000000001
-      label: 'Magic Unswap Control Caps Lock',
+      label: 'Unswap Ctrl CapsLock',
       name: {
         long: 'QK_MAGIC_UNSWAP_CONTROL_CAPS_LOCK',
         short: 'CL_NORM',
@@ -2809,7 +2809,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle Caps Lock and Left Control swap',
     keycodeInfo: {
       code: 0x7002, // 28674 0b111000000000010
-      label: 'Magic Toggle Control Caps Lock',
+      label: 'Toggle Ctrl CapsLock',
       name: {
         long: 'QK_MAGIC_TOGGLE_CONTROL_CAPS_LOCK',
         short: 'CL_TOGG',
@@ -2821,7 +2821,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Stop treating Caps Lock as Control',
     keycodeInfo: {
       code: 0x7003, // 28675 0b111000000000011
-      label: 'Magic Caps Lock As Control Off',
+      label: 'CapsLock As Ctrl Off',
       name: {
         long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_OFF',
         short: 'CL_CAPS',
@@ -2833,7 +2833,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Treat Caps Lock as Control',
     keycodeInfo: {
       code: 0x7004, // 28676 0b111000000000100
-      label: 'Magic Caps Lock As Control On',
+      label: 'CapsLock As Ctrl On',
       name: {
         long: 'QK_MAGIC_CAPS_LOCK_AS_CONTROL_ON',
         short: 'CL_CTRL',
@@ -2845,7 +2845,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Left Alt and GUI',
     keycodeInfo: {
       code: 0x7005, // 28677 0b111000000000101
-      label: 'Magic Swap Lalt Lgui',
+      label: 'Swap *Alt *GUI',
       name: {
         long: 'QK_MAGIC_SWAP_LALT_LGUI',
         short: 'AG_LSWP',
@@ -2857,7 +2857,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Left Alt and GUI',
     keycodeInfo: {
       code: 0x7006, // 28678 0b111000000000110
-      label: 'Magic Unswap Lalt Lgui',
+      label: 'Unswap *Alt *GUI',
       name: {
         long: 'QK_MAGIC_UNSWAP_LALT_LGUI',
         short: 'AG_LNRM',
@@ -2869,7 +2869,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Right Alt and GUI',
     keycodeInfo: {
       code: 0x7007, // 28679 0b111000000000111
-      label: 'Magic Swap Ralt Rgui',
+      label: 'Swap Alt* GUI*',
       name: {
         long: 'QK_MAGIC_SWAP_RALT_RGUI',
         short: 'AG_RSWP',
@@ -2881,7 +2881,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Right Alt and GUI',
     keycodeInfo: {
       code: 0x7008, // 28680 0b111000000001000
-      label: 'Magic Unswap Ralt Rgui',
+      label: 'Unswap Alt* GUI*',
       name: {
         long: 'QK_MAGIC_UNSWAP_RALT_RGUI',
         short: 'AG_RNRM',
@@ -2893,7 +2893,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Enable the GUI keys',
     keycodeInfo: {
       code: 0x7009, // 28681 0b111000000001001
-      label: 'Magic Gui On',
+      label: 'GUI On',
       name: {
         long: 'QK_MAGIC_GUI_ON',
         short: 'GU_ON',
@@ -2905,7 +2905,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Disable the GUI keys',
     keycodeInfo: {
       code: 0x700a, // 28682 0b111000000001010
-      label: 'Magic Gui Off',
+      label: 'GUI Off',
       name: {
         long: 'QK_MAGIC_GUI_OFF',
         short: 'GU_OFF',
@@ -2917,7 +2917,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggles the status of the GUI keys',
     keycodeInfo: {
       code: 0x700b, // 28683 0b111000000001011
-      label: 'Magic Toggle Gui',
+      label: 'Toggle GUI',
       name: {
         long: 'QK_MAGIC_TOGGLE_GUI',
         short: 'GU_TOGG',
@@ -2929,7 +2929,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap ` and Escape',
     keycodeInfo: {
       code: 0x700c, // 28684 0b111000000001100
-      label: 'Magic Swap Grave Esc',
+      label: 'Swap ` ESC',
       name: {
         long: 'QK_MAGIC_SWAP_GRAVE_ESC',
         short: 'GE_SWAP',
@@ -2941,7 +2941,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap ` and Escape',
     keycodeInfo: {
       code: 0x700d, // 28685 0b111000000001101
-      label: 'Magic Unswap Grave Esc',
+      label: 'Unswap ` ESC',
       name: {
         long: 'QK_MAGIC_UNSWAP_GRAVE_ESC',
         short: 'GE_NORM',
@@ -2953,7 +2953,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap \\ and Backspace',
     keycodeInfo: {
       code: 0x700e, // 28686 0b111000000001110
-      label: 'Magic Swap Backslash Backspace',
+      label: 'Swap \\ Backspace',
       name: {
         long: 'QK_MAGIC_SWAP_BACKSLASH_BACKSPACE',
         short: 'BS_SWAP',
@@ -2965,7 +2965,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap \\ and Backspace',
     keycodeInfo: {
       code: 0x700f, // 28687 0b111000000001111
-      label: 'Magic Unswap Backslash Backspace',
+      label: 'Unswap \\ Backspace',
       name: {
         long: 'QK_MAGIC_UNSWAP_BACKSLASH_BACKSPACE',
         short: 'BS_NORM',
@@ -2977,7 +2977,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle \\ and Backspace swap state',
     keycodeInfo: {
       code: 0x7010, // 28688 0b111000000010000
-      label: 'Magic Toggle Backslash Backspace',
+      label: 'Toggle \\ Backspace',
       name: {
         long: 'QK_MAGIC_TOGGLE_BACKSLASH_BACKSPACE',
         short: 'BS_TOGG',
@@ -2989,7 +2989,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Enable N-key rollover',
     keycodeInfo: {
       code: 0x7011, // 28689 0b111000000010001
-      label: 'Magic Nkro On',
+      label: 'NKRO On',
       name: {
         long: 'QK_MAGIC_NKRO_ON',
         short: 'NK_ON',
@@ -3001,7 +3001,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Disable N-key rollover',
     keycodeInfo: {
       code: 0x7012, // 28690 0b111000000010010
-      label: 'Magic Nkro Off',
+      label: 'NKRO Off',
       name: {
         long: 'QK_MAGIC_NKRO_OFF',
         short: 'NK_OFF',
@@ -3013,7 +3013,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle N-key rollover',
     keycodeInfo: {
       code: 0x7013, // 28691 0b111000000010011
-      label: 'Magic Toggle Nkro',
+      label: 'Toggle NKRO',
       name: {
         long: 'QK_MAGIC_TOGGLE_NKRO',
         short: 'NK_TOGG',
@@ -3025,7 +3025,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Alt and GUI on both sides',
     keycodeInfo: {
       code: 0x7014, // 28692 0b111000000010100
-      label: 'Magic Swap Alt Gui',
+      label: 'Swap Alt GUI',
       name: {
         long: 'QK_MAGIC_SWAP_ALT_GUI',
         short: 'AG_SWAP',
@@ -3037,7 +3037,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Alt and GUI on both sides',
     keycodeInfo: {
       code: 0x7015, // 28693 0b111000000010101
-      label: 'Magic Unswap Alt Gui',
+      label: 'Unswap Alt GUI',
       name: {
         long: 'QK_MAGIC_UNSWAP_ALT_GUI',
         short: 'AG_NORM',
@@ -3049,7 +3049,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle Alt and GUI swap on both sides',
     keycodeInfo: {
       code: 0x7016, // 28694 0b111000000010110
-      label: 'Magic Toggle Alt Gui',
+      label: 'Toggle Alt GUI',
       name: {
         long: 'QK_MAGIC_TOGGLE_ALT_GUI',
         short: 'AG_TOGG',
@@ -3061,7 +3061,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Left Control and GUI',
     keycodeInfo: {
       code: 0x7017, // 28695 0b111000000010111
-      label: 'Magic Swap Lctl Lgui',
+      label: 'Swap *Ctl *GUI',
       name: {
         long: 'QK_MAGIC_SWAP_LCTL_LGUI',
         short: 'CG_LSWP',
@@ -3073,7 +3073,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Left Control and GUI',
     keycodeInfo: {
       code: 0x7018, // 28696 0b111000000011000
-      label: 'Magic Unswap Lctl Lgui',
+      label: 'Unswap *Ctl *GUI',
       name: {
         long: 'QK_MAGIC_UNSWAP_LCTL_LGUI',
         short: 'CG_LNRM',
@@ -3085,7 +3085,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Right Control and GUI',
     keycodeInfo: {
       code: 0x7019, // 28697 0b111000000011001
-      label: 'Magic Swap Rctl Rgui',
+      label: 'Swap Ctl* GUI*',
       name: {
         long: 'QK_MAGIC_SWAP_RCTL_RGUI',
         short: 'CG_RSWP',
@@ -3097,7 +3097,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Right Control and GUI',
     keycodeInfo: {
       code: 0x701a, // 28698 0b111000000011010
-      label: 'Magic Unswap Rctl Rgui',
+      label: 'Unswap Ctl* GUI*',
       name: {
         long: 'QK_MAGIC_UNSWAP_RCTL_RGUI',
         short: 'CG_RNRM',
@@ -3109,7 +3109,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Control and GUI on both sides',
     keycodeInfo: {
       code: 0x701b, // 28699 0b111000000011011
-      label: 'Magic Swap Ctl Gui',
+      label: 'Swap Ctrl GUI',
       name: {
         long: 'QK_MAGIC_SWAP_CTL_GUI',
         short: 'CG_SWAP',
@@ -3121,7 +3121,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Control and GUI on both sides',
     keycodeInfo: {
       code: 0x701c, // 28700 0b111000000011100
-      label: 'Magic Unswap Ctl Gui',
+      label: 'Unswap Ctrl GUI',
       name: {
         long: 'QK_MAGIC_UNSWAP_CTL_GUI',
         short: 'CG_NORM',
@@ -3133,7 +3133,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle Control and GUI swap on both sides',
     keycodeInfo: {
       code: 0x701d, // 28701 0b111000000011101
-      label: 'Magic Toggle Ctl Gui',
+      label: 'Toggle Ctrl GUI',
       name: {
         long: 'QK_MAGIC_TOGGLE_CTL_GUI',
         short: 'CG_TOGG',
@@ -3145,7 +3145,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Set the master half of a split keyboard as the left hand (for EE_HANDS)',
     keycodeInfo: {
       code: 0x701e, // 28702 0b111000000011110
-      label: 'Magic Ee Hands Left',
+      label: 'EE Hands Left',
       name: {
         long: 'QK_MAGIC_EE_HANDS_LEFT',
         short: 'EH_LEFT',
@@ -3157,7 +3157,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Set the master half of a split keyboard as the right hand (for EE_HANDS)',
     keycodeInfo: {
       code: 0x701f, // 28703 0b111000000011111
-      label: 'Magic Ee Hands Right',
+      label: 'EE Hands Right',
       name: {
         long: 'QK_MAGIC_EE_HANDS_RIGHT',
         short: 'EH_RGHT',
@@ -3169,7 +3169,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swap Caps Lock and Escape',
     keycodeInfo: {
       code: 0x7020, // 28704 0b111000000100000
-      label: 'Magic Swap Escape Caps Lock',
+      label: 'Swap ESC CapsLock',
       name: {
         long: 'QK_MAGIC_SWAP_ESCAPE_CAPS_LOCK',
         short: 'EC_SWAP',
@@ -3181,7 +3181,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Unswap Caps Lock and Escape',
     keycodeInfo: {
       code: 0x7021, // 28705 0b111000000100001
-      label: 'Magic Unswap Escape Caps Lock',
+      label: 'Unswap ESC CapsLock',
       name: {
         long: 'QK_MAGIC_UNSWAP_ESCAPE_CAPS_LOCK',
         short: 'EC_NORM',
@@ -3193,7 +3193,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle Caps Lock and Escape swap',
     keycodeInfo: {
       code: 0x7022, // 28706 0b111000000100010
-      label: 'Magic Toggle Escape Caps Lock',
+      label: 'Toggle ESC CapsLock',
       name: {
         long: 'QK_MAGIC_TOGGLE_ESCAPE_CAPS_LOCK',
         short: 'EC_TOGG',
@@ -6505,7 +6505,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle RGB lighting on or off',
     keycodeInfo: {
       code: 0x7820, // 30752 0b111100000100000
-      label: 'Rgb Tog',
+      label: 'RGB Toggle',
       name: {
         long: 'RGB_TOG',
         short: 'RGB_TOG',
@@ -6517,7 +6517,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Cycle through modes, reverse direction when Shift is held',
     keycodeInfo: {
       code: 0x7821, // 30753 0b111100000100001
-      label: 'Rgb Mode Forward',
+      label: 'RGB Mode +',
       name: {
         long: 'RGB_MODE_FORWARD',
         short: 'RGB_MOD',
@@ -6529,7 +6529,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Cycle through modes in reverse, forward direction when Shift is held',
     keycodeInfo: {
       code: 0x7822, // 30754 0b111100000100010
-      label: 'Rgb Mode Reverse',
+      label: 'RGB Mode -',
       name: {
         long: 'RGB_MODE_REVERSE',
         short: 'RGB_RMOD',
@@ -6541,7 +6541,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Increase hue, decrease hue when Shift is held',
     keycodeInfo: {
       code: 0x7823, // 30755 0b111100000100011
-      label: 'Rgb Hui',
+      label: 'RGB HUE +',
       name: {
         long: 'RGB_HUI',
         short: 'RGB_HUI',
@@ -6553,7 +6553,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Decrease hue, increase hue when Shift is held',
     keycodeInfo: {
       code: 0x7824, // 30756 0b111100000100100
-      label: 'Rgb Hud',
+      label: 'RGB HUE -',
       name: {
         long: 'RGB_HUD',
         short: 'RGB_HUD',
@@ -6565,7 +6565,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Increase saturation, decrease saturation when Shift is held',
     keycodeInfo: {
       code: 0x7825, // 30757 0b111100000100101
-      label: 'Rgb Sai',
+      label: 'RGB SAT +',
       name: {
         long: 'RGB_SAI',
         short: 'RGB_SAI',
@@ -6577,7 +6577,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Decrease saturation, increase saturation when Shift is held',
     keycodeInfo: {
       code: 0x7826, // 30758 0b111100000100110
-      label: 'Rgb Sad',
+      label: 'RGB SAT -',
       name: {
         long: 'RGB_SAD',
         short: 'RGB_SAD',
@@ -6589,7 +6589,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Increase value (brightness), decrease value when Shift is held',
     keycodeInfo: {
       code: 0x7827, // 30759 0b111100000100111
-      label: 'Rgb Vai',
+      label: 'RGB Bright +',
       name: {
         long: 'RGB_VAI',
         short: 'RGB_VAI',
@@ -6601,7 +6601,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Decrease value (brightness), increase value when Shift is held',
     keycodeInfo: {
       code: 0x7828, // 30760 0b111100000101000
-      label: 'Rgb Vad',
+      label: 'RGB Bright -',
       name: {
         long: 'RGB_VAD',
         short: 'RGB_VAD',
@@ -6613,7 +6613,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held',
     keycodeInfo: {
       code: 0x7829, // 30761 0b111100000101001
-      label: 'Rgb Spi',
+      label: 'RGB Effect Speed +',
       name: {
         long: 'RGB_SPI',
         short: 'RGB_SPI',
@@ -6625,7 +6625,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held',
     keycodeInfo: {
       code: 0x782a, // 30762 0b111100000101010
-      label: 'Rgb Spd',
+      label: 'RGB Effect Speed -',
       name: {
         long: 'RGB_SPD',
         short: 'RGB_SPD',
@@ -6637,7 +6637,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Static (no animation) mode',
     keycodeInfo: {
       code: 0x782b, // 30763 0b111100000101011
-      label: 'Rgb Mode Plain',
+      label: 'RGB Mode Plain',
       name: {
         long: 'RGB_MODE_PLAIN',
         short: 'RGB_M_P',
@@ -6649,7 +6649,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Breathing animation mode',
     keycodeInfo: {
       code: 0x782c, // 30764 0b111100000101100
-      label: 'Rgb Mode Breathe',
+      label: 'RGB Mode Breathe',
       name: {
         long: 'RGB_MODE_BREATHE',
         short: 'RGB_M_B',
@@ -6661,7 +6661,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Rainbow animation mode',
     keycodeInfo: {
       code: 0x782d, // 30765 0b111100000101101
-      label: 'Rgb Mode Rainbow',
+      label: 'RGB Mode Rainbow',
       name: {
         long: 'RGB_MODE_RAINBOW',
         short: 'RGB_M_R',
@@ -6673,7 +6673,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Swirl animation mode',
     keycodeInfo: {
       code: 0x782e, // 30766 0b111100000101110
-      label: 'Rgb Mode Swirl',
+      label: 'RGB Mode Swirl',
       name: {
         long: 'RGB_MODE_SWIRL',
         short: 'RGB_M_SW',
@@ -6685,7 +6685,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Snake animation mode',
     keycodeInfo: {
       code: 0x782f, // 30767 0b111100000101111
-      label: 'Rgb Mode Snake',
+      label: 'RGB Mode Snake',
       name: {
         long: 'RGB_MODE_SNAKE',
         short: 'RGB_M_SN',
@@ -6697,7 +6697,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: '“Knight Rider” animation mode',
     keycodeInfo: {
       code: 0x7830, // 30768 0b111100000110000
-      label: 'Rgb Mode Knight',
+      label: 'RGB Mode Knight',
       name: {
         long: 'RGB_MODE_KNIGHT',
         short: 'RGB_M_K',
@@ -6709,7 +6709,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Christmas animation mode',
     keycodeInfo: {
       code: 0x7831, // 30769 0b111100000110001
-      label: 'Rgb Mode Xmas',
+      label: 'RGB Mode Xmas',
       name: {
         long: 'RGB_MODE_XMAS',
         short: 'RGB_M_X',
@@ -6721,7 +6721,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Static gradient animation mode',
     keycodeInfo: {
       code: 0x7832, // 30770 0b111100000110010
-      label: 'Rgb Mode Gradient',
+      label: 'RGB Mode Gradient',
       name: {
         long: 'RGB_MODE_GRADIENT',
         short: 'RGB_M_G',
@@ -6733,7 +6733,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Red,Green,Blue test animation mode',
     keycodeInfo: {
       code: 0x7833, // 30771 0b111100000110011
-      label: 'Rgb Mode Rgbtest',
+      label: 'RGB Mode RGB Test',
       name: {
         long: 'RGB_MODE_RGBTEST',
         short: 'RGB_M_T',
@@ -6745,7 +6745,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Rgb Mode Twinkle',
     keycodeInfo: {
       code: 0x7834, // 30772 0b111100000110100
-      label: 'Rgb Mode Twinkle',
+      label: 'RGB Mode Twinkle',
       name: {
         long: 'RGB_MODE_TWINKLE',
         short: 'RGB_M_TW',
@@ -6889,12 +6889,12 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Escape when pressed, ` when Shift or GUI are held',
     keycodeInfo: {
       code: 0x7c16, // 31766 0b111110000010110
-      label: 'Grave Escape',
+      label: 'ESC `',
       name: {
         long: 'QK_GRAVE_ESCAPE',
         short: 'QK_GESC',
       },
-      keywords: ['Grave Escape'],
+      keywords: ['Grave Escape', '`'],
     },
   },
   {
@@ -6913,7 +6913,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Left Control when held, ( when tapped',
     keycodeInfo: {
       code: 0x7c18, // 31768 0b111110000011000
-      label: 'Space Cadet Left Ctrl Parenthesis Open',
+      label: '*Ctrl (',
       name: {
         long: 'QK_SPACE_CADET_LEFT_CTRL_PARENTHESIS_OPEN',
         short: 'SC_LCPO',
@@ -6925,7 +6925,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Right Control when held, ) when tapped',
     keycodeInfo: {
       code: 0x7c19, // 31769 0b111110000011001
-      label: 'Space Cadet Right Ctrl Parenthesis Close',
+      label: 'Ctrl* )',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_CTRL_PARENTHESIS_CLOSE',
         short: 'SC_RCPC',
@@ -6937,7 +6937,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Left Shift when held, ( when tapped',
     keycodeInfo: {
       code: 0x7c1a, // 31770 0b111110000011010
-      label: 'Space Cadet Left Shift Parenthesis Open',
+      label: '*Shift (',
       name: {
         long: 'QK_SPACE_CADET_LEFT_SHIFT_PARENTHESIS_OPEN',
         short: 'SC_LSPO',
@@ -6949,7 +6949,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Right Shift when held, ) when tapped',
     keycodeInfo: {
       code: 0x7c1b, // 31771 0b111110000011011
-      label: 'Space Cadet Right Shift Parenthesis Close',
+      label: 'Shift* )',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_SHIFT_PARENTHESIS_CLOSE',
         short: 'SC_RSPC',
@@ -6961,7 +6961,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Left Alt when held, ( when tapped',
     keycodeInfo: {
       code: 0x7c1c, // 31772 0b111110000011100
-      label: 'Space Cadet Left Alt Parenthesis Open',
+      label: '*Alt (',
       name: {
         long: 'QK_SPACE_CADET_LEFT_ALT_PARENTHESIS_OPEN',
         short: 'SC_LAPO',
@@ -6973,7 +6973,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Right Alt when held, ) when tapped',
     keycodeInfo: {
       code: 0x7c1d, // 31773 0b111110000011101
-      label: 'Space Cadet Right Alt Parenthesis Close',
+      label: 'Alt* )',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_ALT_PARENTHESIS_CLOSE',
         short: 'SC_RAPC',
@@ -6985,7 +6985,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Right Shift when held, Enter when tapped',
     keycodeInfo: {
       code: 0x7c1e, // 31774 0b111110000011110
-      label: 'Space Cadet Right Shift Enter',
+      label: 'Shift* Enter',
       name: {
         long: 'QK_SPACE_CADET_RIGHT_SHIFT_ENTER',
         short: 'SC_SENT',
@@ -6997,7 +6997,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Automatically switch between USB and Bluetooth',
     keycodeInfo: {
       code: 0x7c20, // 31776 0b111110000100000
-      label: 'Output Auto',
+      label: 'Bluetooth Output Auto',
       name: {
         long: 'QK_OUTPUT_AUTO',
         short: 'OU_AUTO',
@@ -7009,7 +7009,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'USB only',
     keycodeInfo: {
       code: 0x7c21, // 31777 0b111110000100001
-      label: 'Output Usb',
+      label: 'Bluetooth Output Usb',
       name: {
         long: 'QK_OUTPUT_USB',
         short: 'OU_USB',
@@ -7021,7 +7021,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Bluetooth only',
     keycodeInfo: {
       code: 0x7c22, // 31778 0b111110000100010
-      label: 'Output Bluetooth',
+      label: 'Bluetooth Output Bluetooth',
       name: {
         long: 'QK_OUTPUT_BLUETOOTH',
         short: 'OU_BT',
@@ -7393,7 +7393,7 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Hold down the next key pressed, until the key is pressed again',
     keycodeInfo: {
       code: 0x7c59, // 31833 0b111110001011001
-      label: 'Lock',
+      label: 'Key Lock',
       name: {
         long: 'QK_LOCK',
         short: 'QK_LOCK',
