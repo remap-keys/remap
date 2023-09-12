@@ -33,22 +33,40 @@ export class KeyCategory {
       return KeyCategory._basic[labelLang];
     }
 
-    const codes: number[] = [
+    const basicCodes1: number[] = [
       ...KEY_SUB_CATEGORY_BLANK.codes,
       ...KEY_SUB_CATEGORY_LETTER.codes,
       ...KEY_SUB_CATEGORY_NUMBER.codes,
       ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
+    ];
+    const basicKeymaps1: IKeymap[] = basicCodes1.map(
+      (code) => BasicComposition.findKeymap(code, labelLang)!
+    );
+
+    const looseKeycodes: number[] = [
+      ...KEY_SUB_CATEGORY_SPACE_CADET_SHIFT.codes,
+    ];
+    const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
+      return LooseKeycodeComposition.findKeymap(code)!;
+    });
+
+    const basicCodes2: number[] = [
       ...KEY_SUB_CATEGORY_F.codes,
       ...KEY_SUB_CATEGORY_MODIFIER.codes,
       ...KEY_SUB_CATEGORY_EDIT.codes,
       ...KEY_SUB_CATEGORY_MOVE.codes,
       ...KEY_SUB_CATEGORY_NUMPAD.codes,
     ];
-    const keymaps: IKeymap[] = codes.map(
+    const basicKeymaps2: IKeymap[] = basicCodes2.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
-    KeyCategory._basic[labelLang] = keymaps;
-    return keymaps;
+
+    KeyCategory._basic[labelLang] = [
+      ...basicKeymaps1,
+      ...looseKeymaps,
+      ...basicKeymaps2,
+    ];
+    return KeyCategory._basic[labelLang];
   }
 
   static functions(
@@ -61,24 +79,38 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_LANGUAGE.codes,
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
-    const viaUserCodes: number[] = [...KEY_SUB_CATEGORY_VIA_USER_KEY.codes];
     const functionsKeymaps: IKeymap[] = functionsCodes.map(
       (code) => BasicComposition.findKeymap(code, labelLang)!
     );
+
+    const looseKeycodes1: number[] = [
+      ...KEY_SUB_CATEGORY_COMBO.codes,
+      ...KEY_SUB_CATEGORY_AUTO_SHIFT.codes,
+    ];
+    const looseKeymaps1: IKeymap[] = looseKeycodes1.map((code) => {
+      return LooseKeycodeComposition.findKeymap(code)!;
+    });
+
+    const viaUserCodes: number[] = [...KEY_SUB_CATEGORY_VIA_USER_KEY.codes];
     const viaUserKeymaps: IKeymap[] = viaUserCodes.map(
       (code) => ViaUserKeyComposition.findKeymap(code, customKeycodes)!
     );
-    const looseKeycodes: number[] = [
+
+    const looseKeycodes2: number[] = [
       ...KEY_SUB_CATEGORY_PROGRAMMABLE_BUTTON.codes,
       ...KEY_SUB_CATEGORY_USER.codes,
+      ...KEY_SUB_CATEGORY_LEADER_KEY.codes,
+      ...KEY_SUB_CATEGORY_DYNAMIC_MACRO.codes,
     ];
-    const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
+    const looseKeymaps2: IKeymap[] = looseKeycodes2.map((code) => {
       return LooseKeycodeComposition.findKeymap(code)!;
     });
+
     KeyCategory._functions[labelLang] = [
       ...functionsKeymaps,
+      ...looseKeymaps1,
       ...viaUserKeymaps,
-      ...looseKeymaps,
+      ...looseKeymaps2,
     ];
     return KeyCategory._functions[labelLang];
   }
@@ -87,6 +119,11 @@ export class KeyCategory {
     if (Object.prototype.hasOwnProperty.call(KeyCategory._layer, layerCount))
       return KeyCategory._layer[layerCount];
 
+    const triLayerCodes: number[] = [...KEY_SUB_CATEGORY_TRI_LAYER.codes];
+    const triLayerKeymaps: IKeymap[] = triLayerCodes.map(
+      (code) => LooseKeycodeComposition.findKeymap(code)!
+    );
+
     const keymaps: IKeymap[] = [
       ...ToComposition.genKeymaps(layerCount),
       ...ToggleLayerComposition.genKeymaps(layerCount),
@@ -94,6 +131,7 @@ export class KeyCategory {
       ...MomentaryComposition.genKeymaps(layerCount),
       ...OneShotLayerComposition.genKeymaps(layerCount),
       ...DefLayerComposition.genKeymaps(layerCount),
+      ...triLayerKeymaps,
     ];
     KeyCategory._layer[layerCount] = keymaps;
 
@@ -119,8 +157,13 @@ export class KeyCategory {
       SwapHandsComposition.genSwapHandsOptionKeymaps();
 
     const looseKeycodes: number[] = [
-      ...KEY_SUB_CATEGORY_QUANTUM.codes,
+      ...KEY_SUB_CATEGORY_ONE_SHOT_KEYS.codes,
+      ...KEY_SUB_CATEGORY_KEY_OVERRIDE.codes,
+      ...KEY_SUB_CATEGORY_TAPPING_TERM.codes,
+      ...KEY_SUB_CATEGORY_AUTO_CORRECT.codes,
+      ...KEY_SUB_CATEGORY_REPEAT_KEY.codes,
       ...KEY_SUB_CATEGORY_STENO.codes,
+      ...KEY_SUB_CATEGORY_UNICODE_MODE.codes,
     ];
     const looseKeymaps: IKeymap[] = looseKeycodes.map((code) => {
       return LooseKeycodeComposition.findKeymap(code)!;
@@ -128,8 +171,8 @@ export class KeyCategory {
 
     KeyCategory._special[labelLang] = [
       ...basicKeymaps,
-      ...looseKeymaps,
       ...shKeymaps,
+      ...looseKeymaps,
     ];
     return KeyCategory._special[labelLang];
   }
@@ -145,11 +188,15 @@ export class KeyCategory {
     ];
 
     const looseCodes: number[] = [
-      ...KEY_SUB_CATEGORY_JOYSTICK.codes,
+      ...KEY_SUB_CATEGORY_KEYBOARD.codes,
       ...KEY_SUB_CATEGORY_UNDERGLOW.codes,
       ...KEY_SUB_CATEGORY_BACKLIGHT.codes,
       ...KEY_SUB_CATEGORY_AUDIO.codes,
       ...KEY_SUB_CATEGORY_MAGIC.codes,
+      ...KEY_SUB_CATEGORY_BLUETOOTH.codes,
+      ...KEY_SUB_CATEGORY_JOYSTICK.codes,
+      ...KEY_SUB_CATEGORY_HAPTIC_FEEDBACK.codes,
+      ...KEY_SUB_CATEGORY_SECURE.codes,
     ];
 
     const basicKeymaps: IKeymap[] = basicCodes.map(
@@ -284,13 +331,16 @@ export const KEY_SUB_CATEGORY_LANGUAGE: IKeycodeCategoryInfo = {
 // Caps Lock, Scroll Lock, Num Lock, Locking Caps Lock, Locking Num Lock, Locking Scroll Lock
 export const KEY_SUB_CATEGORY_LOCK: IKeycodeCategoryInfo = {
   kinds: ['function', 'lock'],
-  codes: [57, 71, 83, 130, 131, 132],
+  codes: [0x39, 0x47, 0x53, 0x82, 0x83, 0x84, 0x7c59, 0x7c73],
 };
 
 // - = ` [ ] | \ NUHS ; ' , . / NUBS
 export const KEY_SUB_CATEGORY_PUNCTUATION: IKeycodeCategoryInfo = {
   kinds: ['symbol', 'punctuation'],
-  codes: [45, 46, 53, 47, 48, 49, 50, 51, 52, 54, 55, 56, 100],
+  codes: [
+    0x2d, 0x2e, 0x35, 0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x36, 0x37, 0x38,
+    0x64, 0x7c16,
+  ],
 };
 
 // Num 1, Num 2, Num 3, Num 4, Num 5, Num 6, Num 7, Num 8, Num 9, Num 0, Num +, Num -, Num *, Num /, Num =, Num ,, Num = AS400, Num ., Num Enter,
@@ -365,7 +415,7 @@ export const KEY_SUB_CATEGORY_BACKLIGHT: IKeycodeCategoryInfo = {
 // RGB Toggle, RGB Mode+, RGB Mode-, Hue+, Hue-, Sat+, Sat-, Bright+, Bright-, Effect Speed+, Effect Speed-, RGB Mode P, RGB Mode R, RGB Mode SW, RGB Mode SN, RGB Mode K, RGB Mode X, RGB Mode G
 export const KEY_SUB_CATEGORY_UNDERGLOW: IKeycodeCategoryInfo = {
   kinds: ['device', 'underglow'],
-  codes: range(0x7820, 0x7834),
+  codes: [...range(0x7820, 0x7834), 0x7c17],
 };
 
 // Macro
@@ -450,22 +500,104 @@ export const KEY_SUB_CATEGORY_STENO: IKeycodeCategoryInfo = {
   codes: [...range(0x74f0, 0x74f2), 0x74fc],
 };
 
-// Quantum
-export const KEY_SUB_CATEGORY_QUANTUM: IKeycodeCategoryInfo = {
-  kinds: ['device', 'quantum'],
-  codes: [
-    ...range(0x7c00, 0x7c04),
-    ...range(0x7c10, 0x7c1e),
-    ...range(0x7c20, 0x7c22),
-    ...range(0x7c30, 0x7c37),
-    ...range(0x7c40, 0x7c4c),
-    ...range(0x7c50, 0x7c63),
-    ...range(0x7c70, 0x7c7a),
-  ],
+// Leader Key
+export const KEY_SUB_CATEGORY_LEADER_KEY: IKeycodeCategoryInfo = {
+  kinds: ['function', 'leader_key'],
+  codes: [0x7c58],
+};
+
+// Repeat Key
+export const KEY_SUB_CATEGORY_REPEAT_KEY: IKeycodeCategoryInfo = {
+  kinds: ['special', 'repeat_key'],
+  codes: [0x7c79, 0x7c7a],
+};
+
+// Bluetooth
+export const KEY_SUB_CATEGORY_BLUETOOTH: IKeycodeCategoryInfo = {
+  kinds: ['device', 'bluetooth'],
+  codes: range(0x7c20, 0x7c22),
+};
+
+// Auto Correct
+export const KEY_SUB_CATEGORY_AUTO_CORRECT: IKeycodeCategoryInfo = {
+  kinds: ['special', 'auto_correct'],
+  codes: range(0x7c74, 0x7c76),
+};
+
+// Tapping Term
+export const KEY_SUB_CATEGORY_TAPPING_TERM: IKeycodeCategoryInfo = {
+  kinds: ['special', 'tapping_term'],
+  codes: range(0x7c70, 0x7c72),
+};
+
+// Secure
+export const KEY_SUB_CATEGORY_SECURE: IKeycodeCategoryInfo = {
+  kinds: ['device', 'secure'],
+  codes: range(0x7c60, 0x7c63),
+};
+
+// Key Override
+export const KEY_SUB_CATEGORY_KEY_OVERRIDE: IKeycodeCategoryInfo = {
+  kinds: ['special', 'key_override'],
+  codes: range(0x7c5d, 0x7c5f),
+};
+
+// One Shot Keys
+export const KEY_SUB_CATEGORY_ONE_SHOT_KEYS: IKeycodeCategoryInfo = {
+  kinds: ['special', 'one_shot_keys'],
+  codes: range(0x7c5a, 0x7c5c),
+};
+
+// Dynamic Macro
+export const KEY_SUB_CATEGORY_DYNAMIC_MACRO: IKeycodeCategoryInfo = {
+  kinds: ['function', 'dynamic_macro'],
+  codes: range(0x7c53, 0x7c57),
+};
+
+// Haptic Feedback
+export const KEY_SUB_CATEGORY_HAPTIC_FEEDBACK: IKeycodeCategoryInfo = {
+  kinds: ['device', 'haptic_feedback'],
+  codes: range(0x7c40, 0x7c4c),
+};
+
+// Unicode Mode
+export const KEY_SUB_CATEGORY_UNICODE_MODE: IKeycodeCategoryInfo = {
+  kinds: ['special', 'unicode_mode'],
+  codes: range(0x7c30, 0x7c37),
+};
+
+// Space Cadet Shift
+export const KEY_SUB_CATEGORY_SPACE_CADET_SHIFT: IKeycodeCategoryInfo = {
+  kinds: ['function', 'space_cadet'],
+  codes: range(0x7c18, 0x7c1e),
+};
+
+// Auto Shift
+export const KEY_SUB_CATEGORY_AUTO_SHIFT: IKeycodeCategoryInfo = {
+  kinds: ['function', 'auto_shift'],
+  codes: range(0x7c10, 0x7c15),
+};
+
+// Keyboard
+export const KEY_SUB_CATEGORY_KEYBOARD: IKeycodeCategoryInfo = {
+  kinds: ['device', 'keyboard'],
+  codes: range(0x7c00, 0x7c04),
 };
 
 // User
 export const KEY_SUB_CATEGORY_USER: IKeycodeCategoryInfo = {
   kinds: ['special', 'user'],
   codes: range(0x7e40, 0x7e5f),
+};
+
+// Tri-Layer
+export const KEY_SUB_CATEGORY_TRI_LAYER: IKeycodeCategoryInfo = {
+  kinds: ['tri_layer'],
+  codes: [0x7c77, 0x7c78],
+};
+
+// Combo
+export const KEY_SUB_CATEGORY_COMBO: IKeycodeCategoryInfo = {
+  kinds: ['combo'],
+  codes: range(0x7c50, 0x7c52),
 };
