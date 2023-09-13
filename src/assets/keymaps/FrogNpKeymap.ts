@@ -11,7 +11,7 @@ export const FrogNpKeymap = [
     '0,0\n\n\n0,0\n\n\n\n\n\ne0',
     '0,1',
     '0,2',
-    '\n\n\n\n\n\n\n\n\ne1',
+    '\n\n\n1,0\n\n\n\n\n\ne1',
     {
       x: 0.25,
     },
