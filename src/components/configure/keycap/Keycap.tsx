@@ -25,8 +25,12 @@ export type KeycapOwnProps = {
   down: boolean;
   focus: boolean;
   model: KeyModel;
-  keymap: IKeymap;
+  keymap: IKeymap | null;
   remap: IKeymap | null;
+  cwKeymap: IKeymap | null;
+  cwRemap: IKeymap | null;
+  ccwKeymap: IKeymap | null;
+  ccwRemap: IKeymap | null;
   // eslint-disable-next-line no-undef
   anchorRef?: React.RefObject<HTMLDivElement>;
   isCustomKeyOpen: boolean;
@@ -142,8 +146,10 @@ export default class Keycap extends React.Component<
     const pos = this.props.model.pos;
     const optionLabel = this.props.model.optionLabel;
     const isFocusedKey = this.props.focus;
-    const keymap: IKeymap = this.props.keymap;
-    const orgKey: Key = genKey(keymap, this.props.labelLang!);
+    const keymap: IKeymap | null = this.props.keymap;
+
+    // FIXME: There is possibility that keymap is null!
+    const orgKey: Key = genKey(keymap!, this.props.labelLang!);
     const dstKey: Key | null = this.props.remap
       ? genKey(this.props.remap, this.props.labelLang!)
       : null;
@@ -197,6 +203,7 @@ export default class Keycap extends React.Component<
             this.props.testMatrix &&
               this.props.down &&
               'keycap-test-matrix-down',
+            this.props.model.isEncoder && 'keycap-encoder',
           ].join(' ')}
           style={style}
           onClick={() => {
@@ -246,6 +253,7 @@ export default class Keycap extends React.Component<
             'keyroof-base',
             this.props.testMatrix && 'test-matrix',
             this.props.testMatrix && this.props.down && 'test-matrix-down',
+            this.props.model.isEncoder && 'keyroof-encoder',
           ].join(' ')}
           style={roofStyle}
           onClick={this.onClick.bind(this, pos, isFocusedKey, orgKey, dstKey)}
@@ -269,7 +277,10 @@ export default class Keycap extends React.Component<
         {/* labels */}
         {!this.props.testMatrix && (
           <div
-            className={['keyroof'].join(' ')}
+            className={[
+              'keyroof',
+              this.props.model.isEncoder && 'keyroof-encoder',
+            ].join(' ')}
             style={labelsStyle}
             onClick={() => {
               this.onClick(pos, isFocusedKey, orgKey, dstKey);

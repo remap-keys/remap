@@ -171,6 +171,7 @@ export const storageActionsThunk = {
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       await dispatch(hidActionsThunk.refreshKeymaps());
       dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedPos());

@@ -387,6 +387,7 @@ export const hidActionsThunk = {
       );
 
       dispatch(AppActions.remapsInit(layerCount));
+      dispatch(AppActions.encodersRemapsInit(layerCount));
       dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
       dispatch(await hidActionsThunk.restoreLayoutOptions());
       dispatch(HidActions.updateKeyboard(keyboard));
@@ -570,6 +571,7 @@ export const hidActionsThunk = {
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
       dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedPos());
@@ -682,6 +684,7 @@ export const hidActionsThunk = {
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
       dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedPos());

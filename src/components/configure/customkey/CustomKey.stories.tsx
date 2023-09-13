@@ -79,6 +79,10 @@ class CustomKeyStory extends React.Component<{}, State> {
           model={this.model}
           keymap={this.state.key.keymap}
           remap={null}
+          cwKeymap={null}
+          cwRemap={null}
+          ccwKeymap={null}
+          ccwRemap={null}
           onClick={(pos: string, key: Key) => {
             this.openPopover(key);
           }}

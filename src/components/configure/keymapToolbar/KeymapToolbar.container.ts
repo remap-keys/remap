@@ -27,6 +27,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     clearAllRemaps: (layerCount: number) => {
       _dispatch(AppActions.remapsInit(layerCount));
+      _dispatch(AppActions.encodersRemapsInit(layerCount));
       _dispatch(KeydiffActions.clearKeydiff());
     },
     updateTestMatrixOn: () => {

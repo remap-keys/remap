@@ -28,8 +28,12 @@ type CatalogKeymapProps = OwnProps &
 
 type KeycapData = {
   model: KeyModel;
-  keymap: IKeymap;
+  keymap: IKeymap | null;
   remap: IKeymap | null;
+  cwKeymap: IKeymap | null;
+  cwRemap: IKeymap | null;
+  ccwKeymap: IKeymap | null;
+  ccwRemap: IKeymap | null;
 };
 
 export default function CatalogKeymap(props: CatalogKeymapProps) {
@@ -128,7 +132,16 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
       };
     }
     const remap = null;
-    keycaps.push({ model, keymap, remap });
+    // FIXME: Set keymaps for encoder!
+    keycaps.push({
+      model,
+      keymap,
+      remap,
+      cwKeymap: null,
+      cwRemap: null,
+      ccwKeymap: null,
+      ccwRemap: null,
+    });
   });
 
   const CONTENT_MAX_WIDTH = 960;

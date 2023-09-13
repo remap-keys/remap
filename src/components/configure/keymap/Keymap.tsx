@@ -5,7 +5,11 @@ import { IconButton, MenuItem, Select } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
-import { IKeymap } from '../../../services/hid/Hid';
+import {
+  IEncoderKeymap,
+  IEncoderKeymaps,
+  IKeymap,
+} from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
 import KeyboardModel, {
   KeyboardViewContent,
@@ -207,7 +211,9 @@ export default class Keymap extends React.Component<
   render() {
     const selectedLayer = this.props.selectedLayer!;
     const deviceKeymaps = this.props.keymaps![selectedLayer];
+    const deviceEncodersKeymaps = this.props.encodersKeymaps![selectedLayer];
     const remaps = this.props.remaps![selectedLayer];
+    const encodersRemap = this.props.encodersRemaps![selectedLayer];
     const keyboardViewContent = this.state.keyboardModel.getKeymap(
       this.props.selectedKeyboardOptions!
     );
@@ -277,8 +283,10 @@ export default class Keymap extends React.Component<
               keyboardViewContent={keyboardViewContent}
               layoutOptions={this.props.selectedKeyboardOptions!}
               deviceKeymaps={deviceKeymaps}
+              deviceEncodersKeymaps={deviceEncodersKeymaps}
               selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
               remaps={remaps}
+              encodersRemaps={encodersRemap}
               keyboardWidth={this.props.keyboardWidth!}
               keyboardHeight={this.props.keyboardHeight!}
               testedMatrix={this.props.testedMatrix!}
@@ -376,8 +384,12 @@ function LabelLang(props: LabelLangProps) {
 
 type KeycapData = {
   model: KeyModel;
-  keymap: IKeymap;
+  keymap: IKeymap | null;
   remap: IKeymap | null;
+  cwKeymap: IKeymap | null;
+  cwRemap: IKeymap | null;
+  ccwKeymap: IKeymap | null;
+  ccwRemap: IKeymap | null;
   focus: boolean;
   down: boolean;
 };
@@ -386,8 +398,10 @@ type KeyboardViewType = {
   keyboardViewContent: KeyboardViewContent;
   layoutOptions?: LayoutOption[];
   deviceKeymaps: { [pos: string]: IKeymap };
+  deviceEncodersKeymaps: IEncoderKeymaps;
   selectedPos: string;
   remaps: { [pos: string]: IKeymap };
+  encodersRemaps: IEncoderKeymaps;
   keyboardWidth: number;
   keyboardHeight: number;
   testedMatrix: string[];
@@ -414,18 +428,54 @@ export function KeyboardView(props: KeyboardViewType) {
   // TODO: performance tuning
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model) => {
+    let keymap: IKeymap | null = null;
+    let remap: IKeymap | null = null;
+    let cwKeymap: IKeymap | null = null;
+    let cwRemap: IKeymap | null = null;
+    let ccwKeymap: IKeymap | null = null;
+    let ccwRemap: IKeymap | null = null;
+    let focus: boolean = false;
+    let down: boolean = false;
     const pos = model.pos;
-    if (pos in props.deviceKeymaps) {
-      const keymap: IKeymap = props.deviceKeymaps[pos];
-      const remap: IKeymap | null =
-        pos in props.remaps ? props.remaps[pos] : null;
-      const focus: boolean =
-        0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
-      const down: boolean = 0 <= props.currentTestMatrix.indexOf(pos);
-      keycaps.push({ model, keymap, remap, focus, down });
-    } else {
-      console.log(`No keymap on device: ${model.location}`);
+    if (pos) {
+      if (pos in props.deviceKeymaps) {
+        keymap = props.deviceKeymaps[pos];
+        remap = pos in props.remaps ? props.remaps[pos] : null;
+      } else {
+        console.log(`No keymap on device: ${model.location}`);
+      }
+      focus = 0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
+      down = 0 <= props.currentTestMatrix.indexOf(pos);
     }
+    if (model.isEncoder) {
+      const encoderId = model.encoderId!;
+      if (encoderId in props.deviceEncodersKeymaps) {
+        const encodersKeymap = props.deviceEncodersKeymaps[encoderId];
+        cwKeymap = encodersKeymap.clockwise;
+        cwRemap =
+          encoderId in props.encodersRemaps
+            ? props.encodersRemaps[encoderId].clockwise
+            : null;
+        ccwKeymap = encodersKeymap.counterclockwise;
+        ccwRemap =
+          encoderId in props.encodersRemaps
+            ? props.encodersRemaps[encoderId].counterclockwise
+            : null;
+      } else {
+        console.log(`No encoder keymap on device: ${model.location}`);
+      }
+    }
+    keycaps.push({
+      model,
+      keymap,
+      remap,
+      cwKeymap,
+      cwRemap,
+      ccwKeymap,
+      ccwRemap,
+      focus,
+      down,
+    });
   });
   return (
     <div className="keyboards">
