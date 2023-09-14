@@ -16,6 +16,7 @@ import {
   KeyEventCaptureStateType,
 } from './KeyEventCapture.container';
 import './KeyEventCapture.scss';
+import { IKeySwitchOperation } from '../../../store/state';
 
 type OwnProps = {
   onKeyDown: (
@@ -26,10 +27,20 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     selectedLayer: number,
     // eslint-disable-next-line no-unused-vars
-    selectedPos: string
+    selectedPos: string,
+    // eslint-disable-next-line no-unused-vars
+    selectedEncoderId: number | null,
+    // eslint-disable-next-line no-unused-vars
+    selectedKeySwitchOperation: IKeySwitchOperation
   ) => void;
-  // eslint-disable-next-line no-unused-vars
-  onKeyUp: (nextPos: string) => void;
+  onKeyUp: (
+    // eslint-disable-next-line no-unused-vars
+    nextPos: string,
+    // eslint-disable-next-line no-unused-vars
+    nextEncoderId: number | null,
+    // eslint-disable-next-line no-unused-vars
+    nextKeySwitchOperation: IKeySwitchOperation
+  ) => void;
   keyModels: KeyModel[];
   keymaps: { [pos: string]: IKeymap };
   children?: React.ReactNode | React.ReactNode[];
@@ -70,7 +81,9 @@ export default class KeyEventCapture extends React.Component<
       newKey,
       this.props.keymaps[this.props.selectedPos!].code,
       this.props.selectedLayer!,
-      this.props.selectedPos!
+      this.props.selectedPos!,
+      this.props.selectedEncoderId!,
+      this.props.selectedKeySwitchOperation!
     );
 
     this.setState({ holdingKeyCount: this.state.holdingKeyCount + 1 });
@@ -87,12 +100,16 @@ export default class KeyEventCapture extends React.Component<
       return;
     }
 
-    const currentIndex = this.props.keyModels.findIndex(
-      (k) => k.pos === this.props.selectedPos
-    );
-    const nextIndex = (currentIndex + 1) % this.props.keyModels.length;
-    const nextPos = this.props.keyModels[nextIndex].pos;
-    this.props.onKeyUp(nextPos);
+    // The following logic was commented out because the next key cap
+    // position can't be determined with only the `pos`. Encoders supporting
+    // a rotation operation only don't have a `pos` property.
+    //
+    // const currentIndex = this.props.keyModels.findIndex(
+    //   (k) => k.pos === this.props.selectedPos
+    // );
+    // const nextIndex = (currentIndex + 1) % this.props.keyModels.length;
+    // const nextPos = this.props.keyModels[nextIndex].pos;
+    // this.props.onKeyUp(nextPos);
   }
 
   keycodeFromKeyboardEvent(e: React.KeyboardEvent<HTMLDivElement>): Key | null {

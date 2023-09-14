@@ -74,7 +74,15 @@ export default class KeymapMenu extends React.Component<
       const item = Object.values(remap).find(
         (value) => typeof value === 'object' && typeof value.code === 'number'
       );
-      if (item != undefined) return true;
+      if (item !== undefined) return true;
+    }
+    for (let i = 0; i < this.props.encoderRemaps!.length; i++) {
+      const remap = this.props.encoderRemaps![i];
+      const item = Object.values(remap).find(
+        (value) =>
+          value.clockwise !== undefined || value.counterclockwise !== undefined
+      );
+      if (item !== undefined) return true;
     }
 
     return false;

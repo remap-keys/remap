@@ -6,6 +6,7 @@ import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { genKey, Key } from '../keycodekey/KeyGen';
+import KeyModel from '../../../models/KeyModel';
 
 type KeydiffOwnProps = {};
 
@@ -27,6 +28,8 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     const origKey: Key = genKey(origin, labelLang);
     const dstKey: Key = genKey(destination, labelLang);
 
+    const isEncoder = KeyModel.isEncoder(this.props.selectedEncoderId!);
+
     return (
       <div className="diff-frame">
         <div className="spacer"></div>
@@ -42,11 +45,20 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
             size="small"
             color="secondary"
             startIcon={<Clear />}
-            onClick={this.props.onClickCancel?.bind(
-              this,
-              this.props.selectedLayer!,
-              this.props.selectedPos!
-            )}
+            onClick={
+              isEncoder
+                ? this.props.onClickCancelForEncoder!.bind(
+                    this,
+                    this.props.selectedLayer!,
+                    this.props.selectedEncoderId!,
+                    this.props.selectedKeySwitchOperation!
+                  )
+                : this.props.onClickCancel!.bind(
+                    this,
+                    this.props.selectedLayer!,
+                    this.props.selectedPos!
+                  )
+            }
           >
             Cancel
           </Button>

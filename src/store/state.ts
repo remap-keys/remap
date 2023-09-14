@@ -1,12 +1,6 @@
 import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeyGen';
-import {
-  IEncoderKeymap,
-  IEncoderKeymaps,
-  IHid,
-  IKeyboard,
-  IKeymap,
-} from '../services/hid/Hid';
+import { IEncoderKeymaps, IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
@@ -191,6 +185,14 @@ export type IFlashFirmwareDialogFlashMode =
   | 'upload_and_flash'
   | 'fetch_and_flash';
 
+const KeySwitchOperations = {
+  click: 'click',
+  cw: 'cw',
+  ccw: 'ccw',
+} as const;
+export type IKeySwitchOperation =
+  typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+
 export type RootState = {
   entities: {
     device: {
@@ -240,7 +242,10 @@ export type RootState = {
     }[];
     encodersRemaps: {
       // remap candidates and show keydiff for encoders
-      [id: number]: IEncoderKeymap;
+      [id: number]: {
+        clockwise?: IKeymap;
+        counterclockwise?: IKeymap;
+      };
     }[];
     testedMatrix: string[]; // 'row,col' string list which are pressed keys in TEST MATRIX MODE
     currentTestMatrix: string[]; // 'row,col' string list which are pressed down keys currently in TEST MATRIX MODE
@@ -267,6 +272,8 @@ export type RootState = {
     keymap: {
       selectedPos: string;
       selectedLayer: number;
+      selectedEncoderId: number | null;
+      selectedKeySwitchOperation: IKeySwitchOperation;
     };
     keymapToolbar: {
       testMatrix: boolean;
@@ -510,6 +517,8 @@ export const INIT_STATE: RootState = {
     keymap: {
       selectedLayer: NaN,
       selectedPos: '',
+      selectedEncoderId: null,
+      selectedKeySwitchOperation: 'click',
     },
     keymapToolbar: {
       testMatrix: false,

@@ -434,7 +434,7 @@ export const hidActionsThunk = {
       dispatch(AppActions.remapsClear());
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(StorageActions.updateKeyboardDefinition(null));
       dispatch(HidActions.updateKeyboard(null));
     },
@@ -453,7 +453,7 @@ export const hidActionsThunk = {
         dispatch(AppActions.remapsClear());
         dispatch(KeydiffActions.clearKeydiff());
         dispatch(KeycodeKeyActions.clear());
-        dispatch(KeymapActions.clearSelectedPos());
+        dispatch(KeymapActions.clearSelectedKeyPosition());
         dispatch(StorageActions.updateKeyboardDefinition(null));
         dispatch(StorageActions.clearKeyboardDefinitionDocument());
         dispatch(StorageActions.updateSavedKeymaps([]));
@@ -512,39 +512,43 @@ export const hidActionsThunk = {
           for (const encoderIdString of Object.keys(encodersRemap)) {
             const encoderId = Number(encoderIdString);
             const encoderKeymap = encodersRemap[encoderId];
-            let result = await keyboard.updateEncoderKeymap(
-              layer,
-              encoderId,
-              true,
-              encoderKeymap.clockwise.code
-            );
-            if (!result.success) {
-              console.error(result.cause);
-              dispatch(
-                NotificationActions.addError(
-                  `Flash error: [${encoderId}-clockwise] ${result.error!}`,
-                  result.cause
-                )
+            if (encoderKeymap.clockwise) {
+              const result = await keyboard.updateEncoderKeymap(
+                layer,
+                encoderId,
+                true,
+                encoderKeymap.clockwise.code
               );
-              dispatch(HeaderActions.updateFlashing(false));
-              return;
+              if (!result.success) {
+                console.error(result.cause);
+                dispatch(
+                  NotificationActions.addError(
+                    `Flash error: [${encoderId}-clockwise] ${result.error!}`,
+                    result.cause
+                  )
+                );
+                dispatch(HeaderActions.updateFlashing(false));
+                return;
+              }
             }
-            result = await keyboard.updateEncoderKeymap(
-              layer,
-              encoderId,
-              false,
-              encoderKeymap.counterclockwise.code
-            );
-            if (!result.success) {
-              console.error(result.cause);
-              dispatch(
-                NotificationActions.addError(
-                  `Flash error: [${encoderId}-counterclockwise] ${result.error!}`,
-                  result.cause
-                )
+            if (encoderKeymap.counterclockwise) {
+              const result = await keyboard.updateEncoderKeymap(
+                layer,
+                encoderId,
+                false,
+                encoderKeymap.counterclockwise.code
               );
-              dispatch(HeaderActions.updateFlashing(false));
-              return;
+              if (!result.success) {
+                console.error(result.cause);
+                dispatch(
+                  NotificationActions.addError(
+                    `Flash error: [${encoderId}-counterclockwise] ${result.error!}`,
+                    result.cause
+                  )
+                );
+                dispatch(HeaderActions.updateFlashing(false));
+                return;
+              }
             }
           }
         }
@@ -574,7 +578,7 @@ export const hidActionsThunk = {
       dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(HeaderActions.updateFlashing(false));
     },
 
@@ -687,7 +691,7 @@ export const hidActionsThunk = {
       dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
     },
 

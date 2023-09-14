@@ -92,6 +92,13 @@
 
     border-radius: 5px;
     font-size: 12px;
+    position: relative;
+
+    .encoder-toggle-icon {
+      position: absolute;
+      bottom: -16px;
+      left: -8px;
+    }
   }
 
   .keycap:hover,

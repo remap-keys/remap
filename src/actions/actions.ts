@@ -3,19 +3,24 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IEncoderKeymap, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { ISetupPhase, RootState, SetupPhase } from '../store/state';
+import {
+  IKeySwitchOperation,
+  ISetupPhase,
+  RootState,
+  SetupPhase,
+} from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { hidActionsThunk } from './hid.action';
 
 export const KEYMAP_ACTIONS = '@Keymap';
-export const KEYMAP_CLEAR_SELECTED_POS = `${KEYMAP_ACTIONS}/ClearSelectedLayer`;
+export const KEYMAP_CLEAR_SELECTED_KEY_POSITION = `${KEYMAP_ACTIONS}/ClearSelectedKeyPosition`;
 export const KEYMAP_UPDATE_SELECTED_LAYER = `${KEYMAP_ACTIONS}/UpdateSelectedLayer`;
-export const KEYMAP_UPDATE_SELECTED_POS = `${KEYMAP_ACTIONS}/UpdateSelectedPos`;
+export const KEYMAP_UPDATE_SELECTED_KEY_POSITION = `${KEYMAP_ACTIONS}/UpdateSelectedKeyPosition`;
 export const KeymapActions = {
-  clearSelectedPos: () => {
+  clearSelectedKeyPosition: () => {
     return {
-      type: KEYMAP_UPDATE_SELECTED_POS,
+      type: KEYMAP_CLEAR_SELECTED_KEY_POSITION,
     };
   },
   updateSelectedLayer: (layer: number) => {
@@ -24,10 +29,18 @@ export const KeymapActions = {
       value: layer,
     };
   },
-  updateSelectedPos: (pos: string) => {
+  updateSelectedKeyPosition: (
+    pos: string,
+    encoderId: number | null,
+    keySwitchOperation: IKeySwitchOperation
+  ) => {
     return {
-      type: KEYMAP_UPDATE_SELECTED_POS,
-      value: pos,
+      type: KEYMAP_UPDATE_SELECTED_KEY_POSITION,
+      value: {
+        pos,
+        encoderId,
+        keySwitchOperation,
+      },
     };
   },
 };
@@ -259,13 +272,19 @@ export const AppActions = {
       value: encodersRemaps,
     };
   },
-  encodersRemapsSetKey: (layer: number, id: number, keymap: IEncoderKeymap) => {
+  encodersRemapsSetKey: (
+    layer: number,
+    id: number,
+    keymap: IKeymap,
+    keySwitchOperation: IKeySwitchOperation
+  ) => {
     return {
       type: APP_ENCODERS_REMAPS_SET_KEY,
       value: {
         layer,
         id,
         keymap,
+        keySwitchOperation,
       },
     };
   },
@@ -275,12 +294,17 @@ export const AppActions = {
       value: keymaps,
     };
   },
-  encodersRemapsRemoveKey: (layer: number, id: number) => {
+  encodersRemapsRemoveKey: (
+    layer: number,
+    id: number,
+    keySwitchOperation: IKeySwitchOperation
+  ) => {
     return {
       type: APP_ENCODERS_REMAPS_REMOVE_KEY,
       value: {
         id,
         layer,
+        keySwitchOperation,
       },
     };
   },

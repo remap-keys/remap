@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Keymap from './Keymap';
-import { RootState } from '../../../store/state';
+import { IKeySwitchOperation, RootState } from '../../../store/state';
 import {
   AppActions,
   KeydiffActions,
@@ -28,6 +28,9 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     selectedLayer: state.configure.keymap.selectedLayer,
     selectedPos: state.configure.keymap.selectedPos,
+    selectedEncoderId: state.configure.keymap.selectedEncoderId,
+    selectedKeySwitchOperation:
+      state.configure.keymap.selectedKeySwitchOperation,
     remaps: state.app.remaps,
     encodersRemaps: state.app.encodersRemaps,
     labelLang: state.app.labelLang,
@@ -43,7 +46,7 @@ export type KeymapStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickLayerNumber: (layer: number) => {
-      _dispatch(KeymapActions.clearSelectedPos());
+      _dispatch(KeymapActions.clearSelectedKeyPosition());
       _dispatch(KeymapActions.updateSelectedLayer(layer));
     },
     onChangeLangLabel: (
@@ -81,11 +84,39 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(AppActions.remapsSetKey(selectedLayer, pos, dstKeymap));
       _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
     },
-    clearSelectedPos: () => {
-      _dispatch(KeymapActions.clearSelectedPos());
+    updateEncoderKeymap: (
+      selectedLayer: number,
+      encoderId: number,
+      orgKeymap: IKeymap,
+      dstKeymap: IKeymap,
+      keySwitchOperation: IKeySwitchOperation
+    ) => {
+      _dispatch(
+        AppActions.encodersRemapsSetKey(
+          selectedLayer,
+          encoderId,
+          dstKeymap,
+          keySwitchOperation
+        )
+      );
+      _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
     },
     revertKeymap: (selectedLayer: number, pos: string) => {
       _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
+      _dispatch(KeydiffActions.clearKeydiff());
+    },
+    revertEncoderKeymap: (
+      selectedLayer: number,
+      encoderId: number,
+      keySwitchOperation: IKeySwitchOperation
+    ) => {
+      _dispatch(
+        AppActions.encodersRemapsRemoveKey(
+          selectedLayer,
+          encoderId,
+          keySwitchOperation
+        )
+      );
       _dispatch(KeydiffActions.clearKeydiff());
     },
     updateTestMatrixOff: () => {
@@ -99,15 +130,38 @@ const mapDispatchToProps = (_dispatch: any) => {
       newKey: Key,
       oldKeycode: number,
       selectedLayer: number,
-      pos: string
+      pos: string,
+      encoderId: number | null,
+      keySwitchOperation: IKeySwitchOperation
     ) => {
       if (newKey.keymap.code != oldKeycode) {
-        _dispatch(AppActions.remapsSetKey(selectedLayer, pos, newKey.keymap));
+        if (keySwitchOperation === 'click') {
+          _dispatch(AppActions.remapsSetKey(selectedLayer, pos, newKey.keymap));
+        } else {
+          _dispatch(
+            AppActions.encodersRemapsSetKey(
+              selectedLayer,
+              encoderId!,
+              newKey.keymap,
+              keySwitchOperation
+            )
+          );
+        }
       }
     },
-    onKeyUp: (nextPos: string) => {
+    onKeyUp: (
+      nextPos: string,
+      nextEncoderId: number | null,
+      nextKeySwitchOperation: IKeySwitchOperation
+    ) => {
       _dispatch(KeydiffActions.clearKeydiff());
-      _dispatch(KeymapActions.updateSelectedPos(nextPos));
+      _dispatch(
+        KeymapActions.updateSelectedKeyPosition(
+          nextPos,
+          nextEncoderId,
+          nextKeySwitchOperation
+        )
+      );
     },
   };
 };

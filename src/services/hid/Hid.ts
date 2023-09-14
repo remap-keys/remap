@@ -86,6 +86,13 @@ export type ICustomKeycode = {
   [k: string]: unknown;
 };
 
+export const EncoderDirections = {
+  clockwise: 'clockwise',
+  counterclockwise: 'counterclockwise',
+} as const;
+export type IEncoderDirection =
+  typeof EncoderDirections[keyof typeof EncoderDirections];
+
 export type IEncoderKeymap = {
   clockwise: IKeymap;
   counterclockwise: IKeymap;

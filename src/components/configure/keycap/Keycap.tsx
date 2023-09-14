@@ -2,12 +2,16 @@ import React, { ReactNode } from 'react';
 import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
-import { Badge } from '@mui/material';
+import { Badge, IconButton } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import './Keycap.scss';
 import { buildModLabel } from '../customkey/Modifiers';
 import { buildHoldKeyLabel } from '../customkey/TabHoldTapKey';
 import { genKey, Key } from '../keycodekey/KeyGen';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import LoopIcon from '@mui/icons-material/Loop';
+import DownloadIcon from '@mui/icons-material/Download';
+import { IKeySwitchOperation } from '../../../store/state';
 
 export const KEY_SIZE = 56;
 const KEY_CAP_BORDER = 1;
@@ -17,6 +21,7 @@ const KEY_CAP_ROOF_TOP_MARGIN = 3;
 
 type KeycapOwnState = {
   onDragOver: boolean;
+  targetKeySwitchOperation: IKeySwitchOperation;
 };
 
 // TODO: refactoring properties, unify the model
@@ -34,8 +39,16 @@ export type KeycapOwnProps = {
   // eslint-disable-next-line no-undef
   anchorRef?: React.RefObject<HTMLDivElement>;
   isCustomKeyOpen: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onClick?: (pos: string, key: Key) => void;
+  onClick?: (
+    // eslint-disable-next-line no-unused-vars
+    pos: string,
+    // eslint-disable-next-line no-unused-vars
+    key: Key,
+    // eslint-disable-next-line no-unused-vars
+    keySwitchEventType: IKeySwitchOperation,
+    // eslint-disable-next-line no-unused-vars
+    encoderId: number | null
+  ) => void;
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -50,6 +63,9 @@ export default class Keycap extends React.Component<
     super(props);
     this.state = {
       onDragOver: false,
+      targetKeySwitchOperation: props.model.isEncoderForRotaryOnly
+        ? 'cw'
+        : 'click',
     };
   }
 
@@ -58,17 +74,82 @@ export default class Keycap extends React.Component<
   }
 
   private onClick(
-    pos: string,
+    model: KeyModel,
     isSelectedKey: boolean,
     orgKey: Key,
     dstKey: Key | null
   ) {
     if (this.props.testMatrix) return;
 
-    this.props.onClickKeycap!(pos, isSelectedKey, orgKey, dstKey);
+    this.props.onClickKeycap!(
+      model.pos,
+      model.encoderId!,
+      this.state.targetKeySwitchOperation,
+      isSelectedKey,
+      orgKey,
+      dstKey
+    );
     if (!this.props.isCustomKeyOpen && this.props.onClick) {
-      this.props.onClick(pos, dstKey ? dstKey : orgKey);
+      this.props.onClick(
+        model.pos,
+        dstKey ? dstKey : orgKey,
+        this.state.targetKeySwitchOperation,
+        this.props.model.isEncoder ? this.props.model.encoderId : null
+      );
     }
+  }
+
+  private onClickEncoderToggle() {
+    let nextKeySwitchOperation: IKeySwitchOperation;
+    switch (this.state.targetKeySwitchOperation) {
+      case 'click':
+        nextKeySwitchOperation = 'cw';
+        break;
+      case 'cw':
+        nextKeySwitchOperation = 'ccw';
+        break;
+      case 'ccw':
+        nextKeySwitchOperation = this.props.model.isEncoderForRotaryOnly
+          ? 'cw'
+          : 'click';
+        break;
+    }
+    this.setState({ targetKeySwitchOperation: nextKeySwitchOperation });
+
+    const keymap = this.getTargetKeymap(nextKeySwitchOperation);
+    const remap = this.getTargetRemap(nextKeySwitchOperation);
+
+    // FIXME: There is possibility that keymap is null!
+    const orgKey: Key = genKey(keymap!, this.props.labelLang!);
+    const dstKey: Key | null = remap
+      ? genKey(remap, this.props.labelLang!)
+      : null;
+
+    this.props.updateKeydiff!(this.props.focus!, orgKey, dstKey);
+  }
+
+  private getTargetKeymap(
+    keySwitchOperation: IKeySwitchOperation
+  ): IKeymap | null {
+    return this.props.model.isEncoder
+      ? keySwitchOperation === 'click'
+        ? this.props.keymap
+        : keySwitchOperation === 'cw'
+        ? this.props.cwKeymap
+        : this.props.ccwKeymap
+      : this.props.keymap;
+  }
+
+  private getTargetRemap(
+    keySwitchOperation: IKeySwitchOperation
+  ): IKeymap | null {
+    return this.props.model.isEncoder
+      ? keySwitchOperation === 'click'
+        ? this.props.remap
+        : keySwitchOperation === 'cw'
+        ? this.props.cwRemap
+        : this.props.ccwRemap
+      : this.props.remap;
   }
 
   render(): ReactNode {
@@ -146,12 +227,18 @@ export default class Keycap extends React.Component<
     const pos = this.props.model.pos;
     const optionLabel = this.props.model.optionLabel;
     const isFocusedKey = this.props.focus;
-    const keymap: IKeymap | null = this.props.keymap;
+
+    const keymap: IKeymap | null = this.getTargetKeymap(
+      this.state.targetKeySwitchOperation
+    );
+    const remap: IKeymap | null = this.getTargetRemap(
+      this.state.targetKeySwitchOperation
+    );
 
     // FIXME: There is possibility that keymap is null!
     const orgKey: Key = genKey(keymap!, this.props.labelLang!);
-    const dstKey: Key | null = this.props.remap
-      ? genKey(this.props.remap, this.props.labelLang!)
+    const dstKey: Key | null = remap
+      ? genKey(remap, this.props.labelLang!)
       : null;
 
     // TODO: refactor the label position should be organized in genKey()
@@ -164,6 +251,14 @@ export default class Keycap extends React.Component<
     const modifierRightLabel = dstKey ? dstKey.metaRight : orgKey.metaRight;
     const meta = dstKey ? dstKey.meta : orgKey.meta;
     modifierLabel = meta ? meta : modifierLabel;
+
+    const hasDiff =
+      !this.props.model.isEncoder && this.props.remap !== null
+        ? true
+        : this.props.model.isEncoder &&
+          (this.props.remap !== null ||
+            this.props.cwRemap !== null ||
+            this.props.ccwRemap !== null);
 
     return (
       <div
@@ -185,12 +280,25 @@ export default class Keycap extends React.Component<
         }}
         onDrop={() => {
           this.setState({ onDragOver: false });
-          this.props.onDropKeycode!(
-            this.props.draggingKey!,
-            this.props.selectedLayer!,
-            pos,
-            orgKey
-          );
+          if (
+            !this.props.model.isEncoder ||
+            this.state.targetKeySwitchOperation === 'click'
+          ) {
+            this.props.onDropKeycode!(
+              this.props.draggingKey!,
+              this.props.selectedLayer!,
+              pos,
+              orgKey
+            );
+          } else {
+            this.props.onDropKeycodeToEncoder!(
+              this.props.draggingKey!,
+              this.props.selectedLayer!,
+              this.props.model.encoderId!,
+              this.state.targetKeySwitchOperation,
+              orgKey
+            );
+          }
         }}
       >
         {/* base1 */}
@@ -207,9 +315,16 @@ export default class Keycap extends React.Component<
           ].join(' ')}
           style={style}
           onClick={() => {
-            this.onClick(pos, isFocusedKey, orgKey, dstKey);
+            this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
           }}
-        ></div>
+        >
+          {this.props.model.isEncoder && (
+            <EncoderToggleIcon
+              targetKeymap={this.state.targetKeySwitchOperation}
+              onClick={() => this.onClickEncoderToggle()}
+            />
+          )}
+        </div>
         {this.isOddly && (
           <React.Fragment>
             {/* base2 */}
@@ -222,7 +337,7 @@ export default class Keycap extends React.Component<
               ].join(' ')}
               style={baseStyle2}
               onClick={() => {
-                this.onClick(pos, isFocusedKey, orgKey, dstKey);
+                this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
               }}
               onDragOver={(event) => {
                 event.preventDefault();
@@ -241,7 +356,7 @@ export default class Keycap extends React.Component<
               ].join(' ')}
               style={coverStyle}
               onClick={() => {
-                this.onClick(pos, isFocusedKey, orgKey, dstKey);
+                this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
               }}
             ></div>
           </React.Fragment>
@@ -256,7 +371,13 @@ export default class Keycap extends React.Component<
             this.props.model.isEncoder && 'keyroof-encoder',
           ].join(' ')}
           style={roofStyle}
-          onClick={this.onClick.bind(this, pos, isFocusedKey, orgKey, dstKey)}
+          onClick={this.onClick.bind(
+            this,
+            this.props.model,
+            isFocusedKey,
+            orgKey,
+            dstKey
+          )}
         ></div>
         {this.isOddly && (
           <React.Fragment>
@@ -269,7 +390,7 @@ export default class Keycap extends React.Component<
               ].join(' ')}
               style={roofStyle2}
               onClick={() => {
-                this.onClick(pos, isFocusedKey, orgKey, dstKey);
+                this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
               }}
             ></div>
           </React.Fragment>
@@ -283,7 +404,7 @@ export default class Keycap extends React.Component<
             ].join(' ')}
             style={labelsStyle}
             onClick={() => {
-              this.onClick(pos, isFocusedKey, orgKey, dstKey);
+              this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
             }}
           >
             <KeyLabel
@@ -293,7 +414,7 @@ export default class Keycap extends React.Component<
               modifierRightLabel={modifierRightLabel}
               holdLabel={holdLabel}
               pos={pos}
-              hasDiff={dstKey != null}
+              hasDiff={hasDiff}
               optionChoiceLabel={optionLabel}
               debug={this.props.debug}
             />
@@ -302,6 +423,34 @@ export default class Keycap extends React.Component<
       </div>
     );
   }
+}
+
+type EncoderToggleIconProps = {
+  targetKeymap: IKeySwitchOperation;
+  onClick: () => void;
+};
+function EncoderToggleIcon(props: EncoderToggleIconProps) {
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    props.onClick();
+  };
+  return (
+    <div className="encoder-toggle-icon">
+      <IconButton
+        color="primary"
+        size="small"
+        onClick={(event) => onClick(event)}
+      >
+        {props.targetKeymap === 'click' ? (
+          <DownloadIcon />
+        ) : props.targetKeymap === 'cw' ? (
+          <AutorenewIcon />
+        ) : (
+          <LoopIcon />
+        )}
+      </IconButton>
+    </div>
+  );
 }
 
 type KeyLabelType = {

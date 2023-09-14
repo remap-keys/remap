@@ -1,20 +1,13 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Keymap.scss';
-import { IconButton, MenuItem, Select } from '@mui/material';
+import { IconButton } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Keydiff from '../keydiff/Keydiff.container';
 import { KeymapActionsType, KeymapStateType } from './Keymap.container';
-import {
-  IEncoderKeymap,
-  IEncoderKeymaps,
-  IKeymap,
-} from '../../../services/hid/Hid';
+import { IKeymap } from '../../../services/hid/Hid';
 import KeyModel from '../../../models/KeyModel';
-import KeyboardModel, {
-  KeyboardViewContent,
-} from '../../../models/KeyboardModel';
-import Keycap from '../keycap/Keycap.container';
+import KeyboardModel from '../../../models/KeyboardModel';
 import CustomKey, {
   CUSTOMKEY_POPOVER_HEIGHT,
   CUSTOMKEY_POPOVER_TRIANGLE,
@@ -22,14 +15,13 @@ import CustomKey, {
   PopoverPosition,
 } from '../customkey/CustomKey';
 import { Key } from '../keycodekey/KeyGen';
-import {
-  KeyboardLabelLang,
-  KeyLabelLangs,
-} from '../../../services/labellang/KeyLabelLangs';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
-import LayerPagination from '../../common/layer/LayerPagination';
 import KeyEventCapture from '../keyeventcapture/KeyEventCapture.container';
 import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
+import { IKeySwitchOperation } from '../../../store/state';
+import { KEYBOARD_LAYOUT_PADDING, KeyboardView } from './KeyboardView';
+import { Layer } from './Layer';
+import { LabelLang } from './LabelLang';
 
 export type LayoutOption = {
   option: number;
@@ -44,11 +36,17 @@ type KeymapPropsType = OwnProp &
   Partial<KeymapStateType> &
   Partial<KeymapActionsType>;
 
+// `selectedPos`, `selectedKey`, `selectedKeySwitchOperation`,
+// `selectedEncoderId` and `customKeyPopoverPosition` are set
+// when the key cap is clicked, and they are cleared when the
+// custom key popup is closed.
 type OwnKeymapStateType = {
-  keyboardModel: KeyboardModel;
   selectedPos: string | null; // 0,1
+  selectedEncoderId: number | null;
+  selectedKeySwitchOperation: IKeySwitchOperation;
   selectedKey: Key | null;
   customKeyPopoverPosition: PopoverPosition;
+  keyboardModel: KeyboardModel;
   interval: any | null;
 };
 
@@ -62,6 +60,8 @@ export default class Keymap extends React.Component<
     this.state = {
       keyboardModel: keyboardModel,
       selectedPos: null,
+      selectedEncoderId: null,
+      selectedKeySwitchOperation: 'click',
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
       interval: null,
@@ -79,9 +79,12 @@ export default class Keymap extends React.Component<
     return true;
   }
 
+  // This method is called when the custom key popup is closed.
   private onCloseCustomKeyPopup() {
     this.setState({
       selectedPos: null,
+      selectedEncoderId: null,
+      selectedKeySwitchOperation: 'click',
       selectedKey: null,
       customKeyPopoverPosition: { left: 0, top: 0, side: 'above' },
     });
@@ -91,9 +94,12 @@ export default class Keymap extends React.Component<
     console.log(pos);
   }
 
+  // This method is called when the keycap is clicked.
   private onClickKeycapForKeyCustom(
     selectedPos: string,
     selectedKey: Key,
+    selectedKeySwitchOperation: IKeySwitchOperation,
+    selectedEncoderId: number | null,
     selectedKeyRef: React.RefObject<HTMLDivElement>
   ) {
     const div: HTMLDivElement = selectedKeyRef.current!;
@@ -141,13 +147,35 @@ export default class Keymap extends React.Component<
     this.setState({
       selectedPos,
       selectedKey,
+      selectedKeySwitchOperation: selectedKeySwitchOperation,
+      selectedEncoderId,
       customKeyPopoverPosition: position,
     });
   }
 
   private onChangeKeymap(dstKey: Key) {
-    const orgKm: IKeymap =
-      this.props.keymaps![this.props.selectedLayer!][this.state.selectedPos!];
+    const forEncoder =
+      KeyModel.isEncoder(this.state.selectedEncoderId) &&
+      this.state.selectedKeySwitchOperation !== 'click';
+
+    let orgKm: IKeymap;
+    if (forEncoder) {
+      if (this.state.selectedKeySwitchOperation === 'cw') {
+        orgKm =
+          this.props.encodersKeymaps![this.props.selectedLayer!][
+            this.state.selectedEncoderId!
+          ].clockwise;
+      } else {
+        orgKm =
+          this.props.encodersKeymaps![this.props.selectedLayer!][
+            this.state.selectedEncoderId!
+          ].counterclockwise;
+      }
+    } else {
+      orgKm =
+        this.props.keymaps![this.props.selectedLayer!][this.state.selectedPos!];
+    }
+
     const dstKm = dstKey.keymap;
 
     if (
@@ -157,18 +185,36 @@ export default class Keymap extends React.Component<
       orgKm.direction != dstKm.direction ||
       orgKm.option != dstKm.option
     ) {
-      this.props.updateKeymap!(
-        this.props.selectedLayer!,
-        this.state.selectedPos!,
-        orgKm,
-        dstKey.keymap
-      );
+      if (forEncoder) {
+        this.props.updateEncoderKeymap!(
+          this.props.selectedLayer!,
+          this.state.selectedEncoderId!,
+          orgKm,
+          dstKey.keymap,
+          this.state.selectedKeySwitchOperation
+        );
+      } else {
+        this.props.updateKeymap!(
+          this.props.selectedLayer!,
+          this.state.selectedPos!,
+          orgKm,
+          dstKey.keymap
+        );
+      }
     } else {
       // clear diff
-      this.props.revertKeymap!(
-        this.props.selectedLayer!,
-        this.state.selectedPos!
-      );
+      if (forEncoder) {
+        this.props.revertEncoderKeymap!(
+          this.props.selectedLayer!,
+          this.state.selectedEncoderId!,
+          this.state.selectedKeySwitchOperation
+        );
+      } else {
+        this.props.revertKeymap!(
+          this.props.selectedLayer!,
+          this.state.selectedPos!
+        );
+      }
     }
   }
 
@@ -285,6 +331,10 @@ export default class Keymap extends React.Component<
               deviceKeymaps={deviceKeymaps}
               deviceEncodersKeymaps={deviceEncodersKeymaps}
               selectedPos={this.props.testMatrix ? '' : this.props.selectedPos!}
+              selectedEncoderId={this.props.selectedEncoderId!}
+              selectedKeySwitchOperation={
+                this.props.selectedKeySwitchOperation!
+              }
               remaps={remaps}
               encodersRemaps={encodersRemap}
               keyboardWidth={this.props.keyboardWidth!}
@@ -295,11 +345,17 @@ export default class Keymap extends React.Component<
                 this.props.setKeyboardSize!(width, height);
               }}
               isCustomKeyOpen={Boolean(this.state.selectedPos)}
-              onClickKeycap={(pos, key, ref) => {
+              onClickKeycap={(pos, key, keySwitchEventType, encoderId, ref) => {
                 if (this.props.testMatrix) {
                   this.onClickKeycapForTestMatrix(pos);
                 } else {
-                  this.onClickKeycapForKeyCustom(pos, key, ref);
+                  this.onClickKeycapForKeyCustom(
+                    pos,
+                    key,
+                    keySwitchEventType,
+                    encoderId,
+                    ref
+                  );
                 }
               }}
             />
@@ -324,193 +380,4 @@ export default class Keymap extends React.Component<
       </React.Fragment>
     );
   }
-}
-
-type LayerProps = {
-  layerCount: number;
-  selectedLayer: number;
-  remaps: { [pos: string]: IKeymap }[];
-  // eslint-disable-next-line no-unused-vars
-  onClickLayer: (layer: number) => void;
-};
-
-function Layer(props: LayerProps) {
-  const layers = [...Array(props.layerCount)].map((_, i) => i);
-  const invisiblePages = layers.map((layer) => {
-    return (
-      props.remaps![layer] == undefined ||
-      0 == Object.values(props.remaps![layer]).length
-    );
-  });
-  return (
-    <div className="layer-wrapper">
-      <LayerPagination
-        orientation="vertical"
-        count={props.layerCount}
-        page={props.selectedLayer + 1}
-        invisiblePages={invisiblePages}
-        onClickPage={(page) => {
-          props.onClickLayer(page - 1);
-        }}
-      />
-    </div>
-  );
-}
-
-type LabelLangProps = {
-  labelLang: KeyboardLabelLang;
-  // eslint-disable-next-line no-unused-vars
-  onChangeLangLabel: (labelLang: KeyboardLabelLang) => void;
-};
-function LabelLang(props: LabelLangProps) {
-  return (
-    <Select
-      variant="standard"
-      value={props.labelLang!}
-      onChange={(e) => {
-        props.onChangeLangLabel!(e.target.value as KeyboardLabelLang);
-      }}
-    >
-      {KeyLabelLangs.KeyLabelLangMenus.map((item, index) => {
-        return (
-          <MenuItem key={`${item.labelLang}${index}`} value={item.labelLang}>
-            {item.menuLabel}
-          </MenuItem>
-        );
-      })}
-    </Select>
-  );
-}
-
-type KeycapData = {
-  model: KeyModel;
-  keymap: IKeymap | null;
-  remap: IKeymap | null;
-  cwKeymap: IKeymap | null;
-  cwRemap: IKeymap | null;
-  ccwKeymap: IKeymap | null;
-  ccwRemap: IKeymap | null;
-  focus: boolean;
-  down: boolean;
-};
-
-type KeyboardViewType = {
-  keyboardViewContent: KeyboardViewContent;
-  layoutOptions?: LayoutOption[];
-  deviceKeymaps: { [pos: string]: IKeymap };
-  deviceEncodersKeymaps: IEncoderKeymaps;
-  selectedPos: string;
-  remaps: { [pos: string]: IKeymap };
-  encodersRemaps: IEncoderKeymaps;
-  keyboardWidth: number;
-  keyboardHeight: number;
-  testedMatrix: string[];
-  currentTestMatrix: string[];
-  isCustomKeyOpen: boolean;
-  onClickKeycap: (
-    // eslint-disable-next-line no-unused-vars
-    pos: string,
-    // eslint-disable-next-line no-unused-vars
-    key: Key,
-    // eslint-disable-next-line no-unused-vars
-    ref: React.RefObject<HTMLDivElement>
-  ) => void;
-  // eslint-disable-next-line no-unused-vars
-  setKeyboardSize: (width: number, height: number) => void;
-};
-
-export const KEYBOARD_LAYOUT_PADDING = 8;
-export function KeyboardView(props: KeyboardViewType) {
-  const { keymaps, width, height, left, top } = props.keyboardViewContent;
-  const moveLeft = left != 0 ? -left : 0;
-  const moveTop = -top;
-
-  // TODO: performance tuning
-  const keycaps: KeycapData[] = [];
-  keymaps.forEach((model) => {
-    let keymap: IKeymap | null = null;
-    let remap: IKeymap | null = null;
-    let cwKeymap: IKeymap | null = null;
-    let cwRemap: IKeymap | null = null;
-    let ccwKeymap: IKeymap | null = null;
-    let ccwRemap: IKeymap | null = null;
-    let focus: boolean = false;
-    let down: boolean = false;
-    const pos = model.pos;
-    if (pos) {
-      if (pos in props.deviceKeymaps) {
-        keymap = props.deviceKeymaps[pos];
-        remap = pos in props.remaps ? props.remaps[pos] : null;
-      } else {
-        console.log(`No keymap on device: ${model.location}`);
-      }
-      focus = 0 <= props.testedMatrix.indexOf(pos) || props.selectedPos === pos;
-      down = 0 <= props.currentTestMatrix.indexOf(pos);
-    }
-    if (model.isEncoder) {
-      const encoderId = model.encoderId!;
-      if (encoderId in props.deviceEncodersKeymaps) {
-        const encodersKeymap = props.deviceEncodersKeymaps[encoderId];
-        cwKeymap = encodersKeymap.clockwise;
-        cwRemap =
-          encoderId in props.encodersRemaps
-            ? props.encodersRemaps[encoderId].clockwise
-            : null;
-        ccwKeymap = encodersKeymap.counterclockwise;
-        ccwRemap =
-          encoderId in props.encodersRemaps
-            ? props.encodersRemaps[encoderId].counterclockwise
-            : null;
-      } else {
-        console.log(`No encoder keymap on device: ${model.location}`);
-      }
-    }
-    keycaps.push({
-      model,
-      keymap,
-      remap,
-      cwKeymap,
-      cwRemap,
-      ccwKeymap,
-      ccwRemap,
-      focus,
-      down,
-    });
-  });
-  return (
-    <div className="keyboards">
-      <div
-        className="keyboard-root"
-        style={{
-          width: props.keyboardWidth,
-          height: props.keyboardHeight,
-          padding: KEYBOARD_LAYOUT_PADDING,
-        }}
-      >
-        <div
-          className="keyboard-frame"
-          style={{ width: width, height: height, left: moveLeft, top: moveTop }}
-        >
-          {keycaps.map((keycap: KeycapData) => {
-            const anchorRef = React.createRef<HTMLDivElement>();
-            return keycap.model.isDecal ? (
-              ''
-            ) : (
-              <Keycap
-                anchorRef={anchorRef}
-                key={keycap.model.location}
-                {...keycap}
-                onClick={(pos: string, key: Key) => {
-                  props.onClickKeycap(pos, key, anchorRef);
-                }}
-                focus={keycap.focus}
-                down={keycap.down}
-                isCustomKeyOpen={props.isCustomKeyOpen}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
 }

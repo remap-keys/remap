@@ -174,7 +174,7 @@ export const storageActionsThunk = {
       dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
     },
 
   // eslint-disable-next-line no-undef

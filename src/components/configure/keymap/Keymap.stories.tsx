@@ -72,14 +72,41 @@ const genKeyboardView = (
       },
     };
     const remap = null;
-    // FIXME: Set keymaps for encoder!
     keycaps.push({
       model,
       keymap,
       remap,
-      cwKeymap: null,
+      cwKeymap: model.isEncoder
+        ? {
+            isAny: true,
+            code: 0,
+            kinds: [],
+            direction: MOD_LEFT,
+            modifiers: [],
+            keycodeInfo: {
+              label: '',
+              code: 0,
+              name: { long: '', short: '' },
+              keywords: [],
+            },
+          }
+        : null,
       cwRemap: null,
-      ccwKeymap: null,
+      ccwKeymap: model.isEncoder
+        ? {
+            isAny: true,
+            code: 0,
+            kinds: [],
+            direction: MOD_LEFT,
+            modifiers: [],
+            keycodeInfo: {
+              label: '',
+              code: 0,
+              name: { long: '', short: '' },
+              keywords: [],
+            },
+          }
+        : null,
       ccwRemap: null,
     });
   });
