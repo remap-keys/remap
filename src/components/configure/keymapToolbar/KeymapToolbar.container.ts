@@ -18,6 +18,7 @@ const mapStateToProps = (state: RootState) => {
     selectedKeyboardOptions: state.configure.layoutOptions.selectedOptions,
     labelLang: state.app.labelLang,
     remaps: state.app.remaps,
+    encoderRemaps: state.app.encodersRemaps,
   };
 };
 export type KeymapMenuStateType = ReturnType<typeof mapStateToProps>;
@@ -27,6 +28,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     clearAllRemaps: (layerCount: number) => {
       _dispatch(AppActions.remapsInit(layerCount));
+      _dispatch(AppActions.encodersRemapsInit(layerCount));
       _dispatch(KeydiffActions.clearKeydiff());
     },
     updateTestMatrixOn: () => {

@@ -173,6 +173,9 @@ export interface AbstractKeymapData {
   label_lang: KeyboardLabelLang;
   layout_options: LayoutOption[];
   keycodes: { [pos: string]: number }[];
+  encoderKeycodes: {
+    [id: number]: { clockwise: number; counterclockwise: number };
+  }[];
   created_at?: Date;
   updated_at?: Date;
 }

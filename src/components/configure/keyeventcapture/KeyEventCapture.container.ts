@@ -8,6 +8,9 @@ const mapStateToProps = (state: RootState) => {
     selectedLayer: state.configure.keymap.selectedLayer,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     selectedPos: state.configure.keymap.selectedPos,
+    selectedEncoderId: state.configure.keymap.selectedEncoderId,
+    selectedKeySwitchOperation:
+      state.configure.keymap.selectedKeySwitchOperation,
     keyboardDefinition: state.entities.keyboardDefinition,
   };
 };

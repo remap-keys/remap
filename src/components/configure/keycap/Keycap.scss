@@ -85,8 +85,20 @@
     &.keycap-border {
       border: 1px solid rgba(0, 0, 0, 0.6);
     }
+
+    &.keycap-encoder {
+      border-radius: 30px;
+    }
+
     border-radius: 5px;
     font-size: 12px;
+    position: relative;
+
+    .encoder-toggle-icon {
+      position: absolute;
+      bottom: -16px;
+      left: -8px;
+    }
   }
 
   .keycap:hover,
@@ -115,6 +127,10 @@
       animation-name: scale-down-roof;
       animation-fill-mode: forwards;
     }
+
+    &.keyroof-encoder {
+      border-radius: 30px;
+    }
   }
 
   .keyroof {
@@ -127,6 +143,10 @@
     background-clip: padding-box;
     pointer-events: none;
     cursor: pointer;
+
+    &.keyroof-encoder {
+      border-radius: 30px;
+    }
 
     .keylabel {
       display: flex;

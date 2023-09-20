@@ -1,6 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
   ICustomKeycode,
+  IEncoderKeymaps,
   IHid,
   IKeyboard,
   IKeymap,
@@ -12,16 +13,18 @@ import { RootState, SetupPhase } from '../store/state';
 import {
   AppActions,
   HeaderActions,
-  KeymapActions,
   KeycodeKeyActions,
   KeydiffActions,
-  NotificationActions,
+  KeymapActions,
   LayoutOptionsActions,
+  NotificationActions,
 } from './actions';
 import { StorageActions, storageActionsThunk } from './storage.action';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
+import { KeyOp } from '../gen/types/KeyboardDefinition';
+import { getEncoderIdList } from './utils';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -37,6 +40,7 @@ export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBy
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HID_UPDATE_VIA_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateViaProtocolVersion`;
+export const HID_UPDATE_ENCODERS_KEYMAPS = `${HID_ACTIONS}/UpdateEncodersKeymaps`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
     return {
@@ -112,6 +116,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_VIA_PROTOCOL_VERSION,
       value: version,
+    };
+  },
+
+  updateEncodersKeymaps: (keymaps: IEncoderKeymaps[]) => {
+    return {
+      type: HID_UPDATE_ENCODERS_KEYMAPS,
+      value: keymaps,
     };
   },
 };
@@ -330,6 +341,16 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
       const macroBufferSizeResult = await keyboard.getMacroBufferSize();
       if (!macroBufferSizeResult.success) {
@@ -366,6 +387,7 @@ export const hidActionsThunk = {
       );
 
       dispatch(AppActions.remapsInit(layerCount));
+      dispatch(AppActions.encodersRemapsInit(layerCount));
       dispatch(KeymapActions.updateSelectedLayer(0)); // initial selected layer
       dispatch(await hidActionsThunk.restoreLayoutOptions());
       dispatch(HidActions.updateKeyboard(keyboard));
@@ -412,7 +434,7 @@ export const hidActionsThunk = {
       dispatch(AppActions.remapsClear());
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(StorageActions.updateKeyboardDefinition(null));
       dispatch(HidActions.updateKeyboard(null));
     },
@@ -431,7 +453,7 @@ export const hidActionsThunk = {
         dispatch(AppActions.remapsClear());
         dispatch(KeydiffActions.clearKeydiff());
         dispatch(KeycodeKeyActions.clear());
-        dispatch(KeymapActions.clearSelectedPos());
+        dispatch(KeymapActions.clearSelectedKeyPosition());
         dispatch(StorageActions.updateKeyboardDefinition(null));
         dispatch(StorageActions.clearKeyboardDefinitionDocument());
         dispatch(StorageActions.updateSavedKeymaps([]));
@@ -465,7 +487,7 @@ export const hidActionsThunk = {
             console.error(result.cause);
             dispatch(
               NotificationActions.addError(
-                `Flush error: [${pos}] ${result.error!}`,
+                `Flash error: [${pos}] ${result.error!}`,
                 result.cause
               )
             );
@@ -483,6 +505,54 @@ export const hidActionsThunk = {
           return;
         }
       }
+      if (0x0a <= entities.device.viaProtocolVersion) {
+        const encodersRemaps = app.encodersRemaps;
+        for (let layer = 0; layer < encodersRemaps.length; layer++) {
+          const encodersRemap = encodersRemaps[layer];
+          for (const encoderIdString of Object.keys(encodersRemap)) {
+            const encoderId = Number(encoderIdString);
+            const encoderKeymap = encodersRemap[encoderId];
+            if (encoderKeymap.clockwise) {
+              const result = await keyboard.updateEncoderKeymap(
+                layer,
+                encoderId,
+                true,
+                encoderKeymap.clockwise.code
+              );
+              if (!result.success) {
+                console.error(result.cause);
+                dispatch(
+                  NotificationActions.addError(
+                    `Flash error: [${encoderId}-clockwise] ${result.error!}`,
+                    result.cause
+                  )
+                );
+                dispatch(HeaderActions.updateFlashing(false));
+                return;
+              }
+            }
+            if (encoderKeymap.counterclockwise) {
+              const result = await keyboard.updateEncoderKeymap(
+                layer,
+                encoderId,
+                false,
+                encoderKeymap.counterclockwise.code
+              );
+              if (!result.success) {
+                console.error(result.cause);
+                dispatch(
+                  NotificationActions.addError(
+                    `Flash error: [${encoderId}-counterclockwise] ${result.error!}`,
+                    result.cause
+                  )
+                );
+                dispatch(HeaderActions.updateFlashing(false));
+                return;
+              }
+            }
+          }
+        }
+      }
       const keymaps: IKeymaps[] = await loadKeymap(
         dispatch,
         keyboard,
@@ -493,10 +563,22 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
+
       dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(HeaderActions.updateFlashing(false));
     },
 
@@ -558,6 +640,16 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
     },
 
   resetKeymap:
@@ -584,10 +676,22 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
+      const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
+        dispatch,
+        keyboard,
+        entities.device.layerCount,
+        app.labelLang,
+        entities.keyboardDefinition!.customKeycodes,
+        entities.keyboardDefinition!.layouts.keymap,
+        entities.device.viaProtocolVersion
+      );
+      dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
+
       dispatch(AppActions.remapsInit(entities.device.layerCount));
+      dispatch(AppActions.encodersRemapsInit(entities.device.layerCount));
       dispatch(KeydiffActions.clearKeydiff());
       dispatch(KeycodeKeyActions.clear());
-      dispatch(KeymapActions.clearSelectedPos());
+      dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(NotificationActions.addInfo('Resetting keymap succeeded.'));
     },
 
@@ -685,6 +789,44 @@ const loadKeymap = async (
       Promise.reject('something wrong in loading kerymaps');
     }
     keymaps.push(keymapsResult.keymap!);
+  }
+  return keymaps;
+};
+
+const loadEncodersKeymap = async (
+  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+  keyboard: IKeyboard,
+  layerCount: number,
+  labelLang: KeyboardLabelLang,
+  customKeycodes: ICustomKeycode[] | undefined,
+  keymapDefinition: ((string | KeyOp)[] | { name: string })[],
+  viaProtocolVersion: number
+): Promise<IEncoderKeymaps[]> => {
+  const keymaps: IEncoderKeymaps[] = [];
+  const encoderIdList = getEncoderIdList(keymapDefinition);
+  for (let i = 0; i < layerCount; i++) {
+    if (0x0a <= viaProtocolVersion) {
+      const encodersKeymapsResult = await keyboard.fetchEncodersKeymaps(
+        i,
+        encoderIdList,
+        labelLang,
+        customKeycodes
+      );
+      if (!encodersKeymapsResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            encodersKeymapsResult.error!,
+            encodersKeymapsResult.cause!
+          )
+        );
+        console.error(encodersKeymapsResult);
+        console.error(`layer:${i}, encoderId:[${encoderIdList.join(' ')}]`);
+        Promise.reject('something wrong in loading encoders keymaps');
+      }
+      keymaps.push(encodersKeymapsResult.keymap!);
+    } else {
+      keymaps.push({});
+    }
   }
   return keymaps;
 };

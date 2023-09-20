@@ -1,6 +1,6 @@
 import { NotificationItem } from '../actions/actions';
 import { Key } from '../components/configure/keycodekey/KeyGen';
-import { IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
+import { IEncoderKeymaps, IHid, IKeyboard, IKeymap } from '../services/hid/Hid';
 import { WebHid } from '../services/hid/WebHid';
 import { FirebaseProvider } from '../services/provider/Firebase';
 import {
@@ -185,6 +185,14 @@ export type IFlashFirmwareDialogFlashMode =
   | 'upload_and_flash'
   | 'fetch_and_flash';
 
+const KeySwitchOperations = {
+  click: 'click',
+  cw: 'cw',
+  ccw: 'ccw',
+} as const;
+export type IKeySwitchOperation =
+  typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+
 export type RootState = {
   entities: {
     device: {
@@ -205,6 +213,7 @@ export type RootState = {
         maxCount: number;
       };
       viaProtocolVersion: number;
+      encodersKeymaps: IEncoderKeymaps[];
     };
     keyboards: IKeyboard[]; // authorized keyboard list
     keyboard: IKeyboard | null;
@@ -228,8 +237,15 @@ export type RootState = {
     buildNumber: number;
     setupPhase: ISetupPhase;
     remaps: {
-      // remap candidates and show keydiff
+      // remap candidates and show keydiff for clickable keys
       [pos: string]: IKeymap;
+    }[];
+    encodersRemaps: {
+      // remap candidates and show keydiff for encoders
+      [id: number]: {
+        clockwise?: IKeymap;
+        counterclockwise?: IKeymap;
+      };
     }[];
     testedMatrix: string[]; // 'row,col' string list which are pressed keys in TEST MATRIX MODE
     currentTestMatrix: string[]; // 'row,col' string list which are pressed down keys currently in TEST MATRIX MODE
@@ -256,6 +272,8 @@ export type RootState = {
     keymap: {
       selectedPos: string;
       selectedLayer: number;
+      selectedEncoderId: number | null;
+      selectedKeySwitchOperation: IKeySwitchOperation;
     };
     keymapToolbar: {
       testMatrix: boolean;
@@ -352,6 +370,7 @@ export type RootState = {
       keymaps: {
         [pos: string]: IKeymap;
       }[];
+      encodersKeymaps: IEncoderKeymaps[];
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
@@ -435,6 +454,7 @@ export const INIT_STATE: RootState = {
         maxCount: 0,
       },
       viaProtocolVersion: NaN,
+      encodersKeymaps: [],
     },
     keyboards: [],
     keyboard: null, // hid.keyboards[i]
@@ -458,6 +478,7 @@ export const INIT_STATE: RootState = {
     buildNumber: buildInfo.buildNumber,
     setupPhase: SetupPhase.init,
     remaps: [],
+    encodersRemaps: [],
     testedMatrix: [],
     currentTestMatrix: [],
     notifications: [],
@@ -496,6 +517,8 @@ export const INIT_STATE: RootState = {
     keymap: {
       selectedLayer: NaN,
       selectedPos: '',
+      selectedEncoderId: null,
+      selectedKeySwitchOperation: 'click',
     },
     keymapToolbar: {
       testMatrix: false,
@@ -590,6 +613,7 @@ export const INIT_STATE: RootState = {
     },
     keyboard: {
       keymaps: [],
+      encodersKeymaps: [],
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,

@@ -147,7 +147,15 @@ export default class KeyModel {
   }
 
   get isEncoder(): boolean {
-    return this.encoderId !== null;
+    return KeyModel.isEncoder(this.encoderId);
+  }
+
+  static isEncoder(encoderId: number | null): boolean {
+    return encoderId !== null;
+  }
+
+  get isEncoderForRotaryOnly(): boolean {
+    return this.isEncoder && !this.pos;
   }
 
   get style(): CSSProperties {

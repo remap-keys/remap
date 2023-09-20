@@ -4,7 +4,7 @@ import {
   IKeyboardFeatures,
   RootState,
 } from '../store/state';
-import { IKeymap } from '../services/hid/Hid';
+import { IEncoderKeymaps, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import { AbstractKeymapData, isSuccessful } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
@@ -14,6 +14,8 @@ import {
   NotificationActions,
 } from './actions';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { getEncoderIdList } from './utils';
+import { KC_NO } from '../services/hid/KeycodeInfoList';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -72,6 +74,7 @@ export const CatalogSearchActions = {
 
 export const CATALOG_KEYBOARD_ACTIONS = `@CatalogKeyboard`;
 export const CATALOG_KEYBOARD_UPDATE_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/UpdateKeymaps`;
+export const CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS = `${CATALOG_KEYBOARD_ACTIONS}/UpdateEncodersKeymaps`;
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedLayer`;
 export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
 export const CATALOG_KEYBOARD_CLEAR_KEYMAP = `${CATALOG_KEYBOARD_ACTIONS}/ClearKeymap`;
@@ -85,6 +88,12 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_KEYMAPS,
       value: keymaps,
+    };
+  },
+  updateEncodersKeymaps: (encodersKeymaps: IEncoderKeymaps[]) => {
+    return {
+      type: CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS,
+      value: encodersKeymaps,
     };
   },
   updateSelectedLayer: (selectedLayer: number) => {
@@ -136,30 +145,86 @@ export const catalogActionsThunk = {
       const { entities } = getState();
       const labelLang = savedKeymapData.label_lang;
       const layoutOptions = savedKeymapData.layout_options;
-      let keycodes: { [pos: string]: IKeymap }[] = [];
+
+      const keycodes: { [pos: string]: IKeymap }[] = [];
       const savedKeycodes: { [pos: string]: number }[] =
         savedKeymapData.keycodes;
       for (let i = 0; i < savedKeycodes.length; i++) {
         const savedCode = savedKeycodes[i];
-        const changes: { [pos: string]: IKeymap } = {};
+        const keymaps: { [pos: string]: IKeymap } = {};
         // When the savedKeycodes was stored for BMP MCU, the length may be 11.
         // Therefore, the target layer must be checked to ensure that the value
         // is less than the savedKeycodes length.
         // See: https://github.com/remap-keys/remap/issues/454
         if (i < savedKeycodes.length) {
           Object.keys(savedCode).forEach((pos) => {
-            changes[pos] = KeycodeList.getKeymap(
+            keymaps[pos] = KeycodeList.getKeymap(
               savedCode[pos],
               labelLang,
               entities.keyboardDefinition!.customKeycodes
             );
           });
         }
-        keycodes.push(changes);
+        keycodes.push(keymaps);
       }
+
+      const encoderIdList = getEncoderIdList(
+        entities.keyboardDefinition!.layouts.keymap
+      );
+      const encodersKeycodes: IEncoderKeymaps[] = [];
+      const savedEncodersKeycodes: {
+        [id: number]: { clockwise: number; counterclockwise: number };
+      }[] =
+        savedKeymapData.encoderKeycodes ||
+        // Shared keymaps don't have any encoder's key codes before supporting encoders in Remap.
+        // Therefore, set initial key codes (KC_NO) for encoders here.
+        (
+          new Array(savedKeycodes.length) as {
+            [id: number]: { clockwise: number; counterclockwise: number };
+          }[]
+        ).fill(
+          encoderIdList.reduce<{
+            [id: number]: { clockwise: number; counterclockwise: number };
+          }>(
+            (result, encoderId) => {
+              result[encoderId] = { clockwise: KC_NO, counterclockwise: KC_NO };
+              return result;
+            },
+            {} as {
+              [id: number]: { clockwise: number; counterclockwise: number };
+            }
+          )
+        );
+      for (let i = 0; i < savedEncodersKeycodes.length; i++) {
+        const savedEncodersCode = savedEncodersKeycodes[i];
+        const encodersKeymaps: IEncoderKeymaps = {};
+        // When the savedKeycodes was stored for BMP MCU, the length may be 11.
+        // Therefore, the target layer must be checked to ensure that the value
+        // is less than the savedKeycodes length.
+        // See: https://github.com/remap-keys/remap/issues/454
+        if (i < savedEncodersKeycodes.length) {
+          Object.keys(savedEncodersCode).forEach((id) => {
+            encodersKeymaps[Number(id)] = {
+              clockwise: KeycodeList.getKeymap(
+                savedEncodersCode[Number(id)].clockwise,
+                labelLang,
+                entities.keyboardDefinition!.customKeycodes
+              ),
+              counterclockwise: KeycodeList.getKeymap(
+                savedEncodersCode[Number(id)].counterclockwise,
+                labelLang,
+                entities.keyboardDefinition!.customKeycodes
+              ),
+            };
+          });
+        }
+        encodersKeycodes.push(encodersKeymaps);
+      }
+
       dispatch(CatalogKeyboardActions.updateLangLabel(labelLang));
       dispatch(AppActions.updateLangLabel(labelLang));
       dispatch(CatalogKeyboardActions.updateKeymaps(keycodes));
+      dispatch(CatalogKeyboardActions.updateEncodersKeymaps(encodersKeycodes));
       dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
       dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
       dispatch(

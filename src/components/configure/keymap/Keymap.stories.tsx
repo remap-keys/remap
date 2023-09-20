@@ -30,14 +30,19 @@ import { CtMacropadKeymap } from '../../../assets/keymaps/CtMacropadKeymap';
 import { CtMacropadWithoutDefaultOptionKeymap } from '../../../assets/keymaps/CtMacropadWithoutDefaultOptionKeymap';
 import { GiabalanaiKeymap } from '../../../assets/keymaps/GiabalanaiKeymap';
 import { MOD_LEFT } from '../../../services/hid/Constraints';
+import { FrogNpKeymap } from '../../../assets/keymaps/FrogNpKeymap';
 
 export default {
   title: 'Keyboards',
 };
 type KeycapData = {
   model: KeyModel;
-  keymap: IKeymap;
+  keymap: IKeymap | null;
   remap: IKeymap | null;
+  cwKeymap: IKeymap | null;
+  cwRemap: IKeymap | null;
+  ccwKeymap: IKeymap | null;
+  ccwRemap: IKeymap | null;
 };
 type KeymapType = ((string | KeyOp)[] | { name: string })[];
 
@@ -67,7 +72,43 @@ const genKeyboardView = (
       },
     };
     const remap = null;
-    keycaps.push({ model, keymap, remap });
+    keycaps.push({
+      model,
+      keymap,
+      remap,
+      cwKeymap: model.isEncoder
+        ? {
+            isAny: true,
+            code: 0,
+            kinds: [],
+            direction: MOD_LEFT,
+            modifiers: [],
+            keycodeInfo: {
+              label: '',
+              code: 0,
+              name: { long: '', short: '' },
+              keywords: [],
+            },
+          }
+        : null,
+      cwRemap: null,
+      ccwKeymap: model.isEncoder
+        ? {
+            isAny: true,
+            code: 0,
+            kinds: [],
+            direction: MOD_LEFT,
+            modifiers: [],
+            keycodeInfo: {
+              label: '',
+              code: 0,
+              name: { long: '', short: '' },
+              keywords: [],
+            },
+          }
+        : null,
+      ccwRemap: null,
+    });
   });
   return (
     <React.Fragment>
@@ -107,6 +148,7 @@ const genKeyboardView = (
                     focus={false}
                     down={false}
                     isCustomKeyOpen={false}
+                    keySwitchOperationVisible={false}
                   />
                 );
               })}
@@ -189,6 +231,15 @@ const format = (text: string): string => {
 export const LunakeyMini = () =>
   genKeyboardView('Lunakey Mini', LunakeyMiniKeymap);
 export const Crkbd = () => genKeyboardView('Crkbd', CrkbdKeymap);
+export const FrogNp = () =>
+  genKeyboardView('FrogNp', FrogNpKeymap, [
+    { option: 0, optionChoice: 0 },
+    { option: 1, optionChoice: 0 },
+    { option: 2, optionChoice: 1 },
+    { option: 3, optionChoice: 2 },
+    { option: 4, optionChoice: 2 },
+    { option: 5, optionChoice: 0 },
+  ]);
 export const Jisplit89 = () => genKeyboardView('Jisplit89', Jisplit89Keymap);
 export const Naked64SF = () => genKeyboardView('Naked64SF', Naked64SFKeymap);
 export const SilverBullet44Kai = () =>

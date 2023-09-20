@@ -4,6 +4,8 @@ import {
   ICommand,
   IConnectionEventHandler,
   IConnectParams,
+  ICustomKeycode,
+  IFetchEncodersKeymapsResult,
   IFetchLayoutOptionsResult,
   IFetchViaProtocolVersionResult,
   IHid,
@@ -104,7 +106,65 @@ export const mockIKeyboad: IKeyboard = {
       });
     });
   },
+  fetchEncodersKeymaps(
+    layer: number,
+    encoderIds: number[],
+    labelLang: KeyboardLabelLang,
+    customKeycodes: ICustomKeycode[] | undefined
+  ): Promise<IFetchEncodersKeymapsResult> {
+    return new Promise((resolve) => {
+      resolve({
+        success: true,
+        keymap: {
+          0: {
+            clockwise: {
+              isAny: false,
+              code: 0,
+              kinds: [],
+              direction: MOD_LEFT,
+              modifiers: [],
+              keycodeInfo: {
+                code: 0,
+                label: 'Mock(0,0)',
+                name: {
+                  short: 'KC_MOCK',
+                  long: 'KC_MOCK',
+                },
+                keywords: [],
+              },
+            },
+            counterclockwise: {
+              isAny: false,
+              code: 0,
+              kinds: [],
+              direction: MOD_LEFT,
+              modifiers: [],
+              keycodeInfo: {
+                code: 0,
+                label: 'Mock(0,0)',
+                name: {
+                  short: 'KC_MOCK',
+                  long: 'KC_MOCK',
+                },
+                keywords: [],
+              },
+            },
+          },
+        },
+      });
+    });
+  },
   updateKeymap: (ayer: number, row: number, column: number, code: number) => {
+    return new Promise((resolve) => {
+      resolve({ success: true });
+    });
+  },
+  updateEncoderKeymap(
+    layer: number,
+    encoderId: number,
+    clockwise: boolean,
+    code: number
+  ): Promise<IResult> {
     return new Promise((resolve) => {
       resolve({ success: true });
     });

@@ -17,6 +17,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     savedKeymaps: state.entities.savedKeymaps,
     keymaps: state.entities.device.keymaps,
+    encodersKeymaps: state.entities.device.encodersKeymaps,
     auth: state.auth.instance,
     signedIn: state.app.signedIn,
     sharedKeymaps: state.entities.sharedKeymaps,
@@ -32,12 +33,19 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     applySavedKeymapData: (
       keymaps: { [pos: string]: IKeymap }[],
+      encodersKeymaps: {
+        [p: number]: {
+          clockwise?: IKeymap;
+          counterclockwise?: IKeymap;
+        };
+      }[],
       layoutOptions: LayoutOption[],
       labelLang: KeyboardLabelLang
     ) => {
       _dispatch(AppActions.updateLangLabel(labelLang));
       _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(AppActions.remapsSetKeys(keymaps));
+      _dispatch(AppActions.encodersRemapsSetKeys(encodersKeymaps));
       _dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     },
     createOrUpdateAppliedKeymap: (savedKeymapData: AbstractKeymapData) => {

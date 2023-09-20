@@ -28,8 +28,12 @@ type CatalogKeymapProps = OwnProps &
 
 type KeycapData = {
   model: KeyModel;
-  keymap: IKeymap;
+  keymap: IKeymap | null;
   remap: IKeymap | null;
+  cwKeymap: IKeymap | null;
+  cwRemap: IKeymap | null;
+  ccwKeymap: IKeymap | null;
+  ccwRemap: IKeymap | null;
 };
 
 export default function CatalogKeymap(props: CatalogKeymapProps) {
@@ -100,6 +104,9 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
     }
   };
 
+  const isKeymapLoaded = (): boolean =>
+    props.keymaps !== undefined && props.keymaps.length > 0;
+
   const kbd = new KeyboardModel(props.keyboardDefinition!.layouts.keymap);
   const { keymaps, width, height, left, top } = kbd.getKeymap(
     props.selectedKeyboardOptions
@@ -110,8 +117,21 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     let keymap: IKeymap;
-    if (props.keymaps && props.keymaps.length > 0) {
+    let cwKeymap: IKeymap | null;
+    let ccwKeymap: IKeymap | null;
+    if (isKeymapLoaded()) {
       keymap = props.keymaps![props.selectedLayer!][model.pos];
+      if (model.isEncoder) {
+        cwKeymap =
+          props.encoderKeymaps![props.selectedLayer!][model.encoderId!]
+            .clockwise;
+        ccwKeymap =
+          props.encoderKeymaps![props.selectedLayer!][model.encoderId!]
+            .counterclockwise;
+      } else {
+        cwKeymap = null;
+        ccwKeymap = null;
+      }
     } else {
       keymap = {
         isAny: false,
@@ -126,9 +146,22 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
           keywords: [],
         },
       };
+      cwKeymap = null;
+      ccwKeymap = null;
     }
     const remap = null;
-    keycaps.push({ model, keymap, remap });
+    const cwRemap = null;
+    const ccwRemap = null;
+    // FIXME: Set keymaps for encoder!
+    keycaps.push({
+      model,
+      keymap,
+      remap,
+      cwKeymap,
+      cwRemap,
+      ccwKeymap,
+      ccwRemap,
+    });
   });
 
   const CONTENT_MAX_WIDTH = 960;
@@ -210,6 +243,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
                       focus={false}
                       down={false}
                       isCustomKeyOpen={false}
+                      keySwitchOperationVisible={isKeymapLoaded()}
                     />
                   );
                 })}

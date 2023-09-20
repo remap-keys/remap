@@ -30,11 +30,14 @@ import {
   KEYDIFF_CLEAR_KEYDIFF,
   KEYDIFF_UPDATE_KEYDIFF,
   KEYMAP_ACTIONS,
-  KEYMAP_CLEAR_SELECTED_POS,
   KEYMAP_TOOLBAR_ACTIONS,
   KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
+  APP_ENCODERS_REMAPS_INIT,
+  APP_ENCODERS_REMAPS_SET_KEY,
+  APP_ENCODERS_REMAPS_SET_KEYS,
+  APP_ENCODERS_REMAPS_REMOVE_KEY,
+  APP_ENCODERS_REMAPS_CLEAR,
   KEYMAP_UPDATE_SELECTED_LAYER,
-  KEYMAP_UPDATE_SELECTED_POS,
   LAYOUT_OPTIONS_ACTIONS,
   LAYOUT_OPTIONS_INIT_SELECTED_OPTION,
   LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS,
@@ -45,12 +48,15 @@ import {
   NOTIFICATION_ADD_SUCCESS,
   NOTIFICATION_ADD_WARN,
   NOTIFICATION_REMOVE,
+  KEYMAP_CLEAR_SELECTED_KEY_POSITION,
+  KEYMAP_UPDATE_SELECTED_KEY_POSITION,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
   HID_CONNECT_KEYBOARD,
   HID_DISCONNECT_KEYBOARD,
   HID_UPDATE_BLE_MICRO_PRO,
+  HID_UPDATE_ENCODERS_KEYMAPS,
   HID_UPDATE_KEYBOARD,
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
   HID_UPDATE_KEYBOARD_LIST,
@@ -151,6 +157,7 @@ import {
   CATALOG_APP_UPDATE_PHASE,
   CATALOG_KEYBOARD_ACTIONS,
   CATALOG_KEYBOARD_CLEAR_KEYMAP,
+  CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_KEYMAPS,
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
   CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
@@ -597,6 +604,46 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.app.remaps = [];
       break;
     }
+    case APP_ENCODERS_REMAPS_INIT: {
+      draft.app.encodersRemaps = action.value;
+      break;
+    }
+    case APP_ENCODERS_REMAPS_SET_KEY: {
+      const layer = action.value.layer;
+      const encoderId = action.value.id;
+      if (draft.app.encodersRemaps[layer][encoderId] === undefined) {
+        draft.app.encodersRemaps[layer][encoderId] = {};
+      }
+      action.value.keySwitchOperation === 'cw'
+        ? (draft.app.encodersRemaps[layer][encoderId].clockwise =
+            action.value.keymap)
+        : (draft.app.encodersRemaps[layer][encoderId].counterclockwise =
+            action.value.keymap);
+      break;
+    }
+    case APP_ENCODERS_REMAPS_SET_KEYS: {
+      draft.app.encodersRemaps = action.value;
+      break;
+    }
+    case APP_ENCODERS_REMAPS_REMOVE_KEY: {
+      const layer = action.value.layer;
+      const encoderId = action.value.id;
+      action.value.keySwitchOperation === 'cw'
+        ? (draft.app.encodersRemaps[layer][encoderId].clockwise = undefined)
+        : (draft.app.encodersRemaps[layer][encoderId].counterclockwise =
+            undefined);
+      if (
+        !draft.app.encodersRemaps[layer][encoderId].clockwise &&
+        !draft.app.encodersRemaps[layer][encoderId].counterclockwise
+      ) {
+        delete draft.app.encodersRemaps[layer][encoderId];
+      }
+      break;
+    }
+    case APP_ENCODERS_REMAPS_CLEAR: {
+      draft.app.encodersRemaps = [];
+      break;
+    }
     case APP_PACKAGE_INIT: {
       draft.app.package.name = action.value.name;
       draft.app.package.version = action.value.version;
@@ -689,22 +736,31 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
       draft.entities.device.viaProtocolVersion = action.value;
       break;
     }
+    case HID_UPDATE_ENCODERS_KEYMAPS: {
+      draft.entities.device.encodersKeymaps = action.value;
+      break;
+    }
   }
 };
 
 const keymapReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
-    case KEYMAP_CLEAR_SELECTED_POS: {
+    case KEYMAP_CLEAR_SELECTED_KEY_POSITION: {
       draft.configure.keymap.selectedPos = '';
+      draft.configure.keymap.selectedEncoderId = null;
+      draft.configure.keymap.selectedKeySwitchOperation = 'click';
       break;
     }
     case KEYMAP_UPDATE_SELECTED_LAYER: {
       draft.configure.keymap.selectedLayer = action.value;
       break;
     }
-    case KEYMAP_UPDATE_SELECTED_POS: {
-      draft.configure.keymap.selectedPos = action.value;
+    case KEYMAP_UPDATE_SELECTED_KEY_POSITION: {
+      draft.configure.keymap.selectedPos = action.value.pos;
+      draft.configure.keymap.selectedEncoderId = action.value.encoderId;
+      draft.configure.keymap.selectedKeySwitchOperation =
+        action.value.keySwitchOperation;
       break;
     }
   }
@@ -1009,6 +1065,9 @@ const catalogKeyboardReducer = (
   switch (action.type) {
     case CATALOG_KEYBOARD_UPDATE_KEYMAPS:
       draft.catalog.keyboard.keymaps = action.value;
+      break;
+    case CATALOG_KEYBOARD_UPDATE_ENCODERS_KEYMAPS:
+      draft.catalog.keyboard.encodersKeymaps = action.value;
       break;
     case CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER:
       draft.catalog.keyboard.selectedLayer = action.value;
