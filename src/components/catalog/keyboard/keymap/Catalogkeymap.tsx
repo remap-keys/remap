@@ -117,8 +117,21 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     let keymap: IKeymap;
+    let cwKeymap: IKeymap | null;
+    let ccwKeymap: IKeymap | null;
     if (isKeymapLoaded()) {
       keymap = props.keymaps![props.selectedLayer!][model.pos];
+      if (model.isEncoder) {
+        cwKeymap =
+          props.encoderKeymaps![props.selectedLayer!][model.encoderId!]
+            .clockwise;
+        ccwKeymap =
+          props.encoderKeymaps![props.selectedLayer!][model.encoderId!]
+            .counterclockwise;
+      } else {
+        cwKeymap = null;
+        ccwKeymap = null;
+      }
     } else {
       keymap = {
         isAny: false,
@@ -133,17 +146,21 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
           keywords: [],
         },
       };
+      cwKeymap = null;
+      ccwKeymap = null;
     }
     const remap = null;
+    const cwRemap = null;
+    const ccwRemap = null;
     // FIXME: Set keymaps for encoder!
     keycaps.push({
       model,
       keymap,
       remap,
-      cwKeymap: null,
-      cwRemap: null,
-      ccwKeymap: null,
-      ccwRemap: null,
+      cwKeymap,
+      cwRemap,
+      ccwKeymap,
+      ccwRemap,
     });
   });
 
