@@ -90,6 +90,7 @@ class CustomKeyStory extends React.Component<{}, State> {
           focus={false}
           down={false}
           isCustomKeyOpen={this.state.open}
+          keySwitchOperationVisible={true}
         />
         <CustomKey
           id="customkey-popover"

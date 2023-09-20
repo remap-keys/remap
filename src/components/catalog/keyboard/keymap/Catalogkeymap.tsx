@@ -104,6 +104,9 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
     }
   };
 
+  const isKeymapLoaded = (): boolean =>
+    props.keymaps !== undefined && props.keymaps.length > 0;
+
   const kbd = new KeyboardModel(props.keyboardDefinition!.layouts.keymap);
   const { keymaps, width, height, left, top } = kbd.getKeymap(
     props.selectedKeyboardOptions
@@ -114,7 +117,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
   const keycaps: KeycapData[] = [];
   keymaps.forEach((model: KeyModel) => {
     let keymap: IKeymap;
-    if (props.keymaps && props.keymaps.length > 0) {
+    if (isKeymapLoaded()) {
       keymap = props.keymaps![props.selectedLayer!][model.pos];
     } else {
       keymap = {
@@ -223,6 +226,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
                       focus={false}
                       down={false}
                       isCustomKeyOpen={false}
+                      keySwitchOperationVisible={isKeymapLoaded()}
                     />
                   );
                 })}

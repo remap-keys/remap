@@ -49,6 +49,7 @@ export type KeycapOwnProps = {
     // eslint-disable-next-line no-unused-vars
     encoderId: number | null
   ) => void;
+  keySwitchOperationVisible: boolean;
 };
 
 type KeycapProps = KeycapOwnProps &
@@ -318,12 +319,13 @@ export default class Keycap extends React.Component<
             this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
           }}
         >
-          {this.props.model.isEncoder && (
-            <EncoderToggleIcon
-              targetKeymap={this.state.targetKeySwitchOperation}
-              onClick={() => this.onClickEncoderToggle()}
-            />
-          )}
+          {this.props.model.isEncoder &&
+            this.props.keySwitchOperationVisible && (
+              <EncoderToggleIcon
+                targetKeymap={this.state.targetKeySwitchOperation}
+                onClick={() => this.onClickEncoderToggle()}
+              />
+            )}
         </div>
         {this.isOddly && (
           <React.Fragment>

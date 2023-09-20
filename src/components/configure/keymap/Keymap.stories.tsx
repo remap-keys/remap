@@ -148,6 +148,7 @@ const genKeyboardView = (
                     focus={false}
                     down={false}
                     isCustomKeyOpen={false}
+                    keySwitchOperationVisible={false}
                   />
                 );
               })}

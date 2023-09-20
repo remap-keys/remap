@@ -152,6 +152,7 @@ export function KeyboardView(props: KeyboardViewType) {
                 focus={keycap.focus}
                 down={keycap.down}
                 isCustomKeyOpen={props.isCustomKeyOpen}
+                keySwitchOperationVisible={true}
               />
             );
           })}
