@@ -101,6 +101,14 @@ export default function Top(props: TopPropsType) {
         </Link>
         .
       </Alert>
+      <Alert severity="info">
+        <strong>Info: </strong>
+        [Sep 21th 2023] Rotary Encoders has been supported. See{' '}
+        <Link href="/docs/encoders" target="_blank" rel="noreferrer">
+          more detail
+        </Link>
+        .
+      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">
