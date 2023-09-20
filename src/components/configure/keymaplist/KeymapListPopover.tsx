@@ -30,6 +30,8 @@ import { KeycodeList } from '../../../services/hid/KeycodeList';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { Link } from '@mui/icons-material';
+import { getEncoderIdList } from '../../../actions/utils';
+import { KC_NO } from '../../../services/hid/KeycodeInfoList';
 
 type PopoverPosition = {
   left: number;
@@ -105,6 +107,7 @@ export default class KeymapListPopover extends React.Component<
     const keycodes: { [pos: string]: IKeymap }[] = [];
     const savedKeycodes: { [pos: string]: number }[] = savedKeymapData.keycodes;
     const keymaps: { [pos: string]: IKeymap }[] = this.props.keymaps!;
+    const layerCount = keymaps.length;
     for (let i = 0; i < keymaps.length; i++) {
       const keymap = keymaps[i];
       const savedCode = savedKeycodes[i];
@@ -127,42 +130,84 @@ export default class KeymapListPopover extends React.Component<
       keycodes.push(changes);
     }
 
-    const encodersKeycodes: IEncoderKeymaps[] = [];
+    const encoderCount = getEncoderIdList(
+      this.props.keyboardDefinition!.layouts.keymap
+    ).length;
+
+    const encodersKeycodes: {
+      [p: number]: {
+        clockwise?: IKeymap;
+        counterclockwise?: IKeymap;
+      };
+    }[] = [];
     const savedEncodersKeycodes: {
       [id: number]: { clockwise: number; counterclockwise: number };
     }[] = savedKeymapData.encoderKeycodes;
-    if (savedEncodersKeycodes) {
-      const encodersKeymaps: IEncoderKeymaps[] =
+    if (savedEncodersKeycodes === undefined) {
+      for (let layer = 0; layer < layerCount; layer++) {
+        const encodersKeymaps: IEncoderKeymaps = {};
+        for (let encoderId = 0; encoderId < encoderCount; encoderId++) {
+          encodersKeymaps[encoderId] = {
+            clockwise: KeycodeList.getKeymap(
+              KC_NO,
+              labelLang,
+              this.props.keyboardDefinition!.customKeycodes
+            ),
+            counterclockwise: KeycodeList.getKeymap(
+              KC_NO,
+              labelLang,
+              this.props.keyboardDefinition!.customKeycodes
+            ),
+          };
+        }
+        encodersKeycodes.push(encodersKeymaps);
+      }
+    } else {
+      const encodersKeymaps: {
+        [p: number]: {
+          clockwise?: IKeymap;
+          counterclockwise?: IKeymap;
+        };
+      }[] =
         this.props.encodersKeymaps ||
-        (new Array(keymaps.length) as IEncoderKeymaps[]).fill({});
+        (new Array(layerCount) as IEncoderKeymaps[]).fill({});
       for (let i = 0; i < encodersKeymaps.length; i++) {
         const encoderKeymap = encodersKeymaps[i];
         const savedCode = savedEncodersKeycodes[i];
-        const changes: IEncoderKeymaps = {};
+        const changes: {
+          [p: number]: {
+            clockwise?: IKeymap;
+            counterclockwise?: IKeymap;
+          };
+        } = {};
         // When the savedKeycodes was stored for BMP MCU, the length may be 11.
         // Therefore, the target layer must be checked to ensure that the value
         // is less than the savedKeycodes length.
         // See: https://github.com/remap-keys/remap/issues/454
         if (i < savedKeycodes.length) {
           Object.keys(encoderKeymap).forEach((id: string) => {
-            if (
-              encoderKeymap[Number(id)].clockwise.code !=
-                savedCode[Number(id)].clockwise ||
-              encoderKeymap[Number(id)].counterclockwise.code !=
-                savedCode[Number(id)].counterclockwise
-            ) {
-              changes[Number(id)] = {
-                clockwise: KeycodeList.getKeymap(
-                  savedCode[Number(id)].clockwise,
-                  labelLang,
-                  this.props.keyboardDefinition!.customKeycodes
-                ),
-                counterclockwise: KeycodeList.getKeymap(
-                  savedCode[Number(id)].counterclockwise,
-                  labelLang,
-                  this.props.keyboardDefinition!.customKeycodes
-                ),
-              };
+            const hasDiffClockwise =
+              encoderKeymap[Number(id)].clockwise!.code !==
+              savedCode[Number(id)].clockwise;
+            const hasDiffCounterclockwise =
+              encoderKeymap[Number(id)].counterclockwise!.code !==
+              savedCode[Number(id)].counterclockwise;
+            if (hasDiffClockwise || hasDiffCounterclockwise) {
+              changes[Number(id)] = {};
+            }
+            if (hasDiffClockwise) {
+              changes[Number(id)].clockwise = KeycodeList.getKeymap(
+                savedCode[Number(id)].clockwise,
+                labelLang,
+                this.props.keyboardDefinition!.customKeycodes
+              );
+            }
+            if (hasDiffCounterclockwise) {
+              changes[Number(id)].counterclockwise = KeycodeList.getKeymap(
+                savedCode[Number(id)].counterclockwise,
+                labelLang,
+                this.props.keyboardDefinition!.customKeycodes
+              );
             }
           });
         }

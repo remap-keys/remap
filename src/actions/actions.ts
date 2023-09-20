@@ -288,7 +288,14 @@ export const AppActions = {
       },
     };
   },
-  encodersRemapsSetKeys: (keymaps: { [id: number]: IEncoderKeymap }[]) => {
+  encodersRemapsSetKeys: (
+    keymaps: {
+      [id: number]: {
+        clockwise?: IKeymap;
+        counterclockwise?: IKeymap;
+      };
+    }[]
+  ) => {
     return {
       type: APP_ENCODERS_REMAPS_SET_KEYS,
       value: keymaps,

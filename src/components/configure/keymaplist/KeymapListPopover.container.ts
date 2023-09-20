@@ -7,7 +7,7 @@ import {
   LayoutOptionsActions,
 } from '../../../actions/actions';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
+import { IKeymap } from '../../../services/hid/Hid';
 import { LayoutOption } from '../keymap/Keymap';
 import { AbstractKeymapData } from '../../../services/storage/Storage';
 import { storageActionsThunk } from '../../../actions/storage.action';
@@ -33,7 +33,12 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     applySavedKeymapData: (
       keymaps: { [pos: string]: IKeymap }[],
-      encodersKeymaps: IEncoderKeymaps[],
+      encodersKeymaps: {
+        [p: number]: {
+          clockwise?: IKeymap;
+          counterclockwise?: IKeymap;
+        };
+      }[],
       layoutOptions: LayoutOption[],
       labelLang: KeyboardLabelLang
     ) => {
