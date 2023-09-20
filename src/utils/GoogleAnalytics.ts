@@ -26,7 +26,8 @@ type IActionName =
   | 'docs/review_policy'
   | 'docs/terms_of_use'
   | 'docs/faq'
-  | 'docs/support-qmk-022';
+  | 'docs/support-qmk-022'
+  | 'docs/encoders';
 
 interface IActionOptions {
   vendor_id?: string | number;
