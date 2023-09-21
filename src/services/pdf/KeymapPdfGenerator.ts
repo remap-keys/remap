@@ -268,6 +268,13 @@ export class KeymapPdfGenerator {
         '',
         '-'
       )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
+    } else if (km.isEncoder) {
+      const radius = (box * km.w) / 2 - margin * 2;
+      path = `M ${margin},${margin * 2 + radius} A ${radius},${radius} 0 1 1 ${
+        radius * 2 + margin * 3
+      },${margin * 2 + radius} A ${radius},${radius} 0 1 1 ${margin},${
+        margin * 2 + radius
+      } Z`;
     } else {
       const lenW = roofWidth;
       const lenH = roofHeight;
