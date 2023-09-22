@@ -27,7 +27,7 @@ describe('KeyboardModel', () => {
       expect(actual[0].x).toEqual(0);
       expect(actual[0].y).toEqual(0);
       expect(actual[1].location).toEqual('e0');
-      expect(actual[1].pos).toEqual('e0');
+      expect(actual[1].pos).toEqual('');
       expect(actual[1].optionLabel).toEqual('-,-');
       expect(actual[1].option).toEqual('-');
       expect(actual[1].optionChoice).toEqual('-');
@@ -36,9 +36,9 @@ describe('KeyboardModel', () => {
       expect(actual[1].y).toEqual(0);
       expect(actual[2].location).toEqual('0,1\n\n\n\n\n\n\n\n\ne1');
       expect(actual[2].pos).toEqual('0,1');
-      expect(actual[2].optionLabel).toEqual('');
-      expect(actual[2].option).toEqual('');
-      expect(actual[2].optionChoice).toBeUndefined();
+      expect(actual[2].optionLabel).toEqual('-,-');
+      expect(actual[2].option).toEqual('-');
+      expect(actual[2].optionChoice).toEqual('-');
       expect(actual[2].encoderId).toEqual(1);
       expect(actual[2].x).toEqual(2);
       expect(actual[2].y).toEqual(0);
