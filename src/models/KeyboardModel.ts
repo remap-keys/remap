@@ -272,7 +272,7 @@ export default class KeyboardModel {
 
       curr.nextRow(keyRow[0]);
       for (let col = 0; col < keyRow.length; col++) {
-        const item: string | KeyOp = keyRow[col]; // KeyMapOp or string('rwo,col')
+        const item: string | KeyOp = keyRow[col]; // KeyMapOp or string('row,col')
         let keymapItem: KeymapItem;
 
         if (typeof item === 'string') {
