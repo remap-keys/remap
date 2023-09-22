@@ -55,6 +55,9 @@ export default class KeyModel {
     this.encoderId = encoderId;
     this.location = location;
     const locs = location.split('\n');
+    // If the location is only encoder ID like 'e0', the pos is empty.
+    // This is for the case that the encoder is defined as like
+    // "{a:3},"e0",{a:4}" or "{a:7},"e0",{a:4}".
     if (this.location.match(/^e[0-9]+$/i)) {
       this.pos = '';
     } else {
