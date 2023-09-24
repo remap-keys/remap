@@ -187,7 +187,7 @@ export const firmwareActionsThunk = {
         common.firmware.flashFirmwareDialog.bootloaderType!;
       const flashMode = common.firmware.flashFirmwareDialog.flashMode;
 
-      let flashBytes: Buffer;
+      let flashBytes: Buffer | undefined;
       if (flashMode === 'fetch_and_flash') {
         const definitionDocument = entities.keyboardDefinitionDocument!;
         sendEventToGoogleAnalytics('catalog/flash_firmware', {
@@ -211,41 +211,25 @@ export const firmwareActionsThunk = {
           return;
         }
         const blob: Blob = fetchBlobResult.value.blob;
-        try {
-          flashBytes = intelHex.parse(
-            Buffer.from(new Uint8Array(await blob.arrayBuffer()))
-          ).data;
-        } catch (error) {
-          console.error(error);
-          dispatch(
-            NotificationActions.addError(
-              'Reading the firmware binary failed.',
-              error
-            )
-          );
-          dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
-          dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+        flashBytes = createFlashBytes(
+          Buffer.from(new Uint8Array(await blob.arrayBuffer())),
+          bootloaderType,
+          dispatch
+        );
+        if (flashBytes === undefined) {
           return;
         }
       } else {
-        try {
-          flashBytes = intelHex.parse(
-            Buffer.from(
-              new Uint8Array(
-                common.firmware.uploadFirmwareDialog.firmwareFileBuffer!
-              )
+        flashBytes = createFlashBytes(
+          Buffer.from(
+            new Uint8Array(
+              common.firmware.uploadFirmwareDialog.firmwareFileBuffer!
             )
-          ).data;
-        } catch (error) {
-          console.error(error);
-          dispatch(
-            NotificationActions.addError(
-              'Reading the firmware binary failed.',
-              error
-            )
-          );
-          dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
-          dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+          ),
+          bootloaderType,
+          dispatch
+        );
+        if (flashBytes === undefined) {
           return;
         }
       }
@@ -306,4 +290,31 @@ export const firmwareActionsThunk = {
         return;
       }
     },
+};
+
+const createFlashBytes = (
+  buffer: Buffer,
+  bootloaderType: IBootloaderType,
+  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>
+): Buffer | undefined => {
+  try {
+    switch (bootloaderType) {
+      case 'caterina':
+      case 'dfu':
+        return intelHex.parse(buffer).data;
+      case 'copy':
+        return buffer;
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch(
+      NotificationActions.addError(
+        'Creating the firmware binary failed.',
+        error
+      )
+    );
+    dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
+    dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+    return undefined;
+  }
 };

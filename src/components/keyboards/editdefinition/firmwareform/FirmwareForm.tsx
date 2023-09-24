@@ -252,6 +252,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                 >
                   <MenuItem value="caterina">caterina</MenuItem>
                   <MenuItem value="dfu">dfu</MenuItem>
+                  <MenuItem value="copy">copy</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -602,6 +603,7 @@ function EditDialog(props: IEditDialogProps) {
             >
               <MenuItem value="caterina">caterina</MenuItem>
               <MenuItem value="dfu">dfu</MenuItem>
+              <MenuItem value="copy">copy</MenuItem>
             </Select>
           </FormControl>
         ) : (

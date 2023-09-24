@@ -96,6 +96,7 @@
     "@types/w3c-web-hid": "^1.0.1",
     "@types/w3c-web-serial": "^1.0.2",
     "@types/w3c-web-usb": "^1.0.5",
+    "@types/wicg-file-system-access": "^2020.9.7",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "babel-eslint": "^10.1.0",
