@@ -11,6 +11,7 @@ import { IUsb } from './usb/Usb';
 import WebUsb from './usb/WebUsb';
 import { IBootloader } from './Bootloader';
 import { DfuBootloader } from './dfu/DfuBootloader';
+import { WebFileSystem } from './copy/WebFileSystem';
 
 const BAUD_RATE = 115200;
 const BUFFER_SIZE = 81920;
@@ -55,6 +56,14 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
       }
       const bootloader: IBootloader = createDfuBootloaderResult.bootloader!;
       return await bootloader.write(flashBytes, eepromBytes, progress, phase);
+    } else if (bootloaderType === 'copy') {
+      const fileSystem = new WebFileSystem();
+      const openResult = await fileSystem.open();
+      if (!openResult.success) {
+        return openResult;
+      }
+      phase('opened');
+      return await fileSystem.write(flashBytes, eepromBytes, progress, phase);
     } else {
       throw new Error(`Unknown bootloader type: ${bootloaderType}`);
     }

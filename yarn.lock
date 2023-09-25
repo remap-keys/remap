@@ -3839,6 +3839,11 @@
     anymatch "^3.0.0"
     source-map "^0.6.0"
 
+"@types/wicg-file-system-access@^2020.9.7":
+  version "2020.9.7"
+  resolved "https://registry.yarnpkg.com/@types/wicg-file-system-access/-/wicg-file-system-access-2020.9.7.tgz#8cd797c9b81ed876cf41158b10a634623831fccf"
+  integrity sha512-fjEImGBMKeoFE2pgX17XkNPAmgZdVs3MZcEAN7uW6vj2UxJR47WxKvmcR8TBgKpozbc1Gqxb8KaT8/VUgWEmTQ==
+
 "@types/yargs-parser@*":
   version "20.2.1"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-20.2.1.tgz#3b9ce2489919d9e4fea439b76916abc34b2df129"
