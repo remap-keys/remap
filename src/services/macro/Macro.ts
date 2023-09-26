@@ -54,6 +54,7 @@ export type IGetMacroKeysResult = {
   macroKeys: MacroKey[];
 };
 
+export const SS_QMK_PREFIX = 1;
 export const END_OF_MACRO_BYTES = 0;
 export const SS_TAP_CODE = 1;
 export const SS_DOWN_CODE = 2;
@@ -122,47 +123,67 @@ export class Macro implements IMacro {
     let holdKeys: Key[] = [];
     const holdStack: Key[] = [];
     while (pos < byteLength) {
-      if (this.bytes[pos] === SS_TAP_CODE) {
-        const keycodeCompositionFactory = new KeycodeCompositionFactory(
-          this.bytes[++pos],
-          labelLang
-        );
-        const basicComposition =
-          keycodeCompositionFactory.createBasicComposition();
-        const keymap = basicComposition.genKeymap()!;
-        const key = genKeyWithQmkLabel(keymap, labelLang);
-        macroKeys.push({ key, type: 'tap' });
-      } else if (this.bytes[pos] === SS_DOWN_CODE) {
-        const keycodeCompositionFactory = new KeycodeCompositionFactory(
-          this.bytes[++pos],
-          labelLang
-        );
-        const basicComposition =
-          keycodeCompositionFactory.createBasicComposition();
-        const keymap = basicComposition.genKeymap()!;
-        const key = genKeyWithQmkLabel(keymap, labelLang);
-        holdKeys.push(key);
-        holdStack.push(key);
-      } else if (this.bytes[pos] === SS_UP_CODE) {
-        const lastHoldKey = holdStack.pop();
-        if (!lastHoldKey) {
+      const data0 = this.bytes[pos];
+      if (data0 === SS_QMK_PREFIX) {
+        pos++;
+        const data1 = this.bytes[pos];
+        if (data1 === SS_TAP_CODE) {
+          pos++;
+          const data2 = this.bytes[pos];
+          const keycodeCompositionFactory = new KeycodeCompositionFactory(
+            data2,
+            labelLang
+          );
+          const basicComposition =
+            keycodeCompositionFactory.createBasicComposition();
+          const keymap = basicComposition.genKeymap()!;
+          const key = genKeyWithQmkLabel(keymap, labelLang);
+          macroKeys.push({ key, type: 'tap' });
+        } else if (data1 === SS_DOWN_CODE) {
+          pos++;
+          const data2 = this.bytes[pos];
+          const keycodeCompositionFactory = new KeycodeCompositionFactory(
+            data2,
+            labelLang
+          );
+          const basicComposition =
+            keycodeCompositionFactory.createBasicComposition();
+          const keymap = basicComposition.genKeymap()!;
+          const key = genKeyWithQmkLabel(keymap, labelLang);
+          holdKeys.push(key);
+          holdStack.push(key);
+        } else if (data1 === SS_UP_CODE) {
+          const lastHoldKey = holdStack.pop();
+          if (!lastHoldKey) {
+            return {
+              success: false,
+              error:
+                'Invalid a special code for hold key (down key not exists).',
+              macroKeys: [],
+            };
+          } else {
+            pos++;
+            const data2 = this.bytes[pos];
+            if (lastHoldKey.keymap.code !== data2) {
+              return {
+                success: false,
+                error: 'Invalid a byte combination for hold key.',
+                macroKeys: [],
+              };
+            }
+          }
+          if (holdStack.length === 0) {
+            macroKeys.push({ keys: holdKeys, type: 'hold' });
+            holdKeys = [];
+          }
+        } else {
           return {
             success: false,
-            error: 'Invalid a special code for hold key (down key not exists).',
-            macroKeys: [],
-          };
-        } else if (lastHoldKey.keymap.code !== this.bytes[++pos]) {
-          return {
-            success: false,
-            error: 'Invalid a byte combination for hold key.',
+            error: `Invalid a macro command (${data1}).`,
             macroKeys: [],
           };
         }
-        if (holdStack.length === 0) {
-          macroKeys.push({ keys: holdKeys, type: 'hold' });
-          holdKeys = [];
-        }
-      } else if (this.bytes[pos] === END_OF_MACRO_BYTES) {
+      } else if (data0 === END_OF_MACRO_BYTES) {
         if (holdStack.length > 0) {
           return {
             success: false,
@@ -181,7 +202,7 @@ export class Macro implements IMacro {
           };
         }
         const keycodeCompositionFactory = new KeycodeCompositionFactory(
-          this.bytes[pos],
+          data0,
           labelLang
         );
         if (keycodeCompositionFactory.isAscii()) {
@@ -222,6 +243,7 @@ export class Macro implements IMacro {
     for (const macroKey of macroKeys) {
       if (macroKey.type === 'tap') {
         if (!macroKey.key.keymap.isAscii) {
+          bytes.push(SS_QMK_PREFIX);
           bytes.push(SS_TAP_CODE);
         }
         bytes.push(macroKey.key.keymap.code);
@@ -230,9 +252,10 @@ export class Macro implements IMacro {
         const downBytes: number[] = [];
         let upBytes: number[] = [];
         for (const key of macroKey.keys) {
+          downBytes.push(SS_QMK_PREFIX);
           downBytes.push(SS_DOWN_CODE);
           downBytes.push(key.keymap.code);
-          upBytes = [SS_UP_CODE, key.keymap.code, ...upBytes];
+          upBytes = [SS_QMK_PREFIX, SS_UP_CODE, key.keymap.code, ...upBytes];
         }
         bytes = [...bytes, ...downBytes, ...upBytes];
       }

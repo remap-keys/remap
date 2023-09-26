@@ -6,6 +6,7 @@ import {
   MacroBuffer,
   MacroKey,
   SS_DOWN_CODE,
+  SS_QMK_PREFIX,
   SS_TAP_CODE,
   SS_UP_CODE,
 } from './Macro';
@@ -68,10 +69,13 @@ describe('Macro', () => {
       expect(subject.getBytes()).toEqual(
         new Uint8Array([
           0x21,
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c,
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17,
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17,
           END_OF_MACRO_BYTES,
@@ -101,12 +105,16 @@ describe('Macro', () => {
       subject.updateMacroKeys(macroKeys);
       expect(subject.getBytes()).toEqual(
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1c,
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17,
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17,
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1c,
           END_OF_MACRO_BYTES,
@@ -131,12 +139,16 @@ describe('Macro', () => {
       subject.updateMacroKeys(macroKeys);
       expect(subject.getBytes()).toEqual(
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1c,
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1c,
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17,
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17,
           END_OF_MACRO_BYTES,
@@ -154,10 +166,13 @@ describe('Macro', () => {
         0,
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
@@ -208,6 +223,7 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x2e, // QMK ^ in JA (= in US)
           END_OF_MACRO_BYTES,
@@ -311,10 +327,13 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
@@ -364,16 +383,22 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1d, // QMK z
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
@@ -420,8 +445,10 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
@@ -439,8 +466,10 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
           END_OF_MACRO_BYTES,
@@ -460,8 +489,10 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
           END_OF_MACRO_BYTES,
@@ -481,6 +512,7 @@ describe('Macro', () => {
         macroBufferStub,
         0,
         new Uint8Array([
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
         ])
@@ -515,6 +547,23 @@ describe('Macro', () => {
       expect(actual.macroKeys.length).toEqual(0);
       expect(actual.success).toBeFalsy();
     });
+
+    test('invalid a macro command', () => {
+      const macroBufferStub = {} as MacroBuffer;
+      const subject = new Macro(
+        macroBufferStub,
+        0,
+        new Uint8Array([
+          SS_QMK_PREFIX,
+          0x1b, // QMK x
+          END_OF_MACRO_BYTES,
+        ])
+      );
+      const actual = subject.generateMacroKeys('en-us');
+      expect(actual.success).toBeFalsy();
+      expect(actual.error).toEqual(`Invalid a macro command (${0x1b}).`);
+      expect(actual.macroKeys.length).toEqual(0);
+    });
   });
 });
 
@@ -528,33 +577,42 @@ describe('MacroBuffer', () => {
 
   describe('updateMacro', () => {
     test('normal', () => {
-      const maxMacroBufferSize = 24;
+      const maxMacroBufferSize = 33;
       const maxMacroCount = 3;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
 
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
 
           0x23, // ASCII #
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1a, // QMK w
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x15, // QMK r
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
@@ -574,10 +632,13 @@ describe('MacroBuffer', () => {
       expect(subject.getBytes()).toEqual(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
@@ -586,10 +647,13 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
 
           0x23, // ASCII #
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1a, // QMK w
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x15, // QMK r
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
@@ -631,33 +695,42 @@ describe('MacroBuffer', () => {
 
   describe('generateMacros', () => {
     test('normal', () => {
-      const maxMacroBufferSize = 24;
+      const maxMacroBufferSize = 33;
       const maxMacroCount = 3;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
 
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
 
           0x23, // ASCII #
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1a, // QMK w
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x15, // QMK r
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
@@ -671,10 +744,13 @@ describe('MacroBuffer', () => {
       expect(actual[0].getBytes()).toEqual(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
@@ -684,10 +760,13 @@ describe('MacroBuffer', () => {
       expect(actual[1].getBytes()).toEqual(
         new Uint8Array([
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
@@ -697,10 +776,13 @@ describe('MacroBuffer', () => {
       expect(actual[2].getBytes()).toEqual(
         new Uint8Array([
           0x23, // ASCII #
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1a, // QMK w
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x15, // QMK r
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
@@ -727,15 +809,18 @@ describe('MacroBuffer', () => {
     });
 
     test('first macro does not end with 0', () => {
-      const maxMacroBufferSize = 7;
+      const maxMacroBufferSize = 10;
       const maxMacroCount = 1;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
         ]),
@@ -751,15 +836,18 @@ describe('MacroBuffer', () => {
     });
 
     test('first macro in 2 macros does not end with 0', () => {
-      const maxMacroBufferSize = 7;
+      const maxMacroBufferSize = 10;
       const maxMacroCount = 2;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
         ]),
@@ -779,24 +867,30 @@ describe('MacroBuffer', () => {
     });
 
     test('last macro does not end with 0', () => {
-      const maxMacroBufferSize = 15;
+      const maxMacroBufferSize = 21;
       const maxMacroCount = 3;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
 
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
         ]),
@@ -809,10 +903,13 @@ describe('MacroBuffer', () => {
       expect(actual[0].getBytes()).toEqual(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
@@ -829,24 +926,30 @@ describe('MacroBuffer', () => {
     });
 
     test('some macros use all macro buffer', () => {
-      const maxMacroBufferSize = 16;
+      const maxMacroBufferSize = 22;
       const maxMacroCount = 3;
       const subject = new MacroBuffer(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
 
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
@@ -860,10 +963,13 @@ describe('MacroBuffer', () => {
       expect(actual[0].getBytes()).toEqual(
         new Uint8Array([
           0x21, // ASCII !
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1c, // QMK y
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x17, // QMK t
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
@@ -873,10 +979,13 @@ describe('MacroBuffer', () => {
       expect(actual[1].getBytes()).toEqual(
         new Uint8Array([
           0x22, // ASCII "
+          SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
+          SS_QMK_PREFIX,
           SS_DOWN_CODE,
           0x16, // QMK s
+          SS_QMK_PREFIX,
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
