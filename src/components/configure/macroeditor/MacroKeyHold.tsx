@@ -1,9 +1,4 @@
-import {
-  Hold,
-  KeyDelayPair,
-  MacroKey,
-  MacroTap,
-} from '../../../services/macro/Macro';
+import { Hold, MacroKey, MacroTap } from '../../../services/macro/Macro';
 import React, { useState } from 'react';
 import { MacroKeyView } from './MacroKeyView';
 import { Button } from '@mui/material';
@@ -14,13 +9,20 @@ type MacroKeyHoldProps = {
   macroKey: Hold;
   isDraggingAscii: boolean;
   onDragStart: (
+    // eslint-disable-next-line no-unused-vars
     draggingIndex: number,
+    // eslint-disable-next-line no-unused-vars
     draggingHoldIndex: number,
+    // eslint-disable-next-line no-unused-vars
     macroKey: MacroKey
   ) => void;
+  // eslint-disable-next-line no-unused-vars
   onDrop: (droppedIndex: number, holdIndex: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onDelete: (index: number, holdIndex: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onChangeType: (index: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onChangeDelay: (index: number, subIndex: number | undefined) => void;
 };
 export function MacroKeyHold(props: MacroKeyHoldProps) {

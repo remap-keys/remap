@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 type DropKeyAreaProps = {
   index: number;
   noKeys: boolean;
+  // eslint-disable-next-line no-unused-vars
   onDrop: (droppedIndex: number) => void;
 };
 export function DropKeyArea(props: DropKeyAreaProps) {

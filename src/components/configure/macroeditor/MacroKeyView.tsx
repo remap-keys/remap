@@ -8,10 +8,15 @@ type MacroKeyViewProps = {
   index: number;
   holdIndex?: number; // tap: undefined, hold: [0-n]
   keyDelayPair: KeyDelayPair;
+  // eslint-disable-next-line no-unused-vars
   onDragStart: (draggingIndex: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onDrop: (droppedIndex: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onDelete: (index: number) => void;
+  // eslint-disable-next-line no-unused-vars
   onChangeType?: (index: number, type: TapHoldType) => void;
+  // eslint-disable-next-line no-unused-vars
   onChangeDelay: (index: number, subIndex: number | undefined) => void;
 };
 export function MacroKeyView(props: MacroKeyViewProps) {

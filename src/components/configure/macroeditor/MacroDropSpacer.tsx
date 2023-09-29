@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 type MacroDropSpacerProps = {
   index: number;
+  // eslint-disable-next-line no-unused-vars
   onDrop: (droppedIndex: number) => void;
 };
 export function MacroDropSpacer(props: MacroDropSpacerProps) {
