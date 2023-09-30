@@ -146,12 +146,28 @@
       &-top {
         display: flex;
         width: 100%;
-        padding: 0 4px;
-        justify-content: flex-end;
+        justify-content: space-between;
+
+        &-left {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          height: 14px;
+          cursor: pointer;
+
+          span {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: $primary;
+          }
+        }
+
         a {
           font-size: 0.7rem;
           cursor: pointer;
           color: $primary-light;
+          margin-right: 2px;
         }
       }
 
