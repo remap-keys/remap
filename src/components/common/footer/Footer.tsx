@@ -2,6 +2,7 @@ import React from 'react';
 import { FooterActionsType, FooterStateType } from './Footer.container';
 import './Footer.scss';
 import moment from 'moment-timezone';
+import PaidIcon from '@mui/icons-material/Paid';
 
 type FooterState = {};
 
@@ -34,19 +35,19 @@ export default class Footer extends React.Component<
           </a>
         </div>
         <div className="footer-contents">
-          <span className="footer-content">
+          <div className="footer-content">
             <a href="https://qmk018.remap-keys.app">Remap for QMK 0.18</a>
-          </span>
-          <span className="footer-content">
+          </div>
+          <div className="footer-content">
             <a href="/docs/terms_of_use">Terms of Use</a>
-          </span>
-          <span className="footer-content">
+          </div>
+          <div className="footer-content">
             <a href="/docs/review_policy">Review Policy</a>
-          </span>
-          <span className="footer-content">
+          </div>
+          <div className="footer-content">
             <a href="/docs/faq">FAQ</a>
-          </span>
-          <span className="footer-content">
+          </div>
+          <div className="footer-content">
             <a
               href="https://discord.gg/uf7v5DruMB"
               target={'_blank'}
@@ -54,12 +55,32 @@ export default class Footer extends React.Component<
             >
               User Community
             </a>
-          </span>
+          </div>
+          <div className="footer-content">
+            <a
+              href="https://github.com/sponsors/yoichiro"
+              target={'_blank'}
+              rel={'noreferrer'}
+            >
+              <PaidIcon sx={{ fontSize: '1rem' }} color="success" />
+              Donate
+            </a>
+          </div>
         </div>
         <div className="footer-contents-mobile">
           <span className="footer-content">
             <a href="/docs">Resources</a>
           </span>
+          <div className="footer-content">
+            <a
+              href="https://github.com/sponsors/yoichiro"
+              target={'_blank'}
+              rel={'noreferrer'}
+            >
+              <PaidIcon sx={{ fontSize: '1rem' }} color="success" />
+              Donate
+            </a>
+          </div>
         </div>
         <div className="app-version">Build: {this.props.buildNumber}</div>
       </footer>

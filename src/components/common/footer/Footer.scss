@@ -25,19 +25,31 @@
     }
   }
   &-contents {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     & .footer-content {
-      display: inline-block;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
       &:not(:first-child) {
         margin-left: 16px;
       }
+
+      & a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
     }
+
     &-mobile {
       display: none;
     }
   }
+
   .app-version {
     text-align: end;
     color: $color-gray-400;
@@ -53,8 +65,25 @@
       display: none;
 
       &-mobile {
-        display: block;
-        text-align: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        & .footer-content {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          &:not(:first-child) {
+            margin-left: 16px;
+          }
+
+          & a {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+        }
       }
     }
   }
