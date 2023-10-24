@@ -40,6 +40,7 @@ import {
 import DefinitionForm from './definitionform/DefinitionForm';
 import CatalogForm from './catalogform/CatalogForm.container';
 import FirmwareForm from './firmwareform/FirmwareForm.container';
+import BuildForm from './buildform/BuildForm.container';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -237,6 +238,8 @@ export default class EditDefinition extends React.Component<
       this.props.updatePhase!('catalog');
     } else if (tabIndex === 2) {
       this.props.updatePhase!('firmware');
+    } else if (tabIndex === 3) {
+      this.props.updatePhase!('build');
     } else {
       throw new Error(`Invalid tabIndex: ${tabIndex}`);
     }
@@ -314,7 +317,9 @@ export default class EditDefinition extends React.Component<
                             ? 0
                             : this.props.phase === 'catalog'
                             ? 1
-                            : 2
+                            : this.props.phase === 'firmware'
+                            ? 2
+                            : 3
                         }
                         indicatorColor="primary"
                         textColor="primary"
@@ -325,6 +330,7 @@ export default class EditDefinition extends React.Component<
                         <Tab label="Definition" />
                         <Tab label="Catalog" />
                         <Tab label="Firmware" />
+                        <Tab label="Build" />
                       </Tabs>
                     </div>
                   ) : null}
@@ -409,6 +415,7 @@ export default class EditDefinition extends React.Component<
                   ) : null}
                   {this.props.phase === 'catalog' ? <CatalogForm /> : null}
                   {this.props.phase === 'firmware' ? <FirmwareForm /> : null}
+                  {this.props.phase === 'build' ? <BuildForm /> : null}
                 </CardContent>
               </Card>
             </div>

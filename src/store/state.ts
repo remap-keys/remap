@@ -57,6 +57,7 @@ export type IKeyboardsPhase =
   | 'edit'
   | 'catalog'
   | 'firmware'
+  | 'build'
   | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signing: 'signing',
@@ -67,6 +68,7 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   edit: 'edit',
   catalog: 'catalog',
   firmware: 'firmware',
+  build: 'build',
   signout: 'signout',
 };
 

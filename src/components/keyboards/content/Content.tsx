@@ -50,6 +50,7 @@ function Contents(props: ContentsProps) {
     case KeyboardsPhase.edit:
     case KeyboardsPhase.catalog:
     case KeyboardsPhase.firmware:
+    case KeyboardsPhase.build:
       return <EditKeyboard />;
     default:
       throw new Error(
