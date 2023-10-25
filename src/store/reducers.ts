@@ -69,6 +69,9 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_APPLIED_KEYMAPS,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
@@ -570,6 +573,18 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_ORGANIZATION_MAP: {
       draft.entities.organizationMap = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE: {
+      draft.entities.buildableFirmware = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES: {
+      draft.entities.buildableFirmwareKeyboardFiles = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES: {
+      draft.entities.buildableFirmwareKeymapFiles = action.value;
       break;
     }
   }

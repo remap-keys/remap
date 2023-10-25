@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import BuildForm from './BuildForm';
 
 const mapStateToProps = (state: RootState) => {
-  return {};
+  return {
+    buildableFirmware: state.entities.buildableFirmware,
+    buildableFirmwareKeyboardFiles:
+      state.entities.buildableFirmwareKeyboardFiles,
+    buildableFirmwareKeymapFiles: state.entities.buildableFirmwareKeymapFiles,
+  };
 };
 export type BuildFormStateType = ReturnType<typeof mapStateToProps>;
 

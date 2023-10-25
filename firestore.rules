@@ -41,10 +41,6 @@ service cloud.firestore {
                                          && (request.auth.uid == getDefinition(definitionID).data.author_uid);
             }
 
-            function getDefinition(definitionID) {
-                return get(/databases/$(database)/documents/keyboards/v2/definitions/$(definitionID));
-            }
-
             function getOrganization(organizationID) {
                 return get(/databases/$(database)/documents/organizations/v1/profiles/$(organizationID));
             }
@@ -100,12 +96,42 @@ service cloud.firestore {
             allow read;
         }
 
+        match /build/v1/firmwares/{definitionId}/keyboardFiles/{keyboardFileId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow read;
+        }
+
+        match /build/v1/firmwares/{definitionId}/keymapFiles/{keyboardFileId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow read;
+        }
+
+        match /build/v1/firmwares/{definitionId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == request.resource.data.uid)
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == resource.data.uid)
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow read;
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }
 
         function isUndefined(data, field) {
             return !data.keys().hasAll([field]);
+        }
+
+        function getDefinition(definitionID) {
+            return get(/databases/$(database)/documents/keyboards/v2/definitions/$(definitionID));
         }
     }
 }

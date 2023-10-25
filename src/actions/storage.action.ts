@@ -20,6 +20,8 @@ import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   AbstractKeymapData,
   AppliedKeymapData,
+  IBuildableFirmware,
+  IBuildableFirmwareFile,
   IFirmware,
   IKeyboardDefinitionDocument,
   IOrganization,
@@ -51,6 +53,9 @@ export const STORAGE_UPDATE_SAME_AUTHOR_KEYBOARD_DEFINITION_DOCUMENTS = `${STORA
 export const STORAGE_UPDATE_SEARCH_RESULT_ORGANIZATION_MAP = `${STORAGE_ACTIONS}/UpdateSearchResultOrganizationMap`;
 export const STORAGE_UPDATE_ORGANIZATION = `${STORAGE_ACTIONS}/UpdateOrganization`;
 export const STORAGE_UPDATE_ORGANIZATION_MAP = `${STORAGE_ACTIONS}/UpdateOrganizationMap`;
+export const STORAGE_UPDATE_BUILDABLE_FIRMWARE = `${STORAGE_ACTIONS}/UpdateBuildableFirmware`;
+export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeyboardFiles`;
+export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeymapFiles`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -132,6 +137,28 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_ORGANIZATION_MAP,
       value: organizationMap,
+    };
+  },
+  updateBuildableFirmware: (buildableFirmware: IBuildableFirmware) => {
+    return {
+      type: STORAGE_UPDATE_BUILDABLE_FIRMWARE,
+      value: buildableFirmware,
+    };
+  },
+  updateBuildableFirmwareKeyboardFiles: (
+    buildableFirmwareKeyboardFiles: IBuildableFirmwareFile[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES,
+      value: buildableFirmwareKeyboardFiles,
+    };
+  },
+  updateBuildableFirmwareKeymapFiles: (
+    buildableFirmwareKeymapFiles: IBuildableFirmwareFile[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES,
+      value: buildableFirmwareKeymapFiles,
     };
   },
 };
@@ -256,6 +283,63 @@ export const storageActionsThunk = {
           );
           return;
         }
+        const fetchBuildableFirmwareResult =
+          await storage.instance!.createAndFetchBuildableFirmware(definitionId);
+        if (isError(fetchBuildableFirmwareResult)) {
+          console.error(fetchBuildableFirmwareResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareResult.error,
+              fetchBuildableFirmwareResult.cause
+            )
+          );
+          return;
+        }
+        const fetchBuildableFirmwareKeyboardFilesResult =
+          await storage.instance!.fetchBuildableFirmwareFiles(
+            definitionId,
+            'keyboard'
+          );
+        if (isError(fetchBuildableFirmwareKeyboardFilesResult)) {
+          console.error(fetchBuildableFirmwareKeyboardFilesResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareKeyboardFilesResult.error,
+              fetchBuildableFirmwareKeyboardFilesResult.cause
+            )
+          );
+          return;
+        }
+        const fetchBuildableFirmwareKeymapFilesResult =
+          await storage.instance!.fetchBuildableFirmwareFiles(
+            definitionId,
+            'keymap'
+          );
+        if (isError(fetchBuildableFirmwareKeymapFilesResult)) {
+          console.error(fetchBuildableFirmwareKeymapFilesResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareKeymapFilesResult.error,
+              fetchBuildableFirmwareKeymapFilesResult.cause
+            )
+          );
+          return;
+        }
+        dispatch(
+          StorageActions.updateBuildableFirmware(
+            fetchBuildableFirmwareResult.value
+          )
+        );
+        dispatch(
+          StorageActions.updateBuildableFirmwareKeyboardFiles(
+            fetchBuildableFirmwareKeyboardFilesResult.value
+          )
+        );
+        dispatch(
+          StorageActions.updateBuildableFirmwareKeymapFiles(
+            fetchBuildableFirmwareKeymapFilesResult.value
+          )
+        );
         dispatch(
           StorageActions.updateOrganizationMap(
             fetchMyOrganizationsResult.value.organizationMap

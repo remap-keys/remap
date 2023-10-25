@@ -270,6 +270,22 @@ export type IFetchOrganizationMembersResult = IResult<{
   members: IOrganizationMember[];
 }>;
 
+export type IBuildableFirmware = {
+  keyboardDefinitionId: string;
+  uid: string;
+  enabled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IBuildableFirmwareFileType = 'keyboard' | 'keymap';
+
+export type IBuildableFirmwareFile = {
+  id: string;
+  path: string;
+  content: string;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -430,5 +446,13 @@ export interface IStorage {
     uid: string
   ): Promise<IEmptyResult>;
   fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult>;
+
+  createAndFetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware>>;
+  fetchBuildableFirmwareFiles(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IBuildableFirmwareFile[]>>;
 }
 /* eslint-enable no-unused-vars */

@@ -35,6 +35,10 @@ import {
   errorResultOf,
   IEmptyResult,
   successResult,
+  IResult,
+  IBuildableFirmware,
+  IBuildableFirmwareFileType,
+  IBuildableFirmwareFile,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1533,6 +1537,82 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Deleting Organization Member failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createAndFetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware>> {
+    try {
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          keyboardDefinitionId: doc.data()!.keyboardDefinitionId,
+          uid: doc.data()!.uid,
+          enabled: doc.data()!.enabled,
+          createdAt: doc.data()!.createdAt.toDate(),
+          updatedAt: doc.data()!.updatedAt.toDate(),
+        });
+      }
+      // Create a new buildable firmware document if not exists.
+      const now = new Date();
+      const buildableFirmware: IBuildableFirmware = {
+        keyboardDefinitionId,
+        uid: this.getCurrentAuthenticatedUser()!.uid,
+        enabled: false,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .set(buildableFirmware);
+      return successResultOf(buildableFirmware);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating and fetching buildable firmware failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchBuildableFirmwareFiles(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IBuildableFirmwareFile[]>> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      const querySnapshot = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .get();
+      const buildableFirmwareFiles: IBuildableFirmwareFile[] = [];
+      querySnapshot.docs.forEach((doc) => {
+        buildableFirmwareFiles.push({
+          id: doc.id,
+          path: doc.data()!.path,
+          content: doc.data()!.content,
+        });
+      });
+      return successResultOf(buildableFirmwareFiles);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching buildable firmware files failed: ${error}`,
         error
       );
     }

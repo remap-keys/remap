@@ -7,6 +7,8 @@ import {
   AbstractKeymapData,
   AppliedKeymapData,
   IAdditionalDescription,
+  IBuildableFirmware,
+  IBuildableFirmwareFile,
   IFirmware,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
@@ -230,6 +232,9 @@ export type RootState = {
     sameAuthorKeyboardDocuments: IKeyboardDefinitionDocument[];
     organization: IOrganization | null;
     organizationMap: Record<string, IOrganization>;
+    buildableFirmware: IBuildableFirmware | null;
+    buildableFirmwareKeyboardFiles: IBuildableFirmwareFile[];
+    buildableFirmwareKeymapFiles: IBuildableFirmwareFile[];
   };
   app: {
     package: {
@@ -471,6 +476,9 @@ export const INIT_STATE: RootState = {
     sameAuthorKeyboardDocuments: [],
     organization: null,
     organizationMap: {},
+    buildableFirmware: null,
+    buildableFirmwareKeyboardFiles: [],
+    buildableFirmwareKeymapFiles: [],
   },
   app: {
     package: {
