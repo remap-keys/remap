@@ -8,13 +8,10 @@ import {
   Breadcrumbs,
   Button,
   Container,
-  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   IconButton,
-  InputAdornment,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
@@ -30,7 +27,6 @@ import {
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/Add';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { Input } from '@mui/icons-material';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -38,12 +34,20 @@ type BuildFormProps = OwnProps &
   Partial<BuildFormStateType>;
 
 export default function BuildForm(props: BuildFormProps) {
+  const onClickSupportBuildingFirmware = () => {
+    props.updateBuildableFirmwareEnabled!(
+      props.keyboardDefinition!.id,
+      !props.buildableFirmware!.enabled
+    );
+  };
+
   return (
     <div className="edit-definition-build-form-container">
       <div className="edit-definition-build-form-row">
         <FormGroup>
           <FormControlLabel
-            control={<Switch />}
+            control={<Switch checked={props.buildableFirmware!.enabled} />}
+            onChange={onClickSupportBuildingFirmware}
             label="Support building QMK Firmware"
           />
         </FormGroup>
@@ -66,7 +70,11 @@ export default function BuildForm(props: BuildFormProps) {
               >
                 <ListItem
                   secondaryAction={
-                    <IconButton edge="end" aria-label="add">
+                    <IconButton
+                      edge="end"
+                      aria-label="add"
+                      disabled={!props.buildableFirmware!.enabled}
+                    >
                       <AddIcon />
                     </IconButton>
                   }
@@ -84,7 +92,11 @@ export default function BuildForm(props: BuildFormProps) {
                 </ListItemButton>
                 <ListItem
                   secondaryAction={
-                    <IconButton edge="end" aria-label="add">
+                    <IconButton
+                      edge="end"
+                      aria-label="add"
+                      disabled={!props.buildableFirmware!.enabled}
+                    >
                       <AddIcon />
                     </IconButton>
                   }
@@ -102,9 +114,9 @@ export default function BuildForm(props: BuildFormProps) {
               <Container sx={{ py: 2 }}>
                 <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
                   <Typography color="inherit">Keyboards</Typography>
-                  <Typography color="inherit">YOUR_KEYBOARD</Typography>
+                  <Typography color="inherit">...</Typography>
                   <Typography color="inherit">keymaps</Typography>
-                  <Typography color="inherit">remap</Typography>
+                  <Typography color="inherit">...</Typography>
                   <Typography color="text.primary">config.h</Typography>
                 </Breadcrumbs>
                 <TextField

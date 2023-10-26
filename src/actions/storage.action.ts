@@ -1588,4 +1588,23 @@ export const storageActionsThunk = {
         dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
+
+  updateBuildableFirmwareEnabled:
+    (definitionId: string, enabled: boolean): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.updateBuildableFirmwareEnabled(
+        definitionId,
+        enabled
+      );
+      if (isSuccessful(result)) {
+        dispatch(StorageActions.updateBuildableFirmware(result.value));
+      } else {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+      }
+    },
 };

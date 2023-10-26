@@ -39,6 +39,7 @@ import {
   IBuildableFirmware,
   IBuildableFirmwareFileType,
   IBuildableFirmwareFile,
+  isError,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1613,6 +1614,38 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Fetching buildable firmware files failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateBuildableFirmwareEnabled(
+    keyboardDefinitionId: string,
+    enabled: boolean
+  ): Promise<IResult<IBuildableFirmware>> {
+    try {
+      const fetchBuildableFirmwareResult =
+        await this.createAndFetchBuildableFirmware(keyboardDefinitionId);
+      if (isError(fetchBuildableFirmwareResult)) {
+        return errorResultOf(
+          `Fetching buildable firmware failed: ${fetchBuildableFirmwareResult.error}`,
+          fetchBuildableFirmwareResult.cause
+        );
+      }
+      const buildableFirmware = fetchBuildableFirmwareResult.value;
+      buildableFirmware.enabled = enabled;
+      buildableFirmware.updatedAt = new Date();
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .update(buildableFirmware);
+      return successResultOf(buildableFirmware);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating buildable firmware enabled failed: ${error}`,
         error
       );
     }
