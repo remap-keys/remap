@@ -1649,4 +1649,46 @@ export const storageActionsThunk = {
         )
       );
     },
+
+  createNewFirmwareKeymapFile:
+    (definitionId: string, fileName: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+
+      const result = await storage.instance!.createBuildableFirmwareFile(
+        definitionId,
+        'keymap',
+        fileName
+      );
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
+      }
+
+      const fetchBuildableFirmwareKeymapFilesResult =
+        await storage.instance!.fetchBuildableFirmwareFiles(
+          definitionId,
+          'keymap'
+        );
+      if (isError(fetchBuildableFirmwareKeymapFilesResult)) {
+        console.error(fetchBuildableFirmwareKeymapFilesResult.cause);
+        dispatch(
+          NotificationActions.addError(
+            fetchBuildableFirmwareKeymapFilesResult.error,
+            fetchBuildableFirmwareKeymapFilesResult.cause
+          )
+        );
+        return;
+      }
+
+      dispatch(
+        StorageActions.updateBuildableFirmwareKeymapFiles(
+          fetchBuildableFirmwareKeymapFilesResult.value
+        )
+      );
+    },
 };

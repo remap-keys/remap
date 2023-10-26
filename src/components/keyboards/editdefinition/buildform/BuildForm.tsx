@@ -49,6 +49,11 @@ export default function BuildForm(props: BuildFormProps) {
     );
   };
 
+  const onClickAddKeymapFile = () => {
+    const fileName = `${Date.now()}.txt`;
+    props.createNewFirmwareKeymapFile!(props.keyboardDefinition!.id, fileName);
+  };
+
   return (
     <div className="edit-definition-build-form-container">
       <div className="edit-definition-build-form-row">
@@ -97,6 +102,7 @@ export default function BuildForm(props: BuildFormProps) {
                   <ListItemButton
                     sx={{ pl: 4 }}
                     key={`buildable-keyboard-file-${file.id}`}
+                    disabled={!props.buildableFirmware!.enabled}
                   >
                     <ListItemIcon>
                       <InsertDriveFileIcon />
@@ -110,6 +116,7 @@ export default function BuildForm(props: BuildFormProps) {
                       edge="end"
                       aria-label="add"
                       disabled={!props.buildableFirmware!.enabled}
+                      onClick={onClickAddKeymapFile}
                     >
                       <AddIcon />
                     </IconButton>
@@ -120,6 +127,18 @@ export default function BuildForm(props: BuildFormProps) {
                   </ListItemIcon>
                   <ListItemText primary="Keymap" />
                 </ListItem>
+                {props.buildableFirmwareKeymapFiles!.map((file) => (
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    key={`buildable-keymap-file-${file.id}`}
+                    disabled={!props.buildableFirmware!.enabled}
+                  >
+                    <ListItemIcon>
+                      <InsertDriveFileIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={file.path} />
+                  </ListItemButton>
+                ))}
               </List>
             </Paper>
           </Grid>

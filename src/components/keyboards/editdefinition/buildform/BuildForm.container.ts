@@ -38,6 +38,17 @@ const mapDispatchToProps = (dispatch: any) => {
         )
       );
     },
+    createNewFirmwareKeymapFile: (
+      keyboardDefinitionId: string,
+      fileName: string
+    ) => {
+      dispatch(
+        storageActionsThunk.createNewFirmwareKeymapFile(
+          keyboardDefinitionId,
+          fileName
+        )
+      );
+    },
   };
 };
 export type BuildFormActionsType = ReturnType<typeof mapDispatchToProps>;
