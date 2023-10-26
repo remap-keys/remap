@@ -27,6 +27,17 @@ const mapDispatchToProps = (dispatch: any) => {
         )
       );
     },
+    createNewFirmwareKeyboardFile: (
+      keyboardDefinitionId: string,
+      fileName: string
+    ) => {
+      dispatch(
+        storageActionsThunk.createNewFirmwareKeyboardFile(
+          keyboardDefinitionId,
+          fileName
+        )
+      );
+    },
   };
 };
 export type BuildFormActionsType = ReturnType<typeof mapDispatchToProps>;

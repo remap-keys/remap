@@ -41,6 +41,14 @@ export default function BuildForm(props: BuildFormProps) {
     );
   };
 
+  const onClickAddKeyboardFile = () => {
+    const fileName = `${Date.now()}.txt`;
+    props.createNewFirmwareKeyboardFile!(
+      props.keyboardDefinition!.id,
+      fileName
+    );
+  };
+
   return (
     <div className="edit-definition-build-form-container">
       <div className="edit-definition-build-form-row">
@@ -74,6 +82,7 @@ export default function BuildForm(props: BuildFormProps) {
                       edge="end"
                       aria-label="add"
                       disabled={!props.buildableFirmware!.enabled}
+                      onClick={onClickAddKeyboardFile}
                     >
                       <AddIcon />
                     </IconButton>
@@ -84,12 +93,17 @@ export default function BuildForm(props: BuildFormProps) {
                   </ListItemIcon>
                   <ListItemText primary="Keyboard" />
                 </ListItem>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <InsertDriveFileIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="config.h" />
-                </ListItemButton>
+                {props.buildableFirmwareKeyboardFiles!.map((file) => (
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    key={`buildable-keyboard-file-${file.id}`}
+                  >
+                    <ListItemIcon>
+                      <InsertDriveFileIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={file.path} />
+                  </ListItemButton>
+                ))}
                 <ListItem
                   secondaryAction={
                     <IconButton

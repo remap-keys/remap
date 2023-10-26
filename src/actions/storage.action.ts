@@ -1607,4 +1607,46 @@ export const storageActionsThunk = {
         dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
+
+  createNewFirmwareKeyboardFile:
+    (definitionId: string, fileName: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+
+      const result = await storage.instance!.createBuildableFirmwareFile(
+        definitionId,
+        'keyboard',
+        fileName
+      );
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
+      }
+
+      const fetchBuildableFirmwareKeyboardFilesResult =
+        await storage.instance!.fetchBuildableFirmwareFiles(
+          definitionId,
+          'keyboard'
+        );
+      if (isError(fetchBuildableFirmwareKeyboardFilesResult)) {
+        console.error(fetchBuildableFirmwareKeyboardFilesResult.cause);
+        dispatch(
+          NotificationActions.addError(
+            fetchBuildableFirmwareKeyboardFilesResult.error,
+            fetchBuildableFirmwareKeyboardFilesResult.cause
+          )
+        );
+        return;
+      }
+
+      dispatch(
+        StorageActions.updateBuildableFirmwareKeyboardFiles(
+          fetchBuildableFirmwareKeyboardFilesResult.value
+        )
+      );
+    },
 };
