@@ -9,6 +9,8 @@ import {
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import {
   IAdditionalDescription,
+  IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
   IStore,
@@ -191,6 +193,8 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE = `${KEYBO
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationEvidence`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationId`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAuthorType`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateBuildableFirmwareFile`;
+
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
     return {
@@ -422,6 +426,15 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
       value: authorType,
+    };
+  },
+  updateBuildableFirmwareFile: (
+    file: IBuildableFirmwareFile,
+    type: IBuildableFirmwareFileType
+  ) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,
+      value: { file, type },
     };
   },
 };

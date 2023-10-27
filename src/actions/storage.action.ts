@@ -22,6 +22,7 @@ import {
   AppliedKeymapData,
   IBuildableFirmware,
   IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
   IFirmware,
   IKeyboardDefinitionDocument,
   IOrganization,
@@ -1605,6 +1606,63 @@ export const storageActionsThunk = {
       } else {
         console.error(result.cause);
         dispatch(NotificationActions.addError(result.error, result.cause));
+      }
+    },
+
+  updateBuildableFirmwareFile:
+    (
+      definitionId: string,
+      file: IBuildableFirmwareFile,
+      type: IBuildableFirmwareFileType
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+
+      const result = await storage.instance!.updateBuildableFirmwareFile(
+        definitionId,
+        file,
+        type
+      );
+
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
+      }
+
+      const fetchBuildableFirmwareFilesResult =
+        await storage.instance!.fetchBuildableFirmwareFiles(definitionId, type);
+      if (isError(fetchBuildableFirmwareFilesResult)) {
+        console.error(fetchBuildableFirmwareFilesResult.cause);
+        dispatch(
+          NotificationActions.addError(
+            fetchBuildableFirmwareFilesResult.error,
+            fetchBuildableFirmwareFilesResult.cause
+          )
+        );
+        return;
+      }
+
+      dispatch(NotificationActions.addSuccess('Updated successfully.'));
+
+      switch (type) {
+        case 'keyboard':
+          dispatch(
+            StorageActions.updateBuildableFirmwareKeyboardFiles(
+              fetchBuildableFirmwareFilesResult.value
+            )
+          );
+          break;
+        case 'keymap':
+          dispatch(
+            StorageActions.updateBuildableFirmwareKeymapFiles(
+              fetchBuildableFirmwareFilesResult.value
+            )
+          );
+          break;
       }
     },
 

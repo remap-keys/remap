@@ -2,6 +2,11 @@ import { RootState } from '../../../../store/state';
 import { connect } from 'react-redux';
 import BuildForm from './BuildForm';
 import { storageActionsThunk } from '../../../../actions/storage.action';
+import {
+  IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
+} from '../../../../services/storage/Storage';
+import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -10,6 +15,10 @@ const mapStateToProps = (state: RootState) => {
     buildableFirmwareKeyboardFiles:
       state.entities.buildableFirmwareKeyboardFiles,
     buildableFirmwareKeymapFiles: state.entities.buildableFirmwareKeymapFiles,
+    targetBuildableFirmwareFile:
+      state.keyboards.editdefinition.buildableFirmwareFile,
+    targetBuildableFirmwareFileType:
+      state.keyboards.editdefinition.buildableFirmwareFileType,
   };
 };
 export type BuildFormStateType = ReturnType<typeof mapStateToProps>;
@@ -46,6 +55,27 @@ const mapDispatchToProps = (dispatch: any) => {
         storageActionsThunk.createNewFirmwareKeymapFile(
           keyboardDefinitionId,
           fileName
+        )
+      );
+    },
+    updateTargetBuildableFirmwareFile: (
+      file: IBuildableFirmwareFile,
+      type: IBuildableFirmwareFileType
+    ) => {
+      dispatch(
+        KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(file, type)
+      );
+    },
+    updateBuildableFirmwareFile: (
+      keyboardDefinitionId: string,
+      file: IBuildableFirmwareFile,
+      type: IBuildableFirmwareFileType
+    ) => {
+      dispatch(
+        storageActionsThunk.updateBuildableFirmwareFile(
+          keyboardDefinitionId,
+          file,
+          type
         )
       );
     },

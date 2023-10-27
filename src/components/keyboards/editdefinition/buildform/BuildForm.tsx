@@ -27,6 +27,10 @@ import {
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/Add';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import {
+  IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
+} from '../../../../services/storage/Storage';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -52,6 +56,54 @@ export default function BuildForm(props: BuildFormProps) {
   const onClickAddKeymapFile = () => {
     const fileName = `${Date.now()}.txt`;
     props.createNewFirmwareKeymapFile!(props.keyboardDefinition!.id, fileName);
+  };
+
+  const onClickFirmwareFile = (
+    file: IBuildableFirmwareFile,
+    type: IBuildableFirmwareFileType
+  ) => {
+    props.updateTargetBuildableFirmwareFile!(file, type);
+  };
+
+  const onChangeFileName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const path = event.target.value;
+    if (props.targetBuildableFirmwareFile) {
+      const file: IBuildableFirmwareFile = {
+        ...props.targetBuildableFirmwareFile,
+        path,
+      };
+      props.updateTargetBuildableFirmwareFile!(
+        file,
+        props.targetBuildableFirmwareFileType!
+      );
+    }
+  };
+
+  const onChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const content = event.target.value;
+    if (props.targetBuildableFirmwareFile) {
+      const file: IBuildableFirmwareFile = {
+        ...props.targetBuildableFirmwareFile,
+        content,
+      };
+      props.updateTargetBuildableFirmwareFile!(
+        file,
+        props.targetBuildableFirmwareFileType!
+      );
+    }
+  };
+
+  const onClickSave = () => {
+    if (
+      props.targetBuildableFirmwareFile &&
+      props.targetBuildableFirmwareFileType
+    ) {
+      props.updateBuildableFirmwareFile!(
+        props.keyboardDefinition!.id,
+        props.targetBuildableFirmwareFile,
+        props.targetBuildableFirmwareFileType
+      );
+    }
   };
 
   return (
@@ -99,16 +151,17 @@ export default function BuildForm(props: BuildFormProps) {
                   <ListItemText primary="Keyboard" />
                 </ListItem>
                 {props.buildableFirmwareKeyboardFiles!.map((file) => (
-                  <ListItemButton
-                    sx={{ pl: 4 }}
+                  <FirmwareFileListItem
                     key={`buildable-keyboard-file-${file.id}`}
+                    buildableFirmwareFile={file}
                     disabled={!props.buildableFirmware!.enabled}
-                  >
-                    <ListItemIcon>
-                      <InsertDriveFileIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={file.path} />
-                  </ListItemButton>
+                    selected={
+                      props.targetBuildableFirmwareFile?.id === file.id &&
+                      props.targetBuildableFirmwareFileType === 'keyboard'
+                    }
+                    buildableFirmwareFileType="keyboard"
+                    onClick={onClickFirmwareFile}
+                  />
                 ))}
                 <ListItem
                   secondaryAction={
@@ -128,16 +181,17 @@ export default function BuildForm(props: BuildFormProps) {
                   <ListItemText primary="Keymap" />
                 </ListItem>
                 {props.buildableFirmwareKeymapFiles!.map((file) => (
-                  <ListItemButton
-                    sx={{ pl: 4 }}
+                  <FirmwareFileListItem
                     key={`buildable-keymap-file-${file.id}`}
+                    buildableFirmwareFile={file}
                     disabled={!props.buildableFirmware!.enabled}
-                  >
-                    <ListItemIcon>
-                      <InsertDriveFileIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={file.path} />
-                  </ListItemButton>
+                    selected={
+                      props.targetBuildableFirmwareFile?.id === file.id &&
+                      props.targetBuildableFirmwareFileType === 'keymap'
+                    }
+                    buildableFirmwareFileType="keymap"
+                    onClick={onClickFirmwareFile}
+                  />
                 ))}
               </List>
             </Paper>
@@ -148,15 +202,35 @@ export default function BuildForm(props: BuildFormProps) {
                 <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
                   <Typography color="inherit">Keyboards</Typography>
                   <Typography color="inherit">...</Typography>
-                  <Typography color="inherit">keymaps</Typography>
-                  <Typography color="inherit">...</Typography>
-                  <Typography color="text.primary">config.h</Typography>
+                  {props.targetBuildableFirmwareFileType === 'keymap' && [
+                    <Typography
+                      color="inherit"
+                      key="buildable-firmware-file-breadcrumb-1"
+                    >
+                      keymaps
+                    </Typography>,
+                    <Typography
+                      color="inherit"
+                      key="buildable-firmware-file-breadcrumb-2"
+                    >
+                      remap
+                    </Typography>,
+                    <Typography
+                      color="inherit"
+                      key="buildable-firmware-file-breadcrumb-3"
+                    >
+                      ...
+                    </Typography>,
+                  ]}
                 </Breadcrumbs>
                 <TextField
                   label="File Name"
                   variant="outlined"
                   fullWidth
                   margin="dense"
+                  disabled={props.targetBuildableFirmwareFile === null}
+                  value={props.targetBuildableFirmwareFile?.path || ''}
+                  onChange={onChangeFileName}
                 />
                 <TextField
                   label="Content"
@@ -167,10 +241,27 @@ export default function BuildForm(props: BuildFormProps) {
                   fullWidth
                   margin="normal"
                   sx={{ mb: 2 }}
+                  disabled={props.targetBuildableFirmwareFile === null}
+                  value={props.targetBuildableFirmwareFile?.content || ''}
+                  onChange={onChangeContent}
                 />
                 <Stack direction="row" spacing={2} justifyContent="flex-end">
-                  <Button variant="text">Delete</Button>
-                  <Button variant="contained">Save</Button>
+                  <Button
+                    variant="text"
+                    disabled={props.targetBuildableFirmwareFile === null}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    variant="contained"
+                    disabled={
+                      !!props.targetBuildableFirmwareFile &&
+                      props.targetBuildableFirmwareFile.path === ''
+                    }
+                    onClick={onClickSave}
+                  >
+                    Save
+                  </Button>
                 </Stack>
               </Container>
             </Paper>
@@ -178,5 +269,37 @@ export default function BuildForm(props: BuildFormProps) {
         </Grid>
       </div>
     </div>
+  );
+}
+
+type FirmwareFileListItemProps = {
+  disabled: boolean;
+  selected: boolean;
+  buildableFirmwareFile: IBuildableFirmwareFile;
+  buildableFirmwareFileType: IBuildableFirmwareFileType;
+  onClick: (
+    file: IBuildableFirmwareFile,
+    type: IBuildableFirmwareFileType
+  ) => void;
+};
+
+function FirmwareFileListItem(props: FirmwareFileListItemProps) {
+  return (
+    <ListItemButton
+      sx={{ pl: 4 }}
+      disabled={props.disabled}
+      selected={props.selected}
+      onClick={() => {
+        props.onClick(
+          props.buildableFirmwareFile,
+          props.buildableFirmwareFileType
+        );
+      }}
+    >
+      <ListItemIcon>
+        <InsertDriveFileIcon />
+      </ListItemIcon>
+      <ListItemText primary={props.buildableFirmwareFile.path} />
+    </ListItemButton>
   );
 }

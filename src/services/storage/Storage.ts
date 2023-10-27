@@ -463,5 +463,10 @@ export interface IStorage {
     fileType: IBuildableFirmwareFileType,
     fileName: string
   ): Promise<IEmptyResult>;
+  updateBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

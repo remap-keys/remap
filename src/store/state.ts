@@ -9,6 +9,7 @@ import {
   IAdditionalDescription,
   IBuildableFirmware,
   IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
   IFirmware,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
@@ -362,6 +363,8 @@ export type RootState = {
       authorType: IKeyboardDefinitionAuthorType;
       organizationId: string | undefined;
       organizationEvidence: string;
+      buildableFirmwareFile: IBuildableFirmwareFile | null;
+      buildableFirmwareFileType: IBuildableFirmwareFileType | null;
     };
   };
   catalog: {
@@ -610,6 +613,8 @@ export const INIT_STATE: RootState = {
       authorType: 'individual',
       organizationId: undefined,
       organizationEvidence: '',
+      buildableFirmwareFile: null,
+      buildableFirmwareFileType: null,
     },
   },
   catalog: {

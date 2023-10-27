@@ -1647,6 +1647,35 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async updateBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .doc(file.id)
+        .update({
+          path: file.path,
+          content: file.content,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating buildable firmware enabled failed: ${error}`,
+        error
+      );
+    }
+  }
+
   async updateBuildableFirmwareEnabled(
     keyboardDefinitionId: string,
     enabled: boolean
