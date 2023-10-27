@@ -284,7 +284,8 @@ export default function BuildForm(props: BuildFormProps) {
                     <Button
                       variant="contained"
                       disabled={
-                        !!props.targetBuildableFirmwareFile &&
+                        props.targetBuildableFirmwareFile === undefined ||
+                        props.targetBuildableFirmwareFile === null ||
                         props.targetBuildableFirmwareFile.path === ''
                       }
                       onClick={onClickSave}

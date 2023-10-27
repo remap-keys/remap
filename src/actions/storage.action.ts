@@ -1601,12 +1601,15 @@ export const storageActionsThunk = {
         definitionId,
         enabled
       );
-      if (isSuccessful(result)) {
-        dispatch(StorageActions.updateBuildableFirmware(result.value));
-      } else {
+      if (isError(result)) {
         console.error(result.cause);
         dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
       }
+      dispatch(StorageActions.updateBuildableFirmware(result.value));
+      dispatch(
+        KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(null, null)
+      );
     },
 
   updateBuildableFirmwareFile:
