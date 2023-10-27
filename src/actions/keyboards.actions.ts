@@ -429,8 +429,8 @@ export const KeyboardsEditDefinitionActions = {
     };
   },
   updateBuildableFirmwareFile: (
-    file: IBuildableFirmwareFile,
-    type: IBuildableFirmwareFileType
+    file: IBuildableFirmwareFile | null,
+    type: IBuildableFirmwareFileType | null
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,

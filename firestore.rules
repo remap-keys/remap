@@ -101,6 +101,8 @@ service cloud.firestore {
                              && (request.auth.uid == getDefinition(definitionId).data.author_uid);
             allow update: if isAuthenticated()
                              && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow delete: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
             allow read;
         }
 
@@ -108,6 +110,8 @@ service cloud.firestore {
             allow create: if isAuthenticated()
                              && (request.auth.uid == getDefinition(definitionId).data.author_uid);
             allow update: if isAuthenticated()
+                             && (request.auth.uid == getDefinition(definitionId).data.author_uid);
+            allow delete: if isAuthenticated()
                              && (request.auth.uid == getDefinition(definitionId).data.author_uid);
             allow read;
         }

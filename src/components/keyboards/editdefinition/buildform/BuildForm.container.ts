@@ -79,6 +79,19 @@ const mapDispatchToProps = (dispatch: any) => {
         )
       );
     },
+    deleteBuildableFirmwareFile: (
+      keyboardDefinitionId: string,
+      file: IBuildableFirmwareFile,
+      type: IBuildableFirmwareFileType
+    ) => {
+      dispatch(
+        storageActionsThunk.deleteBuildableFirmwareFile(
+          keyboardDefinitionId,
+          file,
+          type
+        )
+      );
+    },
   };
 };
 export type BuildFormActionsType = ReturnType<typeof mapDispatchToProps>;

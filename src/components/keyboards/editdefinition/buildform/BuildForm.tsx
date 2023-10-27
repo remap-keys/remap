@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BuildFormActionsType,
   BuildFormStateType,
@@ -31,6 +31,7 @@ import {
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
+import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -38,6 +39,8 @@ type BuildFormProps = OwnProps &
   Partial<BuildFormStateType>;
 
 export default function BuildForm(props: BuildFormProps) {
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+
   const onClickSupportBuildingFirmware = () => {
     props.updateBuildableFirmwareEnabled!(
       props.keyboardDefinition!.id,
@@ -106,169 +109,203 @@ export default function BuildForm(props: BuildFormProps) {
     }
   };
 
+  const onClickDelete = () => {
+    if (props.targetBuildableFirmwareFile) {
+      setOpenConfirmDialog(true);
+    }
+  };
+
+  const onClickConfirmDialogYes = () => {
+    setOpenConfirmDialog(false);
+    if (
+      props.targetBuildableFirmwareFile &&
+      props.targetBuildableFirmwareFileType
+    ) {
+      props.deleteBuildableFirmwareFile!(
+        props.keyboardDefinition!.id,
+        props.targetBuildableFirmwareFile,
+        props.targetBuildableFirmwareFileType
+      );
+    }
+  };
+
+  const onClickConfirmDialogNo = () => {
+    setOpenConfirmDialog(false);
+  };
+
   return (
-    <div className="edit-definition-build-form-container">
-      <div className="edit-definition-build-form-row">
-        <FormGroup>
-          <FormControlLabel
-            control={<Switch checked={props.buildableFirmware!.enabled} />}
-            onChange={onClickSupportBuildingFirmware}
-            label="Support building QMK Firmware"
-          />
-        </FormGroup>
-      </div>
-      <div className="edit-definition-build-form-row">
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Paper>
-              <List
-                component="nav"
-                aria-labelledby="nested-list-subheader-firmware-files"
-                subheader={
-                  <ListSubheader
-                    component="div"
-                    id="nested-list-subheader-firmware-files"
+    <React.Fragment>
+      <div className="edit-definition-build-form-container">
+        <div className="edit-definition-build-form-row">
+          <FormGroup>
+            <FormControlLabel
+              control={<Switch checked={props.buildableFirmware!.enabled} />}
+              onChange={onClickSupportBuildingFirmware}
+              label="Support building QMK Firmware"
+            />
+          </FormGroup>
+        </div>
+        <div className="edit-definition-build-form-row">
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Paper>
+                <List
+                  component="nav"
+                  aria-labelledby="nested-list-subheader-firmware-files"
+                  subheader={
+                    <ListSubheader
+                      component="div"
+                      id="nested-list-subheader-firmware-files"
+                    >
+                      Firmware Files
+                    </ListSubheader>
+                  }
+                >
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="add"
+                        disabled={!props.buildableFirmware!.enabled}
+                        onClick={onClickAddKeyboardFile}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    }
                   >
-                    Firmware Files
-                  </ListSubheader>
-                }
-              >
-                <ListItem
-                  secondaryAction={
-                    <IconButton
-                      edge="end"
-                      aria-label="add"
+                    <ListItemIcon>
+                      <FolderIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Keyboard" />
+                  </ListItem>
+                  {props.buildableFirmwareKeyboardFiles!.map((file) => (
+                    <FirmwareFileListItem
+                      key={`buildable-keyboard-file-${file.id}`}
+                      buildableFirmwareFile={file}
                       disabled={!props.buildableFirmware!.enabled}
-                      onClick={onClickAddKeyboardFile}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Keyboard" />
-                </ListItem>
-                {props.buildableFirmwareKeyboardFiles!.map((file) => (
-                  <FirmwareFileListItem
-                    key={`buildable-keyboard-file-${file.id}`}
-                    buildableFirmwareFile={file}
-                    disabled={!props.buildableFirmware!.enabled}
-                    selected={
-                      props.targetBuildableFirmwareFile?.id === file.id &&
-                      props.targetBuildableFirmwareFileType === 'keyboard'
+                      selected={
+                        props.targetBuildableFirmwareFile?.id === file.id &&
+                        props.targetBuildableFirmwareFileType === 'keyboard'
+                      }
+                      buildableFirmwareFileType="keyboard"
+                      onClick={onClickFirmwareFile}
+                    />
+                  ))}
+                  <ListItem
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="add"
+                        disabled={!props.buildableFirmware!.enabled}
+                        onClick={onClickAddKeymapFile}
+                      >
+                        <AddIcon />
+                      </IconButton>
                     }
-                    buildableFirmwareFileType="keyboard"
-                    onClick={onClickFirmwareFile}
-                  />
-                ))}
-                <ListItem
-                  secondaryAction={
-                    <IconButton
-                      edge="end"
-                      aria-label="add"
+                  >
+                    <ListItemIcon>
+                      <FolderIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Keymap" />
+                  </ListItem>
+                  {props.buildableFirmwareKeymapFiles!.map((file) => (
+                    <FirmwareFileListItem
+                      key={`buildable-keymap-file-${file.id}`}
+                      buildableFirmwareFile={file}
                       disabled={!props.buildableFirmware!.enabled}
-                      onClick={onClickAddKeymapFile}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Keymap" />
-                </ListItem>
-                {props.buildableFirmwareKeymapFiles!.map((file) => (
-                  <FirmwareFileListItem
-                    key={`buildable-keymap-file-${file.id}`}
-                    buildableFirmwareFile={file}
-                    disabled={!props.buildableFirmware!.enabled}
-                    selected={
-                      props.targetBuildableFirmwareFile?.id === file.id &&
-                      props.targetBuildableFirmwareFileType === 'keymap'
-                    }
-                    buildableFirmwareFileType="keymap"
-                    onClick={onClickFirmwareFile}
-                  />
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={8}>
-            <Paper>
-              <Container sx={{ py: 2 }}>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-                  <Typography color="inherit">Keyboards</Typography>
-                  <Typography color="inherit">...</Typography>
-                  {props.targetBuildableFirmwareFileType === 'keymap' && [
-                    <Typography
-                      color="inherit"
-                      key="buildable-firmware-file-breadcrumb-1"
-                    >
-                      keymaps
-                    </Typography>,
-                    <Typography
-                      color="inherit"
-                      key="buildable-firmware-file-breadcrumb-2"
-                    >
-                      remap
-                    </Typography>,
-                    <Typography
-                      color="inherit"
-                      key="buildable-firmware-file-breadcrumb-3"
-                    >
-                      ...
-                    </Typography>,
-                  ]}
-                </Breadcrumbs>
-                <TextField
-                  label="File Name"
-                  variant="outlined"
-                  fullWidth
-                  margin="dense"
-                  disabled={props.targetBuildableFirmwareFile === null}
-                  value={props.targetBuildableFirmwareFile?.path || ''}
-                  onChange={onChangeFileName}
-                />
-                <TextField
-                  label="Content"
-                  variant="outlined"
-                  multiline
-                  minRows={10}
-                  maxRows={10}
-                  fullWidth
-                  margin="normal"
-                  sx={{ mb: 2 }}
-                  disabled={props.targetBuildableFirmwareFile === null}
-                  value={props.targetBuildableFirmwareFile?.content || ''}
-                  onChange={onChangeContent}
-                />
-                <Stack direction="row" spacing={2} justifyContent="flex-end">
-                  <Button
-                    variant="text"
+                      selected={
+                        props.targetBuildableFirmwareFile?.id === file.id &&
+                        props.targetBuildableFirmwareFileType === 'keymap'
+                      }
+                      buildableFirmwareFileType="keymap"
+                      onClick={onClickFirmwareFile}
+                    />
+                  ))}
+                </List>
+              </Paper>
+            </Grid>
+            <Grid item xs={8}>
+              <Paper>
+                <Container sx={{ py: 2 }}>
+                  <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
+                    <Typography color="inherit">Keyboards</Typography>
+                    <Typography color="inherit">...</Typography>
+                    {props.targetBuildableFirmwareFileType === 'keymap' && [
+                      <Typography
+                        color="inherit"
+                        key="buildable-firmware-file-breadcrumb-1"
+                      >
+                        keymaps
+                      </Typography>,
+                      <Typography
+                        color="inherit"
+                        key="buildable-firmware-file-breadcrumb-2"
+                      >
+                        remap
+                      </Typography>,
+                      <Typography
+                        color="inherit"
+                        key="buildable-firmware-file-breadcrumb-3"
+                      >
+                        ...
+                      </Typography>,
+                    ]}
+                  </Breadcrumbs>
+                  <TextField
+                    label="File Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="dense"
                     disabled={props.targetBuildableFirmwareFile === null}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    variant="contained"
-                    disabled={
-                      !!props.targetBuildableFirmwareFile &&
-                      props.targetBuildableFirmwareFile.path === ''
-                    }
-                    onClick={onClickSave}
-                  >
-                    Save
-                  </Button>
-                </Stack>
-              </Container>
-            </Paper>
+                    value={props.targetBuildableFirmwareFile?.path || ''}
+                    onChange={onChangeFileName}
+                  />
+                  <TextField
+                    label="Content"
+                    variant="outlined"
+                    multiline
+                    minRows={10}
+                    maxRows={10}
+                    fullWidth
+                    margin="normal"
+                    sx={{ mb: 2 }}
+                    disabled={props.targetBuildableFirmwareFile === null}
+                    value={props.targetBuildableFirmwareFile?.content || ''}
+                    onChange={onChangeContent}
+                  />
+                  <Stack direction="row" spacing={2} justifyContent="flex-end">
+                    <Button
+                      variant="text"
+                      disabled={props.targetBuildableFirmwareFile === null}
+                      onClick={onClickDelete}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="contained"
+                      disabled={
+                        !!props.targetBuildableFirmwareFile &&
+                        props.targetBuildableFirmwareFile.path === ''
+                      }
+                      onClick={onClickSave}
+                    >
+                      Save
+                    </Button>
+                  </Stack>
+                </Container>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
-    </div>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Firmware File Deletion"
+        message="Are you sure to delete the firmware file?"
+        onClickYes={onClickConfirmDialogYes}
+        onClickNo={onClickConfirmDialogNo}
+      />
+    </React.Fragment>
   );
 }
 
@@ -278,7 +315,9 @@ type FirmwareFileListItemProps = {
   buildableFirmwareFile: IBuildableFirmwareFile;
   buildableFirmwareFileType: IBuildableFirmwareFileType;
   onClick: (
+    // eslint-disable-next-line no-unused-vars
     file: IBuildableFirmwareFile,
+    // eslint-disable-next-line no-unused-vars
     type: IBuildableFirmwareFileType
   ) => void;
 };

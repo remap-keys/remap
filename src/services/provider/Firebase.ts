@@ -1707,4 +1707,30 @@ export class FirebaseProvider implements IStorage, IAuth {
       );
     }
   }
+
+  async deleteBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .doc(file.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting buildable firmware file failed: ${error}`,
+        error
+      );
+    }
+  }
 }
