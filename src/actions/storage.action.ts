@@ -24,6 +24,7 @@ import {
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
   IFirmware,
+  IFirmwareBuildingTask,
   IKeyboardDefinitionDocument,
   IOrganization,
   isError,
@@ -57,6 +58,7 @@ export const STORAGE_UPDATE_ORGANIZATION_MAP = `${STORAGE_ACTIONS}/UpdateOrganiz
 export const STORAGE_UPDATE_BUILDABLE_FIRMWARE = `${STORAGE_ACTIONS}/UpdateBuildableFirmware`;
 export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeyboardFiles`;
 export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeymapFiles`;
+export const STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS = `${STORAGE_ACTIONS}/UpdateFirmwareBuildingTasks`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -160,6 +162,12 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES,
       value: buildableFirmwareKeymapFiles,
+    };
+  },
+  updateFirmwareBuildingTasks: (tasks: IFirmwareBuildingTask[]) => {
+    return {
+      type: STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS,
+      value: tasks,
     };
   },
 };
@@ -1206,7 +1214,7 @@ export const storageActionsThunk = {
               )
             );
             dispatch(CatalogAppActions.updatePhase('init'));
-            dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+            await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
             return;
           }
           dispatch(
@@ -1233,6 +1241,27 @@ export const storageActionsThunk = {
           return;
         }
         dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+
+        const fetchFirmwareBuildingTasksResult =
+          await storage.instance!.fetchFirmwareBuildingTasks();
+        if (isError(fetchFirmwareBuildingTasksResult)) {
+          console.error(fetchFirmwareBuildingTasksResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchFirmwareBuildingTasksResult.error,
+              fetchFirmwareBuildingTasksResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateFirmwareBuildingTasks(
+            fetchFirmwareBuildingTasksResult.value
+          )
+        );
+
         dispatch(
           LayoutOptionsActions.initSelectedOptions(
             keyboardDefinition.layouts.labels

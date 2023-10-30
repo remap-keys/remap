@@ -6,7 +6,11 @@ import {
 } from '../store/state';
 import { IEncoderKeymaps, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { AbstractKeymapData, isSuccessful } from '../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  isError,
+  isSuccessful,
+} from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
   AppActions,
@@ -261,4 +265,23 @@ export const catalogActionsThunk = {
       dispatch(AppActions.updateSignedIn(false));
       await auth.instance!.signOut();
     },
+  createFirmwareBuildingTask: (
+    keyboardDefinitionId: string
+  ): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.createFirmwareBuildingTask(
+        keyboardDefinitionId
+      );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+
+      // TODO Reload tasks.
+    };
+  },
 };

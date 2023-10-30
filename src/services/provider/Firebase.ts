@@ -40,6 +40,7 @@ import {
   IBuildableFirmwareFileType,
   IBuildableFirmwareFile,
   isError,
+  IFirmwareBuildingTask,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1729,6 +1730,86 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Deleting buildable firmware file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createFirmwareBuildingTask(
+    keyboardDefinitionId: string
+  ): Promise<IEmptyResult> {
+    try {
+      const user = this.getCurrentAuthenticatedUser()!;
+      const ref = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .add({
+          uid: user.uid,
+          firmwareId: keyboardDefinitionId,
+          status: 'waiting',
+          firmwareFilePath: '',
+          stdout: '',
+          stderr: '',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      const taskId = ref.id;
+
+      const createFirmwareBuildingTask = this.functions.httpsCallable(
+        'createFirmwareBuildingTask'
+      );
+      const createFirmwareBuildingTaskResult = await createFirmwareBuildingTask(
+        {
+          taskId,
+        }
+      );
+      const data = createFirmwareBuildingTaskResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating firmware building task failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchFirmwareBuildingTasks(): Promise<
+    IResult<IFirmwareBuildingTask[]>
+  > {
+    try {
+      const query = this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .where('uid', '==', this.getCurrentAuthenticatedUser()!.uid)
+        .orderBy('updatedAt', 'desc');
+      const querySnapshot = await query.get();
+      const tasks: IFirmwareBuildingTask[] = [];
+      querySnapshot.docs.forEach((doc) => {
+        tasks.push({
+          id: doc.id,
+          uid: doc.data()!.uid,
+          firmwareId: doc.data()!.firmwareId,
+          status: doc.data()!.status,
+          firmwareFilePath: doc.data()!.firmwareFilePath,
+          stdout: doc.data()!.stdout,
+          stderr: doc.data()!.stderr,
+          createdAt: doc.data()!.createdAt.toDate(),
+          updatedAt: doc.data()!.updatedAt.toDate(),
+        });
+      });
+      return successResultOf(tasks);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching firmware building tasks failed: ${error}`,
         error
       );
     }

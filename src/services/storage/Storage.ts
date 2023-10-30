@@ -286,6 +286,24 @@ export type IBuildableFirmwareFile = {
   content: string;
 };
 
+export type IFirmwareBuildingTaskStatus =
+  | 'waiting'
+  | 'building'
+  | 'success'
+  | 'failure';
+
+export type IFirmwareBuildingTask = {
+  id: string;
+  firmwareId: string;
+  uid: string;
+  status: IFirmwareBuildingTaskStatus;
+  firmwareFilePath: string;
+  stdout: string;
+  stderr: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -473,5 +491,9 @@ export interface IStorage {
     file: IBuildableFirmwareFile,
     fileType: IBuildableFirmwareFileType
   ): Promise<IEmptyResult>;
+  createFirmwareBuildingTask(
+    keyboardDefinitionId: string
+  ): Promise<IEmptyResult>;
+  fetchFirmwareBuildingTasks(): Promise<IResult<IFirmwareBuildingTask[]>>;
 }
 /* eslint-enable no-unused-vars */

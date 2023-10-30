@@ -126,6 +126,15 @@ service cloud.firestore {
             allow read;
         }
 
+        match /build/v1/tasks/{taskId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == request.resource.data.uid);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == resource.data.uid);
+            allow read: if isAuthenticated()
+                             && (request.auth.uid == resource.data.uid);
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }

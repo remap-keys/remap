@@ -11,6 +11,7 @@ import {
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
   IFirmware,
+  IFirmwareBuildingTask,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
   IOrganization,
@@ -237,6 +238,7 @@ export type RootState = {
     buildableFirmware: IBuildableFirmware | null;
     buildableFirmwareKeyboardFiles: IBuildableFirmwareFile[];
     buildableFirmwareKeymapFiles: IBuildableFirmwareFile[];
+    firmwareBuildingTasks: IFirmwareBuildingTask[];
   };
   app: {
     package: {
@@ -483,6 +485,7 @@ export const INIT_STATE: RootState = {
     buildableFirmware: null,
     buildableFirmwareKeyboardFiles: [],
     buildableFirmwareKeymapFiles: [],
+    firmwareBuildingTasks: [],
   },
   app: {
     package: {
