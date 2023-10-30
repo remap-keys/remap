@@ -82,6 +82,7 @@ export const ALL_CATALOG_PHASE = [
   'introduction',
   'keymap',
   'firmware',
+  'build',
 ] as const;
 type catalogPhaseTuple = typeof ALL_CATALOG_PHASE;
 export type ICatalogPhase = catalogPhaseTuple[number];

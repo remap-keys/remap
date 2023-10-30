@@ -45,6 +45,7 @@ export default class Content extends React.Component<
       case 'introduction':
       case 'keymap':
       case 'firmware':
+      case 'build':
         return (
           <CategoryKeyboardContent
             phase={phase}
@@ -52,6 +53,7 @@ export default class Content extends React.Component<
             goToIntroduction={this.props.goToIntroduction!.bind(this)}
             goToKeymap={this.props.goToKeymap!.bind(this)}
             goToFirmware={this.props.goToFirmware!.bind(this)}
+            goToBuild={this.props.goToBuild!.bind(this)}
             organization={this.props.organization!}
           />
         );
@@ -78,6 +80,7 @@ type CategoryKeyboardContentProps = {
   goToIntroduction: () => void;
   goToKeymap: () => void;
   goToFirmware: () => void;
+  goToBuild: () => void;
   organization: IOrganization | null;
 };
 
@@ -87,6 +90,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
   goToIntroduction,
   goToKeymap,
   goToFirmware,
+  goToBuild,
   organization,
 }) => {
   const navigate = useNavigate();
@@ -115,12 +119,29 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
       });
       navigate(`/catalog/${definitionDocument.id}/firmware`);
       goToFirmware();
+    } else if (value === 3) {
+      sendEventToGoogleAnalytics('catalog/build', {
+        vendor_id: definitionDocument.vendorId,
+        product_id: definitionDocument.productId,
+        product_name: definitionDocument.productName,
+      });
+      navigate(`/catalog/${definitionDocument.id}/build`);
+      goToBuild();
     }
   };
   if (
-    (['introduction', 'keymap', 'firmware'] as ICatalogPhase[]).includes(phase)
+    (
+      ['introduction', 'keymap', 'firmware', 'build'] as ICatalogPhase[]
+    ).includes(phase)
   ) {
-    const value = phase === 'keymap' ? 1 : phase === 'firmware' ? 2 : 0;
+    const value =
+      phase === 'keymap'
+        ? 1
+        : phase === 'firmware'
+        ? 2
+        : phase === 'build'
+        ? 3
+        : 0;
     // eslint-disable-next-line no-undef
     const url = `https://remap-keys.app/catalog/${definitionDocument!.id}`;
     return (
@@ -135,6 +156,7 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
               <Tab label="Overview" />
               <Tab label="Keymap" />
               <Tab label="Firmware" />
+              <Tab label="Build" />
             </Tabs>
             <div className="catalog-share-buttons">
               <TweetButton url={url} />

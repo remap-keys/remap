@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import * as qs from 'qs';
 import { useLocation, useParams } from 'react-router-dom';
 
-type ICatalogDetailMode = 'introduction' | 'keymap' | 'firmware';
+type ICatalogDetailMode = 'introduction' | 'keymap' | 'firmware' | 'build';
 
 type ParamsType = {
   definitionId: string;
@@ -94,6 +94,9 @@ function Catalog(props: CatalogProps) {
     } else if (props.catalogDetailMode === 'firmware') {
       const definitionId = params.definitionId!;
       props.updateKeyboard!(definitionId, 'firmware');
+    } else if (props.catalogDetailMode === 'build') {
+      const definitionId = params.definitionId!;
+      props.updateKeyboard!(definitionId, 'build');
     } else {
       const queryParams = qs.parse(location.search, {
         ignoreQueryPrefix: true,

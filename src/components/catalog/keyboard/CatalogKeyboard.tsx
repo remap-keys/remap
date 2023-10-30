@@ -10,6 +10,7 @@ import CatalogFirmware from './firmware/CatalogFirmware.container';
 import useLocationChange from '../../common/hooks/LocationChange';
 import { matchPath, useNavigationType } from 'react-router-dom';
 import qs from 'qs';
+import CatalogBuild from './build/CatalogBuild.container';
 
 type OwnProps = {};
 type CatalogKeyboardProps = OwnProps &
@@ -56,6 +57,14 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
         props.goToFirmware!();
         return;
       }
+      const buildMatch = matchPath(
+        { path: '/catalog/:definitionId/build' },
+        location.pathname
+      );
+      if (buildMatch) {
+        props.goToBuild!();
+        return;
+      }
     }
   });
 
@@ -83,6 +92,8 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
     return <CatalogKeymap />;
   } else if (props.phase === 'firmware') {
     return <CatalogFirmware />;
+  } else if (props.phase === 'build') {
+    return <CatalogBuild />;
   } else {
     throw new Error(`Invalid phase: ${props.phase}`);
   }

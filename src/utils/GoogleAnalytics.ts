@@ -18,6 +18,7 @@ type IActionName =
   | 'catalog/introduction'
   | 'catalog/keymap'
   | 'catalog/firmware'
+  | 'catalog/build'
   | 'catalog/apply_keymap'
   | 'catalog/cheat_sheet'
   | 'catalog/same_author_keyboard'
