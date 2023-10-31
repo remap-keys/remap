@@ -494,6 +494,11 @@ export interface IStorage {
   createFirmwareBuildingTask(
     keyboardDefinitionId: string
   ): Promise<IEmptyResult>;
-  fetchFirmwareBuildingTasks(): Promise<IResult<IFirmwareBuildingTask[]>>;
+  fetchFirmwareBuildingTasks(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IFirmwareBuildingTask[]>>;
+  fetchBuiltFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult>;
 }
 /* eslint-enable no-unused-vars */

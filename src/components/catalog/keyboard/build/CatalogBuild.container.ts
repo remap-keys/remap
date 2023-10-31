@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../../store/state';
 import CatalogBuild from './CatalogBuild';
 import { catalogActionsThunk } from '../../../../actions/catalog.action';
+import { storageActionsThunk } from '../../../../actions/storage.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -18,6 +19,23 @@ const mapDispatchToProps = (dispatch: any) => {
     createFirmwareBuildingTask: (keyboardDefinitionId: string) => {
       dispatch(
         catalogActionsThunk.createFirmwareBuildingTask(keyboardDefinitionId)
+      );
+    },
+    fetchBuiltFirmwareFileBlob(
+      firmwareFilePath: string,
+      // eslint-disable-next-line no-unused-vars
+      callback: (blob: any) => void
+    ) {
+      dispatch(
+        storageActionsThunk.fetchBuiltFirmwareFileBlob(
+          firmwareFilePath,
+          callback
+        )
+      );
+    },
+    updateFirmwareBuildingTasks: (keyboardDefinitionId: string) => {
+      dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
       );
     },
   };

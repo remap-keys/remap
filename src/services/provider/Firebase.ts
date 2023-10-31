@@ -1090,6 +1090,26 @@ export class FirebaseProvider implements IStorage, IAuth {
     return `${keyboardName}-${timestamp}.${extname}`;
   }
 
+  async fetchBuiltFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult> {
+    // This operation needs CORS setting for the GCS bucket.
+    // cors.json: [{"origin": ["*"], "method": ["GET"], "maxAgeSeconds": 3600}]
+    // gsutil cors set cors.json gs://remap-b2d08.appspot.com
+    const downloadUrl = await this.storage
+      .ref(firmwareFilePath)
+      .getDownloadURL();
+    const response = await fetch(downloadUrl);
+    if (response.ok) {
+      const blob = await response.blob();
+      return successResultOf({ blob });
+    } else {
+      return errorResultOf(
+        `Fetching firmware file failed. status=${response.status}`
+      );
+    }
+  }
+
   async fetchFirmwareFileBlob(
     definitionId: string,
     firmwareFilePath: string,
@@ -1780,15 +1800,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async fetchFirmwareBuildingTasks(): Promise<
-    IResult<IFirmwareBuildingTask[]>
-  > {
+  async fetchFirmwareBuildingTasks(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IFirmwareBuildingTask[]>> {
     try {
       const query = this.db
         .collection('build')
         .doc('v1')
         .collection('tasks')
         .where('uid', '==', this.getCurrentAuthenticatedUser()!.uid)
+        .where('firmwareId', '==', keyboardDefinitionId)
         .orderBy('updatedAt', 'desc');
       const querySnapshot = await query.get();
       const tasks: IFirmwareBuildingTask[] = [];

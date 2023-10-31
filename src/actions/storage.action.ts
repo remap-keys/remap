@@ -1243,7 +1243,7 @@ export const storageActionsThunk = {
         dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
 
         const fetchFirmwareBuildingTasksResult =
-          await storage.instance!.fetchFirmwareBuildingTasks();
+          await storage.instance!.fetchFirmwareBuildingTasks(definitionId);
         if (isError(fetchFirmwareBuildingTasksResult)) {
           console.error(fetchFirmwareBuildingTasksResult.cause);
           dispatch(
@@ -1841,5 +1841,27 @@ export const storageActionsThunk = {
       dispatch(
         KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(null, null)
       );
+    },
+
+  fetchBuiltFirmwareFileBlob:
+    (
+      firmwareFilePath: string,
+      // eslint-disable-next-line no-unused-vars
+      callback: (blob: any) => void
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.fetchBuiltFirmwareFileBlob(
+        firmwareFilePath
+      );
+      if (isSuccessful(result)) {
+        callback(result.value.blob);
+      } else {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+      }
     },
 };

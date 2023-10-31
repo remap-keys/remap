@@ -20,6 +20,7 @@ import {
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { getEncoderIdList } from './utils';
 import { KC_NO } from '../services/hid/KeycodeInfoList';
+import { StorageActions } from './storage.action';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -265,6 +266,7 @@ export const catalogActionsThunk = {
       dispatch(AppActions.updateSignedIn(false));
       await auth.instance!.signOut();
     },
+
   createFirmwareBuildingTask: (
     keyboardDefinitionId: string
   ): ThunkPromiseAction<void> => {
@@ -280,8 +282,28 @@ export const catalogActionsThunk = {
         dispatch(NotificationActions.addError(result.error!, result.cause));
         return;
       }
-
-      // TODO Reload tasks.
+      await dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+      );
     };
   },
+
+  updateFirmwareBuildingTasks:
+    (keyboardDefinitionId: string) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      dispatch(CatalogAppActions.updatePhase('processing'));
+      const result = await storage.instance!.fetchFirmwareBuildingTasks(
+        keyboardDefinitionId
+      );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      dispatch(StorageActions.updateFirmwareBuildingTasks(result.value));
+      dispatch(CatalogAppActions.updatePhase('build'));
+    },
 };

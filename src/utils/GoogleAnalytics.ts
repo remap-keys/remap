@@ -2,6 +2,20 @@ import firebase from 'firebase/app';
 import 'firebase/analytics';
 
 type IActionName =
+  | 'catalog/apply_keymap'
+  | 'catalog/back_to_search'
+  | 'catalog/build'
+  | 'catalog/build/download_firmware'
+  | 'catalog/cheat_sheet'
+  | 'catalog/clear_search_condition'
+  | 'catalog/download_firmware'
+  | 'catalog/firmware'
+  | 'catalog/flash_firmware'
+  | 'catalog/introduction'
+  | 'catalog/keymap'
+  | 'catalog/open_from_search'
+  | 'catalog/same_author_keyboard'
+  | 'catalog/search'
   | 'configure/cheat_sheet'
   | 'configure/clear_all_changes'
   | 'configure/flash'
@@ -9,26 +23,13 @@ type IActionName =
   | 'configure/import_local_file'
   | 'configure/lighting'
   | 'configure/open'
-  | 'configure/save_keymap'
   | 'configure/restore_keymap'
-  | 'catalog/search'
-  | 'catalog/clear_search_condition'
-  | 'catalog/open_from_search'
-  | 'catalog/back_to_search'
-  | 'catalog/introduction'
-  | 'catalog/keymap'
-  | 'catalog/firmware'
-  | 'catalog/build'
-  | 'catalog/apply_keymap'
-  | 'catalog/cheat_sheet'
-  | 'catalog/same_author_keyboard'
-  | 'catalog/download_firmware'
-  | 'catalog/flash_firmware'
-  | 'docs/review_policy'
-  | 'docs/terms_of_use'
+  | 'configure/save_keymap'
+  | 'docs/encoders'
   | 'docs/faq'
+  | 'docs/review_policy'
   | 'docs/support-qmk-022'
-  | 'docs/encoders';
+  | 'docs/terms_of_use';
 
 interface IActionOptions {
   vendor_id?: string | number;
