@@ -190,7 +190,8 @@ export type IKeyboardFeatures =
 
 export type IFlashFirmwareDialogFlashMode =
   | 'upload_and_flash'
-  | 'fetch_and_flash';
+  | 'fetch_and_flash'
+  | 'build_and_flash';
 
 const KeySwitchOperations = {
   click: 'click',
@@ -409,6 +410,7 @@ export type RootState = {
         mode: IFlashFirmwareDialogMode;
         bootloaderType: IBootloaderType;
         flashMode: IFlashFirmwareDialogFlashMode;
+        buildingFirmwareTask: IFirmwareBuildingTask | null;
       };
       uploadFirmwareDialog: {
         open: boolean;
@@ -658,6 +660,7 @@ export const INIT_STATE: RootState = {
         mode: 'instruction',
         bootloaderType: 'caterina',
         flashMode: 'fetch_and_flash',
+        buildingFirmwareTask: null,
       },
       uploadFirmwareDialog: {
         open: false,

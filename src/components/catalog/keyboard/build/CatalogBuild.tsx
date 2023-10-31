@@ -73,6 +73,10 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     props.updateFirmwareBuildingTasks!(props.definitionDocument!.id);
   };
 
+  const onClickFlash = (task: IFirmwareBuildingTask) => {
+    props.flashFirmware!(props.definitionDocument!, task);
+  };
+
   return (
     <div className="catalog-build-container">
       <React.Fragment>
@@ -161,7 +165,14 @@ export default function CatalogBuild(props: CatalogBuildProps) {
                   </Button>
                 )}
                 {task.status === 'success' && (
-                  <Button variant="text">Flash</Button>
+                  <Button
+                    variant="text"
+                    onClick={() => {
+                      onClickFlash(task);
+                    }}
+                  >
+                    Flash
+                  </Button>
                 )}
               </CardActions>
             </Card>

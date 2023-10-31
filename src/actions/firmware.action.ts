@@ -11,7 +11,11 @@ import {
 } from '../store/state';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import intelHex from 'intel-hex';
-import { IFirmware, isError } from '../services/storage/Storage';
+import {
+  IFirmware,
+  IFirmwareBuildingTask,
+  isError,
+} from '../services/storage/Storage';
 import { IBootloaderType } from '../services/firmware/Types';
 
 export const UPLOAD_FIRMWARE_DIALOG_ACTIONS = '@UploadFirmwareDialog';
@@ -43,6 +47,7 @@ export const FLASH_FIRMWARE_DIALOG_APPEND_LOG = `${FLASH_FIRMWARE_DIALOG_ACTIONS
 export const FLASH_FIRMWARE_DIALOG_CLEAR = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/Clear`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_KEYBOARD_NAME = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateKeyboardName`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFlashMode`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateBuildingFirmwareTask`;
 export const FlashFirmwareDialogActions = {
   updateFirmware: (firmware: IFirmware | null) => {
     return {
@@ -104,6 +109,12 @@ export const FlashFirmwareDialogActions = {
     return {
       type: FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE,
       value: flashMode,
+    };
+  },
+  updateBuildingFirmwareTask: (task: IFirmwareBuildingTask | null) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK,
+      value: task,
     };
   },
 };
@@ -206,6 +217,31 @@ export const firmwareActionsThunk = {
           firmware.filename,
           'flash'
         );
+        if (isError(fetchBlobResult)) {
+          handleError(fetchBlobResult.error, fetchBlobResult.cause);
+          return;
+        }
+        const blob: Blob = fetchBlobResult.value.blob;
+        flashBytes = createFlashBytes(
+          Buffer.from(new Uint8Array(await blob.arrayBuffer())),
+          bootloaderType,
+          dispatch
+        );
+        if (flashBytes === undefined) {
+          return;
+        }
+      } else if (flashMode === 'build_and_flash') {
+        dispatch(
+          FlashFirmwareDialogActions.appendLog(
+            'Reading the firmware binary from the server.',
+            false
+          )
+        );
+        const task = common.firmware.flashFirmwareDialog.buildingFirmwareTask!;
+        const fetchBlobResult =
+          await storage.instance!.fetchBuiltFirmwareFileBlob(
+            task.firmwareFilePath
+          );
         if (isError(fetchBlobResult)) {
           handleError(fetchBlobResult.error, fetchBlobResult.cause);
           return;

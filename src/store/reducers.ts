@@ -195,6 +195,7 @@ import {
   FLASH_FIRMWARE_DIALOG_APPEND_LOG,
   FLASH_FIRMWARE_DIALOG_CLEAR,
   FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
@@ -1189,6 +1190,10 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE:
       draft.common.firmware.flashFirmwareDialog.flashMode = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK:
+      draft.common.firmware.flashFirmwareDialog.buildingFirmwareTask =
+        action.value;
       break;
   }
 };
