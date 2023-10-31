@@ -294,8 +294,8 @@ export const catalogActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
+      dispatch(StorageActions.updateFirmwareBuildingTasks([]));
       const { storage } = getState();
-      dispatch(CatalogAppActions.updatePhase('processing'));
       const result = await storage.instance!.fetchFirmwareBuildingTasks(
         keyboardDefinitionId
       );
@@ -304,6 +304,5 @@ export const catalogActionsThunk = {
         return;
       }
       dispatch(StorageActions.updateFirmwareBuildingTasks(result.value));
-      dispatch(CatalogAppActions.updatePhase('build'));
     },
 };

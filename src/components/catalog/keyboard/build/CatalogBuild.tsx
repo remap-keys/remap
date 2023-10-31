@@ -5,6 +5,9 @@ import {
   CatalogBuildStateType,
 } from './CatalogBuild.container';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Card,
@@ -14,12 +17,14 @@ import {
   Step,
   StepLabel,
   Stepper,
+  TextField,
   Typography,
 } from '@mui/material';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import moment from 'moment';
 import { IFirmwareBuildingTask } from '../../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type OwnProps = {};
 type CatalogBuildProps = OwnProps &
@@ -92,90 +97,134 @@ export default function CatalogBuild(props: CatalogBuildProps) {
         </Paper>
         <Box sx={{ mb: '32px' }}>
           {props.firmwareBuildingTasks!.map((task) => (
-            <Card key={`firmware-building-task-${task.id}`} sx={{ mb: '16px' }}>
-              <CardContent>
-                <Box
-                  sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
-                >
-                  <Typography variant="subtitle1">
-                    Task ID: {task.id}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Updated at:{' '}
-                    {moment(task.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Created at:{' '}
-                    {moment(task.createdAt).format('YYYY-MM-DD hh:mm:ss')}
-                  </Typography>
-                </Box>
-                <Stepper
-                  nonLinear
-                  activeStep={createActiveStepNumber(task)}
-                  sx={{ m: '16px 128px 0 128px' }}
-                >
-                  <Step
-                    key={`firmware-building-task-${task.id}-waiting`}
-                    completed={task.status !== 'waiting'}
+            <React.Fragment key={`firmware-building-task-${task.id}`}>
+              <Card sx={{ mb: isTaskCompleted(task) ? '0' : '32px' }}>
+                <CardContent>
+                  <Box
+                    sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}
                   >
-                    <StepLabel>Waiting</StepLabel>
-                  </Step>
-                  <Step
-                    key={`firmware-building-task-${task.id}-building`}
-                    completed={isTaskCompleted(task)}
+                    <Typography variant="subtitle1">
+                      Task ID: {task.id}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Updated at:{' '}
+                      {moment(task.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Created at:{' '}
+                      {moment(task.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                    </Typography>
+                  </Box>
+                  <Stepper
+                    nonLinear
+                    activeStep={createActiveStepNumber(task)}
+                    sx={{ m: '16px 128px 0 128px' }}
                   >
-                    <StepLabel>Building</StepLabel>
-                  </Step>
-                  {task.status === 'success' ? (
                     <Step
-                      key={`firmware-building-task-${task.id}-success`}
-                      completed={true}
+                      key={`firmware-building-task-${task.id}-waiting`}
+                      completed={task.status !== 'waiting'}
                     >
-                      <StepLabel>Success</StepLabel>
+                      <StepLabel>Waiting</StepLabel>
                     </Step>
-                  ) : task.status === 'failure' ? (
-                    <Step key={`firmware-building-task-${task.id}-failure`}>
-                      <StepLabel error={true}>Failure</StepLabel>
+                    <Step
+                      key={`firmware-building-task-${task.id}-building`}
+                      completed={isTaskCompleted(task)}
+                    >
+                      <StepLabel>Building</StepLabel>
                     </Step>
-                  ) : (
-                    <Step key={`firmware-building-task-${task.id}-completed`}>
-                      <StepLabel>Completed</StepLabel>
-                    </Step>
+                    {task.status === 'success' ? (
+                      <Step
+                        key={`firmware-building-task-${task.id}-success`}
+                        completed={true}
+                      >
+                        <StepLabel>Success</StepLabel>
+                      </Step>
+                    ) : task.status === 'failure' ? (
+                      <Step key={`firmware-building-task-${task.id}-failure`}>
+                        <StepLabel error={true}>Failure</StepLabel>
+                      </Step>
+                    ) : (
+                      <Step key={`firmware-building-task-${task.id}-completed`}>
+                        <StepLabel>Completed</StepLabel>
+                      </Step>
+                    )}
+                  </Stepper>
+                </CardContent>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  {task.status === 'success' && (
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        onClickDownload(task);
+                      }}
+                    >
+                      Download
+                    </Button>
                   )}
-                </Stepper>
-              </CardContent>
-              <CardActions
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                {isTaskCompleted(task) && (
-                  <Button variant="text">Show Log</Button>
-                )}
-                {task.status === 'success' && (
-                  <Button
-                    variant="text"
-                    onClick={() => {
-                      onClickDownload(task);
-                    }}
-                  >
-                    Download
-                  </Button>
-                )}
-                {task.status === 'success' && (
-                  <Button
-                    variant="text"
-                    onClick={() => {
-                      onClickFlash(task);
-                    }}
-                  >
-                    Flash
-                  </Button>
-                )}
-              </CardActions>
-            </Card>
+                  {task.status === 'success' && (
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        onClickFlash(task);
+                      }}
+                    >
+                      Flash
+                    </Button>
+                  )}
+                </CardActions>
+              </Card>
+              {isTaskCompleted(task) && (
+                <Accordion sx={{ mb: '32px', mt: '8px' }}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="subtitle1">
+                      Logs - {task.id}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Box
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '16px',
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="subtitle2">
+                          Standard Output
+                        </Typography>
+                        <TextField
+                          multiline
+                          rows={5}
+                          value={task.stdout}
+                          sx={{ mt: '8px' }}
+                          fullWidth
+                          variant="outlined"
+                        />
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="subtitle2">
+                          Standard Error
+                        </Typography>
+                        <TextField
+                          multiline
+                          rows={5}
+                          value={task.stderr}
+                          sx={{ mt: '8px' }}
+                          fullWidth
+                          variant="outlined"
+                        />
+                      </Box>
+                    </Box>
+                  </AccordionDetails>
+                </Accordion>
+              )}
+            </React.Fragment>
           ))}
         </Box>
         <ConfirmDialog
