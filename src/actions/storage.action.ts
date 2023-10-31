@@ -142,7 +142,7 @@ export const StorageActions = {
       value: organizationMap,
     };
   },
-  updateBuildableFirmware: (buildableFirmware: IBuildableFirmware) => {
+  updateBuildableFirmware: (buildableFirmware: IBuildableFirmware | null) => {
     return {
       type: STORAGE_UPDATE_BUILDABLE_FIRMWARE,
       value: buildableFirmware,
@@ -1241,6 +1241,26 @@ export const storageActionsThunk = {
           return;
         }
         dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
+
+        const fetchBuildableFirmwareResult =
+          await storage.instance!.fetchBuildableFirmware(definitionId);
+        if (isError(fetchBuildableFirmwareResult)) {
+          console.error(fetchBuildableFirmwareResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareResult.error,
+              fetchBuildableFirmwareResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateBuildableFirmware(
+            fetchBuildableFirmwareResult.value
+          )
+        );
 
         const fetchFirmwareBuildingTasksResult =
           await storage.instance!.fetchFirmwareBuildingTasks(definitionId);

@@ -500,5 +500,8 @@ export interface IStorage {
   fetchBuiltFirmwareFileBlob(
     firmwareFilePath: string
   ): Promise<IFetchFirmwareFileBlobResult>;
+  fetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware | null>>;
 }
 /* eslint-enable no-unused-vars */

@@ -90,7 +90,14 @@ export default function CatalogBuild(props: CatalogBuildProps) {
             <Button variant="text" sx={{ mr: '32px' }} onClick={onClickReload}>
               Reload
             </Button>
-            <Button variant="contained" onClick={onClickBuild}>
+            <Button
+              variant="contained"
+              onClick={onClickBuild}
+              disabled={
+                props.buildableFirmware == null ||
+                !props.buildableFirmware.enabled
+              }
+            >
               Build Firmware
             </Button>
           </Box>

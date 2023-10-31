@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     firmwareBuildingTasks: state.entities.firmwareBuildingTasks,
+    buildableFirmware: state.entities.buildableFirmware,
   };
 };
 export type CatalogBuildStateType = ReturnType<typeof mapStateToProps>;
