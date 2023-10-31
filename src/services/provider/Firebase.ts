@@ -1789,29 +1789,12 @@ export class FirebaseProvider implements IStorage, IAuth {
     keyboardDefinitionId: string
   ): Promise<IEmptyResult> {
     try {
-      const user = this.getCurrentAuthenticatedUser()!;
-      const ref = await this.db
-        .collection('build')
-        .doc('v1')
-        .collection('tasks')
-        .add({
-          uid: user.uid,
-          firmwareId: keyboardDefinitionId,
-          status: 'waiting',
-          firmwareFilePath: '',
-          stdout: '',
-          stderr: '',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
-      const taskId = ref.id;
-
       const createFirmwareBuildingTask = this.functions.httpsCallable(
         'createFirmwareBuildingTask'
       );
       const createFirmwareBuildingTaskResult = await createFirmwareBuildingTask(
         {
-          taskId,
+          firmwareId: keyboardDefinitionId,
         }
       );
       const data = createFirmwareBuildingTaskResult.data;
