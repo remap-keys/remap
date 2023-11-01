@@ -1,13 +1,7 @@
-export type IBuildableFirmwareCodeParameterType = 'select' | 'text' | 'number';
-
-export type IBuildableFirmwareCodeParameter = {
-  name: string;
-  type: IBuildableFirmwareCodeParameterType;
-  options: string[];
-  default: string;
-  startPosition: number;
-  endPosition: number;
-};
+import {
+  IBuildableFirmwareCodeParameter,
+  IBuildableFirmwareCodeParameterType,
+} from '../../store/state';
 
 const isBuildableFirmwareCodeParameterType = (
   value: string

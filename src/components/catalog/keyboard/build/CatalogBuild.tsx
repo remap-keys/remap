@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CatalogBuild.scss';
 import {
   CatalogBuildActionsType,
@@ -20,11 +20,20 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import moment from 'moment';
-import { IFirmwareBuildingTask } from '../../../../services/storage/Storage';
+import {
+  IBuildableFirmwareFile,
+  IFirmwareBuildingTask,
+} from '../../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import BuildParametersDialog from './BuildParametersDialog.container';
+import {
+  IBuildableFirmwareCodeParameterValue,
+  IBuildableFirmwareCodeParameterValueMap,
+  IBuildableFirmwareCodeParameterValues,
+} from '../../../../store/state';
+import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
 
 type OwnProps = {};
 type CatalogBuildProps = OwnProps &
@@ -32,19 +41,39 @@ type CatalogBuildProps = OwnProps &
   Partial<CatalogBuildStateType>;
 
 export default function CatalogBuild(props: CatalogBuildProps) {
-  const [openConfirmDialog, setOpenConfirmDialog] = React.useState(false);
+  const [openBuildParametersDialog, setOpenBuildParametersDialog] =
+    useState<boolean>(false);
 
-  const onClickConfirmDialogYes = () => {
-    setOpenConfirmDialog(false);
-    props.createFirmwareBuildingTask!(props.definitionDocument!.id);
-  };
-
-  const onClickConfirmDialogNo = () => {
-    setOpenConfirmDialog(false);
+  const createDefaultParameterValues = (
+    files: IBuildableFirmwareFile[]
+  ): IBuildableFirmwareCodeParameterValueMap => {
+    return files.reduce<IBuildableFirmwareCodeParameterValueMap>(
+      (valueMap, file) => {
+        const parameters = extractBuildableFirmwareCodeParameters(file.content);
+        valueMap[file.id] = parameters.reduce<{
+          [parameterName: string]: IBuildableFirmwareCodeParameterValue;
+        }>((values, parameter) => {
+          values[parameter.name] = {
+            value: parameter.default,
+            definition: parameter,
+          };
+          return values;
+        }, {});
+        return valueMap;
+      },
+      {}
+    );
   };
 
   const onClickBuild = () => {
-    setOpenConfirmDialog(true);
+    const parameterValues: IBuildableFirmwareCodeParameterValues = {
+      keyboard: createDefaultParameterValues(
+        props.buildableFirmwareKeyboardFiles!
+      ),
+      keymap: createDefaultParameterValues(props.buildableFirmwareKeymapFiles!),
+    };
+    props.updateBuildableFirmwareCodeParameterValues!(parameterValues);
+    setOpenBuildParametersDialog(true);
   };
 
   const createActiveStepNumber = (task: IFirmwareBuildingTask): number => {
@@ -80,6 +109,43 @@ export default function CatalogBuild(props: CatalogBuildProps) {
 
   const onClickFlash = (task: IFirmwareBuildingTask) => {
     props.flashFirmware!(props.definitionDocument!, task);
+  };
+
+  const onClickCloseBuildParametersDialog = () => {
+    setOpenBuildParametersDialog(false);
+  };
+
+  const createBuildableFirmwareCodeParameterNameValueMap = (
+    valueMap: IBuildableFirmwareCodeParameterValueMap
+  ): { [fileId: string]: { [parameterName: string]: string } } => {
+    return Object.entries(valueMap).reduce<{
+      [fileId: string]: { [parameterName: string]: string };
+    }>((result, [fileId, valueMap]) => {
+      result[fileId] = Object.entries(valueMap).reduce<{
+        [parameterName: string]: string;
+      }>((result, [parameterName, parameterValue]) => {
+        result[parameterName] = parameterValue.value;
+        return result;
+      }, {});
+      return result;
+    }, {});
+  };
+
+  const onClickBuildBuildParametersDialog = () => {
+    setOpenBuildParametersDialog(false);
+    const parameterValues: {
+      keyboard: { [fileId: string]: { [parameterName: string]: string } };
+      keymap: { [fileId: string]: { [parameterName: string]: string } };
+    } = {
+      keyboard: createBuildableFirmwareCodeParameterNameValueMap(
+        props.buildableFirmwareCodeParameterValues!.keyboard
+      ),
+      keymap: createBuildableFirmwareCodeParameterNameValueMap(
+        props.buildableFirmwareCodeParameterValues!.keymap
+      ),
+    };
+    console.log(JSON.stringify(parameterValues, null, 2));
+    // props.createFirmwareBuildingTask!(props.definitionDocument!.id);
   };
 
   return (
@@ -234,12 +300,10 @@ export default function CatalogBuild(props: CatalogBuildProps) {
             </React.Fragment>
           ))}
         </Box>
-        <ConfirmDialog
-          open={openConfirmDialog}
-          title="Building Firmware"
-          message="Are you sure to build a new firmware for this keyboard?"
-          onClickYes={onClickConfirmDialogYes}
-          onClickNo={onClickConfirmDialogNo}
+        <BuildParametersDialog
+          open={openBuildParametersDialog}
+          onClickClose={onClickCloseBuildParametersDialog}
+          onClickBuild={onClickBuildBuildParametersDialog}
         />
       </React.Fragment>
     </div>

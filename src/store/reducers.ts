@@ -168,6 +168,7 @@ import {
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
   CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
   CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
+  CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_RESET_FEATURES,
@@ -1115,6 +1116,10 @@ const catalogKeyboardReducer = (
       break;
     case CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA:
       draft.catalog.keyboard.selectedKeymapData = action.value;
+      break;
+    case CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES:
+      draft.catalog.keyboard.buildableFirmwareCodeParameterValues =
+        action.value;
       break;
   }
 };

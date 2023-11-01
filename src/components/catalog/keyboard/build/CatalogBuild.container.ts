@@ -1,7 +1,13 @@
 import { connect } from 'react-redux';
-import { RootState } from '../../../../store/state';
+import {
+  IBuildableFirmwareCodeParameterValues,
+  RootState,
+} from '../../../../store/state';
 import CatalogBuild from './CatalogBuild';
-import { catalogActionsThunk } from '../../../../actions/catalog.action';
+import {
+  catalogActionsThunk,
+  CatalogKeyboardActions,
+} from '../../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import {
   IFirmwareBuildingTask,
@@ -15,6 +21,11 @@ const mapStateToProps = (state: RootState) => {
     definitionDocument: state.entities.keyboardDefinitionDocument,
     firmwareBuildingTasks: state.entities.firmwareBuildingTasks,
     buildableFirmware: state.entities.buildableFirmware,
+    buildableFirmwareKeyboardFiles:
+      state.entities.buildableFirmwareKeyboardFiles,
+    buildableFirmwareKeymapFiles: state.entities.buildableFirmwareKeymapFiles,
+    buildableFirmwareCodeParameterValues:
+      state.catalog.keyboard.buildableFirmwareCodeParameterValues,
   };
 };
 export type CatalogBuildStateType = ReturnType<typeof mapStateToProps>;
@@ -65,6 +76,15 @@ const mapDispatchToProps = (dispatch: any) => {
           sourceCodeUrl: '',
           created_at: new Date(),
         })
+      );
+    },
+    updateBuildableFirmwareCodeParameterValues: (
+      values: IBuildableFirmwareCodeParameterValues
+    ) => {
+      dispatch(
+        CatalogKeyboardActions.updateBuildableFirmwareCodeParameterValues(
+          values
+        )
       );
     },
   };

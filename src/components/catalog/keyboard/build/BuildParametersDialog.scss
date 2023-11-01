@@ -1,0 +1,9 @@
+@import '../../../../variables';
+
+.build-parameters-dialog {
+  &-content {
+    display: flex;
+    flex-direction: row;
+    padding-left: 24px;
+  }
+}

@@ -1,4 +1,5 @@
 import {
+  IBuildableFirmwareCodeParameterValues,
   ICatalogPhase,
   IConditionNotSelected,
   IKeyboardFeatures,
@@ -84,6 +85,7 @@ export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTION
 export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
 export const CATALOG_KEYBOARD_CLEAR_KEYMAP = `${CATALOG_KEYBOARD_ACTIONS}/ClearKeymap`;
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedKeymapData`;
+export const CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES = `${CATALOG_KEYBOARD_ACTIONS}/UpdateBuildableFirmwareCodeParameterValues`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -122,6 +124,14 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
       value: selectedKeymapData,
+    };
+  },
+  updateBuildableFirmwareCodeParameterValues: (
+    values: IBuildableFirmwareCodeParameterValues
+  ) => {
+    return {
+      type: CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES,
+      value: values,
     };
   },
 };

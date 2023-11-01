@@ -1,4 +1,5 @@
 import {
+  IBuildableFirmwareCodeParameter,
   IConditionNotSelected,
   IFirmwareCodePlace,
   IKeyboardFeatures,
@@ -17,7 +18,6 @@ import {
 } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IBootloaderType } from '../services/firmware/Types';
-import { IBuildableFirmwareCodeParameter } from '../services/build/FirmwareCodeParser';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;

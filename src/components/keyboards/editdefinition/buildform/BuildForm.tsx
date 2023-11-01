@@ -38,10 +38,8 @@ import {
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
-import {
-  extractBuildableFirmwareCodeParameters,
-  IBuildableFirmwareCodeParameter,
-} from '../../../../services/build/FirmwareCodeParser';
+import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
+import { IBuildableFirmwareCodeParameter } from '../../../../store/state';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &

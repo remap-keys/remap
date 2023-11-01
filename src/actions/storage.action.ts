@@ -1262,6 +1262,52 @@ export const storageActionsThunk = {
           )
         );
 
+        const fetchBuildableFirmwareKeyboardFilesResult =
+          await storage.instance!.fetchBuildableFirmwareFiles(
+            definitionId,
+            'keyboard'
+          );
+        if (isError(fetchBuildableFirmwareKeyboardFilesResult)) {
+          console.error(fetchBuildableFirmwareKeyboardFilesResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareKeyboardFilesResult.error,
+              fetchBuildableFirmwareKeyboardFilesResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateBuildableFirmwareKeyboardFiles(
+            fetchBuildableFirmwareKeyboardFilesResult.value
+          )
+        );
+
+        const fetchBuildableFirmwareKeymapFilesResult =
+          await storage.instance!.fetchBuildableFirmwareFiles(
+            definitionId,
+            'keymap'
+          );
+        if (isError(fetchBuildableFirmwareKeymapFilesResult)) {
+          console.error(fetchBuildableFirmwareKeymapFilesResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchBuildableFirmwareKeymapFilesResult.error,
+              fetchBuildableFirmwareKeymapFilesResult.cause
+            )
+          );
+          dispatch(CatalogAppActions.updatePhase('init'));
+          await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+          return;
+        }
+        dispatch(
+          StorageActions.updateBuildableFirmwareKeymapFiles(
+            fetchBuildableFirmwareKeymapFilesResult.value
+          )
+        );
+
         const fetchFirmwareBuildingTasksResult =
           await storage.instance!.fetchFirmwareBuildingTasks(definitionId);
         if (isError(fetchFirmwareBuildingTasksResult)) {

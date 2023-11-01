@@ -1,4 +1,7 @@
-import { RootState } from '../../../../store/state';
+import {
+  IBuildableFirmwareCodeParameter,
+  RootState,
+} from '../../../../store/state';
 import { connect } from 'react-redux';
 import BuildForm from './BuildForm';
 import { storageActionsThunk } from '../../../../actions/storage.action';
@@ -7,7 +10,6 @@ import {
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
-import { IBuildableFirmwareCodeParameter } from '../../../../services/build/FirmwareCodeParser';
 
 const mapStateToProps = (state: RootState) => {
   return {

@@ -33,7 +33,6 @@ import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 import { IBootloaderType } from '../services/firmware/Types';
-import { IBuildableFirmwareCodeParameter } from '../services/build/FirmwareCodeParser';
 
 export type ISetupPhase =
   | 'init'
@@ -201,6 +200,34 @@ const KeySwitchOperations = {
 } as const;
 export type IKeySwitchOperation =
   typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+
+export type IBuildableFirmwareCodeParameterType = 'select' | 'text' | 'number';
+
+export type IBuildableFirmwareCodeParameter = {
+  name: string;
+  type: IBuildableFirmwareCodeParameterType;
+  options: string[];
+  default: string;
+  startPosition: number;
+  endPosition: number;
+};
+
+export type IBuildableFirmwareCodeParameterValue = {
+  value: string;
+  definition: IBuildableFirmwareCodeParameter;
+};
+
+export type IBuildableFirmwareCodeParameterValueMap = {
+  // File ID: Parameter Name : Parameter Value
+  [fileId: string]: {
+    [parameterName: string]: IBuildableFirmwareCodeParameterValue;
+  };
+};
+
+export type IBuildableFirmwareCodeParameterValues = {
+  keyboard: IBuildableFirmwareCodeParameterValueMap;
+  keymap: IBuildableFirmwareCodeParameterValueMap;
+};
 
 export type RootState = {
   entities: {
@@ -390,6 +417,7 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
+      buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
     };
   };
   organizations: {
@@ -641,6 +669,10 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
+      buildableFirmwareCodeParameterValues: {
+        keyboard: {},
+        keymap: {},
+      },
     },
   },
   organizations: {
