@@ -125,6 +125,7 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE,
@@ -447,6 +448,10 @@ const keyboardsEditKeyboardReducer = (
       draft.keyboards.editdefinition.buildableFirmwareFile = action.value.file;
       draft.keyboards.editdefinition.buildableFirmwareFileType =
         action.value.type;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS:
+      draft.keyboards.editdefinition.buildableFirmwareCodeParameters =
+        action.value;
       break;
   }
 };

@@ -17,6 +17,7 @@ import {
 } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IBootloaderType } from '../services/firmware/Types';
+import { IBuildableFirmwareCodeParameter } from '../services/build/FirmwareCodeParser';
 
 export const KEYBOARDS_APP_ACTIONS = '@FIXME!App'; // FIXME!
 export const KEYBOARDS_APP_UPDATE_PHASE = `${KEYBOARDS_APP_ACTIONS}/UpdatePhase`;
@@ -194,6 +195,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_EVIDENCE = `${KEYBOAR
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateOrganizationId`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAuthorType`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateBuildableFirmwareFile`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateBuildableFirmwareCodeParameters`;
 
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
@@ -435,6 +437,14 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,
       value: { file, type },
+    };
+  },
+  updateBuildableFirmwareCodeParameters: (
+    parameters: IBuildableFirmwareCodeParameter[]
+  ) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS,
+      value: parameters,
     };
   },
 };

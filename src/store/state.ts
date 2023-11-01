@@ -33,6 +33,7 @@ import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 import { IBootloaderType } from '../services/firmware/Types';
+import { IBuildableFirmwareCodeParameter } from '../services/build/FirmwareCodeParser';
 
 export type ISetupPhase =
   | 'init'
@@ -369,6 +370,7 @@ export type RootState = {
       organizationEvidence: string;
       buildableFirmwareFile: IBuildableFirmwareFile | null;
       buildableFirmwareFileType: IBuildableFirmwareFileType | null;
+      buildableFirmwareCodeParameters: IBuildableFirmwareCodeParameter[];
     };
   };
   catalog: {
@@ -621,6 +623,7 @@ export const INIT_STATE: RootState = {
       organizationEvidence: '',
       buildableFirmwareFile: null,
       buildableFirmwareFileType: null,
+      buildableFirmwareCodeParameters: [],
     },
   },
   catalog: {

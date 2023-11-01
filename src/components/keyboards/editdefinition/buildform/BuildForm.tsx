@@ -21,6 +21,12 @@ import {
   Paper,
   Stack,
   Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from '@mui/material';
@@ -32,6 +38,10 @@ import {
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
+import {
+  extractBuildableFirmwareCodeParameters,
+  IBuildableFirmwareCodeParameter,
+} from '../../../../services/build/FirmwareCodeParser';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -66,6 +76,8 @@ export default function BuildForm(props: BuildFormProps) {
     type: IBuildableFirmwareFileType
   ) => {
     props.updateTargetBuildableFirmwareFile!(file, type);
+    const parameters = extractBuildableFirmwareCodeParameters(file.content);
+    props.updateBuildableFirmwareCodeParameters!(parameters);
   };
 
   const onChangeFileName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +105,8 @@ export default function BuildForm(props: BuildFormProps) {
         file,
         props.targetBuildableFirmwareFileType!
       );
+      const parameters = extractBuildableFirmwareCodeParameters(content);
+      props.updateBuildableFirmwareCodeParameters!(parameters);
     }
   };
 
@@ -273,6 +287,40 @@ export default function BuildForm(props: BuildFormProps) {
                     value={props.targetBuildableFirmwareFile?.content || ''}
                     onChange={onChangeContent}
                   />
+                  {props.targetBuildableFirmwareCodeParameters!.length > 0 && (
+                    <Paper sx={{ width: '100%', overflow: 'hidden', mb: 2 }}>
+                      <TableContainer sx={{ maxHeight: 150 }}>
+                        <Table stickyHeader size="small">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>Name</TableCell>
+                              <TableCell>Type</TableCell>
+                              <TableCell>Default</TableCell>
+                              <TableCell>Options</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {props.targetBuildableFirmwareCodeParameters!.map(
+                              (parameter: IBuildableFirmwareCodeParameter) => (
+                                <TableRow
+                                  key={`buildable-firmware-code-parameter-${parameter.name}`}
+                                >
+                                  <TableCell>{parameter.name}</TableCell>
+                                  <TableCell>{parameter.type}</TableCell>
+                                  <TableCell>{parameter.default}</TableCell>
+                                  <TableCell>
+                                    {parameter.options
+                                      ? parameter.options.join(', ')
+                                      : ''}
+                                  </TableCell>
+                                </TableRow>
+                              )
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Paper>
+                  )}
                   <Stack direction="row" spacing={2} justifyContent="flex-end">
                     <Button
                       variant="text"

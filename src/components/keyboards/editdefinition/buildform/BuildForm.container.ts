@@ -7,6 +7,7 @@ import {
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
+import { IBuildableFirmwareCodeParameter } from '../../../../services/build/FirmwareCodeParser';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -19,6 +20,8 @@ const mapStateToProps = (state: RootState) => {
       state.keyboards.editdefinition.buildableFirmwareFile,
     targetBuildableFirmwareFileType:
       state.keyboards.editdefinition.buildableFirmwareFileType,
+    targetBuildableFirmwareCodeParameters:
+      state.keyboards.editdefinition.buildableFirmwareCodeParameters,
   };
 };
 export type BuildFormStateType = ReturnType<typeof mapStateToProps>;
@@ -89,6 +92,15 @@ const mapDispatchToProps = (dispatch: any) => {
           keyboardDefinitionId,
           file,
           type
+        )
+      );
+    },
+    updateBuildableFirmwareCodeParameters: (
+      parameters: IBuildableFirmwareCodeParameter[]
+    ) => {
+      dispatch(
+        KeyboardsEditDefinitionActions.updateBuildableFirmwareCodeParameters(
+          parameters
         )
       );
     },
