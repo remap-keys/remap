@@ -1335,8 +1335,8 @@ export const storageActionsThunk = {
               : []
           )
         );
-        dispatch(
-          await storageActionsThunk.fetchSharedKeymaps(
+        await dispatch(
+          storageActionsThunk.fetchSharedKeymaps(
             keyboardDefinitionDocument,
             false
           )
@@ -1353,7 +1353,7 @@ export const storageActionsThunk = {
             )
           );
           dispatch(CatalogAppActions.updatePhase('init'));
-          dispatch(await storageActionsThunk.searchKeyboardsForCatalog());
+          await dispatch(storageActionsThunk.searchKeyboardsForCatalog());
           return;
         }
         dispatch(

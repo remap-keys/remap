@@ -1815,15 +1815,22 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  /**
+   * Fetch firmware building tasks.
+   * If not signed in, return empty array.
+   */
   async fetchFirmwareBuildingTasks(
     keyboardDefinitionId: string
   ): Promise<IResult<IFirmwareBuildingTask[]>> {
+    if (this.getCurrentAuthenticatedUser() === null) {
+      return successResultOf([]);
+    }
     try {
       const query = this.db
         .collection('build')
         .doc('v1')
         .collection('tasks')
-        .where('uid', '==', this.getCurrentAuthenticatedUser()!.uid)
+        .where('uid', '==', this.getCurrentAuthenticatedUser().uid)
         .where('firmwareId', '==', keyboardDefinitionId)
         .orderBy('updatedAt', 'desc');
       const querySnapshot = await query.get();

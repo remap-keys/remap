@@ -26,6 +26,7 @@ const mapStateToProps = (state: RootState) => {
     buildableFirmwareKeymapFiles: state.entities.buildableFirmwareKeymapFiles,
     buildableFirmwareCodeParameterValues:
       state.catalog.keyboard.buildableFirmwareCodeParameterValues,
+    signedIn: state.app.signedIn,
   };
 };
 export type CatalogBuildStateType = ReturnType<typeof mapStateToProps>;
