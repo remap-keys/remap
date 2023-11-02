@@ -504,5 +504,8 @@ export interface IStorage {
   fetchBuildableFirmware(
     keyboardDefinitionId: string
   ): Promise<IResult<IBuildableFirmware | null>>;
+  deleteFirmwareBuildingTask(
+    task: IFirmwareBuildingTask
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

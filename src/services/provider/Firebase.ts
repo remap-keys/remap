@@ -1850,4 +1850,32 @@ export class FirebaseProvider implements IStorage, IAuth {
       );
     }
   }
+
+  async deleteFirmwareBuildingTask(
+    task: IFirmwareBuildingTask
+  ): Promise<IEmptyResult> {
+    try {
+      // Delete the task document in the Firestore.
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .doc(task.id)
+        .delete();
+
+      // Delete the firmware file in the Cloud Storage.
+      if (task.firmwareFilePath) {
+        const storageRef = this.storage.ref(task.firmwareFilePath);
+        await storageRef.delete();
+      }
+
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting firmware building task failed: ${error}`,
+        error
+      );
+    }
+  }
 }

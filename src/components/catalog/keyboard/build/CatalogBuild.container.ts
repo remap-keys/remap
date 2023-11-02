@@ -93,6 +93,17 @@ const mapDispatchToProps = (dispatch: any) => {
         )
       );
     },
+    deleteFirmwareBuildingTask: (
+      keyboardDefinitionId: string,
+      task: IFirmwareBuildingTask
+    ) => {
+      dispatch(
+        catalogActionsThunk.deleteFirmwareBuildingTask(
+          keyboardDefinitionId,
+          task
+        )
+      );
+    },
   };
 };
 export type CatalogBuildActionsType = ReturnType<typeof mapDispatchToProps>;

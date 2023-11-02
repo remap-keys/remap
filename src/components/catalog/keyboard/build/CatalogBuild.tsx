@@ -111,6 +111,10 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     props.flashFirmware!(props.definitionDocument!, task);
   };
 
+  const onClickDelete = (task: IFirmwareBuildingTask) => {
+    props.deleteFirmwareBuildingTask!(props.definitionDocument!.id, task);
+  };
+
   const onClickCloseBuildParametersDialog = () => {
     setOpenBuildParametersDialog(false);
   };
@@ -182,12 +186,12 @@ export default function CatalogBuild(props: CatalogBuildProps) {
                       Task ID: {task.id}
                     </Typography>
                     <Typography variant="subtitle1">
-                      Updated at:{' '}
-                      {moment(task.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
-                    </Typography>
-                    <Typography variant="subtitle1">
                       Created at:{' '}
                       {moment(task.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Updated at:{' '}
+                      {moment(task.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
                     </Typography>
                   </Box>
                   <Stepper
@@ -250,6 +254,16 @@ export default function CatalogBuild(props: CatalogBuildProps) {
                       }}
                     >
                       Flash
+                    </Button>
+                  )}
+                  {isTaskCompleted(task) && (
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        onClickDelete(task);
+                      }}
+                    >
+                      Delete
                     </Button>
                   )}
                 </CardActions>

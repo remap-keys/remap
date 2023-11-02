@@ -9,6 +9,7 @@ import { IEncoderKeymaps, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import {
   AbstractKeymapData,
+  IFirmwareBuildingTask,
   isError,
   isSuccessful,
 } from '../services/storage/Storage';
@@ -316,5 +317,22 @@ export const catalogActionsThunk = {
         return;
       }
       dispatch(StorageActions.updateFirmwareBuildingTasks(result.value));
+    },
+
+  deleteFirmwareBuildingTask:
+    (keyboardDefinitionId: string, task: IFirmwareBuildingTask) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.deleteFirmwareBuildingTask(task);
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      await dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+      );
     },
 };
