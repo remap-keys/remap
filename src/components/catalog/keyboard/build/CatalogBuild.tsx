@@ -34,6 +34,7 @@ import {
   IBuildableFirmwareCodeParameterValues,
 } from '../../../../store/state';
 import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
+import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 
 type OwnProps = {};
 type CatalogBuildProps = OwnProps &
@@ -43,6 +44,8 @@ type CatalogBuildProps = OwnProps &
 export default function CatalogBuild(props: CatalogBuildProps) {
   const [openBuildParametersDialog, setOpenBuildParametersDialog] =
     useState<boolean>(false);
+  const [targetDeleteTask, setTargetDeleteTask] =
+    useState<IFirmwareBuildingTask | null>(null);
 
   const createDefaultParameterValues = (
     files: IBuildableFirmwareFile[]
@@ -112,7 +115,19 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickDelete = (task: IFirmwareBuildingTask) => {
-    props.deleteFirmwareBuildingTask!(props.definitionDocument!.id, task);
+    setTargetDeleteTask(task);
+  };
+
+  const onClickDeleteYes = () => {
+    props.deleteFirmwareBuildingTask!(
+      props.definitionDocument!.id,
+      targetDeleteTask!
+    );
+    setTargetDeleteTask(null);
+  };
+
+  const onClickDeleteNo = () => {
+    setTargetDeleteTask(null);
   };
 
   const onClickCloseBuildParametersDialog = () => {
@@ -320,6 +335,13 @@ export default function CatalogBuild(props: CatalogBuildProps) {
           open={openBuildParametersDialog}
           onClickClose={onClickCloseBuildParametersDialog}
           onClickBuild={onClickBuildBuildParametersDialog}
+        />
+        <ConfirmDialog
+          open={targetDeleteTask != null}
+          title="Delete the task"
+          message="Are you sure to delete the task?"
+          onClickYes={onClickDeleteYes}
+          onClickNo={onClickDeleteNo}
         />
       </React.Fragment>
     </div>
