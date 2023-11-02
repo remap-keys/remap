@@ -33,9 +33,15 @@ export type CatalogBuildStateType = ReturnType<typeof mapStateToProps>;
 // eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    createFirmwareBuildingTask: (keyboardDefinitionId: string) => {
+    createFirmwareBuildingTask: (
+      keyboardDefinitionId: string,
+      parametersJson: string
+    ) => {
       dispatch(
-        catalogActionsThunk.createFirmwareBuildingTask(keyboardDefinitionId)
+        catalogActionsThunk.createFirmwareBuildingTask(
+          keyboardDefinitionId,
+          parametersJson
+        )
       );
     },
     fetchBuiltFirmwareFileBlob(

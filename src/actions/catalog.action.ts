@@ -278,7 +278,8 @@ export const catalogActionsThunk = {
     },
 
   createFirmwareBuildingTask: (
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
+    parametersJson: string
   ): ThunkPromiseAction<void> => {
     return async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -286,7 +287,8 @@ export const catalogActionsThunk = {
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.createFirmwareBuildingTask(
-        keyboardDefinitionId
+        keyboardDefinitionId,
+        parametersJson
       );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));

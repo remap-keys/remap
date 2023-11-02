@@ -144,8 +144,10 @@ export default function CatalogBuild(props: CatalogBuildProps) {
         props.buildableFirmwareCodeParameterValues!.keymap
       ),
     };
-    console.log(JSON.stringify(parameterValues, null, 2));
-    // props.createFirmwareBuildingTask!(props.definitionDocument!.id);
+    props.createFirmwareBuildingTask!(
+      props.definitionDocument!.id,
+      JSON.stringify(parameterValues)
+    );
   };
 
   return (

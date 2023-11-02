@@ -492,7 +492,8 @@ export interface IStorage {
     fileType: IBuildableFirmwareFileType
   ): Promise<IEmptyResult>;
   createFirmwareBuildingTask(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
+    parametersJson: string
   ): Promise<IEmptyResult>;
   fetchFirmwareBuildingTasks(
     keyboardDefinitionId: string

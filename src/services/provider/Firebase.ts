@@ -1786,7 +1786,8 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async createFirmwareBuildingTask(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
+    parametersJson: string
   ): Promise<IEmptyResult> {
     try {
       const createFirmwareBuildingTask = this.functions.httpsCallable(
@@ -1795,6 +1796,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       const createFirmwareBuildingTaskResult = await createFirmwareBuildingTask(
         {
           firmwareId: keyboardDefinitionId,
+          parametersJson,
         }
       );
       const data = createFirmwareBuildingTaskResult.data;
