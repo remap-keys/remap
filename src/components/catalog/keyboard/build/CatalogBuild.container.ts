@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(FlashFirmwareDialogActions.clear());
       dispatch(FlashFirmwareDialogActions.updateBootloaderType('caterina'));
       const firmwareName = `Built for ${keyboardDefinitionDocument.name}`;
-      dispatch(FlashFirmwareDialogActions.updateKeyboardName(firmwareName));
+      dispatch(FlashFirmwareDialogActions.updateKeyboardName(''));
       dispatch(FlashFirmwareDialogActions.updateFlashMode('build_and_flash'));
       dispatch(FlashFirmwareDialogActions.updateBuildingFirmwareTask(task));
       dispatch(
