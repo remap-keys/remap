@@ -4,7 +4,7 @@ describe('FirmwareCodeParser', () => {
   describe('extractBuildableFirmwareCodeParameters', () => {
     test('should extract parameters from source', () => {
       const source = `
-        <remap name="foo" type="select" options="bar,baz" default="baz" />
+        <remap name="foo" type="select" default="baz" options="bar,baz" />
         <remap name="bar" type="text" default="john" />
         <remap name="baz" type="number" default="20" />
       `;

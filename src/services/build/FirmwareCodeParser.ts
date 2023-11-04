@@ -3,65 +3,62 @@ import {
   IBuildableFirmwareCodeParameterType,
 } from '../../store/state';
 
-const isBuildableFirmwareCodeParameterType = (
-  value: string
-): value is IBuildableFirmwareCodeParameterType => {
-  return ['select', 'text', 'number'].includes(value);
+const extractAttribute = (
+  tag: string,
+  attributeName: string
+): string | undefined => {
+  const pattern = new RegExp(`${attributeName}="([^"]+)"`);
+  const match = pattern.exec(tag);
+  return match ? match[1] : undefined;
+};
+
+const isValidType = (
+  type: string
+): type is IBuildableFirmwareCodeParameterType => {
+  return ['select', 'text', 'number'].includes(type);
 };
 
 export const extractBuildableFirmwareCodeParameters = (
-  source: string
+  input: string
 ): IBuildableFirmwareCodeParameter[] => {
+  const remapTagPattern = /<remap\s+([^>]+?)\s*\/>/g;
+  let match: RegExpExecArray | null;
   const parameters: IBuildableFirmwareCodeParameter[] = [];
 
-  const regex =
-    /<remap\s+(?:name="([^"]+)"\s+)?(?:type="([^"]+)"\s+)?(?:options="([^"]+)"\s+)?(?:default="([^"]+)"\s+)?\/>/g;
+  while ((match = remapTagPattern.exec(input)) !== null) {
+    const startPosition = match.index;
+    const endPosition = remapTagPattern.lastIndex;
+    const tagContent = match[1];
 
-  let match;
-  while ((match = regex.exec(source))) {
-    const attributes = match[0].match(/(\w+)="([^"]+)"/g) || [];
-    const attributeMap: { [key: string]: string } = {};
-    attributes.forEach((attribute) => {
-      const [key, value] = attribute.split('=').map((v) => v.replace(/"/g, ''));
-      attributeMap[key] = value;
-    });
+    const name = extractAttribute(tagContent, 'name');
+    const type = extractAttribute(tagContent, 'type');
+    const options = extractAttribute(tagContent, 'options');
+    const defaultValue = extractAttribute(tagContent, 'default');
 
-    if (attributeMap.name === undefined) {
-      // Skip the parameter which has no name.
-      continue;
-    }
-    if (attributeMap.default === undefined) {
-      // Skip the parameter which has no default value.
-      continue;
-    }
-    if (attributeMap.type === undefined) {
-      // Skip the parameter which has no type.
+    if (
+      !name ||
+      !type ||
+      !defaultValue ||
+      !isValidType(type) ||
+      (type === 'select' && !options)
+    ) {
       continue;
     }
 
-    const typ = attributeMap.type;
-    if (!isBuildableFirmwareCodeParameterType(typ)) {
-      // Skip the parameter which has unknown type.
-      continue;
+    const parameter: IBuildableFirmwareCodeParameter = {
+      name,
+      type: type as 'select' | 'text' | 'number',
+      default: defaultValue,
+      options: [],
+      startPosition,
+      endPosition,
+    };
+
+    if (type === 'select') {
+      parameter.options = options!.split(',');
     }
 
-    const options = attributeMap.options
-      ? attributeMap.options.split(',').map((x) => x.trim())
-      : [];
-
-    if (typ === 'select' && options.length === 0) {
-      // Skip the parameter which has no options.
-      continue;
-    }
-
-    parameters.push({
-      name: attributeMap.name,
-      type: typ,
-      options: options,
-      default: attributeMap.default,
-      startPosition: match.index,
-      endPosition: match.index + match[0].length,
-    });
+    parameters.push(parameter);
   }
 
   return parameters;
