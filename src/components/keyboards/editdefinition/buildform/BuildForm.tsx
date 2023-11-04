@@ -280,11 +280,14 @@ export default function BuildForm(props: BuildFormProps) {
                     maxRows={10}
                     fullWidth
                     margin="normal"
-                    sx={{ mb: 2 }}
                     disabled={props.targetBuildableFirmwareFile === null}
                     value={props.targetBuildableFirmwareFile?.content || ''}
                     onChange={onChangeContent}
                   />
+                  <Typography variant="caption" sx={{ mb: 2 }} component="p">
+                    This content can have custom parameters. See:{' '}
+                    <a href="/docs/build">Custom Parameters</a>
+                  </Typography>
                   {props.targetBuildableFirmwareCodeParameters!.length > 0 && (
                     <Paper sx={{ width: '100%', overflow: 'hidden', mb: 2 }}>
                       <TableContainer sx={{ maxHeight: 150 }}>
