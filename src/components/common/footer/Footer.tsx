@@ -39,13 +39,7 @@ export default class Footer extends React.Component<
             <a href="https://qmk018.remap-keys.app">Remap for QMK 0.18</a>
           </div>
           <div className="footer-content">
-            <a href="/docs/terms_of_use">Terms of Use</a>
-          </div>
-          <div className="footer-content">
-            <a href="/docs/review_policy">Review Policy</a>
-          </div>
-          <div className="footer-content">
-            <a href="/docs/faq">FAQ</a>
+            <a href="/docs/">News & Resources</a>
           </div>
           <div className="footer-content">
             <a

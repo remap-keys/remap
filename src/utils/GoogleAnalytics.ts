@@ -25,6 +25,7 @@ type IActionName =
   | 'configure/open'
   | 'configure/restore_keymap'
   | 'configure/save_keymap'
+  | 'docs/build'
   | 'docs/encoders'
   | 'docs/faq'
   | 'docs/review_policy'
