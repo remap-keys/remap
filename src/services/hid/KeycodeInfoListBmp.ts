@@ -267,4 +267,40 @@ export const bmpKeyInfoList: KeyInfo[] = [
       keywords: ['ent_slp'],
     },
   },
+  {
+    desc: 'Disable key override for US/JP keyboard on JP/US OS',
+    keycodeInfo: {
+      code: 0x7e15,
+      name: {
+        long: 'DISABLE_KEY_OS_OVERRIDE',
+        short: 'D_OVR',
+      },
+      label: 'D OVR',
+      keywords: ['Disable keyboard os override'],
+    },
+  },
+  {
+    desc: 'Enable US keyboard on JP OS override',
+    keycodeInfo: {
+      code: 0x7e16,
+      name: {
+        long: 'ENABLE_US_KEY_ON_JP_OS_OVERRIDE',
+        short: 'UJ_OVR',
+      },
+      label: 'UJ OVR',
+      keywords: ['Enable US keyboard on JP OS override'],
+    },
+  },
+  {
+    desc: 'Enable JP keyboard on US OS override',
+    keycodeInfo: {
+      code: 0x7e17,
+      name: {
+        long: 'ENABLE_JP_KEY_ON_US_OS_OVERRIDE',
+        short: 'JU_OVR',
+      },
+      label: 'JU OVR',
+      keywords: ['Enable JP keyboard on US OS override'],
+    },
+  },
 ];
