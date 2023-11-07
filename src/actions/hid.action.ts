@@ -301,7 +301,7 @@ export const hidActionsThunk = {
         ? entities.keyboardDefinition?.customKeycodes
         : bmpKeyInfoList.map((k) => {
             return {
-              name: k.keycodeInfo.name.long,
+              name: k.keycodeInfo.label,
               title: k.desc,
               shortName: k.keycodeInfo.name.short,
             };
