@@ -38,7 +38,8 @@ import {
 type OwnProps = {
   open: boolean;
   onClickClose: () => void;
-  onClickBuild: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onClickBuild: (description: string) => void;
 };
 type BuildParametersDialogProps = OwnProps &
   Partial<BuildParametersDialogActionsType> &
@@ -55,9 +56,13 @@ export default function BuildParametersDialog(
   const [selectedFirmwareFile, setSelectedFirmwareFile] = useState<
     SelectedFirmwareFile | undefined
   >(undefined);
+  const [description, setDescription] = useState<string>('');
 
   useEffect(() => {
-    props.open && setSelectedFirmwareFile(undefined);
+    if (props.open) {
+      setSelectedFirmwareFile(undefined);
+      setDescription('');
+    }
   }, [props.open]);
 
   const onClickFirmwareFile = (
@@ -84,10 +89,23 @@ export default function BuildParametersDialog(
     props.updateBuildableFirmwareCodeParameterValues!(newParameterValues);
   };
 
+  const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(event.target.value);
+  };
+
   return (
     <Dialog open={props.open} maxWidth="md" fullWidth>
       <DialogTitle>Build Parameters</DialogTitle>
       <DialogContent dividers className="build-parameters-dialog-content">
+        <TextField
+          fullWidth
+          label="Description"
+          placeholder="Fill in the description of this build."
+          variant="outlined"
+          sx={{ mb: 2 }}
+          value={description}
+          onChange={onChangeDescription}
+        />
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Paper>
@@ -175,7 +193,7 @@ export default function BuildParametersDialog(
           variant="contained"
           color="primary"
           onClick={() => {
-            props.onClickBuild();
+            props.onClickBuild(description);
           }}
         >
           Build

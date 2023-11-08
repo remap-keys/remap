@@ -300,6 +300,7 @@ export type IFirmwareBuildingTask = {
   firmwareFilePath: string;
   stdout: string;
   stderr: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 };

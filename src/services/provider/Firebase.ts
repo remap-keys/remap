@@ -1844,6 +1844,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           firmwareFilePath: doc.data()!.firmwareFilePath,
           stdout: doc.data()!.stdout,
           stderr: doc.data()!.stderr,
+          description: doc.data()!.description,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
