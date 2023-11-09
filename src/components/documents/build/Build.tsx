@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography } from '@mui/material';
+import { Alert, Paper, Typography } from '@mui/material';
 import FirmwareFileRegistrationImage from '../../../assets/images/documents/firmware-file-registration.png';
 import EditFirmwareFileImage from '../../../assets/images/documents/edit-firmware-file.png';
 import BuildParameterConfigurationUiImage from '../../../assets/images/documents/build-parameter-configuration-ui.png';
@@ -11,6 +11,12 @@ export default function Build() {
   return (
     <React.Fragment>
       <Typography variant="h3">Remap supports building a firmware</Typography>
+      <section>
+        <Alert severity="warning">
+          [Nov 9th, 2023] This feature is currently in beta. It is possible that
+          the feature is changed or removed without notice.
+        </Alert>
+      </section>
       <section>
         <Typography variant="body1" gutterBottom={true}>
           Remap supports building a firmware binary file written by QMK
@@ -172,7 +178,7 @@ export default function Build() {
       </section>
       <section>
         <Typography variant="body1" align="right">
-          Written on: November 4th, 2023
+          Written on: November 9th, 2023
         </Typography>
       </section>
     </React.Fragment>

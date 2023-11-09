@@ -94,17 +94,8 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Sep 11th 2023] The new version of Remap is now available. This
-        environment for latest QMK Firmware version. See{' '}
-        <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
-          more detail
-        </Link>
-        .
-      </Alert>
-      <Alert severity="info">
-        <strong>Info: </strong>
-        [Sep 21th 2023] Rotary Encoders has been supported. See{' '}
-        <Link href="/docs/encoders" target="_blank" rel="noreferrer">
+        [Nov 9th 2023] The firmware building feature has been released. See{' '}
+        <Link href="/docs/build" target="_blank" rel="noreferrer">
           more detail
         </Link>
         .

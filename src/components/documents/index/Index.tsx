@@ -9,7 +9,7 @@ export default function Index() {
         <section>
           <Typography variant="body1" gutterBottom={true}>
             <Link href="/docs/build">
-              [Nov 4th, 2023] Remap supports building firmware
+              [Nov 9th, 2023] Remap supports building firmware
             </Link>
           </Typography>
           <Typography variant="body1" gutterBottom={true}>
