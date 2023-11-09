@@ -494,6 +494,7 @@ export interface IStorage {
   ): Promise<IEmptyResult>;
   createFirmwareBuildingTask(
     keyboardDefinitionId: string,
+    description: string,
     parametersJson: string
   ): Promise<IEmptyResult>;
   fetchFirmwareBuildingTasks(
@@ -507,6 +508,10 @@ export interface IStorage {
   ): Promise<IResult<IBuildableFirmware | null>>;
   deleteFirmwareBuildingTask(
     task: IFirmwareBuildingTask
+  ): Promise<IEmptyResult>;
+  updateFirmwareBuildingTaskDescription(
+    taskId: string,
+    description: string
   ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

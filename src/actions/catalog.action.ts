@@ -280,6 +280,7 @@ export const catalogActionsThunk = {
 
   createFirmwareBuildingTask: (
     keyboardDefinitionId: string,
+    description: string,
     parametersJson: string
   ): ThunkPromiseAction<void> => {
     return async (
@@ -289,6 +290,7 @@ export const catalogActionsThunk = {
       const { storage } = getState();
       const result = await storage.instance!.createFirmwareBuildingTask(
         keyboardDefinitionId,
+        description,
         parametersJson
       );
       if (isError(result)) {
@@ -333,6 +335,37 @@ export const catalogActionsThunk = {
       }
       await dispatch(
         catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+      );
+    },
+
+  updateFirmwareBuildingTaskDescription:
+    (taskId: string, description: string) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, entities } = getState();
+      const result =
+        await storage.instance!.updateFirmwareBuildingTaskDescription(
+          taskId,
+          description
+        );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      dispatch(
+        StorageActions.updateFirmwareBuildingTasks(
+          entities.firmwareBuildingTasks.map<IFirmwareBuildingTask>((value) => {
+            if (value.id === taskId) {
+              return {
+                ...value,
+                description: description,
+              };
+            }
+            return value;
+          })
+        )
       );
     },
 };

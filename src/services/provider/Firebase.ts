@@ -1787,6 +1787,7 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async createFirmwareBuildingTask(
     keyboardDefinitionId: string,
+    description: string,
     parametersJson: string
   ): Promise<IEmptyResult> {
     try {
@@ -1796,6 +1797,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       const createFirmwareBuildingTaskResult = await createFirmwareBuildingTask(
         {
           firmwareId: keyboardDefinitionId,
+          description,
           parametersJson,
         }
       );
@@ -1882,6 +1884,29 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Deleting firmware building task failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateFirmwareBuildingTaskDescription(
+    taskId: string,
+    description: string
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .doc(taskId)
+        .update({
+          description,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating firmware building task description failed: ${error}`,
         error
       );
     }

@@ -36,11 +36,13 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createFirmwareBuildingTask: (
       keyboardDefinitionId: string,
+      description: string,
       parametersJson: string
     ) => {
       dispatch(
         catalogActionsThunk.createFirmwareBuildingTask(
           keyboardDefinitionId,
+          description,
           parametersJson
         )
       );
@@ -102,6 +104,17 @@ const mapDispatchToProps = (dispatch: any) => {
         catalogActionsThunk.deleteFirmwareBuildingTask(
           keyboardDefinitionId,
           task
+        )
+      );
+    },
+    updateFirmwareBuildingTaskDescription: (
+      taskId: string,
+      description: string
+    ) => {
+      dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTaskDescription(
+          taskId,
+          description
         )
       );
     },
