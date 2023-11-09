@@ -300,6 +300,11 @@ export const catalogActionsThunk = {
       await dispatch(
         catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
       );
+      dispatch(
+        NotificationActions.addSuccess(
+          'The firmware building task has been registered.'
+        )
+      );
     };
   },
 
@@ -366,6 +371,9 @@ export const catalogActionsThunk = {
             return value;
           })
         )
+      );
+      dispatch(
+        NotificationActions.addSuccess('The memorandum has been updated.')
       );
     },
 };

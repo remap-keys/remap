@@ -162,6 +162,15 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     );
   };
 
+  const onChangeDescription = (
+    task: IFirmwareBuildingTask,
+    description: string
+  ) => {
+    if (task.description !== description) {
+      props.updateFirmwareBuildingTaskDescription!(task.id, description);
+    }
+  };
+
   return (
     <div className="catalog-build-container">
       <React.Fragment>
@@ -197,12 +206,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
                 onClickDownload={onClickDownload}
                 onClickDelete={onClickDelete}
                 onClickFlash={onClickFlash}
-                onChangeDescription={(task, description) => {
-                  props.updateFirmwareBuildingTaskDescription!(
-                    task.id,
-                    description
-                  );
-                }}
+                onChangeDescription={onChangeDescription}
               />
             ))}
           </Box>
@@ -257,22 +261,6 @@ function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
     <React.Fragment>
       <Card sx={{ mb: isTaskCompleted(props.task) ? '0' : '32px' }}>
         <CardContent>
-          <Box>
-            <TextField
-              variant="standard"
-              label="Description"
-              value={description}
-              fullWidth
-              sx={{ mb: 1 }}
-              size="small"
-              onChange={(event) => {
-                setDescription(event.target.value);
-              }}
-              onBlur={() => {
-                props.onChangeDescription(props.task, description);
-              }}
-            />
-          </Box>
           <Box
             sx={{
               display: 'grid',
@@ -325,6 +313,22 @@ function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
               </Step>
             )}
           </Stepper>
+          <Box>
+            <TextField
+              variant="standard"
+              label="Memorandum"
+              value={description}
+              fullWidth
+              sx={{ mt: 1 }}
+              size="small"
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
+              onBlur={() => {
+                props.onChangeDescription(props.task, description);
+              }}
+            />
+          </Box>
         </CardContent>
         <CardActions
           sx={{

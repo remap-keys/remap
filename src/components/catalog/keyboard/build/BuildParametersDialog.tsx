@@ -99,8 +99,8 @@ export default function BuildParametersDialog(
       <DialogContent dividers className="build-parameters-dialog-content">
         <TextField
           fullWidth
-          label="Description"
-          placeholder="Fill in the description of this build."
+          label="Memorandum"
+          placeholder="Fill in the memorandum of this build."
           variant="outlined"
           sx={{ mb: 2 }}
           value={description}
