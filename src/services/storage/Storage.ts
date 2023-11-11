@@ -301,6 +301,7 @@ export type IFirmwareBuildingTask = {
   stdout: string;
   stderr: string;
   description: string;
+  parametersJson: string;
   createdAt: Date;
   updatedAt: Date;
 };

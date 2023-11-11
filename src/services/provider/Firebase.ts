@@ -1847,6 +1847,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           stdout: doc.data()!.stdout,
           stderr: doc.data()!.stderr,
           description: doc.data()!.description,
+          parametersJson: doc.data()!.parametersJson,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
