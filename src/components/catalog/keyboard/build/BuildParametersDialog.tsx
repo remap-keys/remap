@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Badge,
   Button,
   Container,
   Dialog,
@@ -57,11 +58,17 @@ export default function BuildParametersDialog(
     SelectedFirmwareFile | undefined
   >(undefined);
   const [description, setDescription] = useState<string>('');
+  const [originalParameterValues, setOriginalParameterValues] = useState<
+    IBuildableFirmwareCodeParameterValues | undefined
+  >(undefined);
 
   useEffect(() => {
     if (props.open) {
       setSelectedFirmwareFile(undefined);
       setDescription('');
+      setOriginalParameterValues(
+        structuredClone(props.buildableFirmwareCodeParameterValues)
+      );
     }
   }, [props.open]);
 
@@ -91,6 +98,38 @@ export default function BuildParametersDialog(
 
   const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
+  };
+
+  const isDifferent = (
+    fileType: IBuildableFirmwareFileType,
+    file: IBuildableFirmwareFile
+  ): boolean => {
+    if (!originalParameterValues) {
+      return false;
+    }
+    const originalValueMap =
+      fileType === 'keyboard'
+        ? originalParameterValues.keyboard
+        : originalParameterValues.keymap;
+    const originalParameterValueMap = originalValueMap[file.id];
+    const newValueMap =
+      fileType === 'keyboard'
+        ? props.buildableFirmwareCodeParameterValues!.keyboard
+        : props.buildableFirmwareCodeParameterValues!.keymap;
+    const newParameterValueMap = newValueMap[file.id];
+    const originalParameterValueMapEntries = Object.entries(
+      originalParameterValueMap
+    );
+    const newParameterValueMapEntries = Object.entries(
+      newParameterValueMap
+    ).filter(
+      ([parameterName, parameter]) =>
+        parameter.value === originalParameterValueMap[parameterName].value
+    );
+    return (
+      originalParameterValueMapEntries.length !==
+      newParameterValueMapEntries.length
+    );
   };
 
   return (
@@ -137,6 +176,7 @@ export default function BuildParametersDialog(
                     }
                     buildableFirmwareFileType="keyboard"
                     onClick={() => onClickFirmwareFile(file, 'keyboard')}
+                    diff={isDifferent('keyboard', file)}
                   />
                 ))}
                 <ListItem>
@@ -155,6 +195,7 @@ export default function BuildParametersDialog(
                     }
                     buildableFirmwareFileType="keymap"
                     onClick={() => onClickFirmwareFile(file, 'keymap')}
+                    diff={isDifferent('keymap', file)}
                   />
                 ))}
               </List>
@@ -213,6 +254,7 @@ type FirmwareFileListItemProps = {
     // eslint-disable-next-line no-unused-vars
     type: IBuildableFirmwareFileType
   ) => void;
+  diff: boolean;
 };
 
 function FirmwareFileListItem(props: FirmwareFileListItemProps) {
@@ -228,7 +270,13 @@ function FirmwareFileListItem(props: FirmwareFileListItemProps) {
       }}
     >
       <ListItemIcon>
-        <InsertDriveFileIcon />
+        {props.diff ? (
+          <Badge color="secondary" variant="dot">
+            <InsertDriveFileIcon />
+          </Badge>
+        ) : (
+          <InsertDriveFileIcon />
+        )}
       </ListItemIcon>
       <ListItemText primary={props.buildableFirmwareFile.path} />
     </ListItemButton>
