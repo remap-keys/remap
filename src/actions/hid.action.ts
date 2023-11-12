@@ -25,6 +25,7 @@ import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { maxValueByBitLength } from '../utils/NumberUtils';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 import { getEncoderIdList } from './utils';
+import { bmpKeyInfoList } from '../services/hid/KeycodeInfoListBmp';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -290,13 +291,32 @@ export const hidActionsThunk = {
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
-      dispatch(
-        HidActions.updateBleMicroPro(
-          keyboard
-            .getInformation()
-            .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO)
-        )
-      );
+
+      const isBleMicroPro = keyboard
+        .getInformation()
+        .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO);
+
+      // Override custom keycode list if the keyboard uses BLE Micro Pro
+      const customKeycodes = !isBleMicroPro
+        ? entities.keyboardDefinition?.customKeycodes
+        : bmpKeyInfoList.map((k) => {
+            return {
+              name: k.keycodeInfo.label,
+              title: k.desc,
+              shortName: k.keycodeInfo.name.short,
+            };
+          });
+
+      if (isBleMicroPro) {
+        dispatch(
+          StorageActions.updateKeyboardDefinition({
+            ...entities.keyboardDefinition,
+            customKeycodes: customKeycodes,
+          })
+        );
+      }
+      dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
+
       const viaProtocolVersionResult = await keyboard.fetchViaProtocolVersion();
       if (!viaProtocolVersionResult.success) {
         dispatch(
@@ -338,7 +358,7 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
         app.labelLang,
-        entities.keyboardDefinition!.customKeycodes
+        customKeycodes
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
@@ -346,7 +366,7 @@ export const hidActionsThunk = {
         keyboard,
         layerCount,
         app.labelLang,
-        entities.keyboardDefinition!.customKeycodes,
+        customKeycodes,
         entities.keyboardDefinition!.layouts.keymap,
         viaProtocolVersion
       );
