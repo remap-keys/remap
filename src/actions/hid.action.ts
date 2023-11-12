@@ -295,6 +295,7 @@ export const hidActionsThunk = {
       const isBleMicroPro = keyboard
         .getInformation()
         .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO);
+      dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
 
       // Override custom keycode list if the keyboard uses BLE Micro Pro
       const customKeycodes = !isBleMicroPro
@@ -315,7 +316,6 @@ export const hidActionsThunk = {
           })
         );
       }
-      dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
 
       const viaProtocolVersionResult = await keyboard.fetchViaProtocolVersion();
       if (!viaProtocolVersionResult.success) {
