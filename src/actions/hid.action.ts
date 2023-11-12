@@ -308,7 +308,6 @@ export const hidActionsThunk = {
           });
 
       if (isBleMicroPro) {
-        dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
         dispatch(
           StorageActions.updateKeyboardDefinition({
             ...entities.keyboardDefinition,
@@ -316,6 +315,7 @@ export const hidActionsThunk = {
           })
         );
       }
+      dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
 
       const viaProtocolVersionResult = await keyboard.fetchViaProtocolVersion();
       if (!viaProtocolVersionResult.success) {
