@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
-import { ProviderContext, withSnackbar } from 'notistack';
+import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
 import { CatalogActionsType, CatalogStateType } from './Catalog.container';
 import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@mui/icons-material/Close';
@@ -41,11 +41,9 @@ function Catalog(props: CatalogProps) {
     props.notifications!.forEach((item: NotificationItem) => {
       if (displayedNotificationIds.includes(item.key)) return;
 
-      props.enqueueSnackbar(item.message, {
+      const snackbarOptions: OptionsObject = {
         key: item.key,
         variant: item.type,
-        // autoHideDuration: 5000,
-        persist: true,
         onExited: (event, key: React.ReactText) => {
           props.removeNotification!(key as string);
           removeDisplayedNotification(key as string);
@@ -61,7 +59,16 @@ function Catalog(props: CatalogProps) {
             <CloseIcon />
           </Button>
         ),
-      });
+      };
+
+      if (item.type === 'success' || item.type === 'info') {
+        snackbarOptions.autoHideDuration = 3000;
+        snackbarOptions.persist = false;
+      } else {
+        snackbarOptions.persist = true;
+      }
+
+      props.enqueueSnackbar(item.message, snackbarOptions);
       storeDisplayedNotification(item.key);
     });
   };

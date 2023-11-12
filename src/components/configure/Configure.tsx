@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import './Configure.scss';
-import { ProviderContext, withSnackbar } from 'notistack';
+import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
 import {
@@ -48,25 +48,34 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
     this.props.notifications!.forEach((item: NotificationItem) => {
       if (this.displayedNotificationIds.includes(item.key)) return;
 
-      this.props.enqueueSnackbar(item.message, {
+      const snackbarOptions: OptionsObject = {
         key: item.key,
         variant: item.type,
-        // autoHideDuration: 8000,
-        persist: true,
         onExited: (event, key: React.ReactText) => {
           this.props.removeNotification!(key as string);
           this.removeDisplayedNotification(key as string);
         },
+        // eslint-disable-next-line react/display-name
         action: (key: number) => (
           <Button
             onClick={() => {
+              // eslint-disable-next-line react/prop-types
               this.props.closeSnackbar(key);
             }}
           >
             <CloseIcon />
           </Button>
         ),
-      });
+      };
+
+      if (item.type === 'success' || item.type === 'info') {
+        snackbarOptions.autoHideDuration = 3000;
+        snackbarOptions.persist = false;
+      } else {
+        snackbarOptions.persist = true;
+      }
+
+      this.props.enqueueSnackbar(item.message, snackbarOptions);
       this.storeDisplayedNotification(item.key);
     });
   }

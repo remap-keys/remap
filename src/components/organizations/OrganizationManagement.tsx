@@ -2,7 +2,7 @@ import {
   OrganizationManagementActionsType,
   OrganizationManagementStateType,
 } from './OrganizationManagement.container';
-import { ProviderContext, withSnackbar } from 'notistack';
+import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material';
@@ -40,11 +40,9 @@ function OrganizationManagement(props: OrganizationManagementProps) {
     props.notifications!.forEach((item: NotificationItem) => {
       if (displayedNotificationIds.includes(item.key)) return;
 
-      props.enqueueSnackbar(item.message, {
+      const snackbarOptions: OptionsObject = {
         key: item.key,
         variant: item.type,
-        // autoHideDuration: 5000,
-        persist: true,
         onExited: (event, key: React.ReactText) => {
           props.removeNotification!(key as string);
           removeDisplayedNotification(key as string);
@@ -60,7 +58,16 @@ function OrganizationManagement(props: OrganizationManagementProps) {
             <CloseIcon />
           </Button>
         ),
-      });
+      };
+
+      if (item.type === 'success' || item.type === 'info') {
+        snackbarOptions.autoHideDuration = 3000;
+        snackbarOptions.persist = false;
+      } else {
+        snackbarOptions.persist = true;
+      }
+
+      props.enqueueSnackbar(item.message, snackbarOptions);
       storeDisplayedNotification(item.key);
     });
   };
