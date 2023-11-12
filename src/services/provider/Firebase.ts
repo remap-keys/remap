@@ -1579,6 +1579,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           keyboardDefinitionId: doc.data()!.keyboardDefinitionId,
           uid: doc.data()!.uid,
           enabled: doc.data()!.enabled,
+          defaultBootloaderType: doc.data()!.defaultBootloaderType,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1589,6 +1590,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         keyboardDefinitionId,
         uid: this.getCurrentAuthenticatedUser()!.uid,
         enabled: false,
+        defaultBootloaderType: 'caterina',
         createdAt: now,
         updatedAt: now,
       };
@@ -1623,6 +1625,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           keyboardDefinitionId: doc.data()!.keyboardDefinitionId,
           uid: doc.data()!.uid,
           enabled: doc.data()!.enabled,
+          defaultBootloaderType: doc.data()!.defaultBootloaderType,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1727,9 +1730,9 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async updateBuildableFirmwareEnabled(
+  async updateBuildableFirmware(
     keyboardDefinitionId: string,
-    enabled: boolean
+    options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
   ): Promise<IResult<IBuildableFirmware>> {
     try {
       const fetchBuildableFirmwareResult =
@@ -1741,7 +1744,12 @@ export class FirebaseProvider implements IStorage, IAuth {
         );
       }
       const buildableFirmware = fetchBuildableFirmwareResult.value;
-      buildableFirmware.enabled = enabled;
+      if (options.enabled !== undefined) {
+        buildableFirmware.enabled = options.enabled;
+      }
+      if (options.defaultBootloaderType !== undefined) {
+        buildableFirmware.defaultBootloaderType = options.defaultBootloaderType;
+      }
       buildableFirmware.updatedAt = new Date();
       await this.db
         .collection('build')

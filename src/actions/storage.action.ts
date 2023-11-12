@@ -1685,16 +1685,19 @@ export const storageActionsThunk = {
       }
     },
 
-  updateBuildableFirmwareEnabled:
-    (definitionId: string, enabled: boolean): ThunkPromiseAction<void> =>
+  updateBuildableFirmware:
+    (
+      definitionId: string,
+      options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
+    ): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
       const { storage } = getState();
-      const result = await storage.instance!.updateBuildableFirmwareEnabled(
+      const result = await storage.instance!.updateBuildableFirmware(
         definitionId,
-        enabled
+        options
       );
       if (isError(result)) {
         console.error(result.cause);
@@ -1705,6 +1708,7 @@ export const storageActionsThunk = {
       dispatch(
         KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(null, null)
       );
+      dispatch(NotificationActions.addSuccess('Updated successfully.'));
     },
 
   updateBuildableFirmwareFile:

@@ -10,6 +10,7 @@ import {
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
+import { IBootloaderType } from '../../../../services/firmware/Types';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -35,10 +36,19 @@ const mapDispatchToProps = (dispatch: any) => {
       enabled: boolean
     ) => {
       dispatch(
-        storageActionsThunk.updateBuildableFirmwareEnabled(
-          keyboardDefinitionId,
-          enabled
-        )
+        storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
+          enabled,
+        })
+      );
+    },
+    updateBuildableFirmwareDefaultBootloaderType: (
+      keyboardDefinitionId: string,
+      defaultBootloaderType: IBootloaderType
+    ) => {
+      dispatch(
+        storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
+          defaultBootloaderType,
+        })
       );
     },
     createNewFirmwareKeyboardFile: (

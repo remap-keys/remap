@@ -8,17 +8,22 @@ import {
   Breadcrumbs,
   Button,
   Container,
+  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   IconButton,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Stack,
   Switch,
   Table,
@@ -40,6 +45,10 @@ import {
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
 import { IBuildableFirmwareCodeParameter } from '../../../../store/state';
+import {
+  ALL_BOOTLOADER_TYPE,
+  IBootloaderType,
+} from '../../../../services/firmware/Types';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -145,6 +154,15 @@ export default function BuildForm(props: BuildFormProps) {
     setOpenConfirmDialog(false);
   };
 
+  const onChangeDefaultBootloaderType = (
+    event: SelectChangeEvent<IBootloaderType>
+  ) => {
+    props.updateBuildableFirmwareDefaultBootloaderType!(
+      props.keyboardDefinition!.id,
+      event.target.value as IBootloaderType
+    );
+  };
+
   return (
     <React.Fragment>
       <div className="edit-definition-build-form-container">
@@ -155,6 +173,29 @@ export default function BuildForm(props: BuildFormProps) {
               onChange={onClickSupportBuildingFirmware}
               label="Support building QMK Firmware"
             />
+            <FormControl
+              fullWidth
+              size="small"
+              variant="standard"
+              sx={{ mt: 1 }}
+              disabled={!props.buildableFirmware!.enabled}
+            >
+              <InputLabel id="building-firmware-type">
+                Default Bootloader Type
+              </InputLabel>
+              <Select
+                labelId="building-firmware-type"
+                value={props.buildableFirmware!.defaultBootloaderType}
+                label="Default Bootloader Type"
+                onChange={onChangeDefaultBootloaderType}
+              >
+                {ALL_BOOTLOADER_TYPE.map((type) => (
+                  <MenuItem key={`bootloader-type-${type}`} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </FormGroup>
         </div>
         <div className="edit-definition-build-form-row">

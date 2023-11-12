@@ -10,6 +10,7 @@ import {
 } from '../../../../actions/catalog.action';
 import { storageActionsThunk } from '../../../../actions/storage.action';
 import {
+  IBuildableFirmware,
   IFirmwareBuildingTask,
   IKeyboardDefinitionDocument,
 } from '../../../../services/storage/Storage';
@@ -66,10 +67,15 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     flashFirmware: (
       keyboardDefinitionDocument: IKeyboardDefinitionDocument,
+      buildableFirmware: IBuildableFirmware,
       task: IFirmwareBuildingTask
     ) => {
       dispatch(FlashFirmwareDialogActions.clear());
-      dispatch(FlashFirmwareDialogActions.updateBootloaderType('caterina'));
+      dispatch(
+        FlashFirmwareDialogActions.updateBootloaderType(
+          buildableFirmware.defaultBootloaderType
+        )
+      );
       const firmwareName = `Built for ${keyboardDefinitionDocument.name}`;
       dispatch(FlashFirmwareDialogActions.updateKeyboardName(''));
       dispatch(FlashFirmwareDialogActions.updateFlashMode('build_and_flash'));
@@ -77,7 +83,7 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(
         FlashFirmwareDialogActions.updateFirmware({
           name: firmwareName,
-          default_bootloader_type: 'caterina',
+          default_bootloader_type: buildableFirmware.defaultBootloaderType,
           flash_support: true,
           filename: firmwareName,
           description: '',

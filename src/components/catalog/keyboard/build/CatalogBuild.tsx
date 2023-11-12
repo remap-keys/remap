@@ -108,7 +108,11 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickFlash = (task: IFirmwareBuildingTask) => {
-    props.flashFirmware!(props.definitionDocument!, task);
+    props.flashFirmware!(
+      props.definitionDocument!,
+      props.buildableFirmware!,
+      task
+    );
   };
 
   const onClickDelete = (task: IFirmwareBuildingTask) => {

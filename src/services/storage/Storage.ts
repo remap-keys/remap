@@ -274,6 +274,7 @@ export type IBuildableFirmware = {
   keyboardDefinitionId: string;
   uid: string;
   enabled: boolean;
+  defaultBootloaderType: IBootloaderType;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -474,9 +475,9 @@ export interface IStorage {
     keyboardDefinitionId: string,
     fileType: IBuildableFirmwareFileType
   ): Promise<IResult<IBuildableFirmwareFile[]>>;
-  updateBuildableFirmwareEnabled(
+  updateBuildableFirmware(
     keyboardDefinitionId: string,
-    enabled: boolean
+    options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
   ): Promise<IResult<IBuildableFirmware>>;
   createBuildableFirmwareFile(
     keyboardDefinitionId: string,
