@@ -41,6 +41,8 @@ import {
   IBuildableFirmwareFile,
   isError,
   IFirmwareBuildingTask,
+  BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
+  IBuildableFirmwareQmkFirmwareVersion,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1580,6 +1582,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           uid: doc.data()!.uid,
           enabled: doc.data()!.enabled,
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
+          qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1591,6 +1594,10 @@ export class FirebaseProvider implements IStorage, IAuth {
         uid: this.getCurrentAuthenticatedUser()!.uid,
         enabled: false,
         defaultBootloaderType: 'caterina',
+        qmkFirmwareVersion:
+          BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION[
+            BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.length - 1
+          ],
         createdAt: now,
         updatedAt: now,
       };
@@ -1626,6 +1633,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           uid: doc.data()!.uid,
           enabled: doc.data()!.enabled,
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
+          qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1732,7 +1740,11 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async updateBuildableFirmware(
     keyboardDefinitionId: string,
-    options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
+    options: {
+      enabled?: boolean;
+      defaultBootloaderType?: IBootloaderType;
+      qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
+    }
   ): Promise<IResult<IBuildableFirmware>> {
     try {
       const fetchBuildableFirmwareResult =
@@ -1749,6 +1761,9 @@ export class FirebaseProvider implements IStorage, IAuth {
       }
       if (options.defaultBootloaderType !== undefined) {
         buildableFirmware.defaultBootloaderType = options.defaultBootloaderType;
+      }
+      if (options.qmkFirmwareVersion !== undefined) {
+        buildableFirmware.qmkFirmwareVersion = options.qmkFirmwareVersion;
       }
       buildableFirmware.updatedAt = new Date();
       await this.db

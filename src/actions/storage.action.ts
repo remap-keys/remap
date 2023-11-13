@@ -23,6 +23,7 @@ import {
   IBuildableFirmware,
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
+  IBuildableFirmwareQmkFirmwareVersion,
   IFirmware,
   IFirmwareBuildingTask,
   IKeyboardDefinitionDocument,
@@ -1688,7 +1689,11 @@ export const storageActionsThunk = {
   updateBuildableFirmware:
     (
       definitionId: string,
-      options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
+      options: {
+        enabled?: boolean;
+        defaultBootloaderType?: IBootloaderType;
+        qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
+      }
     ): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,

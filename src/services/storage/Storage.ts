@@ -270,11 +270,18 @@ export type IFetchOrganizationMembersResult = IResult<{
   members: IOrganizationMember[];
 }>;
 
+export const BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION = ['0.22.14'] as const;
+type buildableFirmwareQmkFirmwareVersionTuple =
+  typeof BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION;
+export type IBuildableFirmwareQmkFirmwareVersion =
+  buildableFirmwareQmkFirmwareVersionTuple[number];
+
 export type IBuildableFirmware = {
   keyboardDefinitionId: string;
   uid: string;
   enabled: boolean;
   defaultBootloaderType: IBootloaderType;
+  qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion;
   createdAt: Date;
   updatedAt: Date;
 };

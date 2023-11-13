@@ -5,6 +5,7 @@ import {
 } from './BuildForm.container';
 import './BuildForm.scss';
 import {
+  Box,
   Breadcrumbs,
   Button,
   Container,
@@ -39,8 +40,10 @@ import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/Add';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import {
+  BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
+  IBuildableFirmwareQmkFirmwareVersion,
 } from '../../../../services/storage/Storage';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
@@ -163,6 +166,15 @@ export default function BuildForm(props: BuildFormProps) {
     );
   };
 
+  const onChangeQmkFirmwareVersion = (
+    event: SelectChangeEvent<IBuildableFirmwareQmkFirmwareVersion>
+  ) => {
+    props.updateBuildableFirmwareQmkFirmwareVersion!(
+      props.keyboardDefinition!.id,
+      event.target.value as IBuildableFirmwareQmkFirmwareVersion
+    );
+  };
+
   return (
     <React.Fragment>
       <div className="edit-definition-build-form-container">
@@ -173,29 +185,59 @@ export default function BuildForm(props: BuildFormProps) {
               onChange={onClickSupportBuildingFirmware}
               label="Support building QMK Firmware"
             />
-            <FormControl
-              fullWidth
-              size="small"
-              variant="standard"
-              sx={{ mt: 1 }}
-              disabled={!props.buildableFirmware!.enabled}
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                mt: 2,
+                gap: 2,
+              }}
             >
-              <InputLabel id="building-firmware-type">
-                Default Bootloader Type
-              </InputLabel>
-              <Select
-                labelId="building-firmware-type"
-                value={props.buildableFirmware!.defaultBootloaderType}
-                label="Default Bootloader Type"
-                onChange={onChangeDefaultBootloaderType}
+              <FormControl
+                fullWidth
+                size="small"
+                variant="standard"
+                disabled={!props.buildableFirmware!.enabled}
               >
-                {ALL_BOOTLOADER_TYPE.map((type) => (
-                  <MenuItem key={`bootloader-type-${type}`} value={type}>
-                    {type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InputLabel id="building-firmware-type">
+                  Default Bootloader Type
+                </InputLabel>
+                <Select
+                  labelId="building-firmware-type"
+                  value={props.buildableFirmware!.defaultBootloaderType}
+                  label="Default Bootloader Type"
+                  onChange={onChangeDefaultBootloaderType}
+                >
+                  {ALL_BOOTLOADER_TYPE.map((type) => (
+                    <MenuItem key={`bootloader-type-${type}`} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                fullWidth
+                size="small"
+                variant="standard"
+                disabled={!props.buildableFirmware!.enabled}
+              >
+                <InputLabel id="building-firmware-qmk-firmware-version">
+                  QMK Firmware Version
+                </InputLabel>
+                <Select
+                  labelId="building-firmware-qmk-firmware-version"
+                  value={props.buildableFirmware!.qmkFirmwareVersion}
+                  label="QMK Firmware Version"
+                  onChange={onChangeQmkFirmwareVersion}
+                >
+                  {BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.map((type) => (
+                    <MenuItem key={`qmk-firmware-version-${type}`} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </FormGroup>
         </div>
         <div className="edit-definition-build-form-row">

@@ -8,6 +8,7 @@ import { storageActionsThunk } from '../../../../actions/storage.action';
 import {
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
+  IBuildableFirmwareQmkFirmwareVersion,
 } from '../../../../services/storage/Storage';
 import { KeyboardsEditDefinitionActions } from '../../../../actions/keyboards.actions';
 import { IBootloaderType } from '../../../../services/firmware/Types';
@@ -48,6 +49,16 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           defaultBootloaderType,
+        })
+      );
+    },
+    updateBuildableFirmwareQmkFirmwareVersion: (
+      keyboardDefinitionId: string,
+      qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+    ) => {
+      dispatch(
+        storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
+          qmkFirmwareVersion,
         })
       );
     },
