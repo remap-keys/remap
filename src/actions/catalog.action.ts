@@ -287,6 +287,7 @@ export const catalogActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
+      dispatch(CatalogAppActions.updatePhase('processing'));
       const { storage } = getState();
       const result = await storage.instance!.createFirmwareBuildingTask(
         keyboardDefinitionId,
@@ -300,6 +301,7 @@ export const catalogActionsThunk = {
       await dispatch(
         catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
       );
+      dispatch(CatalogAppActions.updatePhase('build'));
       dispatch(
         NotificationActions.addSuccess(
           'The firmware building task has been registered.'
@@ -314,6 +316,7 @@ export const catalogActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
+      dispatch(CatalogAppActions.updatePhase('processing'));
       dispatch(StorageActions.updateFirmwareBuildingTasks([]));
       const { storage } = getState();
       const result = await storage.instance!.fetchFirmwareBuildingTasks(
@@ -324,6 +327,7 @@ export const catalogActionsThunk = {
         return;
       }
       dispatch(StorageActions.updateFirmwareBuildingTasks(result.value));
+      dispatch(CatalogAppActions.updatePhase('build'));
     },
 
   deleteFirmwareBuildingTask:
