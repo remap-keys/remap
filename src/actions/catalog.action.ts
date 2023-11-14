@@ -296,6 +296,7 @@ export const catalogActionsThunk = {
       );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));
+        dispatch(CatalogAppActions.updatePhase('build'));
         return;
       }
       await dispatch(
