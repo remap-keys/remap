@@ -108,6 +108,11 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickFlash = (task: IFirmwareBuildingTask) => {
+    sendEventToGoogleAnalytics('catalog/build/flash_firmware', {
+      vendor_id: props.definitionDocument!.vendorId,
+      product_id: props.definitionDocument!.productId,
+      product_name: props.definitionDocument!.productName,
+    });
     props.flashFirmware!(
       props.definitionDocument!,
       props.buildableFirmware!,
@@ -120,6 +125,11 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickDeleteYes = () => {
+    sendEventToGoogleAnalytics('catalog/build/delete_firmware', {
+      vendor_id: props.definitionDocument!.vendorId,
+      product_id: props.definitionDocument!.productId,
+      product_name: props.definitionDocument!.productName,
+    });
     props.deleteFirmwareBuildingTask!(
       props.definitionDocument!.id,
       targetDeleteTask!
@@ -152,6 +162,11 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickBuildBuildParametersDialog = (description: string) => {
+    sendEventToGoogleAnalytics('catalog/build/build_firmware', {
+      vendor_id: props.definitionDocument!.vendorId,
+      product_id: props.definitionDocument!.productId,
+      product_name: props.definitionDocument!.productName,
+    });
     setOpenBuildParametersDialog(false);
     const parameterValues: {
       keyboard: { [fileId: string]: { [parameterName: string]: string } };
@@ -176,6 +191,11 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     description: string
   ) => {
     if (task.description !== description) {
+      sendEventToGoogleAnalytics('catalog/build/change_description', {
+        vendor_id: props.definitionDocument!.vendorId,
+        product_id: props.definitionDocument!.productId,
+        product_name: props.definitionDocument!.productName,
+      });
       props.updateFirmwareBuildingTaskDescription!(task.id, description);
     }
   };
