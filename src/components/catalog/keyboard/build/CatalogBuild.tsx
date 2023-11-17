@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './CatalogBuild.scss';
 import {
   CatalogBuildActionsType,
@@ -10,10 +10,12 @@ import {
   Card,
   CardActions,
   CardContent,
+  FormControlLabel,
   Paper,
   Step,
   StepLabel,
   Stepper,
+  Switch,
   Tab,
   Table,
   TableBody,
@@ -51,6 +53,42 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     useState<boolean>(false);
   const [targetDeleteTask, setTargetDeleteTask] =
     useState<IFirmwareBuildingTask | null>(null);
+  const [autoReload, setAutoReload] = useState<boolean>(false);
+  const autoStopRef = useRef<number | null>(null);
+
+  const autoReloadRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (autoReload) {
+      if (autoReloadRef.current !== null) return;
+      const reload = () => {
+        props.updateFirmwareBuildingTasks!(props.definitionDocument!.id);
+        autoReloadRef.current = window.setTimeout(reload, 30000);
+      };
+      reload();
+      autoStopRef.current = window.setTimeout(() => {
+        setAutoReload(false);
+      }, 180000);
+    } else {
+      if (autoReloadRef.current !== null) {
+        window.clearTimeout(autoReloadRef.current);
+        autoReloadRef.current = null;
+      }
+      if (autoStopRef.current !== null) {
+        window.clearTimeout(autoStopRef.current);
+        autoStopRef.current = null;
+      }
+    }
+    return () => {
+      if (autoReloadRef.current !== null) {
+        window.clearTimeout(autoReloadRef.current);
+        autoReloadRef.current = null;
+      }
+      if (autoStopRef.current !== null) {
+        window.clearTimeout(autoStopRef.current);
+        autoStopRef.current = null;
+      }
+    };
+  }, [autoReload]);
 
   const createDefaultParameterValues = (
     files: IBuildableFirmwareFile[]
@@ -200,13 +238,23 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     }
   };
 
+  const onChangeAutoReload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAutoReload(event.target.checked);
+  };
+
   return (
     <div className="catalog-build-container">
       <React.Fragment>
         <Paper sx={{ p: '16px', mb: '32px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <FormControlLabel
+              control={
+                <Switch checked={autoReload} onChange={onChangeAutoReload} />
+              }
+              label="Auto"
+            />
             <Button
-              variant="text"
+              variant="outlined"
               sx={{ mr: '32px' }}
               onClick={onClickReload}
               disabled={!props.signedIn}
