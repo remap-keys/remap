@@ -1,4 +1,5 @@
 import {
+  IBuildableFirmwareCodeParameterValues,
   ICatalogPhase,
   IConditionNotSelected,
   IKeyboardFeatures,
@@ -6,7 +7,12 @@ import {
 } from '../store/state';
 import { IEncoderKeymaps, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
-import { AbstractKeymapData, isSuccessful } from '../services/storage/Storage';
+import {
+  AbstractKeymapData,
+  IFirmwareBuildingTask,
+  isError,
+  isSuccessful,
+} from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
   AppActions,
@@ -16,6 +22,7 @@ import {
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { getEncoderIdList } from './utils';
 import { KC_NO } from '../services/hid/KeycodeInfoList';
+import { StorageActions } from './storage.action';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;
@@ -79,6 +86,7 @@ export const CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER = `${CATALOG_KEYBOARD_ACTION
 export const CATALOG_KEYBOARD_UPDATE_LANG_LABEL = `${CATALOG_KEYBOARD_ACTIONS}/UpdateLangLabel`;
 export const CATALOG_KEYBOARD_CLEAR_KEYMAP = `${CATALOG_KEYBOARD_ACTIONS}/ClearKeymap`;
 export const CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA = `${CATALOG_KEYBOARD_ACTIONS}/UpdateSelectedKeymapData`;
+export const CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES = `${CATALOG_KEYBOARD_ACTIONS}/UpdateBuildableFirmwareCodeParameterValues`;
 export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
@@ -117,6 +125,14 @@ export const CatalogKeyboardActions = {
     return {
       type: CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
       value: selectedKeymapData,
+    };
+  },
+  updateBuildableFirmwareCodeParameterValues: (
+    values: IBuildableFirmwareCodeParameterValues
+  ) => {
+    return {
+      type: CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES,
+      value: values,
     };
   },
 };
@@ -260,5 +276,107 @@ export const catalogActionsThunk = {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
       await auth.instance!.signOut();
+    },
+
+  createFirmwareBuildingTask: (
+    keyboardDefinitionId: string,
+    description: string,
+    parametersJson: string
+  ): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(CatalogAppActions.updatePhase('processing'));
+      const { storage } = getState();
+      const result = await storage.instance!.createFirmwareBuildingTask(
+        keyboardDefinitionId,
+        description,
+        parametersJson
+      );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        dispatch(CatalogAppActions.updatePhase('build'));
+        return;
+      }
+      await dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+      );
+      dispatch(CatalogAppActions.updatePhase('build'));
+      dispatch(
+        NotificationActions.addSuccess(
+          'The firmware building task has been registered.'
+        )
+      );
+    };
+  },
+
+  updateFirmwareBuildingTasks:
+    (keyboardDefinitionId: string) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      dispatch(StorageActions.updateFirmwareBuildingTasks([]));
+      const { storage } = getState();
+      const result = await storage.instance!.fetchFirmwareBuildingTasks(
+        keyboardDefinitionId
+      );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      dispatch(StorageActions.updateFirmwareBuildingTasks(result.value));
+    },
+
+  deleteFirmwareBuildingTask:
+    (keyboardDefinitionId: string, task: IFirmwareBuildingTask) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result = await storage.instance!.deleteFirmwareBuildingTask(task);
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      await dispatch(
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+      );
+    },
+
+  updateFirmwareBuildingTaskDescription:
+    (taskId: string, description: string) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, entities } = getState();
+      const result =
+        await storage.instance!.updateFirmwareBuildingTaskDescription(
+          taskId,
+          description
+        );
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      dispatch(
+        StorageActions.updateFirmwareBuildingTasks(
+          entities.firmwareBuildingTasks.map<IFirmwareBuildingTask>((value) => {
+            if (value.id === taskId) {
+              return {
+                ...value,
+                description: description,
+              };
+            }
+            return value;
+          })
+        )
+      );
+      dispatch(
+        NotificationActions.addSuccess('The memorandum has been updated.')
+      );
     },
 };

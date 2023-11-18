@@ -35,6 +35,14 @@ import {
   errorResultOf,
   IEmptyResult,
   successResult,
+  IResult,
+  IBuildableFirmware,
+  IBuildableFirmwareFileType,
+  IBuildableFirmwareFile,
+  isError,
+  IFirmwareBuildingTask,
+  BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
+  IBuildableFirmwareQmkFirmwareVersion,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1084,6 +1092,26 @@ export class FirebaseProvider implements IStorage, IAuth {
     return `${keyboardName}-${timestamp}.${extname}`;
   }
 
+  async fetchBuiltFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult> {
+    // This operation needs CORS setting for the GCS bucket.
+    // cors.json: [{"origin": ["*"], "method": ["GET"], "maxAgeSeconds": 3600}]
+    // gsutil cors set cors.json gs://remap-b2d08.appspot.com
+    const downloadUrl = await this.storage
+      .ref(firmwareFilePath)
+      .getDownloadURL();
+    const response = await fetch(downloadUrl);
+    if (response.ok) {
+      const blob = await response.blob();
+      return successResultOf({ blob });
+    } else {
+      return errorResultOf(
+        `Fetching firmware file failed. status=${response.status}`
+      );
+    }
+  }
+
   async fetchFirmwareFileBlob(
     definitionId: string,
     firmwareFilePath: string,
@@ -1533,6 +1561,376 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Deleting Organization Member failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createAndFetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware>> {
+    try {
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          keyboardDefinitionId: doc.data()!.keyboardDefinitionId,
+          uid: doc.data()!.uid,
+          enabled: doc.data()!.enabled,
+          defaultBootloaderType: doc.data()!.defaultBootloaderType,
+          qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
+          createdAt: doc.data()!.createdAt.toDate(),
+          updatedAt: doc.data()!.updatedAt.toDate(),
+        });
+      }
+      // Create a new buildable firmware document if not exists.
+      const now = new Date();
+      const buildableFirmware: IBuildableFirmware = {
+        keyboardDefinitionId,
+        uid: this.getCurrentAuthenticatedUser()!.uid,
+        enabled: false,
+        defaultBootloaderType: 'caterina',
+        qmkFirmwareVersion:
+          BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION[
+            BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.length - 1
+          ],
+        createdAt: now,
+        updatedAt: now,
+      };
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .set(buildableFirmware);
+      return successResultOf(buildableFirmware);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating and fetching buildable firmware failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware | null>> {
+    try {
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          keyboardDefinitionId: doc.data()!.keyboardDefinitionId,
+          uid: doc.data()!.uid,
+          enabled: doc.data()!.enabled,
+          defaultBootloaderType: doc.data()!.defaultBootloaderType,
+          qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
+          createdAt: doc.data()!.createdAt.toDate(),
+          updatedAt: doc.data()!.updatedAt.toDate(),
+        });
+      } else {
+        return successResultOf(null);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching buildable firmware failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchBuildableFirmwareFiles(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IBuildableFirmwareFile[]>> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      const querySnapshot = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .get();
+      const buildableFirmwareFiles: IBuildableFirmwareFile[] = [];
+      querySnapshot.docs.forEach((doc) => {
+        buildableFirmwareFiles.push({
+          id: doc.id,
+          path: doc.data()!.path,
+          content: doc.data()!.content,
+        });
+      });
+      return successResultOf(buildableFirmwareFiles);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching buildable firmware files failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType,
+    fileName: string
+  ): Promise<IEmptyResult> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .add({
+          path: fileName,
+          content: '',
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating buildable firmware file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .doc(file.id)
+        .update({
+          path: file.path,
+          content: file.content,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating buildable firmware enabled failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateBuildableFirmware(
+    keyboardDefinitionId: string,
+    options: {
+      enabled?: boolean;
+      defaultBootloaderType?: IBootloaderType;
+      qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
+    }
+  ): Promise<IResult<IBuildableFirmware>> {
+    try {
+      const fetchBuildableFirmwareResult =
+        await this.createAndFetchBuildableFirmware(keyboardDefinitionId);
+      if (isError(fetchBuildableFirmwareResult)) {
+        return errorResultOf(
+          `Fetching buildable firmware failed: ${fetchBuildableFirmwareResult.error}`,
+          fetchBuildableFirmwareResult.cause
+        );
+      }
+      const buildableFirmware = fetchBuildableFirmwareResult.value;
+      if (options.enabled !== undefined) {
+        buildableFirmware.enabled = options.enabled;
+      }
+      if (options.defaultBootloaderType !== undefined) {
+        buildableFirmware.defaultBootloaderType = options.defaultBootloaderType;
+      }
+      if (options.qmkFirmwareVersion !== undefined) {
+        buildableFirmware.qmkFirmwareVersion = options.qmkFirmwareVersion;
+      }
+      buildableFirmware.updatedAt = new Date();
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .update(buildableFirmware);
+      return successResultOf(buildableFirmware);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating buildable firmware enabled failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult> {
+    try {
+      const subCollectionName =
+        fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles';
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('firmwares')
+        .doc(keyboardDefinitionId)
+        .collection(subCollectionName)
+        .doc(file.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting buildable firmware file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createFirmwareBuildingTask(
+    keyboardDefinitionId: string,
+    description: string,
+    parametersJson: string
+  ): Promise<IEmptyResult> {
+    try {
+      const createFirmwareBuildingTask = this.functions.httpsCallable(
+        'createFirmwareBuildingTask'
+      );
+      const createFirmwareBuildingTaskResult = await createFirmwareBuildingTask(
+        {
+          firmwareId: keyboardDefinitionId,
+          description,
+          parametersJson,
+        }
+      );
+      const data = createFirmwareBuildingTaskResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating firmware building task failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  /**
+   * Fetch firmware building tasks.
+   * If not signed in, return empty array.
+   */
+  async fetchFirmwareBuildingTasks(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IFirmwareBuildingTask[]>> {
+    if (this.getCurrentAuthenticatedUser() === null) {
+      return successResultOf([]);
+    }
+    try {
+      const query = this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .where('uid', '==', this.getCurrentAuthenticatedUser().uid)
+        .where('firmwareId', '==', keyboardDefinitionId)
+        .orderBy('updatedAt', 'desc');
+      const querySnapshot = await query.get();
+      const tasks: IFirmwareBuildingTask[] = [];
+      querySnapshot.docs.forEach((doc) => {
+        tasks.push({
+          id: doc.id,
+          uid: doc.data()!.uid,
+          firmwareId: doc.data()!.firmwareId,
+          status: doc.data()!.status,
+          firmwareFilePath: doc.data()!.firmwareFilePath,
+          stdout: doc.data()!.stdout,
+          stderr: doc.data()!.stderr,
+          description: doc.data()!.description,
+          parametersJson: doc.data()!.parametersJson,
+          createdAt: doc.data()!.createdAt.toDate(),
+          updatedAt: doc.data()!.updatedAt.toDate(),
+        });
+      });
+      return successResultOf(tasks);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching firmware building tasks failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteFirmwareBuildingTask(
+    task: IFirmwareBuildingTask
+  ): Promise<IEmptyResult> {
+    try {
+      // Delete the task document in the Firestore.
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .doc(task.id)
+        .delete();
+
+      // Delete the firmware file in the Cloud Storage.
+      if (task.firmwareFilePath) {
+        const storageRef = this.storage.ref(task.firmwareFilePath);
+        await storageRef.delete();
+      }
+
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting firmware building task failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateFirmwareBuildingTaskDescription(
+    taskId: string,
+    description: string
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('tasks')
+        .doc(taskId)
+        .update({
+          description,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating firmware building task description failed: ${error}`,
         error
       );
     }

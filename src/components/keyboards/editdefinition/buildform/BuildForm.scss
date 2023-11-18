@@ -1,0 +1,16 @@
+@import 'src/variables';
+
+.edit-definition-build-form {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &-row {
+    margin-bottom: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -7,7 +7,11 @@ import {
   AbstractKeymapData,
   AppliedKeymapData,
   IAdditionalDescription,
+  IBuildableFirmware,
+  IBuildableFirmwareFile,
+  IBuildableFirmwareFileType,
   IFirmware,
+  IFirmwareBuildingTask,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
   IOrganization,
@@ -57,6 +61,7 @@ export type IKeyboardsPhase =
   | 'edit'
   | 'catalog'
   | 'firmware'
+  | 'build'
   | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signing: 'signing',
@@ -67,6 +72,7 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   edit: 'edit',
   catalog: 'catalog',
   firmware: 'firmware',
+  build: 'build',
   signout: 'signout',
 };
 
@@ -77,6 +83,7 @@ export const ALL_CATALOG_PHASE = [
   'introduction',
   'keymap',
   'firmware',
+  'build',
 ] as const;
 type catalogPhaseTuple = typeof ALL_CATALOG_PHASE;
 export type ICatalogPhase = catalogPhaseTuple[number];
@@ -183,7 +190,8 @@ export type IKeyboardFeatures =
 
 export type IFlashFirmwareDialogFlashMode =
   | 'upload_and_flash'
-  | 'fetch_and_flash';
+  | 'fetch_and_flash'
+  | 'build_and_flash';
 
 const KeySwitchOperations = {
   click: 'click',
@@ -192,6 +200,34 @@ const KeySwitchOperations = {
 } as const;
 export type IKeySwitchOperation =
   typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+
+export type IBuildableFirmwareCodeParameterType = 'select' | 'text' | 'number';
+
+export type IBuildableFirmwareCodeParameter = {
+  name: string;
+  type: IBuildableFirmwareCodeParameterType;
+  options: string[];
+  default: string;
+  startPosition: number;
+  endPosition: number;
+};
+
+export type IBuildableFirmwareCodeParameterValue = {
+  value: string;
+  definition: IBuildableFirmwareCodeParameter;
+};
+
+export type IBuildableFirmwareCodeParameterValueMap = {
+  // File ID: Parameter Name : Parameter Value
+  [fileId: string]: {
+    [parameterName: string]: IBuildableFirmwareCodeParameterValue;
+  };
+};
+
+export type IBuildableFirmwareCodeParameterValues = {
+  keyboard: IBuildableFirmwareCodeParameterValueMap;
+  keymap: IBuildableFirmwareCodeParameterValueMap;
+};
 
 export type RootState = {
   entities: {
@@ -228,6 +264,10 @@ export type RootState = {
     sameAuthorKeyboardDocuments: IKeyboardDefinitionDocument[];
     organization: IOrganization | null;
     organizationMap: Record<string, IOrganization>;
+    buildableFirmware: IBuildableFirmware | null;
+    buildableFirmwareKeyboardFiles: IBuildableFirmwareFile[];
+    buildableFirmwareKeymapFiles: IBuildableFirmwareFile[];
+    firmwareBuildingTasks: IFirmwareBuildingTask[];
   };
   app: {
     package: {
@@ -355,6 +395,9 @@ export type RootState = {
       authorType: IKeyboardDefinitionAuthorType;
       organizationId: string | undefined;
       organizationEvidence: string;
+      buildableFirmwareFile: IBuildableFirmwareFile | null;
+      buildableFirmwareFileType: IBuildableFirmwareFileType | null;
+      buildableFirmwareCodeParameters: IBuildableFirmwareCodeParameter[];
     };
   };
   catalog: {
@@ -374,6 +417,7 @@ export type RootState = {
       selectedLayer: number;
       langLabel: KeyboardLabelLang;
       selectedKeymapData: AbstractKeymapData | null;
+      buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
     };
   };
   organizations: {
@@ -396,6 +440,7 @@ export type RootState = {
         mode: IFlashFirmwareDialogMode;
         bootloaderType: IBootloaderType;
         flashMode: IFlashFirmwareDialogFlashMode;
+        buildingFirmwareTask: IFirmwareBuildingTask | null;
       };
       uploadFirmwareDialog: {
         open: boolean;
@@ -469,6 +514,10 @@ export const INIT_STATE: RootState = {
     sameAuthorKeyboardDocuments: [],
     organization: null,
     organizationMap: {},
+    buildableFirmware: null,
+    buildableFirmwareKeyboardFiles: [],
+    buildableFirmwareKeymapFiles: [],
+    firmwareBuildingTasks: [],
   },
   app: {
     package: {
@@ -600,6 +649,9 @@ export const INIT_STATE: RootState = {
       authorType: 'individual',
       organizationId: undefined,
       organizationEvidence: '',
+      buildableFirmwareFile: null,
+      buildableFirmwareFileType: null,
+      buildableFirmwareCodeParameters: [],
     },
   },
   catalog: {
@@ -617,6 +669,10 @@ export const INIT_STATE: RootState = {
       selectedLayer: 0,
       langLabel: 'en-us',
       selectedKeymapData: null,
+      buildableFirmwareCodeParameterValues: {
+        keyboard: {},
+        keymap: {},
+      },
     },
   },
   organizations: {
@@ -639,6 +695,7 @@ export const INIT_STATE: RootState = {
         mode: 'instruction',
         bootloaderType: 'caterina',
         flashMode: 'fetch_and_flash',
+        buildingFirmwareTask: null,
       },
       uploadFirmwareDialog: {
         open: false,

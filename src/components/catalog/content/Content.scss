@@ -16,22 +16,24 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+
     .MuiTabs-root {
       background-color: white;
     }
   }
+}
 
-  .catalog-processing-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: $space-xl;
-    background-color: white;
-    flex: 1 1;
-    width: 100%;
-  }
+.catalog-processing-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: $space-xl;
+  background-color: white;
+  flex: 1 1;
+  width: 100%;
+  height: 100vh;
 }
 
 @include mq(sm) {

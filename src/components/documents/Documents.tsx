@@ -15,6 +15,7 @@ import Index from './index/Index';
 import { useParams } from 'react-router-dom';
 import SupportQmk022 from './support-qmk-022/SupportQmk022';
 import Encoders from './encoders/Encoders';
+import Build from './build/Build';
 
 type RouteParams = {
   docId: string;
@@ -53,6 +54,9 @@ export default function Documents(props: DocumentsPropsType) {
     sendEventToGoogleAnalytics('docs/support-qmk-022');
   } else if (docId === 'encoders') {
     page = <Encoders />;
+    sendEventToGoogleAnalytics('docs/encoders');
+  } else if (docId === 'build') {
+    page = <Build />;
     sendEventToGoogleAnalytics('docs/encoders');
   } else {
     page = <Index />;

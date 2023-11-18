@@ -13,6 +13,7 @@
   }
 
   &-container {
+    width: 100%;
     max-width: 960px;
 
     & h3 {
@@ -29,6 +30,8 @@
 
     & section {
       margin: 0 16px 32px 16px;
+      display: flex;
+      flex-direction: column;
     }
 
     & p {
@@ -41,6 +44,12 @@
       & code {
         background-color: $color-gray-200;
       }
+    }
+
+    & img {
+      max-width: 60%;
+      align-self: center;
+      margin-bottom: 16px;
     }
   }
 }

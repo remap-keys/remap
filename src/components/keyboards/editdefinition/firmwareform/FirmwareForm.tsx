@@ -12,7 +12,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
   FormLabel,
@@ -24,6 +23,7 @@ import {
 import { IFirmware } from '../../../../services/storage/Storage';
 import moment from 'moment';
 import { IBootloaderType } from '../../../../services/firmware/Types';
+import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -309,6 +309,8 @@ export default function FirmwareForm(props: FirmwareFormProps) {
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
+        title="Firmware Deletion"
+        message="Are you sure to delete the firmware file?"
         onClickYes={onClickConfirmDialogYes}
         onClickNo={onClickConfirmDialogNo}
       />
@@ -435,48 +437,6 @@ function FirmwareCard(props: IFirmwareCardProps) {
         onClickUpdate={onClickEditDialogUpdate}
       />
     </React.Fragment>
-  );
-}
-
-type IConfirmDialogProps = {
-  open: boolean;
-  onClickYes: () => void;
-  onClickNo: () => void;
-};
-
-function ConfirmDialog(props: IConfirmDialogProps) {
-  return (
-    <Dialog
-      open={props.open}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">Firmware Deletion</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description" color="secondary">
-          Are you sure to delete the firmware file?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="primary"
-          autoFocus
-          onClick={() => {
-            props.onClickNo();
-          }}
-        >
-          No
-        </Button>
-        <Button
-          color="primary"
-          onClick={() => {
-            props.onClickYes();
-          }}
-        >
-          Yes
-        </Button>
-      </DialogActions>
-    </Dialog>
   );
 }
 

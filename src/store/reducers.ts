@@ -69,6 +69,10 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_APPLIED_KEYMAPS,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES,
+  STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES,
+  STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS,
   STORAGE_UPDATE_KEYBOARD_DEFINITION,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENT,
   STORAGE_UPDATE_KEYBOARD_DEFINITION_DOCUMENTS,
@@ -121,6 +125,8 @@ import {
   KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AGREEMENT,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS,
+  KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_DEFAULT_BOOTLOADER_TYPE,
   KEYBOARDS_EDIT_DEFINITION_UPDATE_DESCRIPTION,
@@ -162,6 +168,7 @@ import {
   CATALOG_KEYBOARD_UPDATE_LANG_LABEL,
   CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA,
   CATALOG_KEYBOARD_UPDATE_SELECTED_LAYER,
+  CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES,
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_RESET_FEATURES,
@@ -190,6 +197,7 @@ import {
   FLASH_FIRMWARE_DIALOG_APPEND_LOG,
   FLASH_FIRMWARE_DIALOG_CLEAR,
   FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
@@ -437,6 +445,15 @@ const keyboardsEditKeyboardReducer = (
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE:
       draft.keyboards.editdefinition.authorType = action.value;
       break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE:
+      draft.keyboards.editdefinition.buildableFirmwareFile = action.value.file;
+      draft.keyboards.editdefinition.buildableFirmwareFileType =
+        action.value.type;
+      break;
+    case KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS:
+      draft.keyboards.editdefinition.buildableFirmwareCodeParameters =
+        action.value;
+      break;
   }
 };
 
@@ -570,6 +587,22 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_ORGANIZATION_MAP: {
       draft.entities.organizationMap = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE: {
+      draft.entities.buildableFirmware = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES: {
+      draft.entities.buildableFirmwareKeyboardFiles = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES: {
+      draft.entities.buildableFirmwareKeymapFiles = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS: {
+      draft.entities.firmwareBuildingTasks = action.value;
       break;
     }
   }
@@ -1084,6 +1117,10 @@ const catalogKeyboardReducer = (
     case CATALOG_KEYBOARD_UPDATE_SELECTED_KEYMAP_DATA:
       draft.catalog.keyboard.selectedKeymapData = action.value;
       break;
+    case CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES:
+      draft.catalog.keyboard.buildableFirmwareCodeParameterValues =
+        action.value;
+      break;
   }
 };
 
@@ -1163,6 +1200,10 @@ const flashFirmwareDialogReducer = (
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE:
       draft.common.firmware.flashFirmwareDialog.flashMode = action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK:
+      draft.common.firmware.flashFirmwareDialog.buildingFirmwareTask =
+        action.value;
       break;
   }
 };

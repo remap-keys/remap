@@ -10,6 +10,7 @@ import shareKeymap from '../../assets/images/top/share-keymap.png';
 import textMatrix from '../../assets/images/top/text-matrix.png';
 import macro from '../../assets/images/top/macro.png';
 import firmwareWriting from '../../assets/images/top/firmware-writing.png';
+import buildFirmware from '../../assets/images/top/build-firmware.png';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -94,17 +95,8 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Sep 11th 2023] The new version of Remap is now available. This
-        environment for latest QMK Firmware version. See{' '}
-        <Link href="/docs/support-qmk-022" target="_blank" rel="noreferrer">
-          more detail
-        </Link>
-        .
-      </Alert>
-      <Alert severity="info">
-        <strong>Info: </strong>
-        [Sep 21th 2023] Rotary Encoders has been supported. See{' '}
-        <Link href="/docs/encoders" target="_blank" rel="noreferrer">
+        [Nov 11th 2023] The firmware building feature has been released. See{' '}
+        <Link href="/docs/build" target="_blank" rel="noreferrer">
           more detail
         </Link>
         .
@@ -127,8 +119,8 @@ export default function Top(props: TopPropsType) {
               color="textSecondary"
               paragraph
             >
-              Remap allows you to configure keymaps and lightings of your
-              keyboard with QMK firmware in Web Browser.
+              Remap allows you to find, build, set up and customize your
+              keyboard quickly and easily in Web Browser.
             </Typography>
             <div className="hero-buttons">
               <Grid container spacing={2} justifyContent="center">
@@ -138,7 +130,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickStartRemap}
                   >
-                    Start Remap for Your Keyboard
+                    Customize Your Keyboard
                   </Button>
                 </Grid>
                 <Grid item>
@@ -147,7 +139,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickKeyboardCatalog}
                   >
-                    Keyboard Catalog
+                    Find a Keyboard
                   </Button>
                 </Grid>
               </Grid>
@@ -185,69 +177,76 @@ export default function Top(props: TopPropsType) {
             />
             <FeatureCard
               key={2}
-              image={firmwareWriting}
-              imageTitle="Write Firmware"
-              title="Write Firmware"
-              description="Write a firmware to microcomputer unit directly."
+              image={buildFirmware}
+              imageTitle="Build Firmware"
+              title="Build a Firmware"
+              description="Build a firmware with your taste quickly."
             />
             <FeatureCard
               key={3}
+              image={firmwareWriting}
+              imageTitle="Flash a Firmware"
+              title="Flash Firmware"
+              description="Flash a firmware to microcomputer unit directly."
+            />
+            <FeatureCard
+              key={4}
               image={textMatrix}
               imageTitle="Test Matrix"
               title="Test Matrix"
               description="Allows you to test if your changes work after building the keyboard."
             />
             <FeatureCard
-              key={4}
+              key={5}
               image={keyAssign}
               imageTitle="Easy key Assign"
               title="Easy key assign"
               description="Easily assign complex keycodes including Hold,Tap, and more."
             />
             <FeatureCard
-              key={5}
+              key={6}
               image={keymap}
               imageTitle="Save/Restore Keymaps"
               title="Save/Restore Keymaps"
               description="Apply one of your saved key mappings, on demand, anytime and easily."
             />
             <FeatureCard
-              key={6}
+              key={7}
               image={shareKeymap}
               imageTitle="Share Keymaps"
               title="Share Keymaps"
               description="Find or share a keymap with the community."
             />
             <FeatureCard
-              key={7}
+              key={8}
               image={lighting}
               imageTitle="Lighting Control"
               title="Lighting Control"
               description="Simple UI for controlling Backlight and Underglow LED lighting."
             />
             <FeatureCard
-              key={8}
+              key={9}
               image={macro}
               imageTitle="Macro"
               title="Macro Editor"
               description="Macro Editor provides a way to define multiple keystrokes easily"
             />
             <FeatureCard
-              key={9}
+              key={10}
               image={keyLayout}
               imageTitle="Key Layout"
               title="Key Layout"
               description="Intuitive customization according to the physical key layout."
             />
             <FeatureCard
-              key={10}
+              key={11}
               image={predefinedKeys}
               imageTitle="Pre-defined Keys"
               title="Pre-defined Keys"
               description="Many Pre-defined keycodes to remap your keyboard easily."
             />
             <FeatureCard
-              key={11}
+              key={12}
               image={diff}
               imageTitle="Compare Changes"
               title="Compare Changes"

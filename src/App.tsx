@@ -56,6 +56,10 @@ class App extends React.Component<StyledComponentProps, {}> {
             />
             <Route path="/catalog" element={<Catalog />} />
             <Route
+              path="/catalog/:definitionId/build"
+              element={<Catalog catalogDetailMode="build" />}
+            />
+            <Route
               path="/catalog/:definitionId/firmware"
               element={<Catalog catalogDetailMode="firmware" />}
             />

@@ -270,6 +270,50 @@ export type IFetchOrganizationMembersResult = IResult<{
   members: IOrganizationMember[];
 }>;
 
+export const BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION = ['0.22.14'] as const;
+type buildableFirmwareQmkFirmwareVersionTuple =
+  typeof BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION;
+export type IBuildableFirmwareQmkFirmwareVersion =
+  buildableFirmwareQmkFirmwareVersionTuple[number];
+
+export type IBuildableFirmware = {
+  keyboardDefinitionId: string;
+  uid: string;
+  enabled: boolean;
+  defaultBootloaderType: IBootloaderType;
+  qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IBuildableFirmwareFileType = 'keyboard' | 'keymap';
+
+export type IBuildableFirmwareFile = {
+  id: string;
+  path: string;
+  content: string;
+};
+
+export type IFirmwareBuildingTaskStatus =
+  | 'waiting'
+  | 'building'
+  | 'success'
+  | 'failure';
+
+export type IFirmwareBuildingTask = {
+  id: string;
+  firmwareId: string;
+  uid: string;
+  status: IFirmwareBuildingTaskStatus;
+  firmwareFilePath: string;
+  stdout: string;
+  stderr: string;
+  description: string;
+  parametersJson: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -430,5 +474,53 @@ export interface IStorage {
     uid: string
   ): Promise<IEmptyResult>;
   fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult>;
+
+  createAndFetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware>>;
+  fetchBuildableFirmwareFiles(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IBuildableFirmwareFile[]>>;
+  updateBuildableFirmware(
+    keyboardDefinitionId: string,
+    options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
+  ): Promise<IResult<IBuildableFirmware>>;
+  createBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    fileType: IBuildableFirmwareFileType,
+    fileName: string
+  ): Promise<IEmptyResult>;
+  updateBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult>;
+  deleteBuildableFirmwareFile(
+    keyboardDefinitionId: string,
+    file: IBuildableFirmwareFile,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IEmptyResult>;
+  createFirmwareBuildingTask(
+    keyboardDefinitionId: string,
+    description: string,
+    parametersJson: string
+  ): Promise<IEmptyResult>;
+  fetchFirmwareBuildingTasks(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IFirmwareBuildingTask[]>>;
+  fetchBuiltFirmwareFileBlob(
+    firmwareFilePath: string
+  ): Promise<IFetchFirmwareFileBlobResult>;
+  fetchBuildableFirmware(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IBuildableFirmware | null>>;
+  deleteFirmwareBuildingTask(
+    task: IFirmwareBuildingTask
+  ): Promise<IEmptyResult>;
+  updateFirmwareBuildingTaskDescription(
+    taskId: string,
+    description: string
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */
