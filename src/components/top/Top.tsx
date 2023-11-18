@@ -119,8 +119,8 @@ export default function Top(props: TopPropsType) {
               color="textSecondary"
               paragraph
             >
-              Remap allows you to configure keymaps and lightings of your
-              keyboard with QMK firmware in Web Browser.
+              Remap allows you to find, build, set up and customize your
+              keyboard quickly and easily in Web Browser.
             </Typography>
             <div className="hero-buttons">
               <Grid container spacing={2} justifyContent="center">
@@ -130,7 +130,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickStartRemap}
                   >
-                    Start Remap for Your Keyboard
+                    Customize Your Keyboard
                   </Button>
                 </Grid>
                 <Grid item>
@@ -139,7 +139,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickKeyboardCatalog}
                   >
-                    Keyboard Catalog
+                    Find a Keyboard
                   </Button>
                 </Grid>
               </Grid>
