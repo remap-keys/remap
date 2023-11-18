@@ -95,7 +95,7 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Nov 9th 2023] The firmware building feature has been released. See{' '}
+        [Nov 11th 2023] The firmware building feature has been released. See{' '}
         <Link href="/docs/build" target="_blank" rel="noreferrer">
           more detail
         </Link>

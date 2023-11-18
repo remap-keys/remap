@@ -13,8 +13,8 @@ export default function Build() {
       <Typography variant="h3">Remap supports building a firmware</Typography>
       <section>
         <Alert severity="warning">
-          [Nov 9th, 2023] This feature is currently in beta. It is possible that
-          the feature is changed or removed without notice.
+          [Nov 18th, 2023] This feature is currently in beta. It is possible
+          that the feature is changed or removed without notice.
         </Alert>
       </section>
       <section>
@@ -178,7 +178,7 @@ export default function Build() {
       </section>
       <section>
         <Typography variant="body1" align="right">
-          Written on: November 9th, 2023
+          Written on: November 18th, 2023
         </Typography>
       </section>
     </React.Fragment>
