@@ -60,6 +60,9 @@ type BuildFormProps = OwnProps &
 
 export default function BuildForm(props: BuildFormProps) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [keyboardDirectoryName, setKeyboardDirectoryName] = useState<string>(
+    props.buildableFirmware!.keyboardDirectoryName
+  );
 
   const onClickSupportBuildingFirmware = () => {
     props.updateBuildableFirmwareEnabled!(
@@ -175,6 +178,17 @@ export default function BuildForm(props: BuildFormProps) {
     );
   };
 
+  const onChangeKeyboardDirectoryName = () => {
+    if (
+      keyboardDirectoryName !== props.buildableFirmware!.keyboardDirectoryName
+    ) {
+      props.updateBuildableFirmwareKeyboardDirectoryName!(
+        props.keyboardDefinition!.id,
+        keyboardDirectoryName
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="edit-definition-build-form-container">
@@ -190,6 +204,7 @@ export default function BuildForm(props: BuildFormProps) {
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 mt: 2,
+                mb: 2,
                 gap: 2,
               }}
             >
@@ -237,6 +252,20 @@ export default function BuildForm(props: BuildFormProps) {
                   ))}
                 </Select>
               </FormControl>
+            </Box>
+            <Box>
+              <TextField
+                label="Keyboard Directory Name"
+                placeholder="Keyboard Directory Name (Optional)"
+                helperText="If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field."
+                fullWidth
+                size="small"
+                value={keyboardDirectoryName}
+                onChange={(event) => {
+                  setKeyboardDirectoryName(event.target.value);
+                }}
+                onBlur={onChangeKeyboardDirectoryName}
+              />
             </Box>
           </FormGroup>
         </div>

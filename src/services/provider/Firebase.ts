@@ -1583,6 +1583,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           enabled: doc.data()!.enabled,
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
           qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
+          keyboardDirectoryName: doc.data()!.keyboardDirectoryName || '',
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1598,6 +1599,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION[
             BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.length - 1
           ],
+        keyboardDirectoryName: '',
         createdAt: now,
         updatedAt: now,
       };
@@ -1634,6 +1636,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           enabled: doc.data()!.enabled,
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
           qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
+          keyboardDirectoryName: doc.data()!.keyboardDirectoryName || '',
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1744,6 +1747,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       enabled?: boolean;
       defaultBootloaderType?: IBootloaderType;
       qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
+      keyboardDirectoryName?: string;
     }
   ): Promise<IResult<IBuildableFirmware>> {
     try {
@@ -1764,6 +1768,9 @@ export class FirebaseProvider implements IStorage, IAuth {
       }
       if (options.qmkFirmwareVersion !== undefined) {
         buildableFirmware.qmkFirmwareVersion = options.qmkFirmwareVersion;
+      }
+      if (options.keyboardDirectoryName !== undefined) {
+        buildableFirmware.keyboardDirectoryName = options.keyboardDirectoryName;
       }
       buildableFirmware.updatedAt = new Date();
       await this.db

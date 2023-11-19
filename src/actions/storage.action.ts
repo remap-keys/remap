@@ -1693,6 +1693,7 @@ export const storageActionsThunk = {
         enabled?: boolean;
         defaultBootloaderType?: IBootloaderType;
         qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
+        keyboardDirectoryName?: string;
       }
     ): ThunkPromiseAction<void> =>
     async (
@@ -1700,6 +1701,18 @@ export const storageActionsThunk = {
       getState: () => RootState
     ) => {
       const { storage } = getState();
+
+      // Validation
+      if (
+        options.keyboardDirectoryName &&
+        !options.keyboardDirectoryName.match(/^[a-zA-Z0-9-_]+$/)
+      ) {
+        dispatch(
+          NotificationActions.addError('Invalid keyboard directory name.')
+        );
+        return;
+      }
+
       const result = await storage.instance!.updateBuildableFirmware(
         definitionId,
         options

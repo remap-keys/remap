@@ -282,6 +282,7 @@ export type IBuildableFirmware = {
   enabled: boolean;
   defaultBootloaderType: IBootloaderType;
   qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion;
+  keyboardDirectoryName: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -484,7 +485,11 @@ export interface IStorage {
   ): Promise<IResult<IBuildableFirmwareFile[]>>;
   updateBuildableFirmware(
     keyboardDefinitionId: string,
-    options: { enabled?: boolean; defaultBootloaderType?: IBootloaderType }
+    options: {
+      enabled?: boolean;
+      defaultBootloaderType?: IBootloaderType;
+      keyboardDirectoryName?: string;
+    }
   ): Promise<IResult<IBuildableFirmware>>;
   createBuildableFirmwareFile(
     keyboardDefinitionId: string,

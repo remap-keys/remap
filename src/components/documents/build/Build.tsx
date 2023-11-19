@@ -75,6 +75,15 @@ export default function Build() {
         <Typography variant="body1" gutterBottom={true}>
           Edit them, then click the &quot;SAVE&quot; button to save them.
         </Typography>
+        <Typography variant="body1" gutterBottom={true}>
+          If it is necessary to register `KEYBOARD_DIRECTORY_NAME.h` and/or
+          `KEYBOARD_DIRECTORY_NAME.c` files, fill in the KEYBOARD_DIRECTORY_NAME
+          to the keyboard directory name. If it is necessary to register
+          `KEYBOARD_DIRECTORY_NAME.h` and/or `KEYBOARD_DIRECTORY_NAME.c` files,
+          fill the KEYBOARD_DIRECTORY_NAME string in the the keyboard directory
+          name. For example, if `lunakey_mini.h` and `lunakey.c` files are
+          needed, fill `lunakey_mini` in the keyboard directory name field.
+        </Typography>
         <Typography variant="h4">Custom parameters</Typography>
         <Typography variant="body1" gutterBottom={true}>
           Each firmware file can have custom parameters. The custom parameter is
