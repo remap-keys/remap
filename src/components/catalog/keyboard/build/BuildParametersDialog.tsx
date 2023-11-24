@@ -330,26 +330,37 @@ function ParameterEditors(props: ParameterEditorProps) {
                       event.target.value
                     );
                   }}
+                  helperText={parameter.definition.comment}
                 />
               ) : parameter.definition.type === 'select' ? (
-                <Select
-                  fullWidth
-                  size="small"
-                  value={parameter.value}
-                  onChange={(event) => {
-                    props.onChangeParameterValue(
-                      props.selectedFirmwareFile,
-                      parameter.definition,
-                      event.target.value
-                    );
-                  }}
-                >
-                  {parameter.definition.options.map((option) => (
-                    <MenuItem value={option} key={`parameter-option-${option}`}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <div>
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={parameter.value}
+                    onChange={(event) => {
+                      props.onChangeParameterValue(
+                        props.selectedFirmwareFile,
+                        parameter.definition,
+                        event.target.value
+                      );
+                    }}
+                  >
+                    {parameter.definition.options.map((option) => (
+                      <MenuItem
+                        value={option}
+                        key={`parameter-option-${option}`}
+                      >
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {parameter.definition.comment && (
+                    <Typography variant="caption">
+                      {parameter.definition.comment}
+                    </Typography>
+                  )}
+                </div>
               ) : parameter.definition.type === 'number' ? (
                 <TextField
                   fullWidth
@@ -364,6 +375,7 @@ function ParameterEditors(props: ParameterEditorProps) {
                       event.target.value
                     );
                   }}
+                  helperText={parameter.definition.comment}
                 />
               ) : null}
             </Grid>

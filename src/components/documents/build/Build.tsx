@@ -96,7 +96,8 @@ export default function Build() {
             sx={{ mt: 2, ml: 2, fontFamily: 'monospace' }}
           >
             &lt;remap name=&quot;NAME&quot; type=&quot;TYPE&quot;
-            default=&quot;DEFAULT&quot; options=&quot;OPTIONS&quot; /&gt;
+            default=&quot;DEFAULT&quot; options=&quot;OPTIONS&quot;
+            comment=&quot;COMMENT&quot; /&gt;
           </Typography>
         </Paper>
         <Typography variant="body1" gutterBottom={true}>
@@ -120,6 +121,10 @@ export default function Build() {
               options - The options of the parameter. It is used when the type
               is &quot;select&quot;. The options are written with the
               &apos;,&apos; character as a delimiter.
+            </li>
+            <li>
+              comment - The comment of the parameter. This is displayed under
+              each UI to describe the parameter. It is optional.
             </li>
           </ul>
         </Typography>

@@ -96,5 +96,45 @@ describe('FirmwareCodeParser', () => {
         },
       ]);
     });
+
+    test('should extract parameters from source with comment', () => {
+      const source = `
+        <remap name="foo" type="select" default="baz" options="bar,baz" comment="comment1" />
+        <remap name="bar" type="text" default="john" comment="comment2" />
+        <remap name="baz" type="number" default="20" comment="comment3 foobar" />
+      `;
+
+      const parameters = extractBuildableFirmwareCodeParameters(source);
+
+      expect(parameters).toEqual([
+        {
+          name: 'foo',
+          type: 'select',
+          options: ['bar', 'baz'],
+          default: 'baz',
+          comment: 'comment1',
+          startPosition: 9,
+          endPosition: 94,
+        },
+        {
+          name: 'bar',
+          type: 'text',
+          options: [],
+          default: 'john',
+          comment: 'comment2',
+          startPosition: 103,
+          endPosition: 169,
+        },
+        {
+          name: 'baz',
+          type: 'number',
+          options: [],
+          default: '20',
+          comment: 'comment3 foobar',
+          startPosition: 178,
+          endPosition: 251,
+        },
+      ]);
+    });
   });
 });
