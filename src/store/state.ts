@@ -208,6 +208,7 @@ export type IBuildableFirmwareCodeParameter = {
   type: IBuildableFirmwareCodeParameterType;
   options: string[];
   default: string;
+  comment: string | undefined;
   startPosition: number;
   endPosition: number;
 };

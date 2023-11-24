@@ -34,6 +34,7 @@ export const extractBuildableFirmwareCodeParameters = (
     const type = extractAttribute(tagContent, 'type');
     const options = extractAttribute(tagContent, 'options');
     const defaultValue = extractAttribute(tagContent, 'default');
+    const comment = extractAttribute(tagContent, 'comment');
 
     if (
       !name ||
@@ -49,6 +50,7 @@ export const extractBuildableFirmwareCodeParameters = (
       name,
       type: type as 'select' | 'text' | 'number',
       default: defaultValue,
+      comment,
       options: [],
       startPosition,
       endPosition,
