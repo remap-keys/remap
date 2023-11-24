@@ -1,6 +1,54 @@
-import { extractBuildableFirmwareCodeParameters } from './FirmwareCodeParser';
+import {
+  extractBuildableFirmwareCodeParameters,
+  replaceBuildableFirmwareCodeWithParameterDefaultValues,
+} from './FirmwareCodeParser';
+import { IBuildableFirmwareCodeParameter } from '../../store/state';
 
 describe('FirmwareCodeParser', () => {
+  describe('replaceBuildableFirmwareCodeWithParameterDefaultValues', () => {
+    test('should replace with default values', () => {
+      const input = `
+        <remap name="foo" type="select" default="baz" options="bar,baz" />
+        <remap name="bar" type="text" default="john" />
+        <remap name="baz" type="number" default="20" />
+      `;
+      const parameters: IBuildableFirmwareCodeParameter[] =
+        extractBuildableFirmwareCodeParameters(input);
+
+      const replaced = replaceBuildableFirmwareCodeWithParameterDefaultValues(
+        input,
+        parameters
+      );
+
+      expect(replaced).toEqual(`
+        baz
+        john
+        20
+      `);
+    });
+
+    test('should replace with default values without the parameter which has no options', () => {
+      const input = `
+        <remap name="foo" type="select" default="baz" />
+        <remap name="bar" type="text" default="john" />
+        <remap name="baz" type="number" default="20" />
+      `;
+      const parameters: IBuildableFirmwareCodeParameter[] =
+        extractBuildableFirmwareCodeParameters(input);
+
+      const replaced = replaceBuildableFirmwareCodeWithParameterDefaultValues(
+        input,
+        parameters
+      );
+
+      expect(replaced).toEqual(`
+        <remap name="foo" type="select" default="baz" />
+        john
+        20
+      `);
+    });
+  });
+
   describe('extractBuildableFirmwareCodeParameters', () => {
     test('should extract parameters from source', () => {
       const source = `

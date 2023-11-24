@@ -40,7 +40,10 @@ import {
   IBuildableFirmwareCodeParameterValueMap,
   IBuildableFirmwareCodeParameterValues,
 } from '../../../../store/state';
-import { extractBuildableFirmwareCodeParameters } from '../../../../services/build/FirmwareCodeParser';
+import {
+  extractBuildableFirmwareCodeParameters,
+  replaceBuildableFirmwareCodeWithParameterDefaultValues,
+} from '../../../../services/build/FirmwareCodeParser';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 
 type OwnProps = {};
@@ -96,7 +99,17 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     return files.reduce<IBuildableFirmwareCodeParameterValueMap>(
       (valueMap, file) => {
         const parameters = extractBuildableFirmwareCodeParameters(file.content);
-        valueMap[file.id] = parameters.reduce<{
+        if (!valueMap[file.id]) {
+          valueMap[file.id] = {
+            type: 'parameters',
+            parameters: {},
+            code: replaceBuildableFirmwareCodeWithParameterDefaultValues(
+              file.content,
+              parameters
+            ),
+          };
+        }
+        valueMap[file.id].parameters = parameters.reduce<{
           [parameterName: string]: IBuildableFirmwareCodeParameterValue;
         }>((values, parameter) => {
           values[parameter.name] = {
@@ -185,17 +198,35 @@ export default function CatalogBuild(props: CatalogBuildProps) {
 
   const createBuildableFirmwareCodeParameterNameValueMap = (
     valueMap: IBuildableFirmwareCodeParameterValueMap
-  ): { [fileId: string]: { [parameterName: string]: string } } => {
+  ): {
+    [fileId: string]: {
+      type: string;
+      parameters?: { [parameterName: string]: string };
+      code?: string;
+    };
+  } => {
     return Object.entries(valueMap).reduce<{
-      [fileId: string]: { [parameterName: string]: string };
+      [fileId: string]: {
+        type: string;
+        parameters?: { [parameterName: string]: string };
+        code?: string;
+      };
     }>((result, [fileId, valueMap]) => {
-      result[fileId] = Object.entries(valueMap).reduce<{
-        [parameterName: string]: string;
-      }>((result, [parameterName, parameterValue]) => {
-        result[parameterName] = parameterValue.value;
+      if (valueMap.type === 'code') {
+        result[fileId] = { type: 'code', code: valueMap.code };
         return result;
-      }, {});
-      return result;
+      } else {
+        result[fileId] = {
+          type: 'parameters',
+          parameters: Object.entries(valueMap.parameters).reduce<{
+            [parameterName: string]: string;
+          }>((result, [parameterName, parameterValue]) => {
+            result[parameterName] = parameterValue.value;
+            return result;
+          }, {}),
+        };
+        return result;
+      }
     }, {});
   };
 
@@ -207,9 +238,23 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     });
     setOpenBuildParametersDialog(false);
     const parameterValues: {
-      keyboard: { [fileId: string]: { [parameterName: string]: string } };
-      keymap: { [fileId: string]: { [parameterName: string]: string } };
+      version: number;
+      keyboard: {
+        [fileId: string]: {
+          type: string;
+          parameters?: { [parameterName: string]: string };
+          code?: string;
+        };
+      };
+      keymap: {
+        [fileId: string]: {
+          type: string;
+          parameters?: { [parameterName: string]: string };
+          code?: string;
+        };
+      };
     } = {
+      version: 2,
       keyboard: createBuildableFirmwareCodeParameterNameValueMap(
         props.buildableFirmwareCodeParameterValues!.keyboard
       ),

@@ -7,7 +7,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
@@ -34,6 +36,7 @@ import {
 import {
   IBuildableFirmwareCodeParameter,
   IBuildableFirmwareCodeParameterValues,
+  IBuildableFirmwareCodeValueType,
 } from '../../../../store/state';
 
 type OwnProps = {
@@ -92,7 +95,39 @@ export default function BuildParametersDialog(
         ? newParameterValues.keyboard
         : newParameterValues.keymap;
     const newParameterValueMap = newValueMap[targetFirmwareFile.file.id];
-    newParameterValueMap[targetParameter.name].value = newValue;
+    newParameterValueMap.parameters[targetParameter.name].value = newValue;
+    props.updateBuildableFirmwareCodeParameterValues!(newParameterValues);
+  };
+
+  const onChangeValueType = (
+    targetFirmwareFile: SelectedFirmwareFile,
+    newType: IBuildableFirmwareCodeValueType
+  ) => {
+    const newParameterValues = structuredClone(
+      props.buildableFirmwareCodeParameterValues
+    ) as IBuildableFirmwareCodeParameterValues;
+    const newValueMap =
+      targetFirmwareFile.type === 'keyboard'
+        ? newParameterValues.keyboard
+        : newParameterValues.keymap;
+    const newParameterValueMap = newValueMap[targetFirmwareFile.file.id];
+    newParameterValueMap.type = newType;
+    props.updateBuildableFirmwareCodeParameterValues!(newParameterValues);
+  };
+
+  const onChangeCode = (
+    targetFirmwareFile: SelectedFirmwareFile,
+    newCode: string
+  ) => {
+    const newParameterValues = structuredClone(
+      props.buildableFirmwareCodeParameterValues
+    ) as IBuildableFirmwareCodeParameterValues;
+    const newValueMap =
+      targetFirmwareFile.type === 'keyboard'
+        ? newParameterValues.keyboard
+        : newParameterValues.keymap;
+    const newParameterValueMap = newValueMap[targetFirmwareFile.file.id];
+    newParameterValueMap.code = newCode;
     props.updateBuildableFirmwareCodeParameterValues!(newParameterValues);
   };
 
@@ -117,23 +152,28 @@ export default function BuildParametersDialog(
         ? props.buildableFirmwareCodeParameterValues!.keyboard
         : props.buildableFirmwareCodeParameterValues!.keymap;
     const newParameterValueMap = newValueMap[file.id];
-    const originalParameterValueMapEntries = Object.entries(
-      originalParameterValueMap
-    );
-    const newParameterValueMapEntries = Object.entries(
-      newParameterValueMap
-    ).filter(
-      ([parameterName, parameter]) =>
-        parameter.value === originalParameterValueMap[parameterName].value
-    );
-    return (
-      originalParameterValueMapEntries.length !==
-      newParameterValueMapEntries.length
-    );
+    if (newParameterValueMap.type === 'code') {
+      return originalParameterValueMap.code !== newParameterValueMap.code;
+    } else {
+      const originalParameterValueMapEntries = Object.entries(
+        originalParameterValueMap.parameters
+      );
+      const newParameterValueMapEntries = Object.entries(
+        newParameterValueMap.parameters
+      ).filter(
+        ([parameterName, parameter]) =>
+          parameter.value ===
+          originalParameterValueMap.parameters[parameterName].value
+      );
+      return (
+        originalParameterValueMapEntries.length !==
+        newParameterValueMapEntries.length
+      );
+    }
   };
 
   return (
-    <Dialog open={props.open} maxWidth="md" fullWidth>
+    <Dialog open={props.open} maxWidth="lg" fullWidth>
       <DialogTitle>Build Parameters</DialogTitle>
       <DialogContent dividers className="build-parameters-dialog-content">
         <TextField
@@ -205,12 +245,14 @@ export default function BuildParametersDialog(
             {selectedFirmwareFile && (
               <Paper>
                 <Container sx={{ py: 2 }}>
-                  <ParameterEditors
+                  <EditorContainer
                     selectedFirmwareFile={selectedFirmwareFile}
                     buildableFirmwareCodeParameterValues={
                       props.buildableFirmwareCodeParameterValues!
                     }
                     onChangeParameterValue={onChangeParameterValue}
+                    onChangeValueType={onChangeValueType}
+                    onChangeCode={onChangeCode}
                   />
                 </Container>
               </Paper>
@@ -283,6 +325,112 @@ function FirmwareFileListItem(props: FirmwareFileListItemProps) {
   );
 }
 
+type EditorContainerProps = {
+  selectedFirmwareFile: SelectedFirmwareFile;
+  buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
+  onChangeParameterValue: (
+    // eslint-disable-next-line no-unused-vars
+    selectedFirmwareFile: SelectedFirmwareFile,
+    // eslint-disable-next-line no-unused-vars
+    selectedParameter: IBuildableFirmwareCodeParameter,
+    // eslint-disable-next-line no-unused-vars
+    newValue: string
+  ) => void;
+  onChangeValueType: (
+    // eslint-disable-next-line no-unused-vars
+    selectedFirmwareFile: SelectedFirmwareFile,
+    // eslint-disable-next-line no-unused-vars
+    newType: IBuildableFirmwareCodeValueType
+  ) => void;
+  onChangeCode: (
+    // eslint-disable-next-line no-unused-vars
+    selectedFirmwareFile: SelectedFirmwareFile,
+    // eslint-disable-next-line no-unused-vars
+    newCode: string
+  ) => void;
+};
+
+function EditorContainer(props: EditorContainerProps) {
+  const valueMap =
+    props.selectedFirmwareFile.type === 'keyboard'
+      ? props.buildableFirmwareCodeParameterValues.keyboard
+      : props.buildableFirmwareCodeParameterValues.keymap;
+  const parameterValueMap = valueMap[props.selectedFirmwareFile.file.id];
+
+  return (
+    <React.Fragment>
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <InputLabel>Editor Type</InputLabel>
+        <Select
+          label="Editor Type"
+          value={parameterValueMap.type}
+          variant="outlined"
+          onChange={(event) => {
+            props.onChangeValueType(
+              props.selectedFirmwareFile,
+              event.target.value as IBuildableFirmwareCodeValueType
+            );
+          }}
+        >
+          <MenuItem value="parameters">Parameters</MenuItem>
+          <MenuItem value="code">Code</MenuItem>
+        </Select>
+      </FormControl>
+      {parameterValueMap.type === 'code' ? (
+        <CodeEditor
+          selectedFirmwareFile={props.selectedFirmwareFile}
+          buildableFirmwareCodeParameterValues={
+            props.buildableFirmwareCodeParameterValues
+          }
+          onChangeCode={props.onChangeCode}
+        />
+      ) : (
+        <ParameterEditors
+          selectedFirmwareFile={props.selectedFirmwareFile}
+          buildableFirmwareCodeParameterValues={
+            props.buildableFirmwareCodeParameterValues
+          }
+          onChangeParameterValue={props.onChangeParameterValue}
+        />
+      )}
+    </React.Fragment>
+  );
+}
+
+type CodeEditorProps = {
+  selectedFirmwareFile: SelectedFirmwareFile;
+  buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
+  onChangeCode: (
+    // eslint-disable-next-line no-unused-vars
+    selectedFirmwareFile: SelectedFirmwareFile,
+    // eslint-disable-next-line no-unused-vars
+    newCode: string
+  ) => void;
+};
+
+function CodeEditor(props: CodeEditorProps) {
+  const valueMap =
+    props.selectedFirmwareFile.type === 'keyboard'
+      ? props.buildableFirmwareCodeParameterValues.keyboard
+      : props.buildableFirmwareCodeParameterValues.keymap;
+  const parameterValueMap = valueMap[props.selectedFirmwareFile.file.id];
+
+  return (
+    <TextField
+      fullWidth
+      multiline
+      rows={15}
+      variant="outlined"
+      size="small"
+      sx={{ mb: 3 }}
+      value={parameterValueMap.code}
+      onChange={(event) => {
+        props.onChangeCode(props.selectedFirmwareFile, event.target.value);
+      }}
+    />
+  );
+}
+
 type ParameterEditorProps = {
   selectedFirmwareFile: SelectedFirmwareFile;
   buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
@@ -303,7 +451,7 @@ function ParameterEditors(props: ParameterEditorProps) {
       : props.buildableFirmwareCodeParameterValues.keymap;
   const parameterValueMap = valueMap[props.selectedFirmwareFile.file.id];
 
-  const parameterValueMapEntries = Object.entries(parameterValueMap);
+  const parameterValueMapEntries = Object.entries(parameterValueMap.parameters);
   return (
     <Grid container spacing={2}>
       {parameterValueMapEntries.length === 0 ? (

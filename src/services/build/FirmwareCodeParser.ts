@@ -18,6 +18,22 @@ const isValidType = (
   return ['select', 'text', 'number'].includes(type);
 };
 
+export const replaceBuildableFirmwareCodeWithParameterDefaultValues = (
+  input: string,
+  parameters: IBuildableFirmwareCodeParameter[]
+): string => {
+  const sortedParameters = parameters.sort(
+    (a, b) => b.startPosition - a.startPosition
+  );
+  return sortedParameters.reduce<string>((result, parameter): string => {
+    return (
+      result.substring(0, parameter.startPosition) +
+      parameter.default +
+      result.substring(parameter.endPosition)
+    );
+  }, input);
+};
+
 export const extractBuildableFirmwareCodeParameters = (
   input: string
 ): IBuildableFirmwareCodeParameter[] => {
