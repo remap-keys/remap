@@ -180,6 +180,7 @@ export default class CatalogSearchForm extends React.Component<
             value={this.props.keyword}
             onChange={this.onChangeKeyword.bind(this)}
             onKeyDown={this.onKeyDownKeyword.bind(this)}
+            size="small"
           />
         </div>
         <div className="catalog-search-condition">
@@ -192,6 +193,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Organization"
               value={this.props.organizationId || '---'}
               onChange={this.onChangeOrganizationId.bind(this)}
+              size="small"
             >
               <MenuItem key="catalog-search-organization-undefined" value="---">
                 ---
@@ -217,6 +219,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Number of Keys"
               value={this.getFeatureValue(ALL_KEY_COUNT_TYPE)}
               onChange={this.onChangeKeyCount.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="over_100">Over 100%</MenuItem>
@@ -240,6 +243,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Integrated/Split"
               value={this.getFeatureValue(ALL_SPLIT_TYPE)}
               onChange={this.onChangeSplitType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="integrated">Integrated</MenuItem>
@@ -255,6 +259,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Staggered"
               value={this.getFeatureValue(ALL_STAGGERED_TYPE)}
               onChange={this.onChangeStaggeredType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="row_staggered">Row Staggered</MenuItem>
@@ -273,6 +278,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Lighting"
               value={this.getFeatureValue(ALL_LED_TYPE)}
               onChange={this.onChangeLedType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="backlight">Backlight</MenuItem>
@@ -288,6 +294,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Key Switch"
               value={this.getFeatureValue(ALL_KEY_SWITCH_TYPE)}
               onChange={this.onChangeKeySwitchType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="cherry_mx">Cherry MX Compatible</MenuItem>
@@ -310,6 +317,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Hot Swap"
               value={this.getFeatureValue(ALL_HOTSWAP_TYPE)}
               onChange={this.onChangeHotswapType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="hot_swap">Supported</MenuItem>
@@ -324,6 +332,7 @@ export default class CatalogSearchForm extends React.Component<
               label="OLED"
               value={this.getFeatureValue(ALL_OLED_TYPE)}
               onChange={this.onChangeOledType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="oled">Supported</MenuItem>
@@ -338,6 +347,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Speaker"
               value={this.getFeatureValue(ALL_SPEAKER_TYPE)}
               onChange={this.onChangeSpeakerType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="speaker">Supported</MenuItem>
@@ -352,6 +362,7 @@ export default class CatalogSearchForm extends React.Component<
               label="Wireless"
               value={this.getFeatureValue(ALL_WIRELESS_TYPE)}
               onChange={this.onChangeWirelessType.bind(this)}
+              size="small"
             >
               <MenuItem value="---">---</MenuItem>
               <MenuItem value="wireless">Supported</MenuItem>
