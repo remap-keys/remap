@@ -93,7 +93,7 @@ class CatalogSearch extends React.Component<
             className="catalog-search-container"
             ref={this.state.containerRef}
           >
-            <Grid container>
+            <Grid container sx={{ maxWidth: '960px' }}>
               <Grid item sm={3} xs={12}>
                 {this.state.isSmallDisplay ? (
                   <Grid container>
@@ -149,7 +149,7 @@ class CatalogSearch extends React.Component<
 
 export default CatalogSearch;
 
-const SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE = 5;
+const SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE = 4;
 
 type SearchResultProps = {
   definitionDocuments: IKeyboardDefinitionDocument[];
