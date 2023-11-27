@@ -8,11 +8,13 @@ import { IKeyboardFeatures } from '../../../store/state';
 type CatalogSearchDialogState = {
   features: IKeyboardFeatures[];
   keyword: string;
+  buildSupport: boolean;
 };
 type CatalogSearchDialogProps = {
   open: boolean;
   features: IKeyboardFeatures[];
   keyword: string;
+  buildSupport: boolean;
   onClose: (
     // eslint-disable-next-line no-unused-vars
     originalKeyword: string,
@@ -67,6 +69,7 @@ export default class CatalogSearchDialog extends React.Component<
           onSubmit={this.props.onSubmit.bind(this)}
           keyword={this.props.keyword}
           features={this.props.features}
+          buildSupport={this.props.buildSupport}
         />
       </Dialog>
     );

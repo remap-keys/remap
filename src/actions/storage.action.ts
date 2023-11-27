@@ -1081,14 +1081,18 @@ export const storageActionsThunk = {
       const features = catalog.search.features;
       const keyword = catalog.search.keyword;
       const organizationId = catalog.search.organizationId;
+      const buildSupport = catalog.search.buildSupport;
       let searchKeyboardsByFeaturesResult =
         await storage.instance!.searchKeyboards(features, organizationId);
       if (isSuccessful(searchKeyboardsByFeaturesResult)) {
+        // Keyword search
         const definitionDocs =
           searchKeyboardsByFeaturesResult.value.documents.filter((doc) =>
             doc.name.toLowerCase().includes(keyword.toLowerCase())
           );
-        const filteredDocs = definitionDocs.filter((doc) => {
+
+        // Feature search
+        let filteredDocs = definitionDocs.filter((doc) => {
           if (features.length === 0) return true;
 
           let allMatch = true;
@@ -1099,6 +1103,29 @@ export const storageActionsThunk = {
           return allMatch;
         });
 
+        // Build support search
+        if (buildSupport) {
+          const buildableFirmwaresResult =
+            await storage.instance!.fetchAllBuildableFirmwares();
+          if (isError(buildableFirmwaresResult)) {
+            console.error(buildableFirmwaresResult.cause);
+            dispatch(
+              NotificationActions.addError(
+                buildableFirmwaresResult.error,
+                buildableFirmwaresResult.cause
+              )
+            );
+            return;
+          }
+          const buildableFirmwareIds = buildableFirmwaresResult.value.map(
+            (buildableFirmware) => buildableFirmware.keyboardDefinitionId
+          );
+          filteredDocs = filteredDocs.filter((doc) => {
+            return buildableFirmwareIds.includes(doc.id);
+          });
+        }
+
+        // Sort by image
         filteredDocs.sort((a, b) => {
           const countA = a.imageUrl ? 1 : 0; // sort higher with a image
           const countB = b.imageUrl ? 1 : 0; // sort higher with a image
@@ -1110,6 +1137,7 @@ export const storageActionsThunk = {
           }
         });
 
+        // Fetch related organizations
         const organizationIds: string[] = filteredDocs
           .filter((doc) => doc.authorType === 'organization')
           .map((doc) => doc.organizationId)
@@ -1161,6 +1189,9 @@ export const storageActionsThunk = {
       }
       if (organizationId) {
         query.organizationId = organizationId;
+      }
+      if (buildSupport) {
+        query.buildSupport = 'true';
       }
       history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
       dispatch(CatalogAppActions.updatePhase('list'));
