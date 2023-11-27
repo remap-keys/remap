@@ -41,6 +41,7 @@ export const CATALOG_SEARCH_UPDATE_KEYWORD = `${CATALOG_SEARCH_ACTIONS}/UpdateKe
 export const CATALOG_SEARCH_CLEAR_FEATURES = `${CATALOG_SEARCH_ACTIONS}/ClearFeatures`;
 export const CATALOG_SEARCH_RESET_FEATURES = `${CATALOG_SEARCH_ACTIONS}/ResetFeatures`;
 export const CATALOG_SEARCH_UPDATE_ORGANIZATION = `${CATALOG_SEARCH_ACTIONS}/UpdateOrganization`;
+export const CATALOG_SEARCH_UPDATE_BUILD_SUPPORT = `${CATALOG_SEARCH_ACTIONS}/UpdateBuildSupport`;
 export const CatalogSearchActions = {
   updateFeatures: (
     value: IKeyboardFeatures | IConditionNotSelected,
@@ -75,6 +76,12 @@ export const CatalogSearchActions = {
     return {
       type: CATALOG_SEARCH_UPDATE_ORGANIZATION,
       value: organizationId,
+    };
+  },
+  updateBuildSupport: (buildSupport: boolean) => {
+    return {
+      type: CATALOG_SEARCH_UPDATE_BUILD_SUPPORT,
+      value: buildSupport,
     };
   },
 };

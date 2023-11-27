@@ -409,6 +409,7 @@ export type RootState = {
       features: IKeyboardFeatures[];
       keyword: string;
       organizationId: string | undefined;
+      buildSupport: boolean;
     };
     keyboard: {
       keymaps: {
@@ -663,6 +664,7 @@ export const INIT_STATE: RootState = {
       features: [],
       keyword: '',
       organizationId: undefined,
+      buildSupport: false,
     },
     keyboard: {
       keymaps: [],

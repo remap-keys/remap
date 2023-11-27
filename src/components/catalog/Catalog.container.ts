@@ -78,6 +78,9 @@ const mapDispatchToProps = (_dispatch: any) => {
           )
         );
       }
+      if (params.buildSupport) {
+        _dispatch(CatalogSearchActions.updateBuildSupport(true));
+      }
       if (params.features) {
         (params.features as string).split(',').forEach((feature: string) => {
           if (ALL_KEY_COUNT_TYPE.includes(feature as IKeyboardKeyCountType)) {

@@ -40,6 +40,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateOrganizationId: (organizationId: string | undefined) => {
       _dispatch(CatalogSearchActions.updateOrganizationId(organizationId));
     },
+    updateBuildSupport: (buildSupport: boolean) => {
+      _dispatch(CatalogSearchActions.updateBuildSupport(buildSupport));
+    },
   };
 };
 export type CatalogSearchFormActionsType = ReturnType<

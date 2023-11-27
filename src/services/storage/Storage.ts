@@ -527,5 +527,6 @@ export interface IStorage {
     taskId: string,
     description: string
   ): Promise<IEmptyResult>;
+  fetchAllBuildableFirmwares(): Promise<IResult<IBuildableFirmware[]>>;
 }
 /* eslint-enable no-unused-vars */

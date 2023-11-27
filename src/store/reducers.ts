@@ -172,6 +172,7 @@ import {
   CATALOG_SEARCH_ACTIONS,
   CATALOG_SEARCH_CLEAR_FEATURES,
   CATALOG_SEARCH_RESET_FEATURES,
+  CATALOG_SEARCH_UPDATE_BUILD_SUPPORT,
   CATALOG_SEARCH_UPDATE_FEATURES,
   CATALOG_SEARCH_UPDATE_KEYWORD,
   CATALOG_SEARCH_UPDATE_ORGANIZATION,
@@ -1078,6 +1079,10 @@ const catalogSearchReducer = (
     }
     case CATALOG_SEARCH_UPDATE_ORGANIZATION: {
       draft.catalog.search.organizationId = action.value;
+      break;
+    }
+    case CATALOG_SEARCH_UPDATE_BUILD_SUPPORT: {
+      draft.catalog.search.buildSupport = action.value;
       break;
     }
   }

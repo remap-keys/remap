@@ -42,6 +42,7 @@ type CatalogSearchFormState = {};
 type OwnProps = {
   features: IKeyboardFeatures[];
   keyword: string;
+  buildSupport: boolean;
   onSubmit?: () => void;
 };
 
@@ -138,6 +139,11 @@ export default class CatalogSearchForm extends React.Component<
     this.props.updateFeatures!(value, ALL_WIRELESS_TYPE);
   }
 
+  onChangeBuildSupport(event: SelectChangeEvent) {
+    const value = event.target.value === 'buildSupport';
+    this.props.updateBuildSupport!(value);
+  }
+
   // eslint-disable-next-line no-undef
   onChangeKeyword(event: React.ChangeEvent<HTMLInputElement>) {
     this.props.updateKeyword!(event.target.value);
@@ -206,6 +212,23 @@ export default class CatalogSearchForm extends React.Component<
                   {organization.name}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div className="catalog-search-condition">
+          <FormControl fullWidth={true}>
+            <InputLabel id="catalog-search-build">
+              Build Firmware Support
+            </InputLabel>
+            <Select
+              labelId="catalog-search-build"
+              label="Build Firmware Support"
+              value={this.props.buildSupport ? 'buildSupport' : '---'}
+              onChange={this.onChangeBuildSupport.bind(this)}
+              size="small"
+            >
+              <MenuItem value="---">---</MenuItem>
+              <MenuItem value="buildSupport">Supported</MenuItem>
             </Select>
           </FormControl>
         </div>

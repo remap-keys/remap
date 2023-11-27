@@ -122,6 +122,7 @@ class CatalogSearch extends React.Component<
                   <CatalogSearchForm
                     keyword={this.props.keyword!}
                     features={this.props.features!}
+                    buildSupport={this.props.buildSupport!}
                   />
                 )}
               </Grid>
@@ -139,6 +140,7 @@ class CatalogSearch extends React.Component<
           open={this.state.showSearchDialog}
           keyword={this.props.keyword!}
           features={this.props.features!}
+          buildSupport={this.props.buildSupport!}
           onClose={this.closeSearchDialog.bind(this)}
           onSubmit={this.submitSearchDialog.bind(this)}
         />
