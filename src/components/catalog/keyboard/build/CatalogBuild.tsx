@@ -398,10 +398,49 @@ function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
     keyboard: { [fileId: string]: { [parameterName: string]: string } };
     keymap: { [fileId: string]: { [parameterName: string]: string } };
   } => {
-    return JSON.parse(parametersJson) as {
-      keyboard: { [fileId: string]: { [parameterName: string]: string } };
-      keymap: { [fileId: string]: { [parameterName: string]: string } };
-    };
+    const json = JSON.parse(parametersJson);
+    if (json.version && json.version === 2) {
+      const values = json as {
+        version: number;
+        keyboard: {
+          [fileId: string]: {
+            type: string;
+            parameters?: { [parameterName: string]: string };
+            code?: string;
+          };
+        };
+        keymap: {
+          [fileId: string]: {
+            type: string;
+            parameters?: { [parameterName: string]: string };
+            code?: string;
+          };
+        };
+      };
+      return {
+        keyboard: Object.entries(values.keyboard).reduce<{
+          [fileId: string]: { [parameterName: string]: string };
+        }>((result, [fileId, value]) => {
+          if (value.type === 'parameters') {
+            result[fileId] = value.parameters!;
+          }
+          return result;
+        }, {}),
+        keymap: Object.entries(values.keymap).reduce<{
+          [fileId: string]: { [parameterName: string]: string };
+        }>((result, [fileId, value]) => {
+          if (value.type === 'parameters') {
+            result[fileId] = value.parameters!;
+          }
+          return result;
+        }, {}),
+      };
+    } else {
+      return json as {
+        keyboard: { [fileId: string]: { [parameterName: string]: string } };
+        keymap: { [fileId: string]: { [parameterName: string]: string } };
+      };
+    }
   };
 
   const createBuildableFirmwareFileParameterValues = (
