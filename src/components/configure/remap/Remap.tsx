@@ -21,11 +21,46 @@ type OwnState = {
 const MIN_SIDE_MENU_WIDTH = 80;
 
 export default class Remap extends React.Component<RemapPropType, OwnState> {
+  private readonly keyboardWrapperRef: React.RefObject<HTMLDivElement>;
+  private readonly keycodeRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: RemapPropType | Readonly<RemapPropType>) {
     super(props);
+    this.keyboardWrapperRef = React.createRef();
+    this.keycodeRef = React.createRef();
     this.state = {
       minWidth: 0,
     };
+  }
+
+  private handleWindowResize() {
+    // To fetch the correct height of the keyboard wrapper,
+    // we need to wait until the keyboard wrapper is rendered.
+    setTimeout(() => {
+      if (!this.keyboardWrapperRef.current || !this.keycodeRef.current) {
+        return;
+      }
+      // Calculate the height of the keyboard wrapper,
+      // and set the height of the keycode wrapper
+      // to the height of the window minus the height of
+      // the keyboard wrapper dynamically.
+      const keyboardWrapperHeight =
+        this.keyboardWrapperRef.current.clientHeight;
+      const headerHeight = 56;
+      const footerHeight = 27;
+      const windowHeight = window.innerHeight;
+      const keycodeWrapperHeight =
+        windowHeight - keyboardWrapperHeight - headerHeight - footerHeight;
+      this.keycodeRef.current.style.height = `${keycodeWrapperHeight}px`;
+    }, 0);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleWindowResize.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize.bind(this));
   }
 
   componentDidUpdate(prevProps: RemapPropType) {
@@ -33,6 +68,8 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
       this.setState({
         minWidth: this.props.keyboardWidth! + MIN_SIDE_MENU_WIDTH * 2,
       });
+      // Call once to set the initial height.
+      this.handleWindowResize();
     }
   }
 
@@ -42,10 +79,15 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
         <div
           className="keyboard-wrapper"
           style={{ minWidth: this.state.minWidth }}
+          ref={this.keyboardWrapperRef}
         >
           <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
         </div>
-        <div className="keycode" style={{ minWidth: this.state.minWidth }}>
+        <div
+          className="keycode"
+          style={{ minWidth: this.state.minWidth }}
+          ref={this.keycodeRef}
+        >
           <Keycodes />
         </div>
         <Desc value={this.props.hoverKey} />

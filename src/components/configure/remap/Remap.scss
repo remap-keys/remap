@@ -35,7 +35,7 @@
   flex-direction: column;
   padding: $space-m $space-m $space-xl $space-m;
   background-color: $background-color-gray;
-  flex: 1;
+  overflow-y: auto;
 
   .disable {
     position: absolute;
