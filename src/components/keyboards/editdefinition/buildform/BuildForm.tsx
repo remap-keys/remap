@@ -178,6 +178,13 @@ export default function BuildForm(props: BuildFormProps) {
     );
   };
 
+  const onChangeSupportCodeEditing = (event: SelectChangeEvent) => {
+    props.updateBuildableFirmwareSupportCodeEditing!(
+      props.keyboardDefinition!.id,
+      event.target.value === 'true'
+    );
+  };
+
   const onChangeKeyboardDirectoryName = () => {
     if (
       keyboardDirectoryName !== props.buildableFirmware!.keyboardDirectoryName
@@ -202,7 +209,7 @@ export default function BuildForm(props: BuildFormProps) {
             <Box
               sx={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
+                gridTemplateColumns: '1fr 1fr 1fr',
                 mt: 2,
                 mb: 2,
                 gap: 2,
@@ -250,6 +257,29 @@ export default function BuildForm(props: BuildFormProps) {
                       {type}
                     </MenuItem>
                   ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                fullWidth
+                size="small"
+                variant="standard"
+                disabled={!props.buildableFirmware!.enabled}
+              >
+                <InputLabel id="building-firmware-support-code-editing">
+                  Support Code Editing
+                </InputLabel>
+                <Select
+                  labelId="building-firmware-support-code-editing"
+                  value={
+                    props.buildableFirmware!.supportCodeEditing
+                      ? 'true'
+                      : 'false'
+                  }
+                  label="Support Code Editing"
+                  onChange={onChangeSupportCodeEditing}
+                >
+                  <MenuItem value="true">Supported</MenuItem>
+                  <MenuItem value="false">Not Supported</MenuItem>
                 </Select>
               </FormControl>
             </Box>

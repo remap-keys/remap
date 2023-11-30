@@ -218,10 +218,16 @@ export type IBuildableFirmwareCodeParameterValue = {
   definition: IBuildableFirmwareCodeParameter;
 };
 
+export type IBuildableFirmwareCodeValueType = 'parameters' | 'code';
+
 export type IBuildableFirmwareCodeParameterValueMap = {
   // File ID: Parameter Name : Parameter Value
   [fileId: string]: {
-    [parameterName: string]: IBuildableFirmwareCodeParameterValue;
+    type: IBuildableFirmwareCodeValueType;
+    parameters: {
+      [parameterName: string]: IBuildableFirmwareCodeParameterValue;
+    };
+    code: string;
   };
 };
 

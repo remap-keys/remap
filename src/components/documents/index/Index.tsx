@@ -8,6 +8,11 @@ export default function Index() {
         <Typography variant="h3">News</Typography>
         <section>
           <Typography variant="body1" gutterBottom={true}>
+            <Link href="/docs/support-code-editing">
+              [Nov 30th, 2023] Remap supports code editing for building firmware
+            </Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom={true}>
             <Link href="/docs/build">
               [Nov 9th, 2023] Remap supports building firmware
             </Link>

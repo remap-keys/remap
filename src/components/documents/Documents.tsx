@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import SupportQmk022 from './support-qmk-022/SupportQmk022';
 import Encoders from './encoders/Encoders';
 import Build from './build/Build';
+import SupportCodeEditing from './support-code-editing/SupportCodeEditing';
 
 type RouteParams = {
   docId: string;
@@ -57,7 +58,10 @@ export default function Documents(props: DocumentsPropsType) {
     sendEventToGoogleAnalytics('docs/encoders');
   } else if (docId === 'build') {
     page = <Build />;
-    sendEventToGoogleAnalytics('docs/encoders');
+    sendEventToGoogleAnalytics('docs/build');
+  } else if (docId === 'support-code-editing') {
+    page = <SupportCodeEditing />;
+    sendEventToGoogleAnalytics('docs/support-code-editing');
   } else {
     page = <Index />;
   }

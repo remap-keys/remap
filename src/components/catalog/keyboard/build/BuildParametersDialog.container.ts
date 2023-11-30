@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootState) => {
     buildableFirmwareKeymapFiles: state.entities.buildableFirmwareKeymapFiles,
     buildableFirmwareCodeParameterValues:
       state.catalog.keyboard.buildableFirmwareCodeParameterValues,
+    buildableFirmware: state.entities.buildableFirmware,
   };
 };
 export type BuildParametersDialogStateType = ReturnType<typeof mapStateToProps>;
