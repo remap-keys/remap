@@ -7,9 +7,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
@@ -18,6 +20,8 @@ import {
   ListSubheader,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Typography,
@@ -359,12 +363,14 @@ function EditorContainer(props: EditorContainerProps) {
 
   return (
     <React.Fragment>
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Editor Type</InputLabel>
-        <Select
-          label="Editor Type"
+      <FormControl fullWidth>
+        <FormLabel id="buildParameterDialogEditorType">
+          How do you want to customize this file?
+        </FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="buildParameterDialogEditorType"
           value={parameterValueMap.type}
-          variant="outlined"
           onChange={(event) => {
             props.onChangeValueType(
               props.selectedFirmwareFile,
@@ -372,10 +378,19 @@ function EditorContainer(props: EditorContainerProps) {
             );
           }}
         >
-          <MenuItem value="parameters">Parameters</MenuItem>
-          <MenuItem value="code">Code</MenuItem>
-        </Select>
+          <FormControlLabel
+            value="parameters"
+            control={<Radio />}
+            label="By selecting and filling in each parameter"
+          />
+          <FormControlLabel
+            value="code"
+            control={<Radio />}
+            label="By editing a code"
+          />
+        </RadioGroup>
       </FormControl>
+      <Divider sx={{ mb: 2 }} />
       {parameterValueMap.type === 'code' ? (
         <CodeEditor
           selectedFirmwareFile={props.selectedFirmwareFile}
