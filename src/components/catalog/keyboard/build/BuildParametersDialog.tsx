@@ -27,6 +27,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
+  IBuildableFirmware,
   IBuildableFirmwareFile,
   IBuildableFirmwareFileType,
 } from '../../../../services/storage/Storage';
@@ -254,6 +255,7 @@ export default function BuildParametersDialog(
                     buildableFirmwareCodeParameterValues={
                       props.buildableFirmwareCodeParameterValues!
                     }
+                    buildableFirmware={props.buildableFirmware!}
                     onChangeParameterValue={onChangeParameterValue}
                     onChangeValueType={onChangeValueType}
                     onChangeCode={onChangeCode}
@@ -332,6 +334,7 @@ function FirmwareFileListItem(props: FirmwareFileListItemProps) {
 type EditorContainerProps = {
   selectedFirmwareFile: SelectedFirmwareFile;
   buildableFirmwareCodeParameterValues: IBuildableFirmwareCodeParameterValues;
+  buildableFirmware: IBuildableFirmware;
   onChangeParameterValue: (
     // eslint-disable-next-line no-unused-vars
     selectedFirmwareFile: SelectedFirmwareFile,
@@ -363,34 +366,38 @@ function EditorContainer(props: EditorContainerProps) {
 
   return (
     <React.Fragment>
-      <FormControl fullWidth>
-        <FormLabel id="buildParameterDialogEditorType">
-          How do you want to customize this file?
-        </FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="buildParameterDialogEditorType"
-          value={parameterValueMap.type}
-          onChange={(event) => {
-            props.onChangeValueType(
-              props.selectedFirmwareFile,
-              event.target.value as IBuildableFirmwareCodeValueType
-            );
-          }}
-        >
-          <FormControlLabel
-            value="parameters"
-            control={<Radio />}
-            label="By selecting and filling in each parameter"
-          />
-          <FormControlLabel
-            value="code"
-            control={<Radio />}
-            label="By editing a code"
-          />
-        </RadioGroup>
-      </FormControl>
-      <Divider sx={{ mb: 2 }} />
+      {props.buildableFirmware.supportCodeEditing && (
+        <React.Fragment>
+          <FormControl fullWidth>
+            <FormLabel id="buildParameterDialogEditorType">
+              How do you want to customize this file?
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="buildParameterDialogEditorType"
+              value={parameterValueMap.type}
+              onChange={(event) => {
+                props.onChangeValueType(
+                  props.selectedFirmwareFile,
+                  event.target.value as IBuildableFirmwareCodeValueType
+                );
+              }}
+            >
+              <FormControlLabel
+                value="parameters"
+                control={<Radio />}
+                label="By selecting and filling in each parameter"
+              />
+              <FormControlLabel
+                value="code"
+                control={<Radio />}
+                label="By editing a code"
+              />
+            </RadioGroup>
+          </FormControl>
+          <Divider sx={{ mb: 2 }} />
+        </React.Fragment>
+      )}
       {parameterValueMap.type === 'code' ? (
         <CodeEditor
           selectedFirmwareFile={props.selectedFirmwareFile}

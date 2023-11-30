@@ -1584,6 +1584,10 @@ export class FirebaseProvider implements IStorage, IAuth {
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
           qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
           keyboardDirectoryName: doc.data()!.keyboardDirectoryName || '',
+          supportCodeEditing:
+            doc.data()!.supportCodeEditing !== undefined
+              ? doc.data()!.supportCodeEditing
+              : true,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1600,6 +1604,7 @@ export class FirebaseProvider implements IStorage, IAuth {
             BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.length - 1
           ],
         keyboardDirectoryName: '',
+        supportCodeEditing: true,
         createdAt: now,
         updatedAt: now,
       };
@@ -1637,6 +1642,10 @@ export class FirebaseProvider implements IStorage, IAuth {
           defaultBootloaderType: doc.data()!.defaultBootloaderType,
           qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
           keyboardDirectoryName: doc.data()!.keyboardDirectoryName || '',
+          supportCodeEditing:
+            doc.data()!.supportCodeEditing !== undefined
+              ? doc.data()!.supportCodeEditing
+              : true,
           createdAt: doc.data()!.createdAt.toDate(),
           updatedAt: doc.data()!.updatedAt.toDate(),
         });
@@ -1669,6 +1678,10 @@ export class FirebaseProvider implements IStorage, IAuth {
             defaultBootloaderType: doc.data()!.defaultBootloaderType,
             qmkFirmwareVersion: doc.data()!.qmkFirmwareVersion,
             keyboardDirectoryName: doc.data()!.keyboardDirectoryName || '',
+            supportCodeEditing:
+              doc.data()!.supportCodeEditing !== undefined
+                ? doc.data()!.supportCodeEditing
+                : true,
             createdAt: doc.data()!.createdAt.toDate(),
             updatedAt: doc.data()!.updatedAt.toDate(),
           };
@@ -1779,6 +1792,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       defaultBootloaderType?: IBootloaderType;
       qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
       keyboardDirectoryName?: string;
+      supportCodeEditing?: boolean;
     }
   ): Promise<IResult<IBuildableFirmware>> {
     try {
@@ -1802,6 +1816,9 @@ export class FirebaseProvider implements IStorage, IAuth {
       }
       if (options.keyboardDirectoryName !== undefined) {
         buildableFirmware.keyboardDirectoryName = options.keyboardDirectoryName;
+      }
+      if (options.supportCodeEditing !== undefined) {
+        buildableFirmware.supportCodeEditing = options.supportCodeEditing;
       }
       buildableFirmware.updatedAt = new Date();
       await this.db

@@ -62,6 +62,16 @@ const mapDispatchToProps = (dispatch: any) => {
         })
       );
     },
+    updateBuildableFirmwareSupportCodeEditing: (
+      keyboardDefinitionId: string,
+      supportCodeEditing: boolean
+    ) => {
+      dispatch(
+        storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
+          supportCodeEditing,
+        })
+      );
+    },
     updateBuildableFirmwareKeyboardDirectoryName: (
       keyboardDefinitionId: string,
       keyboardDirectoryName: string

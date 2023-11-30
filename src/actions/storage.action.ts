@@ -1725,6 +1725,7 @@ export const storageActionsThunk = {
         defaultBootloaderType?: IBootloaderType;
         qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
         keyboardDirectoryName?: string;
+        supportCodeEditing?: boolean;
       }
     ): ThunkPromiseAction<void> =>
     async (
