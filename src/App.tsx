@@ -1,6 +1,6 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
-import './App.css';
+// import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';

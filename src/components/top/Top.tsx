@@ -11,6 +11,7 @@ import textMatrix from '../../assets/images/top/text-matrix.png';
 import macro from '../../assets/images/top/macro.png';
 import firmwareWriting from '../../assets/images/top/firmware-writing.png';
 import buildFirmware from '../../assets/images/top/build-firmware.png';
+import xmasLogo from '../../assets/images/top/xmas-logo.svg';
 import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
@@ -124,7 +125,7 @@ export default function Top(props: TopPropsType) {
               color="textPrimary"
               gutterBottom
             >
-              <Logo width={256} color={'black'} />
+              <img src={xmasLogo} height={64} alt="Remap Xmas Logo" />
             </Typography>
             <Typography
               variant="h5"

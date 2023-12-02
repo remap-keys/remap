@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import { errorReportingLogger } from './utils/ErrorReportingLogger';
 import OGP from './components/common/ogp/OGP.container';
 import { HelmetProvider } from 'react-helmet-async';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const store = createStore(
   reducers,
@@ -20,12 +21,22 @@ const store = createStore(
   )
 );
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#2d6858',
+    },
+  },
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <HelmetProvider>
         <OGP />
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </HelmetProvider>
     </React.StrictMode>
   </Provider>,

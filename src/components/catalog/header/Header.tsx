@@ -53,7 +53,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
           </div>
           <div className="catalog-header-logo">
             <a href="/">
-              <Logo width={100} />
+              <Logo width={100} color={'#2d6858'} />
             </a>
           </div>
           <div className="catalog-header-buttons">
