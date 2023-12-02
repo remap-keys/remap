@@ -98,7 +98,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     return (
       <header className="organizations-header">
         <a href="/" className="organizations-header-logo">
-          <Logo width={100} />
+          <Logo width={100} color={'#2d6858'} />
         </a>
         <div className="organizations-header-menu-button">
           {this.renderAvatarIcon()}
