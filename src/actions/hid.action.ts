@@ -278,7 +278,7 @@ export const hidActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { app, entities } = getState();
+      const { app, entities, storage } = getState();
       const keyboard = entities.keyboard!;
       const result = await keyboard.open();
       if (!result.success) {
@@ -291,6 +291,10 @@ export const hidActionsThunk = {
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
+      await storage.instance!.sendOperationLog(
+        entities.keyboardDefinitionDocument!.id,
+        'configure/open'
+      );
 
       const isBleMicroPro = keyboard
         .getInformation()
@@ -487,13 +491,17 @@ export const hidActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { app, entities } = getState();
+      const { app, entities, storage } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
       sendEventToGoogleAnalytics('configure/flash', {
         vendor_id: keyboard.getInformation().vendorId,
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
+      await storage.instance!.sendOperationLog(
+        entities.keyboardDefinitionDocument!.id,
+        'configure/flash'
+      );
       const remaps = app.remaps;
       for (let layer = 0; layer < remaps.length; layer++) {
         const remap = remaps[layer];

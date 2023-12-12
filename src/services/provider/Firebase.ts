@@ -43,6 +43,7 @@ import {
   IFirmwareBuildingTask,
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareQmkFirmwareVersion,
+  IOperationLogType,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -1988,6 +1989,36 @@ export class FirebaseProvider implements IStorage, IAuth {
         `Updating firmware building task description failed: ${error}`,
         error
       );
+    }
+  }
+
+  async sendOperationLog(
+    keyboardDefinitionId: string,
+    operation: IOperationLogType
+  ): Promise<void> {
+    try {
+      const doc: {
+        operation: IOperationLogType;
+        uid?: string;
+        createdAt: Date;
+        expireAt: Date;
+      } = {
+        operation,
+        createdAt: new Date(),
+        // This operation log will be deleted after 90 days.
+        expireAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      };
+      if (this.auth.currentUser !== null) {
+        doc.uid = this.auth.currentUser.uid;
+      }
+      await this.db
+        .collection('logs')
+        .doc(keyboardDefinitionId)
+        .collection('operations')
+        .add(doc);
+    } catch (error) {
+      console.error(error);
+      // Ignore error.
     }
   }
 }

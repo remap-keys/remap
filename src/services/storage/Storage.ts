@@ -316,6 +316,8 @@ export type IFirmwareBuildingTask = {
   updatedAt: Date;
 };
 
+export type IOperationLogType = 'configure/flash' | 'configure/open';
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -531,5 +533,10 @@ export interface IStorage {
     description: string
   ): Promise<IEmptyResult>;
   fetchAllBuildableFirmwares(): Promise<IResult<IBuildableFirmware[]>>;
+
+  sendOperationLog(
+    keyboardDefinitionId: string,
+    operation: IOperationLogType
+  ): Promise<void>;
 }
 /* eslint-enable no-unused-vars */
