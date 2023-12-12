@@ -149,7 +149,7 @@ export default class InfoDialog extends React.Component<
               authenticatedUser={
                 this.props.auth
                   ? this.props.auth.getCurrentAuthenticatedUser()
-                  : undefined
+                  : null
               }
               organization={this.props.organization}
             />
@@ -164,7 +164,7 @@ type IKeyboardDefinitionSectionProps = {
   keyboardDefinitionDocument: IKeyboardDefinitionDocument | null | undefined;
   keyboardDefinition: KeyboardDefinitionSchema | null | undefined;
   googleFormUrl: string;
-  authenticatedUser: firebase.User | undefined;
+  authenticatedUser: firebase.User | null;
   organization: IOrganization | null | undefined;
 };
 

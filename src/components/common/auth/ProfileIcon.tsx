@@ -107,7 +107,7 @@ export default class ProfileIcon extends React.Component<
   render() {
     const { authMenuAnchorEl } = this.state;
     if (this.props.signedIn) {
-      const user = this.props.auth!.getCurrentAuthenticatedUser();
+      const user = this.props.auth!.getCurrentAuthenticatedUserOrThrow();
       const profileImageUrl = user.photoURL || '';
       const profileDisplayName = user.displayName || '';
       let avatar: React.ReactNode;

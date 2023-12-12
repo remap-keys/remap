@@ -618,12 +618,19 @@ export class FirebaseProvider implements IStorage, IAuth {
     );
   }
 
-  getCurrentAuthenticatedUser(): firebase.User {
-    return this.auth.currentUser!;
+  getCurrentAuthenticatedUser(): firebase.User | null {
+    return this.auth.currentUser;
+  }
+
+  getCurrentAuthenticatedUserOrThrow(): firebase.User {
+    if (this.auth.currentUser === null) {
+      throw new Error('Not authenticated yet.');
+    }
+    return this.auth.currentUser;
   }
 
   getCurrentAuthenticatedUserDisplayName(): string {
-    const user = this.getCurrentAuthenticatedUser();
+    const user = this.getCurrentAuthenticatedUserOrThrow();
     let displayName: string | undefined | null = user.displayName;
     if (displayName) {
       return displayName;
@@ -1910,7 +1917,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('build')
         .doc('v1')
         .collection('tasks')
-        .where('uid', '==', this.getCurrentAuthenticatedUser().uid)
+        .where('uid', '==', this.getCurrentAuthenticatedUserOrThrow().uid)
         .where('firmwareId', '==', keyboardDefinitionId)
         .orderBy('updatedAt', 'desc');
       const querySnapshot = await query.get();

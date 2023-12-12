@@ -601,7 +601,7 @@ export const storageActionsThunk = {
     ) => {
       const { storage, auth, keyboards, github } = getState();
       const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
-      const user = auth.instance!.getCurrentAuthenticatedUser();
+      const user = auth.instance!.getCurrentAuthenticatedUserOrThrow();
       const githubProviderDataResult = getGitHubProviderData(user);
       if (!githubProviderDataResult.exists) {
         console.error('The user does not have a GitHub Provider data.');
@@ -673,7 +673,7 @@ export const storageActionsThunk = {
       const { storage, auth, keyboards, github } = getState();
       const keyboardDefinition = keyboards.createdefinition.keyboardDefinition!;
 
-      const user = auth.instance!.getCurrentAuthenticatedUser();
+      const user = auth.instance!.getCurrentAuthenticatedUserOrThrow();
       const githubProviderDataResutl = getGitHubProviderData(user);
       if (!githubProviderDataResutl.exists) {
         console.error('The user does not have a GitHub Provider data.');
