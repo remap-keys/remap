@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Configure.scss';
 import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
 import Header from './header/Header.container';
@@ -21,46 +21,39 @@ type ConfigureProps = OwnProps &
   Partial<ConfigureStateType> &
   Partial<ConfigureActionsType> &
   ProviderContext;
-type OwnState = {
-  supportedBrowser: boolean;
-};
 
-class Configure extends React.Component<ConfigureProps, OwnState> {
-  private displayedNotificationIds: string[] = [];
-  constructor(props: ConfigureProps) {
-    super(props);
-    this.state = {
-      supportedBrowser: true,
-    };
-  }
+function Configure(props: ConfigureProps) {
+  const [displayedNotificationIds, setDisplayedNotificationIds] = useState<
+    string[]
+  >([]);
+  const [supportedBrowser, setSupportedBrowser] = useState<boolean>(true);
 
-  private storeDisplayedNotification = (key: string) => {
-    this.displayedNotificationIds = [...this.displayedNotificationIds, key];
+  const storeDisplayedNotification = (key: string) => {
+    setDisplayedNotificationIds([...displayedNotificationIds, key]);
   };
 
-  private removeDisplayedNotification = (key: string) => {
-    this.displayedNotificationIds = [
-      ...this.displayedNotificationIds.filter((k) => key !== k),
-    ];
+  const removeDisplayedNotification = (key: string) => {
+    setDisplayedNotificationIds([
+      ...displayedNotificationIds.filter((k) => key !== k),
+    ]);
   };
 
-  private updateNotifications() {
-    this.props.notifications!.forEach((item: NotificationItem) => {
-      if (this.displayedNotificationIds.includes(item.key)) return;
+  const updateNotifications = () => {
+    props.notifications!.forEach((item: NotificationItem) => {
+      if (displayedNotificationIds.includes(item.key)) return;
 
       const snackbarOptions: OptionsObject = {
         key: item.key,
         variant: item.type,
         onExited: (event, key: React.ReactText) => {
-          this.props.removeNotification!(key as string);
-          this.removeDisplayedNotification(key as string);
+          props.removeNotification!(key as string);
+          removeDisplayedNotification(key as string);
         },
         // eslint-disable-next-line react/display-name
         action: (key: number) => (
           <Button
             onClick={() => {
-              // eslint-disable-next-line react/prop-types
-              this.props.closeSnackbar(key);
+              props.closeSnackbar(key);
             }}
           >
             <CloseIcon />
@@ -75,67 +68,58 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
         snackbarOptions.persist = true;
       }
 
-      this.props.enqueueSnackbar(item.message, snackbarOptions);
-      this.storeDisplayedNotification(item.key);
+      props.enqueueSnackbar(item.message, snackbarOptions);
+      storeDisplayedNotification(item.key);
     });
-  }
+  };
 
-  private updateTitle() {
-    const hasKeysToFlush = this.props.remaps!.reduce((has, v) => {
+  const updateTitle = () => {
+    const hasKeysToFlush = props.remaps!.reduce((has, v) => {
       return 0 < Object.values(v).length || has;
     }, false);
     const title = hasKeysToFlush ? `*${APPLICATION_NAME}` : APPLICATION_NAME;
-    this.props.updateTitle!(title);
-  }
+    props.updateTitle!(title);
+  };
 
-  private initKeyboardConnectionEventHandler() {
-    this.props.hid!.instance.setConnectionEventHandler({
+  const initKeyboardConnectionEventHandler = () => {
+    props.hid!.instance.setConnectionEventHandler({
       connect: (connectedKeyboard: IKeyboard) => {
-        this.props.onConnectKeyboard!(connectedKeyboard);
+        props.onConnectKeyboard!(connectedKeyboard);
       },
       disconnect: (disconnectedKeyboard: IKeyboard) => {
-        this.props.onDisconnectKeyboard!(
-          disconnectedKeyboard,
-          this.props.keyboard!
-        );
+        props.onDisconnectKeyboard!(disconnectedKeyboard, props.keyboard!);
       },
       close: (keyboard: IKeyboard) => {
-        this.props.onCloseKeyboard!(keyboard);
+        props.onCloseKeyboard!(keyboard);
       },
     });
-  }
+  };
 
-  componentDidMount() {
-    this.props.initializeMeta!();
-    // eslint-disable-next-line no-undef
+  useEffect(() => {
+    props.initializeMeta!();
     if ((navigator as any).hid === undefined) {
-      this.setState({
-        supportedBrowser: false,
-      });
+      setSupportedBrowser(false);
       return;
     }
-    this.props.initAppPackage!(
-      APPLICATION_NAME,
-      String(this.props.buildNumber!)
-    );
+    props.initAppPackage!(APPLICATION_NAME, String(props.buildNumber!));
 
-    if (this.props.auth) {
-      this.props.auth.subscribeAuthStatus((user) => {
-        this.props.updateSignedIn!(!!user);
+    if (props.auth) {
+      props.auth.subscribeAuthStatus((user) => {
+        props.updateSignedIn!(!!user);
       });
     }
 
-    this.updateTitle();
-    this.updateNotifications();
-    this.initKeyboardConnectionEventHandler();
-    this.props.updateAuthorizedKeyboardList!();
-  }
+    updateTitle();
+    updateNotifications();
+    initKeyboardConnectionEventHandler();
+    props.updateAuthorizedKeyboardList!();
+  }, []);
 
-  componentDidUpdate() {
-    this.updateTitle();
-    this.updateNotifications();
+  useEffect(() => {
+    updateTitle();
+    updateNotifications();
 
-    if (this.props.testMatrix) {
+    if (props.testMatrix) {
       // Ignore all key event when TEST MATRIX MODE
       window.onkeydown = (e: any) => {
         e.preventDefault();
@@ -147,43 +131,41 @@ class Configure extends React.Component<ConfigureProps, OwnState> {
       window.onkeydown = null;
       window.onkeyup = null;
     }
-  }
+  });
 
-  render() {
-    if (!this.state.supportedBrowser) {
-      return (
-        <React.Fragment>
-          <CssBaseline />
-
-          <Header />
-          <main>
-            <UnsupportBrowser />
-          </main>
-          <Footer />
-        </React.Fragment>
-      );
-    }
+  if (!supportedBrowser) {
     return (
       <React.Fragment>
-        <div className="configure-root">
-          <CssBaseline />
-          <Header />
-          <main>
-            <Content />
-          </main>
-          {(this.props.draggingKey || this.props.testMatrix) && (
-            <div className="dragMask fill-blank"></div>
-          )}
-          <Footer />
-        </div>
+        <CssBaseline />
+
+        <Header />
+        <main>
+          <UnsupportedBrowser />
+        </main>
+        <Footer />
       </React.Fragment>
     );
   }
+  return (
+    <React.Fragment>
+      <div className="configure-root">
+        <CssBaseline />
+        <Header />
+        <main>
+          <Content />
+        </main>
+        {(props.draggingKey || props.testMatrix) && (
+          <div className="dragMask fill-blank"></div>
+        )}
+        <Footer />
+      </div>
+    </React.Fragment>
+  );
 }
 
 export default withSnackbar(Configure);
 
-function UnsupportBrowser() {
+function UnsupportedBrowser() {
   return (
     <div className="message-box-wrapper">
       <div className="message-box">
