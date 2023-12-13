@@ -44,7 +44,7 @@ import {
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareQmkFirmwareVersion,
 } from '../storage/Storage';
-import { IAuth, IAuthenticationResult } from '../auth/Auth';
+import { IAuth } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
@@ -500,111 +500,69 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  async signInWithGitHubWithPopup(): Promise<IAuthenticationResult> {
+  async signInWithGitHubWithPopup(): Promise<IEmptyResult> {
     try {
       const provider = new firebase.auth.GithubAuthProvider();
       const userCredential = await this.auth.signInWithPopup(provider);
       if (userCredential) {
-        return {
-          success: true,
-        };
+        return successResult();
       } else {
-        return {
-          success: false,
-          error: 'Authenticating with GitHub Account failed.',
-        };
+        return errorResultOf('Authenticating with GitHub Account failed.');
       }
     } catch (err: any) {
-      return {
-        success: false,
-        error: err.message,
-        cause: err,
-      };
+      return errorResultOf(err.message, err);
     }
   }
 
-  async signInWithGoogleWithPopup(): Promise<IAuthenticationResult> {
+  async signInWithGoogleWithPopup(): Promise<IEmptyResult> {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
       const userCredential = await this.auth.signInWithPopup(provider);
       if (userCredential) {
-        return {
-          success: true,
-        };
+        return successResult();
       } else {
-        return {
-          success: false,
-          error: 'Authenticating with Google Account failed.',
-        };
+        return errorResultOf('Authenticating with Google Account failed.');
       }
     } catch (err: any) {
-      return {
-        success: false,
-        error: err.message,
-        cause: err,
-      };
+      return errorResultOf(err.message, err);
     }
   }
 
-  async linkToGoogleWithPopup(): Promise<IAuthenticationResult> {
+  async linkToGoogleWithPopup(): Promise<IEmptyResult> {
     const currentUser = this.auth.currentUser;
     if (currentUser) {
       try {
         const provider = new firebase.auth.GoogleAuthProvider();
         const userCredential = await currentUser.linkWithPopup(provider);
         if (userCredential) {
-          return {
-            success: true,
-          };
+          return successResult();
         } else {
-          return {
-            success: false,
-            error: 'Linking to Google Account failed.',
-          };
+          return errorResultOf('Linking to Google Account failed.');
         }
       } catch (err: any) {
-        return {
-          success: false,
-          error: err.message,
-          cause: err,
-        };
+        return errorResultOf(err.message, err);
       }
     } else {
-      return {
-        success: false,
-        error: 'Not authenticated yet.',
-      };
+      return errorResultOf('Not authenticated yet.');
     }
   }
 
-  async linkToGitHubWithPopup(): Promise<IAuthenticationResult> {
+  async linkToGitHubWithPopup(): Promise<IEmptyResult> {
     const currentUser = this.auth.currentUser;
     if (currentUser) {
       try {
         const provider = new firebase.auth.GithubAuthProvider();
         const userCredential = await currentUser.linkWithPopup(provider);
         if (userCredential) {
-          return {
-            success: true,
-          };
+          return successResult();
         } else {
-          return {
-            success: false,
-            error: 'Linking to GitHub Account failed.',
-          };
+          return errorResultOf('Linking to GitHub Account failed.');
         }
       } catch (err: any) {
-        return {
-          success: false,
-          error: err.message,
-          cause: err,
-        };
+        return errorResultOf(err.message, err);
       }
     } else {
-      return {
-        success: false,
-        error: 'Not authenticated yet.',
-      };
+      return errorResultOf('Not authenticated yet.');
     }
   }
 

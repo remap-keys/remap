@@ -1,18 +1,13 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
-export type IAuthenticationResult = {
-  success: boolean;
-  error?: string;
-  cause?: any;
-};
+import { IEmptyResult } from '../storage/Storage';
 
 export interface IAuth {
   signInWithGitHub(): Promise<void>;
-  signInWithGitHubWithPopup(): Promise<IAuthenticationResult>;
-  signInWithGoogleWithPopup(): Promise<IAuthenticationResult>;
-  linkToGoogleWithPopup(): Promise<IAuthenticationResult>;
-  linkToGitHubWithPopup(): Promise<IAuthenticationResult>;
+  signInWithGitHubWithPopup(): Promise<IEmptyResult>;
+  signInWithGoogleWithPopup(): Promise<IEmptyResult>;
+  linkToGoogleWithPopup(): Promise<IEmptyResult>;
+  linkToGitHubWithPopup(): Promise<IEmptyResult>;
   linkToGitHub(): Promise<void>;
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;

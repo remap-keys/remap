@@ -12,6 +12,7 @@ import {
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { hidActionsThunk } from './hid.action';
+import { isError } from '../services/storage/Storage';
 
 export const KEYMAP_ACTIONS = '@Keymap';
 export const KEYMAP_CLEAR_SELECTED_KEY_POSITION = `${KEYMAP_ACTIONS}/ClearSelectedKeyPosition`;
@@ -394,9 +395,9 @@ export const AppActionsThunk = {
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.signInWithGitHubWithPopup();
-      if (!result.success) {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
   loginWithGoogleAccount:
@@ -408,9 +409,9 @@ export const AppActionsThunk = {
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.signInWithGoogleWithPopup();
-      if (!result.success) {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
   linkToGoogleAccount:
@@ -422,9 +423,9 @@ export const AppActionsThunk = {
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.linkToGoogleWithPopup();
-      if (!result.success) {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
   linkToGitHubAccount:
@@ -436,9 +437,9 @@ export const AppActionsThunk = {
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.linkToGitHubWithPopup();
-      if (!result.success) {
-        console.error(result.cause!);
-        dispatch(NotificationActions.addError(result.error!, result.cause));
+      if (isError(result)) {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
       }
     },
 };
