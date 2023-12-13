@@ -13,6 +13,8 @@ import { IKeyboard } from '../../services/hid/Hid';
 import Footer from '../common/footer/Footer.container';
 import { Button, CssBaseline } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { isError } from '../../services/storage/Storage';
+import { isAuthenticatedUserBySocialLogin } from '../../utils/AuthUtils';
 
 const APPLICATION_NAME = 'Remap';
 
@@ -103,12 +105,26 @@ function Configure(props: ConfigureProps) {
     }
     props.initAppPackage!(APPLICATION_NAME, String(props.buildNumber!));
 
-    if (props.auth) {
-      props.auth.subscribeAuthStatus((user) => {
-        props.updateSignedIn!(!!user);
-      });
-    }
+    props.auth!.subscribeAuthStatus(async (user) => {
+      // If `user` is null, signed in as an anonymous user.
+      // Otherwise, if the user is signed in as an anonymous user,
+      // update the signed in status to false. Else, update the signed in status
+      // to true, because the user is signed in as a Google user or a GitHub user.
+      if (user === null) {
+        const result = await props.auth!.signInAsAnonymousUser();
+        if (isError(result)) {
+          console.error(result.error);
+          throw new Error(result.error);
+        }
+        props.updateSignedIn!(false);
+        // Return here because this event handler will be call again
+        // according to the user's sign in status.
+        return;
+      }
+      props.updateSignedIn!(isAuthenticatedUserBySocialLogin(user));
+    });
 
+    // Initialize a configuration.
     updateTitle();
     updateNotifications();
     initKeyboardConnectionEventHandler();

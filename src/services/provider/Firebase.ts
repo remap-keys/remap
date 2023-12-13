@@ -528,6 +528,15 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async signInAsAnonymousUser(): Promise<IResult<firebase.User>> {
+    try {
+      const userCredential = await this.auth.signInAnonymously();
+      return successResultOf(userCredential.user!);
+    } catch (error) {
+      return errorResultOf('Authenticating as Anonymous failed.', error);
+    }
+  }
+
   async linkToGoogleWithPopup(): Promise<IEmptyResult> {
     const currentUser = this.auth.currentUser;
     if (currentUser) {
@@ -566,12 +575,14 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
-  // eslint-disable-next-line no-unused-vars
-  subscribeAuthStatus(callback: (user: firebase.User | null) => void): void {
+  subscribeAuthStatus(
+    // eslint-disable-next-line no-unused-vars
+    callback: (user: firebase.User | null) => Promise<void>
+  ): void {
     this.unsubscribeAuthStateChanged && this.unsubscribeAuthStateChanged();
     this.unsubscribeAuthStateChanged = this.auth.onAuthStateChanged(
-      (user: firebase.User | null) => {
-        callback(user);
+      async (user: firebase.User | null) => {
+        await callback(user);
       }
     );
   }

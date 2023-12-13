@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { IEmptyResult } from '../storage/Storage';
+import { IEmptyResult, IResult } from '../storage/Storage';
 
 export interface IAuth {
   signInWithGitHub(): Promise<void>;
@@ -8,9 +8,12 @@ export interface IAuth {
   signInWithGoogleWithPopup(): Promise<IEmptyResult>;
   linkToGoogleWithPopup(): Promise<IEmptyResult>;
   linkToGitHubWithPopup(): Promise<IEmptyResult>;
+  signInAsAnonymousUser(): Promise<IResult<firebase.User>>;
   linkToGitHub(): Promise<void>;
-  // eslint-disable-next-line no-unused-vars
-  subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
+  subscribeAuthStatus(
+    // eslint-disable-next-line no-unused-vars
+    callback: (user: firebase.User | null) => Promise<void>
+  ): void;
   getCurrentAuthenticatedUser(): firebase.User | null;
   getCurrentAuthenticatedUserOrThrow(): firebase.User;
   getCurrentAuthenticatedUserDisplayName(): string;

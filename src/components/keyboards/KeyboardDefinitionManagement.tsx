@@ -11,6 +11,10 @@ import Header from './header/Header.container';
 import Content from './content/Content.container';
 import { getGitHubProviderData } from '../../services/auth/Auth';
 import { useParams } from 'react-router-dom';
+import {
+  isAuthenticatedUserByAnonymous,
+  isAuthenticatedUserByGitHub,
+} from '../../utils/AuthUtils';
 
 type ParamsType = {
   definitionId: string;
@@ -78,9 +82,9 @@ function KeyboardDefinitionManagement(
 
   useEffect(() => {
     props.initializeMeta!();
-    props.auth!.subscribeAuthStatus((user) => {
-      if (user) {
-        if (getGitHubProviderData(user).exists) {
+    props.auth!.subscribeAuthStatus(async (user) => {
+      if (user && !isAuthenticatedUserByAnonymous(user)) {
+        if (isAuthenticatedUserByGitHub(user)) {
           props.startInitializing!();
           updateNotifications();
           const definitionId = params.definitionId;
@@ -90,15 +94,11 @@ function KeyboardDefinitionManagement(
             props.updateKeyboards!();
           }
         } else {
-          props.auth!.linkToGitHub().then(() => {
-            // N/A
-          });
+          await props.auth!.linkToGitHub();
         }
       } else {
         if (props.phase !== 'signout') {
-          props.auth!.signInWithGitHub().then(() => {
-            // N/A
-          });
+          await props.auth!.signInWithGitHub();
         }
       }
     });

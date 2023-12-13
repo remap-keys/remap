@@ -76,7 +76,7 @@ function OrganizationManagement(props: OrganizationManagementProps) {
 
   useEffect(() => {
     props.initializeMeta!();
-    props.auth!.subscribeAuthStatus((user) => {
+    props.auth!.subscribeAuthStatus(async (user) => {
       if (user) {
         if (getGitHubProviderData(user).exists) {
           props.startInitializing!();
