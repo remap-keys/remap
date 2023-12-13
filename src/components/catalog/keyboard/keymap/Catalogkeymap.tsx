@@ -133,7 +133,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
         ccwKeymap = null;
       }
     } else {
-      keymap = {
+      const dummyKeymap: IKeymap = {
         isAny: false,
         code: 0,
         kinds: [],
@@ -146,8 +146,9 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
           keywords: [],
         },
       };
-      cwKeymap = null;
-      ccwKeymap = null;
+      keymap = structuredClone(dummyKeymap);
+      cwKeymap = structuredClone(dummyKeymap);
+      ccwKeymap = structuredClone(dummyKeymap);
     }
     const remap = null;
     const cwRemap = null;

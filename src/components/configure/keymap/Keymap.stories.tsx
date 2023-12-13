@@ -31,6 +31,7 @@ import { CtMacropadWithoutDefaultOptionKeymap } from '../../../assets/keymaps/Ct
 import { GiabalanaiKeymap } from '../../../assets/keymaps/GiabalanaiKeymap';
 import { MOD_LEFT } from '../../../services/hid/Constraints';
 import { FrogNpKeymap } from '../../../assets/keymaps/FrogNpKeymap';
+import { KillerWhaleDuoKeymap } from '../../../assets/keymaps/KillerWhaleDuo';
 
 export default {
   title: 'Keyboards',
@@ -239,6 +240,10 @@ export const FrogNp = () =>
     { option: 3, optionChoice: 2 },
     { option: 4, optionChoice: 2 },
     { option: 5, optionChoice: 0 },
+  ]);
+export const KillerWhaleDuo = () =>
+  genKeyboardView('KillerWhaleDuo', KillerWhaleDuoKeymap, [
+    { option: 0, optionChoice: 0 },
   ]);
 export const Jisplit89 = () => genKeyboardView('Jisplit89', Jisplit89Keymap);
 export const Naked64SF = () => genKeyboardView('Naked64SF', Naked64SFKeymap);

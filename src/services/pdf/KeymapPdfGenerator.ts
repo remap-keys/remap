@@ -310,17 +310,23 @@ export class KeymapPdfGenerator {
     const labelW = roofWidth + r * 2;
     const labelH = (roofHeight + r * 2) / 3;
 
-    const label = key.label;
-    const holdLabel = buildHoldKeyLabel(key.keymap, key.keymap.isAny);
-    let modifierLabel = key.meta;
-    if (holdLabel === '' && modifierLabel === '') {
-      modifierLabel = buildModLabel(
-        key.keymap.modifiers || null,
-        key.keymap.direction!
-      );
+    // FIXME: Add logics for Encoder.
+    let label: string = '';
+    let modifierLabel: string = '';
+    let holdLabel: string = '';
+    let metaRight: string = '';
+    if (key !== undefined) {
+      label = key.label;
+      holdLabel = buildHoldKeyLabel(key.keymap, key.keymap.isAny);
+      modifierLabel = key.meta;
+      if (holdLabel === '' && modifierLabel === '') {
+        modifierLabel = buildModLabel(
+          key.keymap.modifiers || null,
+          key.keymap.direction!
+        );
+      }
+      metaRight = key.metaRight ? key.metaRight : '';
     }
-
-    const metaRight = key.metaRight ? key.metaRight : '';
 
     this.drawLabels(
       page,
