@@ -33,6 +33,7 @@ import { IMacro, IMacroBuffer, MacroKey } from '../services/macro/Macro';
 import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 import { IBootloaderType } from '../services/firmware/Types';
+import { getLocalAuthenticationUid } from '../utils/AuthUtils';
 
 export type ISetupPhase =
   | 'init'
@@ -311,6 +312,9 @@ export type RootState = {
         image: string;
       };
     };
+    localAuthenticationInfo: {
+      uid: string;
+    };
   };
   configure: {
     header: {
@@ -491,6 +495,8 @@ const gitHub = new GitHub();
 
 const firmwareWriter = new FirmwareWriterWebApiImpl();
 
+const localAuthenticationUid = getLocalAuthenticationUid();
+
 export const INIT_STATE: RootState = {
   entities: {
     device: {
@@ -565,6 +571,9 @@ export const INIT_STATE: RootState = {
         description: '',
         image: '',
       },
+    },
+    localAuthenticationInfo: {
+      uid: localAuthenticationUid,
     },
   },
   configure: {
