@@ -535,6 +535,7 @@ export interface IStorage {
   fetchAllBuildableFirmwares(): Promise<IResult<IBuildableFirmware[]>>;
 
   sendOperationLog(
+    uid: string,
     keyboardDefinitionId: string,
     operation: IOperationLogType
   ): Promise<void>;

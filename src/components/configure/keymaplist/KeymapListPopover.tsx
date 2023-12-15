@@ -222,7 +222,7 @@ export default class KeymapListPopover extends React.Component<
       labelLang
     );
 
-    const uid = this.props.auth!.getCurrentAuthenticatedUserOrThrow().uid;
+    const uid = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull().uid;
     if (uid !== savedKeymapData.author_uid) {
       this.props.createOrUpdateAppliedKeymap!(savedKeymapData);
     }
@@ -285,7 +285,7 @@ export default class KeymapListPopover extends React.Component<
                 open={this.state.openKeymapSaveDialog}
                 savedKeymapData={this.state.savedKeymapData}
                 authorUid={
-                  this.props.auth!.getCurrentAuthenticatedUserOrThrow().uid
+                  this.props.auth!.getCurrentAuthenticatedUserIgnoreNull().uid
                 }
                 authorDisplayName={this.props.auth!.getCurrentAuthenticatedUserDisplayName()}
                 onClose={() => {

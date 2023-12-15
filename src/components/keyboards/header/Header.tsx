@@ -41,7 +41,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
   }
 
   renderAvatarIcon() {
-    const user = this.props.auth!.getCurrentAuthenticatedUserOrThrow();
+    const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
     if (user) {
       const { menuAnchorEl } = this.state;
 

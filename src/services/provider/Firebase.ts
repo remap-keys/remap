@@ -619,19 +619,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     );
   }
 
-  getCurrentAuthenticatedUser(): firebase.User | null {
+  getCurrentAuthenticatedUserOrNull(): firebase.User | null {
     return this.auth.currentUser;
   }
 
-  getCurrentAuthenticatedUserOrThrow(): firebase.User {
-    if (this.auth.currentUser === null) {
-      throw new Error('Not authenticated yet.');
-    }
-    return this.auth.currentUser;
+  getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
+    return this.auth.currentUser!;
   }
 
   getCurrentAuthenticatedUserDisplayName(): string {
-    const user = this.getCurrentAuthenticatedUserOrThrow();
+    const user = this.getCurrentAuthenticatedUserIgnoreNull();
     let displayName: string | undefined | null = user.displayName;
     if (displayName) {
       return displayName;
@@ -1604,7 +1601,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       const now = new Date();
       const buildableFirmware: IBuildableFirmware = {
         keyboardDefinitionId,
-        uid: this.getCurrentAuthenticatedUserOrThrow()!.uid,
+        uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
         enabled: false,
         defaultBootloaderType: 'caterina',
         qmkFirmwareVersion:
@@ -1910,7 +1907,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   async fetchFirmwareBuildingTasks(
     keyboardDefinitionId: string
   ): Promise<IResult<IFirmwareBuildingTask[]>> {
-    if (this.getCurrentAuthenticatedUserOrThrow() === null) {
+    if (this.getCurrentAuthenticatedUserIgnoreNull() === null) {
       return successResultOf([]);
     }
     try {
@@ -1918,7 +1915,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('build')
         .doc('v1')
         .collection('tasks')
-        .where('uid', '==', this.getCurrentAuthenticatedUserOrThrow().uid)
+        .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull().uid)
         .where('firmwareId', '==', keyboardDefinitionId)
         .orderBy('updatedAt', 'desc');
       const querySnapshot = await query.get();
@@ -2000,27 +1997,28 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async sendOperationLog(
+    uid: string,
     keyboardDefinitionId: string,
     operation: IOperationLogType
   ): Promise<void> {
     try {
       const doc: {
+        uid: string;
+        keyboardDefinitionId: string;
         operation: IOperationLogType;
-        uid?: string;
         createdAt: Date;
         expireAt: Date;
       } = {
+        uid,
+        keyboardDefinitionId,
         operation,
         createdAt: new Date(),
         // This operation log will be deleted after 90 days.
         expireAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       };
-      if (this.auth.currentUser !== null) {
-        doc.uid = this.auth.currentUser.uid;
-      }
       await this.db
         .collection('logs')
-        .doc(keyboardDefinitionId)
+        .doc('v1')
         .collection('operations')
         .add(doc);
     } catch (error) {

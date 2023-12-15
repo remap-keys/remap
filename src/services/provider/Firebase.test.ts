@@ -18,7 +18,7 @@ describe('FirebaseProvider', () => {
   describe('getCurrentAuthenticatedUserDisplayName', () => {
     test('user.displayName', () => {
       const subject: FirebaseProvider = {
-        getCurrentAuthenticatedUserOrThrow(): firebase.User {
+        getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
           return {
             displayName: 'displayName1',
           } as firebase.User;
@@ -33,7 +33,7 @@ describe('FirebaseProvider', () => {
 
     test('user.providerData[0].displayName', () => {
       const subject: FirebaseProvider = {
-        getCurrentAuthenticatedUserOrThrow(): firebase.User {
+        getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
           return {
             displayName: null,
             providerData: [{ displayName: 'displayName2' }],
@@ -49,7 +49,7 @@ describe('FirebaseProvider', () => {
 
     test('user.email', () => {
       const subject: FirebaseProvider = {
-        getCurrentAuthenticatedUserOrThrow(): firebase.User {
+        getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
           return {
             displayName: null,
             providerData: [{ displayName: null }],
@@ -66,7 +66,7 @@ describe('FirebaseProvider', () => {
 
     test('user.email', () => {
       const subject: FirebaseProvider = {
-        getCurrentAuthenticatedUserOrThrow(): firebase.User {
+        getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
           return {
             displayName: null,
             providerData: [{ displayName: null }],
@@ -83,7 +83,7 @@ describe('FirebaseProvider', () => {
 
     test('noname', () => {
       const subject: FirebaseProvider = {
-        getCurrentAuthenticatedUserOrThrow(): firebase.User {
+        getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
           return {
             displayName: null,
             providerData: [{ displayName: null }],

@@ -148,7 +148,7 @@ export default class InfoDialog extends React.Component<
               googleFormUrl={this.googleFormUrl}
               authenticatedUser={
                 this.props.auth
-                  ? this.props.auth.getCurrentAuthenticatedUserOrThrow()
+                  ? this.props.auth.getCurrentAuthenticatedUserIgnoreNull()
                   : undefined
               }
               organization={this.props.organization}
