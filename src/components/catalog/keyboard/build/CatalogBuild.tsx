@@ -4,7 +4,14 @@ import {
   CatalogBuildActionsType,
   CatalogBuildStateType,
 } from './CatalogBuild.container';
-import { Box, Button, FormControlLabel, Paper, Switch } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  FormControlLabel,
+  Paper,
+  Switch,
+} from '@mui/material';
 import {
   IBuildableFirmwareFile,
   IFirmwareBuildingTask,
@@ -268,6 +275,13 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     <div className="catalog-build-container">
       <React.Fragment>
         <Paper sx={{ p: '16px', mb: '32px' }}>
+          {props.buildableFirmware == null ||
+          !props.buildableFirmware.enabled ? (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              The firmware building feature can&quot;t be used because firmware
+              files for this keyboard are not registered by the owner yet.
+            </Alert>
+          ) : null}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <FormControlLabel
               control={
