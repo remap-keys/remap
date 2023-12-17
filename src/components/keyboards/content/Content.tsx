@@ -51,6 +51,7 @@ function Contents(props: ContentsProps) {
     case KeyboardsPhase.catalog:
     case KeyboardsPhase.firmware:
     case KeyboardsPhase.build:
+    case KeyboardsPhase.statistics:
       return <EditKeyboard />;
     default:
       throw new Error(

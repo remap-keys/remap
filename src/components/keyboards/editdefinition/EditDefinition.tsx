@@ -40,6 +40,7 @@ import DefinitionForm from './definitionform/DefinitionForm';
 import CatalogForm from './catalogform/CatalogForm.container';
 import FirmwareForm from './firmwareform/FirmwareForm.container';
 import BuildForm from './buildform/BuildForm.container';
+import Statistics from './statistics/Statistics.container';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -207,6 +208,8 @@ export default function EditDefinition(props: EditKeyboardProps) {
       props.updatePhase!('firmware');
     } else if (tabIndex === 3) {
       props.updatePhase!('build');
+    } else if (tabIndex === 4) {
+      props.updatePhase!('statistics');
     } else {
       throw new Error(`Invalid tabIndex: ${tabIndex}`);
     }
@@ -280,7 +283,9 @@ export default function EditDefinition(props: EditKeyboardProps) {
                           ? 1
                           : props.phase === 'firmware'
                           ? 2
-                          : 3
+                          : props.phase === 'build'
+                          ? 3
+                          : 4
                       }
                       indicatorColor="primary"
                       textColor="primary"
@@ -292,6 +297,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
                       <Tab label="Catalog" />
                       <Tab label="Firmware" />
                       <Tab label="Build" />
+                      <Tab label="Statistics" />
                     </Tabs>
                   </div>
                 ) : null}
@@ -361,6 +367,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
                 {props.phase === 'catalog' ? <CatalogForm /> : null}
                 {props.phase === 'firmware' ? <FirmwareForm /> : null}
                 {props.phase === 'build' ? <BuildForm /> : null}
+                {props.phase === 'statistics' ? <Statistics /> : null}
               </CardContent>
             </Card>
           </div>
