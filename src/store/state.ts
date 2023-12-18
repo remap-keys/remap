@@ -14,6 +14,7 @@ import {
   IFirmwareBuildingTask,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
+  IKeyboardStatistics,
   IOrganization,
   IOrganizationMember,
   IStorage,
@@ -411,6 +412,7 @@ export type RootState = {
       buildableFirmwareFile: IBuildableFirmwareFile | null;
       buildableFirmwareFileType: IBuildableFirmwareFileType | null;
       buildableFirmwareCodeParameters: IBuildableFirmwareCodeParameter[];
+      keyboardStatistics: IKeyboardStatistics | undefined;
     };
   };
   catalog: {
@@ -671,6 +673,7 @@ export const INIT_STATE: RootState = {
       buildableFirmwareFile: null,
       buildableFirmwareFileType: null,
       buildableFirmwareCodeParameters: [],
+      keyboardStatistics: undefined,
     },
   },
   catalog: {

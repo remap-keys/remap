@@ -318,6 +318,19 @@ export type IFirmwareBuildingTask = {
 
 export type IOperationLogType = 'configure/flash' | 'configure/open';
 
+export type IKeyboardStatistics = {
+  statistics: {
+    counts_of_opening_keyboard: {
+      labels: string[];
+      values: number[];
+    };
+    counts_of_flashing_keymap: {
+      labels: string[];
+      values: number[];
+    };
+  };
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -539,5 +552,8 @@ export interface IStorage {
     keyboardDefinitionId: string,
     operation: IOperationLogType
   ): Promise<void>;
+  fetchKeyboardStatistics(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IKeyboardStatistics>>;
 }
 /* eslint-enable no-unused-vars */

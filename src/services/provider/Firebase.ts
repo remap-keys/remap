@@ -44,6 +44,7 @@ import {
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareQmkFirmwareVersion,
   IOperationLogType,
+  IKeyboardStatistics,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -2024,6 +2025,32 @@ export class FirebaseProvider implements IStorage, IAuth {
     } catch (error) {
       console.error(error);
       // Ignore error.
+    }
+  }
+
+  async fetchKeyboardStatistics(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IKeyboardStatistics>> {
+    try {
+      const createKeyboardStatistics = this.functions.httpsCallable(
+        'createKeyboardStatistics'
+      );
+      const createKeyboardStatisticsResult = await createKeyboardStatistics({
+        keyboardDefinitionId,
+      });
+      const data = createKeyboardStatisticsResult.data;
+      if (data.success) {
+        return successResultOf(data);
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching keyboard statistics failed: ${error}`,
+        error
+      );
     }
   }
 }

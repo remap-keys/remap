@@ -335,6 +335,23 @@ export const storageActionsThunk = {
           );
           return;
         }
+        const fetchKeyboardStatisticsResult =
+          await storage.instance!.fetchKeyboardStatistics(definitionId);
+        if (isError(fetchKeyboardStatisticsResult)) {
+          console.error(fetchKeyboardStatisticsResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchKeyboardStatisticsResult.error,
+              fetchKeyboardStatisticsResult.cause
+            )
+          );
+          return;
+        }
+        dispatch(
+          KeyboardsEditDefinitionActions.updateKeyboardStatistics(
+            fetchKeyboardStatisticsResult.value
+          )
+        );
         dispatch(
           StorageActions.updateBuildableFirmware(
             fetchBuildableFirmwareResult.value

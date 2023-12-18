@@ -14,6 +14,7 @@ import {
   IBuildableFirmwareFileType,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
+  IKeyboardStatistics,
   IStore,
 } from '../services/storage/Storage';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
@@ -196,6 +197,7 @@ export const KEYBOARDS_EDIT_DEFINITION_UPDATE_ORGANIZATION_ID = `${KEYBOARDS_EDI
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_AUTHOR_TYPE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateAuthorType`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateBuildableFirmwareFile`;
 export const KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateBuildableFirmwareCodeParameters`;
+export const KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_STATISTICS = `${KEYBOARDS_EDIT_DEFINITION_ACTIONS}/UpdateKeyboardStatistics`;
 
 export const KeyboardsEditDefinitionActions = {
   clear: () => {
@@ -445,6 +447,12 @@ export const KeyboardsEditDefinitionActions = {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS,
       value: parameters,
+    };
+  },
+  updateKeyboardStatistics: (statistics: IKeyboardStatistics | undefined) => {
+    return {
+      type: KEYBOARDS_EDIT_DEFINITION_UPDATE_KEYBOARD_STATISTICS,
+      value: statistics,
     };
   },
 };
