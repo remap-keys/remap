@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-import React from 'react';
+import React, { useState } from 'react';
 import './EditDefinition.scss';
 import {
   EditKeyboardActionsType,
@@ -49,11 +48,6 @@ type ConfirmDialogMode =
   | 'upload_json'
   | 'back_to_draft';
 
-type EditKeyboardState = {
-  openConfirmDialog: boolean;
-  confirmDialogMode: ConfirmDialogMode | null;
-  menuAnchorEl: any;
-};
 type OwnProps = {};
 type EditKeyboardProps = OwnProps &
   Partial<EditKeyboardActionsType> &
@@ -68,406 +62,352 @@ const statusSteps: IKeyboardDefinitionStatus[] = [
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
 
-export default class EditDefinition extends React.Component<
-  EditKeyboardProps,
-  EditKeyboardState
-> {
-  private refInputProductName: React.RefObject<HTMLInputElement>;
-  constructor(props: EditKeyboardProps | Readonly<EditKeyboardProps>) {
-    super(props);
-    this.state = {
-      openConfirmDialog: false,
-      confirmDialogMode: null,
-      menuAnchorEl: null,
-    };
-    this.refInputProductName = React.createRef<HTMLInputElement>();
-  }
+export default function EditDefinition(props: EditKeyboardProps) {
+  const refInputProductName: React.RefObject<HTMLInputElement> =
+    React.createRef<HTMLInputElement>();
 
-  private onLoadFile(
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [confirmDialogMode, setConfirmDialogMode] =
+    useState<ConfirmDialogMode | null>(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<Element | null>(null);
+
+  const onLoadFile = (
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
     jsonStr: string
-  ) {
-    this.props.updateJsonFilename!(jsonFilename);
-    this.props.updateKeyboardDefinition!(keyboardDefinition);
-    this.props.updateJsonString!(jsonStr);
-    this.refInputProductName.current?.focus(); // TextField(Product Name) is the only editable field.
-  }
+  ) => {
+    props.updateJsonFilename!(jsonFilename);
+    props.updateKeyboardDefinition!(keyboardDefinition);
+    props.updateJsonString!(jsonStr);
+    refInputProductName.current?.focus(); // TextField(Product Name) is the only editable field.
+  };
 
-  private isFilledInAllField(): boolean {
-    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+  const isFilledInAllField = (): boolean => {
+    if (isStatus(KeyboardDefinitionStatus.approved)) {
       return (
-        !!this.props.productName &&
-        !!this.props.keyboardDefinition &&
-        !!this.props.jsonFilename
+        !!props.productName &&
+        !!props.keyboardDefinition &&
+        !!props.jsonFilename
       );
     } else {
-      return !!this.props.productName && !!this.props.keyboardDefinition;
+      return !!props.productName && !!props.keyboardDefinition;
     }
-  }
+  };
 
-  private isFilledInAllFieldAndAgreed(): boolean {
-    if (this.isStatus(KeyboardDefinitionStatus.approved)) {
+  const isFilledInAllFieldAndAgreed = (): boolean => {
+    if (isStatus(KeyboardDefinitionStatus.approved)) {
       return (
-        !!this.props.productName &&
-        !!this.props.keyboardDefinition &&
-        !!this.props.jsonFilename
+        !!props.productName &&
+        !!props.keyboardDefinition &&
+        !!props.jsonFilename
       );
     } else {
       let isFilledEvidence: boolean = false;
-      if (isQmkFirmwareCode(this.props.firmwareCodePlace)) {
-        isFilledEvidence = !!this.props.qmkRepositoryFirstPullRequestUrl;
-      } else if (isForkedQmkFirmwareCode(this.props.firmwareCodePlace)) {
+      if (isQmkFirmwareCode(props.firmwareCodePlace)) {
+        isFilledEvidence = !!props.qmkRepositoryFirstPullRequestUrl;
+      } else if (isForkedQmkFirmwareCode(props.firmwareCodePlace)) {
         isFilledEvidence =
-          !!this.props.forkedRepositoryUrl &&
-          !!this.props.forkedRepositoryEvidence;
-      } else if (isOtherFirmwareCode(this.props.firmwareCodePlace)) {
+          !!props.forkedRepositoryUrl && !!props.forkedRepositoryEvidence;
+      } else if (isOtherFirmwareCode(props.firmwareCodePlace)) {
         isFilledEvidence =
-          !!this.props.otherPlaceHowToGet &&
-          !!this.props.otherPlaceSourceCodeEvidence &&
-          !!this.props.otherPlacePublisherEvidence;
+          !!props.otherPlaceHowToGet &&
+          !!props.otherPlaceSourceCodeEvidence &&
+          !!props.otherPlacePublisherEvidence;
       }
       return (
-        !!this.props.productName &&
-        !!this.props.keyboardDefinition &&
-        !!this.props.contactInformation &&
-        this.props.agreement! &&
+        !!props.productName &&
+        !!props.keyboardDefinition &&
+        !!props.contactInformation &&
+        props.agreement! &&
         isFilledEvidence
       );
     }
-  }
+  };
 
-  handleBackButtonClick = () => {
+  const handleBackButtonClick = () => {
     location.href = '/keyboards';
   };
 
-  handleSaveAsDraftButtonClick = () => {
-    this.setState({
-      openConfirmDialog: true,
-      confirmDialogMode: 'save_as_draft',
-    });
+  const handleSaveAsDraftButtonClick = () => {
+    setOpenConfirmDialog(true);
+    setConfirmDialogMode('save_as_draft');
   };
 
-  handleSubmitForReviewButtonClick = () => {
-    this.setState({
-      openConfirmDialog: true,
-      confirmDialogMode: 'submit_for_review',
-    });
+  const handleSubmitForReviewButtonClick = () => {
+    setOpenConfirmDialog(true);
+    setConfirmDialogMode('submit_for_review');
   };
 
-  handleBackToDraftButtonClick = () => {
-    this.setState({
-      openConfirmDialog: true,
-      confirmDialogMode: 'back_to_draft',
-    });
+  const handleBackToDraftButtonClick = () => {
+    setOpenConfirmDialog(true);
+    setConfirmDialogMode('back_to_draft');
   };
 
-  handleUpdateJsonFileButtonClick = () => {
-    this.setState({
-      openConfirmDialog: true,
-      confirmDialogMode: 'upload_json',
-    });
+  const handleUpdateJsonFileButtonClick = () => {
+    setOpenConfirmDialog(true);
+    setConfirmDialogMode('upload_json');
   };
 
-  handleConfirmYesClick = () => {
-    this.setState({
-      openConfirmDialog: false,
-    });
-    if (this.state.confirmDialogMode === 'upload_json') {
-      this.props.updateJsonFile!();
-    } else if (this.state.confirmDialogMode === 'save_as_draft') {
-      this.props.saveAsDraft!();
-    } else if (this.state.confirmDialogMode === 'submit_for_review') {
-      this.props.submitForReview!();
-    } else if (this.state.confirmDialogMode === 'delete') {
-      this.props.delete!();
-    } else if (this.state.confirmDialogMode === 'back_to_draft') {
-      this.props.saveAsDraft!();
+  const handleConfirmYesClick = () => {
+    setOpenConfirmDialog(false);
+    if (confirmDialogMode === 'upload_json') {
+      props.updateJsonFile!();
+    } else if (confirmDialogMode === 'save_as_draft') {
+      props.saveAsDraft!();
+    } else if (confirmDialogMode === 'submit_for_review') {
+      props.submitForReview!();
+    } else if (confirmDialogMode === 'delete') {
+      props.delete!();
+    } else if (confirmDialogMode === 'back_to_draft') {
+      props.saveAsDraft!();
     }
   };
 
-  handleConfirmNoClick = () => {
-    this.setState({
-      openConfirmDialog: false,
-    });
+  const handleConfirmNoClick = () => {
+    setOpenConfirmDialog(false);
   };
 
-  handleMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    this.setState({
-      menuAnchorEl: event.currentTarget,
-    });
+  const handleMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMenuAnchorEl(event.currentTarget);
   };
 
-  handleMenuClose = () => {
-    this.setState({
-      menuAnchorEl: null,
-    });
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
   };
 
-  handleDownloadJsonMenuClick = () => {
-    this.setState({
-      menuAnchorEl: null,
-    });
+  const handleDownloadJsonMenuClick = () => {
+    setMenuAnchorEl(null);
     const jsonUrl = URL.createObjectURL(
-      new Blob([this.props.jsonStr!], { type: 'application/json' })
+      new Blob([props.jsonStr!], { type: 'application/json' })
     );
     const a = document.createElement('a');
     document.body.appendChild(a);
-    a.download = `${this.props.definitionDocument!.name}.json`;
+    a.download = `${props.definitionDocument!.name}.json`;
     a.href = jsonUrl;
     a.click();
     a.remove();
   };
 
-  handleDeleteMenuClick = () => {
-    this.setState({
-      menuAnchorEl: null,
-      openConfirmDialog: true,
-      confirmDialogMode: 'delete',
-    });
+  const handleDeleteMenuClick = () => {
+    setMenuAnchorEl(null);
+    setOpenConfirmDialog(true);
+    setConfirmDialogMode('delete');
   };
 
-  isStatus(status: IKeyboardDefinitionStatus): boolean {
-    return this.props.definitionDocument!.status === status;
-  }
+  const isStatus = (status: IKeyboardDefinitionStatus): boolean => {
+    return props.definitionDocument!.status === status;
+  };
 
-  onChangeTab(event: any, tabIndex: number) {
+  const onChangeTab = (event: any, tabIndex: number) => {
     if (tabIndex === 0) {
-      this.props.updatePhase!('edit');
+      props.updatePhase!('edit');
     } else if (tabIndex === 1) {
-      this.props.updatePhase!('catalog');
+      props.updatePhase!('catalog');
     } else if (tabIndex === 2) {
-      this.props.updatePhase!('firmware');
+      props.updatePhase!('firmware');
     } else if (tabIndex === 3) {
-      this.props.updatePhase!('build');
+      props.updatePhase!('build');
     } else {
       throw new Error(`Invalid tabIndex: ${tabIndex}`);
     }
-  }
+  };
 
-  render() {
-    let activeStep;
-    switch (this.props.definitionDocument!.status) {
-      case KeyboardDefinitionStatus.draft:
-      case KeyboardDefinitionStatus.rejected:
-        activeStep = 0;
-        break;
-      case KeyboardDefinitionStatus.in_review:
-        activeStep = 1;
-        break;
-      case KeyboardDefinitionStatus.approved:
-        activeStep = 2;
-        break;
-      default:
-        throw new Error(
-          `Unknown status: ${this.props.definitionDocument?.status}`
-        );
-    }
-    const completed = activeStep === 2;
-    return (
-      <React.Fragment>
-        <div className="edit-definition-wrapper">
-          <div className="edit-definition-container">
-            <div className="edit-definition-card">
-              <Card>
-                <CardContent>
-                  <div className="edit-keyboard-header">
-                    <Button
-                      style={{ marginRight: '16px' }}
-                      onClick={this.handleBackButtonClick}
-                    >
-                      &lt; Keyboard List
-                    </Button>
-                    <MenuUI
-                      definitionDocument={this.props.definitionDocument!}
-                      keyboardDefinition={this.props.keyboardDefinition}
-                      handleDeleteMenuClick={this.handleDeleteMenuClick}
-                      handleMenuClose={this.handleMenuClose}
-                      handleDownloadJsonMenuClick={
-                        this.handleDownloadJsonMenuClick
-                      }
-                      handleMenuIconClick={this.handleMenuIconClick}
-                      menuAnchorEl={this.state.menuAnchorEl}
-                    />
-                  </div>
-                  <Stepper
-                    activeStep={activeStep}
-                    className="edit-keyboard-stepper"
+  // Render this component.
+  let activeStep;
+  switch (props.definitionDocument!.status) {
+    case KeyboardDefinitionStatus.draft:
+    case KeyboardDefinitionStatus.rejected:
+      activeStep = 0;
+      break;
+    case KeyboardDefinitionStatus.in_review:
+      activeStep = 1;
+      break;
+    case KeyboardDefinitionStatus.approved:
+      activeStep = 2;
+      break;
+    default:
+      throw new Error(`Unknown status: ${props.definitionDocument?.status}`);
+  }
+  const completed = activeStep === 2;
+  return (
+    <React.Fragment>
+      <div className="edit-definition-wrapper">
+        <div className="edit-definition-container">
+          <div className="edit-definition-card">
+            <Card>
+              <CardContent>
+                <div className="edit-keyboard-header">
+                  <Button
+                    style={{ marginRight: '16px' }}
+                    onClick={handleBackButtonClick}
                   >
-                    {statusSteps.map((label) => {
-                      const stepProps = {
-                        completed,
-                      };
-                      const labelProps = {};
-                      return (
-                        <Step key={label} {...stepProps}>
-                          <StepLabel {...labelProps}>{label}</StepLabel>
-                        </Step>
-                      );
-                    })}
-                  </Stepper>
-                  <AlertMessage
-                    definitionDocument={this.props.definitionDocument!}
+                    &lt; Keyboard List
+                  </Button>
+                  <MenuUI
+                    definitionDocument={props.definitionDocument!}
+                    keyboardDefinition={props.keyboardDefinition}
+                    handleDeleteMenuClick={handleDeleteMenuClick}
+                    handleMenuClose={handleMenuClose}
+                    handleDownloadJsonMenuClick={handleDownloadJsonMenuClick}
+                    handleMenuIconClick={handleMenuIconClick}
+                    menuAnchorEl={menuAnchorEl}
                   />
-                  {this.isStatus(KeyboardDefinitionStatus.approved) ? (
-                    <div className="edit-keyboard-tabs">
-                      <Tabs
-                        value={
-                          this.props.phase === 'edit'
-                            ? 0
-                            : this.props.phase === 'catalog'
-                            ? 1
-                            : this.props.phase === 'firmware'
-                            ? 2
-                            : 3
-                        }
-                        indicatorColor="primary"
-                        textColor="primary"
-                        onChange={this.onChangeTab.bind(this)}
-                        variant="fullWidth"
-                        centered
-                      >
-                        <Tab label="Definition" />
-                        <Tab label="Catalog" />
-                        <Tab label="Firmware" />
-                        <Tab label="Build" />
-                      </Tabs>
-                    </div>
-                  ) : null}
-                  {this.props.phase === 'edit' ? (
-                    <DefinitionForm
-                      definitionDocument={this.props.definitionDocument}
-                      onLoadFile={this.onLoadFile.bind(this)}
-                      jsonFilename={this.props.jsonFilename}
-                      keyboardDefinition={this.props.keyboardDefinition}
-                      productName={this.props.productName}
-                      refInputProductName={this.refInputProductName}
-                      updateProductName={this.props.updateProductName!}
-                      firmwareCodePlace={this.props.firmwareCodePlace}
-                      updateFirmwareCodePlace={
-                        this.props.updateFirmwareCodePlace!
+                </div>
+                <Stepper
+                  activeStep={activeStep}
+                  className="edit-keyboard-stepper"
+                >
+                  {statusSteps.map((label) => {
+                    const stepProps = {
+                      completed,
+                    };
+                    const labelProps = {};
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel {...labelProps}>{label}</StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+                <AlertMessage definitionDocument={props.definitionDocument!} />
+                {isStatus(KeyboardDefinitionStatus.approved) ? (
+                  <div className="edit-keyboard-tabs">
+                    <Tabs
+                      value={
+                        props.phase === 'edit'
+                          ? 0
+                          : props.phase === 'catalog'
+                          ? 1
+                          : props.phase === 'firmware'
+                          ? 2
+                          : 3
                       }
-                      qmkRepositoryFirstPullRequestUrl={
-                        this.props.qmkRepositoryFirstPullRequestUrl
-                      }
-                      updateQmkRepositoryFirstPullRequestUrl={
-                        this.props.updateQmkRepositoryFirstPullRequestUrl!
-                      }
-                      forkedRepositoryUrl={this.props.forkedRepositoryUrl}
-                      updateForkedRepositoryUrl={
-                        this.props.updateForkedRepositoryUrl!
-                      }
-                      forkedRepositoryEvidence={
-                        this.props.forkedRepositoryEvidence
-                      }
-                      updateForkedRepositoryEvidence={
-                        this.props.updateForkedRepositoryEvidence!
-                      }
-                      otherPlaceHowToGet={this.props.otherPlaceHowToGet}
-                      updateOtherPlaceHowToGet={
-                        this.props.updateOtherPlaceHowToGet!
-                      }
-                      otherPlaceSourceCodeEvidence={
-                        this.props.otherPlaceSourceCodeEvidence
-                      }
-                      updateOtherPlaceSourceCodeEvidence={
-                        this.props.updateOtherPlaceSourceCodeEvidence!
-                      }
-                      otherPlacePublisherEvidence={
-                        this.props.otherPlacePublisherEvidence
-                      }
-                      updateOtherPlacePublisherEvidence={
-                        this.props.updateOtherPlacePublisherEvidence!
-                      }
-                      agreement={this.props.agreement}
-                      updateAgreement={this.props.updateAgreement!}
-                      handleSaveAsDraftButtonClick={this.handleSaveAsDraftButtonClick.bind(
-                        this
-                      )}
-                      isFilledInAllField={this.isFilledInAllField.bind(this)}
-                      handleSubmitForReviewButtonClick={this.handleSubmitForReviewButtonClick.bind(
-                        this
-                      )}
-                      isFilledInAllFieldAndAgreed={this.isFilledInAllFieldAndAgreed.bind(
-                        this
-                      )}
-                      handleUpdateJsonFileButtonClick={this.handleUpdateJsonFileButtonClick.bind(
-                        this
-                      )}
-                      contactInformation={this.props.contactInformation}
-                      updateContactInformation={
-                        this.props.updateContactInformation!
-                      }
-                      organizationEvidence={this.props.organizationEvidence!}
-                      updateOrganizationEvidence={
-                        this.props.updateOrganizationEvidence!
-                      }
-                      authorType={this.props.authorType!}
-                      organizations={this.props.organizations!}
-                      organization={this.props.organization}
-                      organizationId={this.props.organizationId}
-                      updateOrganizationId={this.props.updateOrganizationId!}
-                      updateAuthorType={this.props.updateAuthorType!}
-                      handleBackToDraftButtonClick={this.handleBackToDraftButtonClick.bind(
-                        this
-                      )}
-                    />
-                  ) : null}
-                  {this.props.phase === 'catalog' ? <CatalogForm /> : null}
-                  {this.props.phase === 'firmware' ? <FirmwareForm /> : null}
-                  {this.props.phase === 'build' ? <BuildForm /> : null}
-                </CardContent>
-              </Card>
-            </div>
+                      indicatorColor="primary"
+                      textColor="primary"
+                      onChange={onChangeTab}
+                      variant="fullWidth"
+                      centered
+                    >
+                      <Tab label="Definition" />
+                      <Tab label="Catalog" />
+                      <Tab label="Firmware" />
+                      <Tab label="Build" />
+                    </Tabs>
+                  </div>
+                ) : null}
+                {props.phase === 'edit' ? (
+                  <DefinitionForm
+                    definitionDocument={props.definitionDocument}
+                    onLoadFile={onLoadFile}
+                    jsonFilename={props.jsonFilename}
+                    keyboardDefinition={props.keyboardDefinition}
+                    productName={props.productName}
+                    refInputProductName={refInputProductName}
+                    updateProductName={props.updateProductName!}
+                    firmwareCodePlace={props.firmwareCodePlace}
+                    updateFirmwareCodePlace={props.updateFirmwareCodePlace!}
+                    qmkRepositoryFirstPullRequestUrl={
+                      props.qmkRepositoryFirstPullRequestUrl
+                    }
+                    updateQmkRepositoryFirstPullRequestUrl={
+                      props.updateQmkRepositoryFirstPullRequestUrl!
+                    }
+                    forkedRepositoryUrl={props.forkedRepositoryUrl}
+                    updateForkedRepositoryUrl={props.updateForkedRepositoryUrl!}
+                    forkedRepositoryEvidence={props.forkedRepositoryEvidence}
+                    updateForkedRepositoryEvidence={
+                      props.updateForkedRepositoryEvidence!
+                    }
+                    otherPlaceHowToGet={props.otherPlaceHowToGet}
+                    updateOtherPlaceHowToGet={props.updateOtherPlaceHowToGet!}
+                    otherPlaceSourceCodeEvidence={
+                      props.otherPlaceSourceCodeEvidence
+                    }
+                    updateOtherPlaceSourceCodeEvidence={
+                      props.updateOtherPlaceSourceCodeEvidence!
+                    }
+                    otherPlacePublisherEvidence={
+                      props.otherPlacePublisherEvidence
+                    }
+                    updateOtherPlacePublisherEvidence={
+                      props.updateOtherPlacePublisherEvidence!
+                    }
+                    agreement={props.agreement}
+                    updateAgreement={props.updateAgreement!}
+                    handleSaveAsDraftButtonClick={handleSaveAsDraftButtonClick}
+                    isFilledInAllField={isFilledInAllField}
+                    handleSubmitForReviewButtonClick={
+                      handleSubmitForReviewButtonClick
+                    }
+                    isFilledInAllFieldAndAgreed={isFilledInAllFieldAndAgreed}
+                    handleUpdateJsonFileButtonClick={
+                      handleUpdateJsonFileButtonClick
+                    }
+                    contactInformation={props.contactInformation}
+                    updateContactInformation={props.updateContactInformation!}
+                    organizationEvidence={props.organizationEvidence!}
+                    updateOrganizationEvidence={
+                      props.updateOrganizationEvidence!
+                    }
+                    authorType={props.authorType!}
+                    organizations={props.organizations!}
+                    organization={props.organization}
+                    organizationId={props.organizationId}
+                    updateOrganizationId={props.updateOrganizationId!}
+                    updateAuthorType={props.updateAuthorType!}
+                    handleBackToDraftButtonClick={handleBackToDraftButtonClick}
+                  />
+                ) : null}
+                {props.phase === 'catalog' ? <CatalogForm /> : null}
+                {props.phase === 'firmware' ? <FirmwareForm /> : null}
+                {props.phase === 'build' ? <BuildForm /> : null}
+              </CardContent>
+            </Card>
           </div>
         </div>
-        <Dialog
-          open={this.state.openConfirmDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {'Keyboard Registration'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              color={
-                this.state.confirmDialogMode === 'delete' ||
-                this.state.confirmDialogMode === 'back_to_draft'
-                  ? 'secondary'
-                  : 'initial'
-              }
-            >
-              {this.state.confirmDialogMode === 'upload_json'
-                ? 'Are you sure to update the JSON file?'
-                : this.state.confirmDialogMode === 'save_as_draft'
-                ? 'Are you sure to save this new keyboard as draft?'
-                : this.state.confirmDialogMode === 'submit_for_review'
-                ? 'Are you sure to register and submit this new keyboard for review?'
-                : this.state.confirmDialogMode === 'delete'
-                ? 'Are you sure to delete?'
-                : this.state.confirmDialogMode === 'back_to_draft'
-                ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
-                : `Unknown confirmDialogMode: ${this.state.confirmDialogMode}`}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="primary"
-              autoFocus
-              onClick={this.handleConfirmNoClick}
-            >
-              No
-            </Button>
-            <Button color="primary" onClick={this.handleConfirmYesClick}>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
-    );
-  }
+      </div>
+      <Dialog
+        open={openConfirmDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Keyboard Registration'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            id="alert-dialog-description"
+            color={
+              confirmDialogMode === 'delete' ||
+              confirmDialogMode === 'back_to_draft'
+                ? 'secondary'
+                : 'initial'
+            }
+          >
+            {confirmDialogMode === 'upload_json'
+              ? 'Are you sure to update the JSON file?'
+              : confirmDialogMode === 'save_as_draft'
+              ? 'Are you sure to save this new keyboard as draft?'
+              : confirmDialogMode === 'submit_for_review'
+              ? 'Are you sure to register and submit this new keyboard for review?'
+              : confirmDialogMode === 'delete'
+              ? 'Are you sure to delete?'
+              : confirmDialogMode === 'back_to_draft'
+              ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
+              : `Unknown confirmDialogMode: ${confirmDialogMode}`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" autoFocus onClick={handleConfirmNoClick}>
+            No
+          </Button>
+          <Button color="primary" onClick={handleConfirmYesClick}>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  );
 }
 
 type MenuUIProps = {
