@@ -16,7 +16,8 @@ export interface IAuth {
   linkToGitHub(): Promise<void>;
   // eslint-disable-next-line no-unused-vars
   subscribeAuthStatus(callback: (user: firebase.User | null) => void): void;
-  getCurrentAuthenticatedUser(): firebase.User;
+  getCurrentAuthenticatedUserOrNull(): firebase.User | null;
+  getCurrentAuthenticatedUserIgnoreNull(): firebase.User;
   getCurrentAuthenticatedUserDisplayName(): string;
   signOut(): Promise<void>;
 }

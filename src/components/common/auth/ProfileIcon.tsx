@@ -73,7 +73,7 @@ export default class ProfileIcon extends React.Component<
   }
 
   renderLinkGoogleAccountMenu() {
-    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
     if (user && !getGoogleProviderData(user).exists) {
       return (
         <MenuItem
@@ -89,7 +89,7 @@ export default class ProfileIcon extends React.Component<
   }
 
   renderLinkGitHubAccountMenu() {
-    const user = this.props.auth!.getCurrentAuthenticatedUser();
+    const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
     if (user && !getGitHubProviderData(user).exists) {
       return (
         <MenuItem
@@ -107,7 +107,7 @@ export default class ProfileIcon extends React.Component<
   render() {
     const { authMenuAnchorEl } = this.state;
     if (this.props.signedIn) {
-      const user = this.props.auth!.getCurrentAuthenticatedUser();
+      const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
       const profileImageUrl = user.photoURL || '';
       const profileDisplayName = user.displayName || '';
       let avatar: React.ReactNode;

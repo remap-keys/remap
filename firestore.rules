@@ -137,6 +137,13 @@ service cloud.firestore {
                              && (request.auth.uid == resource.data.uid);
         }
 
+        match /logs/v1/operations/{operationLogID} {
+            allow create;
+            allow update: if false;
+            allow delete: if false;
+            allow read: if false;
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }

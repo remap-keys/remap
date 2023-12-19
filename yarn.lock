@@ -12926,6 +12926,11 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.2.0:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
+react-google-charts@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-4.0.1.tgz#b7713856a48009b77318f8951ddf2c3ba39f991b"
+  integrity sha512-V/hcMcNuBgD5w49BYTUDye+bUKaPmsU5vy/9W/Nj2xEeGn+6/AuH9IvBkbDcNBsY00cV9OeexdmgfI5RFHgsXQ==
+
 react-helmet-async@*, react-helmet-async@^1.0.7, react-helmet-async@^1.0.9:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-1.2.3.tgz#57326a69304ea3293036eafb49475e9ba454cb37"

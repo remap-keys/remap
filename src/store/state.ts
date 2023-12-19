@@ -14,6 +14,7 @@ import {
   IFirmwareBuildingTask,
   IKeyboardDefinitionAuthorType,
   IKeyboardDefinitionDocument,
+  IKeyboardStatistics,
   IOrganization,
   IOrganizationMember,
   IStorage,
@@ -63,6 +64,7 @@ export type IKeyboardsPhase =
   | 'catalog'
   | 'firmware'
   | 'build'
+  | 'statistics'
   | 'signout';
 export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   signing: 'signing',
@@ -74,6 +76,7 @@ export const KeyboardsPhase: { [p: string]: IKeyboardsPhase } = {
   catalog: 'catalog',
   firmware: 'firmware',
   build: 'build',
+  statistics: 'statistics',
   signout: 'signout',
 };
 
@@ -409,6 +412,7 @@ export type RootState = {
       buildableFirmwareFile: IBuildableFirmwareFile | null;
       buildableFirmwareFileType: IBuildableFirmwareFileType | null;
       buildableFirmwareCodeParameters: IBuildableFirmwareCodeParameter[];
+      keyboardStatistics: IKeyboardStatistics | undefined;
     };
   };
   catalog: {
@@ -669,6 +673,7 @@ export const INIT_STATE: RootState = {
       buildableFirmwareFile: null,
       buildableFirmwareFileType: null,
       buildableFirmwareCodeParameters: [],
+      keyboardStatistics: undefined,
     },
   },
   catalog: {

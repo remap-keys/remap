@@ -43,6 +43,8 @@ import {
   IFirmwareBuildingTask,
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareQmkFirmwareVersion,
+  IOperationLogType,
+  IKeyboardStatistics,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
@@ -618,12 +620,16 @@ export class FirebaseProvider implements IStorage, IAuth {
     );
   }
 
-  getCurrentAuthenticatedUser(): firebase.User {
+  getCurrentAuthenticatedUserOrNull(): firebase.User | null {
+    return this.auth.currentUser;
+  }
+
+  getCurrentAuthenticatedUserIgnoreNull(): firebase.User {
     return this.auth.currentUser!;
   }
 
   getCurrentAuthenticatedUserDisplayName(): string {
-    const user = this.getCurrentAuthenticatedUser();
+    const user = this.getCurrentAuthenticatedUserIgnoreNull();
     let displayName: string | undefined | null = user.displayName;
     if (displayName) {
       return displayName;
@@ -1596,7 +1602,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       const now = new Date();
       const buildableFirmware: IBuildableFirmware = {
         keyboardDefinitionId,
-        uid: this.getCurrentAuthenticatedUser()!.uid,
+        uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
         enabled: false,
         defaultBootloaderType: 'caterina',
         qmkFirmwareVersion:
@@ -1902,7 +1908,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   async fetchFirmwareBuildingTasks(
     keyboardDefinitionId: string
   ): Promise<IResult<IFirmwareBuildingTask[]>> {
-    if (this.getCurrentAuthenticatedUser() === null) {
+    if (this.getCurrentAuthenticatedUserIgnoreNull() === null) {
       return successResultOf([]);
     }
     try {
@@ -1910,7 +1916,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('build')
         .doc('v1')
         .collection('tasks')
-        .where('uid', '==', this.getCurrentAuthenticatedUser().uid)
+        .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull().uid)
         .where('firmwareId', '==', keyboardDefinitionId)
         .orderBy('updatedAt', 'desc');
       const querySnapshot = await query.get();
@@ -1986,6 +1992,63 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Updating firmware building task description failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async sendOperationLog(
+    uid: string,
+    keyboardDefinitionId: string,
+    operation: IOperationLogType
+  ): Promise<void> {
+    try {
+      const doc: {
+        uid: string;
+        keyboardDefinitionId: string;
+        operation: IOperationLogType;
+        createdAt: Date;
+        expireAt: Date;
+      } = {
+        uid,
+        keyboardDefinitionId,
+        operation,
+        createdAt: new Date(),
+        // This operation log will be deleted after 90 days.
+        expireAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      };
+      await this.db
+        .collection('logs')
+        .doc('v1')
+        .collection('operations')
+        .add(doc);
+    } catch (error) {
+      console.error(error);
+      // Ignore error.
+    }
+  }
+
+  async fetchKeyboardStatistics(
+    keyboardDefinitionId: string
+  ): Promise<IResult<IKeyboardStatistics>> {
+    try {
+      const createKeyboardStatistics = this.functions.httpsCallable(
+        'createKeyboardStatistics'
+      );
+      const createKeyboardStatisticsResult = await createKeyboardStatistics({
+        keyboardDefinitionId,
+      });
+      const data = createKeyboardStatisticsResult.data;
+      if (data.success) {
+        return successResultOf(data);
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching keyboard statistics failed: ${error}`,
         error
       );
     }
