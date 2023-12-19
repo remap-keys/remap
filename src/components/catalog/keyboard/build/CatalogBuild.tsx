@@ -120,7 +120,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickDownload = (task: IFirmwareBuildingTask) => {
-    sendEventToGoogleAnalytics('catalog/build/download_firmware', {
+    sendEventToGoogleAnalytics('catalog/build_download_firmware', {
       vendor_id: props.definitionDocument!.vendorId,
       product_id: props.definitionDocument!.productId,
       product_name: props.definitionDocument!.productName,
@@ -143,7 +143,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickFlash = (task: IFirmwareBuildingTask) => {
-    sendEventToGoogleAnalytics('catalog/build/flash_firmware', {
+    sendEventToGoogleAnalytics('catalog/build_flash_firmware', {
       vendor_id: props.definitionDocument!.vendorId,
       product_id: props.definitionDocument!.productId,
       product_name: props.definitionDocument!.productName,
@@ -160,7 +160,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickDeleteYes = () => {
-    sendEventToGoogleAnalytics('catalog/build/delete_firmware', {
+    sendEventToGoogleAnalytics('catalog/build_delete_firmware', {
       vendor_id: props.definitionDocument!.vendorId,
       product_id: props.definitionDocument!.productId,
       product_name: props.definitionDocument!.productName,
@@ -215,7 +215,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const onClickBuildBuildParametersDialog = (description: string) => {
-    sendEventToGoogleAnalytics('catalog/build/build_firmware', {
+    sendEventToGoogleAnalytics('catalog/build_build_firmware', {
       vendor_id: props.definitionDocument!.vendorId,
       product_id: props.definitionDocument!.productId,
       product_name: props.definitionDocument!.productName,
@@ -258,7 +258,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     description: string
   ) => {
     if (task.description !== description) {
-      sendEventToGoogleAnalytics('catalog/build/change_description', {
+      sendEventToGoogleAnalytics('catalog/build_change_description', {
         vendor_id: props.definitionDocument!.vendorId,
         product_id: props.definitionDocument!.productId,
         product_name: props.definitionDocument!.productName,
