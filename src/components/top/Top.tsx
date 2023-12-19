@@ -96,21 +96,8 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Nov 30th 2023] Remap supports a code editing for building a firmware.
-        See{' '}
-        <Link
-          href="/docs/support-code-editing"
-          target="_blank"
-          rel="noreferrer"
-        >
-          more detail
-        </Link>
-        .
-      </Alert>
-      <Alert severity="info">
-        <strong>Info: </strong>
-        [Nov 11th 2023] The firmware building feature has been released. See{' '}
-        <Link href="/docs/build" target="_blank" rel="noreferrer">
+        [Dec 19th 2023] The statistics feature is available. See{' '}
+        <Link href="/docs/statistics" target="_blank" rel="noreferrer">
           more detail
         </Link>
         .

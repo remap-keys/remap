@@ -17,6 +17,7 @@ import SupportQmk022 from './support-qmk-022/SupportQmk022';
 import Encoders from './encoders/Encoders';
 import Build from './build/Build';
 import SupportCodeEditing from './support-code-editing/SupportCodeEditing';
+import Statistics from './statistics/Statistics';
 
 type RouteParams = {
   docId: string;
@@ -62,6 +63,9 @@ export default function Documents(props: DocumentsPropsType) {
   } else if (docId === 'support-code-editing') {
     page = <SupportCodeEditing />;
     sendEventToGoogleAnalytics('docs/support-code-editing');
+  } else if (docId === 'statistics') {
+    page = <Statistics />;
+    sendEventToGoogleAnalytics('docs/statistics');
   } else {
     page = <Index />;
   }
