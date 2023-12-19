@@ -33,6 +33,7 @@ type IActionName =
   | 'docs/encoders'
   | 'docs/faq'
   | 'docs/review_policy'
+  | 'docs/statistics'
   | 'docs/support-code-editing'
   | 'docs/support-qmk-022'
   | 'docs/terms_of_use';
