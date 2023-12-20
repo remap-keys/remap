@@ -291,13 +291,15 @@ export const hidActionsThunk = {
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
-      await sendOperationLog(
-        auth.instance!,
-        storage.instance!,
-        app.localAuthenticationInfo.uid,
-        entities.keyboardDefinitionDocument!.id,
-        'configure/open'
-      );
+      if (entities.keyboardDefinitionDocument !== null) {
+        await sendOperationLog(
+          auth.instance!,
+          storage.instance!,
+          app.localAuthenticationInfo.uid,
+          entities.keyboardDefinitionDocument.id,
+          'configure/open'
+        );
+      }
 
       const isBleMicroPro = keyboard
         .getInformation()
@@ -501,13 +503,15 @@ export const hidActionsThunk = {
         product_id: keyboard.getInformation().productId,
         product_name: keyboard.getInformation().productName,
       });
-      await sendOperationLog(
-        auth.instance!,
-        storage.instance!,
-        app.localAuthenticationInfo.uid,
-        entities.keyboardDefinitionDocument!.id,
-        'configure/flash'
-      );
+      if (entities.keyboardDefinitionDocument !== null) {
+        await sendOperationLog(
+          auth.instance!,
+          storage.instance!,
+          app.localAuthenticationInfo.uid,
+          entities.keyboardDefinitionDocument.id,
+          'configure/flash'
+        );
+      }
       const remaps = app.remaps;
       for (let layer = 0; layer < remaps.length; layer++) {
         const remap = remaps[layer];
