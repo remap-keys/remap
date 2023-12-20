@@ -205,7 +205,11 @@ const KeySwitchOperations = {
 export type IKeySwitchOperation =
   typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
 
-export type IBuildableFirmwareCodeParameterType = 'select' | 'text' | 'number';
+export type IBuildableFirmwareCodeParameterType =
+  | 'select'
+  | 'text'
+  | 'number'
+  | 'toggle';
 
 export type IBuildableFirmwareCodeParameter = {
   name: string;

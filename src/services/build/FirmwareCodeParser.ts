@@ -15,7 +15,7 @@ const extractAttribute = (
 const isValidType = (
   type: string
 ): type is IBuildableFirmwareCodeParameterType => {
-  return ['select', 'text', 'number'].includes(type);
+  return ['select', 'text', 'number', 'toggle'].includes(type);
 };
 
 export const replaceBuildableFirmwareCodeWithParameterDefaultValues = (
@@ -64,7 +64,7 @@ export const extractBuildableFirmwareCodeParameters = (
 
     const parameter: IBuildableFirmwareCodeParameter = {
       name,
-      type: type as 'select' | 'text' | 'number',
+      type: type as 'select' | 'text' | 'number' | 'toggle',
       default: defaultValue,
       comment,
       options: [],

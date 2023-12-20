@@ -11,6 +11,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" options="bar,baz" />
         <remap name="bar" type="text" default="john" />
         <remap name="baz" type="number" default="20" />
+        <remap name="john" type="toggle" default="doe" />
       `;
       const parameters: IBuildableFirmwareCodeParameter[] =
         extractBuildableFirmwareCodeParameters(input);
@@ -24,6 +25,7 @@ describe('FirmwareCodeParser', () => {
         baz
         john
         20
+        doe
       `);
     });
 
@@ -32,6 +34,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" />
         <remap name="bar" type="text" default="john" />
         <remap name="baz" type="number" default="20" />
+        <remap name="john" type="toggle" default="doe" />
       `;
       const parameters: IBuildableFirmwareCodeParameter[] =
         extractBuildableFirmwareCodeParameters(input);
@@ -45,6 +48,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" />
         john
         20
+        doe
       `);
     });
   });
@@ -55,6 +59,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" options="bar,baz" />
         <remap name="bar" type="text" default="john" />
         <remap name="baz" type="number" default="20" />
+        <remap name="john" type="toggle" default="doe" />
       `;
 
       const parameters = extractBuildableFirmwareCodeParameters(source);
@@ -84,6 +89,14 @@ describe('FirmwareCodeParser', () => {
           startPosition: 140,
           endPosition: 187,
         },
+        {
+          name: 'john',
+          type: 'toggle',
+          options: [],
+          default: 'doe',
+          startPosition: 196,
+          endPosition: 245,
+        },
       ]);
     });
 
@@ -92,6 +105,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" />
         <remap name="bar" type="text" default="john" />
         <remap name="baz" type="number" default="20" />
+        <remap name="john" type="toggle" default="doe" />
       `;
 
       const parameters = extractBuildableFirmwareCodeParameters(source);
@@ -113,6 +127,14 @@ describe('FirmwareCodeParser', () => {
           startPosition: 122,
           endPosition: 169,
         },
+        {
+          name: 'john',
+          type: 'toggle',
+          options: [],
+          default: 'doe',
+          startPosition: 178,
+          endPosition: 227,
+        },
       ]);
     });
 
@@ -121,6 +143,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" options="bar,baz" default="baz" />
         <remap name="bar" type="unknown" default="john" />
         <remap name="baz" type="number" default="20" />
+        <remap name="john" type="toggle" default="doe" />
       `;
 
       const parameters = extractBuildableFirmwareCodeParameters(source);
@@ -142,6 +165,14 @@ describe('FirmwareCodeParser', () => {
           startPosition: 143,
           endPosition: 190,
         },
+        {
+          name: 'john',
+          type: 'toggle',
+          options: [],
+          default: 'doe',
+          startPosition: 199,
+          endPosition: 248,
+        },
       ]);
     });
 
@@ -150,6 +181,7 @@ describe('FirmwareCodeParser', () => {
         <remap name="foo" type="select" default="baz" options="bar,baz" comment="comment1" />
         <remap name="bar" type="text" default="john" comment="comment2" />
         <remap name="baz" type="number" default="20" comment="comment3 foobar" />
+        <remap name="john" type="toggle" default="doe" comment="comment4 baz" />
       `;
 
       const parameters = extractBuildableFirmwareCodeParameters(source);
@@ -181,6 +213,15 @@ describe('FirmwareCodeParser', () => {
           comment: 'comment3 foobar',
           startPosition: 178,
           endPosition: 251,
+        },
+        {
+          name: 'john',
+          type: 'toggle',
+          options: [],
+          default: 'doe',
+          comment: 'comment4 baz',
+          startPosition: 260,
+          endPosition: 332,
         },
       ]);
     });

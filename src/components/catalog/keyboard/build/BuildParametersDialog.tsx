@@ -526,7 +526,38 @@ function ParameterEditors(props: ParameterEditorProps) {
                     ))}
                   </Select>
                   {parameter.definition.comment && (
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      sx={{ ml: '14px', color: 'rgb(0, 0, 0, 0.6)' }}
+                    >
+                      {parameter.definition.comment}
+                    </Typography>
+                  )}
+                </div>
+              ) : parameter.definition.type === 'toggle' ? (
+                <div>
+                  <Select
+                    fullWidth
+                    size="small"
+                    value={parameter.value}
+                    onChange={(event) => {
+                      props.onChangeParameterValue(
+                        props.selectedFirmwareFile,
+                        parameter.definition,
+                        event.target.value
+                      );
+                    }}
+                  >
+                    <MenuItem value={parameter.definition.default}>
+                      {parameter.definition.default}
+                    </MenuItem>
+                    <MenuItem value="">(none)</MenuItem>
+                  </Select>
+                  {parameter.definition.comment && (
+                    <Typography
+                      variant="caption"
+                      sx={{ ml: '14px', color: 'rgb(0, 0, 0, 0.6)' }}
+                    >
                       {parameter.definition.comment}
                     </Typography>
                   )}
