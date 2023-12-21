@@ -114,6 +114,9 @@ export default function Build() {
                 <li>select - The parameter value is one of options.</li>
                 <li>number - The parameter value is a number.</li>
                 <li>text - The parameter value is a string.</li>
+                <li>
+                  toggle - The parameter value is the default value or none.
+                </li>
               </ul>
             </li>
             <li>default - The default value of the parameter.</li>
@@ -148,6 +151,8 @@ export default function Build() {
             type=&quot;text&quot; default=&quot;M__NOTE(_C7, 30), M__NOTE(_C6,
             30)&quot; /&gt;)
             <br />
+            &lt;remap name=&quot;Retro Tapping&quot; type=&quot;toggle&quot;
+            default=&quot;#define RETRO_TAPPING&quot; /&gt;
           </Typography>
         </Paper>
         <Typography variant="body1" gutterBottom={true}>
