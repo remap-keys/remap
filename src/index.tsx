@@ -21,13 +21,7 @@ const store = createStore(
   )
 );
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2d6858',
-    },
-  },
-});
+const theme = createTheme({});
 
 ReactDOM.render(
   <Provider store={store}>
