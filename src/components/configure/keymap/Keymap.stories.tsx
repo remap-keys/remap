@@ -32,6 +32,7 @@ import { GiabalanaiKeymap } from '../../../assets/keymaps/GiabalanaiKeymap';
 import { MOD_LEFT } from '../../../services/hid/Constraints';
 import { FrogNpKeymap } from '../../../assets/keymaps/FrogNpKeymap';
 import { KillerWhaleDuoKeymap } from '../../../assets/keymaps/KillerWhaleDuo';
+import { KeycronK14ProKeymap } from '../../../assets/keymaps/KeychronK14ProKeymap';
 
 export default {
   title: 'Keyboards',
@@ -229,6 +230,8 @@ const format = (text: string): string => {
   return text;
 };
 
+export const KeychronK14Pro = () =>
+  genKeyboardView('KeychronK14Pro', KeycronK14ProKeymap);
 export const LunakeyMini = () =>
   genKeyboardView('Lunakey Mini', LunakeyMiniKeymap);
 export const Crkbd = () => genKeyboardView('Crkbd', CrkbdKeymap);
