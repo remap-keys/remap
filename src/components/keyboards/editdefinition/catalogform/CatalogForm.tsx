@@ -180,6 +180,16 @@ export default function CatalogForm(props: CatalogFormProps) {
     );
   };
 
+  const onChangeGateronLowProfile = (
+    event: SelectChangeEvent,
+    checked: boolean
+  ): void => {
+    props.updateFeature!(
+      checked ? 'gateron_low_profile' : CONDITION_NOT_SELECTED,
+      ['gateron_low_profile']
+    );
+  };
+
   const onChangeHotSwap = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
@@ -698,6 +708,16 @@ export default function CatalogForm(props: CatalogFormProps) {
                         />
                       }
                       label="Capacitive Sensing Type"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="gateronLowProfile"
+                          checked={hasFeatureValue('gateron_low_profile')}
+                          onChange={onChangeGateronLowProfile}
+                        />
+                      }
+                      label="Gateron Low Profile"
                     />
                   </FormGroup>
                 </FormControl>
