@@ -329,6 +329,9 @@ export default class CatalogSearchForm extends React.Component<
               <MenuItem value="capacitive_sensing_type">
                 Capacitive Sensing Type
               </MenuItem>
+              <MenuItem value="gateron_low_profile">
+                Gateron Low Profile
+              </MenuItem>
             </Select>
           </FormControl>
         </div>

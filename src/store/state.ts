@@ -140,6 +140,7 @@ export const ALL_KEY_SWITCH_TYPE = [
   'alps',
   'outemulp',
   'capacitive_sensing_type',
+  'gateron_low_profile',
 ] as const;
 type keySwitchTuple = typeof ALL_KEY_SWITCH_TYPE;
 export type IKeyboardKeySwitchType = keySwitchTuple[number];

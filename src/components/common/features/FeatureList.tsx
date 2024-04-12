@@ -109,6 +109,10 @@ const featureMap: { [p: string]: { [p: string]: string } } = {
     label: 'Capacitive Sensing type',
     description: 'This keyboard supports Capacitive Sensing type key switches.',
   },
+  gateron_low_profile: {
+    label: 'Gateron Low Profile',
+    description: 'This keyboard supports Gateron Low Profile key switches.',
+  },
   hot_swap: {
     label: 'Hotswap',
     description:
