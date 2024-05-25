@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { KEY_SUB_CATEGORY_MACRO, KeyCategory } from './KeyCategoryList';
 
 describe('KeyCategoryList', () => {

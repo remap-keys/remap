@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 import { getEncoderIdList } from './utils';
 

@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { AsciiComposition } from './AsciiComposition';
 import { MOD_LEFT } from '../Composition';
 

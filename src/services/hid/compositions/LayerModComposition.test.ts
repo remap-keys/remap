@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { LayerModComposition } from './LayerModComposition';
 import { MOD_ALT, MOD_CTL, MOD_GUI, MOD_SFT } from '../Composition';
 

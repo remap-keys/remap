@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { ViaUserKeyComposition } from './ViaUserKeyComposition';
 import { MOD_LEFT } from '../Constraints';
 

@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import KeyboardModel, { Current, KeymapItem } from './KeyboardModel';
 import { OPTION_DEFAULT } from './KeyModel';
 

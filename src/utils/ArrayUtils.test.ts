@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { concatUint8Array, range } from './ArrayUtils';
 
 describe('ArrayUtils', () => {
