@@ -16,7 +16,7 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
-import { Alert, AlertTitle } from '@mui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './KeyboardDefinitionFormPart.scss';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
