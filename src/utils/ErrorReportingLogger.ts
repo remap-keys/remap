@@ -4,8 +4,8 @@ import {
   NOTIFICATION_ADD_ERROR,
   NOTIFICATION_ADD_WARN,
 } from '../actions/actions';
+import StackdriverErrorReporter from "stackdriver-errors-js"
 
-const StackdriverErrorReporter = require('stackdriver-errors-js/dist/stackdriver-errors-concat.min');
 const errorHandler = new StackdriverErrorReporter();
 if (process.env.NODE_ENV === 'production') {
   errorHandler.start({
