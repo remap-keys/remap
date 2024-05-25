@@ -4857,17 +4857,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^12.1.10":
-  version: 12.8.3
-  resolution: "@testing-library/user-event@npm:12.8.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.12.5"
-  peerDependencies:
-    "@testing-library/dom": ">=7.21.4"
-  checksum: 10c0/fa84dc30313ba22873c6179c8650c3952db583d253eb317891d75f39369ad72e63e1fef9740b9c755d3cabcb58028e7f896113f2cb97ff40c93b9d608d971dc7
-  languageName: node
-  linkType: hard
-
 "@tsconfig/node10@npm:^1.0.7":
   version: 1.0.11
   resolution: "@tsconfig/node10@npm:1.0.11"
@@ -5802,7 +5791,6 @@ __metadata:
     "@svgr/plugin-jsx": "npm:^8.1.0"
     "@testing-library/jest-dom": "npm:^5.11.4"
     "@testing-library/react": "npm:^11.1.0"
-    "@testing-library/user-event": "npm:^12.1.10"
     "@types/ajv": "npm:^1.0.0"
     "@types/axios": "npm:^0.14.0"
     "@types/downloadjs": "npm:^1.4.2"
