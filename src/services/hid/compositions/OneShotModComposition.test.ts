@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import {
   MOD_ALT,
   MOD_CTL,

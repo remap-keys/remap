@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { ModTapComposition } from './ModTapComposition';
 import {
   MOD_ALT,

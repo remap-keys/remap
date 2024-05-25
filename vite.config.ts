@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { readFileSync, existsSync } from "node:fs";
 import { defineConfig, loadEnv, Plugin, createFilter, transformWithEsbuild } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 
@@ -20,9 +20,13 @@ export default defineConfig(({ mode }) => {
       importPrefixPlugin(),
       htmlPlugin(mode),
       svgrPlugin(),
-      
-      
     ],
+	test: {
+		globals: true,
+		environment: "happy-dom",
+		root: "src",
+		setupFiles: "./src/setupTests.ts",
+	},
   };
 });
 

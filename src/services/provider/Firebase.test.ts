@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { FirebaseProvider } from './Firebase';
 import firebase from 'firebase/app';
 import * as sinon from 'sinon';

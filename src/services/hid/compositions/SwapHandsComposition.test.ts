@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import {
   OP_SH_OFF,
   OP_SH_OFF_ON,

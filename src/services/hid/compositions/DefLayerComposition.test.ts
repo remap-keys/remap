@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { DefLayerComposition } from './DefLayerComposition';
 
 describe('DefLayerComposition', () => {

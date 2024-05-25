@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { OneShotLayerComposition } from './OneShotLayerComposition';
 
 describe('OneShotLayerComposition', () => {

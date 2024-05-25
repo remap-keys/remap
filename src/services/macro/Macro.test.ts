@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import {
   END_OF_MACRO_BYTES,
   isHold,
@@ -14,6 +15,7 @@ import {
 import { Key } from '../../components/configure/keycodekey/KeyGen';
 import sinon from 'sinon';
 import { MOD_LEFT } from '../hid/Constraints';
+import { fail } from 'node:assert/strict';
 
 const createKey = (code: number, label: string, isAscii: boolean): Key => {
   return {
