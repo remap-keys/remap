@@ -46,8 +46,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "test": "test",
-    "eject": "react-scripts eject",
+    "test": "jest",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
     "storybook": "start-storybook -p 6006 -s public",
