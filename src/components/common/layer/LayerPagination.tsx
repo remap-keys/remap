@@ -1,5 +1,6 @@
 import { Badge, Chip, IconButton } from '@mui/material';
-import { makeStyles, withStyles } from '@mui/styles';
+import { withStyles } from '@mui/styles';
+import { styled } from "@mui/material/styles"
 import usePagination from '@mui/material/usePagination';
 import {
   KeyboardArrowDown,
@@ -9,33 +10,29 @@ import {
   MoreHoriz,
   MoreVert,
 } from '@mui/icons-material';
-import React from 'react';
 
-const useLayerPaginationStyles = makeStyles({
-  ulVertical: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ulHorizontal: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  li: {
-    display: 'flex',
-  },
-  unselected: {
-    border: '0 !important',
-  },
+const UlVertical = styled('ul')({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const UlHorizontal = styled('ul')({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const Li = styled('li')({
+  display: 'flex',
 });
 
 type LayerPaginationOrientation = 'horizontal' | 'vertical';
@@ -58,7 +55,6 @@ export default function LayerPagination(props: LayerPaginationProps) {
     },
   }))(Badge);
 
-  const classes = useLayerPaginationStyles();
   const { items } = usePagination({
     count: props.count,
     page: props.page,
@@ -66,15 +62,12 @@ export default function LayerPagination(props: LayerPaginationProps) {
       props.onClickPage(page);
     },
   });
+
+  const Ul = props.orientation === 'vertical' ? UlVertical : UlHorizontal;
+
   return (
     <nav>
-      <ul
-        className={
-          props.orientation === 'vertical'
-            ? classes.ulVertical
-            : classes.ulHorizontal
-        }
-      >
+      <Ul>
         {items.map(({ page, type, selected, ...item }, index) => {
           let children = null;
           if (type === 'page') {
@@ -93,7 +86,7 @@ export default function LayerPagination(props: LayerPaginationProps) {
                   onClick={() => {
                     props.onClickPage(page);
                   }}
-                  className={selected ? '' : classes.unselected}
+                  sx={{ border: selected ? 'none' : '0 !important' }}
                 />
               </StyledBadge>
             );
@@ -130,12 +123,12 @@ export default function LayerPagination(props: LayerPaginationProps) {
               props.orientation === 'vertical' ? <MoreVert /> : <MoreHoriz />;
           }
           return (
-            <li key={index} className={classes.li}>
+            <Li key={index}>
               {children}
-            </li>
+            </Li>
           );
         })}
-      </ul>
+      </Ul>
     </nav>
   );
 }
