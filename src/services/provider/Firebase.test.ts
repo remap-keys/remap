@@ -10,7 +10,7 @@ describe('FirebaseProvider', () => {
     const actual = FirebaseProvider.createFirmwareFilename(
       keyboardName,
       firmwareFile,
-      timestamp
+      timestamp,
     );
     expect(actual).toEqual('keyboard-name-1-12345.hex');
   });
@@ -27,7 +27,7 @@ describe('FirebaseProvider', () => {
       subject.getCurrentAuthenticatedUserDisplayName =
         FirebaseProvider.prototype.getCurrentAuthenticatedUserDisplayName;
       expect(subject.getCurrentAuthenticatedUserDisplayName()).toEqual(
-        'displayName1'
+        'displayName1',
       );
     });
 
@@ -43,7 +43,7 @@ describe('FirebaseProvider', () => {
       subject.getCurrentAuthenticatedUserDisplayName =
         FirebaseProvider.prototype.getCurrentAuthenticatedUserDisplayName;
       expect(subject.getCurrentAuthenticatedUserDisplayName()).toEqual(
-        'displayName2'
+        'displayName2',
       );
     });
 
@@ -60,7 +60,7 @@ describe('FirebaseProvider', () => {
       subject.getCurrentAuthenticatedUserDisplayName =
         FirebaseProvider.prototype.getCurrentAuthenticatedUserDisplayName;
       expect(subject.getCurrentAuthenticatedUserDisplayName()).toEqual(
-        'displayName3'
+        'displayName3',
       );
     });
 
@@ -77,7 +77,7 @@ describe('FirebaseProvider', () => {
       subject.getCurrentAuthenticatedUserDisplayName =
         FirebaseProvider.prototype.getCurrentAuthenticatedUserDisplayName;
       expect(subject.getCurrentAuthenticatedUserDisplayName()).toEqual(
-        'displayName3'
+        'displayName3',
       );
     });
 
@@ -94,7 +94,7 @@ describe('FirebaseProvider', () => {
       subject.getCurrentAuthenticatedUserDisplayName =
         FirebaseProvider.prototype.getCurrentAuthenticatedUserDisplayName;
       expect(subject.getCurrentAuthenticatedUserDisplayName()).toEqual(
-        '(no name)'
+        '(no name)',
       );
     });
   });

@@ -72,7 +72,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   const onChangeKeyCount = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean,
-    value: IKeyboardFeatures
+    value: IKeyboardFeatures,
   ): void => {
     props.updateFeature!(checked ? value : CONDITION_NOT_SELECTED, [value]);
   };
@@ -80,28 +80,28 @@ export default function CatalogForm(props: CatalogFormProps) {
   const onChangeKeyboardType = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_SPLIT_TYPE
+      ALL_SPLIT_TYPE,
     );
   };
 
   const onChangeKeyLayout = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_STAGGERED_TYPE
+      ALL_STAGGERED_TYPE,
     );
   };
 
   const onChangeBacklight = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'backlight' : CONDITION_NOT_SELECTED, [
       'backlight',
@@ -110,7 +110,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeUnderglow = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'underglow' : CONDITION_NOT_SELECTED, [
       'underglow',
@@ -119,7 +119,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeCherryMx = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'cherry_mx' : CONDITION_NOT_SELECTED, [
       'cherry_mx',
@@ -128,7 +128,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeKailhChocV1 = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'kailh_choc' : CONDITION_NOT_SELECTED, [
       'kailh_choc',
@@ -137,7 +137,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeKailhChocV2 = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'kailh_choc_v2' : CONDITION_NOT_SELECTED, [
       'kailh_choc_v2',
@@ -146,24 +146,24 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeKailhMidHeight = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(
       checked ? 'kailh_mid_height' : CONDITION_NOT_SELECTED,
-      ['kailh_mid_height']
+      ['kailh_mid_height'],
     );
   };
 
   const onChangeAlps = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'alps' : CONDITION_NOT_SELECTED, ['alps']);
   };
 
   const onChangeOutemuLP = (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(checked ? 'outemulp' : CONDITION_NOT_SELECTED, [
       'outemulp',
@@ -172,65 +172,65 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeCapacitiveSensingType = (
     event: SelectChangeEvent,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(
       checked ? 'capacitive_sensing_type' : CONDITION_NOT_SELECTED,
-      ['capacitive_sensing_type']
+      ['capacitive_sensing_type'],
     );
   };
 
   const onChangeGateronLowProfile = (
     event: SelectChangeEvent,
-    checked: boolean
+    checked: boolean,
   ): void => {
     props.updateFeature!(
       checked ? 'gateron_low_profile' : CONDITION_NOT_SELECTED,
-      ['gateron_low_profile']
+      ['gateron_low_profile'],
     );
   };
 
   const onChangeHotSwap = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_HOTSWAP_TYPE
+      ALL_HOTSWAP_TYPE,
     );
   };
 
   const onChangeOled = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_OLED_TYPE
+      ALL_OLED_TYPE,
     );
   };
 
   const onChangeSpeaker = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_SPEAKER_TYPE
+      ALL_SPEAKER_TYPE,
     );
   };
 
   const onChangeWireless = (
     event: SelectChangeEvent,
     // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    child: React.ReactNode,
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
-      ALL_WIRELESS_TYPE
+      ALL_WIRELESS_TYPE,
     );
   };
 
@@ -314,13 +314,13 @@ export default function CatalogForm(props: CatalogFormProps) {
   };
 
   const onChangeAdditionalDescriptionTitle = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setAdditionalDescriptionTitle(event.target.value);
   };
 
   const onChangeAdditionalDescriptionBody = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setAdditionalDescriptionBody(event.target.value);
   };
@@ -336,7 +336,7 @@ export default function CatalogForm(props: CatalogFormProps) {
   const onClickAdditionalDescriptionAdd = (event: React.SyntheticEvent) => {
     props.addAdditionalDescription!(
       additionalDescriptionTitle,
-      additionalDescriptionBody
+      additionalDescriptionBody,
     );
     setAdditionalDescriptionTitle('');
     setAdditionalDescriptionBody('');
@@ -556,16 +556,16 @@ export default function CatalogForm(props: CatalogFormProps) {
                             <Checkbox
                               value={value}
                               checked={hasFeatureValue(
-                                value as IKeyboardFeatures
+                                value as IKeyboardFeatures,
                               )}
                               onChange={(
                                 event: React.ChangeEvent<HTMLInputElement>,
-                                checked: boolean
+                                checked: boolean,
                               ) => {
                                 onChangeKeyCount(
                                   event,
                                   checked,
-                                  value as IKeyboardFeatures
+                                  value as IKeyboardFeatures,
                                 );
                               }}
                             />

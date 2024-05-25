@@ -60,7 +60,7 @@ export default class LightingDialog extends React.Component<
     // eslint-disable-next-line no-unused-vars
     nextProps: OwnProps,
     // eslint-disable-next-line no-unused-vars
-    nextState: OwnState
+    nextState: OwnState,
   ) {
     this.initLighting();
     return true;
@@ -127,7 +127,7 @@ export default class LightingDialog extends React.Component<
        * ref. https://caniusevia.com/docs/optional#lighting
        */
       throw new Error(
-        `lighting properties whose type is NOT 'string' MUST contain 'extends'.`
+        `lighting properties whose type is NOT 'string' MUST contain 'extends'.`,
       );
     }
     this.showUnderglow = 0 <= lighting.extends.indexOf('rgblight');

@@ -5,7 +5,7 @@ import {
 
 const extractAttribute = (
   tag: string,
-  attributeName: string
+  attributeName: string,
 ): string | undefined => {
   const pattern = new RegExp(`${attributeName}="([^"]+)"`);
   const match = pattern.exec(tag);
@@ -13,17 +13,17 @@ const extractAttribute = (
 };
 
 const isValidType = (
-  type: string
+  type: string,
 ): type is IBuildableFirmwareCodeParameterType => {
   return ['select', 'text', 'number', 'toggle'].includes(type);
 };
 
 export const replaceBuildableFirmwareCodeWithParameterDefaultValues = (
   input: string,
-  parameters: IBuildableFirmwareCodeParameter[]
+  parameters: IBuildableFirmwareCodeParameter[],
 ): string => {
   const sortedParameters = parameters.sort(
-    (a, b) => b.startPosition - a.startPosition
+    (a, b) => b.startPosition - a.startPosition,
   );
   return sortedParameters.reduce<string>((result, parameter): string => {
     return (
@@ -35,7 +35,7 @@ export const replaceBuildableFirmwareCodeWithParameterDefaultValues = (
 };
 
 export const extractBuildableFirmwareCodeParameters = (
-  input: string
+  input: string,
 ): IBuildableFirmwareCodeParameter[] => {
   const remapTagPattern = /<remap\s+([^>]+?)\s*\/>/g;
   let match: RegExpExecArray | null;

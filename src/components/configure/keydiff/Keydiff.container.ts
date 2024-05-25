@@ -30,10 +30,14 @@ const mapDispatchToProps = (_dispatch: any) => {
     onClickCancelForEncoder: (
       layer: number,
       encoderId: number,
-      keySwitchOperation: IKeySwitchOperation
+      keySwitchOperation: IKeySwitchOperation,
     ) => {
       _dispatch(
-        AppActions.encodersRemapsRemoveKey(layer, encoderId, keySwitchOperation)
+        AppActions.encodersRemapsRemoveKey(
+          layer,
+          encoderId,
+          keySwitchOperation,
+        ),
       );
       _dispatch(KeymapActions.clearSelectedKeyPosition());
       _dispatch(KeydiffActions.clearKeydiff());

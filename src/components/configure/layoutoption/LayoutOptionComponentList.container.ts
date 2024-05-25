@@ -19,10 +19,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     setLayoutOption: (
       option: number,
       optionChoice: number,
-      hidSupport: boolean
+      hidSupport: boolean,
     ) => {
       _dispatch(
-        LayoutOptionsActions.updateSelectedOption(option, optionChoice)
+        LayoutOptionsActions.updateSelectedOption(option, optionChoice),
       );
       if (hidSupport) {
         _dispatch(hidActionsThunk.updateLayoutOptions());
@@ -37,5 +37,5 @@ export type LayoutOptionComponentListActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(LayoutOptionComponentList);

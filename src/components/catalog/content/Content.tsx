@@ -140,10 +140,10 @@ const CategoryKeyboardContent: React.FC<
       phase === 'keymap'
         ? 1
         : phase === 'firmware'
-        ? 2
-        : phase === 'build'
-        ? 3
-        : 0;
+          ? 2
+          : phase === 'build'
+            ? 3
+            : 0;
     // eslint-disable-next-line no-undef
     const url = `https://remap-keys.app/catalog/${definitionDocument!.id}`;
     return (

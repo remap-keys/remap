@@ -29,7 +29,7 @@ export const isJsonFile = (file: File): boolean => {
 export const validateIds = (
   keyboardDefinition: KeyboardDefinitionSchema,
   deviceVendorId: number,
-  deviceProductId: number
+  deviceProductId: number,
 ): string | null => {
   const getNumber = (source: string): number => {
     if (!source) {
@@ -54,7 +54,7 @@ export const validateIds = (
 
 export const validateRowsAndCols = (
   source: KeyboardDefinitionSchema,
-  target: KeyboardDefinitionSchema
+  target: KeyboardDefinitionSchema,
 ): string | null => {
   if (source.matrix.rows !== target.matrix.rows) {
     return `Not match the Rows: Server:${target.matrix.rows}, Local:${source.matrix.rows}`;
@@ -67,7 +67,7 @@ export const validateRowsAndCols = (
 
 export const validateKeyboardDefinitionSchema = (
   json: Object,
-  schemaObject: Object = schema
+  schemaObject: Object = schema,
 ): ValidateKeyboardDefinitionSchemaResult => {
   const ajv = new Ajv();
   const validate = ajv.compile(schemaObject);
@@ -78,7 +78,7 @@ export const validateKeyboardDefinitionSchema = (
     return {
       valid: false,
       errors: (validate.errors! as SchemaValidateError[]).map((err) =>
-        buildError(err, json)
+        buildError(err, json),
       ),
     };
   }
@@ -86,16 +86,16 @@ export const validateKeyboardDefinitionSchema = (
 
 export const buildError = (
   error: SchemaValidateError,
-  json: Object
+  json: Object,
 ): SchemaValidateError => {
   let msg = error.message;
   if (error.keyword == 'pattern') {
     msg = `<strong>${getValue(
       error.dataPath,
-      json
+      json,
     )}</strong> should match pattern /${error.params!.pattern.replace(
       /\n/g,
-      '\\n'
+      '\\n',
     )}/`;
   } else if (error.keyword == 'type') {
     msg = `<strong>${getValue(error.dataPath, json)}</strong> ${error.message}`;

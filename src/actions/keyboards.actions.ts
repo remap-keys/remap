@@ -110,7 +110,7 @@ export const KeyboardsCreateDefinitionActions = {
     };
   },
   updateOtherPlaceSourceCodeEvidence: (
-    otherPlaceSourceCodeEvidence: string
+    otherPlaceSourceCodeEvidence: string,
   ) => {
     return {
       type: KEYBOARDS_CREATE_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE,
@@ -124,7 +124,7 @@ export const KeyboardsCreateDefinitionActions = {
     };
   },
   updateQmkRepositoryFirstPullRequestUrl: (
-    qmkRepositoryFirstPullRequestUrl: string
+    qmkRepositoryFirstPullRequestUrl: string,
   ) => {
     return {
       type: KEYBOARDS_CREATE_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
@@ -266,7 +266,7 @@ export const KeyboardsEditDefinitionActions = {
     };
   },
   updateOtherPlaceSourceCodeEvidence: (
-    otherPlaceSourceCodeEvidence: string
+    otherPlaceSourceCodeEvidence: string,
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_OTHER_PLACE_SOURCE_CODE_EVIDENCE,
@@ -280,7 +280,7 @@ export const KeyboardsEditDefinitionActions = {
     };
   },
   updateQmkRepositoryFirstPullRequestUrl: (
-    qmkRepositoryFirstPullRequestUrl: string
+    qmkRepositoryFirstPullRequestUrl: string,
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_QMK_REPOSITORY_FIRST_PULL_REQUEST_URL,
@@ -295,7 +295,7 @@ export const KeyboardsEditDefinitionActions = {
   },
   updateFeature: (
     value: IKeyboardFeatures | IConditionNotSelected,
-    targetFeatures: readonly IKeyboardFeatures[]
+    targetFeatures: readonly IKeyboardFeatures[],
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_FEATURE,
@@ -348,7 +348,7 @@ export const KeyboardsEditDefinitionActions = {
     };
   },
   updateAdditionalDescriptions: (
-    additionalDescriptions: IAdditionalDescription[]
+    additionalDescriptions: IAdditionalDescription[],
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_ADDITIONAL_DESCRIPTIONS,
@@ -434,7 +434,7 @@ export const KeyboardsEditDefinitionActions = {
   },
   updateBuildableFirmwareFile: (
     file: IBuildableFirmwareFile | null,
-    type: IBuildableFirmwareFileType | null
+    type: IBuildableFirmwareFileType | null,
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_FILE,
@@ -442,7 +442,7 @@ export const KeyboardsEditDefinitionActions = {
     };
   },
   updateBuildableFirmwareCodeParameters: (
-    parameters: IBuildableFirmwareCodeParameter[]
+    parameters: IBuildableFirmwareCodeParameter[],
   ) => {
     return {
       type: KEYBOARDS_EDIT_DEFINITION_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETERS,
@@ -458,7 +458,7 @@ export const KeyboardsEditDefinitionActions = {
 };
 
 type ActionTypes = ReturnType<
-  typeof KeyboardsAppActions[keyof typeof KeyboardsAppActions]
+  (typeof KeyboardsAppActions)[keyof typeof KeyboardsAppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -473,7 +473,7 @@ export const keyboardsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.signout));

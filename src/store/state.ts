@@ -204,7 +204,7 @@ const KeySwitchOperations = {
   ccw: 'ccw',
 } as const;
 export type IKeySwitchOperation =
-  typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+  (typeof KeySwitchOperations)[keyof typeof KeySwitchOperations];
 
 export type IBuildableFirmwareCodeParameterType =
   | 'select'
@@ -494,7 +494,7 @@ try {
     throw cause;
   } else {
     console.warn(
-      `To work Remap locally, ignore the situation which Firebase cannot be initialized. ${cause}`
+      `To work Remap locally, ignore the situation which Firebase cannot be initialized. ${cause}`,
     );
     firebaseProvider = null;
   }
@@ -563,7 +563,7 @@ export const INIT_STATE: RootState = {
         return defaultKeyLabel;
       }
       const keyLabelLang = KEY_LABEL_LANGS.find(
-        (v) => v.labelLang == storageValue
+        (v) => v.labelLang == storageValue,
       );
       if (keyLabelLang == undefined) {
         return defaultKeyLabel;

@@ -46,7 +46,7 @@ type KeyboardViewType = {
     // eslint-disable-next-line no-unused-vars
     encoderId: number | null,
     // eslint-disable-next-line no-unused-vars
-    ref: React.RefObject<HTMLDivElement>
+    ref: React.RefObject<HTMLDivElement>,
   ) => void;
   // eslint-disable-next-line no-unused-vars
   setKeyboardSize: (width: number, height: number) => void;
@@ -139,14 +139,14 @@ export function KeyboardView(props: KeyboardViewType) {
                   pos: string,
                   key: Key,
                   keySwitchEventType: IKeySwitchOperation,
-                  encoderId: number | null
+                  encoderId: number | null,
                 ) => {
                   props.onClickKeycap(
                     pos,
                     key,
                     keySwitchEventType,
                     encoderId,
-                    anchorRef
+                    anchorRef,
                   );
                 }}
                 focus={keycap.focus}

@@ -48,19 +48,19 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateJsonFilename: (jsonFilename: string) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateJsonFilename(jsonFilename)
+        KeyboardsEditDefinitionActions.updateJsonFilename(jsonFilename),
       );
     },
     updateJsonString: (jsonStr: string) => {
       _dispatch(KeyboardsEditDefinitionActions.updateJsonString(jsonStr));
     },
     updateKeyboardDefinition: (
-      keyboardDefinition: KeyboardDefinitionSchema
+      keyboardDefinition: KeyboardDefinitionSchema,
     ) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateKeyboardDefinition(
-          keyboardDefinition
-        )
+          keyboardDefinition,
+        ),
       );
     },
     updateProductName: (productName: string) => {
@@ -91,56 +91,56 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateFirmwareCodePlace: (firmwareCodePlace: IFirmwareCodePlace) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateFirmwareCodePlace(
-          firmwareCodePlace
-        )
+          firmwareCodePlace,
+        ),
       );
     },
     updateForkedRepositoryUrl: (forkedRepositoryUrl: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateForkedRepositoryUrl(
-          forkedRepositoryUrl
-        )
+          forkedRepositoryUrl,
+        ),
       );
     },
     updateForkedRepositoryEvidence: (forkedRepositoryEvidence: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateForkedRepositoryEvidence(
-          forkedRepositoryEvidence
-        )
+          forkedRepositoryEvidence,
+        ),
       );
     },
     updateOtherPlaceHowToGet: (otherPlaceHowToGet: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateOtherPlaceHowToGet(
-          otherPlaceHowToGet
-        )
+          otherPlaceHowToGet,
+        ),
       );
     },
     updateOtherPlaceSourceCodeEvidence: (
-      otherPlaceSourceCodeEvidence: string
+      otherPlaceSourceCodeEvidence: string,
     ) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateOtherPlaceSourceCodeEvidence(
-          otherPlaceSourceCodeEvidence
-        )
+          otherPlaceSourceCodeEvidence,
+        ),
       );
     },
     updateOtherPlacePublisherEvidence: (
-      otherPlacePublisherEvidence: string
+      otherPlacePublisherEvidence: string,
     ) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateOtherPlacePublisherEvidence(
-          otherPlacePublisherEvidence
-        )
+          otherPlacePublisherEvidence,
+        ),
       );
     },
     updateQmkRepositoryFirstPullRequestUrl: (
-      qmkRepositoryFirstPullRequest: string
+      qmkRepositoryFirstPullRequest: string,
     ) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateQmkRepositoryFirstPullRequestUrl(
-          qmkRepositoryFirstPullRequest
-        )
+          qmkRepositoryFirstPullRequest,
+        ),
       );
     },
     updatePhase: (phase: IKeyboardsPhase) => {
@@ -149,20 +149,20 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateContactInformation: (contactInformation: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateContactInformation(
-          contactInformation
-        )
+          contactInformation,
+        ),
       );
     },
     updateOrganizationEvidence: (organizationEvidence: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateOrganizationEvidence(
-          organizationEvidence
-        )
+          organizationEvidence,
+        ),
       );
     },
     updateOrganizationId: (organizationId: string) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateOrganizationId(organizationId)
+        KeyboardsEditDefinitionActions.updateOrganizationId(organizationId),
       );
     },
     updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {

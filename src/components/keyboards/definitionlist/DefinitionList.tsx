@@ -134,7 +134,7 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
                     Created at:
                   </span>
                   {moment(this.props.doc.createdAt).format(
-                    'YYYY-MM-DD HH:mm:ss'
+                    'YYYY-MM-DD HH:mm:ss',
                   )}
                 </div>
                 <div className="definition-meta-info">
@@ -142,7 +142,7 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
                     Updated at:{' '}
                   </span>
                   {moment(this.props.doc.updatedAt).format(
-                    'YYYY-MM-DD HH:mm:ss'
+                    'YYYY-MM-DD HH:mm:ss',
                   )}
                 </div>
               </div>

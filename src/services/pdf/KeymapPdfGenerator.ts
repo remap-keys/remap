@@ -49,7 +49,7 @@ export class KeymapPdfGenerator {
     keymap: KeymapType,
     keys: { [pos: string]: Key }[],
     layerCount: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ) {
     this.model = new KeyboardModel(keymap);
     this.keys = keys;
@@ -85,7 +85,7 @@ export class KeymapPdfGenerator {
     const url = '/assets/fonts/RictyDiminished-Regular.ttf';
     const fontBytes = await fetch(url).then((res) => res.arrayBuffer());
     const title = `${name} keymap's cheat sheet (${KeyLabelLangs.getLabelLangMenuLabel(
-      this.labelLang
+      this.labelLang,
     )})`;
     this.doc = await PDFDocument.create();
     this.doc.setAuthor('Remap');
@@ -131,7 +131,7 @@ export class KeymapPdfGenerator {
     download(
       pdfBytes,
       `keymap_cheatsheet_${name.replace(/\s+/g, '_').toLocaleLowerCase()}.pdf`,
-      'application/pdf'
+      'application/pdf',
     );
   }
 
@@ -142,7 +142,7 @@ export class KeymapPdfGenerator {
     x: number,
     y: number,
     keyboardWidth: number,
-    keyboardHeight: number
+    keyboardHeight: number,
   ) {
     const layerHeaderY = y - this.layerHeaderHeight;
     page.drawText(`Layer ${layer}`, {
@@ -159,7 +159,7 @@ export class KeymapPdfGenerator {
       x,
       layerHeaderY,
       keyboardWidth,
-      keyboardHeight
+      keyboardHeight,
     );
   }
 
@@ -170,7 +170,7 @@ export class KeymapPdfGenerator {
     x: number,
     y: number,
     keyboardWidth: number,
-    keyboardHeight: number
+    keyboardHeight: number,
   ) {
     // keyboard frame
     const kbdW = keyboardWidth;
@@ -199,7 +199,7 @@ export class KeymapPdfGenerator {
     key: Key,
     km: KeyModel,
     rootX: number,
-    rootY: number
+    rootY: number,
   ) {
     const box = 56;
     const margin = 2;
@@ -236,10 +236,10 @@ export class KeymapPdfGenerator {
       const lenW6 = box * (km.w2 - km.w);
       path = `M${margin + r},${margin} h${lenW0} ${cw('', '')} v${lenH1} ${cw(
         '-',
-        ''
+        '',
       )} h-${lenW2} ${cw('-', '-')} v-${lenH3} ${ccw('-', '-')} h-${lenW4} ${cw(
         '-',
-        '-'
+        '-',
       )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
     } else if (km.isBackwardsEnter) {
       /**
@@ -263,10 +263,10 @@ export class KeymapPdfGenerator {
       const lenW6 = box * (km.w2 - km.w);
       path = `M${margin + r},${margin} h${lenW0} ${cw('', '')} v${lenH1} ${cw(
         '-',
-        ''
+        '',
       )} h-${lenW2} ${cw('-', '-')} v-${lenH3} ${cw('', '-')} h${lenW4} ${ccw(
         '',
-        '-'
+        '-',
       )} v-${lenH5}, ${cw('', '-')} h${lenW6}`;
     } else if (km.isEncoder) {
       const radius = (box * km.w) / 2 - margin * 2;
@@ -280,7 +280,7 @@ export class KeymapPdfGenerator {
       const lenH = roofHeight;
       path = `M${margin + r},${margin} h${lenW} ${cw('', '')} v${lenH} ${cw(
         '-',
-        ''
+        '',
       )} h-${lenW} ${cw('-', '-')} v-${lenH} ${cw('', '-')} Z`;
     }
 
@@ -322,7 +322,7 @@ export class KeymapPdfGenerator {
       if (holdLabel === '' && modifierLabel === '') {
         modifierLabel = buildModLabel(
           key.keymap.modifiers || null,
-          key.keymap.direction!
+          key.keymap.direction!,
         );
       }
       metaRight = key.metaRight ? key.metaRight : '';
@@ -337,7 +337,7 @@ export class KeymapPdfGenerator {
       keycapY,
       labelW,
       labelH,
-      rotate
+      rotate,
     );
   }
 
@@ -350,7 +350,7 @@ export class KeymapPdfGenerator {
     rootY: number,
     width: number,
     height: number,
-    rotate: Degrees // degrees(deg)
+    rotate: Degrees, // degrees(deg)
   ) {
     const rad = rotate.angle * (Math.PI / 180);
     const sin = Math.sin(rad);
@@ -381,7 +381,7 @@ export class KeymapPdfGenerator {
       x[0],
       y[0],
       width,
-      rotate
+      rotate,
     );
 
     // MID label
@@ -392,7 +392,7 @@ export class KeymapPdfGenerator {
       x[1],
       y[1],
       width,
-      rotate
+      rotate,
     );
 
     // BOTTOM label
@@ -403,7 +403,7 @@ export class KeymapPdfGenerator {
       x[2],
       y[2],
       width,
-      rotate
+      rotate,
     );
   }
 
@@ -423,7 +423,7 @@ export class KeymapPdfGenerator {
     x: number, // left
     y: number, // bottom
     width: number,
-    rotate: Degrees
+    rotate: Degrees,
   ) {
     const rad = rotate.angle * (Math.PI / 180);
     const sin = Math.sin(rad);
@@ -445,7 +445,7 @@ export class KeymapPdfGenerator {
     let labels: string[] = this.splitLabel(
       labelCenter,
       fontSize,
-      width - labelPadding * 2 /* padding for both sides  */
+      width - labelPadding * 2 /* padding for both sides  */,
     );
 
     const verticalAlign = ((labels.length - 1) * fontHeight) / 2;
@@ -540,7 +540,7 @@ export class KeymapPdfGenerator {
   private splitLabel(
     label: string,
     fontSize: number,
-    limitWidth: number
+    limitWidth: number,
   ): string[] {
     const list: string[] = [];
 

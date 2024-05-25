@@ -124,7 +124,7 @@ export default class Lighting extends React.Component<Props, State> {
     }
 
     const hex = ReinventedColorWheel.rgb2hex(
-      ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v])
+      ReinventedColorWheel.hsv2rgb([hs.h, hs.s, v]),
     );
     const value = {
       underglowColor: { ...hs, v },

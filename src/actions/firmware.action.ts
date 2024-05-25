@@ -120,9 +120,9 @@ export const FlashFirmwareDialogActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof LayoutOptionsActions)[keyof typeof LayoutOptionsActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -136,7 +136,7 @@ export const firmwareActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       // eslint-disable-next-line no-undef
       const loadBinaryFile = (file: File): Promise<ArrayBuffer> => {
@@ -153,8 +153,8 @@ export const firmwareActionsThunk = {
       dispatch(UploadFirmwareDialogActions.updateOpen(false));
       dispatch(
         UploadFirmwareDialogActions.uploadFirmwareFileBuffer(
-          firmwareArrayBuffer
-        )
+          firmwareArrayBuffer,
+        ),
       );
       dispatch(FlashFirmwareDialogActions.clear());
       const firmwareName = file.name;
@@ -170,7 +170,7 @@ export const firmwareActionsThunk = {
           hash: '',
           sourceCodeUrl: '',
           created_at: new Date(),
-        })
+        }),
       );
     },
   // eslint-disable-next-line no-undef
@@ -178,7 +178,7 @@ export const firmwareActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const handleError = (error: string, cause?: any) => {
         console.error(error);
@@ -209,13 +209,13 @@ export const firmwareActionsThunk = {
         dispatch(
           FlashFirmwareDialogActions.appendLog(
             'Reading the firmware binary from the server.',
-            false
-          )
+            false,
+          ),
         );
         const fetchBlobResult = await storage.instance!.fetchFirmwareFileBlob(
           definitionDocument.id,
           firmware.filename,
-          'flash'
+          'flash',
         );
         if (isError(fetchBlobResult)) {
           handleError(fetchBlobResult.error, fetchBlobResult.cause);
@@ -225,7 +225,7 @@ export const firmwareActionsThunk = {
         flashBytes = createFlashBytes(
           Buffer.from(new Uint8Array(await blob.arrayBuffer())),
           bootloaderType,
-          dispatch
+          dispatch,
         );
         if (flashBytes === undefined) {
           return;
@@ -234,13 +234,13 @@ export const firmwareActionsThunk = {
         dispatch(
           FlashFirmwareDialogActions.appendLog(
             'Reading the firmware binary from the server.',
-            false
-          )
+            false,
+          ),
         );
         const task = common.firmware.flashFirmwareDialog.buildingFirmwareTask!;
         const fetchBlobResult =
           await storage.instance!.fetchBuiltFirmwareFileBlob(
-            task.firmwareFilePath
+            task.firmwareFilePath,
           );
         if (isError(fetchBlobResult)) {
           handleError(fetchBlobResult.error, fetchBlobResult.cause);
@@ -250,7 +250,7 @@ export const firmwareActionsThunk = {
         flashBytes = createFlashBytes(
           Buffer.from(new Uint8Array(await blob.arrayBuffer())),
           bootloaderType,
-          dispatch
+          dispatch,
         );
         if (flashBytes === undefined) {
           return;
@@ -259,11 +259,11 @@ export const firmwareActionsThunk = {
         flashBytes = createFlashBytes(
           Buffer.from(
             new Uint8Array(
-              common.firmware.uploadFirmwareDialog.firmwareFileBuffer!
-            )
+              common.firmware.uploadFirmwareDialog.firmwareFileBuffer!,
+            ),
           ),
           bootloaderType,
-          dispatch
+          dispatch,
         );
         if (flashBytes === undefined) {
           return;
@@ -271,8 +271,8 @@ export const firmwareActionsThunk = {
       }
       dispatch(
         FlashFirmwareDialogActions.appendLog(
-          'Reading the firmware binary done.'
-        )
+          'Reading the firmware binary done.',
+        ),
       );
       dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
 
@@ -311,15 +311,15 @@ export const firmwareActionsThunk = {
           if (phase === 'closed') {
             dispatch(
               FlashFirmwareDialogActions.appendLog(
-                'Writing the firmware finished successfully.'
-              )
+                'Writing the firmware finished successfully.',
+              ),
             );
             dispatch(FlashFirmwareDialogActions.updateFlashing(false));
           }
         },
         (error, cause) => {
           handleError(error, cause);
-        }
+        },
       );
       if (!writeResult.success) {
         handleError(writeResult.error!, writeResult.cause);
@@ -331,7 +331,7 @@ export const firmwareActionsThunk = {
 const createFlashBytes = (
   buffer: Buffer,
   bootloaderType: IBootloaderType,
-  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>
+  dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
 ): Buffer | undefined => {
   try {
     switch (bootloaderType) {
@@ -346,8 +346,8 @@ const createFlashBytes = (
     dispatch(
       NotificationActions.addError(
         'Creating the firmware binary failed.',
-        error
-      )
+        error,
+      ),
     );
     dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
     dispatch(FlashFirmwareDialogActions.updateFlashing(false));

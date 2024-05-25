@@ -29,7 +29,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateBootloaderType: (bootloaderType: IBootloaderType) => {
       _dispatch(
-        FlashFirmwareDialogActions.updateBootloaderType(bootloaderType)
+        FlashFirmwareDialogActions.updateBootloaderType(bootloaderType),
       );
     },
     close: () => {
@@ -43,5 +43,5 @@ export type FlashFirmwareDialogActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(FlashFirmwareDialog);

@@ -61,13 +61,13 @@ type BuildFormProps = OwnProps &
 export default function BuildForm(props: BuildFormProps) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
   const [keyboardDirectoryName, setKeyboardDirectoryName] = useState<string>(
-    props.buildableFirmware!.keyboardDirectoryName
+    props.buildableFirmware!.keyboardDirectoryName,
   );
 
   const onClickSupportBuildingFirmware = () => {
     props.updateBuildableFirmwareEnabled!(
       props.keyboardDefinition!.id,
-      !props.buildableFirmware!.enabled
+      !props.buildableFirmware!.enabled,
     );
   };
 
@@ -75,7 +75,7 @@ export default function BuildForm(props: BuildFormProps) {
     const fileName = `${Date.now()}.txt`;
     props.createNewFirmwareKeyboardFile!(
       props.keyboardDefinition!.id,
-      fileName
+      fileName,
     );
   };
 
@@ -86,7 +86,7 @@ export default function BuildForm(props: BuildFormProps) {
 
   const onClickFirmwareFile = (
     file: IBuildableFirmwareFile,
-    type: IBuildableFirmwareFileType
+    type: IBuildableFirmwareFileType,
   ) => {
     props.updateTargetBuildableFirmwareFile!(file, type);
     const parameters = extractBuildableFirmwareCodeParameters(file.content);
@@ -102,7 +102,7 @@ export default function BuildForm(props: BuildFormProps) {
       };
       props.updateTargetBuildableFirmwareFile!(
         file,
-        props.targetBuildableFirmwareFileType!
+        props.targetBuildableFirmwareFileType!,
       );
     }
   };
@@ -116,7 +116,7 @@ export default function BuildForm(props: BuildFormProps) {
       };
       props.updateTargetBuildableFirmwareFile!(
         file,
-        props.targetBuildableFirmwareFileType!
+        props.targetBuildableFirmwareFileType!,
       );
       const parameters = extractBuildableFirmwareCodeParameters(content);
       props.updateBuildableFirmwareCodeParameters!(parameters);
@@ -131,7 +131,7 @@ export default function BuildForm(props: BuildFormProps) {
       props.updateBuildableFirmwareFile!(
         props.keyboardDefinition!.id,
         props.targetBuildableFirmwareFile,
-        props.targetBuildableFirmwareFileType
+        props.targetBuildableFirmwareFileType,
       );
     }
   };
@@ -151,7 +151,7 @@ export default function BuildForm(props: BuildFormProps) {
       props.deleteBuildableFirmwareFile!(
         props.keyboardDefinition!.id,
         props.targetBuildableFirmwareFile,
-        props.targetBuildableFirmwareFileType
+        props.targetBuildableFirmwareFileType,
       );
     }
   };
@@ -161,27 +161,27 @@ export default function BuildForm(props: BuildFormProps) {
   };
 
   const onChangeDefaultBootloaderType = (
-    event: SelectChangeEvent<IBootloaderType>
+    event: SelectChangeEvent<IBootloaderType>,
   ) => {
     props.updateBuildableFirmwareDefaultBootloaderType!(
       props.keyboardDefinition!.id,
-      event.target.value as IBootloaderType
+      event.target.value as IBootloaderType,
     );
   };
 
   const onChangeQmkFirmwareVersion = (
-    event: SelectChangeEvent<IBuildableFirmwareQmkFirmwareVersion>
+    event: SelectChangeEvent<IBuildableFirmwareQmkFirmwareVersion>,
   ) => {
     props.updateBuildableFirmwareQmkFirmwareVersion!(
       props.keyboardDefinition!.id,
-      event.target.value as IBuildableFirmwareQmkFirmwareVersion
+      event.target.value as IBuildableFirmwareQmkFirmwareVersion,
     );
   };
 
   const onChangeSupportCodeEditing = (event: SelectChangeEvent) => {
     props.updateBuildableFirmwareSupportCodeEditing!(
       props.keyboardDefinition!.id,
-      event.target.value === 'true'
+      event.target.value === 'true',
     );
   };
 
@@ -191,7 +191,7 @@ export default function BuildForm(props: BuildFormProps) {
     ) {
       props.updateBuildableFirmwareKeyboardDirectoryName!(
         props.keyboardDefinition!.id,
-        keyboardDirectoryName
+        keyboardDirectoryName,
       );
     }
   };
@@ -457,7 +457,7 @@ export default function BuildForm(props: BuildFormProps) {
                                       : ''}
                                   </TableCell>
                                 </TableRow>
-                              )
+                              ),
                             )}
                           </TableBody>
                         </Table>
@@ -510,7 +510,7 @@ type FirmwareFileListItemProps = {
     // eslint-disable-next-line no-unused-vars
     file: IBuildableFirmwareFile,
     // eslint-disable-next-line no-unused-vars
-    type: IBuildableFirmwareFileType
+    type: IBuildableFirmwareFileType,
   ) => void;
 };
 
@@ -523,7 +523,7 @@ function FirmwareFileListItem(props: FirmwareFileListItemProps) {
       onClick={() => {
         props.onClick(
           props.buildableFirmwareFile,
-          props.buildableFirmwareFileType
+          props.buildableFirmwareFileType,
         );
       }}
     >

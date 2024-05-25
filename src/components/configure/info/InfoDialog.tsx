@@ -86,7 +86,7 @@ export default class InfoDialog extends React.Component<
     if (this.props.keyboardDefinitionDocument) {
       this.googleFormUrl = GOOGLE_FORM_URL.replace(
         '${keyboard_name}',
-        this.props.keyboardDefinitionDocument.name
+        this.props.keyboardDefinitionDocument.name,
       ).replace('${keyboard_id}', this.props.keyboardDefinitionDocument.id);
 
       this.githubUrl = this.props.keyboardDefinitionDocument.githubUrl;

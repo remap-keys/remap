@@ -75,7 +75,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const onLoadFile = (
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
-    jsonStr: string
+    jsonStr: string,
   ) => {
     props.updateJsonFilename!(jsonFilename);
     props.updateKeyboardDefinition!(keyboardDefinition);
@@ -179,7 +179,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const handleDownloadJsonMenuClick = () => {
     setMenuAnchorEl(null);
     const jsonUrl = URL.createObjectURL(
-      new Blob([props.jsonStr!], { type: 'application/json' })
+      new Blob([props.jsonStr!], { type: 'application/json' }),
     );
     const a = document.createElement('a');
     document.body.appendChild(a);
@@ -280,12 +280,12 @@ export default function EditDefinition(props: EditKeyboardProps) {
                         props.phase === 'edit'
                           ? 0
                           : props.phase === 'catalog'
-                          ? 1
-                          : props.phase === 'firmware'
-                          ? 2
-                          : props.phase === 'build'
-                          ? 3
-                          : 4
+                            ? 1
+                            : props.phase === 'firmware'
+                              ? 2
+                              : props.phase === 'build'
+                                ? 3
+                                : 4
                       }
                       indicatorColor="primary"
                       textColor="primary"
@@ -394,14 +394,14 @@ export default function EditDefinition(props: EditKeyboardProps) {
             {confirmDialogMode === 'upload_json'
               ? 'Are you sure to update the JSON file?'
               : confirmDialogMode === 'save_as_draft'
-              ? 'Are you sure to save this new keyboard as draft?'
-              : confirmDialogMode === 'submit_for_review'
-              ? 'Are you sure to register and submit this new keyboard for review?'
-              : confirmDialogMode === 'delete'
-              ? 'Are you sure to delete?'
-              : confirmDialogMode === 'back_to_draft'
-              ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
-              : `Unknown confirmDialogMode: ${confirmDialogMode}`}
+                ? 'Are you sure to save this new keyboard as draft?'
+                : confirmDialogMode === 'submit_for_review'
+                  ? 'Are you sure to register and submit this new keyboard for review?'
+                  : confirmDialogMode === 'delete'
+                    ? 'Are you sure to delete?'
+                    : confirmDialogMode === 'back_to_draft'
+                      ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
+                      : `Unknown confirmDialogMode: ${confirmDialogMode}`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -434,14 +434,14 @@ function MenuUI(props: MenuUIProps) {
     menuItems.push(
       <MenuItem key="1" onClick={props.handleDownloadJsonMenuClick}>
         Download JSON
-      </MenuItem>
+      </MenuItem>,
     );
   }
   if (props.definitionDocument.status !== KeyboardDefinitionStatus.in_review) {
     menuItems.push(
       <MenuItem key="2" onClick={props.handleDeleteMenuClick}>
         Delete
-      </MenuItem>
+      </MenuItem>,
     );
   }
   if (menuItems.length > 0) {
@@ -474,7 +474,7 @@ type AlertMessageProps = {
 
 function AlertMessage(props: AlertMessageProps) {
   const updatedAt = moment(props.definitionDocument.updatedAt).format(
-    'YYYY-MM-DD HH:mm:ss'
+    'YYYY-MM-DD HH:mm:ss',
   );
   if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
     return (
@@ -490,7 +490,7 @@ function AlertMessage(props: AlertMessageProps) {
   ) {
     const googleFormUrl = GOOGLE_FORM_URL.replace(
       '${keyboard_name}',
-      props.definitionDocument!.name
+      props.definitionDocument!.name,
     ).replace('${keyboard_id}', props.definitionDocument!.id);
     return (
       <div className="edit-definition-alert">

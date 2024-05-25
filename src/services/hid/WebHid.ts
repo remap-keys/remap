@@ -94,7 +94,7 @@ export class Keyboard implements IKeyboard {
     try {
       this.getDevice().removeEventListener(
         'inputreport',
-        this.handleInputReport
+        this.handleInputReport,
       );
       await this.device.close();
     } catch (error) {
@@ -156,7 +156,7 @@ export class Keyboard implements IKeyboard {
       }
     } else {
       console.log(
-        'Bytes received but the command queue is empty. Close the keyboard.'
+        'Bytes received but the command queue is empty. Close the keyboard.',
       );
       this.hid.close(this);
     }
@@ -183,7 +183,7 @@ export class Keyboard implements IKeyboard {
     layer: number,
     encoderIds: number[],
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): Promise<IFetchEncodersKeymapsResult> {
     const commandResults: Promise<IDynamicKeymapGetEncoderResponse>[] = [];
     encoderIds.forEach((encoderId) => {
@@ -203,17 +203,16 @@ export class Keyboard implements IKeyboard {
                   console.error(result.cause!);
                   reject(result.error!);
                 }
-              }
+              },
             );
             return this.enqueue(command);
-          })
+          }),
         );
       });
     });
     try {
-      const responses = await Promise.all<IDynamicKeymapGetEncoderResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapGetEncoderResponse>(commandResults);
       const keymap: IEncoderKeymaps = {};
       let i = 0;
       encoderIds.forEach((encoderId) => {
@@ -223,12 +222,12 @@ export class Keyboard implements IKeyboard {
           clockwise: KeycodeList.getKeymap(
             clockwiseResponse.code!,
             labelLang,
-            customKeycodes
+            customKeycodes,
           ),
           counterclockwise: KeycodeList.getKeymap(
             counterclockwiseResponse.code!,
             labelLang,
-            customKeycodes
+            customKeycodes,
           ),
         };
       });
@@ -251,7 +250,7 @@ export class Keyboard implements IKeyboard {
     rowCount: number,
     columnCount: number,
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): Promise<IFetchKeymapResult> {
     const totalSize = rowCount * columnCount * 2;
     let offset = layer * totalSize;
@@ -280,17 +279,16 @@ export class Keyboard implements IKeyboard {
                 console.log(result.cause!);
                 reject(result.error!);
               }
-            }
+            },
           );
           return this.enqueue(command);
-        })
+        }),
       );
       offset = offset + 28;
     } while (remainingSize !== 0);
     try {
-      const responses = await Promise.all<IDynamicKeymapReadBufferResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapReadBufferResponse>(commandResults);
       let row = 0;
       let column = 0;
       const keymapMap: { [pos: string]: IKeymap } = {};
@@ -347,7 +345,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -377,7 +375,7 @@ export class Keyboard implements IKeyboard {
     layer: number,
     row: number,
     column: number,
-    code: number
+    code: number,
   ): Promise<IResult> {
     return new Promise<IResult>((resolve) => {
       const command = new DynamicKeymapSetKeycodeCommand(
@@ -399,7 +397,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -409,7 +407,7 @@ export class Keyboard implements IKeyboard {
     layer: number,
     encoderId: number,
     clockwise: boolean,
-    code: number
+    code: number,
   ): Promise<IResult> {
     return new Promise<IResult>((resolve) => {
       const command = new DynamicKeymapSetEncoderCommand(
@@ -431,7 +429,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -456,7 +454,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -481,7 +479,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -506,7 +504,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -532,7 +530,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -557,7 +555,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -582,14 +580,14 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
   }
 
   private sendUpdateAndSaveBacklightSettingCommands(
-    updateCommand: Promise<IResult>
+    updateCommand: Promise<IResult>,
   ): Promise<IResult> {
     return updateCommand.then((result) => {
       return new Promise<IResult>((resolve) => {
@@ -635,10 +633,10 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(command);
-      })
+      }),
     );
   }
 
@@ -662,15 +660,15 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(command);
-      })
+      }),
     );
   }
 
   private sendUpdateAndSaveRgbLightSettingCommands(
-    updateCommand: Promise<IResult>
+    updateCommand: Promise<IResult>,
   ): Promise<IResult> {
     return updateCommand.then((result) => {
       return new Promise<IResult>((resolve) => {
@@ -717,10 +715,10 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(command);
-      })
+      }),
     );
   }
 
@@ -745,10 +743,10 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(command);
-      })
+      }),
     );
   }
 
@@ -773,10 +771,10 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(updateCommand);
-      })
+      }),
     );
   }
 
@@ -801,10 +799,10 @@ export class Keyboard implements IKeyboard {
                 cause: result.cause,
               });
             }
-          }
+          },
         );
         return this.enqueue(command);
-      })
+      }),
     );
   }
 
@@ -852,7 +850,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -875,7 +873,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -883,7 +881,7 @@ export class Keyboard implements IKeyboard {
 
   async fetchSwitchMatrixState(
     rows: number,
-    cols: number
+    cols: number,
   ): Promise<IFetchSwitchMatrixStateResult> {
     try {
       const rowByteLength = Math.ceil(cols / 8);
@@ -892,7 +890,7 @@ export class Keyboard implements IKeyboard {
       for (let offset = 0; offset < rows; offset += requestRowCount) {
         const requestSize = Math.min(
           rows * rowByteLength - states.length,
-          rowByteLength * requestRowCount
+          rowByteLength * requestRowCount,
         );
         const response = await this.executeSwitchMatrixStateCommand(offset);
         const state = response.state;
@@ -913,7 +911,7 @@ export class Keyboard implements IKeyboard {
   }
 
   private async executeSwitchMatrixStateCommand(
-    offset: number
+    offset: number,
   ): Promise<ISwitchLayerStateResponse> {
     return new Promise<ISwitchLayerStateResponse>((resolve, reject) => {
       const command = new SwitchMatrixStateCommand(
@@ -927,7 +925,7 @@ export class Keyboard implements IKeyboard {
             console.log(result.cause!);
             reject(result.error!);
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -989,7 +987,7 @@ export class Keyboard implements IKeyboard {
               cause: result.cause,
             });
           }
-        }
+        },
       );
       return this.enqueue(command);
     });
@@ -1022,17 +1020,16 @@ export class Keyboard implements IKeyboard {
                 console.log(result.cause!);
                 reject(result.error!);
               }
-            }
+            },
           );
           return this.enqueue(command);
-        })
+        }),
       );
       offset = offset + 28;
     } while (remainingSize !== 0);
     try {
-      const responses = await Promise.all<IDynamicKeymapMacroGetBufferResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapMacroGetBufferResponse>(commandResults);
       const buffer = new Uint8Array(bufferSize);
       let pos = 0;
       responses.forEach((response) => {
@@ -1059,7 +1056,7 @@ export class Keyboard implements IKeyboard {
 
   async updateMacroBuffer(
     offset: number,
-    buffer: Uint8Array
+    buffer: Uint8Array,
   ): Promise<IResult> {
     let pos = 0;
     const commandResults: Promise<IDynamicKeymapMacroSetBufferResponse>[] = [];
@@ -1088,10 +1085,10 @@ export class Keyboard implements IKeyboard {
                 console.log(result.cause!);
                 reject(result.error!);
               }
-            }
+            },
           );
           return this.enqueue(command);
-        })
+        }),
       );
       pos = pos + 28;
     } while (remainingSize !== 0);

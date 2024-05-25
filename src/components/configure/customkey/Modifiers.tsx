@@ -65,7 +65,7 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
 
   private updateCheckboxState(
     type: 'shift' | 'ctrl' | 'alt' | 'gui',
-    checked: boolean
+    checked: boolean,
   ) {
     let mods: IMod[] = [...this.props.mods];
     switch (type) {
@@ -226,7 +226,7 @@ const MOD_LABELS = [
 
 export const buildModLabel = (
   modifiers: IMod[] | null,
-  direction: IModDirection
+  direction: IModDirection,
 ): string => {
   if (modifiers === null || modifiers.length === 0) {
     return '';
@@ -248,7 +248,7 @@ export const buildModLabel = (
 
 export const mods2Number = (
   modifiers: IMod[],
-  direction: IModDirection
+  direction: IModDirection,
 ): number => {
   return (
     (direction << 4) |

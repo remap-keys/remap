@@ -19,7 +19,7 @@ export interface ICommandResponseHandler<T extends ICommandResponse> {
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > {
   private readonly request: TRequest | undefined;
 
@@ -77,7 +77,7 @@ export abstract class AbstractCommand<
     if (readBytesLength > 0) {
       const readResult = await serial.readBytes(
         this.getReadBytesLength(),
-        this.getTimeout()
+        this.getTimeout(),
       );
       if (!readResult.success) {
         return {

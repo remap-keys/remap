@@ -144,7 +144,7 @@ describe('KeymapItem', () => {
       const current = new Current();
       const subject = new KeymapItem(
         current,
-        '0,0\n0,6\n0,2\n1,2\n0.9\n1,1\n0,3\n0,5\n0,1\ne1\n0,7\n1,0'
+        '0,0\n0,6\n0,2\n1,2\n0.9\n1,1\n0,3\n0,5\n0,1\ne1\n0,7\n1,0',
       );
       expect(subject.option).toEqual('1');
       expect(subject.choice).toEqual('2');

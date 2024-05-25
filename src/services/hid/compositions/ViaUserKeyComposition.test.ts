@@ -43,7 +43,7 @@ describe('ViaUserKeyComposition', () => {
     test('customKeycodes is not specified', () => {
       const actual = ViaUserKeyComposition.findKeymap(
         0b0111_1110_0000_0000,
-        undefined
+        undefined,
       );
       expect(actual).not.toBeUndefined();
       expect(actual!.code).toEqual(0b0111_1110_0000_0000);

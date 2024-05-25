@@ -51,7 +51,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IBootloaderReadResult> {
     return {
       success: false,
@@ -62,13 +62,13 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   async verify(
     bytes: Uint8Array,
     progress: FirmwareWriterProgressListener,
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult> {
     const initializeDeviceResult = await this.dfuInitializeDevice(
       4,
       false,
       true,
-      progress
+      progress,
     );
     if (!initializeDeviceResult.success) {
       return initializeDeviceResult;
@@ -93,13 +93,13 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     flashBytes: Uint8Array,
     eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult> {
     const initializeDeviceResult = await this.dfuInitializeDevice(
       4,
       false,
       true,
-      progress
+      progress,
     );
     if (!initializeDeviceResult.success) {
       return initializeDeviceResult;
@@ -132,7 +132,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   }
 
   private async reset(
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     progress('Resetting the device... ');
     const command = Uint8Array.of(0x04, 0x03, 0x00);
@@ -179,7 +179,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
   private async flash(
     bytes: Uint8Array,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     const mcuParams = this.createMcuParameters();
     const data = new Uint16Array(mcuParams.memorySize).fill(0xffff);
@@ -192,7 +192,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       mcuParams.pageSize,
       mcuParams.memorySize,
       data,
-      progress
+      progress,
     );
     if (!atmelFlashResult.success) {
       return atmelFlashResult;
@@ -204,13 +204,13 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
   async erase(
     checkBlank: boolean,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     const mcuParams = this.createMcuParameters();
     progress(
       `Erase 0x${(
         mcuParams.flashAddressTop - mcuParams.flashAddressBottom
-      ).toString(16)} bytes`
+      ).toString(16)} bytes`,
     );
     const atmelEraseFlashResult = await this.atmelEraseFlash('all', progress);
     if (!atmelEraseFlashResult.success) {
@@ -220,7 +220,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       const atmelBlankCheckResult = await this.atmelBlankCheck(
         mcuParams.flashAddressBottom,
         mcuParams.flashAddressTop,
-        progress
+        progress,
       );
       if (!atmelBlankCheckResult.success) {
         return atmelBlankCheckResult;
@@ -233,22 +233,22 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
   private async validate(
     bytes: Uint8Array,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     const mcuParams = this.createMcuParameters();
     const dataStart = mcuParams.validStart;
     const dataEnd = mcuParams.validEnd;
     progress(
       `Validating flash: data start:${dataStart.toString(
-        16
-      )}, data end:${dataEnd.toString(16)}`
+        16,
+      )}, data end:${dataEnd.toString(16)}`,
     );
     const data = new Uint8Array(mcuParams.totalSize);
     const atmelReadFlashResult = await this.atmelReadFlash(
       dataStart,
       dataEnd,
       data,
-      progress
+      progress,
     );
     if (!atmelReadFlashResult.success) {
       return atmelReadFlashResult;
@@ -258,7 +258,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       bytes,
       mcuParams.validStart,
       mcuParams.validEnd,
-      progress
+      progress,
     );
   }
 
@@ -267,12 +267,12 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     bufferOut: Uint8Array,
     validStart: number,
     validEnd: number,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): IResult {
     progress(
       `Validating image from byte 0x${validStart.toString(
-        16
-      )} to 0x${validEnd.toString(16)}.`
+        16,
+      )} to 0x${validEnd.toString(16)}.`,
     );
     progress('Validating... ');
     let invalidDataRegion = 0;
@@ -286,12 +286,12 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
                 validEnd -
                 validStart +
                 1
-              ).toString(16)}`
+              ).toString(16)}`,
             );
             progress(
               `Wanted 0x${(0xff & bufferOut[i]).toString(
-                16
-              )} but read 0x${bufferIn[i].toString(16)}`
+                16,
+              )} but read 0x${bufferIn[i].toString(16)}`,
             );
           }
           invalidDataRegion++;
@@ -300,7 +300,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
         if (0xff !== bufferIn[i]) {
           if (invalidDataRegion === 0) {
             progress(
-              `Outside program region: byte 0x${i.toString(16)} expected 0xFF`
+              `Outside program region: byte 0x${i.toString(16)} expected 0xFF`,
             );
             progress(`But read 0x${bufferIn[i].toString(16)}`);
           }
@@ -323,7 +323,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
   private async atmelEraseFlash(
     mode: IAtmelEraseMode,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     progress(`Erase flash: mode:${mode}`);
     const command = Uint8Array.of(0x04, 0x00, 0x00);
@@ -357,7 +357,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     const waitUntilErasingFinishedResult = await this.waitUntilErasingFinished(
       new Date().getTime(),
       0,
-      progress
+      progress,
     );
     if (!waitUntilErasingFinishedResult.success) {
       return waitUntilErasingFinishedResult;
@@ -372,7 +372,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   private async waitUntilErasingFinished(
     start: number,
     retries: number,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     if (retries > 10) {
       return {
@@ -423,7 +423,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     dataStart: number,
     dataEnd: number,
     data: Uint8Array,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     progress(`Reading 0x${(dataEnd - dataStart + 1).toString(16)} bytes...`);
     let blockStart = dataStart;
@@ -449,16 +449,16 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       }
       progress(
         `Read program data block: 0x${blockStart.toString(
-          16
+          16,
         )} to 0x${blockEnd.toString(16)} (p. ${Math.floor(
-          blockEnd / ATMEL_64KB_PAGE
-        )}), 0x${blockEnd - blockStart + 1}`
+          blockEnd / ATMEL_64KB_PAGE,
+        )}), 0x${blockEnd - blockStart + 1}`,
       );
       const atmelReadBlockResult = await this.atmelReadBlock(
         blockStart,
         blockEnd,
         data,
-        progress
+        progress,
       );
       if (!atmelReadBlockResult.success) {
         return atmelReadBlockResult;
@@ -475,7 +475,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     blockStart: number,
     blockEnd: number,
     data: Uint8Array,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     const command = Uint8Array.of(0x03, 0x00, 0x00, 0x00, 0x00, 0x00);
     if (blockEnd < blockStart) {
@@ -523,16 +523,16 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     pageSize: number,
     memorySize: number,
     data: Uint16Array,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     progress(
       `Flash: valid start:${validStart.toString(
-        16
+        16,
       )}, valid end:${validEnd.toString(
-        16
+        16,
       )}, page size:${pageSize}, memory size:${memorySize}, data.length:${
         data.length
-      }`
+      }`,
     );
 
     let memoryPage = 0;
@@ -541,7 +541,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       return {
         success: false,
         error: `No valid target memory, end ${validEnd.toString(
-          16
+          16,
         )} before start ${validStart.toString(16)}`,
       };
     }
@@ -575,35 +575,35 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
     progress(
       `Flash available from 0x${validStart.toString(
-        16
+        16,
       )} to 0x${validEnd.toString(16)} (64kB p. ${
         validStart / ATMEL_64KB_PAGE
       } to ${validEnd / ATMEL_64KB_PAGE}), 0x${(
         validEnd -
         validStart +
         1
-      ).toString(16)} bytes.`
+      ).toString(16)} bytes.`,
     );
     progress(
       `Data start @ 0x${dataStart.toString(16)}: 64kB p ${
         dataStart / ATMEL_64KB_PAGE
       }; ${pageSize}B p 0x${(dataStart / pageSize).toString(16)} + 0x${(
         dataStart % pageSize
-      ).toString(16)} offset.`
+      ).toString(16)} offset.`,
     );
     progress(
       `Data end @ 0x${dataEnd.toString(16)}: 64kB p ${
         dataEnd / ATMEL_64KB_PAGE
       }; ${pageSize}B p 0x${(dataEnd / pageSize).toString(16)} + 0x${(
         dataEnd % pageSize
-      ).toString(16)} offset.`
+      ).toString(16)} offset.`,
     );
     progress(
       `Totals: 0x${(dataEnd - dataStart + 1).toString(16)} bytes, ${
         dataEnd / pageSize - dataStart / pageSize
       } ${pageSize}B pages, ${
         dataEnd / ATMEL_64KB_PAGE - dataStart / ATMEL_64KB_PAGE
-      } byte pages.`
+      } byte pages.`,
     );
 
     if (dataStart < validStart) {
@@ -621,7 +621,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     const atmelBlankCheckResult = await this.atmelBlankCheck(
       dataStart,
       dataEnd,
-      progress
+      progress,
     );
     if (!atmelBlankCheckResult.success) {
       return atmelBlankCheckResult;
@@ -631,7 +631,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     }
 
     progress(
-      `Programming 0x${(dataEnd - dataStart + 1).toString(16)} bytes...`
+      `Programming 0x${(dataEnd - dataStart + 1).toString(16)} bytes...`,
     );
 
     let blockStart = dataStart;
@@ -663,15 +663,15 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       blockEnd--;
       progress(
         `Flash program data block: 0x${blockStart.toString(
-          16
+          16,
         )} to 0x${blockEnd.toString(16)} (p. ${Math.floor(
-          blockEnd / ATMEL_64KB_PAGE
-        )}), 0x${blockEnd - blockStart + 1}`
+          blockEnd / ATMEL_64KB_PAGE,
+        )}), 0x${blockEnd - blockStart + 1}`,
       );
       const atmelFlashBlockResult = await this.atmelFlashBlock(
         data,
         blockStart,
-        blockEnd
+        blockEnd,
       );
       if (!atmelFlashBlockResult.success) {
         return atmelFlashBlockResult;
@@ -691,7 +691,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   private async atmelFlashBlock(
     bytes: Uint16Array,
     blockStart: number,
-    blockEnd: number
+    blockEnd: number,
   ): Promise<IResult> {
     console.log(`blockStart:${blockStart} blockEnd:${blockEnd}`);
     const length = blockEnd - blockStart + 1;
@@ -700,16 +700,16 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       return {
         success: false,
         error: `End address 0x${blockEnd.toString(
-          16
+          16,
         )} before start address 0x${blockStart.toString(16)}`,
       };
     } else if (ATMEL_MAX_TRANSFER_SIZE < length) {
       return {
         success: false,
         error: `0x${length.toString(
-          16
+          16,
         )} byte message > MAX TRANSFER SIZE (0x${ATMEL_MAX_TRANSFER_SIZE.toString(
-          16
+          16,
         )})`,
       };
     }
@@ -724,7 +724,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       header,
       blockStart % ATMEL_64KB_PAGE,
       blockEnd % ATMEL_64KB_PAGE,
-      false
+      false,
     );
     for (let i = 0; i < length; i++) {
       message[data + i] = bytes[blockStart + i];
@@ -732,7 +732,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     this.atmelFlashPopulateFooter(message, footer, 0xffff, 0xffff, 0xffff);
     const messageLength = footer - header + ATMEL_FOOTER_SIZE;
     const dfuDownloadResult = await this.dfuDownload(
-      message.slice(0, messageLength)
+      message.slice(0, messageLength),
     );
     if (!dfuDownloadResult.success) {
       return dfuDownloadResult;
@@ -764,7 +764,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     footer: number,
     vendorId: number,
     productId: number,
-    bcdFirmware: number
+    bcdFirmware: number,
   ): void {
     const crc = 0;
     // CRC 4 bytes
@@ -797,7 +797,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     header: number,
     start: number,
     end: number,
-    eeprom: boolean
+    eeprom: boolean,
   ): void {
     message[header] = 0x01;
     message[header + 1] = eeprom ? 0x01 : 0x00;
@@ -810,10 +810,10 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   private async atmelBlankCheck(
     start: number,
     end: number,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IAtmelBlankCheckResult> {
     progress(
-      `Checking memory from 0x${start.toString(16)} to 0x${end.toString(16)}...`
+      `Checking memory from 0x${start.toString(16)} to 0x${end.toString(16)}...`,
     );
 
     if (end < start) {
@@ -837,7 +837,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       }
       const atmelBlankPageCheckResult = await this.atmelBlankPageCheck(
         blankUpto % ATMEL_64KB_PAGE,
-        checkUntil % ATMEL_64KB_PAGE
+        checkUntil % ATMEL_64KB_PAGE,
       );
       if (!atmelBlankPageCheckResult.success) {
         return atmelBlankPageCheckResult;
@@ -846,8 +846,8 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       if (result === 0) {
         progress(
           `Flash blank from 0x${start.toString(16)} to 0x${checkUntil.toString(
-            16
-          )}`
+            16,
+          )}`,
         );
         blankUpto = checkUntil + 1;
       } else if (result > 0) {
@@ -899,14 +899,14 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
 
   private async atmelBlankPageCheck(
     start: number,
-    end: number
+    end: number,
   ): Promise<IAtmelBlankPageCheckResult> {
     const command = Uint8Array.of(0x03, 0x01, 0x00, 0x00, 0x00, 0x00);
     if (end < start) {
       return {
         success: false,
         error: `End address 0x${end.toString(
-          16
+          16,
         )} before start address 0x${start.toString(16)}`,
       };
     } else if (ATMEL_64KB_PAGE <= end) {
@@ -930,8 +930,8 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
     if (dfuGetStatusResult.status!.status === DFU_STATUS.OK) {
       console.log(
         `Flash region from 0x${start.toString(16)} to 0x${end.toString(
-          16
-        )} is blank`
+          16,
+        )} is blank`,
       );
     } else if (
       dfuGetStatusResult.status!.status === DFU_STATUS.ERROR_CHECK_ERASED
@@ -948,7 +948,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       };
     } else {
       console.log(
-        `The status (${dfuGetStatusResult.status!.status}) was not OK`
+        `The status (${dfuGetStatusResult.status!.status}) was not OK`,
       );
       if (dfuGetStatusResult.status!.state === USB_STATE.DFU_ERROR) {
         await this.dfuClearStatus();

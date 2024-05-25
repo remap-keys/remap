@@ -53,7 +53,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       labelLang: KeyboardLabelLang,
       orgKeymap: IKeymap | null,
       dstKeymap: IKeymap | null,
-      customKeycodes: ICustomKeycode[] | undefined
+      customKeycodes: ICustomKeycode[] | undefined,
     ) => {
       _dispatch(AppActions.updateLangLabel(labelLang));
       _dispatch(hidActionsThunk.updateKeymaps(labelLang));
@@ -62,12 +62,12 @@ const mapDispatchToProps = (_dispatch: any) => {
         const newOrgKeymap = KeycodeList.getKeymap(
           orgKeymap.code,
           labelLang,
-          customKeycodes
+          customKeycodes,
         );
         const newDstKeymap = KeycodeList.getKeymap(
           dstKeymap.code,
           labelLang,
-          customKeycodes
+          customKeycodes,
         );
         _dispatch(KeydiffActions.updateKeydiff(newOrgKeymap, newDstKeymap));
       }
@@ -79,7 +79,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       selectedLayer: number,
       pos: string,
       orgKeymap: IKeymap,
-      dstKeymap: IKeymap
+      dstKeymap: IKeymap,
     ) => {
       _dispatch(AppActions.remapsSetKey(selectedLayer, pos, dstKeymap));
       _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
@@ -89,15 +89,15 @@ const mapDispatchToProps = (_dispatch: any) => {
       encoderId: number,
       orgKeymap: IKeymap,
       dstKeymap: IKeymap,
-      keySwitchOperation: IKeySwitchOperation
+      keySwitchOperation: IKeySwitchOperation,
     ) => {
       _dispatch(
         AppActions.encodersRemapsSetKey(
           selectedLayer,
           encoderId,
           dstKeymap,
-          keySwitchOperation
-        )
+          keySwitchOperation,
+        ),
       );
       _dispatch(KeydiffActions.updateKeydiff(orgKeymap, dstKeymap));
     },
@@ -108,14 +108,14 @@ const mapDispatchToProps = (_dispatch: any) => {
     revertEncoderKeymap: (
       selectedLayer: number,
       encoderId: number,
-      keySwitchOperation: IKeySwitchOperation
+      keySwitchOperation: IKeySwitchOperation,
     ) => {
       _dispatch(
         AppActions.encodersRemapsRemoveKey(
           selectedLayer,
           encoderId,
-          keySwitchOperation
-        )
+          keySwitchOperation,
+        ),
       );
       _dispatch(KeydiffActions.clearKeydiff());
     },
@@ -132,7 +132,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       selectedLayer: number,
       pos: string,
       encoderId: number | null,
-      keySwitchOperation: IKeySwitchOperation
+      keySwitchOperation: IKeySwitchOperation,
     ) => {
       if (newKey.keymap.code != oldKeycode) {
         if (keySwitchOperation === 'click') {
@@ -143,8 +143,8 @@ const mapDispatchToProps = (_dispatch: any) => {
               selectedLayer,
               encoderId!,
               newKey.keymap,
-              keySwitchOperation
-            )
+              keySwitchOperation,
+            ),
           );
         }
       }
@@ -152,15 +152,15 @@ const mapDispatchToProps = (_dispatch: any) => {
     onKeyUp: (
       nextPos: string,
       nextEncoderId: number | null,
-      nextKeySwitchOperation: IKeySwitchOperation
+      nextKeySwitchOperation: IKeySwitchOperation,
     ) => {
       _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(
         KeymapActions.updateSelectedKeyPosition(
           nextPos,
           nextEncoderId,
-          nextKeySwitchOperation
-        )
+          nextKeySwitchOperation,
+        ),
       );
     },
   };

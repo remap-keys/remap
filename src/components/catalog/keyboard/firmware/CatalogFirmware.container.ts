@@ -23,10 +23,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     fetchFirmwareFileBlob(
       firmwareFilePath: string,
       // eslint-disable-next-line no-unused-vars
-      callback: (blob: any) => void
+      callback: (blob: any) => void,
     ) {
       _dispatch(
-        storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback)
+        storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback),
       );
     },
     updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => {
@@ -34,26 +34,28 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         storageActionsThunk.fetchKeyboardDefinitionForCatalogById(
           definitionId,
-          nextPhase
-        )
+          nextPhase,
+        ),
       );
     },
     flashFirmwareDialog: {
       open: (
         definitionDocument: IKeyboardDefinitionDocument,
-        firmware: IFirmware
+        firmware: IFirmware,
       ) => {
         _dispatch(FlashFirmwareDialogActions.clear());
         _dispatch(
           FlashFirmwareDialogActions.updateBootloaderType(
-            firmware.default_bootloader_type
-          )
+            firmware.default_bootloader_type,
+          ),
         );
         _dispatch(
-          FlashFirmwareDialogActions.updateKeyboardName(definitionDocument.name)
+          FlashFirmwareDialogActions.updateKeyboardName(
+            definitionDocument.name,
+          ),
         );
         _dispatch(
-          FlashFirmwareDialogActions.updateFlashMode('fetch_and_flash')
+          FlashFirmwareDialogActions.updateFlashMode('fetch_and_flash'),
         );
         _dispatch(FlashFirmwareDialogActions.updateFirmware(firmware));
       },

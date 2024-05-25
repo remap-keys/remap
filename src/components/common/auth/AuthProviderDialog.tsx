@@ -30,7 +30,7 @@ export default class AuthProviderDialog extends React.Component<
   OwnState
 > {
   constructor(
-    props: AuthProviderDialogProps | Readonly<AuthProviderDialogProps>
+    props: AuthProviderDialogProps | Readonly<AuthProviderDialogProps>,
   ) {
     super(props);
   }

@@ -16,10 +16,10 @@ export type ConfigurationDialogStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (_dispatch: any) => {
   return {
     refreshKeyboardDefinition: (
-      keyboardDefinition: KeyboardDefinitionSchema
+      keyboardDefinition: KeyboardDefinitionSchema,
     ) => {
       _dispatch(
-        storageActionsThunk.refreshKeyboardDefinition(keyboardDefinition)
+        storageActionsThunk.refreshKeyboardDefinition(keyboardDefinition),
       );
     },
   };

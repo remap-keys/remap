@@ -119,7 +119,7 @@ export class ModTapComposition implements IModTapComposition {
       const comp = new ModTapComposition(
         MOD_LEFT,
         holdKeys[hold],
-        WILL_BE_REPLACED_KEYMAP
+        WILL_BE_REPLACED_KEYMAP,
       );
       return comp.genKeymap();
     });
@@ -128,7 +128,7 @@ export class ModTapComposition implements IModTapComposition {
       const comp = new ModTapComposition(
         MOD_RIGHT,
         holdKeys[hold],
-        WILL_BE_REPLACED_KEYMAP
+        WILL_BE_REPLACED_KEYMAP,
       );
       return comp.genKeymap();
     });

@@ -54,8 +54,8 @@ export const MacroEditorActions = {
 const M0_KEY_CODE = QK_MACRO_MIN;
 
 type ActionTypes = ReturnType<
-  | typeof MacroEditorActions[keyof typeof MacroEditorActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
+  | (typeof MacroEditorActions)[keyof typeof MacroEditorActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -68,7 +68,7 @@ export const MacroActionsThunk = {
     (key: Key): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities, app } = getState();
       const macroBufferBytes = entities.device.macro.bufferBytes;
@@ -78,7 +78,7 @@ export const MacroActionsThunk = {
       const macroBuffer: IMacroBuffer = new MacroBuffer(
         macroBufferBytes,
         macroMaxCount,
-        macroMaxBufferSize
+        macroMaxBufferSize,
       ); // state
       const macros = macroBuffer.generateMacros();
 
@@ -107,7 +107,7 @@ export const MacroActionsThunk = {
     (macroKeys: MacroKey[]): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { configure } = getState();
       const macro = configure.macroEditor.macro;
@@ -119,7 +119,7 @@ export const MacroActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { configure, entities } = getState();
       const keyboard = entities.keyboard!;
@@ -136,7 +136,7 @@ export const MacroActionsThunk = {
       newBufferBytes.set(bytes, 0);
       const result = await entities.keyboard!.updateMacroBuffer(
         0,
-        newBufferBytes
+        newBufferBytes,
       );
       if (!result.success) {
         console.error(result.error!);

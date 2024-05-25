@@ -19,7 +19,7 @@ type CatalogSearchDialogProps = {
     // eslint-disable-next-line no-unused-vars
     originalKeyword: string,
     // eslint-disable-next-line no-unused-vars
-    originalFeatures: IKeyboardFeatures[]
+    originalFeatures: IKeyboardFeatures[],
   ) => void;
   onSubmit: () => void;
 };
@@ -29,7 +29,7 @@ export default class CatalogSearchDialog extends React.Component<
   CatalogSearchDialogState
 > {
   constructor(
-    props: CatalogSearchDialogProps | Readonly<CatalogSearchDialogProps>
+    props: CatalogSearchDialogProps | Readonly<CatalogSearchDialogProps>,
   ) {
     super(props);
   }

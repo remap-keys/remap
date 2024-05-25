@@ -13,24 +13,24 @@ import { KeymapCategory } from '../../../services/hid/KeycodeList';
  */
 const filterOptions = (
   options: IKeymap[],
-  { inputValue }: { inputValue: string }
+  { inputValue }: { inputValue: string },
 ): IKeymap[] => {
   const value = inputValue.toLowerCase();
   const matchedLabels = options.filter(
     (option: IKeymap) =>
-      0 <= option.keycodeInfo.label.toLowerCase().indexOf(value)
+      0 <= option.keycodeInfo.label.toLowerCase().indexOf(value),
   );
   const matchedKeywords = options.filter((option: IKeymap) =>
-    option.keycodeInfo.keywords.some((kwd) => 0 <= kwd.indexOf(value))
+    option.keycodeInfo.keywords.some((kwd) => 0 <= kwd.indexOf(value)),
   );
   const matchedKinds = options.filter(
     (option: IKeymap) =>
       0 <=
-      option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value)
+      option.kinds.join('::').replaceAll('_', '-').toLowerCase().indexOf(value),
   );
 
   return Array.from(
-    new Set(matchedLabels.concat(matchedKeywords, matchedKinds))
+    new Set(matchedLabels.concat(matchedKeywords, matchedKinds)),
   );
 };
 

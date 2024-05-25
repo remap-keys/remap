@@ -57,7 +57,7 @@ try {
 
 export const sendEventToGoogleAnalytics = (
   action: IActionName,
-  options?: IActionOptions
+  options?: IActionOptions,
 ) => {
   if (analytics) {
     analytics.logEvent<IActionName>(action, options);

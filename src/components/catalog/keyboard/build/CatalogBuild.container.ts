@@ -38,43 +38,43 @@ const mapDispatchToProps = (dispatch: any) => {
     createFirmwareBuildingTask: (
       keyboardDefinitionId: string,
       description: string,
-      parametersJson: string
+      parametersJson: string,
     ) => {
       dispatch(
         catalogActionsThunk.createFirmwareBuildingTask(
           keyboardDefinitionId,
           description,
-          parametersJson
-        )
+          parametersJson,
+        ),
       );
     },
     fetchBuiltFirmwareFileBlob(
       firmwareFilePath: string,
       // eslint-disable-next-line no-unused-vars
-      callback: (blob: any) => void
+      callback: (blob: any) => void,
     ) {
       dispatch(
         storageActionsThunk.fetchBuiltFirmwareFileBlob(
           firmwareFilePath,
-          callback
-        )
+          callback,
+        ),
       );
     },
     updateFirmwareBuildingTasks: (keyboardDefinitionId: string) => {
       dispatch(
-        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId),
       );
     },
     flashFirmware: (
       keyboardDefinitionDocument: IKeyboardDefinitionDocument,
       buildableFirmware: IBuildableFirmware,
-      task: IFirmwareBuildingTask
+      task: IFirmwareBuildingTask,
     ) => {
       dispatch(FlashFirmwareDialogActions.clear());
       dispatch(
         FlashFirmwareDialogActions.updateBootloaderType(
-          buildableFirmware.defaultBootloaderType
-        )
+          buildableFirmware.defaultBootloaderType,
+        ),
       );
       const firmwareName = `Built for ${keyboardDefinitionDocument.name}`;
       dispatch(FlashFirmwareDialogActions.updateKeyboardName(''));
@@ -90,38 +90,38 @@ const mapDispatchToProps = (dispatch: any) => {
           hash: '',
           sourceCodeUrl: '',
           created_at: new Date(),
-        })
+        }),
       );
     },
     updateBuildableFirmwareCodeParameterValues: (
-      values: IBuildableFirmwareCodeParameterValues
+      values: IBuildableFirmwareCodeParameterValues,
     ) => {
       dispatch(
         CatalogKeyboardActions.updateBuildableFirmwareCodeParameterValues(
-          values
-        )
+          values,
+        ),
       );
     },
     deleteFirmwareBuildingTask: (
       keyboardDefinitionId: string,
-      task: IFirmwareBuildingTask
+      task: IFirmwareBuildingTask,
     ) => {
       dispatch(
         catalogActionsThunk.deleteFirmwareBuildingTask(
           keyboardDefinitionId,
-          task
-        )
+          task,
+        ),
       );
     },
     updateFirmwareBuildingTaskDescription: (
       taskId: string,
-      description: string
+      description: string,
     ) => {
       dispatch(
         catalogActionsThunk.updateFirmwareBuildingTaskDescription(
           taskId,
-          description
-        )
+          description,
+        ),
       );
     },
   };

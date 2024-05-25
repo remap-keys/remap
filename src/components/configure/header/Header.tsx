@@ -108,7 +108,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         (has: boolean, v: { [pos: string]: IKeymap }): boolean => {
           return 0 < Object.values(v).length || has;
         },
-        false
+        false,
       ) ||
       this.props.encoderRemaps!.reduce((has: boolean, v): boolean => {
         return 0 < Object.values(v).length || has;
@@ -230,7 +230,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
           <div className="header-right">
             <div
               className={['buttons', this.props.keyboard ? '' : 'hidden'].join(
-                ' '
+                ' ',
               )}
             >
               <button
@@ -259,7 +259,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 }
 
 const FlashButtonStates = ['disable', 'enable', 'flashing', 'success'] as const;
-type FlashButtonState = typeof FlashButtonStates[number];
+type FlashButtonState = (typeof FlashButtonStates)[number];
 
 type IInfoDialogButton = {
   keyboardDefinitionDocument: IKeyboardDefinitionDocument | null | undefined;

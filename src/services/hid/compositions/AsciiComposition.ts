@@ -45,7 +45,7 @@ export class AsciiComposition implements IAsciiComposition {
       return AsciiComposition._keymaps;
     }
     AsciiComposition._keymaps = KEY_CATEGORY_ASCII.codes.map((code) =>
-      AsciiComposition.createKeymap(code)
+      AsciiComposition.createKeymap(code),
     );
     return AsciiComposition._keymaps;
   }
@@ -54,7 +54,7 @@ export class AsciiComposition implements IAsciiComposition {
     if (AsciiComposition.getSupportedAsciiCodes().includes(code)) {
       const label = Object.prototype.hasOwnProperty.call(
         AsciiComposition.LABEL_DICT,
-        '' + code
+        '' + code,
       )
         ? AsciiComposition.LABEL_DICT['' + code]
         : String.fromCharCode(code);

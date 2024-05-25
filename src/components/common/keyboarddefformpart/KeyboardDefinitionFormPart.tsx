@@ -48,7 +48,7 @@ export type KeyboardDefinitionFormPartProps = {
   onLoadFile: (
     keyboardDefinition: KeyboardDefinitionSchema,
     fileName: string,
-    jsonStr: string
+    jsonStr: string,
   ) => void;
   keyboardDefinitionDocument?: IKeyboardDefinitionDocument | null;
   keyboardDefinitionSchema?: KeyboardDefinitionSchema | null;
@@ -70,7 +70,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
   constructor(
     props:
       | KeyboardDefinitionFormPartProps
-      | Readonly<KeyboardDefinitionFormPartProps>
+      | Readonly<KeyboardDefinitionFormPartProps>,
   ) {
     super(props);
     this.state = {
@@ -100,7 +100,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       this.stopLoading();
       this.showErrorMessage(
         'FILE TYPE ERROR',
-        `${file.name} MUST have .json extention.`
+        `${file.name} MUST have .json extention.`,
       );
       return Promise.reject(`${file.name} MUST have .json extention.`);
     }
@@ -113,7 +113,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       this.stopLoading();
       this.showErrorMessage(
         'FILE PARSE ERROR',
-        `Could not parse ${file.name}. ${file.name} MUST be JSON format.`
+        `Could not parse ${file.name}. ${file.name} MUST be JSON format.`,
       );
       return Promise.reject(`JSON parse error: ${file.name}.`);
     }
@@ -128,7 +128,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
       const msg = validateIds(
         keyboardDefinition,
         this.props.deviceVendorId!,
-        this.props.deviceProductId!
+        this.props.deviceProductId!,
       );
       if (msg) {
         this.stopLoading();
@@ -144,7 +144,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
     ) {
       const msg = validateRowsAndCols(
         keyboardDefinition,
-        this.props.keyboardDefinitionSchema
+        this.props.keyboardDefinitionSchema,
       );
       if (msg) {
         this.stopLoading();

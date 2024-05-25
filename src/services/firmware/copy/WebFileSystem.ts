@@ -33,7 +33,7 @@ export class WebFileSystem implements IBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IBootloaderReadResult> {
     throw new Error('This method never be called.');
   }
@@ -44,7 +44,7 @@ export class WebFileSystem implements IBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult> {
     throw new Error('This method never be called.');
   }
@@ -54,7 +54,7 @@ export class WebFileSystem implements IBootloader {
     // eslint-disable-next-line no-unused-vars
     eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult> {
     if (this.directoryHandle === undefined) {
       throw new Error('A target directory is not opened.');
@@ -63,7 +63,7 @@ export class WebFileSystem implements IBootloader {
       progress('Start writing firmware to a file.');
       const fileHandle = await this.directoryHandle.getFileHandle(
         'firmware.uf2',
-        { create: true }
+        { create: true },
       );
       const writable = await fileHandle.createWritable();
       await writable.write(flashBytes);

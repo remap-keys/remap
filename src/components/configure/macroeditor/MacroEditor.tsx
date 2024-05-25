@@ -58,7 +58,7 @@ export default class MacroEditor extends React.Component<
   private addKey(
     index: number,
     indexInHold: number,
-    newKeyDelayPair: KeyDelayPair
+    newKeyDelayPair: KeyDelayPair,
   ) {
     const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
     if (Number.isNaN(indexInHold)) {
@@ -76,7 +76,7 @@ export default class MacroEditor extends React.Component<
     const hold = macroKeys[index];
     if (!isHold(hold)) {
       throw new Error(
-        `The macro key MUST BE a hold / index: ${index}, holdIndex: ${indexInHold}`
+        `The macro key MUST BE a hold / index: ${index}, holdIndex: ${indexInHold}`,
       );
     }
 
@@ -124,7 +124,7 @@ export default class MacroEditor extends React.Component<
     fromIndex: number,
     fromIndexInHold: number,
     toIndex: number,
-    toIndexInHold: number
+    toIndexInHold: number,
   ) {
     if (fromIndex === toIndex && fromIndexInHold === toIndexInHold) {
       return;
@@ -182,7 +182,7 @@ export default class MacroEditor extends React.Component<
 
     if (!isHold(dstHoldKey)) {
       throw new Error(
-        `The macro key MUST BE a hold / index: ${toIndex}, holdIndex: ${toIndexInHold}`
+        `The macro key MUST BE a hold / index: ${toIndex}, holdIndex: ${toIndexInHold}`,
       );
     }
 
@@ -205,7 +205,7 @@ export default class MacroEditor extends React.Component<
 
   shouldComponentUpdate(
     _nextProps: MacroEditorProps,
-    nextState: MacroEditorOwnState
+    nextState: MacroEditorOwnState,
   ) {
     if (
       nextState.flashButtonState === 'enable' ||
@@ -236,7 +236,7 @@ export default class MacroEditor extends React.Component<
   onDragStart(
     draggingIndex: number,
     draggingHoldIndex: number,
-    draggingKey: MacroKey
+    draggingKey: MacroKey,
   ) {
     this.setState({ draggingIndex, draggingHoldIndex, draggingKey });
   }
@@ -256,7 +256,7 @@ export default class MacroEditor extends React.Component<
         this.state.draggingIndex,
         this.state.draggingHoldIndex,
         droppedIndex,
-        droppedHoldIndex
+        droppedHoldIndex,
       );
     }
 
@@ -365,7 +365,7 @@ export default class MacroEditor extends React.Component<
 
     const keycodeCompositionFactory = new KeycodeCompositionFactory(
       key.charCodeAt(0),
-      this.props.labelLang!
+      this.props.labelLang!,
     );
 
     if (keycodeCompositionFactory.isAscii()) {
@@ -383,7 +383,7 @@ export default class MacroEditor extends React.Component<
       .map((c) => {
         return new KeycodeCompositionFactory(
           c.charCodeAt(0),
-          this.props.labelLang!
+          this.props.labelLang!,
         );
       })
       .filter((c) => c.isAscii())
@@ -503,12 +503,12 @@ export default class MacroEditor extends React.Component<
                         onDragStart={(
                           draggingIndex,
                           draggingHoldIndex,
-                          macroKey
+                          macroKey,
                         ) => {
                           this.onDragStart(
                             draggingIndex,
                             draggingHoldIndex,
-                            macroKey
+                            macroKey,
                           );
                         }}
                         onDelete={(index, holdIndex) => {

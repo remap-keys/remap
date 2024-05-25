@@ -29,7 +29,7 @@ type OwnProps = {
   bleMicroPro: boolean;
   onChangeKey: (
     // eslint-disable-next-line no-unused-vars
-    opt: IKeymap
+    opt: IKeymap,
   ) => void;
 };
 type TabKeyProps = OwnProps &
@@ -99,7 +99,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
   get disabledDirection() {
     const factory = new KeycodeCompositionFactory(
       parseInt(this.props.hexCode, 16),
-      'en-us'
+      'en-us',
     );
     return factory.isLayerMod();
   }
@@ -111,7 +111,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     const macroBuffer: IMacroBuffer = new MacroBuffer(
       macroBufferBytes,
       macroMaxCount,
-      macroMaxBufferSize
+      macroMaxBufferSize,
     );
     return macroBuffer;
   }
@@ -128,7 +128,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
       ...KeyCategory.basic(labelLang),
       ...KeyCategory.functions(
         labelLang,
-        this.props.keyboardDefinition!.customKeycodes
+        this.props.keyboardDefinition!.customKeycodes,
       ),
       ...KeyCategory.layer(layerCount),
       ...LayerModComposition.genKeymaps(layerCount),
@@ -139,7 +139,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
       ...KeyCategory.macro(
         this.props.macroMaxCount || 0,
         macroBuffer,
-        labelLang
+        labelLang,
       ),
       // ...KeyCategory.macro(),
     ];

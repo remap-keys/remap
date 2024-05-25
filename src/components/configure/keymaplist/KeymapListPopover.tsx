@@ -122,7 +122,7 @@ export default class KeymapListPopover extends React.Component<
             changes[pos] = KeycodeList.getKeymap(
               savedCode[pos],
               labelLang,
-              this.props.keyboardDefinition!.customKeycodes
+              this.props.keyboardDefinition!.customKeycodes,
             );
           }
         });
@@ -131,7 +131,7 @@ export default class KeymapListPopover extends React.Component<
     }
 
     const encoderCount = getEncoderIdList(
-      this.props.keyboardDefinition!.layouts.keymap
+      this.props.keyboardDefinition!.layouts.keymap,
     ).length;
 
     const encodersKeycodes: {
@@ -151,12 +151,12 @@ export default class KeymapListPopover extends React.Component<
             clockwise: KeycodeList.getKeymap(
               KC_NO,
               labelLang,
-              this.props.keyboardDefinition!.customKeycodes
+              this.props.keyboardDefinition!.customKeycodes,
             ),
             counterclockwise: KeycodeList.getKeymap(
               KC_NO,
               labelLang,
-              this.props.keyboardDefinition!.customKeycodes
+              this.props.keyboardDefinition!.customKeycodes,
             ),
           };
         }
@@ -199,14 +199,14 @@ export default class KeymapListPopover extends React.Component<
               changes[Number(id)].clockwise = KeycodeList.getKeymap(
                 savedCode[Number(id)].clockwise,
                 labelLang,
-                this.props.keyboardDefinition!.customKeycodes
+                this.props.keyboardDefinition!.customKeycodes,
               );
             }
             if (hasDiffCounterclockwise) {
               changes[Number(id)].counterclockwise = KeycodeList.getKeymap(
                 savedCode[Number(id)].counterclockwise,
                 labelLang,
-                this.props.keyboardDefinition!.customKeycodes
+                this.props.keyboardDefinition!.customKeycodes,
               );
             }
           });
@@ -219,7 +219,7 @@ export default class KeymapListPopover extends React.Component<
       keycodes,
       encodersKeycodes,
       layoutOptions,
-      labelLang
+      labelLang,
     );
 
     const uid = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull().uid;
@@ -275,10 +275,10 @@ export default class KeymapListPopover extends React.Component<
                 appliedKeymaps={this.props.appliedKeymaps!}
                 definitionDocument={this.props.definitionDocument || null}
                 onClickOpenKeymapSaveDialog={this.onClickOpenKeymapSaveDialog.bind(
-                  this
+                  this,
                 )}
                 onClickApplySavedKeymapData={this.onClickApplySavedKeymapData.bind(
-                  this
+                  this,
                 )}
               />
               <KeymapSaveDialog
@@ -313,7 +313,7 @@ type KeymapListProps = {
   appliedKeymaps: AppliedKeymapData[];
   onClickOpenKeymapSaveDialog: (
     // eslint-disable-next-line no-unused-vars
-    savedKeymapData: SavedKeymapData | null
+    savedKeymapData: SavedKeymapData | null,
   ) => void;
   // eslint-disable-next-line no-unused-vars
   onClickApplySavedKeymapData: (savedKeymapData: AbstractKeymapData) => void;
@@ -450,7 +450,7 @@ type IMyKeymapListProps = {
   savedKeymaps: SavedKeymapData[];
   onClickOpenKeymapSaveDialog: (
     // eslint-disable-next-line no-unused-vars
-    savedKeymapData: SavedKeymapData | null
+    savedKeymapData: SavedKeymapData | null,
   ) => void;
   // eslint-disable-next-line no-unused-vars
   onClickApplySavedKeymapData: (savedKeymapData: SavedKeymapData) => void;

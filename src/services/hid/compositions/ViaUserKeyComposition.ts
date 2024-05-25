@@ -74,7 +74,7 @@ export class ViaUserKeyComposition implements IViaUserKeyComposition {
 
   static findKeymap(
     code: number,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): IKeymap | undefined {
     const list: IKeymap[] = ViaUserKeyComposition.genKeymaps(customKeycodes);
     return list.find((km) => km.code === code);

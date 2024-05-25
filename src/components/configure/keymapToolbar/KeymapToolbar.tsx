@@ -72,7 +72,7 @@ export default class KeymapMenu extends React.Component<
     for (let i = 0; i < this.props.remaps!.length; i++) {
       const remap: { [pos: string]: IKeymap } = this.props.remaps![i];
       const item = Object.values(remap).find(
-        (value) => typeof value === 'object' && typeof value.code === 'number'
+        (value) => typeof value === 'object' && typeof value.code === 'number',
       );
       if (item !== undefined) return true;
     }
@@ -80,7 +80,7 @@ export default class KeymapMenu extends React.Component<
       const remap = this.props.encoderRemaps![i];
       const item = Object.values(remap).find(
         (value) =>
-          value.clockwise !== undefined || value.counterclockwise !== undefined
+          value.clockwise !== undefined || value.counterclockwise !== undefined,
       );
       if (item !== undefined) return true;
     }
@@ -98,7 +98,7 @@ export default class KeymapMenu extends React.Component<
   }
 
   private onClickOpenLayoutOptionPopover(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     const { left, top } = event.currentTarget.getBoundingClientRect();
     this.setState({
@@ -139,7 +139,7 @@ export default class KeymapMenu extends React.Component<
       this.props.keyboardDefinition!.layouts.keymap,
       keys,
       this.props.layerCount!,
-      this.props.labelLang!
+      this.props.labelLang!,
     );
 
     sendEventToGoogleAnalytics('configure/cheat_sheet', {
@@ -156,7 +156,7 @@ export default class KeymapMenu extends React.Component<
   }
 
   private onClickOpenKeymapListPopover(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     const { left, top } = event.currentTarget.getBoundingClientRect();
     this.setState({
@@ -212,7 +212,7 @@ export default class KeymapMenu extends React.Component<
 
   render() {
     const isLightingAvailable = LightingDialog.isLightingAvailable(
-      this.props.keyboardDefinition!.lighting
+      this.props.keyboardDefinition!.lighting,
     );
     const hasLayoutOptions = 0 < this.props.selectedKeyboardOptions!.length;
     const { vendorId, productId, productName } =

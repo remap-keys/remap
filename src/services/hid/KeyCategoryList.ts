@@ -40,7 +40,7 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_PUNCTUATION.codes,
     ];
     const basicKeymaps1: IKeymap[] = basicCodes1.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!,
     );
 
     const looseKeycodes: number[] = [
@@ -59,7 +59,7 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_NUMPAD.codes,
     ];
     const basicKeymaps2: IKeymap[] = basicCodes2.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!,
     );
 
     KeyCategory._basic[labelLang] = [
@@ -72,7 +72,7 @@ export class KeyCategory {
 
   static functions(
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): IKeymap[] {
     // It is necessary to build keymaps every time for custom keycodes.
     const functionsCodes: number[] = [
@@ -81,7 +81,7 @@ export class KeyCategory {
       ...KEY_SUB_CATEGORY_LOCK.codes,
     ];
     const functionsKeymaps: IKeymap[] = functionsCodes.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!,
     );
 
     const looseKeycodes1: number[] = [
@@ -94,7 +94,7 @@ export class KeyCategory {
 
     const viaUserCodes: number[] = [...KEY_SUB_CATEGORY_VIA_USER_KEY.codes];
     const viaUserKeymaps: IKeymap[] = viaUserCodes.map(
-      (code) => ViaUserKeyComposition.findKeymap(code, customKeycodes)!
+      (code) => ViaUserKeyComposition.findKeymap(code, customKeycodes)!,
     );
 
     const looseKeycodes2: number[] = [
@@ -122,7 +122,7 @@ export class KeyCategory {
 
     const triLayerCodes: number[] = [...KEY_SUB_CATEGORY_TRI_LAYER.codes];
     const triLayerKeymaps: IKeymap[] = triLayerCodes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
+      (code) => LooseKeycodeComposition.findKeymap(code)!,
     );
 
     const keymaps: IKeymap[] = [
@@ -203,10 +203,10 @@ export class KeyCategory {
     ];
 
     const basicKeymaps: IKeymap[] = basicCodes.map(
-      (code) => BasicComposition.findKeymap(code, labelLang)!
+      (code) => BasicComposition.findKeymap(code, labelLang)!,
     );
     const looseKeymaps: IKeymap[] = looseCodes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
+      (code) => LooseKeycodeComposition.findKeymap(code)!,
     );
     KeyCategory._device[labelLang] = [...basicKeymaps, ...looseKeymaps];
     return KeyCategory._device[labelLang];
@@ -235,7 +235,7 @@ export class KeyCategory {
     ];
 
     KeyCategory._midi = midiCodes.map(
-      (code) => LooseKeycodeComposition.findKeymap(code)!
+      (code) => LooseKeycodeComposition.findKeymap(code)!,
     );
     return KeyCategory._midi;
   }
@@ -243,7 +243,7 @@ export class KeyCategory {
   static macro(
     maxMacroCount: number,
     macroBuffer: IMacroBuffer | null,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ): IKeymap[] {
     if (KEY_SUB_CATEGORY_MACRO.codes.length < maxMacroCount) {
       throw new Error(`Invalid max macro count: ${maxMacroCount}`);

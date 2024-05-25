@@ -100,7 +100,7 @@ export default class Keymap extends React.Component<
     selectedKey: Key,
     selectedKeySwitchOperation: IKeySwitchOperation,
     selectedEncoderId: number | null,
-    selectedKeyRef: React.RefObject<HTMLDivElement>
+    selectedKeyRef: React.RefObject<HTMLDivElement>,
   ) {
     const div: HTMLDivElement = selectedKeyRef.current!;
     const rect = div.getBoundingClientRect();
@@ -191,14 +191,14 @@ export default class Keymap extends React.Component<
           this.state.selectedEncoderId!,
           orgKm,
           dstKey.keymap,
-          this.state.selectedKeySwitchOperation
+          this.state.selectedKeySwitchOperation,
         );
       } else {
         this.props.updateKeymap!(
           this.props.selectedLayer!,
           this.state.selectedPos!,
           orgKm,
-          dstKey.keymap
+          dstKey.keymap,
         );
       }
     } else {
@@ -207,12 +207,12 @@ export default class Keymap extends React.Component<
         this.props.revertEncoderKeymap!(
           this.props.selectedLayer!,
           this.state.selectedEncoderId!,
-          this.state.selectedKeySwitchOperation
+          this.state.selectedKeySwitchOperation,
         );
       } else {
         this.props.revertKeymap!(
           this.props.selectedLayer!,
-          this.state.selectedPos!
+          this.state.selectedPos!,
         );
       }
     }
@@ -221,7 +221,7 @@ export default class Keymap extends React.Component<
   componentDidUpdate(
     prevProps: KeymapPropsType,
     // eslint-disable-next-line no-unused-vars
-    prevState: OwnKeymapStateType
+    prevState: OwnKeymapStateType,
   ) {
     if (prevProps.testMatrix !== this.props.testMatrix) {
       clearInterval(this.state.interval);
@@ -235,7 +235,7 @@ export default class Keymap extends React.Component<
     }
 
     const keyboardViewContent = this.state.keyboardModel.getKeymap(
-      this.props.selectedKeyboardOptions!
+      this.props.selectedKeyboardOptions!,
     );
     const keyboardWidth =
       keyboardViewContent.width + (BORDER_WIDTH + KEYBOARD_LAYOUT_PADDING) * 2;
@@ -261,7 +261,7 @@ export default class Keymap extends React.Component<
     const remaps = this.props.remaps![selectedLayer];
     const encodersRemap = this.props.encodersRemaps![selectedLayer];
     const keyboardViewContent = this.state.keyboardModel.getKeymap(
-      this.props.selectedKeyboardOptions!
+      this.props.selectedKeyboardOptions!,
     );
 
     return (
@@ -301,7 +301,7 @@ export default class Keymap extends React.Component<
                   labelLang,
                   this.props.keydiff!.origin,
                   this.props.keydiff!.destination,
-                  this.props.keyboardDefinition!.customKeycodes
+                  this.props.keyboardDefinition!.customKeycodes,
                 );
               }}
             />
@@ -354,7 +354,7 @@ export default class Keymap extends React.Component<
                     key,
                     keySwitchEventType,
                     encoderId,
-                    ref
+                    ref,
                   );
                 }
               }}

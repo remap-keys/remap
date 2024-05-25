@@ -29,7 +29,7 @@ type DefinitionFormProps = {
     // eslint-disable-next-line no-unused-vars
     jsonFilename: string,
     // eslint-disable-next-line no-unused-vars
-    jsonStr: string
+    jsonStr: string,
   ) => void;
   jsonFilename?: string;
   keyboardDefinition: KeyboardDefinitionSchema | null | undefined;
@@ -43,7 +43,7 @@ type DefinitionFormProps = {
   qmkRepositoryFirstPullRequestUrl?: string;
   updateQmkRepositoryFirstPullRequestUrl: (
     // eslint-disable-next-line no-unused-vars
-    qmkRepositoryFirstPullRequestUrl: string
+    qmkRepositoryFirstPullRequestUrl: string,
   ) => void;
   forkedRepositoryUrl?: string;
   // eslint-disable-next-line no-unused-vars
@@ -57,12 +57,12 @@ type DefinitionFormProps = {
   otherPlaceSourceCodeEvidence?: string;
   updateOtherPlaceSourceCodeEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlaceSourceCodeEvidence: string
+    otherPlaceSourceCodeEvidence: string,
   ) => void;
   otherPlacePublisherEvidence?: string;
   updateOtherPlacePublisherEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlacePublisherEvidence: string
+    otherPlacePublisherEvidence: string,
   ) => void;
   agreement?: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -252,7 +252,7 @@ type JsonUploadFormProps = {
     // eslint-disable-next-line no-unused-vars
     name: string,
     // eslint-disable-next-line no-unused-vars
-    jsonStr: string
+    jsonStr: string,
   ) => void;
 };
 
@@ -436,7 +436,7 @@ function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
             value={props.firmwareCodePlace}
             onChange={(e) =>
               props.updateFirmwareCodePlace(
-                e.target.value as IFirmwareCodePlace
+                e.target.value as IFirmwareCodePlace,
               )
             }
           >
@@ -456,10 +456,10 @@ function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
       props.firmwareCodePlace === FirmwareCodePlace.qmk
         ? 'GitHub: qmk/qmk_firmware'
         : props.firmwareCodePlace === FirmwareCodePlace.forked
-        ? 'GitHub: Your forked repository from qmk/qmk_firmware'
-        : props.firmwareCodePlace === FirmwareCodePlace.other
-        ? 'Other'
-        : 'Unknown';
+          ? 'GitHub: Your forked repository from qmk/qmk_firmware'
+          : props.firmwareCodePlace === FirmwareCodePlace.other
+            ? 'Other'
+            : 'Unknown';
     return (
       <div className="edit-definition-form-row">
         <TextField
@@ -482,7 +482,7 @@ type EvidenceForQmkRepositoryProps = {
   qmkRepositoryFirstPullRequestUrl?: string;
   updateQmkRepositoryFirstPullRequestUrl: (
     // eslint-disable-next-line no-unused-vars
-    qmkRepositoryFirstPullRequestUrl: string
+    qmkRepositoryFirstPullRequestUrl: string,
   ) => void;
 };
 
@@ -614,12 +614,12 @@ type EvidenceForOtherPlaceProps = {
   otherPlaceSourceCodeEvidence?: string;
   updateOtherPlaceSourceCodeEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlaceSourceCodeEvidence: string
+    otherPlaceSourceCodeEvidence: string,
   ) => void;
   otherPlacePublisherEvidence?: string;
   updateOtherPlacePublisherEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlacePublisherEvidence: string
+    otherPlacePublisherEvidence: string,
   ) => void;
 };
 
@@ -803,7 +803,7 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
               value={props.authorType}
               onChange={(e) =>
                 props.updateAuthorType(
-                  e.target.value as IKeyboardDefinitionAuthorType
+                  e.target.value as IKeyboardDefinitionAuthorType,
                 )
               }
             >

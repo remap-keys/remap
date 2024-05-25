@@ -26,7 +26,7 @@ type Keytop = {
 };
 
 const KeyboardLabelLangs: KeyboardLabelLang[] = KEY_LABEL_LANGS.map(
-  (item) => item.labelLang
+  (item) => item.labelLang,
 );
 
 const MOD_SHORT_LABELS = ['0', 'C', 'S', '3', 'A', '5', '6', '7', 'W'];
@@ -52,7 +52,7 @@ function findKeytop(keymap: IKeymap, labels: KeyLabel[]): Keytop {
   };
 
   const keyLabel: KeyLabel | undefined = labels.find(
-    (item) => item.code == keymap.code
+    (item) => item.code == keymap.code,
   );
 
   if (keyLabel) {
@@ -62,7 +62,7 @@ function findKeytop(keymap: IKeymap, labels: KeyLabel[]): Keytop {
       keytop.meta = getMetaLabel(keyLabel, MOD_SFT);
       keytop.metaRight = getMetaLabel(
         keyLabel,
-        mods2Number([MOD_ALT], MOD_RIGHT)
+        mods2Number([MOD_ALT], MOD_RIGHT),
       );
     } else {
       keytop.label = keyLabel.label;
@@ -100,7 +100,7 @@ export const genKey = (keymap: IKeymap, lang?: KeyboardLabelLang): Key => {
     if (0 < keytop.keywords.length) {
       newKeymap = _.cloneDeep(keymap) as IKeymap;
       newKeymap.keycodeInfo.keywords = newKeymap.keycodeInfo.keywords.concat(
-        keytop.keywords
+        keytop.keywords,
       );
     }
 
@@ -123,7 +123,7 @@ export const genKey = (keymap: IKeymap, lang?: KeyboardLabelLang): Key => {
 
 export const genKeys = (
   keymaps: IKeymap[],
-  labelLang?: KeyboardLabelLang
+  labelLang?: KeyboardLabelLang,
 ): Key[] => {
   return keymaps.map<Key>((keymap) => genKey(keymap, labelLang));
 };

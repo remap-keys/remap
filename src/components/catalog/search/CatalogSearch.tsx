@@ -53,7 +53,7 @@ class CatalogSearch extends React.Component<
   }
   private closeSearchDialog(
     originalKeyword: string,
-    originalFeatures: IKeyboardFeatures[]
+    originalFeatures: IKeyboardFeatures[],
   ) {
     this.props.updateKeyword!(originalKeyword);
     this.props.resetFeatures!(originalFeatures);
@@ -184,7 +184,7 @@ function SearchResult(props: SearchResultProps) {
         <Pagination
           count={Math.ceil(
             props.definitionDocuments.length /
-              SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE
+              SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE,
           )}
           page={Math.floor(offset / SEARCH_RESULT_KEYBOARD_COUNT_PER_PAGE) + 1}
           onChange={onChangePage}
@@ -215,7 +215,7 @@ function KeyboardCard(props: KeyboardCardProps) {
   const designerIconImageUrl =
     !props.definition.authorType || isIndividual
       ? `https://avatars.githubusercontent.com/${getGitHubUserName(
-          props.definition
+          props.definition,
         )}`
       : organization.icon_image_url;
 

@@ -84,7 +84,7 @@ class OrganizationRow extends React.Component<OrganizationProps, any> {
                     Created at:
                   </span>
                   {moment(this.props.organization.created_at).format(
-                    'YYYY-MM-DD HH:mm:ss'
+                    'YYYY-MM-DD HH:mm:ss',
                   )}
                 </div>
                 <div className="organization-meta-info">
@@ -92,7 +92,7 @@ class OrganizationRow extends React.Component<OrganizationProps, any> {
                     Updated at:{' '}
                   </span>
                   {moment(this.props.organization.updated_at).format(
-                    'YYYY-MM-DD HH:mm:ss'
+                    'YYYY-MM-DD HH:mm:ss',
                   )}
                 </div>
               </div>

@@ -52,7 +52,7 @@ export default class CatalogFirmware extends React.Component<
   onClickFlash(firmware: IFirmware) {
     this.props.flashFirmwareDialog!.open(
       this.props.definitionDocument!,
-      firmware
+      firmware,
     );
   }
 
@@ -132,7 +132,7 @@ type IFirmwareCardProps = {
     // eslint-disable-next-line no-unused-vars
     firmwareFilePath: string,
     // eslint-disable-next-line no-unused-vars
-    callback: (blob: any) => void
+    callback: (blob: any) => void,
   ) => void;
   definitionDocument: IKeyboardDefinitionDocument;
   // eslint-disable-next-line no-unused-vars
@@ -154,7 +154,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = props.firmware.filename.substring(
-        props.firmware.filename.lastIndexOf('/') + 1
+        props.firmware.filename.lastIndexOf('/') + 1,
       );
       a.href = downloadUrl;
       a.click();

@@ -28,30 +28,30 @@ export type IGetProviderDataResult = {
 };
 
 export const getGitHubProviderData = (
-  user: firebase.User
+  user: firebase.User,
 ): IGetProviderDataResult => {
   return getConcreteProviderData(
     user,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
   );
 };
 
 export const getGoogleProviderData = (
-  user: firebase.User
+  user: firebase.User,
 ): IGetProviderDataResult => {
   return getConcreteProviderData(
     user,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
   );
 };
 
 const getConcreteProviderData = (
   user: firebase.User,
-  providerId: string
+  providerId: string,
 ): IGetProviderDataResult => {
   const providerDataList = user.providerData;
   const providerData = providerDataList.find(
-    (data) => data?.providerId === providerId
+    (data) => data?.providerId === providerId,
   );
   if (providerData) {
     return {

@@ -45,7 +45,7 @@ export const CATALOG_SEARCH_UPDATE_BUILD_SUPPORT = `${CATALOG_SEARCH_ACTIONS}/Up
 export const CatalogSearchActions = {
   updateFeatures: (
     value: IKeyboardFeatures | IConditionNotSelected,
-    targetFeatures: readonly IKeyboardFeatures[]
+    targetFeatures: readonly IKeyboardFeatures[],
   ) => {
     return {
       type: CATALOG_SEARCH_UPDATE_FEATURES,
@@ -98,7 +98,7 @@ export const CatalogKeyboardActions = {
   updateKeymaps: (
     keymaps: {
       [pos: string]: IKeymap;
-    }[]
+    }[],
   ) => {
     return {
       type: CATALOG_KEYBOARD_UPDATE_KEYMAPS,
@@ -135,7 +135,7 @@ export const CatalogKeyboardActions = {
     };
   },
   updateBuildableFirmwareCodeParameterValues: (
-    values: IBuildableFirmwareCodeParameterValues
+    values: IBuildableFirmwareCodeParameterValues,
   ) => {
     return {
       type: CATALOG_KEYBOARRD_UPDATE_BUILDABLE_FIRMWARE_CODE_PARAMETER_VALUES,
@@ -145,10 +145,10 @@ export const CatalogKeyboardActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof CatalogKeyboardActions[keyof typeof CatalogKeyboardActions]
-  | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof CatalogKeyboardActions)[keyof typeof CatalogKeyboardActions]
+  | (typeof LayoutOptionsActions)[keyof typeof LayoutOptionsActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -163,7 +163,7 @@ export const catalogActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities } = getState();
       const labelLang = savedKeymapData.label_lang;
@@ -184,7 +184,7 @@ export const catalogActionsThunk = {
             keymaps[pos] = KeycodeList.getKeymap(
               savedCode[pos],
               labelLang,
-              entities.keyboardDefinition!.customKeycodes
+              entities.keyboardDefinition!.customKeycodes,
             );
           });
         }
@@ -192,7 +192,7 @@ export const catalogActionsThunk = {
       }
 
       const encoderIdList = getEncoderIdList(
-        entities.keyboardDefinition!.layouts.keymap
+        entities.keyboardDefinition!.layouts.keymap,
       );
       const encodersKeycodes: IEncoderKeymaps[] = [];
       const savedEncodersKeycodes: {
@@ -215,8 +215,8 @@ export const catalogActionsThunk = {
             },
             {} as {
               [id: number]: { clockwise: number; counterclockwise: number };
-            }
-          )
+            },
+          ),
         );
       for (let i = 0; i < savedEncodersKeycodes.length; i++) {
         const savedEncodersCode = savedEncodersKeycodes[i];
@@ -231,12 +231,12 @@ export const catalogActionsThunk = {
               clockwise: KeycodeList.getKeymap(
                 savedEncodersCode[Number(id)].clockwise,
                 labelLang,
-                entities.keyboardDefinition!.customKeycodes
+                entities.keyboardDefinition!.customKeycodes,
               ),
               counterclockwise: KeycodeList.getKeymap(
                 savedEncodersCode[Number(id)].counterclockwise,
                 labelLang,
-                entities.keyboardDefinition!.customKeycodes
+                entities.keyboardDefinition!.customKeycodes,
               ),
             };
           });
@@ -251,22 +251,22 @@ export const catalogActionsThunk = {
       dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
       dispatch(CatalogKeyboardActions.updateSelectedLayer(0));
       dispatch(
-        CatalogKeyboardActions.updateSelectedKeymapData(savedKeymapData)
+        CatalogKeyboardActions.updateSelectedKeymapData(savedKeymapData),
       );
     },
   applySharedKeymap:
     (definitionId: string, keymapId: string): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.fetchSharedKeymap(keymapId);
       if (isSuccessful(result)) {
         dispatch(
           await catalogActionsThunk.applySharedKeymapData(
-            result.value.sharedKeymap
-          )
+            result.value.sharedKeymap,
+          ),
         );
       } else {
         console.error(result.error);
@@ -278,7 +278,7 @@ export const catalogActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
@@ -288,18 +288,18 @@ export const catalogActionsThunk = {
   createFirmwareBuildingTask: (
     keyboardDefinitionId: string,
     description: string,
-    parametersJson: string
+    parametersJson: string,
   ): ThunkPromiseAction<void> => {
     return async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       dispatch(CatalogAppActions.updatePhase('processing'));
       const { storage } = getState();
       const result = await storage.instance!.createFirmwareBuildingTask(
         keyboardDefinitionId,
         description,
-        parametersJson
+        parametersJson,
       );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));
@@ -307,13 +307,13 @@ export const catalogActionsThunk = {
         return;
       }
       await dispatch(
-        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId),
       );
       dispatch(CatalogAppActions.updatePhase('build'));
       dispatch(
         NotificationActions.addSuccess(
-          'The firmware building task has been registered.'
-        )
+          'The firmware building task has been registered.',
+        ),
       );
     };
   },
@@ -322,13 +322,14 @@ export const catalogActionsThunk = {
     (keyboardDefinitionId: string) =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       dispatch(StorageActions.updateFirmwareBuildingTasks([]));
       const { storage } = getState();
-      const result = await storage.instance!.fetchFirmwareBuildingTasks(
-        keyboardDefinitionId
-      );
+      const result =
+        await storage.instance!.fetchFirmwareBuildingTasks(
+          keyboardDefinitionId,
+        );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));
         return;
@@ -340,7 +341,7 @@ export const catalogActionsThunk = {
     (keyboardDefinitionId: string, task: IFirmwareBuildingTask) =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { storage } = getState();
       const result = await storage.instance!.deleteFirmwareBuildingTask(task);
@@ -349,7 +350,7 @@ export const catalogActionsThunk = {
         return;
       }
       await dispatch(
-        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId)
+        catalogActionsThunk.updateFirmwareBuildingTasks(keyboardDefinitionId),
       );
     },
 
@@ -357,13 +358,13 @@ export const catalogActionsThunk = {
     (taskId: string, description: string) =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { storage, entities } = getState();
       const result =
         await storage.instance!.updateFirmwareBuildingTaskDescription(
           taskId,
-          description
+          description,
         );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));
@@ -379,11 +380,11 @@ export const catalogActionsThunk = {
               };
             }
             return value;
-          })
-        )
+          }),
+        ),
       );
       dispatch(
-        NotificationActions.addSuccess('The memorandum has been updated.')
+        NotificationActions.addSuccess('The memorandum has been updated.'),
       );
     },
 };

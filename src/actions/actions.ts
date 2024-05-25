@@ -32,7 +32,7 @@ export const KeymapActions = {
   updateSelectedKeyPosition: (
     pos: string,
     encoderId: number | null,
-    keySwitchOperation: IKeySwitchOperation
+    keySwitchOperation: IKeySwitchOperation,
   ) => {
     return {
       type: KEYMAP_UPDATE_SELECTED_KEY_POSITION,
@@ -137,7 +137,7 @@ export const KeydiffActions = {
 };
 
 const NotifyType = ['success', 'warning', 'error', 'info'] as const;
-export type NotificationType = typeof NotifyType[number];
+export type NotificationType = (typeof NotifyType)[number];
 export type NotificationItem = {
   key: string;
   type: NotificationType;
@@ -226,7 +226,7 @@ export const AppActions = {
   },
   remapsInit: (layerCount: number) => {
     const remaps: { [pos: string]: KeyModel }[] = new Array(layerCount).fill(
-      {}
+      {},
     );
     return {
       type: APP_REMAPS_INIT,
@@ -265,7 +265,7 @@ export const AppActions = {
   },
   encodersRemapsInit: (layerCount: number) => {
     const encodersRemaps: { [id: number]: IEncoderKeymap }[] = new Array(
-      layerCount
+      layerCount,
     ).fill({});
     return {
       type: APP_ENCODERS_REMAPS_INIT,
@@ -276,7 +276,7 @@ export const AppActions = {
     layer: number,
     id: number,
     keymap: IKeymap,
-    keySwitchOperation: IKeySwitchOperation
+    keySwitchOperation: IKeySwitchOperation,
   ) => {
     return {
       type: APP_ENCODERS_REMAPS_SET_KEY,
@@ -294,7 +294,7 @@ export const AppActions = {
         clockwise?: IKeymap;
         counterclockwise?: IKeymap;
       };
-    }[]
+    }[],
   ) => {
     return {
       type: APP_ENCODERS_REMAPS_SET_KEYS,
@@ -304,7 +304,7 @@ export const AppActions = {
   encodersRemapsRemoveKey: (
     layer: number,
     id: number,
-    keySwitchOperation: IKeySwitchOperation
+    keySwitchOperation: IKeySwitchOperation,
   ) => {
     return {
       type: APP_ENCODERS_REMAPS_REMOVE_KEY,
@@ -361,8 +361,8 @@ export const AppActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof AppActions[keyof typeof AppActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -377,7 +377,7 @@ export const AppActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
@@ -390,7 +390,7 @@ export const AppActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.signInWithGitHubWithPopup();
@@ -404,7 +404,7 @@ export const AppActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.signInWithGoogleWithPopup();
@@ -418,7 +418,7 @@ export const AppActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.linkToGoogleWithPopup();
@@ -432,7 +432,7 @@ export const AppActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       const result = await auth.instance!.linkToGitHubWithPopup();

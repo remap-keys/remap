@@ -56,7 +56,7 @@ const Hid = () => {
       },
       disconnect: (disconnectedKeyboard) => {
         const newConnectedKeyboards = connectedKeyboards.filter(
-          (x) => x !== disconnectedKeyboard
+          (x) => x !== disconnectedKeyboard,
         );
         setConnectedKeyboards(newConnectedKeyboards);
       },
@@ -114,13 +114,13 @@ const Hid = () => {
   };
 
   const handleProductIdChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setProductId(event.target.value);
   };
 
   const handleUseFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setUseFilter(event.target.checked);
   };
@@ -132,7 +132,7 @@ const Hid = () => {
   };
 
   const handleSelectedKeyboardValue = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setSelectedKeyboardValue(Number(event.target.value));
   };
@@ -150,79 +150,79 @@ const Hid = () => {
   };
 
   const handleLayerChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setLayer(Number(event.target.value));
   };
 
   const handleLayer2Change = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setLayer2(Number(event.target.value));
   };
 
   const handleLayer3Change = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setLayer3(Number(event.target.value));
   };
 
   const handleEncoderIdChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setEncoderId(Number(event.target.value));
   };
 
   const handleClockwiseChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setClockwise(Number(event.target.value));
   };
 
   const handleRowChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRow(Number(event.target.value));
   };
 
   const handleRowCountChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowCount(Number(event.target.value));
   };
 
   const handleColumnChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setColumn(Number(event.target.value));
   };
 
   const handleColumnCountChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setColumnCount(Number(event.target.value));
   };
 
   const handleCodeChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setCode(Number(event.target.value));
   };
 
   const handleCode2Change = async (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setCode2(Number(event.target.value));
   };
 
   const handleBufferOffsetChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setBufferOffset(Number(event.target.value));
   };
 
   const handleBufferSizeChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setBufferSize(Number(event.target.value));
   };
@@ -234,7 +234,7 @@ const Hid = () => {
         rowCount,
         columnCount,
         'en-us',
-        undefined
+        undefined,
       );
       if (fetchKeymapResult.success) {
         console.log(fetchKeymapResult.keymap);
@@ -262,7 +262,7 @@ const Hid = () => {
           setMessage(result.error!);
           console.log(result.cause);
         }
-      }
+      },
     );
     await keyboard!.enqueue(command);
   };
@@ -283,13 +283,13 @@ const Hid = () => {
       },
       async (result) => {
         console.log(result);
-      }
+      },
     );
     await keyboard!.enqueue(command);
   };
 
   const handleLightingKindChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const value = Number(event.target.value);
     const result = await keyboard!.updateRGBLightEffect(value);
@@ -320,7 +320,7 @@ const Hid = () => {
   };
 
   const handleLayoutOptionsValueChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setLayoutOptionsValue(Number(event.target.value));
   };
@@ -345,13 +345,13 @@ const Hid = () => {
   };
 
   const handleMacroOffsetChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setMacroOffset(Number(event.target.value));
   };
 
   const handleMacroSizeChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setMacroSize(Number(event.target.value));
   };
@@ -364,7 +364,7 @@ const Hid = () => {
       },
       async (result) => {
         console.log(result);
-      }
+      },
     );
     await keyboard!.enqueue(command);
   };
@@ -383,7 +383,7 @@ const Hid = () => {
       async (result) => {
         console.log(result);
         setCode2(result.response!.code!);
-      }
+      },
     );
     await keyboard!.enqueue(command);
   };
@@ -398,7 +398,7 @@ const Hid = () => {
       },
       async (result) => {
         console.log(result);
-      }
+      },
     );
     await keyboard!.enqueue(command);
   };

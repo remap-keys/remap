@@ -92,7 +92,7 @@ export class KeycodeList {
   static getKeymaps(
     hex: number,
     langLabel: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): {
     value: IKeymap | null;
     holdKey: IKeymap | null;
@@ -177,12 +177,12 @@ export class KeycodeList {
   static getKeymap(
     code: number,
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): IKeymap {
     const { value, holdKey, tapKey } = KeycodeList.getKeymaps(
       code,
       labelLang,
-      customKeycodes
+      customKeycodes,
     );
     if (value) {
       return value;

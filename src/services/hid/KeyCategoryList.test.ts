@@ -19,7 +19,7 @@ describe('KeyCategoryList', () => {
         KeyCategory.macro(
           KEY_SUB_CATEGORY_MACRO.codes.length + 1,
           null,
-          'en-us'
+          'en-us',
         );
       }).toThrowError();
     });

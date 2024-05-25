@@ -360,7 +360,7 @@ export interface IKeycodeCompositionFactory {
   createAsciiKeycodeComposition(): IAsciiComposition;
   createViaUserKeyComposition(
     // eslint-disable-next-line no-unused-vars
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): IViaUserKeyComposition;
 }
 
@@ -392,11 +392,11 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       case KeycodeCompositionKind.user:
       case KeycodeCompositionKind.bmp: {
         let exist = keyInfoList.find(
-          (info) => info.keycodeInfo.code === this.code
+          (info) => info.keycodeInfo.code === this.code,
         );
         if (!exist) {
           exist = bmpKeyInfoList.find(
-            (info) => info.keycodeInfo.code === this.code
+            (info) => info.keycodeInfo.code === this.code,
           );
         }
         return exist ? KeycodeCompositionKind.loose_keycode : null;
@@ -490,13 +490,13 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createBasicComposition(): IBasicComposition {
     if (!this.isBasic()) {
       throw new Error(
-        `This code is not a basic key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a basic key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const keyCode = this.code & 0b1111_1111;
     const keymap: IKeymap = BasicComposition.findKeymap(
       keyCode,
-      this.labelLang
+      this.labelLang,
     )!;
     return new BasicComposition(keymap);
   }
@@ -504,13 +504,13 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createModsComposition(): IModsComposition {
     if (!this.isMods()) {
       throw new Error(
-        `This code is not a mods key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a mods key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const basicCode = this.code & 0b1111_1111;
     const basicKeymap: IKeymap = BasicComposition.findKeymap(
       basicCode,
-      this.labelLang
+      this.labelLang,
     )!;
     const modDirection =
       (this.code & 0b1_0000_0000_0000) >> 12 === 1 ? MOD_RIGHT : MOD_LEFT;
@@ -526,7 +526,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createMacroComposition(): IMacroComposition {
     if (!this.isMacro()) {
       throw new Error(
-        `This code is not a macro key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a macro key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const macroId = this.code & 0b0111_1111;
@@ -536,14 +536,14 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createLayerTapComposition(): ILayerTapComposition {
     if (!this.isLayerTap()) {
       throw new Error(
-        `This code is not a layer tap key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a layer tap key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const layer = (this.code >> 8) & 0b1111;
     const keyCode = this.code & 0b1111_1111;
     const keymap: IKeymap = BasicComposition.findKeymap(
       keyCode,
-      this.labelLang
+      this.labelLang,
     )!;
     return new LayerTapComposition(layer, keymap);
   }
@@ -551,7 +551,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createToComposition(): IToComposition {
     if (!this.isTo()) {
       throw new Error(
-        `This code is not a to key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a to key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -561,7 +561,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createMomentaryComposition(): IMomentaryComposition {
     if (!this.isMomentary()) {
       throw new Error(
-        `This code is not a momentary key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a momentary key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -571,7 +571,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createDefLayerComposition(): IDefLayerComposition {
     if (!this.isDefLayer()) {
       throw new Error(
-        `This code is not a def layer key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a def layer key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -583,8 +583,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       throw new Error(
         `This code is not a toggle layer key code: ${hexadecimal(
           this.code,
-          16
-        )}`
+          16,
+        )}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -596,8 +596,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       throw new Error(
         `This code is not an one shot layer key code: ${hexadecimal(
           this.code,
-          16
-        )}`
+          16,
+        )}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -609,8 +609,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       throw new Error(
         `This code is not an one shot mod key code: ${hexadecimal(
           this.code,
-          16
-        )}`
+          16,
+        )}`,
       );
     }
     const modDirection =
@@ -627,7 +627,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createTapDanceComposition(): ITapDanceComposition {
     if (!this.isTapDance()) {
       throw new Error(
-        `This code is not a tap dance key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a tap dance key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const no = this.code & 0b1111_1111;
@@ -639,8 +639,8 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       throw new Error(
         `This code is not a layer tap toggle key code: ${hexadecimal(
           this.code,
-          16
-        )}`
+          16,
+        )}`,
       );
     }
     const layer = this.code & 0b0001_1111;
@@ -650,7 +650,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createLayerModComposition(): ILayerModComposition {
     if (!this.isLayerMod()) {
       throw new Error(
-        `This code is not a layer mod key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a layer mod key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const layer = (this.code >> 5) & 0b1111;
@@ -666,7 +666,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createSwapHandsComposition(): ISwapHandsComposition {
     if (!this.isSwapHands()) {
       throw new Error(
-        `This code is not a swap hands key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a swap hands key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const value = this.code & 0b1111_1111;
@@ -681,13 +681,13 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createModTapComposition(): IModTapComposition {
     if (!this.isModTap()) {
       throw new Error(
-        `This code is not a mod tap key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a mod tap key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const keyCode = this.code & 0b1111_1111;
     const keymap: IKeymap = BasicComposition.findKeymap(
       keyCode,
-      this.labelLang
+      this.labelLang,
     )!;
     const modifiers = MODIFIERS.reduce<IMod[]>((result, current) => {
       if (((this.code >> 8) & 0b1111 & current) === current) {
@@ -703,7 +703,7 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createUnicodeComposition(): IUnicodeComposition {
     if (!this.isUnicode()) {
       throw new Error(
-        `This code is not a unicode key code: ${hexadecimal(this.code, 16)}`
+        `This code is not a unicode key code: ${hexadecimal(this.code, 16)}`,
       );
     }
     const charCode = this.code & 0b111_1111_1111_1111;
@@ -715,18 +715,18 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
       throw new Error(
         `This code is not a loose key code key code: ${hexadecimal(
           this.code,
-          16
-        )}`
+          16,
+        )}`,
       );
     }
 
     let keymap: IKeymap | undefined = LooseKeycodeComposition.genKeymaps().find(
-      (km) => km.code === this.code
+      (km) => km.code === this.code,
     );
 
     if (keymap === undefined) {
       keymap = LooseKeycodeComposition.genExtendsBmpKeymaps().find(
-        (km) => km.code === this.code
+        (km) => km.code === this.code,
       );
     }
 
@@ -739,22 +739,22 @@ export class KeycodeCompositionFactory implements IKeycodeCompositionFactory {
   createAsciiKeycodeComposition(): IAsciiComposition {
     if (!this.isAscii()) {
       throw new Error(
-        `This code is not an ascii code: ${hexadecimal(this.code, 16)}`
+        `This code is not an ascii code: ${hexadecimal(this.code, 16)}`,
       );
     }
     return new AsciiComposition(AsciiComposition.createKeymap(this.code));
   }
 
   createViaUserKeyComposition(
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): IViaUserKeyComposition {
     if (!this.isViaUserKey()) {
       throw new Error(
-        `This code is not a via user key: ${hexadecimal(this.code, 16)}`
+        `This code is not a via user key: ${hexadecimal(this.code, 16)}`,
       );
     }
     return new ViaUserKeyComposition(
-      ViaUserKeyComposition.findKeymap(this.code, customKeycodes)!
+      ViaUserKeyComposition.findKeymap(this.code, customKeycodes)!,
     );
   }
 }

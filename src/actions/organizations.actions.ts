@@ -35,10 +35,10 @@ export const OrganizationsEditOrganizationActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof OrganizationsAppActions[keyof typeof OrganizationsAppActions]
-  | typeof OrganizationsEditOrganizationActions[keyof typeof OrganizationsEditOrganizationActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof StorageActions[keyof typeof StorageActions]
+  | (typeof OrganizationsAppActions)[keyof typeof OrganizationsAppActions]
+  | (typeof OrganizationsEditOrganizationActions)[keyof typeof OrganizationsEditOrganizationActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof StorageActions)[keyof typeof StorageActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -53,7 +53,7 @@ export const organizationsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { auth } = getState();
       dispatch(OrganizationsAppActions.updatePhase('signout'));
@@ -65,7 +65,7 @@ export const organizationsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { storage } = getState();
       const fetchMyOrganizationsResult =
@@ -75,15 +75,15 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             fetchMyOrganizationsResult.error,
-            fetchMyOrganizationsResult.cause
-          )
+            fetchMyOrganizationsResult.cause,
+          ),
         );
         return;
       }
       dispatch(
         StorageActions.updateOrganizationMap(
-          fetchMyOrganizationsResult.value.organizationMap
-        )
+          fetchMyOrganizationsResult.value.organizationMap,
+        ),
       );
       dispatch(OrganizationsAppActions.updatePhase('list'));
     },
@@ -93,7 +93,7 @@ export const organizationsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { storage } = getState();
       const fetchOrganizationResult =
@@ -103,15 +103,15 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             fetchOrganizationResult.error,
-            fetchOrganizationResult.cause
-          )
+            fetchOrganizationResult.cause,
+          ),
         );
         return;
       }
       dispatch(
         StorageActions.updateOrganization(
-          fetchOrganizationResult.value.organization
-        )
+          fetchOrganizationResult.value.organization,
+        ),
       );
       const fetchOrganizationMembersResult =
         await storage.instance!.fetchOrganizationMembers(organizationId);
@@ -120,15 +120,15 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             fetchOrganizationMembersResult.error,
-            fetchOrganizationMembersResult.cause
-          )
+            fetchOrganizationMembersResult.cause,
+          ),
         );
         return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.value.members
-        )
+          fetchOrganizationMembersResult.value.members,
+        ),
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
       dispatch(OrganizationsAppActions.updatePhase('edit'));
@@ -139,7 +139,7 @@ export const organizationsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       dispatch(OrganizationsAppActions.updatePhase('processing'));
       const { organizations, entities, storage } = getState();
@@ -153,8 +153,8 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             addOrganizationMemberResult.error,
-            addOrganizationMemberResult.cause
-          )
+            addOrganizationMemberResult.cause,
+          ),
         );
         return;
       }
@@ -166,15 +166,15 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             fetchOrganizationMembersResult.error,
-            fetchOrganizationMembersResult.cause
-          )
+            fetchOrganizationMembersResult.cause,
+          ),
         );
         return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.value.members
-        )
+          fetchOrganizationMembersResult.value.members,
+        ),
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
       dispatch(OrganizationsAppActions.updatePhase('edit'));
@@ -185,7 +185,7 @@ export const organizationsActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       dispatch(OrganizationsAppActions.updatePhase('processing'));
       const { entities, storage } = getState();
@@ -198,8 +198,8 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             deleteOrganizationMemberResult.error,
-            deleteOrganizationMemberResult.cause
-          )
+            deleteOrganizationMemberResult.cause,
+          ),
         );
         return;
       }
@@ -211,15 +211,15 @@ export const organizationsActionsThunk = {
         dispatch(
           NotificationActions.addError(
             fetchOrganizationMembersResult.error,
-            fetchOrganizationMembersResult.cause
-          )
+            fetchOrganizationMembersResult.cause,
+          ),
         );
         return;
       }
       dispatch(
         OrganizationsEditOrganizationActions.updateOrganizationMembers(
-          fetchOrganizationMembersResult.value.members
-        )
+          fetchOrganizationMembersResult.value.members,
+        ),
       );
       dispatch(OrganizationsEditOrganizationActions.updateEmail(''));
       dispatch(OrganizationsAppActions.updatePhase('edit'));

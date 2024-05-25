@@ -28,7 +28,7 @@ export function Firmware() {
       return;
     }
     const parseResult = hex.parse(
-      Buffer.from(new Uint8Array(await file.arrayBuffer()))
+      Buffer.from(new Uint8Array(await file.arrayBuffer())),
     );
     const firmwareWriter: IFirmwareWriter = new FirmwareWriterWebApiImpl();
     const writeResult = await firmwareWriter.write(
@@ -52,7 +52,7 @@ export function Firmware() {
       (error, cause) => {
         console.error(error);
         console.error(cause);
-      }
+      },
     );
     console.log(writeResult);
   };
@@ -62,7 +62,7 @@ export function Firmware() {
       return;
     }
     const parseResult = hex.parse(
-      Buffer.from(new Uint8Array(await file.arrayBuffer()))
+      Buffer.from(new Uint8Array(await file.arrayBuffer())),
     );
     const firmwareWriter: IFirmwareWriter = new FirmwareWriterWebApiImpl();
     const writeResult = await firmwareWriter.write(
@@ -86,7 +86,7 @@ export function Firmware() {
       (error, cause) => {
         console.error(error);
         console.error(cause);
-      }
+      },
     );
     console.log(writeResult);
   };

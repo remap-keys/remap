@@ -15,7 +15,7 @@ export interface IBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IBootloaderReadResult>;
 
   write(
@@ -26,7 +26,7 @@ export interface IBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult>;
 
   verify(
@@ -35,6 +35,6 @@ export interface IBootloader {
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult>;
 }

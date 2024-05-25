@@ -55,7 +55,7 @@ const mapDispatchToProps = (_dispatch: any) => {
            */
           _dispatch(HidActions.updateKeyboard(null));
           _dispatch(
-            AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected)
+            AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected),
           );
         }
       }

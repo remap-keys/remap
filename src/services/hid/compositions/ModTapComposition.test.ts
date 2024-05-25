@@ -28,7 +28,7 @@ describe('ModTapComposition', () => {
           label: 'A',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0011_1111_0000_0100);
     subject = new ModTapComposition(
@@ -49,7 +49,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0010_1111_0000_0000);
     subject = new ModTapComposition(
@@ -70,7 +70,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0011_1111_0000_0000);
     subject = new ModTapComposition(
@@ -91,7 +91,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0010_1111_1111_1111);
     subject = new ModTapComposition(
@@ -112,7 +112,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0011_1111_1111_1111);
     subject = new ModTapComposition(
@@ -133,7 +133,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0010_1111_0000_0000);
     subject = new ModTapComposition(
@@ -154,7 +154,7 @@ describe('ModTapComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0011_1111_0000_0000);
     subject = new ModTapComposition(ModDirection.left, [], {

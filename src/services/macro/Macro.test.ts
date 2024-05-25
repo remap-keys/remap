@@ -80,7 +80,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x17,
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -134,7 +134,7 @@ describe('Macro', () => {
           0x39, // 9
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -176,7 +176,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x1c,
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -221,7 +221,7 @@ describe('Macro', () => {
           0x36, // 6
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -255,7 +255,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x17,
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -301,7 +301,7 @@ describe('Macro', () => {
           0x36, // 6
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(macroBuffer.updateMacro.calledOnce).toBeTruthy();
     });
@@ -325,7 +325,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -337,7 +337,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.code).toEqual(0x21);
         expect(
-          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.isAny).toBeFalsy();
       } else {
@@ -360,16 +360,16 @@ describe('Macro', () => {
         expect(actual.macroKeys[2].keyDelayPairs[0].key.label).toEqual('t');
         expect(actual.macroKeys[2].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[2].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[2].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x17
+          0x17,
         );
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
       } else {
         fail('actual.macroKeys[2] is not Hold');
@@ -411,7 +411,7 @@ describe('Macro', () => {
           0x39, // 9
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -424,7 +424,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.code).toEqual(0x21);
         expect(actual.macroKeys[0].keyDelayPair.delay).toEqual(123);
         expect(
-          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.isAny).toBeFalsy();
       } else {
@@ -448,16 +448,16 @@ describe('Macro', () => {
         expect(actual.macroKeys[2].keyDelayPairs[0].key.label).toEqual('t');
         expect(actual.macroKeys[2].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[2].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[2].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x17
+          0x17,
         );
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[2].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
         expect(actual.macroKeys[2].keyDelayPairs[0].delay).toEqual(789);
       } else {
@@ -475,7 +475,7 @@ describe('Macro', () => {
           SS_TAP_CODE,
           0x2e, // QMK ^ in JA (= in US)
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       let actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -512,7 +512,7 @@ describe('Macro', () => {
       const subject = new Macro(
         macroBufferStub,
         0,
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -529,7 +529,7 @@ describe('Macro', () => {
           0x22, // ASCII "
           0x0a, // ASCII LF
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -541,7 +541,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.code).toEqual(0x21);
         expect(
-          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.isAny).toBeFalsy();
       } else {
@@ -554,7 +554,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[1].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[1].keyDelayPair.key.keymap.code).toEqual(0x22);
         expect(
-          actual.macroKeys[1].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[1].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[1].keyDelayPair.key.keymap.isAny).toBeFalsy();
       } else {
@@ -567,7 +567,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[2].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[2].keyDelayPair.key.keymap.code).toEqual(0x0a);
         expect(
-          actual.macroKeys[2].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[2].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[2].keyDelayPair.key.keymap.isAny).toBeTruthy();
       } else {
@@ -603,7 +603,7 @@ describe('Macro', () => {
           0x39, // 9
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -615,7 +615,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.code).toEqual(0x21);
         expect(
-          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[0].keyDelayPair.key.keymap.isAny).toBeFalsy();
         expect(actual.macroKeys[0].keyDelayPair.delay).toEqual(123);
@@ -629,7 +629,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[1].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[1].keyDelayPair.key.keymap.code).toEqual(0x22);
         expect(
-          actual.macroKeys[1].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[1].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[1].keyDelayPair.key.keymap.isAny).toBeFalsy();
         expect(actual.macroKeys[1].keyDelayPair.delay).toEqual(456);
@@ -643,7 +643,7 @@ describe('Macro', () => {
         expect(actual.macroKeys[2].keyDelayPair.key.metaRight).toBeUndefined();
         expect(actual.macroKeys[2].keyDelayPair.key.keymap.code).toEqual(0x0a);
         expect(
-          actual.macroKeys[2].keyDelayPair.key.keymap.isAscii
+          actual.macroKeys[2].keyDelayPair.key.keymap.isAscii,
         ).toBeTruthy();
         expect(actual.macroKeys[2].keyDelayPair.key.keymap.isAny).toBeTruthy();
         expect(actual.macroKeys[2].keyDelayPair.delay).toEqual(789);
@@ -668,7 +668,7 @@ describe('Macro', () => {
           SS_TAP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -742,7 +742,7 @@ describe('Macro', () => {
           0x39, // 9
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -810,7 +810,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -821,30 +821,30 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPairs[0].key.label).toEqual('x');
         expect(actual.macroKeys[0].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[0].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x1b
+          0x1b,
         );
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
         expect(actual.macroKeys[0].keyDelayPairs[1].key.label).toEqual('y');
         expect(actual.macroKeys[0].keyDelayPairs[1].key.meta).toEqual('');
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.metaRight
+          actual.macroKeys[0].keyDelayPairs[1].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPairs[1].key.keymap.code).toEqual(
-          0x1c
+          0x1c,
         );
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAny
+          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAny,
         ).toBeFalsy();
       } else {
         fail('actual.macroKeys[0] is not Hold');
@@ -855,16 +855,16 @@ describe('Macro', () => {
         expect(actual.macroKeys[1].keyDelayPairs[0].key.label).toEqual('z');
         expect(actual.macroKeys[1].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[1].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[1].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x1d
+          0x1d,
         );
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
       } else {
         fail('actual.macroKeys[1] is not Hold');
@@ -914,7 +914,7 @@ describe('Macro', () => {
           0x39, // 9
           0x7c, // |
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeTruthy();
@@ -925,31 +925,31 @@ describe('Macro', () => {
         expect(actual.macroKeys[0].keyDelayPairs[0].key.label).toEqual('x');
         expect(actual.macroKeys[0].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[0].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x1b
+          0x1b,
         );
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[0].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
         expect(actual.macroKeys[0].keyDelayPairs[0].delay).toEqual(123);
         expect(actual.macroKeys[0].keyDelayPairs[1].key.label).toEqual('y');
         expect(actual.macroKeys[0].keyDelayPairs[1].key.meta).toEqual('');
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.metaRight
+          actual.macroKeys[0].keyDelayPairs[1].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[0].keyDelayPairs[1].key.keymap.code).toEqual(
-          0x1c
+          0x1c,
         );
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAscii
+          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAny
+          actual.macroKeys[0].keyDelayPairs[1].key.keymap.isAny,
         ).toBeFalsy();
         expect(actual.macroKeys[0].keyDelayPairs[1].delay).toEqual(456);
       } else {
@@ -961,16 +961,16 @@ describe('Macro', () => {
         expect(actual.macroKeys[1].keyDelayPairs[0].key.label).toEqual('z');
         expect(actual.macroKeys[1].keyDelayPairs[0].key.meta).toEqual('');
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.metaRight
+          actual.macroKeys[1].keyDelayPairs[0].key.metaRight,
         ).toBeUndefined();
         expect(actual.macroKeys[1].keyDelayPairs[0].key.keymap.code).toEqual(
-          0x1d
+          0x1d,
         );
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAscii
+          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAscii,
         ).toBeFalsy();
         expect(
-          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAny
+          actual.macroKeys[1].keyDelayPairs[0].key.keymap.isAny,
         ).toBeFalsy();
         expect(actual.macroKeys[1].keyDelayPairs[0].delay).toEqual(789);
       } else {
@@ -991,7 +991,7 @@ describe('Macro', () => {
           SS_UP_CODE,
           0x1d, // QMK z
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.error).toEqual('Invalid a byte combination for hold key.');
@@ -1012,11 +1012,11 @@ describe('Macro', () => {
           SS_TAP_CODE,
           0x1b, // QMK x
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.error).toEqual(
-        'Invalid a special code for hold key (up key not exists).'
+        'Invalid a special code for hold key (up key not exists).',
       );
       expect(actual.macroKeys.length).toEqual(0);
       expect(actual.success).toBeFalsy();
@@ -1035,11 +1035,11 @@ describe('Macro', () => {
           SS_TAP_CODE,
           0x1b, // QMK x
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.error).toEqual(
-        'Invalid a special code for hold key (down key not exists).'
+        'Invalid a special code for hold key (down key not exists).',
       );
       expect(actual.macroKeys.length).toEqual(0);
       expect(actual.success).toBeFalsy();
@@ -1054,7 +1054,7 @@ describe('Macro', () => {
           SS_QMK_PREFIX,
           SS_TAP_CODE,
           0x1b, // QMK x
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.error).toEqual('Not end with a null character.');
@@ -1079,7 +1079,7 @@ describe('Macro', () => {
         new Uint8Array([
           0b1000_0000, // non ascii
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.error).toEqual('non ascii code detected.');
@@ -1096,7 +1096,7 @@ describe('Macro', () => {
           SS_QMK_PREFIX,
           0x1b, // QMK x
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       const actual = subject.generateMacroKeys('en-us');
       expect(actual.success).toBeFalsy();
@@ -1175,7 +1175,7 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const macro = new Macro(
         subject,
@@ -1183,7 +1183,7 @@ describe('MacroBuffer', () => {
         new Uint8Array([
           0x21, // ASCII !
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       subject.updateMacro(macro);
       expect(subject.getBytes()).toEqual(
@@ -1226,7 +1226,7 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
     });
 
@@ -1240,7 +1240,7 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const macro = new Macro(
         subject,
@@ -1248,7 +1248,7 @@ describe('MacroBuffer', () => {
         new Uint8Array([
           0x21, // ASCII !
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       subject.updateMacro(macro);
       expect(subject.getBytes()).toEqual(
@@ -1257,7 +1257,7 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
           0x21,
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
     });
   });
@@ -1323,7 +1323,7 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
@@ -1347,7 +1347,7 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(actual[1].index).toEqual(1);
       expect(actual[1].getBytes()).toEqual(
@@ -1369,7 +1369,7 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(actual[2].index).toEqual(2);
       expect(actual[2].getBytes()).toEqual(
@@ -1391,7 +1391,7 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x15, // QMK r
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
     });
 
@@ -1401,7 +1401,7 @@ describe('MacroBuffer', () => {
       const subject = new MacroBuffer(
         new Uint8Array(maxMacroBufferSize),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
@@ -1430,13 +1430,13 @@ describe('MacroBuffer', () => {
           0x17, // QMK t
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
       expect(actual[0].index).toEqual(0);
       expect(actual[0].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
     });
 
@@ -1457,17 +1457,17 @@ describe('MacroBuffer', () => {
           0x17, // QMK t
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
       expect(actual[0].index).toEqual(0);
       expect(actual[0].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
       expect(actual[1].index).toEqual(1);
       expect(actual[1].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
     });
 
@@ -1500,7 +1500,7 @@ describe('MacroBuffer', () => {
           0x16, // QMK s
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
@@ -1518,15 +1518,15 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(actual[1].index).toEqual(1);
       expect(actual[1].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
       expect(actual[2].index).toEqual(2);
       expect(actual[2].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
     });
 
@@ -1560,7 +1560,7 @@ describe('MacroBuffer', () => {
           END_OF_MACRO_BYTES,
         ]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(maxMacroCount);
@@ -1578,7 +1578,7 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x17, // QMK t
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(actual[1].index).toEqual(1);
       expect(actual[1].getBytes()).toEqual(
@@ -1594,11 +1594,11 @@ describe('MacroBuffer', () => {
           SS_UP_CODE,
           0x16, // QMK s
           END_OF_MACRO_BYTES,
-        ])
+        ]),
       );
       expect(actual[2].index).toEqual(2);
       expect(actual[2].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
     });
 
@@ -1608,7 +1608,7 @@ describe('MacroBuffer', () => {
       const subject = new MacroBuffer(
         new Uint8Array([]),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(0);
@@ -1620,7 +1620,7 @@ describe('MacroBuffer', () => {
       const subject = new MacroBuffer(
         new Uint8Array(16),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(0);
@@ -1632,21 +1632,21 @@ describe('MacroBuffer', () => {
       const subject = new MacroBuffer(
         new Uint8Array(0),
         maxMacroCount,
-        maxMacroBufferSize
+        maxMacroBufferSize,
       );
       const actual = subject.generateMacros();
       expect(actual.length).toEqual(3);
       expect(actual[0].index).toEqual(0);
       expect(actual[0].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
       expect(actual[1].index).toEqual(1);
       expect(actual[1].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
       expect(actual[2].index).toEqual(2);
       expect(actual[2].getBytes()).toEqual(
-        new Uint8Array([END_OF_MACRO_BYTES])
+        new Uint8Array([END_OF_MACRO_BYTES]),
       );
     });
   });

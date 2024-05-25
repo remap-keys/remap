@@ -43,24 +43,24 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateJsonFilename: (jsonFilename: string) => {
       _dispatch(
-        KeyboardsCreateDefinitionActions.updateJsonFilename(jsonFilename)
+        KeyboardsCreateDefinitionActions.updateJsonFilename(jsonFilename),
       );
     },
     updateJsonString: (jsonStr: string) => {
       _dispatch(KeyboardsCreateDefinitionActions.updateJsonString(jsonStr));
     },
     updateKeyboardDefinition: (
-      keyboardDefinition: KeyboardDefinitionSchema
+      keyboardDefinition: KeyboardDefinitionSchema,
     ) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateKeyboardDefinition(
-          keyboardDefinition
-        )
+          keyboardDefinition,
+        ),
       );
     },
     updateProductName: (productName: string) => {
       _dispatch(
-        KeyboardsCreateDefinitionActions.updateProductName(productName)
+        KeyboardsCreateDefinitionActions.updateProductName(productName),
       );
     },
     saveAsDraft: () => {
@@ -80,63 +80,63 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateFirmwareCodePlace: (firmwareCodePlace: IFirmwareCodePlace) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateFirmwareCodePlace(
-          firmwareCodePlace
-        )
+          firmwareCodePlace,
+        ),
       );
     },
     updateForkedRepositoryUrl: (forkedRepositoryUrl: string) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateForkedRepositoryUrl(
-          forkedRepositoryUrl
-        )
+          forkedRepositoryUrl,
+        ),
       );
     },
     updateForkedRepositoryEvidence: (forkedRepositoryEvidence: string) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateForkedRepositoryEvidence(
-          forkedRepositoryEvidence
-        )
+          forkedRepositoryEvidence,
+        ),
       );
     },
     updateOtherPlaceHowToGet: (otherPlaceHowToGet: string) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateOtherPlaceHowToGet(
-          otherPlaceHowToGet
-        )
+          otherPlaceHowToGet,
+        ),
       );
     },
     updateOtherPlaceSourceCodeEvidence: (
-      otherPlaceSourceCodeEvidence: string
+      otherPlaceSourceCodeEvidence: string,
     ) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateOtherPlaceSourceCodeEvidence(
-          otherPlaceSourceCodeEvidence
-        )
+          otherPlaceSourceCodeEvidence,
+        ),
       );
     },
     updateOtherPlacePublisherEvidence: (
-      otherPlacePublisherEvidence: string
+      otherPlacePublisherEvidence: string,
     ) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateOtherPlacePublisherEvidence(
-          otherPlacePublisherEvidence
-        )
+          otherPlacePublisherEvidence,
+        ),
       );
     },
     updateQmkRepositoryFirstPullRequestUrl: (
-      qmkRepositoryFirstPullRequest: string
+      qmkRepositoryFirstPullRequest: string,
     ) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateQmkRepositoryFirstPullRequestUrl(
-          qmkRepositoryFirstPullRequest
-        )
+          qmkRepositoryFirstPullRequest,
+        ),
       );
     },
     updateContactInformation: (contactInformation: string) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateContactInformation(
-          contactInformation
-        )
+          contactInformation,
+        ),
       );
     },
     updateAuthorType: (authorType: IKeyboardDefinitionAuthorType) => {
@@ -144,14 +144,14 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     updateOrganizationId: (organizationId: string) => {
       _dispatch(
-        KeyboardsCreateDefinitionActions.updateOrganizationId(organizationId)
+        KeyboardsCreateDefinitionActions.updateOrganizationId(organizationId),
       );
     },
     updateOrganizationEvidence: (organizationEvidence: string) => {
       _dispatch(
         KeyboardsCreateDefinitionActions.updateOrganizationEvidence(
-          organizationEvidence
-        )
+          organizationEvidence,
+        ),
       );
     },
   };

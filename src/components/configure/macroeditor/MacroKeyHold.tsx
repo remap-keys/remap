@@ -14,7 +14,7 @@ type MacroKeyHoldProps = {
     // eslint-disable-next-line no-unused-vars
     draggingHoldIndex: number,
     // eslint-disable-next-line no-unused-vars
-    macroKey: MacroKey
+    macroKey: MacroKey,
   ) => void;
   // eslint-disable-next-line no-unused-vars
   onDrop: (droppedIndex: number, holdIndex: number) => void;

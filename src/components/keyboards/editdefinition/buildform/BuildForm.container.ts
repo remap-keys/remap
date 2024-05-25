@@ -34,117 +34,117 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     updateBuildableFirmwareEnabled: (
       keyboardDefinitionId: string,
-      enabled: boolean
+      enabled: boolean,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           enabled,
-        })
+        }),
       );
     },
     updateBuildableFirmwareDefaultBootloaderType: (
       keyboardDefinitionId: string,
-      defaultBootloaderType: IBootloaderType
+      defaultBootloaderType: IBootloaderType,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           defaultBootloaderType,
-        })
+        }),
       );
     },
     updateBuildableFirmwareQmkFirmwareVersion: (
       keyboardDefinitionId: string,
-      qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+      qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           qmkFirmwareVersion,
-        })
+        }),
       );
     },
     updateBuildableFirmwareSupportCodeEditing: (
       keyboardDefinitionId: string,
-      supportCodeEditing: boolean
+      supportCodeEditing: boolean,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           supportCodeEditing,
-        })
+        }),
       );
     },
     updateBuildableFirmwareKeyboardDirectoryName: (
       keyboardDefinitionId: string,
-      keyboardDirectoryName: string
+      keyboardDirectoryName: string,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmware(keyboardDefinitionId, {
           keyboardDirectoryName,
-        })
+        }),
       );
     },
     createNewFirmwareKeyboardFile: (
       keyboardDefinitionId: string,
-      fileName: string
+      fileName: string,
     ) => {
       dispatch(
         storageActionsThunk.createNewFirmwareKeyboardFile(
           keyboardDefinitionId,
-          fileName
-        )
+          fileName,
+        ),
       );
     },
     createNewFirmwareKeymapFile: (
       keyboardDefinitionId: string,
-      fileName: string
+      fileName: string,
     ) => {
       dispatch(
         storageActionsThunk.createNewFirmwareKeymapFile(
           keyboardDefinitionId,
-          fileName
-        )
+          fileName,
+        ),
       );
     },
     updateTargetBuildableFirmwareFile: (
       file: IBuildableFirmwareFile,
-      type: IBuildableFirmwareFileType
+      type: IBuildableFirmwareFileType,
     ) => {
       dispatch(
-        KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(file, type)
+        KeyboardsEditDefinitionActions.updateBuildableFirmwareFile(file, type),
       );
     },
     updateBuildableFirmwareFile: (
       keyboardDefinitionId: string,
       file: IBuildableFirmwareFile,
-      type: IBuildableFirmwareFileType
+      type: IBuildableFirmwareFileType,
     ) => {
       dispatch(
         storageActionsThunk.updateBuildableFirmwareFile(
           keyboardDefinitionId,
           file,
-          type
-        )
+          type,
+        ),
       );
     },
     deleteBuildableFirmwareFile: (
       keyboardDefinitionId: string,
       file: IBuildableFirmwareFile,
-      type: IBuildableFirmwareFileType
+      type: IBuildableFirmwareFileType,
     ) => {
       dispatch(
         storageActionsThunk.deleteBuildableFirmwareFile(
           keyboardDefinitionId,
           file,
-          type
-        )
+          type,
+        ),
       );
     },
     updateBuildableFirmwareCodeParameters: (
-      parameters: IBuildableFirmwareCodeParameter[]
+      parameters: IBuildableFirmwareCodeParameter[],
     ) => {
       dispatch(
         KeyboardsEditDefinitionActions.updateBuildableFirmwareCodeParameters(
-          parameters
-        )
+          parameters,
+        ),
       );
     },
   };

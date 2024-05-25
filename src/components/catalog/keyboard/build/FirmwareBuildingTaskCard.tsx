@@ -71,13 +71,13 @@ type FirmwareBuildingTaskCardProps = {
     // eslint-disable-next-line no-unused-vars
     task: IFirmwareBuildingTask,
     // eslint-disable-next-line no-unused-vars
-    description: string
+    description: string,
   ) => void;
 };
 
 export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
   const [description, setDescription] = useState<string>(
-    props.task.description
+    props.task.description,
   );
   const [logTabIndex, setLogTabIndex] = useState<number>(0);
   const [selectedBuildCodeIndex, setSelectedBuildCodeIndex] = useState<
@@ -97,7 +97,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
   };
 
   const createBuildableFirmwareFileParameterNameValueMap = (
-    parametersJson: string
+    parametersJson: string,
   ): {
     keyboard: { [fileId: string]: ParameterNameValueMap };
     keymap: { [fileId: string]: ParameterNameValueMap };
@@ -129,7 +129,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
   };
 
   const createBuildableFirmwareFileParameterValues = (
-    parametersJson: string
+    parametersJson: string,
   ): {
     type: IBuildableFirmwareFileType;
     file: IBuildableFirmwareFile;
@@ -150,12 +150,12 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
           result.push({
             type: 'keyboard',
             file: props.buildableFirmwareKeyboardFiles.find(
-              (file) => file.id === fileId
+              (file) => file.id === fileId,
             )!,
             parameterName,
             parameterValue,
           });
-        }
+        },
       );
     });
     Object.entries(nameValueMap.keymap).forEach(([fileId, nameValueMap]) => {
@@ -164,19 +164,19 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
           result.push({
             type: 'keymap',
             file: props.buildableFirmwareKeymapFiles.find(
-              (file) => file.id === fileId
+              (file) => file.id === fileId,
             )!,
             parameterName,
             parameterValue,
           });
-        }
+        },
       );
     });
     return result;
   };
 
   const createBuildableFirmwareFileNameCodeMap = (
-    parametersJson: string
+    parametersJson: string,
   ): {
     keyboard: { [fileId: string]: string };
     keymap: { [fileId: string]: string };
@@ -212,7 +212,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
   };
 
   const createBuildableFirmwareFileCodes = (
-    parametersJson: string
+    parametersJson: string,
   ): {
     type: IBuildableFirmwareFileType;
     file: IBuildableFirmwareFile;
@@ -228,7 +228,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
       result.push({
         type: 'keyboard',
         file: props.buildableFirmwareKeyboardFiles.find(
-          (file) => file.id === fileId
+          (file) => file.id === fileId,
         )!,
         code,
       });
@@ -237,7 +237,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
       result.push({
         type: 'keymap',
         file: props.buildableFirmwareKeymapFiles.find(
-          (file) => file.id === fileId
+          (file) => file.id === fileId,
         )!,
         code,
       });
@@ -246,7 +246,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
   };
 
   const buildCodeArray = createBuildableFirmwareFileCodes(
-    props.task.parametersJson
+    props.task.parametersJson,
   );
 
   return (
@@ -339,7 +339,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
                 </TableHead>
                 <TableBody>
                   {createBuildableFirmwareFileParameterValues(
-                    props.task.parametersJson
+                    props.task.parametersJson,
                   ).map((parameterValue, index) => (
                     <TableRow key={`parameter-value-${index}`}>
                       <TableCell>{`${parameterValue.type}: ${parameterValue.file.path}`}</TableCell>

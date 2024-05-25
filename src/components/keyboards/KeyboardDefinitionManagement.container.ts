@@ -28,7 +28,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateKeyboard: (definitionId: string) => {
       _dispatch(KeyboardsAppActions.updatePhase(KeyboardsPhase.processing));
       _dispatch(
-        storageActionsThunk.fetchKeyboardDefinitionById(definitionId, 'edit')
+        storageActionsThunk.fetchKeyboardDefinitionById(definitionId, 'edit'),
       );
     },
     startInitializing: () => {
@@ -46,5 +46,5 @@ export type KeyboardDefinitionManagementActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(KeyboardDefinitionManagement);

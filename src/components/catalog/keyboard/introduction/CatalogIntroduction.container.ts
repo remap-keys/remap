@@ -30,5 +30,5 @@ export type CatalogIntroductionActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CatalogIntroduction);

@@ -7,6 +7,6 @@ declare module 'intel-hex' {
 
   export function parse(
     data: Buffer | string,
-    bufferSize?: number
+    bufferSize?: number,
   ): ParseResult;
 }

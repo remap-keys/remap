@@ -22,7 +22,7 @@ type KeyboardDefinitionManagementProps = OwnProps &
   ProviderContext;
 
 function KeyboardDefinitionManagement(
-  props: KeyboardDefinitionManagementProps
+  props: KeyboardDefinitionManagementProps,
 ) {
   const [displayedNotificationIds, setDisplayedNotificationIds] = useState<
     string[]

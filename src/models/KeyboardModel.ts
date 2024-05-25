@@ -228,7 +228,7 @@ export default class KeyboardModel {
             options.findIndex(
               (op) =>
                 op.option == Number(item.option) &&
-                op.optionChoice == Number(item.optionChoice)
+                op.optionChoice == Number(item.optionChoice),
             )
         );
       });
@@ -332,7 +332,7 @@ export default class KeyboardModel {
     });
 
     function getTopLeftOfOptionKeymaps(
-      keymapItems: KeymapItem[]
+      keymapItems: KeymapItem[],
     ): Position | undefined {
       let top = Infinity;
       let left = Infinity;
@@ -360,7 +360,7 @@ export default class KeyboardModel {
       const originalOptionPosition = getTopLeftOfOptionKeymaps(defaultKeyItems);
       Object.keys(optionKeymaps[option]).forEach((choice: string) => {
         const optionChoicePosition = getTopLeftOfOptionKeymaps(
-          optionKeymaps[option][choice]
+          optionKeymaps[option][choice],
         );
 
         if (optionChoicePosition === undefined) return;
@@ -393,7 +393,7 @@ export default class KeyboardModel {
         item.r,
         item.rx,
         item.ry,
-        item.encoderId
+        item.encoderId,
       );
       list.push(model);
     });

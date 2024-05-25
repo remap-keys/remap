@@ -23,12 +23,12 @@ export type BuildParametersDialogStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (dispatch: any) => {
   return {
     updateBuildableFirmwareCodeParameterValues: (
-      values: IBuildableFirmwareCodeParameterValues
+      values: IBuildableFirmwareCodeParameterValues,
     ) => {
       dispatch(
         CatalogKeyboardActions.updateBuildableFirmwareCodeParameterValues(
-          values
-        )
+          values,
+        ),
       );
     },
   };
@@ -39,5 +39,5 @@ export type BuildParametersDialogActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(BuildParametersDialog);

@@ -44,7 +44,7 @@ describe('Validator', () => {
         expect(result.errors![0].dataPath).toEqual('/');
         expect(result.errors![0].schemaPath).toEqual('#/required');
         expect(result.errors![0].params.missingProperty).toEqual('name');
-      }
+      },
     );
 
     describe('string pattern', () => {
@@ -96,10 +96,10 @@ describe('Validator', () => {
         expect(result.errors![0].keyword).toEqual('pattern');
         expect(result.errors![0].dataPath).toEqual('/label');
         expect(result.errors![0].schemaPath).toEqual(
-          '#/properties/label/pattern'
+          '#/properties/label/pattern',
         );
         expect(result.errors![0].params.pattern).toEqual(
-          schema.properties.label.pattern
+          schema.properties.label.pattern,
         );
       });
     });
@@ -193,11 +193,11 @@ describe('Validator', () => {
       expect(result.errors![0].keyword).toEqual('pattern');
       expect(result.errors![0].dataPath).toEqual('/layouts/keymap/1/1');
       expect(result.errors![0].schemaPath).toEqual(
-        '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/pattern'
+        '#/properties/layouts/properties/keymap/items/anyOf/0/items/anyOf/0/pattern',
       );
       expect(result.errors![0].params.pattern).toEqual(
         schema.properties.layouts.properties.keymap.items!.anyOf[0].items!
-          .anyOf[0].pattern
+          .anyOf[0].pattern,
       );
     });
 

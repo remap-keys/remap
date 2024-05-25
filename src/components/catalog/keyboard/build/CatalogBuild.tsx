@@ -78,7 +78,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   }, [autoReload]);
 
   const createDefaultParameterValues = (
-    files: IBuildableFirmwareFile[]
+    files: IBuildableFirmwareFile[],
   ): IBuildableFirmwareCodeParameterValueMap => {
     return files.reduce<IBuildableFirmwareCodeParameterValueMap>(
       (valueMap, file) => {
@@ -89,7 +89,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
             parameters: {},
             code: replaceBuildableFirmwareCodeWithParameterDefaultValues(
               file.content,
-              parameters
+              parameters,
             ),
           };
         }
@@ -104,14 +104,14 @@ export default function CatalogBuild(props: CatalogBuildProps) {
         }, {});
         return valueMap;
       },
-      {}
+      {},
     );
   };
 
   const onClickBuild = () => {
     const parameterValues: IBuildableFirmwareCodeParameterValues = {
       keyboard: createDefaultParameterValues(
-        props.buildableFirmwareKeyboardFiles!
+        props.buildableFirmwareKeyboardFiles!,
       ),
       keymap: createDefaultParameterValues(props.buildableFirmwareKeymapFiles!),
     };
@@ -130,7 +130,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = `${task.id}-remap.${task.firmwareFilePath.substring(
-        task.firmwareFilePath.lastIndexOf('.') + 1
+        task.firmwareFilePath.lastIndexOf('.') + 1,
       )}`;
       a.href = downloadUrl;
       a.click();
@@ -151,7 +151,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     props.flashFirmware!(
       props.definitionDocument!,
       props.buildableFirmware!,
-      task
+      task,
     );
   };
 
@@ -167,7 +167,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     });
     props.deleteFirmwareBuildingTask!(
       props.definitionDocument!.id,
-      targetDeleteTask!
+      targetDeleteTask!,
     );
     setTargetDeleteTask(null);
   };
@@ -181,7 +181,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
   };
 
   const createBuildableFirmwareCodeParameterNameValueMap = (
-    valueMap: IBuildableFirmwareCodeParameterValueMap
+    valueMap: IBuildableFirmwareCodeParameterValueMap,
   ): {
     [fileId: string]: {
       type: string;
@@ -240,22 +240,22 @@ export default function CatalogBuild(props: CatalogBuildProps) {
     } = {
       version: 2,
       keyboard: createBuildableFirmwareCodeParameterNameValueMap(
-        props.buildableFirmwareCodeParameterValues!.keyboard
+        props.buildableFirmwareCodeParameterValues!.keyboard,
       ),
       keymap: createBuildableFirmwareCodeParameterNameValueMap(
-        props.buildableFirmwareCodeParameterValues!.keymap
+        props.buildableFirmwareCodeParameterValues!.keymap,
       ),
     };
     props.createFirmwareBuildingTask!(
       props.definitionDocument!.id,
       description,
-      JSON.stringify(parameterValues)
+      JSON.stringify(parameterValues),
     );
   };
 
   const onChangeDescription = (
     task: IFirmwareBuildingTask,
-    description: string
+    description: string,
   ) => {
     if (task.description !== description) {
       sendEventToGoogleAnalytics('catalog/build_change_description', {

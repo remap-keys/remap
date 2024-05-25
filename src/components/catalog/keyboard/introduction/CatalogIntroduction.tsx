@@ -29,7 +29,7 @@ export default class CatalogIntroduction extends React.Component<
   CatalogIntroductionState
 > {
   constructor(
-    props: CatalogIntroductionProps | Readonly<CatalogIntroductionProps>
+    props: CatalogIntroductionProps | Readonly<CatalogIntroductionProps>,
   ) {
     super(props);
     this.state = {
@@ -63,7 +63,7 @@ export default class CatalogIntroduction extends React.Component<
                       this.state.selectedDescriptionTabIndex
                     }
                     onChangeSelectedDescriptionTabIndex={this.onChangeSelectedDescriptionTabIndex.bind(
-                      this
+                      this,
                     )}
                   />
                   <FeaturesSection
@@ -78,7 +78,7 @@ export default class CatalogIntroduction extends React.Component<
                     }
                     definitionDocument={this.props.definitionDocument!}
                     onClickSameAuthorKeyboard={this.onClickSameAuthorKeyboard.bind(
-                      this
+                      this,
                     )}
                   />
                 </Grid>
@@ -100,7 +100,7 @@ export default class CatalogIntroduction extends React.Component<
                       }
                       definitionDocument={this.props.definitionDocument!}
                       onClickSameAuthorKeyboard={this.onClickSameAuthorKeyboard.bind(
-                        this
+                        this,
                       )}
                     />
                   </Grid>
@@ -111,7 +111,7 @@ export default class CatalogIntroduction extends React.Component<
                         this.state.selectedDescriptionTabIndex
                       }
                       onChangeSelectedDescriptionTabIndex={this.onChangeSelectedDescriptionTabIndex.bind(
-                        this
+                        this,
                       )}
                     />
                   </Grid>
@@ -263,7 +263,7 @@ function SameAuthorKeyboardsSection(props: SameAuthorKeyboardsSectionProps) {
         <Typography variant="h2">Created by Same Designer</Typography>
         {props.sameAuthorKeyboardDocuments
           .filter(
-            (definition) => definition.id !== props.definitionDocument!.id
+            (definition) => definition.id !== props.definitionDocument!.id,
           )
           .map((definition, index) => (
             <Paper
@@ -311,7 +311,7 @@ type DescriptionSectionProps = {
 
 function DescriptionSection(props: DescriptionSectionProps) {
   const convertStringToNodeList = (
-    source: string
+    source: string,
   ): React.ReactNode[] | string => {
     if (source) {
       return source.split(/(\n)/).map((item: string, index: number) => {
@@ -346,7 +346,7 @@ function DescriptionSection(props: DescriptionSectionProps) {
           {convertStringToNodeList(
             props.definitionDocument.additionalDescriptions[
               props.selectedDescriptionTabIndex - 1
-            ].body
+            ].body,
           )}
         </Typography>
       )}

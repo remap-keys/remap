@@ -68,7 +68,7 @@ function Contents(props: ContentsProps) {
       return <Remap />;
     default:
       throw new Error(
-        `Unknown state.app.setupPhase value: ${props.setupPhase}`
+        `Unknown state.app.setupPhase value: ${props.setupPhase}`,
       );
   }
 }

@@ -83,7 +83,7 @@ export default class CreateDefinition extends React.Component<
   private onLoadFile(
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
-    jsonStr: string
+    jsonStr: string,
   ) {
     this.props.updateJsonFilename!(jsonFilename);
     this.props.updateKeyboardDefinition!(keyboardDefinition);
@@ -461,12 +461,12 @@ type EvidenceForQmkRepositoryFormProps = {
   qmkRepositoryFirstPullRequestUrl?: string;
   updateQmkRepositoryFirstPullRequestUrl: (
     // eslint-disable-next-line no-unused-vars
-    qmkRepositoryFirstPullRequest: string
+    qmkRepositoryFirstPullRequest: string,
   ) => void;
 };
 
 function EvidenceForQmkRepositoryForm(
-  props: EvidenceForQmkRepositoryFormProps
+  props: EvidenceForQmkRepositoryFormProps,
 ) {
   if (props.firmwareCodePlace === FirmwareCodePlace.qmk) {
     return (
@@ -499,7 +499,7 @@ type EvidenceForForkedRepositoryFormProps = {
 };
 
 function EvidenceForForkedRepositoryForm(
-  props: EvidenceForForkedRepositoryFormProps
+  props: EvidenceForForkedRepositoryFormProps,
 ) {
   if (props.firmwareCodePlace === FirmwareCodePlace.forked) {
     return (
@@ -542,12 +542,12 @@ type EvidenceForOtherPlaceFormProps = {
   otherPlaceSourceCodeEvidence?: string;
   updateOtherPlaceSourceCodeEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlaceSourceCodeEvidence: string
+    otherPlaceSourceCodeEvidence: string,
   ) => void;
   otherPlacePublisherEvidence?: string;
   updateOtherPlacePublisherEvidence: (
     // eslint-disable-next-line no-unused-vars
-    otherPlacePublisherEvidence: string
+    otherPlacePublisherEvidence: string,
   ) => void;
 };
 
@@ -649,7 +649,7 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
             value={props.authorType}
             onChange={(e) =>
               props.updateAuthorType(
-                e.target.value as IKeyboardDefinitionAuthorType
+                e.target.value as IKeyboardDefinitionAuthorType,
               )
             }
           >

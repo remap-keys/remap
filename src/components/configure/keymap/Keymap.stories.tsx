@@ -51,7 +51,7 @@ type KeymapType = ((string | KeyOp)[] | { name: string })[];
 const genKeyboardView = (
   name: string,
   km: KeymapType,
-  options?: LayoutOption[]
+  options?: LayoutOption[],
 ) => {
   const kbd = new KeyboardModel(km);
   const { keymaps, width, height, left, top } = kbd.getKeymap(options);
@@ -268,13 +268,13 @@ export const CtMacropadWithoutDefaultOption00 = () =>
   genKeyboardView(
     'CtMacropadWithoutDefaultOption00',
     CtMacropadWithoutDefaultOptionKeymap,
-    [{ option: 0, optionChoice: 0 }]
+    [{ option: 0, optionChoice: 0 }],
   );
 export const CtMacropadWithoutDefaultOption01 = () =>
   genKeyboardView(
     'CtMacropadWithoutDefaultOption01',
     CtMacropadWithoutDefaultOptionKeymap,
-    [{ option: 0, optionChoice: 1 }]
+    [{ option: 0, optionChoice: 1 }],
   );
 export const Giabalanai00 = () =>
   genKeyboardView('Giabalanai00', GiabalanaiKeymap, [

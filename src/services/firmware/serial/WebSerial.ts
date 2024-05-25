@@ -20,7 +20,7 @@ export class WebSerial implements ISerial {
   open(
     baudRate: number,
     bufferSize: number,
-    errorHandler: IErrorHandler
+    errorHandler: IErrorHandler,
   ): Promise<IResult> {
     // eslint-disable-next-line no-unused-vars
     return new Promise<IResult>((resolve, reject) => {
@@ -41,7 +41,7 @@ export class WebSerial implements ISerial {
 
   private async openPort(
     baudRate: number = 115200,
-    bufferSize: number
+    bufferSize: number,
   ): Promise<IResult> {
     let serialPort;
     try {
@@ -86,7 +86,7 @@ export class WebSerial implements ISerial {
           if (value) {
             // console.log(`Received bytes: ${value.byteLength} bytes.`);
             this.receivedBytesBuffer = this.receivedBytesBuffer.concat(
-              Array.from(value)
+              Array.from(value),
             );
           }
           if (done) {
@@ -112,7 +112,7 @@ export class WebSerial implements ISerial {
 
   async readBytes(
     size: number,
-    timeout: number
+    timeout: number,
   ): Promise<ISerialReadBytesResult> {
     let count = 0;
     while (this.receivedBytesBuffer.length < size && count < timeout) {

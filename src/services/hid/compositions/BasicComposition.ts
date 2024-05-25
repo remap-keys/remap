@@ -91,7 +91,7 @@ export class BasicComposition implements IBasicComposition {
       const kinds = category.kinds;
       category.codes.forEach((code) => {
         let keyInfo = keyInfoList.find(
-          (info) => info.keycodeInfo.code === code
+          (info) => info.keycodeInfo.code === code,
         );
 
         const desc = keyInfo ? keyInfo.desc : 'Unknown';
@@ -127,7 +127,7 @@ export class BasicComposition implements IBasicComposition {
 
   static findKeymap(
     code: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ): IKeymap | undefined {
     const list: IKeymap[] = BasicComposition.genKeymaps(labelLang);
     const basic = list.find((km) => km.code === code);

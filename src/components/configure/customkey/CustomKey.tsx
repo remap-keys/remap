@@ -195,13 +195,13 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       comp = new ModTapComposition(
         holdKey.direction!,
         holdKey.modifiers!,
-        tapKey
+        tapKey,
       );
     } else if (kinds.includes('swap_hands')) {
       comp = new SwapHandsComposition(tapKey);
     } else {
       throw new Error(
-        `NOT TO BE HERE. holdKey.kind:${kinds}, tapKey.kind: ${tapKey.kinds}`
+        `NOT TO BE HERE. holdKey.kind:${kinds}, tapKey.kind: ${tapKey.kinds}`,
       );
     }
 
@@ -224,14 +224,14 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
       const km = KeycodeList.getKeymap(
         0,
         this.props.labelLang,
-        this.props.customKeycodes
+        this.props.customKeycodes,
       );
       this.setState({ value: km });
     } else {
       const ret = KeycodeList.getKeymaps(
         code,
         this.props.labelLang,
-        this.props.customKeycodes
+        this.props.customKeycodes,
       );
       if (ret.value) {
         this.onChangeKey(ret.value);
@@ -283,17 +283,17 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
     if (this.state.value && this.state.value.modifiers.length) {
       const mods = mods2Number(
         this.state.value.modifiers,
-        this.state.value.direction
+        this.state.value.direction,
       );
       const keyLabel = KeyLabelLangs.findKeyLabel(
         this.state.value.keycodeInfo.code,
         mods,
-        this.props.labelLang
+        this.props.labelLang,
       );
 
       if (keyLabel) {
         const labelLangLabel = KeyLabelLangs.getLabelLangMenuLabel(
-          this.props.labelLang
+          this.props.labelLang,
         );
         const directionLabel = DIRECTION_LABELS[this.state.value.direction];
         const modLabels = this.state.value.modifiers
@@ -459,7 +459,7 @@ function a11yProps(index: any) {
 function genHoldTapKeymap(
   code: number,
   holdKey: IKeymap,
-  tapKey: IKeymap
+  tapKey: IKeymap,
 ): IKeymap {
   const keymap = {
     code: code,

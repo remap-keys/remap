@@ -50,7 +50,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
 
   static genHoldTapKeys(
     code: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ): { holdKey: IKeymap; tapKey: IKeymap } {
     const f = new KeycodeCompositionFactory(code, labelLang);
     let holdKey: IKeymap | null = null;
@@ -153,7 +153,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
 
 export const buildHoldKeyLabel = (
   km: IKeymap,
-  withHex: boolean = false
+  withHex: boolean = false,
 ): string => {
   const f = new KeycodeCompositionFactory(km.code, 'en-us');
   if (f.isLayerTap()) {

@@ -31,5 +31,5 @@ export type UploadFirmwareDialogActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UploadFirmwareDialog);

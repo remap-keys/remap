@@ -53,7 +53,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
   private addBmpCategory(
     categoryKeys: { [category: string]: Key[] },
-    macroEditMode: boolean
+    macroEditMode: boolean,
   ) {
     const bmpLabel: string = CATEGORY_LABEL_BMP;
     const bmp = macroEditMode
@@ -71,7 +71,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     const macroBuffer: IMacroBuffer = new MacroBuffer(
       macroBufferBytes,
       macroMaxCount,
-      macroMaxBufferSize
+      macroMaxBufferSize,
     );
     return macroBuffer;
   }
@@ -87,29 +87,29 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
     // match with label & meta
     const labelKeys = allKeys.filter(
-      (key) => 0 <= key.label.toLowerCase().indexOf(search)
+      (key) => 0 <= key.label.toLowerCase().indexOf(search),
     );
     const keywordKeys = allKeys.filter(
-      (key) => 0 <= key.keymap.keycodeInfo.keywords.join('').indexOf(search)
+      (key) => 0 <= key.keymap.keycodeInfo.keywords.join('').indexOf(search),
     );
     const metaKeys = allKeys.filter(
-      (key) => 0 <= key.meta.toLowerCase().indexOf(search)
+      (key) => 0 <= key.meta.toLowerCase().indexOf(search),
     );
 
     const labelSortedKeys = labelKeys.sort(
       (k0, k1) =>
         k0.label.toLowerCase().indexOf(search) -
-        k1.label.toLowerCase().indexOf(search)
+        k1.label.toLowerCase().indexOf(search),
     );
 
     const keywordSortKeys = keywordKeys.sort((k0, k1) => {
       const index0 = k0.keymap.keycodeInfo.keywords.reduce(
         (i, kwd) => Math.min(i, kwd.indexOf(search)),
-        0
+        0,
       );
       const index1 = k1.keymap.keycodeInfo.keywords.reduce(
         (i, kwd) => Math.min(i, kwd.indexOf(search)),
-        0
+        0,
       );
       return index0 - index1;
     });
@@ -117,12 +117,12 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     const metaSortedKeys = metaKeys.sort(
       (k0, k1) =>
         k0.meta.toLowerCase().indexOf(search) -
-        k1.meta.toLowerCase().indexOf(search)
+        k1.meta.toLowerCase().indexOf(search),
     );
 
     // Priority: label > keywords > meta
     return Array.from(
-      new Set(labelSortedKeys.concat(keywordSortKeys, metaSortedKeys))
+      new Set(labelSortedKeys.concat(keywordSortKeys, metaSortedKeys)),
     );
   }
 
@@ -147,7 +147,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
 
   private refreshCategoryKeys(
     labelLang: KeyboardLabelLang,
-    macroEditMode: boolean
+    macroEditMode: boolean,
   ) {
     const macroBuffer: IMacroBuffer | null = macroEditMode
       ? null
@@ -160,19 +160,19 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
         ? macroCodeFilter(
             KeyCategory.functions(
               labelLang,
-              this.props.keyboardDefinition!.customKeycodes
-            )
+              this.props.keyboardDefinition!.customKeycodes,
+            ),
           )
         : KeyCategory.functions(
             labelLang,
-            this.props.keyboardDefinition!.customKeycodes
+            this.props.keyboardDefinition!.customKeycodes,
           )),
       ...(macroEditMode
         ? []
         : KeyCategory.macro(
             this.props.macroMaxCount || 0,
             macroBuffer,
-            labelLang
+            labelLang,
           )),
     ];
     const layers = macroEditMode
@@ -237,7 +237,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
     if (this.props.layerCount != nextProps.layerCount) {
       const keys: Key[] = genKeys(
         KeyCategory.layer(nextProps.layerCount!),
-        this.props.labelLang!
+        this.props.labelLang!,
       );
       const categoryKeys = this.state.categoryKeys;
       categoryKeys['Layer'] = keys;
@@ -299,7 +299,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
           value={key}
           draggable={true}
           clickable={isMacro && !macrEditMode}
-        />
+        />,
       );
     });
 
@@ -313,7 +313,7 @@ export default class Keycodes extends React.Component<KeycodesProps, OwnState> {
             <div className="sub-category-keys">{categoryKeys[sub]}</div>
           </div>
         );
-      }
+      },
     );
     return (
       <React.Fragment>

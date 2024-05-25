@@ -91,7 +91,7 @@ export const EncoderDirections = {
   counterclockwise: 'counterclockwise',
 } as const;
 export type IEncoderDirection =
-  typeof EncoderDirections[keyof typeof EncoderDirections];
+  (typeof EncoderDirections)[keyof typeof EncoderDirections];
 
 export type IEncoderKeymap = {
   clockwise: IKeymap;
@@ -172,25 +172,25 @@ export interface IKeyboard {
     rowCount: number,
     columnCount: number,
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): Promise<IFetchKeymapResult>;
   fetchEncodersKeymaps(
     layer: number,
     encoderIds: number[],
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): Promise<IFetchEncodersKeymapsResult>;
   updateKeymap(
     layer: number,
     row: number,
     column: number,
-    code: number
+    code: number,
   ): Promise<IResult>;
   updateEncoderKeymap(
     layer: number,
     encoderId: number,
     clockwise: boolean,
-    code: number
+    code: number,
   ): Promise<IResult>;
   fetchBacklightBrightness(): Promise<IFetchBrightnessResult>;
   fetchBacklightEffect(): Promise<IFetchBacklightEffectResult>;
@@ -208,7 +208,7 @@ export interface IKeyboard {
   storeKeymapPersistentlyForBleMicroPro(): Promise<IResult>;
   fetchSwitchMatrixState(
     rows: number,
-    cols: number
+    cols: number,
   ): Promise<IFetchSwitchMatrixStateResult>;
   fetchLayoutOptions(): Promise<IFetchLayoutOptionsResult>;
   updateLayoutOptions(value: number): Promise<IResult>;

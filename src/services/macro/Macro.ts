@@ -92,7 +92,7 @@ export function convertQmkLabel(key: Key): Key {
 
 function genKeyWithQmkLabel(
   keymap: IKeymap,
-  langLabel: KeyboardLabelLang
+  langLabel: KeyboardLabelLang,
 ): Key {
   const key = genKey(keymap, langLabel);
   return convertQmkLabel(key);
@@ -115,7 +115,7 @@ export class Macro implements IMacro {
 
   private getDelay(
     bytes: Uint8Array,
-    pos: number
+    pos: number,
   ): { delay: number; nextPos: number } | undefined {
     if (bytes[pos] !== SS_QMK_PREFIX || bytes[++pos] !== SS_DELAY_CODE) {
       return undefined;
@@ -158,7 +158,7 @@ export class Macro implements IMacro {
             const data2 = this.bytes[pos];
             const keycodeCompositionFactory = new KeycodeCompositionFactory(
               data2,
-              labelLang
+              labelLang,
             );
             const basicComposition =
               keycodeCompositionFactory.createBasicComposition();
@@ -181,7 +181,7 @@ export class Macro implements IMacro {
             const data2 = this.bytes[pos];
             const keycodeCompositionFactory = new KeycodeCompositionFactory(
               data2,
-              labelLang
+              labelLang,
             );
             const basicComposition =
               keycodeCompositionFactory.createBasicComposition();
@@ -256,7 +256,7 @@ export class Macro implements IMacro {
         }
         const keycodeCompositionFactory = new KeycodeCompositionFactory(
           data0,
-          labelLang
+          labelLang,
         );
         if (keycodeCompositionFactory.isAscii()) {
           const asciiComposition =
@@ -395,7 +395,7 @@ export class MacroBuffer implements IMacroBuffer {
   constructor(
     bytes: Uint8Array,
     maxMacroCount: number,
-    maxMacroBufferSize: number
+    maxMacroBufferSize: number,
   ) {
     this.bytes = cloneUint8Array(bytes);
     this.maxMacroCount = maxMacroCount;
@@ -439,7 +439,7 @@ export class MacroBuffer implements IMacroBuffer {
       const remaining = this.maxMacroCount - macros.length;
       for (let i = 0; i < remaining; i++) {
         macros.push(
-          new Macro(this, index++, new Uint8Array([END_OF_MACRO_BYTES]))
+          new Macro(this, index++, new Uint8Array([END_OF_MACRO_BYTES])),
         );
       }
     }

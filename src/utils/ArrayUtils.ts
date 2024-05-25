@@ -42,7 +42,7 @@ export const cloneUint8Array = (source: Uint8Array): Uint8Array => {
 
 export const concatUint8Array = (
   first: Uint8Array,
-  second: Uint8Array
+  second: Uint8Array,
 ): Uint8Array => {
   const result = new Uint8Array(first.length + second.length);
   result.set(first);

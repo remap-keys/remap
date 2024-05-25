@@ -30,10 +30,10 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateFeature: (
       value: IKeyboardFeatures | IConditionNotSelected,
-      targetFeatures: readonly IKeyboardFeatures[]
+      targetFeatures: readonly IKeyboardFeatures[],
     ) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateFeature(value, targetFeatures)
+        KeyboardsEditDefinitionActions.updateFeature(value, targetFeatures),
       );
     },
     save: () => {
@@ -41,7 +41,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     uploadKeyboardCatalogImage: (definitionId: string, file: File) => {
       _dispatch(
-        storageActionsThunk.uploadKeyboardCatalogImage(definitionId, file)
+        storageActionsThunk.uploadKeyboardCatalogImage(definitionId, file),
       );
     },
     updateDescription: (description: string) => {
@@ -56,25 +56,25 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     addAdditionalDescription: (title: string, body: string) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.addAdditionalDescription(title, body)
+        KeyboardsEditDefinitionActions.addAdditionalDescription(title, body),
       );
     },
     deleteAdditionalDescription: (index: number) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.deleteAdditionalDescription(index)
+        KeyboardsEditDefinitionActions.deleteAdditionalDescription(index),
       );
     },
     uploadKeyboardCatalogSubImage: (definitionId: string, file: File) => {
       _dispatch(
-        storageActionsThunk.uploadKeyboardCatalogSubImage(definitionId, file)
+        storageActionsThunk.uploadKeyboardCatalogSubImage(definitionId, file),
       );
     },
     deleteSubImage: (definitionId: string, subImageIndex: number) => {
       _dispatch(
         storageActionsThunk.deleteKeyboardCatalogSubImage(
           definitionId,
-          subImageIndex
-        )
+          subImageIndex,
+        ),
       );
     },
   };

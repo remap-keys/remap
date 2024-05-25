@@ -14,7 +14,9 @@ import { StyledComponentProps, withStyles } from '@mui/styles';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
-    props: StyledComponentProps<string> | Readonly<StyledComponentProps<string>>
+    props:
+      | StyledComponentProps<string>
+      | Readonly<StyledComponentProps<string>>,
   ) {
     super(props);
   }

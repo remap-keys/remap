@@ -34,5 +34,5 @@ export type KeyboardDefinitionFormActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(KeyboardDefinitionForm);

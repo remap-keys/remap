@@ -17,8 +17,8 @@ const store = createStore(
   reducers,
   composeWithDevTools(
     applyMiddleware(thunk),
-    applyMiddleware(errorReportingLogger)
-  )
+    applyMiddleware(errorReportingLogger),
+  ),
 );
 
 const theme = createTheme({});
@@ -35,7 +35,7 @@ ReactDOM.render(
     </React.StrictMode>
   </Provider>,
   // eslint-disable-next-line no-undef
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

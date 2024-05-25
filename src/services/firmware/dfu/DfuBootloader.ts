@@ -198,7 +198,7 @@ export class DfuBootloader {
 
   static createDfuBootloader(
     usb: IUsb,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): ICreateDfuBootloaderResult {
     const getDeviceInformationResult = usb.getDeviceInformation();
     if (!getDeviceInformationResult.success) {
@@ -210,18 +210,18 @@ export class DfuBootloader {
     const dfuTargetMapping: IDfuTargetMapping | undefined =
       dfuTargetMappings.find(
         (mapping) =>
-          mapping.vendorId === vendorId && mapping.productId === productId
+          mapping.vendorId === vendorId && mapping.productId === productId,
       );
     if (!dfuTargetMapping) {
       return {
         success: false,
         error: `Unsupported device: Vendor ID: ${vendorId.toString(
-          16
+          16,
         )} Product ID: ${productId.toString(16)}`,
       };
     }
     progress(
-      `DFU target mapping found: Name:${dfuTargetMapping.name}, Device type:${dfuTargetMapping.deviceType}, Bootloader size:${dfuTargetMapping.bootloaderSize}, Bootloader location:${dfuTargetMapping.bootloaderLocation}, Memory size:${dfuTargetMapping.memorySize}, Flash page size:${dfuTargetMapping.flashPageSize} EEPROM memory size:${dfuTargetMapping.eepromMemorySize} EEPROM page size:${dfuTargetMapping.eepromPageSize}`
+      `DFU target mapping found: Name:${dfuTargetMapping.name}, Device type:${dfuTargetMapping.deviceType}, Bootloader size:${dfuTargetMapping.bootloaderSize}, Bootloader location:${dfuTargetMapping.bootloaderLocation}, Memory size:${dfuTargetMapping.memorySize}, Flash page size:${dfuTargetMapping.flashPageSize} EEPROM memory size:${dfuTargetMapping.eepromMemorySize} EEPROM page size:${dfuTargetMapping.eepromPageSize}`,
     );
     switch (dfuTargetMapping.deviceType) {
       case 'adc_avr':

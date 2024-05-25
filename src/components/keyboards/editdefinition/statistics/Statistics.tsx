@@ -31,7 +31,7 @@ export default function Statistics(props: StatisticsProps) {
                   (label, index) => [
                     label,
                     data.statistics.counts_of_opening_keyboard.values[index],
-                  ]
+                  ],
                 ),
               ]}
               width="100%"
@@ -64,7 +64,7 @@ export default function Statistics(props: StatisticsProps) {
                   (label, index) => [
                     label,
                     data.statistics.counts_of_flashing_keymap.values[index],
-                  ]
+                  ],
                 ),
               ]}
               width="100%"

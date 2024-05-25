@@ -433,7 +433,7 @@ export class KeyLabelLangs {
 
   static getKeyLabels(labelLang: KeyboardLabelLang): KeyLabel[] {
     const keyLabels = KEY_LABEL_LANGS.find(
-      (kll) => kll.labelLang === labelLang
+      (kll) => kll.labelLang === labelLang,
     );
     if (keyLabels === undefined) {
       throw new Error(`Undeifned label language: ${labelLang}`);
@@ -447,7 +447,7 @@ export class KeyLabelLangs {
 
   static getLabelLangMenuLabel(labelLang: KeyboardLabelLang): string {
     const keyLabels = KEY_LABEL_LANGS.find(
-      (kll) => kll.labelLang === labelLang
+      (kll) => kll.labelLang === labelLang,
     );
     if (keyLabels === undefined) {
       throw new Error(`Undeifned label language: ${labelLang}`);
@@ -458,7 +458,7 @@ export class KeyLabelLangs {
   static findKeyLabel(
     code: number,
     mods: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ): KeyLabel | undefined {
     const item = KEY_LABEL_LANGS.find((item) => item.labelLang === labelLang);
     if (item === undefined) {
@@ -466,7 +466,9 @@ export class KeyLabelLangs {
     }
     const keyLabel = item.keyLabels.find(
       (kl) =>
-        kl.code === code && kl.meta && kl.meta.find((m) => m.modifiers === mods)
+        kl.code === code &&
+        kl.meta &&
+        kl.meta.find((m) => m.modifiers === mods),
     );
     return keyLabel;
   }

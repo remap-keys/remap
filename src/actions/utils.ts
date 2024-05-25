@@ -4,7 +4,7 @@ import { IAuth } from '../services/auth/Auth';
 import { IOperationLogType, IStorage } from '../services/storage/Storage';
 
 export const getEncoderIdList = (
-  keymapDefinition: ((string | KeyOp)[] | { name: string })[]
+  keymapDefinition: ((string | KeyOp)[] | { name: string })[],
 ): number[] => {
   const keyboardModel = new KeyboardModel(keymapDefinition);
   const keyModels = keyboardModel.keyModels;
@@ -21,7 +21,7 @@ export const sendOperationLog = async (
   storage: IStorage,
   localAuthenticationUid: string,
   keyboardDefinitionId: string,
-  operation: IOperationLogType
+  operation: IOperationLogType,
 ): Promise<void> => {
   let uid: string;
   const user = auth.getCurrentAuthenticatedUserOrNull();

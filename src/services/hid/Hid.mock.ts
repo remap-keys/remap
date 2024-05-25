@@ -80,7 +80,7 @@ export const mockIKeyboad: IKeyboard = {
     layer: number,
     rowCount: number,
     columnCount: number,
-    labelLang: KeyboardLabelLang
+    labelLang: KeyboardLabelLang,
   ) => {
     return new Promise((resolve) => {
       resolve({
@@ -110,7 +110,7 @@ export const mockIKeyboad: IKeyboard = {
     layer: number,
     encoderIds: number[],
     labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    customKeycodes: ICustomKeycode[] | undefined,
   ): Promise<IFetchEncodersKeymapsResult> {
     return new Promise((resolve) => {
       resolve({
@@ -163,7 +163,7 @@ export const mockIKeyboad: IKeyboard = {
     layer: number,
     encoderId: number,
     clockwise: boolean,
-    code: number
+    code: number,
   ): Promise<IResult> {
     return new Promise((resolve) => {
       resolve({ success: true });

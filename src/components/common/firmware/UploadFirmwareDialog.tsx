@@ -19,7 +19,7 @@ type UploadFirmwareDialogProps = OwnProps &
   Partial<UploadFirmwareDialogStateType>;
 
 export default function UploadFirmwareDialog(
-  props: UploadFirmwareDialogProps | Readonly<UploadFirmwareDialogProps>
+  props: UploadFirmwareDialogProps | Readonly<UploadFirmwareDialogProps>,
 ) {
   const dropTargetRef = React.createRef<HTMLDivElement>();
 

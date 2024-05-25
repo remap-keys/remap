@@ -28,7 +28,7 @@ describe('ModsComposition', () => {
           label: 'A',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0001_1111_0000_0100);
     subject = new ModsComposition(
@@ -49,7 +49,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
     subject = new ModsComposition(
@@ -70,7 +70,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
     subject = new ModsComposition(
@@ -91,7 +91,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0000_1111_1111_1111);
     subject = new ModsComposition(
@@ -112,7 +112,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0001_1111_1111_1111);
     subject = new ModsComposition(
@@ -133,7 +133,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0000_1111_0000_0000);
     subject = new ModsComposition(
@@ -154,7 +154,7 @@ describe('ModsComposition', () => {
           label: '',
           keywords: [],
         },
-      }
+      },
     );
     expect(subject.getCode()).toEqual(0b0001_1111_0000_0000);
   });

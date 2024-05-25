@@ -24,7 +24,7 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
     if (navigationType === 'POP') {
       const introductionMatch = matchPath(
         { path: '/catalog/:definitionId' },
-        location.pathname
+        location.pathname,
       );
       if (introductionMatch) {
         props.goToIntroduction!();
@@ -32,7 +32,7 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
       }
       const keymapMatch = matchPath(
         { path: '/catalog/:definitionId/keymap' },
-        location.pathname
+        location.pathname,
       );
       if (keymapMatch) {
         props.goToKeymap!();
@@ -43,7 +43,7 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
           if (queryParams.id) {
             props.applySharedKeymap!(
               keymapMatch.params.definitionId!,
-              queryParams.id as string
+              queryParams.id as string,
             );
           }
         }
@@ -51,7 +51,7 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
       }
       const firmwareMatch = matchPath(
         { path: '/catalog/:definitionId/firmware' },
-        location.pathname
+        location.pathname,
       );
       if (firmwareMatch) {
         props.goToFirmware!();
@@ -59,7 +59,7 @@ export default function CatalogKeyboard(props: CatalogKeyboardProps) {
       }
       const buildMatch = matchPath(
         { path: '/catalog/:definitionId/build' },
-        location.pathname
+        location.pathname,
       );
       if (buildMatch) {
         props.goToBuild!();

@@ -23,7 +23,7 @@ export default class CatalogKeymapList extends React.Component<
   OwnState
 > {
   constructor(
-    props: CatalogKeymapListProps | Readonly<CatalogKeymapListProps>
+    props: CatalogKeymapListProps | Readonly<CatalogKeymapListProps>,
   ) {
     super(props);
   }
@@ -74,7 +74,7 @@ export default class CatalogKeymapList extends React.Component<
                       />
                     </ListItem>
                   );
-                }
+                },
               )}
             </List>
           </div>

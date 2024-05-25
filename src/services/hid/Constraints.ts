@@ -24,5 +24,5 @@ export function anyKeymap(hex: number): IKeymap {
 
 export const WILL_BE_REPLACED_KEYCODE = -1;
 export const WILL_BE_REPLACED_KEYMAP: IKeymap = anyKeymap(
-  WILL_BE_REPLACED_KEYCODE
+  WILL_BE_REPLACED_KEYCODE,
 );

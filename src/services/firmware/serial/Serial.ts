@@ -8,7 +8,7 @@ export interface ISerial {
   open(
     baudRate: number,
     bufferSize: number,
-    errorHandler: IErrorHandler
+    errorHandler: IErrorHandler,
   ): Promise<IResult>;
   writeString(message: string): Promise<IResult>;
   writeBytes(bytes: Uint8Array): Promise<IResult>;

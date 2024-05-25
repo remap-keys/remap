@@ -188,7 +188,7 @@ export default class EditOrganization extends React.Component<
                                     </IconButton>
                                   </ListItemSecondaryAction>
                                 </ListItem>
-                              )
+                              ),
                             )}
                           </List>
                           <div className="edit-organization-form-member-form">
@@ -198,7 +198,7 @@ export default class EditOrganization extends React.Component<
                               label="Email Address"
                               value={this.props.email}
                               onChange={(
-                                event: React.ChangeEvent<HTMLInputElement>
+                                event: React.ChangeEvent<HTMLInputElement>,
                               ) => {
                                 this.props.updateEmail!(event.target.value);
                               }}
@@ -207,7 +207,7 @@ export default class EditOrganization extends React.Component<
                               variant="contained"
                               color="primary"
                               onClick={this.handleAddOrganizationMemberClick.bind(
-                                this
+                                this,
                               )}
                               className="edit-organization-form-member-form-button"
                               disabled={this.props.email!.length === 0}

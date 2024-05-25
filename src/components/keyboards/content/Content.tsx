@@ -55,7 +55,7 @@ function Contents(props: ContentsProps) {
       return <EditKeyboard />;
     default:
       throw new Error(
-        `Unknown state.keyboards.app.phase value: ${props.phase}`
+        `Unknown state.keyboards.app.phase value: ${props.phase}`,
       );
   }
 }

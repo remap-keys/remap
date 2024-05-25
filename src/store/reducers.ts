@@ -272,7 +272,7 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
 
 const keyboardsEditKeyboardReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case KEYBOARDS_EDIT_DEFINITION_CLEAR:
@@ -302,7 +302,7 @@ const keyboardsEditKeyboardReducer = (
       break;
     case KEYBOARDS_EDIT_DEFINITION_INIT:
       draft.keyboards.editdefinition.keyboardDefinition = JSON.parse(
-        action.value.json
+        action.value.json,
       );
       draft.keyboards.editdefinition.productName = action.value.productName;
       draft.keyboards.editdefinition.jsonFilename = '';
@@ -407,7 +407,7 @@ const keyboardsEditKeyboardReducer = (
     case KEYBOARDS_EDIT_DEFINITION_DELETE_ADDITIONAL_DESCRIPTIONS:
       draft.keyboards.editdefinition.additionalDescriptions =
         draft.keyboards.editdefinition.additionalDescriptions.filter(
-          (_, index) => index !== action.value
+          (_, index) => index !== action.value,
         );
       break;
     case KEYBOARDS_EDIT_DEFINITION_UPDATE_CONTACT_INFORMATION:
@@ -464,7 +464,7 @@ const keyboardsEditKeyboardReducer = (
 
 const keyboardsCreateKeyboardReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case KEYBOARDS_CREATE_DEFINITION_CLEAR:
@@ -538,7 +538,7 @@ const keyboardsCreateKeyboardReducer = (
 
 const keyboardsAppReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case KEYBOARDS_APP_UPDATE_PHASE: {
@@ -806,7 +806,7 @@ const keymapReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const keymapToolbarReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   // TODO: type-safe
   switch (action.type) {
@@ -846,7 +846,7 @@ const keydiffReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const keycodeAddKeyReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   // TODO: type-safe
   switch (action.type) {
@@ -922,7 +922,7 @@ const keycodekeyReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const layoutOptionsReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case LAYOUT_OPTIONS_RESTORE_SELECTED_OPTIONS: {
@@ -935,7 +935,7 @@ const layoutOptionsReducer = (
         draft.configure.layoutOptions.selectedOptions.map(
           (value: LayoutOption) => {
             return value.option == option ? { option, optionChoice } : value;
-          }
+          },
         );
       break;
     }
@@ -948,7 +948,7 @@ const layoutOptionsReducer = (
 
 const macroEditorReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case MACRO_EDITOR_UPDATE_KEY: {
@@ -979,7 +979,7 @@ const macroEditorReducer = (
 
 const notificationReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   // TODO: type-safe
   switch (action.type) {
@@ -1030,7 +1030,7 @@ const notificationReducer = (
     case NOTIFICATION_REMOVE: {
       const key = action.value;
       draft.app.notifications = draft.app.notifications.filter(
-        (item) => item.key != key
+        (item) => item.key != key,
       );
       break;
     }
@@ -1049,7 +1049,7 @@ const headerReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const catalogSearchReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case CATALOG_SEARCH_UPDATE_FEATURES: {
@@ -1102,7 +1102,7 @@ const catalogAppReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const catalogKeyboardReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case CATALOG_KEYBOARD_UPDATE_KEYMAPS:
@@ -1148,7 +1148,7 @@ const metaReducer = (action: Action, draft: WritableDraft<RootState>) => {
 
 const uploadFirmwareDialogReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN:
@@ -1163,7 +1163,7 @@ const uploadFirmwareDialogReducer = (
 
 const flashFirmwareDialogReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE:
@@ -1219,7 +1219,7 @@ const flashFirmwareDialogReducer = (
 
 const organizationsAppReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case ORGANIZATIONS_APP_UPDATE_PHASE:
@@ -1230,7 +1230,7 @@ const organizationsAppReducer = (
 
 const organizationsEditOrganizationReducer = (
   action: Action,
-  draft: WritableDraft<RootState>
+  draft: WritableDraft<RootState>,
 ) => {
   switch (action.type) {
     case ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_ORGANIZATION_MEMBERS:

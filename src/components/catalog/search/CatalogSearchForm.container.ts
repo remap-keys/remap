@@ -22,7 +22,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateFeatures: (
       value: IKeyboardFeatures | IConditionNotSelected,
-      targetFeatures: readonly IKeyboardFeatures[]
+      targetFeatures: readonly IKeyboardFeatures[],
     ) => {
       _dispatch(CatalogSearchActions.updateFeatures(value, targetFeatures));
     },

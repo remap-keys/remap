@@ -47,7 +47,7 @@ export type KeycapOwnProps = {
     // eslint-disable-next-line no-unused-vars
     keySwitchEventType: IKeySwitchOperation,
     // eslint-disable-next-line no-unused-vars
-    encoderId: number | null
+    encoderId: number | null,
   ) => void;
   keySwitchOperationVisible: boolean;
 };
@@ -78,7 +78,7 @@ export default class Keycap extends React.Component<
     model: KeyModel,
     isSelectedKey: boolean,
     orgKey: Key,
-    dstKey: Key | null
+    dstKey: Key | null,
   ) {
     if (this.props.testMatrix) return;
 
@@ -88,14 +88,14 @@ export default class Keycap extends React.Component<
       this.state.targetKeySwitchOperation,
       isSelectedKey,
       orgKey,
-      dstKey
+      dstKey,
     );
     if (!this.props.isCustomKeyOpen && this.props.onClick) {
       this.props.onClick(
         model.pos,
         dstKey ? dstKey : orgKey,
         this.state.targetKeySwitchOperation,
-        this.props.model.isEncoder ? this.props.model.encoderId : null
+        this.props.model.isEncoder ? this.props.model.encoderId : null,
       );
     }
   }
@@ -130,26 +130,26 @@ export default class Keycap extends React.Component<
   }
 
   private getTargetKeymap(
-    keySwitchOperation: IKeySwitchOperation
+    keySwitchOperation: IKeySwitchOperation,
   ): IKeymap | null {
     return this.props.model.isEncoder
       ? keySwitchOperation === 'click'
         ? this.props.keymap
         : keySwitchOperation === 'cw'
-        ? this.props.cwKeymap
-        : this.props.ccwKeymap
+          ? this.props.cwKeymap
+          : this.props.ccwKeymap
       : this.props.keymap;
   }
 
   private getTargetRemap(
-    keySwitchOperation: IKeySwitchOperation
+    keySwitchOperation: IKeySwitchOperation,
   ): IKeymap | null {
     return this.props.model.isEncoder
       ? keySwitchOperation === 'click'
         ? this.props.remap
         : keySwitchOperation === 'cw'
-        ? this.props.cwRemap
-        : this.props.ccwRemap
+          ? this.props.cwRemap
+          : this.props.ccwRemap
       : this.props.remap;
   }
 
@@ -230,10 +230,10 @@ export default class Keycap extends React.Component<
     const isFocusedKey = this.props.focus;
 
     const keymap: IKeymap | null = this.getTargetKeymap(
-      this.state.targetKeySwitchOperation
+      this.state.targetKeySwitchOperation,
     );
     const remap: IKeymap | null = this.getTargetRemap(
-      this.state.targetKeySwitchOperation
+      this.state.targetKeySwitchOperation,
     );
 
     // FIXME: There is possibility that keymap is null!
@@ -289,7 +289,7 @@ export default class Keycap extends React.Component<
               this.props.draggingKey!,
               this.props.selectedLayer!,
               pos,
-              orgKey
+              orgKey,
             );
           } else {
             this.props.onDropKeycodeToEncoder!(
@@ -297,7 +297,7 @@ export default class Keycap extends React.Component<
               this.props.selectedLayer!,
               this.props.model.encoderId!,
               this.state.targetKeySwitchOperation,
-              orgKey
+              orgKey,
             );
           }
         }}
@@ -378,7 +378,7 @@ export default class Keycap extends React.Component<
             this.props.model,
             isFocusedKey,
             orgKey,
-            dstKey
+            dstKey,
           )}
         ></div>
         {this.isOddly && (

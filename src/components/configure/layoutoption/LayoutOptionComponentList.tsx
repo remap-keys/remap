@@ -53,7 +53,7 @@ export default class LayoutOptionComponentList extends React.Component<
                     this.props.setLayoutOption!(
                       index,
                       choice,
-                      this.props.hidSupport
+                      this.props.hidSupport,
                     );
                   }}
                 />
@@ -68,7 +68,7 @@ export default class LayoutOptionComponentList extends React.Component<
                     this.props.setLayoutOption!(
                       index,
                       choice,
-                      this.props.hidSupport
+                      this.props.hidSupport,
                     );
                   }}
                 />

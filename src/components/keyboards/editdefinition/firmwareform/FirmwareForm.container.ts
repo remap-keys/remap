@@ -23,38 +23,38 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     updateFirmwareFile: (firmwareFile: File | null) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateFirmwareFile(firmwareFile)
+        KeyboardsEditDefinitionActions.updateFirmwareFile(firmwareFile),
       );
     },
     updateFirmwareName: (firmwareName: string) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateFirmwareName(firmwareName)
+        KeyboardsEditDefinitionActions.updateFirmwareName(firmwareName),
       );
     },
     updateFirmwareDescription: (firmwareDescription: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateFirmwareDescription(
-          firmwareDescription
-        )
+          firmwareDescription,
+        ),
       );
     },
     updateFirmwareSourceCodeUrl: (firmwareSourceCodeUrl: string) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateFirmwareSourceCodeUrl(
-          firmwareSourceCodeUrl
-        )
+          firmwareSourceCodeUrl,
+        ),
       );
     },
     updateFlashSupport: (flashSupport: boolean) => {
       _dispatch(
-        KeyboardsEditDefinitionActions.updateFlashSupport(flashSupport)
+        KeyboardsEditDefinitionActions.updateFlashSupport(flashSupport),
       );
     },
     updateDefaultBootloaderType: (defaultBootloaderType: IBootloaderType) => {
       _dispatch(
         KeyboardsEditDefinitionActions.updateDefaultBootloaderType(
-          defaultBootloaderType
-        )
+          defaultBootloaderType,
+        ),
       );
     },
     clearFirmwareForm: () => {
@@ -66,10 +66,10 @@ const mapDispatchToProps = (_dispatch: any) => {
     fetchFirmwareFileBlob: (
       firmwareFilePath: string,
       // eslint-disable-next-line no-unused-vars
-      callback: (blob: any) => void
+      callback: (blob: any) => void,
     ) => {
       _dispatch(
-        storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback)
+        storageActionsThunk.fetchFirmwareFileBlob(firmwareFilePath, callback),
       );
     },
     // eslint-disable-next-line no-unused-vars
@@ -82,7 +82,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       description: string,
       sourceCodeUrl: string,
       flashSupport: boolean,
-      defaultBootloaderType: IBootloaderType
+      defaultBootloaderType: IBootloaderType,
     ) => {
       _dispatch(
         storageActionsThunk.updateFirmware(
@@ -91,16 +91,16 @@ const mapDispatchToProps = (_dispatch: any) => {
           description,
           sourceCodeUrl,
           flashSupport,
-          defaultBootloaderType
-        )
+          defaultBootloaderType,
+        ),
       );
     },
     updateKeyboard: (definitionId: string) => {
       _dispatch(
         storageActionsThunk.fetchKeyboardDefinitionById(
           definitionId,
-          'firmware'
-        )
+          'firmware',
+        ),
       );
     },
   };

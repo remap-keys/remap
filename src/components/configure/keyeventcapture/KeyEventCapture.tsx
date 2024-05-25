@@ -31,7 +31,7 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     selectedEncoderId: number | null,
     // eslint-disable-next-line no-unused-vars
-    selectedKeySwitchOperation: IKeySwitchOperation
+    selectedKeySwitchOperation: IKeySwitchOperation,
   ) => void;
   onKeyUp: (
     // eslint-disable-next-line no-unused-vars
@@ -39,7 +39,7 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     nextEncoderId: number | null,
     // eslint-disable-next-line no-unused-vars
-    nextKeySwitchOperation: IKeySwitchOperation
+    nextKeySwitchOperation: IKeySwitchOperation,
   ) => void;
   keyModels: KeyModel[];
   keymaps: { [pos: string]: IKeymap };
@@ -83,7 +83,7 @@ export default class KeyEventCapture extends React.Component<
       this.props.selectedLayer!,
       this.props.selectedPos!,
       this.props.selectedEncoderId!,
-      this.props.selectedKeySwitchOperation!
+      this.props.selectedKeySwitchOperation!,
     );
 
     this.setState({ holdingKeyCount: this.state.holdingKeyCount + 1 });
@@ -118,18 +118,18 @@ export default class KeyEventCapture extends React.Component<
       e.location == KeyboardEvent.DOM_KEY_LOCATION_LEFT
         ? `l${e.key}`
         : e.location == KeyboardEvent.DOM_KEY_LOCATION_RIGHT
-        ? `r${e.key}`
-        : e.location == KeyboardEvent.DOM_KEY_LOCATION_NUMPAD
-        ? `kp_${e.key}`
-        : e.key === 'Delete'
-        ? `Del`
-        : e.key === ' '
-        ? `Space`
-        : e.key;
+          ? `r${e.key}`
+          : e.location == KeyboardEvent.DOM_KEY_LOCATION_NUMPAD
+            ? `kp_${e.key}`
+            : e.key === 'Delete'
+              ? `Del`
+              : e.key === ' '
+                ? `Space`
+                : e.key;
     keyString = keyString.toLowerCase();
     const keyLabels = KeyLabelLangs.getKeyLabels(this.props.labelLang!);
     let code = keyLabels.find(
-      (k) => k.label === keyString || k.keywords?.some((k) => k === keyString)
+      (k) => k.label === keyString || k.keywords?.some((k) => k === keyString),
     )?.code;
 
     if (!code) {
@@ -140,8 +140,8 @@ export default class KeyEventCapture extends React.Component<
             .replaceAll(' ', '')
             .toLowerCase() === keyString ||
           k.keycodeInfo.keywords.some(
-            (keyword) => keyword.toLowerCase() === keyString
-          )
+            (keyword) => keyword.toLowerCase() === keyString,
+          ),
       )?.keycodeInfo.code;
 
       if (!code) {
@@ -157,7 +157,7 @@ export default class KeyEventCapture extends React.Component<
     const keymap = KeycodeList.getKeymap(
       code,
       this.props.labelLang!,
-      this.props.keyboardDefinition!.customKeycodes
+      this.props.keyboardDefinition!.customKeycodes,
     );
     if (!keymap) {
       return null;

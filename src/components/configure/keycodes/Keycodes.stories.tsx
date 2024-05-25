@@ -22,8 +22,8 @@ const store = createStore(
   reducers,
   composeWithDevTools(
     applyMiddleware(thunk),
-    applyMiddleware(errorReportingLogger)
-  )
+    applyMiddleware(errorReportingLogger),
+  ),
 );
 
 export default {
@@ -74,7 +74,7 @@ class KeycodesLeftSub extends Keycodes {
           value={key}
           draggable={true}
           clickable={isMacro && !macrEditMode}
-        />
+        />,
       );
     });
 
@@ -88,7 +88,7 @@ class KeycodesLeftSub extends Keycodes {
             <div className="sub-category-keys">{categoryKeys[sub]}</div>
           </div>
         );
-      }
+      },
     );
     return (
       <>

@@ -24,7 +24,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     updateKeydiff: (
       isSelectedKey: boolean,
       orgKey: Key,
-      dstKey: Key | null
+      dstKey: Key | null,
     ) => {
       if (isSelectedKey) {
         if (dstKey) {
@@ -42,7 +42,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       keySwitchOperation: IKeySwitchOperation,
       isSelectedKey: boolean,
       orgKey: Key,
-      dstKey: Key | null
+      dstKey: Key | null,
     ) => {
       if (dstKey) {
         // show key diff
@@ -56,21 +56,21 @@ const mapDispatchToProps = (_dispatch: any) => {
         KeymapActions.updateSelectedKeyPosition(
           pos,
           encoderId,
-          keySwitchOperation
-        )
+          keySwitchOperation,
+        ),
       );
     },
     onDropKeycode: (
       draggingKey: Key,
       selectedLayer: number,
       pos: string,
-      orgKey: Key
+      orgKey: Key,
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
         return;
       }
       _dispatch(
-        AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
+        AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap),
       );
     },
     onDropKeycodeToEncoder: (
@@ -78,7 +78,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       selectedLayer: number,
       encoderId: number,
       keySwitchOperation: IKeySwitchOperation,
-      orgKey: Key
+      orgKey: Key,
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
         return;
@@ -88,8 +88,8 @@ const mapDispatchToProps = (_dispatch: any) => {
           selectedLayer,
           encoderId,
           draggingKey.keymap,
-          keySwitchOperation
-        )
+          keySwitchOperation,
+        ),
       );
     },
   };

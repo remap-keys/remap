@@ -24,7 +24,7 @@ export default class KeyboardDefinitionForm extends React.Component<
   KeyboardDefinitionFormState
 > {
   constructor(
-    props: KeyboardDefinitionFormProps | Readonly<KeyboardDefinitionFormProps>
+    props: KeyboardDefinitionFormProps | Readonly<KeyboardDefinitionFormProps>,
   ) {
     super(props);
     this.state = {

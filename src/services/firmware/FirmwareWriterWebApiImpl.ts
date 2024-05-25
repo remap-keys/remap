@@ -24,14 +24,14 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener,
-    errorHandler: IErrorHandler
+    errorHandler: IErrorHandler,
   ): Promise<IResult> {
     if (bootloaderType === 'caterina') {
       const serial: ISerial = new WebSerial(CHUNK_SIZE);
       const openResult = await serial.open(
         BAUD_RATE,
         BUFFER_SIZE,
-        errorHandler
+        errorHandler,
       );
       if (!openResult.success) {
         return openResult;
@@ -48,7 +48,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
       phase('opened');
       const createDfuBootloaderResult = DfuBootloader.createDfuBootloader(
         usb,
-        progress
+        progress,
       );
       if (!createDfuBootloaderResult.success) {
         await usb.close();

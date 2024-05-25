@@ -44,5 +44,5 @@ export type OrganizationManagementActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(OrganizationManagement);

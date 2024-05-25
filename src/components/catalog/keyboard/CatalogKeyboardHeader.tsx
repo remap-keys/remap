@@ -50,7 +50,7 @@ export const CatalogKeyboardHeader = ({
     !definitionDocument.authorType ||
     definitionDocument.authorType === 'individual'
       ? `https://avatars.githubusercontent.com/${getGitHubUserName(
-          definitionDocument
+          definitionDocument,
         )}`
       : organization!.icon_image_url;
 

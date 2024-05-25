@@ -38,8 +38,8 @@ export default class WebUsb implements IUsb {
 
       console.log(
         `Found device at USB: ${this.device.vendorId.toString(
-          16
-        )} ${this.device.productId.toString(16)}`
+          16,
+        )} ${this.device.productId.toString(16)}`,
       );
 
       return {
@@ -69,7 +69,7 @@ export default class WebUsb implements IUsb {
 
   async setConfigurationAndInterface(
     configuration: number,
-    interfaceNumber: number
+    interfaceNumber: number,
   ): Promise<IResult> {
     const deviceResult = this.getDevice();
     if (!deviceResult.success) {
@@ -121,7 +121,7 @@ export default class WebUsb implements IUsb {
   async findInterface(
     honorInterfaceClass: boolean,
     interfaceClass?: number,
-    interfaceSubClass?: number
+    interfaceSubClass?: number,
   ): Promise<IDfuFindInterfaceResult> {
     const deviceResult = this.getDevice();
     if (!deviceResult.success) {
@@ -148,10 +148,10 @@ export default class WebUsb implements IUsb {
           const alternate = usbInterface.alternates[s];
           console.log(
             `setting ${s}: class:${alternate.interfaceClass.toString(
-              16
+              16,
             )}, subclass:${alternate.interfaceSubclass.toString(
-              16
-            )}, protocol:${alternate.interfaceProtocol.toString(16)}`
+              16,
+            )}, protocol:${alternate.interfaceProtocol.toString(16)}`,
           );
           if (honorInterfaceClass) {
             if (
@@ -159,7 +159,7 @@ export default class WebUsb implements IUsb {
               alternate.interfaceSubclass === interfaceSubClass
             ) {
               console.log(
-                `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`
+                `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`,
               );
               return {
                 success: true,
@@ -169,7 +169,7 @@ export default class WebUsb implements IUsb {
             }
           } else {
             console.log(
-              `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`
+              `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`,
             );
             return {
               success: true,
@@ -209,7 +209,7 @@ export default class WebUsb implements IUsb {
   async controlTransferOut(
     request: number,
     value: number,
-    data?: Uint8Array
+    data?: Uint8Array,
   ): Promise<IResult> {
     try {
       const deviceResult = this.getDevice();
@@ -238,7 +238,7 @@ export default class WebUsb implements IUsb {
         };
       }
       console.log(
-        `Control Transfer Out (request=${request}, value=${value}) successfully`
+        `Control Transfer Out (request=${request}, value=${value}) successfully`,
       );
       return {
         success: true,
@@ -255,7 +255,7 @@ export default class WebUsb implements IUsb {
   async controlTransferIn(
     request: number,
     value: number,
-    length: number
+    length: number,
   ): Promise<IControlTransferInResult> {
     try {
       const deviceResult = this.getDevice();

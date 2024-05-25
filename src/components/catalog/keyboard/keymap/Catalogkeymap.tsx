@@ -56,13 +56,13 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
   };
 
   const onClickApplySharedKeymapData = (
-    savedKeymapData: AbstractKeymapData
+    savedKeymapData: AbstractKeymapData,
   ) => {
     sendEventToGoogleAnalytics('catalog/apply_keymap');
     props.applySharedKeymapData!(savedKeymapData);
     // eslint-disable-next-line no-undef
     navigate(
-      `/catalog/${props.definitionDocument!.id}/keymap?id=${savedKeymapData.id}`
+      `/catalog/${props.definitionDocument!.id}/keymap?id=${savedKeymapData.id}`,
     );
   };
 
@@ -84,7 +84,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
       props.keyboardDefinition!.layouts.keymap,
       keys,
       props.keymaps!.length,
-      props.langLabel!
+      props.langLabel!,
     );
 
     sendEventToGoogleAnalytics('catalog/cheat_sheet');
@@ -109,7 +109,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
 
   const kbd = new KeyboardModel(props.keyboardDefinition!.layouts.keymap);
   const { keymaps, width, height, left, top } = kbd.getKeymap(
-    props.selectedKeyboardOptions
+    props.selectedKeyboardOptions,
   );
 
   const marginLeft = left != 0 ? -left : 0;
@@ -169,7 +169,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
   const contentWidth = Math.min(
     // eslint-disable-next-line no-undef
     windowWidth || window.innerWidth,
-    CONTENT_MAX_WIDTH
+    CONTENT_MAX_WIDTH,
   );
   const keyboardRootWidth = width + 40;
   const keyboardRootHeight = height + 40;
@@ -200,7 +200,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
                 <Typography variant="subtitle1">
                   {
                     KeyLabelLangs.KeyLabelLangMenus.find(
-                      (m) => m.labelLang === props.langLabel
+                      (m) => m.labelLang === props.langLabel,
                     )!.menuLabel
                   }
                 </Typography>

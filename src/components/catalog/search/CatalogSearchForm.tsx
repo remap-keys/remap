@@ -55,14 +55,14 @@ export default class CatalogSearchForm extends React.Component<
   CatalogSearchFormState
 > {
   constructor(
-    props: CatalogSearchFormProps | Readonly<CatalogSearchFormProps>
+    props: CatalogSearchFormProps | Readonly<CatalogSearchFormProps>,
   ) {
     super(props);
     this.state = {};
   }
 
   private getFeatureValue(
-    targetFeatures: readonly IKeyboardFeatures[]
+    targetFeatures: readonly IKeyboardFeatures[],
   ): IKeyboardFeatures | IConditionNotSelected {
     return (
       this.props.features!.find((feature) => {

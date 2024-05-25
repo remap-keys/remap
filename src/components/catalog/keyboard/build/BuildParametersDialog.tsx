@@ -60,7 +60,7 @@ type SelectedFirmwareFile = {
 };
 
 export default function BuildParametersDialog(
-  props: BuildParametersDialogProps
+  props: BuildParametersDialogProps,
 ) {
   const [selectedFirmwareFile, setSelectedFirmwareFile] = useState<
     SelectedFirmwareFile | undefined
@@ -75,14 +75,14 @@ export default function BuildParametersDialog(
       setSelectedFirmwareFile(undefined);
       setDescription('');
       setOriginalParameterValues(
-        structuredClone(props.buildableFirmwareCodeParameterValues)
+        structuredClone(props.buildableFirmwareCodeParameterValues),
       );
     }
   }, [props.open]);
 
   const onClickFirmwareFile = (
     file: IBuildableFirmwareFile,
-    type: IBuildableFirmwareFileType
+    type: IBuildableFirmwareFileType,
   ) => {
     setSelectedFirmwareFile({ file, type });
   };
@@ -90,10 +90,10 @@ export default function BuildParametersDialog(
   const onChangeParameterValue = (
     targetFirmwareFile: SelectedFirmwareFile,
     targetParameter: IBuildableFirmwareCodeParameter,
-    newValue: string
+    newValue: string,
   ) => {
     const newParameterValues = structuredClone(
-      props.buildableFirmwareCodeParameterValues
+      props.buildableFirmwareCodeParameterValues,
     ) as IBuildableFirmwareCodeParameterValues;
     const newValueMap =
       targetFirmwareFile.type === 'keyboard'
@@ -106,10 +106,10 @@ export default function BuildParametersDialog(
 
   const onChangeValueType = (
     targetFirmwareFile: SelectedFirmwareFile,
-    newType: IBuildableFirmwareCodeValueType
+    newType: IBuildableFirmwareCodeValueType,
   ) => {
     const newParameterValues = structuredClone(
-      props.buildableFirmwareCodeParameterValues
+      props.buildableFirmwareCodeParameterValues,
     ) as IBuildableFirmwareCodeParameterValues;
     const newValueMap =
       targetFirmwareFile.type === 'keyboard'
@@ -122,10 +122,10 @@ export default function BuildParametersDialog(
 
   const onChangeCode = (
     targetFirmwareFile: SelectedFirmwareFile,
-    newCode: string
+    newCode: string,
   ) => {
     const newParameterValues = structuredClone(
-      props.buildableFirmwareCodeParameterValues
+      props.buildableFirmwareCodeParameterValues,
     ) as IBuildableFirmwareCodeParameterValues;
     const newValueMap =
       targetFirmwareFile.type === 'keyboard'
@@ -142,7 +142,7 @@ export default function BuildParametersDialog(
 
   const isDifferent = (
     fileType: IBuildableFirmwareFileType,
-    file: IBuildableFirmwareFile
+    file: IBuildableFirmwareFile,
   ): boolean => {
     if (!originalParameterValues) {
       return false;
@@ -161,14 +161,14 @@ export default function BuildParametersDialog(
       return originalParameterValueMap.code !== newParameterValueMap.code;
     } else {
       const originalParameterValueMapEntries = Object.entries(
-        originalParameterValueMap.parameters
+        originalParameterValueMap.parameters,
       );
       const newParameterValueMapEntries = Object.entries(
-        newParameterValueMap.parameters
+        newParameterValueMap.parameters,
       ).filter(
         ([parameterName, parameter]) =>
           parameter.value ===
-          originalParameterValueMap.parameters[parameterName].value
+          originalParameterValueMap.parameters[parameterName].value,
       );
       return (
         originalParameterValueMapEntries.length !==
@@ -300,7 +300,7 @@ type FirmwareFileListItemProps = {
     // eslint-disable-next-line no-unused-vars
     file: IBuildableFirmwareFile,
     // eslint-disable-next-line no-unused-vars
-    type: IBuildableFirmwareFileType
+    type: IBuildableFirmwareFileType,
   ) => void;
   diff: boolean;
 };
@@ -313,7 +313,7 @@ function FirmwareFileListItem(props: FirmwareFileListItemProps) {
       onClick={() => {
         props.onClick(
           props.buildableFirmwareFile,
-          props.buildableFirmwareFileType
+          props.buildableFirmwareFileType,
         );
       }}
     >
@@ -341,19 +341,19 @@ type EditorContainerProps = {
     // eslint-disable-next-line no-unused-vars
     selectedParameter: IBuildableFirmwareCodeParameter,
     // eslint-disable-next-line no-unused-vars
-    newValue: string
+    newValue: string,
   ) => void;
   onChangeValueType: (
     // eslint-disable-next-line no-unused-vars
     selectedFirmwareFile: SelectedFirmwareFile,
     // eslint-disable-next-line no-unused-vars
-    newType: IBuildableFirmwareCodeValueType
+    newType: IBuildableFirmwareCodeValueType,
   ) => void;
   onChangeCode: (
     // eslint-disable-next-line no-unused-vars
     selectedFirmwareFile: SelectedFirmwareFile,
     // eslint-disable-next-line no-unused-vars
-    newCode: string
+    newCode: string,
   ) => void;
 };
 
@@ -379,7 +379,7 @@ function EditorContainer(props: EditorContainerProps) {
               onChange={(event) => {
                 props.onChangeValueType(
                   props.selectedFirmwareFile,
-                  event.target.value as IBuildableFirmwareCodeValueType
+                  event.target.value as IBuildableFirmwareCodeValueType,
                 );
               }}
             >
@@ -426,7 +426,7 @@ type CodeEditorProps = {
     // eslint-disable-next-line no-unused-vars
     selectedFirmwareFile: SelectedFirmwareFile,
     // eslint-disable-next-line no-unused-vars
-    newCode: string
+    newCode: string,
   ) => void;
 };
 
@@ -462,7 +462,7 @@ type ParameterEditorProps = {
     // eslint-disable-next-line no-unused-vars
     selectedParameter: IBuildableFirmwareCodeParameter,
     // eslint-disable-next-line no-unused-vars
-    newValue: string
+    newValue: string,
   ) => void;
 };
 
@@ -497,7 +497,7 @@ function ParameterEditors(props: ParameterEditorProps) {
                     props.onChangeParameterValue(
                       props.selectedFirmwareFile,
                       parameter.definition,
-                      event.target.value
+                      event.target.value,
                     );
                   }}
                   helperText={parameter.definition.comment}
@@ -512,7 +512,7 @@ function ParameterEditors(props: ParameterEditorProps) {
                       props.onChangeParameterValue(
                         props.selectedFirmwareFile,
                         parameter.definition,
-                        event.target.value
+                        event.target.value,
                       );
                     }}
                   >
@@ -544,7 +544,7 @@ function ParameterEditors(props: ParameterEditorProps) {
                       props.onChangeParameterValue(
                         props.selectedFirmwareFile,
                         parameter.definition,
-                        event.target.value
+                        event.target.value,
                       );
                     }}
                   >
@@ -573,7 +573,7 @@ function ParameterEditors(props: ParameterEditorProps) {
                     props.onChangeParameterValue(
                       props.selectedFirmwareFile,
                       parameter.definition,
-                      event.target.value
+                      event.target.value,
                     );
                   }}
                   helperText={parameter.definition.comment}

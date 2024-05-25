@@ -45,7 +45,7 @@ export default class KeyModel {
     r: number = 0,
     rx: number = 0,
     ry: number = 0,
-    encoderId: number | null = null
+    encoderId: number | null = null,
   ) {
     this.keyOp = op;
     this.x = x;
@@ -212,7 +212,7 @@ export default class KeyModel {
     const rad = this.rad;
     const x0 = Math.max(
       this.left + this.width,
-      this.left2 || 0 + this.width2 || 0
+      this.left2 || 0 + this.width2 || 0,
     );
     let y0 = 0;
     if (this.rotate < 0) {

@@ -132,7 +132,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     if (!SwapHandsComposition.isSwapHandsOptions(code)) return undefined;
 
     return SwapHandsComposition.genSwapHandsOptionKeymaps().find(
-      (km) => km.code === code
+      (km) => km.code === code,
     );
   }
 
@@ -140,7 +140,7 @@ export class SwapHandsComposition implements ISwapHandsComposition {
     return (
       0 <=
       SwapHandsComposition.genSwapHandsOptionKeymaps().findIndex(
-        (km) => km.code === code
+        (km) => km.code === code,
       )
     );
   }

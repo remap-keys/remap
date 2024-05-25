@@ -36,7 +36,7 @@ export default class ConfigurationDialog extends React.Component<
   OwnState
 > {
   constructor(
-    props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>
+    props: ConfigurationDialogProps | Readonly<ConfigurationDialogProps>,
   ) {
     super(props);
     this.state = {
@@ -66,7 +66,7 @@ export default class ConfigurationDialog extends React.Component<
   // eslint-disable-next-line no-unused-vars
   private onLoadFile(
     keyboardDefinition: KeyboardDefinitionSchema,
-    name: string
+    name: string,
   ) {
     this.setState({
       keyboardDefinition: keyboardDefinition,

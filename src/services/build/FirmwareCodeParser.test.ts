@@ -18,7 +18,7 @@ describe('FirmwareCodeParser', () => {
 
       const replaced = replaceBuildableFirmwareCodeWithParameterDefaultValues(
         input,
-        parameters
+        parameters,
       );
 
       expect(replaced).toEqual(`
@@ -41,7 +41,7 @@ describe('FirmwareCodeParser', () => {
 
       const replaced = replaceBuildableFirmwareCodeWithParameterDefaultValues(
         input,
-        parameters
+        parameters,
       );
 
       expect(replaced).toEqual(`

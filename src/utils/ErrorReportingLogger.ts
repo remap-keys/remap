@@ -4,7 +4,7 @@ import {
   NOTIFICATION_ADD_ERROR,
   NOTIFICATION_ADD_WARN,
 } from '../actions/actions';
-import StackdriverErrorReporter from "stackdriver-errors-js"
+import StackdriverErrorReporter from 'stackdriver-errors-js';
 
 const errorHandler = new StackdriverErrorReporter();
 if (process.env.NODE_ENV === 'production') {
@@ -19,7 +19,7 @@ export const errorReportingLogger =
   (store: { getState: () => RootState }) =>
   (
     // eslint-disable-next-line no-unused-vars
-    next: (action: Action) => void
+    next: (action: Action) => void,
   ) =>
   (action: AnyAction) => {
     if ([NOTIFICATION_ADD_ERROR, NOTIFICATION_ADD_WARN].includes(action.type)) {

@@ -87,7 +87,7 @@ export interface IUsb {
     // eslint-disable-next-line no-unused-vars
     configuration: number,
     // eslint-disable-next-line no-unused-vars
-    interfaceNumber: number
+    interfaceNumber: number,
   ): Promise<IResult>;
   controlTransferOut(
     // eslint-disable-next-line no-unused-vars
@@ -95,7 +95,7 @@ export interface IUsb {
     // eslint-disable-next-line no-unused-vars
     value: number,
     // eslint-disable-next-line no-unused-vars
-    data?: Uint8Array
+    data?: Uint8Array,
   ): Promise<IResult>;
   controlTransferIn(
     // eslint-disable-next-line no-unused-vars
@@ -103,7 +103,7 @@ export interface IUsb {
     // eslint-disable-next-line no-unused-vars
     value: number,
     // eslint-disable-next-line no-unused-vars
-    length: number
+    length: number,
   ): Promise<IControlTransferInResult>;
   resetDevice(): Promise<IResult>;
   findInterface(
@@ -112,7 +112,7 @@ export interface IUsb {
     // eslint-disable-next-line no-unused-vars
     interfaceClass?: number,
     // eslint-disable-next-line no-unused-vars
-    interfaceSubClass?: number
+    interfaceSubClass?: number,
   ): Promise<IDfuFindInterfaceResult>;
   close(): Promise<IResult>;
 }

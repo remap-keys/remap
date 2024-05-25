@@ -42,32 +42,32 @@ export abstract class AbstractDfuBootloader implements IBootloader {
   abstract isSupportedDevice(): boolean;
 
   abstract read(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     size: number,
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IBootloaderReadResult>;
 
   abstract verify(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     bytes: Uint8Array,
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult>;
 
   abstract write(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     flashBytes: Uint8Array,
     // eslint-disable-next-line no-unused-vars
     eepromBytes: Uint8Array | null,
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    phase: FirmwareWriterPhaseListener,
   ): Promise<IResult>;
 
   protected getDfuTargetMapping(): IDfuTargetMapping {
@@ -82,10 +82,10 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     retries: number,
     honorInterfaceClass: boolean,
     initialAbort: boolean,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IResult> {
     progress(
-      `DFU initialize device: retries:${retries}, honorInterfaceClass:${honorInterfaceClass}, initialAbort:${initialAbort}`
+      `DFU initialize device: retries:${retries}, honorInterfaceClass:${honorInterfaceClass}, initialAbort:${initialAbort}`,
     );
     if (retries < 0) {
       return {
@@ -96,17 +96,17 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     const dfuFindInterfaceResult = await this.usb.findInterface(
       honorInterfaceClass,
       USB_CLASS_APP_SPECIFIC,
-      USB_SUBCLASS_DFU
+      USB_SUBCLASS_DFU,
     );
     if (!dfuFindInterfaceResult.success) {
       return dfuFindInterfaceResult;
     }
     progress(
-      `DFU interface found: Configuration:${dfuFindInterfaceResult.configuration!}, Interface:${dfuFindInterfaceResult.interfaceNumber!}`
+      `DFU interface found: Configuration:${dfuFindInterfaceResult.configuration!}, Interface:${dfuFindInterfaceResult.interfaceNumber!}`,
     );
     await this.usb.setConfigurationAndInterface(
       dfuFindInterfaceResult.configuration!,
-      dfuFindInterfaceResult.interfaceNumber!
+      dfuFindInterfaceResult.interfaceNumber!,
     );
 
     const makeIdleResult = await this.dfuMakeIdle(initialAbort, progress);
@@ -118,7 +118,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         --retries,
         honorInterfaceClass,
         initialAbort,
-        progress
+        progress,
       );
     }
     return { success: true };
@@ -129,7 +129,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     let transferOutResult = await this.usb.controlTransferOut(
       DFU_COMMAND.DOWNLOAD,
       this.transaction++,
-      data
+      data,
     );
     if (!transferOutResult.success) {
       return transferOutResult;
@@ -143,7 +143,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     const controlTransferInResult = await this.usb.controlTransferIn(
       DFU_COMMAND.GETSTATUS,
       0,
-      6
+      6,
     );
     if (!controlTransferInResult.success) {
       return controlTransferInResult;
@@ -162,11 +162,11 @@ export abstract class AbstractDfuBootloader implements IBootloader {
   protected async dfuClearStatus(): Promise<IResult> {
     const dfuClearStatusResult = await this.usb.controlTransferOut(
       DFU_COMMAND.CLRSTATUS,
-      0
+      0,
     );
     if (!dfuClearStatusResult.success) {
       console.error(
-        `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`
+        `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`,
       );
       return dfuClearStatusResult;
     }
@@ -179,7 +179,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     const controlTransferInResult = await this.usb.controlTransferIn(
       DFU_COMMAND.UPLOAD,
       this.transaction++,
-      length
+      length,
     );
     if (!controlTransferInResult.success) {
       return controlTransferInResult;
@@ -194,14 +194,14 @@ export abstract class AbstractDfuBootloader implements IBootloader {
 
   private async dfuMakeIdle(
     initialAbort: boolean,
-    progress: FirmwareWriterProgressListener
+    progress: FirmwareWriterProgressListener,
   ): Promise<IMakeIdleResult> {
     let retries = 4;
     if (initialAbort) {
       progress(`DFU abort command.`);
       const dfuAbortResult = await this.usb.controlTransferOut(
         DFU_COMMAND.ABORT,
-        0
+        0,
       );
       if (!dfuAbortResult.success) {
         return dfuAbortResult;
@@ -212,11 +212,11 @@ export abstract class AbstractDfuBootloader implements IBootloader {
       if (!dfuGetStatusResult.success) {
         const dfuClearStatusResult = await this.usb.controlTransferOut(
           DFU_COMMAND.CLRSTATUS,
-          0
+          0,
         );
         if (!dfuClearStatusResult.success) {
           progress(
-            `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`
+            `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`,
           );
         }
         continue;
@@ -233,11 +233,11 @@ export abstract class AbstractDfuBootloader implements IBootloader {
           }
           const dfuClearStatusResult = await this.usb.controlTransferOut(
             DFU_COMMAND.CLRSTATUS,
-            0
+            0,
           );
           if (!dfuClearStatusResult.success) {
             progress(
-              `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`
+              `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`,
             );
           }
           break;
@@ -250,7 +250,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         case USB_STATE.DFU_MANIFEST: {
           const dfuAbortResult = await this.usb.controlTransferOut(
             DFU_COMMAND.ABORT,
-            0
+            0,
           );
           if (!dfuAbortResult.success) {
             progress(`DFU_COMMAND.ABORT failed: ${dfuAbortResult.error}`);
@@ -260,11 +260,11 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         case USB_STATE.DFU_ERROR: {
           const dfuClearStatusResult = await this.usb.controlTransferOut(
             DFU_COMMAND.CLRSTATUS,
-            0
+            0,
           );
           if (!dfuClearStatusResult.success) {
             progress(
-              `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`
+              `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`,
             );
           }
           break;
@@ -272,11 +272,11 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         case USB_STATE.APP_IDLE: {
           const dfuDetachResult = await this.usb.controlTransferOut(
             DFU_COMMAND.DETACH,
-            DFU_DETACH_TIMEOUT
+            DFU_DETACH_TIMEOUT,
           );
           if (!dfuDetachResult.success) {
             progress(
-              `DFU_COMMAND.DETACH failed: error=${dfuDetachResult.error}`
+              `DFU_COMMAND.DETACH failed: error=${dfuDetachResult.error}`,
             );
           }
           break;

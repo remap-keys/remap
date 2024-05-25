@@ -48,7 +48,7 @@ function Contents(props: ContentsProps) {
       return <EditOrganization />;
     default:
       throw new Error(
-        `Unknown state.organizations.app.phase value: ${props.phase}`
+        `Unknown state.organizations.app.phase value: ${props.phase}`,
       );
   }
 }

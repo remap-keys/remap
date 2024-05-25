@@ -129,10 +129,10 @@ export const HidActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof HidActions[keyof typeof HidActions]
-  | typeof KeymapActions[keyof typeof KeymapActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof HidActions)[keyof typeof HidActions]
+  | (typeof KeymapActions)[keyof typeof KeymapActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -145,7 +145,7 @@ export const hidActionsThunk = {
     (labelLang: KeyboardLabelLang): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities } = getState();
       const layerCount = entities.device.layerCount;
@@ -159,7 +159,7 @@ export const hidActionsThunk = {
           const newKm = KeycodeList.getKeymap(
             km.code,
             labelLang,
-            entities.keyboardDefinition!.customKeycodes
+            entities.keyboardDefinition!.customKeycodes,
           );
           kmap[pos] = newKm;
         });
@@ -172,7 +172,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { hid, entities } = getState();
       const keyboards: IKeyboard[] = entities.keyboards;
@@ -216,14 +216,14 @@ export const hidActionsThunk = {
       dispatch(HidActions.updateKeyboard(targetKbd));
       const keyboardInfo = keyboard.getInformation();
       dispatch(
-        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition),
       );
       await dispatch(
         storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
           keyboardInfo.vendorId,
           keyboardInfo.productId,
-          keyboardInfo.productName
-        )
+          keyboardInfo.productName,
+        ),
       );
     },
 
@@ -231,7 +231,7 @@ export const hidActionsThunk = {
     (keyboard: IKeyboard): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities } = getState();
       const keyboards: IKeyboard[] = entities.keyboards;
@@ -261,14 +261,14 @@ export const hidActionsThunk = {
       dispatch(HidActions.updateKeyboard(targetKbd));
       const keyboardInfo = keyboard.getInformation();
       dispatch(
-        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+        AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition),
       );
       await dispatch(
         storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
           keyboardInfo.vendorId,
           keyboardInfo.productId,
-          keyboardInfo.productName
-        )
+          keyboardInfo.productName,
+        ),
       );
     },
 
@@ -276,7 +276,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { app, entities, storage, auth } = getState();
       const keyboard = entities.keyboard!;
@@ -297,7 +297,7 @@ export const hidActionsThunk = {
           storage.instance!,
           app.localAuthenticationInfo.uid,
           entities.keyboardDefinitionDocument.id,
-          'configure/open'
+          'configure/open',
         );
       }
 
@@ -322,7 +322,7 @@ export const hidActionsThunk = {
           StorageActions.updateKeyboardDefinition({
             ...entities.keyboardDefinition,
             customKeycodes: customKeycodes,
-          })
+          }),
         );
       }
 
@@ -330,8 +330,8 @@ export const hidActionsThunk = {
       if (!viaProtocolVersionResult.success) {
         dispatch(
           NotificationActions.addError(
-            'Fetching the VIA protocol version failed.'
-          )
+            'Fetching the VIA protocol version failed.',
+          ),
         );
         return;
       }
@@ -342,8 +342,8 @@ export const hidActionsThunk = {
       if (viaProtocolVersion < 0x0c) {
         dispatch(
           NotificationActions.addWarn(
-            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. Use "Remap for QMK 0.18" to customize the keyboard.`
-          )
+            `The VIA protocol version of the connected keyboard is ${viaProtocolVersion}. Use "Remap for QMK 0.18" to customize the keyboard.`,
+          ),
         );
         await dispatch(hidActionsThunk.closeOpenedKeyboard());
         dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
@@ -354,7 +354,7 @@ export const hidActionsThunk = {
       const layerResult = await keyboard.fetchLayerCount();
       if (!layerResult.success) {
         dispatch(
-          NotificationActions.addError('Fetching the layer count failed.')
+          NotificationActions.addError('Fetching the layer count failed.'),
         );
         return;
       }
@@ -367,7 +367,7 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
         app.labelLang,
-        customKeycodes
+        customKeycodes,
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
@@ -377,7 +377,7 @@ export const hidActionsThunk = {
         app.labelLang,
         customKeycodes,
         entities.keyboardDefinition!.layouts.keymap,
-        viaProtocolVersion
+        viaProtocolVersion,
       );
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
@@ -385,8 +385,8 @@ export const hidActionsThunk = {
       if (!macroBufferSizeResult.success) {
         dispatch(
           NotificationActions.addError(
-            'Fetching the max macro buffer size failed.'
-          )
+            'Fetching the max macro buffer size failed.',
+          ),
         );
         return;
       }
@@ -395,24 +395,23 @@ export const hidActionsThunk = {
       const macroMaxCountResult = await keyboard.getMacroCount();
       if (!macroMaxCountResult.success) {
         dispatch(
-          NotificationActions.addError('Fetching the max macro count failed.')
+          NotificationActions.addError('Fetching the max macro count failed.'),
         );
         return;
       }
       dispatch(HidActions.updateMacroMaxCount(macroMaxCountResult.count!));
-      const macroBufferBytesResult = await keyboard.fetchMacroBuffer(
-        macroBufferSize
-      );
+      const macroBufferBytesResult =
+        await keyboard.fetchMacroBuffer(macroBufferSize);
       if (!macroBufferBytesResult.success) {
         dispatch(
           NotificationActions.addError(
-            'Fetching the macro buffer bytes failed.'
-          )
+            'Fetching the macro buffer bytes failed.',
+          ),
         );
         return;
       }
       dispatch(
-        HidActions.updateMacroBufferBytes(macroBufferBytesResult.buffer!)
+        HidActions.updateMacroBufferBytes(macroBufferBytesResult.buffer!),
       );
 
       dispatch(AppActions.remapsInit(layerCount));
@@ -427,7 +426,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { hid } = getState();
       const keyboards: IKeyboard[] = await getAuthorizedKeyboard(hid.instance);
@@ -437,14 +436,14 @@ export const hidActionsThunk = {
         dispatch(HidActions.updateKeyboard(keyboard));
         const keyboardInfo = keyboard.getInformation();
         dispatch(
-          AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
+          AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition),
         );
         await dispatch(
           storageActionsThunk.fetchKeyboardDefinitionByDeviceInfo(
             keyboardInfo.vendorId,
             keyboardInfo.productId,
-            keyboardInfo.productName
-          )
+            keyboardInfo.productName,
+          ),
         );
       } else {
         dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
@@ -456,7 +455,7 @@ export const hidActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       await keyboard.close();
       dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
@@ -473,7 +472,7 @@ export const hidActionsThunk = {
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities } = getState();
       const openedKeyboard = entities.keyboard;
@@ -494,7 +493,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { app, entities, storage, auth } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
@@ -509,7 +508,7 @@ export const hidActionsThunk = {
           storage.instance!,
           app.localAuthenticationInfo.uid,
           entities.keyboardDefinitionDocument.id,
-          'configure/flash'
+          'configure/flash',
         );
       }
       const remaps = app.remaps;
@@ -526,8 +525,8 @@ export const hidActionsThunk = {
             dispatch(
               NotificationActions.addError(
                 `Flash error: [${pos}] ${result.error!}`,
-                result.cause
-              )
+                result.cause,
+              ),
             );
             dispatch(HeaderActions.updateFlashing(false));
             return;
@@ -555,15 +554,15 @@ export const hidActionsThunk = {
                 layer,
                 encoderId,
                 true,
-                encoderKeymap.clockwise.code
+                encoderKeymap.clockwise.code,
               );
               if (!result.success) {
                 console.error(result.cause);
                 dispatch(
                   NotificationActions.addError(
                     `Flash error: [${encoderId}-clockwise] ${result.error!}`,
-                    result.cause
-                  )
+                    result.cause,
+                  ),
                 );
                 dispatch(HeaderActions.updateFlashing(false));
                 return;
@@ -574,15 +573,15 @@ export const hidActionsThunk = {
                 layer,
                 encoderId,
                 false,
-                encoderKeymap.counterclockwise.code
+                encoderKeymap.counterclockwise.code,
               );
               if (!result.success) {
                 console.error(result.cause);
                 dispatch(
                   NotificationActions.addError(
                     `Flash error: [${encoderId}-counterclockwise] ${result.error!}`,
-                    result.cause
-                  )
+                    result.cause,
+                  ),
                 );
                 dispatch(HeaderActions.updateFlashing(false));
                 return;
@@ -598,7 +597,7 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
         app.labelLang,
-        entities.keyboardDefinition!.customKeycodes
+        entities.keyboardDefinition!.customKeycodes,
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
@@ -608,7 +607,7 @@ export const hidActionsThunk = {
         app.labelLang,
         entities.keyboardDefinition!.customKeycodes,
         entities.keyboardDefinition!.layouts.keymap,
-        entities.device.viaProtocolVersion
+        entities.device.viaProtocolVersion,
       );
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
@@ -624,7 +623,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       // eslint-disable-next-line no-unused-vars
       const { app, entities } = getState();
@@ -664,7 +663,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { app, entities } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
@@ -675,7 +674,7 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
         app.labelLang,
-        entities.keyboardDefinition!.customKeycodes
+        entities.keyboardDefinition!.customKeycodes,
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
@@ -685,7 +684,7 @@ export const hidActionsThunk = {
         app.labelLang,
         entities.keyboardDefinition!.customKeycodes,
         entities.keyboardDefinition!.layouts.keymap,
-        entities.device.viaProtocolVersion
+        entities.device.viaProtocolVersion,
       );
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
     },
@@ -694,7 +693,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { app, entities } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
@@ -711,7 +710,7 @@ export const hidActionsThunk = {
         entities.keyboardDefinition!.matrix.rows,
         entities.keyboardDefinition!.matrix.cols,
         app.labelLang,
-        entities.keyboardDefinition!.customKeycodes
+        entities.keyboardDefinition!.customKeycodes,
       );
       dispatch(HidActions.updateKeymaps(keymaps));
       const encodersKeymaps: IEncoderKeymaps[] = await loadEncodersKeymap(
@@ -721,7 +720,7 @@ export const hidActionsThunk = {
         app.labelLang,
         entities.keyboardDefinition!.customKeycodes,
         entities.keyboardDefinition!.layouts.keymap,
-        entities.device.viaProtocolVersion
+        entities.device.viaProtocolVersion,
       );
       dispatch(HidActions.updateEncodersKeymaps(encodersKeymaps));
 
@@ -737,7 +736,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities } = getState();
       const keyboard = entities.keyboard!;
@@ -746,8 +745,8 @@ export const hidActionsThunk = {
         console.error(layoutOptionsResult);
         dispatch(
           NotificationActions.addError(
-            `Fetching layout options failed: ${layoutOptionsResult.error}`
-          )
+            `Fetching layout options failed: ${layoutOptionsResult.error}`,
+          ),
         );
         return;
       }
@@ -756,7 +755,7 @@ export const hidActionsThunk = {
       const layoutValueBitLengths = createLayoutValueBitLengths(layoutLabels);
       const layoutOptions = createLayoutOptions(
         layoutOptionValue,
-        layoutValueBitLengths
+        layoutValueBitLengths,
       );
       dispatch(LayoutOptionsActions.restoreLayoutOptions(layoutOptions));
     },
@@ -765,7 +764,7 @@ export const hidActionsThunk = {
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      getState: () => RootState
+      getState: () => RootState,
     ) => {
       const { entities, configure } = getState();
       const keyboard = entities.keyboard!;
@@ -804,7 +803,7 @@ const loadKeymap = async (
   rowCount: number,
   columnCount: number,
   labelLang: KeyboardLabelLang,
-  customKeycodes: ICustomKeycode[] | undefined
+  customKeycodes: ICustomKeycode[] | undefined,
 ): Promise<IKeymaps[]> => {
   const keymaps: IKeymaps[] = [];
   for (let i = 0; i < layerCount; i++) {
@@ -813,16 +812,19 @@ const loadKeymap = async (
       rowCount,
       columnCount,
       labelLang,
-      customKeycodes
+      customKeycodes,
     );
     if (!keymapsResult.success) {
       // TODO: show error message
       dispatch(
-        NotificationActions.addError(keymapsResult.error!, keymapsResult.cause!)
+        NotificationActions.addError(
+          keymapsResult.error!,
+          keymapsResult.cause!,
+        ),
       );
       console.log(keymapsResult);
       console.log(
-        `layer:${i}, rowCount:${rowCount}, colCount: ${columnCount}, layerCount: ${layerCount}`
+        `layer:${i}, rowCount:${rowCount}, colCount: ${columnCount}, layerCount: ${layerCount}`,
       );
       Promise.reject('something wrong in loading kerymaps');
     }
@@ -838,7 +840,7 @@ const loadEncodersKeymap = async (
   labelLang: KeyboardLabelLang,
   customKeycodes: ICustomKeycode[] | undefined,
   keymapDefinition: ((string | KeyOp)[] | { name: string })[],
-  viaProtocolVersion: number
+  viaProtocolVersion: number,
 ): Promise<IEncoderKeymaps[]> => {
   const keymaps: IEncoderKeymaps[] = [];
   const encoderIdList = getEncoderIdList(keymapDefinition);
@@ -848,14 +850,14 @@ const loadEncodersKeymap = async (
         i,
         encoderIdList,
         labelLang,
-        customKeycodes
+        customKeycodes,
       );
       if (!encodersKeymapsResult.success) {
         dispatch(
           NotificationActions.addError(
             encodersKeymapsResult.error!,
-            encodersKeymapsResult.cause!
-          )
+            encodersKeymapsResult.cause!,
+          ),
         );
         console.error(encodersKeymapsResult);
         console.error(`layer:${i}, encoderId:[${encoderIdList.join(' ')}]`);
@@ -870,7 +872,7 @@ const loadEncodersKeymap = async (
 };
 
 const createLayoutValueBitLengths = (
-  layoutLabels: (string | string[])[]
+  layoutLabels: (string | string[])[],
 ): number[] => {
   const result: number[] = [];
   for (let i = 0; i < layoutLabels.length; i++) {
@@ -887,7 +889,7 @@ const createLayoutValueBitLengths = (
 
 const createLayoutOptions = (
   layoutOptionValue: number,
-  bitLengths: number[]
+  bitLengths: number[],
 ): LayoutOption[] => {
   const result: LayoutOption[] = [];
   let targetValue = layoutOptionValue;

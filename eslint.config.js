@@ -24,6 +24,14 @@ export default tseslint.config(
           jsx: true,
         },
       },
+      globals: {
+        HIDDevice: 'readonly',
+      },
+    },
+    rules: {
+      'prettier/prettier': 'warn',
+      'no-unused-vars': 'warn',
+      'react/prop-types': 'warn',
     },
   },
 );

@@ -51,12 +51,12 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
                     this,
                     this.props.selectedLayer!,
                     this.props.selectedEncoderId!,
-                    this.props.selectedKeySwitchOperation!
+                    this.props.selectedKeySwitchOperation!,
                   )
                 : this.props.onClickCancel!.bind(
                     this,
                     this.props.selectedLayer!,
-                    this.props.selectedPos!
+                    this.props.selectedPos!,
                   )
             }
           >

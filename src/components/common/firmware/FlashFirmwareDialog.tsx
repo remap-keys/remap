@@ -32,7 +32,7 @@ type FlashFirmwareDialogProps = OwnProps &
   Partial<FlashFirmwareDialogStateType>;
 
 export default function FlashFirmwareDialog(
-  props: FlashFirmwareDialogProps | Readonly<FlashFirmwareDialogProps>
+  props: FlashFirmwareDialogProps | Readonly<FlashFirmwareDialogProps>,
 ) {
   let logsRef: any = null;
 

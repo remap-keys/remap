@@ -6,7 +6,7 @@ import { concatUint8Array } from '../../../utils/ArrayUtils';
 
 abstract class AbstractCaterinaCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > extends AbstractCommand<TRequest, TResponse> {
   protected async verify(serial: ISerial): Promise<IResult> {
     const readResult = await serial.readBytes(1, this.getVerifyTimeout());
@@ -40,11 +40,11 @@ export class FetchSoftwareIdentifierCommand extends AbstractCaterinaCommand<
   }
 
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IFetchSoftwareIdentifierCommandResponse {
     return {
       softwareIdentifier: new TextDecoder().decode(
-        Uint8Array.from(resultArray)
+        Uint8Array.from(resultArray),
       ),
     };
   }
@@ -137,7 +137,7 @@ export class FetchAutoAddressIncrementSupportCommand extends AbstractCaterinaCom
   }
 
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IFetchAutoAddressIncrementSupportResponse {
     return {
       autoAddressIncrementSupport: resultArray[0] === 'Y'.charCodeAt(0),
@@ -229,7 +229,7 @@ export class SetDeviceTypeCommand extends AbstractCaterinaCommand<
   createRequest(): string | Uint8Array | null {
     return concatUint8Array(
       encodeStringToBytes('T'),
-      Uint8Array.from([this.getRequest()!.deviceType])
+      Uint8Array.from([this.getRequest()!.deviceType]),
     );
   }
 

@@ -19,7 +19,7 @@ export type IResult<V> = ISuccessResult<V> | IErrorResult;
 export type IEmptyResult = IResult<undefined>;
 
 export const isSuccessful = <V>(
-  result: IResult<V>
+  result: IResult<V>,
 ): result is ISuccessResult<V> => {
   return result.type === 'success';
 };
@@ -131,26 +131,26 @@ export interface IKeyboardDefinitionDocument {
 }
 
 export function getGitHubUserDisplayName(
-  definitionDocument: IKeyboardDefinitionDocument
+  definitionDocument: IKeyboardDefinitionDocument,
 ): string {
   return (
     definitionDocument.githubDisplayName ||
     definitionDocument.githubUrl.substring(
-      definitionDocument.githubUrl.lastIndexOf('/') + 1
+      definitionDocument.githubUrl.lastIndexOf('/') + 1,
     )
   );
 }
 
 export function getGitHubUserName(
-  definitionDocument: IKeyboardDefinitionDocument
+  definitionDocument: IKeyboardDefinitionDocument,
 ): string {
   return definitionDocument.githubUrl.substring(
-    definitionDocument.githubUrl.lastIndexOf('/') + 1
+    definitionDocument.githubUrl.lastIndexOf('/') + 1,
   );
 }
 
 export function isApprovedKeyboard(
-  keyboardDefDocument: IKeyboardDefinitionDocument | null | undefined
+  keyboardDefDocument: IKeyboardDefinitionDocument | null | undefined,
 ) {
   if (keyboardDefDocument) {
     return keyboardDefDocument.status === 'approved';
@@ -190,7 +190,7 @@ export interface AppliedKeymapData extends AbstractKeymapData {
 }
 
 export function isAppliedKeymapDataInstance(
-  arg: any
+  arg: any,
 ): arg is AppliedKeymapData {
   return (
     arg !== null &&
@@ -336,7 +336,7 @@ export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
     vendorId: number,
     productId: number,
-    productName: string
+    productName: string,
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocuments(): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
   createKeyboardDefinitionDocument(
@@ -361,10 +361,10 @@ export interface IStorage {
     organizationEvidence: string,
     authorType: IKeyboardDefinitionAuthorType,
     organizationId: string | undefined,
-    status: IKeyboardDefinitionStatus
+    status: IKeyboardDefinitionStatus,
   ): Promise<ICreateKeyboardDefinitionDocumentResult>;
   fetchMyKeyboardDefinitionDocumentById(
-    definitionId: string
+    definitionId: string,
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
   updateKeyboardDefinitionDocument(
     definitionId: string,
@@ -384,12 +384,12 @@ export interface IStorage {
     organizationEvidence: string,
     authorType: IKeyboardDefinitionAuthorType,
     organizationId: string | undefined,
-    status: IKeyboardDefinitionStatus
+    status: IKeyboardDefinitionStatus,
   ): Promise<IEmptyResult>;
   updateKeyboardDefinitionJson(
     definitionId: string,
     name: string,
-    jsonStr: string
+    jsonStr: string,
   ): Promise<IEmptyResult>;
   deleteKeyboardDefinitionDocument(definitionId: string): Promise<IEmptyResult>;
 
@@ -399,22 +399,22 @@ export interface IStorage {
   deleteSavedKeymap(savedKeymapId: string): Promise<IEmptyResult>;
   fetchSharedKeymaps(
     info: IDeviceInformation,
-    withoutMine: boolean
+    withoutMine: boolean,
   ): Promise<ISavedKeymapResult>;
   createOrUpdateAppliedKeymap(
-    keymapData: AbstractKeymapData
+    keymapData: AbstractKeymapData,
   ): Promise<IEmptyResult>;
   fetchMyAppliedKeymaps(
-    info: IDeviceInformation
+    info: IDeviceInformation,
   ): Promise<IAppliedKeymapsResult>;
   fetchSharedKeymap(keymapId: string): Promise<IFetchSharedKeymapResult>;
 
   searchKeyboards(
     features: IKeyboardFeatures[],
-    organizationId: string | undefined
+    organizationId: string | undefined,
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
   fetchKeyboardDefinitionDocumentById(
-    definitionId: string
+    definitionId: string,
   ): Promise<IFetchKeyboardDefinitionDocumentResult>;
   updateKeyboardDefinitionDocumentForCatalog(
     definitionId: string,
@@ -422,25 +422,25 @@ export interface IStorage {
     description: string,
     stores: IStore[],
     websiteUrl: string,
-    additionalDescriptions: IAdditionalDescription[]
+    additionalDescriptions: IAdditionalDescription[],
   ): Promise<IEmptyResult>;
   fetchKeyboardsCreatedBySameAuthor(
-    definitionDocument: IKeyboardDefinitionDocument
+    definitionDocument: IKeyboardDefinitionDocument,
   ): Promise<IFetchMyKeyboardDefinitionDocumentsResult>;
 
   uploadKeyboardCatalogMainImage(
     definitionId: string,
     file: File,
-    progress: (uploadedRate: number) => void
+    progress: (uploadedRate: number) => void,
   ): Promise<IEmptyResult>;
   uploadKeyboardCatalogSubImage(
     definitionId: string,
     file: File,
-    progress: (uploadedRate: number) => void
+    progress: (uploadedRate: number) => void,
   ): Promise<IEmptyResult>;
   deleteKeyboardCatalogSubImage(
     definitionId: string,
-    subImageIndex: number
+    subImageIndex: number,
   ): Promise<IEmptyResult>;
 
   uploadFirmware(
@@ -451,16 +451,16 @@ export interface IStorage {
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
     defaultBootloaderType: IBootloaderType,
-    keyboardName: string
+    keyboardName: string,
   ): Promise<IEmptyResult>;
   fetchFirmwareFileBlob(
     definitionId: string,
     firmwareFilePath: string,
-    firmwareCounterType: IFirmwareCounterType
+    firmwareCounterType: IFirmwareCounterType,
   ): Promise<IFetchFirmwareFileBlobResult>;
   deleteFirmware(
     definitionId: string,
-    firmware: IFirmware
+    firmware: IFirmware,
   ): Promise<IEmptyResult>;
   updateFirmware(
     definitionId: string,
@@ -469,35 +469,35 @@ export interface IStorage {
     firmwareDescription: string,
     firmwareSourceCodeUrl: string,
     flashSupport: boolean,
-    defaultBootloaderType: IBootloaderType
+    defaultBootloaderType: IBootloaderType,
   ): Promise<IEmptyResult>;
 
   fetchOrganizationById(
-    organizationId: string
+    organizationId: string,
   ): Promise<IFetchOrganizationByIdResult>;
   fetchOrganizationsByIds(
-    organizationIds: string[]
+    organizationIds: string[],
   ): Promise<IFetchOrganizationsByIdsResult>;
   fetchMyOrganizations(): Promise<IFetchMyOrganizationsResult>;
   fetchOrganizationMembers(
-    organizationId: string
+    organizationId: string,
   ): Promise<IFetchOrganizationMembersResult>;
   addOrganizationMember(
     organizationId: string,
-    email: string
+    email: string,
   ): Promise<IEmptyResult>;
   deleteOrganizationMember(
     organizationId: string,
-    uid: string
+    uid: string,
   ): Promise<IEmptyResult>;
   fetchAllOrganizations(): Promise<IFetchAllOrganizationsResult>;
 
   createAndFetchBuildableFirmware(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
   ): Promise<IResult<IBuildableFirmware>>;
   fetchBuildableFirmwareFiles(
     keyboardDefinitionId: string,
-    fileType: IBuildableFirmwareFileType
+    fileType: IBuildableFirmwareFileType,
   ): Promise<IResult<IBuildableFirmwareFile[]>>;
   updateBuildableFirmware(
     keyboardDefinitionId: string,
@@ -507,53 +507,53 @@ export interface IStorage {
       keyboardDirectoryName?: string;
       qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
       supportCodeEditing?: boolean;
-    }
+    },
   ): Promise<IResult<IBuildableFirmware>>;
   createBuildableFirmwareFile(
     keyboardDefinitionId: string,
     fileType: IBuildableFirmwareFileType,
-    fileName: string
+    fileName: string,
   ): Promise<IEmptyResult>;
   updateBuildableFirmwareFile(
     keyboardDefinitionId: string,
     file: IBuildableFirmwareFile,
-    fileType: IBuildableFirmwareFileType
+    fileType: IBuildableFirmwareFileType,
   ): Promise<IEmptyResult>;
   deleteBuildableFirmwareFile(
     keyboardDefinitionId: string,
     file: IBuildableFirmwareFile,
-    fileType: IBuildableFirmwareFileType
+    fileType: IBuildableFirmwareFileType,
   ): Promise<IEmptyResult>;
   createFirmwareBuildingTask(
     keyboardDefinitionId: string,
     description: string,
-    parametersJson: string
+    parametersJson: string,
   ): Promise<IEmptyResult>;
   fetchFirmwareBuildingTasks(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
   ): Promise<IResult<IFirmwareBuildingTask[]>>;
   fetchBuiltFirmwareFileBlob(
-    firmwareFilePath: string
+    firmwareFilePath: string,
   ): Promise<IFetchFirmwareFileBlobResult>;
   fetchBuildableFirmware(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
   ): Promise<IResult<IBuildableFirmware | null>>;
   deleteFirmwareBuildingTask(
-    task: IFirmwareBuildingTask
+    task: IFirmwareBuildingTask,
   ): Promise<IEmptyResult>;
   updateFirmwareBuildingTaskDescription(
     taskId: string,
-    description: string
+    description: string,
   ): Promise<IEmptyResult>;
   fetchAllBuildableFirmwares(): Promise<IResult<IBuildableFirmware[]>>;
 
   sendOperationLog(
     uid: string,
     keyboardDefinitionId: string,
-    operation: IOperationLogType
+    operation: IOperationLogType,
   ): Promise<void>;
   fetchKeyboardStatistics(
-    keyboardDefinitionId: string
+    keyboardDefinitionId: string,
   ): Promise<IResult<IKeyboardStatistics>>;
 }
 /* eslint-enable no-unused-vars */

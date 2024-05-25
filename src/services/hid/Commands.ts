@@ -9,7 +9,7 @@ import { ObjectValueListType } from '../../utils/ObjectUtils';
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > implements ICommand
 {
   private readonly request: TRequest;
@@ -19,7 +19,7 @@ export abstract class AbstractCommand<
 
   constructor(
     request: TRequest,
-    responseHandler: ICommandResponseHandler<TResponse>
+    responseHandler: ICommandResponseHandler<TResponse>,
   ) {
     this.request = request;
     this.responseHandler = responseHandler;
@@ -46,7 +46,7 @@ export abstract class AbstractCommand<
       const outputReportId = this.getOutputReportId(device);
       outputUint8Array(
         `Send data (output report ID: ${outputReportId})`,
-        outputReport
+        outputReport,
       );
       await device.sendReport(outputReportId, outputReport);
     } catch (error) {
@@ -72,7 +72,7 @@ export abstract class AbstractCommand<
       }
     }
     console.warn(
-      "The device doesn't return an output report ID value. Use the default value: 0x00"
+      "The device doesn't return an output report ID value. Use the default value: 0x00",
     );
     return 0x00; // Return the default value in Remap.
   }
@@ -547,7 +547,7 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
 
   // eslint-disable-next-line no-unused-vars
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IBleMicroProStoreKeymapPersistentlyResponse {
     return {
       resultCode: resultArray[2],
@@ -597,7 +597,7 @@ export class DynamicKeymapMacroGetBufferSizeCommand extends AbstractCommand<
   }
 
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IDynamicKeymapMacroGetBufferSizeResponse {
     const bufferSize = resultArray[1] << 8 || resultArray[2];
     return {
@@ -703,7 +703,7 @@ export class DynamicKeymapMacroGetBufferCommand extends AbstractCommand<
   }
 
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IDynamicKeymapMacroGetBufferResponse {
     const offset = (resultArray[1] << 8) | resultArray[2];
     const size = resultArray[3];
@@ -753,7 +753,7 @@ export class DynamicKeymapMacroSetBufferCommand extends AbstractCommand<
   }
 
   createResponse(
-    resultArray: Uint8Array
+    resultArray: Uint8Array,
   ): IDynamicKeymapMacroSetBufferResponse {
     const offset = (resultArray[1] << 8) | resultArray[2];
     const size = resultArray[3];

@@ -20,5 +20,5 @@ export type LayoutOptionPopoverActionsType = ReturnType<
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(LayoutOptionPopover);

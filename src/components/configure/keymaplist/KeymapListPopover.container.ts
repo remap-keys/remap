@@ -40,7 +40,7 @@ const mapDispatchToProps = (_dispatch: any) => {
         };
       }[],
       layoutOptions: LayoutOption[],
-      labelLang: KeyboardLabelLang
+      labelLang: KeyboardLabelLang,
     ) => {
       _dispatch(AppActions.updateLangLabel(labelLang));
       _dispatch(KeydiffActions.clearKeydiff());
@@ -50,7 +50,7 @@ const mapDispatchToProps = (_dispatch: any) => {
     },
     createOrUpdateAppliedKeymap: (savedKeymapData: AbstractKeymapData) => {
       _dispatch(
-        storageActionsThunk.createOrUpdateAppliedKeymap(savedKeymapData)
+        storageActionsThunk.createOrUpdateAppliedKeymap(savedKeymapData),
       );
     },
   };

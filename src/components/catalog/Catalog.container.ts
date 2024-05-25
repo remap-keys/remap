@@ -53,8 +53,8 @@ const mapDispatchToProps = (_dispatch: any) => {
       _dispatch(
         storageActionsThunk.fetchKeyboardDefinitionForCatalogById(
           definitionId,
-          nextPhase
-        )
+          nextPhase,
+        ),
       );
     },
     init: () => {
@@ -74,8 +74,8 @@ const mapDispatchToProps = (_dispatch: any) => {
       if (params.organizationId) {
         _dispatch(
           CatalogSearchActions.updateOrganizationId(
-            params.organizationId as string
-          )
+            params.organizationId as string,
+          ),
         );
       }
       if (params.buildSupport) {
@@ -87,72 +87,72 @@ const mapDispatchToProps = (_dispatch: any) => {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardKeyCountType,
-                ALL_KEY_COUNT_TYPE
-              )
+                ALL_KEY_COUNT_TYPE,
+              ),
             );
           }
           if (ALL_SPLIT_TYPE.includes(feature as IKeyboardSplitType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_SPLIT_TYPE
-              )
+                ALL_SPLIT_TYPE,
+              ),
             );
           }
           if (ALL_STAGGERED_TYPE.includes(feature as IKeyboardStaggeredType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_STAGGERED_TYPE
-              )
+                ALL_STAGGERED_TYPE,
+              ),
             );
           }
           if (ALL_LED_TYPE.includes(feature as IKeyboardLedType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_LED_TYPE
-              )
+                ALL_LED_TYPE,
+              ),
             );
           }
           if (ALL_KEY_SWITCH_TYPE.includes(feature as IKeyboardKeySwitchType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_KEY_SWITCH_TYPE
-              )
+                ALL_KEY_SWITCH_TYPE,
+              ),
             );
           }
           if (ALL_HOTSWAP_TYPE.includes(feature as IKeyboardHotswapType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_HOTSWAP_TYPE
-              )
+                ALL_HOTSWAP_TYPE,
+              ),
             );
           }
           if (ALL_OLED_TYPE.includes(feature as IKeyboardOledType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_OLED_TYPE
-              )
+                ALL_OLED_TYPE,
+              ),
             );
           }
           if (ALL_SPEAKER_TYPE.includes(feature as IKeyboardSpeakerType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_SPEAKER_TYPE
-              )
+                ALL_SPEAKER_TYPE,
+              ),
             );
           }
           if (ALL_WIRELESS_TYPE.includes(feature as IKeyboardWirelessType)) {
             _dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
-                ALL_WIRELESS_TYPE
-              )
+                ALL_WIRELESS_TYPE,
+              ),
             );
           }
         });

@@ -2,7 +2,7 @@ import { IBootloaderType, IErrorHandler, IResult } from './Types';
 
 export type FirmwareWriterProgressListener = (
   message: string,
-  lineBreak?: boolean
+  lineBreak?: boolean,
 ) => void;
 
 export interface IFirmwareWriterReadResult extends IResult {
@@ -27,6 +27,6 @@ export interface IFirmwareWriter {
     eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener,
-    errorHandler: IErrorHandler
+    errorHandler: IErrorHandler,
   ): Promise<IResult>;
 }
