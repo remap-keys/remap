@@ -11,7 +11,7 @@ import { Firmware } from './services/firmware/ui/Firmware';
 import Documents from './components/documents/Documents.container';
 import OrganizationManagement from './components/organizations/OrganizationManagement.container';
 import { StyledComponentProps } from '@mui/material/styles';
-import { withStyles } from "@mui/styles"
+import { withStyles } from '@mui/styles';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

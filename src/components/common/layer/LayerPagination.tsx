@@ -1,6 +1,6 @@
 import { Badge, Chip, IconButton } from '@mui/material';
 import { withStyles } from '@mui/styles';
-import { styled } from "@mui/material/styles"
+import { styled } from '@mui/material/styles';
 import usePagination from '@mui/material/usePagination';
 import {
   KeyboardArrowDown,
@@ -122,11 +122,7 @@ export default function LayerPagination(props: LayerPaginationProps) {
             children =
               props.orientation === 'vertical' ? <MoreVert /> : <MoreHoriz />;
           }
-          return (
-            <Li key={index}>
-              {children}
-            </Li>
-          );
+          return <Li key={index}>{children}</Li>;
         })}
       </Ul>
     </nav>
