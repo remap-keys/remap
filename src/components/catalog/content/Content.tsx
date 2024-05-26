@@ -84,7 +84,7 @@ type CategoryKeyboardContentProps = {
   organization: IOrganization | null;
 };
 
-const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
+const CategoryKeyboardContent: React.FC<React.PropsWithChildren<CategoryKeyboardContentProps>> = ({
   phase,
   definitionDocument,
   goToIntroduction,
