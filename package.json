@@ -38,20 +38,21 @@
     "redux-thunk": "^2.3.0",
     "reinvented-color-wheel": "^0.2.10",
     "sass": "^1.49.8",
-    "stackdriver-errors-js": "^0.8.0",
+    "stackdriver-errors-js": "^0.12.0",
     "tss-react": "^3.3.1",
     "typescript": "^4.7.4",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "start": "vite",
+    "build": "vite build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
-    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006 -s public",
-    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook -s public"
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "dev": "vite"
   },
   "eslintConfig": {
     "extends": [
@@ -78,6 +79,8 @@
     "@storybook/node-logger": "^6.1.14",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.14",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -86,7 +89,7 @@
     "@types/downloadjs": "^1.4.2",
     "@types/jest": "^26.0.15",
     "@types/lodash": "^4.14.167",
-    "@types/node": "^14.14.22",
+    "@types/node": "^20.11.5",
     "@types/prop-types": "^15.7.4",
     "@types/qs": "^6.9.6",
     "@types/react": "^17.0.0",
@@ -100,6 +103,7 @@
     "@types/wicg-file-system-access": "^2020.9.7",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "babel-eslint": "^10.1.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
@@ -109,7 +113,9 @@
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "react-scripts": "^4.0.1",
-    "sinon": "^11.1.2"
+    "sinon": "^11.1.2",
+    "vite": "^5.1.1",
+    "vite-tsconfig-paths": "^4.3.1"
   },
   "husky": {
     "hooks": {
