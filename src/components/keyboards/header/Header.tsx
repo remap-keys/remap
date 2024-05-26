@@ -2,7 +2,7 @@
 import React from 'react';
 import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { Logo } from '../../common/logo/Logo.1';
+import { Logo } from '../../common/logo/Logo';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import { Person } from '@mui/icons-material';
 import { getGitHubProviderData } from '../../../services/auth/Auth';

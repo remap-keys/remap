@@ -8,7 +8,7 @@ import {
 } from './KeyboardDefinitionForm.container';
 import './KeyboardDefinitionForm.scss';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
-import { Logo } from '../../common/logo/Logo.1';
+import { Logo } from '../../common/logo/Logo';
 
 type KeyboardDefinitionFormState = {
   initializingKeyboard: boolean;

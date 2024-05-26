@@ -7,7 +7,7 @@ import { ArrowDropDown, Link } from '@mui/icons-material';
 import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
-import { Logo } from '../../common/logo/Logo.1';
+import { Logo } from '../../common/logo/Logo';
 import InfoDialog from '../info/InfoDialog.container';
 import { InfoIcon } from '../../common/icons/InfoIcon';
 import {
