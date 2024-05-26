@@ -40,14 +40,12 @@
     "sass": "^1.49.8",
     "stackdriver-errors-js": "^0.12.0",
     "tss-react": "^3.3.1",
-    "typescript": "^4.7.4",
-    "web-vitals": "^1.1.0"
+    "typescript": "^4.7.4"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "test": "vitest run",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
     "storybook": "start-storybook -p 6006 -s public",
@@ -112,7 +110,6 @@
     "json-schema-to-typescript": "^10.1.2",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
-    "react-scripts": "^4.0.1",
     "sinon": "^11.1.2",
     "vite": "^5.1.1",
     "vite-tsconfig-paths": "^4.3.1"
