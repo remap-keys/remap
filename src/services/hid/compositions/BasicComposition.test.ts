@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { MOD_LEFT } from '../Composition';
 import { BasicComposition } from './BasicComposition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('BasicComposition', () => {
   test('getCode', () => {

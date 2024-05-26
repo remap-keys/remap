@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { LooseKeycodeComposition } from './LooseKeycodeComposition';
-import { MOD_LEFT } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('LooseKeycodeComposition', () => {
   test('getCode', () => {

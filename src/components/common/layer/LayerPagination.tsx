@@ -70,7 +70,8 @@ export default function LayerPagination(props: LayerPaginationProps) {
       <Ul>
         {items.map(({ page, type, selected, ...item }, index) => {
           let children = null;
-          if (type === 'page') {
+
+          if (type === 'page' && page !== null && page !== undefined) {
             children = (
               <StyledBadge
                 color="primary"

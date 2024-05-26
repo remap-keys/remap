@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { LayerTapComposition } from './LayerTapComposition';
-import { MOD_LEFT } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('LayerTapComposition', () => {
   test('getCode', () => {

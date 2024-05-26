@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { defineConfig, loadEnv, Plugin, createFilter, transformWithEsbuild } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -35,9 +35,9 @@ function setEnv(mode: string) {
 		process.env,
 		loadEnv(mode, ".", ["REACT_APP_", "NODE_ENV", "PUBLIC_URL"]),
 	);
-	process.env.NODE_ENV ||= mode;
+	import.meta.env.NODE_ENV ||= mode;
 	const { homepage } = JSON.parse(readFileSync("package.json", "utf-8"));
-	process.env.PUBLIC_URL ||= homepage
+	import.meta.env.PUBLIC_URL ||= homepage
 		? `${
 				homepage.startsWith("http") || homepage.startsWith("/")
 					? homepage
@@ -57,7 +57,7 @@ function envPlugin(): Plugin {
       return {
         define: Object.fromEntries(
           Object.entries(env).map(([key, value]) => [
-            `process.env.${key}`,
+            `import.meta.env.${key}`,
             JSON.stringify(value),
           ]),
         ),
