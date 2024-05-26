@@ -45,7 +45,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "test": "vitest run",
+    "test": "vitest",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
     "storybook": "start-storybook -p 6006 -s public",
@@ -106,13 +106,15 @@
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.21.5",
+    "happy-dom": "^14.11.0",
     "husky": "^4.3.6",
     "json-schema-to-typescript": "^10.1.2",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "sinon": "^11.1.2",
     "vite": "^5.1.1",
-    "vite-tsconfig-paths": "^4.3.1"
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.6.0"
   },
   "husky": {
     "hooks": {

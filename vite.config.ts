@@ -21,6 +21,12 @@ export default defineConfig(({ mode }) => {
       htmlPlugin(mode),
       svgrPlugin(),
     ],
+	test: {
+	  globals: true,
+	  environment: "happy-dom",
+	  root: "src",
+	  setupFiles: "./src/setupTests.ts",
+	},
   };
 });
 
