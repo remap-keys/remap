@@ -7,10 +7,10 @@ import {
 import StackdriverErrorReporter from 'stackdriver-errors-js';
 
 const errorHandler = new StackdriverErrorReporter();
-if (process.env.NODE_ENV === 'production') {
+if (import.meta.env.NODE_ENV === 'production') {
   errorHandler.start({
-    key: process.env.REACT_APP_ERROR_REPORTING_KEY,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    key: import.meta.env.REACT_APP_ERROR_REPORTING_KEY,
+    projectId: import.meta.env.REACT_APP_FIREBASE_PROJECT_ID,
   });
 }
 
@@ -23,7 +23,7 @@ export const errorReportingLogger =
   ) =>
   (action: AnyAction) => {
     if ([NOTIFICATION_ADD_ERROR, NOTIFICATION_ADD_WARN].includes(action.type)) {
-      if (process.env.NODE_ENV === 'production') {
+      if (import.meta.env.NODE_ENV === 'production') {
         let message;
         if (action.value.cause) {
           message = `${action.value.message}: ${action.value.cause.message}`;

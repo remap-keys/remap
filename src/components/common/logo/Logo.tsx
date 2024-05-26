@@ -1,11 +1,10 @@
-import React from 'react';
 import './Logo.scss';
 
 export function Logo(props: {
   width: number;
   color?: string;
   animation?: boolean;
-}) {
+}): JSX.Element {
   const fillColor = props.color ? props.color : 'black';
   const anim = props.animation ? props.animation : false;
   return (

@@ -7,7 +7,7 @@ import predefinedKeys from '../../assets/images/top/predefined-keys.png';
 import diff from '../../assets/images/top/diff.png';
 import keymap from '../../assets/images/top/keymap.png';
 import shareKeymap from '../../assets/images/top/share-keymap.png';
-import textMatrix from '../../assets/images/top/text-matrix.png';
+import testMatrix from '../../assets/images/top/test-matrix.png';
 import macro from '../../assets/images/top/macro.png';
 import firmwareWriting from '../../assets/images/top/firmware-writing.png';
 import buildFirmware from '../../assets/images/top/build-firmware.png';
@@ -37,7 +37,101 @@ type IFeatureCardProps = {
   description: string;
 };
 
-const FeatureCard = (props: IFeatureCardProps) => {
+const featureCards = [
+  {
+    id: 1,
+    image: catalog,
+    imageTitle: 'Keyboard Catalog',
+    title: 'Keyboard Catalog',
+    description:
+      'Find a favorite keyboard supporting Remap by flexible conditions.',
+  },
+  {
+    id: 2,
+    image: buildFirmware,
+    imageTitle: 'Build Firmware',
+    title: 'Build a Firmware',
+    description: 'Build a firmware with your taste quickly.',
+  },
+  {
+    id: 3,
+    image: firmwareWriting,
+    imageTitle: 'Flash a Firmware',
+    title: 'Flash Firmware',
+    description: 'Flash a firmware to microcomputer unit directly.',
+  },
+  {
+    id: 4,
+    image: testMatrix,
+    imageTitle: 'Test Matrix',
+    title: 'Test Matrix',
+    description:
+      'Allows you to test if your changes work after building the keyboard.',
+  },
+  {
+    id: 5,
+    image: keyAssign,
+    imageTitle: 'Easy key Assign',
+    title: 'Easy key assign',
+    description: 'Easily assign complex keycodes including Hold,Tap, and more.',
+  },
+  {
+    id: 6,
+    image: keymap,
+    imageTitle: 'Save/Restore Keymaps',
+    title: 'Save/Restore Keymaps',
+    description:
+      'Apply one of your saved key mappings, on demand, anytime and easily.',
+  },
+  {
+    id: 7,
+    image: shareKeymap,
+    imageTitle: 'Share Keymaps',
+    title: 'Share Keymaps',
+    description: 'Find or share a keymap with the community.',
+  },
+  {
+    id: 8,
+    image: lighting,
+    imageTitle: 'Lighting Control',
+    title: 'Lighting Control',
+    description:
+      'Simple UI for controlling Backlight and Underglow LED lighting.',
+  },
+  {
+    id: 9,
+    image: macro,
+    imageTitle: 'Macro',
+    title: 'Macro Editor',
+    description:
+      'Macro Editor provides a way to define multiple keystrokes easily',
+  },
+  {
+    id: 10,
+    image: keyLayout,
+    imageTitle: 'Key Layout',
+    title: 'Key Layout',
+    description:
+      'Intuitive customization according to the physical key layout.',
+  },
+  {
+    id: 11,
+    image: predefinedKeys,
+    imageTitle: 'Pre-defined Keys',
+    title: 'Pre-defined Keys',
+    description: 'Many Pre-defined keycodes to remap your keyboard easily.',
+  },
+  {
+    id: 12,
+    image: diff,
+    imageTitle: 'Compare Changes',
+    title: 'Compare Changes',
+    description:
+      'Easy-to-understand ui to highlight changes made to the keymap.',
+  },
+];
+
+function FeatureCard(props: IFeatureCardProps): JSX.Element {
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className="card">
@@ -57,12 +151,12 @@ const FeatureCard = (props: IFeatureCardProps) => {
       </Card>
     </Grid>
   );
-};
+}
 
 type OwnProps = {};
 type TopPropsType = OwnProps & Partial<TopActionsType> & Partial<TopStateType>;
 
-export default function Top(props: TopPropsType) {
+export default function Top(props: TopPropsType): JSX.Element {
   useEffect(() => {
     props.initializeMeta!();
   });
@@ -168,90 +262,15 @@ export default function Top(props: TopPropsType) {
         </div>
         <Container className="card-grid" maxWidth="md">
           <Grid container spacing={4}>
-            <FeatureCard
-              key={1}
-              image={catalog}
-              imageTitle="Keyboard Catalog"
-              title="Keyboard Catalog"
-              description="Find a favorite keyboard supporting Remap by flexible conditions."
-            />
-            <FeatureCard
-              key={2}
-              image={buildFirmware}
-              imageTitle="Build Firmware"
-              title="Build a Firmware"
-              description="Build a firmware with your taste quickly."
-            />
-            <FeatureCard
-              key={3}
-              image={firmwareWriting}
-              imageTitle="Flash a Firmware"
-              title="Flash Firmware"
-              description="Flash a firmware to microcomputer unit directly."
-            />
-            <FeatureCard
-              key={4}
-              image={textMatrix}
-              imageTitle="Test Matrix"
-              title="Test Matrix"
-              description="Allows you to test if your changes work after building the keyboard."
-            />
-            <FeatureCard
-              key={5}
-              image={keyAssign}
-              imageTitle="Easy key Assign"
-              title="Easy key assign"
-              description="Easily assign complex keycodes including Hold,Tap, and more."
-            />
-            <FeatureCard
-              key={6}
-              image={keymap}
-              imageTitle="Save/Restore Keymaps"
-              title="Save/Restore Keymaps"
-              description="Apply one of your saved key mappings, on demand, anytime and easily."
-            />
-            <FeatureCard
-              key={7}
-              image={shareKeymap}
-              imageTitle="Share Keymaps"
-              title="Share Keymaps"
-              description="Find or share a keymap with the community."
-            />
-            <FeatureCard
-              key={8}
-              image={lighting}
-              imageTitle="Lighting Control"
-              title="Lighting Control"
-              description="Simple UI for controlling Backlight and Underglow LED lighting."
-            />
-            <FeatureCard
-              key={9}
-              image={macro}
-              imageTitle="Macro"
-              title="Macro Editor"
-              description="Macro Editor provides a way to define multiple keystrokes easily"
-            />
-            <FeatureCard
-              key={10}
-              image={keyLayout}
-              imageTitle="Key Layout"
-              title="Key Layout"
-              description="Intuitive customization according to the physical key layout."
-            />
-            <FeatureCard
-              key={11}
-              image={predefinedKeys}
-              imageTitle="Pre-defined Keys"
-              title="Pre-defined Keys"
-              description="Many Pre-defined keycodes to remap your keyboard easily."
-            />
-            <FeatureCard
-              key={12}
-              image={diff}
-              imageTitle="Compare Changes"
-              title="Compare Changes"
-              description="Easy-to-understand ui to highlight changes made to the keymap."
-            />
+            {featureCards.map((card) => (
+              <FeatureCard
+                key={card.id}
+                image={card.image}
+                imageTitle={card.imageTitle}
+                title={card.title}
+                description={card.description}
+              />
+            ))}
           </Grid>
         </Container>
       </main>

@@ -48,7 +48,7 @@ let analytics: firebase.analytics.Analytics | null;
 try {
   analytics = firebase.analytics();
 } catch (cause) {
-  if (process.env.NODE_ENV === 'production') {
+  if (import.meta.env.NODE_ENV === 'production') {
     throw cause;
   } else {
     analytics = null;

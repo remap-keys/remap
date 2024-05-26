@@ -490,7 +490,7 @@ let firebaseProvider;
 try {
   firebaseProvider = new FirebaseProvider();
 } catch (cause) {
-  if (process.env.NODE_ENV === 'production') {
+  if (import.meta.env.NODE_ENV === 'production') {
     throw cause;
   } else {
     console.warn(
