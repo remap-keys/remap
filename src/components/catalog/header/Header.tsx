@@ -2,7 +2,7 @@
 import React, { SyntheticEvent } from 'react';
 import './Header.scss';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
-import { Logo } from '../../common/logo/Logo.1';
+import { Logo } from '../../common/logo/Logo';
 import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import { IconButton } from '@mui/material';
 import { ArrowBackIos, DeveloperBoard } from '@mui/icons-material';
