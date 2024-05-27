@@ -204,7 +204,7 @@ const KeySwitchOperations = {
   ccw: 'ccw',
 } as const;
 export type IKeySwitchOperation =
-  typeof KeySwitchOperations[keyof typeof KeySwitchOperations];
+  (typeof KeySwitchOperations)[keyof typeof KeySwitchOperations];
 
 export type IBuildableFirmwareCodeParameterType =
   | 'select'

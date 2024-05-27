@@ -280,12 +280,12 @@ export default function EditDefinition(props: EditKeyboardProps) {
                         props.phase === 'edit'
                           ? 0
                           : props.phase === 'catalog'
-                          ? 1
-                          : props.phase === 'firmware'
-                          ? 2
-                          : props.phase === 'build'
-                          ? 3
-                          : 4
+                            ? 1
+                            : props.phase === 'firmware'
+                              ? 2
+                              : props.phase === 'build'
+                                ? 3
+                                : 4
                       }
                       indicatorColor="primary"
                       textColor="primary"
@@ -394,14 +394,14 @@ export default function EditDefinition(props: EditKeyboardProps) {
             {confirmDialogMode === 'upload_json'
               ? 'Are you sure to update the JSON file?'
               : confirmDialogMode === 'save_as_draft'
-              ? 'Are you sure to save this new keyboard as draft?'
-              : confirmDialogMode === 'submit_for_review'
-              ? 'Are you sure to register and submit this new keyboard for review?'
-              : confirmDialogMode === 'delete'
-              ? 'Are you sure to delete?'
-              : confirmDialogMode === 'back_to_draft'
-              ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
-              : `Unknown confirmDialogMode: ${confirmDialogMode}`}
+                ? 'Are you sure to save this new keyboard as draft?'
+                : confirmDialogMode === 'submit_for_review'
+                  ? 'Are you sure to register and submit this new keyboard for review?'
+                  : confirmDialogMode === 'delete'
+                    ? 'Are you sure to delete?'
+                    : confirmDialogMode === 'back_to_draft'
+                      ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
+                      : `Unknown confirmDialogMode: ${confirmDialogMode}`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

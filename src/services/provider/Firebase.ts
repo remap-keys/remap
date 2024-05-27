@@ -1448,15 +1448,18 @@ export class FirebaseProvider implements IStorage, IAuth {
         .where('members', 'array-contains', this.auth.currentUser!.uid)
         .get();
       return successResultOf({
-        organizationMap: querySnapshot.docs.reduce((result, doc) => {
-          result[doc.id] = {
-            id: doc.id,
-            ...doc.data(),
-            created_at: doc.data()!.created_at.toDate(),
-            updated_at: doc.data()!.updated_at.toDate(),
-          } as IOrganization;
-          return result;
-        }, {} as Record<string, IOrganization>),
+        organizationMap: querySnapshot.docs.reduce(
+          (result, doc) => {
+            result[doc.id] = {
+              id: doc.id,
+              ...doc.data(),
+              created_at: doc.data()!.created_at.toDate(),
+              updated_at: doc.data()!.updated_at.toDate(),
+            } as IOrganization;
+            return result;
+          },
+          {} as Record<string, IOrganization>
+        ),
       });
     } catch (error) {
       console.error(error);
@@ -1472,15 +1475,18 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection('profiles')
         .get();
       return successResultOf({
-        organizationMap: querySnapshot.docs.reduce((result, doc) => {
-          result[doc.id] = {
-            id: doc.id,
-            ...doc.data(),
-            created_at: doc.data()!.created_at.toDate(),
-            updated_at: doc.data()!.updated_at.toDate(),
-          } as IOrganization;
-          return result;
-        }, {} as Record<string, IOrganization>),
+        organizationMap: querySnapshot.docs.reduce(
+          (result, doc) => {
+            result[doc.id] = {
+              id: doc.id,
+              ...doc.data(),
+              created_at: doc.data()!.created_at.toDate(),
+              updated_at: doc.data()!.updated_at.toDate(),
+            } as IOrganization;
+            return result;
+          },
+          {} as Record<string, IOrganization>
+        ),
       });
     } catch (error) {
       console.error(error);

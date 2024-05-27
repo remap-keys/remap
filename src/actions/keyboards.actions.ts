@@ -458,7 +458,7 @@ export const KeyboardsEditDefinitionActions = {
 };
 
 type ActionTypes = ReturnType<
-  typeof KeyboardsAppActions[keyof typeof KeyboardsAppActions]
+  (typeof KeyboardsAppActions)[keyof typeof KeyboardsAppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
