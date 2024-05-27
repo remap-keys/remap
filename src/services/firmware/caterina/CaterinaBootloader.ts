@@ -226,9 +226,8 @@ export class CaterinaBootloader implements IBootloader {
     mcu?: IMcu;
   }> {
     progress('Initialize a bootloader.');
-    const detectResult = await this.fetchAndCheckBootloaderInformation(
-      progress
-    );
+    const detectResult =
+      await this.fetchAndCheckBootloaderInformation(progress);
     if (!detectResult.success) {
       progress('Caterina bootloader is not detected.');
       return detectResult;
