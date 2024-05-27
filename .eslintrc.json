@@ -21,7 +21,13 @@
     "prettier/react"
   ],
   "rules": {
-    "prettier/prettier": "warn",
+    "prettier/prettier": [
+      "warn",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ],
     "no-unused-vars": "warn",
     "react/prop-types": "warn"
   },

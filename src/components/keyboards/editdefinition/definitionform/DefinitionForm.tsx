@@ -456,10 +456,10 @@ function FirmwareCodePlaceField(props: FirmwareCodePlaceFieldProps) {
       props.firmwareCodePlace === FirmwareCodePlace.qmk
         ? 'GitHub: qmk/qmk_firmware'
         : props.firmwareCodePlace === FirmwareCodePlace.forked
-        ? 'GitHub: Your forked repository from qmk/qmk_firmware'
-        : props.firmwareCodePlace === FirmwareCodePlace.other
-        ? 'Other'
-        : 'Unknown';
+          ? 'GitHub: Your forked repository from qmk/qmk_firmware'
+          : props.firmwareCodePlace === FirmwareCodePlace.other
+            ? 'Other'
+            : 'Unknown';
     return (
       <div className="edit-definition-form-row">
         <TextField

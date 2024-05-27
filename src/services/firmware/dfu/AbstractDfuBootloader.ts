@@ -42,7 +42,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
   abstract isSupportedDevice(): boolean;
 
   abstract read(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     size: number,
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
@@ -51,7 +51,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
   ): Promise<IBootloaderReadResult>;
 
   abstract verify(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     bytes: Uint8Array,
     // eslint-disable-next-line no-unused-vars
     progress: FirmwareWriterProgressListener,
@@ -60,7 +60,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
   ): Promise<IResult>;
 
   abstract write(
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
     flashBytes: Uint8Array,
     // eslint-disable-next-line no-unused-vars
     eepromBytes: Uint8Array | null,

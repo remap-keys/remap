@@ -118,14 +118,14 @@ export default class KeyEventCapture extends React.Component<
       e.location == KeyboardEvent.DOM_KEY_LOCATION_LEFT
         ? `l${e.key}`
         : e.location == KeyboardEvent.DOM_KEY_LOCATION_RIGHT
-        ? `r${e.key}`
-        : e.location == KeyboardEvent.DOM_KEY_LOCATION_NUMPAD
-        ? `kp_${e.key}`
-        : e.key === 'Delete'
-        ? `Del`
-        : e.key === ' '
-        ? `Space`
-        : e.key;
+          ? `r${e.key}`
+          : e.location == KeyboardEvent.DOM_KEY_LOCATION_NUMPAD
+            ? `kp_${e.key}`
+            : e.key === 'Delete'
+              ? `Del`
+              : e.key === ' '
+                ? `Space`
+                : e.key;
     keyString = keyString.toLowerCase();
     const keyLabels = KeyLabelLangs.getKeyLabels(this.props.labelLang!);
     let code = keyLabels.find(

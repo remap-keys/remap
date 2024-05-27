@@ -41,4 +41,4 @@ export default class FlashButton extends React.Component<
 }
 
 const FlashButtonStates = ['disable', 'enable', 'flashing', 'success'] as const;
-export type FlashButtonState = typeof FlashButtonStates[number];
+export type FlashButtonState = (typeof FlashButtonStates)[number];

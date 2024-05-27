@@ -145,10 +145,10 @@ export const CatalogKeyboardActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof CatalogKeyboardActions[keyof typeof CatalogKeyboardActions]
-  | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof CatalogKeyboardActions)[keyof typeof CatalogKeyboardActions]
+  | (typeof LayoutOptionsActions)[keyof typeof LayoutOptionsActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -326,9 +326,10 @@ export const catalogActionsThunk = {
     ) => {
       dispatch(StorageActions.updateFirmwareBuildingTasks([]));
       const { storage } = getState();
-      const result = await storage.instance!.fetchFirmwareBuildingTasks(
-        keyboardDefinitionId
-      );
+      const result =
+        await storage.instance!.fetchFirmwareBuildingTasks(
+          keyboardDefinitionId
+        );
       if (isError(result)) {
         dispatch(NotificationActions.addError(result.error!, result.cause));
         return;

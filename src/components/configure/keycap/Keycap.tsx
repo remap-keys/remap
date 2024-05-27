@@ -136,8 +136,8 @@ export default class Keycap extends React.Component<
       ? keySwitchOperation === 'click'
         ? this.props.keymap
         : keySwitchOperation === 'cw'
-        ? this.props.cwKeymap
-        : this.props.ccwKeymap
+          ? this.props.cwKeymap
+          : this.props.ccwKeymap
       : this.props.keymap;
   }
 
@@ -148,8 +148,8 @@ export default class Keycap extends React.Component<
       ? keySwitchOperation === 'click'
         ? this.props.remap
         : keySwitchOperation === 'cw'
-        ? this.props.cwRemap
-        : this.props.ccwRemap
+          ? this.props.cwRemap
+          : this.props.ccwRemap
       : this.props.remap;
   }
 

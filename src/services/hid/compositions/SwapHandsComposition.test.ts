@@ -8,7 +8,7 @@ import {
   OP_SH_TOGGLE,
   SwapHandsComposition,
 } from './SwapHandsComposition';
-import { MOD_LEFT } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('SwapHandsComposition', () => {
   test('getCode', () => {
