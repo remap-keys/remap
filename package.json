@@ -108,7 +108,7 @@
     "husky": "^4.3.6",
     "json-schema-to-typescript": "^10.1.2",
     "lint-staged": "^10.5.3",
-    "prettier": "^2.2.1",
+    "prettier": "^3.2.5",
     "react-scripts": "^4.0.1",
     "sinon": "^11.1.2"
   },
