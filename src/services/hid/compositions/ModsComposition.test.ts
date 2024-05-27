@@ -2,11 +2,11 @@ import {
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
-  MOD_LEFT,
   MOD_SFT,
   ModDirection,
 } from '../Composition';
 import { ModsComposition } from './ModsComposition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('ModsComposition', () => {
   test('getCode', () => {

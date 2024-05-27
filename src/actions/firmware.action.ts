@@ -120,9 +120,9 @@ export const FlashFirmwareDialogActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof LayoutOptionsActions[keyof typeof LayoutOptionsActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof LayoutOptionsActions)[keyof typeof LayoutOptionsActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,

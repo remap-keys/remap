@@ -54,8 +54,8 @@ export const MacroEditorActions = {
 const M0_KEY_CODE = QK_MACRO_MIN;
 
 type ActionTypes = ReturnType<
-  | typeof MacroEditorActions[keyof typeof MacroEditorActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
+  | (typeof MacroEditorActions)[keyof typeof MacroEditorActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,

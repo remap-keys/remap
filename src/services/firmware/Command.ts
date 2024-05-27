@@ -19,7 +19,7 @@ export interface ICommandResponseHandler<T extends ICommandResponse> {
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > {
   private readonly request: TRequest | undefined;
 

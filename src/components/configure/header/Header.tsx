@@ -259,7 +259,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 }
 
 const FlashButtonStates = ['disable', 'enable', 'flashing', 'success'] as const;
-type FlashButtonState = typeof FlashButtonStates[number];
+type FlashButtonState = (typeof FlashButtonStates)[number];
 
 type IInfoDialogButton = {
   keyboardDefinitionDocument: IKeyboardDefinitionDocument | null | undefined;

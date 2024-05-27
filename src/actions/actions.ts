@@ -137,7 +137,7 @@ export const KeydiffActions = {
 };
 
 const NotifyType = ['success', 'warning', 'error', 'info'] as const;
-export type NotificationType = typeof NotifyType[number];
+export type NotificationType = (typeof NotifyType)[number];
 export type NotificationItem = {
   key: string;
   type: NotificationType;
@@ -361,8 +361,8 @@ export const AppActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof AppActions[keyof typeof AppActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,

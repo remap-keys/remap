@@ -91,7 +91,7 @@ export const EncoderDirections = {
   counterclockwise: 'counterclockwise',
 } as const;
 export type IEncoderDirection =
-  typeof EncoderDirections[keyof typeof EncoderDirections];
+  (typeof EncoderDirections)[keyof typeof EncoderDirections];
 
 export type IEncoderKeymap = {
   clockwise: IKeymap;

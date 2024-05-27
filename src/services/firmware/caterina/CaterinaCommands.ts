@@ -6,7 +6,7 @@ import { concatUint8Array } from '../../../utils/ArrayUtils';
 
 abstract class AbstractCaterinaCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > extends AbstractCommand<TRequest, TResponse> {
   protected async verify(serial: ISerial): Promise<IResult> {
     const readResult = await serial.readBytes(1, this.getVerifyTimeout());

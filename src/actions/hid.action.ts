@@ -129,10 +129,10 @@ export const HidActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof HidActions[keyof typeof HidActions]
-  | typeof KeymapActions[keyof typeof KeymapActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof AppActions[keyof typeof AppActions]
+  | (typeof HidActions)[keyof typeof HidActions]
+  | (typeof KeymapActions)[keyof typeof KeymapActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -400,9 +400,8 @@ export const hidActionsThunk = {
         return;
       }
       dispatch(HidActions.updateMacroMaxCount(macroMaxCountResult.count!));
-      const macroBufferBytesResult = await keyboard.fetchMacroBuffer(
-        macroBufferSize
-      );
+      const macroBufferBytesResult =
+        await keyboard.fetchMacroBuffer(macroBufferSize);
       if (!macroBufferBytesResult.success) {
         dispatch(
           NotificationActions.addError(

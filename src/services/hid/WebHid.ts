@@ -211,9 +211,8 @@ export class Keyboard implements IKeyboard {
       });
     });
     try {
-      const responses = await Promise.all<IDynamicKeymapGetEncoderResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapGetEncoderResponse>(commandResults);
       const keymap: IEncoderKeymaps = {};
       let i = 0;
       encoderIds.forEach((encoderId) => {
@@ -288,9 +287,8 @@ export class Keyboard implements IKeyboard {
       offset = offset + 28;
     } while (remainingSize !== 0);
     try {
-      const responses = await Promise.all<IDynamicKeymapReadBufferResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapReadBufferResponse>(commandResults);
       let row = 0;
       let column = 0;
       const keymapMap: { [pos: string]: IKeymap } = {};
@@ -1030,9 +1028,8 @@ export class Keyboard implements IKeyboard {
       offset = offset + 28;
     } while (remainingSize !== 0);
     try {
-      const responses = await Promise.all<IDynamicKeymapMacroGetBufferResponse>(
-        commandResults
-      );
+      const responses =
+        await Promise.all<IDynamicKeymapMacroGetBufferResponse>(commandResults);
       const buffer = new Uint8Array(bufferSize);
       let pos = 0;
       responses.forEach((response) => {
