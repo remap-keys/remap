@@ -3257,99 +3257,6 @@ __metadata:
   checksum: 10c0/b06f65fcef9dbfe7487fd53e38f12684267e91c8bc667a6c9621c207f42ee97d48059039ee8dae0327df509234b6f09bf5b940b34b71ee453d307f53d84e99b2
   languageName: node
   linkType: hard
-    pako: "npm:^1.0.10"
-  checksum: 10c0/9c300c513c1089e561c0cccac01f396a24efb9b0e9c922a39248cb09dfced70c05b9facdfce11a7f22cbedb4129593630a18111b90a57ef34ea4c3df98f2ac1d
-  languageName: node
-  linkType: hard
-
-"@pkgjs/parseargs@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "@pkgjs/parseargs@npm:0.11.0"
-  checksum: 10c0/5bd7576bb1b38a47a7fc7b51ac9f38748e772beebc56200450c4a817d712232b8f1d3ef70532c80840243c657d491cf6a6be1e3a214cff907645819fdc34aadd
-  languageName: node
-  linkType: hard
-
-"@pmmmwh/react-refresh-webpack-plugin@npm:0.4.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.4.3"
-  dependencies:
-    ansi-html: "npm:^0.0.7"
-    error-stack-parser: "npm:^2.0.6"
-    html-entities: "npm:^1.2.1"
-    native-url: "npm:^0.2.6"
-    schema-utils: "npm:^2.6.5"
-    source-map: "npm:^0.7.3"
-  peerDependencies:
-    "@types/webpack": 4.x
-    react-refresh: ">=0.8.3 <0.10.0"
-    sockjs-client: ^1.4.0
-    type-fest: ^0.13.1
-    webpack: ">=4.43.0 <6.0.0"
-    webpack-dev-server: 3.x
-    webpack-hot-middleware: 2.x
-    webpack-plugin-serve: 0.x || 1.x
-  peerDependenciesMeta:
-    "@types/webpack":
-      optional: true
-    sockjs-client:
-      optional: true
-    type-fest:
-      optional: true
-    webpack-dev-server:
-      optional: true
-    webpack-hot-middleware:
-      optional: true
-    webpack-plugin-serve:
-      optional: true
-  checksum: 10c0/c59979ebc3c0dbbfdc37eb53e238d050c519ba3c99e50ecc2953c5243fbc3ae4260956d79282aeaca0e33043564d345f8fc140788846d33257e905c2470c5f60
-  languageName: node
-  linkType: hard
-
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1":
-  version: 0.5.4
-  resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.4"
-  dependencies:
-    ansi-html-community: "npm:^0.0.8"
-    common-path-prefix: "npm:^3.0.0"
-    core-js-pure: "npm:^3.8.1"
-    error-stack-parser: "npm:^2.0.6"
-    find-up: "npm:^5.0.0"
-    html-entities: "npm:^2.1.0"
-    loader-utils: "npm:^2.0.0"
-    schema-utils: "npm:^3.0.0"
-    source-map: "npm:^0.7.3"
-  peerDependencies:
-    "@types/webpack": 4.x || 5.x
-    react-refresh: ">=0.10.0 <1.0.0"
-    sockjs-client: ^1.4.0
-    type-fest: ">=0.17.0 <3.0.0"
-    webpack: ">=4.43.0 <6.0.0"
-    webpack-dev-server: 3.x || 4.x
-    webpack-hot-middleware: 2.x
-    webpack-plugin-serve: 0.x || 1.x
-  peerDependenciesMeta:
-    "@types/webpack":
-      optional: true
-    sockjs-client:
-      optional: true
-    type-fest:
-      optional: true
-    webpack-dev-server:
-      optional: true
-    webpack-hot-middleware:
-      optional: true
-    webpack-plugin-serve:
-      optional: true
-  checksum: 10c0/305f7f9ed8164f787d97a2e2c2a301c7b6c9fb193e8ddf83a3e47cc9231944e8904b53243cf69ac85f44d19f1517cf25765c4c3c19159a77be9c9f8972e7f2da
-  languageName: node
-  linkType: hard
-
-"@popperjs/core@npm:^2.4.4, @popperjs/core@npm:^2.5.4, @popperjs/core@npm:^2.6.0":
-  version: 2.11.2
-  resolution: "@popperjs/core@npm:2.11.2"
-  checksum: 10c0/b06f65fcef9dbfe7487fd53e38f12684267e91c8bc667a6c9621c207f42ee97d48059039ee8dae0327df509234b6f09bf5b940b34b71ee453d307f53d84e99b2
-  languageName: node
-  linkType: hard
 
 "@protobufjs/aspromise@npm:^1.1.1, @protobufjs/aspromise@npm:^1.1.2":
   version: 1.1.2
@@ -5900,121 +5807,6 @@ __metadata:
     notistack: "npm:^2.0.3"
     pdf-lib: "npm:^1.16.0"
     prettier: "npm:^3.2.5"
-    prop-types: "npm:^15.7.2"
-    qs: "npm:^6.10.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-    react-draggable: "npm:^4.4.3"
-    react-google-charts: "npm:^4.0.1"
-    react-helmet-async: "npm:^1.0.9"
-    react-image-gallery: "npm:^1.2.7"
-    react-redux: "npm:^7.2.2"
-    react-router-dom: "npm:^6.2.1"
-    react-scripts: "npm:^4.0.1"
-    redux: "npm:^4.0.5"
-    redux-devtools-extension: "npm:^2.13.8"
-    redux-thunk: "npm:^2.3.0"
-    reinvented-color-wheel: "npm:^0.2.10"
-    sass: "npm:^1.49.8"
-    sinon: "npm:^11.1.2"
-    stackdriver-errors-js: "npm:^0.8.0"
-    tss-react: "npm:^3.3.1"
-    typescript: "npm:^4.7.4"
-    web-vitals: "npm:^1.1.0"
-  languageName: unknown
-  linkType: soft
-
-"abab@npm:^2.0.3, abab@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "abab@npm:2.0.5"
-  checksum: 10c0/6d70f6a1362a1bd31d8033cfc71c1930e336758b2ac517192338e76c3ea55f53a6aafad60162e8152c4e45c95e0a1499888e803fed9060764c4e102587c497a8
-  languageName: node
-  linkType: hard
-
-"abbrev@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "abbrev@npm:2.0.0"
-  checksum: 10c0/f742a5a107473946f426c691c08daba61a1d15942616f300b5d32fd735be88fef5cba24201757b6c407fd564555fb48c751cfa33519b2605c8a7aadd22baf372
-  languageName: node
-  linkType: hard
-
-"accepts@npm:~1.3.4, accepts@npm:~1.3.5, accepts@npm:~1.3.8":
-  version: 1.3.8
-  resolution: "accepts@npm:1.3.8"
-"@xtuc/ieee754@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@xtuc/ieee754@npm:1.2.0"
-  checksum: 10c0/a8565d29d135039bd99ae4b2220d3e167d22cf53f867e491ed479b3f84f895742d0097f935b19aab90265a23d5d46711e4204f14c479ae3637fbf06c4666882f
-  languageName: node
-  linkType: hard
-
-"@xtuc/long@npm:4.2.2":
-  version: 4.2.2
-  resolution: "@xtuc/long@npm:4.2.2"
-  checksum: 10c0/8582cbc69c79ad2d31568c412129bf23d2b1210a1dfb60c82d5a1df93334da4ee51f3057051658569e2c196d8dc33bc05ae6b974a711d0d16e801e1d0647ccd1
-  languageName: node
-  linkType: hard
-
-"Remap@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "Remap@workspace:."
-  dependencies:
-    "@emotion/react": "npm:^11.7.1"
-    "@emotion/styled": "npm:^11.6.0"
-    "@mui/icons-material": "npm:^5.2.5"
-    "@mui/lab": "npm:^5.0.0-alpha.64"
-    "@mui/material": "npm:^5.2.8"
-    "@mui/styles": "npm:^5.2.3"
-    "@pdf-lib/fontkit": "npm:^1.1.1"
-    "@storybook/addon-actions": "npm:^6.1.14"
-    "@storybook/addon-essentials": "npm:^6.1.15"
-    "@storybook/addon-links": "npm:^6.1.14"
-    "@storybook/node-logger": "npm:^6.1.14"
-    "@storybook/preset-create-react-app": "npm:^3.1.5"
-    "@storybook/react": "npm:^6.1.14"
-    "@testing-library/jest-dom": "npm:^5.11.4"
-    "@testing-library/react": "npm:^11.1.0"
-    "@testing-library/user-event": "npm:^12.1.10"
-    "@types/ajv": "npm:^1.0.0"
-    "@types/axios": "npm:^0.14.0"
-    "@types/downloadjs": "npm:^1.4.2"
-    "@types/jest": "npm:^26.0.15"
-    "@types/lodash": "npm:^4.14.167"
-    "@types/moment": "npm:^2.13.0"
-    "@types/node": "npm:^14.14.22"
-    "@types/prop-types": "npm:^15.7.4"
-    "@types/qs": "npm:^6.9.6"
-    "@types/react": "npm:^17.0.0"
-    "@types/react-dom": "npm:^17.0.0"
-    "@types/react-helmet-async": "npm:^1.0.3"
-    "@types/react-image-gallery": "npm:^1.0.4"
-    "@types/react-redux": "npm:^7.1.14"
-    "@types/react-router-dom": "npm:^5.1.6"
-    "@types/sinon": "npm:^10.0.2"
-    "@types/w3c-web-hid": "npm:^1.0.1"
-    "@types/w3c-web-serial": "npm:^1.0.2"
-    "@types/w3c-web-usb": "npm:^1.0.5"
-    "@types/wicg-file-system-access": "npm:^2020.9.7"
-    "@typescript-eslint/eslint-plugin": "npm:^4.10.0"
-    "@typescript-eslint/parser": "npm:^4.10.0"
-    ajv: "npm:^7.0.3"
-    axios: "npm:^0.21.1"
-    babel-eslint: "npm:^10.1.0"
-    downloadjs: "npm:^1.4.7"
-    eslint-config-prettier: "npm:^7.0.0"
-    eslint-plugin-prettier: "npm:^3.3.0"
-    eslint-plugin-react: "npm:^7.21.5"
-    firebase: "npm:^8.2.1"
-    husky: "npm:^4.3.6"
-    immer: "npm:^8.0.0"
-    intel-hex: "npm:^0.1.2"
-    json-schema-to-typescript: "npm:^10.1.2"
-    lint-staged: "npm:^10.5.3"
-    moment: "npm:^2.29.1"
-    moment-timezone: "npm:^0.5.32"
-    notistack: "npm:^2.0.3"
-    pdf-lib: "npm:^1.16.0"
-    prettier: "npm:^2.2.1"
     prop-types: "npm:^15.7.2"
     qs: "npm:^6.10.1"
     react: "npm:^18.3.1"
@@ -10062,27 +9854,6 @@ __metadata:
 "eslint-plugin-prettier@npm:^5.1.3":
   version: 5.1.3
   resolution: "eslint-plugin-prettier@npm:5.1.3"
-    "@babel/runtime": "npm:^7.16.3"
-    aria-query: "npm:^4.2.2"
-    array-includes: "npm:^3.1.4"
-    ast-types-flow: "npm:^0.0.7"
-    axe-core: "npm:^4.3.5"
-    axobject-query: "npm:^2.2.0"
-    damerau-levenshtein: "npm:^1.0.7"
-    emoji-regex: "npm:^9.2.2"
-    has: "npm:^1.0.3"
-    jsx-ast-utils: "npm:^3.2.1"
-    language-tags: "npm:^1.0.5"
-    minimatch: "npm:^3.0.4"
-  peerDependencies:
-    eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
-  checksum: 10c0/320bafc9d27279b72b8c25db4d188690d9b334f69cfa3bd33ff17f7c7dfe89dc31b463c57e79a932a218dba771137c541f88af93cdb36ae7552bc051cef8a591
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-prettier@npm:^3.3.0":
-  version: 3.4.1
-  resolution: "eslint-plugin-prettier@npm:3.4.1"
   dependencies:
     prettier-linter-helpers: "npm:^1.0.0"
     synckit: "npm:^0.8.6"
@@ -10097,29 +9868,6 @@ __metadata:
     eslint-config-prettier:
       optional: true
   checksum: 10c0/f45d5fc1fcfec6b0cf038a7a65ddd10a25df4fe3f9e1f6b7f0d5100e66f046a26a2492e69ee765dddf461b93c114cf2e1eb18d4970aafa6f385448985c136e09
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-react-hooks@npm:^4.2.0":
-  version: 4.3.0
-  resolution: "eslint-plugin-react-hooks@npm:4.3.0"
-  peerDependencies:
-    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
-  checksum: 10c0/fdf491b182fd0815c95af6b5a9ef9de0640cbf0e446b2886899769470276c9a69be35a2aac42b2ada3e26b73cefee23b1eb4a93f27ee984b5763ee4718509629
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-react@npm:^7.21.5":
-  version: 7.28.0
-  resolution: "eslint-plugin-react@npm:7.28.0"
-    prettier-linter-helpers: "npm:^1.0.0"
-  peerDependencies:
-    eslint: ">=5.0.0"
-    prettier: ">=1.13.0"
-  peerDependenciesMeta:
-    eslint-config-prettier:
-      optional: true
-  checksum: 10c0/b2599dd22b5b0d2e3baffc94ba55a33ed525d642125d657fbc8511a2458146bdcc2bc810418713bb0049e37765def92b51213a4467984f4c758807bea224d0c5
   languageName: node
   linkType: hard
 
@@ -17374,34 +17122,6 @@ __metadata:
 "pretty-error@npm:^2.1.1":
   version: 2.1.2
   resolution: "pretty-error@npm:2.1.2"
-"prettier@npm:>=2.2.1 <=2.3.0":
-  version: 2.3.0
-  resolution: "prettier@npm:2.3.0"
-  bin:
-    prettier: bin-prettier.js
-  checksum: 10c0/b9f434af2f25a37aad0b133894827e980885eb8bf317444c9dde0401ed2c7f463f9996d691f5ee5a0a4450ab46a894cd6557516b561e2522821522ce1f4c6668
-  languageName: node
-  linkType: hard
-
-"prettier@npm:^2.2.0, prettier@npm:^2.2.1":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
-  bin:
-    prettier: bin-prettier.js
-  checksum: 10c0/fa9750193b3fcdb4bd54ba4e57996d335de4cd492d277539b6ffb6d146c8b6d3c3dc264b75021914c99c91574643637f607da08ef4588ef30a7b78d14326f470
-  languageName: node
-  linkType: hard
-
-"pretty-bytes@npm:^5.3.0":
-  version: 5.6.0
-  resolution: "pretty-bytes@npm:5.6.0"
-  checksum: 10c0/f69f494dcc1adda98dbe0e4a36d301e8be8ff99bfde7a637b2ee2820e7cb583b0fc0f3a63b0e3752c01501185a5cf38602c7be60da41bdf84ef5b70e89c370f3
-  languageName: node
-  linkType: hard
-
-"pretty-error@npm:^2.1.1":
-  version: 2.1.2
-  resolution: "pretty-error@npm:2.1.2"
   dependencies:
     lodash: "npm:^4.17.20"
     renderkid: "npm:^2.0.4"
@@ -20381,24 +20101,6 @@ __metadata:
 "synckit@npm:^0.8.6":
   version: 0.8.8
   resolution: "synckit@npm:0.8.8"
-    call-bind: "npm:^1.0.2"
-    get-symbol-description: "npm:^1.0.0"
-    has-symbols: "npm:^1.0.2"
-    object.getownpropertydescriptors: "npm:^2.1.2"
-  checksum: 10c0/6009bb54faa50fd899772baa0c047d4d4fc85cd03b7e2b5e5385f23f4688879518103ab4a95a03b0b25e4c89c10cf0bb16c159865df2c932682cc56502693650
-  languageName: node
-  linkType: hard
-
-"synchronous-promise@npm:^2.0.15":
-  version: 2.0.15
-  resolution: "synchronous-promise@npm:2.0.15"
-  checksum: 10c0/967778e7570dc496d7630a89db3bada38876574797c9b272ee50f6ecd7afcebf450268b4bb48a84274d213ab9fd4865dbcc6edeb279f9ecaddf189d5446cbe43
-  languageName: node
-  linkType: hard
-
-"table@npm:^6.0.9":
-  version: 6.8.0
-  resolution: "table@npm:6.8.0"
   dependencies:
     "@pkgr/core": "npm:^0.1.0"
     tslib: "npm:^2.6.2"
@@ -20410,25 +20112,6 @@ __metadata:
   version: 6.8.0
   resolution: "table@npm:6.8.0"
   dependencies:
-    ajv: "npm:^8.0.1"
-    lodash.truncate: "npm:^4.4.2"
-    slice-ansi: "npm:^4.0.0"
-    string-width: "npm:^4.2.3"
-    strip-ansi: "npm:^6.0.1"
-  checksum: 10c0/e03ba3ea1d625368d196eeedebaf0df072bbd8ce1604fd149cd5f3d988487062dda016638099df952bb28cefc3418ab108fcf0084bef7a9121d20985d6358298
-  languageName: node
-  linkType: hard
-
-"tapable@npm:^1.0.0, tapable@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "tapable@npm:1.1.3"
-  checksum: 10c0/c9f0265e55e45821ec672b9b9ee8a35d95bf3ea6b352199f8606a2799018e89cfe4433c554d424b31fc67c4be26b05d4f36dc3c607def416fdb2514cd63dba50
-  languageName: node
-  linkType: hard
-
-"tar@npm:^6.0.2":
-  version: 6.1.11
-  resolution: "tar@npm:6.1.11"
     ajv: "npm:^8.0.1"
     lodash.truncate: "npm:^4.4.2"
     slice-ansi: "npm:^4.0.0"
@@ -20870,31 +20553,6 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
-  languageName: node
-  linkType: hard
-
-"tss-react@npm:^3.3.1":
-  version: 3.4.1
-  resolution: "tss-react@npm:3.4.1"
-    "@types/json5": "npm:^0.0.29"
-    json5: "npm:^1.0.1"
-    minimist: "npm:^1.2.0"
-    strip-bom: "npm:^3.0.0"
-  checksum: 10c0/3e3ccdd48868cd6e9ba2ebbd0ca9bc316cc50953490f23a0469c04fac22d9a33c0812e5102c9fdb22aab1fbca809bd1a34fe65b2c41f68e2688bc487f7928518
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^1.11.1, tslib@npm:^1.8.1":
-  version: 1.14.1
-  resolution: "tslib@npm:1.14.1"
-  checksum: 10c0/69ae09c49eea644bc5ebe1bca4fa4cc2c82b7b3e02f43b84bd891504edf66dbc6b2ec0eef31a957042de2269139e4acff911e6d186a258fb14069cd7f6febce2
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0":
-  version: 2.3.1
-  resolution: "tslib@npm:2.3.1"
-  checksum: 10c0/4efd888895bdb3b987086b2b7793ad1013566f882b0eb7a328384e5ecc0d71cafb16bbeab3196200cbf7f01a73ccc25acc2f131d4ea6ee959be7436a8a306482
   languageName: node
   linkType: hard
 
