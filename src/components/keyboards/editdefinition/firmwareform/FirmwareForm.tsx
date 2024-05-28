@@ -21,9 +21,9 @@ import {
   Typography,
 } from '@mui/material';
 import { IFirmware } from '../../../../services/storage/Storage';
-import moment from 'moment';
 import { IBootloaderType } from '../../../../services/firmware/Types';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
+import { format } from 'date-fns';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -92,7 +92,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = firmware.filename.substring(
-        firmware.filename.lastIndexOf('/') + 1
+        firmware.filename.lastIndexOf('/') + 1,
       );
       a.href = downloadUrl;
       a.click();
@@ -112,7 +112,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
     description: string,
     sourceCodeUrl: string,
     flashSupport: boolean,
-    defaultBootloaderType: IBootloaderType
+    defaultBootloaderType: IBootloaderType,
   ) => {
     props.updateFirmware!(
       firmware,
@@ -120,7 +120,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
       description,
       sourceCodeUrl,
       flashSupport,
-      defaultBootloaderType
+      defaultBootloaderType,
     );
   };
 
@@ -246,7 +246,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                   value={props.defaultBootloaderType}
                   onChange={(event) => {
                     props.updateDefaultBootloaderType!(
-                      event.target.value as IBootloaderType
+                      event.target.value as IBootloaderType,
                     );
                   }}
                 >
@@ -337,7 +337,7 @@ type IFirmwareCardProps = {
     // eslint-disable-next-line no-unused-vars
     flashSupport: boolean,
     // eslint-disable-next-line no-unused-vars
-    defaultBootloaderType: IBootloaderType
+    defaultBootloaderType: IBootloaderType,
   ) => void;
 };
 
@@ -358,7 +358,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
     description: string,
     sourceCodeUrl: string,
     flashSupport: boolean,
-    defaultBootloaderType: IBootloaderType
+    defaultBootloaderType: IBootloaderType,
   ) => {
     setOpen(false);
     props.onClickEditDialogUpdate(
@@ -367,7 +367,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
       description,
       sourceCodeUrl,
       flashSupport,
-      defaultBootloaderType
+      defaultBootloaderType,
     );
   };
 
@@ -382,8 +382,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
             {props.firmware.description}
           </Typography>
           <Typography variant="caption" color="textSecondary">
-            {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
-            <br />
+            {format(props.firmware.created_at, 'MMMM do yyyy, HH:mm:ss')} <br />
             SHA256: {props.firmware.hash}
             <br />
             Flash Support: {props.firmware.flash_support ? 'Yes' : 'No'}
@@ -456,7 +455,7 @@ type IEditDialogProps = {
     // eslint-disable-next-line no-unused-vars
     flashSupport: boolean,
     // eslint-disable-next-line no-unused-vars
-    defaultBootloaderType: IBootloaderType
+    defaultBootloaderType: IBootloaderType,
   ) => void;
 };
 
@@ -581,7 +580,7 @@ function EditDialog(props: IEditDialogProps) {
               description,
               sourceCodeUrl,
               flashSupport,
-              defaultBootloaderType
+              defaultBootloaderType,
             )
           }
           disabled={!validateFirmwareForm()}

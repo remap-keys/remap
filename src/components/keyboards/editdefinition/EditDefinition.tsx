@@ -29,7 +29,6 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@mui/material';
-import moment from 'moment-timezone';
 import { MoreVert } from '@mui/icons-material';
 import {
   isForkedQmkFirmwareCode,
@@ -41,6 +40,7 @@ import CatalogForm from './catalogform/CatalogForm.container';
 import FirmwareForm from './firmwareform/FirmwareForm.container';
 import BuildForm from './buildform/BuildForm.container';
 import Statistics from './statistics/Statistics.container';
+import { format } from 'date-fns';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -75,7 +75,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const onLoadFile = (
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
-    jsonStr: string
+    jsonStr: string,
   ) => {
     props.updateJsonFilename!(jsonFilename);
     props.updateKeyboardDefinition!(keyboardDefinition);
@@ -179,7 +179,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const handleDownloadJsonMenuClick = () => {
     setMenuAnchorEl(null);
     const jsonUrl = URL.createObjectURL(
-      new Blob([props.jsonStr!], { type: 'application/json' })
+      new Blob([props.jsonStr!], { type: 'application/json' }),
     );
     const a = document.createElement('a');
     document.body.appendChild(a);
@@ -434,14 +434,14 @@ function MenuUI(props: MenuUIProps) {
     menuItems.push(
       <MenuItem key="1" onClick={props.handleDownloadJsonMenuClick}>
         Download JSON
-      </MenuItem>
+      </MenuItem>,
     );
   }
   if (props.definitionDocument.status !== KeyboardDefinitionStatus.in_review) {
     menuItems.push(
       <MenuItem key="2" onClick={props.handleDeleteMenuClick}>
         Delete
-      </MenuItem>
+      </MenuItem>,
     );
   }
   if (menuItems.length > 0) {
@@ -473,8 +473,9 @@ type AlertMessageProps = {
 };
 
 function AlertMessage(props: AlertMessageProps) {
-  const updatedAt = moment(props.definitionDocument.updatedAt).format(
-    'YYYY-MM-DD HH:mm:ss'
+  const updatedAt = format(
+    props.definitionDocument.updatedAt,
+    'yyyy-MM-dd HH:mm:ss',
   );
   if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
     return (
@@ -490,7 +491,7 @@ function AlertMessage(props: AlertMessageProps) {
   ) {
     const googleFormUrl = GOOGLE_FORM_URL.replace(
       '${keyboard_name}',
-      props.definitionDocument!.name
+      props.definitionDocument!.name,
     ).replace('${keyboard_id}', props.definitionDocument!.id);
     return (
       <div className="edit-definition-alert">
