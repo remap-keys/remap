@@ -75,7 +75,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const onLoadFile = (
     keyboardDefinition: KeyboardDefinitionSchema,
     jsonFilename: string,
-    jsonStr: string,
+    jsonStr: string
   ) => {
     props.updateJsonFilename!(jsonFilename);
     props.updateKeyboardDefinition!(keyboardDefinition);
@@ -179,7 +179,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
   const handleDownloadJsonMenuClick = () => {
     setMenuAnchorEl(null);
     const jsonUrl = URL.createObjectURL(
-      new Blob([props.jsonStr!], { type: 'application/json' }),
+      new Blob([props.jsonStr!], { type: 'application/json' })
     );
     const a = document.createElement('a');
     document.body.appendChild(a);
@@ -434,14 +434,14 @@ function MenuUI(props: MenuUIProps) {
     menuItems.push(
       <MenuItem key="1" onClick={props.handleDownloadJsonMenuClick}>
         Download JSON
-      </MenuItem>,
+      </MenuItem>
     );
   }
   if (props.definitionDocument.status !== KeyboardDefinitionStatus.in_review) {
     menuItems.push(
       <MenuItem key="2" onClick={props.handleDeleteMenuClick}>
         Delete
-      </MenuItem>,
+      </MenuItem>
     );
   }
   if (menuItems.length > 0) {
@@ -475,7 +475,7 @@ type AlertMessageProps = {
 function AlertMessage(props: AlertMessageProps) {
   const updatedAt = format(
     props.definitionDocument.updatedAt,
-    'yyyy-MM-dd HH:mm:ss',
+    'yyyy-MM-dd HH:mm:ss'
   );
   if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
     return (
@@ -491,7 +491,7 @@ function AlertMessage(props: AlertMessageProps) {
   ) {
     const googleFormUrl = GOOGLE_FORM_URL.replace(
       '${keyboard_name}',
-      props.definitionDocument!.name,
+      props.definitionDocument!.name
     ).replace('${keyboard_id}', props.definitionDocument!.id);
     return (
       <div className="edit-definition-alert">
