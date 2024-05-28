@@ -11,7 +11,7 @@ import {
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import { hexadecimal } from '../../../utils/StringUtils';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
 
 type KeyboardListState = {};
 type OwnProps = {};
@@ -133,17 +133,13 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
                   <span className="definition-meta-info-label">
                     Created at:
                   </span>
-                  {moment(this.props.doc.createdAt).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  )}
+                  {format(this.props.doc.createdAt, 'yyyy-MM-dd HH:mm:ss')}
                 </div>
                 <div className="definition-meta-info">
                   <span className="definition-meta-info-label">
                     Updated at:{' '}
                   </span>
-                  {moment(this.props.doc.updatedAt).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  )}
+                  {format(this.props.doc.updatedAt, 'yyyy-MM-dd HH:mm:ss')}
                 </div>
               </div>
             </div>
