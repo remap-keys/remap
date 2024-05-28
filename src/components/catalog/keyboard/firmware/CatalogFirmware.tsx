@@ -15,10 +15,10 @@ import {
   IFirmware,
   IKeyboardDefinitionDocument,
 } from '../../../../services/storage/Storage';
-import moment from 'moment';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
 import { hexadecimal } from '../../../../utils/StringUtils';
+import { format } from 'date-fns';
 
 type CatalogFirmwareState = {
   supportedBrowser: boolean;
@@ -182,8 +182,8 @@ function FirmwareCard(props: IFirmwareCardProps) {
             color="textSecondary"
             className="catalog-firmware-card-caption"
           >
-            {moment(props.firmware.created_at).format('MMMM Do YYYY, HH:mm:ss')}{' '}
-            | SHA256: {props.firmware.hash}
+            {format(props.firmware.created_at, 'MMMM do yyyy, HH:mm:ss')} |
+            SHA256: {props.firmware.hash}
           </Typography>
         </CardContent>
         <CardActions className="catalog-firmware-card-buttons">
