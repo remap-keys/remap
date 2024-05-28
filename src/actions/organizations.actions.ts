@@ -35,10 +35,10 @@ export const OrganizationsEditOrganizationActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof OrganizationsAppActions[keyof typeof OrganizationsAppActions]
-  | typeof OrganizationsEditOrganizationActions[keyof typeof OrganizationsEditOrganizationActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof StorageActions[keyof typeof StorageActions]
+  | (typeof OrganizationsAppActions)[keyof typeof OrganizationsAppActions]
+  | (typeof OrganizationsEditOrganizationActions)[keyof typeof OrganizationsEditOrganizationActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof StorageActions)[keyof typeof StorageActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,

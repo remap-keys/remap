@@ -9,7 +9,7 @@ import { ObjectValueListType } from '../../utils/ObjectUtils';
 
 export abstract class AbstractCommand<
   TRequest extends ICommandRequest,
-  TResponse extends ICommandResponse
+  TResponse extends ICommandResponse,
 > implements ICommand
 {
   private readonly request: TRequest;
