@@ -3,10 +3,10 @@ import {
   MOD_ALT,
   MOD_CTL,
   MOD_GUI,
-  MOD_LEFT,
   MOD_SFT,
   ModDirection,
 } from '../Composition';
+import { MOD_LEFT } from '../Constraints';
 
 describe('ModTapComposition', () => {
   test('getCode', () => {

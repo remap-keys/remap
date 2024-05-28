@@ -174,13 +174,13 @@ export const StorageActions = {
 };
 
 type ActionTypes = ReturnType<
-  | typeof AppActions[keyof typeof AppActions]
-  | typeof KeymapActions[keyof typeof KeymapActions]
-  | typeof KeycodeKeyActions[keyof typeof KeycodeKeyActions]
-  | typeof KeydiffActions[keyof typeof KeydiffActions]
-  | typeof HidActions[keyof typeof HidActions]
-  | typeof NotificationActions[keyof typeof NotificationActions]
-  | typeof StorageActions[keyof typeof StorageActions]
+  | (typeof AppActions)[keyof typeof AppActions]
+  | (typeof KeymapActions)[keyof typeof KeymapActions]
+  | (typeof KeycodeKeyActions)[keyof typeof KeycodeKeyActions]
+  | (typeof KeydiffActions)[keyof typeof KeydiffActions]
+  | (typeof HidActions)[keyof typeof HidActions]
+  | (typeof NotificationActions)[keyof typeof NotificationActions]
+  | (typeof StorageActions)[keyof typeof StorageActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,
@@ -1040,9 +1040,8 @@ export const storageActionsThunk = {
       getState: () => RootState
     ) => {
       const { storage } = getState();
-      const result = await storage.instance!.createOrUpdateAppliedKeymap(
-        keymapData
-      );
+      const result =
+        await storage.instance!.createOrUpdateAppliedKeymap(keymapData);
       if (isError(result)) {
         console.error(result.cause);
         dispatch(
@@ -1991,9 +1990,8 @@ export const storageActionsThunk = {
       getState: () => RootState
     ) => {
       const { storage } = getState();
-      const result = await storage.instance!.fetchBuiltFirmwareFileBlob(
-        firmwareFilePath
-      );
+      const result =
+        await storage.instance!.fetchBuiltFirmwareFileBlob(firmwareFilePath);
       if (isSuccessful(result)) {
         callback(result.value.blob);
       } else {

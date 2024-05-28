@@ -28,8 +28,9 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 
+# yarn 4
+.pnp.*
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
