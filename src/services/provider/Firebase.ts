@@ -49,7 +49,7 @@ import {
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
-import { createHash } from 'node:crypto';
+import { createHash } from 'crypto';
 import { IBootloaderType } from '../firmware/Types';
 
 const config = {
