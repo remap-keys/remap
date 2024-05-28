@@ -84,6 +84,7 @@ type CategoryKeyboardContentProps = {
   organization: IOrganization | null;
 };
 
+// eslint-disable-next-line
 const CategoryKeyboardContent: React.FC<React.PropsWithChildren<CategoryKeyboardContentProps>> = ({
   phase,
   definitionDocument,
