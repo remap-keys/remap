@@ -5047,15 +5047,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/moment@npm:^2.13.0":
-  version: 2.13.0
-  resolution: "@types/moment@npm:2.13.0"
-  dependencies:
-    moment: "npm:*"
-  checksum: 10c0/b9b668ca4b2584daaa03523a28dd26d542fa4da3de3e976242bbd1568dfc01736142118143a69ed26f62de1b49936ab346579a2ce3979410a1bab229d644cccb
-  languageName: node
-  linkType: hard
-
 "@types/node-fetch@npm:^2.5.7":
   version: 2.6.1
   resolution: "@types/node-fetch@npm:2.6.1"
@@ -5772,7 +5763,6 @@ __metadata:
     "@types/downloadjs": "npm:^1.4.2"
     "@types/jest": "npm:^26.0.15"
     "@types/lodash": "npm:^4.14.167"
-    "@types/moment": "npm:^2.13.0"
     "@types/node": "npm:^14.14.22"
     "@types/prop-types": "npm:^15.7.4"
     "@types/qs": "npm:^6.9.6"
@@ -5792,6 +5782,7 @@ __metadata:
     ajv: "npm:^7.0.3"
     axios: "npm:^0.21.1"
     babel-eslint: "npm:^10.1.0"
+    date-fns: "npm:^3.6.0"
     downloadjs: "npm:^1.4.7"
     eslint-config-prettier: "npm:^7.0.0"
     eslint-plugin-prettier: "npm:^5.1.3"
@@ -5802,8 +5793,6 @@ __metadata:
     intel-hex: "npm:^0.1.2"
     json-schema-to-typescript: "npm:^10.1.2"
     lint-staged: "npm:^10.5.3"
-    moment: "npm:^2.29.1"
-    moment-timezone: "npm:^0.5.32"
     notistack: "npm:^2.0.3"
     pdf-lib: "npm:^1.16.0"
     prettier: "npm:^3.2.5"
@@ -8781,6 +8770,13 @@ __metadata:
     whatwg-mimetype: "npm:^2.3.0"
     whatwg-url: "npm:^8.0.0"
   checksum: 10c0/1246442178eb756afb1d99e54669a119eafb3e69c73300d14089687c50c64f9feadd93c973f496224a12f89daa94267a6114aecd70e9b279c09d908c5be44d01
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "date-fns@npm:3.6.0"
+  checksum: 10c0/0b5fb981590ef2f8e5a3ba6cd6d77faece0ea7f7158948f2eaae7bbb7c80a8f63ae30b01236c2923cf89bb3719c33aeb150c715ea4fe4e86e37dcf06bed42fb6
   languageName: node
   linkType: hard
 
@@ -14911,22 +14907,6 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
-  languageName: node
-  linkType: hard
-
-"moment-timezone@npm:^0.5.32":
-  version: 0.5.34
-  resolution: "moment-timezone@npm:0.5.34"
-  dependencies:
-    moment: "npm:>= 2.9.0"
-  checksum: 10c0/26b2dc80648004ee29fdcf819d4aa153fadf71eb061a90386cf738214e388009ec189b9da39e7320ff81dd0d213c0b1958c15d69cdb660982246daf7d225a1d5
-  languageName: node
-  linkType: hard
-
-"moment@npm:*, moment@npm:>= 2.9.0, moment@npm:^2.29.1":
-  version: 2.29.1
-  resolution: "moment@npm:2.29.1"
-  checksum: 10c0/2617e383c0e0f910696214d026b9742173ea1916775d2023b39fd7d5fc3fae694f67c17876d154e246b139ad2a8028c42b2898c66cd665316b61c18453a5103f
   languageName: node
   linkType: hard
 

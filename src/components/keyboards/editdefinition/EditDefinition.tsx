@@ -29,7 +29,6 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { Alert } from '@mui/material';
-import moment from 'moment-timezone';
 import { MoreVert } from '@mui/icons-material';
 import {
   isForkedQmkFirmwareCode,
@@ -41,6 +40,7 @@ import CatalogForm from './catalogform/CatalogForm.container';
 import FirmwareForm from './firmwareform/FirmwareForm.container';
 import BuildForm from './buildform/BuildForm.container';
 import Statistics from './statistics/Statistics.container';
+import { format } from 'date-fns';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -473,8 +473,9 @@ type AlertMessageProps = {
 };
 
 function AlertMessage(props: AlertMessageProps) {
-  const updatedAt = moment(props.definitionDocument.updatedAt).format(
-    'YYYY-MM-DD HH:mm:ss'
+  const updatedAt = format(
+    props.definitionDocument.updatedAt,
+    'yyyy-MM-dd HH:mm:ss'
   );
   if (props.definitionDocument.status === KeyboardDefinitionStatus.in_review) {
     return (

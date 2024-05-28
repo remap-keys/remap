@@ -28,7 +28,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import moment from 'moment/moment';
+import { format } from 'date-fns';
 
 type ParameterNameValueMap = {
   [parameterName: string]: string;
@@ -260,12 +260,10 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
         >
           <Typography variant="subtitle1">Task ID: {props.task.id}</Typography>
           <Typography variant="subtitle1">
-            Created at:{' '}
-            {moment(props.task.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+            Created at: {format(props.task.createdAt, 'yyyy-MM-dd hh:mm:ss')}
           </Typography>
           <Typography variant="subtitle1">
-            Updated at:{' '}
-            {moment(props.task.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
+            Updated at: {format(props.task.updatedAt, 'yyyy-MM-dd hh:mm:ss')}
           </Typography>
         </Box>
         <Stepper
