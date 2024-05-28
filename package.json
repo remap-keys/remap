@@ -126,5 +126,6 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "packageManager": "yarn@4.2.2"
 }

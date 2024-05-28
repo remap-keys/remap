@@ -27,3 +27,12 @@ remap-firestore-export-*/
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# yarn 4
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
