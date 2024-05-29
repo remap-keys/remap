@@ -89,6 +89,9 @@ export default class AutocompleteKeys extends React.Component<
           this.setInputValue(newInputValue.split('::')[0]);
         }}
         getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
           return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
         renderOption={(props, option) => (
