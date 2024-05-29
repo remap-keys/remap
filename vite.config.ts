@@ -1,16 +1,24 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, Plugin, loadEnv } from 'vite';
 
-export default defineConfig({
-  plugins: [react(), envPlugin()],
-  esbuild: {},
-  build: {
-    sourcemap: true,
-  },
-  server: {
-    port: 3000,
-  },
+export default defineConfig(({ mode }) => {
+  // setEnv(mode);
+  return {
+    plugins: [react(), envPlugin()],
+    esbuild: {},
+    build: {
+      sourcemap: true,
+    },
+    server: {
+      port: 3000,
+    },
+  };
 });
+
+// function setEnv(mode: string) {
+//   Object.assign(process.env, loadEnv(mode, '.', ['REACT_APP_', 'NODE_ENV']));
+//   process.env.NODE_ENV ||= mode;
+// }
 
 function envPlugin(): Plugin {
   return {
