@@ -38,7 +38,7 @@
     "sass": "^1.49.8",
     "stackdriver-errors-js": "^0.12.0",
     "tss-react": "^3.3.1",
-    "typescript": "^4.7.4",
+    "typescript": "^5.4.5",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -100,8 +100,7 @@
     "@types/w3c-web-usb": "^1.0.5",
     "@types/wicg-file-system-access": "^2020.9.7",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
-    "@typescript-eslint/parser": "^4.10.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@typescript-eslint/parser": "^7.11.0",
     "babel-eslint": "^10.1.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^5.1.3",
