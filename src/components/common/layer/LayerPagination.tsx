@@ -1,6 +1,6 @@
 import { Badge, Chip, IconButton } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
-import { usePagination } from '@mui/lab';
+import usePagination from '@mui/material/usePagination';
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
