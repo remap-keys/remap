@@ -2,7 +2,6 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, Plugin, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
-  // setEnv(mode);
   return {
     plugins: [react(), envPlugin()],
     esbuild: {},
@@ -17,11 +16,6 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
-
-// function setEnv(mode: string) {
-//   Object.assign(process.env, loadEnv(mode, '.', ['REACT_APP_', 'NODE_ENV']));
-//   process.env.NODE_ENV ||= mode;
-// }
 
 function envPlugin(): Plugin {
   return {
