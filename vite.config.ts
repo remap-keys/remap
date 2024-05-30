@@ -6,8 +6,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), envPlugin()],
     esbuild: {},
+    root: 'src',
+    publicDir: '../public',
     build: {
       sourcemap: true,
+      outDir: '../build',
     },
     server: {
       port: 3000,
