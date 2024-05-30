@@ -9,7 +9,6 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from '../../../store/reducers';
-import { errorReportingLogger } from '../../../utils/ErrorReportingLogger';
 
 import './Keycodes.stories.scss';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
@@ -20,10 +19,7 @@ import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition'
 
 const store = createStore(
   reducers,
-  composeWithDevTools(
-    applyMiddleware(thunk),
-    applyMiddleware(errorReportingLogger)
-  )
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default {
