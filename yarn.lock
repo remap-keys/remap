@@ -5888,7 +5888,6 @@ __metadata:
     reinvented-color-wheel: "npm:^0.2.10"
     sass: "npm:^1.49.8"
     sinon: "npm:^11.1.2"
-    stackdriver-errors-js: "npm:^0.8.0"
     tss-react: "npm:^3.3.1"
     typescript: "npm:^5.4.5"
     web-vitals: "npm:^1.1.0"
@@ -8285,7 +8284,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.4.0, core-js@npm:^2.6.9":
+"core-js@npm:^2.4.0":
   version: 2.6.12
   resolution: "core-js@npm:2.6.12"
   checksum: 10c0/00128efe427789120a06b819adc94cc72b96955acb331cb71d09287baf9bd37bebd191d91f1ee4939c893a050307ead4faea08876f09115112612b6a05684b63
@@ -19487,13 +19486,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:0.5.6":
-  version: 0.5.6
-  resolution: "source-map@npm:0.5.6"
-  checksum: 10c0/beb2c5974bb58954d75e86249953d47ae16f7df1a8531abb9fcae0cd262d9fa09c2db3a134e20e99358b1adba42b6b054a32c8e16b571b3efcf6af644c329f0d
-  languageName: node
-  linkType: hard
-
 "source-map@npm:0.6.1, source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.0, source-map@npm:~0.6.1":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
@@ -19647,15 +19639,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stack-generator@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "stack-generator@npm:2.0.5"
-  dependencies:
-    stackframe: "npm:^1.1.1"
-  checksum: 10c0/94de1664b54cd0834738bec0e0f92b76ac72fdb4f1fe63c8eee9d6a17d84b6f87be39ca40ef3abd14dffa86b4e7ae1dae9b07bda319a441c4788e4d37fc9ef75
-  languageName: node
-  linkType: hard
-
 "stack-utils@npm:^2.0.2":
   version: 2.0.5
   resolution: "stack-utils@npm:2.0.5"
@@ -19665,41 +19648,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stackdriver-errors-js@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "stackdriver-errors-js@npm:0.8.0"
-  dependencies:
-    core-js: "npm:^2.6.9"
-    stacktrace-js: "npm:^2.0.0"
-  checksum: 10c0/fa5f1df7322976d556e9f618bcb455615d4d1bc40723390c07711cf356e021ee7ff29eed3a0099e0dd0c4e5114db2faac3ccf0f0a0da1afadfa4fb601cdd129a
-  languageName: node
-  linkType: hard
-
 "stackframe@npm:^1.1.1":
   version: 1.2.1
   resolution: "stackframe@npm:1.2.1"
   checksum: 10c0/b6b1a516c3e89a9f18dc3ae70178a0140046afb64a0c7f4c1caa87fb5d697828145bdbef13a01f7d76b497e3ce1007b5a4d16dfa95e8224f9aa35e8e727cfe20
-  languageName: node
-  linkType: hard
-
-"stacktrace-gps@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "stacktrace-gps@npm:3.0.4"
-  dependencies:
-    source-map: "npm:0.5.6"
-    stackframe: "npm:^1.1.1"
-  checksum: 10c0/eb3acc1e75593c9cc0abe081d0edc67ff0c14d860c008ca1efba17c2ab360dbf1e51ef2ca4d978907c87cfa9ac6a86efc24bd2756a3a6e4026c85811e1f4819b
-  languageName: node
-  linkType: hard
-
-"stacktrace-js@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "stacktrace-js@npm:2.0.2"
-  dependencies:
-    error-stack-parser: "npm:^2.0.6"
-    stack-generator: "npm:^2.0.5"
-    stacktrace-gps: "npm:^3.0.4"
-  checksum: 10c0/9a10c222524ca03690bcb27437b39039885223e39320367f2be36e6f750c2d198ae99189869a22c255bf60072631eb609d47e8e33661e95133686904e01121ec
   languageName: node
   linkType: hard
 
