@@ -35,6 +35,7 @@ import { IFirmwareWriter } from '../services/firmware/FirmwareWriter';
 import { FirmwareWriterWebApiImpl } from '../services/firmware/FirmwareWriterWebApiImpl';
 import { IBootloaderType } from '../services/firmware/Types';
 import { getLocalAuthenticationUid } from '../utils/AuthUtils';
+import { firebaseConfiguration } from '../services/provider/FirebaseConfiguration';
 
 export type ISetupPhase =
   | 'init'
@@ -488,7 +489,7 @@ export type RootState = {
 
 let firebaseProvider;
 try {
-  firebaseProvider = new FirebaseProvider();
+  firebaseProvider = new FirebaseProvider(firebaseConfiguration);
 } catch (cause) {
   if (import.meta.env.NODE_ENV === 'production') {
     throw cause;
