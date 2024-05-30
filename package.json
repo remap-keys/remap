@@ -41,9 +41,9 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "start": "vite",
     "type-check": "tsc --noEmit",
-    "build": "yarn type-check && NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build": "yarn type-check && yarn vite build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write './src/**/*.{ts,tsx}'",

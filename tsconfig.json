@@ -10,13 +10,21 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "typeRoots": ["node_modules", "node_modules/@types", "src/@types"],
-    "types": ["node", "vite/client"]
+    "types": [
+      "node",
+      "@types/jest",
+      "@types/w3c-web-hid",
+      "@types/w3c-web-usb",
+      "@types/w3c-web-serial",
+      "@types/wicg-file-system-access",
+      "vite/client"
+    ]
   },
   "include": ["src"]
 }
