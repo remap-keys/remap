@@ -3,7 +3,13 @@
     "es6": true,
     "node": true,
     "jest": true,
-    "jasmine": true
+    "jasmine": true,
+    "browser": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["react", "prettier"],
@@ -18,18 +24,19 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/prettier"
   ],
   "rules": {
+    "no-unused-vars": "warn",
+    "react/prop-types": "warn",
+    "react/no-deprecated": "warn",
     "prettier/prettier": [
       "warn",
       {},
       {
         "usePrettierrc": true
       }
-    ],
-    "no-unused-vars": "warn",
-    "react/prop-types": "warn"
+    ]
   },
   "globals": {
     "HIDDevice": "readonly"
