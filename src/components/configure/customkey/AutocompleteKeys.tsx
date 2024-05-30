@@ -1,6 +1,6 @@
 import React from 'react';
 import './AutocompleteKeys.scss';
-import Autocomplete from '@mui/lab/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeymapCategory } from '../../../services/hid/KeycodeList';
@@ -89,6 +89,9 @@ export default class AutocompleteKeys extends React.Component<
           this.setInputValue(newInputValue.split('::')[0]);
         }}
         getOptionLabel={(option) => {
+          if (typeof option === 'string') {
+            return option;
+          }
           return `${option.keycodeInfo!.label}::${option.kinds.join('::')}`;
         }}
         renderOption={(props, option) => (
