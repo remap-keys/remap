@@ -1,9 +1,10 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, Plugin, loadEnv } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [react(), envPlugin()],
+    plugins: [react(), envPlugin(), nodePolyfills()],
     esbuild: {},
     root: 'src',
     publicDir: '../public',
