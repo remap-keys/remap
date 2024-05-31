@@ -3,7 +3,8 @@
     "es6": true,
     "node": true,
     "jest": true,
-    "jasmine": true
+    "jasmine": true,
+    "browser": true
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["react", "prettier"],
