@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,7 +15,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types", "node_modules", "src/@types"],
+    "types": [
+      "node",
+      "@types/jest",
+      "@types/w3c-web-hid",
+      "@types/w3c-web-usb",
+      "@types/w3c-web-serial",
+      "@types/wicg-file-system-access",
+      "vite/client"
+    ]
   },
   "include": ["src"]
 }
