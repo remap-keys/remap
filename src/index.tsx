@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import OGP from './components/common/ogp/OGP.container';
 import { HelmetProvider } from 'react-helmet-async';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createRoot } from "react-dom/client"
 
 const store = createStore(
   reducers,
@@ -18,8 +19,10 @@ const store = createStore(
 );
 
 const theme = createTheme({});
+const container = document.getElementById('root');
+const root = createRoot(container!);
 
-ReactDOM.render(
+root.render(
   <Provider store={store}>
     <React.StrictMode>
       <HelmetProvider>
@@ -30,8 +33,6 @@ ReactDOM.render(
       </HelmetProvider>
     </React.StrictMode>
   </Provider>,
-  // eslint-disable-next-line no-undef
-  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
