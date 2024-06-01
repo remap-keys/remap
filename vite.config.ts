@@ -18,23 +18,23 @@ export default defineConfig(({ mode }) => {
     },
     test: {
       globals: true,
-      environment: "happy-dom",
-      setupFiles: "setupTests.ts"
+      environment: 'happy-dom',
+      setupFiles: 'setupTests.ts',
     },
   };
 });
 
 function envPlugin(): Plugin {
   return {
-    name: "env-plugin",
+    name: 'env-plugin',
     config(_, { mode }) {
-      const env = loadEnv(mode, ".", ["REACT_APP_", "NODE_ENV", "PUBLIC_URL"]);
+      const env = loadEnv(mode, '.', ['REACT_APP_', 'NODE_ENV']);
       return {
         define: Object.fromEntries(
           Object.entries(env).map(([key, value]) => [
             `import.meta.env.${key}`,
             JSON.stringify(value),
-          ]),
+          ])
         ),
       };
     },
