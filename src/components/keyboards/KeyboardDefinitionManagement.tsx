@@ -3,7 +3,7 @@ import {
   KeyboardDefinitionManagementActionsType,
   KeyboardDefinitionManagementStateType,
 } from './KeyboardDefinitionManagement.container';
-import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
+import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import { Button, CssBaseline } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -50,7 +50,7 @@ function KeyboardDefinitionManagement(
           removeDisplayedNotification(key as string);
         },
         // eslint-disable-next-line react/display-name
-        action: (key: number) => (
+        action: (key: SnackbarKey) => (
           <Button
             onClick={() => {
               // eslint-disable-next-line react/prop-types
