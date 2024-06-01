@@ -1,6 +1,6 @@
 import { Badge, Chip, IconButton } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
-import { usePagination } from '@mui/lab';
+import usePagination from '@mui/material/usePagination';
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
@@ -43,7 +43,7 @@ type LayerPaginationOrientation = 'horizontal' | 'vertical';
 type LayerPaginationProps = {
   count: number;
   invisiblePages: boolean[];
-  page: number;
+  page: number | null;
   // eslint-disable-next-line no-unused-vars
   onClickPage: (page: number) => void;
   orientation: LayerPaginationOrientation;
@@ -61,7 +61,7 @@ export default function LayerPagination(props: LayerPaginationProps) {
   const classes = useLayerPaginationStyles();
   const { items } = usePagination({
     count: props.count,
-    page: props.page,
+    page: props.page !== null ? props.page : 1,
     onChange: (event, page) => {
       props.onClickPage(page);
     },
@@ -77,7 +77,7 @@ export default function LayerPagination(props: LayerPaginationProps) {
       >
         {items.map(({ page, type, selected, ...item }, index) => {
           let children = null;
-          if (type === 'page') {
+          if (type === 'page' && page !== null) {
             children = (
               <StyledBadge
                 color="primary"
