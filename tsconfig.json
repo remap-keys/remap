@@ -18,12 +18,12 @@
     "typeRoots": ["node_modules/@types", "node_modules", "src/@types"],
     "types": [
       "node",
-      "@types/jest",
       "@types/w3c-web-hid",
       "@types/w3c-web-usb",
       "@types/w3c-web-serial",
       "@types/wicg-file-system-access",
-      "vite/client"
+      "vite/client",
+      "vitest/globals"
     ]
   },
   "include": ["src"]
