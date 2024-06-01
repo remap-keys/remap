@@ -2,7 +2,7 @@ import {
   OrganizationManagementActionsType,
   OrganizationManagementStateType,
 } from './OrganizationManagement.container';
-import { OptionsObject, ProviderContext, withSnackbar } from 'notistack';
+import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material';
@@ -48,7 +48,7 @@ function OrganizationManagement(props: OrganizationManagementProps) {
           removeDisplayedNotification(key as string);
         },
         // eslint-disable-next-line react/display-name
-        action: (key: number) => (
+        action: (key: SnackbarKey) => (
           <Button
             onClick={() => {
               // eslint-disable-next-line react/prop-types
