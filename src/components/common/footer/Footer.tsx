@@ -52,6 +52,15 @@ export default class Footer extends React.Component<
           </div>
           <div className="footer-content">
             <a
+              href="https://github.com/remap-keys/remap"
+              target={'_blank'}
+              rel={'noreferrer'}
+            >
+              GitHub
+            </a>
+          </div>
+          <div className="footer-content">
+            <a
               href="https://github.com/sponsors/yoichiro"
               target={'_blank'}
               rel={'noreferrer'}
