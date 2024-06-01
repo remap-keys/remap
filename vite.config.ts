@@ -1,4 +1,5 @@
-import react from '@vitejs/plugin-react';
+/// <reference types="vitest" />
+import react from '@vitejs/plugin-react-swc';
 import { defineConfig, Plugin, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
@@ -14,6 +15,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000,
+    },
+    test: {
+      globals: true,
+      environment: 'happy-dom',
+      setupFiles: 'setupTests.ts',
     },
   };
 });
