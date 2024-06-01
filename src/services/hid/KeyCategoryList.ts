@@ -13,6 +13,7 @@ import { LayerTapToggleComposition } from './compositions/LayerTapToggleComposit
 import { LooseKeycodeComposition } from './compositions/LooseKeycodeComposition';
 import { ViaUserKeyComposition } from './compositions/ViaUserKeyComposition';
 import { AsciiComposition } from './compositions/AsciiComposition';
+import { LayerModComposition } from './compositions/LayerModComposition';
 
 export class KeyCategory {
   private static _basic: { [pos: string]: IKeymap[] } = {};
@@ -128,6 +129,7 @@ export class KeyCategory {
     const keymaps: IKeymap[] = [
       ...ToComposition.genKeymaps(layerCount),
       ...ToggleLayerComposition.genKeymaps(layerCount),
+      ...LayerModComposition.genKeymaps(layerCount),
       ...LayerTapToggleComposition.genKeymaps(layerCount),
       ...MomentaryComposition.genKeymaps(layerCount),
       ...OneShotLayerComposition.genKeymaps(layerCount),
