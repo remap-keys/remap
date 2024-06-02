@@ -18,7 +18,6 @@ import {
   Tap,
   KeyDelayPair,
 } from '../../../services/macro/Macro';
-import lodash from 'lodash';
 import FlashButton, { FlashButtonState } from '../../common/flash/FlashButton';
 import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
 import { MacroDropSpacer } from './MacroDropSpacer';
