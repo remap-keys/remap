@@ -60,7 +60,7 @@ export default class MacroEditor extends React.Component<
     indexInHold: number,
     newKeyDelayPair: KeyDelayPair
   ) {
-    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    const macroKeys: MacroKey[] = structuredClone(this.props.macroKeys!);
     if (Number.isNaN(indexInHold)) {
       // TODO: Set delay.
       const tap: Tap = {
@@ -85,7 +85,7 @@ export default class MacroEditor extends React.Component<
   }
 
   private addTapKeys(index: number, newKeyDelayPairs: KeyDelayPair[]) {
-    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    const macroKeys: MacroKey[] = structuredClone(this.props.macroKeys!);
     const taps: Tap[] = newKeyDelayPairs.map((v) => {
       // TODO: Set delay.
       return { keyDelayPair: v, type: MacroTap };
@@ -95,7 +95,7 @@ export default class MacroEditor extends React.Component<
   }
 
   private popKey() {
-    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    const macroKeys: MacroKey[] = structuredClone(this.props.macroKeys!);
     this.props.updateMacroKeys!(macroKeys.slice(0, -1));
   }
 
@@ -129,7 +129,7 @@ export default class MacroEditor extends React.Component<
     if (fromIndex === toIndex && fromIndexInHold === toIndexInHold) {
       return;
     }
-    const macroKeys: MacroKey[] = lodash.cloneDeep(this.props.macroKeys!);
+    const macroKeys: MacroKey[] = structuredClone(this.props.macroKeys!);
     const srcMacroKey: MacroKey = macroKeys[fromIndex];
     const dstMacroKey: MacroKey = macroKeys[toIndex];
     if (fromIndex === toIndex && isHold(srcMacroKey)) {

@@ -5938,7 +5938,6 @@ __metadata:
     "@types/ajv": "npm:^1.0.0"
     "@types/axios": "npm:^0.14.0"
     "@types/downloadjs": "npm:^1.4.2"
-    "@types/lodash": "npm:^4.14.167"
     "@types/node": "npm:^14.14.22"
     "@types/prop-types": "npm:^15.7.4"
     "@types/qs": "npm:^6.9.6"
