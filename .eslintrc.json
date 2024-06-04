@@ -2,8 +2,6 @@
   "env": {
     "es6": true,
     "node": true,
-    "jest": true,
-    "jasmine": true,
     "browser": true
   },
   "parser": "@typescript-eslint/parser",
@@ -33,6 +31,10 @@
     "react/prop-types": "warn"
   },
   "globals": {
-    "HIDDevice": "readonly"
+    "HIDDevice": "readonly",
+    "describe": "readonly",
+    "test": "readonly",
+    "expect": "readonly",
+    "fail": "readonly"
   }
 }
