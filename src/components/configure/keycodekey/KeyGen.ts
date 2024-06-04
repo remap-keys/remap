@@ -8,7 +8,6 @@ import {
   KeyLabelLangs,
 } from '../../../services/labellang/KeyLabelLangs';
 import { mods2Number } from '../customkey/Modifiers';
-import _ from 'lodash';
 import { MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Constraints';
 
 export type Key = {
@@ -98,7 +97,7 @@ export const genKey = (keymap: IKeymap, lang?: KeyboardLabelLang): Key => {
 
     let newKeymap: IKeymap = keymap;
     if (0 < keytop.keywords.length) {
-      newKeymap = _.cloneDeep(keymap) as IKeymap;
+      newKeymap = structuredClone(keymap) as IKeymap;
       newKeymap.keycodeInfo.keywords = newKeymap.keycodeInfo.keywords.concat(
         keytop.keywords
       );
