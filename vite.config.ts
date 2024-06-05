@@ -1,7 +1,8 @@
 /// <reference types="vitest" />
 import react from '@vitejs/plugin-react-swc';
-import { defineConfig, Plugin, loadEnv } from 'vite';
+import { Plugin, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig(({ mode }) => {
   return {
@@ -19,7 +20,6 @@ export default defineConfig(({ mode }) => {
     test: {
       globals: true,
       environment: 'happy-dom',
-      setupFiles: 'setupTests.ts',
     },
   };
 });
