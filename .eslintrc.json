@@ -35,6 +35,7 @@
     "describe": "readonly",
     "test": "readonly",
     "expect": "readonly",
-    "fail": "readonly"
+    "fail": "readonly",
+    "assert": "readonly"
   }
 }
