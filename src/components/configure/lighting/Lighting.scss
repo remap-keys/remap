@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .lighting-settings {
   h4 {
@@ -7,7 +7,7 @@
   }
 
   .lighting-label-disabled {
-    color: $color-gray;
+    color: variables.$color-gray;
   }
 
   .lighting-label {
@@ -41,7 +41,7 @@
       display: flex;
     }
     .underglow-color-value:not(:last-child) {
-      margin-right: $space-s;
+      margin-right: variables.$space-s;
     }
     .color-rgb {
       flex-grow: 4;

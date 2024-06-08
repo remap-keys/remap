@@ -1,8 +1,8 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .customkey-desc {
   font-size: 0.8rem;
-  color: $color-gray-600;
+  color: variables.$color-gray-600;
   height: 30px;
-  padding-top: $space-s;
+  padding-top: variables.$space-s;
 }

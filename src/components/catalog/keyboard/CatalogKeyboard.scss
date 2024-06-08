@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .catalog-keyboard {
   &-wrapper {
@@ -30,7 +30,7 @@
     width: 100%;
   }
 
-  @include mq(sm) {
+  @include variables.mq(sm) {
     &-header {
       padding: 8px;
     }

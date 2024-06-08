@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .info-dialog {
   .close-dialog {
@@ -7,7 +7,7 @@
     right: 20px;
 
     &:hover {
-      color: $primary-light;
+      color: variables.$primary-light;
       cursor: pointer;
     }
   }
@@ -15,14 +15,14 @@
   &-information-message {
     font-size: 90%;
     line-height: 0.95rem;
-    color: $color-gray;
-    margin-bottom: $space-m;
+    color: variables.$color-gray;
+    margin-bottom: variables.$space-m;
   }
 
   &-warning-message {
     font-size: 90%;
     line-height: 0.95rem;
-    color: $error;
-    margin-bottom: $space-m;
+    color: variables.$error;
+    margin-bottom: variables.$space-m;
   }
 }

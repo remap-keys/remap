@@ -1,11 +1,11 @@
-@import 'src/variables';
+@use '../../../variables';
 
 .footer {
   display: grid;
   grid-template-columns: 0.8fr 1.4fr 0.8fr;
   position: fixed;
   background-color: white;
-  padding: $space-s $space-m;
+  padding: variables.$space-s variables.$space-m;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -14,7 +14,7 @@
   z-index: 1;
 
   a {
-    color: $primary-light;
+    color: variables.$primary-light;
   }
   &-dev-team {
     text-align: start;
@@ -52,10 +52,10 @@
 
   .app-version {
     text-align: end;
-    color: $color-gray-400;
+    color: variables.$color-gray-400;
   }
 
-  @include mq(sm) {
+  @include variables.mq(sm) {
     &-dev-team {
       &-years {
         display: none;

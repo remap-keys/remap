@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .catalog-keymap-list {
   &-wrapper {
@@ -12,6 +12,6 @@
   }
 
   &-row-selected {
-    background-color: $primary !important;
+    background-color: variables.$primary !important;
   }
 }

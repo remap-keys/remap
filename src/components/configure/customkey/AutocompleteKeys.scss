@@ -1,10 +1,10 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .customkey-auto-select-item {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: $space-s 0;
+  padding: variables.$space-s 0;
   font-size: 0.87rem;
   width: 100%;
   .keycode-auto-label-wrapper {
@@ -14,11 +14,11 @@
       flex-grow: 1;
     }
     .keycode-auto-category {
-      color: $color-gray-600;
+      color: variables.$color-gray-600;
     }
   }
   .keycode-auto-desc {
     font-size: 0.8rem;
-    color: $color-gray-600;
+    color: variables.$color-gray-600;
   }
 }

@@ -1,9 +1,9 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .modifiers-label {
   font-weight: 700;
 }
 
 .modifiers-label-disabled {
-  color: $color-gray-500;
+  color: variables.$color-gray-500;
 }

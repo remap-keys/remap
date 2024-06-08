@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 .catalog-content {
   display: flex;
   position: relative;
@@ -29,14 +29,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: $space-xl;
+  padding-top: variables.$space-xl;
   background-color: white;
   flex: 1 1;
   width: 100%;
   height: 100vh;
 }
 
-@include mq(sm) {
+@include variables.mq(sm) {
   .catalog-content {
     padding-top: calc(var(--key-height));
   }

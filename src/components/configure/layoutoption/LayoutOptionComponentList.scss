@@ -1,8 +1,8 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .layout-option-component-list {
   &-content {
-    padding: $space-l !important;
+    padding: variables.$space-l !important;
   }
 
   &-option-label,

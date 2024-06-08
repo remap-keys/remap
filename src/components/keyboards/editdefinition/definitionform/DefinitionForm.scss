@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .edit-definition-form-container {
   display: flex;
@@ -25,14 +25,14 @@
     justify-content: flex-end;
 
     button {
-      margin-left: $space-s;
+      margin-left: variables.$space-s;
     }
   }
 
   &-notice {
     font-size: 80%;
-    color: $color-gray;
-    margin-top: $space-m;
+    color: variables.$color-gray;
+    margin-top: variables.$space-m;
   }
 }
 

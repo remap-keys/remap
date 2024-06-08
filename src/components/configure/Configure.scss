@@ -1,10 +1,10 @@
-@import '../../_variables.scss';
+@use '../../_variables.scss';
 
 .configure-root {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: $background-color-gray;
+  background-color: variables.$background-color-gray;
 }
 
 .message-box-wrapper {

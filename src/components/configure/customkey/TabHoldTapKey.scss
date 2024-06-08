@@ -1,7 +1,7 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .holdkey-desc {
   font-size: 0.8rem;
-  margin-bottom: $space-m;
-  color: $color-gray-600;
+  margin-bottom: variables.$space-m;
+  color: variables.$color-gray-600;
 }

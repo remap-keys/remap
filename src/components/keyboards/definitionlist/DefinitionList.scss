@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .definition-list-wrapper {
   position: fixed;
@@ -60,7 +60,7 @@
   flex-direction: row;
   align-items: center;
   .status-badge-in-review {
-    background-color: $primary-pale;
+    background-color: variables.$primary-pale;
   }
 }
 

@@ -1,3 +1,4 @@
+@use 'sass:map';
 :root {
   --header-height: 42px;
   --key-height: 56px;
@@ -43,7 +44,7 @@ $breakpoints: (
   'xl': 'screen and (min-width: 1001px)',
 ) !default;
 @mixin mq($breakpoint: md) {
-  @media #{map-get($breakpoints, $breakpoint)} {
+  @media #{map.get($breakpoints, $breakpoint)} {
     @content;
   }
 }

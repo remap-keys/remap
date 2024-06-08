@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keycodekey {
   width: calc(var(--key-width));
@@ -14,7 +14,7 @@
   z-index: 1;
   position: relative;
   &:hover {
-    background-color: $primary-pale !important;
+    background-color: variables.$primary-pale !important;
   }
 
   &.grabbable {
@@ -32,7 +32,7 @@
   &.addkey {
     border: 1px dashed #ccc;
     &:hover {
-      background-color: $primary-pale;
+      background-color: variables.$primary-pale;
       transition: background-color 0.5s;
     }
   }
@@ -57,7 +57,7 @@
     font-size: 0.72rem;
     overflow-wrap: anywhere;
     overflow: hidden;
-    padding: $space-xs;
+    padding: variables.$space-xs;
     height: 40%;
     .code-row {
       display: flex;
@@ -83,7 +83,7 @@
 
   .modifier-label {
     height: 30%;
-    color: $color-gray-600;
+    color: variables.$color-gray-600;
     font-size: 0.6rem;
   }
 }

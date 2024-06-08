@@ -1,8 +1,8 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keymaplist-root {
   .keymaplist {
-    padding: 0 $space-l $space-m $space-l;
+    padding: 0 variables.$space-l variables.$space-m variables.$space-l;
   }
   .keymaplist-popover {
     width: 400px;
@@ -30,9 +30,9 @@
         display: none;
       }
       .no-saved-keymap {
-        padding-bottom: $space-l;
+        padding-bottom: variables.$space-l;
         .keymaplist-warning {
-          color: $warning;
+          color: variables.$warning;
         }
       }
       .my-keymaplist-header {
@@ -74,17 +74,17 @@
     }
 
     .request-signin {
-      padding: $space-l;
+      padding: variables.$space-l;
       display: flex;
       flex-direction: column;
 
       .request-signin-message {
-        color: $warning;
+        color: variables.$warning;
       }
       .request-signin-actions {
         display: flex;
         justify-content: center;
-        padding-top: $space-l;
+        padding-top: variables.$space-l;
       }
     }
   }

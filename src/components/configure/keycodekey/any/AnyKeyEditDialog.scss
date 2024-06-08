@@ -1,4 +1,4 @@
-@import '../../../../variables';
+@use '../../../../variables';
 
 .anykey-dialog {
   input {
@@ -7,12 +7,12 @@
   .hex-code-wrapper {
     display: flex;
     position: relative;
-    margin-top: $space-l;
+    margin-top: variables.$space-l;
     .hex-code {
       position: absolute;
       top: 21px;
       font-size: 1rem;
-      color: $color-gray-500;
+      color: variables.$color-gray-500;
     }
     input {
       padding-left: 18px;

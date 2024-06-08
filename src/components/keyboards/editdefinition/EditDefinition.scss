@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .edit-definition-wrapper {
   position: fixed;
@@ -42,6 +42,6 @@
 }
 
 .edit-keyboard-stepper {
-  margin-top: $space-l;
-  margin-bottom: $space-l !important;
+  margin-top: variables.$space-l;
+  margin-bottom: variables.$space-l !important;
 }

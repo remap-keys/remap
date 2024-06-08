@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .customkey-popover {
   .MuiTab-root {
@@ -25,18 +25,18 @@
     }
     .customkey-tabpanel {
       position: relative;
-      padding: $space-l;
+      padding: variables.$space-l;
     }
     .customkey-body {
       width: 400px;
       height: 254px;
 
       .customkey-field {
-        margin-bottom: $space-l;
+        margin-bottom: variables.$space-l;
       }
 
       .customkey-field-hex {
-        margin-top: $space-m;
+        margin-top: variables.$space-m;
       }
 
       .customkey-label {
@@ -44,21 +44,21 @@
       }
 
       .customkey-description {
-        margin-bottom: $space-l;
+        margin-bottom: variables.$space-l;
         font-size: 0.9rem;
       }
       .customkey-code {
         div::before {
           content: '0x';
-          margin-left: $space-l;
-          color: $color-gray-500;
+          margin-left: variables.$space-l;
+          color: variables.$color-gray-500;
         }
         input {
-          padding-left: $space-xs;
+          padding-left: variables.$space-xs;
         }
       }
       .customkey-meta {
-        color: $color-gray-400;
+        color: variables.$color-gray-400;
         font-size: 0.7rem;
         align-items: flex-end;
         display: flex;
@@ -71,7 +71,7 @@
         }
       }
       .customkey-bcode {
-        color: $color-gray-400;
+        color: variables.$color-gray-400;
         font-size: 0.7rem;
         justify-content: flex-end;
         display: flex;

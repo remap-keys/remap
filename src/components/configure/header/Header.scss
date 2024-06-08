@@ -1,4 +1,4 @@
-@import '../../../_variables.scss';
+@use '../../../_variables.scss';
 
 .header {
   display: grid;
@@ -8,7 +8,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   margin: 0;
-  padding: 0 $space-m;
+  padding: 0 variables.$space-m;
   background: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 2;
@@ -33,17 +33,17 @@
           text-overflow: ellipsis;
         }
         .ids {
-          font-size: $font-xs;
-          color: $color-gray;
+          font-size: variables.$font-xs;
+          color: variables.$color-gray;
           margin-top: -4px;
         }
       }
 
       &:hover {
-        color: $primary;
+        color: variables.$primary;
         .kbd-name {
           .ids {
-            color: $primary;
+            color: variables.$primary;
           }
         }
       }
@@ -106,10 +106,10 @@
   width: 100%;
 
   .link-icon {
-    margin-right: $space-m;
+    margin-right: variables.$space-m;
   }
   .link-on {
-    color: $primary;
+    color: variables.$primary;
     font-weight: 700;
   }
   .link-off {
@@ -124,7 +124,7 @@
     .device-ids {
       font-weight: 400;
       font-size: 40%;
-      margin-left: $space-m;
+      margin-left: variables.$space-m;
     }
   }
 }
@@ -152,8 +152,8 @@
     opacity: 0.5;
   }
   100% {
-    border-color: $primary;
-    background-color: $primary;
+    border-color: variables.$primary;
+    background-color: variables.$primary;
     opacity: 1;
   }
 }
@@ -167,7 +167,7 @@
   }
 
   40% {
-    border-color: $primary;
+    border-color: variables.$primary;
     background-color: transparent;
     transform: scale(1, 1);
   }
@@ -178,8 +178,8 @@
     width: 2.5rem;
     text-indent: -0.6125rem;
     color: transparent;
-    border-color: $primary;
-    background-color: $primary;
+    border-color: variables.$primary;
+    background-color: variables.$primary;
   }
 
   80% {
@@ -189,8 +189,8 @@
   100% {
     margin-left: 1.25rem;
     width: 2.5rem;
-    background-color: $primary;
-    border-color: $primary;
+    background-color: variables.$primary;
+    border-color: variables.$primary;
     color: transparent;
   }
 }
@@ -241,7 +241,7 @@
   }
 
   10% {
-    border-color: $primary;
+    border-color: variables.$primary;
   }
 
   20% {
@@ -255,11 +255,11 @@
     opacity: 1;
     width: 7rem;
     transform: scale(1, 1);
-    border-color: $primary;
+    border-color: variables.$primary;
   }
 
   100% {
-    border-color: $primary-pale;
+    border-color: variables.$primary-pale;
     opacity: 0;
   }
 }
@@ -278,8 +278,8 @@
   position: relative;
   overflow: hidden;
   width: 7rem;
-  color: $primary-pale;
-  border: 3px solid $primary-pale;
+  color: variables.$primary-pale;
+  border: 3px solid variables.$primary-pale;
   background-color: transparent;
   cursor: pointer;
   line-height: 2;
@@ -353,7 +353,7 @@
     height: auto;
     border-radius: 0;
     background-color: transparent;
-    color: $primary;
+    color: variables.$primary;
     content: 'success';
     opacity: 0;
     z-index: 2;
