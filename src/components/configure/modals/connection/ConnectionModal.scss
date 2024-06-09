@@ -1,4 +1,4 @@
-@import '../../../../variables';
+@use '../../../../variables';
 
 .connection-modal {
   display: flex;
@@ -9,5 +9,5 @@
   background-color: white;
   border: '2px solid #000';
   box-shadow: 5px;
-  padding: $space-m;
+  padding: variables.$space-m;
 }

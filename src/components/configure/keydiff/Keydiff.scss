@@ -1,11 +1,11 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .diff-frame {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-top: $space-m;
+  padding-top: variables.$space-m;
   .spacer {
     width: 94px;
   }

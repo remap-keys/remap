@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .catalog-search-wrapper {
   position: relative;
@@ -107,8 +107,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $color-gray-600;
-    background-color: $color-gray-300;
+    color: variables.$color-gray-600;
+    background-color: variables.$color-gray-300;
   }
 
   &-content {
@@ -167,7 +167,7 @@
   }
 }
 
-@include mq(sm) {
+@include variables.mq(sm) {
   .catalog-search-result-card {
     flex-direction: column;
     height: 210px;

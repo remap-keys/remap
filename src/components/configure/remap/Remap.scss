@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keyboard-wrapper {
   position: relative;
@@ -9,7 +9,7 @@
   .controller {
     display: flex;
     flex-direction: row;
-    padding: $space-l;
+    padding: variables.$space-l;
     background-color: white;
     .switch {
       display: flex;
@@ -33,8 +33,9 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  padding: $space-m $space-m $space-xl $space-m;
-  background-color: $background-color-gray;
+  padding: variables.$space-m variables.$space-m variables.$space-xl
+    variables.$space-m;
+  background-color: variables.$background-color-gray;
   overflow-y: auto;
 
   .disable {
@@ -50,7 +51,7 @@
 .keycode-desc {
   display: flex;
   width: 100%;
-  padding: $space-s $space-l;
+  padding: variables.$space-s variables.$space-l;
 
   background-color: rgba(0, 0, 0, 0.6);
   position: fixed;

@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .edit-definition-firmware-form {
   &-container {
@@ -30,7 +30,7 @@
     justify-content: flex-end;
 
     button {
-      margin-left: $space-s;
+      margin-left: variables.$space-s;
     }
   }
 
@@ -52,7 +52,7 @@
     }
 
     &-message {
-      color: $color-gray-500;
+      color: variables.$color-gray-500;
     }
   }
 

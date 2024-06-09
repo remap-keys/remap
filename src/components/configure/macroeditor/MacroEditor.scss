@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .macro-editor-wrapper {
   display: flex;
@@ -45,7 +45,7 @@
         background-color: white;
       }
       .macro-drop-spacer-over {
-        background-color: $primary;
+        background-color: variables.$primary;
       }
     }
   }
@@ -63,7 +63,7 @@
 }
 
 .macro-hold {
-  border: 1px solid $primary-light !important;
+  border: 1px solid variables.$primary-light !important;
 
   &:hover {
     cursor: grab;
@@ -159,14 +159,14 @@
             display: inline-block;
             font-size: 0.6rem;
             font-weight: 600;
-            color: $primary;
+            color: variables.$primary;
           }
         }
 
         a {
           font-size: 0.7rem;
           cursor: pointer;
-          color: $primary-light;
+          color: variables.$primary-light;
           margin-right: 2px;
         }
       }
@@ -188,15 +188,15 @@
     }
 
     .macro-key-tap {
-      border-color: $primary-light;
-      color: $primary;
-      box-shadow: 0px 0px 4px $primary-light;
+      border-color: variables.$primary-light;
+      color: variables.$primary;
+      box-shadow: 0px 0px 4px variables.$primary-light;
     }
 
     .macro-key-hold {
-      border-color: $primary-pale;
-      color: $primary;
-      box-shadow: 0px 0px 2px $primary-pale;
+      border-color: variables.$primary-pale;
+      color: variables.$primary;
+      box-shadow: 0px 0px 2px variables.$primary-pale;
     }
   }
 
@@ -206,7 +206,7 @@
     align-items: center;
     display: flex;
     .macro-key-toggle-tap-hold-btn {
-      color: $primary;
+      color: variables.$primary;
       font-weight: 600;
       font-size: 0.6rem !important;
     }
@@ -214,10 +214,10 @@
 }
 
 .drag-over-left {
-  border-left: 2px solid $primary !important;
+  border-left: 2px solid variables.$primary !important;
 }
 .drag-over-right {
-  border-right: 2px solid $primary !important;
+  border-right: 2px solid variables.$primary !important;
 }
 
 .macro-drop-key-area {
@@ -236,6 +236,6 @@
     font-size: medium;
     border: 1px dashed rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    color: $color-gray-600;
+    color: variables.$color-gray-600;
   }
 }

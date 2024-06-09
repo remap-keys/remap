@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .upload-firmware-dialog {
   &-upload-file-form {
@@ -24,7 +24,7 @@
     }
 
     &-message {
-      color: $color-gray-500;
+      color: variables.$color-gray-500;
     }
   }
 }

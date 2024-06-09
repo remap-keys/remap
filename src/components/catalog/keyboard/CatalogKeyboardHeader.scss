@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .catalog-keyboard-header {
   color: white;
@@ -16,7 +16,7 @@
     flex-direction: row;
     width: 100%;
     padding: 16px 16px 16px 8px;
-    background-color: $primary;
+    background-color: variables.$primary;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -43,7 +43,7 @@
     & h6 {
       font-size: 0.9rem;
     }
-    @include mq(lg) {
+    @include variables.mq(lg) {
       & h1 {
         font-size: 24px;
         font-weight: bold;
@@ -72,7 +72,7 @@
     &-stores {
       margin-left: 16px;
     }
-    @include mq(lg) {
+    @include variables.mq(lg) {
       &-github {
         margin-left: 8px;
         div {
@@ -99,7 +99,7 @@
   }
 }
 
-@include mq(sm) {
+@include variables.mq(sm) {
   .catalog-keyboard-header {
     margin-top: 0;
     margin-bottom: 8px;

@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keymap-save-dialog {
   .close-dialog {
@@ -7,7 +7,7 @@
     right: 20px;
 
     &:hover {
-      color: $primary-light;
+      color: variables.$primary-light;
       cursor: pointer;
     }
   }
@@ -20,9 +20,9 @@
     }
     .keymap-save-text-counter {
       text-align: right;
-      color: $color-gray-600;
+      color: variables.$color-gray-600;
       margin-right: 8px;
-      margin-bottom: $space-m;
+      margin-bottom: variables.$space-m;
       top: -20px;
       position: relative;
     }

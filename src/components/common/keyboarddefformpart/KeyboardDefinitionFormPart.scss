@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keyboarddefinitionform-wrapper {
   position: relative;
@@ -10,7 +10,7 @@
 
   .message {
     margin: 0 auto;
-    padding: $space-l 0;
+    padding: variables.$space-l 0;
     font-size: 1rem;
     overflow-wrap: anywhere;
     &.message-small {
@@ -81,7 +81,7 @@
   .validation-errors {
     width: 100%;
     max-width: 853px;
-    margin: $space-m auto;
+    margin: variables.$space-m auto;
     #other-possibilities {
       .MuiAccordionDetails-root {
         flex-direction: column;
@@ -89,7 +89,7 @@
     }
   }
   .invalid-item {
-    margin-top: $space-m;
+    margin-top: variables.$space-m;
     overflow-wrap: anywhere;
   }
 }

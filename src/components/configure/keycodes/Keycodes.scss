@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 :root {
   --switch-width: 140px;
@@ -15,11 +15,11 @@
     flex-direction: row;
     &:hover {
       .keycodekey {
-        border-color: $primary-light;
+        border-color: variables.$primary-light;
       }
       .sub-category {
         span {
-          color: $primary-light;
+          color: variables.$primary-light;
         }
       }
     }
@@ -55,15 +55,15 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
-  padding: $space-m 0;
+  padding: variables.$space-m 0;
   .blank-category {
     width: var(--switch-width);
   }
   .key-category {
-    margin: 0 $space-m;
+    margin: 0 variables.$space-m;
     &.key-category-empty-keys {
       button:disabled {
-        color: $color-gray-400;
+        color: variables.$color-gray-400;
         background-color: #ffffff00;
       }
     }
@@ -72,7 +72,7 @@
       background-color: #ffffff00;
       &:disabled,
       &:hover {
-        background-color: $primary-pale;
+        background-color: variables.$primary-pale;
       }
       &:disabled {
         color: white;

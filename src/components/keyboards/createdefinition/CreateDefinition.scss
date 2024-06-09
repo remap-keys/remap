@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .create-definition-wrapper {
   position: fixed;
@@ -20,8 +20,8 @@
 }
 
 .create-definition-stepper {
-  margin-top: $space-l;
-  margin-bottom: $space-l !important;
+  margin-top: variables.$space-l;
+  margin-bottom: variables.$space-l !important;
 }
 
 .create-definition-card {
@@ -72,13 +72,13 @@
     justify-content: flex-end;
 
     button {
-      margin-left: $space-l;
+      margin-left: variables.$space-l;
     }
   }
 
   &-notice {
     font-size: 80%;
-    color: $color-gray;
-    margin-top: $space-m;
+    color: variables.$color-gray;
+    margin-top: variables.$space-m;
   }
 }

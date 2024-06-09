@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .keymap-menu {
   display: flex;
@@ -10,7 +10,7 @@
   z-index: 2;
 
   .keymap-menu-item {
-    margin-bottom: $space-m;
+    margin-bottom: variables.$space-m;
 
     &:first-child,
     &:last-child {

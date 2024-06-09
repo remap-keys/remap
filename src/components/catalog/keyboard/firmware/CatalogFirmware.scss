@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .catalog-firmware {
   &-wrapper {
@@ -32,7 +32,7 @@
 
   &-total-download-count {
     width: 100%;
-    margin-bottom: $space-m;
+    margin-bottom: variables.$space-m;
   }
 
   &-card {

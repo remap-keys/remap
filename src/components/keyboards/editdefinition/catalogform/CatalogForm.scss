@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .edit-definition-catalog-form-container {
   display: flex;
@@ -26,8 +26,8 @@
   }
 
   &-additional-description {
-    padding: $space-m;
-    margin-bottom: $space-xl;
+    padding: variables.$space-m;
+    margin-bottom: variables.$space-xl;
 
     &-entry {
       display: flex;
@@ -36,7 +36,7 @@
 
       &-field {
         flex: auto;
-        margin-right: $space-m !important;
+        margin-right: variables.$space-m !important;
       }
     }
 
@@ -44,10 +44,10 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-top: $space-m;
+      margin-top: variables.$space-m;
 
       &:last-child {
-        margin-top: $space-l;
+        margin-top: variables.$space-l;
       }
 
       &-buttons {
@@ -55,10 +55,10 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        margin-top: $space-m;
+        margin-top: variables.$space-m;
 
         button {
-          margin-right: $space-s;
+          margin-right: variables.$space-s;
         }
       }
     }
@@ -71,7 +71,7 @@
     justify-content: flex-end;
 
     button {
-      margin-left: $space-s;
+      margin-left: variables.$space-s;
     }
   }
 
@@ -109,19 +109,19 @@
     }
 
     &-message {
-      color: $color-gray-500;
+      color: variables.$color-gray-500;
     }
 
     &-thumbnail {
       margin-left: 8px;
       width: 200px;
       height: 150px;
-      border: 1px solid $color-gray-300;
+      border: 1px solid variables.$color-gray-300;
     }
 
     &-image {
       margin-left: 8px;
-      border: 1px solid $color-gray-300;
+      border: 1px solid variables.$color-gray-300;
       width: 200px;
       height: 150px;
       background-size: contain;
@@ -131,7 +131,7 @@
 
     &-sub-image {
       margin-left: 8px;
-      border: 1px solid $color-gray-300;
+      border: 1px solid variables.$color-gray-300;
       width: 200px;
       height: 150px;
       background-size: contain;

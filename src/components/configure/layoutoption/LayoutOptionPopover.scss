@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .layout-option-root {
   .MuiPopover-paper {
@@ -11,7 +11,7 @@
     font-size: 0.9rem;
 
     .layout-option-header {
-      padding: $space-l !important;
+      padding: variables.$space-l !important;
     }
 
     .layout-option-header {

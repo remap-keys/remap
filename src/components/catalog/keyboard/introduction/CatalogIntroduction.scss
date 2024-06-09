@@ -1,4 +1,4 @@
-@import 'src/variables';
+@use '../../../../variables';
 
 .catalog-introduction {
   &-wrapper {
@@ -19,7 +19,7 @@
     margin-bottom: 32px;
   }
 
-  @include mq(sm) {
+  @include variables.mq(sm) {
     &-container {
       padding-top: 0;
     }
@@ -45,7 +45,7 @@
       width: 438px;
       align-items: center;
     }
-    @include mq(lg) {
+    @include variables.mq(lg) {
       .image-gallery-slides {
         width: 100%;
       }
@@ -57,11 +57,11 @@
       &.active,
       &:focus {
         outline: none;
-        border: 2px solid $primary;
+        border: 2px solid variables.$primary;
       }
     }
 
-    @include mq(lg) {
+    @include variables.mq(lg) {
       .image-gallery-thumbnail {
         width: 80px;
       }
@@ -72,13 +72,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: $color-gray-600;
+      color: variables.$color-gray-600;
       width: 438px;
       height: 328px;
-      background-color: $color-gray-300;
+      background-color: variables.$color-gray-300;
     }
   }
-  @include mq(sm) {
+  @include variables.mq(sm) {
     &-image {
       padding: 0;
       &-nothing {
@@ -131,7 +131,7 @@
     cursor: pointer;
 
     &:hover {
-      border: 1px solid $color-gray-300;
+      border: 1px solid variables.$color-gray-300;
     }
 
     &-image {
@@ -145,13 +145,13 @@
     &-no-image {
       width: 100px;
       height: 75px;
-      border: 1px dotted $color-gray-300;
+      border: 1px dotted variables.$color-gray-300;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: $color-gray-600;
-      background-color: $color-gray-300;
+      color: variables.$color-gray-600;
+      background-color: variables.$color-gray-300;
       font-size: 0.8rem;
     }
 

@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 :root {
   --switch-width: 140px;
@@ -22,7 +22,7 @@
       padding: 0 2px;
       &:hover {
         color: white;
-        background-color: $primary-pale;
+        background-color: variables.$primary-pale;
       }
     }
   }

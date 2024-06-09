@@ -5903,7 +5903,7 @@ __metadata:
     redux-devtools-extension: "npm:^2.13.8"
     redux-thunk: "npm:^2.3.0"
     reinvented-color-wheel: "npm:^0.2.10"
-    sass: "npm:^1.49.8"
+    sass: "npm:^1.77.4"
     sinon: "npm:^11.1.2"
     tss-react: "npm:^3.3.1"
     typescript: "npm:^5.4.5"
@@ -16010,7 +16010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.49.8":
+"sass@npm:^1.77.4":
   version: 1.77.4
   resolution: "sass@npm:1.77.4"
   dependencies:

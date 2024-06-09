@@ -1,4 +1,4 @@
-@import '../../../variables';
+@use '../../../variables';
 
 .import-file-dialog {
   .close-dialog {
@@ -7,7 +7,7 @@
     right: 20px;
 
     &:hover {
-      color: $primary-light;
+      color: variables.$primary-light;
       cursor: pointer;
     }
   }
@@ -17,13 +17,13 @@
     height: 440px;
 
     .import-success {
-      margin-top: $space-l;
+      margin-top: variables.$space-l;
       .apply-definition {
-        padding: $space-m 0;
+        padding: variables.$space-m 0;
         display: flex;
         justify-content: flex-end;
         button {
-          margin-left: $space-m;
+          margin-left: variables.$space-m;
         }
       }
     }
@@ -33,6 +33,6 @@
 .option-warning-message {
   font-size: 90%;
   line-height: 0.95rem;
-  color: $color-gray;
-  margin-bottom: $space-m;
+  color: variables.$color-gray;
+  margin-bottom: variables.$space-m;
 }

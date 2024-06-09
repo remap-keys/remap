@@ -1,4 +1,4 @@
-@import '../../../_variables.scss';
+@use '../../../_variables.scss';
 
 .flash-button-wrapper {
   width: 7rem;
@@ -20,8 +20,8 @@
     opacity: 0.5;
   }
   100% {
-    border-color: $primary;
-    background-color: $primary;
+    border-color: variables.$primary;
+    background-color: variables.$primary;
     opacity: 1;
   }
 }
@@ -37,7 +37,7 @@
   }
 
   40% {
-    border-color: $primary;
+    border-color: variables.$primary;
     background-color: transparent;
 
     transform: scale(1, 1);
@@ -49,8 +49,8 @@
     width: 2.5rem;
     text-indent: -0.6125rem;
     color: transparent;
-    border-color: $primary;
-    background-color: $primary;
+    border-color: variables.$primary;
+    background-color: variables.$primary;
   }
 
   80% {
@@ -60,8 +60,8 @@
   100% {
     margin-left: 1.25rem;
     width: 2.5rem;
-    background-color: $primary;
-    border-color: $primary;
+    background-color: variables.$primary;
+    border-color: variables.$primary;
     color: transparent;
   }
 }
@@ -115,7 +115,7 @@
   }
 
   10% {
-    border-color: $primary;
+    border-color: variables.$primary;
   }
 
   20% {
@@ -128,11 +128,11 @@
   80% {
     opacity: 1;
     width: 7rem;
-    border-color: $primary;
+    border-color: variables.$primary;
   }
 
   100% {
-    border-color: $primary-pale;
+    border-color: variables.$primary-pale;
     opacity: 0;
   }
 }
@@ -151,8 +151,8 @@
   position: relative;
   overflow: hidden;
   width: 7rem;
-  color: $primary-pale;
-  border: 3px solid $primary-pale;
+  color: variables.$primary-pale;
+  border: 3px solid variables.$primary-pale;
   background-color: transparent;
   cursor: pointer;
   line-height: 2;
@@ -234,7 +234,7 @@
     height: auto;
     border-radius: 0;
     background-color: transparent;
-    color: $primary;
+    color: variables.$primary;
     content: 'success';
     opacity: 0;
     z-index: 2;

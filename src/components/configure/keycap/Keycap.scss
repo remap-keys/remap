@@ -1,11 +1,11 @@
-@import '../../../variables';
+@use '../../../variables';
 
 @keyframes blink-primary {
   0% {
-    background-color: $primary-pale;
+    background-color: variables.$primary-pale;
   }
   100% {
-    background-color: $primary-light;
+    background-color: variables.$primary-light;
   }
 }
 @keyframes blink-border {
@@ -39,30 +39,30 @@
 
 .keycap-base {
   &.drag-over {
-    border-color: $primary-pale;
+    border-color: variables.$primary-pale;
     .keycap {
-      background-color: $primary-pale !important;
-      border-color: $primary !important;
+      background-color: variables.$primary-pale !important;
+      border-color: variables.$primary !important;
     }
     .keyroof-base {
-      border-color: $primary-pale !important;
-      background-color: $primary-pale !important;
+      border-color: variables.$primary-pale !important;
+      background-color: variables.$primary-pale !important;
     }
     .keyroof {
-      background-color: $primary-pale !important;
+      background-color: variables.$primary-pale !important;
     }
   }
   &.keycap-selected {
     .keycap {
-      background: $primary-light !important;
-      border-color: $primary-pale !important;
+      background: variables.$primary-light !important;
+      border-color: variables.$primary-pale !important;
     }
     .keyroof-base {
-      border-color: $primary-thin !important;
-      background-color: $primary-pale !important;
+      border-color: variables.$primary-thin !important;
+      background-color: variables.$primary-pale !important;
     }
     .keyroof {
-      background-color: $primary-pale !important;
+      background-color: variables.$primary-pale !important;
     }
   }
   .keycap {
@@ -182,24 +182,24 @@
       }
       .keycode-label {
         font-weight: 500;
-        color: $color-gray-600;
+        color: variables.$color-gray-600;
       }
       .modifier {
-        color: $color-gray-600;
+        color: variables.$color-gray-600;
         font-size: 0.6rem;
         width: 124%;
       }
       .left {
         text-align: left;
-        padding-left: $space-xs;
+        padding-left: variables.$space-xs;
       }
       .center {
         text-align: center;
       }
       .right {
         text-align: right;
-        padding-right: $space-m;
-        color: $color-gray-500;
+        padding-right: variables.$space-m;
+        color: variables.$color-gray-500;
       }
     }
     .color-modifier {
