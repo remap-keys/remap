@@ -226,7 +226,7 @@ export class BacklightSaveCommand extends AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -313,9 +313,9 @@ export class RgbLightSetValueCommand extends AbstractCommand<
     const valueId = this.getRequest().valueId;
     return (
       resultArray[0] === id_custom_set_value &&
-        resultArray[1] === id_qmk_rgblight_channel &&
-        resultArray[2] === valueId &&
-        resultArray[3] === this.getRequest().value1,
+      resultArray[1] === id_qmk_rgblight_channel &&
+      resultArray[2] === valueId &&
+      resultArray[3] === this.getRequest().value1 &&
       resultArray[4] === this.getRequest().value2
     );
   }
@@ -330,7 +330,7 @@ export class RgbLightSaveCommand extends AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -523,7 +523,7 @@ export class DynamicKeymapResetCommand extends AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -797,7 +797,7 @@ export class SetLayoutOptionsCommand extends AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -894,7 +894,7 @@ export class DynamicKeymapSetEncoderCommand extends AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 

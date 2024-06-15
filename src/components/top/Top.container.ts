@@ -4,7 +4,7 @@ import Top from './Top';
 import { MetaActions } from '../../actions/meta.action';
 
 // eslint-disable-next-line no-unused-vars
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (_state: RootState) => {
   return {};
 };
 export type TopStateType = ReturnType<typeof mapStateToProps>;

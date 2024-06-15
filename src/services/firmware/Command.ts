@@ -44,7 +44,7 @@ export abstract class AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  protected async verify(serial: ISerial): Promise<IResult> {
+  protected async verify(_serial: ISerial): Promise<IResult> {
     return {
       success: false,
       error: 'Verification logic not implemented.',

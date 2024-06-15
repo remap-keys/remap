@@ -234,7 +234,7 @@ export class SetDeviceTypeCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -382,7 +382,7 @@ export class SetAddressCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -404,7 +404,7 @@ export class ExitCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -479,7 +479,7 @@ export class EnterProgramModeCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -501,7 +501,7 @@ export class LeaveProgramModeCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -523,7 +523,7 @@ export class ClearApplicationSectionOfFlashCommand extends AbstractCaterinaComma
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 
@@ -570,7 +570,7 @@ export class WriteBytesToMemoryCommand extends AbstractCaterinaCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  createResponse(resultArray: Uint8Array): ICommandResponse {
+  createResponse(_resultArray: Uint8Array): ICommandResponse {
     return {};
   }
 

@@ -56,12 +56,7 @@ export default class LightingDialog extends React.Component<
     this.state = {};
   }
 
-  shouldComponentUpdate(
-    // eslint-disable-next-line no-unused-vars
-    nextProps: OwnProps,
-    // eslint-disable-next-line no-unused-vars
-    nextState: OwnState
-  ) {
+  shouldComponentUpdate(_nextProps: OwnProps, _nextState: OwnState) {
     this.initLighting();
     return true;
   }

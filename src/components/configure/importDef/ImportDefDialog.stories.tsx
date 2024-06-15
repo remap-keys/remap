@@ -17,8 +17,7 @@ export default {
   ],
 };
 
-// eslint-disable-next-line no-unused-vars
-const keyboardDefinition: KeyboardDefinitionSchema = {
+const _keyboardDefinition: KeyboardDefinitionSchema = {
   name: 'Dummy',
   vendorId: hexadecimal(777),
   productId: hexadecimal(1),

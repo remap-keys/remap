@@ -3,8 +3,7 @@ import AuthProviderDialog from './AuthProviderDialog';
 import { RootState } from '../../../store/state';
 import { AppActionsThunk } from '../../../actions/actions';
 
-// eslint-disable-next-line no-unused-vars
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (_state: RootState) => {
   return {};
 };
 export type AuthProviderDialogStateType = ReturnType<typeof mapStateToProps>;

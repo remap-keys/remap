@@ -220,8 +220,7 @@ export default class Keymap extends React.Component<
 
   componentDidUpdate(
     prevProps: KeymapPropsType,
-    // eslint-disable-next-line no-unused-vars
-    prevState: OwnKeymapStateType
+    _prevState: OwnKeymapStateType
   ) {
     if (prevProps.testMatrix !== this.props.testMatrix) {
       clearInterval(this.state.interval);

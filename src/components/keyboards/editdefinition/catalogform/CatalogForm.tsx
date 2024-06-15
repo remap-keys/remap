@@ -79,8 +79,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeKeyboardType = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -90,8 +89,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeKeyLayout = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -192,8 +190,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeHotSwap = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -203,8 +200,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeOled = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -214,8 +210,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeSpeaker = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -225,8 +220,7 @@ export default function CatalogForm(props: CatalogFormProps) {
 
   const onChangeWireless = (
     event: SelectChangeEvent,
-    // eslint-disable-next-line no-unused-vars
-    child: React.ReactNode
+    _child: React.ReactNode
   ): void => {
     props.updateFeature!(
       event.target.value as IKeyboardFeatures,
@@ -285,8 +279,7 @@ export default function CatalogForm(props: CatalogFormProps) {
     props.updateDescription!(description);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const onClickAddStore = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickAddStore = (_event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenStoreAddDialog(true);
   };
 
@@ -332,8 +325,7 @@ export default function CatalogForm(props: CatalogFormProps) {
     setAdditionalDescriptionBody(additionalDescription.body);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const onClickAdditionalDescriptionAdd = (event: React.SyntheticEvent) => {
+  const onClickAdditionalDescriptionAdd = (_event: React.SyntheticEvent) => {
     props.addAdditionalDescription!(
       additionalDescriptionTitle,
       additionalDescriptionBody
@@ -801,8 +793,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <ListItemSecondaryAction>
                       <IconButton
                         edge="end"
-                        // eslint-disable-next-line no-unused-vars
-                        onClick={(event: React.MouseEvent) => {
+                        onClick={(_event: React.MouseEvent) => {
                           onClickDeleteStore(store);
                         }}
                       >

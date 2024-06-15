@@ -28,31 +28,24 @@ export class WebFileSystem implements IBootloader {
   }
 
   async read(
-    // eslint-disable-next-line no-unused-vars
-    size: number,
-    // eslint-disable-next-line no-unused-vars
-    progress: FirmwareWriterProgressListener,
-    // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    _size: number,
+    _progress: FirmwareWriterProgressListener,
+    _phase: FirmwareWriterPhaseListener
   ): Promise<IBootloaderReadResult> {
     throw new Error('This method never be called.');
   }
 
   async verify(
-    // eslint-disable-next-line no-unused-vars
-    bytes: Uint8Array,
-    // eslint-disable-next-line no-unused-vars
-    progress: FirmwareWriterProgressListener,
-    // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    _bytes: Uint8Array,
+    _progress: FirmwareWriterProgressListener,
+    _phase: FirmwareWriterPhaseListener
   ): Promise<IResult> {
     throw new Error('This method never be called.');
   }
 
   async write(
     flashBytes: Uint8Array,
-    // eslint-disable-next-line no-unused-vars
-    eepromBytes: Uint8Array | null,
+    _eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener
   ): Promise<IResult> {
