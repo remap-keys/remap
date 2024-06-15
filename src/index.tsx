@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import OGP from './components/common/ogp/OGP.container';
 import { HelmetProvider } from 'react-helmet-async';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { createRoot } from "react-dom/client"
+import { createRoot } from 'react-dom/client';
 
 const store = createStore(
   reducers,
@@ -32,7 +32,7 @@ root.render(
         </ThemeProvider>
       </HelmetProvider>
     </React.StrictMode>
-  </Provider>,
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

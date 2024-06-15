@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
-import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
+import {
+  OptionsObject,
+  ProviderContext,
+  SnackbarKey,
+  withSnackbar,
+} from 'notistack';
 import { CatalogActionsType, CatalogStateType } from './Catalog.container';
 import { NotificationItem } from '../../actions/actions';
 import CloseIcon from '@mui/icons-material/Close';

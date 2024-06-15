@@ -2,7 +2,12 @@ import {
   OrganizationManagementActionsType,
   OrganizationManagementStateType,
 } from './OrganizationManagement.container';
-import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
+import {
+  OptionsObject,
+  ProviderContext,
+  SnackbarKey,
+  withSnackbar,
+} from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material';

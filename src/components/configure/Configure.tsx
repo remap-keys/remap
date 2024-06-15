@@ -1,7 +1,12 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import './Configure.scss';
-import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
+import {
+  OptionsObject,
+  ProviderContext,
+  SnackbarKey,
+  withSnackbar,
+} from 'notistack';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
 import {
