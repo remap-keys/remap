@@ -219,8 +219,7 @@ export const storageActionsThunk = {
     (keyboardDefinition: KeyboardDefinitionSchema): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      _getState: () => RootState
     ) => {
       dispatch(StorageActions.updateKeyboardDefinition(keyboardDefinition));
       dispatch(

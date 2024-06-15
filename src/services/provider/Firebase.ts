@@ -1037,7 +1037,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     progress?: (uploadedRate: number) => void
   ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IEmptyResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, _reject) => {
       const filename = FirebaseProvider.createFirmwareFilename(
         keyboardName,
         firmwareFile,
@@ -1248,7 +1248,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     progress: (uploadedRate: number) => void
   ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IEmptyResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, _reject) => {
       const uploadTask = this.storage.ref(`/catalog/${definitionId}`).put(file);
       uploadTask.on(
         firebase.storage.TaskEvent.STATE_CHANGED,
@@ -1292,7 +1292,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     progress: (uploadedRate: number) => void
   ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IEmptyResult>((resolve, reject) => {
+    return new Promise<IEmptyResult>((resolve, _reject) => {
       const timestamp = new Date().getTime();
       const uploadTask = this.storage
         .ref(`/catalog/${definitionId}_${timestamp}`)

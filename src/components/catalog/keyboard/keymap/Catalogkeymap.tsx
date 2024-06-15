@@ -48,8 +48,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
 
   const navigate = useNavigate();
 
-  // eslint-disable-next-line no-unused-vars
-  const onClickBackButton = (event: React.MouseEvent<{}>) => {
+  const _onClickBackButton = (_event: React.MouseEvent<{}>) => {
     // eslint-disable-next-line no-undef
     navigate('/catalog');
     props.goToSearch!();
@@ -296,8 +295,7 @@ type LayerProps = {
 
 function Layer(props: LayerProps) {
   const layers = [...Array(props.layerCount)].map((_, i) => i);
-  // eslint-disable-next-line no-unused-vars
-  const invisiblePages = layers.map((layer) => true);
+  const invisiblePages = layers.map((_layer) => true);
   return (
     <div className="catalog-keymap-layer-wrapper">
       <LayerPagination

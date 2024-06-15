@@ -40,7 +40,7 @@ export default class StoreAddDialog extends React.Component<
   }
 
   // eslint-disable-next-line no-unused-vars
-  private onClickClose(event: React.MouseEvent) {
+  private onClickClose(_event: React.MouseEvent) {
     this.props.onClose();
   }
 

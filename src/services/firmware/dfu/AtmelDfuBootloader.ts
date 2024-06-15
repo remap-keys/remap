@@ -46,12 +46,9 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
   }
 
   async read(
-    // eslint-disable-next-line no-unused-vars
-    size: number,
-    // eslint-disable-next-line no-unused-vars
-    progress: FirmwareWriterProgressListener,
-    // eslint-disable-next-line no-unused-vars
-    phase: FirmwareWriterPhaseListener
+    _size: number,
+    _progress: FirmwareWriterProgressListener,
+    _phase: FirmwareWriterPhaseListener
   ): Promise<IBootloaderReadResult> {
     return {
       success: false,
@@ -397,7 +394,7 @@ export default class AtmelDfuBootloader extends AbstractDfuBootloader {
       dfuGetStatusResult.status!.state === USB_STATE.DFU_DOWNLOAD_BUSY
     ) {
       // eslint-disable-next-line no-unused-vars
-      return new Promise<IResult>((resolve, reject) => {
+      return new Promise<IResult>((resolve, _reject) => {
         setTimeout(() => {
           this.waitUntilErasingFinished(start, retries, progress)
             .then((result) => {

@@ -6,6 +6,7 @@ import react from "eslint-plugin-react";
 import prettier from "eslint-plugin-prettier";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
+import tsEslint from "@typescript-eslint/eslint-plugin";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -29,6 +30,7 @@ export default [...fixupConfigRules(compat.extends(
     plugins: {
         react: fixupPluginRules(react),
         prettier: fixupPluginRules(prettier),
+        "@typescript-eslint": tsEslint,
     },
 
     languageOptions: {
@@ -49,7 +51,6 @@ export default [...fixupConfigRules(compat.extends(
 
         parserOptions: {
             version: 2018,
-
             ecmaFeatures: {
                 jsx: true,
             },
@@ -61,7 +62,16 @@ export default [...fixupConfigRules(compat.extends(
             usePrettierrc: true,
         }],
 
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "react/prop-types": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_"
+          }
+        ],
     },
 }];

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import React, { KeyboardEvent } from 'react';
 import './MacroEditor.scss';
 import {
@@ -7,7 +5,7 @@ import {
   MacroEditorStateType,
 } from './MacroEditor.container';
 import { Button } from '@mui/material';
-import { genKey, Key } from '../keycodekey/KeyGen';
+import { genKey } from '../keycodekey/KeyGen';
 import {
   Hold,
   MacroHold,
@@ -467,7 +465,7 @@ export default class MacroEditor extends React.Component<
                         onDelete={(index) => {
                           this.onDelete(index);
                         }}
-                        onChangeType={(index, type) => {
+                        onChangeType={(index, _type) => {
                           this.onToggleKeyType(index);
                         }}
                         onChangeDelay={(index, subIndex) => {

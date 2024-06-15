@@ -1,6 +1,5 @@
 import { FirebaseProvider } from './Firebase';
 import firebase from 'firebase/app';
-import * as sinon from 'sinon';
 
 describe('FirebaseProvider', () => {
   test('createFirmwareFilename', () => {

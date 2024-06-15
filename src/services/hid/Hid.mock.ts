@@ -27,15 +27,15 @@ export const IHidMock: IHid = {
       resolve([kbd]);
     });
   },
-  setConnectionEventHandler: (handler: IConnectionEventHandler) => {},
-  connect: (connectParams?: IConnectParams) => {
+  setConnectionEventHandler: (_handler: IConnectionEventHandler) => {},
+  connect: (_connectParams?: IConnectParams) => {
     return new Promise((resolve) => {
       const kbd: IKeyboard = {} as IKeyboard;
       resolve({ success: true, keyboard: kbd });
     });
   },
   close: () => {},
-  createKeycodeCompositionFactory: (code: number) => {
+  createKeycodeCompositionFactory: (_code: number) => {
     return {} as any;
   },
 };
@@ -58,10 +58,10 @@ export const mockIKeyboad: IKeyboard = {
   isOpened: () => {
     return true;
   },
-  isSameDevice: (target) => {
+  isSameDevice: (_target) => {
     return true;
   },
-  enqueue: (command: ICommand) => {
+  enqueue: (_command: ICommand) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
@@ -77,10 +77,10 @@ export const mockIKeyboad: IKeyboard = {
     });
   },
   fetchKeymaps: (
-    layer: number,
-    rowCount: number,
-    columnCount: number,
-    labelLang: KeyboardLabelLang
+    _layer: number,
+    _rowCount: number,
+    _columnCount: number,
+    _labelLang: KeyboardLabelLang
   ) => {
     return new Promise((resolve) => {
       resolve({
@@ -107,10 +107,10 @@ export const mockIKeyboad: IKeyboard = {
     });
   },
   fetchEncodersKeymaps(
-    layer: number,
-    encoderIds: number[],
-    labelLang: KeyboardLabelLang,
-    customKeycodes: ICustomKeycode[] | undefined
+    _layer: number,
+    _encoderIds: number[],
+    _labelLang: KeyboardLabelLang,
+    _customKeycodes: ICustomKeycode[] | undefined
   ): Promise<IFetchEncodersKeymapsResult> {
     return new Promise((resolve) => {
       resolve({
@@ -154,16 +154,21 @@ export const mockIKeyboad: IKeyboard = {
       });
     });
   },
-  updateKeymap: (ayer: number, row: number, column: number, code: number) => {
+  updateKeymap: (
+    _layer: number,
+    _row: number,
+    _column: number,
+    _code: number
+  ) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
   updateEncoderKeymap(
-    layer: number,
-    encoderId: number,
-    clockwise: boolean,
-    code: number
+    _layer: number,
+    _encoderId: number,
+    _clockwise: boolean,
+    _code: number
   ): Promise<IResult> {
     return new Promise((resolve) => {
       resolve({ success: true });
@@ -199,32 +204,32 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true, hue: 200, sat: 111 });
     });
   },
-  updateBacklightBrightness: (brightness: number) => {
+  updateBacklightBrightness: (_brightness: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
-  updateBacklightEffect: (isBreathing: boolean) => {
+  updateBacklightEffect: (_isBreathing: boolean) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
-  updateRGBLightBrightness: (brightness: number) => {
+  updateRGBLightBrightness: (_brightness: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
-  updateRGBLightEffect: (mode: number) => {
+  updateRGBLightEffect: (_mode: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
-  updateRGBLightEffectSpeed: (speed: number) => {
+  updateRGBLightEffectSpeed: (_speed: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
   },
-  updateRGBLightColor: (hue: number, sat: number) => {
+  updateRGBLightColor: (_hue: number, _sat: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
@@ -249,7 +254,7 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true, value: 0 });
     });
   },
-  updateLayoutOptions: (value: number) => {
+  updateLayoutOptions: (_value: number) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });
@@ -264,12 +269,12 @@ export const mockIKeyboad: IKeyboard = {
       resolve({ success: true, bufferSize: 0 });
     });
   },
-  fetchMacroBuffer: (bufferSize: number) => {
+  fetchMacroBuffer: (_bufferSize: number) => {
     return new Promise((resolve) => {
       resolve({ success: true, buffer: new Uint8Array(0) });
     });
   },
-  updateMacroBuffer: (offset: number, buffer: Uint8Array) => {
+  updateMacroBuffer: (_offset: number, _buffer: Uint8Array) => {
     return new Promise((resolve) => {
       resolve({ success: true });
     });

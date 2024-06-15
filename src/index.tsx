@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';

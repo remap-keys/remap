@@ -23,7 +23,7 @@ export class WebSerial implements ISerial {
     errorHandler: IErrorHandler
   ): Promise<IResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IResult>((resolve, reject) => {
+    return new Promise<IResult>((resolve, _reject) => {
       this.openPort(baudRate, bufferSize)
         .then((result) => {
           if (!result.success) {
@@ -201,7 +201,7 @@ export class WebSerial implements ISerial {
 
   private async sleep(ms: number): Promise<void> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, _reject) => {
       setTimeout(resolve, ms);
     });
   }

@@ -454,8 +454,7 @@ export const hidActionsThunk = {
     (keyboard: IKeyboard): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
-      // eslint-disable-next-line no-unused-vars
-      getState: () => RootState
+      _getState: () => RootState
     ) => {
       await keyboard.close();
       dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
@@ -625,8 +624,7 @@ export const hidActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      // eslint-disable-next-line no-unused-vars
-      const { app, entities } = getState();
+      const { entities } = getState();
       const keyboard: IKeyboard = entities.keyboard!;
 
       const rows = entities.keyboardDefinition!.matrix.rows;

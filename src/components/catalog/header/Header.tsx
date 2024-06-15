@@ -22,14 +22,12 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     super(props);
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onClickBackButton(event: SyntheticEvent) {
+  onClickBackButton(_event: SyntheticEvent) {
     sendEventToGoogleAnalytics('catalog/back_to_search');
     this.props.goToSearch!();
   }
 
-  // eslint-disable-next-line no-unused-vars
-  onClickFlashFirmware(event: SyntheticEvent) {
+  onClickFlashFirmware(_event: SyntheticEvent) {
     this.props.openUploadFirmwareDialog!();
   }
 

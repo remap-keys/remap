@@ -179,7 +179,7 @@ export default class EditOrganization extends React.Component<
                                     <IconButton
                                       edge="end"
                                       // eslint-disable-next-line no-unused-vars
-                                      onClick={(event: React.MouseEvent) => {
+                                      onClick={(_event: React.MouseEvent) => {
                                         this.handleDeleteMemberClick(member);
                                       }}
                                       disabled={member.me}
