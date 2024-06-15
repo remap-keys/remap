@@ -3,7 +3,12 @@ import {
   KeyboardDefinitionManagementActionsType,
   KeyboardDefinitionManagementStateType,
 } from './KeyboardDefinitionManagement.container';
-import { OptionsObject, ProviderContext, SnackbarKey, withSnackbar } from 'notistack';
+import {
+  OptionsObject,
+  ProviderContext,
+  SnackbarKey,
+  withSnackbar,
+} from 'notistack';
 import { NotificationItem } from '../../actions/actions';
 import { Button, CssBaseline } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
