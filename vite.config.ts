@@ -13,6 +13,15 @@ export default defineConfig(({ mode }) => {
     build: {
       sourcemap: true,
       outDir: '../build',
+      rollupOptions: {
+        onwarn(warning, defaultHandler) {
+          // See: https://github.com/vitejs/vite/issues/15012
+          if (warning.code === 'SOURCEMAP_ERROR') {
+            return;
+          }
+          defaultHandler(warning);
+        },
+      },
     },
     server: {
       port: 3000,
