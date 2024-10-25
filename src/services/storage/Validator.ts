@@ -23,7 +23,7 @@ export type ValidateKeyboardDefinitionSchemaResult = {
 };
 
 export const isJsonFile = (file: File): boolean => {
-  return file.name.endsWith('.json');
+  return file.name.toLowerCase().endsWith('.json');
 };
 
 export const validateIds = (
