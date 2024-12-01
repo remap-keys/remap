@@ -36,7 +36,12 @@ class App extends React.Component<StyledComponentProps, {}> {
           variantInfo: this.props.classes!.info,
         }}
       >
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true,
+          }}
+        >
           <Routes>
             <Route path="/hid" element={<Hid />} />
             <Route path="/firmware" element={<Firmware />} />
