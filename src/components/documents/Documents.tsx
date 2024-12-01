@@ -12,7 +12,7 @@ import ReviewPolicy from './reviewpolicy/ReviewPolicy';
 import TermsOfUse from './termsofuse/TermsOfUse';
 import Faq from './faq/Faq';
 import Index from './index/Index';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import SupportQmk022 from './support-qmk-022/SupportQmk022';
 import Encoders from './encoders/Encoders';
 import Build from './build/Build';

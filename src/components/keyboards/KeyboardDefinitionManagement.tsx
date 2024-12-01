@@ -15,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Header from './header/Header.container';
 import Content from './content/Content.container';
 import { getGitHubProviderData } from '../../services/auth/Auth';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 type ParamsType = {
   definitionId: string;

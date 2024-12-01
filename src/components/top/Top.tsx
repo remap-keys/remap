@@ -15,7 +15,7 @@ import Footer from '../common/footer/Footer.container';
 import { Logo } from '../common/logo/Logo';
 import './Top.scss';
 import { TopActionsType, TopStateType } from './Top.container';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   Alert,
   AppBar,

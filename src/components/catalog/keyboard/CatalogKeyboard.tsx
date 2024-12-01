@@ -8,7 +8,7 @@ import CatalogIntroduction from './introduction/CatalogIntroduction.container';
 import CatalogKeymap from './keymap/CatalogKeymap.container';
 import CatalogFirmware from './firmware/CatalogFirmware.container';
 import useLocationChange from '../../common/hooks/LocationChange';
-import { matchPath, useNavigationType } from 'react-router-dom';
+import { matchPath, useNavigationType } from 'react-router';
 import qs from 'qs';
 import CatalogBuild from './build/CatalogBuild.container';
 

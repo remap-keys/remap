@@ -1,7 +1,7 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
 // import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import Configure from './components/configure/Configure.container';
 import Hid from './services/hid/ui/Hid';
 import Top from './components/top/Top.container';
@@ -36,12 +36,7 @@ class App extends React.Component<StyledComponentProps, {}> {
           variantInfo: this.props.classes!.info,
         }}
       >
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-            v7_startTransition: true,
-          }}
-        >
+        <BrowserRouter>
           <Routes>
             <Route path="/hid" element={<Hid />} />
             <Route path="/firmware" element={<Firmware />} />
