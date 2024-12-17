@@ -13,7 +13,7 @@ import {
 } from '../../../services/storage/Storage';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import TweetButton from '../../common/twitter/TweetButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 type ContentState = {};
 type OwnProps = {};

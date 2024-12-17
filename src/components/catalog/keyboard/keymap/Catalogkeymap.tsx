@@ -18,7 +18,7 @@ import { genKey, Key } from '../../../configure/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../../services/pdf/KeymapPdfGenerator';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import LayerPagination from '../../../common/layer/LayerPagination';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { MOD_LEFT } from '../../../../services/hid/Constraints';
 
 type OwnProps = {};
