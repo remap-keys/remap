@@ -17,7 +17,6 @@ import './Top.scss';
 import { TopActionsType, TopStateType } from './Top.container';
 import { useNavigate } from 'react-router';
 import {
-  Alert,
   AppBar,
   Button,
   Card,
@@ -25,7 +24,6 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -93,14 +91,6 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
-      <Alert severity="info">
-        <strong>Info: </strong>
-        [Dec 19th 2023] The statistics feature is available. See{' '}
-        <Link href="/docs/statistics" target="_blank" rel="noreferrer">
-          more detail
-        </Link>
-        .
-      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">
