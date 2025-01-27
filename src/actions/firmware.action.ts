@@ -292,12 +292,10 @@ export const firmwareActionsThunk = {
       dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
       dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
       dispatch(FlashFirmwareDialogActions.updateFlashing(true));
-      const { entities, storage, serial, common } = getState();
+      const { serial, common } = getState();
       const firmwareWriter = serial.writer;
-      const firmware = common.firmware.flashFirmwareDialog.firmware!;
       const bootloaderType =
         common.firmware.flashFirmwareDialog.bootloaderType!;
-      const flashMode = common.firmware.flashFirmwareDialog.flashMode;
 
       let flashBytes: Buffer | undefined =
         common.firmware.flashFirmwareDialog.firmwareBlob;
