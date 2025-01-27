@@ -116,10 +116,10 @@ export default function FlashFirmwareDialog(
               value={props.logs!.join('\n')}
             />
           </div>
-        ) : (
+        ) : props.mode === 'instruction' ? (
           <React.Fragment>
             <div className="flash-firmware-dialog-instruction">
-              <Typography variant="body1">3 Steps to Flash</Typography>
+              <Typography variant="body1">Three Steps to Flash</Typography>
               <div className="flash-firmware-dialog-instruction-items">
                 <div className="flash-firmware-dialog-instruction-item">
                   <img src={instructionImage1} alt="instructionImage1" />
@@ -158,17 +158,23 @@ export default function FlashFirmwareDialog(
               .
             </Typography>
           </React.Fragment>
+        ) : (
+          <Typography variant="body1">Now loading the firmware...</Typography>
         )}
       </DialogContent>
       <DialogActions>
         <Button
           color="primary"
           onClick={onClickFlash}
-          disabled={props.flashing}
+          disabled={props.mode === 'loading' || props.flashing}
         >
           Flash
         </Button>
-        <Button autoFocus onClick={onClickClose} disabled={props.flashing}>
+        <Button
+          autoFocus
+          onClick={onClickClose}
+          disabled={props.mode === 'loading' || props.flashing}
+        >
           Close
         </Button>
       </DialogActions>

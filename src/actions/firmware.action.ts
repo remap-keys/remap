@@ -48,6 +48,7 @@ export const FLASH_FIRMWARE_DIALOG_CLEAR = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/Cle
 export const FLASH_FIRMWARE_DIALOG_UPDATE_KEYBOARD_NAME = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateKeyboardName`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFlashMode`;
 export const FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateBuildingFirmwareTask`;
+export const FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE_BLOB = `${FLASH_FIRMWARE_DIALOG_ACTIONS}/UpdateFirmwareBlob`;
 export const FlashFirmwareDialogActions = {
   updateFirmware: (firmware: IFirmware | null) => {
     return {
@@ -117,6 +118,12 @@ export const FlashFirmwareDialogActions = {
       value: task,
     };
   },
+  updateFirmwareBlob: (blob: Buffer | undefined) => {
+    return {
+      type: FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE_BLOB,
+      value: blob,
+    };
+  },
 };
 
 type ActionTypes = ReturnType<
@@ -171,9 +178,9 @@ export const firmwareActionsThunk = {
           created_at: new Date(),
         })
       );
+      await dispatch(firmwareActionsThunk.loadFirmwareBlob());
     },
-  // eslint-disable-next-line no-undef
-  flashFirmware:
+  loadFirmwareBlob:
     (): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -182,21 +189,17 @@ export const firmwareActionsThunk = {
       const handleError = (error: string, cause?: any) => {
         console.error(error);
         dispatch(NotificationActions.addError(error, cause));
-        dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
-        dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+        dispatch(FlashFirmwareDialogActions.clear());
       };
 
-      dispatch(FlashFirmwareDialogActions.updateLogs([]));
-      dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
-      dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
-      dispatch(FlashFirmwareDialogActions.updateFlashing(true));
-      const { entities, storage, serial, common } = getState();
-      const firmwareWriter = serial.writer;
+      dispatch(FlashFirmwareDialogActions.updateMode('loading'));
+      dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+
+      const { common, entities, storage } = getState();
       const firmware = common.firmware.flashFirmwareDialog.firmware!;
       const bootloaderType =
         common.firmware.flashFirmwareDialog.bootloaderType!;
       const flashMode = common.firmware.flashFirmwareDialog.flashMode;
-
       let flashBytes: Buffer | undefined;
       if (flashMode === 'fetch_and_flash') {
         const definitionDocument = entities.keyboardDefinitionDocument!;
@@ -268,11 +271,48 @@ export const firmwareActionsThunk = {
           return;
         }
       }
+      dispatch(FlashFirmwareDialogActions.updateFirmwareBlob(flashBytes));
+      dispatch(FlashFirmwareDialogActions.updateMode('instruction'));
+    },
+  // eslint-disable-next-line no-undef
+  flashFirmware:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const handleError = (error: string, cause?: any) => {
+        console.error(error);
+        dispatch(NotificationActions.addError(error, cause));
+        dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
+        dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+      };
+
+      dispatch(FlashFirmwareDialogActions.updateLogs([]));
+      dispatch(FlashFirmwareDialogActions.updateProgressRate(0));
+      dispatch(FlashFirmwareDialogActions.updateMode('flashing'));
+      dispatch(FlashFirmwareDialogActions.updateFlashing(true));
+      const { serial, common } = getState();
+      const firmwareWriter = serial.writer;
+      const bootloaderType =
+        common.firmware.flashFirmwareDialog.bootloaderType!;
+
+      let flashBytes: Buffer | undefined =
+        common.firmware.flashFirmwareDialog.firmwareBlob;
+      if (flashBytes === undefined) {
+        dispatch(
+          NotificationActions.addError('Firmware binary is not loaded.')
+        );
+        dispatch(FlashFirmwareDialogActions.clear());
+        return;
+      }
+
       dispatch(
         FlashFirmwareDialogActions.appendLog(
-          'Reading the firmware binary done.'
+          'Firmware binary has already been loaded. Start writing the firmware.'
         )
       );
+
       dispatch(FlashFirmwareDialogActions.updateProgressRate(15));
 
       const writeResult = await firmwareWriter.write(
@@ -341,15 +381,14 @@ const createFlashBytes = (
         return buffer;
     }
   } catch (error) {
-    console.error(error);
+    console.error('Creating a flashed bytes failed.', error);
     dispatch(
       NotificationActions.addError(
         'Creating the firmware binary failed.',
         error
       )
     );
-    dispatch(FlashFirmwareDialogActions.appendLog(`Error: ${error}`));
-    dispatch(FlashFirmwareDialogActions.updateFlashing(false));
+    dispatch(FlashFirmwareDialogActions.clear());
     return undefined;
   }
 };

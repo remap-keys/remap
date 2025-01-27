@@ -168,6 +168,7 @@ export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
 export const ALL_FLASH_FIRMWARE_DIALOG_MODE = [
   'instruction',
   'flashing',
+  'loading',
 ] as const;
 type flashFirmwareDialogModeTuple = typeof ALL_FLASH_FIRMWARE_DIALOG_MODE;
 export type IFlashFirmwareDialogMode = flashFirmwareDialogModeTuple[number];
@@ -463,6 +464,7 @@ export type RootState = {
         bootloaderType: IBootloaderType;
         flashMode: IFlashFirmwareDialogFlashMode;
         buildingFirmwareTask: IFirmwareBuildingTask | null;
+        firmwareBlob: Buffer | undefined;
       };
       uploadFirmwareDialog: {
         open: boolean;
@@ -725,6 +727,7 @@ export const INIT_STATE: RootState = {
         bootloaderType: 'caterina',
         flashMode: 'fetch_and_flash',
         buildingFirmwareTask: null,
+        firmwareBlob: undefined,
       },
       uploadFirmwareDialog: {
         open: false,
