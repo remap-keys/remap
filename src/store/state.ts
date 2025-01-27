@@ -727,6 +727,7 @@ export const INIT_STATE: RootState = {
         bootloaderType: 'caterina',
         flashMode: 'fetch_and_flash',
         buildingFirmwareTask: null,
+        firmwareBlob: undefined,
       },
       uploadFirmwareDialog: {
         open: false,
