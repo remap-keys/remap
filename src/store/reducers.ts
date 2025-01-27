@@ -201,6 +201,7 @@ import {
   FLASH_FIRMWARE_DIALOG_UPDATE_BOOTLOADER_TYPE,
   FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK,
   FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE,
+  FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE_BLOB,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASH_MODE,
   FLASH_FIRMWARE_DIALOG_UPDATE_FLASHING,
   FLASH_FIRMWARE_DIALOG_UPDATE_KEYBOARD_NAME,
@@ -1196,7 +1197,8 @@ const flashFirmwareDialogReducer = (
       draft.common.firmware.flashFirmwareDialog.flashing = false;
       draft.common.firmware.flashFirmwareDialog.progressRate = 0;
       draft.common.firmware.flashFirmwareDialog.logs = [''];
-      draft.common.firmware.flashFirmwareDialog.mode = 'instruction';
+      draft.common.firmware.flashFirmwareDialog.firmware = null;
+      draft.common.firmware.flashFirmwareDialog.mode = 'loading';
       break;
     case FLASH_FIRMWARE_DIALOG_UPDATE_LOGS:
       draft.common.firmware.flashFirmwareDialog.logs = [''];
@@ -1213,6 +1215,9 @@ const flashFirmwareDialogReducer = (
     case FLASH_FIRMWARE_DIALOG_UPDATE_BUILDING_FIRMWARE_TASK:
       draft.common.firmware.flashFirmwareDialog.buildingFirmwareTask =
         action.value;
+      break;
+    case FLASH_FIRMWARE_DIALOG_UPDATE_FIRMWARE_BLOB:
+      draft.common.firmware.flashFirmwareDialog.firmwareBlob = action.value;
       break;
   }
 };

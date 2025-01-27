@@ -7,7 +7,10 @@ import {
   IFirmware,
   IKeyboardDefinitionDocument,
 } from '../../../../services/storage/Storage';
-import { FlashFirmwareDialogActions } from '../../../../actions/firmware.action';
+import {
+  firmwareActionsThunk,
+  FlashFirmwareDialogActions,
+} from '../../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -56,6 +59,7 @@ const mapDispatchToProps = (_dispatch: any) => {
           FlashFirmwareDialogActions.updateFlashMode('fetch_and_flash')
         );
         _dispatch(FlashFirmwareDialogActions.updateFirmware(firmware));
+        _dispatch(firmwareActionsThunk.loadFirmwareBlob());
       },
     },
   };

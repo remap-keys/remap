@@ -14,7 +14,10 @@ import {
   IFirmwareBuildingTask,
   IKeyboardDefinitionDocument,
 } from '../../../../services/storage/Storage';
-import { FlashFirmwareDialogActions } from '../../../../actions/firmware.action';
+import {
+  firmwareActionsThunk,
+  FlashFirmwareDialogActions,
+} from '../../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -92,6 +95,7 @@ const mapDispatchToProps = (dispatch: any) => {
           created_at: new Date(),
         })
       );
+      dispatch(firmwareActionsThunk.loadFirmwareBlob());
     },
     updateBuildableFirmwareCodeParameterValues: (
       values: IBuildableFirmwareCodeParameterValues
