@@ -9,7 +9,7 @@ import {
   MoreHoriz,
   MoreVert,
 } from '@mui/icons-material';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 const useLayerPaginationStyles = makeStyles({
   ulVertical: {
@@ -49,8 +49,6 @@ type LayerPaginationProps = {
   orientation: LayerPaginationOrientation;
 };
 
-const LAYER_PAGINATION_WHEEL_TIMEOUT = 500;
-
 export default function LayerPagination(props: LayerPaginationProps) {
   const StyledBadge = withStyles(() => ({
     badge: {
@@ -68,41 +66,6 @@ export default function LayerPagination(props: LayerPaginationProps) {
       props.onClickPage(page);
     },
   });
-
-  const pageRefs: Map<number, React.RefObject<HTMLDivElement>> = new Map();
-  for (const item of items) {
-    if (item.type === 'page' && item.page !== null) {
-      pageRefs.set(item.page, useRef<HTMLDivElement>(null));
-    }
-  }
-
-  useEffect(() => {
-    let processing = false;
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      if (processing) {
-        return;
-      }
-      processing = true;
-      if (event.deltaY < 0) {
-        props.onClickPage(Math.min(props.page! + 1, props.count));
-      } else if (event.deltaY > 0) {
-        props.onClickPage(Math.max(1, props.page! - 1));
-      }
-      setTimeout(() => {
-        processing = false;
-      }, LAYER_PAGINATION_WHEEL_TIMEOUT);
-    };
-    for (const ref of pageRefs.values()) {
-      ref.current?.addEventListener('wheel', handleWheel, { passive: false });
-    }
-    return () => {
-      for (const ref of pageRefs.values()) {
-        ref.current?.removeEventListener('wheel', handleWheel);
-      }
-    };
-  });
-
   return (
     <nav>
       <ul
@@ -127,11 +90,10 @@ export default function LayerPagination(props: LayerPaginationProps) {
                   label={page - 1}
                   color={selected ? 'primary' : undefined}
                   clickable={!selected}
-                  onClick={(): void => {
+                  onClick={() => {
                     props.onClickPage(page);
                   }}
                   className={selected ? '' : classes.unselected}
-                  ref={pageRefs.get(page)!}
                 />
               </StyledBadge>
             );
