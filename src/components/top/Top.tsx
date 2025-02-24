@@ -27,6 +27,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { t } from 'i18next';
 
 type IFeatureCardProps = {
   image: any;
@@ -109,8 +110,9 @@ export default function Top(props: TopPropsType) {
               color="textSecondary"
               paragraph
             >
-              Remap allows you to find, build, set up and customize your
-              keyboard quickly and easily in Web Browser.
+              {t(
+                'Remap allows you to find, build, set up and customize your keyboard quickly and easily in Web Browser.'
+              )}
             </Typography>
             <div className="hero-buttons">
               <Grid container spacing={2} justifyContent="center">
@@ -120,7 +122,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickStartRemap}
                   >
-                    Customize Your Keyboard
+                    {t('Customize Your Keyboard')}
                   </Button>
                 </Grid>
                 <Grid item>
@@ -129,7 +131,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickKeyboardCatalog}
                   >
-                    Find a Keyboard
+                    {t('Find a Keyboard')}
                   </Button>
                 </Grid>
               </Grid>
@@ -140,7 +142,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickManageKeyboardDefinitions}
                   >
-                    Register/Manage Keyboards
+                    {t('Register/Manage Keyboards')}
                   </Button>
                 </Grid>
                 <Grid item>
@@ -149,7 +151,7 @@ export default function Top(props: TopPropsType) {
                     color="primary"
                     onClick={onClickManageOrganizations}
                   >
-                    Manage Organizations
+                    {t('Manage Organizations')}
                   </Button>
                 </Grid>
               </Grid>
