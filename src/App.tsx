@@ -14,14 +14,18 @@ import { StyledComponentProps, withStyles } from '@mui/styles';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enJson from './assets/locales/en.json';
+import jaJson from './assets/locales/ja.json';
 
 i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: enJson,
     },
+    ja: {
+      translation: jaJson,
+    },
   },
-  lng: 'en',
+  lng: 'ja',
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
 });

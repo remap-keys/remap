@@ -164,85 +164,105 @@ export default function Top(props: TopPropsType) {
               key={1}
               image={catalog}
               imageTitle="Keyboard Catalog"
-              title="Keyboard Catalog"
-              description="Find a favorite keyboard supporting Remap by flexible conditions."
+              title={t('Keyboard Catalog')}
+              description={t(
+                'Find a favorite keyboard supporting Remap by flexible conditions.'
+              )}
             />
             <FeatureCard
               key={2}
               image={buildFirmware}
               imageTitle="Build Firmware"
-              title="Build a Firmware"
-              description="Build a firmware with your taste quickly."
+              title={t('Build a Firmware')}
+              description={t('Build a firmware with your taste quickly.')}
             />
             <FeatureCard
               key={3}
               image={firmwareWriting}
               imageTitle="Flash a Firmware"
-              title="Flash Firmware"
-              description="Flash a firmware to microcomputer unit directly."
+              title={t('Flash Firmware')}
+              description={t(
+                'Flash a firmware to microcomputer unit directly.'
+              )}
             />
             <FeatureCard
               key={4}
               image={textMatrix}
               imageTitle="Test Matrix"
-              title="Test Matrix"
-              description="Allows you to test if your changes work after building the keyboard."
+              title={t('Test Matrix')}
+              description={t(
+                'Allows you to test if your changes work after building the keyboard.'
+              )}
             />
             <FeatureCard
               key={5}
               image={keyAssign}
               imageTitle="Easy key Assign"
-              title="Easy key assign"
-              description="Easily assign complex keycodes including Hold,Tap, and more."
+              title={t('Easy key assign')}
+              description={t(
+                'Easily assign complex keycodes including Hold,Tap, and more.'
+              )}
             />
             <FeatureCard
               key={6}
               image={keymap}
               imageTitle="Save/Restore Keymaps"
-              title="Save/Restore Keymaps"
-              description="Apply one of your saved key mappings, on demand, anytime and easily."
+              title={t('Save/Restore Keymaps')}
+              description={t(
+                'Apply one of your saved key mappings, on demand, anytime and easily.'
+              )}
             />
             <FeatureCard
               key={7}
               image={shareKeymap}
               imageTitle="Share Keymaps"
-              title="Share Keymaps"
-              description="Find or share a keymap with the community."
+              title={t('Share Keymaps')}
+              description={t('Find or share a keymap with the community.')}
             />
             <FeatureCard
               key={8}
               image={lighting}
               imageTitle="Lighting Control"
-              title="Lighting Control"
-              description="Simple UI for controlling Backlight and Underglow LED lighting."
+              title={t('Lighting Control')}
+              description={t(
+                'Simple UI for controlling Backlight and Underglow LED lighting.'
+              )}
             />
             <FeatureCard
               key={9}
               image={macro}
               imageTitle="Macro"
-              title="Macro Editor"
-              description="Macro Editor provides a way to define multiple keystrokes easily"
+              title={t('Macro Editor')}
+              description={t(
+                'Macro Editor provides a way to define multiple keystrokes easily'
+              )}
             />
             <FeatureCard
               key={10}
               image={keyLayout}
               imageTitle="Key Layout"
-              title="Key Layout"
-              description="Intuitive customization according to the physical key layout."
+              title={t('Key Layout')}
+              description={t(
+                'Intuitive customization according to the physical key layout.'
+              )}
             />
             <FeatureCard
               key={11}
               image={predefinedKeys}
               imageTitle="Pre-defined Keys"
-              title="Pre-defined Keys"
-              description="Many Pre-defined keycodes to remap your keyboard easily."
+              title={t('Pre-defined Keys')}
+              description={t(
+                'Many Pre-defined keycodes to remap your keyboard easily.'
+              )}
             />
             <FeatureCard
               key={12}
               image={diff}
               imageTitle="Compare Changes"
-              title="Compare Changes"
-              description="Easy-to-understand ui to highlight changes made to the keymap."
+              title={t('Compare Changes')}
+              description={t(
+                'Easy-to-understand ui to highlight changes made to the keymap.'
+              )}
             />
           </Grid>
         </Container>
