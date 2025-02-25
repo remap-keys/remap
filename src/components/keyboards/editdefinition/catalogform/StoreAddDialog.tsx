@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import './StoreAddDialog.scss';
+import { t } from 'i18next';
 
 type StoreAddDialogProps = {
   open: boolean;
@@ -60,7 +61,7 @@ export default class StoreAddDialog extends React.Component<
     return (
       <Dialog open={this.props.open} maxWidth={'md'}>
         <DialogTitle>
-          Add Store
+          {t('Add Store')}
           <div
             className="store-add-dialog-close-dialog"
             onClick={this.onClickClose.bind(this)}
@@ -74,7 +75,7 @@ export default class StoreAddDialog extends React.Component<
               <TextField
                 required
                 autoFocus
-                label="Name"
+                label={t('Name')}
                 onChange={this.onChangeName.bind(this)}
               />
             </FormControl>
@@ -96,7 +97,7 @@ export default class StoreAddDialog extends React.Component<
             disabled={!(this.state.name && this.state.url)}
             onClick={this.onClickAddButton.bind(this)}
           >
-            Save
+            {t('Save')}
           </Button>
         </DialogActions>
       </Dialog>

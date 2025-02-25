@@ -28,7 +28,6 @@
   "Many Pre-defined keycodes to remap your keyboard easily.": "Many Pre-defined keycodes to remap your keyboard easily.",
   "Compare Changes": "Compare Changes",
   "Easy-to-understand ui to highlight changes made to the keymap.": "Easy-to-understand ui to highlight changes made to the keymap.",
-
   "Keyboard Name": "Keyboard Name",
   "Organization": "Organization",
   "Build Firmware Support": "Build Firmware Support",
@@ -54,31 +53,25 @@
   "Wireless": "Wireless",
   "Clear": "Clear",
   "Search": "Search",
-
   "No Image": "No Image",
   "Designed by": "Designed by",
-
   "Stores": "Stores",
   "Keyboard Website": "Keyboard Website",
-
   "Overview": "Overview",
   "Keymap": "Keymap",
   "Firmware": "Firmware",
   "Build": "Build",
-
   "Default": "Default",
   "Features": "Features",
   "Not specified by the owner of this keyboard.": "Not specified by the owner of this keyboard.",
   "Created by Same Designer": "Created by Same Designer",
   "A description is not specified by the owner of this keyboard.": "A description is not specified by the owner of this keyboard.",
-
   "Get keymap cheat sheet (PDF)": "Get keymap cheat sheet (PDF)",
   "Layout Options": "Layout Options",
   "Shared Keymaps": "Shared Keymaps",
   "There is no Layout Option.": "There is no Layout Option.",
   "by": "by",
   "There is no shared keymap.": "There is no shared keymap.",
-
   "Device Information": "Device Information",
   "Total Download Count:": "Total Download Count:",
   "Total Flash Count:": "Total Flash Count:",
@@ -86,7 +79,6 @@
   "Flash": "Flash",
   "Source Code": "Source Code",
   "Download": "Download",
-
   "The firmware building feature can&quot;t be used because firmware files for this keyboard are not registered by the owner yet.": "The firmware building feature can&quot;t be used because firmware files for this keyboard are not registered by the owner yet.",
   "Auto": "Auto",
   "Reload": "Reload",
@@ -114,12 +106,10 @@
   "By selecting and filling in each parameter": "By selecting and filling in each parameter",
   "By editing a code": "By editing a code",
   "No parameters available.": "No parameters available.",
-
   "Connect your keyboard supporting the VIA feature to this PC.": "Connect your keyboard supporting the VIA feature to this PC.",
   "Then, press the '+KEYBOARD' below.": "Then, press the '+KEYBOARD' below.",
   "+ KEYBOARD": "+ KEYBOARD",
   "Add a Web HID access permitted device": "Add a Web HID access permitted device",
-
   "Keyboard Info": "Keyboard Info",
   "CONNECTED DEVICE": "CONNECTED DEVICE",
   "KEYBOARD DEFINITION": "KEYBOARD DEFINITION",
@@ -130,7 +120,6 @@
   "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from": "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from",
   "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:": "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:",
   "Here": "Here",
-
   "Clear all changes": "Clear all changes",
   "Layout Option": "Layout Option",
   "Save/Restore a keymap": "Save/Restore a keymap",
@@ -141,7 +130,6 @@
   "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.": "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.",
   "No": "No",
   "Yes": "Yes",
-
   "KEY": "KEY",
   "HOLD/TAP": "HOLD/TAP",
   "CUSTOM": "CUSTOM",
@@ -155,7 +143,6 @@
   "Keycode": "Keycode",
   "Hold": "Hold",
   "Tap": "Tap",
-
   "You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.": "You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.",
   "*You need to sign in to use this feature.": "*You need to sign in to use this feature.",
   "SignIn": "SignIn",
@@ -174,7 +161,6 @@
   "Share this keymap for other users": "Share this keymap for other users",
   "Your name will be displayed for other users.": "Your name will be displayed for other users.",
   "Save": "Save",
-
   "UNDERGLOW": "UNDERGLOW",
   "Effect Mode": "Effect Mode",
   "Color": "Color",
@@ -182,7 +168,6 @@
   "Brightness": "Brightness",
   "BACKLIGHT": "BACKLIGHT",
   "Breathing Mode": "Breathing Mode",
-
   "Import Keyboard Definition File": "Import Keyboard Definition File",
   "Please import the definition file for": "Please import the definition file for",
   "Specification": "Specification",
@@ -195,18 +180,13 @@
   "Other possibilities": "Other possibilities",
   "Invalid": "Invalid",
   "at": "at",
-
   "Cancel": "Cancel",
-
   "You can confirm that your keyboard's key switches work fine.": "You can confirm that your keyboard's key switches work fine.",
-
   "Logout": "Logout",
   "Login": "Login",
-
   "+Keyboard": "+ Keyboard",
   "You don't have any registered keyboards. Please register your own keyboard from right-top button.": "You don't have any registered keyboards. Please register your own keyboard from right-top button.",
   "Details": "Details",
-
   "Keyboard List": "Keyboard List",
   "Please import your file": "Please import your file",
   "JSON Filename": "JSON Filename",
@@ -239,11 +219,9 @@
   "The author type of this keyboard is": "The author type of this keyboard is",
   "Individual": "Individual",
   "I agree the policy:": "I agree the policy:",
-
   "Definition": "Definition",
   "Catalog": "Catalog",
   "Statistics": "Statistics",
-
   "Are you sure to update the JSON file?": "Are you sure to update the JSON file?",
   "Are you sure to delete?": "Are you sure to delete?",
   "Are you sure to change the status to draft? A review is necessary to publish this keyboard again.": "Are you sure to change the status to draft? A review is necessary to publish this keyboard again.",
@@ -253,5 +231,17 @@
   "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:": "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:",
   "Firmware source location:": "Firmware source location:",
   "Back to Draft": "Back to Draft",
-  "Update JSON file": "Update JSON file"
+  "Update JSON file": "Update JSON file",
+  "Drop Main Image here": "Drop Main Image here",
+  "Drop Sub Image here": "Drop Sub Image here",
+  "Description (Default)": "Description (Default)",
+  "Additional Description": "Additional Description",
+  "Additional Description Title": "Additional Description Title",
+  "Additional Description Body": "Additional Description Body",
+  "Add": "Add",
+  "Keyboard Website URL": "Keyboard Website URL",
+  "Keyboard Type": "Keyboard Type",
+  "Backlight LED": "Backlight LED",
+  "Underglow LED": "Underglow LED",
+  "Add Store": "Add Store"
 }

@@ -253,5 +253,18 @@
   "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:": "あなたが提出したレビューリクエストが、同じキーボード定義が誤った申請者によって既に登録されているために拒否された場合は、このフォームから報告してください:",
   "Firmware source location:": "ファームウェアのソースコードの場所:",
   "Back to Draft": "下書きに戻す",
-  "Update JSON file": "JSONファイルを更新"
+  "Update JSON file": "JSONファイルを更新",
+
+  "Drop Main Image here": "メイン画像をここにドロップ",
+  "Drop Sub Image here": "サブ画像をここにドロップ",
+  "Description (Default)": "説明（標準）",
+  "Additional Description": "追加説明",
+  "Additional Description Title": "追加説明のタイトル",
+  "Additional Description Body": "追加説明の本文",
+  "Add": "追加",
+  "Keyboard Website URL": "キーボードウェブサイトのURL",
+  "Keyboard Type": "キーボードタイプ",
+  "Backlight LED": "バックライトLED",
+  "Underglow LED": "アンダーグローLED",
+  "Add Store": "取扱店を追加"
 }

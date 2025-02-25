@@ -39,6 +39,7 @@ import { Delete } from '@mui/icons-material';
 import StoreAddDialog from './StoreAddDialog';
 import { IStore, ISubImage } from '../../../../services/storage/Storage';
 import CircularProgressWithLabel from '../../../common/circularprogress/CircularProgressWithLabel';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type CatalogFormProps = OwnProps &
@@ -343,7 +344,7 @@ export default function CatalogForm(props: CatalogFormProps) {
       <div className="edit-definition-catalog-form">
         <div className="edit-definition-catalog-form-section">
           <TextField
-            label="Name"
+            label={t('Name')}
             variant="outlined"
             value={props.definitionDocument!.name || ''}
             InputProps={{
@@ -377,7 +378,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                         className="edit-definition-catalog-form-upload-image-form-message"
                         ref={dropTargetRef}
                       >
-                        Drop Main Image here
+                        {t('Drop Main Image here')}
                       </div>
                     </div>
                   </React.Fragment>
@@ -414,7 +415,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                         className="edit-definition-catalog-form-upload-image-form-message"
                         ref={dropTargetRef}
                       >
-                        Drop Sub Image here
+                        {t('Drop Sub Image here')}
                       </div>
                     </div>
                   </React.Fragment>
@@ -433,7 +434,7 @@ export default function CatalogForm(props: CatalogFormProps) {
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <TextField
-                    label="Description (Default)"
+                    label={t('Description (Default)')}
                     multiline
                     rows={4}
                     variant="outlined"
@@ -451,7 +452,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                     <div className="edit-definition-catalog-form-additional-description-entry">
                       <TextField
                         className="edit-definition-catalog-form-additional-description-entry-field"
-                        label={`Additional Description (${item.title})`}
+                        label={`${t('Additional Description')} (${item.title})`}
                         multiline
                         rows={4}
                         value={item.body}
@@ -482,7 +483,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                 <div className="edit-definition-catalog-form-additional-description-row">
                   <FormControl>
                     <TextField
-                      label="Additional Description Title"
+                      label={t('Additional Description Title')}
                       value={additionalDescriptionTitle}
                       onChange={onChangeAdditionalDescriptionTitle}
                     />
@@ -491,7 +492,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                 <div className="edit-definition-catalog-form-additional-description-row">
                   <FormControl>
                     <TextField
-                      label="Additional Description Body"
+                      label={t('Additional Description Body')}
                       multiline
                       rows={4}
                       value={additionalDescriptionBody}
@@ -508,7 +509,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                           )
                         }
                       >
-                        Add
+                        {t('Add')}
                       </Button>
                     </div>
                   </FormControl>
@@ -517,7 +518,7 @@ export default function CatalogForm(props: CatalogFormProps) {
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
                   <TextField
-                    label="Keyboard Website URL"
+                    label={t('Keyboard Website URL')}
                     variant="outlined"
                     value={props.websiteUrl}
                     onChange={onChangeWebsiteUrl}
@@ -526,10 +527,12 @@ export default function CatalogForm(props: CatalogFormProps) {
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Number of Keys</FormLabel>
+                  <FormLabel component="legend">
+                    {t('Number of Keys')}
+                  </FormLabel>
                   <FormGroup row>
                     {[
-                      ['over_100', 'Over 100%'],
+                      ['over_100', t('Over 100%')],
                       ['100', '100%'],
                       ['90', '90%'],
                       ['80', '80%'],
@@ -538,7 +541,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                       ['50', '50%'],
                       ['40', '40%'],
                       ['30', '30%'],
-                      ['macro', 'Macro'],
+                      ['macro', t('Macro')],
                     ].map((data) => {
                       const [value, label] = data;
                       return (
@@ -571,38 +574,40 @@ export default function CatalogForm(props: CatalogFormProps) {
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Keyboard Type</FormLabel>
+                  <FormLabel component="legend">{t('Keyboard Type')}</FormLabel>
                   <Select
                     value={getFeatureValue(ALL_SPLIT_TYPE)}
                     onChange={onChangeKeyboardType}
                   >
                     <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="integrated">Integrated</MenuItem>
-                    <MenuItem value="split">Split</MenuItem>
+                    <MenuItem value="integrated">{t('Integrated')}</MenuItem>
+                    <MenuItem value="split">{t('Split')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Key Layout</FormLabel>
+                  <FormLabel component="legend">{t('Key Layout')}</FormLabel>
                   <Select
                     value={getFeatureValue(ALL_STAGGERED_TYPE)}
                     onChange={onChangeKeyLayout}
                   >
                     <MenuItem value="---">---</MenuItem>
                     <MenuItem value="column_staggered">
-                      Column Staggered
+                      {t('Column Staggered')}
                     </MenuItem>
-                    <MenuItem value="row_staggered">Row Staggered</MenuItem>
-                    <MenuItem value="ortholinear">Ortholinear</MenuItem>
-                    <MenuItem value="symmetrical">Symmetrical</MenuItem>
-                    <MenuItem value="alice">Alice</MenuItem>
+                    <MenuItem value="row_staggered">
+                      {t('Row Staggered')}
+                    </MenuItem>
+                    <MenuItem value="ortholinear">{t('Ortholinear')}</MenuItem>
+                    <MenuItem value="symmetrical">{t('Symmetrical')}</MenuItem>
+                    <MenuItem value="alice">{t('Alice')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Lighting</FormLabel>
+                  <FormLabel component="legend">{t('Lighting')}</FormLabel>
                   <FormGroup row>
                     <FormControlLabel
                       control={
@@ -612,7 +617,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                           onChange={onChangeBacklight}
                         />
                       }
-                      label="Backlight LED"
+                      label={t('Backlight LED')}
                     />
                     <FormControlLabel
                       control={
@@ -622,14 +627,14 @@ export default function CatalogForm(props: CatalogFormProps) {
                           onChange={onChangeUnderglow}
                         />
                       }
-                      label="Underglow LED"
+                      label={t('Underglow LED')}
                     />
                   </FormGroup>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Key Switch</FormLabel>
+                  <FormLabel component="legend">{t('Key Switch')}</FormLabel>
                   <FormGroup row>
                     <FormControlLabel
                       control={
@@ -716,13 +721,13 @@ export default function CatalogForm(props: CatalogFormProps) {
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Hot Swap</FormLabel>
+                  <FormLabel component="legend">{t('Hot Swap')}</FormLabel>
                   <Select
                     value={getFeatureValue(ALL_HOTSWAP_TYPE)}
                     onChange={onChangeHotSwap}
                   >
                     <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="hot_swap">Supported</MenuItem>
+                    <MenuItem value="hot_swap">{t('Supported')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -734,31 +739,31 @@ export default function CatalogForm(props: CatalogFormProps) {
                     onChange={onChangeOled}
                   >
                     <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="oled">Supported</MenuItem>
+                    <MenuItem value="oled">{t('Supported')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Speaker</FormLabel>
+                  <FormLabel component="legend">{t('Speaker')}</FormLabel>
                   <Select
                     value={getFeatureValue(ALL_SPEAKER_TYPE)}
                     onChange={onChangeSpeaker}
                   >
                     <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="speaker">Supported</MenuItem>
+                    <MenuItem value="speaker">{t('Supported')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
               <div className="edit-definition-catalog-form-row">
                 <FormControl>
-                  <FormLabel component="legend">Wireless</FormLabel>
+                  <FormLabel component="legend">{t('Wireless')}</FormLabel>
                   <Select
                     value={getFeatureValue(ALL_WIRELESS_TYPE)}
                     onChange={onChangeWireless}
                   >
                     <MenuItem value="---">---</MenuItem>
-                    <MenuItem value="wireless">Supported</MenuItem>
+                    <MenuItem value="wireless">{t('Supported')}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -769,7 +774,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                   style={{ marginRight: '16px' }}
                   onClick={onClickSave}
                 >
-                  Save
+                  {t('Save')}
                 </Button>
               </div>
             </CardContent>
@@ -778,7 +783,7 @@ export default function CatalogForm(props: CatalogFormProps) {
         <div className="edit-definition-catalog-form-section">
           <Card variant="outlined">
             <CardContent>
-              <Typography variant="h6">Stores</Typography>
+              <Typography variant="h6">{t('Stores')}</Typography>
               <List>
                 {props.stores!.map((store, index) => (
                   <ListItem key={index}>
@@ -809,7 +814,7 @@ export default function CatalogForm(props: CatalogFormProps) {
                   color="primary"
                   onClick={onClickAddStore}
                 >
-                  Add
+                  {t('Add')}
                 </Button>
                 <StoreAddDialog
                   open={openStoreAddDialog}
