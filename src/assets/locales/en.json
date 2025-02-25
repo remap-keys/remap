@@ -154,5 +154,24 @@
   "Right": "Right",
   "Keycode": "Keycode",
   "Hold": "Hold",
-  "Tap": "Tap"
+  "Tap": "Tap",
+
+  "You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.": "You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.",
+  "*You need to sign in to use this feature.": "*You need to sign in to use this feature.",
+  "SignIn": "SignIn",
+  "Keymaps": "Keymaps",
+  "SAVE CURRENT KEYMAP": "SAVE CURRENT KEYMAP",
+  "Mine": "Mine",
+  "Shared": "Shared",
+  "History": "History",
+  "There is no shared keymaps.": "There is no shared keymaps.",
+  "You can save the current keymap by clicking the top-right button. You can restore your saved keymap every time.": "You can save the current keymap by clicking the top-right button. You can restore your saved keymap every time.",
+  "* Please note that the change candidates will discard when you save/restore the keymap.": "* Please note that the change candidates will discard when you save/restore the keymap.",
+  "Edit saved keymap": "Edit saved keymap",
+  "Save a new keymap": "Save a new keymap",
+  "Title": "Title",
+  "Description": "Description",
+  "Share this keymap for other users": "Share this keymap for other users",
+  "Your name will be displayed for other users.": "Your name will be displayed for other users.",
+  "Save": "Save"
 }

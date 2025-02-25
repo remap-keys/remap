@@ -32,6 +32,7 @@ import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { Link } from '@mui/icons-material';
 import { getEncoderIdList } from '../../../actions/utils';
 import { KC_NO } from '../../../services/hid/KeycodeInfoList';
+import { t } from 'i18next';
 
 type PopoverPosition = {
   left: number;
@@ -331,7 +332,7 @@ function KeymapList(props: KeymapListProps) {
     <>
       <div className="keymaplist keymaplist-header">
         <div>
-          <h2>Keymaps</h2>
+          <h2>{t('Keymaps')}</h2>
         </div>
         <div className="keymaplist-header-buttons">
           <Button
@@ -340,7 +341,7 @@ function KeymapList(props: KeymapListProps) {
               props.onClickOpenKeymapSaveDialog(null);
             }}
           >
-            SAVE CURRENT KEYMAP
+            {t('SAVE CURRENT KEYMAP')}
           </Button>
         </div>
       </div>
@@ -352,9 +353,9 @@ function KeymapList(props: KeymapListProps) {
           aria-label="Keymaps"
           onChange={onTabChange}
         >
-          <Tab label="Mine" />
-          <Tab label="Shared" />
-          <Tab label="History" />
+          <Tab label={t('Mine')} />
+          <Tab label={t('Shared')} />
+          <Tab label={t('History')} />
         </Tabs>
         {activeTabIndex === 0 ? (
           <MyKeymapList
@@ -414,7 +415,7 @@ function SharedKeymapList(props: ISharedKeymapListProps) {
                       variant="body2"
                       color="textSecondary"
                     >
-                      {` by ${item.author_display_name}`}
+                      {` ${t('by')} ${item.author_display_name}`}
                     </Typography>
                   </React.Fragment>
                 }
@@ -440,7 +441,9 @@ function SharedKeymapList(props: ISharedKeymapListProps) {
         })}
       </List>
       {props.sharedKeymaps!.length === 0 && (
-        <div className="no-saved-keymap">There is no shared keymaps.</div>
+        <div className="no-saved-keymap">
+          {t('There is no shared keymaps.')}
+        </div>
       )}
     </React.Fragment>
   );
@@ -513,11 +516,13 @@ function MyKeymapList(props: IMyKeymapListProps) {
       </List>
       {props.savedKeymaps!.length === 0 && (
         <div className="no-saved-keymap">
-          You can save the current keymap by clicking the top-right button. You
-          can restore your saved keymap every time.
+          {t(
+            'You can save the current keymap by clicking the top-right button. You can restore your saved keymap every time.'
+          )}
           <div className="keymaplist-warning">
-            * Please note that the change candidates will discard when you
-            save/restore the keymap.
+            {t(
+              '* Please note that the change candidates will discard when you save/restore the keymap.'
+            )}
           </div>
         </div>
       )}
@@ -532,11 +537,12 @@ function RequestSignIn(props: RequestSignInType) {
   return (
     <div className="request-signin">
       <div>
-        You can save/restore the current keymap. Using this feature, you can
-        manage many kinds of keymaps.
+        {t(
+          'You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.'
+        )}
       </div>
       <div className="request-signin-message">
-        *You need to sign in to use this feature.
+        {t('*You need to sign in to use this feature.')}
       </div>
       <div className="request-signin-actions">
         <Button
@@ -546,7 +552,7 @@ function RequestSignIn(props: RequestSignInType) {
             props.onClickSignIn();
           }}
         >
-          SignIn
+          {t('SignIn')}
         </Button>
       </div>
     </div>

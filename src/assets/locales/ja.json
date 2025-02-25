@@ -154,5 +154,24 @@
   "Right": "右",
   "Keycode": "キーコード",
   "Hold": "ホールド",
-  "Tap": "タップ"
+  "Tap": "タップ",
+
+  "You can save/restore the current keymap. Using this feature, you can manage many kinds of keymaps.": "現在のキーマップを保存/復元できます。この機能を使用すると、さまざまな種類のキーマップを管理できます。",
+  "*You need to sign in to use this feature.": "*この機能を使用するにはサインインする必要があります。",
+  "SignIn": "サインイン",
+  "Keymaps": "キーマップ",
+  "SAVE CURRENT KEYMAP": "現在のキーマップを保存",
+  "Mine": "所有",
+  "Shared": "共有",
+  "History": "履歴",
+  "There is no shared keymaps.": "共有されたキーマップはありません",
+  "You can save the current keymap by clicking the top-right button. You can restore your saved keymap every time.": "現在のキーマップを保存するには、右上のボタンをクリックしてください。保存したキーマップはいつでも復元できます。",
+  "* Please note that the change candidates will discard when you save/restore the keymap.": "*キーマップを保存/復元すると、変更候補が破棄されることに注意してください。",
+  "Edit saved keymap": "保存されたキーマップを編集",
+  "Save a new keymap": "新しいキーマップを保存",
+  "Title": "タイトル",
+  "Description": "説明",
+  "Share this keymap for other users": "他のユーザーとこのキーマップを共有",
+  "Your name will be displayed for other users.": "他のユーザーにはあなたの名前が表示されます。",
+  "Save": "保存"
 }
