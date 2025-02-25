@@ -118,5 +118,16 @@
   "Connect your keyboard supporting the VIA feature to this PC.": "Connect your keyboard supporting the VIA feature to this PC.",
   "Then, press the '+KEYBOARD' below.": "Then, press the '+KEYBOARD' below.",
   "+ KEYBOARD": "+ KEYBOARD",
-  "Add a Web HID access permitted device": "Add a Web HID access permitted device"
+  "Add a Web HID access permitted device": "Add a Web HID access permitted device",
+
+  "Keyboard Info": "Keyboard Info",
+  "CONNECTED DEVICE": "CONNECTED DEVICE",
+  "KEYBOARD DEFINITION": "KEYBOARD DEFINITION",
+  "Name": "Name",
+  "Col x Row": "Col x Row",
+  "Registered by": "Registered by",
+  "Status": "Status",
+  "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from": "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from",
+  "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:": "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:",
+  "Here": "Here"
 }

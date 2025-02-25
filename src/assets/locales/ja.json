@@ -118,5 +118,16 @@
   "Connect your keyboard supporting the VIA feature to this PC.": "VIA機能をサポートするキーボードをこのPCに接続してください",
   "Then, press the '+KEYBOARD' below.": "次に、下の「+キーボード」を押してください",
   "+ KEYBOARD": "+ キーボード",
-  "Add a Web HID access permitted device": "Web HIDアクセス許可デバイスを追加"
+  "Add a Web HID access permitted device": "Web HIDアクセス許可デバイスを追加",
+
+  "Keyboard Info": "キーボード情報",
+  "CONNECTED DEVICE": "接続されたデバイス",
+  "KEYBOARD DEFINITION": "キーボード定義",
+  "Name": "名前",
+  "Col x Row": "列 x 行",
+  "Registered by": "登録者",
+  "Status": "ステータス",
+  "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from": "このキーボード定義は現在あなたのみに適用されています。このキーボード定義をすべてのユーザーに適用するためのレビューリクエストを提出してください。",
+  "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:": "もし上記のキーボード登録者がそのキーボードの権利保持者ではないとき（その人がオリジナルのキーボード設計者ではない等）は、このフォームからRemapチームに報告してください:",
+  "Here": "こちら"
 }

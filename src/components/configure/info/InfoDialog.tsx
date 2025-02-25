@@ -23,6 +23,7 @@ import {
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import firebase from 'firebase/app';
+import { t } from 'i18next';
 
 const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLScZPhiXEG2VETCGZ2dYp4YbzzMlU62Crh1cNxPpFBkN4cCPbA/viewform?usp=pp_url&entry.661359702=${keyboard_name}&entry.135453541=${keyboard_id}';
@@ -116,7 +117,7 @@ export default class InfoDialog extends React.Component<
         }}
       >
         <DialogTitle id="info-dialog-title" style={{ cursor: 'move' }}>
-          Keyboard Info
+          {t('Keyboard Info')}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
@@ -124,7 +125,7 @@ export default class InfoDialog extends React.Component<
         <DialogContent dividers className="info-dialog-content">
           <Grid container spacing={1}>
             <Grid item xs={12} className="option-info-label">
-              <h4>CONNECTED DEVICE</h4>
+              <h4>{t('CONNECTED DEVICE')}</h4>
             </Grid>
             <InfoRow
               label="Product Name"
@@ -183,22 +184,22 @@ function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
     return (
       <React.Fragment>
         <Grid item xs={12} className="option-info-label">
-          <h4>KEYBOARD DEFINITION</h4>
+          <h4>{t('KEYBOARD DEFINITION')}</h4>
         </Grid>
-        <InfoRow label="Name" value={props.keyboardDefinition.name} />
+        <InfoRow label={t('Name')} value={props.keyboardDefinition.name} />
         <InfoRow label="Vendor ID" value={props.keyboardDefinition.vendorId} />
         <InfoRow
           label="Product ID"
           value={props.keyboardDefinition.productId}
         />
         <InfoRow
-          label="Col x Row"
+          label={t('Col x Row')}
           value={`${props.keyboardDefinition.matrix.cols} x ${props.keyboardDefinition.matrix.rows}`}
         />
         {props.keyboardDefinitionDocument ? (
           <React.Fragment>
             <InfoRow
-              label="Registered by"
+              label={t('Registered by')}
               value={
                 <a href={designerWebsite} target="_blank" rel="noreferrer">
                   {designerName}
@@ -206,7 +207,7 @@ function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
               }
             />
             <InfoRow
-              label="Status"
+              label={t('Status')}
               value={props.keyboardDefinitionDocument.status}
             />
             {props.keyboardDefinitionDocument.authorUid ===
@@ -217,9 +218,9 @@ function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
               ].includes(props.keyboardDefinitionDocument.status) ? (
                 <Grid item xs={12} className="option-info-label">
                   <div className="info-dialog-warning-message">
-                    The keyboard definition is currently applied for only you.
-                    Please submit a review request of this keyboard definition
-                    for all users from{' '}
+                    {t(
+                      'The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from'
+                    )}{' '}
                     <a
                       href={`/keyboards/${props.keyboardDefinitionDocument.id}`}
                       target="_blank"
@@ -234,18 +235,16 @@ function KeyboardDefinitionSection(props: IKeyboardDefinitionSectionProps) {
             ) : (
               <Grid item xs={12} className="option-info-label">
                 <div className="info-dialog-information-message">
-                  If you think that the person above does not have any rights
-                  for the keyboard and the keyboard definition (in the case of
-                  the person is not original keyboard designer or etc.), please
-                  report it to the Remap team from{' '}
+                  {t(
+                    'If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:'
+                  )}
                   <a
                     href={props.googleFormUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    this form
+                    {t('Here')}
                   </a>
-                  .
                 </div>
               </Grid>
             )}
