@@ -140,5 +140,19 @@
   "Are you sure to reset keymap?": "キーマップをリセットしてもよろしいですか?",
   "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.": "現在のキーマップは破棄され、初期キーマップが即座に適用されます。現在のキーマップを再利用する場合は、リセットする前に保存してください。",
   "No": "いいえ",
-  "Yes": "はい"
+  "Yes": "はい",
+
+  "KEY": "キー",
+  "HOLD/TAP": "ホールド/タップ",
+  "CUSTOM": "カスタム",
+  "Please select each key code when Hold / Tap": "ホールド/タップ時の各キーコードを選択してください",
+  "You can assign a keycode(hex) manually.": "キーコード(16進数)を手動で割り当てることができます",
+  "Label": "ラベル",
+  "Code(hex)": "コード(16進数)",
+  "Modifiers": "修飾キー",
+  "Left": "左",
+  "Right": "右",
+  "Keycode": "キーコード",
+  "Hold": "ホールド",
+  "Tap": "タップ"
 }

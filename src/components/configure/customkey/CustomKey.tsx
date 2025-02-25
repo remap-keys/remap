@@ -23,6 +23,7 @@ import { LayerTapComposition } from '../../../services/hid/compositions/LayerTap
 import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
 import { ModTapComposition } from '../../../services/hid/compositions/ModTapComposition';
 import { MOD_LEFT } from '../../../services/hid/Constraints';
+import { t } from 'i18next';
 
 export const CUSTOMKEY_POPOVER_WIDTH = 400;
 export const CUSTOMKEY_POPOVER_HEIGHT = 240;
@@ -333,9 +334,9 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               indicatorColor="primary"
               textColor="primary"
             >
-              <Tab label="KEY" {...a11yProps(0)} />
-              <Tab label="HOLD/TAP" {...a11yProps(1)} />
-              <Tab label="CUSTOM" {...a11yProps(2)} />
+              <Tab label={t('KEY')} {...a11yProps(0)} />
+              <Tab label={t('HOLD/TAP')} {...a11yProps(1)} />
+              <Tab label={t('CUSTOM')} {...a11yProps(2)} />
             </Tabs>
           </AppBar>
           <TabPanel value={this.state.selectedTabIndex} index={TAB_INDEX_KEY}>
@@ -357,7 +358,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             index={TAB_INDEX_HOLDTAP}
           >
             <div className="customkey-description">
-              {'Please select each key code when Hold / Tap'}
+              {t('Please select each key code when Hold / Tap')}
             </div>
             <TabHoldTapKey
               holdKey={this.state.holdKey}
@@ -375,11 +376,11 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
             index={TAB_INDEX_CUSTOM}
           >
             <div className="customkey-description">
-              You can assign a keycode(hex) manually.
+              {t('You can assign a keycode(hex) manually.')}
             </div>
             <TextField
               variant="outlined"
-              label="Label"
+              label={t('Label')}
               className="customkey-label"
               size="small"
               disabled={true}
@@ -396,7 +397,7 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
 
             <TextField
               variant="outlined"
-              label="Code(hex)"
+              label={t('Code(hex)')}
               className={[
                 'customkey-field',
                 'customkey-field-hex',

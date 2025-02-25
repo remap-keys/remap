@@ -140,5 +140,19 @@
   "Are you sure to reset keymap?": "Are you sure to reset keymap?",
   "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.": "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.",
   "No": "No",
-  "Yes": "Yes"
+  "Yes": "Yes",
+
+  "KEY": "KEY",
+  "HOLD/TAP": "HOLD/TAP",
+  "CUSTOM": "CUSTOM",
+  "Please select each key code when Hold / Tap": "Please select each key code when Hold / Tap",
+  "You can assign a keycode(hex) manually.": "You can assign a keycode(hex) manually.",
+  "Label": "Label",
+  "Code(hex)": "Code(hex)",
+  "Modifiers": "Modifiers",
+  "Left": "Left",
+  "Right": "Right",
+  "Keycode": "Keycode",
+  "Hold": "Hold",
+  "Tap": "Tap"
 }

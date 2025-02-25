@@ -17,6 +17,7 @@ import {
   MOD_SFT,
 } from '../../../services/hid/Composition';
 import { MOD_LEFT, MOD_RIGHT } from '../../../services/hid/Constraints';
+import { t } from 'i18next';
 
 type OwnProps = {
   mods: IMod[];
@@ -117,7 +118,7 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
             this.props.disabled && 'modifiers-label-disabled',
           ].join(' ')}
         >
-          Modifiers
+          {t('Modifiers')}
         </div>
         <RadioGroup
           row
@@ -136,7 +137,7 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
               this.props.disableDirection === true
             }
             control={<Radio color="primary" />}
-            label="Left"
+            label={t('Left')}
           />
           <FormControlLabel
             value="1"
@@ -145,7 +146,7 @@ export default class Modifiers extends React.Component<OwnProps, OwnState> {
               this.props.disableDirection === true
             }
             control={<Radio color="primary" />}
-            label="Right"
+            label={t('Right')}
           />
         </RadioGroup>
         <FormGroup
