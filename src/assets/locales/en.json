@@ -194,5 +194,7 @@
   "Import(.json)": "Import(.json)",
   "Other possibilities": "Other possibilities",
   "Invalid": "Invalid",
-  "at": "at"
+  "at": "at",
+
+  "Cancel": "Cancel"
 }

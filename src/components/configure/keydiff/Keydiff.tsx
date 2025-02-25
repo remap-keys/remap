@@ -7,6 +7,7 @@ import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
 import { genKey, Key } from '../keycodekey/KeyGen';
 import KeyModel from '../../../models/KeyModel';
+import { t } from 'i18next';
 
 type KeydiffOwnProps = {};
 
@@ -60,7 +61,7 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
                   )
             }
           >
-            Cancel
+            {t('Cancel')}
           </Button>
         </div>
       </div>

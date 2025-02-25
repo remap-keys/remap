@@ -194,5 +194,7 @@
   "Import(.json)": "インポート(.json)",
   "Other possibilities": "その他の可能性",
   "Invalid": "無効",
-  "at": "場所"
+  "at": "場所",
+
+  "Cancel": "キャンセル"
 }
