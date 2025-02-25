@@ -8,13 +8,14 @@ export default function Internationalization() {
       <section>
         <Typography variant="body1" gutterBottom={true}>
           Remap has always been available in English only, but now it also
-          supports Japanese. If your web browser's language is set to Japanese,
-          Remap will automatically be displayed in Japanese. This update
-          enhances convenience for users whose native language is Japanese.
+          supports Japanese. If your web browser&apos;s language is set to
+          Japanese, Remap will automatically be displayed in Japanese. This
+          update enhances convenience for users whose native language is
+          Japanese.
         </Typography>
         <Typography variant="body1" gutterBottom={true}>
           If you prefer Japanese but the interface is still in English, please
-          check whether your web browser's language settings are set to
+          check whether your web browser&apos;s language settings are set to
           Japanese. Additionally, verify that your OS language settings are also
           set to Japanese.
         </Typography>
@@ -22,7 +23,9 @@ export default function Internationalization() {
           If you wish to continue using Remap in English, you can do one of the
           following:
           <ul>
-            <li>Change your web browser's language settings to English.</li>
+            <li>
+              Change your web browser&apos;s language settings to English.
+            </li>
             <li>
               Add <code>?lng=en</code> to the end of the URL when accessing
               Remap.
