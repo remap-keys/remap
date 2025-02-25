@@ -1,5 +1,6 @@
 import React from 'react';
 import { Checkbox, FormControlLabel, Link } from '@mui/material';
+import { t } from 'i18next';
 
 export type IProps = {
   agreement: boolean;
@@ -22,11 +23,10 @@ export function AgreementCheckbox(props: IProps) {
       }
       label={
         <span>
-          I agree the Keyboard Definition{' '}
+          {t('I agree the policy:')}{' '}
           <Link href="/docs/review_policy" target="_blank" rel="noreferrer">
-            Review Policy
+            Remap Review Policy
           </Link>
-          .
         </span>
       }
     />

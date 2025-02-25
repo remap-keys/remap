@@ -6,6 +6,7 @@ import {
   CatalogKeymapListStateType,
 } from './CatalogKeymapList.container';
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { t } from 'i18next';
 
 type OwnProps = {
   // eslint-disable-next-line no-unused-vars
@@ -66,7 +67,7 @@ export default class CatalogKeymapList extends React.Component<
                               variant="body2"
                               color="textSecondary"
                             >
-                              {` by ${item.author_display_name}`}
+                              {` ${t('by')} ${item.author_display_name}`}
                             </Typography>
                           </React.Fragment>
                         }
@@ -81,7 +82,7 @@ export default class CatalogKeymapList extends React.Component<
         </div>
       );
     } else {
-      return <div>There is no shared keymap.</div>;
+      return <div>{t('There is no shared keymap.')}</div>;
     }
   }
 }

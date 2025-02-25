@@ -20,6 +20,7 @@ import { Alert, AlertTitle } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './KeyboardDefinitionFormPart.scss';
 import { IKeyboardDefinitionDocument } from '../../../services/storage/Storage';
+import { t } from 'i18next';
 
 // eslint-disable-next-line no-undef
 const loadDefinitionFile = async (file: File): Promise<string> => {
@@ -230,10 +231,10 @@ export class KeyboardDefinitionFormPart extends React.Component<
               ref={this.dropTargetRef}
             >
               <div className="place-holder">
-                <div>Drop here</div>
+                <div>{t('Drop here')}</div>
                 {!this.state.dragging && (
                   <React.Fragment>
-                    <div>or</div>
+                    <div>{t('or')}</div>
                     <div className="import-file">
                       <input
                         accept="application/json"
@@ -251,7 +252,7 @@ export class KeyboardDefinitionFormPart extends React.Component<
                           disabled={this.state.loading || this.state.dragging}
                           disableElevation
                         >
-                          Import(.json)
+                          {t('Import(.json)')}
                         </Button>
                       </label>
                     </div>
@@ -305,7 +306,7 @@ function ValidationErrors(props: { errors: SchemaValidateError[] }) {
             aria-controls="other-possibilities"
             id="panel-header"
           >
-            <Typography>Other possibilities</Typography>
+            <Typography>{t('Other possibilities')}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             {rest.map((e, index) => (
@@ -322,7 +323,8 @@ function ValidationError(props: { error: SchemaValidateError }) {
   return (
     <Alert severity="error" className={'invalid-item'}>
       <AlertTitle>
-        Invalid {props.error.keyword.toUpperCase()} at {props.error.dataPath}
+        {t('Invalid')} {props.error.keyword.toUpperCase()} {t('at')}{' '}
+        {props.error.dataPath}
       </AlertTitle>
       <div dangerouslySetInnerHTML={{ __html: props.error.message }}></div>
     </Alert>

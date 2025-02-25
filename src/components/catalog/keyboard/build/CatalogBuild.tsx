@@ -29,6 +29,7 @@ import {
 } from '../../../../services/build/FirmwareCodeParser';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import { FirmwareBuildingTaskCard } from './FirmwareBuildingTaskCard';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type CatalogBuildProps = OwnProps &
@@ -278,8 +279,9 @@ export default function CatalogBuild(props: CatalogBuildProps) {
           {props.buildableFirmware == null ||
           !props.buildableFirmware.enabled ? (
             <Alert severity="info" sx={{ mb: 2 }}>
-              The firmware building feature can&quot;t be used because firmware
-              files for this keyboard are not registered by the owner yet.
+              {t(
+                'The firmware building feature can&quot;t be used because firmware files for this keyboard are not registered by the owner yet.'
+              )}
             </Alert>
           ) : null}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -287,7 +289,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
               control={
                 <Switch checked={autoReload} onChange={onChangeAutoReload} />
               }
-              label="Auto"
+              label={t('Auto')}
             />
             <Button
               variant="outlined"
@@ -295,7 +297,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
               onClick={onClickReload}
               disabled={!props.signedIn}
             >
-              Reload
+              {t('Reload')}
             </Button>
             <Button
               variant="contained"
@@ -306,7 +308,7 @@ export default function CatalogBuild(props: CatalogBuildProps) {
                 !props.buildableFirmware.enabled
               }
             >
-              Build Firmware
+              {t('Build Firmware')}
             </Button>
           </Box>
         </Paper>

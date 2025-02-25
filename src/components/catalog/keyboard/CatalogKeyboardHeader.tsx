@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Home, Store } from '@mui/icons-material';
 import './CatalogKeyboardHeader.scss';
+import { t } from 'i18next';
 
 type CategoryHeaderProps = {
   definitionDocument: IKeyboardDefinitionDocument;
@@ -70,7 +71,7 @@ export const CatalogKeyboardHeader = ({
         <div className="catalog-keyboard-header-title">
           <Typography variant="h1">{definitionDocument.name}</Typography>
           <Typography variant="subtitle1">
-            designed by{' '}
+            {t('Designed by')}{' '}
             <a
               href={designerWebsiteUrl}
               target="_blank"
@@ -87,7 +88,7 @@ export const CatalogKeyboardHeader = ({
               <IconButton
                 aria-controls="stores-menu"
                 aria-haspopup={true}
-                title="Stores"
+                title={t('Stores')}
                 onClick={onClickStoresMenu}
               >
                 <Store htmlColor="white" fontSize="large" />
@@ -117,7 +118,7 @@ export const CatalogKeyboardHeader = ({
                 href={definitionDocument.websiteUrl}
                 target="_blank"
                 rel="noreferrer"
-                title="Keyboard Website"
+                title={t('Keyboard Website')}
               >
                 <Home htmlColor="white" fontSize="large" />
               </a>

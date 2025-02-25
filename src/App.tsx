@@ -11,6 +11,27 @@ import { Firmware } from './services/firmware/ui/Firmware';
 import Documents from './components/documents/Documents.container';
 import OrganizationManagement from './components/organizations/OrganizationManagement.container';
 import { StyledComponentProps, withStyles } from '@mui/styles';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import enJson from './assets/locales/en.json';
+import jaJson from './assets/locales/ja.json';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: enJson,
+      },
+      ja: {
+        translation: jaJson,
+      },
+    },
+    fallbackLng: 'en',
+    interpolation: { escapeValue: false },
+  });
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

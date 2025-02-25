@@ -12,6 +12,7 @@ import {
 } from '../../../services/storage/Storage';
 import { hexadecimal } from '../../../utils/StringUtils';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type KeyboardListState = {};
 type OwnProps = {};
@@ -41,7 +42,7 @@ export default class DefinitionList extends React.Component<
               color="primary"
               onClick={this.handleCreateButtonClick}
             >
-              +Keyboard
+              {t('+Keyboard')}
             </Button>
           </div>
           <div className="definition-list">
@@ -53,10 +54,9 @@ export default class DefinitionList extends React.Component<
             {this.props.keyboardDefinitionDocuments!.length == 0 && (
               <div className="definition">
                 <div className="no-registered-keyboard">
-                  {`
-                  You don't have any registered keyboards. Please register your own keyboard from right-top
-                  button.
-                  `}
+                  {t(
+                    "You don't have any registered keyboards. Please register your own keyboard from right-top button."
+                  )}
                 </div>
               </div>
             )}
@@ -131,13 +131,13 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
               <div className="definition-meta">
                 <div className="definition-meta-info">
                   <span className="definition-meta-info-label">
-                    Created at:
+                    {t('Created at')}:
                   </span>
                   {format(this.props.doc.createdAt, 'yyyy-MM-dd HH:mm:ss')}
                 </div>
                 <div className="definition-meta-info">
                   <span className="definition-meta-info-label">
-                    Updated at:{' '}
+                    {t('Updated at')}:
                   </span>
                   {format(this.props.doc.updatedAt, 'yyyy-MM-dd HH:mm:ss')}
                 </div>
@@ -150,7 +150,7 @@ class KeyboardRow extends React.Component<KeyboardProps, any> {
                   location.href = `/keyboards/${this.props.doc.id}`;
                 }}
               >
-                Details
+                {t('Details')}
               </Button>
             </div>
           </div>

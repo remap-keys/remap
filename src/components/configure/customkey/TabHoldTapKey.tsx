@@ -11,6 +11,7 @@ import { BasicComposition } from '../../../services/hid/compositions/BasicCompos
 import { LayerTapComposition } from '../../../services/hid/compositions/LayerTapComposition';
 import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
 import { ModTapComposition } from '../../../services/hid/compositions/ModTapComposition';
+import { t } from 'i18next';
 
 type OwnProps = {
   holdKey: IKeymap | null;
@@ -125,7 +126,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
     return (
       <React.Fragment>
         <AutocompleteKeys
-          label="Hold"
+          label={t('Hold')}
           showKinds={false}
           keycodeOptions={this._holdKeyOptions}
           keycodeInfo={this.props.holdKey}
@@ -138,7 +139,7 @@ export default class TabHoldTapKey extends React.Component<OwnProps, OwnState> {
 
         <AutocompleteKeys
           disabled={this.props.holdKey === null}
-          label="Tap"
+          label={t('Tap')}
           keycodeOptions={this.tapKeycodeOptions}
           keycodeInfo={this.props.tapKey}
           autoFocus={false}

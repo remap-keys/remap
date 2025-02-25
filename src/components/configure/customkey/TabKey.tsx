@@ -18,6 +18,7 @@ import { OneShotModComposition } from '../../../services/hid/compositions/OneSho
 import { SwapHandsComposition } from '../../../services/hid/compositions/SwapHandsComposition';
 import { LayerModComposition } from '../../../services/hid/compositions/LayerModComposition';
 import { MOD_LEFT } from '../../../services/hid/Constraints';
+import { t } from 'i18next';
 
 type OwnProps = {
   autoFocus: boolean;
@@ -200,7 +201,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
     return (
       <React.Fragment>
         <AutocompleteKeys
-          label="Keycode"
+          label={t('Keycode')}
           keycodeOptions={this.basicKeymapsWithBmp}
           keycodeInfo={this.props.value}
           autoFocus={this.props.autoFocus}

@@ -14,6 +14,7 @@ import ReinventedColorWheel from 'reinvented-color-wheel';
 import { IKeyboard } from '../../../services/hid/Hid';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import LightingDialog from './LightingDialog';
+import { t } from 'i18next';
 
 export type Hsv = {
   h: number;
@@ -337,12 +338,12 @@ function Underglow(props: UnderglowProps) {
   return (
     <React.Fragment>
       <Grid item xs={12}>
-        <h4>UNDERGLOW</h4>
+        <h4>{t('UNDERGLOW')}</h4>
       </Grid>
       <Grid item xs={6}>
         <Grid container spacing={1} justifyContent="center" alignItems="center">
           <Grid item xs={12}>
-            <div className="lighting-label">Effect Mode</div>
+            <div className="lighting-label">{t('Effect Mode')}</div>
             <div>
               <Select
                 variant="standard"
@@ -370,7 +371,7 @@ function Underglow(props: UnderglowProps) {
                 props.disabledColorChange && 'lighting-label-disabled'
               }`}
             >
-              Color
+              {t('Color')}
             </div>
             <div className="underglow-color">
               <TextField
@@ -398,7 +399,7 @@ function Underglow(props: UnderglowProps) {
               />
               <TextField
                 variant="standard"
-                label="Saturation"
+                label={t('Saturation')}
                 className="underglow-color-value color-saturation"
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
@@ -413,7 +414,7 @@ function Underglow(props: UnderglowProps) {
               />
               <TextField
                 variant="standard"
-                label="Brightness"
+                label={t('Brightness')}
                 className="underglow-color-value color-brightness"
                 type="number"
                 inputProps={{ min: '0', max: '100' }}
@@ -581,11 +582,11 @@ function Backlight(props: BacklightProps) {
   return (
     <React.Fragment>
       <Grid item xs={12}>
-        <h4>BACKLIGHT</h4>
+        <h4>{t('BACKLIGHT')}</h4>
       </Grid>
       <Grid item xs={6}>
         <div className="lighting-label">
-          Breathing Mode
+          {t('Breathing Mode')}
           <Switch
             checked={props.backlightBreathingMode}
             onChange={(e) => {
@@ -596,7 +597,9 @@ function Backlight(props: BacklightProps) {
           />
         </div>
 
-        <div className="lighting-label">Brightness ({props.value})</div>
+        <div className="lighting-label">
+          {t('Brightness')} ({props.value})
+        </div>
         <div>
           <Slider
             className="lighting-value"

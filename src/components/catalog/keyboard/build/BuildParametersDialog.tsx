@@ -43,6 +43,7 @@ import {
   IBuildableFirmwareCodeParameterValues,
   IBuildableFirmwareCodeValueType,
 } from '../../../../store/state';
+import { t } from 'i18next';
 
 type OwnProps = {
   open: boolean;
@@ -179,12 +180,12 @@ export default function BuildParametersDialog(
 
   return (
     <Dialog open={props.open} maxWidth="lg" fullWidth>
-      <DialogTitle>Build Parameters</DialogTitle>
+      <DialogTitle>{t('Build Parameters')}</DialogTitle>
       <DialogContent dividers className="build-parameters-dialog-content">
         <TextField
           fullWidth
-          label="Memorandum"
-          placeholder="Fill in the memorandum of this build."
+          label={t('Memorandum')}
+          placeholder={t('Fill in the memorandum of this build.')}
           variant="outlined"
           sx={{ mb: 2 }}
           value={description}
@@ -201,7 +202,7 @@ export default function BuildParametersDialog(
                     component="div"
                     id="nested-list-subheader-firmware-files"
                   >
-                    Firmware Files
+                    {t('Firmware Files')}
                   </ListSubheader>
                 }
               >
@@ -370,7 +371,7 @@ function EditorContainer(props: EditorContainerProps) {
         <React.Fragment>
           <FormControl fullWidth>
             <FormLabel id="buildParameterDialogEditorType">
-              How do you want to customize this file?
+              {t('How do you want to customize this file?')}
             </FormLabel>
             <RadioGroup
               row
@@ -386,12 +387,12 @@ function EditorContainer(props: EditorContainerProps) {
               <FormControlLabel
                 value="parameters"
                 control={<Radio />}
-                label="By selecting and filling in each parameter"
+                label={t('By selecting and filling in each parameter')}
               />
               <FormControlLabel
                 value="code"
                 control={<Radio />}
-                label="By editing a code"
+                label={t('By editing a code')}
               />
             </RadioGroup>
           </FormControl>
@@ -478,7 +479,9 @@ function ParameterEditors(props: ParameterEditorProps) {
     <Grid container spacing={2}>
       {parameterValueMapEntries.length === 0 ? (
         <Grid item xs={12}>
-          <Typography variant="body1">No parameters available.</Typography>
+          <Typography variant="body1">
+            {t('No parameters available.')}
+          </Typography>
         </Grid>
       ) : (
         parameterValueMapEntries.map(([parameterName, parameter]) => (

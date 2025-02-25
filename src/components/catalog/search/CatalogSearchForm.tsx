@@ -37,6 +37,7 @@ import {
   CatalogSearchFormStateType,
 } from './CatalogSearchForm.container';
 import './CatalogSearchForm.scss';
+import { t } from 'i18next';
 
 type CatalogSearchFormState = {};
 type OwnProps = {
@@ -181,7 +182,7 @@ export default class CatalogSearchForm extends React.Component<
         <div className="catalog-search-condition">
           <TextField
             variant="standard"
-            label="Keyboard Name"
+            label={t('Keyboard Name')}
             fullWidth={true}
             value={this.props.keyword}
             onChange={this.onChangeKeyword.bind(this)}
@@ -192,11 +193,11 @@ export default class CatalogSearchForm extends React.Component<
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
             <InputLabel id="catalog-search-organization">
-              Organization
+              {t('Organization')}
             </InputLabel>
             <Select
               labelId="catalog-search-organization"
-              label="Organization"
+              label={t('Organization')}
               value={this.props.organizationId || '---'}
               onChange={this.onChangeOrganizationId.bind(this)}
               size="small"
@@ -218,34 +219,34 @@ export default class CatalogSearchForm extends React.Component<
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
             <InputLabel id="catalog-search-build">
-              Build Firmware Support
+              {t('Build Firmware Support')}
             </InputLabel>
             <Select
               labelId="catalog-search-build"
-              label="Build Firmware Support"
+              label={t('Build Firmware Support')}
               value={this.props.buildSupport ? 'buildSupport' : '---'}
               onChange={this.onChangeBuildSupport.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="buildSupport">Supported</MenuItem>
+              <MenuItem value="buildSupport">{t('Supported')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
             <InputLabel id="catalog-search-key-count">
-              Number of Keys
+              {t('Number of Keys')}
             </InputLabel>
             <Select
               labelId="catalog-search-key-count"
-              label="Number of Keys"
+              label={t('Number of Keys')}
               value={this.getFeatureValue(ALL_KEY_COUNT_TYPE)}
               onChange={this.onChangeKeyCount.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="over_100">Over 100%</MenuItem>
+              <MenuItem value="over_100">{t('Over 100%')}</MenuItem>
               <MenuItem value="100">100%</MenuItem>
               <MenuItem value="90">90%</MenuItem>
               <MenuItem value="80">80%</MenuItem>
@@ -254,67 +255,77 @@ export default class CatalogSearchForm extends React.Component<
               <MenuItem value="50">50%</MenuItem>
               <MenuItem value="40">40%</MenuItem>
               <MenuItem value="30">30%</MenuItem>
-              <MenuItem value="macro">Macro</MenuItem>
+              <MenuItem value="macro">{t('Macro')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-split">Integrated/Split</InputLabel>
+            <InputLabel id="catalog-search-split">
+              {t('Integrated/Split')}
+            </InputLabel>
             <Select
               labelId="catalog-search-split"
-              label="Integrated/Split"
+              label={t('Integrated/Split')}
               value={this.getFeatureValue(ALL_SPLIT_TYPE)}
               onChange={this.onChangeSplitType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="integrated">Integrated</MenuItem>
-              <MenuItem value="split">Split</MenuItem>
+              <MenuItem value="integrated">{t('Integrated')}</MenuItem>
+              <MenuItem value="split">{t('Split')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-staggered">Staggered</InputLabel>
+            <InputLabel id="catalog-search-staggered">
+              {t('Staggered')}
+            </InputLabel>
             <Select
               labelId="catalog-search-staggered"
-              label="Staggered"
+              label={t('Staggered')}
               value={this.getFeatureValue(ALL_STAGGERED_TYPE)}
               onChange={this.onChangeStaggeredType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="row_staggered">Row Staggered</MenuItem>
-              <MenuItem value="column_staggered">Column Staggered</MenuItem>
-              <MenuItem value="ortholinear">Ortholinear</MenuItem>
-              <MenuItem value="symmetrical">Symmetrical</MenuItem>
-              <MenuItem value="alice">Alice</MenuItem>
+              <MenuItem value="row_staggered">{t('Row Staggered')}</MenuItem>
+              <MenuItem value="column_staggered">
+                {t('Column Staggered')}
+              </MenuItem>
+              <MenuItem value="ortholinear">{t('Ortholinear')}</MenuItem>
+              <MenuItem value="symmetrical">{t('Symmetrical')}</MenuItem>
+              <MenuItem value="alice">{t('Alice')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-lighting">Lighting</InputLabel>
+            <InputLabel id="catalog-search-lighting">
+              {t('Lighting')}
+            </InputLabel>
             <Select
               labelId="catalog-search-lighting"
-              label="Lighting"
+              label={t('Lighting')}
               value={this.getFeatureValue(ALL_LED_TYPE)}
               onChange={this.onChangeLedType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="backlight">Backlight</MenuItem>
-              <MenuItem value="underglow">Underglow</MenuItem>
+              <MenuItem value="backlight">{t('Backlight')}</MenuItem>
+              <MenuItem value="underglow">{t('Underglow')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-key-switch">Key Switch</InputLabel>
+            <InputLabel id="catalog-search-key-switch">
+              {t('Key Switch')}
+            </InputLabel>
             <Select
               labelId="catalog-search-key-switch"
-              label="Key Switch"
+              label={t('Key Switch')}
               value={this.getFeatureValue(ALL_KEY_SWITCH_TYPE)}
               onChange={this.onChangeKeySwitchType.bind(this)}
               size="small"
@@ -337,16 +348,18 @@ export default class CatalogSearchForm extends React.Component<
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-hot-swap">Hot Swap</InputLabel>
+            <InputLabel id="catalog-search-hot-swap">
+              {t('Hot Swap')}
+            </InputLabel>
             <Select
               labelId="catalog-search-hot-swap"
-              label="Hot Swap"
+              label={t('Hot Swap')}
               value={this.getFeatureValue(ALL_HOTSWAP_TYPE)}
               onChange={this.onChangeHotswapType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="hot_swap">Supported</MenuItem>
+              <MenuItem value="hot_swap">{t('Supported')}</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -361,50 +374,52 @@ export default class CatalogSearchForm extends React.Component<
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="oled">Supported</MenuItem>
+              <MenuItem value="oled">{t('Supported')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-speaker">Speaker</InputLabel>
+            <InputLabel id="catalog-search-speaker">{t('Speaker')}</InputLabel>
             <Select
               labelId="catalog-search-speaker"
-              label="Speaker"
+              label={t('Speaker')}
               value={this.getFeatureValue(ALL_SPEAKER_TYPE)}
               onChange={this.onChangeSpeakerType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="speaker">Supported</MenuItem>
+              <MenuItem value="speaker">{t('Supported')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-condition">
           <FormControl fullWidth={true}>
-            <InputLabel id="catalog-search-wireless">Wireless</InputLabel>
+            <InputLabel id="catalog-search-wireless">
+              {t('Wireless')}
+            </InputLabel>
             <Select
               labelId="catalog-search-wireless"
-              label="Wireless"
+              label={t('Wireless')}
               value={this.getFeatureValue(ALL_WIRELESS_TYPE)}
               onChange={this.onChangeWirelessType.bind(this)}
               size="small"
             >
               <MenuItem value="---">---</MenuItem>
-              <MenuItem value="wireless">Supported</MenuItem>
+              <MenuItem value="wireless">{t('Supported')}</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className="catalog-search-buttons">
           <Button variant="text" onClick={this.onClickClear.bind(this)}>
-            Clear
+            {t('Clear')}
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={this.onClickSearch.bind(this)}
           >
-            Search
+            {t('Search')}
           </Button>
         </div>
       </div>

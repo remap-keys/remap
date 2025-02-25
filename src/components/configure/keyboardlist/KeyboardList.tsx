@@ -9,6 +9,7 @@ import './KeyboardList.scss';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import ForwardIcon from '@mui/icons-material/Forward';
 import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type KeyboardListProps = OwnProps &
@@ -27,13 +28,13 @@ export default class KeyboardList extends React.Component<
     return (
       <div className="keyboardlist-wrapper">
         <div className="message">
-          Connect your keyboard supporting the VIA feature to this PC.
+          {t('Connect your keyboard supporting the VIA feature to this PC.')}
           <br />
           <KeyboardIcon fontSize="large" />
           <ForwardIcon fontSize="large" className="arrow-animation" />
           <LaptopChromebookIcon fontSize="large" />
           <br />
-          Then, press the &quot;+KEYBOARD&quot; below.
+          {t("Then, press the '+KEYBOARD' below.")}
         </div>
         <div className="keyboardlist">
           {this.props.keyboards!.map((kbd: IKeyboard, index: number) => {
@@ -57,9 +58,9 @@ export default class KeyboardList extends React.Component<
             className="keyboard-item"
             onClick={this.props.onClickConnectAnotherKeyboard!.bind(this)}
           >
-            <h3 className="another">+ KEYBOARD</h3>
+            <h3 className="another">{t('+ KEYBOARD')}</h3>
             <div className="device-ids">
-              Add a Web HID access permitted device
+              {t('Add a Web HID access permitted device')}
             </div>
           </div>
         </div>

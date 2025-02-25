@@ -15,6 +15,7 @@ import {
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import ProfileIcon from '../../common/auth/ProfileIcon.container';
+import { t } from 'i18next';
 
 type HeaderState = {
   connectionStateEl: any;
@@ -204,7 +205,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                         color="primary"
                         className="another-device"
                       >
-                        + KEYBOARD
+                        {t('+ KEYBOARD')}
                       </Button>
                     </div>
                   </MenuItem>
@@ -239,7 +240,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 onClick={this.onClickFlash.bind(this)}
                 className={['flash-button', flashBtnState].join(' ')}
               >
-                flash
+                {t('Flash')}
               </button>
             </div>
             <ProfileIcon logout={() => this.props.logout!()} />

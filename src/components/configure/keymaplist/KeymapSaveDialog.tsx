@@ -14,7 +14,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-
 import Draggable from 'react-draggable';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -27,6 +26,7 @@ import {
   isApprovedKeyboard,
   SavedKeymapData,
 } from '../../../services/storage/Storage';
+import { t } from 'i18next';
 
 const MAX_TITLE_TEXT_COUNT = 52;
 const MAX_DESC_TEXT_COUNT = 200;
@@ -193,7 +193,7 @@ export default class LayoutOptionPopover extends React.Component<
         }}
       >
         <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-          {this.isEdit ? 'Edit saved keymap' : 'Save a new keymap'}
+          {this.isEdit ? t('Edit saved keymap') : t('Save a new keymap')}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
@@ -202,7 +202,7 @@ export default class LayoutOptionPopover extends React.Component<
           <TextField
             required
             autoFocus
-            label="Title"
+            label={t('Title')}
             variant="outlined"
             value={this.state.title}
             onChange={(event) => {
@@ -216,7 +216,7 @@ export default class LayoutOptionPopover extends React.Component<
             {`${this.state.title.length}/${MAX_TITLE_TEXT_COUNT}`}
           </div>
           <TextField
-            label="Description"
+            label={t('Description')}
             variant="outlined"
             value={this.state.desc}
             onChange={(event) => {
@@ -246,15 +246,14 @@ export default class LayoutOptionPopover extends React.Component<
               }
               label={
                 <React.Fragment>
-                  <div>Share this keymap for other users</div>
+                  <div>{t('Share this keymap for other users')}</div>
                   <Typography
                     component="span"
                     variant="body2"
                     color="textSecondary"
                   >
-                    Your name &quot;
-                    {this.props.authorDisplayName}&quot; will be displayed for
-                    other users.
+                    {t('Your name will be displayed for other users.')}
+                    &quot;{this.props.authorDisplayName}&quot;
                   </Typography>
                 </React.Fragment>
               }
@@ -269,7 +268,7 @@ export default class LayoutOptionPopover extends React.Component<
               }}
               color="secondary"
             >
-              Delete
+              {t('Delete')}
             </Button>
           )}
           <Button
@@ -281,7 +280,7 @@ export default class LayoutOptionPopover extends React.Component<
             variant="contained"
             className="keymap-save-savebtn"
           >
-            Save
+            {t('Save')}
           </Button>
         </DialogActions>
       </Dialog>

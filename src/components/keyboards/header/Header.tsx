@@ -6,6 +6,7 @@ import { Logo } from '../../common/logo/Logo';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import { Person } from '@mui/icons-material';
 import { getGitHubProviderData } from '../../../services/auth/Auth';
+import { t } from 'i18next';
 
 type HeaderState = {
   menuAnchorEl: any;
@@ -84,7 +85,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             onClose={this.handleMenuClose}
           >
             <MenuItem key="1" onClick={() => this.handleLogoutMenuClick()}>
-              Logout
+              {t('Logout')}
             </MenuItem>
           </Menu>
         </React.Fragment>
