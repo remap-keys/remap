@@ -28,6 +28,7 @@ import CatalogSearchForm from './CatalogSearchForm.container';
 import CatalogSearchDialog from './CatalogSearchDialog';
 import { IKeyboardFeatures } from '../../../store/state';
 import { isSmallDisplay } from '../../../utils/DisplayUtils';
+import { t } from 'i18next';
 
 type CatalogSearchState = {
   showSearchDialog: boolean;
@@ -234,7 +235,7 @@ function KeyboardCard(props: KeyboardCardProps) {
         ) : (
           <div className="catalog-search-result-card-no-image">
             <PhotoLibraryIcon />
-            No Image
+            {t('No Image')}
           </div>
         )}
       </a>
@@ -257,7 +258,7 @@ function KeyboardCard(props: KeyboardCardProps) {
                   </h2>
                   <div className="catalog-search-result-card-header-name-row">
                     <Typography variant="caption">
-                      Designed by {designerName}
+                      {t('Designed by')} {designerName}
                     </Typography>
                   </div>
                 </div>
