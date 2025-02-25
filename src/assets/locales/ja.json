@@ -297,5 +297,10 @@
   "Custom Parameters": "カスタムパラメータ",
   "Type": "タイプ",
   "Options": "オプション",
-  "Firmware File Deletion": "ファームウェアファイルの削除"
+  "Firmware File Deletion": "ファームウェアファイルの削除",
+
+  "Counts of opening a keyboard per day": "1日あたりのキーボードのオープン回数",
+  "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.": "* プライバシー問題を避けるため、十分なユーザーによるログの収集後にこの統計が表示されます。",
+  "Counts of flashing a keymap to MCU": "MCUへのキーマップの書き込み回数",
+  "Download JSON": "JSONをダウンロード"
 }

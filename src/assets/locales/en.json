@@ -274,5 +274,10 @@
   "Custom Parameters": "Custom Parameters",
   "Type": "Type",
   "Options": "Options",
-  "Firmware File Deletion": "Firmware File Deletion"
+  "Firmware File Deletion": "Firmware File Deletion",
+
+  "Counts of opening a keyboard per day": "Counts of opening a keyboard per day",
+  "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.": "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.",
+  "Counts of flashing a keymap to MCU": "Counts of flashing a keymap to MCU",
+  "Download JSON": "Download JSON"
 }

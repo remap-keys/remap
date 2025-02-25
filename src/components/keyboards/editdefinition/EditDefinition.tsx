@@ -438,14 +438,14 @@ function MenuUI(props: MenuUIProps) {
   if (props.keyboardDefinition) {
     menuItems.push(
       <MenuItem key="1" onClick={props.handleDownloadJsonMenuClick}>
-        Download JSON
+        {t('Download JSON')}
       </MenuItem>
     );
   }
   if (props.definitionDocument.status !== KeyboardDefinitionStatus.in_review) {
     menuItems.push(
       <MenuItem key="2" onClick={props.handleDeleteMenuClick}>
-        Delete
+        {t('Delete')}
       </MenuItem>
     );
   }
