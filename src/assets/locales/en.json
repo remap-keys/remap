@@ -238,5 +238,20 @@
   "Provide information to prove that the organization owns the rights to this keyboard.": "Provide information to prove that the organization owns the rights to this keyboard.",
   "The author type of this keyboard is": "The author type of this keyboard is",
   "Individual": "Individual",
-  "I agree the policy:": "I agree the policy:"
+  "I agree the policy:": "I agree the policy:",
+
+  "Definition": "Definition",
+  "Catalog": "Catalog",
+  "Statistics": "Statistics",
+
+  "Are you sure to update the JSON file?": "Are you sure to update the JSON file?",
+  "Are you sure to delete?": "Are you sure to delete?",
+  "Are you sure to change the status to draft? A review is necessary to publish this keyboard again.": "Are you sure to change the status to draft? A review is necessary to publish this keyboard again.",
+  "Unknown confirmDialogMode": "Unknown confirmDialogMode",
+  "Thank you for registering your keyboard! We have received your request at:": "Thank you for registering your keyboard! We have received your request at:",
+  "Your request was rejected at:": "Your request was rejected at:",
+  "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:": "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:",
+  "Firmware source location:": "Firmware source location:",
+  "Back to Draft": "Back to Draft",
+  "Update JSON file": "Update JSON file"
 }

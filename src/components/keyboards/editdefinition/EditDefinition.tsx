@@ -41,6 +41,7 @@ import FirmwareForm from './firmwareform/FirmwareForm.container';
 import BuildForm from './buildform/BuildForm.container';
 import Statistics from './statistics/Statistics.container';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type ConfirmDialogMode =
   | 'save_as_draft'
@@ -244,7 +245,7 @@ export default function EditDefinition(props: EditKeyboardProps) {
                     style={{ marginRight: '16px' }}
                     onClick={handleBackButtonClick}
                   >
-                    &lt; Keyboard List
+                    &lt; {t('Keyboard List')}
                   </Button>
                   <MenuUI
                     definitionDocument={props.definitionDocument!}
@@ -293,11 +294,11 @@ export default function EditDefinition(props: EditKeyboardProps) {
                       variant="fullWidth"
                       centered
                     >
-                      <Tab label="Definition" />
-                      <Tab label="Catalog" />
-                      <Tab label="Firmware" />
-                      <Tab label="Build" />
-                      <Tab label="Statistics" />
+                      <Tab label={t('Definition')} />
+                      <Tab label={t('Catalog')} />
+                      <Tab label={t('Firmware')} />
+                      <Tab label={t('Build')} />
+                      <Tab label={t('Statistics')} />
                     </Tabs>
                   </div>
                 ) : null}
@@ -392,24 +393,28 @@ export default function EditDefinition(props: EditKeyboardProps) {
             }
           >
             {confirmDialogMode === 'upload_json'
-              ? 'Are you sure to update the JSON file?'
+              ? t('Are you sure to update the JSON file?')
               : confirmDialogMode === 'save_as_draft'
-                ? 'Are you sure to save this new keyboard as draft?'
+                ? t('Are you sure to save this new keyboard as draft?')
                 : confirmDialogMode === 'submit_for_review'
-                  ? 'Are you sure to register and submit this new keyboard for review?'
+                  ? t(
+                      'Are you sure to register and submit this new keyboard for review?'
+                    )
                   : confirmDialogMode === 'delete'
-                    ? 'Are you sure to delete?'
+                    ? t('Are you sure to delete?')
                     : confirmDialogMode === 'back_to_draft'
-                      ? 'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
-                      : `Unknown confirmDialogMode: ${confirmDialogMode}`}
+                      ? t(
+                          'Are you sure to change the status to draft? A review is necessary to publish this keyboard again.'
+                        )
+                      : `${t('Unknown confirmDialogMode')}: ${confirmDialogMode}`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="primary" autoFocus onClick={handleConfirmNoClick}>
-            No
+            {t('No')}
           </Button>
           <Button color="primary" onClick={handleConfirmYesClick}>
-            Yes
+            {t('Yes')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -481,8 +486,10 @@ function AlertMessage(props: AlertMessageProps) {
     return (
       <div className="edit-definition-alert">
         <Alert severity="info">
-          Thank you for registering your keyboard! We have received your request
-          at {updatedAt}.
+          {t(
+            'Thank you for registering your keyboard! We have received your request at:'
+          )}{' '}
+          {updatedAt}
         </Alert>
       </div>
     );
@@ -496,14 +503,14 @@ function AlertMessage(props: AlertMessageProps) {
     return (
       <div className="edit-definition-alert">
         <Alert severity="error">
-          Your request was rejected at {updatedAt}. Reason:{' '}
+          {t('Your request was rejected at:')} {updatedAt}. Reason:{' '}
           {props.definitionDocument!.rejectReason}
           <br />
-          If the review request submitted by you was rejected by the reason that
-          the same keyboard definition has already been registered by the
-          incorrect applicant, please report it from{' '}
+          {t(
+            'If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:'
+          )}{' '}
           <a href={googleFormUrl} target="_blank" rel="noreferrer">
-            this form
+            {t('Here')}
           </a>
           .
         </Alert>

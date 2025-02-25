@@ -238,5 +238,20 @@
   "Provide information to prove that the organization owns the rights to this keyboard.": "組織がこのキーボードの権利を所有していることを証明する情報を提供してください。",
   "The author type of this keyboard is": "このキーボードの作者タイプ",
   "Individual": "個人",
-  "I agree the policy:": "ポリシーに同意します:"
+  "I agree the policy:": "ポリシーに同意します:",
+
+  "Definition": "定義",
+  "Catalog": "カタログ",
+  "Statistics": "統計",
+
+  "Are you sure to update the JSON file?": "JSONファイルを更新してもよろしいですか?",
+  "Are you sure to delete?": "削除してもよろしいですか?",
+  "Are you sure to change the status to draft? A review is necessary to publish this keyboard again.": "下書きに変更してもよろしいですか? このキーボードを再度公開するにはレビューが必要です。",
+  "Unknown confirmDialogMode": "不明なconfirmDialogMode",
+  "Thank you for registering your keyboard! We have received your request at:": "キーボードの登録ありがとうございます! あなたのリクエストを受け取りました:",
+  "Your request was rejected at:": "あなたのリクエストは拒否されました:",
+  "If the review request submitted by you was rejected by the reason that the same keyboard definition has already been registered by the incorrect applicant, please report it from the form:": "あなたが提出したレビューリクエストが、同じキーボード定義が誤った申請者によって既に登録されているために拒否された場合は、このフォームから報告してください:",
+  "Firmware source location:": "ファームウェアのソースコードの場所:",
+  "Back to Draft": "下書きに戻す",
+  "Update JSON file": "JSONファイルを更新"
 }
