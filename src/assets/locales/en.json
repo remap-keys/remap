@@ -291,5 +291,20 @@
   "Members": "Members",
   "Email Address": "Email Address",
   "Are you sure to delete the member from this organization?": "Are you sure to delete the member from this organization?",
-  "Confirmation": "Confirmation"
+  "Confirmation": "Confirmation",
+
+  "Bootloader": "Bootloader",
+  "Three Steps to Flash": "Three Steps to Flash",
+  "1. Push the FLASH button and the dialog to list the serial ports up.": "1. Push the FLASH button and the dialog to list the serial ports up.",
+  "2. Put the MCU into boot loader mode. For example, press the reset button.": "2. Put the MCU into boot loader mode. For example, press the reset button.",
+  "3. The serial port of your MCU is displayed in the list. Select it and click the Connect button.": "3. The serial port of your MCU is displayed in the list. Select it and click the Connect button.",
+  "* If pushing the FLASH button, you agree to write the firmware to your MCU by your own risk.": "* If pushing the FLASH button, you agree to write the firmware to your MCU by your own risk.",
+  "* Please read:": "* Please read:",
+  "Frequently Asked Questions": "Frequently Asked Questions",
+  "Now loading the firmware...": "Now loading the firmware...",
+  "Close": "Close",
+
+  "Upload Firmware": "Upload Firmware",
+  "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.": "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.",
+  "Drop Firmware File here": "Drop Firmware File here"
 }

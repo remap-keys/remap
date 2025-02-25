@@ -314,5 +314,20 @@
   "Members": "メンバー",
   "Email Address": "メールアドレス",
   "Are you sure to delete the member from this organization?": "この組織からメンバーを削除してもよろしいですか?",
-  "Confirmation": "確認"
+  "Confirmation": "確認",
+
+  "Bootloader": "ブートローダー",
+  "Three Steps to Flash": "書き込みの3ステップ",
+  "1. Push the FLASH button and the dialog to list the serial ports up.": "1. FLASHボタンを押すと、シリアルポートの一覧を表示するダイアログが表示されます。",
+  "2. Put the MCU into boot loader mode. For example, press the reset button.": "2. MCUをブートローダーモードにします。例えば、リセットボタンを押します。",
+  "3. The serial port of your MCU is displayed in the list. Select it and click the Connect button.": "3. MCUのシリアルポートがリストに表示されます。選択して接続ボタンをクリックします。",
+  "* If pushing the FLASH button, you agree to write the firmware to your MCU by your own risk.": "* FLASHボタンを押すと、自己責任でファームウェアをMCUに書き込むことに同意します。",
+  "* Please read:": "* お読みください:",
+  "Frequently Asked Questions": "よくある質問",
+  "Now loading the firmware...": "ファームウェアを読み込んでいます...",
+  "Close": "閉じる",
+
+  "Upload Firmware": "ファームウェアをアップロード",
+  "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.": "ファームウェアファイル（hex、binなど）を以下のエリアにドラッグアンドドロップしてください。次のページが自動的に表示されます。",
+  "Drop Firmware File here": "ファームウェアファイルをここにドロップ"
 }

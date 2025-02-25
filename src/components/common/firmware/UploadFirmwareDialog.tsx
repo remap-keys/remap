@@ -12,6 +12,7 @@ import {
   UploadFirmwareDialogActionsType,
   UploadFirmwareDialogStateType,
 } from './UploadFirmwareDialog.container';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type UploadFirmwareDialogProps = OwnProps &
@@ -63,12 +64,13 @@ export default function UploadFirmwareDialog(
       maxWidth="sm"
     >
       <DialogTitle id="upload-firmware-dialog-title">
-        Upload Firmware
+        {t('Upload Firmware')}
       </DialogTitle>
       <DialogContent>
         <Typography variant="body1">
-          Drag and drop your firmware file (hex, bin and so on) into the area
-          below. Then, the next page is shown automatically.
+          {t(
+            'Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.'
+          )}
         </Typography>
         <div className="upload-firmware-dialog-upload-file-form">
           <div
@@ -85,14 +87,14 @@ export default function UploadFirmwareDialog(
               className="upload-firmware-dialog-upload-file-form-message"
               ref={dropTargetRef}
             >
-              Drop Firmware File here
+              {t('Drop Firmware File here')}
             </div>
           </div>
         </div>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={onClickClose}>
-          Close
+          {t('Close')}
         </Button>
       </DialogActions>
     </Dialog>
