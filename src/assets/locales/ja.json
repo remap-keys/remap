@@ -302,5 +302,17 @@
   "Counts of opening a keyboard per day": "1日あたりのキーボードのオープン回数",
   "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.": "* プライバシー問題を避けるため、十分なユーザーによるログの収集後にこの統計が表示されます。",
   "Counts of flashing a keymap to MCU": "MCUへのキーマップの書き込み回数",
-  "Download JSON": "JSONをダウンロード"
+  "Download JSON": "JSONをダウンロード",
+
+  "If you want to create a new organization in Remap, please send a request from:": "Remapで新しい組織を作成したい場合は、次のリンクからリクエストを送信してください:",
+  "Organization List": "組織リスト",
+  "Icon Image URL": "アイコン画像のURL",
+  "Contact Email Address": "連絡先メールアドレス",
+  "Contact Person Name": "連絡先担当者名",
+  "Contact Telephone Number": "連絡先電話番号",
+  "Contact Address": "連絡先住所",
+  "Members": "メンバー",
+  "Email Address": "メールアドレス",
+  "Are you sure to delete the member from this organization?": "この組織からメンバーを削除してもよろしいですか?",
+  "Confirmation": "確認"
 }

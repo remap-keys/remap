@@ -23,6 +23,7 @@ import {
 import { Button } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { IOrganizationMember } from '../../../services/storage/Storage';
+import { t } from 'i18next';
 
 type EditOrganizationState = {
   openConfirmDialog: boolean;
@@ -80,14 +81,14 @@ export default class EditOrganization extends React.Component<
                       style={{ marginRight: '16px' }}
                       onClick={this.handleBackButtonClick}
                     >
-                      &lt; Organization List
+                      &lt; {t('Organization List')}
                     </Button>
                   </div>
                   <div className="edit-organization-form">
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-name"
-                        label="Name"
+                        label={t('Name')}
                         variant="outlined"
                         value={this.props.organization!.name}
                         InputProps={{
@@ -98,7 +99,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-description"
-                        label="Description"
+                        label={t('Description')}
                         variant="outlined"
                         multiline
                         rows={4}
@@ -111,7 +112,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-icon-image-url"
-                        label="Icon Image URL"
+                        label={t('Icon Image URL')}
                         variant="outlined"
                         value={this.props.organization!.icon_image_url}
                         InputProps={{
@@ -122,7 +123,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-contact-email-address"
-                        label="Contact Email Address"
+                        label={t('Contact Email Address')}
                         variant="outlined"
                         value={this.props.organization!.contact_email_address}
                         InputProps={{
@@ -133,7 +134,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-contact-person-name"
-                        label="Contact Person Name"
+                        label={t('Contact Person Name')}
                         variant="outlined"
                         value={this.props.organization!.contact_person_name}
                         InputProps={{
@@ -144,7 +145,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-contact-tel"
-                        label="Contact Telephone Number"
+                        label={t('Contact Telephone Number')}
                         variant="outlined"
                         value={this.props.organization!.contact_tel}
                         InputProps={{
@@ -155,7 +156,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <TextField
                         id="edit-organization-contact-address"
-                        label="Contact Address"
+                        label={t('Contact Address')}
                         variant="outlined"
                         value={this.props.organization!.contact_address}
                         InputProps={{
@@ -166,7 +167,7 @@ export default class EditOrganization extends React.Component<
                     <div className="edit-organization-form-row">
                       <Card variant="outlined">
                         <CardContent>
-                          <Typography variant="h6">Members</Typography>
+                          <Typography variant="h6">{t('Members')}</Typography>
                           <List>
                             {this.props.organizationMembers!.map(
                               (member, index) => (
@@ -195,7 +196,7 @@ export default class EditOrganization extends React.Component<
                             <TextField
                               className="edit-organization-form-member-form-email"
                               required
-                              label="Email Address"
+                              label={t('Email Address')}
                               value={this.props.email}
                               onChange={(
                                 event: React.ChangeEvent<HTMLInputElement>
@@ -212,7 +213,7 @@ export default class EditOrganization extends React.Component<
                               className="edit-organization-form-member-form-button"
                               disabled={this.props.email!.length === 0}
                             >
-                              Add
+                              {t('Add')}
                             </Button>
                           </div>
                         </CardContent>
@@ -229,10 +230,10 @@ export default class EditOrganization extends React.Component<
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{'Confirmation'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{t('Confirmation')}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description" color="secondary">
-              Are you sure to delete the member from this organization?
+              {t('Are you sure to delete the member from this organization?')}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -241,10 +242,10 @@ export default class EditOrganization extends React.Component<
               autoFocus
               onClick={this.handleConfirmNoClick}
             >
-              No
+              {t('No')}
             </Button>
             <Button color="primary" onClick={this.handleConfirmYesClick}>
-              Yes
+              {t('Yes')}
             </Button>
           </DialogActions>
         </Dialog>

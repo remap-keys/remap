@@ -279,5 +279,17 @@
   "Counts of opening a keyboard per day": "Counts of opening a keyboard per day",
   "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.": "* This statistics will be shown after logs are collected by enough users because of avoiding a privacy issue.",
   "Counts of flashing a keymap to MCU": "Counts of flashing a keymap to MCU",
-  "Download JSON": "Download JSON"
+  "Download JSON": "Download JSON",
+
+  "If you want to create a new organization in Remap, please send a request from:": "If you want to create a new organization in Remap, please send a request from:",
+  "Organization List": "Organization List",
+  "Icon Image URL": "Icon Image URL",
+  "Contact Email Address": "Contact Email Address",
+  "Contact Person Name": "Contact Person Name",
+  "Contact Telephone Number": "Contact Telephone Number",
+  "Contact Address": "Contact Address",
+  "Members": "Members",
+  "Email Address": "Email Address",
+  "Are you sure to delete the member from this organization?": "Are you sure to delete the member from this organization?",
+  "Confirmation": "Confirmation"
 }

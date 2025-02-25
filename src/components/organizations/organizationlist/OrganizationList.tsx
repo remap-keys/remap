@@ -7,6 +7,7 @@ import {
 import { Button, Card, CardContent, Link } from '@mui/material';
 import { IOrganization } from '../../../services/storage/Storage';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type OrganizationListState = {};
 type OwnProps = {};
@@ -34,15 +35,15 @@ export default class OrganizationList extends React.Component<
             ))}
             <div className="organization">
               <div className="no-registered-organization">
-                {`
-                  If you want to create a new organization in Remap, please send a request from
-                  `}
+                {t(
+                  'If you want to create a new organization in Remap, please send a request from:'
+                )}
                 <Link
                   href="https://docs.google.com/forms/d/e/1FAIpQLSc4ntqwYdpE16b9KMwINptJbBYJPVqygvol_57MVXlxLnteUQ/viewform?usp=sf_link"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  this form
+                  {t('Here')}
                 </Link>
                 {'.'}
               </div>
@@ -80,7 +81,7 @@ class OrganizationRow extends React.Component<OrganizationProps, any> {
               <div className="organization-meta">
                 <div className="organization-meta-info">
                   <span className="organization-meta-info-label">
-                    Description:
+                    {t('Description')}:
                   </span>
                   {this.props.organization.description}
                 </div>
@@ -88,13 +89,13 @@ class OrganizationRow extends React.Component<OrganizationProps, any> {
               <div className="organization-meta">
                 <div className="organization-meta-info">
                   <span className="organization-meta-info-label">
-                    Created at:
+                    {t('Created at')}:
                   </span>
                   {createdAt}
                 </div>
                 <div className="organization-meta-info">
                   <span className="organization-meta-info-label">
-                    Updated at:{' '}
+                    {t('Updated at')}:{' '}
                   </span>
                   {updatedAt}
                 </div>
@@ -107,7 +108,7 @@ class OrganizationRow extends React.Component<OrganizationProps, any> {
                   location.href = `/organizations/${this.props.organization.id}`;
                 }}
               >
-                Details
+                {t('Details')}
               </Button>
             </div>
           </div>
