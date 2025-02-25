@@ -14,6 +14,7 @@ import {
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import TweetButton from '../../common/twitter/TweetButton';
 import { useNavigate } from 'react-router';
+import { t } from 'i18next';
 
 type ContentState = {};
 type OwnProps = {};
@@ -153,10 +154,10 @@ const CategoryKeyboardContent: React.FC<CategoryKeyboardContentProps> = ({
           />
           <div className="catalog-content-nav">
             <Tabs value={value} indicatorColor="primary" onChange={onChangeTab}>
-              <Tab label="Overview" />
-              <Tab label="Keymap" />
-              <Tab label="Firmware" />
-              <Tab label="Build" />
+              <Tab label={t('Overview')} />
+              <Tab label={t('Keymap')} />
+              <Tab label={t('Firmware')} />
+              <Tab label={t('Build')} />
             </Tabs>
             <div className="catalog-share-buttons">
               <TweetButton url={url} />
