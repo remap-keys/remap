@@ -198,9 +198,12 @@
 
   "Cancel": "キャンセル",
 
-  "Test Matrix": "テストマトリクス",
   "You can confirm that your keyboard's key switches work fine.": "キーボードのキースイッチが正常に動作することを確認できます。",
 
   "Logout": "ログアウト",
-  "Login": "ログイン"
+  "Login": "ログイン",
+
+  "+Keyboard": "+ キーボード",
+  "You don't have any registered keyboards. Please register your own keyboard from right-top button.": "登録されたキーボードがありません。右上のボタンから自分のキーボードを登録してください。",
+  "Details": "詳細"
 }

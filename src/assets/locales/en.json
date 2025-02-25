@@ -198,9 +198,12 @@
 
   "Cancel": "Cancel",
 
-  "Test Matrix": "Test Matrix",
   "You can confirm that your keyboard's key switches work fine.": "You can confirm that your keyboard's key switches work fine.",
 
   "Logout": "Logout",
-  "Login": "Login"
+  "Login": "Login",
+
+  "+Keyboard": "+ Keyboard",
+  "You don't have any registered keyboards. Please register your own keyboard from right-top button.": "You don't have any registered keyboards. Please register your own keyboard from right-top button.",
+  "Details": "Details"
 }
