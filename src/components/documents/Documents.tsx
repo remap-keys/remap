@@ -18,6 +18,7 @@ import Encoders from './encoders/Encoders';
 import Build from './build/Build';
 import SupportCodeEditing from './support-code-editing/SupportCodeEditing';
 import Statistics from './statistics/Statistics';
+import Internationalization from './i18n/Internationalization';
 
 type RouteParams = {
   docId: string;
@@ -65,6 +66,9 @@ export default function Documents(props: DocumentsPropsType) {
     sendEventToGoogleAnalytics('docs/support-code-editing');
   } else if (docId === 'statistics') {
     page = <Statistics />;
+    sendEventToGoogleAnalytics('docs/statistics');
+  } else if (docId === 'i18n') {
+    page = <Internationalization />;
     sendEventToGoogleAnalytics('docs/statistics');
   } else {
     page = <Index />;

@@ -8,6 +8,11 @@ export default function Index() {
         <Typography variant="h3">News</Typography>
         <section>
           <Typography variant="body1" gutterBottom={true}>
+            <Link href="/docs/i18n">
+              [Feb 26th, 2025] Japanese Language Support
+            </Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom={true}>
             <Link href="/docs/statistics">
               [Dec 19th, 2023] The statistics feature is available
             </Link>

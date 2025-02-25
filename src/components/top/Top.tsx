@@ -17,6 +17,7 @@ import './Top.scss';
 import { TopActionsType, TopStateType } from './Top.container';
 import { useNavigate } from 'react-router';
 import {
+  Alert,
   AppBar,
   Button,
   Card,
@@ -24,6 +25,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Link,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -92,6 +94,14 @@ export default function Top(props: TopPropsType) {
           <Logo width={128} color={'white'} />
         </Toolbar>
       </AppBar>
+      <Alert severity="info">
+        <strong>Info: </strong>
+        [Feb 26th, 2025] Japanese Language Support. See{' '}
+        <Link href="/docs/i18n" target="_blank">
+          for more details
+        </Link>{' '}
+        .
+      </Alert>
       <main>
         <div className="hero-content">
           <Container maxWidth="xl">
