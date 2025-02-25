@@ -266,5 +266,21 @@
   "Keyboard Type": "キーボードタイプ",
   "Backlight LED": "バックライトLED",
   "Underglow LED": "アンダーグローLED",
-  "Add Store": "取扱店を追加"
+  "Add Store": "取扱店を追加",
+
+  "Drop Firmware here (.hex .bin and etc.)": "ファームウェアをここにドロップ(.hex .bin など)",
+  "Firmware File": "ファームウェアファイル",
+  "Firmware Name": "ファームウェア名",
+  "Source Code URL": "ソースコードのURL",
+  "Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`.": "このファームウェアのソースコードがホストされているURLを記入してください。これは`http://`または`https://`で始まる必要があります。",
+  "Flash Firmware Support": "ファームウェア書き込み対応",
+  "Default Bootloader Type": "ブートローダータイプの初期値",
+  "Upload": "アップロード",
+  "There is no firmware file.": "ファームウェアファイルはありません",
+  "Firmware Deletion": "ファームウェアの削除",
+  "Are you sure to delete the firmware file?": "ファームウェアファイルを削除してもよろしいですか?",
+  "Edit": "編集",
+  "Edit Firmware": "ファームウェアを編集",
+  "Firmware Description": "ファームウェアの説明",
+  "Update": "更新"
 }

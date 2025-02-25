@@ -243,5 +243,21 @@
   "Keyboard Type": "Keyboard Type",
   "Backlight LED": "Backlight LED",
   "Underglow LED": "Underglow LED",
-  "Add Store": "Add Store"
+  "Add Store": "Add Store",
+
+  "Drop Firmware here (.hex .bin and etc.)": "Drop Firmware here (.hex .bin and etc.)",
+  "Firmware File": "Firmware File",
+  "Firmware Name": "Firmware Name",
+  "Source Code URL": "Source Code URL",
+  "Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`.": "Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`.",
+  "Flash Firmware Support": "Flash Firmware Support",
+  "Default Bootloader Type": "Default Bootloader Type",
+  "Upload": "Upload",
+  "There is no firmware file.": "There is no firmware file.",
+  "Firmware Deletion": "Firmware Deletion",
+  "Are you sure to delete the firmware file?": "Are you sure to delete the firmware file?",
+  "Edit": "Edit",
+  "Edit Firmware": "Edit Firmware",
+  "Firmware Description": "Firmware Description",
+  "Update": "Update"
 }

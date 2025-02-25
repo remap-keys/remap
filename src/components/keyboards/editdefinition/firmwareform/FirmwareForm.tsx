@@ -24,6 +24,7 @@ import { IFirmware } from '../../../../services/storage/Storage';
 import { IBootloaderType } from '../../../../services/firmware/Types';
 import ConfirmDialog from '../../../common/confirm/ConfirmDialog';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type FirmwareFormProps = OwnProps &
@@ -164,7 +165,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
                   className="edit-definition-firmware-form-upload-message"
                   ref={dropTargetRef}
                 >
-                  Drop Firmware here (.hex .bin and etc.)
+                  {t('Drop Firmware here (.hex .bin and etc.)')}
                 </div>
               </div>
             </div>
@@ -173,7 +174,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <div className="edit-definition-firmware-form-row">
               <FormControl>
                 <TextField
-                  label="Firmware File"
+                  label={t('Firmware File')}
                   variant="outlined"
                   value={`${props.firmwareFile ? firmwareFileInfo : ''}`}
                   InputProps={{
@@ -186,7 +187,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
           <div className="edit-definition-firmware-form-row">
             <FormControl>
               <TextField
-                label="Firmware Name"
+                label={t('Firmware Name')}
                 variant="outlined"
                 value={props.firmwareName}
                 onChange={(event) => {
@@ -198,7 +199,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
           <div className="edit-definition-firmware-form-row">
             <FormControl>
               <TextField
-                label="Description"
+                label={t('Description')}
                 variant="outlined"
                 value={props.firmwareDescription}
                 multiline
@@ -212,27 +213,31 @@ export default function FirmwareForm(props: FirmwareFormProps) {
           <div className="edit-definition-firmware-form-row">
             <FormControl>
               <TextField
-                label="Source Code URL"
+                label={t('Source Code URL')}
                 variant="outlined"
                 value={props.firmwareSourceCodeUrl}
                 onChange={(event) => {
                   props.updateFirmwareSourceCodeUrl!(event.target.value);
                 }}
-                helperText="Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`."
+                helperText={t(
+                  'Fill in the URL where the source code of this firmware is hosted. This must be started with `http://` or `https://`.'
+                )}
               />
             </FormControl>
           </div>
           <div className="edit-definition-firmware-form-row">
             <FormControl>
-              <FormLabel component="legend">Flash Firmware Support</FormLabel>
+              <FormLabel component="legend">
+                {t('Flash Firmware Support')}
+              </FormLabel>
               <Select
                 value={props.flashSupport ? 'yes' : 'no'}
                 onChange={(event) => {
                   props.updateFlashSupport!(event.target.value === 'yes');
                 }}
               >
-                <MenuItem value="no">No</MenuItem>
-                <MenuItem value="yes">Yes</MenuItem>
+                <MenuItem value="no">{t('No')}</MenuItem>
+                <MenuItem value="yes">{t('Yes')}</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -240,7 +245,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <div className="edit-definition-firmware-form-row">
               <FormControl>
                 <FormLabel component="legend">
-                  Default Bootloader Type
+                  {t('Default Bootloader Type')}
                 </FormLabel>
                 <Select
                   value={props.defaultBootloaderType}
@@ -265,7 +270,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               style={{ marginRight: '8px' }}
               onClick={onClickClearButton}
             >
-              Clear
+              {t('Clear')}
             </Button>
             <Button
               color="primary"
@@ -274,7 +279,7 @@ export default function FirmwareForm(props: FirmwareFormProps) {
               onClick={onClickUploadButton}
               disabled={!validateFirmwareForm()}
             >
-              Upload
+              {t('Upload')}
             </Button>
           </div>
         </div>
@@ -283,10 +288,10 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             <React.Fragment>
               <div className="edit-definition-firmware-form-total-download-count">
                 <Typography variant="body2" align="right">
-                  Total Download Count:{' '}
+                  {t('Total Download Count:')}{' '}
                   {props.definitionDocument!.totalFirmwareDownloadCount}
                   {' / '}
-                  Total Flash Count:{' '}
+                  {t('Total Flash Count:')}{' '}
                   {props.definitionDocument!.totalFirmwareFlashCount}
                 </Typography>
               </div>
@@ -302,15 +307,15 @@ export default function FirmwareForm(props: FirmwareFormProps) {
             </React.Fragment>
           ) : (
             <div className="edit-definition-firmware-form-nothing">
-              <div>There is no firmware file.</div>
+              <div>{t('There is no firmware file.')}</div>
             </div>
           )}
         </div>
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Firmware Deletion"
-        message="Are you sure to delete the firmware file?"
+        title={t('Firmware Deletion')}
+        message={t('Are you sure to delete the firmware file?')}
         onClickYes={onClickConfirmDialogYes}
         onClickNo={onClickConfirmDialogNo}
       />
@@ -389,7 +394,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
             {props.firmware.flash_support ? (
               <React.Fragment>
                 <br />
-                Default Bootloader Type:{' '}
+                {t('Default Bootloader Type')}:{' '}
                 {props.firmware.default_bootloader_type}
               </React.Fragment>
             ) : (
@@ -399,7 +404,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
         </CardContent>
         <CardActions className="edit-definition-firmware-form-card-buttons">
           <Button size="small" onClick={() => onClickEdit()}>
-            Edit
+            {t('Edit')}
           </Button>
           <Button
             size="small"
@@ -408,7 +413,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
               props.onClickDelete(props.firmware);
             }}
           >
-            Delete
+            {t('Delete')}
           </Button>
           <Button
             size="small"
@@ -416,7 +421,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
             target="_blank"
             rel="noreferrer"
           >
-            Source Code
+            {t('Source Code')}
           </Button>
           <Button
             size="small"
@@ -425,7 +430,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
               props.onClickDownload(props.firmware);
             }}
           >
-            Download
+            {t('Download')}
           </Button>
         </CardActions>
       </Card>
@@ -499,12 +504,14 @@ function EditDialog(props: IEditDialogProps) {
       aria-labelledby="edit-firmware-dialog-title"
       aria-describedby="edit-firmware-dialog-description"
     >
-      <DialogTitle id="edit-firmware-dialog-title">Edit Firmware</DialogTitle>
+      <DialogTitle id="edit-firmware-dialog-title">
+        {t('Edit Firmware')}
+      </DialogTitle>
       <DialogContent className="edit-firmware-dialog-content">
         <FormControl className="edit-firmware-dialog-item">
           <TextField
             autoFocus
-            label="Firmware Name"
+            label={t('Firmware Name')}
             fullWidth
             margin="dense"
             value={name}
@@ -516,7 +523,7 @@ function EditDialog(props: IEditDialogProps) {
         <FormControl className="edit-firmware-dialog-item">
           <TextField
             autoFocus
-            label="Firmware Description"
+            label={t('Firmware Description')}
             fullWidth
             multiline
             rows={4}
@@ -530,7 +537,7 @@ function EditDialog(props: IEditDialogProps) {
         <FormControl className="edit-firmware-dialog-item">
           <TextField
             autoFocus
-            label="Source Code URL"
+            label={t('Source Code URL')}
             fullWidth
             margin="dense"
             value={sourceCodeUrl}
@@ -540,20 +547,24 @@ function EditDialog(props: IEditDialogProps) {
           />
         </FormControl>
         <FormControl className="edit-firmware-dialog-item">
-          <FormLabel component="legend">Flash Firmware Support</FormLabel>
+          <FormLabel component="legend">
+            {t('Flash Firmware Support')}
+          </FormLabel>
           <Select
             value={flashSupport ? 'yes' : 'no'}
             onChange={(event) => {
               setFlashSupport(event.target.value === 'yes');
             }}
           >
-            <MenuItem value="no">No</MenuItem>
-            <MenuItem value="yes">Yes</MenuItem>
+            <MenuItem value="no">{t('No')}</MenuItem>
+            <MenuItem value="yes">{t('Yes')}</MenuItem>
           </Select>
         </FormControl>
         {flashSupport ? (
           <FormControl className="edit-firmware-dialog-item">
-            <FormLabel component="legend">Default Bootloader Type</FormLabel>
+            <FormLabel component="legend">
+              {t('Default Bootloader Type')}
+            </FormLabel>
             <Select
               value={defaultBootloaderType}
               onChange={(event) => {
@@ -570,7 +581,7 @@ function EditDialog(props: IEditDialogProps) {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => props.onClickCancel()}>Cancel</Button>
+        <Button onClick={() => props.onClickCancel()}>{t('Cancel')}</Button>
         <Button
           color="primary"
           onClick={() =>
@@ -585,7 +596,7 @@ function EditDialog(props: IEditDialogProps) {
           }
           disabled={!validateFirmwareForm()}
         >
-          Update
+          {t('Update')}
         </Button>
       </DialogActions>
     </Dialog>
