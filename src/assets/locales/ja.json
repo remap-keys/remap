@@ -282,5 +282,20 @@
   "Edit": "編集",
   "Edit Firmware": "ファームウェアを編集",
   "Firmware Description": "ファームウェアの説明",
-  "Update": "更新"
+  "Update": "更新",
+
+  "Support building QMK Firmware": "QMK Firmwareのビルドをサポート",
+  "QMK Firmware Version": "QMK Firmwareバージョン",
+  "Support Code Editing": "コード編集をサポート",
+  "Not Supported": "対応しない",
+  "Keyboard Directory Name": "キーボードディレクトリ名",
+  "Keyboard Directory Name (Optional)": "キーボードディレクトリ名（オプション）",
+  "If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field.": "記入すると、ファイルはその名前のサブディレクトリに配置されます。それ以外の場合、ファイルはランダムな文字列で名前付けされたディレクトリに配置されます。`KEYBOARD_NAME.h`および/または`KEYBOARD_NAME.c`ファイルを作成したい場合は、このフィールドを記入する必要があります。",
+  "File Name": "ファイル名",
+  "Content": "内容",
+  "This content can have custom parameters. See:": "このコンテンツにはカスタムパラメータを含めることができます。参照:",
+  "Custom Parameters": "カスタムパラメータ",
+  "Type": "タイプ",
+  "Options": "オプション",
+  "Firmware File Deletion": "ファームウェアファイルの削除"
 }

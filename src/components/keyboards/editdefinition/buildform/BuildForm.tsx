@@ -52,6 +52,7 @@ import {
   ALL_BOOTLOADER_TYPE,
   IBootloaderType,
 } from '../../../../services/firmware/Types';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type BuildFormProps = OwnProps &
@@ -204,7 +205,7 @@ export default function BuildForm(props: BuildFormProps) {
             <FormControlLabel
               control={<Switch checked={props.buildableFirmware!.enabled} />}
               onChange={onClickSupportBuildingFirmware}
-              label="Support building QMK Firmware"
+              label={t('Support building QMK Firmware')}
             />
             <Box
               sx={{
@@ -222,12 +223,12 @@ export default function BuildForm(props: BuildFormProps) {
                 disabled={!props.buildableFirmware!.enabled}
               >
                 <InputLabel id="building-firmware-type">
-                  Default Bootloader Type
+                  {t('Default Bootloader Type')}
                 </InputLabel>
                 <Select
                   labelId="building-firmware-type"
                   value={props.buildableFirmware!.defaultBootloaderType}
-                  label="Default Bootloader Type"
+                  label={t('Default Bootloader Type')}
                   onChange={onChangeDefaultBootloaderType}
                 >
                   {ALL_BOOTLOADER_TYPE.map((type) => (
@@ -244,12 +245,12 @@ export default function BuildForm(props: BuildFormProps) {
                 disabled={!props.buildableFirmware!.enabled}
               >
                 <InputLabel id="building-firmware-qmk-firmware-version">
-                  QMK Firmware Version
+                  {t('QMK Firmware Version')}
                 </InputLabel>
                 <Select
                   labelId="building-firmware-qmk-firmware-version"
                   value={props.buildableFirmware!.qmkFirmwareVersion}
-                  label="QMK Firmware Version"
+                  label={t('QMK Firmware Version')}
                   onChange={onChangeQmkFirmwareVersion}
                 >
                   {BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION.map((type) => (
@@ -266,7 +267,7 @@ export default function BuildForm(props: BuildFormProps) {
                 disabled={!props.buildableFirmware!.enabled}
               >
                 <InputLabel id="building-firmware-support-code-editing">
-                  Support Code Editing
+                  {t('Support Code Editing')}
                 </InputLabel>
                 <Select
                   labelId="building-firmware-support-code-editing"
@@ -275,19 +276,21 @@ export default function BuildForm(props: BuildFormProps) {
                       ? 'true'
                       : 'false'
                   }
-                  label="Support Code Editing"
+                  label={t('Support Code Editing')}
                   onChange={onChangeSupportCodeEditing}
                 >
-                  <MenuItem value="true">Supported</MenuItem>
-                  <MenuItem value="false">Not Supported</MenuItem>
+                  <MenuItem value="true">{t('Supported')}</MenuItem>
+                  <MenuItem value="false">{t('Not Supported')}</MenuItem>
                 </Select>
               </FormControl>
             </Box>
             <Box>
               <TextField
-                label="Keyboard Directory Name"
-                placeholder="Keyboard Directory Name (Optional)"
-                helperText="If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field."
+                label={t('Keyboard Directory Name')}
+                placeholder={t('Keyboard Directory Name (Optional)')}
+                helperText={t(
+                  'If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field.'
+                )}
                 fullWidth
                 size="small"
                 value={keyboardDirectoryName}
@@ -311,7 +314,7 @@ export default function BuildForm(props: BuildFormProps) {
                       component="div"
                       id="nested-list-subheader-firmware-files"
                     >
-                      Firmware Files
+                      {t('Firmware Files')}
                     </ListSubheader>
                   }
                 >
@@ -406,7 +409,7 @@ export default function BuildForm(props: BuildFormProps) {
                     ]}
                   </Breadcrumbs>
                   <TextField
-                    label="File Name"
+                    label={t('File Name')}
                     variant="outlined"
                     fullWidth
                     margin="dense"
@@ -415,7 +418,7 @@ export default function BuildForm(props: BuildFormProps) {
                     onChange={onChangeFileName}
                   />
                   <TextField
-                    label="Content"
+                    label={t('Content')}
                     variant="outlined"
                     multiline
                     minRows={10}
@@ -427,8 +430,8 @@ export default function BuildForm(props: BuildFormProps) {
                     onChange={onChangeContent}
                   />
                   <Typography variant="caption" sx={{ mb: 2 }} component="p">
-                    This content can have custom parameters. See:{' '}
-                    <a href="/docs/build">Custom Parameters</a>
+                    {t('This content can have custom parameters. See:')}{' '}
+                    <a href="/docs/build">{t('Custom Parameters')}</a>
                   </Typography>
                   {props.targetBuildableFirmwareCodeParameters!.length > 0 && (
                     <Paper sx={{ width: '100%', overflow: 'hidden', mb: 2 }}>
@@ -436,10 +439,10 @@ export default function BuildForm(props: BuildFormProps) {
                         <Table stickyHeader size="small">
                           <TableHead>
                             <TableRow>
-                              <TableCell>Name</TableCell>
-                              <TableCell>Type</TableCell>
-                              <TableCell>Default</TableCell>
-                              <TableCell>Options</TableCell>
+                              <TableCell>{t('Name')}</TableCell>
+                              <TableCell>{t('Type')}</TableCell>
+                              <TableCell>{t('Default')}</TableCell>
+                              <TableCell>{t('Options')}</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -470,7 +473,7 @@ export default function BuildForm(props: BuildFormProps) {
                       disabled={props.targetBuildableFirmwareFile === null}
                       onClick={onClickDelete}
                     >
-                      Delete
+                      {t('Delete')}
                     </Button>
                     <Button
                       variant="contained"
@@ -481,7 +484,7 @@ export default function BuildForm(props: BuildFormProps) {
                       }
                       onClick={onClickSave}
                     >
-                      Save
+                      {t('Save')}
                     </Button>
                   </Stack>
                 </Container>
@@ -492,8 +495,8 @@ export default function BuildForm(props: BuildFormProps) {
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Firmware File Deletion"
-        message="Are you sure to delete the firmware file?"
+        title={t('Firmware File Deletion')}
+        message={t('Are you sure to delete the firmware file?')}
         onClickYes={onClickConfirmDialogYes}
         onClickNo={onClickConfirmDialogNo}
       />

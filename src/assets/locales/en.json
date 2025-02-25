@@ -259,5 +259,20 @@
   "Edit": "Edit",
   "Edit Firmware": "Edit Firmware",
   "Firmware Description": "Firmware Description",
-  "Update": "Update"
+  "Update": "Update",
+
+  "Support building QMK Firmware": "Support building QMK Firmware",
+  "QMK Firmware Version": "QMK Firmware Version",
+  "Support Code Editing": "Support Code Editing",
+  "Not Supported": "Not Supported",
+  "Keyboard Directory Name": "Keyboard Directory Name",
+  "Keyboard Directory Name (Optional)": "Keyboard Directory Name (Optional)",
+  "If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field.": "If filled, files will be placed in a subdirectory with the name. Otherwise, files will be placed in the directory named with a random string. When you want to create `KEYBOARD_NAME.h` and/or `KEYBOARD_NAME.c` files, you should fill this field.",
+  "File Name": "File Name",
+  "Content": "Content",
+  "This content can have custom parameters. See:": "This content can have custom parameters. See:",
+  "Custom Parameters": "Custom Parameters",
+  "Type": "Type",
+  "Options": "Options",
+  "Firmware File Deletion": "Firmware File Deletion"
 }
