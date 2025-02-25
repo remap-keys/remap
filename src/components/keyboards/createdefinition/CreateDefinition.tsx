@@ -40,6 +40,7 @@ import {
 } from '../ValidationUtils';
 import productNameDescription from '../../../assets/images/keyboards/product-name-field.png';
 import { HtmlTooltip } from '../../htmltooltip/HtmlTooltip';
+import { t } from 'i18next';
 
 type CreateKeyboardState = {
   openConfirmDialog: boolean;
@@ -173,7 +174,7 @@ export default class CreateDefinition extends React.Component<
                     style={{ marginRight: '16px' }}
                     onClick={this.handleBackButtonClick}
                   >
-                    &lt; Keyboard List
+                    &lt; {t('Keyboard List')}
                   </Button>
                   <Stepper className="create-definition-stepper">
                     {statusSteps.map((label) => {
@@ -189,7 +190,7 @@ export default class CreateDefinition extends React.Component<
                   <div className="create-definition-form-container">
                     <div className="create-definition-upload-form">
                       <KeyboardDefinitionFormPart
-                        messageHtml={`<span class="create-definition-upload-msg">Please import your file (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="noreferrer">.json</a>)</span>`}
+                        messageHtml={`<span class="create-definition-upload-msg">${t('Please import your file')} (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="noreferrer">.json</a>)</span>`}
                         validateDeviceIds={false}
                         size="small"
                         onLoadFile={(kd, name, jsonStr) => {
@@ -201,7 +202,7 @@ export default class CreateDefinition extends React.Component<
                       <div className="create-definition-form-row">
                         <TextField
                           id="create-definition-json-filename"
-                          label="JSON Filename"
+                          label={t('JSON Filename')}
                           variant="outlined"
                           value={this.props.jsonFilename}
                           InputProps={{
@@ -212,7 +213,7 @@ export default class CreateDefinition extends React.Component<
                       <div className="create-definition-form-row">
                         <TextField
                           id="create-definition-name"
-                          label="Name"
+                          label={t('Name')}
                           variant="outlined"
                           value={this.props.keyboardDefinition?.name || ''}
                           InputProps={{
@@ -252,7 +253,9 @@ export default class CreateDefinition extends React.Component<
                             inputRef={this.refInputProductName}
                             id="create-definition-product-name"
                             label="Product Name"
-                            helperText="This is the Product Name specified by `#define PRODUCT [Product Name]` in the config.h file."
+                            helperText={t(
+                              'This is the Product Name specified by `#define PRODUCT [Product Name]` in the config.h file.'
+                            )}
                             variant="outlined"
                             required={true}
                             value={this.props.productName}
@@ -340,11 +343,13 @@ export default class CreateDefinition extends React.Component<
                       <div className="create-definition-form-row">
                         <TextField
                           id="create-definition-contact-information"
-                          label="Contact Information"
+                          label={t('Contact Information')}
                           variant="outlined"
                           multiline
                           rows={4}
-                          helperText="Fill in your contact information. For example, your email address, Twitter ID, Facebook ID or such information which we can contact you certainly."
+                          helperText={t(
+                            'Fill in your contact information. For example, your email address, X ID, Facebook ID or such information which we can contact you certainly.'
+                          )}
                           value={this.props.contactInformation || ''}
                           onChange={(e) =>
                             this.props.updateContactInformation!(e.target.value)
@@ -357,7 +362,7 @@ export default class CreateDefinition extends React.Component<
                           onClick={this.handleSaveAsDraftButtonClick}
                           disabled={!this.isFilledInAllField()}
                         >
-                          Save as Draft
+                          {t('Save as Draft')}
                         </Button>
                         <Button
                           variant="contained"
@@ -365,21 +370,19 @@ export default class CreateDefinition extends React.Component<
                           onClick={this.handleSubmitForReviewButtonClick}
                           disabled={!this.isFilledInAllFieldAndAgreed()}
                         >
-                          Submit for Review
+                          {t('Submit for Review')}
                         </Button>
                       </div>
                       <div className="create-definition-form-notice">
                         <p>
-                          * Only JSON files by the keyboards maintainer will be
-                          accepted (specified in the config.h). Do NOT infringe
-                          on the rights of the original creator. We will
-                          validate authorship of the keyboard you requested in
-                          our review process.
+                          {t(
+                            '* Only JSON files by the keyboards maintainer will be accepted (specified in the config.h). Do NOT infringe on the rights of the original creator. We will validate authorship of the keyboard you requested in our review process.'
+                          )}
                         </p>
                         <p>
-                          * We will validate if your keyboard has a unique
-                          combination of the Vendor ID, Product ID, and Product
-                          Name in our review process.
+                          {t(
+                            '* We will validate if your keyboard has a unique combination of the Vendor ID, Product ID, and Product Name in our review process.'
+                          )}
                         </p>
                       </div>
                     </div>
@@ -395,25 +398,27 @@ export default class CreateDefinition extends React.Component<
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'Keyboard Registration'}
+            {t('Keyboard Registration')}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {this.state.isSaveAsDraft
-                ? 'Are you sure to save this new keyboard as draft?'
-                : 'Are you sure to register and submit this new keyboard for review?'}
+                ? t('Are you sure to save this new keyboard as draft?')
+                : t(
+                    'Are you sure to register and submit this new keyboard for review?'
+                  )}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.handleConfirmNoClick}>
-              No
+              {t('No')}
             </Button>
             <Button
               color="primary"
               autoFocus
               onClick={this.handleConfirmYesClick}
             >
-              Yes
+              {t('Yes')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -433,11 +438,11 @@ function FirmwareCodePlaceForm(props: FirmwareCodePlaceFormProps) {
     <div className="create-definition-form-row">
       <FormControl fullWidth={true}>
         <InputLabel id="create-definition-firmware-code-place">
-          Where is the source code of this keyboard&apos;s firmware?
+          {t("Where is the source code of this keyboard's firmware?")}
         </InputLabel>
         <Select
           labelId="create-definition-firmware-code-place"
-          label="Where is the source code of this keyboard's firmware?"
+          label={t("Where is the source code of this keyboard's firmware?")}
           value={props.firmwareCodePlace}
           onChange={(e) =>
             props.updateFirmwareCodePlace(e.target.value as IFirmwareCodePlace)
@@ -447,9 +452,9 @@ function FirmwareCodePlaceForm(props: FirmwareCodePlaceFormProps) {
             GitHub: qmk/qmk_firmware
           </MenuItem>
           <MenuItem value={FirmwareCodePlace.forked}>
-            GitHub: Your forked repository from qmk/qmk_firmware
+            GitHub: {t('Your forked repository from qmk/qmk_firmware')}
           </MenuItem>
-          <MenuItem value={FirmwareCodePlace.other}>Other</MenuItem>
+          <MenuItem value={FirmwareCodePlace.other}>{t('Other')}</MenuItem>
         </Select>
       </FormControl>
     </div>
@@ -473,9 +478,11 @@ function EvidenceForQmkRepositoryForm(
       <div className="create-definition-form-row">
         <TextField
           id="create-definition-qmk-repository-pull-request-url"
-          label="1st Pull Request URL"
+          label={t('1st Pull Request URL')}
           variant="outlined"
-          helperText="Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers."
+          helperText={t(
+            'Fill in the URL of 1st Pull Request to the QMK Firmware repository which you submitted for this keyboard. This information will be confirmed by reviewers.'
+          )}
           value={props.qmkRepositoryFirstPullRequestUrl || ''}
           onChange={(e) =>
             props.updateQmkRepositoryFirstPullRequestUrl(e.target.value)
@@ -507,7 +514,7 @@ function EvidenceForForkedRepositoryForm(
         <div className="create-definition-form-row">
           <TextField
             id="create-definition-forked-repository-url"
-            label="Forked Repository URL"
+            label={t('Forked Repository URL')}
             variant="outlined"
             value={props.forkedRepositoryUrl || ''}
             onChange={(e) => props.updateForkedRepositoryUrl(e.target.value)}
@@ -516,11 +523,13 @@ function EvidenceForForkedRepositoryForm(
         <div className="create-definition-form-row">
           <TextField
             id="create-definition-forked-repository-evidence"
-            label="Evidence Information"
+            label={t('Evidence Information')}
             variant="outlined"
             multiline
             rows={4}
-            helperText="Fill in the information to evidence whether the forked repository is the original and authentic firmware. This information will be confirmed by reviewers."
+            helperText={t(
+              'Fill in the information to evidence whether the forked repository is the original and authentic firmware. This information will be confirmed by reviewers.'
+            )}
             value={props.forkedRepositoryEvidence || ''}
             onChange={(e) =>
               props.updateForkedRepositoryEvidence(e.target.value)
@@ -558,11 +567,13 @@ function EvidenceForOtherPlaceForm(props: EvidenceForOtherPlaceFormProps) {
         <div className="create-definition-form-row">
           <TextField
             id="create-definition-other-place-how-to-get"
-            label="How to Get the Source Code"
+            label={t('How to Get the Source Code')}
             variant="outlined"
             multiline
             rows={4}
-            helperText="Fill in how to get the source code of this keyboard's firmware."
+            helperText={t(
+              "Fill in how to get the source code of this keyboard's firmware."
+            )}
             value={props.otherPlaceHowToGet || ''}
             onChange={(e) => props.updateOtherPlaceHowToGet(e.target.value)}
           />
@@ -570,11 +581,13 @@ function EvidenceForOtherPlaceForm(props: EvidenceForOtherPlaceFormProps) {
         <div className="create-definition-form-row">
           <TextField
             id="create-definition-other-place-source-code-evidence"
-            label="Evidence Information for Source Code"
+            label={t('Evidence Information for Source Code')}
             variant="outlined"
             multiline
             rows={4}
-            helperText="Fill in the information to evidence whether the source code is the original and authentic firmware. This information will be confirmed by reviewers."
+            helperText={t(
+              'Fill in the information to evidence whether the source code is the original and authentic firmware. This information will be confirmed by reviewers.'
+            )}
             value={props.otherPlaceSourceCodeEvidence || ''}
             onChange={(e) =>
               props.updateOtherPlaceSourceCodeEvidence(e.target.value)
@@ -584,11 +597,13 @@ function EvidenceForOtherPlaceForm(props: EvidenceForOtherPlaceFormProps) {
         <div className="create-definition-form-row">
           <TextField
             id="create-definition-other-place-publisher-evidence"
-            label="Evidence Information for Publisher"
+            label={t('Evidence Information for Publisher')}
             variant="outlined"
             multiline
             rows={4}
-            helperText="Fill in the information to evidence whether you are the publisher of the source code of the keyboard's firmware. This information will be confirmed by reviewers."
+            helperText={t(
+              "Fill in the information to evidence whether you are the publisher of the source code of the keyboard's firmware. This information will be confirmed by reviewers."
+            )}
             value={props.otherPlacePublisherEvidence || ''}
             onChange={(e) =>
               props.updateOtherPlacePublisherEvidence(e.target.value)
@@ -613,11 +628,13 @@ function EvidenceForOrganizationForm(props: EvidenceForOrganizationProps) {
     <div className="create-definition-form-row">
       <TextField
         id="create-definition-organization-evidence"
-        label="Evidence Information for Organization"
+        label={t('Evidence Information for Organization')}
         variant="outlined"
         multiline
         rows={4}
-        helperText="Provide information to prove that the organization owns the rights to this keyboard."
+        helperText={t(
+          'Provide information to prove that the organization owns the rights to this keyboard.'
+        )}
         value={props.organizationEvidence || ''}
         onChange={(e) => props.updateOrganizationEvidence(e.target.value)}
       />
@@ -641,11 +658,11 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
       <div className="create-definition-form-row">
         <FormControl fullWidth={true}>
           <InputLabel id="create-definition-author-type">
-            The author type of this keyboard is
+            {t('The author type of this keyboard is')}
           </InputLabel>
           <Select
             labelId="create-definition-author-type"
-            label="The author type of this keyboard is"
+            label={t('The author type of this keyboard is')}
             value={props.authorType}
             onChange={(e) =>
               props.updateAuthorType(
@@ -653,9 +670,9 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
               )
             }
           >
-            <MenuItem value="individual">Individual</MenuItem>
+            <MenuItem value="individual">{t('Individual')}</MenuItem>
             {props.organizations.length > 0 ? (
-              <MenuItem value="organization">Organization</MenuItem>
+              <MenuItem value="organization">{t('Organization')}</MenuItem>
             ) : null}
           </Select>
         </FormControl>
@@ -668,7 +685,7 @@ function AuthorTypeForm(props: AuthorTypeFormProps) {
             </InputLabel>
             <Select
               labelId="create-definition-organization-id"
-              label="Organization"
+              label={t('Organization')}
               value={props.organizationId}
               onChange={(e) =>
                 props.updateOrganizationId(e.target.value as string)
