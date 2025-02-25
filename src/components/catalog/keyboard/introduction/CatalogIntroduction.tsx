@@ -15,6 +15,7 @@ import {
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import FeatureList from '../../../common/features/FeatureList';
 import { isSmallDisplay } from '../../../../utils/DisplayUtils';
+import { t } from 'i18next';
 
 type CatalogIntroductionState = {
   selectedDescriptionTabIndex: number;
@@ -144,7 +145,7 @@ function DescriptionTab(props: DescriptionTabProps) {
         variant="scrollable"
         onChange={onChangeTab}
       >
-        <Tab label="Default" />
+        <Tab label={t('Default')} />
         {props.additionalDescriptions.map((additionalDescription, index) => (
           <Tab
             label={additionalDescription.title}
@@ -192,7 +193,7 @@ function ImageList(props: ImageListProps) {
       ) : (
         <div className="catalog-introduction-image-nothing">
           <PhotoLibraryIcon />
-          No Image
+          {t('No Image')}
         </div>
       )}
     </div>
@@ -206,7 +207,7 @@ type FeaturesSectionProps = {
 function FeaturesSection(props: FeaturesSectionProps) {
   return (
     <section className="catalog-introduction-section">
-      <Typography variant="h2">Features</Typography>
+      <Typography variant="h2">{t('Features')}</Typography>
       <div className="catalog-introduction-chip-container">
         <FeatureList
           features={props.definitionDocument.features}
@@ -224,7 +225,7 @@ type StoresSectionProps = {
 function StoresSection(props: StoresSectionProps) {
   return (
     <section className="catalog-introduction-section">
-      <Typography variant="h2">Stores</Typography>
+      <Typography variant="h2">{t('Stores')}</Typography>
       {props.definitionDocument.stores.length > 0 ? (
         <div className="catalog-introduction-stores">
           {props.definitionDocument.stores.map((store, index) => {
@@ -243,7 +244,7 @@ function StoresSection(props: StoresSectionProps) {
           })}
         </div>
       ) : (
-        <div>Not specified by the owner of this keyboard.</div>
+        <div>{t('Not specified by the owner of this keyboard.')}</div>
       )}
     </section>
   );
@@ -260,7 +261,7 @@ function SameAuthorKeyboardsSection(props: SameAuthorKeyboardsSectionProps) {
   if (props.sameAuthorKeyboardDocuments.length > 1) {
     return (
       <section className="catalog-introduction-section">
-        <Typography variant="h2">Created by Same Designer</Typography>
+        <Typography variant="h2">{t('Created by Same Designer')}</Typography>
         {props.sameAuthorKeyboardDocuments
           .filter(
             (definition) => definition.id !== props.definitionDocument!.id
@@ -322,7 +323,7 @@ function DescriptionSection(props: DescriptionSectionProps) {
         );
       });
     } else {
-      return 'A description is not specified by the owner of this keyboard.';
+      return t('A description is not specified by the owner of this keyboard.');
     }
   };
 

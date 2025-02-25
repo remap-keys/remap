@@ -64,5 +64,11 @@
   "Overview": "Overview",
   "Keymap": "Keymap",
   "Firmware": "Firmware",
-  "Build": "Build"
+  "Build": "Build",
+
+  "Default": "Default",
+  "Features": "Features",
+  "Not specified by the owner of this keyboard.": "Not specified by the owner of this keyboard.",
+  "Created by Same Designer": "Created by Same Designer",
+  "A description is not specified by the owner of this keyboard.": "A description is not specified by the owner of this keyboard."
 }

@@ -64,5 +64,11 @@
   "Overview": "概要",
   "Keymap": "キーマップ",
   "Firmware": "ファームウェア",
-  "Build": "ビルド"
+  "Build": "ビルド",
+
+  "Default": "標準",
+  "Features": "機能",
+  "Not specified by the owner of this keyboard.": "キーボード作者が入力されていません。",
+  "Created by Same Designer": "同じ作者のキーボード",
+  "A description is not specified by the owner of this keyboard.": "このキーボード作者が入力していません。"
 }
