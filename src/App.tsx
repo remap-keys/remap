@@ -15,20 +15,23 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enJson from './assets/locales/en.json';
 import jaJson from './assets/locales/ja.json';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: enJson,
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: {
+        translation: enJson,
+      },
+      ja: {
+        translation: jaJson,
+      },
     },
-    ja: {
-      translation: jaJson,
-    },
-  },
-  lng: 'ja',
-  fallbackLng: 'en',
-  interpolation: { escapeValue: false },
-});
+    fallbackLng: 'en',
+    interpolation: { escapeValue: false },
+  });
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

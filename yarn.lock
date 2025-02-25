@@ -5922,6 +5922,7 @@ __metadata:
     happy-dom: "npm:^14.12.0"
     husky: "npm:^4.3.6"
     i18next: "npm:^24.2.2"
+    i18next-browser-languagedetector: "npm:^8.0.4"
     immer: "npm:^8.0.0"
     intel-hex: "npm:^0.1.2"
     json-schema-to-typescript: "npm:^10.1.2"
@@ -11103,6 +11104,15 @@ __metadata:
   version: 1.0.5
   resolution: "hyphenate-style-name@npm:1.0.5"
   checksum: 10c0/d115f8caf49c17b5f35442cf5ebf282c8068e46d93db70c2e7abf48f2b1a433905375649283bb21906e9402400af2f24bd1812d39bd4865482de749001bd699b
+  languageName: node
+  linkType: hard
+
+"i18next-browser-languagedetector@npm:^8.0.4":
+  version: 8.0.4
+  resolution: "i18next-browser-languagedetector@npm:8.0.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.2"
+  checksum: 10c0/82fb7333af5afdda6c31679713571a28095635a2120c95446e57d29cc1792afec42c437e2926f770c760ea58c372980c299233245c54756069b2e3fd6a05e53a
   languageName: node
   linkType: hard
 
