@@ -29,6 +29,7 @@ import {
   Typography,
 } from '@mui/material';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type ParameterNameValueMap = {
   [parameterName: string]: string;
@@ -258,12 +259,16 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
             gridTemplateColumns: '1fr 1fr 1fr',
           }}
         >
-          <Typography variant="subtitle1">Task ID: {props.task.id}</Typography>
           <Typography variant="subtitle1">
-            Created at: {format(props.task.createdAt, 'yyyy-MM-dd hh:mm:ss')}
+            {t('Task ID')}: {props.task.id}
           </Typography>
           <Typography variant="subtitle1">
-            Updated at: {format(props.task.updatedAt, 'yyyy-MM-dd hh:mm:ss')}
+            {t('Created at')}:{' '}
+            {format(props.task.createdAt, 'yyyy-MM-dd hh:mm:ss')}
+          </Typography>
+          <Typography variant="subtitle1">
+            {t('Updated at')}:{' '}
+            {format(props.task.updatedAt, 'yyyy-MM-dd hh:mm:ss')}
           </Typography>
         </Box>
         <Stepper
@@ -275,35 +280,35 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
             key={`firmware-building-task-${props.task.id}-waiting`}
             completed={props.task.status !== 'waiting'}
           >
-            <StepLabel>Waiting</StepLabel>
+            <StepLabel>{t('Waiting')}</StepLabel>
           </Step>
           <Step
             key={`firmware-building-task-${props.task.id}-building`}
             completed={isTaskCompleted(props.task)}
           >
-            <StepLabel>Building</StepLabel>
+            <StepLabel>{t('Building')}</StepLabel>
           </Step>
           {props.task.status === 'success' ? (
             <Step
               key={`firmware-building-task-${props.task.id}-success`}
               completed={true}
             >
-              <StepLabel>Success</StepLabel>
+              <StepLabel>{t('Success')}</StepLabel>
             </Step>
           ) : props.task.status === 'failure' ? (
             <Step key={`firmware-building-task-${props.task.id}-failure`}>
-              <StepLabel error={true}>Failure</StepLabel>
+              <StepLabel error={true}>{t('Failure')}</StepLabel>
             </Step>
           ) : (
             <Step key={`firmware-building-task-${props.task.id}-completed`}>
-              <StepLabel>Completed</StepLabel>
+              <StepLabel>{t('Completed')}</StepLabel>
             </Step>
           )}
         </Stepper>
         <Box sx={{ mb: 1 }}>
           <TextField
             variant="standard"
-            label="Memorandum"
+            label={t('Memorandum')}
             value={description}
             fullWidth
             sx={{ mt: 1 }}
@@ -318,11 +323,17 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Tabs value={logTabIndex} onChange={onLogTabChange}>
-            <Tab label="Build Parameters" />
-            <Tab label="Build Codes" />
+            <Tab label={t('Build Parameters')} />
+            <Tab label={t('Build Codes')} />
             {isTaskCompleted(props.task) && [
-              <Tab label="Standard Output" key={`${props.task.id}-stdout}`} />,
-              <Tab label="Standard Error" key={`${props.task.id}-stderr}`} />,
+              <Tab
+                label={t('Standard Output')}
+                key={`${props.task.id}-stdout}`}
+              />,
+              <Tab
+                label={t('Standard Error')}
+                key={`${props.task.id}-stderr}`}
+              />,
             ]}
           </Tabs>
           {logTabIndex === 0 ? (
@@ -330,9 +341,9 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
               <Table stickyHeader size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>File</TableCell>
-                    <TableCell>Parameter</TableCell>
-                    <TableCell>Value</TableCell>
+                    <TableCell>{t('File')}</TableCell>
+                    <TableCell>{t('Parameter')}</TableCell>
+                    <TableCell>{t('Value')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -430,7 +441,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
               props.onClickDownload(props.task);
             }}
           >
-            Download
+            {t('Download')}
           </Button>
         )}
         {props.task.status === 'success' && (
@@ -440,7 +451,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
               props.onClickFlash(props.task);
             }}
           >
-            Flash
+            {t('Flash')}
           </Button>
         )}
         {isTaskCompleted(props.task) && (
@@ -450,7 +461,7 @@ export function FirmwareBuildingTaskCard(props: FirmwareBuildingTaskCardProps) {
               props.onClickDelete(props.task);
             }}
           >
-            Delete
+            {t('Delete')}
           </Button>
         )}
       </CardActions>
