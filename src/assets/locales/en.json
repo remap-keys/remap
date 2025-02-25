@@ -181,5 +181,18 @@
   "Saturation": "Saturation",
   "Brightness": "Brightness",
   "BACKLIGHT": "BACKLIGHT",
-  "Breathing Mode": "Breathing Mode"
+  "Breathing Mode": "Breathing Mode",
+
+  "Import Keyboard Definition File": "Import Keyboard Definition File",
+  "Please import the definition file for": "Please import the definition file for",
+  "Specification": "Specification",
+  "Will you apply the keyboard definition file?": "Will you apply the keyboard definition file?",
+  "Valid": "Valid",
+  "Apply": "Apply",
+  "Drop here": "Drop here",
+  "or": "or",
+  "Import(.json)": "Import(.json)",
+  "Other possibilities": "Other possibilities",
+  "Invalid": "Invalid",
+  "at": "at"
 }

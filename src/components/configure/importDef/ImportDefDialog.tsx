@@ -13,6 +13,7 @@ import { Alert, AlertTitle } from '@mui/material';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
 import { KeyboardDefinitionFormPart } from '../../common/keyboarddefformpart/KeyboardDefinitionFormPart';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
+import { t } from 'i18next';
 
 type OwnProps = {
   open: boolean;
@@ -83,14 +84,14 @@ export default class ConfigurationDialog extends React.Component<
         className="import-file-dialog"
       >
         <DialogTitle id="draggable-dialog-title" style={{ cursor: 'move' }}>
-          Import Keyboard Definition File
+          {t('Import Keyboard Definition File')}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
         </DialogTitle>
         <DialogContent dividers className="import-file-content">
           <KeyboardDefinitionFormPart
-            messageHtml={`Please import <strong>${this.props.productName}</strong>'s definition file (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="noreferrer">.json</a>).`}
+            messageHtml={`${t('Please import the definition file for')} <strong>${this.props.productName}</strong> (<a href="https://caniusevia.com/docs/specification/" target="_blank" rel="noreferrer">${t('Specification')}</a>).`}
             validateDeviceIds={true}
             deviceVendorId={this.props.vendorId}
             deviceProductId={this.props.productId}
@@ -104,8 +105,8 @@ export default class ConfigurationDialog extends React.Component<
 
           {this.state.keyboardDefinition && (
             <Alert severity="success" className="import-success">
-              <AlertTitle>{`Valid (${this.state.keyboardDefinitionFile})`}</AlertTitle>
-              {`Will you apply the keyboard definition file?`}
+              <AlertTitle>{`${t('Valid')} (${this.state.keyboardDefinitionFile})`}</AlertTitle>
+              {t('Will you apply the keyboard definition file?')}
               <div className="apply-definition">
                 <Button
                   size="small"
@@ -123,7 +124,7 @@ export default class ConfigurationDialog extends React.Component<
                   disableElevation
                   onClick={this.onClickApplyKeyboardDefinition.bind(this)}
                 >
-                  Apply
+                  {t('Apply')}
                 </Button>
               </div>
             </Alert>

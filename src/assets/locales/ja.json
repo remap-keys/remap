@@ -181,5 +181,18 @@
   "Saturation": "彩度",
   "Brightness": "明るさ",
   "BACKLIGHT": "バックライト",
-  "Breathing Mode": "ブリージングモード"
+  "Breathing Mode": "ブリージングモード",
+
+  "Import Keyboard Definition File": "キーボード定義ファイルのインポート",
+  "Please import the definition file for": "キーボード定義ファイルをインポートしてください:",
+  "Specification": "仕様",
+  "Will you apply the keyboard definition file?": "キーボード定義ファイルを適用しますか?",
+  "Valid": "有効",
+  "Apply": "適用",
+  "Drop here": "ここにドロップ",
+  "or": "または",
+  "Import(.json)": "インポート(.json)",
+  "Other possibilities": "その他の可能性",
+  "Invalid": "無効",
+  "at": "場所"
 }
