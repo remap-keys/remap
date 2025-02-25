@@ -113,5 +113,10 @@
   "How do you want to customize this file?": "このファイルをどのようにカスタマイズしますか?",
   "By selecting and filling in each parameter": "各パラメータを選択または入力する",
   "By editing a code": "コードを編集する",
-  "No parameters available.": "利用できるパラメータがありません"
+  "No parameters available.": "利用できるパラメータがありません",
+
+  "Connect your keyboard supporting the VIA feature to this PC.": "VIA機能をサポートするキーボードをこのPCに接続してください",
+  "Then, press the '+KEYBOARD' below.": "次に、下の「+キーボード」を押してください",
+  "+ KEYBOARD": "+ キーボード",
+  "Add a Web HID access permitted device": "Web HIDアクセス許可デバイスを追加"
 }

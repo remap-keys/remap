@@ -113,5 +113,10 @@
   "How do you want to customize this file?": "How do you want to customize this file?",
   "By selecting and filling in each parameter": "By selecting and filling in each parameter",
   "By editing a code": "By editing a code",
-  "No parameters available.": "No parameters available."
+  "No parameters available.": "No parameters available.",
+
+  "Connect your keyboard supporting the VIA feature to this PC.": "Connect your keyboard supporting the VIA feature to this PC.",
+  "Then, press the '+KEYBOARD' below.": "Then, press the '+KEYBOARD' below.",
+  "+ KEYBOARD": "+ KEYBOARD",
+  "Add a Web HID access permitted device": "Add a Web HID access permitted device"
 }
