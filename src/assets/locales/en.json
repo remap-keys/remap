@@ -196,5 +196,8 @@
   "Invalid": "Invalid",
   "at": "at",
 
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+
+  "Test Matrix": "Test Matrix",
+  "You can confirm that your keyboard's key switches work fine.": "You can confirm that your keyboard's key switches work fine."
 }

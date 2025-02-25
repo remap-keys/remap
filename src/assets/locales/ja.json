@@ -196,5 +196,8 @@
   "Invalid": "無効",
   "at": "場所",
 
-  "Cancel": "キャンセル"
+  "Cancel": "キャンセル",
+
+  "Test Matrix": "テストマトリクス",
+  "You can confirm that your keyboard's key switches work fine.": "キーボードのキースイッチが正常に動作することを確認できます。"
 }

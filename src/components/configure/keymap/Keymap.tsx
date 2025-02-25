@@ -22,6 +22,7 @@ import { IKeySwitchOperation } from '../../../store/state';
 import { KEYBOARD_LAYOUT_PADDING, KeyboardView } from './KeyboardView';
 import { Layer } from './Layer';
 import { LabelLang } from './LabelLang';
+import { t } from 'i18next';
 
 export type LayoutOption = {
   option: number;
@@ -277,9 +278,11 @@ export default class Keymap extends React.Component<
             {this.props.testMatrix && (
               <>
                 <div className="test-matrix-message">
-                  <h3>Test Matrix</h3>
+                  <h3>{t('Test Matrix')}</h3>
 
-                  {`You can confirm that your keyboard's key switches work fine.`}
+                  {t(
+                    "You can confirm that your keyboard's key switches work fine."
+                  )}
                 </div>
                 <div className="close-test-matrix">
                   <IconButton
