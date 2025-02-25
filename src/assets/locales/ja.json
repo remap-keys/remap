@@ -129,5 +129,16 @@
   "Status": "ステータス",
   "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from": "このキーボード定義は現在あなたのみに適用されています。このキーボード定義をすべてのユーザーに適用するためのレビューリクエストを提出してください。",
   "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:": "もし上記のキーボード登録者がそのキーボードの権利保持者ではないとき（その人がオリジナルのキーボード設計者ではない等）は、このフォームからRemapチームに報告してください:",
-  "Here": "こちら"
+  "Here": "こちら",
+
+  "Clear all changes": "すべての変更を元に戻す",
+  "Layout Option": "レイアウトオプション",
+  "Save/Restore a keymap": "キーマップの保存・復元",
+  "Import keyboard definition file": "キーボード定義ファイルのインポート",
+  "Test Matrix mode": "テストマトリクスモード",
+  "Reset Keymap": "キーマップをリセット",
+  "Are you sure to reset keymap?": "キーマップをリセットしてもよろしいですか?",
+  "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.": "現在のキーマップは破棄され、初期キーマップが即座に適用されます。現在のキーマップを再利用する場合は、リセットする前に保存してください。",
+  "No": "いいえ",
+  "Yes": "はい"
 }

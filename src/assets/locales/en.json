@@ -129,5 +129,16 @@
   "Status": "Status",
   "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from": "The keyboard definition is currently applied for only you. Please submit a review request of this keyboard definition for all users from",
   "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:": "If you think that the person above does not have any rights for the keyboard and the keyboard definition (in the case of the person is not original keyboard designer or etc.), please report it to the Remap team from this form:",
-  "Here": "Here"
+  "Here": "Here",
+
+  "Clear all changes": "Clear all changes",
+  "Layout Option": "Layout Option",
+  "Save/Restore a keymap": "Save/Restore a keymap",
+  "Import keyboard definition file": "Import keyboard definition file",
+  "Test Matrix mode": "Test Matrix mode",
+  "Reset Keymap": "Reset Keymap",
+  "Are you sure to reset keymap?": "Are you sure to reset keymap?",
+  "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.": "Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.",
+  "No": "No",
+  "Yes": "Yes"
 }

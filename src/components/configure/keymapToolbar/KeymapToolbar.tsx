@@ -36,6 +36,7 @@ import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { Restore as RestoreIcon } from '@mui/icons-material';
+import { t } from 'i18next';
 
 type OwnProp = {};
 
@@ -221,7 +222,11 @@ export default class KeymapMenu extends React.Component<
       <React.Fragment>
         <div className="keymap-menu">
           <div className="keymap-menu-item">
-            <Tooltip arrow={true} placement="top" title="Clear all changes">
+            <Tooltip
+              arrow={true}
+              placement="top"
+              title={t('Clear all changes')}
+            >
               <span>
                 <IconButton
                   disabled={!this.hasChanges}
@@ -238,7 +243,7 @@ export default class KeymapMenu extends React.Component<
 
           {isLightingAvailable && (
             <div className="keymap-menu-item">
-              <Tooltip arrow={true} placement="top" title="Lighting">
+              <Tooltip arrow={true} placement="top" title={t('Lighting')}>
                 <IconButton
                   size="small"
                   onClick={() => {
@@ -253,7 +258,7 @@ export default class KeymapMenu extends React.Component<
 
           {hasLayoutOptions && (
             <div className="keymap-menu-item">
-              <Tooltip arrow={true} placement="top" title="Layout Option">
+              <Tooltip arrow={true} placement="top" title={t('Layout Option')}>
                 <IconButton
                   size="small"
                   onClick={(event) => {
@@ -275,7 +280,11 @@ export default class KeymapMenu extends React.Component<
           )}
 
           <div className="keymap-menu-item">
-            <Tooltip arrow={true} placement="top" title="Save/Restore a keymap">
+            <Tooltip
+              arrow={true}
+              placement="top"
+              title={t('Save/Restore a keymap')}
+            >
               <IconButton
                 size="small"
                 onClick={(event) => {
@@ -298,7 +307,7 @@ export default class KeymapMenu extends React.Component<
             <Tooltip
               arrow={true}
               placement="top"
-              title="Get keymap cheat sheet (PDF)"
+              title={t('Get keymap cheat sheet (PDF)')}
             >
               <IconButton
                 size="small"
@@ -325,21 +334,21 @@ export default class KeymapMenu extends React.Component<
                 <ListItemIcon>
                   <ImportFileIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Import keyboard definition file" />
+                <ListItemText primary={t('Import keyboard definition file')} />
               </MenuItem>
 
               <MenuItem onClick={this.onClickTestMatrixMode.bind(this)}>
                 <ListItemIcon>
                   <ViewComfyIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Test Matrix mode" />
+                <ListItemText primary={t('Test Matrix mode')} />
               </MenuItem>
 
               <MenuItem onClick={this.onClickResetKeymap.bind(this)}>
                 <ListItemIcon>
                   <RestoreIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Reset Keymap" />
+                <ListItemText primary={t('Reset Keymap')} />
               </MenuItem>
             </Menu>
           </div>
@@ -384,13 +393,13 @@ function ConfirmDialog(props: IConfirmDialogProps) {
       aria-describedby="confirm-dialog-description"
     >
       <DialogTitle id="confirm-dialog-title">
-        Are you sure to reset keymap?
+        {t('Are you sure to reset keymap?')}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="confirm-dialog-description" color="secondary">
-          Current keymap will be discarded and an initial keymap will be applied
-          immediately. If you want to reuse current keymap, please save it
-          before resetting.
+          {t(
+            'Current keymap will be discarded and an initial keymap will be applied immediately. If you want to reuse current keymap, please save it before resetting.'
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -401,7 +410,7 @@ function ConfirmDialog(props: IConfirmDialogProps) {
             props.onNoClick();
           }}
         >
-          No
+          {t('No')}
         </Button>
         <Button
           color="secondary"
@@ -409,7 +418,7 @@ function ConfirmDialog(props: IConfirmDialogProps) {
             props.onYesClick();
           }}
         >
-          Yes
+          {t('Yes')}
         </Button>
       </DialogActions>
     </Dialog>
