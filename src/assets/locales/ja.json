@@ -173,5 +173,13 @@
   "Description": "説明",
   "Share this keymap for other users": "他のユーザーとこのキーマップを共有",
   "Your name will be displayed for other users.": "他のユーザーにはあなたの名前が表示されます。",
-  "Save": "保存"
+  "Save": "保存",
+
+  "UNDERGLOW": "アンダーグロー",
+  "Effect Mode": "エフェクトモード",
+  "Color": "色",
+  "Saturation": "彩度",
+  "Brightness": "明るさ",
+  "BACKLIGHT": "バックライト",
+  "Breathing Mode": "ブリージングモード"
 }

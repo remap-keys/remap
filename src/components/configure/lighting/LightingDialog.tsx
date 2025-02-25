@@ -13,6 +13,7 @@ import Draggable from 'react-draggable';
 import Lighting, { defaultUnderglowEffects, Hsv } from './Lighting';
 import { IKeyboard } from '../../../services/hid/Hid';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { t } from 'i18next';
 
 type LightingType =
   | undefined
@@ -184,7 +185,7 @@ export default class LightingDialog extends React.Component<
         className="lighting-dialog"
       >
         <DialogTitle id="lighting-dialog-title" style={{ cursor: 'move' }}>
-          Lighting
+          {t('Lighting')}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>

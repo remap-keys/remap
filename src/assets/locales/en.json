@@ -173,5 +173,13 @@
   "Description": "Description",
   "Share this keymap for other users": "Share this keymap for other users",
   "Your name will be displayed for other users.": "Your name will be displayed for other users.",
-  "Save": "Save"
+  "Save": "Save",
+
+  "UNDERGLOW": "UNDERGLOW",
+  "Effect Mode": "Effect Mode",
+  "Color": "Color",
+  "Saturation": "Saturation",
+  "Brightness": "Brightness",
+  "BACKLIGHT": "BACKLIGHT",
+  "Breathing Mode": "Breathing Mode"
 }
