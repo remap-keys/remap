@@ -19,6 +19,7 @@ import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import { ICatalogPhase } from '../../../../store/state';
 import { hexadecimal } from '../../../../utils/StringUtils';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 
 type CatalogFirmwareState = {
   supportedBrowser: boolean;
@@ -68,7 +69,9 @@ export default class CatalogFirmware extends React.Component<
             <div className="catalog-firmware-panel">
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">Device Information</Typography>
+                  <Typography variant="h6">
+                    {t('Device Information')}
+                  </Typography>
                   <Typography variant="body2">
                     <span className="catalog-firmware-device-info-item">
                       Vendor ID:{' '}
@@ -91,10 +94,10 @@ export default class CatalogFirmware extends React.Component<
               <div className="catalog-firmware-panel">
                 <div className="catalog-firmware-total-download-count">
                   <Typography variant="body2" align="right">
-                    Total Download Count:{' '}
+                    {t('Total Download Count:')}{' '}
                     {this.props.definitionDocument!.totalFirmwareDownloadCount}
                     {' / '}
-                    Total Flash Count:{' '}
+                    {t('Total Flash Count:')}{' '}
                     {this.props.definitionDocument!.totalFirmwareFlashCount}
                   </Typography>
                 </div>
@@ -115,7 +118,9 @@ export default class CatalogFirmware extends React.Component<
             ) : (
               <div className="catalog-firmware-nothing">
                 <Typography variant="body1">
-                  There is no firmware provided for this keyboard on Remap.
+                  {t(
+                    'There is no firmware provided for this keyboard on Remap.'
+                  )}
                 </Typography>
               </div>
             )}
@@ -189,7 +194,7 @@ function FirmwareCard(props: IFirmwareCardProps) {
         <CardActions className="catalog-firmware-card-buttons">
           {props.supportedBrowser && props.firmware.flash_support ? (
             <Button size="small" color="primary" onClick={onClickFlash}>
-              Flash
+              {t('Flash')}
             </Button>
           ) : null}
           <Button
@@ -198,10 +203,10 @@ function FirmwareCard(props: IFirmwareCardProps) {
             target="_blank"
             rel="noreferrer"
           >
-            Source Code
+            {t('Source Code')}
           </Button>
           <Button size="small" color="primary" onClick={onClickDownload}>
-            Download
+            {t('Download')}
           </Button>
         </CardActions>
       </Card>

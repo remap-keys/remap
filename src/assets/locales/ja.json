@@ -77,5 +77,13 @@
   "Shared Keymaps": "共有されたキーマップ",
   "There is no Layout Option.": "レイアウトオプションはありません",
   "by": "登録者:",
-  "There is no shared keymap.": "共有されたキーマップはありません"
+  "There is no shared keymap.": "共有されたキーマップはありません",
+
+  "Device Information": "デバイス情報",
+  "Total Download Count:": "総ダウンロード数:",
+  "Total Flash Count:": "総書き込み数:",
+  "There is no firmware provided for this keyboard on Remap.": "このキーボード向けのファームウェアは登録されていません",
+  "Flash": "書き込み",
+  "Source Code": "ソースコード",
+  "Download": "ダウンロード"
 }
