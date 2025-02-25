@@ -20,6 +20,7 @@ import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import LayerPagination from '../../../common/layer/LayerPagination';
 import { useNavigate } from 'react-router';
 import { MOD_LEFT } from '../../../../services/hid/Constraints';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type CatalogKeymapProps = OwnProps &
@@ -188,7 +189,7 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
                 <Tooltip
                   arrow={true}
                   placement="top"
-                  title="Get keymap cheat sheet (PDF)"
+                  title={t('Get keymap cheat sheet (PDF)')}
                 >
                   <IconButton size="small" onClick={onClickGetCheatsheet}>
                     <PictureAsPdfRoundedIcon />
@@ -267,13 +268,13 @@ export default function CatalogKeymap(props: CatalogKeymapProps) {
           <Grid container>
             <Grid item sm={6} className="catalog-keymap-column">
               <div className="catalog-keymap-section">
-                <h2>Layout Options</h2>
+                <h2>{t('Layout Options')}</h2>
                 <LayoutOptionComponentList hidSupport={false} />
               </div>
             </Grid>
             <Grid item sm={6} className="catalog-keymap-column">
               <div className="catalog-keymap-section">
-                <h2>Shared Keymaps</h2>
+                <h2>{t('Shared Keymaps')}</h2>
                 <CatalogKeymapList
                   onClickApplySharedKeymapData={onClickApplySharedKeymapData}
                 />

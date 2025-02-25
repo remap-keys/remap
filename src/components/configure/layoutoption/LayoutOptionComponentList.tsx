@@ -5,6 +5,7 @@ import {
 } from './LayoutOptionComponentList.container';
 import { Grid, MenuItem, Select, Switch } from '@mui/material';
 import './LayoutOptionComponentList.scss';
+import { t } from 'i18next';
 
 type OwnProps = {
   hidSupport: boolean;
@@ -78,7 +79,7 @@ export default class LayoutOptionComponentList extends React.Component<
         </Grid>
       );
     } else {
-      return <div>There is no Layout Option.</div>;
+      return <div>{t('There is no Layout Option.')}</div>;
     }
   }
 }
