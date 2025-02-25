@@ -11,6 +11,7 @@ import {
   getGoogleProviderData,
 } from '../../../services/auth/Auth';
 import './ProfileIcon.scss';
+import { t } from 'i18next';
 
 type ProfileIconState = {
   authMenuAnchorEl: any;
@@ -146,7 +147,7 @@ export default class ProfileIcon extends React.Component<
               key="profile-icon-menu-logout"
               onClick={() => this.handleLogoutMenuClick()}
             >
-              Logout
+              {t('Logout')}
             </MenuItem>
           </Menu>
         </React.Fragment>
@@ -172,7 +173,7 @@ export default class ProfileIcon extends React.Component<
               key="profile-icon-menu-login"
               onClick={() => this.handleLoginMenuClick()}
             >
-              Login
+              {t('Login')}
             </MenuItem>
           </Menu>
           <AuthProviderDialog
