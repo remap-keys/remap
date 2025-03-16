@@ -134,7 +134,19 @@ const mapDispatchToProps = (_dispatch: any) => {
       encoderId: number | null,
       keySwitchOperation: IKeySwitchOperation
     ) => {
-      if (newKey.keymap.code != oldKeycode) {
+      if (newKey.keymap.code === oldKeycode) {
+        if (keySwitchOperation === 'click') {
+          _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
+        } else {
+          _dispatch(
+            AppActions.encodersRemapsRemoveKey(
+              selectedLayer,
+              encoderId!,
+              keySwitchOperation
+            )
+          );
+        }
+      } else {
         if (keySwitchOperation === 'click') {
           _dispatch(AppActions.remapsSetKey(selectedLayer, pos, newKey.keymap));
         } else {

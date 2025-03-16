@@ -67,11 +67,12 @@ const mapDispatchToProps = (_dispatch: any) => {
       orgKey: Key
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
-        return;
+        _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
+      } else {
+        _dispatch(
+          AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
+        );
       }
-      _dispatch(
-        AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
-      );
     },
     onDropKeycodeToEncoder: (
       draggingKey: Key,
@@ -81,16 +82,23 @@ const mapDispatchToProps = (_dispatch: any) => {
       orgKey: Key
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
-        return;
+        _dispatch(
+          AppActions.encodersRemapsRemoveKey(
+            selectedLayer,
+            encoderId,
+            keySwitchOperation
+          )
+        );
+      } else {
+        _dispatch(
+          AppActions.encodersRemapsSetKey(
+            selectedLayer,
+            encoderId,
+            draggingKey.keymap,
+            keySwitchOperation
+          )
+        );
       }
-      _dispatch(
-        AppActions.encodersRemapsSetKey(
-          selectedLayer,
-          encoderId,
-          draggingKey.keymap,
-          keySwitchOperation
-        )
-      );
     },
   };
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { IKeymap } from '../../../services/hid/Hid';
+import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { keyInfoList } from '../../../services/hid/KeycodeInfoList';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
@@ -43,6 +43,7 @@ type OwnProps = {
   ) => void;
   keyModels: KeyModel[];
   keymaps: { [pos: string]: IKeymap };
+  encodersKeymaps: IEncoderKeymaps;
   children?: React.ReactNode | React.ReactNode[];
 };
 type KeyEventCaptureProps = OwnProps &
@@ -77,9 +78,19 @@ export default class KeyEventCapture extends React.Component<
       return;
     }
 
+    let oldKeycode =
+      this.props.selectedKeySwitchOperation === 'click'
+        ? this.props.keymaps[this.props.selectedPos!].code
+        : this.props.selectedKeySwitchOperation === 'cw'
+          ? this.props.encodersKeymaps[this.props.selectedEncoderId!].clockwise
+              .code
+          : this.props.selectedKeySwitchOperation === 'ccw'
+            ? this.props.encodersKeymaps[this.props.selectedEncoderId!]
+                .counterclockwise.code
+            : undefined;
     this.props.onKeyDown!(
       newKey,
-      this.props.keymaps[this.props.selectedPos!].code,
+      oldKeycode!,
       this.props.selectedLayer!,
       this.props.selectedPos!,
       this.props.selectedEncoderId!,
