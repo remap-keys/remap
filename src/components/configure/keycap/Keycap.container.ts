@@ -64,11 +64,22 @@ const mapDispatchToProps = (_dispatch: any) => {
       draggingKey: Key,
       selectedLayer: number,
       pos: string,
+      isSelectedKey: boolean,
       orgKey: Key
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
+        if (isSelectedKey) {
+          // clear diff display
+          _dispatch(KeydiffActions.clearKeydiff());
+        }
         _dispatch(AppActions.remapsRemoveKey(selectedLayer, pos));
       } else {
+        if (isSelectedKey) {
+          // show key diff
+          _dispatch(
+            KeydiffActions.updateKeydiff(orgKey.keymap, draggingKey.keymap)
+          );
+        }
         _dispatch(
           AppActions.remapsSetKey(selectedLayer, pos, draggingKey.keymap)
         );
@@ -79,9 +90,14 @@ const mapDispatchToProps = (_dispatch: any) => {
       selectedLayer: number,
       encoderId: number,
       keySwitchOperation: IKeySwitchOperation,
+      isSelectedKey: boolean,
       orgKey: Key
     ) => {
       if (draggingKey.keymap.code === orgKey.keymap.code) {
+        if (isSelectedKey) {
+          // clear diff display
+          _dispatch(KeydiffActions.clearKeydiff());
+        }
         _dispatch(
           AppActions.encodersRemapsRemoveKey(
             selectedLayer,
@@ -90,6 +106,12 @@ const mapDispatchToProps = (_dispatch: any) => {
           )
         );
       } else {
+        if (isSelectedKey) {
+          // show key diff
+          _dispatch(
+            KeydiffActions.updateKeydiff(orgKey.keymap, draggingKey.keymap)
+          );
+        }
         _dispatch(
           AppActions.encodersRemapsSetKey(
             selectedLayer,

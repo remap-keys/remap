@@ -23,7 +23,7 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     newKey: Key,
     // eslint-disable-next-line no-unused-vars
-    oldKeycode: number,
+    oldKeymap: IKeymap,
     // eslint-disable-next-line no-unused-vars
     selectedLayer: number,
     // eslint-disable-next-line no-unused-vars
@@ -78,19 +78,18 @@ export default class KeyEventCapture extends React.Component<
       return;
     }
 
-    let oldKeycode =
+    let oldKeymap =
       this.props.selectedKeySwitchOperation === 'click'
-        ? this.props.keymaps[this.props.selectedPos!].code
+        ? this.props.keymaps[this.props.selectedPos!]
         : this.props.selectedKeySwitchOperation === 'cw'
           ? this.props.encodersKeymaps[this.props.selectedEncoderId!].clockwise
-              .code
           : this.props.selectedKeySwitchOperation === 'ccw'
             ? this.props.encodersKeymaps[this.props.selectedEncoderId!]
-                .counterclockwise.code
+                .counterclockwise
             : undefined;
     this.props.onKeyDown!(
       newKey,
-      oldKeycode!,
+      oldKeymap!,
       this.props.selectedLayer!,
       this.props.selectedPos!,
       this.props.selectedEncoderId!,
