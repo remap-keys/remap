@@ -126,7 +126,14 @@ export default class Keycap extends React.Component<
       ? genKey(remap, this.props.labelLang!)
       : null;
 
-    this.props.updateKeydiff!(this.props.focus!, orgKey, dstKey);
+    this.props.onClickEncoderToggle!(
+      this.props.model.pos,
+      this.props.model.encoderId,
+      nextKeySwitchOperation,
+      this.props.focus!,
+      orgKey,
+      dstKey
+    );
   }
 
   private getTargetKeymap(

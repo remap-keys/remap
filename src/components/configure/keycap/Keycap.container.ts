@@ -21,7 +21,10 @@ export type KeycapStateType = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (_dispatch: any) => {
   return {
-    updateKeydiff: (
+    onClickEncoderToggle: (
+      pos: string,
+      encoderId: number | null,
+      keySwitchOperation: IKeySwitchOperation,
       isSelectedKey: boolean,
       orgKey: Key,
       dstKey: Key | null
@@ -34,6 +37,13 @@ const mapDispatchToProps = (_dispatch: any) => {
           // clear diff display
           _dispatch(KeydiffActions.clearKeydiff());
         }
+        _dispatch(
+          KeymapActions.updateSelectedKeyPosition(
+            pos,
+            encoderId,
+            keySwitchOperation
+          )
+        );
       }
     },
     onClickKeycap: (
