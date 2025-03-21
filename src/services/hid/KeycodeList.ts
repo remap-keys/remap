@@ -1,4 +1,5 @@
 import { ICustomKeycode, IKeymap } from './Hid';
+import { MOD_LEFT } from './Constraints';
 import {
   IKeycodeCompositionKind,
   KeycodeCompositionFactory,
@@ -175,10 +176,26 @@ export class KeycodeList {
   }
 
   static getKeymap(
-    code: number,
+    code: number | null,
     labelLang: KeyboardLabelLang,
     customKeycodes: ICustomKeycode[] | undefined
   ): IKeymap {
+    if (code === null) {
+      return {
+        isAny: false,
+        code: 0,
+        unavailable: true,
+        kinds: [],
+        direction: MOD_LEFT,
+        modifiers: [],
+        keycodeInfo: {
+          label: 'N/A',
+          code: 0,
+          name: { long: '', short: '' },
+          keywords: [],
+        },
+      };
+    }
     const { value, holdKey, tapKey } = KeycodeList.getKeymaps(
       code,
       labelLang,

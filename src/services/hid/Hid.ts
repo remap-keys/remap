@@ -67,6 +67,7 @@ export interface IKeymap {
   isAny: boolean;
   isAscii?: boolean;
   code: number;
+  unavailable?: boolean;
   kinds: KeymapCategory[];
   direction: IModDirection;
   modifiers: IMod[]; // Modifiers

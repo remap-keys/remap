@@ -112,7 +112,7 @@ const id_dynamic_keymap_get_buffer = 0x12;
 // const id_dynamic_keymap_set_buffer = 0x13;
 const id_dynamic_keymap_get_encoder = 0x14;
 const id_dynamic_keymap_set_encoder = 0x15;
-// const id_unhandled = 0xff;
+const id_unhandled = 0xff;
 
 // const id_uptime = 0x01;
 const id_layout_options = 0x02;
@@ -836,7 +836,7 @@ export interface IDynamicKeymapGetEncoderRequest extends ICommandRequest {
 }
 
 export interface IDynamicKeymapGetEncoderResponse extends ICommandResponse {
-  code: number;
+  code: number | null;
 }
 
 export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
@@ -854,6 +854,12 @@ export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
   }
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapGetEncoderResponse {
+    if (resultArray[0] === id_unhandled) {
+      // encoder exists but ENCODER_MAP_ENABLE=no
+      return {
+        code: null,
+      };
+    }
     return {
       code: (resultArray[4] << 8) | resultArray[5],
     };
@@ -862,10 +868,11 @@ export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_get_encoder &&
-      resultArray[1] === req.layer &&
-      resultArray[2] === req.encoderId &&
-      resultArray[3] === (req.clockwise ? 0x01 : 0x00)
+      resultArray[0] === id_unhandled ||
+      (resultArray[0] === id_dynamic_keymap_get_encoder &&
+        resultArray[1] === req.layer &&
+        resultArray[2] === req.encoderId &&
+        resultArray[3] === (req.clockwise ? 0x01 : 0x00))
     );
   }
 }

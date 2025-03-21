@@ -90,6 +90,7 @@ export default class Keycap extends React.Component<
       orgKey,
       dstKey
     );
+    if (orgKey.keymap.unavailable) return;
     if (!this.props.isCustomKeyOpen && this.props.onClick) {
       this.props.onClick(
         model.pos,
