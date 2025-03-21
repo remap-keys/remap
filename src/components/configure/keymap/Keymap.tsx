@@ -326,6 +326,7 @@ export default class Keymap extends React.Component<
             onKeyUp={this.props.onKeyUp!}
             keyModels={keyboardViewContent.keymaps}
             keymaps={deviceKeymaps}
+            encodersKeymaps={deviceEncodersKeymaps}
           >
             <KeyboardView
               keyboardViewContent={keyboardViewContent}

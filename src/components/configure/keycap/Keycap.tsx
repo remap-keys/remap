@@ -289,6 +289,7 @@ export default class Keycap extends React.Component<
               this.props.draggingKey!,
               this.props.selectedLayer!,
               pos,
+              isFocusedKey,
               orgKey
             );
           } else {
@@ -297,6 +298,7 @@ export default class Keycap extends React.Component<
               this.props.selectedLayer!,
               this.props.model.encoderId!,
               this.state.targetKeySwitchOperation,
+              isFocusedKey,
               orgKey
             );
           }
