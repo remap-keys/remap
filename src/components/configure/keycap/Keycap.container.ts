@@ -103,6 +103,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       isSelectedKey: boolean,
       orgKey: Key
     ) => {
+      if (orgKey.keymap.unavailable) {
+        return;
+      }
       if (draggingKey.keymap.code === orgKey.keymap.code) {
         if (isSelectedKey) {
           // clear diff display
