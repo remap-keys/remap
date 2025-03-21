@@ -29,7 +29,9 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
     const origKey: Key = genKey(origin, labelLang);
     const dstKey: Key = genKey(destination, labelLang);
 
-    const isEncoder = KeyModel.isEncoder(this.props.selectedEncoderId!);
+    const forEncoder =
+      KeyModel.isEncoder(this.props.selectedEncoderId!) &&
+      this.props.selectedKeySwitchOperation !== 'click';
 
     return (
       <div className="diff-frame">
@@ -47,7 +49,7 @@ export default class Keydiff extends React.Component<KeydiffProps, {}> {
             color="secondary"
             startIcon={<Clear />}
             onClick={
-              isEncoder
+              forEncoder
                 ? this.props.onClickCancelForEncoder!.bind(
                     this,
                     this.props.selectedLayer!,
