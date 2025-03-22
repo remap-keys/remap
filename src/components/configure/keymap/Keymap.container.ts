@@ -47,6 +47,7 @@ const mapDispatchToProps = (_dispatch: any) => {
   return {
     onClickLayerNumber: (layer: number) => {
       _dispatch(KeymapActions.clearSelectedKeyPosition());
+      _dispatch(KeydiffActions.clearKeydiff());
       _dispatch(KeymapActions.updateSelectedLayer(layer));
     },
     onChangeLangLabel: (
