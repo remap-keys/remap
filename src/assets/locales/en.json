@@ -306,5 +306,8 @@
 
   "Upload Firmware": "Upload Firmware",
   "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.": "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.",
-  "Drop Firmware File here": "Drop Firmware File here"
+  "Drop Firmware File here": "Drop Firmware File here",
+  "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more.": "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more.",
+  "This is a management feature for registered keyboard users.": "This is a management feature for registered keyboard users.",
+  "This is a management feature for registered organizations such as keyboard shops.": "This is a management feature for registered organizations such as keyboard shops."
 }

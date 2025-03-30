@@ -1,10 +1,13 @@
 .hero-content {
   background-color: white;
-  padding: 64px 0 48px;
+  padding: 64px 0 24px;
 }
 
 .hero-buttons {
   margin-top: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .card-grid {
