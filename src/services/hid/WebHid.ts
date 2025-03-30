@@ -220,12 +220,12 @@ export class Keyboard implements IKeyboard {
         const counterclockwiseResponse = responses[i++];
         keymap[encoderId] = {
           clockwise: KeycodeList.getKeymap(
-            clockwiseResponse.code!,
+            clockwiseResponse.code,
             labelLang,
             customKeycodes
           ),
           counterclockwise: KeycodeList.getKeymap(
-            counterclockwiseResponse.code!,
+            counterclockwiseResponse.code,
             labelLang,
             customKeycodes
           ),

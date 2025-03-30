@@ -135,6 +135,9 @@ const mapDispatchToProps = (_dispatch: any) => {
       encoderId: number | null,
       keySwitchOperation: IKeySwitchOperation
     ) => {
+      if (oldKeymap.unavailable) {
+        return;
+      }
       if (newKey.keymap.code === oldKeymap.code) {
         _dispatch(KeydiffActions.clearKeydiff());
         if (keySwitchOperation === 'click') {
