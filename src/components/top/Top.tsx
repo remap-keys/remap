@@ -19,17 +19,24 @@ import { useNavigate } from 'react-router';
 import {
   Alert,
   AppBar,
+  Box,
   Button,
   Card,
+  CardActionArea,
   CardContent,
   Container,
   CssBaseline,
+  Divider,
   Grid,
   Link,
   Toolbar,
   Typography,
 } from '@mui/material';
 import { t } from 'i18next';
+import SearchIcon from '@mui/icons-material/Search';
+import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 
 type IFeatureCardProps = {
   image: any;
@@ -125,46 +132,87 @@ export default function Top(props: TopPropsType) {
               )}
             </Typography>
             <div className="hero-buttons">
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={onClickStartRemap}
-                  >
-                    {t('Customize Your Keyboard')}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={onClickKeyboardCatalog}
-                  >
-                    {t('Find a Keyboard')}
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item>
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={onClickManageKeyboardDefinitions}
-                  >
-                    {t('Register/Manage Keyboards')}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={onClickManageOrganizations}
-                  >
-                    {t('Manage Organizations')}
-                  </Button>
-                </Grid>
-              </Grid>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '900px',
+                  gap: '16px',
+                }}
+              >
+                <Card>
+                  <CardActionArea onClick={onClickKeyboardCatalog}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <SearchIcon sx={{ mr: 1 }} />
+                        {t('Find a Keyboard')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          'Find a favorite keyboard supporting Remap by flexible conditions.'
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickStartRemap}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <KeyboardAltIcon sx={{ mr: 1 }} />
+                        {t('Customize Your Keyboard')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more."
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickManageKeyboardDefinitions}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <SettingsIcon sx={{ mr: 1 }} />
+                        {t('Register/Manage Keyboards')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          'This is a management feature for registered keyboard users.'
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickManageOrganizations}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <CorporateFareIcon sx={{ mr: 1 }} />
+                        {t('Manage Organizations')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          'This is a management feature for registered organizations such as keyboard shops.'
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
             </div>
           </Container>
         </div>

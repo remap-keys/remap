@@ -329,5 +329,8 @@
 
   "Upload Firmware": "ファームウェアをアップロード",
   "Drag and drop your firmware file (hex, bin and so on) into the area below. Then, the next page is shown automatically.": "ファームウェアファイル（hex、binなど）を以下のエリアにドラッグアンドドロップしてください。次のページが自動的に表示されます。",
-  "Drop Firmware File here": "ファームウェアファイルをここにドロップ"
+  "Drop Firmware File here": "ファームウェアファイルをここにドロップ",
+  "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more.": "キーマップの更新やLEDの点灯パターンの変更など、あなたのキーボードをより使いやすくカスタマイズしましょう。",
+  "This is a management feature for registered keyboard users.": "キーボード登録者向けの管理機能です。",
+  "This is a management feature for registered organizations such as keyboard shops.": "キーボードショップなどの組織の登録者向けの管理機能です。"
 }
