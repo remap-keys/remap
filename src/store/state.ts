@@ -286,6 +286,7 @@ export type RootState = {
     buildableFirmwareKeyboardFiles: IBuildableFirmwareFile[];
     buildableFirmwareKeymapFiles: IBuildableFirmwareFile[];
     firmwareBuildingTasks: IFirmwareBuildingTask[];
+    approvedKeyboardDefinitionDocuments: IKeyboardDefinitionDocument[];
   };
   app: {
     package: {
@@ -544,6 +545,7 @@ export const INIT_STATE: RootState = {
     buildableFirmwareKeyboardFiles: [],
     buildableFirmwareKeymapFiles: [],
     firmwareBuildingTasks: [],
+    approvedKeyboardDefinitionDocuments: [],
   },
   app: {
     package: {

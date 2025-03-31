@@ -309,5 +309,9 @@
   "Drop Firmware File here": "Drop Firmware File here",
   "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more.": "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more.",
   "This is a management feature for registered keyboard users.": "This is a management feature for registered keyboard users.",
-  "This is a management feature for registered organizations such as keyboard shops.": "This is a management feature for registered organizations such as keyboard shops."
+  "This is a management feature for registered organizations such as keyboard shops.": "This is a management feature for registered organizations such as keyboard shops.",
+  "Flash a Firmware": "Flash a Firmware",
+  "Let's flash the firmware to the microcontroller of your assembled keyboard.": "Let's flash the firmware to the microcontroller of your assembled keyboard.",
+
+  "Type at least 2 characters to search for a keyboard.": "Type at least 2 characters to search for a keyboard."
 }

@@ -60,6 +60,7 @@ export const STORAGE_UPDATE_BUILDABLE_FIRMWARE = `${STORAGE_ACTIONS}/UpdateBuild
 export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeyboardFiles`;
 export const STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES = `${STORAGE_ACTIONS}/UpdateBuildableFirmwareKeymapFiles`;
 export const STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS = `${STORAGE_ACTIONS}/UpdateFirmwareBuildingTasks`;
+export const STORAGE_UPDATE_APPROVED_KEYBOARD_DEFINITION_DOCUMENTS = `${STORAGE_ACTIONS}/UpdateApprovedKeyboardDefinitionDocuments`;
 export const StorageActions = {
   updateKeyboardDefinition: (keyboardDefinition: any) => {
     return {
@@ -169,6 +170,14 @@ export const StorageActions = {
     return {
       type: STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS,
       value: tasks,
+    };
+  },
+  updateApprovedKeyboardDefinitionDocumentss: (
+    keyboardsDefinitions: IKeyboardDefinitionDocument[]
+  ) => {
+    return {
+      type: STORAGE_UPDATE_APPROVED_KEYBOARD_DEFINITION_DOCUMENTS,
+      value: keyboardsDefinitions,
     };
   },
 };
@@ -1210,6 +1219,74 @@ export const storageActionsThunk = {
       }
       history.replaceState(null, 'Remap', `/catalog?${qs.stringify(query)}`);
       dispatch(CatalogAppActions.updatePhase('list'));
+    },
+
+  fetchApprovedKeyboardDefinitions:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const searchKeyboardsResult = await storage.instance!.searchKeyboards(
+        [],
+        undefined
+      );
+      if (isError(searchKeyboardsResult)) {
+        console.error(searchKeyboardsResult.cause);
+        dispatch(
+          NotificationActions.addError(
+            searchKeyboardsResult.error,
+            searchKeyboardsResult.cause
+          )
+        );
+        return;
+      }
+      const definitionDocs = searchKeyboardsResult.value.documents;
+      // Sort by image
+      definitionDocs.sort((a, b) => {
+        const countA = a.imageUrl ? 1 : 0;
+        const countB = b.imageUrl ? 1 : 0;
+        if (countA === countB) {
+          return Math.random() - 0.5;
+        } else {
+          return countB - countA;
+        }
+      });
+      // Fetch related organizations
+      const organizationIds: string[] = definitionDocs
+        .filter((doc) => doc.authorType === 'organization')
+        .map((doc) => doc.organizationId)
+        .reduce((result, id) => {
+          if (id !== undefined && !result.includes(id)) {
+            result.push(id);
+          }
+          return result;
+        }, [] as string[]);
+      if (organizationIds.length > 0) {
+        const fetchOrganizationsByIdsResult =
+          await storage.instance!.fetchOrganizationsByIds(organizationIds);
+        if (isSuccessful(fetchOrganizationsByIdsResult)) {
+          dispatch(
+            StorageActions.updateSearchResultOrganizationMap(
+              fetchOrganizationsByIdsResult.value.organizationMap
+            )
+          );
+        } else {
+          console.error(fetchOrganizationsByIdsResult.cause);
+          dispatch(
+            NotificationActions.addError(
+              fetchOrganizationsByIdsResult.error,
+              fetchOrganizationsByIdsResult.cause
+            )
+          );
+        }
+      }
+      dispatch(
+        StorageActions.updateApprovedKeyboardDefinitionDocumentss(
+          definitionDocs
+        )
+      );
     },
 
   fetchKeyboardDefinitionForCatalogById:

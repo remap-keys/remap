@@ -9,10 +9,10 @@ const mapStateToProps = (_state: RootState) => {
 };
 export type TopStateType = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = (_dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     initializeMeta: () => {
-      _dispatch(MetaActions.initialize());
+      dispatch(MetaActions.initialize());
     },
   };
 };

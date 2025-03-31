@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import catalog from '../../assets/images/top/catalog.png';
 import keyAssign from '../../assets/images/top/key-assign.png';
 import lighting from '../../assets/images/top/lighting.png';
@@ -20,13 +20,11 @@ import {
   Alert,
   AppBar,
   Box,
-  Button,
   Card,
   CardActionArea,
   CardContent,
   Container,
   CssBaseline,
-  Divider,
   Grid,
   Link,
   Toolbar,
@@ -37,6 +35,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
+import BoltIcon from '@mui/icons-material/Bolt';
+import CatalogKeywordSearchDialog from '../catalog/search/CatalogKeywordSearchDialog.container';
+import { IKeyboardDefinitionDocument } from '../../services/storage/Storage';
 
 type IFeatureCardProps = {
   image: any;
@@ -71,6 +72,9 @@ type OwnProps = {};
 type TopPropsType = OwnProps & Partial<TopActionsType> & Partial<TopStateType>;
 
 export default function Top(props: TopPropsType) {
+  const [openCatalogKeywordSearchDialog, setOpenCatalogKeywordSearchDialog] =
+    useState<boolean>(false);
+
   useEffect(() => {
     props.initializeMeta!();
   });
@@ -91,6 +95,10 @@ export default function Top(props: TopPropsType) {
 
   const onClickManageOrganizations = () => {
     navigate('/organizations');
+  };
+
+  const onClickFlashFirmware = () => {
+    setOpenCatalogKeywordSearchDialog(true);
   };
 
   return (
@@ -153,6 +161,24 @@ export default function Top(props: TopPropsType) {
                       <Typography variant="body1" color="text.secondary">
                         {t(
                           'Find a favorite keyboard supporting Remap by flexible conditions.'
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickFlashFirmware}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <BoltIcon sx={{ mr: 1 }} />
+                        {t('Flash a Firmware')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          "Let's flash the firmware to the microcontroller of your assembled keyboard."
                         )}
                       </Typography>
                     </CardContent>
@@ -326,6 +352,16 @@ export default function Top(props: TopPropsType) {
         </Container>
       </main>
       <Footer />
+      <CatalogKeywordSearchDialog
+        open={openCatalogKeywordSearchDialog}
+        onClose={() => {
+          setOpenCatalogKeywordSearchDialog(false);
+        }}
+        onSubmit={(keyboardDefinition: IKeyboardDefinitionDocument) => {
+          setOpenCatalogKeywordSearchDialog(false);
+          navigate(`/catalog/${keyboardDefinition.id}/firmware`);
+        }}
+      />
     </React.Fragment>
   );
 }
