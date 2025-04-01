@@ -69,6 +69,7 @@ import {
 import {
   STORAGE_ACTIONS,
   STORAGE_UPDATE_APPLIED_KEYMAPS,
+  STORAGE_UPDATE_APPROVED_KEYBOARD_DEFINITION_DOCUMENTS,
   STORAGE_UPDATE_BUILDABLE_FIRMWARE,
   STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYBOARD_FILES,
   STORAGE_UPDATE_BUILDABLE_FIRMWARE_KEYMAP_FILES,
@@ -609,6 +610,10 @@ const storageReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case STORAGE_UPDATE_FIRMWARE_BUILDING_TASKS: {
       draft.entities.firmwareBuildingTasks = action.value;
+      break;
+    }
+    case STORAGE_UPDATE_APPROVED_KEYBOARD_DEFINITION_DOCUMENTS: {
+      draft.entities.approvedKeyboardDefinitionDocuments = action.value;
       break;
     }
   }
