@@ -214,6 +214,11 @@ import {
   UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN,
 } from '../actions/firmware.action';
 import { MOD_LEFT } from '../services/hid/Constraints';
+import {
+  WORKBENCH_APP_ACTIONS,
+  WORKBENCH_APP_UPDATE_PHASE,
+} from '../actions/workbench.action';
+import { act } from 'react';
 
 export type Action = { type: string; value: any };
 
@@ -269,6 +274,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       action.type.startsWith(ORGANIZATIONS_EDIT_ORGANIZATION_ACTIONS)
     ) {
       organizationsEditOrganizationReducer(action, draft);
+    } else if (action.type.startsWith(WORKBENCH_APP_ACTIONS)) {
+      workbenchAppReducer(action, draft);
     }
   });
 
@@ -1249,6 +1256,18 @@ const organizationsEditOrganizationReducer = (
     case ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL:
       draft.organizations.editorganization.email = action.value;
       break;
+  }
+};
+
+const workbenchAppReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case WORKBENCH_APP_UPDATE_PHASE: {
+      draft.workbench.app.phase = action.value;
+      break;
+    }
   }
 };
 

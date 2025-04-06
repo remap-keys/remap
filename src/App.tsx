@@ -16,6 +16,7 @@ import { initReactI18next } from 'react-i18next';
 import enJson from './assets/locales/en.json';
 import jaJson from './assets/locales/ja.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import Workbench from './components/workbench/Workbench.container';
 
 i18n
   .use(LanguageDetector)
@@ -62,6 +63,7 @@ class App extends React.Component<StyledComponentProps, {}> {
             <Route path="/hid" element={<Hid />} />
             <Route path="/firmware" element={<Firmware />} />
             <Route path="/configure" element={<Configure />} />
+            <Route path="/workbench" element={<Workbench />} />
             <Route
               path="/keyboards"
               element={<KeyboardDefinitionManagement />}

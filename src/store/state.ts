@@ -247,6 +247,13 @@ export type IBuildableFirmwareCodeParameterValues = {
   keymap: IBuildableFirmwareCodeParameterValueMap;
 };
 
+export type IWorkbenchPhase = 'init' | 'processing' | 'editing';
+export const WorkbenchPhase: { [p: string]: IWorkbenchPhase } = {
+  init: 'init',
+  processing: 'processing',
+  editing: 'editing',
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -487,6 +494,11 @@ export type RootState = {
   };
   serial: {
     writer: IFirmwareWriter;
+  };
+  workbench: {
+    app: {
+      phase: IWorkbenchPhase;
+    };
   };
 };
 
@@ -751,5 +763,10 @@ export const INIT_STATE: RootState = {
   },
   serial: {
     writer: firmwareWriter,
+  },
+  workbench: {
+    app: {
+      phase: WorkbenchPhase.init,
+    },
   },
 };
