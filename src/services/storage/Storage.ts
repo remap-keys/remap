@@ -270,7 +270,10 @@ export type IFetchOrganizationMembersResult = IResult<{
   members: IOrganizationMember[];
 }>;
 
-export const BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION = ['0.22.14'] as const;
+export const BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION = [
+  '0.22.14',
+  '0.28.3',
+] as const;
 type buildableFirmwareQmkFirmwareVersionTuple =
   typeof BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION;
 export type IBuildableFirmwareQmkFirmwareVersion =
