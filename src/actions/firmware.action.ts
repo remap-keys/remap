@@ -11,12 +11,9 @@ import {
 } from '../store/state';
 import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import intelHex from 'intel-hex';
-import {
-  IFirmware,
-  IFirmwareBuildingTask,
-  isError,
-} from '../services/storage/Storage';
+import { IFirmware, IFirmwareBuildingTask } from '../services/storage/Storage';
 import { IBootloaderType } from '../services/firmware/Types';
+import { isError } from '../types';
 
 export const UPLOAD_FIRMWARE_DIALOG_ACTIONS = '@UploadFirmwareDialog';
 export const UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN = `${UPLOAD_FIRMWARE_DIALOG_ACTIONS}/UploadOpen`;
@@ -317,7 +314,7 @@ export const firmwareActionsThunk = {
 
       const writeResult = await firmwareWriter.write(
         bootloaderType,
-        flashBytes,
+        new Uint8Array(flashBytes),
         null,
         (message, lineBreak) => {
           dispatch(FlashFirmwareDialogActions.appendLog(message, lineBreak));
@@ -360,7 +357,7 @@ export const firmwareActionsThunk = {
           handleError(error, cause);
         }
       );
-      if (!writeResult.success) {
+      if (isError(writeResult)) {
         handleError(writeResult.error!, writeResult.cause);
         return;
       }

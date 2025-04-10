@@ -1,13 +1,10 @@
-import { IBootloaderType, IErrorHandler, IResult } from './Types';
+import { IEmptyResult } from '../../types';
+import { IBootloaderType, IErrorHandler } from './Types';
 
 export type FirmwareWriterProgressListener = (
   message: string,
   lineBreak?: boolean
 ) => void;
-
-export interface IFirmwareWriterReadResult extends IResult {
-  bytes?: Uint8Array;
-}
 
 export type IFirmwareWriterPhase =
   | 'opened'
@@ -28,5 +25,5 @@ export interface IFirmwareWriter {
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener,
     errorHandler: IErrorHandler
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 }

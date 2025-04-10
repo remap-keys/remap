@@ -1,4 +1,4 @@
-import { IResult } from '../Types';
+import { IEmptyResult, IResult } from '../../../types';
 
 export const USB_CLASS_APP_SPECIFIC = 0xfe;
 export const USB_SUBCLASS_DFU = 0x01;
@@ -66,29 +66,18 @@ export const UINT8_MAX = 255;
 export const UINT16_MAX = 65535;
 export const UINT32_MAX = 4294967295;
 
-export interface IControlTransferInResult extends IResult {
-  data?: DataView;
-}
-
-export interface IDfuFindInterfaceResult extends IResult {
-  configuration?: number;
-  interfaceNumber?: number;
-}
-
-export interface IGetDeviceInformationResult extends IResult {
-  vendorId?: number;
-  productId?: number;
-}
-
 export interface IUsb {
-  open(): Promise<IResult>;
-  getDeviceInformation(): IGetDeviceInformationResult;
+  open(): Promise<IEmptyResult>;
+  getDeviceInformation(): IResult<{
+    vendorId: number;
+    productId: number;
+  }>;
   setConfigurationAndInterface(
     // eslint-disable-next-line no-unused-vars
     configuration: number,
     // eslint-disable-next-line no-unused-vars
     interfaceNumber: number
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   controlTransferOut(
     // eslint-disable-next-line no-unused-vars
     request: number,
@@ -96,7 +85,7 @@ export interface IUsb {
     value: number,
     // eslint-disable-next-line no-unused-vars
     data?: Uint8Array
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
   controlTransferIn(
     // eslint-disable-next-line no-unused-vars
     request: number,
@@ -104,8 +93,8 @@ export interface IUsb {
     value: number,
     // eslint-disable-next-line no-unused-vars
     length: number
-  ): Promise<IControlTransferInResult>;
-  resetDevice(): Promise<IResult>;
+  ): Promise<IResult<{ data: DataView }>>;
+  resetDevice(): Promise<IEmptyResult>;
   findInterface(
     // eslint-disable-next-line no-unused-vars
     honorInterfaceClass: boolean,
@@ -113,6 +102,6 @@ export interface IUsb {
     interfaceClass?: number,
     // eslint-disable-next-line no-unused-vars
     interfaceSubClass?: number
-  ): Promise<IDfuFindInterfaceResult>;
-  close(): Promise<IResult>;
+  ): Promise<IResult<{ configuration: number; interfaceNumber: number }>>;
+  close(): Promise<IEmptyResult>;
 }

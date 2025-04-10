@@ -1,9 +1,3 @@
-export type IResult = {
-  success: boolean;
-  error?: string;
-  cause?: any;
-};
-
 export const ALL_FIRMWARE_FLASH_TYPE = ['flash', 'eeprom'] as const;
 type firmwareFlashTypeTuple = typeof ALL_FIRMWARE_FLASH_TYPE;
 export type FirmwareFlashType = firmwareFlashTypeTuple[number];

@@ -1,20 +1,19 @@
+import {
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  isError,
+  successResultOf,
+} from '../../types';
 import { ISerial } from './serial/Serial';
-import { IResult } from './Types';
 
 export interface ICommandRequest {}
 
 export interface ICommandResponse {}
 
-export interface ICommandResult<T> {
-  success: boolean;
-  response?: T;
-  error?: string;
-  cause?: any;
-}
-
 export interface ICommandResponseHandler<T extends ICommandResponse> {
   // eslint-disable-next-line
-  (result: ICommandResult<T>): Promise<void>;
+  (result: IResult<{ response: T }>): Promise<void>;
 }
 
 export abstract class AbstractCommand<
@@ -44,11 +43,8 @@ export abstract class AbstractCommand<
   }
 
   // eslint-disable-next-line no-unused-vars
-  protected async verify(_serial: ISerial): Promise<IResult> {
-    return {
-      success: false,
-      error: 'Verification logic not implemented.',
-    };
+  protected async verify(_serial: ISerial): Promise<IEmptyResult> {
+    return errorResultOf('Verification logic not implemented.');
   }
 
   abstract createRequest(): string | Uint8Array | null;
@@ -56,7 +52,9 @@ export abstract class AbstractCommand<
   // eslint-disable-next-line no-unused-vars
   abstract createResponse(resultArray: Uint8Array): TResponse;
 
-  async writeRequest(serial: ISerial): Promise<ICommandResult<TResponse>> {
+  async writeRequest(
+    serial: ISerial
+  ): Promise<IResult<{ response: TResponse }>> {
     const request = this.createRequest();
     if (request !== null) {
       let writeResult;
@@ -65,12 +63,8 @@ export abstract class AbstractCommand<
       } else {
         writeResult = await serial.writeBytes(request as Uint8Array);
       }
-      if (!writeResult.success) {
-        return {
-          success: false,
-          error: writeResult.error,
-          cause: writeResult.cause,
-        };
+      if (isError(writeResult)) {
+        return writeResult;
       }
     }
     const readBytesLength = this.getReadBytesLength();
@@ -79,33 +73,30 @@ export abstract class AbstractCommand<
         this.getReadBytesLength(),
         this.getTimeout()
       );
-      if (!readResult.success) {
-        return {
-          success: false,
-          error: readResult.error,
-          cause: readResult.cause,
-        };
+      if (isError(readResult)) {
+        return readResult;
       }
       if (this.isVerify()) {
         const verifyResult = await this.verify(serial);
-        if (!verifyResult.success) {
+        if (isError(verifyResult)) {
           return verifyResult;
         }
       }
-      return {
-        success: true,
-        response: this.createResponse(readResult.bytes!),
-      };
+      return successResultOf({
+        response: this.createResponse(readResult.value.bytes),
+      });
     } else {
       if (this.isVerify()) {
         const verifyResult = await this.verify(serial);
-        if (!verifyResult.success) {
+        if (isError(verifyResult)) {
           return verifyResult;
         }
       }
-      return {
-        success: true,
-      };
+      // No response expected, return an empty result.
+      console.warn('No response expected, returning an empty result.');
+      return successResultOf({
+        response: this.createResponse(new Uint8Array(0)),
+      });
     }
   }
 }

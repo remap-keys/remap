@@ -1,18 +1,18 @@
-import { IErrorHandler, IResult } from '../Types';
-
-export interface ISerialReadBytesResult extends IResult {
-  bytes?: Uint8Array;
-}
+import { IEmptyResult, IResult } from '../../../types';
+import { IErrorHandler } from '../Types';
 
 export interface ISerial {
   open(
     baudRate: number,
     bufferSize: number,
     errorHandler: IErrorHandler
-  ): Promise<IResult>;
-  writeString(message: string): Promise<IResult>;
-  writeBytes(bytes: Uint8Array): Promise<IResult>;
-  readBytes(size: number, timeout: number): Promise<ISerialReadBytesResult>;
-  skipBytesUntilNonZero(timeout: number): Promise<IResult>;
+  ): Promise<IEmptyResult>;
+  writeString(message: string): Promise<IEmptyResult>;
+  writeBytes(bytes: Uint8Array): Promise<IEmptyResult>;
+  readBytes(
+    size: number,
+    timeout: number
+  ): Promise<IResult<{ bytes: Uint8Array }>>;
+  skipBytesUntilNonZero(timeout: number): Promise<IEmptyResult>;
   close(): Promise<void>;
 }

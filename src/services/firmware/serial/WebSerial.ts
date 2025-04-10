@@ -1,6 +1,14 @@
-import { ISerial, ISerialReadBytesResult } from './Serial';
-import { IErrorHandler, IResult } from '../Types';
+import { ISerial } from './Serial';
+import { IErrorHandler } from '../Types';
 import { encodeStringToBytes } from '../../../utils/StringUtils';
+import {
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  isError,
+  successResult,
+  successResultOf,
+} from '../../../types';
 
 export class WebSerial implements ISerial {
   private chunkSize: number;
@@ -21,15 +29,15 @@ export class WebSerial implements ISerial {
     baudRate: number,
     bufferSize: number,
     errorHandler: IErrorHandler
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     // eslint-disable-next-line no-unused-vars
-    return new Promise<IResult>((resolve, _reject) => {
+    return new Promise<IEmptyResult>((resolve, _reject) => {
       this.openPort(baudRate, bufferSize)
         .then((result) => {
-          if (!result.success) {
+          if (isError(result)) {
             resolve(result);
           } else {
-            resolve({ success: true });
+            resolve(successResult());
             return this.start(errorHandler);
           }
         })
@@ -42,7 +50,7 @@ export class WebSerial implements ISerial {
   private async openPort(
     baudRate: number = 115200,
     bufferSize: number
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     let serialPort;
     try {
       serialPort = await navigator.serial.requestPort();
@@ -52,9 +60,7 @@ export class WebSerial implements ISerial {
       });
       this.connected = true;
       this.serialPort = serialPort;
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (e) {
       console.error(e);
       if (serialPort) {
@@ -64,11 +70,7 @@ export class WebSerial implements ISerial {
           // Ignore the exception.
         }
       }
-      return {
-        success: false,
-        error: `Opening the serial port failed: ${e}`,
-        cause: e,
-      };
+      return errorResultOf(`Opening the serial port failed: ${e}`, e);
     }
   }
 
@@ -113,57 +115,47 @@ export class WebSerial implements ISerial {
   async readBytes(
     size: number,
     timeout: number
-  ): Promise<ISerialReadBytesResult> {
+  ): Promise<IResult<{ bytes: Uint8Array }>> {
     let count = 0;
     while (this.receivedBytesBuffer.length < size && count < timeout) {
       await this.sleep(1);
       count += 1;
     }
     if (timeout <= count) {
-      return {
-        success: false,
-        error: 'Reading bytes was timeout.',
-      };
+      return errorResultOf('Reading bytes was timeout.');
     }
     const result = this.receivedBytesBuffer.slice(0, size);
     this.receivedBytesBuffer = this.receivedBytesBuffer.slice(size);
-    return {
-      success: true,
+    return successResultOf({
       bytes: Uint8Array.from(result),
-    };
+    });
   }
 
-  async skipBytesUntilNonZero(timeout: number): Promise<IResult> {
+  async skipBytesUntilNonZero(timeout: number): Promise<IEmptyResult> {
     let readResult;
     do {
       readResult = await this.readBytes(1, timeout);
-      if (!readResult.success) {
-        return {
-          success: false,
-          error: readResult.error,
-        };
+      if (isError(readResult)) {
+        return errorResultOf(readResult.error);
       }
-    } while (readResult.bytes![0] !== 0);
-    return { success: true };
+    } while (readResult.value.bytes[0] !== 0);
+    return successResult();
   }
 
-  async writeString(message: string): Promise<IResult> {
+  async writeString(message: string): Promise<IEmptyResult> {
     return await this.writeBytes(encodeStringToBytes(message));
   }
 
-  async writeBytes(bytes: Uint8Array): Promise<IResult> {
+  async writeBytes(bytes: Uint8Array): Promise<IEmptyResult> {
     if (!this.serialPort) {
-      return {
-        success: false,
-        error: 'Writing bytes failed because there is no serial port.',
-      };
+      return errorResultOf(
+        'Writing bytes failed because there is no serial port.'
+      );
     }
     if (!this.serialPort.writable) {
-      return {
-        success: false,
-        error:
-          'Writing bytes failed because the writable object is unavailable.',
-      };
+      return errorResultOf(
+        'Writing bytes failed because the writable object is unavailable.'
+      );
     }
     let current = 0;
     const writer = this.serialPort.writable.getWriter();
@@ -172,9 +164,7 @@ export class WebSerial implements ISerial {
       current = current + this.chunkSize;
     }
     writer.releaseLock();
-    return {
-      success: true,
-    };
+    return successResult();
   }
 
   async close(): Promise<void> {

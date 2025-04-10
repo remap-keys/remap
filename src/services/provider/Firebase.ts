@@ -31,15 +31,9 @@ import {
   IKeyboardDefinitionAuthorType,
   IFetchOrganizationMembersResult,
   IFetchAllOrganizationsResult,
-  successResultOf,
-  errorResultOf,
-  IEmptyResult,
-  successResult,
-  IResult,
   IBuildableFirmware,
   IBuildableFirmwareFileType,
   IBuildableFirmwareFile,
-  isError,
   IFirmwareBuildingTask,
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IBuildableFirmwareQmkFirmwareVersion,
@@ -51,6 +45,14 @@ import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
 import { IBootloaderType } from '../firmware/Types';
+import {
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  isError,
+  successResult,
+  successResultOf,
+} from '../../types';
 
 export type IFirebaseConfiguration = {
   apiKey: string;

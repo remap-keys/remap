@@ -1,4 +1,4 @@
-import { IBootloader, IBootloaderReadResult } from '../Bootloader';
+import { IBootloader } from '../Bootloader';
 import {
   DFU_COMMAND,
   DFU_DETACH_TIMEOUT,
@@ -13,20 +13,15 @@ import {
   FirmwareWriterPhaseListener,
   FirmwareWriterProgressListener,
 } from '../FirmwareWriter';
-import { IResult } from '../Types';
 import { IDfuTargetMapping } from './DfuBootloader';
-
-interface IDfuGetStatusResult extends IResult {
-  status?: IDfuStatus;
-}
-
-interface IDfuUploadResult extends IResult {
-  data?: DataView;
-}
-
-interface IMakeIdleResult extends IResult {
-  shouldRetry?: boolean;
-}
+import {
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  isError,
+  successResult,
+  successResultOf,
+} from '../../../types';
 
 export abstract class AbstractDfuBootloader implements IBootloader {
   private readonly usb: IUsb;
@@ -48,7 +43,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IBootloaderReadResult>;
+  ): Promise<IResult<{ bytes: Uint8Array }>>;
 
   abstract verify(
     // eslint-disable-next-line no-unused-vars
@@ -57,7 +52,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 
   abstract write(
     // eslint-disable-next-line no-unused-vars
@@ -68,13 +63,13 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 
   protected getDfuTargetMapping(): IDfuTargetMapping {
     return this.dfuTargetMapping;
   }
 
-  protected async close(): Promise<IResult> {
+  protected async close(): Promise<IEmptyResult> {
     return await this.usb.close();
   }
 
@@ -83,37 +78,34 @@ export abstract class AbstractDfuBootloader implements IBootloader {
     honorInterfaceClass: boolean,
     initialAbort: boolean,
     progress: FirmwareWriterProgressListener
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     progress(
       `DFU initialize device: retries:${retries}, honorInterfaceClass:${honorInterfaceClass}, initialAbort:${initialAbort}`
     );
     if (retries < 0) {
-      return {
-        success: false,
-        error: 'DFU Device Initialization failed',
-      };
+      return errorResultOf('DFU Device Initialization failed');
     }
     const dfuFindInterfaceResult = await this.usb.findInterface(
       honorInterfaceClass,
       USB_CLASS_APP_SPECIFIC,
       USB_SUBCLASS_DFU
     );
-    if (!dfuFindInterfaceResult.success) {
+    if (isError(dfuFindInterfaceResult)) {
       return dfuFindInterfaceResult;
     }
     progress(
-      `DFU interface found: Configuration:${dfuFindInterfaceResult.configuration!}, Interface:${dfuFindInterfaceResult.interfaceNumber!}`
+      `DFU interface found: Configuration:${dfuFindInterfaceResult.value.configuration}, Interface:${dfuFindInterfaceResult.value.interfaceNumber}`
     );
     await this.usb.setConfigurationAndInterface(
-      dfuFindInterfaceResult.configuration!,
-      dfuFindInterfaceResult.interfaceNumber!
+      dfuFindInterfaceResult.value.configuration,
+      dfuFindInterfaceResult.value.interfaceNumber
     );
 
     const makeIdleResult = await this.dfuMakeIdle(initialAbort, progress);
-    if (!makeIdleResult.success) {
+    if (isError(makeIdleResult)) {
       return makeIdleResult;
     }
-    if (makeIdleResult.shouldRetry) {
+    if (makeIdleResult.value.shouldRetry) {
       return await this.dfuInitializeDevice(
         --retries,
         honorInterfaceClass,
@@ -121,81 +113,77 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         progress
       );
     }
-    return { success: true };
+    return successResult();
   }
 
-  protected async dfuDownload(data: Uint8Array): Promise<IResult> {
+  protected async dfuDownload(data: Uint8Array): Promise<IEmptyResult> {
     // outputUint8Array('dfuDownload - data', data);
     let transferOutResult = await this.usb.controlTransferOut(
       DFU_COMMAND.DOWNLOAD,
       this.transaction++,
       data
     );
-    if (!transferOutResult.success) {
+    if (isError(transferOutResult)) {
       return transferOutResult;
     }
-    return {
-      success: true,
-    };
+    return successResult();
   }
 
-  protected async dfuGetStatus(): Promise<IDfuGetStatusResult> {
+  protected async dfuGetStatus(): Promise<IResult<{ status: IDfuStatus }>> {
     const controlTransferInResult = await this.usb.controlTransferIn(
       DFU_COMMAND.GETSTATUS,
       0,
       6
     );
-    if (!controlTransferInResult.success) {
+    if (isError(controlTransferInResult)) {
       return controlTransferInResult;
     }
-    const data = controlTransferInResult.data!;
-    return {
-      success: true,
+    const data = controlTransferInResult.value.data;
+    return successResultOf({
       status: {
         status: data.getUint8(0),
         pollTimeout: data.getUint32(1, true) & 0xffffff,
         state: data.getUint8(4),
       },
-    };
+    });
   }
 
-  protected async dfuClearStatus(): Promise<IResult> {
+  protected async dfuClearStatus(): Promise<IEmptyResult> {
     const dfuClearStatusResult = await this.usb.controlTransferOut(
       DFU_COMMAND.CLRSTATUS,
       0
     );
-    if (!dfuClearStatusResult.success) {
+    if (isError(dfuClearStatusResult)) {
       console.error(
         `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`
       );
       return dfuClearStatusResult;
     }
-    return {
-      success: true,
-    };
+    return successResult();
   }
 
-  protected async dfuUpload(length: number): Promise<IDfuUploadResult> {
+  protected async dfuUpload(
+    length: number
+  ): Promise<IResult<{ data: DataView }>> {
     const controlTransferInResult = await this.usb.controlTransferIn(
       DFU_COMMAND.UPLOAD,
       this.transaction++,
       length
     );
-    if (!controlTransferInResult.success) {
+    if (isError(controlTransferInResult)) {
       return controlTransferInResult;
     }
-    const data = controlTransferInResult.data!;
+    const data = controlTransferInResult.value.data;
     // outputUint8Array('dfuUpload - data', new Uint8Array(data.buffer));
-    return {
-      success: true,
+    return successResultOf({
       data,
-    };
+    });
   }
 
   private async dfuMakeIdle(
     initialAbort: boolean,
     progress: FirmwareWriterProgressListener
-  ): Promise<IMakeIdleResult> {
+  ): Promise<IResult<{ shouldRetry: boolean }>> {
     let retries = 4;
     if (initialAbort) {
       progress(`DFU abort command.`);
@@ -203,39 +191,38 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         DFU_COMMAND.ABORT,
         0
       );
-      if (!dfuAbortResult.success) {
+      if (isError(dfuAbortResult)) {
         return dfuAbortResult;
       }
     }
     while (0 < retries) {
       const dfuGetStatusResult = await this.dfuGetStatus();
-      if (!dfuGetStatusResult.success) {
+      if (isError(dfuGetStatusResult)) {
         const dfuClearStatusResult = await this.usb.controlTransferOut(
           DFU_COMMAND.CLRSTATUS,
           0
         );
-        if (!dfuClearStatusResult.success) {
+        if (isError(dfuClearStatusResult)) {
           progress(
             `DFU_COMMAND.CLRSTATUS failed. Ignore. error=${dfuClearStatusResult.error}`
           );
         }
         continue;
       }
-      const status = dfuGetStatusResult.status!;
+      const status = dfuGetStatusResult.value.status;
       progress(`DFU State: ${status.state}`);
       switch (status.state!) {
         case USB_STATE.DFU_IDLE: {
           if (DFU_STATUS.OK === status.status) {
-            return {
-              success: true,
+            return successResultOf({
               shouldRetry: false,
-            };
+            });
           }
           const dfuClearStatusResult = await this.usb.controlTransferOut(
             DFU_COMMAND.CLRSTATUS,
             0
           );
-          if (!dfuClearStatusResult.success) {
+          if (isError(dfuClearStatusResult)) {
             progress(
               `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`
             );
@@ -252,7 +239,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
             DFU_COMMAND.ABORT,
             0
           );
-          if (!dfuAbortResult.success) {
+          if (isError(dfuAbortResult)) {
             progress(`DFU_COMMAND.ABORT failed: ${dfuAbortResult.error}`);
           }
           break;
@@ -262,7 +249,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
             DFU_COMMAND.CLRSTATUS,
             0
           );
-          if (!dfuClearStatusResult.success) {
+          if (isError(dfuClearStatusResult)) {
             progress(
               `DFU_COMMAND.CLRSTATUS failed. error=${dfuClearStatusResult.error}`
             );
@@ -274,7 +261,7 @@ export abstract class AbstractDfuBootloader implements IBootloader {
             DFU_COMMAND.DETACH,
             DFU_DETACH_TIMEOUT
           );
-          if (!dfuDetachResult.success) {
+          if (isError(dfuDetachResult)) {
             progress(
               `DFU_COMMAND.DETACH failed: error=${dfuDetachResult.error}`
             );
@@ -285,21 +272,19 @@ export abstract class AbstractDfuBootloader implements IBootloader {
         case USB_STATE.DFU_MANIFEST_WAIT_RESET: {
           progress('Resetting the device');
           const resetDeviceResult = await this.usb.resetDevice();
-          if (!resetDeviceResult.success) {
+          if (isError(resetDeviceResult)) {
             progress(`Resetting the device failed: ${resetDeviceResult.error}`);
           }
-          return {
-            success: true,
+          return successResultOf({
             shouldRetry: true,
-          };
+          });
         }
       }
       retries--;
     }
     progress('Not able to transition the device into the dfuIdle state.');
-    return {
-      success: false,
-      error: 'Not able to transition the device into the dfuIdle state.',
-    };
+    return errorResultOf(
+      'Not able to transition the device into the dfuIdle state.'
+    );
   }
 }

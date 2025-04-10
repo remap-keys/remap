@@ -1,15 +1,13 @@
 import {
-  IUsb,
-  IControlTransferInResult,
-  IDfuFindInterfaceResult,
-  IGetDeviceInformationResult,
-} from './Usb';
-import { IResult } from '../Types';
-
-interface IGetDeviceResult extends IResult {
-  // eslint-disable-next-line no-undef
-  device?: USBDevice;
-}
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  isError,
+  isSuccessful,
+  successResult,
+  successResultOf,
+} from '../../../types';
+import { IUsb } from './Usb';
 
 export default class WebUsb implements IUsb {
   // eslint-disable-next-line no-undef
@@ -21,15 +19,12 @@ export default class WebUsb implements IUsb {
     this.interfaceNumber = undefined;
   }
 
-  async open(): Promise<IResult> {
+  async open(): Promise<IEmptyResult> {
     try {
       // Open
       const selectedDevice = await navigator.usb.requestDevice({ filters: [] });
       if (!selectedDevice) {
-        return {
-          success: false,
-          error: 'The user did not select any device.',
-        };
+        return errorResultOf('The user did not select any device.');
       }
       this.device = selectedDevice;
 
@@ -42,79 +37,65 @@ export default class WebUsb implements IUsb {
         )} ${this.device.productId.toString(16)}`
       );
 
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (e) {
-      return {
-        success: false,
-        error: `Opening a USB device failed: ${e}`,
-        cause: e,
-      };
+      return errorResultOf(`Opening a USB device failed: ${e}`, e);
     }
   }
 
-  getDeviceInformation(): IGetDeviceInformationResult {
+  getDeviceInformation(): IResult<{
+    vendorId: number;
+    productId: number;
+  }> {
     const deviceResult = this.getDevice();
-    if (!deviceResult.success) {
+    if (isError(deviceResult)) {
       return deviceResult;
     }
-    const device = deviceResult.device!;
-    return {
-      success: true,
+    const device = deviceResult.value.device;
+    return successResultOf({
       vendorId: device.vendorId,
       productId: device.productId,
-    };
+    });
   }
 
   async setConfigurationAndInterface(
     configuration: number,
     interfaceNumber: number
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     const deviceResult = this.getDevice();
-    if (!deviceResult.success) {
+    if (isError(deviceResult)) {
       return deviceResult;
     }
-    const device = deviceResult.device!;
+    const device = deviceResult.value.device;
     await device.selectConfiguration(configuration);
     await device.claimInterface(interfaceNumber);
     this.interfaceNumber = interfaceNumber;
-    return {
-      success: true,
-    };
+    return successResult();
   }
 
-  async close(): Promise<IResult> {
+  async close(): Promise<IEmptyResult> {
     const getDeviceResult = this.getDevice();
-    if (getDeviceResult.success) {
+    if (isSuccessful(getDeviceResult)) {
       try {
-        await getDeviceResult.device!.close();
-        return {
-          success: true,
-        };
+        await getDeviceResult.value.device.close();
+        return successResult();
       } catch (e) {
         console.error(e);
-        return {
-          success: false,
-          error: 'Closing the device failed: ${e}',
-          cause: e,
-        };
+        return errorResultOf('Closing the device failed: ${e}', e);
       } finally {
         this.interfaceNumber = undefined;
         this.device = null;
       }
     } else {
-      return {
-        success: true,
-      };
+      return successResult();
     }
   }
 
-  private getDevice(): IGetDeviceResult {
+  private getDevice(): IResult<{ device: USBDevice }> {
     if (this.device) {
-      return { success: true, device: this.device };
+      return successResultOf({ device: this.device });
     } else {
-      return { success: false, error: 'Device not selected' };
+      return errorResultOf('Device not selected');
     }
   }
 
@@ -122,22 +103,19 @@ export default class WebUsb implements IUsb {
     honorInterfaceClass: boolean,
     interfaceClass?: number,
     interfaceSubClass?: number
-  ): Promise<IDfuFindInterfaceResult> {
+  ): Promise<IResult<{ configuration: number; interfaceNumber: number }>> {
     const deviceResult = this.getDevice();
-    if (!deviceResult.success) {
+    if (isError(deviceResult)) {
       return deviceResult;
     }
-    const device = deviceResult.device!;
+    const device = deviceResult.value.device;
     const bNumConfigurations = device.configurations.length;
     for (let c = 1; c <= bNumConfigurations; c++) {
       console.log(`configuration: ${c}`);
       await device.selectConfiguration(c);
       const configuration = device.configuration;
       if (!configuration) {
-        return {
-          success: false,
-          error: `Selecting the configuration[${c}] failed`,
-        };
+        return errorResultOf(`Selecting the configuration[${c}] failed`);
       }
       const bNumInterfaces = configuration.interfaces.length;
       for (let i = 0; i < bNumInterfaces; i++) {
@@ -161,48 +139,37 @@ export default class WebUsb implements IUsb {
               console.log(
                 `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`
               );
-              return {
-                success: true,
+              return successResultOf({
                 configuration: c,
                 interfaceNumber: usbInterface.interfaceNumber,
-              };
+              });
             }
           } else {
             console.log(
               `Found DFU Interface: configuration:${c}, interface:${usbInterface.interfaceNumber}`
             );
-            return {
-              success: true,
+            return successResultOf({
               configuration: c,
               interfaceNumber: usbInterface.interfaceNumber,
-            };
+            });
           }
         }
       }
     }
-    return {
-      success: false,
-      error: 'The DFU interface not found',
-    };
+    return errorResultOf('The DFU interface not found');
   }
 
-  async resetDevice(): Promise<IResult> {
+  async resetDevice(): Promise<IEmptyResult> {
     try {
       const deviceResult = this.getDevice();
-      if (!deviceResult.success) {
+      if (isError(deviceResult)) {
         return deviceResult;
       }
-      const device = deviceResult.device!;
+      const device = deviceResult.value.device;
       await device.reset();
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (e) {
-      return {
-        success: false,
-        error: `Resetting the device failed: ${e}`,
-        cause: e,
-      };
+      return errorResultOf(`Resetting the device failed: ${e}`, e);
     }
   }
 
@@ -210,13 +177,13 @@ export default class WebUsb implements IUsb {
     request: number,
     value: number,
     data?: Uint8Array
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     try {
       const deviceResult = this.getDevice();
-      if (!deviceResult.success) {
+      if (isError(deviceResult)) {
         return deviceResult;
       }
-      const device = deviceResult.device!;
+      const device = deviceResult.value.device;
       // eslint-disable-next-line no-undef
       const setup: USBControlTransferParameters = {
         requestType: 'class',
@@ -232,23 +199,19 @@ export default class WebUsb implements IUsb {
         result = await device.controlTransferOut(setup);
       }
       if (result.status !== 'ok') {
-        return {
-          success: false,
-          error: `Control Transfer Out (request=${request}, value=${value}) failed: ${result.status}`,
-        };
+        return errorResultOf(
+          `Control Transfer Out (request=${request}, value=${value}) failed: ${result.status}`
+        );
       }
       console.log(
         `Control Transfer Out (request=${request}, value=${value}) successfully`
       );
-      return {
-        success: true,
-      };
+      return successResult();
     } catch (e) {
-      return {
-        success: false,
-        error: `Control Transfer Out (request=${request}, value=${value}) failed: ${e}`,
-        cause: e,
-      };
+      return errorResultOf(
+        `Control Transfer Out (request=${request}, value=${value}) failed: ${e}`,
+        e
+      );
     }
   }
 
@@ -256,13 +219,13 @@ export default class WebUsb implements IUsb {
     request: number,
     value: number,
     length: number
-  ): Promise<IControlTransferInResult> {
+  ): Promise<IResult<{ data: DataView }>> {
     try {
       const deviceResult = this.getDevice();
-      if (!deviceResult.success) {
+      if (isError(deviceResult)) {
         return deviceResult;
       }
-      const device = deviceResult.device!;
+      const device = deviceResult.value.device;
       // eslint-disable-next-line no-undef
       const setup: USBControlTransferParameters = {
         requestType: 'class',
@@ -273,21 +236,18 @@ export default class WebUsb implements IUsb {
       };
       const result = await device.controlTransferIn(setup, length);
       if (result.status !== 'ok' || !result.data) {
-        return {
-          success: false,
-          error: `Control Transfer In (request=${request}, value=${value}, length=${length}) failed: ${result.status}`,
-        };
+        return errorResultOf(
+          `Control Transfer In (request=${request}, value=${value}, length=${length}) failed: ${result.status}`
+        );
       }
-      return {
-        success: true,
+      return successResultOf({
         data: result.data!,
-      };
+      });
     } catch (e) {
-      return {
-        success: false,
-        error: `Control Transfer In (request=${request}, value=${value}, length=${length}) failed: ${e}`,
-        cause: e,
-      };
+      return errorResultOf(
+        `Control Transfer In (request=${request}, value=${value}, length=${length}) failed: ${e}`,
+        e
+      );
     }
   }
 }
