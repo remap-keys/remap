@@ -144,6 +144,15 @@ service cloud.firestore {
             allow read: if false;
         }
 
+        match /users/v1/information/{userId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow read: if isAuthenticated()
+                           && (request.auth.uid == userId);
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }

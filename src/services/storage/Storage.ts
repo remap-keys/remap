@@ -1,5 +1,9 @@
 import { LayoutOption } from '../../components/configure/keymap/Keymap';
-import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
+import {
+  IFirmwareCodePlace,
+  IKeyboardFeatures,
+  IUserInformation,
+} from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { IBootloaderType } from '../firmware/Types';
@@ -513,5 +517,10 @@ export interface IStorage {
   fetchKeyboardStatistics(
     keyboardDefinitionId: string
   ): Promise<IResult<IKeyboardStatistics>>;
+
+  getUserInformation(uid: string): Promise<IResult<IUserInformation>>;
+  updateUserInformation(
+    userInformation: IUserInformation
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

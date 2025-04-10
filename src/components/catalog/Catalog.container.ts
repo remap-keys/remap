@@ -23,7 +23,11 @@ import {
   IKeyboardWirelessType,
   RootState,
 } from '../../store/state';
-import { AppActions, NotificationActions } from '../../actions/actions';
+import {
+  AppActions,
+  AppActionsThunk,
+  NotificationActions,
+} from '../../actions/actions';
 import {
   catalogActionsThunk,
   CatalogAppActions,
@@ -43,14 +47,14 @@ const mapStateToProps = (state: RootState) => {
 export type CatalogStateType = ReturnType<typeof mapStateToProps>;
 
 // eslint-disable-next-line no-unused-vars
-const mapDispatchToProps = (_dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     removeNotification: (key: string) => {
-      _dispatch(NotificationActions.removeNotification(key));
+      dispatch(NotificationActions.removeNotification(key));
     },
     updateKeyboard: (definitionId: string, nextPhase: ICatalogPhase) => {
-      _dispatch(CatalogAppActions.updatePhase('processing'));
-      _dispatch(
+      dispatch(CatalogAppActions.updatePhase('processing'));
+      dispatch(
         storageActionsThunk.fetchKeyboardDefinitionForCatalogById(
           definitionId,
           nextPhase
@@ -58,33 +62,34 @@ const mapDispatchToProps = (_dispatch: any) => {
       );
     },
     init: () => {
-      _dispatch(storageActionsThunk.fetchAllOrganizations());
-      _dispatch(storageActionsThunk.searchKeyboardsForCatalog());
+      dispatch(storageActionsThunk.fetchAllOrganizations());
+      dispatch(storageActionsThunk.searchKeyboardsForCatalog());
     },
     applySharedKeymap: (definitionId: string, keymapId: string) => {
-      _dispatch(catalogActionsThunk.applySharedKeymap(definitionId, keymapId));
+      dispatch(catalogActionsThunk.applySharedKeymap(definitionId, keymapId));
     },
     updateSignedIn: (signedIn: boolean) => {
-      _dispatch(AppActions.updateSignedIn(signedIn));
+      dispatch(AppActions.updateSignedIn(signedIn));
+      dispatch(AppActionsThunk.updateUserInformation());
     },
     updateSearchCondition: (params: ParsedQs) => {
       if (params.keyword) {
-        _dispatch(CatalogSearchActions.updateKeyword(params.keyword as string));
+        dispatch(CatalogSearchActions.updateKeyword(params.keyword as string));
       }
       if (params.organizationId) {
-        _dispatch(
+        dispatch(
           CatalogSearchActions.updateOrganizationId(
             params.organizationId as string
           )
         );
       }
       if (params.buildSupport) {
-        _dispatch(CatalogSearchActions.updateBuildSupport(true));
+        dispatch(CatalogSearchActions.updateBuildSupport(true));
       }
       if (params.features) {
         (params.features as string).split(',').forEach((feature: string) => {
           if (ALL_KEY_COUNT_TYPE.includes(feature as IKeyboardKeyCountType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardKeyCountType,
                 ALL_KEY_COUNT_TYPE
@@ -92,7 +97,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_SPLIT_TYPE.includes(feature as IKeyboardSplitType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_SPLIT_TYPE
@@ -100,7 +105,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_STAGGERED_TYPE.includes(feature as IKeyboardStaggeredType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_STAGGERED_TYPE
@@ -108,7 +113,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_LED_TYPE.includes(feature as IKeyboardLedType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_LED_TYPE
@@ -116,7 +121,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_KEY_SWITCH_TYPE.includes(feature as IKeyboardKeySwitchType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_KEY_SWITCH_TYPE
@@ -124,7 +129,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_HOTSWAP_TYPE.includes(feature as IKeyboardHotswapType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_HOTSWAP_TYPE
@@ -132,7 +137,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_OLED_TYPE.includes(feature as IKeyboardOledType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_OLED_TYPE
@@ -140,7 +145,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_SPEAKER_TYPE.includes(feature as IKeyboardSpeakerType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_SPEAKER_TYPE
@@ -148,7 +153,7 @@ const mapDispatchToProps = (_dispatch: any) => {
             );
           }
           if (ALL_WIRELESS_TYPE.includes(feature as IKeyboardWirelessType)) {
-            _dispatch(
+            dispatch(
               CatalogSearchActions.updateFeatures(
                 feature as IKeyboardFeatures,
                 ALL_WIRELESS_TYPE
@@ -159,7 +164,7 @@ const mapDispatchToProps = (_dispatch: any) => {
       }
     },
     initializeMeta: () => {
-      _dispatch(MetaActions.initialize());
+      dispatch(MetaActions.initialize());
     },
   };
 };

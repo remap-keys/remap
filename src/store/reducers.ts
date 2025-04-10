@@ -50,6 +50,7 @@ import {
   NOTIFICATION_REMOVE,
   KEYMAP_CLEAR_SELECTED_KEY_POSITION,
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
+  APP_UPDATE_USER_INFORMATION,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -728,6 +729,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
           draft.app.testedMatrix = [...testedMatrix, key];
         }
       }
+      break;
+    }
+    case APP_UPDATE_USER_INFORMATION: {
+      draft.app.user.information = action.value;
       break;
     }
   }

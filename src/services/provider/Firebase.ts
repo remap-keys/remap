@@ -41,7 +41,11 @@ import {
   IKeyboardStatistics,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
-import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
+import {
+  IFirmwareCodePlace,
+  IKeyboardFeatures,
+  IUserInformation,
+} from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
 import { IBootloaderType } from '../firmware/Types';
@@ -2059,6 +2063,62 @@ export class FirebaseProvider implements IStorage, IAuth {
         `Fetching keyboard statistics failed: ${error}`,
         error
       );
+    }
+  }
+
+  async getUserInformation(uid: string): Promise<IResult<IUserInformation>> {
+    const informationCollection = this.db
+      .collection('users')
+      .doc('v1')
+      .collection('information');
+    try {
+      const doc = await informationCollection.doc(uid).get();
+      if (doc.exists) {
+        return successResultOf({
+          uid: doc.id,
+          ...(doc.data() as Omit<IUserInformation, 'uid'>),
+        });
+      } else {
+        const newDoc: Omit<IUserInformation, 'uid'> = {
+          currentProjectId: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        await informationCollection.doc(uid).set({
+          createdAt: newDoc.createdAt,
+          updatedAt: newDoc.updatedAt,
+        });
+        return successResultOf({
+          uid,
+          ...newDoc,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Fetching user information failed: ${error}`, error);
+    }
+  }
+
+  async updateUserInformation(
+    userInformation: IUserInformation
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('information')
+        .doc(userInformation.uid)
+        .update({
+          currentProjectId:
+            userInformation.currentProjectId === undefined
+              ? firebase.firestore.FieldValue.delete()
+              : userInformation.currentProjectId,
+          updatedAt: new Date(),
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Updating user information failed: ${error}`, error);
     }
   }
 }

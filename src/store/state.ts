@@ -254,6 +254,13 @@ export const WorkbenchPhase: { [p: string]: IWorkbenchPhase } = {
   editing: 'editing',
 };
 
+export type IUserInformation = {
+  uid: string;
+  currentProjectId: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -332,6 +339,9 @@ export type RootState = {
     };
     localAuthenticationInfo: {
       uid: string;
+    };
+    user: {
+      information: IUserInformation | undefined;
     };
   };
   configure: {
@@ -600,6 +610,9 @@ export const INIT_STATE: RootState = {
     },
     localAuthenticationInfo: {
       uid: localAuthenticationUid,
+    },
+    user: {
+      information: undefined,
     },
   },
   configure: {

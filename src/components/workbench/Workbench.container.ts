@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../store/state';
 import Workbench from './Workbench';
-import { AppActions, NotificationActions } from '../../actions/actions';
+import {
+  AppActions,
+  AppActionsThunk,
+  NotificationActions,
+} from '../../actions/actions';
 import { MetaActions } from '../../actions/meta.action';
 import { workbenchActionsThunk } from '../../actions/workbench.action';
 
@@ -24,6 +28,7 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     updateSignedIn: (signedIn: boolean) => {
       dispatch(AppActions.updateSignedIn(signedIn));
+      dispatch(AppActionsThunk.updateUserInformation());
     },
     initializeWorkbench: () => {
       dispatch(workbenchActionsThunk.initializeWorkbench());

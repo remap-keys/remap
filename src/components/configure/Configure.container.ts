@@ -4,6 +4,7 @@ import { RootState, SetupPhase } from '../../store/state';
 import { HidActions, hidActionsThunk } from '../../actions/hid.action';
 import {
   AppActions,
+  AppActionsThunk,
   KeymapToolbarActions,
   NotificationActions,
 } from '../../actions/actions';
@@ -26,26 +27,26 @@ const mapStateToProps = (state: RootState) => {
 };
 export type ConfigureStateType = ReturnType<typeof mapStateToProps>;
 
-const mapDispatchToProps = (_dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     initAppPackage: (name: string, version: string) => {
-      _dispatch(AppActions.initAppPackage(name, version));
+      dispatch(AppActions.initAppPackage(name, version));
     },
 
     updateAuthorizedKeyboardList: () =>
-      _dispatch(hidActionsThunk.updateAuthorizedKeyboardList()),
+      dispatch(hidActionsThunk.updateAuthorizedKeyboardList()),
 
     removeNotification: (key: string) => {
-      _dispatch(NotificationActions.removeNotification(key));
+      dispatch(NotificationActions.removeNotification(key));
     },
 
     onConnectKeyboard: (keyboard: IKeyboard) => {
-      _dispatch(HidActions.connectKeyboard(keyboard));
+      dispatch(HidActions.connectKeyboard(keyboard));
     },
 
     onDisconnectKeyboard: (keyboard: IKeyboard, managedKeyboard: IKeyboard) => {
       if (keyboard.isOpened()) {
-        _dispatch(hidActionsThunk.closeKeyboard(keyboard));
+        dispatch(hidActionsThunk.closeKeyboard(keyboard));
       } else {
         if (keyboard.isSameDevice(managedKeyboard)) {
           /**
@@ -53,30 +54,31 @@ const mapDispatchToProps = (_dispatch: any) => {
            * the keyboard is NOT opened but set on state.entities.keyboard.
            * Switch to Keyboard selection page.
            */
-          _dispatch(HidActions.updateKeyboard(null));
-          _dispatch(
+          dispatch(HidActions.updateKeyboard(null));
+          dispatch(
             AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected)
           );
         }
       }
 
-      _dispatch(HidActions.disconnectKeyboard(keyboard));
-      _dispatch(MacroEditorActions.clearMacroKey());
-      _dispatch(KeymapToolbarActions.updateTestMatrix(false));
+      dispatch(HidActions.disconnectKeyboard(keyboard));
+      dispatch(MacroEditorActions.clearMacroKey());
+      dispatch(KeymapToolbarActions.updateTestMatrix(false));
     },
 
     onCloseKeyboard: (keyboard: IKeyboard) => {
-      _dispatch(hidActionsThunk.closeKeyboard(keyboard));
+      dispatch(hidActionsThunk.closeKeyboard(keyboard));
     },
 
     updateSignedIn: (signedIn: boolean) => {
-      _dispatch(AppActions.updateSignedIn(signedIn));
+      dispatch(AppActions.updateSignedIn(signedIn));
+      dispatch(AppActionsThunk.updateUserInformation());
     },
     initializeMeta: () => {
-      _dispatch(MetaActions.initialize());
+      dispatch(MetaActions.initialize());
     },
     updateTitle: (title: string) => {
-      _dispatch(MetaActions.update({ title }));
+      dispatch(MetaActions.update({ title }));
     },
   };
 };
