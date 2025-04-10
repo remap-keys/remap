@@ -10,8 +10,6 @@ import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import {
   AbstractKeymapData,
   IFirmwareBuildingTask,
-  isError,
-  isSuccessful,
 } from '../services/storage/Storage';
 import { KeycodeList } from '../services/hid/KeycodeList';
 import {
@@ -23,6 +21,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { getEncoderIdList } from './utils';
 import { KC_NO } from '../services/hid/KeycodeInfoList';
 import { StorageActions } from './storage.action';
+import { isError, isSuccessful } from '../types';
 
 export const CATALOG_APP_ACTIONS = `@CatalogApp`;
 export const CATALOG_APP_UPDATE_PHASE = `${CATALOG_APP_ACTIONS}/UpdatePhase`;

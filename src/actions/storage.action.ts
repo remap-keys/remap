@@ -28,8 +28,6 @@ import {
   IFirmwareBuildingTask,
   IKeyboardDefinitionDocument,
   IOrganization,
-  isError,
-  isSuccessful,
   KeyboardDefinitionStatus,
   SavedKeymapData,
 } from '../services/storage/Storage';
@@ -43,6 +41,7 @@ import { sendEventToGoogleAnalytics } from '../utils/GoogleAnalytics';
 import { CatalogAppActions } from './catalog.action';
 import * as qs from 'qs';
 import { IBootloaderType } from '../services/firmware/Types';
+import { isError, isSuccessful } from '../types';
 
 export const STORAGE_ACTIONS = '@Storage';
 export const STORAGE_UPDATE_KEYBOARD_DEFINITION = `${STORAGE_ACTIONS}/UpdateKeyboardDefinition`;

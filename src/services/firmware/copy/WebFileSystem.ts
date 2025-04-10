@@ -1,9 +1,14 @@
-import { IBootloader, IBootloaderReadResult } from '../Bootloader';
+import {
+  errorResultOf,
+  IEmptyResult,
+  IResult,
+  successResult,
+} from '../../../types';
+import { IBootloader } from '../Bootloader';
 import {
   FirmwareWriterPhaseListener,
   FirmwareWriterProgressListener,
 } from '../FirmwareWriter';
-import { IResult } from '../Types';
 
 export class WebFileSystem implements IBootloader {
   private directoryHandle: any | undefined;
@@ -12,18 +17,14 @@ export class WebFileSystem implements IBootloader {
     this.directoryHandle = undefined;
   }
 
-  async open(): Promise<IResult> {
+  async open(): Promise<IEmptyResult> {
     try {
       this.directoryHandle = await window.showDirectoryPicker({
         mode: 'readwrite',
       });
-      return { success: true };
+      return successResult();
     } catch (error) {
-      return {
-        success: false,
-        error: `Opening a directory failed: ${error}`,
-        cause: error,
-      };
+      return errorResultOf(`Opening a directory failed: ${error}`, error);
     }
   }
 
@@ -31,7 +32,7 @@ export class WebFileSystem implements IBootloader {
     _size: number,
     _progress: FirmwareWriterProgressListener,
     _phase: FirmwareWriterPhaseListener
-  ): Promise<IBootloaderReadResult> {
+  ): Promise<IResult<{ bytes: Uint8Array }>> {
     throw new Error('This method never be called.');
   }
 
@@ -39,7 +40,7 @@ export class WebFileSystem implements IBootloader {
     _bytes: Uint8Array,
     _progress: FirmwareWriterProgressListener,
     _phase: FirmwareWriterPhaseListener
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     throw new Error('This method never be called.');
   }
 
@@ -48,7 +49,7 @@ export class WebFileSystem implements IBootloader {
     _eepromBytes: Uint8Array | null,
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     if (this.directoryHandle === undefined) {
       throw new Error('A target directory is not opened.');
     }
@@ -65,13 +66,12 @@ export class WebFileSystem implements IBootloader {
       phase('wrote');
       this.directoryHandle = undefined;
       phase('closed');
-      return { success: true };
+      return successResult();
     } catch (error) {
-      return {
-        success: false,
-        error: `Writing firmware to a file failed: ${error}`,
-        cause: error,
-      };
+      return errorResultOf(
+        `Writing firmware to a file failed: ${error}`,
+        error
+      );
     }
   }
 }

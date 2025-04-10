@@ -1,12 +1,8 @@
+import { IEmptyResult, IResult } from '../../types';
 import {
   FirmwareWriterPhaseListener,
   FirmwareWriterProgressListener,
 } from './FirmwareWriter';
-import { IResult } from './Types';
-
-export interface IBootloaderReadResult extends IResult {
-  bytes?: Uint8Array;
-}
 
 export interface IBootloader {
   read(
@@ -16,7 +12,7 @@ export interface IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IBootloaderReadResult>;
+  ): Promise<IResult<{ bytes: Uint8Array }>>;
 
   write(
     // eslint-disable-next-line no-unused-vars
@@ -27,7 +23,7 @@ export interface IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 
   verify(
     // eslint-disable-next-line no-unused-vars
@@ -36,5 +32,5 @@ export interface IBootloader {
     progress: FirmwareWriterProgressListener,
     // eslint-disable-next-line no-unused-vars
     phase: FirmwareWriterPhaseListener
-  ): Promise<IResult>;
+  ): Promise<IEmptyResult>;
 }

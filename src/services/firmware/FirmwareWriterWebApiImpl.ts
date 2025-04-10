@@ -5,13 +5,14 @@ import {
 } from './FirmwareWriter';
 import { CaterinaBootloader } from './caterina/CaterinaBootloader';
 import { WebSerial } from './serial/WebSerial';
-import { IBootloaderType, IErrorHandler, IResult } from './Types';
+import { IBootloaderType, IErrorHandler } from './Types';
 import { ISerial } from './serial/Serial';
 import { IUsb } from './usb/Usb';
 import WebUsb from './usb/WebUsb';
 import { IBootloader } from './Bootloader';
 import { DfuBootloader } from './dfu/DfuBootloader';
 import { WebFileSystem } from './copy/WebFileSystem';
+import { IEmptyResult, isError } from '../../types';
 
 const BAUD_RATE = 115200;
 const BUFFER_SIZE = 81920;
@@ -25,7 +26,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     progress: FirmwareWriterProgressListener,
     phase: FirmwareWriterPhaseListener,
     errorHandler: IErrorHandler
-  ): Promise<IResult> {
+  ): Promise<IEmptyResult> {
     if (bootloaderType === 'caterina') {
       const serial: ISerial = new WebSerial(CHUNK_SIZE);
       const openResult = await serial.open(
@@ -33,7 +34,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
         BUFFER_SIZE,
         errorHandler
       );
-      if (!openResult.success) {
+      if (isError(openResult)) {
         return openResult;
       }
       phase('opened');
@@ -42,7 +43,7 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
     } else if (bootloaderType === 'dfu') {
       const usb: IUsb = new WebUsb();
       const openResult = await usb.open();
-      if (!openResult.success) {
+      if (isError(openResult)) {
         return openResult;
       }
       phase('opened');
@@ -50,16 +51,17 @@ export class FirmwareWriterWebApiImpl implements IFirmwareWriter {
         usb,
         progress
       );
-      if (!createDfuBootloaderResult.success) {
+      if (isError(createDfuBootloaderResult)) {
         await usb.close();
         return createDfuBootloaderResult;
       }
-      const bootloader: IBootloader = createDfuBootloaderResult.bootloader!;
+      const bootloader: IBootloader =
+        createDfuBootloaderResult.value.bootloader;
       return await bootloader.write(flashBytes, eepromBytes, progress, phase);
     } else if (bootloaderType === 'copy') {
       const fileSystem = new WebFileSystem();
       const openResult = await fileSystem.open();
-      if (!openResult.success) {
+      if (isError(openResult)) {
         return openResult;
       }
       phase('opened');

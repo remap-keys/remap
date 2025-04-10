@@ -1,8 +1,13 @@
-import { IResult } from '../Types';
 import { IBootloader } from '../Bootloader';
 import { IUsb } from '../usb/Usb';
 import AtmelDfuBootloader from './AtmelDfuBootloader';
 import { FirmwareWriterProgressListener } from '../FirmwareWriter';
+import {
+  errorResultOf,
+  IResult,
+  isError,
+  successResultOf,
+} from '../../../types';
 
 export const ALL_DFU_DEVICE_TYPE = ['adc_avr'] as const;
 type dfuDeviceTypeTuple = typeof ALL_DFU_DEVICE_TYPE;
@@ -187,9 +192,9 @@ export const dfuTargetMappings: IDfuTargetMapping[] = [
   },
 ];
 
-export interface ICreateDfuBootloaderResult extends IResult {
-  bootloader?: IBootloader;
-}
+// export interface ICreateDfuBootloaderResult extends IResult {
+//   bootloader?: IBootloader;
+// }
 
 export class DfuBootloader {
   private constructor() {
@@ -199,13 +204,13 @@ export class DfuBootloader {
   static createDfuBootloader(
     usb: IUsb,
     progress: FirmwareWriterProgressListener
-  ): ICreateDfuBootloaderResult {
+  ): IResult<{ bootloader: IBootloader }> {
     const getDeviceInformationResult = usb.getDeviceInformation();
-    if (!getDeviceInformationResult.success) {
+    if (isError(getDeviceInformationResult)) {
       return getDeviceInformationResult;
     }
-    const vendorId = getDeviceInformationResult.vendorId!;
-    const productId = getDeviceInformationResult.productId!;
+    const vendorId = getDeviceInformationResult.value.vendorId;
+    const productId = getDeviceInformationResult.value.productId;
     progress(`Device detected: Vendor ID:${vendorId}, Product ID:${productId}`);
     const dfuTargetMapping: IDfuTargetMapping | undefined =
       dfuTargetMappings.find(
@@ -213,12 +218,11 @@ export class DfuBootloader {
           mapping.vendorId === vendorId && mapping.productId === productId
       );
     if (!dfuTargetMapping) {
-      return {
-        success: false,
-        error: `Unsupported device: Vendor ID: ${vendorId.toString(
+      return errorResultOf(
+        `Unsupported device: Vendor ID: ${vendorId.toString(
           16
-        )} Product ID: ${productId.toString(16)}`,
-      };
+        )} Product ID: ${productId.toString(16)}`
+      );
     }
     progress(
       `DFU target mapping found: Name:${dfuTargetMapping.name}, Device type:${dfuTargetMapping.deviceType}, Bootloader size:${dfuTargetMapping.bootloaderSize}, Bootloader location:${dfuTargetMapping.bootloaderLocation}, Memory size:${dfuTargetMapping.memorySize}, Flash page size:${dfuTargetMapping.flashPageSize} EEPROM memory size:${dfuTargetMapping.eepromMemorySize} EEPROM page size:${dfuTargetMapping.eepromPageSize}`
@@ -226,15 +230,13 @@ export class DfuBootloader {
     switch (dfuTargetMapping.deviceType) {
       case 'adc_avr':
         progress(`Use Atmel DFU Bootloader.`);
-        return {
-          success: true,
+        return successResultOf({
           bootloader: new AtmelDfuBootloader(usb, dfuTargetMapping),
-        };
+        });
       default:
-        return {
-          success: false,
-          error: `Unsupported device type: ${dfuTargetMapping.deviceType}`,
-        };
+        return errorResultOf(
+          `Unsupported device type: ${dfuTargetMapping.deviceType}`
+        );
     }
   }
 }

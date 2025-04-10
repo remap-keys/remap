@@ -2,7 +2,8 @@ import { IOrganizationsPhase, RootState } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
-import { IOrganizationMember, isError } from '../services/storage/Storage';
+import { IOrganizationMember } from '../services/storage/Storage';
+import { isError } from '../types';
 
 export const ORGANIZATIONS_APP_ACTIONS = '@Organizations!App';
 export const ORGANIZATIONS_APP_UPDATE_PHASE = `${ORGANIZATIONS_APP_ACTIONS}/UpdatePhase`;

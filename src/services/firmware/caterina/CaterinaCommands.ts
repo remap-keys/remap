@@ -1,28 +1,31 @@
 import { AbstractCommand, ICommandRequest, ICommandResponse } from '../Command';
-import { FirmwareFlashType, IResult } from '../Types';
+import { FirmwareFlashType } from '../Types';
 import { ISerial } from '../serial/Serial';
 import { encodeStringToBytes } from '../../../utils/StringUtils';
 import { concatUint8Array } from '../../../utils/ArrayUtils';
+import {
+  errorResultOf,
+  IEmptyResult,
+  isError,
+  successResult,
+} from '../../../types';
 
 abstract class AbstractCaterinaCommand<
   TRequest extends ICommandRequest,
   TResponse extends ICommandResponse,
 > extends AbstractCommand<TRequest, TResponse> {
-  protected async verify(serial: ISerial): Promise<IResult> {
+  protected async verify(serial: ISerial): Promise<IEmptyResult> {
     const readResult = await serial.readBytes(1, this.getVerifyTimeout());
-    if (!readResult.success) {
+    if (isError(readResult)) {
       return readResult;
     }
-    const resultCode = readResult.bytes![0];
+    const resultCode = readResult.value.bytes[0];
     if (resultCode !== '\r'.charCodeAt(0)) {
-      return {
-        success: false,
-        error: `The command failed. The result code: ${resultCode}`,
-      };
+      return errorResultOf(
+        `The command failed. The result code: ${resultCode}`
+      );
     }
-    return {
-      success: true,
-    };
+    return successResult();
   }
 }
 
