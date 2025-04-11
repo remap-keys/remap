@@ -293,6 +293,26 @@ export type IKeyboardStatistics = {
   };
 };
 
+export type IWorkbenchProject = {
+  id: string;
+  name: string;
+  qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion;
+  keyboardFiles: IWorkbenchProjectFile[];
+  keymapFiles: IWorkbenchProjectFile[];
+  uid: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IWorkbenchProjectFile = {
+  id: string;
+  path: string;
+  code: string;
+  fileType: IBuildableFirmwareFileType;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -521,6 +541,32 @@ export interface IStorage {
   getUserInformation(uid: string): Promise<IResult<IUserInformation>>;
   updateUserInformation(
     userInformation: IUserInformation
+  ): Promise<IEmptyResult>;
+
+  fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>>;
+  fetchWorkbenchProjectWithFiles(
+    projectId: string
+  ): Promise<IResult<IWorkbenchProject | undefined>>;
+  createWorkbenchProject(
+    projectName: string,
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+  ): Promise<IResult<IWorkbenchProject>>;
+  updateWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IResult<IWorkbenchProject>>;
+  deleteWorkbenchProject(project: IWorkbenchProject): Promise<IEmptyResult>;
+  createWorkbenchProjectFile(
+    projectId: string,
+    fileType: IBuildableFirmwareFileType,
+    filePath: string
+  ): Promise<IResult<IWorkbenchProjectFile>>;
+  updateWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult>;
+  deleteWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
   ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

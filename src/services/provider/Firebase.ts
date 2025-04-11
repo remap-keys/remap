@@ -39,6 +39,8 @@ import {
   IBuildableFirmwareQmkFirmwareVersion,
   IOperationLogType,
   IKeyboardStatistics,
+  IWorkbenchProject,
+  IWorkbenchProjectFile,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
@@ -2119,6 +2121,254 @@ export class FirebaseProvider implements IStorage, IAuth {
     } catch (error) {
       console.error(error);
       return errorResultOf(`Updating user information failed: ${error}`, error);
+    }
+  }
+
+  async fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>> {
+    try {
+      const querySnapshot = await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull()!.uid)
+        .get();
+      return successResultOf(
+        querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProject;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching my workbench projects failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchWorkbenchProjectWithFiles(
+    projectId: string
+  ): Promise<IResult<IWorkbenchProject | undefined>> {
+    try {
+      const projectDocument = await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .get();
+      if (projectDocument.exists) {
+        const project = {
+          id: projectDocument.id,
+          ...projectDocument.data(),
+        } as IWorkbenchProject;
+        const keyboardFileDocuments = await this.db
+          .collection('workbench')
+          .doc('v1')
+          .collection('projects')
+          .doc(projectId)
+          .collection('keyboardFiles')
+          .get();
+        project.keyboardFiles = keyboardFileDocuments.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProjectFile;
+        });
+        const keymapFileDocuments = await this.db
+          .collection('workbench')
+          .doc('v1')
+          .collection('projects')
+          .doc(projectId)
+          .collection('keymapFiles')
+          .get();
+        project.keymapFiles = keymapFileDocuments.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProjectFile;
+        });
+        return successResultOf(project);
+      } else {
+        return successResultOf(undefined);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching workbench project with files failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createWorkbenchProject(
+    projectName: string,
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+  ): Promise<IResult<IWorkbenchProject>> {
+    try {
+      const now = new Date();
+      const project: Omit<IWorkbenchProject, 'id'> = {
+        name: projectName,
+        uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
+        qmkFirmwareVersion,
+        keyboardFiles: [],
+        keymapFiles: [],
+        createdAt: now,
+        updatedAt: now,
+      };
+      const projectDocument = await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .add(project);
+      return successResultOf({
+        id: projectDocument.id,
+        ...project,
+      });
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IResult<IWorkbenchProject>> {
+    try {
+      await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .update({
+          name: project.name,
+          qmkFirmwareVersion: project.qmkFirmwareVersion,
+          updatedAt: new Date(),
+        });
+      return successResultOf(project);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createWorkbenchProjectFile(
+    projectId: string,
+    fileType: IBuildableFirmwareFileType,
+    path: string
+  ): Promise<IResult<IWorkbenchProjectFile>> {
+    try {
+      const now = new Date();
+      const doc = await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles')
+        .add({
+          path,
+          code: '',
+          fileType,
+          createdAt: now,
+          updatedAt: now,
+        });
+      return successResultOf({
+        id: doc.id,
+        path,
+        code: '',
+        fileType,
+        createdAt: now,
+        updatedAt: now,
+      } as IWorkbenchProjectFile);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(
+          file.fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles'
+        )
+        .doc(file.id)
+        .update({
+          path: file.path,
+          code: file.code,
+          updatedAt: now,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('workbench')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(
+          file.fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles'
+        )
+        .doc(file.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting workbench project file failed: ${error}`,
+        error
+      );
     }
   }
 }
