@@ -14,6 +14,10 @@ import { Button, CssBaseline } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Header from './header/Header';
 import Content from './content/Content.container';
+import {
+  getGitHubProviderData,
+  getGoogleProviderData,
+} from '../../services/auth/Auth';
 
 type OwnProps = {};
 type WorkbenchProps = OwnProps &
@@ -75,7 +79,19 @@ function Workbench(props: WorkbenchProps) {
   useEffect(() => {
     props.initializeMeta!();
     props.auth!.subscribeAuthStatus((user) => {
-      props.updateSignedIn!(!!user);
+      console.log(user);
+      if (user) {
+        if (getGitHubProviderData(user).exists) {
+          props.updateSignedIn!(true);
+        } else if (getGoogleProviderData(user).exists) {
+          props.updateSignedIn!(true);
+        } else {
+          throw new Error('Unknown provider');
+        }
+        props.initializeWorkbench!();
+      } else {
+        // TODO: Handle unsigned in state.
+      }
     });
     updateNotifications();
 

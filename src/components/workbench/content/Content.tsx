@@ -12,7 +12,6 @@ type ContentProps = OwnProps &
 export default function Content(props: ContentProps | Readonly<ContentProps>) {
   const phase = props.phase!;
   switch (phase) {
-    case 'init':
     case 'processing':
       return <PhaseProcessing />;
     case 'editing':

@@ -217,7 +217,9 @@ import {
 import { MOD_LEFT } from '../services/hid/Constraints';
 import {
   WORKBENCH_APP_ACTIONS,
+  WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
   WORKBENCH_APP_UPDATE_PHASE,
+  WORKBENCH_APP_UPDATE_PROJECTS,
 } from '../actions/workbench.action';
 import { act } from 'react';
 
@@ -1271,6 +1273,14 @@ const workbenchAppReducer = (
   switch (action.type) {
     case WORKBENCH_APP_UPDATE_PHASE: {
       draft.workbench.app.phase = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_PROJECTS: {
+      draft.workbench.app.projects = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_CURRENT_PROJECT: {
+      draft.workbench.app.currentProject = action.value;
       break;
     }
   }

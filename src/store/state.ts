@@ -19,6 +19,7 @@ import {
   IOrganizationMember,
   IStorage,
   IStore,
+  IWorkbenchProject,
   SavedKeymapData,
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
@@ -247,12 +248,12 @@ export type IBuildableFirmwareCodeParameterValues = {
   keymap: IBuildableFirmwareCodeParameterValueMap;
 };
 
-export type IWorkbenchPhase = 'init' | 'processing' | 'editing';
-export const WorkbenchPhase: { [p: string]: IWorkbenchPhase } = {
-  init: 'init',
-  processing: 'processing',
+export const WorkbenchPhase = {
   editing: 'editing',
-};
+  processing: 'processing',
+} as const;
+export type IWorkbenchPhase =
+  (typeof WorkbenchPhase)[keyof typeof WorkbenchPhase];
 
 export type IUserInformation = {
   uid: string;
@@ -508,6 +509,8 @@ export type RootState = {
   workbench: {
     app: {
       phase: IWorkbenchPhase;
+      projects: IWorkbenchProject[];
+      currentProject: IWorkbenchProject | undefined;
     };
   };
 };
@@ -779,7 +782,9 @@ export const INIT_STATE: RootState = {
   },
   workbench: {
     app: {
-      phase: WorkbenchPhase.init,
+      phase: WorkbenchPhase.processing,
+      projects: [],
+      currentProject: undefined,
     },
   },
 };
