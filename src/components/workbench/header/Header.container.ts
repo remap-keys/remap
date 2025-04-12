@@ -3,9 +3,6 @@ import { RootState } from '../../../store/state';
 import Header from './Header';
 import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
-import { storageActionsThunk } from '../../../actions/storage.action';
-import { MetaActions } from '../../../actions/meta.action';
-import { UploadFirmwareDialogActions } from '../../../actions/firmware.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -13,6 +10,7 @@ const mapStateToProps = (state: RootState) => {
     auth: state.auth.instance,
     signedIn: state.app.signedIn,
     phase: state.catalog.app.phase,
+    currentProject: state.workbench.app.currentProject,
   };
 };
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;

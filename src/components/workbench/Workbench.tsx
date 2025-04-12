@@ -12,7 +12,7 @@ import {
 import { NotificationItem } from '../../actions/actions';
 import { Button, CssBaseline } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Header from './header/Header';
+import Header from './header/Header.container';
 import Content from './content/Content.container';
 import {
   getGitHubProviderData,
@@ -79,7 +79,6 @@ function Workbench(props: WorkbenchProps) {
   useEffect(() => {
     props.initializeMeta!();
     props.auth!.subscribeAuthStatus((user) => {
-      console.log(user);
       if (user) {
         if (getGitHubProviderData(user).exists) {
           props.updateSignedIn!(true);
@@ -88,19 +87,23 @@ function Workbench(props: WorkbenchProps) {
         } else {
           throw new Error('Unknown provider');
         }
-        props.initializeWorkbench!();
       } else {
+        props.updateSignedIn!(false);
         // TODO: Handle unsigned in state.
       }
     });
     updateNotifications();
-
-    props.initializeWorkbench!();
   }, []);
 
   useEffect(() => {
     updateNotifications();
   }, [props.notifications]);
+
+  useEffect(() => {
+    if (props.signedIn && props.userInformation !== undefined) {
+      props.initializeWorkbench!();
+    }
+  }, [props.signedIn, props.userInformation]);
 
   return (
     <React.Fragment>

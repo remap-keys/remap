@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { IWorkbenchPhase, RootState, WorkbenchPhase } from '../store/state';
-import { NotificationActions } from './actions';
+import { AppActions, NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
 import { isError } from '../types';
 import { IWorkbenchProject } from '../services/storage/Storage';
@@ -34,6 +34,7 @@ type ActionTypes = ReturnType<
   | (typeof WorkbenchAppActions)[keyof typeof WorkbenchAppActions]
   | (typeof NotificationActions)[keyof typeof NotificationActions]
   | (typeof StorageActions)[keyof typeof StorageActions]
+  | (typeof AppActions)[keyof typeof AppActions]
 >;
 type ThunkPromiseAction<T> = ThunkAction<
   Promise<T>,

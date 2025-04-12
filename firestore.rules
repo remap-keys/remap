@@ -137,6 +137,31 @@ service cloud.firestore {
                              && (request.auth.uid == resource.data.uid);
         }
 
+        match /build/v1/projects/{projectId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == request.resource.data.uid);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == resource.data.uid);
+            allow delete: if isAuthenticated()
+                             && (request.auth.uid == resource.data.uid);
+            allow read: if isAuthenticated()
+                           && (request.auth.uid == resource.data.uid);
+        }
+
+        match /build/v1/projects/{projectId}/keyboardFiles/{fileId} {
+            allow read: if isAuthenticated()
+                           && (getWorkbenchProject(projectId).data.uid == request.auth.uid);
+            allow write: if isAuthenticated()
+                            && (getWorkbenchProject(projectId).data.uid == request.auth.uid);
+        }
+
+        match /build/v1/projects/{projectId}/keymapFiles/{fileId} {
+            allow read: if isAuthenticated()
+                           && (getWorkbenchProject(projectId).data.uid == request.auth.uid);
+            allow write: if isAuthenticated()
+                            && (getWorkbenchProject(projectId).data.uid == request.auth.uid);
+        }
+
         match /logs/v1/operations/{operationLogID} {
             allow create;
             allow update: if false;
@@ -163,6 +188,10 @@ service cloud.firestore {
 
         function getDefinition(definitionID) {
             return get(/databases/$(database)/documents/keyboards/v2/definitions/$(definitionID));
+        }
+
+        function getWorkbenchProject(projectId) {
+            return get(/databases/$(database)/documents/build/v1/projects/$(projectId));
         }
     }
 }

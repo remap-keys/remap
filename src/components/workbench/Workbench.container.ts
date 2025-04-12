@@ -14,6 +14,8 @@ const mapStateToProps = (state: RootState) => {
   return {
     notifications: state.app.notifications,
     auth: state.auth.instance,
+    signedIn: state.app.signedIn,
+    userInformation: state.app.user.information,
   };
 };
 export type WorkbenchStateType = ReturnType<typeof mapStateToProps>;

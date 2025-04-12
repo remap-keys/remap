@@ -4,7 +4,8 @@ import Breadboard from './Breadboard';
 
 const mapStateToProps = (state: RootState) => {
   return {
-    phase: state.workbench.app.phase,
+    projects: state.workbench.app.projects,
+    currentProject: state.workbench.app.currentProject,
   };
 };
 export type BreadboardStateType = ReturnType<typeof mapStateToProps>;

@@ -2126,11 +2126,15 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>> {
     try {
+      const user = this.getCurrentAuthenticatedUserOrNull();
+      if (user === null) {
+        return errorResultOf('User not signed in');
+      }
       const querySnapshot = await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
-        .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull()!.uid)
+        .where('uid', '==', user.uid)
         .get();
       return successResultOf(
         querySnapshot.docs.map((doc) => {
@@ -2154,7 +2158,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   ): Promise<IResult<IWorkbenchProject | undefined>> {
     try {
       const projectDocument = await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(projectId)
@@ -2165,7 +2169,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           ...projectDocument.data(),
         } as IWorkbenchProject;
         const keyboardFileDocuments = await this.db
-          .collection('workbench')
+          .collection('build')
           .doc('v1')
           .collection('projects')
           .doc(projectId)
@@ -2178,7 +2182,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           } as IWorkbenchProjectFile;
         });
         const keymapFileDocuments = await this.db
-          .collection('workbench')
+          .collection('build')
           .doc('v1')
           .collection('projects')
           .doc(projectId)
@@ -2219,7 +2223,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         updatedAt: now,
       };
       const projectDocument = await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .add(project);
@@ -2241,7 +2245,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   ): Promise<IResult<IWorkbenchProject>> {
     try {
       await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(project.id)
@@ -2265,7 +2269,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   ): Promise<IEmptyResult> {
     try {
       await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(project.id)
@@ -2288,7 +2292,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     try {
       const now = new Date();
       const doc = await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(projectId)
@@ -2324,7 +2328,7 @@ export class FirebaseProvider implements IStorage, IAuth {
     try {
       const now = new Date();
       await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(projectId)
@@ -2353,7 +2357,7 @@ export class FirebaseProvider implements IStorage, IAuth {
   ): Promise<IEmptyResult> {
     try {
       await this.db
-        .collection('workbench')
+        .collection('build')
         .doc('v1')
         .collection('projects')
         .doc(projectId)
