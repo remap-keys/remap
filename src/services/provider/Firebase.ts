@@ -2174,6 +2174,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           .collection('projects')
           .doc(projectId)
           .collection('keyboardFiles')
+          .orderBy('path', 'asc')
           .get();
         project.keyboardFiles = keyboardFileDocuments.docs.map((doc) => {
           return {
@@ -2187,6 +2188,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           .collection('projects')
           .doc(projectId)
           .collection('keymapFiles')
+          .orderBy('path', 'asc')
           .get();
         project.keymapFiles = keymapFileDocuments.docs.map((doc) => {
           return {
@@ -2213,12 +2215,13 @@ export class FirebaseProvider implements IStorage, IAuth {
   ): Promise<IResult<IWorkbenchProject>> {
     try {
       const now = new Date();
-      const project: Omit<IWorkbenchProject, 'id'> = {
+      const project: Omit<
+        IWorkbenchProject,
+        'id' | 'keyboardFiles' | 'keymapFiles'
+      > = {
         name: projectName,
         uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
         qmkFirmwareVersion,
-        keyboardFiles: [],
-        keymapFiles: [],
         createdAt: now,
         updatedAt: now,
       };
@@ -2230,6 +2233,8 @@ export class FirebaseProvider implements IStorage, IAuth {
       return successResultOf({
         id: projectDocument.id,
         ...project,
+        keyboardFiles: [],
+        keymapFiles: [],
       });
     } catch (error) {
       console.error(error);

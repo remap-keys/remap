@@ -3,7 +3,11 @@ import { IWorkbenchPhase, RootState, WorkbenchPhase } from '../store/state';
 import { AppActions, NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
 import { isError } from '../types';
-import { IWorkbenchProject } from '../services/storage/Storage';
+import {
+  IBuildableFirmwareFileType,
+  IWorkbenchProject,
+  IWorkbenchProjectFile,
+} from '../services/storage/Storage';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -133,6 +137,137 @@ export const workbenchActionsThunk = {
       );
 
       dispatch(WorkbenchAppActions.updatePhase(WorkbenchPhase.editing));
+    },
+  createWorkbenchProjectFile:
+    (
+      project: IWorkbenchProject,
+      path: string,
+      fileType: IBuildableFirmwareFileType
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+      const createResult = await storage.instance!.createWorkbenchProjectFile(
+        project.id,
+        fileType,
+        path
+      );
+      if (isError(createResult)) {
+        dispatch(
+          NotificationActions.addError(createResult.error, createResult.cause)
+        );
+        return;
+      }
+      // Refresh current project.
+      const currentProject = workbench.app.currentProject;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      const newCurrentProject: IWorkbenchProject = {
+        ...currentProject,
+        keyboardFiles: new Array(...currentProject.keyboardFiles),
+        keymapFiles: new Array(...currentProject.keymapFiles),
+      };
+      switch (fileType) {
+        case 'keyboard':
+          newCurrentProject.keyboardFiles.push(createResult.value);
+          break;
+        case 'keymap':
+          newCurrentProject.keymapFiles.push(createResult.value);
+          break;
+      }
+      dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
+    },
+  updateWorkbenchProjectFile:
+    (
+      project: IWorkbenchProject,
+      file: IWorkbenchProjectFile,
+      path: string,
+      code: string
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+      const updateResult = await storage.instance!.updateWorkbenchProjectFile(
+        project.id,
+        {
+          ...file,
+          path,
+          code,
+        }
+      );
+      if (isError(updateResult)) {
+        dispatch(
+          NotificationActions.addError(updateResult.error, updateResult.cause)
+        );
+        return;
+      }
+      const currentProject = workbench.app.currentProject;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      const newCurrentProject: IWorkbenchProject = {
+        ...currentProject,
+        keyboardFiles: new Array(...currentProject.keyboardFiles),
+        keymapFiles: new Array(...currentProject.keymapFiles),
+      };
+      const targetFiles: IWorkbenchProjectFile[] =
+        file.fileType === 'keyboard'
+          ? newCurrentProject.keyboardFiles
+          : newCurrentProject.keymapFiles;
+      const index = targetFiles.findIndex((x) => x.id === file.id);
+      if (index !== -1) {
+        targetFiles[index] = {
+          ...targetFiles[index],
+          path,
+          code,
+        };
+      }
+      dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
+    },
+  deleteWorkbenchProjectFile:
+    (
+      project: IWorkbenchProject,
+      file: IWorkbenchProjectFile,
+      fileType: IBuildableFirmwareFileType
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+      const deleteResult = await storage.instance!.deleteWorkbenchProjectFile(
+        project.id,
+        file
+      );
+      if (isError(deleteResult)) {
+        dispatch(
+          NotificationActions.addError(deleteResult.error, deleteResult.cause)
+        );
+        return;
+      }
+      const currentProject = workbench.app.currentProject;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      const newCurrentProject: IWorkbenchProject = {
+        ...currentProject,
+        keyboardFiles: new Array(...currentProject.keyboardFiles),
+        keymapFiles: new Array(...currentProject.keymapFiles),
+      };
+      const targetFiles: IWorkbenchProjectFile[] =
+        fileType === 'keyboard'
+          ? newCurrentProject.keyboardFiles
+          : newCurrentProject.keymapFiles;
+      const index = targetFiles.findIndex((x) => x.id === file.id);
+      if (index !== -1) {
+        targetFiles.splice(index, 1);
+      }
+      dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
     },
 };
 

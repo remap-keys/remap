@@ -32,20 +32,20 @@ export default function ConfirmDialog(props: IConfirmDialogProps) {
       <DialogActions>
         <Button
           color="primary"
+          onClick={() => {
+            props.onClickYes();
+          }}
+        >
+          Yes
+        </Button>
+        <Button
+          color="primary"
           autoFocus
           onClick={() => {
             props.onClickNo();
           }}
         >
           No
-        </Button>
-        <Button
-          color="primary"
-          onClick={() => {
-            props.onClickYes();
-          }}
-        >
-          Yes
         </Button>
       </DialogActions>
     </Dialog>
