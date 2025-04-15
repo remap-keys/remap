@@ -9,6 +9,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import { Button, TextField } from '@mui/material';
 import { useDebounce } from '../../common/hooks/DebounceHook';
 import { IWorkbenchProject } from '../../../services/storage/Storage';
+import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -17,6 +18,7 @@ type HeaderProps = OwnProps &
 
 export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   const [projectName, setProjectName] = useState<string>('');
+  const [openProjectsDialog, setOpenProjectsDialog] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -53,6 +55,13 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setProjectName(name);
   };
 
+  const onClickProjects = () => {
+    if (props.currentProject === undefined) {
+      return;
+    }
+    setOpenProjectsDialog(true);
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -67,7 +76,12 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
             value={projectName}
             onChange={onChangeProjectName}
           />
-          <Button variant="text" size="small" startIcon={<AccountTreeIcon />}>
+          <Button
+            variant="text"
+            size="small"
+            startIcon={<AccountTreeIcon />}
+            onClick={onClickProjects}
+          >
             Projects
           </Button>
           <Button variant="text" size="small" startIcon={<BuildIcon />}>
@@ -85,6 +99,15 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           </div>
         </div>
       </header>
+      <WorkbenchProjectsDialog
+        open={openProjectsDialog}
+        projects={props.projects}
+        currentProject={props.currentProject}
+        onClose={() => {}}
+        onCreateNewProject={() => {}}
+        onOpenProject={(project: IWorkbenchProject) => {}}
+        onDeleteProject={(project: IWorkbenchProject) => {}}
+      />
     </React.Fragment>
   );
 }

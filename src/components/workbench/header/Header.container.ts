@@ -13,6 +13,7 @@ const mapStateToProps = (state: RootState) => {
     signedIn: state.app.signedIn,
     phase: state.catalog.app.phase,
     currentProject: state.workbench.app.currentProject,
+    projects: state.workbench.app.projects,
   };
 };
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;
