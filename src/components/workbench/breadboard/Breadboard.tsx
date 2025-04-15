@@ -58,7 +58,7 @@ export default function Breadboard(
   const [selectedFile, setSelectedFile] = useState<
     { fileId: string; fileType: IBuildableFirmwareFileType } | undefined
   >(undefined);
-  const [code, setCode] = useState<string>('abc');
+  const [code, setCode] = useState<string>('');
 
   // Effects
 

@@ -3,6 +3,8 @@ import { RootState } from '../../../store/state';
 import Header from './Header';
 import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
+import { IWorkbenchProject } from '../../../services/storage/Storage';
+import { workbenchActionsThunk } from '../../../actions/workbench.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -16,16 +18,19 @@ const mapStateToProps = (state: RootState) => {
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;
 
 // eslint-disable-next-line no-unused-vars
-const mapDispatchToProps = (_dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     logout: () => {
-      _dispatch(catalogActionsThunk.logout());
+      dispatch(catalogActionsThunk.logout());
     },
     linkToGoogleAccount: () => {
-      _dispatch(AppActionsThunk.linkToGoogleAccount());
+      dispatch(AppActionsThunk.linkToGoogleAccount());
     },
     linkToGitHubAccount: () => {
-      _dispatch(AppActionsThunk.linkToGitHubAccount());
+      dispatch(AppActionsThunk.linkToGitHubAccount());
+    },
+    updateWorkbenchProject: (project: IWorkbenchProject) => {
+      dispatch(workbenchActionsThunk.updateWorkbenchProject(project));
     },
   };
 };

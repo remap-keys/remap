@@ -269,6 +269,45 @@ export const workbenchActionsThunk = {
       }
       dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
     },
+  updateWorkbenchProject:
+    (project: IWorkbenchProject): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+      const updateResult =
+        await storage.instance!.updateWorkbenchProject(project);
+      if (isError(updateResult)) {
+        dispatch(
+          NotificationActions.addError(updateResult.error, updateResult.cause)
+        );
+        return;
+      }
+      const currentProject = workbench.app.currentProject;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      const newCurrentProject: IWorkbenchProject = {
+        ...currentProject,
+        name: project.name,
+        qmkFirmwareVersion: project.qmkFirmwareVersion,
+      };
+      dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
+      const newProjects: IWorkbenchProject[] = workbench.app.projects.map(
+        (x) => {
+          if (x.id === project.id) {
+            return {
+              ...x,
+              name: project.name,
+              qmkFirmwareVersion: project.qmkFirmwareVersion,
+            };
+          }
+          return x;
+        }
+      );
+      dispatch(WorkbenchAppActions.updateProjects(newProjects));
+    },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {
