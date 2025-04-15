@@ -26,8 +26,8 @@ import {
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { CreateNewWorkbenchProjectFileDialog } from './CreateNewWorkbenchProjectFileDialog';
-import { EditWorkbenchProjectFileDialog } from './EditWorkbenchProjectFileDialog';
+import { CreateNewWorkbenchProjectFileDialog } from '../dialogs/CreateNewWorkbenchProjectFileDialog';
+import { EditWorkbenchProjectFileDialog } from '../dialogs/EditWorkbenchProjectFileDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import { useDebounce } from '../../common/hooks/DebounceHook';
 
