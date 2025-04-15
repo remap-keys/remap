@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -34,11 +34,20 @@ export function CreateNewWorkbenchProjectFileDialog(
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CreateNewFileForm>({
-    defaultValues: {
+    values: {
       fileName: '',
     },
   });
+
+  useEffect(() => {
+    if (props.open) {
+      reset({
+        fileName: '',
+      });
+    }
+  }, [props.open, reset]);
 
   const onSubmit = (data: CreateNewFileForm) => {
     props.onSubmit(data.fileName, props.fileType);

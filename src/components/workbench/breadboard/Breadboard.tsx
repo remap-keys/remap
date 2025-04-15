@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -29,7 +29,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { CreateNewWorkbenchProjectFileDialog } from './CreateNewWorkbenchProjectFileDialog';
 import { EditWorkbenchProjectFileDialog } from './EditWorkbenchProjectFileDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
-import { set } from 'date-fns';
+import { useDebounce } from '../../common/hooks/DebounceHook';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -39,6 +39,8 @@ type BreadboardProps = OwnProps &
 export default function Breadboard(
   props: BreadboardProps | Readonly<BreadboardProps>
 ) {
+  // States
+
   const [openCreateNewFileDialog, setOpenCreateNewFileDialog] =
     useState<boolean>(false);
   const [targetCreateNewFileType, setTargetCreateNewFileType] =
@@ -53,11 +55,64 @@ export default function Breadboard(
   const [targetDeleteFile, setTargetDeleteFile] = useState<
     IWorkbenchProjectFile | undefined
   >(undefined);
+  const [selectedFile, setSelectedFile] = useState<
+    { fileId: string; fileType: IBuildableFirmwareFileType } | undefined
+  >(undefined);
+  const [code, setCode] = useState<string>('abc');
+
+  // Effects
+
+  useEffect(() => {
+    if (props.currentProject === undefined || selectedFile === undefined) {
+      setCode('');
+      return;
+    }
+    const currentFile =
+      selectedFile.fileType === 'keyboard'
+        ? props.currentProject.keyboardFiles.find(
+            (file) => file.id === selectedFile.fileId
+          )
+        : props.currentProject.keymapFiles.find(
+            (file) => file.id === selectedFile.fileId
+          );
+    if (currentFile === undefined) {
+      setCode('');
+      return;
+    }
+    setCode(currentFile.code);
+  }, [props.currentProject, selectedFile]);
+
+  const debounceCode = useDebounce(code, 500);
+  useEffect(() => {
+    if (props.currentProject === undefined || selectedFile === undefined) {
+      return;
+    }
+    const currentFile =
+      selectedFile.fileType === 'keyboard'
+        ? props.currentProject.keyboardFiles.find(
+            (file) => file.id === selectedFile.fileId
+          )
+        : props.currentProject.keymapFiles.find(
+            (file) => file.id === selectedFile.fileId
+          );
+    if (currentFile === undefined) {
+      return;
+    }
+    props.updateWorkbenchProjectFile!(
+      props.currentProject!,
+      currentFile,
+      currentFile.path,
+      debounceCode
+    );
+  }, [debounceCode]);
+
+  // Event Handlers
 
   const onClickWorkbenchProjectFile = (
+    file: IWorkbenchProjectFile,
     fileType: IBuildableFirmwareFileType
   ) => {
-    console.log('click file');
+    setSelectedFile({ fileId: file.id, fileType });
   };
 
   const onClickCreateNewWorkbenchProjectFile =
@@ -116,13 +171,29 @@ export default function Breadboard(
     if (targetDeleteFile === undefined) {
       return;
     }
+    const targetFileId = targetDeleteFile.id;
+    const targetFileType = targetDeleteFile.fileType;
     props.deleteWorkbenchProjectFile!(
       props.currentProject!,
       targetDeleteFile,
       targetEditFileType
     );
     setOpenConfirmDialog(false);
+    // If the deleted file is the selected file, clear the selected file.
+    if (
+      selectedFile !== undefined &&
+      selectedFile.fileId === targetFileId &&
+      selectedFile.fileType === targetFileType
+    ) {
+      setSelectedFile(undefined);
+    }
   };
+
+  const onChangeCode = useCallback((code: string | undefined) => {
+    setCode(code || '');
+  }, []);
+
+  // Render
 
   return (
     <>
@@ -188,9 +259,16 @@ export default function Breadboard(
                       workbenchProjectFile={file}
                       workbenchProjectFileType="keyboard"
                       disabled={false}
-                      selected={false}
-                      onClickFile={() => {
-                        onClickWorkbenchProjectFile('keyboard');
+                      selected={
+                        selectedFile !== undefined &&
+                        selectedFile.fileType === 'keyboard' &&
+                        selectedFile.fileId === file.id
+                      }
+                      onClickFile={(
+                        file: IWorkbenchProjectFile,
+                        fileType: IBuildableFirmwareFileType
+                      ) => {
+                        onClickWorkbenchProjectFile(file, fileType);
                       }}
                       onClickEditFile={onClickEditWorkbenchProjectFile}
                     />
@@ -221,9 +299,16 @@ export default function Breadboard(
                       workbenchProjectFile={file}
                       workbenchProjectFileType="keymap"
                       disabled={false}
-                      selected={false}
-                      onClickFile={() => {
-                        onClickWorkbenchProjectFile('keymap');
+                      selected={
+                        selectedFile !== undefined &&
+                        selectedFile.fileType === 'keymap' &&
+                        selectedFile.fileId === file.id
+                      }
+                      onClickFile={(
+                        file: IWorkbenchProjectFile,
+                        fileType: IBuildableFirmwareFileType
+                      ) => {
+                        onClickWorkbenchProjectFile(file, fileType);
                       }}
                       onClickEditFile={onClickEditWorkbenchProjectFile}
                     />
@@ -239,16 +324,20 @@ export default function Breadboard(
                 flexDirection: 'column',
               }}
             >
-              <Editor
-                defaultLanguage="c"
-                height="100%"
-                value=""
-                options={{
-                  minimap: { enabled: false },
-                  wordWrap: 'off',
-                  automaticLayout: true,
-                }}
-              />
+              {props.currentProject !== undefined &&
+                selectedFile !== undefined && (
+                  <Editor
+                    defaultLanguage="c"
+                    height="100%"
+                    value={code}
+                    options={{
+                      minimap: { enabled: false },
+                      wordWrap: 'off',
+                      automaticLayout: true,
+                    }}
+                    onChange={onChangeCode}
+                  />
+                )}
             </Paper>
           </Box>
           <Box sx={{ height: '30%', display: 'flex', flexDirection: 'row' }}>
