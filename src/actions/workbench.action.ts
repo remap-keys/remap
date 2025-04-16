@@ -8,12 +8,12 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
-import { create } from 'domain';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
 export const WORKBENCH_APP_UPDATE_PROJECTS = `${WORKBENCH_APP_ACTIONS}/UpdateProjects`;
 export const WORKBENCH_APP_UPDATE_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/UpdateCurrentProject`;
+export const WORKBENCH_APP_UPDATE_SELECTED_FILE = `${WORKBENCH_APP_ACTIONS}/UpdateSelectedFile`;
 export const WorkbenchAppActions = {
   updatePhase: (phase: IWorkbenchPhase) => {
     return {
@@ -31,6 +31,16 @@ export const WorkbenchAppActions = {
     return {
       type: WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
       value: project,
+    };
+  },
+  updateSelectedFile: (
+    selectedFile:
+      | { fileId: string; fileType: IBuildableFirmwareFileType }
+      | undefined
+  ) => {
+    return {
+      type: WORKBENCH_APP_UPDATE_SELECTED_FILE,
+      value: selectedFile,
     };
   },
 };
@@ -332,6 +342,27 @@ export const workbenchActionsThunk = {
       const newProjects = [...projects, newProject];
       dispatch(WorkbenchAppActions.updateProjects(newProjects));
       dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
+    },
+  switchCurrentProject:
+    (project: IWorkbenchProject): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const fetchResult =
+        await storage.instance!.fetchWorkbenchProjectWithFiles(project.id);
+      if (isError(fetchResult)) {
+        dispatch(
+          NotificationActions.addError(fetchResult.error, fetchResult.cause)
+        );
+        return;
+      }
+      const currentProject = fetchResult.value;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      dispatch(WorkbenchAppActions.updateCurrentProject(currentProject));
     },
 };
 

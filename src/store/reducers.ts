@@ -220,6 +220,7 @@ import {
   WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
   WORKBENCH_APP_UPDATE_PHASE,
   WORKBENCH_APP_UPDATE_PROJECTS,
+  WORKBENCH_APP_UPDATE_SELECTED_FILE,
 } from '../actions/workbench.action';
 import { act } from 'react';
 
@@ -1281,6 +1282,10 @@ const workbenchAppReducer = (
     }
     case WORKBENCH_APP_UPDATE_CURRENT_PROJECT: {
       draft.workbench.app.currentProject = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_SELECTED_FILE: {
+      draft.workbench.app.selectedFile = action.value;
       break;
     }
   }

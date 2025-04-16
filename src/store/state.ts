@@ -20,6 +20,7 @@ import {
   IStorage,
   IStore,
   IWorkbenchProject,
+  IWorkbenchProjectFile,
   SavedKeymapData,
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
@@ -511,6 +512,9 @@ export type RootState = {
       phase: IWorkbenchPhase;
       projects: IWorkbenchProject[];
       currentProject: IWorkbenchProject | undefined;
+      selectedFile:
+        | { fileId: string; fileType: IBuildableFirmwareFileType }
+        | undefined;
     };
   };
 };
@@ -785,6 +789,7 @@ export const INIT_STATE: RootState = {
       phase: WorkbenchPhase.processing,
       projects: [],
       currentProject: undefined,
+      selectedFile: undefined,
     },
   },
 };

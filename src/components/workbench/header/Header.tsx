@@ -27,7 +27,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setProjectName(props.currentProject.name);
   }, [props.currentProject]);
 
-  const debouncedProjectName = useDebounce(projectName, 500);
+  const debouncedProjectName = useDebounce(projectName, 1000);
   useEffect(() => {
     if (props.currentProject === undefined) {
       return;
@@ -64,6 +64,12 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
 
   const onClickCreateNewProject = () => {
     props.createNewWorkbenchProject!();
+    setOpenProjectsDialog(false);
+  };
+
+  const onClickOpenProject = (project: IWorkbenchProject) => {
+    props.switchCurrentWorkbenchProject!(project);
+    props.updateSelectedFile!(undefined);
     setOpenProjectsDialog(false);
   };
 
@@ -112,7 +118,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           setOpenProjectsDialog(false);
         }}
         onCreateNewProject={onClickCreateNewProject}
-        onOpenProject={(project: IWorkbenchProject) => {}}
+        onOpenProject={onClickOpenProject}
         onDeleteProject={(project: IWorkbenchProject) => {}}
       />
     </React.Fragment>

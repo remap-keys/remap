@@ -6,12 +6,16 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
-import { workbenchActionsThunk } from '../../../actions/workbench.action';
+import {
+  workbenchActionsThunk,
+  WorkbenchAppActions,
+} from '../../../actions/workbench.action';
 
 const mapStateToProps = (state: RootState) => {
   return {
     projects: state.workbench.app.projects,
     currentProject: state.workbench.app.currentProject,
+    selectedFile: state.workbench.app.selectedFile,
   };
 };
 export type BreadboardStateType = ReturnType<typeof mapStateToProps>;
@@ -59,6 +63,13 @@ const mapDispatchToProps = (dispatch: any) => {
           fileType
         )
       );
+    },
+    updateSelectedFile: (
+      selectedFile:
+        | { fileId: string; fileType: IBuildableFirmwareFileType }
+        | undefined
+    ) => {
+      dispatch(WorkbenchAppActions.updateSelectedFile(selectedFile));
     },
   };
 };

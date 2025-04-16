@@ -3,9 +3,14 @@ import { RootState } from '../../../store/state';
 import Header from './Header';
 import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
-import { IWorkbenchProject } from '../../../services/storage/Storage';
-import { workbenchActionsThunk } from '../../../actions/workbench.action';
-import { create } from 'domain';
+import {
+  IBuildableFirmwareFileType,
+  IWorkbenchProject,
+} from '../../../services/storage/Storage';
+import {
+  workbenchActionsThunk,
+  WorkbenchAppActions,
+} from '../../../actions/workbench.action';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -36,6 +41,16 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     createNewWorkbenchProject: () => {
       dispatch(workbenchActionsThunk.createWorkbenchProject());
+    },
+    switchCurrentWorkbenchProject: (project: IWorkbenchProject) => {
+      dispatch(workbenchActionsThunk.switchCurrentProject(project));
+    },
+    updateSelectedFile: (
+      selectedFile:
+        | { fileId: string; fileType: IBuildableFirmwareFileType }
+        | undefined
+    ) => {
+      dispatch(WorkbenchAppActions.updateSelectedFile(selectedFile));
     },
   };
 };
