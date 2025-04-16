@@ -30,6 +30,9 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     if (props.currentProject === undefined) {
       return;
     }
+    if (debouncedProjectName === '') {
+      return;
+    }
     const currentProject = props.currentProject;
     const currentProjectName = currentProject.name;
     if (currentProjectName === debouncedProjectName) {
