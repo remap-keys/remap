@@ -40,14 +40,16 @@ const mapDispatchToProps = (dispatch: any) => {
       project: IWorkbenchProject,
       file: IWorkbenchProjectFile,
       path: string,
-      code: string
+      code: string,
+      refreshCurrentProject: boolean
     ) => {
       dispatch(
         workbenchActionsThunk.updateWorkbenchProjectFile(
           project,
           file,
           path,
-          code
+          code,
+          refreshCurrentProject
         )
       );
     },
@@ -70,6 +72,19 @@ const mapDispatchToProps = (dispatch: any) => {
         | undefined
     ) => {
       dispatch(WorkbenchAppActions.updateSelectedFile(selectedFile));
+    },
+    openWorkbenchProjectFile: (
+      project: IWorkbenchProject,
+      file: IWorkbenchProjectFile,
+      fileType: IBuildableFirmwareFileType
+    ) => {
+      dispatch(
+        workbenchActionsThunk.openWorkbenchProjectFile(
+          project,
+          file.id,
+          fileType
+        )
+      );
     },
   };
 };

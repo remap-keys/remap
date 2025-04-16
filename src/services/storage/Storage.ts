@@ -568,5 +568,10 @@ export interface IStorage {
     projectId: string,
     file: IWorkbenchProjectFile
   ): Promise<IEmptyResult>;
+  fetchWorkbenchProjectFile(
+    project: IWorkbenchProject,
+    fileId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IWorkbenchProjectFile>>;
 }
 /* eslint-enable no-unused-vars */

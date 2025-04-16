@@ -105,7 +105,8 @@ export default function Breadboard(
       props.currentProject!,
       currentFile,
       currentFile.path,
-      debounceCode
+      debounceCode,
+      false
     );
   }, [debounceCode]);
 
@@ -115,7 +116,7 @@ export default function Breadboard(
     file: IWorkbenchProjectFile,
     fileType: IBuildableFirmwareFileType
   ) => {
-    props.updateSelectedFile!({ fileId: file.id, fileType });
+    props.openWorkbenchProjectFile!(props.currentProject!, file, fileType);
   };
 
   const onClickCreateNewWorkbenchProjectFile =
@@ -153,7 +154,8 @@ export default function Breadboard(
       props.currentProject!,
       file,
       path,
-      file.code
+      file.code,
+      true
     );
     setOpenEditFileDialog(false);
   };

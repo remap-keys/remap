@@ -2289,6 +2289,39 @@ export class FirebaseProvider implements IStorage, IAuth {
     }
   }
 
+  async fetchWorkbenchProjectFile(
+    project: IWorkbenchProject,
+    fileId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IWorkbenchProjectFile>> {
+    try {
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .collection(fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles')
+        .doc(fileId)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          id: doc.id,
+          ...doc.data(),
+        } as IWorkbenchProjectFile);
+      } else {
+        return errorResultOf(
+          `The target workbench project file[${fileId}] not found`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
   async createWorkbenchProjectFile(
     projectId: string,
     fileType: IBuildableFirmwareFileType,
