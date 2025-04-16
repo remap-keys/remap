@@ -5,6 +5,7 @@ import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
 import { IWorkbenchProject } from '../../../services/storage/Storage';
 import { workbenchActionsThunk } from '../../../actions/workbench.action';
+import { create } from 'domain';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -32,6 +33,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     updateWorkbenchProject: (project: IWorkbenchProject) => {
       dispatch(workbenchActionsThunk.updateWorkbenchProject(project));
+    },
+    createNewWorkbenchProject: () => {
+      dispatch(workbenchActionsThunk.createWorkbenchProject());
     },
   };
 };

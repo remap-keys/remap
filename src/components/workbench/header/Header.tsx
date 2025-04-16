@@ -62,6 +62,11 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setOpenProjectsDialog(true);
   };
 
+  const onClickCreateNewProject = () => {
+    props.createNewWorkbenchProject!();
+    setOpenProjectsDialog(false);
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -103,8 +108,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         open={openProjectsDialog}
         projects={props.projects}
         currentProject={props.currentProject}
-        onClose={() => {}}
-        onCreateNewProject={() => {}}
+        onClose={() => {
+          setOpenProjectsDialog(false);
+        }}
+        onCreateNewProject={onClickCreateNewProject}
         onOpenProject={(project: IWorkbenchProject) => {}}
         onDeleteProject={(project: IWorkbenchProject) => {}}
       />

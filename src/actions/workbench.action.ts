@@ -8,6 +8,7 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
+import { create } from 'domain';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -307,6 +308,30 @@ export const workbenchActionsThunk = {
         }
       );
       dispatch(WorkbenchAppActions.updateProjects(newProjects));
+    },
+  createWorkbenchProject:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+      const projects = workbench.app.projects;
+      const projectName = createDefaultProjectName(projects);
+      const createResult = await storage.instance!.createWorkbenchProject(
+        projectName,
+        '0.28.3'
+      );
+      if (isError(createResult)) {
+        dispatch(
+          NotificationActions.addError(createResult.error, createResult.cause)
+        );
+        return;
+      }
+      const newProject = createResult.value;
+      const newProjects = [...projects, newProject];
+      dispatch(WorkbenchAppActions.updateProjects(newProjects));
+      dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
     },
 };
 
