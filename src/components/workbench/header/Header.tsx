@@ -11,7 +11,6 @@ import { useDebounce } from '../../common/hooks/DebounceHook';
 import { IWorkbenchProject } from '../../../services/storage/Storage';
 import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
-import { set } from 'date-fns';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &

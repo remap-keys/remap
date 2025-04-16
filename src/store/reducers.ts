@@ -222,7 +222,6 @@ import {
   WORKBENCH_APP_UPDATE_PROJECTS,
   WORKBENCH_APP_UPDATE_SELECTED_FILE,
 } from '../actions/workbench.action';
-import { act } from 'react';
 
 export type Action = { type: string; value: any };
 
