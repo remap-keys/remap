@@ -10,6 +10,8 @@ import { Button, TextField } from '@mui/material';
 import { useDebounce } from '../../common/hooks/DebounceHook';
 import { IWorkbenchProject } from '../../../services/storage/Storage';
 import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
+import ConfirmDialog from '../../common/confirm/ConfirmDialog';
+import { set } from 'date-fns';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -19,6 +21,10 @@ type HeaderProps = OwnProps &
 export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   const [projectName, setProjectName] = useState<string>('');
   const [openProjectsDialog, setOpenProjectsDialog] = useState<boolean>(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [targetDeleteProject, setTargetDeleteProject] = useState<
+    IWorkbenchProject | undefined
+  >(undefined);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -73,6 +79,21 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setOpenProjectsDialog(false);
   };
 
+  const onClickDeleteProject = (project: IWorkbenchProject) => {
+    setOpenProjectsDialog(false);
+    setTargetDeleteProject(project);
+    setOpenConfirmDialog(true);
+  };
+
+  const onClickYesDeleteProject = () => {
+    if (targetDeleteProject === undefined) {
+      return;
+    }
+    props.deleteWorkbenchProject!(targetDeleteProject);
+    setOpenConfirmDialog(false);
+    setTargetDeleteProject(undefined);
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -119,7 +140,16 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         }}
         onCreateNewProject={onClickCreateNewProject}
         onOpenProject={onClickOpenProject}
-        onDeleteProject={(project: IWorkbenchProject) => {}}
+        onDeleteProject={onClickDeleteProject}
+      />
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Confirm"
+        message={`Are you sure you want to delete the "${targetDeleteProject?.name}" project?`}
+        onClickYes={onClickYesDeleteProject}
+        onClickNo={() => {
+          setOpenConfirmDialog(false);
+        }}
       />
     </React.Fragment>
   );

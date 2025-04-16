@@ -364,6 +364,80 @@ export const workbenchActionsThunk = {
       }
       dispatch(WorkbenchAppActions.updateCurrentProject(currentProject));
     },
+  deleteWorkbenchProject:
+    (project: IWorkbenchProject): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, workbench } = getState();
+
+      // Delete the project.
+      const deleteResult =
+        await storage.instance!.deleteWorkbenchProject(project);
+      if (isError(deleteResult)) {
+        dispatch(
+          NotificationActions.addError(deleteResult.error, deleteResult.cause)
+        );
+        return;
+      }
+
+      // If there are no projects, create a default project.
+      const projects = workbench.app.projects.filter(
+        (x) => x.id !== project.id
+      );
+      if (projects.length === 0) {
+        const projectName = createDefaultProjectName(projects);
+        const createWorkbenchProjectResult =
+          await storage.instance!.createWorkbenchProject(projectName, '0.28.3');
+        if (isError(createWorkbenchProjectResult)) {
+          dispatch(
+            NotificationActions.addError(
+              createWorkbenchProjectResult.error,
+              createWorkbenchProjectResult.cause
+            )
+          );
+          return;
+        }
+        const newProject = createWorkbenchProjectResult.value;
+        projects.push(newProject);
+        dispatch(
+          NotificationActions.addInfo(
+            'A new project was created automatically, because there are no projects.'
+          )
+        );
+      }
+
+      // Update projects.
+      dispatch(WorkbenchAppActions.updateProjects(projects));
+
+      // If the deleted project was the current project, switch to the first project.
+      const currentProject = workbench.app.currentProject;
+      if (currentProject === undefined) {
+        throw new Error('Current project is not available.');
+      }
+      if (currentProject.id === project.id) {
+        const newCurrentProject = projects[0];
+        const fetchResult =
+          await storage.instance!.fetchWorkbenchProjectWithFiles(
+            newCurrentProject.id
+          );
+        if (isError(fetchResult)) {
+          dispatch(
+            NotificationActions.addError(fetchResult.error, fetchResult.cause)
+          );
+          return;
+        }
+        const newCurrentProjectWithFiles = fetchResult.value;
+        if (newCurrentProjectWithFiles === undefined) {
+          throw new Error('Current project is not available.');
+        }
+        dispatch(
+          WorkbenchAppActions.updateCurrentProject(newCurrentProjectWithFiles)
+        );
+        dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
+      }
+    },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {

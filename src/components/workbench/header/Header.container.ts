@@ -52,6 +52,9 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => {
       dispatch(WorkbenchAppActions.updateSelectedFile(selectedFile));
     },
+    deleteWorkbenchProject: (project: IWorkbenchProject) => {
+      dispatch(workbenchActionsThunk.deleteWorkbenchProject(project));
+    },
   };
 };
 export type HeaderActionsType = ReturnType<typeof mapDispatchToProps>;
