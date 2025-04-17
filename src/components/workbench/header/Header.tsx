@@ -4,7 +4,6 @@ import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { Logo } from '../../common/logo/Logo';
 import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
 import TuneIcon from '@mui/icons-material/Tune';
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
@@ -154,9 +153,9 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           <Button variant="text" size="small" startIcon={<BuildIcon />}>
             Build
           </Button>
-          <Button variant="text" size="small" startIcon={<SettingsIcon />}>
+          {/* <Button variant="text" size="small" startIcon={<SettingsIcon />}>
             Settings
-          </Button>
+          </Button> */}
           <div className="workbench-header-menu-button">
             <ProfileIcon
               logout={() => {
