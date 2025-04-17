@@ -6,11 +6,16 @@ import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
-import { Button, TextField } from '@mui/material';
+import TuneIcon from '@mui/icons-material/Tune';
+import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import { useDebounce } from '../../common/hooks/DebounceHook';
-import { IWorkbenchProject } from '../../../services/storage/Storage';
+import {
+  IBuildableFirmwareQmkFirmwareVersion,
+  IWorkbenchProject,
+} from '../../../services/storage/Storage';
 import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
+import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -24,6 +29,8 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   const [targetDeleteProject, setTargetDeleteProject] = useState<
     IWorkbenchProject | undefined
   >(undefined);
+  const [openProjectSettingsDialog, setOpenProjectSettingsDialog] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -93,6 +100,25 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setTargetDeleteProject(undefined);
   };
 
+  const onClickProjectSettings = () => {
+    setOpenProjectSettingsDialog(true);
+  };
+
+  const onApplyProjectSettings = (
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+  ) => {
+    if (props.currentProject === undefined) {
+      return;
+    }
+    const currentProject = props.currentProject;
+    const newCurrentProject: IWorkbenchProject = {
+      ...currentProject,
+      qmkFirmwareVersion: qmkFirmwareVersion,
+    };
+    props.updateWorkbenchProject!(newCurrentProject);
+    setOpenProjectSettingsDialog(false);
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -106,6 +132,16 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
             size="small"
             value={projectName}
             onChange={onChangeProjectName}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={onClickProjectSettings}>
+                    <TuneIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ width: '300px' }}
           />
           <Button
             variant="text"
@@ -149,6 +185,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         onClickNo={() => {
           setOpenConfirmDialog(false);
         }}
+      />
+      <WorkbenchProjectSettingsDialog
+        open={openProjectSettingsDialog}
+        onClose={() => {
+          setOpenProjectSettingsDialog(false);
+        }}
+        qmkFirmwareVersion={props.currentProject?.qmkFirmwareVersion}
+        onApply={onApplyProjectSettings}
       />
     </React.Fragment>
   );
