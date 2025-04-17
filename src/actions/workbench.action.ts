@@ -14,6 +14,7 @@ export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`
 export const WORKBENCH_APP_UPDATE_PROJECTS = `${WORKBENCH_APP_ACTIONS}/UpdateProjects`;
 export const WORKBENCH_APP_UPDATE_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/UpdateCurrentProject`;
 export const WORKBENCH_APP_UPDATE_SELECTED_FILE = `${WORKBENCH_APP_ACTIONS}/UpdateSelectedFile`;
+export const WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/AppendFileToCurrentProject`;
 export const WorkbenchAppActions = {
   updatePhase: (phase: IWorkbenchPhase) => {
     return {
@@ -41,6 +42,12 @@ export const WorkbenchAppActions = {
     return {
       type: WORKBENCH_APP_UPDATE_SELECTED_FILE,
       value: selectedFile,
+    };
+  },
+  appendFileToCurrentProject: (file: IWorkbenchProjectFile) => {
+    return {
+      type: WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT,
+      value: file,
     };
   },
 };
@@ -159,7 +166,7 @@ export const workbenchActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { storage, workbench } = getState();
+      const { storage } = getState();
       const createResult = await storage.instance!.createWorkbenchProjectFile(
         project.id,
         fileType,
@@ -171,25 +178,9 @@ export const workbenchActionsThunk = {
         );
         return;
       }
-      // Refresh current project.
-      const currentProject = workbench.app.currentProject;
-      if (currentProject === undefined) {
-        throw new Error('Current project is not available.');
-      }
-      const newCurrentProject: IWorkbenchProject = {
-        ...currentProject,
-        keyboardFiles: new Array(...currentProject.keyboardFiles),
-        keymapFiles: new Array(...currentProject.keymapFiles),
-      };
-      switch (fileType) {
-        case 'keyboard':
-          newCurrentProject.keyboardFiles.push(createResult.value);
-          break;
-        case 'keymap':
-          newCurrentProject.keymapFiles.push(createResult.value);
-          break;
-      }
-      dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
+      dispatch(
+        WorkbenchAppActions.appendFileToCurrentProject(createResult.value)
+      );
     },
   updateWorkbenchProjectFile:
     (

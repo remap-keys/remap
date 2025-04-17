@@ -217,6 +217,7 @@ import {
 import { MOD_LEFT } from '../services/hid/Constraints';
 import {
   WORKBENCH_APP_ACTIONS,
+  WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT,
   WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
   WORKBENCH_APP_UPDATE_PHASE,
   WORKBENCH_APP_UPDATE_PROJECTS,
@@ -1285,6 +1286,19 @@ const workbenchAppReducer = (
     }
     case WORKBENCH_APP_UPDATE_SELECTED_FILE: {
       draft.workbench.app.selectedFile = action.value;
+      break;
+    }
+    case WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT: {
+      const currentProject = draft.workbench.app.currentProject;
+      if (currentProject === undefined) {
+        return;
+      }
+      const file = action.value;
+      const targetFiles =
+        file.fileType === 'keyboard'
+          ? currentProject.keyboardFiles
+          : currentProject.keymapFiles;
+      targetFiles.push(file);
       break;
     }
   }
