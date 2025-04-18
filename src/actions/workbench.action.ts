@@ -8,6 +8,7 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
+import { build } from 'vite';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -492,6 +493,27 @@ export const workbenchActionsThunk = {
         })
       );
     },
+  createFirmwareBuildingTask: (
+    project: IWorkbenchProject
+  ): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage } = getState();
+      const result =
+        await storage.instance!.createWorkbenchProjectBuildingTask(project);
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error!, result.cause));
+        return;
+      }
+      dispatch(
+        NotificationActions.addSuccess(
+          'The firmware building task has been registered.'
+        )
+      );
+    };
+  },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {

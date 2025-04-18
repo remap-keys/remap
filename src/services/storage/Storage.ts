@@ -575,5 +575,8 @@ export interface IStorage {
     fileId: string,
     fileType: IBuildableFirmwareFileType
   ): Promise<IResult<IWorkbenchProjectFile>>;
+  createWorkbenchProjectBuildingTask(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

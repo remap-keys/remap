@@ -55,6 +55,9 @@ const mapDispatchToProps = (dispatch: any) => {
     deleteWorkbenchProject: (project: IWorkbenchProject) => {
       dispatch(workbenchActionsThunk.deleteWorkbenchProject(project));
     },
+    createFirmwareBuildingTask: (project: IWorkbenchProject) => {
+      dispatch(workbenchActionsThunk.createFirmwareBuildingTask(project));
+    },
   };
 };
 export type HeaderActionsType = ReturnType<typeof mapDispatchToProps>;

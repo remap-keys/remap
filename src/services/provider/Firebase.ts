@@ -2416,4 +2416,31 @@ export class FirebaseProvider implements IStorage, IAuth {
       );
     }
   }
+
+  async createWorkbenchProjectBuildingTask(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult> {
+    try {
+      const createWorkbenchBuildingTask = this.functions.httpsCallable(
+        'createWorkbenchBuildingTask'
+      );
+      const createWorkbenchBuildingTaskResult =
+        await createWorkbenchBuildingTask({
+          projectId: project.id,
+        });
+      const data = createWorkbenchBuildingTaskResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project building task failed: ${error}`,
+        error
+      );
+    }
+  }
 }

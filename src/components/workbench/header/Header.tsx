@@ -116,9 +116,15 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
       qmkFirmwareVersion,
       keyboardDirectoryName,
     };
-    console.log('newCurrentProject', newCurrentProject);
     props.updateWorkbenchProject!(newCurrentProject);
     setOpenProjectSettingsDialog(false);
+  };
+
+  const onClickBuild = () => {
+    if (props.currentProject === undefined) {
+      return;
+    }
+    props.createFirmwareBuildingTask!(props.currentProject);
   };
 
   return (
@@ -153,7 +159,12 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           >
             Projects
           </Button>
-          <Button variant="text" size="small" startIcon={<BuildIcon />}>
+          <Button
+            variant="text"
+            size="small"
+            startIcon={<BuildIcon />}
+            onClick={onClickBuild}
+          >
             Build
           </Button>
           {/* <Button variant="text" size="small" startIcon={<SettingsIcon />}>
