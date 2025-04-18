@@ -2211,7 +2211,8 @@ export class FirebaseProvider implements IStorage, IAuth {
 
   async createWorkbenchProject(
     projectName: string,
-    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string
   ): Promise<IResult<IWorkbenchProject>> {
     try {
       const now = new Date();
@@ -2222,6 +2223,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         name: projectName,
         uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
         qmkFirmwareVersion,
+        keyboardDirectoryName,
         createdAt: now,
         updatedAt: now,
       };
@@ -2257,6 +2259,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .update({
           name: project.name,
           qmkFirmwareVersion: project.qmkFirmwareVersion,
+          keyboardDirectoryName: project.keyboardDirectoryName,
           updatedAt: new Date(),
         });
       return successResultOf(project);

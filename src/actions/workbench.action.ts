@@ -93,7 +93,11 @@ export const workbenchActionsThunk = {
       if (projects.length === 0) {
         const projectName = createDefaultProjectName(projects);
         const createWorkbenchProjectResult =
-          await storage.instance!.createWorkbenchProject(projectName, '0.28.3');
+          await storage.instance!.createWorkbenchProject(
+            projectName,
+            '0.28.3',
+            ''
+          );
         if (isError(createWorkbenchProjectResult)) {
           dispatch(
             NotificationActions.addError(
@@ -298,6 +302,7 @@ export const workbenchActionsThunk = {
         ...currentProject,
         name: project.name,
         qmkFirmwareVersion: project.qmkFirmwareVersion,
+        keyboardDirectoryName: project.keyboardDirectoryName,
       };
       dispatch(WorkbenchAppActions.updateCurrentProject(newCurrentProject));
       const newProjects: IWorkbenchProject[] = workbench.app.projects.map(
@@ -307,6 +312,7 @@ export const workbenchActionsThunk = {
               ...x,
               name: project.name,
               qmkFirmwareVersion: project.qmkFirmwareVersion,
+              keyboardDirectoryName: project.keyboardDirectoryName,
             };
           }
           return x;
@@ -325,7 +331,8 @@ export const workbenchActionsThunk = {
       const projectName = createDefaultProjectName(projects);
       const createResult = await storage.instance!.createWorkbenchProject(
         projectName,
-        '0.28.3'
+        '0.28.3',
+        ''
       );
       if (isError(createResult)) {
         dispatch(
@@ -384,7 +391,11 @@ export const workbenchActionsThunk = {
       if (projects.length === 0) {
         const projectName = createDefaultProjectName(projects);
         const createWorkbenchProjectResult =
-          await storage.instance!.createWorkbenchProject(projectName, '0.28.3');
+          await storage.instance!.createWorkbenchProject(
+            projectName,
+            '0.28.3',
+            ''
+          );
         if (isError(createWorkbenchProjectResult)) {
           dispatch(
             NotificationActions.addError(

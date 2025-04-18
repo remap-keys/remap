@@ -252,7 +252,9 @@ export default function Breadboard(
                   <ListItemIcon>
                     <FolderIcon />
                   </ListItemIcon>
-                  <ListItemText primary="keyboards/.../" />
+                  <ListItemText
+                    primary={`keyboards/${props.currentProject?.keyboardDirectoryName || '...'}/`}
+                  />
                 </ListItem>
                 {props
                   .currentProject!.keyboardFiles.toSorted((a, b) =>
@@ -292,7 +294,9 @@ export default function Breadboard(
                   <ListItemIcon>
                     <FolderIcon />
                   </ListItemIcon>
-                  <ListItemText primary="keymaps/.../" />
+                  <ListItemText
+                    primary={`keyboards/${props.currentProject?.keyboardDirectoryName || '...'}/keymaps/remap/`}
+                  />
                 </ListItem>
                 {props
                   .currentProject!.keymapFiles.toSorted((a, b) =>

@@ -300,6 +300,7 @@ export type IWorkbenchProject = {
   keyboardFiles: IWorkbenchProjectFile[];
   keymapFiles: IWorkbenchProjectFile[];
   uid: string;
+  keyboardDirectoryName: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -549,7 +550,8 @@ export interface IStorage {
   ): Promise<IResult<IWorkbenchProject | undefined>>;
   createWorkbenchProject(
     projectName: string,
-    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string
   ): Promise<IResult<IWorkbenchProject>>;
   updateWorkbenchProject(
     project: IWorkbenchProject

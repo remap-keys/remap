@@ -104,7 +104,8 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   };
 
   const onApplyProjectSettings = (
-    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string
   ) => {
     if (props.currentProject === undefined) {
       return;
@@ -112,8 +113,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     const currentProject = props.currentProject;
     const newCurrentProject: IWorkbenchProject = {
       ...currentProject,
-      qmkFirmwareVersion: qmkFirmwareVersion,
+      qmkFirmwareVersion,
+      keyboardDirectoryName,
     };
+    console.log('newCurrentProject', newCurrentProject);
     props.updateWorkbenchProject!(newCurrentProject);
     setOpenProjectSettingsDialog(false);
   };
@@ -190,7 +193,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         onClose={() => {
           setOpenProjectSettingsDialog(false);
         }}
-        qmkFirmwareVersion={props.currentProject?.qmkFirmwareVersion}
+        workbenchProject={props.currentProject}
         onApply={onApplyProjectSettings}
       />
     </React.Fragment>

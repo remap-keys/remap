@@ -86,8 +86,8 @@ export function EditWorkbenchProjectFileDialog(
             <Typography variant="body1">
               <strong>Target directory:</strong>{' '}
               {props.fileType === 'keyboard'
-                ? 'Keyboards/.../'
-                : 'Keyboards/.../keymaps/.../'}
+                ? `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/`
+                : `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/keymaps/remap/`}
             </Typography>
             <Controller
               name="fileName"
