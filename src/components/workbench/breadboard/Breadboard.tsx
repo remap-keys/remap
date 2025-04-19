@@ -76,7 +76,6 @@ export default function Breadboard(
       props.currentProject === undefined ||
       props.selectedFile === undefined
     ) {
-      setCode('');
       return;
     }
     const currentFile =
@@ -88,7 +87,6 @@ export default function Breadboard(
             (file) => file.id === props.selectedFile!.fileId
           );
     if (currentFile === undefined) {
-      setCode('');
       return;
     }
     setCode(currentFile.code);

@@ -352,6 +352,7 @@ export const workbenchActionsThunk = {
       const newProjects = [...projects, newProject];
       dispatch(WorkbenchAppActions.updateProjects(newProjects));
       dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
+      dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
     },
   switchCurrentProject:
     (project: IWorkbenchProject): ThunkPromiseAction<void> =>
