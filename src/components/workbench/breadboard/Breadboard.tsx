@@ -451,6 +451,7 @@ export default function Breadboard(
                       boxSizing: 'border-box',
                       whiteSpace: 'pre-wrap',
                       wordWrap: 'break-word',
+                      fontFamily: 'monospace',
                     }}
                   >
                     {selectedBuildingTask !== undefined &&
