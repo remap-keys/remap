@@ -3,6 +3,7 @@ import { RootState } from '../../../store/state';
 import Breadboard from './Breadboard';
 import {
   IBuildableFirmwareFileType,
+  IFirmwareBuildingTask,
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
@@ -87,6 +88,9 @@ const mapDispatchToProps = (dispatch: any) => {
           fileType
         )
       );
+    },
+    flashFirmware: (task: IFirmwareBuildingTask) => {
+      dispatch(workbenchActionsThunk.flashFirmware(task));
     },
   };
 };

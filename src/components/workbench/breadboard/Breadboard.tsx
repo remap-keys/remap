@@ -38,6 +38,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -221,6 +223,10 @@ export default function Breadboard(
     setSelectedBuildingTask(task);
   };
 
+  const onClickFlashFirmware = (task: IFirmwareBuildingTask) => {
+    props.flashFirmware!(task);
+  };
+
   // Render
 
   return (
@@ -390,7 +396,22 @@ export default function Breadboard(
                 }
               >
                 {props.buildingTasks?.map((task) => (
-                  <ListItem key={`build-task-${task.id}`}>
+                  <ListItem
+                    key={`build-task-${task.id}`}
+                    secondaryAction={
+                      task.status === 'success' && (
+                        <IconButton
+                          edge="end"
+                          aria-label="flash"
+                          onClick={() => {
+                            onClickFlashFirmware(task);
+                          }}
+                        >
+                          <DeveloperBoardIcon />
+                        </IconButton>
+                      )
+                    }
+                  >
                     <ListItemButton
                       onClick={() => {
                         onClickBuildingTask(task);
@@ -412,7 +433,7 @@ export default function Breadboard(
                         )}
                       </ListItemAvatar>
                       <ListItemText
-                        primary={`Task ID: ${task.id}`}
+                        primary={`ID: ${task.id}`}
                         secondary={format(
                           task.updatedAt,
                           'yyyy-MM-dd HH:mm:ss'
@@ -494,6 +515,7 @@ export default function Breadboard(
           setOpenConfirmDialog(false);
         }}
       />
+      <FlashFirmwareDialog />
     </>
   );
 }

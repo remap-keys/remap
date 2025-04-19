@@ -9,6 +9,11 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
+import {
+  firmwareActionsThunk,
+  FlashFirmwareDialogActions,
+} from './firmware.action';
+import { IBootloaderType } from '../services/firmware/Types';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -522,6 +527,35 @@ export const workbenchActionsThunk = {
       );
     };
   },
+  flashFirmware:
+    (task: IFirmwareBuildingTask) =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      _getState: () => RootState
+    ) => {
+      const defaultBootloaderType = determineBootloaderType(task);
+      dispatch(FlashFirmwareDialogActions.clear());
+      dispatch(
+        FlashFirmwareDialogActions.updateBootloaderType(defaultBootloaderType)
+      );
+      const firmwareName = `Built for Task ID: ${task.id}`;
+      dispatch(FlashFirmwareDialogActions.updateKeyboardName(''));
+      dispatch(FlashFirmwareDialogActions.updateFlashMode('build_and_flash'));
+      dispatch(FlashFirmwareDialogActions.updateBuildingFirmwareTask(task));
+      dispatch(
+        FlashFirmwareDialogActions.updateFirmware({
+          name: firmwareName,
+          default_bootloader_type: defaultBootloaderType,
+          flash_support: true,
+          filename: firmwareName,
+          description: '',
+          hash: '',
+          sourceCodeUrl: '',
+          created_at: new Date(),
+        })
+      );
+      dispatch(firmwareActionsThunk.loadFirmwareBlob());
+    },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {
@@ -542,4 +576,14 @@ const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {
     max = Math.max(max, x);
   }
   return `${label} ${max + 1}`;
+};
+
+const determineBootloaderType = (
+  task: IFirmwareBuildingTask
+): IBootloaderType => {
+  if (task.firmwareFilePath.endsWith('hex')) {
+    return 'caterina';
+  } else {
+    return 'copy';
+  }
 };
