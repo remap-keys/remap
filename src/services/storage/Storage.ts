@@ -267,6 +267,7 @@ export type IFirmwareBuildingTaskStatus =
 export type IFirmwareBuildingTask = {
   id: string;
   firmwareId: string;
+  projectId: string;
   uid: string;
   status: IFirmwareBuildingTaskStatus;
   firmwareFilePath: string;
@@ -578,5 +579,9 @@ export interface IStorage {
   createWorkbenchProjectBuildingTask(
     project: IWorkbenchProject
   ): Promise<IEmptyResult>;
+  onSnapshotWorkbenchProjectBuildingTasks(
+    projectId: string,
+    callback: (tasks: IFirmwareBuildingTask[]) => void
+  ): () => void;
 }
 /* eslint-enable no-unused-vars */

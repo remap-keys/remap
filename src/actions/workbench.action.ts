@@ -5,10 +5,10 @@ import { StorageActions } from './storage.action';
 import { isError } from '../types';
 import {
   IBuildableFirmwareFileType,
+  IFirmwareBuildingTask,
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
-import { build } from 'vite';
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -16,6 +16,7 @@ export const WORKBENCH_APP_UPDATE_PROJECTS = `${WORKBENCH_APP_ACTIONS}/UpdatePro
 export const WORKBENCH_APP_UPDATE_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/UpdateCurrentProject`;
 export const WORKBENCH_APP_UPDATE_SELECTED_FILE = `${WORKBENCH_APP_ACTIONS}/UpdateSelectedFile`;
 export const WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/AppendFileToCurrentProject`;
+export const WORKBENCH_APP_UPDATE_BUILDING_TASKS = `${WORKBENCH_APP_ACTIONS}/UpdateBuildableTasks`;
 export const WorkbenchAppActions = {
   updatePhase: (phase: IWorkbenchPhase) => {
     return {
@@ -49,6 +50,12 @@ export const WorkbenchAppActions = {
     return {
       type: WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT,
       value: file,
+    };
+  },
+  updateBuildingTasks: (tasks: IFirmwareBuildingTask[]) => {
+    return {
+      type: WORKBENCH_APP_UPDATE_BUILDING_TASKS,
+      value: tasks,
     };
   },
 };

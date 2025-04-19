@@ -16,6 +16,8 @@ const mapStateToProps = (state: RootState) => {
     projects: state.workbench.app.projects,
     currentProject: state.workbench.app.currentProject,
     selectedFile: state.workbench.app.selectedFile,
+    storage: state.storage,
+    buildingTasks: state.workbench.app.buildingTasks,
   };
 };
 export type BreadboardStateType = ReturnType<typeof mapStateToProps>;

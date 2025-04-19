@@ -8,6 +8,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -23,6 +24,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Editor } from '@monaco-editor/react';
 import {
   IBuildableFirmwareFileType,
+  IFirmwareBuildingTask,
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -30,6 +32,12 @@ import { CreateNewWorkbenchProjectFileDialog } from '../dialogs/CreateNewWorkben
 import { EditWorkbenchProjectFileDialog } from '../dialogs/EditWorkbenchProjectFileDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import { useDebounce } from '../../common/hooks/DebounceHook';
+import { useBuildTaskHook } from './BuildTaskHook';
+import { format } from 'date-fns';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -56,6 +64,10 @@ export default function Breadboard(
     IWorkbenchProjectFile | undefined
   >(undefined);
   const [code, setCode] = useState<string>('');
+  const [selectedBuildingTask, setSelectedBuildingTask] = useState<
+    IFirmwareBuildingTask | undefined
+  >(undefined);
+  const [selectedOutputTab, setSelectedOutputTab] = useState<number>(0);
 
   // Effects
 
@@ -109,6 +121,8 @@ export default function Breadboard(
       false
     );
   }, [debounceCode]);
+
+  useBuildTaskHook(props.currentProject?.id, props.storage?.instance);
 
   // Event Handlers
 
@@ -197,6 +211,10 @@ export default function Breadboard(
   const onChangeCode = useCallback((code: string | undefined) => {
     setCode(code || '');
   }, []);
+
+  const onClickBuildingTask = (task: IFirmwareBuildingTask) => {
+    setSelectedBuildingTask(task);
+  };
 
   // Render
 
@@ -356,7 +374,7 @@ export default function Breadboard(
             >
               <List
                 sx={{
-                  flex: 3,
+                  flex: 4,
                   height: '100%',
                   overflowY: 'auto',
                 }}
@@ -366,23 +384,46 @@ export default function Breadboard(
                   </ListSubheader>
                 }
               >
-                <ListItem>
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="keyboards" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <FolderIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="keymaps" />
-                </ListItem>
+                {props.buildingTasks?.map((task) => (
+                  <ListItem key={`build-task-${task.id}`}>
+                    <ListItemButton
+                      onClick={() => {
+                        onClickBuildingTask(task);
+                      }}
+                      selected={
+                        selectedBuildingTask !== undefined &&
+                        selectedBuildingTask.id === task.id
+                      }
+                    >
+                      <ListItemAvatar>
+                        {task.status === 'success' ? (
+                          <CheckCircleIcon color="success" />
+                        ) : task.status === 'failure' ? (
+                          <ErrorIcon color="error" />
+                        ) : task.status === 'waiting' ? (
+                          <HourglassBottomIcon color="info" />
+                        ) : (
+                          <AutorenewIcon color="secondary" />
+                        )}
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`Task ID: ${task.id}`}
+                        secondary={format(
+                          task.updatedAt,
+                          'yyyy-MM-dd HH:mm:ss'
+                        )}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
               </List>
-              <Box sx={{ flex: 9, display: 'flex', flexDirection: 'column' }}>
-                <Tabs value={0}>
-                  <Tab label="Standard Output" />
-                  <Tab label="Standard Error" />
+              <Box sx={{ flex: 10, display: 'flex', flexDirection: 'column' }}>
+                <Tabs
+                  value={selectedOutputTab}
+                  onChange={(_, newValue) => setSelectedOutputTab(newValue)}
+                >
+                  <Tab label="Standard Output" value={0} />
+                  <Tab label="Standard Error" value={1} />
                 </Tabs>
                 <Box
                   sx={{
@@ -407,7 +448,10 @@ export default function Breadboard(
                       wordWrap: 'break-word',
                     }}
                   >
-                    output
+                    {selectedBuildingTask !== undefined &&
+                      (selectedOutputTab === 0
+                        ? selectedBuildingTask.stdout
+                        : selectedBuildingTask.stderr)}
                   </Typography>
                 </Box>
               </Box>

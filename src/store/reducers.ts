@@ -218,6 +218,7 @@ import { MOD_LEFT } from '../services/hid/Constraints';
 import {
   WORKBENCH_APP_ACTIONS,
   WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT,
+  WORKBENCH_APP_UPDATE_BUILDING_TASKS,
   WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
   WORKBENCH_APP_UPDATE_PHASE,
   WORKBENCH_APP_UPDATE_PROJECTS,
@@ -1299,6 +1300,10 @@ const workbenchAppReducer = (
           ? currentProject.keyboardFiles
           : currentProject.keymapFiles;
       targetFiles.push(file);
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_BUILDING_TASKS: {
+      draft.workbench.app.buildingTasks = action.value;
       break;
     }
   }

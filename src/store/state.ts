@@ -514,6 +514,7 @@ export type RootState = {
       selectedFile:
         | { fileId: string; fileType: IBuildableFirmwareFileType }
         | undefined;
+      buildingTasks: IFirmwareBuildingTask[];
     };
   };
 };
@@ -789,6 +790,7 @@ export const INIT_STATE: RootState = {
       projects: [],
       currentProject: undefined,
       selectedFile: undefined,
+      buildingTasks: [],
     },
   },
 };

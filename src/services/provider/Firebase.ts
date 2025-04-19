@@ -1940,6 +1940,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           id: doc.id,
           uid: doc.data()!.uid,
           firmwareId: doc.data()!.firmwareId,
+          projectId: '',
           status: doc.data()!.status,
           firmwareFilePath: doc.data()!.firmwareFilePath,
           stdout: doc.data()!.stdout,
@@ -2069,12 +2070,13 @@ export class FirebaseProvider implements IStorage, IAuth {
   }
 
   async getUserInformation(uid: string): Promise<IResult<IUserInformation>> {
-    const informationCollection = this.db
-      .collection('users')
-      .doc('v1')
-      .collection('information');
     try {
-      const doc = await informationCollection.doc(uid).get();
+      const doc = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('information')
+        .doc(uid)
+        .get();
       if (doc.exists) {
         return successResultOf({
           uid: doc.id,
@@ -2086,10 +2088,15 @@ export class FirebaseProvider implements IStorage, IAuth {
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-        await informationCollection.doc(uid).set({
-          createdAt: newDoc.createdAt,
-          updatedAt: newDoc.updatedAt,
-        });
+        await this.db
+          .collection('users')
+          .doc('v1')
+          .collection('information')
+          .doc(uid)
+          .set({
+            createdAt: newDoc.createdAt,
+            updatedAt: newDoc.updatedAt,
+          });
         return successResultOf({
           uid,
           ...newDoc,
@@ -2442,5 +2449,39 @@ export class FirebaseProvider implements IStorage, IAuth {
         error
       );
     }
+  }
+
+  onSnapshotWorkbenchProjectBuildingTasks(
+    projectId: string,
+    callback: (tasks: IFirmwareBuildingTask[]) => void
+  ): () => void {
+    const unsubscribe = this.db
+      .collection('build')
+      .doc('v1')
+      .collection('tasks')
+      .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull()!.uid)
+      .where('projectId', '==', projectId)
+      .orderBy('updatedAt', 'desc')
+      .onSnapshot((querySnapshot) => {
+        const tasks: IFirmwareBuildingTask[] = [];
+        querySnapshot.docs.forEach((doc) => {
+          tasks.push({
+            id: doc.id,
+            uid: doc.data()!.uid,
+            firmwareId: '',
+            projectId: doc.data()!.projectId,
+            status: doc.data()!.status,
+            firmwareFilePath: doc.data()!.firmwareFilePath,
+            stdout: doc.data()!.stdout,
+            stderr: doc.data()!.stderr,
+            description: doc.data()!.description,
+            parametersJson: '',
+            createdAt: doc.data()!.createdAt.toDate(),
+            updatedAt: doc.data()!.updatedAt.toDate(),
+          });
+        });
+        callback(tasks);
+      });
+    return unsubscribe;
   }
 }
