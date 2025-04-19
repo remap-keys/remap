@@ -120,6 +120,13 @@ export default function Breadboard(
     );
   }, [debounceCode]);
 
+  useEffect(() => {
+    if (props.currentProject === undefined) {
+      return;
+    }
+    setSelectedBuildingTask(undefined);
+  }, [props.currentProject]);
+
   useBuildTaskHook(props.currentProject?.id, props.storage?.instance);
 
   // Event Handlers
