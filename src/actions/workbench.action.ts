@@ -1,11 +1,17 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { IWorkbenchPhase, RootState, WorkbenchPhase } from '../store/state';
+import {
+  IUserInformation,
+  IWorkbenchPhase,
+  RootState,
+  WorkbenchPhase,
+} from '../store/state';
 import { AppActions, NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
-import { isError } from '../types';
+import { errorResultOf, IEmptyResult, isError, successResult } from '../types';
 import {
   IBuildableFirmwareFileType,
   IFirmwareBuildingTask,
+  IStorage,
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
@@ -170,6 +176,23 @@ export const workbenchActionsThunk = {
       dispatch(
         WorkbenchAppActions.updateCurrentProject(currentProjectWithFiles)
       );
+
+      const updateUserInformationResult = await updateUserInformation(
+        storage.instance!,
+        {
+          ...userInformation,
+          currentProjectId,
+        }
+      );
+      if (isError(updateUserInformationResult)) {
+        dispatch(
+          NotificationActions.addError(
+            updateUserInformationResult.error,
+            updateUserInformationResult.cause
+          )
+        );
+        return;
+      }
 
       dispatch(WorkbenchAppActions.updatePhase(WorkbenchPhase.editing));
     },
@@ -339,7 +362,7 @@ export const workbenchActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { storage, workbench } = getState();
+      const { app, storage, workbench } = getState();
       const projects = workbench.app.projects;
       const projectName = createDefaultProjectName(projects);
       const createResult = await storage.instance!.createWorkbenchProject(
@@ -358,6 +381,22 @@ export const workbenchActionsThunk = {
       dispatch(WorkbenchAppActions.updateProjects(newProjects));
       dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
       dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
+
+      const updateUserInformationResult = await updateUserInformation(
+        storage.instance!,
+        {
+          ...app.user.information!,
+          currentProjectId: newProject.id,
+        }
+      );
+      if (isError(updateUserInformationResult)) {
+        dispatch(
+          NotificationActions.addError(
+            updateUserInformationResult.error,
+            updateUserInformationResult.cause
+          )
+        );
+      }
     },
   switchCurrentProject:
     (project: IWorkbenchProject): ThunkPromiseAction<void> =>
@@ -365,7 +404,7 @@ export const workbenchActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { storage } = getState();
+      const { app, storage } = getState();
       const fetchResult =
         await storage.instance!.fetchWorkbenchProjectWithFiles(project.id);
       if (isError(fetchResult)) {
@@ -379,6 +418,22 @@ export const workbenchActionsThunk = {
         throw new Error('Current project is not available.');
       }
       dispatch(WorkbenchAppActions.updateCurrentProject(currentProject));
+
+      const updateUserInformationResult = await updateUserInformation(
+        storage.instance!,
+        {
+          ...app.user.information!,
+          currentProjectId: currentProject.id,
+        }
+      );
+      if (isError(updateUserInformationResult)) {
+        dispatch(
+          NotificationActions.addError(
+            updateUserInformationResult.error,
+            updateUserInformationResult.cause
+          )
+        );
+      }
     },
   deleteWorkbenchProject:
     (project: IWorkbenchProject): ThunkPromiseAction<void> =>
@@ -386,7 +441,7 @@ export const workbenchActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { storage, workbench } = getState();
+      const { app, storage, workbench } = getState();
 
       // Delete the project.
       const deleteResult =
@@ -456,6 +511,22 @@ export const workbenchActionsThunk = {
           WorkbenchAppActions.updateCurrentProject(newCurrentProjectWithFiles)
         );
         dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
+
+        const updateUserInformationResult = await updateUserInformation(
+          storage.instance!,
+          {
+            ...app.user.information!,
+            currentProjectId: newCurrentProjectWithFiles.id,
+          }
+        );
+        if (isError(updateUserInformationResult)) {
+          dispatch(
+            NotificationActions.addError(
+              updateUserInformationResult.error,
+              updateUserInformationResult.cause
+            )
+          );
+        }
       }
     },
   openWorkbenchProjectFile:
@@ -586,4 +657,19 @@ const determineBootloaderType = (
   } else {
     return 'copy';
   }
+};
+
+const updateUserInformation = async (
+  storage: IStorage,
+  userInformation: IUserInformation
+): Promise<IEmptyResult> => {
+  const updateUserInformationResult =
+    await storage.updateUserInformation(userInformation);
+  if (isError(updateUserInformationResult)) {
+    return errorResultOf(
+      updateUserInformationResult.error,
+      updateUserInformationResult.cause
+    );
+  }
+  return successResult();
 };
