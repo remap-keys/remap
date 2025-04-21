@@ -5,6 +5,7 @@ import Content from './Content';
 const mapStateToProps = (state: RootState) => {
   return {
     phase: state.workbench.app.phase,
+    signedIn: state.app.signedIn,
   };
 };
 export type ContentStateType = ReturnType<typeof mapStateToProps>;

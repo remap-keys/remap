@@ -6,7 +6,13 @@ import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import BuildIcon from '@mui/icons-material/Build';
 import TuneIcon from '@mui/icons-material/Tune';
-import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useDebounce } from '../../common/hooks/DebounceHook';
 import {
   IBuildableFirmwareQmkFirmwareVersion,
@@ -134,42 +140,46 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           <a href="/">
             <Logo width={100} />
           </a>
+          <Typography variant="h6" sx={{ ml: 2 }}>
+            Firmware Workbench
+          </Typography>
         </div>
         <div className="workbench-header-right">
-          <TextField
-            size="small"
-            value={projectName}
-            onChange={onChangeProjectName}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton size="small" onClick={onClickProjectSettings}>
-                    <TuneIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ width: '300px' }}
-          />
-          <Button
-            variant="text"
-            size="small"
-            startIcon={<AccountTreeIcon />}
-            onClick={onClickProjects}
-          >
-            Projects
-          </Button>
-          <Button
-            variant="text"
-            size="small"
-            startIcon={<BuildIcon />}
-            onClick={onClickBuild}
-          >
-            Build
-          </Button>
-          {/* <Button variant="text" size="small" startIcon={<SettingsIcon />}>
-            Settings
-          </Button> */}
+          {props.signedIn && (
+            <>
+              <TextField
+                size="small"
+                value={projectName}
+                onChange={onChangeProjectName}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={onClickProjectSettings}>
+                        <TuneIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: '300px' }}
+              />
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<AccountTreeIcon />}
+                onClick={onClickProjects}
+              >
+                Projects
+              </Button>
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<BuildIcon />}
+                onClick={onClickBuild}
+              >
+                Build
+              </Button>
+            </>
+          )}
           <div className="workbench-header-menu-button">
             <ProfileIcon
               logout={() => {

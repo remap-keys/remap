@@ -1,8 +1,16 @@
 import React from 'react';
 import { ContentActionsType, ContentStateType } from './Content.container';
 import './Content.scss';
-import { CircularProgress } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import Breadboard from '../breadboard/Breadboard.container';
+import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
 
 type OwnProps = {};
 type ContentProps = OwnProps &
@@ -10,6 +18,9 @@ type ContentProps = OwnProps &
   Partial<ContentStateType>;
 
 export default function Content(props: ContentProps | Readonly<ContentProps>) {
+  if (!props.signedIn!) {
+    return <NotSignedIn />;
+  }
   const phase = props.phase!;
   switch (phase) {
     case 'processing':
@@ -20,6 +31,7 @@ export default function Content(props: ContentProps | Readonly<ContentProps>) {
       throw new Error(`Unknown state.workbench.app.phase value: ${phase}`);
   }
 }
+
 function PhaseProcessing() {
   return (
     <div className="workbench-processing-wrapper">
@@ -28,5 +40,34 @@ function PhaseProcessing() {
       </div>
       <div>Processing...</div>
     </div>
+  );
+}
+
+function NotSignedIn() {
+  const [openAuthProviderDialog, setOpenAuthProviderDialog] =
+    React.useState<boolean>(false);
+
+  return (
+    <>
+      <div className="workbench-not-signed-in-wrapper">
+        <Card>
+          <CardContent>
+            <Typography variant="h4">Not logged in</Typography>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              Please log in to use the Firmware Workbench.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button onClick={() => setOpenAuthProviderDialog(true)}>
+              Log In
+            </Button>
+          </CardActions>
+        </Card>
+      </div>
+      <AuthProviderDialog
+        open={openAuthProviderDialog}
+        onClose={() => setOpenAuthProviderDialog(false)}
+      />
+    </>
   );
 }
