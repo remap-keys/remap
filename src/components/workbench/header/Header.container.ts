@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import Header from './Header';
-import { catalogActionsThunk } from '../../../actions/catalog.action';
 import { AppActionsThunk } from '../../../actions/actions';
 import {
   IBuildableFirmwareFileType,
@@ -28,7 +27,7 @@ export type HeaderStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = (dispatch: any) => {
   return {
     logout: () => {
-      dispatch(catalogActionsThunk.logout());
+      dispatch(workbenchActionsThunk.logout());
     },
     linkToGoogleAccount: () => {
       dispatch(AppActionsThunk.linkToGoogleAccount());

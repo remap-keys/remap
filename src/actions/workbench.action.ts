@@ -41,7 +41,7 @@ export const WorkbenchAppActions = {
       value: projects,
     };
   },
-  updateCurrentProject: (project: IWorkbenchProject) => {
+  updateCurrentProject: (project: IWorkbenchProject | undefined) => {
     return {
       type: WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
       value: project,
@@ -626,6 +626,21 @@ export const workbenchActionsThunk = {
         })
       );
       dispatch(firmwareActionsThunk.loadFirmwareBlob());
+    },
+  logout:
+    (): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { auth } = getState();
+      dispatch(AppActions.updateSignedIn(false));
+      dispatch(AppActions.updateUserInformation(undefined));
+      dispatch(WorkbenchAppActions.updateCurrentProject(undefined));
+      dispatch(WorkbenchAppActions.updateProjects([]));
+      dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
+      dispatch(WorkbenchAppActions.updatePhase(WorkbenchPhase.processing));
+      await auth.instance!.signOut();
     },
 };
 
