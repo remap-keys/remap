@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -25,6 +25,7 @@ import { Editor } from '@monaco-editor/react';
 import {
   IBuildableFirmwareFileType,
   IFirmwareBuildingTask,
+  IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -65,62 +66,12 @@ export default function Breadboard(
   const [targetDeleteFile, setTargetDeleteFile] = useState<
     IWorkbenchProjectFile | undefined
   >(undefined);
-  const [code, setCode] = useState<string>('');
   const [selectedBuildingTask, setSelectedBuildingTask] = useState<
     IFirmwareBuildingTask | undefined
   >(undefined);
   const [selectedOutputTab, setSelectedOutputTab] = useState<number>(0);
 
   // Effects
-
-  useEffect(() => {
-    if (
-      props.currentProject === undefined ||
-      props.selectedFile === undefined
-    ) {
-      return;
-    }
-    const currentFile =
-      props.selectedFile.fileType === 'keyboard'
-        ? props.currentProject.keyboardFiles.find(
-            (file) => file.id === props.selectedFile!.fileId
-          )
-        : props.currentProject.keymapFiles.find(
-            (file) => file.id === props.selectedFile!.fileId
-          );
-    if (currentFile === undefined) {
-      return;
-    }
-    setCode(currentFile.code);
-  }, [props.currentProject, props.selectedFile]);
-
-  const debounceCode = useDebounce(code, 1000);
-  useEffect(() => {
-    if (
-      props.currentProject === undefined ||
-      props.selectedFile === undefined
-    ) {
-      return;
-    }
-    const currentFile =
-      props.selectedFile.fileType === 'keyboard'
-        ? props.currentProject.keyboardFiles.find(
-            (file) => file.id === props.selectedFile!.fileId
-          )
-        : props.currentProject.keymapFiles.find(
-            (file) => file.id === props.selectedFile!.fileId
-          );
-    if (currentFile === undefined) {
-      return;
-    }
-    props.updateWorkbenchProjectFile!(
-      props.currentProject!,
-      currentFile,
-      currentFile.path,
-      debounceCode,
-      false
-    );
-  }, [debounceCode]);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -215,9 +166,21 @@ export default function Breadboard(
     }
   };
 
-  const onChangeCode = useCallback((code: string | undefined) => {
-    setCode(code || '');
-  }, []);
+  const onChangeCode = (
+    file: IWorkbenchProjectFile,
+    code: string | undefined
+  ) => {
+    if (code === undefined) {
+      return;
+    }
+    props.updateWorkbenchProjectFile!(
+      props.currentProject!,
+      file,
+      file.path,
+      code,
+      false
+    );
+  };
 
   const onClickBuildingTask = (task: IFirmwareBuildingTask) => {
     setSelectedBuildingTask(task);
@@ -362,20 +325,23 @@ export default function Breadboard(
                 flexDirection: 'column',
               }}
             >
-              {props.currentProject !== undefined &&
-                props.selectedFile !== undefined && (
-                  <Editor
-                    defaultLanguage="c"
-                    height="100%"
-                    value={code}
-                    options={{
-                      minimap: { enabled: false },
-                      wordWrap: 'off',
-                      automaticLayout: true,
-                    }}
-                    onChange={onChangeCode}
-                  />
-                )}
+              <WorkbenchSourceCodeEditor
+                project={props.currentProject}
+                file={
+                  props.currentProject === undefined
+                    ? undefined
+                    : props.selectedFile === undefined
+                      ? undefined
+                      : props.selectedFile.fileType === 'keyboard'
+                        ? props.currentProject.keyboardFiles.find(
+                            (file) => file.id === props.selectedFile!.fileId
+                          )
+                        : props.currentProject.keymapFiles.find(
+                            (file) => file.id === props.selectedFile!.fileId
+                          )
+                }
+                onChangeCode={onChangeCode}
+              />
             </Paper>
           </Box>
           <Box sx={{ height: '30%', display: 'flex', flexDirection: 'row' }}>
@@ -518,6 +484,65 @@ export default function Breadboard(
       <FlashFirmwareDialog />
     </>
   );
+}
+
+type WorkbenchSourceCodeEditorProps = {
+  project: IWorkbenchProject | undefined;
+  file: IWorkbenchProjectFile | undefined;
+  onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+};
+
+function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
+  const [code, setCode] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (props.project === undefined || props.file === undefined) {
+      setCode(undefined);
+      return;
+    }
+    setCode(props.file.code);
+  }, [props.project, props.file]);
+
+  const debounceCode = useDebounce(code, 1000);
+  useEffect(() => {
+    if (
+      props.project === undefined ||
+      props.file === undefined ||
+      debounceCode === undefined
+    ) {
+      return;
+    }
+    props.onChangeCode(props.file, debounceCode);
+  }, [debounceCode]);
+
+  const onChangeCode = (value: string | undefined) => {
+    if (
+      props.project === undefined ||
+      props.file === undefined ||
+      value === undefined
+    ) {
+      return;
+    }
+    setCode(value);
+  };
+
+  if (props.project !== undefined && props.file !== undefined) {
+    return (
+      <Editor
+        defaultLanguage="c"
+        height="100%"
+        value={code}
+        options={{
+          minimap: { enabled: false },
+          wordWrap: 'off',
+          automaticLayout: true,
+        }}
+        onChange={onChangeCode}
+      />
+    );
+  } else {
+    return null;
+  }
 }
 
 type WorkbenchProjectFileListItemProps = {
