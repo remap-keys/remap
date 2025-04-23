@@ -992,7 +992,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_RIGHT',
         short: 'KC_RGHT',
       },
-      keywords: ['right arrow', 'rght', 'arrow', 'arrowright'],
+      keywords: ['right arrow', 'rght', 'arrow', 'arrowright', '→'],
     },
   },
   {
@@ -1004,7 +1004,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_LEFT',
         short: 'KC_LEFT',
       },
-      keywords: ['left arrow', 'arrow', 'arrowleft'],
+      keywords: ['left arrow', 'arrow', 'arrowleft', '←'],
     },
   },
   {
@@ -1016,7 +1016,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_DOWN',
         short: 'KC_DOWN',
       },
-      keywords: ['down arrow', 'arrow', 'arrowdown'],
+      keywords: ['down arrow', 'arrow', 'arrowdown', '↓'],
     },
   },
   {
@@ -1028,7 +1028,7 @@ export const keyInfoList: KeyInfo[] = [
         long: 'KC_UP',
         short: 'KC_UP',
       },
-      keywords: ['up arrow', 'arrow', 'arrowup'],
+      keywords: ['up arrow', 'arrow', 'arrowup', '↑'],
     },
   },
   {
