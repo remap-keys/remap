@@ -177,13 +177,11 @@ export const workbenchActionsThunk = {
         WorkbenchAppActions.updateCurrentProject(currentProjectWithFiles)
       );
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...userInformation,
           currentProjectId,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -382,13 +380,11 @@ export const workbenchActionsThunk = {
       dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
       dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...app.user.information!,
           currentProjectId: newProject.id,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -419,13 +415,11 @@ export const workbenchActionsThunk = {
       }
       dispatch(WorkbenchAppActions.updateCurrentProject(currentProject));
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...app.user.information!,
           currentProjectId: currentProject.id,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -512,13 +506,11 @@ export const workbenchActionsThunk = {
         );
         dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
 
-        const updateUserInformationResult = await updateUserInformation(
-          storage.instance!,
-          {
+        const updateUserInformationResult =
+          await storage.instance!.updateUserInformation({
             ...app.user.information!,
             currentProjectId: newCurrentProjectWithFiles.id,
-          }
-        );
+          });
         if (isError(updateUserInformationResult)) {
           dispatch(
             NotificationActions.addError(
@@ -636,6 +628,7 @@ export const workbenchActionsThunk = {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
       dispatch(AppActions.updateUserInformation(undefined));
+      dispatch(AppActions.updateUserPurchase(undefined));
       dispatch(WorkbenchAppActions.updateCurrentProject(undefined));
       dispatch(WorkbenchAppActions.updateProjects([]));
       dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
@@ -672,19 +665,4 @@ const determineBootloaderType = (
   } else {
     return 'copy';
   }
-};
-
-const updateUserInformation = async (
-  storage: IStorage,
-  userInformation: IUserInformation
-): Promise<IEmptyResult> => {
-  const updateUserInformationResult =
-    await storage.updateUserInformation(userInformation);
-  if (isError(updateUserInformationResult)) {
-    return errorResultOf(
-      updateUserInformationResult.error,
-      updateUserInformationResult.cause
-    );
-  }
-  return successResult();
 };

@@ -171,14 +171,17 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
               >
                 {t('Projects')}
               </Button>
-              <Button
-                variant="text"
-                size="small"
-                startIcon={<BuildIcon />}
-                onClick={onClickBuild}
-              >
-                {t('Build')}
-              </Button>
+              {props.userPurchase !== undefined &&
+              props.userPurchase.remainingBuildCount > 0 ? (
+                <Button
+                  variant="text"
+                  size="small"
+                  startIcon={<BuildIcon />}
+                  onClick={onClickBuild}
+                >
+                  {t('Build')}
+                </Button>
+              ) : null}
             </>
           )}
           <div className="workbench-header-menu-button">

@@ -51,6 +51,7 @@ import {
   KEYMAP_CLEAR_SELECTED_KEY_POSITION,
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
   APP_UPDATE_USER_INFORMATION,
+  APP_UPDATE_USER_PURCHASE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -737,6 +738,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_UPDATE_USER_INFORMATION: {
       draft.app.user.information = action.value;
+      break;
+    }
+    case APP_UPDATE_USER_PURCHASE: {
+      draft.app.user.purchase = action.value;
       break;
     }
   }

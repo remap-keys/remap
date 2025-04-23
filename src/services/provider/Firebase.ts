@@ -46,6 +46,7 @@ import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
   IFirmwareCodePlace,
   IKeyboardFeatures,
+  IUserPurchase,
   IUserInformation,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
@@ -2481,6 +2482,65 @@ export class FirebaseProvider implements IStorage, IAuth {
           });
         });
         callback(tasks);
+      });
+    return unsubscribe;
+  }
+
+  async getUserPurchase(uid: string): Promise<IResult<IUserPurchase>> {
+    try {
+      const now = new Date();
+      const documentSnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .get();
+      if (documentSnapshot.exists) {
+        return successResultOf({
+          uid: documentSnapshot.id,
+          ...documentSnapshot.data(),
+        } as IUserPurchase);
+      } else {
+        await this.db
+          .collection('users')
+          .doc('v1')
+          .collection('purchases')
+          .doc(uid)
+          .set({
+            remainingBuildCount: 3,
+            createdAt: now,
+            updatedAt: now,
+          });
+        return successResultOf({
+          uid,
+          remainingBuildCount: 3,
+          createdAt: now,
+          updatedAt: now,
+        } as IUserPurchase);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating user purchase failed: ${error}`, error);
+    }
+  }
+
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void {
+    const uid = this.getCurrentAuthenticatedUserIgnoreNull()!.uid;
+    const unsubscribe = this.db
+      .collection('users')
+      .doc('v1')
+      .collection('purchases')
+      .doc(uid)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const purchase = {
+            uid: doc.id,
+            ...doc.data(),
+          } as IUserPurchase;
+          callback(purchase);
+        }
       });
     return unsubscribe;
   }

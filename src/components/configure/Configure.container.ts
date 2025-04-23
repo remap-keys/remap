@@ -55,9 +55,7 @@ const mapDispatchToProps = (dispatch: any) => {
            * Switch to Keyboard selection page.
            */
           dispatch(HidActions.updateKeyboard(null));
-          dispatch(
-            AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected)
-          );
+          dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
         }
       }
 
@@ -72,7 +70,8 @@ const mapDispatchToProps = (dispatch: any) => {
 
     updateSignedIn: (signedIn: boolean) => {
       dispatch(AppActions.updateSignedIn(signedIn));
-      dispatch(AppActionsThunk.updateUserInformation());
+      dispatch(AppActionsThunk.fetchUserInformation());
+      dispatch(AppActionsThunk.fetchUserPurchase());
     },
     initializeMeta: () => {
       dispatch(MetaActions.initialize());

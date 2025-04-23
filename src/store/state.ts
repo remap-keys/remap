@@ -262,6 +262,13 @@ export type IUserInformation = {
   updatedAt: Date;
 };
 
+export type IUserPurchase = {
+  uid: string;
+  remainingBuildCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -343,6 +350,7 @@ export type RootState = {
     };
     user: {
       information: IUserInformation | undefined;
+      purchase: IUserPurchase | undefined;
     };
   };
   configure: {
@@ -620,6 +628,7 @@ export const INIT_STATE: RootState = {
     },
     user: {
       information: undefined,
+      purchase: undefined,
     },
   },
   configure: {

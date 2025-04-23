@@ -2,6 +2,7 @@ import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import {
   IFirmwareCodePlace,
   IKeyboardFeatures,
+  IUserPurchase,
   IUserInformation,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
@@ -544,6 +545,10 @@ export interface IStorage {
   updateUserInformation(
     userInformation: IUserInformation
   ): Promise<IEmptyResult>;
+  getUserPurchase(uid: string): Promise<IResult<IUserPurchase>>;
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void;
 
   fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>>;
   fetchWorkbenchProjectWithFiles(

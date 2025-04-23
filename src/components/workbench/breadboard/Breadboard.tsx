@@ -42,6 +42,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
 import { t } from 'i18next';
+import { useUserPurchaseHook } from './UserPurchaseHook';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -82,6 +83,8 @@ export default function Breadboard(
   }, [props.currentProject]);
 
   useBuildTaskHook(props.currentProject?.id, props.storage?.instance);
+
+  useUserPurchaseHook(props.storage?.instance);
 
   // Event Handlers
 
