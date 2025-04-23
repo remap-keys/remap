@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import React from 'react';
+import { t } from 'i18next';
 
 export type IConfirmDialogProps = {
   open: boolean;
@@ -36,7 +37,7 @@ export default function ConfirmDialog(props: IConfirmDialogProps) {
             props.onClickYes();
           }}
         >
-          Yes
+          {t('Yes')}
         </Button>
         <Button
           color="primary"
@@ -45,7 +46,7 @@ export default function ConfirmDialog(props: IConfirmDialogProps) {
             props.onClickNo();
           }}
         >
-          No
+          {t('No')}
         </Button>
       </DialogActions>
     </Dialog>

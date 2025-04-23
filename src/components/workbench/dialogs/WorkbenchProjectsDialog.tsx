@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { t } from 'i18next';
 
 type WorkbenchProjectsDialogProps = {
   open: boolean;
@@ -30,7 +31,7 @@ export default function WorkbenchProjectsDialog(
 ) {
   return (
     <Dialog open={props.open} maxWidth="sm" fullWidth>
-      <DialogTitle>Projects</DialogTitle>
+      <DialogTitle>{t('Projects')}</DialogTitle>
       <DialogContent>
         <Box sx={{ width: '100%', maxheight: '50vh', boxSizing: 'border-box' }}>
           <List>
@@ -57,8 +58,8 @@ export default function WorkbenchProjectsDialog(
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onCreateNewProject}>Create New</Button>
-        <Button onClick={props.onClose}>Close</Button>
+        <Button onClick={props.onCreateNewProject}>{t('Create New')}</Button>
+        <Button onClick={props.onClose}>{t('Close')}</Button>
       </DialogActions>
     </Dialog>
   );

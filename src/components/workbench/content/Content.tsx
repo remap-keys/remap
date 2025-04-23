@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import Breadboard from '../breadboard/Breadboard.container';
 import AuthProviderDialog from '../../common/auth/AuthProviderDialog.container';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type ContentProps = OwnProps &
@@ -38,7 +39,7 @@ function PhaseProcessing() {
       <div>
         <CircularProgress size={24} />
       </div>
-      <div>Processing...</div>
+      <div>{t('Processing')}...</div>
     </div>
   );
 }
@@ -52,14 +53,14 @@ function NotSignedIn() {
       <div className="workbench-not-signed-in-wrapper">
         <Card>
           <CardContent>
-            <Typography variant="h4">Not logged in</Typography>
+            <Typography variant="h4">{t('Not logged in')}</Typography>
             <Typography variant="body1" sx={{ mt: 2 }}>
-              Please log in to use the Firmware Workbench.
+              {t('Please log in to use the Firmware Workbench.')}
             </Typography>
           </CardContent>
           <CardActions>
             <Button onClick={() => setOpenAuthProviderDialog(true)}>
-              Log In
+              {t('Login')}
             </Button>
           </CardActions>
         </Card>

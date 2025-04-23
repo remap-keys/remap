@@ -19,6 +19,7 @@ import {
   BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
   IWorkbenchProject,
 } from '../../../services/storage/Storage';
+import { t } from 'i18next';
 
 interface WorkbenchProjectSettingsDialogProps {
   open: boolean;
@@ -66,12 +67,12 @@ export default function WorkbenchProjectSettingsDialog(
 
   return (
     <Dialog open={props.open} maxWidth="xs" fullWidth>
-      <DialogTitle>Project Settings</DialogTitle>
+      <DialogTitle>{t('Project Settings')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
           <FormControl fullWidth>
             <InputLabel id="qmk-firmware-version-label">
-              QMK Firmware Version
+              QMK Firmware {t('Version')}
             </InputLabel>
             <Select
               labelId="qmk-firmware-version-label"
@@ -89,7 +90,7 @@ export default function WorkbenchProjectSettingsDialog(
           </FormControl>
           <FormControl fullWidth>
             <TextField
-              label="Keyboard Directory Name"
+              label={t('Keyboard Directory Name')}
               value={filledInKeyboardDirectoryName}
               onChange={onChangeKeyboardDirectoryName}
             />
@@ -105,9 +106,9 @@ export default function WorkbenchProjectSettingsDialog(
             )
           }
         >
-          Apply
+          {t('Apply')}
         </Button>
-        <Button onClick={props.onClose}>Close</Button>
+        <Button onClick={props.onClose}>{t('Close')}</Button>
       </DialogActions>
     </Dialog>
   );

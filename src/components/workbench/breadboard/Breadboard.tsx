@@ -41,6 +41,7 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -226,7 +227,7 @@ export default function Breadboard(
                 sx={{ width: '100%', height: '100%', overflowY: 'auto' }}
                 subheader={
                   <ListSubheader component="div" id="file-list-subheader">
-                    Project
+                    {t('Project')}
                   </ListSubheader>
                 }
               >
@@ -357,7 +358,7 @@ export default function Breadboard(
                 }}
                 subheader={
                   <ListSubheader component="div" id="built-list-subheader">
-                    Build Tasks
+                    {t('Build Tasks')}
                   </ListSubheader>
                 }
               >
@@ -414,8 +415,8 @@ export default function Breadboard(
                   value={selectedOutputTab}
                   onChange={(_, newValue) => setSelectedOutputTab(newValue)}
                 >
-                  <Tab label="Standard Output" value={0} />
-                  <Tab label="Standard Error" value={1} />
+                  <Tab label={t('Standard Output')} value={0} />
+                  <Tab label={t('Standard Error')} value={1} />
                 </Tabs>
                 <Box
                   sx={{
@@ -474,8 +475,10 @@ export default function Breadboard(
       />
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Confirm"
-        message={`Are you sure you want to delete "${targetDeleteFile?.path}" file?`}
+        title={t('Confirm')}
+        message={t('Are you sure you want to delete file?', {
+          name: targetDeleteFile?.path,
+        })}
         onClickYes={onClickDeleteFile}
         onClickNo={() => {
           setOpenConfirmDialog(false);

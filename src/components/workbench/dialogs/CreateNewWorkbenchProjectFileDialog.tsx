@@ -14,6 +14,7 @@ import {
   IWorkbenchProject,
 } from '../../../services/storage/Storage';
 import { useForm, Controller, ValidateResult } from 'react-hook-form';
+import { t } from 'i18next';
 
 interface CreateNewFileForm {
   fileName: string;
@@ -58,7 +59,7 @@ export function CreateNewWorkbenchProjectFileDialog(
     fileType: IBuildableFirmwareFileType
   ): ValidateResult => {
     if (props.workbenchProject === undefined) {
-      return 'Project not found';
+      return t('Project not found');
     }
     const files =
       fileType === 'keyboard'
@@ -66,7 +67,7 @@ export function CreateNewWorkbenchProjectFileDialog(
         : props.workbenchProject.keymapFiles;
     const fileName = value.trim();
     if (files.map((x) => x.path).includes(fileName)) {
-      return 'File name already exists';
+      return t('File name already exists');
     }
     return true;
   };
@@ -74,11 +75,11 @@ export function CreateNewWorkbenchProjectFileDialog(
   return (
     <Dialog open={props.open} fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Create New File</DialogTitle>
+        <DialogTitle>{t('Create New File')}</DialogTitle>
         <DialogContent>
           <Stack spacing={2}>
             <Typography variant="body1">
-              <strong>Target directory:</strong>{' '}
+              <strong>{t('Target directory')}:</strong>{' '}
               {props.fileType === 'keyboard'
                 ? `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/`
                 : `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/keymaps/remap/`}
@@ -87,7 +88,7 @@ export function CreateNewWorkbenchProjectFileDialog(
               name="fileName"
               control={control}
               rules={{
-                required: 'File name is required',
+                required: t('File name is required'),
                 validate: (value): ValidateResult => {
                   return validateFileName(value, props.fileType);
                 },
@@ -95,7 +96,7 @@ export function CreateNewWorkbenchProjectFileDialog(
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="File Name"
+                  label={t('File Name')}
                   size="small"
                   fullWidth
                   error={!!errors.fileName}
@@ -106,8 +107,8 @@ export function CreateNewWorkbenchProjectFileDialog(
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button type="submit">Create</Button>
-          <Button onClick={props.onClose}>Close</Button>
+          <Button type="submit">{t('Create')}</Button>
+          <Button onClick={props.onClose}>{t('Close')}</Button>
         </DialogActions>
       </form>
     </Dialog>

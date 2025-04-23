@@ -336,5 +336,27 @@
   "Flash a Firmware": "ファームウェアを書き込む",
   "Let's flash the firmware to the microcontroller of your assembled keyboard.": "組み立てたキーボードのマイコンにファームウェアを書き込もう。",
 
-  "Type at least 2 characters to search for a keyboard.": "キーボードを検索するには、2文字以上入力してください。"
+  "Type at least 2 characters to search for a keyboard.": "キーボードを検索するには、2文字以上入力してください。",
+
+  "Projects": "プロジェクト",
+  "Confirm": "確認",
+  "Are you sure you want to delete the project?": "本当に \"{{name}}\" プロジェクトを削除しますか？",
+  "Project not found": "プロジェクトが見つかりません",
+  "File name already exists": "ファイル名はすでに存在します",
+  "File name is required": "ファイル名は必須です",
+  "Create": "作成",
+  "Edit File": "ファイルの編集",
+  "Target directory": "対象のディレクトリ",
+  "Create New File": "新しいファイルを作成",
+  "Create New": "新規作成",
+  "Project Settings": "プロジェクト設定",
+  "Version": "バージョン",
+  "Processing": "処理中です",
+  "Not logged in": "ログインしていません",
+  "Please log in to use the Firmware Workbench.": "Firmware Workbenchを使用するにはログインしてください。",
+  "Which do you want to login with?": "どれでログインしますか?",
+  "Account": "アカウント",
+  "Project": "プロジェクト",
+  "Build Tasks": "ビルドタスク",
+  "Are you sure you want to delete file?": "本当に \"{{name}}\" ファイルを削除しますか？"
 }

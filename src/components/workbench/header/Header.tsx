@@ -21,6 +21,7 @@ import {
 import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
+import { t } from 'i18next';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -168,7 +169,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
                 startIcon={<AccountTreeIcon />}
                 onClick={onClickProjects}
               >
-                Projects
+                {t('Projects')}
               </Button>
               <Button
                 variant="text"
@@ -176,7 +177,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
                 startIcon={<BuildIcon />}
                 onClick={onClickBuild}
               >
-                Build
+                {t('Build')}
               </Button>
             </>
           )}
@@ -202,8 +203,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
       />
       <ConfirmDialog
         open={openConfirmDialog}
-        title="Confirm"
-        message={`Are you sure you want to delete the "${targetDeleteProject?.name}" project?`}
+        title={t('Confirm')}
+        message={t('Are you sure you want to delete the project?', {
+          name: targetDeleteProject?.name,
+        })}
         onClickYes={onClickYesDeleteProject}
         onClickNo={() => {
           setOpenConfirmDialog(false);

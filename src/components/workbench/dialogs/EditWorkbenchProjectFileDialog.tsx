@@ -15,6 +15,7 @@ import {
   IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
 import { useForm, Controller, ValidateResult } from 'react-hook-form';
+import { t } from 'i18next';
 
 interface EditFileForm {
   fileName: string;
@@ -59,7 +60,7 @@ export function EditWorkbenchProjectFileDialog(
     fileType: IBuildableFirmwareFileType
   ): ValidateResult => {
     if (props.workbenchProject === undefined) {
-      return 'Project not found';
+      return t('Project not found');
     }
     const files =
       fileType === 'keyboard'
@@ -72,7 +73,7 @@ export function EditWorkbenchProjectFileDialog(
         .map((x) => x.path)
         .includes(fileName)
     ) {
-      return 'File name already exists';
+      return t('File name already exists');
     }
     return true;
   };
@@ -80,11 +81,11 @@ export function EditWorkbenchProjectFileDialog(
   return (
     <Dialog open={props.open} fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>Edit File</DialogTitle>
+        <DialogTitle>{t('Edit File')}</DialogTitle>
         <DialogContent>
           <Stack spacing={2}>
             <Typography variant="body1">
-              <strong>Target directory:</strong>{' '}
+              <strong>{t('Target directory')}:</strong>{' '}
               {props.fileType === 'keyboard'
                 ? `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/`
                 : `Keyboards/${props.workbenchProject?.keyboardDirectoryName || '...'}/keymaps/remap/`}
@@ -93,7 +94,7 @@ export function EditWorkbenchProjectFileDialog(
               name="fileName"
               control={control}
               rules={{
-                required: 'File name is required',
+                required: t('File name is required'),
                 validate: (value): ValidateResult => {
                   return validateFileName(value, props.fileType);
                 },
@@ -101,7 +102,7 @@ export function EditWorkbenchProjectFileDialog(
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="File Name"
+                  label={t('File Name')}
                   size="small"
                   fullWidth
                   error={!!errors.fileName}
@@ -119,10 +120,10 @@ export function EditWorkbenchProjectFileDialog(
               props.onClose();
             }}
           >
-            Delete
+            {t('Delete')}
           </Button>
-          <Button type="submit">Edit</Button>
-          <Button onClick={props.onClose}>Close</Button>
+          <Button type="submit">{t('Edit')}</Button>
+          <Button onClick={props.onClose}>{t('Close')}</Button>
         </DialogActions>
       </form>
     </Dialog>
