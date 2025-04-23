@@ -36,7 +36,9 @@ type IActionName =
   | 'docs/statistics'
   | 'docs/support-code-editing'
   | 'docs/support-qmk-022'
-  | 'docs/terms_of_use';
+  | 'docs/terms_of_use'
+  | 'docs/internationalization'
+  | 'docs/ebizrule';
 
 interface IActionOptions {
   vendor_id?: string | number;
