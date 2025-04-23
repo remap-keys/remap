@@ -19,6 +19,7 @@ import Build from './build/Build';
 import SupportCodeEditing from './support-code-editing/SupportCodeEditing';
 import Statistics from './statistics/Statistics';
 import Internationalization from './i18n/Internationalization';
+import ElectricalBusinessRule from './ebizrule/ElectricalBusinessRule';
 
 type RouteParams = {
   docId: string;
@@ -69,7 +70,10 @@ export default function Documents(props: DocumentsPropsType) {
     sendEventToGoogleAnalytics('docs/statistics');
   } else if (docId === 'i18n') {
     page = <Internationalization />;
-    sendEventToGoogleAnalytics('docs/statistics');
+    sendEventToGoogleAnalytics('docs/internationalization');
+  } else if (docId === 'ebizrule') {
+    page = <ElectricalBusinessRule />;
+    sendEventToGoogleAnalytics('docs/ebizrule');
   } else {
     page = <Index />;
   }

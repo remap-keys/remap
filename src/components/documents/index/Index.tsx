@@ -60,6 +60,12 @@ export default function Index() {
               User Community
             </Link>
           </Typography>
+          <Typography variant="body1" gutterBottom={true}>
+            <Link href="/docs/ebizrule">
+              特定商取引法に基づく表記 (Notations are based on the Specified
+              Commercial Transaction Act)
+            </Link>
+          </Typography>
         </section>
       </Paper>
     </Container>
