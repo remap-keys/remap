@@ -9,6 +9,7 @@ import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { IBootloaderType } from '../firmware/Types';
 import { IEmptyResult, IResult } from '../../types';
+import { I } from 'react-router/dist/production/route-data-DuV3tXo2';
 
 export type IKeyboardDefinitionStatus =
   | 'draft'
@@ -316,6 +317,89 @@ export type IWorkbenchProjectFile = {
   updatedAt: Date;
 };
 
+export type IPaypalLink = {
+  href: string;
+  rel: string;
+  method: string;
+};
+
+export type IPaypalAmount = {
+  currency_code: string;
+  value: string;
+};
+
+export type IRemainingBuildPurchaseCreateOrderResult = {
+  id: string;
+  status: string;
+  links: IPaypalLink[];
+};
+
+export type IRemainingBuildPurchaseCaptureOrderResult = {
+  id: string;
+  status: string;
+  payment_source: {
+    paypal: {
+      email_address: string;
+      account_id: string;
+      account_status: string;
+      name: {
+        given_name: string;
+        surname: string;
+      };
+      address: {
+        country_code: string;
+      };
+    };
+  };
+  purchase_units: {
+    reference_id: string;
+    shipping: {
+      name: {
+        full_name: string;
+      };
+      address: {
+        address_line_1: string;
+        admin_area_2: string;
+        admin_area_1: string;
+        postal_code: string;
+        country_code: string;
+      };
+    };
+    payments: {
+      captures: {
+        id: string;
+        status: string;
+        amount: IPaypalAmount;
+        final_capture: boolean;
+        seller_protection: {
+          status: string;
+          dispute_categories: string[];
+        };
+        seller_receivable_breakdown: {
+          gross_amount: IPaypalAmount;
+          paypal_fee: IPaypalAmount;
+          net_amount: IPaypalAmount;
+        };
+        links: IPaypalLink[];
+        create_time: string;
+        update_time: string;
+      }[];
+    };
+  }[];
+  payer: {
+    name: {
+      given_name: string;
+      surname: string;
+    };
+    email_address: string;
+    payer_id: string;
+    address: {
+      country_code: string;
+    };
+  };
+  links: IPaypalLink[];
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -588,5 +672,7 @@ export interface IStorage {
     projectId: string,
     callback: (tasks: IFirmwareBuildingTask[]) => void
   ): () => void;
+  orderCreate(language: string): Promise<IResult<string>>;
+  captureOrder(orderId: string): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */

@@ -17,6 +17,7 @@ import enJson from './assets/locales/en.json';
 import jaJson from './assets/locales/ja.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Workbench from './components/workbench/Workbench.container';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 i18n
   .use(LanguageDetector)
@@ -33,6 +34,13 @@ i18n
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   });
+
+// PayPal client ID for production.
+const PAYPAL_CLIENT_ID =
+  'AQZXAw8Mr_sl4JpTZjCD_tR-xPBi3M3HUPDEySq6gy2C3Uk-wcLfatuXIXxw5GF_7Ijz_fW1w5cwtm-J';
+// PayPal client ID for sandbox.
+// const PAYPAL_CLIENT_ID =
+//   'AaQjWXEdTtWn-_qPRaeIRDLpcEAQtYZlKxdzZQ5aREMU1kh7gIl3E6YEMHZBHETx_9xZyKrY6JGK_R8I';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(
@@ -58,48 +66,58 @@ class App extends React.Component<StyledComponentProps, {}> {
           variantInfo: this.props.classes!.info,
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route path="/hid" element={<Hid />} />
-            <Route path="/firmware" element={<Firmware />} />
-            <Route path="/configure" element={<Configure />} />
-            <Route path="/workbench" element={<Workbench />} />
-            <Route
-              path="/keyboards"
-              element={<KeyboardDefinitionManagement />}
-            />
-            <Route
-              path="/keyboards/:definitionId"
-              element={<KeyboardDefinitionManagement />}
-            />
-            <Route path="/organizations" element={<OrganizationManagement />} />
-            <Route
-              path="/organizations/:organizationId"
-              element={<OrganizationManagement />}
-            />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route
-              path="/catalog/:definitionId/build"
-              element={<Catalog catalogDetailMode="build" />}
-            />
-            <Route
-              path="/catalog/:definitionId/firmware"
-              element={<Catalog catalogDetailMode="firmware" />}
-            />
-            <Route
-              path="/catalog/:definitionId/keymap"
-              element={<Catalog catalogDetailMode="keymap" />}
-            />
-            <Route
-              path="/catalog/:definitionId"
-              element={<Catalog catalogDetailMode="introduction" />}
-            />
-            <Route path="/docs/:docId" element={<Documents />} />
-            <Route path="/docs" element={<Documents />} />
-            <Route path="/" element={<Top />} />
-            <Route path="/*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
+        <PayPalScriptProvider
+          options={{
+            clientId: PAYPAL_CLIENT_ID,
+            currency: 'USD',
+          }}
+        >
+          <BrowserRouter>
+            <Routes>
+              <Route path="/hid" element={<Hid />} />
+              <Route path="/firmware" element={<Firmware />} />
+              <Route path="/configure" element={<Configure />} />
+              <Route path="/workbench" element={<Workbench />} />
+              <Route
+                path="/keyboards"
+                element={<KeyboardDefinitionManagement />}
+              />
+              <Route
+                path="/keyboards/:definitionId"
+                element={<KeyboardDefinitionManagement />}
+              />
+              <Route
+                path="/organizations"
+                element={<OrganizationManagement />}
+              />
+              <Route
+                path="/organizations/:organizationId"
+                element={<OrganizationManagement />}
+              />
+              <Route path="/catalog" element={<Catalog />} />
+              <Route
+                path="/catalog/:definitionId/build"
+                element={<Catalog catalogDetailMode="build" />}
+              />
+              <Route
+                path="/catalog/:definitionId/firmware"
+                element={<Catalog catalogDetailMode="firmware" />}
+              />
+              <Route
+                path="/catalog/:definitionId/keymap"
+                element={<Catalog catalogDetailMode="keymap" />}
+              />
+              <Route
+                path="/catalog/:definitionId"
+                element={<Catalog catalogDetailMode="introduction" />}
+              />
+              <Route path="/docs/:docId" element={<Documents />} />
+              <Route path="/docs" element={<Documents />} />
+              <Route path="/" element={<Top />} />
+              <Route path="/*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </PayPalScriptProvider>
       </SnackbarProvider>
     );
   }

@@ -41,6 +41,8 @@ import {
   IKeyboardStatistics,
   IWorkbenchProject,
   IWorkbenchProjectFile,
+  IRemainingBuildPurchaseCreateOrderResult,
+  IRemainingBuildPurchaseCaptureOrderResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
@@ -2543,5 +2545,41 @@ export class FirebaseProvider implements IStorage, IAuth {
         }
       });
     return unsubscribe;
+  }
+
+  async orderCreate(language: string): Promise<IResult<string>> {
+    try {
+      const orderCreate = this.functions.httpsCallable('orderCreate');
+      const orderCreateResult = await orderCreate({ language });
+      const data = orderCreateResult.data;
+      if (data.success) {
+        return successResultOf(data.orderId);
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating order failed: ${error}`, error);
+    }
+  }
+
+  async captureOrder(orderId: string): Promise<IEmptyResult> {
+    try {
+      const captureOrder = this.functions.httpsCallable('captureOrder');
+      const captureOrderResult = await captureOrder({
+        orderId,
+      });
+      const data = captureOrderResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Capturing order failed: ${error}`, error);
+    }
   }
 }

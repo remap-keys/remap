@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import Header from './Header';
-import { AppActionsThunk } from '../../../actions/actions';
+import { AppActionsThunk, NotificationActions } from '../../../actions/actions';
 import {
   IBuildableFirmwareFileType,
   IWorkbenchProject,
@@ -57,6 +57,9 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     createFirmwareBuildingTask: (project: IWorkbenchProject) => {
       dispatch(workbenchActionsThunk.createFirmwareBuildingTask(project));
+    },
+    showMessage: (message: string) => {
+      dispatch(NotificationActions.addSuccess(message));
     },
   };
 };

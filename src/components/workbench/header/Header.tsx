@@ -22,6 +22,7 @@ import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
 import { t } from 'i18next';
+import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -37,6 +38,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   >(undefined);
   const [openProjectSettingsDialog, setOpenProjectSettingsDialog] =
     useState<boolean>(false);
+  const [
+    openRemainingBuildPurchaseDialog,
+    setOpenRemainingBuildPurchaseDialog,
+  ] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -134,6 +139,15 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     props.createFirmwareBuildingTask!(props.currentProject);
   };
 
+  const onClickPurchase = () => {
+    setOpenRemainingBuildPurchaseDialog(true);
+  };
+
+  const onPurchaseRemainingBuilds = () => {
+    setOpenRemainingBuildPurchaseDialog(false);
+    props.showMessage!(t('Purchase completed successfully'));
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -142,7 +156,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
             <Logo width={100} />
           </a>
           <Typography variant="h6" sx={{ ml: 2 }}>
-            Firmware Workbench
+            {t('Firmware Workbench')}
           </Typography>
         </div>
         <div className="workbench-header-right">
@@ -171,17 +185,25 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
               >
                 {t('Projects')}
               </Button>
-              {props.userPurchase !== undefined &&
-              props.userPurchase.remainingBuildCount > 0 ? (
-                <Button
-                  variant="text"
-                  size="small"
-                  startIcon={<BuildIcon />}
-                  onClick={onClickBuild}
-                >
-                  {t('Build')}
-                </Button>
-              ) : null}
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<BuildIcon />}
+                color={
+                  props.userPurchase !== undefined &&
+                  props.userPurchase.remainingBuildCount > 0
+                    ? 'primary'
+                    : 'warning'
+                }
+                onClick={
+                  props.userPurchase !== undefined &&
+                  props.userPurchase.remainingBuildCount > 0
+                    ? onClickBuild
+                    : onClickPurchase
+                }
+              >
+                {t('Build')} ({props.userPurchase?.remainingBuildCount || 0})
+              </Button>
             </>
           )}
           <div className="workbench-header-menu-button">
@@ -223,6 +245,13 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         workbenchProject={props.currentProject}
         onApply={onApplyProjectSettings}
       />
+      <RemainingBuildPurchaseDialog
+        open={openRemainingBuildPurchaseDialog}
+        onClose={() => {
+          setOpenRemainingBuildPurchaseDialog(false);
+        }}
+        onPurchase={onPurchaseRemainingBuilds}
+      ></RemainingBuildPurchaseDialog>
     </React.Fragment>
   );
 }
