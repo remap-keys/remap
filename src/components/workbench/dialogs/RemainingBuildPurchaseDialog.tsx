@@ -6,6 +6,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Link,
+  Stack,
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -62,7 +64,7 @@ export function RemainingBuildPurchaseDialog(
       <DialogTitle>{t('Purchase Remaining Builds')}</DialogTitle>
       <DialogContent>
         <Typography variant="h6">{t('Remap 10 Builds Package')}</Typography>
-        <Box sx={{ ml: 3, mt: 3 }}>
+        <Box sx={{ ml: 3, mt: 2 }}>
           <Grid container spacing={2}>
             <Grid item md={8}>
               {t('Item amount:')}
@@ -84,17 +86,26 @@ export function RemainingBuildPurchaseDialog(
             </Grid>
           </Grid>
         </Box>
-        <Box sx={{ mb: 2, mt: 1 }}>
-          <Typography variant="caption">
-            {t(
-              'By purchasing the Remap 10 Builds Package, you can use the firmware workbench feature to build your custom firmware up to 10 times.'
+        <Box sx={{ mb: 2, mt: 2 }}>
+          <Stack>
+            <Typography variant="caption">
+              {t(
+                'By purchasing the Remap 10 Builds Package, you can use the firmware workbench feature to build your custom firmware up to 10 times.'
+              )}
+            </Typography>
+            <Typography variant="caption">
+              {t(
+                'Make the most of this feature to customize your keyboard and make it more comfortable to use.'
+              )}
+            </Typography>
+            {language === 'ja' && (
+              <Typography variant="caption">
+                <Link href="/docs/ebizrule" target="_blank">
+                  特定商取引法に基づく表記
+                </Link>
+              </Typography>
             )}
-          </Typography>
-          <Typography variant="caption" gutterBottom>
-            {t(
-              'Make the most of this feature to customize your keyboard and make it more comfortable to use.'
-            )}
-          </Typography>
+          </Stack>
         </Box>
         <PayPalButtons
           style={{
