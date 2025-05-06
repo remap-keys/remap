@@ -61,6 +61,9 @@ const mapDispatchToProps = (dispatch: any) => {
     showMessage: (message: string) => {
       dispatch(NotificationActions.addSuccess(message));
     },
+    fetchUserPurchaseHistories: () => {
+      dispatch(workbenchActionsThunk.fetchUserPurchaseHistories());
+    },
   };
 };
 export type HeaderActionsType = ReturnType<typeof mapDispatchToProps>;

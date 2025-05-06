@@ -36,11 +36,11 @@ i18n
   });
 
 // PayPal client ID for production.
-const PAYPAL_CLIENT_ID =
-  'AQZXAw8Mr_sl4JpTZjCD_tR-xPBi3M3HUPDEySq6gy2C3Uk-wcLfatuXIXxw5GF_7Ijz_fW1w5cwtm-J';
-// PayPal client ID for sandbox.
 // const PAYPAL_CLIENT_ID =
-//   'AaQjWXEdTtWn-_qPRaeIRDLpcEAQtYZlKxdzZQ5aREMU1kh7gIl3E6YEMHZBHETx_9xZyKrY6JGK_R8I';
+//   'AQZXAw8Mr_sl4JpTZjCD_tR-xPBi3M3HUPDEySq6gy2C3Uk-wcLfatuXIXxw5GF_7Ijz_fW1w5cwtm-J';
+// PayPal client ID for sandbox.
+const PAYPAL_CLIENT_ID =
+  'AaQjWXEdTtWn-_qPRaeIRDLpcEAQtYZlKxdzZQ5aREMU1kh7gIl3E6YEMHZBHETx_9xZyKrY6JGK_R8I';
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

@@ -224,6 +224,7 @@ import {
   WORKBENCH_APP_UPDATE_PHASE,
   WORKBENCH_APP_UPDATE_PROJECTS,
   WORKBENCH_APP_UPDATE_SELECTED_FILE,
+  WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES,
 } from '../actions/workbench.action';
 
 export type Action = { type: string; value: any };
@@ -1309,6 +1310,10 @@ const workbenchAppReducer = (
     }
     case WORKBENCH_APP_UPDATE_BUILDING_TASKS: {
       draft.workbench.app.buildingTasks = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES: {
+      draft.workbench.app.userPurchaseHistories = action.value;
       break;
     }
   }

@@ -12,6 +12,7 @@ import {
   IBuildableFirmwareFileType,
   IFirmwareBuildingTask,
   IStorage,
+  IUserPurchaseHistory,
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
@@ -28,6 +29,7 @@ export const WORKBENCH_APP_UPDATE_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/Up
 export const WORKBENCH_APP_UPDATE_SELECTED_FILE = `${WORKBENCH_APP_ACTIONS}/UpdateSelectedFile`;
 export const WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/AppendFileToCurrentProject`;
 export const WORKBENCH_APP_UPDATE_BUILDING_TASKS = `${WORKBENCH_APP_ACTIONS}/UpdateBuildableTasks`;
+export const WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES = `${WORKBENCH_APP_ACTIONS}/UpdateUserPurchaseHistories`;
 export const WorkbenchAppActions = {
   updatePhase: (phase: IWorkbenchPhase) => {
     return {
@@ -67,6 +69,14 @@ export const WorkbenchAppActions = {
     return {
       type: WORKBENCH_APP_UPDATE_BUILDING_TASKS,
       value: tasks,
+    };
+  },
+  updateUserPurchaseHistories: (
+    userPurchaseHistories: IUserPurchaseHistory[] | undefined
+  ) => {
+    return {
+      type: WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES,
+      value: userPurchaseHistories,
     };
   },
 };
@@ -635,6 +645,22 @@ export const workbenchActionsThunk = {
       dispatch(WorkbenchAppActions.updatePhase(WorkbenchPhase.processing));
       await auth.instance!.signOut();
     },
+  fetchUserPurchaseHistories: (): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth } = getState();
+      const user = auth.instance!.getCurrentAuthenticatedUserIgnoreNull();
+      const result =
+        await storage.instance!.fetchRemainingBuildPurchaseHistories(user.uid);
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
+      }
+      dispatch(WorkbenchAppActions.updateUserPurchaseHistories(result.value));
+    };
+  },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {

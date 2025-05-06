@@ -400,6 +400,17 @@ export type IRemainingBuildPurchaseCaptureOrderResult = {
   links: IPaypalLink[];
 };
 
+export type IUserPurchaseHistory = {
+  id: string;
+  orderId: string;
+  status: string;
+  createOrderResponseJson: string;
+  captureOrderResponseJson: string;
+  errorMessage: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -674,5 +685,8 @@ export interface IStorage {
   ): () => void;
   orderCreate(language: string): Promise<IResult<string>>;
   captureOrder(orderId: string): Promise<IEmptyResult>;
+  fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>>;
 }
 /* eslint-enable no-unused-vars */

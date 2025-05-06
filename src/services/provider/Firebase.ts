@@ -43,6 +43,7 @@ import {
   IWorkbenchProjectFile,
   IRemainingBuildPurchaseCreateOrderResult,
   IRemainingBuildPurchaseCaptureOrderResult,
+  IUserPurchaseHistory,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
@@ -2580,6 +2581,41 @@ export class FirebaseProvider implements IStorage, IAuth {
     } catch (error) {
       console.error(error);
       return errorResultOf(`Capturing order failed: ${error}`, error);
+    }
+  }
+
+  async fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>> {
+    try {
+      const querySnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .collection('histories')
+        .orderBy('createdAt', 'desc')
+        .get();
+      return successResultOf(
+        querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            orderId: doc.data()!.orderId,
+            status: doc.data()!.status,
+            createOrderResponseJson: doc.data()!.createOrderResponseJson,
+            captureOrderResponseJson: doc.data()!.captureOrderResponseJson,
+            errorMessage: doc.data()!.errorMessage,
+            createdAt: doc.data()!.createdAt.toDate(),
+            updatedAt: doc.data()!.updatedAt.toDate(),
+          } as IUserPurchaseHistory;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching remaining build purchase histories failed: ${error}`,
+        error
+      );
     }
   }
 }

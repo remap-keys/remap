@@ -10,6 +10,9 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
@@ -23,6 +26,8 @@ import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
 import { t } from 'i18next';
 import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
+import PaymentIcon from '@mui/icons-material/Payment';
+import RemainingBuildPurchaseHistoryDialog from '../dialogs/RemainingBuildPurchaseHistoryDialog.container';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -148,6 +153,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     props.showMessage!(t('Purchase completed successfully'));
   };
 
+  const onClickPurchaseHistory = () => {
+    props.fetchUserPurchaseHistories!();
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -211,6 +220,26 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
               logout={() => {
                 props.logout!();
               }}
+              childrenWithOnClose={(onClose) => {
+                if (props.signedIn) {
+                  return (
+                    <MenuItem
+                      key="workbench-header-menu-purchase-history"
+                      onClick={() => {
+                        onClose();
+                        onClickPurchaseHistory();
+                      }}
+                    >
+                      <ListItemIcon>
+                        <PaymentIcon />
+                      </ListItemIcon>
+                      <ListItemText>{t('Purchase History')}</ListItemText>
+                    </MenuItem>
+                  );
+                } else {
+                  return null;
+                }
+              }}
             />
           </div>
         </div>
@@ -252,6 +281,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         }}
         onPurchase={onPurchaseRemainingBuilds}
       ></RemainingBuildPurchaseDialog>
+      <RemainingBuildPurchaseHistoryDialog />
     </React.Fragment>
   );
 }

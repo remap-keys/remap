@@ -367,5 +367,10 @@
   "Remap 10 Builds Package": "Remap 10回ビルドパッケージ",
   "Item amount:": "商品価格:",
   "Tax amount:": "税額:",
-  "Total amount:": "合計:"
+  "Total amount:": "合計:",
+  "Purchase History": "購入履歴",
+  "Date": "日時",
+  "Amount": "金額",
+  "Error": "エラー",
+  "If you have any questions about your purchase, please contact the Remap team.": "購入に関して質問がある場合は、Remapチームにお問い合わせください。"
 }
