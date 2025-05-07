@@ -9,7 +9,6 @@ import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { IBootloaderType } from '../firmware/Types';
 import { IEmptyResult, IResult } from '../../types';
-import { I } from 'react-router/dist/production/route-data-DuV3tXo2';
 
 export type IKeyboardDefinitionStatus =
   | 'draft'

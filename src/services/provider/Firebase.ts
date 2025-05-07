@@ -41,8 +41,6 @@ import {
   IKeyboardStatistics,
   IWorkbenchProject,
   IWorkbenchProjectFile,
-  IRemainingBuildPurchaseCreateOrderResult,
-  IRemainingBuildPurchaseCaptureOrderResult,
   IUserPurchaseHistory,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
