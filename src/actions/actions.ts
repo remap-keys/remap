@@ -6,12 +6,15 @@ import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
 import {
   IKeySwitchOperation,
   ISetupPhase,
+  IUserInformation,
+  IUserPurchase,
   RootState,
   SetupPhase,
 } from '../store/state';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { LayoutOption } from '../components/configure/keymap/Keymap';
 import { hidActionsThunk } from './hid.action';
+import { isSuccessful } from '../types';
 
 export const KEYMAP_ACTIONS = '@Keymap';
 export const KEYMAP_CLEAR_SELECTED_KEY_POSITION = `${KEYMAP_ACTIONS}/ClearSelectedKeyPosition`;
@@ -217,6 +220,8 @@ export const APP_UPDATE_LANG_LABEL = `${APP_ACTIONS}/UpdateLangLabel`;
 export const APP_UPDATE_SIGNED_IN = `${APP_ACTIONS}/SignedIn`;
 export const APP_TESTED_MATRIX_CLEAR = `${APP_ACTIONS}/TestedMatrixClear`;
 export const APP_TEST_MATRIX_UPDATE = `${APP_ACTIONS}/TestMatrixUpdate`;
+export const APP_UPDATE_USER_INFORMATION = `${APP_ACTIONS}/UpdateUserInformation`;
+export const APP_UPDATE_USER_PURCHASE = `${APP_ACTIONS}/UpdateUserPurchase`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -358,6 +363,18 @@ export const AppActions = {
       value: posList,
     };
   },
+  updateUserInformation: (userInformation: IUserInformation | undefined) => {
+    return {
+      type: APP_UPDATE_USER_INFORMATION,
+      value: userInformation,
+    };
+  },
+  updateUserPurchase: (purchase: IUserPurchase | undefined) => {
+    return {
+      type: APP_UPDATE_USER_PURCHASE,
+      value: purchase,
+    };
+  },
 };
 
 type ActionTypes = ReturnType<
@@ -381,6 +398,8 @@ export const AppActionsThunk = {
     ) => {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
+      dispatch(AppActions.updateUserInformation(undefined));
+      dispatch(AppActions.updateUserPurchase(undefined));
       await auth.instance!.signOut();
       dispatch(await hidActionsThunk.closeOpenedKeyboard());
       dispatch(AppActions.updateSetupPhase(SetupPhase.keyboardNotSelected));
@@ -441,6 +460,54 @@ export const AppActionsThunk = {
         dispatch(NotificationActions.addError(result.error!, result.cause));
       }
     },
+  fetchUserInformation: (): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, app } = getState();
+      if (!app.signedIn) {
+        dispatch(AppActions.updateUserInformation(undefined));
+        return;
+      }
+      const user = auth.instance!.getCurrentAuthenticatedUserIgnoreNull();
+      if (user === null) {
+        dispatch(AppActions.updateUserInformation(undefined));
+        return;
+      }
+      const result = await storage.instance!.getUserInformation(user.uid);
+      if (isSuccessful(result)) {
+        dispatch(AppActions.updateUserInformation(result.value));
+      } else {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+      }
+    };
+  },
+  fetchUserPurchase: (): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, app } = getState();
+      if (!app.signedIn) {
+        dispatch(AppActions.updateUserPurchase(undefined));
+        return;
+      }
+      const user = auth.instance!.getCurrentAuthenticatedUserIgnoreNull();
+      if (user === null) {
+        dispatch(AppActions.updateUserPurchase(undefined));
+        return;
+      }
+      const result = await storage.instance!.getUserPurchase(user.uid);
+      if (isSuccessful(result)) {
+        dispatch(AppActions.updateUserPurchase(result.value));
+      } else {
+        console.error(result.cause);
+        dispatch(NotificationActions.addError(result.error, result.cause));
+      }
+    };
+  },
 };
 
 export const LAYOUT_OPTIONS_ACTIONS = '@LayoutOptions';

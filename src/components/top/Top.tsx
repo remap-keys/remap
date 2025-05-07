@@ -36,6 +36,7 @@ import KeyboardAltIcon from '@mui/icons-material/KeyboardAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import BoltIcon from '@mui/icons-material/Bolt';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import CatalogKeywordSearchDialog from '../catalog/search/CatalogKeywordSearchDialog.container';
 import { IKeyboardDefinitionDocument } from '../../services/storage/Storage';
 
@@ -101,6 +102,10 @@ export default function Top(props: TopPropsType) {
     setOpenCatalogKeywordSearchDialog(true);
   };
 
+  const onClickStartWorkbench = () => {
+    navigate('/workbench');
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -111,8 +116,9 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Feb 26th, 2025] Japanese Language Support. See{' '}
-        <Link href="/docs/i18n" target="_blank">
+        [May 7th, 2025] A new feature called &quot;Workbench&quot; is now
+        available!. See{' '}
+        <Link href="/docs/workbench" target="_blank">
           for more details
         </Link>{' '}
         .
@@ -197,6 +203,24 @@ export default function Top(props: TopPropsType) {
                       <Typography variant="body1" color="text.secondary">
                         {t(
                           "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more."
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickStartWorkbench}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <ConstructionIcon sx={{ mr: 1 }} />
+                        {t('Firmware Workbench')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          'Get your own firmware by writing it from source code.'
                         )}
                       </Typography>
                     </CardContent>

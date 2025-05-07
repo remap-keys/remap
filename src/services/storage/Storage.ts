@@ -1,5 +1,10 @@
 import { LayoutOption } from '../../components/configure/keymap/Keymap';
-import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
+import {
+  IFirmwareCodePlace,
+  IKeyboardFeatures,
+  IUserPurchase,
+  IUserInformation,
+} from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { IBootloaderType } from '../firmware/Types';
@@ -263,6 +268,7 @@ export type IFirmwareBuildingTaskStatus =
 export type IFirmwareBuildingTask = {
   id: string;
   firmwareId: string;
+  projectId: string;
   uid: string;
   status: IFirmwareBuildingTaskStatus;
   firmwareFilePath: string;
@@ -287,6 +293,121 @@ export type IKeyboardStatistics = {
       values: number[];
     };
   };
+};
+
+export type IWorkbenchProject = {
+  id: string;
+  name: string;
+  qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion;
+  keyboardFiles: IWorkbenchProjectFile[];
+  keymapFiles: IWorkbenchProjectFile[];
+  uid: string;
+  keyboardDirectoryName: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IWorkbenchProjectFile = {
+  id: string;
+  path: string;
+  code: string;
+  fileType: IBuildableFirmwareFileType;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IPaypalLink = {
+  href: string;
+  rel: string;
+  method: string;
+};
+
+export type IPaypalAmount = {
+  currency_code: string;
+  value: string;
+};
+
+export type IRemainingBuildPurchaseCreateOrderResult = {
+  id: string;
+  status: string;
+  links: IPaypalLink[];
+};
+
+export type IRemainingBuildPurchaseCaptureOrderResult = {
+  id: string;
+  status: string;
+  payment_source: {
+    paypal: {
+      email_address: string;
+      account_id: string;
+      account_status: string;
+      name: {
+        given_name: string;
+        surname: string;
+      };
+      address: {
+        country_code: string;
+      };
+    };
+  };
+  purchase_units: {
+    reference_id: string;
+    shipping: {
+      name: {
+        full_name: string;
+      };
+      address: {
+        address_line_1: string;
+        admin_area_2: string;
+        admin_area_1: string;
+        postal_code: string;
+        country_code: string;
+      };
+    };
+    payments: {
+      captures: {
+        id: string;
+        status: string;
+        amount: IPaypalAmount;
+        final_capture: boolean;
+        seller_protection: {
+          status: string;
+          dispute_categories: string[];
+        };
+        seller_receivable_breakdown: {
+          gross_amount: IPaypalAmount;
+          paypal_fee: IPaypalAmount;
+          net_amount: IPaypalAmount;
+        };
+        links: IPaypalLink[];
+        create_time: string;
+        update_time: string;
+      }[];
+    };
+  }[];
+  payer: {
+    name: {
+      given_name: string;
+      surname: string;
+    };
+    email_address: string;
+    payer_id: string;
+    address: {
+      country_code: string;
+    };
+  };
+  links: IPaypalLink[];
+};
+
+export type IUserPurchaseHistory = {
+  id: string;
+  orderId: string;
+  status: string;
+  createOrderResponseJson: string;
+  captureOrderResponseJson: string;
+  errorMessage: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 /* eslint-disable no-unused-vars */
@@ -513,5 +634,58 @@ export interface IStorage {
   fetchKeyboardStatistics(
     keyboardDefinitionId: string
   ): Promise<IResult<IKeyboardStatistics>>;
+
+  getUserInformation(uid: string): Promise<IResult<IUserInformation>>;
+  updateUserInformation(
+    userInformation: IUserInformation
+  ): Promise<IEmptyResult>;
+  getUserPurchase(uid: string): Promise<IResult<IUserPurchase>>;
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void;
+
+  fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>>;
+  fetchWorkbenchProjectWithFiles(
+    projectId: string
+  ): Promise<IResult<IWorkbenchProject | undefined>>;
+  createWorkbenchProject(
+    projectName: string,
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string
+  ): Promise<IResult<IWorkbenchProject>>;
+  updateWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IResult<IWorkbenchProject>>;
+  deleteWorkbenchProject(project: IWorkbenchProject): Promise<IEmptyResult>;
+  createWorkbenchProjectFile(
+    projectId: string,
+    fileType: IBuildableFirmwareFileType,
+    filePath: string
+  ): Promise<IResult<IWorkbenchProjectFile>>;
+  updateWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult>;
+  deleteWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult>;
+  fetchWorkbenchProjectFile(
+    project: IWorkbenchProject,
+    fileId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IWorkbenchProjectFile>>;
+  createWorkbenchProjectBuildingTask(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult>;
+  onSnapshotWorkbenchProjectBuildingTasks(
+    projectId: string,
+    callback: (tasks: IFirmwareBuildingTask[]) => void
+  ): () => void;
+  orderCreate(language: string): Promise<IResult<string>>;
+  captureOrder(orderId: string): Promise<IEmptyResult>;
+  fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>>;
 }
 /* eslint-enable no-unused-vars */

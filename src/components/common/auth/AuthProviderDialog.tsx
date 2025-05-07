@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import './AuthProviderDialog.scss';
 import { GitHub, Person } from '@mui/icons-material';
+import { t } from 'i18next';
 
 type OwnState = {};
 
@@ -53,25 +54,25 @@ export default class AuthProviderDialog extends React.Component<
         className="auth-provider-dialog"
       >
         <DialogTitle id="auth-provider-dialog-title">
-          Login
+          {t('Login')}
           <div className="close-dialog">
             <CloseIcon onClick={this.props.onClose} />
           </div>
         </DialogTitle>
         <DialogContent dividers className="auth-provider-dialog-content">
           <Typography variant="subtitle1">
-            Which do you want to login with?
+            {t('Which do you want to login with?')}
           </Typography>
           <Button onClick={this.onGoogleLoginButtonClick}>
             <Person />
             <span className="auth-provider-dialog-content-provider">
-              Google Account
+              Google {t('Account')}
             </span>
           </Button>
           <Button onClick={this.onGitHubLoginButtonClick}>
             <GitHub />
             <span className="auth-provider-dialog-content-provider">
-              GitHub Account
+              GitHub {t('Account')}
             </span>
           </Button>
         </DialogContent>

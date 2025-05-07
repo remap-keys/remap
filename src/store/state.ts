@@ -19,6 +19,8 @@ import {
   IOrganizationMember,
   IStorage,
   IStore,
+  IUserPurchaseHistory,
+  IWorkbenchProject,
   SavedKeymapData,
 } from '../services/storage/Storage';
 import { IAuth } from '../services/auth/Auth';
@@ -247,6 +249,27 @@ export type IBuildableFirmwareCodeParameterValues = {
   keymap: IBuildableFirmwareCodeParameterValueMap;
 };
 
+export const WorkbenchPhase = {
+  editing: 'editing',
+  processing: 'processing',
+} as const;
+export type IWorkbenchPhase =
+  (typeof WorkbenchPhase)[keyof typeof WorkbenchPhase];
+
+export type IUserInformation = {
+  uid: string;
+  currentProjectId: string | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type IUserPurchase = {
+  uid: string;
+  remainingBuildCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -325,6 +348,10 @@ export type RootState = {
     };
     localAuthenticationInfo: {
       uid: string;
+    };
+    user: {
+      information: IUserInformation | undefined;
+      purchase: IUserPurchase | undefined;
     };
   };
   configure: {
@@ -488,6 +515,18 @@ export type RootState = {
   serial: {
     writer: IFirmwareWriter;
   };
+  workbench: {
+    app: {
+      phase: IWorkbenchPhase;
+      projects: IWorkbenchProject[];
+      currentProject: IWorkbenchProject | undefined;
+      selectedFile:
+        | { fileId: string; fileType: IBuildableFirmwareFileType }
+        | undefined;
+      buildingTasks: IFirmwareBuildingTask[];
+      userPurchaseHistories: IUserPurchaseHistory[] | undefined;
+    };
+  };
 };
 
 let firebaseProvider;
@@ -588,6 +627,10 @@ export const INIT_STATE: RootState = {
     },
     localAuthenticationInfo: {
       uid: localAuthenticationUid,
+    },
+    user: {
+      information: undefined,
+      purchase: undefined,
     },
   },
   configure: {
@@ -751,5 +794,15 @@ export const INIT_STATE: RootState = {
   },
   serial: {
     writer: firmwareWriter,
+  },
+  workbench: {
+    app: {
+      phase: WorkbenchPhase.processing,
+      projects: [],
+      currentProject: undefined,
+      selectedFile: undefined,
+      buildingTasks: [],
+      userPurchaseHistories: undefined,
+    },
   },
 };

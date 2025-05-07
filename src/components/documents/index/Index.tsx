@@ -8,6 +8,12 @@ export default function Index() {
         <Typography variant="h3">News</Typography>
         <section>
           <Typography variant="body1" gutterBottom={true}>
+            <Link href="/docs/workbench">
+              [May 7th, 2025] A new feature called &quot;Workbench&quot; is now
+              available!
+            </Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom={true}>
             <Link href="/docs/i18n">
               [Feb 26th, 2025] Japanese Language Support
             </Link>

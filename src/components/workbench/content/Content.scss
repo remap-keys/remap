@@ -1,0 +1,64 @@
+@use '../../../variables';
+.workbench-content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 64px;
+
+  &-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .MuiTabs-root {
+      background-color: white;
+    }
+  }
+}
+
+.workbench-processing-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: variables.$space-xl;
+  background-color: white;
+  flex: 1 1;
+  width: 100%;
+  height: 100vh;
+}
+
+@include variables.mq(sm) {
+  .workbench-content {
+    padding-top: calc(var(--key-height));
+  }
+}
+
+.workbench-share-buttons {
+  margin-right: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-left: auto;
+  align-items: center;
+}
+
+.workbench-not-signed-in-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: variables.$space-xl;
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+}

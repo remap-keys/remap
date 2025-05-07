@@ -50,6 +50,8 @@ import {
   NOTIFICATION_REMOVE,
   KEYMAP_CLEAR_SELECTED_KEY_POSITION,
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
+  APP_UPDATE_USER_INFORMATION,
+  APP_UPDATE_USER_PURCHASE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -214,6 +216,16 @@ import {
   UPLOAD_FIRMWARE_DIALOG_UPDATE_OPEN,
 } from '../actions/firmware.action';
 import { MOD_LEFT } from '../services/hid/Constraints';
+import {
+  WORKBENCH_APP_ACTIONS,
+  WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT,
+  WORKBENCH_APP_UPDATE_BUILDING_TASKS,
+  WORKBENCH_APP_UPDATE_CURRENT_PROJECT,
+  WORKBENCH_APP_UPDATE_PHASE,
+  WORKBENCH_APP_UPDATE_PROJECTS,
+  WORKBENCH_APP_UPDATE_SELECTED_FILE,
+  WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES,
+} from '../actions/workbench.action';
 
 export type Action = { type: string; value: any };
 
@@ -269,6 +281,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       action.type.startsWith(ORGANIZATIONS_EDIT_ORGANIZATION_ACTIONS)
     ) {
       organizationsEditOrganizationReducer(action, draft);
+    } else if (action.type.startsWith(WORKBENCH_APP_ACTIONS)) {
+      workbenchAppReducer(action, draft);
     }
   });
 
@@ -721,6 +735,14 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
           draft.app.testedMatrix = [...testedMatrix, key];
         }
       }
+      break;
+    }
+    case APP_UPDATE_USER_INFORMATION: {
+      draft.app.user.information = action.value;
+      break;
+    }
+    case APP_UPDATE_USER_PURCHASE: {
+      draft.app.user.purchase = action.value;
       break;
     }
   }
@@ -1249,6 +1271,51 @@ const organizationsEditOrganizationReducer = (
     case ORGANIZATIONS_EDIT_ORGANIZATION_UPDATE_EMAIL:
       draft.organizations.editorganization.email = action.value;
       break;
+  }
+};
+
+const workbenchAppReducer = (
+  action: Action,
+  draft: WritableDraft<RootState>
+) => {
+  switch (action.type) {
+    case WORKBENCH_APP_UPDATE_PHASE: {
+      draft.workbench.app.phase = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_PROJECTS: {
+      draft.workbench.app.projects = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_CURRENT_PROJECT: {
+      draft.workbench.app.currentProject = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_SELECTED_FILE: {
+      draft.workbench.app.selectedFile = action.value;
+      break;
+    }
+    case WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT: {
+      const currentProject = draft.workbench.app.currentProject;
+      if (currentProject === undefined) {
+        return;
+      }
+      const file = action.value;
+      const targetFiles =
+        file.fileType === 'keyboard'
+          ? currentProject.keyboardFiles
+          : currentProject.keymapFiles;
+      targetFiles.push(file);
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_BUILDING_TASKS: {
+      draft.workbench.app.buildingTasks = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES: {
+      draft.workbench.app.userPurchaseHistories = action.value;
+      break;
+    }
   }
 };
 

@@ -39,9 +39,17 @@ import {
   IBuildableFirmwareQmkFirmwareVersion,
   IOperationLogType,
   IKeyboardStatistics,
+  IWorkbenchProject,
+  IWorkbenchProjectFile,
+  IUserPurchaseHistory,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
-import { IFirmwareCodePlace, IKeyboardFeatures } from '../../store/state';
+import {
+  IFirmwareCodePlace,
+  IKeyboardFeatures,
+  IUserPurchase,
+  IUserInformation,
+} from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
 import { IBootloaderType } from '../firmware/Types';
@@ -65,6 +73,8 @@ export type IFirebaseConfiguration = {
 };
 
 const FUNCTIONS_REGION = 'asia-northeast1';
+
+const PAYPAL_ENVIRONMENT = import.meta.env.REACT_APP_PAYPAL_ENVIRONMENT;
 
 export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
@@ -1934,6 +1944,7 @@ export class FirebaseProvider implements IStorage, IAuth {
           id: doc.id,
           uid: doc.data()!.uid,
           firmwareId: doc.data()!.firmwareId,
+          projectId: '',
           status: doc.data()!.status,
           firmwareFilePath: doc.data()!.firmwareFilePath,
           stdout: doc.data()!.stdout,
@@ -2057,6 +2068,556 @@ export class FirebaseProvider implements IStorage, IAuth {
       console.error(error);
       return errorResultOf(
         `Fetching keyboard statistics failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async getUserInformation(uid: string): Promise<IResult<IUserInformation>> {
+    try {
+      const doc = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('information')
+        .doc(uid)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          uid: doc.id,
+          ...(doc.data() as Omit<IUserInformation, 'uid'>),
+        });
+      } else {
+        const newDoc: Omit<IUserInformation, 'uid'> = {
+          currentProjectId: undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        await this.db
+          .collection('users')
+          .doc('v1')
+          .collection('information')
+          .doc(uid)
+          .set({
+            createdAt: newDoc.createdAt,
+            updatedAt: newDoc.updatedAt,
+          });
+        return successResultOf({
+          uid,
+          ...newDoc,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Fetching user information failed: ${error}`, error);
+    }
+  }
+
+  async updateUserInformation(
+    userInformation: IUserInformation
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('information')
+        .doc(userInformation.uid)
+        .update({
+          currentProjectId:
+            userInformation.currentProjectId === undefined
+              ? firebase.firestore.FieldValue.delete()
+              : userInformation.currentProjectId,
+          updatedAt: new Date(),
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Updating user information failed: ${error}`, error);
+    }
+  }
+
+  async fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>> {
+    try {
+      const user = this.getCurrentAuthenticatedUserOrNull();
+      if (user === null) {
+        return errorResultOf('User not signed in');
+      }
+      const querySnapshot = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .where('uid', '==', user.uid)
+        .get();
+      return successResultOf(
+        querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProject;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching my workbench projects failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchWorkbenchProjectWithFiles(
+    projectId: string
+  ): Promise<IResult<IWorkbenchProject | undefined>> {
+    try {
+      const projectDocument = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .get();
+      if (projectDocument.exists) {
+        const project = {
+          id: projectDocument.id,
+          ...projectDocument.data(),
+        } as IWorkbenchProject;
+        const keyboardFileDocuments = await this.db
+          .collection('build')
+          .doc('v1')
+          .collection('projects')
+          .doc(projectId)
+          .collection('keyboardFiles')
+          .orderBy('path', 'asc')
+          .get();
+        project.keyboardFiles = keyboardFileDocuments.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProjectFile;
+        });
+        const keymapFileDocuments = await this.db
+          .collection('build')
+          .doc('v1')
+          .collection('projects')
+          .doc(projectId)
+          .collection('keymapFiles')
+          .orderBy('path', 'asc')
+          .get();
+        project.keymapFiles = keymapFileDocuments.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          } as IWorkbenchProjectFile;
+        });
+        return successResultOf(project);
+      } else {
+        return successResultOf(undefined);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching workbench project with files failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createWorkbenchProject(
+    projectName: string,
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string
+  ): Promise<IResult<IWorkbenchProject>> {
+    try {
+      const now = new Date();
+      const project: Omit<
+        IWorkbenchProject,
+        'id' | 'keyboardFiles' | 'keymapFiles'
+      > = {
+        name: projectName,
+        uid: this.getCurrentAuthenticatedUserIgnoreNull()!.uid,
+        qmkFirmwareVersion,
+        keyboardDirectoryName,
+        createdAt: now,
+        updatedAt: now,
+      };
+      const projectDocument = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .add(project);
+      return successResultOf({
+        id: projectDocument.id,
+        ...project,
+        keyboardFiles: [],
+        keymapFiles: [],
+      });
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IResult<IWorkbenchProject>> {
+    try {
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .update({
+          name: project.name,
+          qmkFirmwareVersion: project.qmkFirmwareVersion,
+          keyboardDirectoryName: project.keyboardDirectoryName,
+          updatedAt: new Date(),
+        });
+      return successResultOf(project);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteWorkbenchProject(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting workbench project failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async fetchWorkbenchProjectFile(
+    project: IWorkbenchProject,
+    fileId: string,
+    fileType: IBuildableFirmwareFileType
+  ): Promise<IResult<IWorkbenchProjectFile>> {
+    try {
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(project.id)
+        .collection(fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles')
+        .doc(fileId)
+        .get();
+      if (doc.exists) {
+        return successResultOf({
+          id: doc.id,
+          ...doc.data(),
+        } as IWorkbenchProjectFile);
+      } else {
+        return errorResultOf(
+          `The target workbench project file[${fileId}] not found`
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createWorkbenchProjectFile(
+    projectId: string,
+    fileType: IBuildableFirmwareFileType,
+    path: string
+  ): Promise<IResult<IWorkbenchProjectFile>> {
+    try {
+      const now = new Date();
+      const doc = await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles')
+        .add({
+          path,
+          code: '',
+          fileType,
+          createdAt: now,
+          updatedAt: now,
+        });
+      return successResultOf({
+        id: doc.id,
+        path,
+        code: '',
+        fileType,
+        createdAt: now,
+        updatedAt: now,
+      } as IWorkbenchProjectFile);
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async updateWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult> {
+    try {
+      const now = new Date();
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(
+          file.fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles'
+        )
+        .doc(file.id)
+        .update({
+          path: file.path,
+          code: file.code,
+          updatedAt: now,
+        });
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Updating workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async deleteWorkbenchProjectFile(
+    projectId: string,
+    file: IWorkbenchProjectFile
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('build')
+        .doc('v1')
+        .collection('projects')
+        .doc(projectId)
+        .collection(
+          file.fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles'
+        )
+        .doc(file.id)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Deleting workbench project file failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  async createWorkbenchProjectBuildingTask(
+    project: IWorkbenchProject
+  ): Promise<IEmptyResult> {
+    try {
+      const createWorkbenchBuildingTask = this.functions.httpsCallable(
+        'createWorkbenchBuildingTask'
+      );
+      const createWorkbenchBuildingTaskResult =
+        await createWorkbenchBuildingTask({
+          projectId: project.id,
+        });
+      const data = createWorkbenchBuildingTaskResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Creating workbench project building task failed: ${error}`,
+        error
+      );
+    }
+  }
+
+  onSnapshotWorkbenchProjectBuildingTasks(
+    projectId: string,
+    callback: (tasks: IFirmwareBuildingTask[]) => void
+  ): () => void {
+    const unsubscribe = this.db
+      .collection('build')
+      .doc('v1')
+      .collection('tasks')
+      .where('uid', '==', this.getCurrentAuthenticatedUserIgnoreNull()!.uid)
+      .where('projectId', '==', projectId)
+      .orderBy('updatedAt', 'desc')
+      .onSnapshot((querySnapshot) => {
+        const tasks: IFirmwareBuildingTask[] = [];
+        querySnapshot.docs.forEach((doc) => {
+          tasks.push({
+            id: doc.id,
+            uid: doc.data()!.uid,
+            firmwareId: '',
+            projectId: doc.data()!.projectId,
+            status: doc.data()!.status,
+            firmwareFilePath: doc.data()!.firmwareFilePath,
+            stdout: doc.data()!.stdout,
+            stderr: doc.data()!.stderr,
+            description: doc.data()!.description,
+            parametersJson: '',
+            createdAt: doc.data()!.createdAt.toDate(),
+            updatedAt: doc.data()!.updatedAt.toDate(),
+          });
+        });
+        callback(tasks);
+      });
+    return unsubscribe;
+  }
+
+  async getUserPurchase(uid: string): Promise<IResult<IUserPurchase>> {
+    try {
+      const now = new Date();
+      const documentSnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .get();
+      if (documentSnapshot.exists) {
+        return successResultOf({
+          uid: documentSnapshot.id,
+          ...documentSnapshot.data(),
+        } as IUserPurchase);
+      } else {
+        await this.db
+          .collection('users')
+          .doc('v1')
+          .collection('purchases')
+          .doc(uid)
+          .set({
+            remainingBuildCount: 3,
+            createdAt: now,
+            updatedAt: now,
+          });
+        return successResultOf({
+          uid,
+          remainingBuildCount: 3,
+          createdAt: now,
+          updatedAt: now,
+        } as IUserPurchase);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating user purchase failed: ${error}`, error);
+    }
+  }
+
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void {
+    const uid = this.getCurrentAuthenticatedUserIgnoreNull()!.uid;
+    const unsubscribe = this.db
+      .collection('users')
+      .doc('v1')
+      .collection('purchases')
+      .doc(uid)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const purchase = {
+            uid: doc.id,
+            ...doc.data(),
+          } as IUserPurchase;
+          callback(purchase);
+        }
+      });
+    return unsubscribe;
+  }
+
+  async orderCreate(language: string): Promise<IResult<string>> {
+    try {
+      const orderCreate = this.functions.httpsCallable('orderCreate');
+      const orderCreateResult = await orderCreate({
+        language,
+        environment: PAYPAL_ENVIRONMENT,
+      });
+      const data = orderCreateResult.data;
+      if (data.success) {
+        return successResultOf(data.orderId);
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating order failed: ${error}`, error);
+    }
+  }
+
+  async captureOrder(orderId: string): Promise<IEmptyResult> {
+    try {
+      const captureOrder = this.functions.httpsCallable('captureOrder');
+      const captureOrderResult = await captureOrder({
+        orderId,
+        environment: PAYPAL_ENVIRONMENT,
+      });
+      const data = captureOrderResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Capturing order failed: ${error}`, error);
+    }
+  }
+
+  async fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>> {
+    try {
+      const querySnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .collection('histories')
+        .orderBy('createdAt', 'desc')
+        .get();
+      return successResultOf(
+        querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            orderId: doc.data()!.orderId,
+            status: doc.data()!.status,
+            createOrderResponseJson: doc.data()!.createOrderResponseJson,
+            captureOrderResponseJson: doc.data()!.captureOrderResponseJson,
+            errorMessage: doc.data()!.errorMessage,
+            createdAt: doc.data()!.createdAt.toDate(),
+            updatedAt: doc.data()!.updatedAt.toDate(),
+          } as IUserPurchaseHistory;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching remaining build purchase histories failed: ${error}`,
         error
       );
     }

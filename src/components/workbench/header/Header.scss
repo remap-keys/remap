@@ -1,0 +1,36 @@
+@use '../../../_variables.scss';
+
+.workbench-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: fixed;
+  height: calc(var(--key-height));
+  width: 100%;
+  margin: 0;
+  padding: 0 variables.$space-m;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 2;
+
+  &-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 8px;
+  }
+
+  &-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &-menu-button {
+    //position: fixed;
+    //right: 16px;
+    cursor: pointer;
+  }
+}

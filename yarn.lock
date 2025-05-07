@@ -2806,6 +2806,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monaco-editor/loader@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@monaco-editor/loader@npm:1.5.0"
+  dependencies:
+    state-local: "npm:^1.0.6"
+  checksum: 10c0/d8e1fd75fea113b4d91405784ed4db757df450c6e57a85e87728281e819a73a3ef9fe0cbb1dc1509456f1e895ad9c11e4748f80b68900cb6cf600170e14ce6ed
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/react@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@monaco-editor/react@npm:4.7.0"
+  dependencies:
+    "@monaco-editor/loader": "npm:^1.5.0"
+  peerDependencies:
+    monaco-editor: ">= 0.25.0 < 1"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/a4e91c6eda1a71f5fd23871bd801de435490ccbc43934d23cba65cefe2be7e9d02c9a57c4ef80fc9fe99e4d4deea51e5db19cb4e0ecf3f51818dda0eb9cdbf12
+  languageName: node
+  linkType: hard
+
 "@mrmlnc/readdir-enhanced@npm:^2.2.1":
   version: 2.2.1
   resolution: "@mrmlnc/readdir-enhanced@npm:2.2.1"
@@ -3094,6 +3116,37 @@ __metadata:
     mkdirp: "npm:^1.0.4"
     rimraf: "npm:^3.0.2"
   checksum: 10c0/02e946f3dafcc6743132fe2e0e2b585a96ca7265653a38df5a3e53fcf26c7c7a57fc0f861d7c689a23fdb6d6836c7eea5050c8086abf3c994feb2208d1514ff0
+  languageName: node
+  linkType: hard
+
+"@paypal/paypal-js@npm:^8.1.2":
+  version: 8.2.0
+  resolution: "@paypal/paypal-js@npm:8.2.0"
+  dependencies:
+    promise-polyfill: "npm:^8.3.0"
+  checksum: 10c0/84cd3ca6db0f8a2f1686a8a78b53fa26429b5660175e49750fc2d68c4324b1a52b367b155a5bd8cd0eaf8aae66832308c491ff5047197bccd510a07e0b72b3c7
+  languageName: node
+  linkType: hard
+
+"@paypal/react-paypal-js@npm:^8.8.3":
+  version: 8.8.3
+  resolution: "@paypal/react-paypal-js@npm:8.8.3"
+  dependencies:
+    "@paypal/paypal-js": "npm:^8.1.2"
+    "@paypal/sdk-constants": "npm:^1.0.122"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+    react-dom: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10c0/3084ac62c2e7c368702a54896b65f23cd1c020cdaad75f26e4c4f19c4b1b9b9956a40d18aa2525727fd4247abaf79963431752c5637a7a4a6f5fb3e47b678636
+  languageName: node
+  linkType: hard
+
+"@paypal/sdk-constants@npm:^1.0.122":
+  version: 1.0.153
+  resolution: "@paypal/sdk-constants@npm:1.0.153"
+  dependencies:
+    hi-base32: "npm:^0.5.0"
+  checksum: 10c0/4f09c480fa93f9861c7bcb9307dbdc8521d459b08e3af240763a6bae02df04b6c4bbc37b3591ebdd435e0793ab16cbcc6d28cc9b3f799b75e70f9f45beb7f3fc
   languageName: node
   linkType: hard
 
@@ -5879,9 +5932,11 @@ __metadata:
     "@eslint/compat": "npm:^1.0.3"
     "@eslint/eslintrc": "npm:^3.1.0"
     "@eslint/js": "npm:^9.4.0"
+    "@monaco-editor/react": "npm:^4.7.0"
     "@mui/icons-material": "npm:^5.15.19"
     "@mui/material": "npm:^5.15.19"
     "@mui/styles": "npm:^5.15.19"
+    "@paypal/react-paypal-js": "npm:^8.8.3"
     "@pdf-lib/fontkit": "npm:^1.1.1"
     "@storybook/addon-actions": "npm:^6.1.14"
     "@storybook/addon-essentials": "npm:^6.1.15"
@@ -5937,6 +5992,7 @@ __metadata:
     react-draggable: "npm:^4.4.6"
     react-google-charts: "npm:^4.0.1"
     react-helmet-async: "npm:^2.0.5"
+    react-hook-form: "npm:^7.55.0"
     react-i18next: "npm:^15.4.1"
     react-image-gallery: "npm:^1.3.0"
     react-redux: "npm:^9.1.2"
@@ -10885,6 +10941,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hi-base32@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "hi-base32@npm:0.5.1"
+  checksum: 10c0/45adb99249b04108fd689cb344f4b625b49d0518327117c34c403dbaf4723aaefb2a1bde6d7a0288ff0f835970d0f844a3ae103534dc237c99b8552a0e689177
+  languageName: node
+  linkType: hard
+
 "hmac-drbg@npm:^1.0.1":
   version: 1.0.1
   resolution: "hmac-drbg@npm:1.0.1"
@@ -14861,6 +14924,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"promise-polyfill@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "promise-polyfill@npm:8.3.0"
+  checksum: 10c0/97141f07a31a6be135ec9ed53700a3423a771cabec0ba5e08fcb2bf8cfda855479ff70e444fceb938f560be42b450cd032c14f4a940ed2ad1e5b4dcb78368dce
+  languageName: node
+  linkType: hard
+
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -15271,6 +15341,15 @@ __metadata:
   peerDependencies:
     react: ^16.6.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/f390ea8bf13c2681850e5f8eb5b73d8613f407c245a5fd23e9db9b2cc14a3700dd1ce992d3966632886d1d613083294c2aeee009193f49dfa7d145d9f13ea2b0
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.55.0":
+  version: 7.55.0
+  resolution: "react-hook-form@npm:7.55.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10c0/9cff0da58d8223dd14e01ac83688e3546edc42cfa557974b6f2f09922ee051e4713fd53abb69c7a815bf3600142a14186b977d69d438da32f63475a8ecf6b452
   languageName: node
   linkType: hard
 
@@ -16749,6 +16828,13 @@ __metadata:
   version: 1.3.4
   resolution: "stackframe@npm:1.3.4"
   checksum: 10c0/18410f7a1e0c5d211a4effa83bdbf24adbe8faa8c34db52e1cd3e89837518c592be60b60d8b7270ac53eeeb8b807cd11b399a41667f6c9abb41059c3ccc8a989
+  languageName: node
+  linkType: hard
+
+"state-local@npm:^1.0.6":
+  version: 1.0.7
+  resolution: "state-local@npm:1.0.7"
+  checksum: 10c0/8dc7daeac71844452fafb514a6d6b6f40d7e2b33df398309ea1c7b3948d6110c57f112b7196500a10c54fdde40291488c52c875575670fb5c819602deca48bd9
   languageName: node
   linkType: hard
 
