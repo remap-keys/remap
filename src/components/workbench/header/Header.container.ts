@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import Header from './Header';
-import { AppActionsThunk } from '../../../actions/actions';
+import { AppActionsThunk, NotificationActions } from '../../../actions/actions';
 import {
   IBuildableFirmwareFileType,
   IWorkbenchProject,
@@ -19,6 +19,7 @@ const mapStateToProps = (state: RootState) => {
     phase: state.catalog.app.phase,
     currentProject: state.workbench.app.currentProject,
     projects: state.workbench.app.projects,
+    userPurchase: state.app.user.purchase,
   };
 };
 export type HeaderStateType = ReturnType<typeof mapStateToProps>;
@@ -56,6 +57,12 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     createFirmwareBuildingTask: (project: IWorkbenchProject) => {
       dispatch(workbenchActionsThunk.createFirmwareBuildingTask(project));
+    },
+    showMessage: (message: string) => {
+      dispatch(NotificationActions.addSuccess(message));
+    },
+    fetchUserPurchaseHistories: () => {
+      dispatch(workbenchActionsThunk.fetchUserPurchaseHistories());
     },
   };
 };

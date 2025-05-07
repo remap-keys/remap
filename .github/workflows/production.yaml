@@ -55,6 +55,7 @@ jobs:
           REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
           REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
           REACT_APP_ERROR_REPORTING_KEY: ${{ secrets.REACT_APP_ERROR_REPORTING_KEY }}
+          REACT_APP_PAYPAL_CLIENT_ID: ${{ secrets.REACT_APP_PAYPAL_CLIENT_ID }}
         run: yarn build && yarn test
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@v13.5.2

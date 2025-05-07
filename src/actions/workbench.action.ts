@@ -12,6 +12,7 @@ import {
   IBuildableFirmwareFileType,
   IFirmwareBuildingTask,
   IStorage,
+  IUserPurchaseHistory,
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
@@ -28,6 +29,7 @@ export const WORKBENCH_APP_UPDATE_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/Up
 export const WORKBENCH_APP_UPDATE_SELECTED_FILE = `${WORKBENCH_APP_ACTIONS}/UpdateSelectedFile`;
 export const WORKBENCH_APP_APPEND_FILE_TO_CURRENT_PROJECT = `${WORKBENCH_APP_ACTIONS}/AppendFileToCurrentProject`;
 export const WORKBENCH_APP_UPDATE_BUILDING_TASKS = `${WORKBENCH_APP_ACTIONS}/UpdateBuildableTasks`;
+export const WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES = `${WORKBENCH_APP_ACTIONS}/UpdateUserPurchaseHistories`;
 export const WorkbenchAppActions = {
   updatePhase: (phase: IWorkbenchPhase) => {
     return {
@@ -67,6 +69,14 @@ export const WorkbenchAppActions = {
     return {
       type: WORKBENCH_APP_UPDATE_BUILDING_TASKS,
       value: tasks,
+    };
+  },
+  updateUserPurchaseHistories: (
+    userPurchaseHistories: IUserPurchaseHistory[] | undefined
+  ) => {
+    return {
+      type: WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES,
+      value: userPurchaseHistories,
     };
   },
 };
@@ -177,13 +187,11 @@ export const workbenchActionsThunk = {
         WorkbenchAppActions.updateCurrentProject(currentProjectWithFiles)
       );
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...userInformation,
           currentProjectId,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -382,13 +390,11 @@ export const workbenchActionsThunk = {
       dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
       dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...app.user.information!,
           currentProjectId: newProject.id,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -419,13 +425,11 @@ export const workbenchActionsThunk = {
       }
       dispatch(WorkbenchAppActions.updateCurrentProject(currentProject));
 
-      const updateUserInformationResult = await updateUserInformation(
-        storage.instance!,
-        {
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
           ...app.user.information!,
           currentProjectId: currentProject.id,
-        }
-      );
+        });
       if (isError(updateUserInformationResult)) {
         dispatch(
           NotificationActions.addError(
@@ -512,13 +516,11 @@ export const workbenchActionsThunk = {
         );
         dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
 
-        const updateUserInformationResult = await updateUserInformation(
-          storage.instance!,
-          {
+        const updateUserInformationResult =
+          await storage.instance!.updateUserInformation({
             ...app.user.information!,
             currentProjectId: newCurrentProjectWithFiles.id,
-          }
-        );
+          });
         if (isError(updateUserInformationResult)) {
           dispatch(
             NotificationActions.addError(
@@ -636,12 +638,29 @@ export const workbenchActionsThunk = {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
       dispatch(AppActions.updateUserInformation(undefined));
+      dispatch(AppActions.updateUserPurchase(undefined));
       dispatch(WorkbenchAppActions.updateCurrentProject(undefined));
       dispatch(WorkbenchAppActions.updateProjects([]));
       dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
       dispatch(WorkbenchAppActions.updatePhase(WorkbenchPhase.processing));
       await auth.instance!.signOut();
     },
+  fetchUserPurchaseHistories: (): ThunkPromiseAction<void> => {
+    return async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth } = getState();
+      const user = auth.instance!.getCurrentAuthenticatedUserIgnoreNull();
+      const result =
+        await storage.instance!.fetchRemainingBuildPurchaseHistories(user.uid);
+      if (isError(result)) {
+        dispatch(NotificationActions.addError(result.error, result.cause));
+        return;
+      }
+      dispatch(WorkbenchAppActions.updateUserPurchaseHistories(result.value));
+    };
+  },
 };
 
 const createDefaultProjectName = (projects: IWorkbenchProject[]): string => {
@@ -672,19 +691,4 @@ const determineBootloaderType = (
   } else {
     return 'copy';
   }
-};
-
-const updateUserInformation = async (
-  storage: IStorage,
-  userInformation: IUserInformation
-): Promise<IEmptyResult> => {
-  const updateUserInformationResult =
-    await storage.updateUserInformation(userInformation);
-  if (isError(updateUserInformationResult)) {
-    return errorResultOf(
-      updateUserInformationResult.error,
-      updateUserInformationResult.cause
-    );
-  }
-  return successResult();
 };

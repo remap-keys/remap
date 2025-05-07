@@ -41,11 +41,13 @@ import {
   IKeyboardStatistics,
   IWorkbenchProject,
   IWorkbenchProjectFile,
+  IUserPurchaseHistory,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
   IFirmwareCodePlace,
   IKeyboardFeatures,
+  IUserPurchase,
   IUserInformation,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
@@ -71,6 +73,8 @@ export type IFirebaseConfiguration = {
 };
 
 const FUNCTIONS_REGION = 'asia-northeast1';
+
+const PAYPAL_ENVIRONMENT = import.meta.env.REACT_APP_PAYPAL_ENVIRONMENT;
 
 export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
@@ -2483,5 +2487,139 @@ export class FirebaseProvider implements IStorage, IAuth {
         callback(tasks);
       });
     return unsubscribe;
+  }
+
+  async getUserPurchase(uid: string): Promise<IResult<IUserPurchase>> {
+    try {
+      const now = new Date();
+      const documentSnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .get();
+      if (documentSnapshot.exists) {
+        return successResultOf({
+          uid: documentSnapshot.id,
+          ...documentSnapshot.data(),
+        } as IUserPurchase);
+      } else {
+        await this.db
+          .collection('users')
+          .doc('v1')
+          .collection('purchases')
+          .doc(uid)
+          .set({
+            remainingBuildCount: 3,
+            createdAt: now,
+            updatedAt: now,
+          });
+        return successResultOf({
+          uid,
+          remainingBuildCount: 3,
+          createdAt: now,
+          updatedAt: now,
+        } as IUserPurchase);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating user purchase failed: ${error}`, error);
+    }
+  }
+
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void {
+    const uid = this.getCurrentAuthenticatedUserIgnoreNull()!.uid;
+    const unsubscribe = this.db
+      .collection('users')
+      .doc('v1')
+      .collection('purchases')
+      .doc(uid)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const purchase = {
+            uid: doc.id,
+            ...doc.data(),
+          } as IUserPurchase;
+          callback(purchase);
+        }
+      });
+    return unsubscribe;
+  }
+
+  async orderCreate(language: string): Promise<IResult<string>> {
+    try {
+      const orderCreate = this.functions.httpsCallable('orderCreate');
+      const orderCreateResult = await orderCreate({
+        language,
+        environment: PAYPAL_ENVIRONMENT,
+      });
+      const data = orderCreateResult.data;
+      if (data.success) {
+        return successResultOf(data.orderId);
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Creating order failed: ${error}`, error);
+    }
+  }
+
+  async captureOrder(orderId: string): Promise<IEmptyResult> {
+    try {
+      const captureOrder = this.functions.httpsCallable('captureOrder');
+      const captureOrderResult = await captureOrder({
+        orderId,
+        environment: PAYPAL_ENVIRONMENT,
+      });
+      const data = captureOrderResult.data;
+      if (data.success) {
+        return successResult();
+      } else {
+        console.error(data.errorMessage);
+        return errorResultOf(data.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Capturing order failed: ${error}`, error);
+    }
+  }
+
+  async fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>> {
+    try {
+      const querySnapshot = await this.db
+        .collection('users')
+        .doc('v1')
+        .collection('purchases')
+        .doc(uid)
+        .collection('histories')
+        .orderBy('createdAt', 'desc')
+        .get();
+      return successResultOf(
+        querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            orderId: doc.data()!.orderId,
+            status: doc.data()!.status,
+            createOrderResponseJson: doc.data()!.createOrderResponseJson,
+            captureOrderResponseJson: doc.data()!.captureOrderResponseJson,
+            errorMessage: doc.data()!.errorMessage,
+            createdAt: doc.data()!.createdAt.toDate(),
+            updatedAt: doc.data()!.updatedAt.toDate(),
+          } as IUserPurchaseHistory;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(
+        `Fetching remaining build purchase histories failed: ${error}`,
+        error
+      );
+    }
   }
 }

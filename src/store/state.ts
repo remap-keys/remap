@@ -19,6 +19,7 @@ import {
   IOrganizationMember,
   IStorage,
   IStore,
+  IUserPurchaseHistory,
   IWorkbenchProject,
   SavedKeymapData,
 } from '../services/storage/Storage';
@@ -262,6 +263,13 @@ export type IUserInformation = {
   updatedAt: Date;
 };
 
+export type IUserPurchase = {
+  uid: string;
+  remainingBuildCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type RootState = {
   entities: {
     device: {
@@ -343,6 +351,7 @@ export type RootState = {
     };
     user: {
       information: IUserInformation | undefined;
+      purchase: IUserPurchase | undefined;
     };
   };
   configure: {
@@ -515,6 +524,7 @@ export type RootState = {
         | { fileId: string; fileType: IBuildableFirmwareFileType }
         | undefined;
       buildingTasks: IFirmwareBuildingTask[];
+      userPurchaseHistories: IUserPurchaseHistory[] | undefined;
     };
   };
 };
@@ -620,6 +630,7 @@ export const INIT_STATE: RootState = {
     },
     user: {
       information: undefined,
+      purchase: undefined,
     },
   },
   configure: {
@@ -791,6 +802,7 @@ export const INIT_STATE: RootState = {
       currentProject: undefined,
       selectedFile: undefined,
       buildingTasks: [],
+      userPurchaseHistories: undefined,
     },
   },
 };

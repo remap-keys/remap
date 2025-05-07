@@ -282,6 +282,7 @@ export const catalogActionsThunk = {
       const { auth } = getState();
       dispatch(AppActions.updateSignedIn(false));
       dispatch(AppActions.updateUserInformation(undefined));
+      dispatch(AppActions.updateUserPurchase(undefined));
       await auth.instance!.signOut();
     },
 

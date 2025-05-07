@@ -10,6 +10,9 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
@@ -22,6 +25,9 @@ import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
 import { t } from 'i18next';
+import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
+import PaymentIcon from '@mui/icons-material/Payment';
+import RemainingBuildPurchaseHistoryDialog from '../dialogs/RemainingBuildPurchaseHistoryDialog.container';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -37,6 +43,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   >(undefined);
   const [openProjectSettingsDialog, setOpenProjectSettingsDialog] =
     useState<boolean>(false);
+  const [
+    openRemainingBuildPurchaseDialog,
+    setOpenRemainingBuildPurchaseDialog,
+  ] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -134,6 +144,19 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     props.createFirmwareBuildingTask!(props.currentProject);
   };
 
+  const onClickPurchase = () => {
+    setOpenRemainingBuildPurchaseDialog(true);
+  };
+
+  const onPurchaseRemainingBuilds = () => {
+    setOpenRemainingBuildPurchaseDialog(false);
+    props.showMessage!(t('Purchase completed successfully'));
+  };
+
+  const onClickPurchaseHistory = () => {
+    props.fetchUserPurchaseHistories!();
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -142,7 +165,10 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
             <Logo width={100} />
           </a>
           <Typography variant="h6" sx={{ ml: 2 }}>
-            Firmware Workbench
+            {t('Firmware Workbench')}
+          </Typography>
+          <Typography variant="overline" sx={{ ml: 1 }}>
+            {t('Beta version')}
           </Typography>
         </div>
         <div className="workbench-header-right">
@@ -175,9 +201,20 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
                 variant="text"
                 size="small"
                 startIcon={<BuildIcon />}
-                onClick={onClickBuild}
+                color={
+                  props.userPurchase !== undefined &&
+                  props.userPurchase.remainingBuildCount > 0
+                    ? 'primary'
+                    : 'warning'
+                }
+                onClick={
+                  props.userPurchase !== undefined &&
+                  props.userPurchase.remainingBuildCount > 0
+                    ? onClickBuild
+                    : onClickPurchase
+                }
               >
-                {t('Build')}
+                {t('Build')} ({props.userPurchase?.remainingBuildCount || 0})
               </Button>
             </>
           )}
@@ -185,6 +222,26 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
             <ProfileIcon
               logout={() => {
                 props.logout!();
+              }}
+              childrenWithOnClose={(onClose) => {
+                if (props.signedIn) {
+                  return (
+                    <MenuItem
+                      key="workbench-header-menu-purchase-history"
+                      onClick={() => {
+                        onClose();
+                        onClickPurchaseHistory();
+                      }}
+                    >
+                      <ListItemIcon>
+                        <PaymentIcon />
+                      </ListItemIcon>
+                      <ListItemText>{t('Purchase History')}</ListItemText>
+                    </MenuItem>
+                  );
+                } else {
+                  return null;
+                }
               }}
             />
           </div>
@@ -220,6 +277,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         workbenchProject={props.currentProject}
         onApply={onApplyProjectSettings}
       />
+      <RemainingBuildPurchaseDialog
+        open={openRemainingBuildPurchaseDialog}
+        onClose={() => {
+          setOpenRemainingBuildPurchaseDialog(false);
+        }}
+        onPurchase={onPurchaseRemainingBuilds}
+      ></RemainingBuildPurchaseDialog>
+      <RemainingBuildPurchaseHistoryDialog />
     </React.Fragment>
   );
 }

@@ -358,5 +358,19 @@
   "Account": "アカウント",
   "Project": "プロジェクト",
   "Build Tasks": "ビルドタスク",
-  "Are you sure you want to delete file?": "本当に \"{{name}}\" ファイルを削除しますか？"
+  "Are you sure you want to delete file?": "本当に \"{{name}}\" ファイルを削除しますか？",
+  "Firmware Workbench": "ファームウェアワークベンチ",
+  "Get your own firmware by writing it from source code.": "プログラムを書いて、自分だけのファームウェアを手に入れよう。",
+  "Purchase Remaining Builds": "ビルドを購入",
+  "By purchasing the Remap 10 Builds Package, you can use the firmware workbench feature to build your custom firmware up to 10 times.": "Remap 10回ビルドパッケージを購入すると、ファームウェアワークベンチ機能を使用して、カスタムファームウェアを10回ビルドできます。",
+  "Make the most of this feature to customize your keyboard and make it more comfortable to use.": "この機能を最大限に活用して、キーボードをカスタマイズし、より快適に使用できるようにしましょう。",
+  "Remap 10 Builds Package": "Remap 10回ビルドパッケージ",
+  "Item amount:": "商品価格:",
+  "Tax amount:": "税額:",
+  "Total amount:": "合計:",
+  "Purchase History": "購入履歴",
+  "Date": "日時",
+  "Amount": "金額",
+  "Error": "エラー",
+  "If you have any questions about your purchase, please contact the Remap team.": "購入に関して質問がある場合は、Remapチームにお問い合わせください。"
 }

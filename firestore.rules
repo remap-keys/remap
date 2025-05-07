@@ -178,6 +178,21 @@ service cloud.firestore {
                            && (request.auth.uid == userId);
         }
 
+        match /users/v1/purchases/{userId}/histories/{historyId} {
+            allow write: if false;
+            allow read: if isAuthenticated()
+                           && (request.auth.uid == userId);
+        }
+
+        match /users/v1/purchases/{userId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow update: if false;
+            allow delete: if false;
+            allow read: if isAuthenticated()
+                           && (request.auth.uid == userId);
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }

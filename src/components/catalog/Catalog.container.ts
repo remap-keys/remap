@@ -70,7 +70,8 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     updateSignedIn: (signedIn: boolean) => {
       dispatch(AppActions.updateSignedIn(signedIn));
-      dispatch(AppActionsThunk.updateUserInformation());
+      dispatch(AppActionsThunk.fetchUserInformation());
+      dispatch(AppActionsThunk.fetchUserPurchase());
     },
     updateSearchCondition: (params: ParsedQs) => {
       if (params.keyword) {

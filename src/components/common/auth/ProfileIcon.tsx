@@ -3,7 +3,14 @@ import {
   ProfileIconActionsType,
   ProfileIconStateType,
 } from './ProfileIcon.container';
-import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
+import {
+  Avatar,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { Person, PersonOutline } from '@mui/icons-material';
 import AuthProviderDialog from './AuthProviderDialog.container';
 import {
@@ -12,74 +19,68 @@ import {
 } from '../../../services/auth/Auth';
 import './ProfileIcon.scss';
 import { t } from 'i18next';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 
-type ProfileIconState = {
-  authMenuAnchorEl: any;
-  openAuthProviderDialog: boolean;
-};
 type OwnProps = {
   logout: () => void;
+  children?: React.ReactNode;
 };
 type ProfileIconProps = OwnProps &
   Partial<ProfileIconActionsType> &
-  Partial<ProfileIconStateType>;
-
-export default class ProfileIcon extends React.Component<
-  ProfileIconProps,
-  ProfileIconState
-> {
-  constructor(props: ProfileIconProps | Readonly<ProfileIconProps>) {
-    super(props);
-    this.state = {
-      authMenuAnchorEl: null,
-      openAuthProviderDialog: false,
-    };
-  }
-
-  handleAuthMenuIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    this.setState({
-      authMenuAnchorEl: event.currentTarget,
-    });
+  Partial<ProfileIconStateType> & {
+    childrenWithOnClose?: (onClose: () => void) => React.ReactNode;
   };
 
-  handleAuthMenuClose = () => {
-    this.setState({
-      authMenuAnchorEl: null,
-    });
+export default function ProfileIcon(
+  props: ProfileIconProps | Readonly<ProfileIconProps>
+) {
+  const [authMenuAnchorEl, setAuthMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const [openAuthProviderDialog, setOpenAuthProviderDialog] =
+    React.useState(false);
+
+  const handleAuthMenuIconClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAuthMenuAnchorEl(event.currentTarget);
   };
 
-  async handleLogoutMenuClick() {
-    await this.props.logout();
-    this.setState({
-      authMenuAnchorEl: null,
-    });
-  }
+  const handleAuthMenuClose = () => {
+    setAuthMenuAnchorEl(null);
+  };
 
-  async handleLinkGoogleAccountMenuClick() {
-    this.setState({ authMenuAnchorEl: null });
-    this.props.linkToGoogleAccount!();
-  }
+  const handleLogoutMenuClick = async () => {
+    await props.logout!();
+    setAuthMenuAnchorEl(null);
+  };
 
-  async handleLinkGitHubAccountMenuClick() {
-    this.setState({ authMenuAnchorEl: null });
-    this.props.linkToGitHubAccount!();
-  }
+  const handleLinkGoogleAccountMenuClick = async () => {
+    setAuthMenuAnchorEl(null);
+    props.linkToGoogleAccount!();
+  };
 
-  private handleCloseAuthProviderDialog() {
-    this.setState({ openAuthProviderDialog: false });
-  }
+  const handleLinkGitHubAccountMenuClick = async () => {
+    setAuthMenuAnchorEl(null);
+    props.linkToGitHubAccount!();
+  };
 
-  async handleLoginMenuClick() {
-    this.setState({ authMenuAnchorEl: null, openAuthProviderDialog: true });
-  }
+  const handleCloseAuthProviderDialog = async () => {
+    setOpenAuthProviderDialog(false);
+  };
 
-  renderLinkGoogleAccountMenu() {
-    const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
+  const handleLoginMenuClick = async () => {
+    setAuthMenuAnchorEl(null);
+    setOpenAuthProviderDialog(true);
+  };
+
+  const renderLinkGoogleAccountMenu = () => {
+    const user = props.auth!.getCurrentAuthenticatedUserIgnoreNull();
     if (user && !getGoogleProviderData(user).exists) {
       return (
         <MenuItem
           key="auth-menu-link-google-account"
-          onClick={() => this.handleLinkGoogleAccountMenuClick()}
+          onClick={() => handleLinkGoogleAccountMenuClick()}
         >
           Link Google Account
         </MenuItem>
@@ -87,15 +88,15 @@ export default class ProfileIcon extends React.Component<
     } else {
       return null;
     }
-  }
+  };
 
-  renderLinkGitHubAccountMenu() {
-    const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
+  const renderLinkGitHubAccountMenu = () => {
+    const user = props.auth!.getCurrentAuthenticatedUserIgnoreNull();
     if (user && !getGitHubProviderData(user).exists) {
       return (
         <MenuItem
           key="auth-menu-link-github-account"
-          onClick={() => this.handleLinkGitHubAccountMenuClick()}
+          onClick={() => handleLinkGitHubAccountMenuClick()}
         >
           Link GitHub Account
         </MenuItem>
@@ -103,85 +104,93 @@ export default class ProfileIcon extends React.Component<
     } else {
       return null;
     }
-  }
+  };
 
-  render() {
-    const { authMenuAnchorEl } = this.state;
-    if (this.props.signedIn) {
-      const user = this.props.auth!.getCurrentAuthenticatedUserIgnoreNull();
-      const profileImageUrl = user.photoURL || '';
-      const profileDisplayName = user.displayName || '';
-      let avatar: React.ReactNode;
-      if (profileImageUrl) {
-        avatar = (
-          <Avatar
-            alt={profileDisplayName}
-            src={profileImageUrl}
-            className="profile-icon-avatar"
-          />
-        );
-      } else {
-        avatar = (
-          <Avatar className="profile-icon-avatar">
-            <Person />
-          </Avatar>
-        );
-      }
-      return (
-        <React.Fragment>
-          <IconButton
-            aria-owns={authMenuAnchorEl ? 'profile-icon-auth-menu' : undefined}
-            onClick={this.handleAuthMenuIconClick}
-          >
-            {avatar}
-          </IconButton>
-          <Menu
-            id="profile-icon-auth-menu"
-            anchorEl={authMenuAnchorEl}
-            open={Boolean(authMenuAnchorEl)}
-            onClose={this.handleAuthMenuClose}
-          >
-            {this.renderLinkGoogleAccountMenu()}
-            {this.renderLinkGitHubAccountMenu()}
-            <MenuItem
-              key="profile-icon-menu-logout"
-              onClick={() => this.handleLogoutMenuClick()}
-            >
-              {t('Logout')}
-            </MenuItem>
-          </Menu>
-        </React.Fragment>
+  // Render
+  if (props.signedIn) {
+    const user = props.auth!.getCurrentAuthenticatedUserIgnoreNull();
+    const profileImageUrl = user.photoURL || '';
+    const profileDisplayName = user.displayName || '';
+    let avatar: React.ReactNode;
+    if (profileImageUrl) {
+      avatar = (
+        <Avatar
+          alt={profileDisplayName}
+          src={profileImageUrl}
+          className="profile-icon-avatar"
+        />
       );
     } else {
-      return (
-        <React.Fragment>
-          <IconButton
-            aria-owns={authMenuAnchorEl ? 'profile-icon-auth-menu' : undefined}
-            onClick={this.handleAuthMenuIconClick}
-          >
-            <Avatar className="profile-icon-avatar">
-              <PersonOutline />
-            </Avatar>
-          </IconButton>
-          <Menu
-            id="profile-icon-auth-menu"
-            anchorEl={authMenuAnchorEl}
-            open={Boolean(authMenuAnchorEl)}
-            onClose={this.handleAuthMenuClose}
-          >
-            <MenuItem
-              key="profile-icon-menu-login"
-              onClick={() => this.handleLoginMenuClick()}
-            >
-              {t('Login')}
-            </MenuItem>
-          </Menu>
-          <AuthProviderDialog
-            open={this.state.openAuthProviderDialog}
-            onClose={this.handleCloseAuthProviderDialog.bind(this)}
-          />
-        </React.Fragment>
+      avatar = (
+        <Avatar className="profile-icon-avatar">
+          <Person />
+        </Avatar>
       );
     }
+    return (
+      <React.Fragment>
+        <IconButton
+          aria-owns={authMenuAnchorEl ? 'profile-icon-auth-menu' : undefined}
+          onClick={handleAuthMenuIconClick}
+        >
+          {avatar}
+        </IconButton>
+        <Menu
+          id="profile-icon-auth-menu"
+          anchorEl={authMenuAnchorEl}
+          open={Boolean(authMenuAnchorEl)}
+          onClose={handleAuthMenuClose}
+        >
+          {renderLinkGoogleAccountMenu()}
+          {renderLinkGitHubAccountMenu()}
+          {props.childrenWithOnClose &&
+            props.childrenWithOnClose(handleAuthMenuClose)}
+          <MenuItem
+            key="profile-icon-menu-logout"
+            onClick={() => handleLogoutMenuClick()}
+          >
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText>{t('Logout')}</ListItemText>
+          </MenuItem>
+        </Menu>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <IconButton
+          aria-owns={authMenuAnchorEl ? 'profile-icon-auth-menu' : undefined}
+          onClick={handleAuthMenuIconClick}
+        >
+          <Avatar className="profile-icon-avatar">
+            <PersonOutline />
+          </Avatar>
+        </IconButton>
+        <Menu
+          id="profile-icon-auth-menu"
+          anchorEl={authMenuAnchorEl}
+          open={Boolean(authMenuAnchorEl)}
+          onClose={handleAuthMenuClose}
+        >
+          <MenuItem
+            key="profile-icon-menu-login"
+            onClick={() => handleLoginMenuClick()}
+          >
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText>{t('Login')}</ListItemText>
+          </MenuItem>
+          {props.childrenWithOnClose &&
+            props.childrenWithOnClose(handleAuthMenuClose)}
+        </Menu>
+        <AuthProviderDialog
+          open={openAuthProviderDialog}
+          onClose={handleCloseAuthProviderDialog}
+        />
+      </React.Fragment>
+    );
   }
 }

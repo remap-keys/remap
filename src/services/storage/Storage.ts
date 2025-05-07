@@ -2,6 +2,7 @@ import { LayoutOption } from '../../components/configure/keymap/Keymap';
 import {
   IFirmwareCodePlace,
   IKeyboardFeatures,
+  IUserPurchase,
   IUserInformation,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
@@ -315,6 +316,100 @@ export type IWorkbenchProjectFile = {
   updatedAt: Date;
 };
 
+export type IPaypalLink = {
+  href: string;
+  rel: string;
+  method: string;
+};
+
+export type IPaypalAmount = {
+  currency_code: string;
+  value: string;
+};
+
+export type IRemainingBuildPurchaseCreateOrderResult = {
+  id: string;
+  status: string;
+  links: IPaypalLink[];
+};
+
+export type IRemainingBuildPurchaseCaptureOrderResult = {
+  id: string;
+  status: string;
+  payment_source: {
+    paypal: {
+      email_address: string;
+      account_id: string;
+      account_status: string;
+      name: {
+        given_name: string;
+        surname: string;
+      };
+      address: {
+        country_code: string;
+      };
+    };
+  };
+  purchase_units: {
+    reference_id: string;
+    shipping: {
+      name: {
+        full_name: string;
+      };
+      address: {
+        address_line_1: string;
+        admin_area_2: string;
+        admin_area_1: string;
+        postal_code: string;
+        country_code: string;
+      };
+    };
+    payments: {
+      captures: {
+        id: string;
+        status: string;
+        amount: IPaypalAmount;
+        final_capture: boolean;
+        seller_protection: {
+          status: string;
+          dispute_categories: string[];
+        };
+        seller_receivable_breakdown: {
+          gross_amount: IPaypalAmount;
+          paypal_fee: IPaypalAmount;
+          net_amount: IPaypalAmount;
+        };
+        links: IPaypalLink[];
+        create_time: string;
+        update_time: string;
+      }[];
+    };
+  }[];
+  payer: {
+    name: {
+      given_name: string;
+      surname: string;
+    };
+    email_address: string;
+    payer_id: string;
+    address: {
+      country_code: string;
+    };
+  };
+  links: IPaypalLink[];
+};
+
+export type IUserPurchaseHistory = {
+  id: string;
+  orderId: string;
+  status: string;
+  createOrderResponseJson: string;
+  captureOrderResponseJson: string;
+  errorMessage: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /* eslint-disable no-unused-vars */
 export interface IStorage {
   fetchKeyboardDefinitionDocumentByDeviceInfo(
@@ -544,6 +639,10 @@ export interface IStorage {
   updateUserInformation(
     userInformation: IUserInformation
   ): Promise<IEmptyResult>;
+  getUserPurchase(uid: string): Promise<IResult<IUserPurchase>>;
+  onSnapshotUserPurchase(
+    callback: (purchase: IUserPurchase) => void
+  ): () => void;
 
   fetchMyWorkbenchProjects(): Promise<IResult<IWorkbenchProject[]>>;
   fetchWorkbenchProjectWithFiles(
@@ -583,5 +682,10 @@ export interface IStorage {
     projectId: string,
     callback: (tasks: IFirmwareBuildingTask[]) => void
   ): () => void;
+  orderCreate(language: string): Promise<IResult<string>>;
+  captureOrder(orderId: string): Promise<IEmptyResult>;
+  fetchRemainingBuildPurchaseHistories(
+    uid: string
+  ): Promise<IResult<IUserPurchaseHistory[]>>;
 }
 /* eslint-enable no-unused-vars */

@@ -51,6 +51,7 @@ import {
   KEYMAP_CLEAR_SELECTED_KEY_POSITION,
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
   APP_UPDATE_USER_INFORMATION,
+  APP_UPDATE_USER_PURCHASE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -223,6 +224,7 @@ import {
   WORKBENCH_APP_UPDATE_PHASE,
   WORKBENCH_APP_UPDATE_PROJECTS,
   WORKBENCH_APP_UPDATE_SELECTED_FILE,
+  WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES,
 } from '../actions/workbench.action';
 
 export type Action = { type: string; value: any };
@@ -737,6 +739,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_UPDATE_USER_INFORMATION: {
       draft.app.user.information = action.value;
+      break;
+    }
+    case APP_UPDATE_USER_PURCHASE: {
+      draft.app.user.purchase = action.value;
       break;
     }
   }
@@ -1304,6 +1310,10 @@ const workbenchAppReducer = (
     }
     case WORKBENCH_APP_UPDATE_BUILDING_TASKS: {
       draft.workbench.app.buildingTasks = action.value;
+      break;
+    }
+    case WORKBENCH_APP_UPDATE_USER_PURCHASE_HISTORIES: {
+      draft.workbench.app.userPurchaseHistories = action.value;
       break;
     }
   }
