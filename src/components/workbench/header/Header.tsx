@@ -167,6 +167,9 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
           <Typography variant="h6" sx={{ ml: 2 }}>
             {t('Firmware Workbench')}
           </Typography>
+          <Typography variant="overline" sx={{ ml: 1 }}>
+            {t('Beta version')}
+          </Typography>
         </div>
         <div className="workbench-header-right">
           {props.signedIn && (
