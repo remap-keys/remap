@@ -35,12 +35,7 @@ i18n
     interpolation: { escapeValue: false },
   });
 
-// PayPal client ID for production.
-// const PAYPAL_CLIENT_ID =
-//   'AQZXAw8Mr_sl4JpTZjCD_tR-xPBi3M3HUPDEySq6gy2C3Uk-wcLfatuXIXxw5GF_7Ijz_fW1w5cwtm-J';
-// PayPal client ID for sandbox.
-const PAYPAL_CLIENT_ID =
-  'AaQjWXEdTtWn-_qPRaeIRDLpcEAQtYZlKxdzZQ5aREMU1kh7gIl3E6YEMHZBHETx_9xZyKrY6JGK_R8I';
+const PAYPAL_CLIENT_ID = import.meta.env.REACT_APP_PAYPAL_CLIENT_ID;
 
 class App extends React.Component<StyledComponentProps, {}> {
   constructor(

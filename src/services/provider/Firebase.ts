@@ -74,6 +74,8 @@ export type IFirebaseConfiguration = {
 
 const FUNCTIONS_REGION = 'asia-northeast1';
 
+const PAYPAL_ENVIRONMENT = import.meta.env.REACT_APP_PAYPAL_ENVIRONMENT;
+
 export class FirebaseProvider implements IStorage, IAuth {
   private db: firebase.firestore.Firestore;
   private auth: firebase.auth.Auth;
@@ -2549,7 +2551,10 @@ export class FirebaseProvider implements IStorage, IAuth {
   async orderCreate(language: string): Promise<IResult<string>> {
     try {
       const orderCreate = this.functions.httpsCallable('orderCreate');
-      const orderCreateResult = await orderCreate({ language });
+      const orderCreateResult = await orderCreate({
+        language,
+        environment: PAYPAL_ENVIRONMENT,
+      });
       const data = orderCreateResult.data;
       if (data.success) {
         return successResultOf(data.orderId);
@@ -2568,6 +2573,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       const captureOrder = this.functions.httpsCallable('captureOrder');
       const captureOrderResult = await captureOrder({
         orderId,
+        environment: PAYPAL_ENVIRONMENT,
       });
       const data = captureOrderResult.data;
       if (data.success) {
