@@ -116,8 +116,9 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [Feb 26th, 2025] Japanese Language Support. See{' '}
-        <Link href="/docs/i18n" target="_blank">
+        [May 7th, 2025] A new feature called &quot;Workbench&quot; is now
+        available!. See{' '}
+        <Link href="/docs/workbench" target="_blank">
           for more details
         </Link>{' '}
         .

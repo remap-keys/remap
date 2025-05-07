@@ -38,7 +38,8 @@ type IActionName =
   | 'docs/support-qmk-022'
   | 'docs/terms_of_use'
   | 'docs/internationalization'
-  | 'docs/ebizrule';
+  | 'docs/ebizrule'
+  | 'docs/workbench';
 
 interface IActionOptions {
   vendor_id?: string | number;

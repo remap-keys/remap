@@ -20,6 +20,7 @@ import SupportCodeEditing from './support-code-editing/SupportCodeEditing';
 import Statistics from './statistics/Statistics';
 import Internationalization from './i18n/Internationalization';
 import ElectricalBusinessRule from './ebizrule/ElectricalBusinessRule';
+import Workbench from './workbench/Workbench';
 
 type RouteParams = {
   docId: string;
@@ -74,6 +75,9 @@ export default function Documents(props: DocumentsPropsType) {
   } else if (docId === 'ebizrule') {
     page = <ElectricalBusinessRule />;
     sendEventToGoogleAnalytics('docs/ebizrule');
+  } else if (docId === 'workbench') {
+    page = <Workbench />;
+    sendEventToGoogleAnalytics('docs/workbench');
   } else {
     page = <Index />;
   }
