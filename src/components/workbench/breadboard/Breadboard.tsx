@@ -509,16 +509,22 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
     setCode(props.file.code);
   }, [props.project, props.file]);
 
-  const debounceCode = useDebounce(code, 1000);
+  const debounceCode = useDebounce(code, props.file, 1000);
   useEffect(() => {
     if (
       props.project === undefined ||
       props.file === undefined ||
-      debounceCode === undefined
+      debounceCode.value === undefined
     ) {
       return;
     }
-    props.onChangeCode(props.file, debounceCode);
+    if (debounceCode.base?.id !== props.file.id) {
+      console.warn(
+        'Debounce value base is not the same as current file. This should not happen.'
+      );
+      return;
+    }
+    props.onChangeCode(props.file, debounceCode.value);
   }, [debounceCode]);
 
   const onChangeCode = (value: string | undefined) => {
