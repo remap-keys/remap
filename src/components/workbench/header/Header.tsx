@@ -55,22 +55,32 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setProjectName(props.currentProject.name);
   }, [props.currentProject]);
 
-  const debouncedProjectName = useDebounce(projectName, 1000);
+  const debouncedProjectName = useDebounce(
+    projectName,
+    props.currentProject?.id,
+    1000
+  );
   useEffect(() => {
     if (props.currentProject === undefined) {
       return;
     }
-    if (debouncedProjectName === '') {
+    if (props.currentProject.id !== debouncedProjectName.base) {
+      console.warn(
+        'Project name is changed, but the project id is not the same. This should not happen.'
+      );
+      return;
+    }
+    if (debouncedProjectName.value === '') {
       return;
     }
     const currentProject = props.currentProject;
     const currentProjectName = currentProject.name;
-    if (currentProjectName === debouncedProjectName) {
+    if (currentProjectName === debouncedProjectName.value) {
       return;
     }
     const newCurrentProject: IWorkbenchProject = {
       ...currentProject,
-      name: debouncedProjectName,
+      name: debouncedProjectName.value,
     };
     props.updateWorkbenchProject!(newCurrentProject);
   }, [debouncedProjectName]);
