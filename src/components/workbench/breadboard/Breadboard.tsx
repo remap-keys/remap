@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -500,13 +500,19 @@ type WorkbenchSourceCodeEditorProps = {
 
 function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
   const [code, setCode] = useState<string | undefined>(undefined);
+  const currentFileRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     if (props.project === undefined || props.file === undefined) {
       setCode(undefined);
+      currentFileRef.current = undefined;
       return;
     }
-    setCode(props.file.code);
+    // Only update local state when file changes (different file selected)
+    if (currentFileRef.current !== props.file.id) {
+      setCode(props.file.code);
+      currentFileRef.current = props.file.id;
+    }
   }, [props.project, props.file]);
 
   const debounceCode = useDebounce(code, props.file, 1000);
