@@ -10,6 +10,7 @@ import { StorageActions } from './storage.action';
 import { errorResultOf, IEmptyResult, isError, successResult } from '../types';
 import {
   IBuildableFirmwareFileType,
+  IBuildableFirmwareQmkFirmwareVersion,
   IFirmwareBuildingTask,
   IStorage,
   IUserPurchaseHistory,
@@ -21,6 +22,225 @@ import {
   FlashFirmwareDialogActions,
 } from './firmware.action';
 import { IBootloaderType } from '../services/firmware/Types';
+
+// Helper functions for MCU-specific configurations
+const getBootloaderForMcu = (
+  mcu: string,
+  mcuType: 'development_board' | 'integrated_mcu'
+): string => {
+  if (mcuType === 'development_board') {
+    // Development boards typically use Caterina bootloader
+    switch (mcu) {
+      case 'promicro':
+      case 'promicro_rp2040':
+      case 'elite_c':
+      case 'elite_pi':
+        return 'caterina';
+      case 'kb2040':
+      case 'liatris':
+        return 'rp2040';
+      case 'blackpill_f401':
+      case 'blackpill_f411':
+      case 'stemcell':
+        return 'stm32-dfu';
+      default:
+        return 'caterina';
+    }
+  } else {
+    // Integrated MCUs use their specific bootloaders
+    if (mcu.startsWith('STM32')) {
+      return 'stm32-dfu';
+    } else if (mcu === 'RP2040') {
+      return 'rp2040';
+    } else if (mcu.startsWith('atmega') || mcu.startsWith('at90usb')) {
+      return 'atmel-dfu';
+    } else {
+      return 'atmel-dfu';
+    }
+  }
+};
+
+const getColPinsForMcu = (
+  mcu: string,
+  mcuType: 'development_board' | 'integrated_mcu'
+): string[] => {
+  if (mcuType === 'development_board') {
+    // Pro Micro compatible pin layout
+    return ['F4', 'F5', 'F6', 'F7', 'B1', 'B3', 'B2', 'B6'];
+  } else {
+    // Generic pin layout for integrated MCUs
+    if (mcu.startsWith('STM32')) {
+      return ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7'];
+    } else if (mcu === 'RP2040') {
+      return ['GP0', 'GP1', 'GP2', 'GP3', 'GP4', 'GP5', 'GP6', 'GP7'];
+    } else {
+      // ATmega series
+      return ['F0', 'F1', 'F4', 'F5', 'F6', 'F7', 'B1', 'B3'];
+    }
+  }
+};
+
+const getRowPinsForMcu = (
+  mcu: string,
+  mcuType: 'development_board' | 'integrated_mcu'
+): string[] => {
+  if (mcuType === 'development_board') {
+    // Pro Micro compatible pin layout
+    return ['D4', 'C6', 'D7', 'E6'];
+  } else {
+    // Generic pin layout for integrated MCUs
+    if (mcu.startsWith('STM32')) {
+      return ['B0', 'B1', 'B2', 'B3'];
+    } else if (mcu === 'RP2040') {
+      return ['GP8', 'GP9', 'GP10', 'GP11'];
+    } else {
+      // ATmega series
+      return ['D0', 'D1', 'D2', 'D3'];
+    }
+  }
+};
+
+// Helper function to create template files for a new keyboard project
+const createTemplateFilesForProject = async (
+  storage: IStorage,
+  project: IWorkbenchProject,
+  keyboardInfo: {
+    keyboardName: string;
+    maintainer: string;
+    manufacturer: string;
+    mcuType: 'development_board' | 'integrated_mcu';
+    mcu: string;
+  }
+): Promise<void> => {
+  const { keyboardName, maintainer, manufacturer, mcuType, mcu } = keyboardInfo;
+
+  // Create keyboard.json template (QMK current standard)
+  const keyboardJsonContent = `{
+    "keyboard_name": "${keyboardName}",
+    "manufacturer": "${manufacturer || 'Custom Keyboards'}",
+    "maintainer": "${maintainer}",
+    "url": "",
+    "usb": {
+        "vid": "0x1234",
+        "pid": "0x0001",
+        "device_version": "1.0.0"
+    },
+    "processor": "${mcu}",
+    "bootloader": "${getBootloaderForMcu(mcu, mcuType)}",
+    "diode_direction": "COL2ROW",
+    "matrix_pins": {
+        "cols": ${JSON.stringify(getColPinsForMcu(mcu, mcuType))},
+        "rows": ${JSON.stringify(getRowPinsForMcu(mcu, mcuType))}
+    },
+    "features": {
+        "bootmagic": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true
+    },
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                {"label": "Q", "matrix": [0, 0], "x": 0, "y": 0},
+                {"label": "W", "matrix": [0, 1], "x": 1, "y": 0},
+                {"label": "E", "matrix": [0, 2], "x": 2, "y": 0},
+                {"label": "R", "matrix": [0, 3], "x": 3, "y": 0},
+                {"label": "A", "matrix": [1, 0], "x": 0, "y": 1},
+                {"label": "S", "matrix": [1, 1], "x": 1, "y": 1},
+                {"label": "D", "matrix": [1, 2], "x": 2, "y": 1},
+                {"label": "F", "matrix": [1, 3], "x": 3, "y": 1}
+            ]
+        }
+    }
+}`;
+
+  // Create keymap.c template
+  const keymapContent = `// Copyright ${new Date().getFullYear()} ${maintainer}
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include QMK_KEYBOARD_H
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    /*
+     * ┌───┬───┬───┬───┐
+     * │ Q │ W │ E │ R │
+     * ├───┼───┼───┼───┤
+     * │ A │ S │ D │ F │
+     * └───┴───┴───┴───┘
+     */
+    [0] = LAYOUT(
+        KC_Q,    KC_W,    KC_E,    KC_R,
+        KC_A,    KC_S,    KC_D,    KC_F
+    )
+};
+`;
+
+  // Create rules.mk template
+  const rulesMkContent = `# MCU name
+MCU = ${mcu}
+
+# Bootloader selection
+BOOTLOADER = ${getBootloaderForMcu(mcu, mcuType)}
+
+# Build Options
+#   change yes to no to disable
+#
+BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
+MOUSEKEY_ENABLE = yes       # Mouse keys
+EXTRAKEY_ENABLE = yes       # Audio control and System control
+CONSOLE_ENABLE = no         # Console for debug
+COMMAND_ENABLE = no         # Commands for debug and configuration
+NKRO_ENABLE = yes           # Enable N-Key Rollover
+BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
+RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
+AUDIO_ENABLE = no           # Audio output
+
+# Additional options can be added here
+`;
+
+  // Create the template files
+  const createKeyboardJsonResult = await storage.createWorkbenchProjectFile(
+    project.id,
+    'keyboard',
+    'keyboard.json'
+  );
+  if (isError(createKeyboardJsonResult)) {
+    throw new Error('Failed to create keyboard.json');
+  }
+
+  await storage.updateWorkbenchProjectFile(project.id, {
+    ...createKeyboardJsonResult.value,
+    code: keyboardJsonContent,
+  });
+
+  const createKeymapResult = await storage.createWorkbenchProjectFile(
+    project.id,
+    'keymap',
+    'keymap.c'
+  );
+  if (isError(createKeymapResult)) {
+    throw new Error('Failed to create keymap.c');
+  }
+
+  await storage.updateWorkbenchProjectFile(project.id, {
+    ...createKeymapResult.value,
+    code: keymapContent,
+  });
+
+  const createRulesMkResult = await storage.createWorkbenchProjectFile(
+    project.id,
+    'keyboard',
+    'rules.mk'
+  );
+  if (isError(createRulesMkResult)) {
+    throw new Error('Failed to create rules.mk');
+  }
+
+  await storage.updateWorkbenchProjectFile(project.id, {
+    ...createRulesMkResult.value,
+    code: rulesMkContent,
+  });
+};
 
 export const WORKBENCH_APP_ACTIONS = '@Workbench!App';
 export const WORKBENCH_APP_UPDATE_PHASE = `${WORKBENCH_APP_ACTIONS}/UpdatePhase`;
@@ -403,6 +623,88 @@ export const workbenchActionsThunk = {
           )
         );
       }
+    },
+  createWorkbenchProjectWithOptions:
+    (
+      projectName: string,
+      qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+      keyboardDirectoryName: string,
+      createTemplateFiles: boolean,
+      keyboardInfo?: {
+        keyboardName: string;
+        maintainer: string;
+        manufacturer: string;
+        mcuType: 'development_board' | 'integrated_mcu';
+        mcu: string;
+      }
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { app, storage, workbench } = getState();
+      const projects = workbench.app.projects;
+
+      // Create the project with specified options
+      const createResult = await storage.instance!.createWorkbenchProject(
+        projectName,
+        qmkFirmwareVersion,
+        keyboardDirectoryName
+      );
+      if (isError(createResult)) {
+        dispatch(
+          NotificationActions.addError(createResult.error, createResult.cause)
+        );
+        return;
+      }
+      const newProject = createResult.value;
+
+      // If template files should be created, create them
+      if (createTemplateFiles && keyboardInfo) {
+        try {
+          // Create template files based on keyboard information
+          await createTemplateFilesForProject(
+            storage.instance!,
+            newProject,
+            keyboardInfo
+          );
+        } catch (error) {
+          dispatch(
+            NotificationActions.addError(
+              'Failed to create template files',
+              error
+            )
+          );
+          return;
+        }
+      }
+
+      // Update state
+      const newProjects = [...projects, newProject];
+      dispatch(WorkbenchAppActions.updateProjects(newProjects));
+      dispatch(WorkbenchAppActions.updateCurrentProject(newProject));
+      dispatch(WorkbenchAppActions.updateSelectedFile(undefined));
+
+      // Update user information
+      const updateUserInformationResult =
+        await storage.instance!.updateUserInformation({
+          ...app.user.information!,
+          currentProjectId: newProject.id,
+        });
+      if (isError(updateUserInformationResult)) {
+        dispatch(
+          NotificationActions.addError(
+            updateUserInformationResult.error,
+            updateUserInformationResult.cause
+          )
+        );
+      }
+
+      dispatch(
+        NotificationActions.addSuccess(
+          `Project "${projectName}" has been created successfully.`
+        )
+      );
     },
   switchCurrentProject:
     (project: IWorkbenchProject): ThunkPromiseAction<void> =>

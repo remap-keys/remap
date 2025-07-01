@@ -4,6 +4,7 @@ import Header from './Header';
 import { AppActionsThunk, NotificationActions } from '../../../actions/actions';
 import {
   IBuildableFirmwareFileType,
+  IBuildableFirmwareQmkFirmwareVersion,
   IWorkbenchProject,
 } from '../../../services/storage/Storage';
 import {
@@ -63,6 +64,29 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     fetchUserPurchaseHistories: () => {
       dispatch(workbenchActionsThunk.fetchUserPurchaseHistories());
+    },
+    createNewWorkbenchProjectWithOptions: (
+      projectName: string,
+      qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+      keyboardDirectoryName: string,
+      createTemplateFiles: boolean,
+      keyboardInfo?: {
+        keyboardName: string;
+        maintainer: string;
+        manufacturer: string;
+        mcuType: 'development_board' | 'integrated_mcu';
+        mcu: string;
+      }
+    ) => {
+      dispatch(
+        workbenchActionsThunk.createWorkbenchProjectWithOptions(
+          projectName,
+          qmkFirmwareVersion,
+          keyboardDirectoryName,
+          createTemplateFiles,
+          keyboardInfo
+        )
+      );
     },
   };
 };

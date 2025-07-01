@@ -24,6 +24,7 @@ import {
 import WorkbenchProjectsDialog from '../dialogs/WorkbenchProjectsDialog';
 import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import WorkbenchProjectSettingsDialog from '../dialogs/WorkbenchProjectSettingsDialog';
+import { CreateNewWorkbenchProjectDialog } from '../dialogs/CreateNewWorkbenchProjectDialog';
 import { t } from 'i18next';
 import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
 import PaymentIcon from '@mui/icons-material/Payment';
@@ -47,6 +48,8 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     openRemainingBuildPurchaseDialog,
     setOpenRemainingBuildPurchaseDialog,
   ] = useState<boolean>(false);
+  const [openCreateProjectDialog, setOpenCreateProjectDialog] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -101,8 +104,31 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   };
 
   const onClickCreateNewProject = () => {
-    props.createNewWorkbenchProject!();
     setOpenProjectsDialog(false);
+    setOpenCreateProjectDialog(true);
+  };
+
+  const onSubmitCreateNewProject = (
+    projectName: string,
+    qmkFirmwareVersion: IBuildableFirmwareQmkFirmwareVersion,
+    keyboardDirectoryName: string,
+    createTemplateFiles: boolean,
+    keyboardInfo?: {
+      keyboardName: string;
+      maintainer: string;
+      manufacturer: string;
+      mcuType: 'development_board' | 'integrated_mcu';
+      mcu: string;
+    }
+  ) => {
+    props.createNewWorkbenchProjectWithOptions!(
+      projectName,
+      qmkFirmwareVersion,
+      keyboardDirectoryName,
+      createTemplateFiles,
+      keyboardInfo
+    );
+    setOpenCreateProjectDialog(false);
   };
 
   const onClickOpenProject = (project: IWorkbenchProject) => {
@@ -295,6 +321,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         onPurchase={onPurchaseRemainingBuilds}
       ></RemainingBuildPurchaseDialog>
       <RemainingBuildPurchaseHistoryDialog />
+      <CreateNewWorkbenchProjectDialog
+        open={openCreateProjectDialog}
+        onClose={() => {
+          setOpenCreateProjectDialog(false);
+        }}
+        onSubmit={onSubmitCreateNewProject}
+        existingProjectNames={props.projects?.map((p) => p.name) || []}
+      />
     </React.Fragment>
   );
 }
