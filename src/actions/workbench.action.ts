@@ -1,17 +1,11 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import {
-  IUserInformation,
-  IWorkbenchPhase,
-  RootState,
-  WorkbenchPhase,
-} from '../store/state';
+import { IWorkbenchPhase, RootState, WorkbenchPhase } from '../store/state';
 import { AppActions, NotificationActions } from './actions';
 import { StorageActions } from './storage.action';
-import { errorResultOf, IEmptyResult, isError, successResult } from '../types';
+import { isError } from '../types';
 import {
   IBuildableFirmwareFileType,
   IFirmwareBuildingTask,
-  IStorage,
   IUserPurchaseHistory,
   IWorkbenchProject,
   IWorkbenchProjectFile,

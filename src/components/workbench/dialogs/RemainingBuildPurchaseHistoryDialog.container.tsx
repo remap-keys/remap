@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/state';
 import RemainingBuildPurchaseHistoryDialog from './RemainingBuildPurchaseHistoryDialog';
-import { clear } from 'console';
 import { WorkbenchAppActions } from '../../../actions/workbench.action';
 
 // eslint-disable-next-line no-unused-vars
