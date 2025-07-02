@@ -21,13 +21,13 @@ import {
   AVAILABLE_LAYOUTS,
   DEFAULT_LAYOUT,
 } from '../../../services/workbench/constants/LayoutConstants';
-import { MCUType } from '../../../services/workbench/types/FileGenerationTypes';
+import {
+  IFileGenerationConfig,
+  MCUType,
+} from '../../../services/workbench/types/FileGenerationTypes';
 
 // MCU Types
-const MCU_TYPES: readonly MCUType[] = [
-  'development_board',
-  'integrated_mcu',
-];
+const MCU_TYPES: readonly MCUType[] = ['development_board', 'integrated_mcu'];
 
 // MCU Type display names for UI
 const MCU_TYPE_DISPLAY_NAMES: Record<MCUType, string> = {
@@ -106,7 +106,7 @@ const INTEGRATED_MCUS = [
 interface FileGenerationDialogProps {
   open: boolean;
   onClose: () => void;
-  onGenerate: () => void;
+  onGenerate: (config: IFileGenerationConfig) => void;
   userDisplayName?: string;
 }
 
@@ -114,8 +114,8 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
   const [manufacturerName, setManufacturerName] = useState<string>('');
   const [maintainerName, setMaintainerName] = useState<string>('');
   const [keyboardName, setKeyboardName] = useState<string>('');
-  const [mcuType, setMcuType] = useState<MCUType>('integrated_mcu');
-  const [mcu, setMcu] = useState<string>('RP2040');
+  const [mcuType, setMcuType] = useState<MCUType>('development_board');
+  const [mcu, setMcu] = useState<string>('promicro');
   const [vendorId, setVendorId] = useState<string>('');
   const [productId, setProductId] = useState<string>('');
   const [layout, setLayout] = useState<string>(DEFAULT_LAYOUT);
@@ -130,8 +130,8 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
       setManufacturerName(props.userDisplayName || '');
       setMaintainerName(props.userDisplayName || '');
       setKeyboardName('');
-      setMcuType('integrated_mcu');
-      setMcu('RP2040');
+      setMcuType('development_board');
+      setMcu('promicro');
       setVendorId('');
       setProductId('');
       setLayout(DEFAULT_LAYOUT);
@@ -256,7 +256,16 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
   const handleGenerateClick = () => {
     setShowErrors(true);
     if (isFormValid) {
-      props.onGenerate();
+      props.onGenerate({
+        manufacturerName,
+        maintainerName,
+        keyboardName,
+        mcuType,
+        mcu,
+        vendorId: vendorId.toUpperCase(),
+        productId: productId.toUpperCase(),
+        layout,
+      });
     }
   };
 

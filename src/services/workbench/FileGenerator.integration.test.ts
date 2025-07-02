@@ -21,12 +21,12 @@ describe('FileGenerator Integration Tests', () => {
       expect(result.type).toBe('success');
       if (result.type === 'success') {
         const files = result.value;
-        
+
         // keyboard.jsonの検証
-        const keyboardFile = files.find(f => f.fileType === 'keyboard');
+        const keyboardFile = files.find((f) => f.fileType === 'keyboard');
         expect(keyboardFile).toBeDefined();
         const keyboardJson = JSON.parse(keyboardFile!.content);
-        
+
         expect(keyboardJson.keyboard_name).toBe('my_custom_keyboard');
         expect(keyboardJson.manufacturer).toBe('Acme Keyboards');
         expect(keyboardJson.maintainer).toBe('john_doe');
@@ -36,9 +36,9 @@ describe('FileGenerator Integration Tests', () => {
         expect(keyboardJson.bootloader).toBe('rp2040');
         expect(keyboardJson.layouts.LAYOUT_ortho_4x4).toBeDefined();
         expect(keyboardJson.layouts.LAYOUT_ortho_4x4.layout).toHaveLength(16);
-        
+
         // keymap.cの検証
-        const keymapFile = files.find(f => f.fileType === 'keymap');
+        const keymapFile = files.find((f) => f.fileType === 'keymap');
         expect(keymapFile).toBeDefined();
         expect(keymapFile!.content).toContain('4x4 Ortholinear Layout');
         expect(keymapFile!.content).toContain('LAYOUT_ortho_4x4(');
@@ -64,20 +64,20 @@ describe('FileGenerator Integration Tests', () => {
       expect(result.type).toBe('success');
       if (result.type === 'success') {
         const files = result.value;
-        
-        const keyboardFile = files.find(f => f.fileType === 'keyboard');
+
+        const keyboardFile = files.find((f) => f.fileType === 'keyboard');
         const keyboardJson = JSON.parse(keyboardFile!.content);
-        
+
         // development_boardの場合はprocessorとbootloaderが設定されない
         expect(keyboardJson.development_board).toBe('promicro');
         expect(keyboardJson.processor).toBeUndefined();
         expect(keyboardJson.bootloader).toBeUndefined();
-        
+
         // 60%レイアウトの確認
         expect(keyboardJson.layouts.LAYOUT_60_ansi).toBeDefined();
         expect(keyboardJson.layouts.LAYOUT_60_ansi.layout).toHaveLength(75);
-        
-        const keymapFile = files.find(f => f.fileType === 'keymap');
+
+        const keymapFile = files.find((f) => f.fileType === 'keymap');
         expect(keymapFile!.content).toContain('60% Keyboard Layout');
         expect(keymapFile!.content).toContain('LAYOUT_60_ansi(');
       }
@@ -100,14 +100,14 @@ describe('FileGenerator Integration Tests', () => {
       expect(result.type).toBe('success');
       if (result.type === 'success') {
         const files = result.value;
-        
-        const keyboardFile = files.find(f => f.fileType === 'keyboard');
+
+        const keyboardFile = files.find((f) => f.fileType === 'keyboard');
         const keyboardJson = JSON.parse(keyboardFile!.content);
-        
+
         expect(keyboardJson.bootloader).toBe('caterina');
         expect(keyboardJson.layouts.LAYOUT_numpad_5x4).toBeDefined();
-        
-        const keymapFile = files.find(f => f.fileType === 'keymap');
+
+        const keymapFile = files.find((f) => f.fileType === 'keymap');
         expect(keymapFile!.content).toContain('Numpad Layout');
         expect(keymapFile!.content).toContain('KC_NLCK');
         expect(keymapFile!.content).toContain('KC_PSLS');

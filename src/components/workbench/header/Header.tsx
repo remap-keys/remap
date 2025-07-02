@@ -30,6 +30,8 @@ import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialo
 import PaymentIcon from '@mui/icons-material/Payment';
 import RemainingBuildPurchaseHistoryDialog from '../dialogs/RemainingBuildPurchaseHistoryDialog.container';
 import FileGenerationDialog from '../dialogs/FileGenerationDialog';
+import { IFileGenerationConfig } from '../../../services/workbench/types/FileGenerationTypes';
+import { set } from 'date-fns';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -54,6 +56,9 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   const [openOverwriteConfirmDialog, setOpenOverwriteConfirmDialog] =
     useState<boolean>(false);
   const [existingFiles, setExistingFiles] = useState<string[]>([]);
+  const [fileGenerationConfig, setFileGenerationConfig] = useState<
+    IFileGenerationConfig | undefined
+  >(undefined);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -205,7 +210,7 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     return existing;
   };
 
-  const onGenerateFile = () => {
+  const onGenerateFile = (config: IFileGenerationConfig) => {
     // Close file generation dialog first
     setOpenFileGenerationDialog(false);
 
@@ -215,21 +220,28 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     if (existing.length > 0) {
       // Files exist, ask for confirmation
       setExistingFiles(existing);
+      setFileGenerationConfig(config);
       setOpenOverwriteConfirmDialog(true);
     } else {
       // No existing files, proceed with generation
-      proceedWithFileGeneration();
+      proceedWithFileGeneration(config);
     }
   };
 
-  const proceedWithFileGeneration = () => {
-    // TODO: Implement actual file generation
-    console.log('Proceeding with file generation');
+  const proceedWithFileGeneration = (config: IFileGenerationConfig) => {
+    if (props.currentProject === undefined) {
+      throw new Error('Current project is not set');
+    }
+    props.generateWorkbenchProjectFiles!(props.currentProject, config);
+    setFileGenerationConfig(undefined);
   };
 
   const onConfirmOverwrite = () => {
     setOpenOverwriteConfirmDialog(false);
-    proceedWithFileGeneration();
+    if (!fileGenerationConfig) {
+      throw new Error('File generation config is not set');
+    }
+    proceedWithFileGeneration(fileGenerationConfig);
   };
 
   const onCancelOverwrite = () => {
@@ -271,18 +283,18 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
               <Button
                 variant="text"
                 size="small"
-                startIcon={<AutoFixHighIcon />}
-                onClick={onClickFileGeneration}
-              >
-                {t('File Generation')}
-              </Button>
-              <Button
-                variant="text"
-                size="small"
                 startIcon={<AccountTreeIcon />}
                 onClick={onClickProjects}
               >
                 {t('Projects')}
+              </Button>
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<AutoFixHighIcon />}
+                onClick={onClickFileGeneration}
+              >
+                {t('File Generation')}
               </Button>
               <Button
                 variant="text"

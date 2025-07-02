@@ -5,11 +5,13 @@ import { AppActionsThunk, NotificationActions } from '../../../actions/actions';
 import {
   IBuildableFirmwareFileType,
   IWorkbenchProject,
+  IWorkbenchProjectFile,
 } from '../../../services/storage/Storage';
 import {
   workbenchActionsThunk,
   WorkbenchAppActions,
 } from '../../../actions/workbench.action';
+import { IFileGenerationConfig } from '../../../services/workbench/types/FileGenerationTypes';
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state: RootState) => {
@@ -63,6 +65,14 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     fetchUserPurchaseHistories: () => {
       dispatch(workbenchActionsThunk.fetchUserPurchaseHistories());
+    },
+    generateWorkbenchProjectFiles: (
+      project: IWorkbenchProject,
+      config: IFileGenerationConfig
+    ) => {
+      dispatch(
+        workbenchActionsThunk.generateWorkbenchProjectFiles(project, config)
+      );
     },
   };
 };

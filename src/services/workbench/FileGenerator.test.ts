@@ -45,7 +45,9 @@ describe('FileGenerator', () => {
       expect(content).toContain('// Copyright');
       expect(content).toContain('// SPDX-License-Identifier: GPL-2.0-or-later');
       expect(content).toContain('#include QMK_KEYBOARD_H');
-      expect(content).toContain('const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS]');
+      expect(content).toContain(
+        'const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS]'
+      );
       expect(content).toContain('[0] = LAYOUT_ortho_4x4(');
     });
   });
@@ -59,8 +61,8 @@ describe('FileGenerator', () => {
         const files = result.value;
         expect(files).toHaveLength(2);
 
-        const keyboardFile = files.find(f => f.fileType === 'keyboard');
-        const keymapFile = files.find(f => f.fileType === 'keymap');
+        const keyboardFile = files.find((f) => f.fileType === 'keyboard');
+        const keymapFile = files.find((f) => f.fileType === 'keymap');
 
         expect(keyboardFile).toBeDefined();
         expect(keymapFile).toBeDefined();
