@@ -17,14 +17,23 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { t } from 'i18next';
+import {
+  AVAILABLE_LAYOUTS,
+  DEFAULT_LAYOUT,
+} from '../../../services/workbench/constants/LayoutConstants';
+import { MCUType } from '../../../services/workbench/types/FileGenerationTypes';
 
 // MCU Types
-const MCU_TYPES = [
-  'A separate development board (ex. Pro Micro)',
-  'The microcontroller integrated ont the PCB',
-] as const;
+const MCU_TYPES: readonly MCUType[] = [
+  'development_board',
+  'integrated_mcu',
+];
 
-type MCUType = (typeof MCU_TYPES)[number];
+// MCU Type display names for UI
+const MCU_TYPE_DISPLAY_NAMES: Record<MCUType, string> = {
+  development_board: 'A separate development board (ex. Pro Micro)',
+  integrated_mcu: 'The microcontroller integrated on the PCB',
+};
 
 // MCU Lists
 const DEVELOPMENT_BOARD_MCUS = [
@@ -105,10 +114,11 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
   const [manufacturerName, setManufacturerName] = useState<string>('');
   const [maintainerName, setMaintainerName] = useState<string>('');
   const [keyboardName, setKeyboardName] = useState<string>('');
-  const [mcuType, setMcuType] = useState<MCUType>(MCU_TYPES[1]);
+  const [mcuType, setMcuType] = useState<MCUType>('integrated_mcu');
   const [mcu, setMcu] = useState<string>('RP2040');
   const [vendorId, setVendorId] = useState<string>('');
   const [productId, setProductId] = useState<string>('');
+  const [layout, setLayout] = useState<string>(DEFAULT_LAYOUT);
 
   // Error state tracking
   const [showErrors, setShowErrors] = useState<boolean>(false);
@@ -120,10 +130,11 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
       setManufacturerName(props.userDisplayName || '');
       setMaintainerName(props.userDisplayName || '');
       setKeyboardName('');
-      setMcuType(MCU_TYPES[1]);
+      setMcuType('integrated_mcu');
       setMcu('RP2040');
       setVendorId('');
       setProductId('');
+      setLayout(DEFAULT_LAYOUT);
       setShowErrors(false);
     }
   }, [props.open, props.userDisplayName]);
@@ -135,7 +146,7 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
   };
 
   const getAvailableMcus = () => {
-    if (mcuType === MCU_TYPES[0]) {
+    if (mcuType === 'development_board') {
       return DEVELOPMENT_BOARD_MCUS;
     } else {
       return INTEGRATED_MCUS;
@@ -308,7 +319,7 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             >
               {MCU_TYPES.map((type) => (
                 <MenuItem key={type} value={type}>
-                  {t(type)}
+                  {t(MCU_TYPE_DISPLAY_NAMES[type])}
                 </MenuItem>
               ))}
             </Select>
@@ -365,6 +376,21 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
               showErrors && !productIdValid ? getProductIdError() : ''
             }
           />
+
+          <FormControl fullWidth size="small">
+            <InputLabel>{t('Keyboard Layout')}</InputLabel>
+            <Select
+              value={layout}
+              label={t('Keyboard Layout')}
+              onChange={(e) => setLayout(e.target.value)}
+            >
+              {AVAILABLE_LAYOUTS.map((layoutOption) => (
+                <MenuItem key={layoutOption.name} value={layoutOption.name}>
+                  {layoutOption.displayName} ({layoutOption.keyCount} keys)
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions>

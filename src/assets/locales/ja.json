@@ -392,5 +392,6 @@
   "Maximum 4 characters allowed": "最大4文字まで入力可能です",
   "Only hexadecimal characters (0-9, A-F) are allowed": "16進数文字（0-9、A-F）のみ入力可能です",
   "Confirm File Overwrite": "ファイル上書きの確認",
-  "The following files already exist: {{files}}. Do you want to overwrite them?": "以下のファイルが既に存在します：{{files}}。上書きしますか？"
+  "The following files already exist: {{files}}. Do you want to overwrite them?": "以下のファイルが既に存在します：{{files}}。上書きしますか？",
+  "Keyboard Layout": "キーボードレイアウト"
 }
