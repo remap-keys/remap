@@ -6,6 +6,7 @@ import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import BuildIcon from '@mui/icons-material/Build';
 import TuneIcon from '@mui/icons-material/Tune';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import {
   Button,
   IconButton,
@@ -28,6 +29,7 @@ import { t } from 'i18next';
 import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
 import PaymentIcon from '@mui/icons-material/Payment';
 import RemainingBuildPurchaseHistoryDialog from '../dialogs/RemainingBuildPurchaseHistoryDialog.container';
+import FileGenerationDialog from '../dialogs/FileGenerationDialog';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -47,6 +49,8 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     openRemainingBuildPurchaseDialog,
     setOpenRemainingBuildPurchaseDialog,
   ] = useState<boolean>(false);
+  const [openFileGenerationDialog, setOpenFileGenerationDialog] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -167,6 +171,19 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     props.fetchUserPurchaseHistories!();
   };
 
+  const onClickFileGeneration = () => {
+    setOpenFileGenerationDialog(true);
+  };
+
+  const onCloseFileGenerationDialog = () => {
+    setOpenFileGenerationDialog(false);
+  };
+
+  const onGenerateFile = () => {
+    // TODO: Implement file generation functionality
+    console.log('Generate file clicked');
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -199,6 +216,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
                 }}
                 sx={{ width: '300px' }}
               />
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<AutoFixHighIcon />}
+                onClick={onClickFileGeneration}
+              >
+                {t('File Generation')}
+              </Button>
               <Button
                 variant="text"
                 size="small"
@@ -295,6 +320,11 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         onPurchase={onPurchaseRemainingBuilds}
       ></RemainingBuildPurchaseDialog>
       <RemainingBuildPurchaseHistoryDialog />
+      <FileGenerationDialog
+        open={openFileGenerationDialog}
+        onClose={onCloseFileGenerationDialog}
+        onGenerate={onGenerateFile}
+      />
     </React.Fragment>
   );
 }
