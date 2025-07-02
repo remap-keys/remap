@@ -51,6 +51,9 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
   ] = useState<boolean>(false);
   const [openFileGenerationDialog, setOpenFileGenerationDialog] =
     useState<boolean>(false);
+  const [openOverwriteConfirmDialog, setOpenOverwriteConfirmDialog] =
+    useState<boolean>(false);
+  const [existingFiles, setExistingFiles] = useState<string[]>([]);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -179,9 +182,58 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     setOpenFileGenerationDialog(false);
   };
 
+  const checkExistingFiles = () => {
+    if (!props.currentProject) return [];
+
+    const existing: string[] = [];
+    // Check for keyboard.json file
+    const keyboardJsonExists = props.currentProject.keyboardFiles.some(
+      (file) => file.fileType === 'keyboard' && file.path === 'keyboard.json'
+    );
+    if (keyboardJsonExists) {
+      existing.push('keyboard.json');
+    }
+
+    // Check for keymap.c file
+    const keymapCExists = props.currentProject.keymapFiles.some(
+      (file) => file.fileType === 'keymap' && file.path === 'keymap.c'
+    );
+    if (keymapCExists) {
+      existing.push('keymap.c');
+    }
+
+    return existing;
+  };
+
   const onGenerateFile = () => {
-    // TODO: Implement file generation functionality
-    console.log('Generate file clicked');
+    // Close file generation dialog first
+    setOpenFileGenerationDialog(false);
+
+    // Check for existing files
+    const existing = checkExistingFiles();
+
+    if (existing.length > 0) {
+      // Files exist, ask for confirmation
+      setExistingFiles(existing);
+      setOpenOverwriteConfirmDialog(true);
+    } else {
+      // No existing files, proceed with generation
+      proceedWithFileGeneration();
+    }
+  };
+
+  const proceedWithFileGeneration = () => {
+    // TODO: Implement actual file generation
+    console.log('Proceeding with file generation');
+  };
+
+  const onConfirmOverwrite = () => {
+    setOpenOverwriteConfirmDialog(false);
+    proceedWithFileGeneration();
+  };
+
+  const onCancelOverwrite = () => {
+    setOpenOverwriteConfirmDialog(false);
   };
 
   return (
@@ -324,6 +376,21 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         open={openFileGenerationDialog}
         onClose={onCloseFileGenerationDialog}
         onGenerate={onGenerateFile}
+        userDisplayName={
+          props.auth?.getCurrentAuthenticatedUserOrNull()?.displayName || ''
+        }
+      />
+      <ConfirmDialog
+        open={openOverwriteConfirmDialog}
+        title={t('Confirm File Overwrite')}
+        message={t(
+          'The following files already exist: {{files}}. Do you want to overwrite them?',
+          {
+            files: existingFiles.join(', '),
+          }
+        )}
+        onClickYes={onConfirmOverwrite}
+        onClickNo={onCancelOverwrite}
       />
     </React.Fragment>
   );

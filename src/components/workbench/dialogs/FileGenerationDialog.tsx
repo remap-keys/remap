@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -13,6 +14,7 @@ import {
   Stack,
   Typography,
   SelectChangeEvent,
+  InputAdornment,
 } from '@mui/material';
 import { t } from 'i18next';
 
@@ -96,16 +98,35 @@ interface FileGenerationDialogProps {
   open: boolean;
   onClose: () => void;
   onGenerate: () => void;
+  userDisplayName?: string;
 }
 
 export default function FileGenerationDialog(props: FileGenerationDialogProps) {
   const [manufacturerName, setManufacturerName] = useState<string>('');
   const [maintainerName, setMaintainerName] = useState<string>('');
   const [keyboardName, setKeyboardName] = useState<string>('');
-  const [mcuType, setMcuType] = useState<MCUType>(MCU_TYPES[0]);
-  const [mcu, setMcu] = useState<string>('');
+  const [mcuType, setMcuType] = useState<MCUType>(MCU_TYPES[1]);
+  const [mcu, setMcu] = useState<string>('RP2040');
   const [vendorId, setVendorId] = useState<string>('');
   const [productId, setProductId] = useState<string>('');
+
+  // Error state tracking
+  const [showErrors, setShowErrors] = useState<boolean>(false);
+
+  // Reset form when dialog opens
+  useEffect(() => {
+    if (props.open) {
+      // Reset all fields to initial values
+      setManufacturerName(props.userDisplayName || '');
+      setMaintainerName(props.userDisplayName || '');
+      setKeyboardName('');
+      setMcuType(MCU_TYPES[1]);
+      setMcu('RP2040');
+      setVendorId('');
+      setProductId('');
+      setShowErrors(false);
+    }
+  }, [props.open, props.userDisplayName]);
 
   const onChangeMcuType = (event: SelectChangeEvent<MCUType>) => {
     const newMcuType = event.target.value as MCUType;
@@ -118,6 +139,113 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
       return DEVELOPMENT_BOARD_MCUS;
     } else {
       return INTEGRATED_MCUS;
+    }
+  };
+
+  // Validation functions
+  const validateSingleByteString = (
+    value: string,
+    maxLength: number
+  ): boolean => {
+    if (!value || value.trim() === '') return false;
+    if (value.length > maxLength) return false;
+    // Check for multibyte characters (non-ASCII)
+    // eslint-disable-next-line no-control-regex
+    return /^[\x00-\x7F]*$/.test(value);
+  };
+
+  const validateFilename = (value: string, maxLength: number): boolean => {
+    if (!value || value.trim() === '') return false;
+    if (value.length > maxLength) return false;
+    // Check for multibyte characters (non-ASCII)
+    // eslint-disable-next-line no-control-regex
+    if (!/^[\x00-\x7F]*$/.test(value)) return false;
+    // Check for invalid filename characters across Windows, macOS, and Unix
+    // eslint-disable-next-line no-control-regex
+    const invalidChars = /[<>:"/\\|?*\x00-\x1f]/;
+    return !invalidChars.test(value);
+  };
+
+  const validateHexId = (value: string): boolean => {
+    if (!value || value.trim() === '') return false;
+    if (value.length > 4) return false;
+    // Check if it's a valid hexadecimal string
+    return /^[0-9A-Fa-f]+$/.test(value);
+  };
+
+  // Validation state
+  const manufacturerNameValid = validateSingleByteString(manufacturerName, 256);
+  const maintainerNameValid = validateSingleByteString(maintainerName, 256);
+  const keyboardNameValid = validateFilename(keyboardName, 256);
+  const vendorIdValid = validateHexId(vendorId);
+  const productIdValid = validateHexId(productId);
+  const mcuValid = mcu.trim() !== '';
+
+  const isFormValid =
+    manufacturerNameValid &&
+    maintainerNameValid &&
+    keyboardNameValid &&
+    vendorIdValid &&
+    productIdValid &&
+    mcuValid;
+
+  // Error message functions
+  const getManufacturerNameError = (): string => {
+    if (!manufacturerName || manufacturerName.trim() === '')
+      return t('This field is required');
+    if (manufacturerName.length > 256)
+      return t('Maximum 256 characters allowed');
+    // eslint-disable-next-line no-control-regex
+    if (!/^[\x00-\x7F]*$/.test(manufacturerName))
+      return t('Only single-byte characters are allowed');
+    return '';
+  };
+
+  const getMaintainerNameError = (): string => {
+    if (!maintainerName || maintainerName.trim() === '')
+      return t('This field is required');
+    if (maintainerName.length > 256) return t('Maximum 256 characters allowed');
+    // eslint-disable-next-line no-control-regex
+    if (!/^[\x00-\x7F]*$/.test(maintainerName))
+      return t('Only single-byte characters are allowed');
+    return '';
+  };
+
+  const getKeyboardNameError = (): string => {
+    if (!keyboardName || keyboardName.trim() === '')
+      return t('This field is required');
+    if (keyboardName.length > 256) return t('Maximum 256 characters allowed');
+    // eslint-disable-next-line no-control-regex
+    if (!/^[\x00-\x7F]*$/.test(keyboardName))
+      return t('Only single-byte characters are allowed');
+    // eslint-disable-next-line no-control-regex
+    const invalidChars = /[<>:"/\\|?*\x00-\x1f]/;
+    if (invalidChars.test(keyboardName))
+      return t('Contains invalid characters for filename');
+    return '';
+  };
+
+  const getVendorIdError = (): string => {
+    if (!vendorId || vendorId.trim() === '') return t('This field is required');
+    if (vendorId.length > 4) return t('Maximum 4 characters allowed');
+    if (!/^[0-9A-Fa-f]+$/.test(vendorId))
+      return t('Only hexadecimal characters (0-9, A-F) are allowed');
+    return '';
+  };
+
+  const getProductIdError = (): string => {
+    if (!productId || productId.trim() === '')
+      return t('This field is required');
+    if (productId.length > 4) return t('Maximum 4 characters allowed');
+    if (!/^[0-9A-Fa-f]+$/.test(productId))
+      return t('Only hexadecimal characters (0-9, A-F) are allowed');
+    return '';
+  };
+
+  const handleGenerateClick = () => {
+    setShowErrors(true);
+    if (isFormValid) {
+      props.onGenerate();
     }
   };
 
@@ -137,6 +265,12 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             value={manufacturerName}
             onChange={(e) => setManufacturerName(e.target.value)}
             required
+            error={showErrors && !manufacturerNameValid}
+            helperText={
+              showErrors && !manufacturerNameValid
+                ? getManufacturerNameError()
+                : ''
+            }
           />
 
           <TextField
@@ -146,6 +280,10 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             value={maintainerName}
             onChange={(e) => setMaintainerName(e.target.value)}
             required
+            error={showErrors && !maintainerNameValid}
+            helperText={
+              showErrors && !maintainerNameValid ? getMaintainerNameError() : ''
+            }
           />
 
           <TextField
@@ -155,6 +293,10 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             value={keyboardName}
             onChange={(e) => setKeyboardName(e.target.value)}
             required
+            error={showErrors && !keyboardNameValid}
+            helperText={
+              showErrors && !keyboardNameValid ? getKeyboardNameError() : ''
+            }
           />
 
           <FormControl fullWidth size="small" required>
@@ -194,8 +336,15 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             label={t('Vendor ID')}
             value={vendorId}
             onChange={(e) => setVendorId(e.target.value)}
-            placeholder="0x1234"
+            placeholder="FEED"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">0x</InputAdornment>
+              ),
+            }}
             required
+            error={showErrors && !vendorIdValid}
+            helperText={showErrors && !vendorIdValid ? getVendorIdError() : ''}
           />
 
           <TextField
@@ -204,13 +353,22 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
             label={t('Product ID')}
             value={productId}
             onChange={(e) => setProductId(e.target.value)}
-            placeholder="0x5678"
+            placeholder="0000"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">0x</InputAdornment>
+              ),
+            }}
             required
+            error={showErrors && !productIdValid}
+            helperText={
+              showErrors && !productIdValid ? getProductIdError() : ''
+            }
           />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.onGenerate} variant="contained">
+        <Button onClick={handleGenerateClick} variant="contained">
           {t('Generate')}
         </Button>
         <Button onClick={props.onClose}>{t('Close')}</Button>
