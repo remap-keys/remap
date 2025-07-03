@@ -10,6 +10,8 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
 } from '../services/storage/Storage';
+import { IFileGenerationConfig } from '../services/workbench/types/FileGenerationTypes';
+import { FileGenerator } from '../services/workbench/FileGenerator';
 import {
   firmwareActionsThunk,
   FlashFirmwareDialogActions,
@@ -202,7 +204,8 @@ export const workbenchActionsThunk = {
     (
       project: IWorkbenchProject,
       path: string,
-      fileType: IBuildableFirmwareFileType
+      fileType: IBuildableFirmwareFileType,
+      code?: string
     ): ThunkPromiseAction<void> =>
     async (
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
@@ -212,7 +215,8 @@ export const workbenchActionsThunk = {
       const createResult = await storage.instance!.createWorkbenchProjectFile(
         project.id,
         fileType,
-        path
+        path,
+        code
       );
       if (isError(createResult)) {
         dispatch(
@@ -220,8 +224,76 @@ export const workbenchActionsThunk = {
         );
         return;
       }
+      const finalFile = createResult.value;
+      dispatch(WorkbenchAppActions.appendFileToCurrentProject(finalFile));
+    },
+  generateWorkbenchProjectFiles:
+    (
+      project: IWorkbenchProject,
+      config: IFileGenerationConfig
+    ): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      _getState: () => RootState
+    ) => {
+      // Delete existing files if they exist
+      const keyboardJsonFile = project.keyboardFiles.find(
+        (file) => file.path === 'keyboard.json'
+      );
+      if (keyboardJsonFile !== undefined) {
+        await dispatch(
+          workbenchActionsThunk.deleteWorkbenchProjectFile(
+            project,
+            keyboardJsonFile,
+            'keyboard'
+          )
+        );
+      }
+      const keymapCFile = project.keymapFiles.find(
+        (file) => file.path === 'keymap.c'
+      );
+      if (keymapCFile !== undefined) {
+        await dispatch(
+          workbenchActionsThunk.deleteWorkbenchProjectFile(
+            project,
+            keymapCFile,
+            'keymap'
+          )
+        );
+      }
+
+      // Generate files using FileGenerator
+      const generateResult = await FileGenerator.generateFiles(config);
+      if (generateResult.type === 'error') {
+        dispatch(
+          NotificationActions.addError(
+            generateResult.error,
+            generateResult.cause
+          )
+        );
+        return;
+      }
+
+      const generatedFiles = generateResult.value;
+
+      // Create each generated file in the project with content
+      for (const generatedFile of generatedFiles) {
+        await dispatch(
+          workbenchActionsThunk.createWorkbenchProjectFile(
+            project,
+            generatedFile.path,
+            generatedFile.fileType,
+            generatedFile.content
+          )
+        );
+      }
+
+      // Show success notification
+      const fileNames = generatedFiles.map((f: any) => f.path).join(', ');
       dispatch(
-        WorkbenchAppActions.appendFileToCurrentProject(createResult.value)
+        NotificationActions.addSuccess(
+          `Successfully generated files: ${fileNames}`
+        )
       );
     },
   updateWorkbenchProjectFile:

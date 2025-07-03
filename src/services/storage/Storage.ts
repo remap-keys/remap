@@ -660,7 +660,8 @@ export interface IStorage {
   createWorkbenchProjectFile(
     projectId: string,
     fileType: IBuildableFirmwareFileType,
-    filePath: string
+    filePath: string,
+    code?: string
   ): Promise<IResult<IWorkbenchProjectFile>>;
   updateWorkbenchProjectFile(
     projectId: string,

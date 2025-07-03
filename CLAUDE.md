@@ -26,8 +26,8 @@ yarn lint
 # Build production
 yarn build
 
-# Run tests
-yarn test
+# Run tests (add --run to exit after completion)
+yarn test --run
 
 # Format code (required before commit)
 yarn format
@@ -36,11 +36,14 @@ yarn format
 ### Single Test Execution
 
 ```bash
-# Run specific test file
-yarn test KeyModel.test.ts
+# Run specific test file (add --run to exit after completion)
+yarn test KeyModel.test.ts --run
 
 # Run tests with watch mode
 yarn test --watch
+
+# Run all tests once and exit
+yarn test --run
 ```
 
 ## Architecture Overview

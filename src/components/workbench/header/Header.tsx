@@ -6,6 +6,7 @@ import ProfileIcon from '../../common/auth/ProfileIcon.container';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import BuildIcon from '@mui/icons-material/Build';
 import TuneIcon from '@mui/icons-material/Tune';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import {
   Button,
   IconButton,
@@ -28,6 +29,9 @@ import { t } from 'i18next';
 import RemainingBuildPurchaseDialog from '../dialogs/RemainingBuildPurchaseDialog.container';
 import PaymentIcon from '@mui/icons-material/Payment';
 import RemainingBuildPurchaseHistoryDialog from '../dialogs/RemainingBuildPurchaseHistoryDialog.container';
+import FileGenerationDialog from '../dialogs/FileGenerationDialog';
+import { IFileGenerationConfig } from '../../../services/workbench/types/FileGenerationTypes';
+import { set } from 'date-fns';
 
 type OwnProps = {};
 type HeaderProps = OwnProps &
@@ -47,6 +51,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     openRemainingBuildPurchaseDialog,
     setOpenRemainingBuildPurchaseDialog,
   ] = useState<boolean>(false);
+  const [openFileGenerationDialog, setOpenFileGenerationDialog] =
+    useState<boolean>(false);
+  const [openOverwriteConfirmDialog, setOpenOverwriteConfirmDialog] =
+    useState<boolean>(false);
+  const [existingFiles, setExistingFiles] = useState<string[]>([]);
+  const [fileGenerationConfig, setFileGenerationConfig] = useState<
+    IFileGenerationConfig | undefined
+  >(undefined);
 
   useEffect(() => {
     if (props.currentProject === undefined) {
@@ -167,6 +179,75 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
     props.fetchUserPurchaseHistories!();
   };
 
+  const onClickFileGeneration = () => {
+    setOpenFileGenerationDialog(true);
+  };
+
+  const onCloseFileGenerationDialog = () => {
+    setOpenFileGenerationDialog(false);
+  };
+
+  const checkExistingFiles = () => {
+    if (!props.currentProject) return [];
+
+    const existing: string[] = [];
+    // Check for keyboard.json file
+    const keyboardJsonExists = props.currentProject.keyboardFiles.some(
+      (file) => file.fileType === 'keyboard' && file.path === 'keyboard.json'
+    );
+    if (keyboardJsonExists) {
+      existing.push('keyboard.json');
+    }
+
+    // Check for keymap.c file
+    const keymapCExists = props.currentProject.keymapFiles.some(
+      (file) => file.fileType === 'keymap' && file.path === 'keymap.c'
+    );
+    if (keymapCExists) {
+      existing.push('keymap.c');
+    }
+
+    return existing;
+  };
+
+  const onGenerateFile = (config: IFileGenerationConfig) => {
+    // Close file generation dialog first
+    setOpenFileGenerationDialog(false);
+
+    // Check for existing files
+    const existing = checkExistingFiles();
+
+    if (existing.length > 0) {
+      // Files exist, ask for confirmation
+      setExistingFiles(existing);
+      setFileGenerationConfig(config);
+      setOpenOverwriteConfirmDialog(true);
+    } else {
+      // No existing files, proceed with generation
+      proceedWithFileGeneration(config);
+    }
+  };
+
+  const proceedWithFileGeneration = (config: IFileGenerationConfig) => {
+    if (props.currentProject === undefined) {
+      throw new Error('Current project is not set');
+    }
+    props.generateWorkbenchProjectFiles!(props.currentProject, config);
+    setFileGenerationConfig(undefined);
+  };
+
+  const onConfirmOverwrite = () => {
+    setOpenOverwriteConfirmDialog(false);
+    if (!fileGenerationConfig) {
+      throw new Error('File generation config is not set');
+    }
+    proceedWithFileGeneration(fileGenerationConfig);
+  };
+
+  const onCancelOverwrite = () => {
+    setOpenOverwriteConfirmDialog(false);
+  };
+
   return (
     <React.Fragment>
       <header className="workbench-header">
@@ -206,6 +287,14 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
                 onClick={onClickProjects}
               >
                 {t('Projects')}
+              </Button>
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<AutoFixHighIcon />}
+                onClick={onClickFileGeneration}
+              >
+                {t('File Generation')}
               </Button>
               <Button
                 variant="text"
@@ -295,6 +384,26 @@ export default function Header(props: HeaderProps | Readonly<HeaderProps>) {
         onPurchase={onPurchaseRemainingBuilds}
       ></RemainingBuildPurchaseDialog>
       <RemainingBuildPurchaseHistoryDialog />
+      <FileGenerationDialog
+        open={openFileGenerationDialog}
+        onClose={onCloseFileGenerationDialog}
+        onGenerate={onGenerateFile}
+        userDisplayName={
+          props.auth?.getCurrentAuthenticatedUserOrNull()?.displayName || ''
+        }
+      />
+      <ConfirmDialog
+        open={openOverwriteConfirmDialog}
+        title={t('Confirm File Overwrite')}
+        message={t(
+          'The following files already exist: {{files}}. Do you want to overwrite them?',
+          {
+            files: existingFiles.join(', '),
+          }
+        )}
+        onClickYes={onConfirmOverwrite}
+        onClickNo={onCancelOverwrite}
+      />
     </React.Fragment>
   );
 }

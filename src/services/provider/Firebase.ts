@@ -2339,7 +2339,8 @@ export class FirebaseProvider implements IStorage, IAuth {
   async createWorkbenchProjectFile(
     projectId: string,
     fileType: IBuildableFirmwareFileType,
-    path: string
+    path: string,
+    code?: string
   ): Promise<IResult<IWorkbenchProjectFile>> {
     try {
       const now = new Date();
@@ -2351,7 +2352,7 @@ export class FirebaseProvider implements IStorage, IAuth {
         .collection(fileType === 'keyboard' ? 'keyboardFiles' : 'keymapFiles')
         .add({
           path,
-          code: '',
+          code: code || '',
           fileType,
           createdAt: now,
           updatedAt: now,
@@ -2359,7 +2360,7 @@ export class FirebaseProvider implements IStorage, IAuth {
       return successResultOf({
         id: doc.id,
         path,
-        code: '',
+        code: code || '',
         fileType,
         createdAt: now,
         updatedAt: now,
