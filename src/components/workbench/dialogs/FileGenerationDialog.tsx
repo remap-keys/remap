@@ -25,6 +25,10 @@ import {
   IFileGenerationConfig,
   MCUType,
 } from '../../../services/workbench/types/FileGenerationTypes';
+import {
+  DEVELOPMENT_BOARD_MCUS,
+  INTEGRATED_MCUS,
+} from '../../../services/workbench/constants/McuConstants';
 
 // MCU Types
 const MCU_TYPES: readonly MCUType[] = ['development_board', 'integrated_mcu'];
@@ -34,74 +38,6 @@ const MCU_TYPE_DISPLAY_NAMES: Record<MCUType, string> = {
   development_board: 'A separate development board (ex. Pro Micro)',
   integrated_mcu: 'The microcontroller integrated on the PCB',
 };
-
-// MCU Lists
-const DEVELOPMENT_BOARD_MCUS = [
-  'bit_c_pro',
-  'blackpill_f401',
-  'blackpill_f411',
-  'blok',
-  'bluepill',
-  'bonsai_c4',
-  'elite_c',
-  'elite_pi',
-  'helios',
-  'imera',
-  'kb2040',
-  'liatris',
-  'michi',
-  'promicro',
-  'promicro_rp2040',
-  'proton_c',
-  'stemcell',
-  'svlinky',
-];
-
-const INTEGRATED_MCUS = [
-  'AT32F415',
-  'at90usb1286',
-  'at90usb1287',
-  'at90usb162',
-  'at90usb646',
-  'at90usb647',
-  'atmega16u2',
-  'atmega16u4',
-  'atmega328',
-  'atmega328p',
-  'atmega32a',
-  'atmega32u2',
-  'atmega32u4',
-  'attiny85',
-  'GD32VF103',
-  'MK20DX128',
-  'MK20DX256',
-  'MK64FX512',
-  'MK66FX1M0',
-  'MKL26Z64',
-  'RP2040',
-  'STM32F042',
-  'STM32F072',
-  'STM32F103',
-  'STM32F303',
-  'STM32F401',
-  'STM32F405',
-  'STM32F407',
-  'STM32F411',
-  'STM32F446',
-  'STM32G0B1',
-  'STM32G431',
-  'STM32G474',
-  'STM32H723',
-  'STM32H733',
-  'STM32L412',
-  'STM32L422',
-  'STM32L432',
-  'STM32L433',
-  'STM32L442',
-  'STM32L443',
-  'WB32F3G71',
-  'WB32FQ95',
-];
 
 interface FileGenerationDialogProps {
   open: boolean;
@@ -394,8 +330,8 @@ export default function FileGenerationDialog(props: FileGenerationDialogProps) {
               onChange={(e) => setLayout(e.target.value)}
             >
               {AVAILABLE_LAYOUTS.map((layoutOption) => (
-                <MenuItem key={layoutOption.name} value={layoutOption.name}>
-                  {layoutOption.displayName} ({layoutOption.keyCount} keys)
+                <MenuItem key={layoutOption} value={layoutOption}>
+                  {layoutOption}
                 </MenuItem>
               ))}
             </Select>
