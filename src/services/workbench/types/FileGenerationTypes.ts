@@ -14,7 +14,7 @@ export interface IFileGenerationConfig {
   mcu: string;
   vendorId: string;
   productId: string;
-  layout?: string; // Optional layout selection
+  layout: string;
 }
 
 import { IBuildableFirmwareFileType } from '../../storage/Storage';
