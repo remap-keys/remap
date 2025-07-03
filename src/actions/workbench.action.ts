@@ -263,7 +263,7 @@ export const workbenchActionsThunk = {
       }
 
       // Generate files using FileGenerator
-      const generateResult = FileGenerator.generateFiles(config);
+      const generateResult = await FileGenerator.generateFiles(config);
       if (generateResult.type === 'error') {
         dispatch(
           NotificationActions.addError(
@@ -289,7 +289,7 @@ export const workbenchActionsThunk = {
       }
 
       // Show success notification
-      const fileNames = generatedFiles.map((f) => f.path).join(', ');
+      const fileNames = generatedFiles.map((f: any) => f.path).join(', ');
       dispatch(
         NotificationActions.addSuccess(
           `Successfully generated files: ${fileNames}`

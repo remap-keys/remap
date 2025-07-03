@@ -15,8 +15,10 @@ export class FileGenerator {
    * @param config File generation configuration
    * @returns Generated keyboard.json file
    */
-  static generateKeyboardJson(config: IFileGenerationConfig): IGeneratedFile {
-    return KeyboardJsonTemplate.generate(config);
+  static async generateKeyboardJson(
+    config: IFileGenerationConfig
+  ): Promise<IGeneratedFile> {
+    return await KeyboardJsonTemplate.generate(config);
   }
 
   /**
@@ -24,8 +26,10 @@ export class FileGenerator {
    * @param config File generation configuration
    * @returns Generated keymap.c file
    */
-  static generateKeymapC(config: IFileGenerationConfig): IGeneratedFile {
-    return KeymapCTemplate.generate(config);
+  static async generateKeymapC(
+    config: IFileGenerationConfig
+  ): Promise<IGeneratedFile> {
+    return await KeymapCTemplate.generate(config);
   }
 
   /**
@@ -33,13 +37,13 @@ export class FileGenerator {
    * @param config File generation configuration
    * @returns File generation result with all generated files
    */
-  static generateFiles(
+  static async generateFiles(
     config: IFileGenerationConfig
-  ): IResult<IGeneratedFile[]> {
+  ): Promise<IResult<IGeneratedFile[]>> {
     try {
       const files: IGeneratedFile[] = [
-        this.generateKeyboardJson(config),
-        this.generateKeymapC(config),
+        await this.generateKeyboardJson(config),
+        await this.generateKeymapC(config),
       ];
 
       return successResultOf(files);
