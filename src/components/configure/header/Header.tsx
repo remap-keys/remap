@@ -8,7 +8,7 @@ import ConnectionModal from '../modals/connection/ConnectionModal';
 import { HeaderActionsType, HeaderStateType } from './Header.container';
 import { IKeyboard, IKeymap } from '../../../services/hid/Hid';
 import { Logo } from '../../common/logo/Logo';
-import InfoDialog from '../info/InfoDialog.container';
+import InfoDialog from '../../common/infodialog/InfoDialog.container';
 import { InfoIcon } from '../../common/icons/InfoIcon';
 import {
   IKeyboardDefinitionDocument,
