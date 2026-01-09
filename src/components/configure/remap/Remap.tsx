@@ -83,14 +83,20 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
         >
           <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
         </div>
-        <div
-          className="keycode"
-          style={{ minWidth: this.state.minWidth }}
-          ref={this.keycodeRef}
-        >
-          <Keycodes />
-        </div>
-        <Desc value={this.props.hoverKey} />
+        {this.props.typingPractice! ? (
+          <div>Typing Practice</div>
+        ) : (
+          <>
+            <div
+              className="keycode"
+              style={{ minWidth: this.state.minWidth }}
+              ref={this.keycodeRef}
+            >
+              <Keycodes />
+            </div>
+            <Desc value={this.props.hoverKey} />
+          </>
+        )}
       </React.Fragment>
     );
   }

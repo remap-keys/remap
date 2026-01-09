@@ -366,6 +366,7 @@ export type RootState = {
     };
     keymapToolbar: {
       testMatrix: boolean;
+      typingPractice: boolean;
     };
     keycodes: {
       keys: { [category: string]: Key[] };
@@ -645,6 +646,7 @@ export const INIT_STATE: RootState = {
     },
     keymapToolbar: {
       testMatrix: false,
+      typingPractice: false,
     },
     keycodes: {
       keys: {},

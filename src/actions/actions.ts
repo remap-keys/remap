@@ -50,10 +50,17 @@ export const KeymapActions = {
 
 export const KEYMAP_TOOLBAR_ACTIONS = '@KeymapToolbar';
 export const KEYMAP_TOOLBAR_TEST_MATRIX_MODE = `${KEYMAP_TOOLBAR_ACTIONS}/TestMatrixMode`;
+export const KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE = `${KEYMAP_TOOLBAR_ACTIONS}/TypingPracticeMode`;
 export const KeymapToolbarActions = {
   updateTestMatrix: (flag: boolean) => {
     return {
       type: KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
+      value: flag,
+    };
+  },
+  updateTypingPractice: (flag: boolean) => {
+    return {
+      type: KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE,
       value: flag,
     };
   },

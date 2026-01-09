@@ -36,6 +36,7 @@ import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import KeymapListPopover from '../keymaplist/KeymapListPopover.container';
 import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 import { Restore as RestoreIcon } from '@mui/icons-material';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { t } from 'i18next';
 
 type OwnProp = {};
@@ -154,6 +155,10 @@ export default class KeymapMenu extends React.Component<
       const msg = `Couldn't generate the PDF. Please check your keyboard and definition file(.json).`;
       this.props.error!(msg);
     });
+  }
+
+  private onClickTypingPractice() {
+    this.props.startTypingPractice!();
   }
 
   private onClickOpenKeymapListPopover(
@@ -314,6 +319,17 @@ export default class KeymapMenu extends React.Component<
                 onClick={this.onClickGetCheatsheet.bind(this)}
               >
                 <PictureAsPdfRoundedIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+
+          <div className="keymap-menu-item">
+            <Tooltip arrow={true} placement="top" title={t('Typing Practice')}>
+              <IconButton
+                size="small"
+                onClick={this.onClickTypingPractice.bind(this)}
+              >
+                <SportsEsportsIcon />
               </IconButton>
             </Tooltip>
           </div>

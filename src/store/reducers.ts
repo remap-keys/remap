@@ -52,6 +52,7 @@ import {
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
   APP_UPDATE_USER_INFORMATION,
   APP_UPDATE_USER_PURCHASE,
+  KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -840,6 +841,10 @@ const keymapToolbarReducer = (
   switch (action.type) {
     case KEYMAP_TOOLBAR_TEST_MATRIX_MODE: {
       draft.configure.keymapToolbar.testMatrix = action.value;
+      break;
+    }
+    case KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE: {
+      draft.configure.keymapToolbar.typingPractice = action.value;
       break;
     }
   }
