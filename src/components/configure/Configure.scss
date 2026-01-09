@@ -7,24 +7,6 @@
   background-color: variables.$background-color-gray;
 }
 
-.message-box-wrapper {
-  background-color: white;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  .message-box {
-    width: 600px;
-    border: 1px solid lightgray;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 64px;
-  }
-}
-
 .dragMask {
   position: absolute;
   background: rgba(0, 0, 0, 0.4);
