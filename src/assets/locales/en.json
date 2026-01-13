@@ -350,5 +350,18 @@
   "Date": "Date",
   "Amount": "Amount",
   "Error": "Error",
-  "If you have any questions about your purchase, please contact the Remap team.": "If you have any questions about your purchase, please contact the Remap team."
+  "If you have any questions about your purchase, please contact the Remap team.": "If you have any questions about your purchase, please contact the Remap team.",
+
+  "Exit practice mode": "Exit practice mode",
+  "Start typing": "Start typing",
+  "Time": "Time",
+  "sec": "sec",
+  "Speed": "Speed",
+  "chars": "chars",
+  "Accuracy": "Accuracy",
+  "Correct": "Correct",
+  "Incorrect": "Incorrect",
+  "Start Practice": "Start practice",
+  "Reset": "Reset",
+  "Completed! Great job!": "Completed! Great job!"
 }

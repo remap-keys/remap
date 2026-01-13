@@ -167,6 +167,24 @@ export type IKeyboardWirelessType = wirelessTuple[number];
 export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
 
+export type ITypingPracticeStatus = 'idle' | 'running' | 'finished';
+
+export type ITypingPracticeError = {
+  index: number;
+  expected: string;
+  actual: string;
+};
+
+export type ITypingPracticeStats = {
+  correctChars: number;
+  incorrectChars: number;
+  totalChars: number;
+  startTime: number | null;
+  endTime: number | null;
+  cps: number;
+  accuracy: number;
+};
+
 export const ALL_FLASH_FIRMWARE_DIALOG_MODE = [
   'instruction',
   'flashing',
@@ -389,6 +407,14 @@ export type RootState = {
       macroBuffer: IMacroBuffer | null;
       macro: IMacro | null;
       macroKeys: MacroKey[];
+    };
+    practice: {
+      currentText: string;
+      userInput: string;
+      currentIndex: number;
+      errors: ITypingPracticeError[];
+      stats: ITypingPracticeStats;
+      status: ITypingPracticeStatus;
     };
   };
   keyboards: {
@@ -669,6 +695,22 @@ export const INIT_STATE: RootState = {
       macroBuffer: null,
       macro: null,
       macroKeys: [],
+    },
+    practice: {
+      currentText: 'The quick brown fox jumps over the lazy dog.',
+      userInput: '',
+      currentIndex: 0,
+      errors: [],
+      stats: {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      },
+      status: 'idle',
     },
   },
   keyboards: {

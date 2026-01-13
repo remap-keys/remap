@@ -53,6 +53,12 @@ import {
   APP_UPDATE_USER_INFORMATION,
   APP_UPDATE_USER_PURCHASE,
   KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE,
+  PRACTICE_ACTIONS,
+  PRACTICE_START,
+  PRACTICE_UPDATE_INPUT,
+  PRACTICE_RESET,
+  PRACTICE_FINISH,
+  PRACTICE_UPDATE_TEXT,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -246,6 +252,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keydiffReducer(action, draft);
     } else if (action.type.startsWith(KEYMAP_TOOLBAR_ACTIONS)) {
       keymapToolbarReducer(action, draft);
+    } else if (action.type.startsWith(PRACTICE_ACTIONS)) {
+      practiceReducer(action, draft);
     } else if (action.type.startsWith(KEYMAP_ACTIONS)) {
       keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
@@ -845,6 +853,113 @@ const keymapToolbarReducer = (
     }
     case KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE: {
       draft.configure.keymapToolbar.typingPractice = action.value;
+      break;
+    }
+  }
+};
+
+const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case PRACTICE_START: {
+      draft.configure.practice.status = 'running';
+      draft.configure.practice.stats.startTime = Date.now();
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      break;
+    }
+    case PRACTICE_UPDATE_INPUT: {
+      const input = action.value;
+      const text = draft.configure.practice.currentText;
+      draft.configure.practice.userInput = input;
+
+      // Calculate current index and errors
+      let correctChars = 0;
+      let incorrectChars = 0;
+      const errors = [];
+
+      for (let i = 0; i < input.length; i++) {
+        if (i < text.length) {
+          if (input[i] === text[i]) {
+            correctChars++;
+          } else {
+            incorrectChars++;
+            errors.push({
+              index: i,
+              expected: text[i],
+              actual: input[i],
+            });
+          }
+        }
+      }
+
+      draft.configure.practice.currentIndex = input.length;
+      draft.configure.practice.errors = errors;
+      draft.configure.practice.stats.correctChars = correctChars;
+      draft.configure.practice.stats.incorrectChars = incorrectChars;
+      draft.configure.practice.stats.totalChars = input.length;
+
+      // Calculate CPS (characters per second) and accuracy
+      if (draft.configure.practice.stats.startTime) {
+        const elapsedSeconds =
+          (Date.now() - draft.configure.practice.stats.startTime) / 1000;
+        draft.configure.practice.stats.cps =
+          elapsedSeconds > 0
+            ? Math.round((correctChars / elapsedSeconds) * 10) / 10
+            : 0;
+      }
+
+      const totalTyped = correctChars + incorrectChars;
+      draft.configure.practice.stats.accuracy =
+        totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+
+      // Check if finished
+      if (
+        input.length >= text.length &&
+        draft.configure.practice.status === 'running'
+      ) {
+        draft.configure.practice.status = 'finished';
+        draft.configure.practice.stats.endTime = Date.now();
+      }
+      break;
+    }
+    case PRACTICE_RESET: {
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
+      break;
+    }
+    case PRACTICE_FINISH: {
+      draft.configure.practice.status = 'finished';
+      draft.configure.practice.stats.endTime = Date.now();
+      break;
+    }
+    case PRACTICE_UPDATE_TEXT: {
+      draft.configure.practice.currentText = action.value;
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
       break;
     }
   }

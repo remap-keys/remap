@@ -66,6 +66,42 @@ export const KeymapToolbarActions = {
   },
 };
 
+export const PRACTICE_ACTIONS = '@Practice';
+export const PRACTICE_START = `${PRACTICE_ACTIONS}/Start`;
+export const PRACTICE_UPDATE_INPUT = `${PRACTICE_ACTIONS}/UpdateInput`;
+export const PRACTICE_RESET = `${PRACTICE_ACTIONS}/Reset`;
+export const PRACTICE_FINISH = `${PRACTICE_ACTIONS}/Finish`;
+export const PRACTICE_UPDATE_TEXT = `${PRACTICE_ACTIONS}/UpdateText`;
+export const PracticeActions = {
+  start: () => {
+    return {
+      type: PRACTICE_START,
+    };
+  },
+  updateInput: (input: string) => {
+    return {
+      type: PRACTICE_UPDATE_INPUT,
+      value: input,
+    };
+  },
+  reset: () => {
+    return {
+      type: PRACTICE_RESET,
+    };
+  },
+  finish: () => {
+    return {
+      type: PRACTICE_FINISH,
+    };
+  },
+  updateText: (text: string) => {
+    return {
+      type: PRACTICE_UPDATE_TEXT,
+      value: text,
+    };
+  },
+};
+
 export const KEYCODES_ACTIONS = '@Keycodes';
 export const KEYCODES_UPDATE_MACRO = `${KEYCODES_ACTIONS}/UpdateMacro`;
 export const KeycodesActions = {

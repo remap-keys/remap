@@ -8,6 +8,7 @@ import { RemapActionsType, RemapStateType } from './Remap.container';
 import { Key } from '../keycodekey/KeyGen';
 import { kinds2CategoryLabel } from '../customkey/AutocompleteKeys';
 import MacroEditor from '../macroeditor/MacroEditor.container';
+import TypingPractice from '../practice/TypingPractice.container';
 
 type OwnProp = {};
 type RemapPropType = OwnProp &
@@ -84,7 +85,7 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
           <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
         </div>
         {this.props.typingPractice! ? (
-          <div>Typing Practice</div>
+          <TypingPractice />
         ) : (
           <>
             <div
