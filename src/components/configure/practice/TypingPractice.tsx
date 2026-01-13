@@ -41,6 +41,21 @@ export function TypingPractice(props: TypingPracticeProps) {
     }
   }, [status]);
 
+  // Add this new useEffect hook
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && reset) {
+        reset();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [reset]); // Depend on 'reset' prop to ensure the latest 'reset' function is used
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (status === 'running' && updateInput) {
       updateInput(e.target.value);
