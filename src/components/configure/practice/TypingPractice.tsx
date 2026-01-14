@@ -4,9 +4,24 @@ import {
   TypingPracticeActionsType,
   TypingPracticeStateType,
 } from './TypingPractice.container';
-import { Button, Typography, Box, IconButton, Snackbar } from '@mui/material';
+import {
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  Snackbar,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  LinearProgress,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { t } from 'i18next';
+import {
+  PRACTICE_CATEGORIES,
+  PracticeCategoryId,
+} from '../../../services/practice/PracticeTexts';
 
 type OwnProps = {};
 type TypingPracticeProps = OwnProps &
@@ -15,6 +30,9 @@ type TypingPracticeProps = OwnProps &
 
 export function TypingPractice(props: TypingPracticeProps) {
   const {
+    currentCategory,
+    sentences,
+    currentSentenceIndex,
     currentText,
     userInput,
     errors,
@@ -23,23 +41,57 @@ export function TypingPractice(props: TypingPracticeProps) {
     start,
     updateInput,
     reset,
+    updateCategory,
+    updateSentences,
+    nextSentence,
     exitPracticeMode,
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+  // Load sentences when category changes or on mount
+  useEffect(() => {
+    if (currentCategory && updateSentences) {
+      const category = PRACTICE_CATEGORIES.find(
+        (cat) => cat.id === currentCategory
+      );
+      if (category && category.sentences.length > 0) {
+        // Randomly select 5 sentences from the category
+        const shuffled = [...category.sentences].sort(
+          () => Math.random() - 0.5
+        );
+        const selectedSentences = shuffled.slice(0, 5);
+        updateSentences(selectedSentences);
+      }
+    }
+  }, [currentCategory, updateSentences]);
+
   useEffect(() => {
     if (status === 'running' && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [status]);
+  }, [status, currentText]);
 
   useEffect(() => {
     if (status === 'finished') {
-      setSnackbarOpen(true);
+      // Check if there are more sentences in the set
+      const hasMoreSentences =
+        sentences &&
+        currentSentenceIndex !== undefined &&
+        currentSentenceIndex < sentences.length - 1;
+
+      if (hasMoreSentences) {
+        // Immediately move to next sentence
+        if (nextSentence) {
+          nextSentence();
+        }
+      } else {
+        // All sentences completed
+        setSnackbarOpen(true);
+      }
     }
-  }, [status]);
+  }, [status, sentences, currentSentenceIndex, nextSentence]);
 
   // Add this new useEffect hook
   useEffect(() => {
@@ -58,7 +110,10 @@ export function TypingPractice(props: TypingPracticeProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (status === 'running' && updateInput) {
-      updateInput(e.target.value);
+      // Prevent deleting already typed characters (no backspace allowed)
+      if (e.target.value.length >= (userInput?.length || 0)) {
+        updateInput(e.target.value);
+      }
     }
   };
 
@@ -82,6 +137,15 @@ export function TypingPractice(props: TypingPracticeProps) {
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const categoryId = event.target.value as PracticeCategoryId;
+    if (updateCategory) {
+      updateCategory(categoryId);
+    }
   };
 
   const renderText = () => {
@@ -122,6 +186,45 @@ export function TypingPractice(props: TypingPracticeProps) {
       </Box>
 
       <Box className="practice-content">
+        {/* Category Selection */}
+        <Box className="category-selection">
+          <FormControl fullWidth size="small">
+            <InputLabel id="category-select-label">
+              {t('Practice Category')}
+            </InputLabel>
+            <Select
+              labelId="category-select-label"
+              id="category-select"
+              value={currentCategory || 'alphabet-mixed'}
+              label={t('Practice Category')}
+              onChange={handleCategoryChange as any}
+              disabled={status === 'running'}
+            >
+              {PRACTICE_CATEGORIES.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        {/* Progress Indicator */}
+        {sentences && sentences.length > 0 && (
+          <Box className="progress-indicator">
+            <LinearProgress
+              variant="determinate"
+              value={
+                status === 'finished'
+                  ? 100
+                  : ((currentSentenceIndex || 0) / (sentences.length || 1)) *
+                    100
+              }
+              className="progress-bar"
+            />
+          </Box>
+        )}
+
         {/* Text Display */}
         <Box className="text-display">{renderText()}</Box>
 

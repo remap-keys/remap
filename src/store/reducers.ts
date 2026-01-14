@@ -59,6 +59,9 @@ import {
   PRACTICE_RESET,
   PRACTICE_FINISH,
   PRACTICE_UPDATE_TEXT,
+  PRACTICE_UPDATE_CATEGORY,
+  PRACTICE_NEXT_SENTENCE,
+  PRACTICE_UPDATE_SENTENCES,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -926,6 +929,11 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case PRACTICE_RESET: {
       draft.configure.practice.status = 'idle';
+      draft.configure.practice.currentSentenceIndex = 0;
+      if (draft.configure.practice.sentences.length > 0) {
+        draft.configure.practice.currentText =
+          draft.configure.practice.sentences[0];
+      }
       draft.configure.practice.userInput = '';
       draft.configure.practice.currentIndex = 0;
       draft.configure.practice.errors = [];
@@ -947,6 +955,52 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case PRACTICE_UPDATE_TEXT: {
       draft.configure.practice.currentText = action.value;
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
+      break;
+    }
+    case PRACTICE_UPDATE_CATEGORY: {
+      draft.configure.practice.currentCategory = action.value;
+      break;
+    }
+    case PRACTICE_NEXT_SENTENCE: {
+      const currentIndex = draft.configure.practice.currentSentenceIndex;
+      const sentences = draft.configure.practice.sentences;
+      if (currentIndex < sentences.length - 1) {
+        draft.configure.practice.currentSentenceIndex = currentIndex + 1;
+        draft.configure.practice.currentText = sentences[currentIndex + 1];
+        draft.configure.practice.userInput = '';
+        draft.configure.practice.currentIndex = 0;
+        draft.configure.practice.errors = [];
+        draft.configure.practice.status = 'running';
+        draft.configure.practice.stats = {
+          correctChars: 0,
+          incorrectChars: 0,
+          totalChars: 0,
+          startTime: Date.now(),
+          endTime: null,
+          cps: 0,
+          accuracy: 100,
+        };
+      }
+      break;
+    }
+    case PRACTICE_UPDATE_SENTENCES: {
+      draft.configure.practice.sentences = action.value;
+      draft.configure.practice.currentSentenceIndex = 0;
+      draft.configure.practice.currentText =
+        action.value.length > 0 ? action.value[0] : '';
       draft.configure.practice.userInput = '';
       draft.configure.practice.currentIndex = 0;
       draft.configure.practice.errors = [];

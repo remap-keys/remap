@@ -27,6 +27,7 @@ import { IAuth } from '../services/auth/Auth';
 import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
+import { PracticeCategoryId } from '../services/practice/PracticeTexts';
 import {
   KeyboardLabelLang,
   KEY_LABEL_LANGS,
@@ -409,6 +410,9 @@ export type RootState = {
       macroKeys: MacroKey[];
     };
     practice: {
+      currentCategory: PracticeCategoryId;
+      sentences: string[];
+      currentSentenceIndex: number;
       currentText: string;
       userInput: string;
       currentIndex: number;
@@ -697,6 +701,9 @@ export const INIT_STATE: RootState = {
       macroKeys: [],
     },
     practice: {
+      currentCategory: 'alphabet-mixed',
+      sentences: [],
+      currentSentenceIndex: 0,
       currentText: 'The quick brown fox jumps over the lazy dog.',
       userInput: '',
       currentIndex: 0,

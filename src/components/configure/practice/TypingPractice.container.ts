@@ -8,6 +8,9 @@ import {
 
 const mapStateToProps = (state: RootState) => {
   return {
+    currentCategory: state.configure.practice.currentCategory,
+    sentences: state.configure.practice.sentences,
+    currentSentenceIndex: state.configure.practice.currentSentenceIndex,
     currentText: state.configure.practice.currentText,
     userInput: state.configure.practice.userInput,
     currentIndex: state.configure.practice.currentIndex,
@@ -24,6 +27,9 @@ const mapDispatchToProps = {
   reset: PracticeActions.reset,
   finish: PracticeActions.finish,
   updateText: PracticeActions.updateText,
+  updateCategory: PracticeActions.updateCategory,
+  updateSentences: PracticeActions.updateSentences,
+  nextSentence: PracticeActions.nextSentence,
   exitPracticeMode: () => KeymapToolbarActions.updateTypingPractice(false),
 };
 export type TypingPracticeActionsType = typeof mapDispatchToProps;

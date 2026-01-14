@@ -3,6 +3,7 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IEncoderKeymap, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
+import { PracticeCategoryId } from '../services/practice/PracticeTexts';
 import {
   IKeySwitchOperation,
   ISetupPhase,
@@ -72,6 +73,9 @@ export const PRACTICE_UPDATE_INPUT = `${PRACTICE_ACTIONS}/UpdateInput`;
 export const PRACTICE_RESET = `${PRACTICE_ACTIONS}/Reset`;
 export const PRACTICE_FINISH = `${PRACTICE_ACTIONS}/Finish`;
 export const PRACTICE_UPDATE_TEXT = `${PRACTICE_ACTIONS}/UpdateText`;
+export const PRACTICE_UPDATE_CATEGORY = `${PRACTICE_ACTIONS}/UpdateCategory`;
+export const PRACTICE_NEXT_SENTENCE = `${PRACTICE_ACTIONS}/NextSentence`;
+export const PRACTICE_UPDATE_SENTENCES = `${PRACTICE_ACTIONS}/UpdateSentences`;
 export const PracticeActions = {
   start: () => {
     return {
@@ -98,6 +102,23 @@ export const PracticeActions = {
     return {
       type: PRACTICE_UPDATE_TEXT,
       value: text,
+    };
+  },
+  updateCategory: (category: PracticeCategoryId) => {
+    return {
+      type: PRACTICE_UPDATE_CATEGORY,
+      value: category,
+    };
+  },
+  nextSentence: () => {
+    return {
+      type: PRACTICE_NEXT_SENTENCE,
+    };
+  },
+  updateSentences: (sentences: string[]) => {
+    return {
+      type: PRACTICE_UPDATE_SENTENCES,
+      value: sentences,
     };
   },
 };
