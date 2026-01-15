@@ -103,6 +103,25 @@
       }
     }
 
+    .countdown-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      min-height: 60px;
+
+      .countdown-number {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1976d2;
+        animation: pulse 1s ease-in-out;
+      }
+    }
+
     .typing-input {
       position: absolute;
       left: -9999px;
@@ -157,5 +176,20 @@
   51%,
   100% {
     background-color: transparent;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }

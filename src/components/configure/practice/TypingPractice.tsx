@@ -50,6 +50,7 @@ export function TypingPractice(props: TypingPracticeProps) {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
 
   // Load sentences when category changes or on mount
   useEffect(() => {
@@ -109,6 +110,25 @@ export function TypingPractice(props: TypingPracticeProps) {
     };
   }, [reset]); // Depend on 'reset' prop to ensure the latest 'reset' function is used
 
+  // Countdown timer effect
+  useEffect(() => {
+    if (countdown === null) return;
+
+    if (countdown === 0) {
+      setCountdown(null);
+      if (start) {
+        start();
+      }
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [countdown, start]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (status === 'running' && updateInput) {
       // Prevent deleting already typed characters (no backspace allowed)
@@ -119,9 +139,7 @@ export function TypingPractice(props: TypingPracticeProps) {
   };
 
   const handleStart = () => {
-    if (start) {
-      start();
-    }
+    setCountdown(3);
   };
 
   const handleReset = () => {
@@ -199,7 +217,7 @@ export function TypingPractice(props: TypingPracticeProps) {
               value={currentCategory || getDefaultCategory().id}
               label={t('Practice Category')}
               onChange={handleCategoryChange as any}
-              disabled={status === 'running'}
+              disabled={status === 'running' || countdown !== null}
             >
               {PRACTICE_CATEGORIES.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
@@ -226,8 +244,23 @@ export function TypingPractice(props: TypingPracticeProps) {
           </Box>
         )}
 
+        {/* Countdown Display */}
+        {countdown !== null && (
+          <Box className="countdown-display">
+            <Typography
+              key={countdown}
+              variant="h1"
+              className="countdown-number"
+            >
+              {countdown === 0 ? t('Go!') : countdown}
+            </Typography>
+          </Box>
+        )}
+
         {/* Text Display */}
-        <Box className="text-display">{renderText()}</Box>
+        {countdown === null && (
+          <Box className="text-display">{renderText()}</Box>
+        )}
 
         {/* Input Field */}
         {status === 'running' && (
@@ -268,7 +301,7 @@ export function TypingPractice(props: TypingPracticeProps) {
 
         {/* Control Buttons */}
         <Box className="control-buttons">
-          {status === 'idle' && (
+          {status === 'idle' && countdown === null && (
             <Button variant="contained" color="primary" onClick={handleStart}>
               {t('Start Practice')}
             </Button>
