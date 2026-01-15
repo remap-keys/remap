@@ -185,5 +185,5 @@ export function getAllCategoryIds(): PracticeCategoryId[] {
  * Get default category (alphabet-mixed)
  */
 export function getDefaultCategory(): PracticeCategory {
-  return PRACTICE_CATEGORIES.find((cat) => cat.id === 'alphabet-mixed')!;
+  return PRACTICE_CATEGORIES.find((cat) => cat.id === 'alphabet-lowercase')!;
 }

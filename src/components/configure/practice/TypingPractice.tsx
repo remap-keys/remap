@@ -19,6 +19,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { t } from 'i18next';
 import {
+  getDefaultCategory,
   PRACTICE_CATEGORIES,
   PracticeCategoryId,
 } from '../../../services/practice/PracticeTexts';
@@ -195,7 +196,7 @@ export function TypingPractice(props: TypingPracticeProps) {
             <Select
               labelId="category-select-label"
               id="category-select"
-              value={currentCategory || 'alphabet-mixed'}
+              value={currentCategory || getDefaultCategory().id}
               label={t('Practice Category')}
               onChange={handleCategoryChange as any}
               disabled={status === 'running'}
