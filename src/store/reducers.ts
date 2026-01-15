@@ -865,11 +865,16 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
   // TODO: type-safe
   switch (action.type) {
     case PRACTICE_START: {
+      const sentences = draft.configure.practice.sentences;
+      draft.configure.practice.currentText =
+        sentences.length > 0 ? sentences[0] : '';
       draft.configure.practice.status = 'running';
       draft.configure.practice.stats.startTime = Date.now();
       draft.configure.practice.userInput = '';
       draft.configure.practice.currentIndex = 0;
       draft.configure.practice.errors = [];
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
       break;
     }
     case PRACTICE_UPDATE_INPUT: {
@@ -877,17 +882,17 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
       const text = draft.configure.practice.currentText;
       draft.configure.practice.userInput = input;
 
-      // Calculate current index and errors
-      let correctChars = 0;
-      let incorrectChars = 0;
+      // Calculate current sentence's correct/incorrect chars
+      let currentCorrectChars = 0;
+      let currentIncorrectChars = 0;
       const errors = [];
 
       for (let i = 0; i < input.length; i++) {
         if (i < text.length) {
           if (input[i] === text[i]) {
-            correctChars++;
+            currentCorrectChars++;
           } else {
-            incorrectChars++;
+            currentIncorrectChars++;
             errors.push({
               index: i,
               expected: text[i],
@@ -897,11 +902,19 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
         }
       }
 
+      // Calculate total stats (accumulated + current sentence)
+      const totalCorrectChars =
+        draft.configure.practice.accumulatedCorrectChars + currentCorrectChars;
+      const totalIncorrectChars =
+        draft.configure.practice.accumulatedIncorrectChars +
+        currentIncorrectChars;
+
       draft.configure.practice.currentIndex = input.length;
       draft.configure.practice.errors = errors;
-      draft.configure.practice.stats.correctChars = correctChars;
-      draft.configure.practice.stats.incorrectChars = incorrectChars;
-      draft.configure.practice.stats.totalChars = input.length;
+      draft.configure.practice.stats.correctChars = totalCorrectChars;
+      draft.configure.practice.stats.incorrectChars = totalIncorrectChars;
+      draft.configure.practice.stats.totalChars =
+        totalCorrectChars + totalIncorrectChars;
 
       // Calculate CPS (characters per second) and accuracy
       if (draft.configure.practice.stats.startTime) {
@@ -909,13 +922,15 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
           (Date.now() - draft.configure.practice.stats.startTime) / 1000;
         draft.configure.practice.stats.cps =
           elapsedSeconds > 0
-            ? Math.round((correctChars / elapsedSeconds) * 10) / 10
+            ? Math.round((totalCorrectChars / elapsedSeconds) * 10) / 10
             : 0;
       }
 
-      const totalTyped = correctChars + incorrectChars;
+      const totalTyped = totalCorrectChars + totalIncorrectChars;
       draft.configure.practice.stats.accuracy =
-        totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+        totalTyped > 0
+          ? Math.round((totalCorrectChars / totalTyped) * 100)
+          : 100;
 
       // Check if finished
       if (
@@ -930,10 +945,7 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
     case PRACTICE_RESET: {
       draft.configure.practice.status = 'idle';
       draft.configure.practice.currentSentenceIndex = 0;
-      if (draft.configure.practice.sentences.length > 0) {
-        draft.configure.practice.currentText =
-          draft.configure.practice.sentences[0];
-      }
+      draft.configure.practice.currentText = '';
       draft.configure.practice.userInput = '';
       draft.configure.practice.currentIndex = 0;
       draft.configure.practice.errors = [];
@@ -946,6 +958,8 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
         cps: 0,
         accuracy: 100,
       };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
       break;
     }
     case PRACTICE_FINISH: {
@@ -968,6 +982,8 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
         cps: 0,
         accuracy: 100,
       };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
       break;
     }
     case PRACTICE_UPDATE_CATEGORY: {
@@ -978,29 +994,25 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
       const currentIndex = draft.configure.practice.currentSentenceIndex;
       const sentences = draft.configure.practice.sentences;
       if (currentIndex < sentences.length - 1) {
+        // Accumulate current sentence stats before moving to next
+        draft.configure.practice.accumulatedCorrectChars =
+          draft.configure.practice.stats.correctChars;
+        draft.configure.practice.accumulatedIncorrectChars =
+          draft.configure.practice.stats.incorrectChars;
+
         draft.configure.practice.currentSentenceIndex = currentIndex + 1;
         draft.configure.practice.currentText = sentences[currentIndex + 1];
         draft.configure.practice.userInput = '';
         draft.configure.practice.currentIndex = 0;
         draft.configure.practice.errors = [];
         draft.configure.practice.status = 'running';
-        draft.configure.practice.stats = {
-          correctChars: 0,
-          incorrectChars: 0,
-          totalChars: 0,
-          startTime: Date.now(),
-          endTime: null,
-          cps: 0,
-          accuracy: 100,
-        };
+        // Keep startTime and stats intact for cumulative tracking
       }
       break;
     }
     case PRACTICE_UPDATE_SENTENCES: {
       draft.configure.practice.sentences = action.value;
       draft.configure.practice.currentSentenceIndex = 0;
-      draft.configure.practice.currentText =
-        action.value.length > 0 ? action.value[0] : '';
       draft.configure.practice.userInput = '';
       draft.configure.practice.currentIndex = 0;
       draft.configure.practice.errors = [];
@@ -1014,6 +1026,8 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
         cps: 0,
         accuracy: 100,
       };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
       break;
     }
   }

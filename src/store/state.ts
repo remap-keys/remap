@@ -421,6 +421,8 @@ export type RootState = {
       currentIndex: number;
       errors: ITypingPracticeError[];
       stats: ITypingPracticeStats;
+      accumulatedCorrectChars: number;
+      accumulatedIncorrectChars: number;
       status: ITypingPracticeStatus;
     };
   };
@@ -707,7 +709,7 @@ export const INIT_STATE: RootState = {
       currentCategory: getDefaultCategory().id,
       sentences: [],
       currentSentenceIndex: 0,
-      currentText: getDefaultCategory().sentences[0],
+      currentText: '',
       userInput: '',
       currentIndex: 0,
       errors: [],
@@ -720,6 +722,8 @@ export const INIT_STATE: RootState = {
         cps: 0,
         accuracy: 100,
       },
+      accumulatedCorrectChars: 0,
+      accumulatedIncorrectChars: 0,
       status: 'idle',
     },
   },
