@@ -8,6 +8,7 @@ import {
 
 const mapStateToProps = (state: RootState) => {
   return {
+    keyboardId: state.entities.keyboardDefinitionDocument?.id,
     currentCategory: state.configure.practice.currentCategory,
     sentences: state.configure.practice.sentences,
     currentSentenceIndex: state.configure.practice.currentSentenceIndex,
@@ -24,6 +25,7 @@ export type TypingPracticeStateType = ReturnType<typeof mapStateToProps>;
 const mapDispatchToProps = {
   start: PracticeActions.start,
   updateInput: PracticeActions.updateInput,
+  updateStats: PracticeActions.updateStats,
   reset: PracticeActions.reset,
   finish: PracticeActions.finish,
   updateText: PracticeActions.updateText,

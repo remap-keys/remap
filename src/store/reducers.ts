@@ -62,6 +62,7 @@ import {
   PRACTICE_UPDATE_CATEGORY,
   PRACTICE_NEXT_SENTENCE,
   PRACTICE_UPDATE_SENTENCES,
+  PRACTICE_UPDATE_STATS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -1028,6 +1029,24 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
       };
       draft.configure.practice.accumulatedCorrectChars = 0;
       draft.configure.practice.accumulatedIncorrectChars = 0;
+      break;
+    }
+    case PRACTICE_UPDATE_STATS: {
+      const { keyboardId, char, isCorrect } = action.value;
+      if (!draft.configure.typingStats[keyboardId]) {
+        draft.configure.typingStats[keyboardId] = {};
+      }
+      if (!draft.configure.typingStats[keyboardId][char]) {
+        draft.configure.typingStats[keyboardId][char] = {
+          correct: 0,
+          incorrect: 0,
+        };
+      }
+      if (isCorrect) {
+        draft.configure.typingStats[keyboardId][char].correct++;
+      } else {
+        draft.configure.typingStats[keyboardId][char].incorrect++;
+      }
       break;
     }
   }

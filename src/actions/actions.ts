@@ -76,6 +76,7 @@ export const PRACTICE_UPDATE_TEXT = `${PRACTICE_ACTIONS}/UpdateText`;
 export const PRACTICE_UPDATE_CATEGORY = `${PRACTICE_ACTIONS}/UpdateCategory`;
 export const PRACTICE_NEXT_SENTENCE = `${PRACTICE_ACTIONS}/NextSentence`;
 export const PRACTICE_UPDATE_SENTENCES = `${PRACTICE_ACTIONS}/UpdateSentences`;
+export const PRACTICE_UPDATE_STATS = `${PRACTICE_ACTIONS}/UpdateStats`;
 export const PracticeActions = {
   start: () => {
     return {
@@ -119,6 +120,16 @@ export const PracticeActions = {
     return {
       type: PRACTICE_UPDATE_SENTENCES,
       value: sentences,
+    };
+  },
+  updateStats: (keyboardId: string, char: string, isCorrect: boolean) => {
+    return {
+      type: PRACTICE_UPDATE_STATS,
+      value: {
+        keyboardId,
+        char,
+        isCorrect,
+      },
     };
   },
 };

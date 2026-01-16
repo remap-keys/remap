@@ -31,6 +31,7 @@ type TypingPracticeProps = OwnProps &
 
 export function TypingPractice(props: TypingPracticeProps) {
   const {
+    keyboardId,
     currentCategory,
     sentences,
     currentSentenceIndex,
@@ -41,6 +42,7 @@ export function TypingPractice(props: TypingPracticeProps) {
     status,
     start,
     updateInput,
+    updateStats,
     reset,
     updateCategory,
     updateSentences,
@@ -130,7 +132,22 @@ export function TypingPractice(props: TypingPracticeProps) {
   }, [countdown, start]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (status === 'running' && updateInput) {
+    if (status === 'running' && updateInput && updateStats) {
+      const newValue = e.target.value;
+      const oldValue = userInput || '';
+
+      // Only proceed if a character was added
+      if (newValue.length > oldValue.length) {
+        const typedChar = newValue.slice(-1);
+        const expectedCharIndex = oldValue.length;
+        const expectedChar = currentText?.[expectedCharIndex];
+
+        if (keyboardId && expectedChar) {
+          const isCorrect = typedChar === expectedChar;
+          updateStats(keyboardId, expectedChar, isCorrect);
+        }
+      }
+
       // Prevent deleting already typed characters (no backspace allowed)
       if (e.target.value.length >= (userInput?.length || 0)) {
         updateInput(e.target.value);

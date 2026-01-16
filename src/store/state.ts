@@ -171,6 +171,26 @@ export type IKeyboardWirelessType = wirelessTuple[number];
 export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
 
+/**
+ * A single character's typing statistics.
+ */
+export interface ITypingCharStats {
+  correct: number;
+  incorrect: number;
+}
+
+/**
+ * Typing statistics for a specific keyboard.
+ * The key is the character (e.g., 'a', 'b', 'c').
+ */
+export type ITypingStatsPerKeyboard = Record<string, ITypingCharStats>;
+
+/**
+ * Typing statistics for all keyboards.
+ * The key is the keyboard definition document ID.
+ */
+export type ITypingStats = Record<string, ITypingStatsPerKeyboard>;
+
 export type ITypingPracticeStatus = 'idle' | 'running' | 'finished';
 
 export type ITypingPracticeError = {
@@ -425,6 +445,7 @@ export type RootState = {
       accumulatedIncorrectChars: number;
       status: ITypingPracticeStatus;
     };
+    typingStats: ITypingStats;
   };
   keyboards: {
     app: {
@@ -726,6 +747,7 @@ export const INIT_STATE: RootState = {
       accumulatedIncorrectChars: 0,
       status: 'idle',
     },
+    typingStats: {},
   },
   keyboards: {
     app: {
