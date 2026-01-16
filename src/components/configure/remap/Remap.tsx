@@ -72,6 +72,10 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
       // Call once to set the initial height.
       this.handleWindowResize();
     }
+    // When exiting typing practice mode, recalculate keycode area height
+    if (prevProps.typingPractice && !this.props.typingPractice) {
+      this.handleWindowResize();
+    }
   }
 
   render() {
