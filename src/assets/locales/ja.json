@@ -397,6 +397,7 @@
   "Keyboard Layout": "キーボードレイアウト",
 
   "Exit practice mode": "キータイピング練習を終える",
+  "Reset Statistics": "統計情報のリセット",
   "Start typing": "タイピング開始",
   "Time": "時間",
   "sec": "秒",
@@ -409,5 +410,6 @@
   "Reset": "リセット",
   "Completed! Great job!": "完了です！素晴らしい！",
   "Practice Category": "練習カテゴリー",
+  "Are you sure you want to reset your typing statistics? This action cannot be undone.": "統計情報をリセットしてもよろしいですか？この操作は元に戻せません。",
   "Sentence": "文"
 }

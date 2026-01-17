@@ -27,6 +27,7 @@ const mapDispatchToProps = {
   updateInput: PracticeActions.updateInput,
   updateStats: PracticeActions.updateStats,
   reset: PracticeActions.reset,
+  resetStatistics: PracticeActions.resetStatistics,
   finish: PracticeActions.finish,
   updateText: PracticeActions.updateText,
   updateCategory: PracticeActions.updateCategory,

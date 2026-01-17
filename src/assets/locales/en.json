@@ -361,9 +361,11 @@
   "Accuracy": "Accuracy",
   "Correct": "Correct",
   "Incorrect": "Incorrect",
+  "Reset Statistics": "Reset Statistics",
   "Start Practice": "Start practice",
   "Reset": "Reset",
   "Completed! Great job!": "Completed! Great job!",
   "Practice Category": "Practice Category",
+  "Are you sure you want to reset your typing statistics? This action cannot be undone.": "Are you sure you want to reset your typing statistics? This action cannot be undone.",
   "Sentence": "Sentence"
 }

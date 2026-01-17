@@ -77,6 +77,7 @@ export const PRACTICE_UPDATE_CATEGORY = `${PRACTICE_ACTIONS}/UpdateCategory`;
 export const PRACTICE_NEXT_SENTENCE = `${PRACTICE_ACTIONS}/NextSentence`;
 export const PRACTICE_UPDATE_SENTENCES = `${PRACTICE_ACTIONS}/UpdateSentences`;
 export const PRACTICE_UPDATE_STATS = `${PRACTICE_ACTIONS}/UpdateStats`;
+export const PRACTICE_RESET_STATISTICS = `${PRACTICE_ACTIONS}/ResetStatistics`;
 export const PracticeActions = {
   start: () => {
     return {
@@ -130,6 +131,12 @@ export const PracticeActions = {
         char,
         isCorrect,
       },
+    };
+  },
+  resetStatistics: (keyboardId: string) => {
+    return {
+      type: PRACTICE_RESET_STATISTICS,
+      value: keyboardId,
     };
   },
 };

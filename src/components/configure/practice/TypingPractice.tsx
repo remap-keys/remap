@@ -15,14 +15,18 @@ import {
   FormControl,
   InputLabel,
   LinearProgress,
+  Menu,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { t } from 'i18next';
+import ConfirmDialog from '../../common/confirm/ConfirmDialog';
 import {
   getDefaultCategory,
   PRACTICE_CATEGORIES,
   PracticeCategoryId,
 } from '../../../services/practice/PracticeTexts';
+
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 type OwnProps = {};
 type TypingPracticeProps = OwnProps &
@@ -44,6 +48,7 @@ export function TypingPractice(props: TypingPracticeProps) {
     updateInput,
     updateStats,
     reset,
+    resetStatistics,
     updateCategory,
     updateSentences,
     nextSentence,
@@ -53,6 +58,8 @@ export function TypingPractice(props: TypingPracticeProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Load sentences when category changes or on mount
   useEffect(() => {
@@ -130,6 +137,30 @@ export function TypingPractice(props: TypingPracticeProps) {
 
     return () => clearTimeout(timer);
   }, [countdown, start]);
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenConfirmDialog = () => {
+    setConfirmOpen(true);
+    handleMenuClose();
+  };
+
+  const handleConfirmReset = () => {
+    if (keyboardId && resetStatistics) {
+      resetStatistics(keyboardId);
+    }
+    setConfirmOpen(false);
+  };
+
+  const handleCancelReset = () => {
+    setConfirmOpen(false);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (status === 'running' && updateInput && updateStats) {
@@ -210,15 +241,37 @@ export function TypingPractice(props: TypingPracticeProps) {
     <div className="typing-practice-container">
       <Box className="practice-header">
         <Typography variant="h6">{t('Typing Practice')}</Typography>
-        <IconButton
-          className="close-button"
-          onClick={handleExit}
-          aria-label={t('Exit practice mode')}
-          title={t('Exit practice mode')}
-          size="small"
-        >
-          <CloseIcon />
-        </IconButton>
+        <Box>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={handleMenuClick}
+            size="small"
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={handleOpenConfirmDialog}>
+              {t('Reset Statistics')}
+            </MenuItem>
+          </Menu>
+          <IconButton
+            className="close-button"
+            onClick={handleExit}
+            aria-label={t('Exit practice mode')}
+            title={t('Exit practice mode')}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </Box>
 
       <Box className="practice-content">
@@ -338,6 +391,14 @@ export function TypingPractice(props: TypingPracticeProps) {
         onClose={handleSnackbarClose}
         message={t('Completed! Great job!')}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
+      
+      <ConfirmDialog
+        open={confirmOpen}
+        title={t('Reset Statistics')}
+        message={t('Are you sure you want to reset your typing statistics? This action cannot be undone.')}
+        onClickYes={handleConfirmReset}
+        onClickNo={handleCancelReset}
       />
     </div>
   );
