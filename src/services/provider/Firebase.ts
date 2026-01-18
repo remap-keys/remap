@@ -42,6 +42,7 @@ import {
   IWorkbenchProject,
   IWorkbenchProjectFile,
   IUserPurchaseHistory,
+  IFetchTypingStatsResult,
 } from '../storage/Storage';
 import { IAuth, IAuthenticationResult } from '../auth/Auth';
 import {
@@ -49,6 +50,7 @@ import {
   IKeyboardFeatures,
   IUserPurchase,
   IUserInformation,
+  ITypingStatsPerKeyboard,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import * as crypto from 'crypto';
@@ -2621,6 +2623,92 @@ export class FirebaseProvider implements IStorage, IAuth {
         `Fetching remaining build purchase histories failed: ${error}`,
         error
       );
+    }
+  }
+
+  async fetchTypingStats(
+    uid: string,
+    keyboardDefinitionId: string
+  ): Promise<IFetchTypingStatsResult> {
+    try {
+      const doc = await this.db
+        .collection('practices')
+        .doc('v1')
+        .collection('users')
+        .doc(uid)
+        .collection('keyboards')
+        .doc(keyboardDefinitionId)
+        .get();
+
+      if (doc.exists) {
+        return successResultOf({
+          stats: (doc.data()!.stats || {}) as ITypingStatsPerKeyboard,
+        });
+      } else {
+        return successResultOf({
+          stats: {},
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Fetching typing stats failed: ${error}`, error);
+    }
+  }
+
+  async saveTypingStats(
+    uid: string,
+    keyboardDefinitionId: string,
+    stats: ITypingStatsPerKeyboard
+  ): Promise<IEmptyResult> {
+    try {
+      const now = new Date();
+      const docRef = this.db
+        .collection('practices')
+        .doc('v1')
+        .collection('users')
+        .doc(uid)
+        .collection('keyboards')
+        .doc(keyboardDefinitionId);
+
+      const doc = await docRef.get();
+      if (doc.exists) {
+        await docRef.update({
+          stats,
+          updatedAt: now,
+        });
+      } else {
+        await docRef.set({
+          uid,
+          keyboardDefinitionId,
+          stats,
+          createdAt: now,
+          updatedAt: now,
+        });
+      }
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Saving typing stats failed: ${error}`, error);
+    }
+  }
+
+  async deleteTypingStats(
+    uid: string,
+    keyboardDefinitionId: string
+  ): Promise<IEmptyResult> {
+    try {
+      await this.db
+        .collection('practices')
+        .doc('v1')
+        .collection('users')
+        .doc(uid)
+        .collection('keyboards')
+        .doc(keyboardDefinitionId)
+        .delete();
+      return successResult();
+    } catch (error) {
+      console.error(error);
+      return errorResultOf(`Deleting typing stats failed: ${error}`, error);
     }
   }
 }

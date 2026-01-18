@@ -64,6 +64,7 @@ import {
   PRACTICE_UPDATE_SENTENCES,
   PRACTICE_UPDATE_STATS,
   PRACTICE_RESET_STATISTICS,
+  PRACTICE_LOAD_STATS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -1055,6 +1056,11 @@ const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
       if (draft.configure.typingStats[keyboardId]) {
         draft.configure.typingStats[keyboardId] = {};
       }
+      break;
+    }
+    case PRACTICE_LOAD_STATS: {
+      const { keyboardId, stats } = action.value;
+      draft.configure.typingStats[keyboardId] = stats;
       break;
     }
   }

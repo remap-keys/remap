@@ -36,6 +36,7 @@ type TypingPracticeProps = OwnProps &
 export function TypingPractice(props: TypingPracticeProps) {
   const {
     keyboardId,
+    signedIn,
     currentCategory,
     sentences,
     currentSentenceIndex,
@@ -49,6 +50,8 @@ export function TypingPractice(props: TypingPracticeProps) {
     updateStats,
     reset,
     resetStatistics,
+    loadTypingStats,
+    saveTypingStats,
     updateCategory,
     updateSentences,
     nextSentence,
@@ -60,6 +63,33 @@ export function TypingPractice(props: TypingPracticeProps) {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasLoadedStatsRef = useRef(false);
+
+  // Load typing stats from Firestore on mount
+  useEffect(() => {
+    if (
+      keyboardId &&
+      signedIn &&
+      loadTypingStats &&
+      !hasLoadedStatsRef.current
+    ) {
+      hasLoadedStatsRef.current = true;
+      loadTypingStats(keyboardId);
+    }
+  }, [keyboardId, signedIn, loadTypingStats]);
+
+  // Save typing stats on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      if (keyboardId && signedIn && saveTypingStats) {
+        saveTypingStats(keyboardId);
+      }
+    };
+  }, [keyboardId, signedIn, saveTypingStats]);
 
   // Load sentences when category changes or on mount
   useEffect(() => {
@@ -98,11 +128,22 @@ export function TypingPractice(props: TypingPracticeProps) {
           nextSentence();
         }
       } else {
-        // All sentences completed
+        // All sentences completed - save stats to Firestore
+        if (keyboardId && signedIn && saveTypingStats) {
+          saveTypingStats(keyboardId);
+        }
         setSnackbarOpen(true);
       }
     }
-  }, [status, sentences, currentSentenceIndex, nextSentence]);
+  }, [
+    status,
+    sentences,
+    currentSentenceIndex,
+    nextSentence,
+    keyboardId,
+    signedIn,
+    saveTypingStats,
+  ]);
 
   // Add this new useEffect hook
   useEffect(() => {
@@ -176,6 +217,16 @@ export function TypingPractice(props: TypingPracticeProps) {
         if (keyboardId && expectedChar) {
           const isCorrect = typedChar === expectedChar;
           updateStats(keyboardId, expectedChar, isCorrect);
+
+          // Debounced save to Firestore (5 seconds)
+          if (signedIn && saveTypingStats) {
+            if (saveTimeoutRef.current) {
+              clearTimeout(saveTimeoutRef.current);
+            }
+            saveTimeoutRef.current = setTimeout(() => {
+              saveTypingStats(keyboardId);
+            }, 5000);
+          }
         }
       }
 
@@ -392,11 +443,13 @@ export function TypingPractice(props: TypingPracticeProps) {
         message={t('Completed! Great job!')}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
-      
+
       <ConfirmDialog
         open={confirmOpen}
         title={t('Reset Statistics')}
-        message={t('Are you sure you want to reset your typing statistics? This action cannot be undone.')}
+        message={t(
+          'Are you sure you want to reset your typing statistics? This action cannot be undone.'
+        )}
         onClickYes={handleConfirmReset}
         onClickNo={handleCancelReset}
       />

@@ -4,6 +4,7 @@ import {
   IKeyboardFeatures,
   IUserPurchase,
   IUserInformation,
+  ITypingStatsPerKeyboard,
 } from '../../store/state';
 import { IDeviceInformation } from '../hid/Hid';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
@@ -178,6 +179,10 @@ export type ISavedKeymapResult = IResult<{ savedKeymaps: SavedKeymapData[] }>;
 
 export type IAppliedKeymapsResult = IResult<{
   appliedKeymaps: AppliedKeymapData[];
+}>;
+
+export type IFetchTypingStatsResult = IResult<{
+  stats: ITypingStatsPerKeyboard;
 }>;
 
 export type IFetchSharedKeymapResult = IResult<{
@@ -688,5 +693,19 @@ export interface IStorage {
   fetchRemainingBuildPurchaseHistories(
     uid: string
   ): Promise<IResult<IUserPurchaseHistory[]>>;
+
+  fetchTypingStats(
+    uid: string,
+    keyboardDefinitionId: string
+  ): Promise<IFetchTypingStatsResult>;
+  saveTypingStats(
+    uid: string,
+    keyboardDefinitionId: string,
+    stats: ITypingStatsPerKeyboard
+  ): Promise<IEmptyResult>;
+  deleteTypingStats(
+    uid: string,
+    keyboardDefinitionId: string
+  ): Promise<IEmptyResult>;
 }
 /* eslint-enable no-unused-vars */
