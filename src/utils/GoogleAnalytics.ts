@@ -40,6 +40,7 @@ type IActionName =
   | 'docs/internationalization'
   | 'docs/ebizrule'
   | 'docs/workbench'
+  | 'docs/typing-practice'
   | 'practice/start'
   | 'practice/reset'
   | 'practice/category_change'

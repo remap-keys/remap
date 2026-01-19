@@ -108,7 +108,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
       '[]{}<>/?:\'".,+-*/',
       '()...---///\\\\\\',
       '"""\'\'\'```~~~',
-      '$#@!%^&*()_+-=[]{};:\'\\',
+      "$#@!%^&*()_+-=[]{};:'\\",
       '==!= ===!== >=<=',
       '<=> -> => <- <->',
       '&#@%^*+=-_~`',
@@ -128,7 +128,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
       'Find it at C:\\Users\\John_Doe\\My Documents\\file_001.txt',
       'const API_KEY = "abc-123-xyz-789";',
       'HTTP/1.1 200 OK Content-Type: application/json',
-      'User_ID: 12345, Session_ID: \'a0b1c2d3-e4f5-g6h7\'',
+      "User_ID: 12345, Session_ID: 'a0b1c2d3-e4f5-g6h7'",
     ],
   },
   {
@@ -196,7 +196,7 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
       'Intuitive customization according to the physical key layout.',
       'Connect your keyboard supporting the VIA feature to this PC.',
       'Get your own firmware by writing it from source code.',
-      'Let\'s customize your keyboard to make it more user-friendly.',
+      "Let's customize your keyboard to make it more user-friendly.",
     ],
   },
 ];
@@ -221,5 +221,7 @@ export function getAllCategoryIds(): PracticeCategoryId[] {
  * Get default category (alphabet-mixed)
  */
 export function getDefaultCategory(): PracticeCategory {
-  return PRACTICE_CATEGORIES.find((cat) => cat.id === 'alphabet-lowercase-easy')!;
+  return PRACTICE_CATEGORIES.find(
+    (cat) => cat.id === 'alphabet-lowercase-easy'
+  )!;
 }

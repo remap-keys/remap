@@ -122,9 +122,9 @@ export default function Top(props: TopPropsType) {
       </AppBar>
       <Alert severity="info">
         <strong>Info: </strong>
-        [May 7th, 2025] A new feature called &quot;Workbench&quot; is now
-        available!. See{' '}
-        <Link href="/docs/workbench" target="_blank">
+        [Jan 19th, 2026] Master your custom keymap with the new &quot;Typing
+        Practice&quot; feature!. See{' '}
+        <Link href="/docs/typing-practice" target="_blank">
           for more details
         </Link>{' '}
         .

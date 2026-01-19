@@ -21,6 +21,7 @@ import Statistics from './statistics/Statistics';
 import Internationalization from './i18n/Internationalization';
 import ElectricalBusinessRule from './ebizrule/ElectricalBusinessRule';
 import Workbench from './workbench/Workbench';
+import TypingPractice from './typing-practice/TypingPractice';
 
 type RouteParams = {
   docId: string;
@@ -78,6 +79,9 @@ export default function Documents(props: DocumentsPropsType) {
   } else if (docId === 'workbench') {
     page = <Workbench />;
     sendEventToGoogleAnalytics('docs/workbench');
+  } else if (docId === 'typing-practice') {
+    page = <TypingPractice />;
+    sendEventToGoogleAnalytics('docs/typing-practice');
   } else {
     page = <Index />;
   }
