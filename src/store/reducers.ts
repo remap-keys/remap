@@ -855,10 +855,18 @@ const keymapToolbarReducer = (
   switch (action.type) {
     case KEYMAP_TOOLBAR_TEST_MATRIX_MODE: {
       draft.configure.keymapToolbar.testMatrix = action.value;
+      // Test matrix mode and typing practice mode are mutually exclusive
+      if (action.value) {
+        draft.configure.keymapToolbar.typingPractice = false;
+      }
       break;
     }
     case KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE: {
       draft.configure.keymapToolbar.typingPractice = action.value;
+      // Typing practice mode and test matrix mode are mutually exclusive
+      if (action.value) {
+        draft.configure.keymapToolbar.testMatrix = false;
+      }
       break;
     }
   }
