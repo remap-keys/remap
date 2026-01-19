@@ -37,6 +37,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import BoltIcon from '@mui/icons-material/Bolt';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CatalogKeywordSearchDialog from '../catalog/search/CatalogKeywordSearchDialog.container';
 import { IKeyboardDefinitionDocument } from '../../services/storage/Storage';
 
@@ -100,6 +101,11 @@ export default function Top(props: TopPropsType) {
 
   const onClickFlashFirmware = () => {
     setOpenCatalogKeywordSearchDialog(true);
+  };
+
+  const onClickTypingPractice = () => {
+    props.updateAutoTypingPracticeAfterConnection!(true);
+    navigate('/configure');
   };
 
   const onClickStartWorkbench = () => {
@@ -203,6 +209,24 @@ export default function Top(props: TopPropsType) {
                       <Typography variant="body1" color="text.secondary">
                         {t(
                           "Let's customize your keyboard to make it more user-friendly by updating keymaps, changing LED lighting patterns, and more."
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Card>
+                  <CardActionArea onClick={onClickTypingPractice}>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <SportsEsportsIcon sx={{ mr: 1 }} />
+                        {t('Typing Practice')}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {t(
+                          'Make your customized keymap truly yours through typing practice.'
                         )}
                       </Typography>
                     </CardContent>

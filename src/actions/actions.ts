@@ -312,6 +312,7 @@ export const APP_TESTED_MATRIX_CLEAR = `${APP_ACTIONS}/TestedMatrixClear`;
 export const APP_TEST_MATRIX_UPDATE = `${APP_ACTIONS}/TestMatrixUpdate`;
 export const APP_UPDATE_USER_INFORMATION = `${APP_ACTIONS}/UpdateUserInformation`;
 export const APP_UPDATE_USER_PURCHASE = `${APP_ACTIONS}/UpdateUserPurchase`;
+export const APP_UPDATE_AUTO_TYPING_PRACTICE = `${APP_ACTIONS}/UpdateAutoTypingPractice`;
 export const AppActions = {
   updateSetupPhase: (setupPhase: ISetupPhase) => {
     return {
@@ -463,6 +464,12 @@ export const AppActions = {
     return {
       type: APP_UPDATE_USER_PURCHASE,
       value: purchase,
+    };
+  },
+  updateAutoTypingPracticeAfterConnection: (flag: boolean) => {
+    return {
+      type: APP_UPDATE_AUTO_TYPING_PRACTICE,
+      value: flag,
     };
   },
 };
