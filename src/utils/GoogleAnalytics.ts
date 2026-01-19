@@ -39,12 +39,19 @@ type IActionName =
   | 'docs/terms_of_use'
   | 'docs/internationalization'
   | 'docs/ebizrule'
-  | 'docs/workbench';
+  | 'docs/workbench'
+  | 'practice/start'
+  | 'practice/reset'
+  | 'practice/category_change'
+  | 'practice/complete'
+  | 'practice/exit'
+  | 'practice/reset_statistics';
 
 interface IActionOptions {
   vendor_id?: string | number;
   product_id?: string | number;
   product_name?: string;
+  category_id?: string;
 }
 
 let analytics: firebase.analytics.Analytics | null;

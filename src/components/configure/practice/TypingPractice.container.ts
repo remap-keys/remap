@@ -8,8 +8,11 @@ import {
 } from '../../../actions/actions';
 
 const mapStateToProps = (state: RootState) => {
+  const keyboardDef = state.entities.keyboardDefinitionDocument;
   return {
-    keyboardId: state.entities.keyboardDefinitionDocument?.id,
+    keyboardId: keyboardDef?.id,
+    vendorId: keyboardDef?.vendorId,
+    productId: keyboardDef?.productId,
     signedIn: state.app.signedIn,
     currentCategory: state.configure.practice.currentCategory,
     sentences: state.configure.practice.sentences,
