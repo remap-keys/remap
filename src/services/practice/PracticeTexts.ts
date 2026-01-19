@@ -15,8 +15,8 @@ export type PracticeCategoryId =
   | 'alphanumeric-symbols'
   | 'programming-js'
   | 'programming-ts-types'
-  | 'remap-ui-text'
-  | 'programming-python';
+  | 'programming-python'
+  | 'remap-ui-text';
 
 export type PracticeCategory = {
   id: PracticeCategoryId;
@@ -166,23 +166,6 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     ],
   },
   {
-    id: 'remap-ui-text',
-    name: 'Remap UI Text',
-    description: 'Practice with sentences and phrases from the Remap UI',
-    sentences: [
-      'Customize Your Keyboard',
-      'Find a favorite keyboard supporting Remap.',
-      'Flash a firmware to microcomputer unit directly.',
-      'Easily assign complex keycodes including Hold,Tap, and more.',
-      'Apply one of your saved key mappings, on demand, anytime and easily.',
-      'Simple UI for controlling Backlight and Underglow LED lighting.',
-      'Intuitive customization according to the physical key layout.',
-      'Connect your keyboard supporting the VIA feature to this PC.',
-      'Get your own firmware by writing it from source code.',
-      'Let\'s customize your keyboard to make it more user-friendly.',
-    ],
-  },
-  {
     id: 'programming-python',
     name: 'Programming (Python)',
     description: 'Practice typing Python code',
@@ -197,6 +180,23 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
       'import numpy as np; arr = np.array([1, 2, 3])',
       "data = {'id': 1, 'name': 'John', 'active': True}",
       '@decorator def func(x, y): return x + y',
+    ],
+  },
+  {
+    id: 'remap-ui-text',
+    name: 'Remap UI Text',
+    description: 'Practice with sentences and phrases from the Remap UI',
+    sentences: [
+      'Customize Your Keyboard',
+      'Find a favorite keyboard supporting Remap.',
+      'Flash a firmware to microcomputer unit directly.',
+      'Easily assign complex keycodes including Hold,Tap, and more.',
+      'Apply one of your saved key mappings, on demand, anytime and easily.',
+      'Simple UI for controlling Backlight and Underglow LED lighting.',
+      'Intuitive customization according to the physical key layout.',
+      'Connect your keyboard supporting the VIA feature to this PC.',
+      'Get your own firmware by writing it from source code.',
+      'Let\'s customize your keyboard to make it more user-friendly.',
     ],
   },
 ];
