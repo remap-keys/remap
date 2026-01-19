@@ -15,6 +15,9 @@ const mapStateToProps = (state: RootState) => {
     selectedLayer: state.configure.keymap.selectedLayer,
     testMatrix: state.configure.keymapToolbar.testMatrix,
     labelLang: state.app.labelLang,
+    typingStats: state.configure.typingStats,
+    keyboardId: state.entities.keyboardDefinitionDocument?.id,
+    typingPractice: state.configure.keymapToolbar.typingPractice,
   };
 };
 export type KeycapStateType = ReturnType<typeof mapStateToProps>;

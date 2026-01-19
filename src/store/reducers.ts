@@ -52,6 +52,19 @@ import {
   KEYMAP_UPDATE_SELECTED_KEY_POSITION,
   APP_UPDATE_USER_INFORMATION,
   APP_UPDATE_USER_PURCHASE,
+  KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE,
+  PRACTICE_ACTIONS,
+  PRACTICE_START,
+  PRACTICE_UPDATE_INPUT,
+  PRACTICE_RESET,
+  PRACTICE_FINISH,
+  PRACTICE_UPDATE_TEXT,
+  PRACTICE_UPDATE_CATEGORY,
+  PRACTICE_NEXT_SENTENCE,
+  PRACTICE_UPDATE_SENTENCES,
+  PRACTICE_UPDATE_STATS,
+  PRACTICE_RESET_STATISTICS,
+  PRACTICE_LOAD_STATS,
 } from '../actions/actions';
 import {
   HID_ACTIONS,
@@ -245,6 +258,8 @@ const reducers = (state: RootState = INIT_STATE, action: Action) =>
       keydiffReducer(action, draft);
     } else if (action.type.startsWith(KEYMAP_TOOLBAR_ACTIONS)) {
       keymapToolbarReducer(action, draft);
+    } else if (action.type.startsWith(PRACTICE_ACTIONS)) {
+      practiceReducer(action, draft);
     } else if (action.type.startsWith(KEYMAP_ACTIONS)) {
       keymapReducer(action, draft);
     } else if (action.type.startsWith(LAYOUT_OPTIONS_ACTIONS)) {
@@ -840,6 +855,220 @@ const keymapToolbarReducer = (
   switch (action.type) {
     case KEYMAP_TOOLBAR_TEST_MATRIX_MODE: {
       draft.configure.keymapToolbar.testMatrix = action.value;
+      // Test matrix mode and typing practice mode are mutually exclusive
+      if (action.value) {
+        draft.configure.keymapToolbar.typingPractice = false;
+      }
+      break;
+    }
+    case KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE: {
+      draft.configure.keymapToolbar.typingPractice = action.value;
+      // Typing practice mode and test matrix mode are mutually exclusive
+      if (action.value) {
+        draft.configure.keymapToolbar.testMatrix = false;
+      }
+      break;
+    }
+  }
+};
+
+const practiceReducer = (action: Action, draft: WritableDraft<RootState>) => {
+  // TODO: type-safe
+  switch (action.type) {
+    case PRACTICE_START: {
+      const sentences = draft.configure.practice.sentences;
+      draft.configure.practice.currentText =
+        sentences.length > 0 ? sentences[0] : '';
+      draft.configure.practice.status = 'running';
+      draft.configure.practice.stats.startTime = Date.now();
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
+      break;
+    }
+    case PRACTICE_UPDATE_INPUT: {
+      const input = action.value;
+      const text = draft.configure.practice.currentText;
+      draft.configure.practice.userInput = input;
+
+      // Calculate current sentence's correct/incorrect chars
+      let currentCorrectChars = 0;
+      let currentIncorrectChars = 0;
+      const errors = [];
+
+      for (let i = 0; i < input.length; i++) {
+        if (i < text.length) {
+          if (input[i] === text[i]) {
+            currentCorrectChars++;
+          } else {
+            currentIncorrectChars++;
+            errors.push({
+              index: i,
+              expected: text[i],
+              actual: input[i],
+            });
+          }
+        }
+      }
+
+      // Calculate total stats (accumulated + current sentence)
+      const totalCorrectChars =
+        draft.configure.practice.accumulatedCorrectChars + currentCorrectChars;
+      const totalIncorrectChars =
+        draft.configure.practice.accumulatedIncorrectChars +
+        currentIncorrectChars;
+
+      draft.configure.practice.currentIndex = input.length;
+      draft.configure.practice.errors = errors;
+      draft.configure.practice.stats.correctChars = totalCorrectChars;
+      draft.configure.practice.stats.incorrectChars = totalIncorrectChars;
+      draft.configure.practice.stats.totalChars =
+        totalCorrectChars + totalIncorrectChars;
+
+      // Calculate CPS (characters per second) and accuracy
+      if (draft.configure.practice.stats.startTime) {
+        const elapsedSeconds =
+          (Date.now() - draft.configure.practice.stats.startTime) / 1000;
+        draft.configure.practice.stats.cps =
+          elapsedSeconds > 0
+            ? Math.round((totalCorrectChars / elapsedSeconds) * 10) / 10
+            : 0;
+      }
+
+      const totalTyped = totalCorrectChars + totalIncorrectChars;
+      draft.configure.practice.stats.accuracy =
+        totalTyped > 0
+          ? Math.round((totalCorrectChars / totalTyped) * 100)
+          : 100;
+
+      // Check if finished
+      if (
+        input.length >= text.length &&
+        draft.configure.practice.status === 'running'
+      ) {
+        draft.configure.practice.status = 'finished';
+        draft.configure.practice.stats.endTime = Date.now();
+      }
+      break;
+    }
+    case PRACTICE_RESET: {
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.currentSentenceIndex = 0;
+      draft.configure.practice.currentText = '';
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
+      break;
+    }
+    case PRACTICE_FINISH: {
+      draft.configure.practice.status = 'finished';
+      draft.configure.practice.stats.endTime = Date.now();
+      break;
+    }
+    case PRACTICE_UPDATE_TEXT: {
+      draft.configure.practice.currentText = action.value;
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
+      break;
+    }
+    case PRACTICE_UPDATE_CATEGORY: {
+      draft.configure.practice.currentCategory = action.value;
+      break;
+    }
+    case PRACTICE_NEXT_SENTENCE: {
+      const currentIndex = draft.configure.practice.currentSentenceIndex;
+      const sentences = draft.configure.practice.sentences;
+      if (currentIndex < sentences.length - 1) {
+        // Accumulate current sentence stats before moving to next
+        draft.configure.practice.accumulatedCorrectChars =
+          draft.configure.practice.stats.correctChars;
+        draft.configure.practice.accumulatedIncorrectChars =
+          draft.configure.practice.stats.incorrectChars;
+
+        draft.configure.practice.currentSentenceIndex = currentIndex + 1;
+        draft.configure.practice.currentText = sentences[currentIndex + 1];
+        draft.configure.practice.userInput = '';
+        draft.configure.practice.currentIndex = 0;
+        draft.configure.practice.errors = [];
+        draft.configure.practice.status = 'running';
+        // Keep startTime and stats intact for cumulative tracking
+      }
+      break;
+    }
+    case PRACTICE_UPDATE_SENTENCES: {
+      draft.configure.practice.sentences = action.value;
+      draft.configure.practice.currentSentenceIndex = 0;
+      draft.configure.practice.userInput = '';
+      draft.configure.practice.currentIndex = 0;
+      draft.configure.practice.errors = [];
+      draft.configure.practice.status = 'idle';
+      draft.configure.practice.stats = {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      };
+      draft.configure.practice.accumulatedCorrectChars = 0;
+      draft.configure.practice.accumulatedIncorrectChars = 0;
+      break;
+    }
+    case PRACTICE_UPDATE_STATS: {
+      const { keyboardId, char, isCorrect } = action.value;
+      if (!draft.configure.typingStats[keyboardId]) {
+        draft.configure.typingStats[keyboardId] = {};
+      }
+      if (!draft.configure.typingStats[keyboardId][char]) {
+        draft.configure.typingStats[keyboardId][char] = {
+          correct: 0,
+          incorrect: 0,
+        };
+      }
+      if (isCorrect) {
+        draft.configure.typingStats[keyboardId][char].correct++;
+      } else {
+        draft.configure.typingStats[keyboardId][char].incorrect++;
+      }
+      break;
+    }
+    case PRACTICE_RESET_STATISTICS: {
+      const keyboardId = action.value;
+      if (draft.configure.typingStats[keyboardId]) {
+        draft.configure.typingStats[keyboardId] = {};
+      }
+      break;
+    }
+    case PRACTICE_LOAD_STATS: {
+      const { keyboardId, stats } = action.value;
+      draft.configure.typingStats[keyboardId] = stats;
       break;
     }
   }

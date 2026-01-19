@@ -67,6 +67,7 @@
   "Created by Same Designer": "Created by Same Designer",
   "A description is not specified by the owner of this keyboard.": "A description is not specified by the owner of this keyboard.",
   "Get keymap cheat sheet (PDF)": "Get keymap cheat sheet (PDF)",
+  "Typing Practice": "Typing Practice",
   "Layout Options": "Layout Options",
   "Shared Keymaps": "Shared Keymaps",
   "There is no Layout Option.": "There is no Layout Option.",
@@ -349,5 +350,22 @@
   "Date": "Date",
   "Amount": "Amount",
   "Error": "Error",
-  "If you have any questions about your purchase, please contact the Remap team.": "If you have any questions about your purchase, please contact the Remap team."
+  "If you have any questions about your purchase, please contact the Remap team.": "If you have any questions about your purchase, please contact the Remap team.",
+
+  "Exit practice mode": "Exit practice mode",
+  "Start typing": "Start typing",
+  "Time": "Time",
+  "sec": "sec",
+  "Speed": "Speed",
+  "chars": "chars",
+  "Accuracy": "Accuracy",
+  "Correct": "Correct",
+  "Incorrect": "Incorrect",
+  "Reset Statistics": "Reset Statistics",
+  "Start Practice": "Start practice",
+  "Reset": "Reset",
+  "Completed! Great job!": "Completed! Great job!",
+  "Practice Category": "Practice Category",
+  "Are you sure you want to reset your typing statistics? This action cannot be undone.": "Are you sure you want to reset your typing statistics? This action cannot be undone.",
+  "Sentence": "Sentence"
 }

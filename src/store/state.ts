@@ -28,6 +28,10 @@ import { KeyboardDefinitionSchema } from '../gen/types/KeyboardDefinition';
 import { GitHub, IGitHub } from '../services/github/GitHub';
 import buildInfo from '../assets/files/build-info.json';
 import {
+  getDefaultCategory,
+  PracticeCategoryId,
+} from '../services/practice/PracticeTexts';
+import {
   KeyboardLabelLang,
   KEY_LABEL_LANGS,
 } from '../services/labellang/KeyLabelLangs';
@@ -166,6 +170,44 @@ export type IKeyboardWirelessType = wirelessTuple[number];
 
 export type IConditionNotSelected = '---';
 export const CONDITION_NOT_SELECTED: IConditionNotSelected = '---';
+
+/**
+ * A single character's typing statistics.
+ */
+export interface ITypingCharStats {
+  correct: number;
+  incorrect: number;
+}
+
+/**
+ * Typing statistics for a specific keyboard.
+ * The key is the character (e.g., 'a', 'b', 'c').
+ */
+export type ITypingStatsPerKeyboard = Record<string, ITypingCharStats>;
+
+/**
+ * Typing statistics for all keyboards.
+ * The key is the keyboard definition document ID.
+ */
+export type ITypingStats = Record<string, ITypingStatsPerKeyboard>;
+
+export type ITypingPracticeStatus = 'idle' | 'running' | 'finished';
+
+export type ITypingPracticeError = {
+  index: number;
+  expected: string;
+  actual: string;
+};
+
+export type ITypingPracticeStats = {
+  correctChars: number;
+  incorrectChars: number;
+  totalChars: number;
+  startTime: number | null;
+  endTime: number | null;
+  cps: number;
+  accuracy: number;
+};
 
 export const ALL_FLASH_FIRMWARE_DIALOG_MODE = [
   'instruction',
@@ -366,6 +408,7 @@ export type RootState = {
     };
     keymapToolbar: {
       testMatrix: boolean;
+      typingPractice: boolean;
     };
     keycodes: {
       keys: { [category: string]: Key[] };
@@ -389,6 +432,20 @@ export type RootState = {
       macro: IMacro | null;
       macroKeys: MacroKey[];
     };
+    practice: {
+      currentCategory: PracticeCategoryId;
+      sentences: string[];
+      currentSentenceIndex: number;
+      currentText: string;
+      userInput: string;
+      currentIndex: number;
+      errors: ITypingPracticeError[];
+      stats: ITypingPracticeStats;
+      accumulatedCorrectChars: number;
+      accumulatedIncorrectChars: number;
+      status: ITypingPracticeStatus;
+    };
+    typingStats: ITypingStats;
   };
   keyboards: {
     app: {
@@ -645,6 +702,7 @@ export const INIT_STATE: RootState = {
     },
     keymapToolbar: {
       testMatrix: false,
+      typingPractice: false,
     },
     keycodes: {
       keys: {},
@@ -668,6 +726,28 @@ export const INIT_STATE: RootState = {
       macro: null,
       macroKeys: [],
     },
+    practice: {
+      currentCategory: getDefaultCategory().id,
+      sentences: [],
+      currentSentenceIndex: 0,
+      currentText: '',
+      userInput: '',
+      currentIndex: 0,
+      errors: [],
+      stats: {
+        correctChars: 0,
+        incorrectChars: 0,
+        totalChars: 0,
+        startTime: null,
+        endTime: null,
+        cps: 0,
+        accuracy: 100,
+      },
+      accumulatedCorrectChars: 0,
+      accumulatedIncorrectChars: 0,
+      status: 'idle',
+    },
+    typingStats: {},
   },
   keyboards: {
     app: {

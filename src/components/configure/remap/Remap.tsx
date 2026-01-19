@@ -8,6 +8,7 @@ import { RemapActionsType, RemapStateType } from './Remap.container';
 import { Key } from '../keycodekey/KeyGen';
 import { kinds2CategoryLabel } from '../customkey/AutocompleteKeys';
 import MacroEditor from '../macroeditor/MacroEditor.container';
+import TypingPractice from '../practice/TypingPractice.container';
 
 type OwnProp = {};
 type RemapPropType = OwnProp &
@@ -71,6 +72,10 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
       // Call once to set the initial height.
       this.handleWindowResize();
     }
+    // When exiting typing practice mode, recalculate keycode area height
+    if (prevProps.typingPractice && !this.props.typingPractice) {
+      this.handleWindowResize();
+    }
   }
 
   render() {
@@ -83,14 +88,20 @@ export default class Remap extends React.Component<RemapPropType, OwnState> {
         >
           <EditMode mode={this.props.macroKey ? 'macro' : 'keymap'} />
         </div>
-        <div
-          className="keycode"
-          style={{ minWidth: this.state.minWidth }}
-          ref={this.keycodeRef}
-        >
-          <Keycodes />
-        </div>
-        <Desc value={this.props.hoverKey} />
+        {this.props.typingPractice! ? (
+          <TypingPractice />
+        ) : (
+          <>
+            <div
+              className="keycode"
+              style={{ minWidth: this.state.minWidth }}
+              ref={this.keycodeRef}
+            >
+              <Keycodes />
+            </div>
+            <Desc value={this.props.hoverKey} />
+          </>
+        )}
       </React.Fragment>
     );
   }

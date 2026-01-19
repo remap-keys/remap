@@ -3,9 +3,11 @@ import { Key } from '../components/configure/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IEncoderKeymap, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';
+import { PracticeCategoryId } from '../services/practice/PracticeTexts';
 import {
   IKeySwitchOperation,
   ISetupPhase,
+  ITypingStatsPerKeyboard,
   IUserInformation,
   IUserPurchase,
   RootState,
@@ -50,11 +52,99 @@ export const KeymapActions = {
 
 export const KEYMAP_TOOLBAR_ACTIONS = '@KeymapToolbar';
 export const KEYMAP_TOOLBAR_TEST_MATRIX_MODE = `${KEYMAP_TOOLBAR_ACTIONS}/TestMatrixMode`;
+export const KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE = `${KEYMAP_TOOLBAR_ACTIONS}/TypingPracticeMode`;
 export const KeymapToolbarActions = {
   updateTestMatrix: (flag: boolean) => {
     return {
       type: KEYMAP_TOOLBAR_TEST_MATRIX_MODE,
       value: flag,
+    };
+  },
+  updateTypingPractice: (flag: boolean) => {
+    return {
+      type: KEYMAP_TOOLBAR_TYPING_PRACTICE_MODE,
+      value: flag,
+    };
+  },
+};
+
+export const PRACTICE_ACTIONS = '@Practice';
+export const PRACTICE_START = `${PRACTICE_ACTIONS}/Start`;
+export const PRACTICE_UPDATE_INPUT = `${PRACTICE_ACTIONS}/UpdateInput`;
+export const PRACTICE_RESET = `${PRACTICE_ACTIONS}/Reset`;
+export const PRACTICE_FINISH = `${PRACTICE_ACTIONS}/Finish`;
+export const PRACTICE_UPDATE_TEXT = `${PRACTICE_ACTIONS}/UpdateText`;
+export const PRACTICE_UPDATE_CATEGORY = `${PRACTICE_ACTIONS}/UpdateCategory`;
+export const PRACTICE_NEXT_SENTENCE = `${PRACTICE_ACTIONS}/NextSentence`;
+export const PRACTICE_UPDATE_SENTENCES = `${PRACTICE_ACTIONS}/UpdateSentences`;
+export const PRACTICE_UPDATE_STATS = `${PRACTICE_ACTIONS}/UpdateStats`;
+export const PRACTICE_RESET_STATISTICS = `${PRACTICE_ACTIONS}/ResetStatistics`;
+export const PRACTICE_LOAD_STATS = `${PRACTICE_ACTIONS}/LoadStats`;
+export const PracticeActions = {
+  start: () => {
+    return {
+      type: PRACTICE_START,
+    };
+  },
+  updateInput: (input: string) => {
+    return {
+      type: PRACTICE_UPDATE_INPUT,
+      value: input,
+    };
+  },
+  reset: () => {
+    return {
+      type: PRACTICE_RESET,
+    };
+  },
+  finish: () => {
+    return {
+      type: PRACTICE_FINISH,
+    };
+  },
+  updateText: (text: string) => {
+    return {
+      type: PRACTICE_UPDATE_TEXT,
+      value: text,
+    };
+  },
+  updateCategory: (category: PracticeCategoryId) => {
+    return {
+      type: PRACTICE_UPDATE_CATEGORY,
+      value: category,
+    };
+  },
+  nextSentence: () => {
+    return {
+      type: PRACTICE_NEXT_SENTENCE,
+    };
+  },
+  updateSentences: (sentences: string[]) => {
+    return {
+      type: PRACTICE_UPDATE_SENTENCES,
+      value: sentences,
+    };
+  },
+  updateStats: (keyboardId: string, char: string, isCorrect: boolean) => {
+    return {
+      type: PRACTICE_UPDATE_STATS,
+      value: {
+        keyboardId,
+        char,
+        isCorrect,
+      },
+    };
+  },
+  resetStatistics: (keyboardId: string) => {
+    return {
+      type: PRACTICE_RESET_STATISTICS,
+      value: keyboardId,
+    };
+  },
+  loadStats: (keyboardId: string, stats: ITypingStatsPerKeyboard) => {
+    return {
+      type: PRACTICE_LOAD_STATS,
+      value: { keyboardId, stats },
     };
   },
 };
@@ -508,6 +598,97 @@ export const AppActionsThunk = {
       }
     };
   },
+};
+
+export const PracticeActionsThunk = {
+  loadTypingStats:
+    (keyboardDefinitionId: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, app } = getState();
+      if (!app.signedIn) {
+        return;
+      }
+      const user = auth.instance!.getCurrentAuthenticatedUserOrNull();
+      if (!user) {
+        return;
+      }
+      const result = await storage.instance!.fetchTypingStats(
+        user.uid,
+        keyboardDefinitionId
+      );
+      if (isSuccessful(result)) {
+        dispatch(
+          PracticeActions.loadStats(keyboardDefinitionId, result.value.stats)
+        );
+      } else {
+        console.error(result.cause);
+      }
+    },
+  saveTypingStats:
+    (keyboardDefinitionId: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, app, configure } = getState();
+      if (!app.signedIn) {
+        return;
+      }
+      const user = auth.instance!.getCurrentAuthenticatedUserOrNull();
+      if (!user) {
+        return;
+      }
+      const stats = configure.typingStats[keyboardDefinitionId];
+      if (!stats) {
+        return;
+      }
+      const result = await storage.instance!.saveTypingStats(
+        user.uid,
+        keyboardDefinitionId,
+        stats
+      );
+      if (!isSuccessful(result)) {
+        console.error(result.cause);
+        dispatch(
+          NotificationActions.addError(
+            'Failed to save typing statistics',
+            result.cause
+          )
+        );
+      }
+    },
+  resetTypingStats:
+    (keyboardDefinitionId: string): ThunkPromiseAction<void> =>
+    async (
+      dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
+      getState: () => RootState
+    ) => {
+      const { storage, auth, app } = getState();
+      dispatch(PracticeActions.resetStatistics(keyboardDefinitionId));
+      if (!app.signedIn) {
+        return;
+      }
+      const user = auth.instance!.getCurrentAuthenticatedUserOrNull();
+      if (!user) {
+        return;
+      }
+      const result = await storage.instance!.deleteTypingStats(
+        user.uid,
+        keyboardDefinitionId
+      );
+      if (!isSuccessful(result)) {
+        console.error(result.cause);
+        dispatch(
+          NotificationActions.addError(
+            'Failed to reset typing statistics',
+            result.cause
+          )
+        );
+      }
+    },
 };
 
 export const LAYOUT_OPTIONS_ACTIONS = '@LayoutOptions';

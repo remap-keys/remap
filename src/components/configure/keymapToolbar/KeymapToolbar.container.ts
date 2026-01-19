@@ -42,6 +42,9 @@ const mapDispatchToProps = (_dispatch: any) => {
     error: (msg: string) => {
       _dispatch(NotificationActions.addError(msg));
     },
+    startTypingPractice: () => {
+      _dispatch(KeymapToolbarActions.updateTypingPractice(true));
+    },
   };
 };
 

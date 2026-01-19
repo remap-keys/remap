@@ -193,6 +193,17 @@ service cloud.firestore {
                            && (request.auth.uid == userId);
         }
 
+        match /practices/v1/users/{userId}/keyboards/{keyboardId} {
+            allow create: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow update: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow delete: if isAuthenticated()
+                             && (request.auth.uid == userId);
+            allow read: if isAuthenticated()
+                           && (request.auth.uid == userId);
+        }
+
         function isAuthenticated() {
             return request.auth.uid != null;
         }

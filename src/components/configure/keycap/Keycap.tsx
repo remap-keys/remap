@@ -3,6 +3,7 @@ import KeyModel from '../../../models/KeyModel';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeycapActionsType, KeycapStateType } from './Keycap.container';
 import { Badge, IconButton } from '@mui/material';
+import { ITypingStatsPerKeyboard } from '../../../store/state';
 import { withStyles } from '@mui/styles';
 import './Keycap.scss';
 import { buildModLabel } from '../customkey/Modifiers';
@@ -161,6 +162,78 @@ export default class Keycap extends React.Component<
       : this.props.remap;
   }
 
+  /**
+   * Calculate heatmap color based on typing accuracy for this key.
+   * Returns HSL color string (red for low accuracy, green for high accuracy)
+   * or undefined if no stats available or typing practice is not active.
+   */
+  private getHeatmapColor(orgKey: {
+    label: string;
+    meta?: string;
+    metaRight?: string;
+  }): string | undefined {
+    const { typingStats, keyboardId, typingPractice } = this.props;
+
+    // Only show heatmap during typing practice mode
+    if (!typingPractice || !typingStats || !keyboardId) {
+      return undefined;
+    }
+
+    const stats: ITypingStatsPerKeyboard | undefined = typingStats[keyboardId];
+    if (!stats) {
+      return undefined;
+    }
+
+    // Aggregate stats for label, meta (Shift), and metaRight (Alt+Shift)
+    // Also check lowercase/uppercase variants since typingStats records
+    // the actual typed character while key labels may be uppercase
+    let totalCorrect = 0;
+    let totalIncorrect = 0;
+
+    const charsToCheck = [orgKey.label, orgKey.meta, orgKey.metaRight].filter(
+      (char): char is string => typeof char === 'string' && char.length === 1
+    );
+
+    for (const char of charsToCheck) {
+      // Check exact match
+      const charStats = stats[char];
+      if (charStats) {
+        totalCorrect += charStats.correct;
+        totalIncorrect += charStats.incorrect;
+      }
+      // Also check lowercase variant (e.g., 'E' -> 'e')
+      const lowerChar = char.toLowerCase();
+      if (lowerChar !== char && stats[lowerChar]) {
+        totalCorrect += stats[lowerChar].correct;
+        totalIncorrect += stats[lowerChar].incorrect;
+      }
+      // Also check uppercase variant (e.g., 'e' -> 'E')
+      const upperChar = char.toUpperCase();
+      if (upperChar !== char && stats[upperChar]) {
+        totalCorrect += stats[upperChar].correct;
+        totalIncorrect += stats[upperChar].incorrect;
+      }
+    }
+
+    const total = totalCorrect + totalIncorrect;
+    if (total === 0) {
+      return undefined; // No stats for this key yet
+    }
+
+    const accuracy = totalCorrect / total;
+    // Use Remap theme colors (pale variants for softer appearance)
+    // - Low accuracy (0-50%): error-pale (red)
+    // - Medium accuracy (50-90%): warning-pale (orange)
+    // - High accuracy (90-100%): primary-pale (blue)
+    if (accuracy < 0.5) {
+      return '#ffcdd2'; // Material Red 100 (pale red)
+    } else if (accuracy < 0.9) {
+      return '#ffe0b2'; // Material Orange 100 (pale orange)
+    } else {
+      return '#c5cae9'; // primary-pale (pale blue)
+    }
+  }
+
   render(): ReactNode {
     const color = this.props.model.color;
     let roofColor;
@@ -249,6 +322,9 @@ export default class Keycap extends React.Component<
     const dstKey: Key | null = remap
       ? genKey(remap, this.props.labelLang!)
       : null;
+
+    // Calculate heatmap color based on typing stats
+    const heatmapColor = this.getHeatmapColor(orgKey);
 
     // TODO: refactor the label position should be organized in genKey()
     const km: IKeymap = dstKey ? dstKey.keymap : orgKey.keymap;
@@ -382,7 +458,10 @@ export default class Keycap extends React.Component<
             this.props.testMatrix && this.props.down && 'test-matrix-down',
             this.props.model.isEncoder && 'keyroof-encoder',
           ].join(' ')}
-          style={roofStyle}
+          style={{
+            ...roofStyle,
+            ...(heatmapColor && { backgroundColor: heatmapColor }),
+          }}
           onClick={this.onClick.bind(
             this,
             this.props.model,
@@ -400,7 +479,10 @@ export default class Keycap extends React.Component<
                 'pointer-pass-through',
                 this.props.testMatrix && 'test-matrix',
               ].join(' ')}
-              style={roofStyle2}
+              style={{
+                ...roofStyle2,
+                ...(heatmapColor && { backgroundColor: heatmapColor }),
+              }}
               onClick={() => {
                 this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
               }}
@@ -414,7 +496,10 @@ export default class Keycap extends React.Component<
               'keyroof',
               this.props.model.isEncoder && 'keyroof-encoder',
             ].join(' ')}
-            style={labelsStyle}
+            style={{
+              ...labelsStyle,
+              ...(heatmapColor && { background: heatmapColor }),
+            }}
             onClick={() => {
               this.onClick(this.props.model, isFocusedKey, orgKey, dstKey);
             }}
