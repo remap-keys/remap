@@ -17,6 +17,7 @@ import {
   APP_UPDATE_LANG_LABEL,
   APP_UPDATE_SETUP_PHASE,
   APP_UPDATE_SIGNED_IN,
+  APP_UPDATE_AUTO_TYPING_PRACTICE,
   HEADER_ACTIONS,
   HEADER_UPDATE_FLASHING,
   KEYCODEKEY_ACTIONS,
@@ -758,6 +759,10 @@ const appReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case APP_UPDATE_USER_PURCHASE: {
       draft.app.user.purchase = action.value;
+      break;
+    }
+    case APP_UPDATE_AUTO_TYPING_PRACTICE: {
+      draft.app.autoTypingPracticeAfterConnection = action.value;
       break;
     }
   }

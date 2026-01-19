@@ -391,6 +391,7 @@ export type RootState = {
     localAuthenticationInfo: {
       uid: string;
     };
+    autoTypingPracticeAfterConnection: boolean;
     user: {
       information: IUserInformation | undefined;
       purchase: IUserPurchase | undefined;
@@ -685,6 +686,7 @@ export const INIT_STATE: RootState = {
     localAuthenticationInfo: {
       uid: localAuthenticationUid,
     },
+    autoTypingPracticeAfterConnection: false,
     user: {
       information: undefined,
       purchase: undefined,

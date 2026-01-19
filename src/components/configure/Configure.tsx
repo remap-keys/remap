@@ -139,6 +139,13 @@ function Configure(props: ConfigureProps) {
     }
   });
 
+  useEffect(() => {
+    if (props.keyboard && props.autoTypingPracticeAfterConnection) {
+      props.updateTypingPractice!(true);
+      props.updateAutoTypingPracticeAfterConnection!(false);
+    }
+  }, [props.keyboard]);
+
   if (!supportedBrowser) {
     return (
       <React.Fragment>

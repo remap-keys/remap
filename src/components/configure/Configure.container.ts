@@ -23,6 +23,8 @@ const mapStateToProps = (state: RootState) => {
     testMatrix: state.configure.keymapToolbar.testMatrix,
     keyboard: state.entities.keyboard,
     buildNumber: state.app.buildNumber,
+    autoTypingPracticeAfterConnection:
+      state.app.autoTypingPracticeAfterConnection,
   };
 };
 export type ConfigureStateType = ReturnType<typeof mapStateToProps>;
@@ -38,6 +40,14 @@ const mapDispatchToProps = (dispatch: any) => {
 
     removeNotification: (key: string) => {
       dispatch(NotificationActions.removeNotification(key));
+    },
+
+    updateTypingPractice: (flag: boolean) => {
+      dispatch(KeymapToolbarActions.updateTypingPractice(flag));
+    },
+
+    updateAutoTypingPracticeAfterConnection: (flag: boolean) => {
+      dispatch(AppActions.updateAutoTypingPracticeAfterConnection(flag));
     },
 
     onConnectKeyboard: (keyboard: IKeyboard) => {
