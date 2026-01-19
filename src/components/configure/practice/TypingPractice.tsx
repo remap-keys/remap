@@ -25,6 +25,7 @@ import {
   PRACTICE_CATEGORIES,
   PracticeCategoryId,
 } from '../../../services/practice/PracticeTexts';
+import { sendEventToGoogleAnalytics } from '../../../utils/GoogleAnalytics';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -36,6 +37,8 @@ type TypingPracticeProps = OwnProps &
 export function TypingPractice(props: TypingPracticeProps) {
   const {
     keyboardId,
+    vendorId,
+    productId,
     signedIn,
     currentCategory,
     sentences,
@@ -128,7 +131,12 @@ export function TypingPractice(props: TypingPracticeProps) {
           nextSentence();
         }
       } else {
-        // All sentences completed - save stats to Firestore
+        // All sentences completed
+        sendEventToGoogleAnalytics('practice/complete', {
+          vendor_id: vendorId,
+          product_id: productId,
+          product_name: keyboardId,
+        });
         if (keyboardId && signedIn && saveTypingStats) {
           saveTypingStats(keyboardId);
         }
@@ -141,6 +149,8 @@ export function TypingPractice(props: TypingPracticeProps) {
     currentSentenceIndex,
     nextSentence,
     keyboardId,
+    vendorId,
+    productId,
     signedIn,
     saveTypingStats,
   ]);
@@ -193,6 +203,11 @@ export function TypingPractice(props: TypingPracticeProps) {
   };
 
   const handleConfirmReset = () => {
+    sendEventToGoogleAnalytics('practice/reset_statistics', {
+      vendor_id: vendorId,
+      product_id: productId,
+      product_name: keyboardId,
+    });
     if (keyboardId && resetStatistics) {
       resetStatistics(keyboardId);
     }
@@ -238,16 +253,31 @@ export function TypingPractice(props: TypingPracticeProps) {
   };
 
   const handleStart = () => {
+    sendEventToGoogleAnalytics('practice/start', {
+      vendor_id: vendorId,
+      product_id: productId,
+      product_name: keyboardId,
+    });
     setCountdown(3);
   };
 
   const handleReset = () => {
+    sendEventToGoogleAnalytics('practice/reset', {
+      vendor_id: vendorId,
+      product_id: productId,
+      product_name: keyboardId,
+    });
     if (reset) {
       reset();
     }
   };
 
   const handleExit = () => {
+    sendEventToGoogleAnalytics('practice/exit', {
+      vendor_id: vendorId,
+      product_id: productId,
+      product_name: keyboardId,
+    });
     if (exitPracticeMode) {
       exitPracticeMode();
     }
@@ -261,6 +291,12 @@ export function TypingPractice(props: TypingPracticeProps) {
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
     const categoryId = event.target.value as PracticeCategoryId;
+    sendEventToGoogleAnalytics('practice/category_change', {
+      vendor_id: vendorId,
+      product_id: productId,
+      product_name: keyboardId,
+      category_id: categoryId,
+    });
     if (updateCategory) {
       updateCategory(categoryId);
     }
