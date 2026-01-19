@@ -7,13 +7,15 @@
  */
 
 export type PracticeCategoryId =
-  | 'alphabet-lowercase'
-  | 'alphabet-uppercase'
+  | 'alphabet-lowercase-easy'
+  | 'alphabet-lowercase-hard'
   | 'alphabet-mixed'
   | 'numbers'
-  | 'symbols-basic'
-  | 'symbols-programming'
+  | 'symbols'
+  | 'alphanumeric-symbols'
   | 'programming-js'
+  | 'programming-ts-types'
+  | 'remap-ui-text'
   | 'programming-python';
 
 export type PracticeCategory = {
@@ -28,37 +30,37 @@ export type PracticeCategory = {
  */
 export const PRACTICE_CATEGORIES: PracticeCategory[] = [
   {
-    id: 'alphabet-lowercase',
-    name: 'Alphabet (Lowercase)',
-    description: 'Practice lowercase letters only',
+    id: 'alphabet-lowercase-easy',
+    name: 'Alphabet (Lowercase - Easy)',
+    description: 'Practice with simple, common words',
     sentences: [
-      'the quick brown fox jumps over the lazy dog',
-      'pack my box with five dozen liquor jugs',
-      'how vexingly quick daft zebras jump',
-      'sphinx of black quartz judge my vow',
-      'waltz bad nymph for quick jigs vex',
-      'glib jocks quiz nymph to vex dwarf',
-      'bright vixens jump dozy fowl quack',
-      'quick wafting zephyrs vex bold jim',
-      'quick zephyrs blow vexing daft jim',
-      'two driven jocks help fax my big quiz',
+      'a big black bug bit a big black dog on his big black nose.',
+      'my friend gave me a very nice gift for my birthday.',
+      'we quickly jumped over the fence to catch the ball.',
+      'the lazy fox and the clever cat are sitting on a mat.',
+      'i have just finished my homework for the next week.',
+      'the queen is visiting the zoo to see the amazing animals.',
+      'a gentle breeze is blowing from the west to the east.',
+      'my brother enjoys playing soccer with his friends.',
+      'please pack my box with five dozen liquor jugs.',
+      'the quick brown fox jumps over the lazy dog.',
     ],
   },
   {
-    id: 'alphabet-uppercase',
-    name: 'Alphabet (Uppercase)',
-    description: 'Practice uppercase letters only',
+    id: 'alphabet-lowercase-hard',
+    name: 'Alphabet (Lowercase - Hard)',
+    description: 'Practice with complex words and sentences',
     sentences: [
-      'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG',
-      'PACK MY BOX WITH FIVE DOZEN LIQUOR JUGS',
-      'HOW VEXINGLY QUICK DAFT ZEBRAS JUMP',
-      'SPHINX OF BLACK QUARTZ JUDGE MY VOW',
-      'WALTZ BAD NYMPH FOR QUICK JIGS VEX',
-      'GLIB JOCKS QUIZ NYMPH TO VEX DWARF',
-      'BRIGHT VIXENS JUMP DOZY FOWL QUACK',
-      'QUICK WAFTING ZEPHYRS VEX BOLD JIM',
-      'QUICK ZEPHYRS BLOW VEXING DAFT JIM',
-      'TWO DRIVEN JOCKS HELP FAX MY BIG QUIZ',
+      'the five boxing wizards jump quickly.',
+      'a quick brown fox jumps over the lazy dog.',
+      'pack my box with five dozen liquor jugs.',
+      'amazingly, the jukebox provides exquisite sound for the lazy queen.',
+      'by jove, a quick-witted sphinx judge vexed my lazy foe.',
+      'we juxtapose amazing, flavorful liquids to vex and quiz each boy.',
+      "a wizard's job is to vex and quiz the lazy, quick-witted dragon.",
+      'the jovial taxman collected a hefty sum from the buzzing marketplace.',
+      'exquisite jewels from the mysterious cavern puzzle the brave voyagers.',
+      'a flock of dazzling pigeons quietly surveyed the majestic xenolith.',
     ],
   },
   {
@@ -96,37 +98,37 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
     ],
   },
   {
-    id: 'symbols-basic',
-    name: 'Symbols (Basic)',
-    description: 'Practice common symbols and punctuation',
+    id: 'symbols',
+    name: 'Symbols',
+    description: 'Practice with various symbols only, no letters or numbers',
     sentences: [
-      'Hello, World! How are you?',
-      "I can't wait to see you again!",
-      'The price is $19.99 (plus tax).',
-      'She said, "That\'s amazing!"',
-      'Email me at user@example.com today.',
-      'The result is: 50% correct & 50% incorrect.',
-      'A/B testing: Group A vs. Group B',
-      'Use #hashtags and @mentions wisely!',
-      'The ratio is 3:1, or approximately 75%.',
-      'Check items: [x] Done, [ ] Pending',
+      '!@#$%^&*()_+-=`~',
+      '{}[]|\\;:\'",.<>/?',
+      '~!@#$%^&*(){}[];',
+      '[]{}<>/?:\'".,+-*/',
+      '()...---///\\\\\\',
+      '"""\'\'\'```~~~',
+      '$#@!%^&*()_+-=[]{};:\'\\',
+      '==!= ===!== >=<=',
+      '<=> -> => <- <->',
+      '&#@%^*+=-_~`',
     ],
   },
   {
-    id: 'symbols-programming',
-    name: 'Symbols (Programming)',
-    description: 'Practice programming-specific symbols',
+    id: 'alphanumeric-symbols',
+    name: 'Alphanumeric & Symbols',
+    description: 'Practice with a mix of letters, numbers, and symbols',
     sentences: [
-      '{ } [ ] ( ) < >',
-      'array[0] = { key: value };',
-      'if (x > 0 && y < 10) { return true; }',
-      'const arr = [1, 2, 3, 4, 5];',
-      'function add(a, b) { return a + b; }',
-      'let result = (x * y) / (a + b);',
-      'obj?.prop ?? defaultValue',
-      'arr.map(x => x * 2).filter(x => x > 5);',
-      'const {name, age} = person;',
-      "str.replace(/[0-9]/g, '*');",
+      'My password is "P@ssw0rd123!" - do not use this.',
+      'Access code: 8A6B-C9D4-E7F2. Expires on 2026/01/19.',
+      'The formula is (x^2 + y^2) = z^2, where z > 0.',
+      'Email me at user+test@example.com?subject=Hello!&body=Hi.',
+      '"Part #123-ABC" costs $45.67 (tax included).',
+      'Version 2.0.1-alpha is now available for download.',
+      'Find it at C:\\Users\\John_Doe\\My Documents\\file_001.txt',
+      'const API_KEY = "abc-123-xyz-789";',
+      'HTTP/1.1 200 OK Content-Type: application/json',
+      'User_ID: 12345, Session_ID: \'a0b1c2d3-e4f5-g6h7\'',
     ],
   },
   {
@@ -144,6 +146,40 @@ export const PRACTICE_CATEGORIES: PracticeCategory[] = [
       "const obj = { id: 1, name: 'John', active: true };",
       'arr.filter(x => x > 10).reduce((a, b) => a + b, 0);',
       'try { JSON.parse(data); } catch (e) { console.error(e); }',
+    ],
+  },
+  {
+    id: 'programming-ts-types',
+    name: 'Programming (TypeScript Types)',
+    description: 'Practice typing TypeScript type definitions',
+    sentences: [
+      'type User = { id: number; name: string; };',
+      'interface Product { id: string; price: number; }',
+      'function identity<T>(arg: T): T { return arg; }',
+      'const arr: Array<number> = [1, 2, 3];',
+      'let tuple: [string, number] = ["hello", 123];',
+      'enum Status { Pending, Success, Error };',
+      'type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };',
+      'declare module "my-module" { export const value: number; }',
+      'type Keys = "id" | "name" | "age";',
+      'type Pick<T, K extends keyof T> = { [P in K]: T[P]; };',
+    ],
+  },
+  {
+    id: 'remap-ui-text',
+    name: 'Remap UI Text',
+    description: 'Practice with sentences and phrases from the Remap UI',
+    sentences: [
+      'Customize Your Keyboard',
+      'Find a favorite keyboard supporting Remap.',
+      'Flash a firmware to microcomputer unit directly.',
+      'Easily assign complex keycodes including Hold,Tap, and more.',
+      'Apply one of your saved key mappings, on demand, anytime and easily.',
+      'Simple UI for controlling Backlight and Underglow LED lighting.',
+      'Intuitive customization according to the physical key layout.',
+      'Connect your keyboard supporting the VIA feature to this PC.',
+      'Get your own firmware by writing it from source code.',
+      'Let\'s customize your keyboard to make it more user-friendly.',
     ],
   },
   {
@@ -185,5 +221,5 @@ export function getAllCategoryIds(): PracticeCategoryId[] {
  * Get default category (alphabet-mixed)
  */
 export function getDefaultCategory(): PracticeCategory {
-  return PRACTICE_CATEGORIES.find((cat) => cat.id === 'alphabet-lowercase')!;
+  return PRACTICE_CATEGORIES.find((cat) => cat.id === 'alphabet-lowercase-easy')!;
 }
