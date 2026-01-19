@@ -8,6 +8,12 @@ export default function Index() {
         <Typography variant="h3">News</Typography>
         <section>
           <Typography variant="body1" gutterBottom={true}>
+            <Link href="/docs/typing-practice">
+              [Jan 19th, 2026] Master your custom keymap with the new
+              &quot;Typing Practice&quot; feature!
+            </Link>
+          </Typography>
+          <Typography variant="body1" gutterBottom={true}>
             <Link href="/docs/workbench">
               [May 7th, 2025] A new feature called &quot;Workbench&quot; is now
               available!
