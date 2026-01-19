@@ -41,6 +41,7 @@ The application relies on several external and browser APIs to provide its featu
 - **GitHub API:** Used to fetch user account information from GitHub.
 
 - **WebHID API:** Enables direct communication between the browser and connected keyboard hardware, which is a core feature of the application.
+- **Typing Practice:** A dedicated module for users to improve their typing skills. It features various categories including alphabet (easy/hard), numbers, symbols, alphanumeric, TypeScript type definitions, programming languages (JavaScript, Python), and phrases from the Remap UI. The UI is designed for compactness and consistency.
 
 # Deployment Flow
 
