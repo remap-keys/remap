@@ -42,7 +42,6 @@
     overflow-y: auto;
 
     .category-selection {
-      margin-bottom: 1.5rem;
     }
 
     .progress-indicator {
@@ -155,8 +154,6 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 1rem;
-
       button {
         min-width: 120px;
         padding: 0.5rem 1.5rem;

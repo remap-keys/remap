@@ -326,27 +326,52 @@ export function TypingPractice(props: TypingPracticeProps) {
       </Box>
 
       <Box className="practice-content">
-        {/* Category Selection */}
-        <Box className="category-selection">
-          <FormControl fullWidth size="small">
-            <InputLabel id="category-select-label">
-              {t('Practice Category')}
-            </InputLabel>
-            <Select
-              labelId="category-select-label"
-              id="category-select"
-              value={currentCategory || getDefaultCategory().id}
-              label={t('Practice Category')}
-              onChange={handleCategoryChange as any}
-              disabled={status === 'running' || countdown !== null}
-            >
-              {PRACTICE_CATEGORIES.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+          {/* Category Selection */}
+          <Box className="category-selection" sx={{ flexGrow: 1 }}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="category-select-label">
+                {t('Practice Category')}
+              </InputLabel>
+              <Select
+                labelId="category-select-label"
+                id="category-select"
+                value={currentCategory || getDefaultCategory().id}
+                label={t('Practice Category')}
+                onChange={handleCategoryChange as any}
+                disabled={status === 'running' || countdown !== null}
+              >
+                {PRACTICE_CATEGORIES.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+          {/* Control Buttons */}
+          <Box className="control-buttons">
+            {status === 'idle' && countdown === null && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleStart}
+                sx={{ whiteSpace: 'nowrap', height: '36.5px' }}
+              >
+                {t('Start Practice')}
+              </Button>
+            )}
+            {(status === 'running' || status === 'finished') && (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleReset}
+                sx={{ height: '36.5px' }}
+              >
+                {t('Reset')}
+              </Button>
+            )}
+          </Box>
         </Box>
 
         {/* Progress Indicator */}
@@ -418,20 +443,6 @@ export function TypingPractice(props: TypingPracticeProps) {
             {t('Correct')}: <strong>{stats?.correctChars || 0}</strong> |{' '}
             {t('Incorrect')}: <strong>{stats?.incorrectChars || 0}</strong>
           </Typography>
-        </Box>
-
-        {/* Control Buttons */}
-        <Box className="control-buttons">
-          {status === 'idle' && countdown === null && (
-            <Button variant="contained" color="primary" onClick={handleStart}>
-              {t('Start Practice')}
-            </Button>
-          )}
-          {(status === 'running' || status === 'finished') && (
-            <Button variant="outlined" color="secondary" onClick={handleReset}>
-              {t('Reset')}
-            </Button>
-          )}
         </Box>
       </Box>
 
