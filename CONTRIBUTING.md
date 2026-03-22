@@ -8,5 +8,5 @@
 4. Fork the desired repository, develop and test your code change.
 5. Ensure that your code adheres to the existing style in the code set to which you are contributing.
 6. Ensure that your code has an appropriate set of unit tests which all pass, if possible.
-7. Execute `yarn format` command to format all codes.
+7. Execute `npm run format` command to format all codes.
 8. Submit a pull request.

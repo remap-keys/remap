@@ -24,15 +24,14 @@ The target users become to be able to find a favorite keyboard, be able to succe
 
 Developers can start a development of Remap locally by the following step:
 
-1. Install NodeJS version 12 or higher.
-2. Install `yarn` command with `npm install -g yarn`.
-3. Run `yarn install`.
-4. Run `yarn start`.
-5. Open the `http://localhost:3000` in the Chrome or Edge Stable 89 or higher.
+1. Install NodeJS version 20 or higher.
+2. Run `npm install`.
+3. Run `npm start`.
+4. Open the `http://localhost:3000` in the Chrome or Edge Stable 89 or higher.
 
 As a limitation, the launched Remap locally cannot access to Firebase backend server. Therefore, the developer needs to import a keyboard definition JSON file from local every times at opening a keyboard.
 
-We're using Prettier to format codes. Execute the `yarn format` before committing and pushing your code. Or, you can use auto-formatting feature with the Prettier for your IDE.
+We're using Prettier to format codes. Execute the `npm run format` before committing and pushing your code. Or, you can use auto-formatting feature with the Prettier for your IDE.
 
 Before contributing, read the [How to become a contributor and submit your own code](https://github.com/remap-keys/remap/blob/main/CONTRIBUTING.md) document.
 

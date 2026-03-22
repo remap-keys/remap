@@ -47,7 +47,7 @@
     "start": "vite",
     "type-check": "tsc --noEmit",
     "lint": "eslint src",
-    "build": "yarn type-check && yarn lint && vite build",
+    "build": "npm run type-check && npm run lint && vite build",
     "test": "vitest",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "gen-types": "json2ts src/services/storage/assets/keyboard-definition-schema.json --style.singleQuote > src/gen/types/KeyboardDefinition.ts;",
@@ -132,6 +132,5 @@
       "git add"
     ]
   },
-  "packageManager": "yarn@4.2.2",
   "type": "module"
 }
