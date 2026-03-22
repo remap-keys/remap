@@ -47,7 +47,7 @@ The application relies on several external and browser APIs to provide its featu
 
 This project uses GitHub Actions for its CI/CD pipeline.
 
-- **Pull Requests:** When a pull request is opened or updated, a workflow is triggered to build the application and run tests (`yarn build && yarn test`). This ensures that all changes are verified before being merged into the `main` branch.
+- **Pull Requests:** When a pull request is opened or updated, a workflow is triggered to build the application and run tests (`npm run build && npm test`). This ensures that all changes are verified before being merged into the `main` branch.
 
 - **Production Deployment:** When changes are pushed to the `main` branch, a separate workflow is triggered:
   1.  The build number in `src/assets/files/build-info.json` is automatically incremented and committed.
@@ -64,7 +64,7 @@ The project uses `vitest` as its primary testing framework.
 
 - **Component Tests:** Currently, there are no component-specific tests (`.test.tsx` files). However, the testing setup with `vitest` and `happy-dom` allows for rendering components and testing their behavior, suggesting that this is an area for future expansion.
 
-- **Running Tests:** All tests can be executed by running the `yarn test` command.
+- **Running Tests:** All tests can be executed by running the `npm test` command.
 
 # Building and Running
 
@@ -73,13 +73,13 @@ To get started with local development, follow these steps:
 1.  **Install Dependencies:**
 
     ```bash
-    yarn install
+    npm install
     ```
 
 2.  **Run the Development Server:**
 
     ```bash
-    yarn start
+    npm start
     ```
 
     The application will be available at `http://localhost:3000`.
@@ -87,17 +87,17 @@ To get started with local development, follow these steps:
 3.  **Build for Production:**
 
     ```bash
-    yarn build
+    npm run build
     ```
 
 4.  **Run Tests:**
     ```bash
-    yarn test
+    npm test
     ```
 
 # Development Conventions
 
-- **Formatting:** This project uses Prettier for code formatting. Run `yarn format` before committing changes.
-- **Linting:** ESLint is used for linting. Run `yarn lint` to check for any linting errors.
-- **Type Checking:** TypeScript is used for static typing. Run `yarn type-check` to check for type errors.
+- **Formatting:** This project uses Prettier for code formatting. Run `npm run format` before committing changes.
+- **Linting:** ESLint is used for linting. Run `npm run lint` to check for any linting errors.
+- **Type Checking:** TypeScript is used for static typing. Run `npm run type-check` to check for type errors.
 - **Contribution:** Before contributing, please read the `CONTRIBUTING.md` file.
