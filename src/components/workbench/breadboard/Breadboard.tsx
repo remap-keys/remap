@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import FolderIcon from '@mui/icons-material/Folder';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
+import TuneIcon from '@mui/icons-material/Tune';
 import { Editor } from '@monaco-editor/react';
 import {
   IBuildableFirmwareFileType,
@@ -45,6 +46,7 @@ import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.conta
 import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
 import LayoutPreviewDialog from '../dialogs/LayoutPreviewDialog';
+import KeyboardJsonEditorDialog from '../dialogs/KeyboardJsonEditorDialog';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -75,6 +77,8 @@ export default function Breadboard(
   >(undefined);
   const [selectedOutputTab, setSelectedOutputTab] = useState<number>(0);
   const [openLayoutPreviewDialog, setOpenLayoutPreviewDialog] =
+    useState<boolean>(false);
+  const [openKeyboardJsonEditorDialog, setOpenKeyboardJsonEditorDialog] =
     useState<boolean>(false);
   const [latestKeyboardJsonCode, setLatestKeyboardJsonCode] = useState<
     string | null
@@ -288,6 +292,13 @@ export default function Breadboard(
                         onClickWorkbenchProjectFile(file, fileType);
                       }}
                       onClickEditFile={onClickEditWorkbenchProjectFile}
+                      onClickEditKeyboardJson={
+                        file.path === 'keyboard.json'
+                          ? () => {
+                              setOpenKeyboardJsonEditorDialog(true);
+                            }
+                          : undefined
+                      }
                       onClickPreviewLayout={
                         file.path === 'keyboard.json'
                           ? () => {
@@ -524,7 +535,27 @@ export default function Breadboard(
               file,
               file.path,
               updatedContent,
-              false
+              true
+            );
+          }
+        }}
+      />
+      <KeyboardJsonEditorDialog
+        open={openKeyboardJsonEditorDialog}
+        onClose={() => setOpenKeyboardJsonEditorDialog(false)}
+        keyboardJsonContent={latestKeyboardJsonCode}
+        onApply={(updatedContent: string) => {
+          setLatestKeyboardJsonCode(updatedContent);
+          const file = props.currentProject?.keyboardFiles.find(
+            (f) => f.path === 'keyboard.json'
+          );
+          if (file && props.currentProject) {
+            props.updateWorkbenchProjectFile!(
+              props.currentProject,
+              file,
+              file.path,
+              updatedContent,
+              true
             );
           }
         }}
@@ -542,17 +573,24 @@ type WorkbenchSourceCodeEditorProps = {
 function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
   const [code, setCode] = useState<string | undefined>(undefined);
   const currentFileRef = useRef<string | undefined>(undefined);
+  const lastPropCodeRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     if (props.project === undefined || props.file === undefined) {
       setCode(undefined);
       currentFileRef.current = undefined;
+      lastPropCodeRef.current = undefined;
       return;
     }
-    // Only update local state when file changes (different file selected)
     if (currentFileRef.current !== props.file.id) {
+      // Different file selected
       setCode(props.file.code);
       currentFileRef.current = props.file.id;
+      lastPropCodeRef.current = props.file.code;
+    } else if (lastPropCodeRef.current !== props.file.code) {
+      // Same file, but code changed externally (e.g. from layout editor or JSON editor)
+      setCode(props.file.code);
+      lastPropCodeRef.current = props.file.code;
     }
   }, [props.project, props.file]);
 
@@ -569,6 +607,11 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
       console.warn(
         'Debounce value base is not the same as current file. This should not happen.'
       );
+      return;
+    }
+    // Skip if the debounced value is the same as the current file content
+    // (e.g. after an external update from layout editor or JSON editor)
+    if (debounceCode.value === props.file.code) {
       return;
     }
     props.onChangeCode(props.file, debounceCode.value);
@@ -617,6 +660,7 @@ type WorkbenchProjectFileListItemProps = {
     file: IWorkbenchProjectFile,
     type: IBuildableFirmwareFileType
   ) => void;
+  onClickEditKeyboardJson?: (file: IWorkbenchProjectFile) => void;
   onClickPreviewLayout?: (file: IWorkbenchProjectFile) => void;
 };
 
@@ -627,6 +671,18 @@ function WorkbenchProjectFileListItem(
     <ListItem
       secondaryAction={
         <>
+          {props.onClickEditKeyboardJson && (
+            <IconButton
+              edge="end"
+              aria-label="edit keyboard json"
+              onClick={() => {
+                props.onClickEditKeyboardJson!(props.workbenchProjectFile);
+              }}
+              sx={{ mr: 0.5 }}
+            >
+              <TuneIcon />
+            </IconButton>
+          )}
           {props.onClickPreviewLayout && (
             <IconButton
               edge="end"
