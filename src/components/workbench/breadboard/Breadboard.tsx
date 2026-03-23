@@ -21,6 +21,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import FolderIcon from '@mui/icons-material/Folder';
 import EditIcon from '@mui/icons-material/Edit';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
 import { Editor } from '@monaco-editor/react';
 import {
   IBuildableFirmwareFileType,
@@ -43,6 +44,7 @@ import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
 import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
+import LayoutPreviewDialog from '../dialogs/LayoutPreviewDialog';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -72,6 +74,11 @@ export default function Breadboard(
     IFirmwareBuildingTask | undefined
   >(undefined);
   const [selectedOutputTab, setSelectedOutputTab] = useState<number>(0);
+  const [openLayoutPreviewDialog, setOpenLayoutPreviewDialog] =
+    useState<boolean>(false);
+  const [latestKeyboardJsonCode, setLatestKeyboardJsonCode] = useState<
+    string | null
+  >(null);
 
   // Effects
 
@@ -80,6 +87,10 @@ export default function Breadboard(
       return;
     }
     setSelectedBuildingTask(undefined);
+    const keyboardJsonFile = props.currentProject.keyboardFiles.find(
+      (f) => f.path === 'keyboard.json'
+    );
+    setLatestKeyboardJsonCode(keyboardJsonFile?.code ?? null);
   }, [props.currentProject]);
 
   useBuildTaskHook(props.currentProject?.id, props.storage?.instance);
@@ -176,6 +187,9 @@ export default function Breadboard(
   ) => {
     if (code === undefined) {
       return;
+    }
+    if (file.path === 'keyboard.json') {
+      setLatestKeyboardJsonCode(code);
     }
     props.updateWorkbenchProjectFile!(
       props.currentProject!,
@@ -274,6 +288,13 @@ export default function Breadboard(
                         onClickWorkbenchProjectFile(file, fileType);
                       }}
                       onClickEditFile={onClickEditWorkbenchProjectFile}
+                      onClickPreviewLayout={
+                        file.path === 'keyboard.json'
+                          ? () => {
+                              setOpenLayoutPreviewDialog(true);
+                            }
+                          : undefined
+                      }
                     />
                   ))}
                 <ListItem
@@ -488,6 +509,26 @@ export default function Breadboard(
         }}
       />
       <FlashFirmwareDialog />
+      <LayoutPreviewDialog
+        open={openLayoutPreviewDialog}
+        onClose={() => setOpenLayoutPreviewDialog(false)}
+        keyboardJsonContent={latestKeyboardJsonCode}
+        onApply={(updatedContent: string) => {
+          setLatestKeyboardJsonCode(updatedContent);
+          const file = props.currentProject?.keyboardFiles.find(
+            (f) => f.path === 'keyboard.json'
+          );
+          if (file && props.currentProject) {
+            props.updateWorkbenchProjectFile!(
+              props.currentProject,
+              file,
+              file.path,
+              updatedContent,
+              false
+            );
+          }
+        }}
+      />
     </>
   );
 }
@@ -576,6 +617,7 @@ type WorkbenchProjectFileListItemProps = {
     file: IWorkbenchProjectFile,
     type: IBuildableFirmwareFileType
   ) => void;
+  onClickPreviewLayout?: (file: IWorkbenchProjectFile) => void;
 };
 
 function WorkbenchProjectFileListItem(
@@ -584,18 +626,32 @@ function WorkbenchProjectFileListItem(
   return (
     <ListItem
       secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="edit"
-          onClick={() => {
-            props.onClickEditFile(
-              props.workbenchProjectFile,
-              props.workbenchProjectFileType
-            );
-          }}
-        >
-          <EditIcon />
-        </IconButton>
+        <>
+          {props.onClickPreviewLayout && (
+            <IconButton
+              edge="end"
+              aria-label="preview layout"
+              onClick={() => {
+                props.onClickPreviewLayout!(props.workbenchProjectFile);
+              }}
+              sx={{ mr: 0.5 }}
+            >
+              <KeyboardIcon />
+            </IconButton>
+          )}
+          <IconButton
+            edge="end"
+            aria-label="edit"
+            onClick={() => {
+              props.onClickEditFile(
+                props.workbenchProjectFile,
+                props.workbenchProjectFileType
+              );
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </>
       }
     >
       <ListItemButton
