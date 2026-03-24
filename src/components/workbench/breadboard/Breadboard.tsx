@@ -83,6 +83,7 @@ export default function Breadboard(
   const [latestKeyboardJsonCode, setLatestKeyboardJsonCode] = useState<
     string | null
   >(null);
+  const [editorFontSize, setEditorFontSize] = useState<number>(14);
 
   // Effects
 
@@ -377,6 +378,8 @@ export default function Breadboard(
                           )
                 }
                 onChangeCode={onChangeCode}
+                fontSize={editorFontSize}
+                onFontSizeChange={setEditorFontSize}
               />
             </Paper>
           </Box>
@@ -568,6 +571,8 @@ type WorkbenchSourceCodeEditorProps = {
   project: IWorkbenchProject | undefined;
   file: IWorkbenchProjectFile | undefined;
   onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+  fontSize: number;
+  onFontSizeChange: (size: number) => void;
 };
 
 function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
@@ -628,19 +633,74 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
     setCode(value);
   };
 
+  const getLanguage = (path: string): string => {
+    const ext = path.split('.').pop()?.toLowerCase();
+    switch (ext) {
+      case 'json':
+        return 'json';
+      case 'c':
+      case 'h':
+        return 'c';
+      case 'mk':
+        return 'makefile';
+      default:
+        return 'plaintext';
+    }
+  };
+
   if (props.project !== undefined && props.file !== undefined) {
     return (
-      <Editor
-        defaultLanguage="c"
-        height="100%"
-        value={code}
-        options={{
-          minimap: { enabled: false },
-          wordWrap: 'off',
-          automaticLayout: true,
-        }}
-        onChange={onChangeCode}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            padding: '2px 8px',
+            gap: 4,
+            borderBottom: '1px solid #e0e0e0',
+          }}
+        >
+          <IconButton
+            size="small"
+            onClick={() =>
+              props.onFontSizeChange(Math.max(8, props.fontSize - 2))
+            }
+          >
+            <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+              A-
+            </Typography>
+          </IconButton>
+          <Typography variant="caption" color="text.secondary">
+            {props.fontSize}px
+          </Typography>
+          <IconButton
+            size="small"
+            onClick={() =>
+              props.onFontSizeChange(Math.min(32, props.fontSize + 2))
+            }
+          >
+            <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+              A+
+            </Typography>
+          </IconButton>
+        </div>
+        <div style={{ flex: 1 }}>
+          <Editor
+            language={getLanguage(props.file.path)}
+            height="100%"
+            value={code}
+            options={{
+              minimap: { enabled: false },
+              wordWrap: 'off',
+              automaticLayout: true,
+              renderWhitespace: 'all',
+              fontSize: props.fontSize,
+            }}
+            onChange={onChangeCode}
+          />
+        </div>
+      </div>
     );
   } else {
     return null;
