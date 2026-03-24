@@ -648,6 +648,7 @@ export default function KeyboardJsonEditorDialog(
         <Tab label={t('General')} />
         <Tab label={t('USB / MCU')} />
         <Tab label={t('Hardware')} />
+        <Tab label={t('Features')} />
         <Tab label={t('Lighting')} />
         <Tab label={t('Input')} />
       </Tabs>
@@ -1020,8 +1021,55 @@ export default function KeyboardJsonEditorDialog(
           </Stack>
         )}
 
-        {/* === Lighting Tab === */}
+        {/* === Features Tab === */}
         {activeTab === 3 && (
+          <Stack spacing={3}>
+            <div>
+              <SectionHeader>{t('Features')}</SectionHeader>
+              <div className="keyboard-json-editor-features">
+                {Object.entries(features)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([name, enabled]) => (
+                    <FormControlLabel
+                      key={name}
+                      control={
+                        <Switch
+                          size="small"
+                          checked={enabled}
+                          onChange={(e) =>
+                            handleFeatureToggle(name, e.target.checked)
+                          }
+                        />
+                      }
+                      label={name}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        handleRemoveFeature(name);
+                      }}
+                    />
+                  ))}
+              </div>
+              {availableFeatures.length > 0 && (
+                <Autocomplete
+                  size="small"
+                  options={availableFeatures}
+                  freeSolo
+                  sx={{ mt: 1 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label={t('Add Feature')} />
+                  )}
+                  onChange={(_e, value) => handleAddFeature(value)}
+                  value={null}
+                  blurOnSelect
+                  clearOnBlur
+                />
+              )}
+            </div>
+          </Stack>
+        )}
+
+        {/* === Lighting Tab === */}
+        {activeTab === 4 && (
           <Stack spacing={3}>
             {/* WS2812 Section */}
             <div>
@@ -1210,7 +1258,7 @@ export default function KeyboardJsonEditorDialog(
         )}
 
         {/* === Input Tab === */}
-        {activeTab === 4 && (
+        {activeTab === 5 && (
           <Stack spacing={3}>
             {/* Encoder Section */}
             <div>
@@ -1269,49 +1317,6 @@ export default function KeyboardJsonEditorDialog(
                   </Typography>
                 )}
               </Stack>
-            </div>
-
-            {/* Features Section */}
-            <div>
-              <SectionHeader>{t('Features')}</SectionHeader>
-              <div className="keyboard-json-editor-features">
-                {Object.entries(features)
-                  .sort(([a], [b]) => a.localeCompare(b))
-                  .map(([name, enabled]) => (
-                    <FormControlLabel
-                      key={name}
-                      control={
-                        <Switch
-                          size="small"
-                          checked={enabled}
-                          onChange={(e) =>
-                            handleFeatureToggle(name, e.target.checked)
-                          }
-                        />
-                      }
-                      label={name}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        handleRemoveFeature(name);
-                      }}
-                    />
-                  ))}
-              </div>
-              {availableFeatures.length > 0 && (
-                <Autocomplete
-                  size="small"
-                  options={availableFeatures}
-                  freeSolo
-                  sx={{ mt: 1 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label={t('Add Feature')} />
-                  )}
-                  onChange={(_e, value) => handleAddFeature(value)}
-                  value={null}
-                  blurOnSelect
-                  clearOnBlur
-                />
-              )}
             </div>
           </Stack>
         )}
