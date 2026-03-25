@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tooltip } from '@mui/material';
+import { t } from 'i18next';
 import KeyModel from '../../../models/KeyModel';
 
 const BORDER = 1;
@@ -75,7 +76,7 @@ export default function VisualKeycap({
   };
 
   const tooltipTitle = isCustom
-    ? `"${label}" is a custom keycode defined in the source code. It cannot be edited in the Visual Editor.`
+    ? t('"{{name}}" is a custom keycode defined in the source code. It cannot be edited in the Visual Editor.', { name: label })
     : '';
 
   return (
