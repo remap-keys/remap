@@ -367,6 +367,7 @@ export default function Breadboard(
                 project={props.currentProject}
                 selectedFile={props.selectedFile}
                 onChangeCode={onChangeCode}
+                onUpdateFile={props.updateWorkbenchProjectFile!}
                 editorFontSize={editorFontSize}
                 onFontSizeChange={setEditorFontSize}
               />
@@ -562,6 +563,14 @@ type EditorWithVisualTabProps = {
     | { fileId: string; fileType: IBuildableFirmwareFileType }
     | undefined;
   onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onUpdateFile: (
+    project: IWorkbenchProject,
+    file: IWorkbenchProjectFile,
+    path: string,
+    code: string,
+    refreshCurrentProject: boolean
+  ) => void;
   editorFontSize: number;
   onFontSizeChange: (size: number) => void;
 };
@@ -603,11 +612,13 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
 
   const handleVisualEditorCodeChange = useCallback(
     (code: string) => {
-      if (file) {
-        props.onChangeCode(file, code);
+      if (file && props.project) {
+        // Update the file with refreshCurrentProject=true so the Redux state
+        // reflects the change immediately (needed for Code Editor tab sync).
+        props.onUpdateFile(props.project, file, file.path, code, true);
       }
     },
-    [file, props.onChangeCode]
+    [file, props.project, props.onUpdateFile]
   );
 
   return (
