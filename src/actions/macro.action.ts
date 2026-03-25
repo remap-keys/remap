@@ -1,4 +1,4 @@
-import { Key } from '../components/configure/keycodekey/KeyGen';
+import { Key } from '../components/common/keycodekey/KeyGen';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { RootState } from '../store/state';
 import {

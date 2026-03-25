@@ -11,7 +11,7 @@ import { ICustomKeycode, IKeymap } from '../../../services/hid/Hid';
 import { hidActionsThunk } from '../../../actions/hid.action';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import { Key } from '../keycodekey/KeyGen';
+import { Key } from '../../common/keycodekey/KeyGen';
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -38,6 +38,9 @@ const mapStateToProps = (state: RootState) => {
     testedMatrix: state.app.testedMatrix,
     currentTestMatrix: state.app.currentTestMatrix,
     keyboardDefinition: state.entities.keyboardDefinition,
+    macroBufferBytes: state.entities.device.macro.bufferBytes,
+    macroMaxBufferSize: state.entities.device.macro.maxBufferSize,
+    macroMaxCount: state.entities.device.macro.maxCount,
   };
 };
 export type KeymapStateType = ReturnType<typeof mapStateToProps>;

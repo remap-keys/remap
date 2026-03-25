@@ -4,7 +4,7 @@ import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { keyInfoList } from '../../../services/hid/KeycodeInfoList';
 import { KeyLabelLangs } from '../../../services/labellang/KeyLabelLangs';
-import { genKey, Key } from '../keycodekey/KeyGen';
+import { genKey, Key } from '../../common/keycodekey/KeyGen';
 import {
   MOD_ALT,
   MOD_CTL,

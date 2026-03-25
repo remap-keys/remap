@@ -5,7 +5,7 @@ import {
   KeycodeKeyStateType,
 } from './KeycodeKey.container';
 import './KeycodeKey.scss';
-import { Key } from './KeyGen';
+import { Key } from '../../common/keycodekey/KeyGen';
 import { Edit as EditIcon } from '@mui/icons-material';
 
 export type AnyKey = {

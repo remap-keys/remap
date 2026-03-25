@@ -11,7 +11,7 @@ import {
   SS_TAP_CODE,
   SS_UP_CODE,
 } from './Macro';
-import { Key } from '../../components/configure/keycodekey/KeyGen';
+import { Key } from '../../components/common/keycodekey/KeyGen';
 import sinon from 'sinon';
 import { MOD_LEFT } from '../hid/Constraints';
 

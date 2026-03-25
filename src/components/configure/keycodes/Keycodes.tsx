@@ -8,7 +8,7 @@ import { KeycodesActionsType, KeycodesStateType } from './Keycodes.container';
 import { IKeycodeCategory } from '../../../services/hid/Hid';
 import KeycodeAddKey from '../keycodekey/any/AddAnyKeycodeKey.container';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
-import { genKeys, Key } from '../keycodekey/KeyGen';
+import { genKeys, Key } from '../../common/keycodekey/KeyGen';
 import { CATEGORY_LABEL_BMP } from '../../../services/hid/KeycodeInfoListBmp';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
 import {

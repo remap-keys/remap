@@ -5,7 +5,7 @@ import { Clear } from '@mui/icons-material';
 import { KeydiffActionsType, KeydiffStateType } from './Keydiff.container';
 import { IKeymap } from '../../../services/hid/Hid';
 import KeycodeKey from '../keycodekey/KeycodeKey.container';
-import { genKey, Key } from '../keycodekey/KeyGen';
+import { genKey, Key } from '../../common/keycodekey/KeyGen';
 import KeyModel from '../../../models/KeyModel';
 import { t } from 'i18next';
 

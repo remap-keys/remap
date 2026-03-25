@@ -5,8 +5,8 @@ import { hexadecimal } from '../../../utils/StringUtils';
 import Keycodes from '../keycodes/Keycodes.container';
 import Keymap from '../keymap/Keymap.container';
 import { RemapActionsType, RemapStateType } from './Remap.container';
-import { Key } from '../keycodekey/KeyGen';
-import { kinds2CategoryLabel } from '../customkey/AutocompleteKeys';
+import { Key } from '../../common/keycodekey/KeyGen';
+import { kinds2CategoryLabel } from '../../common/customkey/AutocompleteKeys';
 import MacroEditor from '../macroeditor/MacroEditor.container';
 import TypingPractice from '../practice/TypingPractice.container';
 

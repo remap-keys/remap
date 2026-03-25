@@ -2,7 +2,7 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Keycodes from './Keycodes';
-import { Key } from '../keycodekey/KeyGen';
+import { Key } from '../../common/keycodekey/KeyGen';
 import { Provider } from 'react-redux';
 
 import { createStore, applyMiddleware } from 'redux';

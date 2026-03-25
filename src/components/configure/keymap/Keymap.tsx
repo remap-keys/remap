@@ -13,8 +13,8 @@ import CustomKey, {
   CUSTOMKEY_POPOVER_TRIANGLE,
   CUSTOMKEY_POPOVER_WIDTH,
   PopoverPosition,
-} from '../customkey/CustomKey';
-import { Key } from '../keycodekey/KeyGen';
+} from '../../common/customkey/CustomKey';
+import { Key } from '../../common/keycodekey/KeyGen';
 import KeymapToolbar from '../keymapToolbar/KeymapToolbar.container';
 import KeyEventCapture from '../keyeventcapture/KeyEventCapture.container';
 import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
@@ -378,6 +378,9 @@ export default class Keymap extends React.Component<
               this.onChangeKeymap(key);
             }}
             customKeycodes={this.props.keyboardDefinition!.customKeycodes}
+            macroBufferBytes={this.props.macroBufferBytes}
+            macroMaxBufferSize={this.props.macroMaxBufferSize}
+            macroMaxCount={this.props.macroMaxCount}
           />
         </div>
       </React.Fragment>
