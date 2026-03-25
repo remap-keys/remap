@@ -1,6 +1,5 @@
 import React from 'react';
 import KeyModel from '../../../models/KeyModel';
-import { KEY_SIZE } from '../../configure/keycap/Keycap';
 
 const BORDER = 1;
 const MARGIN_W = 5;
@@ -94,4 +93,3 @@ export default function VisualKeycap({
   );
 }
 
-export { KEY_SIZE };
