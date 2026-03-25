@@ -651,7 +651,7 @@ export function KeyboardJsonSettingsPanel(
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [buildJson, isFormValid]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [buildJson, isFormValid]);
 
   const availableFeatures = COMMON_QMK_FEATURES.filter((f) => !(f in features));
 

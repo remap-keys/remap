@@ -568,7 +568,7 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [buildJson, hasChanges]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [buildJson, hasChanges]);
 
   const hasLayouts = parsed !== null && parsed.layoutNames.length > 0;
   const hasMultipleLayouts = parsed !== null && parsed.layoutNames.length > 1;
