@@ -211,11 +211,18 @@ export default function VisualKeymapEditor({
     setSelectedKeyValue(null);
   }, [selectedLayer]);
 
-  // Convert keycode names to display labels for current layer
+  // Convert keycode names to display labels for current layer.
+  // Pad with KC_NO labels if keyboard.json has more keys than keymap.c.
   const keyLabels = useMemo(() => {
     if (!localKeymap || selectedLayer >= localKeymap.layers.length) return [];
-    return localKeymap.layers[selectedLayer].keycodeNames.map(resolveKeycapLabel);
-  }, [localKeymap, selectedLayer]);
+    const names = localKeymap.layers[selectedLayer].keycodeNames;
+    const layoutCount = layoutData?.keyModels.length ?? names.length;
+    const labels = names.map(resolveKeycapLabel);
+    while (labels.length < layoutCount) {
+      labels.push({ label: '', meta: '' });
+    }
+    return labels;
+  }, [localKeymap, selectedLayer, layoutData]);
 
   // Apply a change to the local keymap and propagate to parent.
   const applyKeymapUpdate = useCallback(
@@ -238,11 +245,23 @@ export default function VisualKeymapEditor({
       try {
         if (!localKeymap || !layoutData) return;
         if (selectedLayer >= localKeymap.layers.length) return;
-        if (index >= localKeymap.layers[selectedLayer].keycodeNames.length)
-          return;
+
+        // If the key index is beyond the current keymap, expand with KC_NO
+        const currentNames = localKeymap.layers[selectedLayer].keycodeNames;
+        if (index >= currentNames.length) {
+          const expandedNames = [...currentNames];
+          while (expandedNames.length <= index) {
+            expandedNames.push('KC_NO');
+          }
+          const updatedLayers = localKeymap.layers.map((layer, i) => {
+            if (i !== selectedLayer) return layer;
+            return { ...layer, keycodeNames: expandedNames };
+          });
+          applyKeymapUpdate({ ...localKeymap, layers: updatedLayers });
+        }
 
         const keycodeName =
-          localKeymap.layers[selectedLayer].keycodeNames[index];
+          index < currentNames.length ? currentNames[index] : 'KC_NO';
         const key = resolveKeyForPopover(keycodeName);
         if (!key) return;
 
@@ -276,6 +295,10 @@ export default function VisualKeymapEditor({
       const updatedLayers = localKeymap.layers.map((layer, i) => {
         if (i !== selectedLayer) return layer;
         const updatedNames = [...layer.keycodeNames];
+        // Expand if needed
+        while (updatedNames.length <= selectedKeyIndex) {
+          updatedNames.push('KC_NO');
+        }
         updatedNames[selectedKeyIndex] = newName;
         return { ...layer, keycodeNames: updatedNames };
       });
@@ -364,13 +387,8 @@ export default function VisualKeymapEditor({
 
   const { keyModels, viewContent } = layoutData;
 
-  // Guard against key count mismatch between layout and keymap
-  const currentLayerKeyCount =
-    selectedLayer < localKeymap.layers.length
-      ? localKeymap.layers[selectedLayer].keycodeNames.length
-      : 0;
-  const layoutKeyCount = keyModels.length;
-  const displayKeyCount = Math.min(currentLayerKeyCount, layoutKeyCount);
+  // Always show all keyboard.json keys. If keymap.c has fewer keycodes,
+  // the extra keys are treated as KC_NO and can be assigned via the editor.
 
   const keyboardWidth = viewContent.width + 16;
   const keyboardHeight = viewContent.height + 16;
@@ -396,7 +414,7 @@ export default function VisualKeymapEditor({
               height: viewContent.height,
             }}
           >
-            {keyModels.slice(0, displayKeyCount).map((model, index) => (
+            {keyModels.map((model, index) => (
               <VisualKeycap
                 key={`${model.pos}-${index}`}
                 model={model}
