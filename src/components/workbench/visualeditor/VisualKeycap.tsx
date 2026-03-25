@@ -10,6 +10,7 @@ type VisualKeycapProps = {
   model: KeyModel;
   label: string;
   meta?: string;
+  isCustom?: boolean;
   isSelected: boolean;
   onClick: (e: React.MouseEvent) => void;
 };
@@ -18,6 +19,7 @@ export default function VisualKeycap({
   model,
   label,
   meta,
+  isCustom,
   isSelected,
   onClick,
 }: VisualKeycapProps) {
@@ -88,7 +90,16 @@ export default function VisualKeycap({
         {hasMeta && (
           <span className="visual-keycap-meta">{meta}</span>
         )}
-        <span className="visual-keycap-label">{label}</span>
+        <span
+          className={[
+            'visual-keycap-label',
+            isCustom && 'visual-keycap-custom',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {label}
+        </span>
       </div>
     </div>
   );

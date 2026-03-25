@@ -79,6 +79,11 @@ $key-size: 56px;
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 100%;
+
+  &.visual-keycap-custom {
+    color: #e65100;
+    font-style: italic;
+  }
 }
 
 .visual-keycap-base {

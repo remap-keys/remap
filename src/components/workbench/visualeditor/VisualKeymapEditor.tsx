@@ -36,6 +36,7 @@ type VisualKeymapEditorProps = {
 type KeycapLabel = {
   label: string;
   meta: string;
+  isCustom: boolean;
 };
 
 /**
@@ -43,16 +44,16 @@ type KeycapLabel = {
  * Uses genKey() to produce labels consistent with the Configure domain.
  */
 function resolveKeycapLabel(keycodeName: string): KeycapLabel {
-  if (keycodeName === '_______') return { label: '▽', meta: '' };
-  if (keycodeName === 'XXXXXXX') return { label: '', meta: '' };
+  if (keycodeName === '_______') return { label: '▽', meta: '', isCustom: false };
+  if (keycodeName === 'XXXXXXX') return { label: '', meta: '', isCustom: false };
   try {
     const code = nameToCode(keycodeName);
-    if (code === null) return { label: keycodeName, meta: '' };
+    if (code === null) return { label: keycodeName, meta: '', isCustom: true };
     const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
     const key = genKey(keymap, 'en-us');
-    return { label: key.label, meta: key.meta };
+    return { label: key.label, meta: key.meta, isCustom: false };
   } catch {
-    return { label: keycodeName, meta: '' };
+    return { label: keycodeName, meta: '', isCustom: true };
   }
 }
 
@@ -219,7 +220,7 @@ export default function VisualKeymapEditor({
     const layoutCount = layoutData?.keyModels.length ?? names.length;
     const labels = names.map(resolveKeycapLabel);
     while (labels.length < layoutCount) {
-      labels.push({ label: '', meta: '' });
+      labels.push({ label: '', meta: '', isCustom: false });
     }
     return labels;
   }, [localKeymap, selectedLayer, layoutData]);
@@ -420,6 +421,7 @@ export default function VisualKeymapEditor({
                 model={model}
                 label={keyLabels[index]?.label ?? '?'}
                 meta={keyLabels[index]?.meta ?? ''}
+                isCustom={keyLabels[index]?.isCustom ?? false}
                 isSelected={selectedKeyIndex === index && popoverOpen}
                 onClick={(e) => handleKeyClick(index, e)}
               />
