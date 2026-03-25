@@ -16,6 +16,8 @@ import {
 } from '../../../services/workbench/QmkKeycodeMapper';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { genKey, Key } from '../../common/keycodekey/KeyGen';
+import { buildHoldKeyLabel } from '../../common/customkey/TabHoldTapKey';
+import { buildModLabel } from '../../common/customkey/Modifiers';
 import CustomKey, {
   CUSTOMKEY_POPOVER_HEIGHT,
   CUSTOMKEY_POPOVER_TRIANGLE,
@@ -51,7 +53,21 @@ function resolveKeycapLabel(keycodeName: string): KeycapLabel {
     if (code === null) return { label: keycodeName, meta: '', isCustom: true };
     const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
     const key = genKey(keymap, 'en-us');
-    return { label: key.label, meta: key.meta, isCustom: false };
+
+    // For hold/tap keycodes, show hold function as meta label
+    const km = key.keymap;
+    const holdLabel = buildHoldKeyLabel(km, km.isAny);
+    let meta = key.meta;
+    if (!meta && holdLabel) {
+      meta = holdLabel;
+    } else if (!meta) {
+      const modLabel = buildModLabel(km.modifiers || null, km.direction!);
+      if (modLabel) {
+        meta = modLabel;
+      }
+    }
+
+    return { label: key.label, meta, isCustom: false };
   } catch {
     return { label: keycodeName, meta: '', isCustom: true };
   }
