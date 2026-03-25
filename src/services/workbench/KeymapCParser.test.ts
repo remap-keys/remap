@@ -90,19 +90,11 @@ describe('KeymapCParser', () => {
       expect(result!.layers[0].keycodeNames[15]).toBe('KC_ENT');
     });
 
-    it('records source positions for layers', () => {
-      const result = parseKeymapC(SIMPLE_KEYMAP);
+    it('preserves preamble and postamble', () => {
+      const result = parseKeymapC(KEYMAP_WITH_POSTAMBLE);
       expect(result).not.toBeNull();
-      expect(result!.layers[0].sourceStart).toBeGreaterThan(0);
-      expect(result!.layers[0].sourceEnd).toBeGreaterThan(
-        result!.layers[0].sourceStart
-      );
-    });
-
-    it('preserves originalContent', () => {
-      const result = parseKeymapC(SIMPLE_KEYMAP);
-      expect(result).not.toBeNull();
-      expect(result!.originalContent).toBe(SIMPLE_KEYMAP);
+      expect(result!.preamble).toContain('#include QMK_KEYBOARD_H');
+      expect(result!.postamble).toContain('ENCODER_ENABLE');
     });
 
     it('parses a multi-layer keymap', () => {

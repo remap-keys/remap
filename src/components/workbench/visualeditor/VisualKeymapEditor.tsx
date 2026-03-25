@@ -173,7 +173,18 @@ export default function VisualKeymapEditor({
       const layoutName = parsed.layoutNames[0];
       const keyModels = parsed.getKeyModels(layoutName);
       const viewContent = getLayoutViewContent(keyModels);
-      return { keyModels, viewContent };
+
+      // Calculate keys per row by grouping KeyModels by their y coordinate
+      const rowMap = new Map<number, number>();
+      for (const model of keyModels) {
+        const y = Math.round(model.top);
+        rowMap.set(y, (rowMap.get(y) ?? 0) + 1);
+      }
+      const keysPerRow = Array.from(rowMap.entries())
+        .sort(([a], [b]) => a - b)
+        .map(([, count]) => count);
+
+      return { keyModels, viewContent, keysPerRow };
     } catch {
       return null;
     }
@@ -195,23 +206,19 @@ export default function VisualKeymapEditor({
   }, [localKeymap, selectedLayer]);
 
   // Apply a change to the local keymap and propagate to parent.
-  // After generating new code, re-parse it to get updated source positions.
   const applyKeymapUpdate = useCallback(
     (updatedKeymap: ParsedKeymap) => {
-      const newCode = generateKeymapC(updatedKeymap);
-      // Re-parse to get correct source positions for future edits
-      const reParsed = parseKeymapC(newCode);
-      if (reParsed) {
-        setLocalKeymap(reParsed);
-      } else {
-        setLocalKeymap(updatedKeymap);
-      }
+      setLocalKeymap(updatedKeymap);
+      const newCode = generateKeymapC(
+        updatedKeymap,
+        layoutData?.keysPerRow
+      );
       // Update the ref so the useEffect won't re-parse when this code
       // comes back from the parent via props.
       prevKeymapCodeRef.current = newCode;
       onChangeCode(newCode);
     },
-    [onChangeCode]
+    [onChangeCode, layoutData]
   );
 
   const handleKeyClick = useCallback(
