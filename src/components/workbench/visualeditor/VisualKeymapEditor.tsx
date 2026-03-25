@@ -1,14 +1,19 @@
-import React, { useState, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { t } from 'i18next';
 import {
   parseQmkKeyboardJson,
   getLayoutViewContent,
 } from '../../../services/workbench/QmkLayoutParser';
-import { parseKeymapC, ParsedKeymap } from '../../../services/workbench/KeymapCParser';
+import {
+  parseKeymapC,
+  ParsedKeymap,
+} from '../../../services/workbench/KeymapCParser';
 import { generateKeymapC } from '../../../services/workbench/KeymapCGenerator';
-import { nameToCode, codeToName } from '../../../services/workbench/QmkKeycodeMapper';
-import { KeycodeCompositionFactory } from '../../../services/hid/Composition';
+import {
+  nameToCode,
+  codeToName,
+} from '../../../services/workbench/QmkKeycodeMapper';
 import { KeycodeList } from '../../../services/hid/KeycodeList';
 import { genKey, Key } from '../../common/keycodekey/KeyGen';
 import CustomKey, {
@@ -28,11 +33,95 @@ type VisualKeymapEditorProps = {
   onChangeCode: (code: string) => void;
 };
 
+/**
+ * Convert a keycode name to a short display label for keycap rendering.
+ */
+function keycodeNameToLabel(name: string): string {
+  if (name === '_______' || name === 'KC_TRANSPARENT') return '▽';
+  if (name === 'XXXXXXX' || name === 'KC_NO') return ' ';
+  if (name.startsWith('KC_')) return name.substring(3);
+  return name;
+}
+
+/**
+ * Safely get an IKeymap and Key for a given keycode name.
+ * Returns null if the keycode cannot be resolved.
+ */
+function resolveKeyForPopover(keycodeName: string): Key | null {
+  try {
+    const code = nameToCode(keycodeName);
+    if (code === null) return null;
+    const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
+    return genKey(keymap, 'en-us');
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Calculate the popover position relative to a clicked element,
+ * following the same 4-direction logic as Configure's Keymap.tsx.
+ */
+function calculatePopoverPosition(
+  target: HTMLElement
+): PopoverPosition {
+  const rect = target.getBoundingClientRect();
+  const { left, top, right, height, width } = rect;
+  const center = left + width / 2;
+  const maxTop = top - CUSTOMKEY_POPOVER_HEIGHT;
+  const maxBottom =
+    top + height + CUSTOMKEY_POPOVER_TRIANGLE + CUSTOMKEY_POPOVER_HEIGHT;
+  const isThin = maxTop < 0 && window.innerHeight < maxBottom;
+  const isLeftSideKey = center < window.innerWidth / 2;
+
+  if (left < 200 || (isThin && isLeftSideKey)) {
+    return {
+      left: left + width + CUSTOMKEY_POPOVER_TRIANGLE / 2,
+      top:
+        top +
+        height / 2 +
+        CUSTOMKEY_POPOVER_TRIANGLE -
+        CUSTOMKEY_POPOVER_HEIGHT / 2,
+      side: 'right',
+    };
+  } else if (
+    window.innerWidth - 200 < right ||
+    (isThin && !isLeftSideKey)
+  ) {
+    return {
+      left: left - CUSTOMKEY_POPOVER_WIDTH - CUSTOMKEY_POPOVER_TRIANGLE / 2,
+      top:
+        top +
+        height / 2 +
+        CUSTOMKEY_POPOVER_TRIANGLE -
+        CUSTOMKEY_POPOVER_HEIGHT / 2,
+      side: 'left',
+    };
+  } else if (top < 255) {
+    return {
+      left: left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2,
+      top: top + height + CUSTOMKEY_POPOVER_TRIANGLE,
+      side: 'below',
+    };
+  } else {
+    return {
+      left: left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2,
+      top: top - CUSTOMKEY_POPOVER_HEIGHT,
+      side: 'above',
+    };
+  }
+}
+
 export default function VisualKeymapEditor({
   keymapCode,
   keyboardJsonCode,
   onChangeCode,
 }: VisualKeymapEditorProps) {
+  // Local state for the parsed keymap — updated optimistically on edits,
+  // and synced from props when the external code changes.
+  const [localKeymap, setLocalKeymap] = useState<ParsedKeymap | null>(null);
+  const [lastExternalCode, setLastExternalCode] = useState<string>('');
+
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -43,13 +132,14 @@ export default function VisualKeymapEditor({
   });
   const [selectedKeyValue, setSelectedKeyValue] = useState<Key | null>(null);
 
-  const keyRefs = useRef<Record<number, HTMLDivElement | null>>({});
-
-  // Parse keymap.c
-  const parsedKeymap = useMemo(
-    () => parseKeymapC(keymapCode),
-    [keymapCode]
-  );
+  // Sync local keymap from external code changes
+  useEffect(() => {
+    if (keymapCode !== lastExternalCode) {
+      const parsed = parseKeymapC(keymapCode);
+      setLocalKeymap(parsed);
+      setLastExternalCode(keymapCode);
+    }
+  }, [keymapCode, lastExternalCode]);
 
   // Parse keyboard.json to get layout info
   const layoutData = useMemo(() => {
@@ -66,149 +156,115 @@ export default function VisualKeymapEditor({
     }
   }, [keyboardJsonCode]);
 
+  // Reset popover and selection when layer changes
+  useEffect(() => {
+    setPopoverOpen(false);
+    setSelectedKeyIndex(null);
+    setSelectedKeyValue(null);
+  }, [selectedLayer]);
+
   // Convert keycode names to display labels for current layer
   const keyLabels = useMemo(() => {
-    if (!parsedKeymap || selectedLayer >= parsedKeymap.layers.length) return [];
-    return parsedKeymap.layers[selectedLayer].keycodeNames.map((name) => {
-      // Shorten common prefixes for display
-      if (name === '_______') return '▽';
-      if (name === 'XXXXXXX') return ' ';
-      if (name.startsWith('KC_')) return name.substring(3);
-      return name;
-    });
-  }, [parsedKeymap, selectedLayer]);
+    if (!localKeymap || selectedLayer >= localKeymap.layers.length) return [];
+    return localKeymap.layers[selectedLayer].keycodeNames.map(
+      keycodeNameToLabel
+    );
+  }, [localKeymap, selectedLayer]);
+
+  // Apply a change to the local keymap and propagate to parent
+  const applyKeymapUpdate = useCallback(
+    (updatedKeymap: ParsedKeymap) => {
+      setLocalKeymap(updatedKeymap);
+      const newCode = generateKeymapC(updatedKeymap);
+      setLastExternalCode(newCode);
+      onChangeCode(newCode);
+    },
+    [onChangeCode]
+  );
 
   const handleKeyClick = useCallback(
     (index: number, e: React.MouseEvent) => {
-      if (!parsedKeymap || !layoutData) return;
-      if (selectedLayer >= parsedKeymap.layers.length) return;
+      if (!localKeymap || !layoutData) return;
+      if (selectedLayer >= localKeymap.layers.length) return;
+      if (index >= localKeymap.layers[selectedLayer].keycodeNames.length) return;
 
       const keycodeName =
-        parsedKeymap.layers[selectedLayer].keycodeNames[index];
-      const code = nameToCode(keycodeName);
-      if (code === null) return;
+        localKeymap.layers[selectedLayer].keycodeNames[index];
+      const key = resolveKeyForPopover(keycodeName);
+      if (!key) return;
 
-      // Get IKeymap for the code
-      const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
-      const key = genKey(keymap, 'en-us');
-
-      // Calculate popover position from the clicked element
-      const target = e.currentTarget as HTMLElement;
-      const rect = target.getBoundingClientRect();
-      const { left, top, right, height, width } = rect;
-      const center = left + width / 2;
-      const maxTop = top - CUSTOMKEY_POPOVER_HEIGHT;
-      const maxBottom =
-        top + height + CUSTOMKEY_POPOVER_TRIANGLE + CUSTOMKEY_POPOVER_HEIGHT;
-      const isThin = maxTop < 0 && window.innerHeight < maxBottom;
-      const isLeftSideKey = center < window.innerWidth / 2;
-      let position: PopoverPosition = { left: 0, top: 0, side: 'above' };
-
-      if (left < 200 || (isThin && isLeftSideKey)) {
-        position.left = left + width + CUSTOMKEY_POPOVER_TRIANGLE / 2;
-        position.top =
-          top + height / 2 + CUSTOMKEY_POPOVER_TRIANGLE - CUSTOMKEY_POPOVER_HEIGHT / 2;
-        position.side = 'right';
-      } else if (
-        window.innerWidth - 200 < right ||
-        (isThin && !isLeftSideKey)
-      ) {
-        position.left =
-          left - CUSTOMKEY_POPOVER_WIDTH - CUSTOMKEY_POPOVER_TRIANGLE / 2;
-        position.top =
-          top + height / 2 + CUSTOMKEY_POPOVER_TRIANGLE - CUSTOMKEY_POPOVER_HEIGHT / 2;
-        position.side = 'left';
-      } else if (top < 255) {
-        position.left = left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2;
-        position.top = top + height + CUSTOMKEY_POPOVER_TRIANGLE;
-        position.side = 'below';
-      } else {
-        position.left = left + width / 2 - CUSTOMKEY_POPOVER_WIDTH / 2;
-        position.top = top - CUSTOMKEY_POPOVER_HEIGHT;
-        position.side = 'above';
-      }
+      const position = calculatePopoverPosition(
+        e.currentTarget as HTMLElement
+      );
 
       setSelectedKeyIndex(index);
       setSelectedKeyValue(key);
       setPopoverPosition(position);
       setPopoverOpen(true);
     },
-    [parsedKeymap, layoutData, selectedLayer]
+    [localKeymap, layoutData, selectedLayer]
   );
 
   const handleKeyChange = useCallback(
     (newKey: Key) => {
       if (
-        !parsedKeymap ||
+        !localKeymap ||
         selectedKeyIndex === null ||
-        selectedLayer >= parsedKeymap.layers.length
+        selectedLayer >= localKeymap.layers.length
       ) {
         return;
       }
 
       const newName = codeToName(newKey.keymap.code);
 
-      // Update the parsed keymap with the new keycode name
-      const updatedLayers = parsedKeymap.layers.map((layer) => {
-        if (layer.index !== parsedKeymap.layers[selectedLayer].index) {
-          return layer;
-        }
+      const updatedLayers = localKeymap.layers.map((layer, i) => {
+        if (i !== selectedLayer) return layer;
         const updatedNames = [...layer.keycodeNames];
         updatedNames[selectedKeyIndex] = newName;
         return { ...layer, keycodeNames: updatedNames };
       });
 
-      const updatedKeymap: ParsedKeymap = {
-        ...parsedKeymap,
-        layers: updatedLayers,
-      };
+      applyKeymapUpdate({ ...localKeymap, layers: updatedLayers });
 
-      const newCode = generateKeymapC(updatedKeymap);
-      onChangeCode(newCode);
+      // Update the selected key value for the popover
+      const updatedKey = resolveKeyForPopover(newName);
+      if (updatedKey) {
+        setSelectedKeyValue(updatedKey);
+      }
     },
-    [parsedKeymap, selectedKeyIndex, selectedLayer, onChangeCode]
+    [localKeymap, selectedKeyIndex, selectedLayer, applyKeymapUpdate]
   );
 
   const handleAddLayer = useCallback(() => {
-    if (!parsedKeymap) return;
+    if (!localKeymap) return;
 
-    const lastLayer = parsedKeymap.layers[parsedKeymap.layers.length - 1];
+    const lastLayer = localKeymap.layers[localKeymap.layers.length - 1];
     const newLayerIndex = lastLayer.index + 1;
-    // Create a new layer with all KC_NO
     const keyCount = lastLayer.keycodeNames.length;
     const newLayer = {
       index: newLayerIndex,
       keycodeNames: Array(keyCount).fill('KC_NO'),
     };
 
-    const updatedKeymap: ParsedKeymap = {
-      ...parsedKeymap,
-      layers: [...parsedKeymap.layers, newLayer],
-    };
-
-    const newCode = generateKeymapC(updatedKeymap);
-    onChangeCode(newCode);
-  }, [parsedKeymap, onChangeCode]);
+    applyKeymapUpdate({
+      ...localKeymap,
+      layers: [...localKeymap.layers, newLayer],
+    });
+  }, [localKeymap, applyKeymapUpdate]);
 
   const handleDeleteLayer = useCallback(() => {
-    if (!parsedKeymap || parsedKeymap.layers.length <= 1) return;
+    if (!localKeymap || localKeymap.layers.length <= 1) return;
 
-    const updatedLayers = parsedKeymap.layers.filter(
+    const updatedLayers = localKeymap.layers.filter(
       (_, i) => i !== selectedLayer
     );
 
-    const updatedKeymap: ParsedKeymap = {
-      ...parsedKeymap,
-      layers: updatedLayers,
-    };
-
-    const newCode = generateKeymapC(updatedKeymap);
-    onChangeCode(newCode);
+    applyKeymapUpdate({ ...localKeymap, layers: updatedLayers });
 
     if (selectedLayer >= updatedLayers.length) {
       setSelectedLayer(updatedLayers.length - 1);
     }
-  }, [parsedKeymap, selectedLayer, onChangeCode]);
+  }, [localKeymap, selectedLayer, applyKeymapUpdate]);
 
   // Error states
   if (!keyboardJsonCode) {
@@ -234,7 +290,7 @@ export default function VisualKeymapEditor({
     );
   }
 
-  if (!parsedKeymap) {
+  if (!localKeymap) {
     return (
       <div className="visual-keymap-error">
         <Typography variant="body2">
@@ -249,14 +305,21 @@ export default function VisualKeymapEditor({
 
   const { keyModels, viewContent } = layoutData;
 
-  // Calculate scale to fit the keyboard in the available space
+  // Guard against key count mismatch between layout and keymap
+  const currentLayerKeyCount =
+    selectedLayer < localKeymap.layers.length
+      ? localKeymap.layers[selectedLayer].keycodeNames.length
+      : 0;
+  const layoutKeyCount = keyModels.length;
+  const displayKeyCount = Math.min(currentLayerKeyCount, layoutKeyCount);
+
   const keyboardWidth = viewContent.width + 16;
   const keyboardHeight = viewContent.height + 16;
 
   return (
     <div className="visual-keymap-editor">
       <LayerSelector
-        layerCount={parsedKeymap.layers.length}
+        layerCount={localKeymap.layers.length}
         selectedLayer={selectedLayer}
         onSelectLayer={setSelectedLayer}
         onAddLayer={handleAddLayer}
@@ -274,7 +337,7 @@ export default function VisualKeymapEditor({
               height: viewContent.height,
             }}
           >
-            {keyModels.map((model, index) => (
+            {keyModels.slice(0, displayKeyCount).map((model, index) => (
               <VisualKeycap
                 key={`${model.pos}-${index}`}
                 model={model}
@@ -292,7 +355,7 @@ export default function VisualKeymapEditor({
           open={popoverOpen}
           position={popoverPosition}
           value={selectedKeyValue}
-          layerCount={parsedKeymap.layers.length}
+          layerCount={localKeymap.layers.length}
           labelLang="en-us"
           bleMicroPro={false}
           onClose={() => {
