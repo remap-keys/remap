@@ -64,10 +64,11 @@ export default function VisualKeycap({
     left: BORDER + MARGIN_W + BORDER,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: hasMeta ? 'flex-start' : 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
     padding: '1px',
+    gap: 0,
   };
 
   return (
