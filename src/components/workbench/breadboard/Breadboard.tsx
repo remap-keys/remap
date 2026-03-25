@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -47,6 +47,7 @@ import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
 import LayoutPreviewDialog from '../dialogs/LayoutPreviewDialog';
 import KeyboardJsonEditorDialog from '../dialogs/KeyboardJsonEditorDialog';
+import VisualKeymapEditor from '../visualeditor/VisualKeymapEditor';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -362,23 +363,11 @@ export default function Breadboard(
                 flexDirection: 'column',
               }}
             >
-              <WorkbenchSourceCodeEditor
+              <EditorWithVisualTab
                 project={props.currentProject}
-                file={
-                  props.currentProject === undefined
-                    ? undefined
-                    : props.selectedFile === undefined
-                      ? undefined
-                      : props.selectedFile.fileType === 'keyboard'
-                        ? props.currentProject.keyboardFiles.find(
-                            (file) => file.id === props.selectedFile!.fileId
-                          )
-                        : props.currentProject.keymapFiles.find(
-                            (file) => file.id === props.selectedFile!.fileId
-                          )
-                }
+                selectedFile={props.selectedFile}
                 onChangeCode={onChangeCode}
-                fontSize={editorFontSize}
+                editorFontSize={editorFontSize}
                 onFontSizeChange={setEditorFontSize}
               />
             </Paper>
@@ -563,6 +552,99 @@ export default function Breadboard(
           }
         }}
       />
+    </>
+  );
+}
+
+type EditorWithVisualTabProps = {
+  project: IWorkbenchProject | undefined;
+  selectedFile:
+    | { fileId: string; fileType: IBuildableFirmwareFileType }
+    | undefined;
+  onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+  editorFontSize: number;
+  onFontSizeChange: (size: number) => void;
+};
+
+function EditorWithVisualTab(props: EditorWithVisualTabProps) {
+  const [editorTab, setEditorTab] = useState(0);
+
+  const file = useMemo(() => {
+    if (props.project === undefined || props.selectedFile === undefined) {
+      return undefined;
+    }
+    return props.selectedFile.fileType === 'keyboard'
+      ? props.project.keyboardFiles.find(
+          (f) => f.id === props.selectedFile!.fileId
+        )
+      : props.project.keymapFiles.find(
+          (f) => f.id === props.selectedFile!.fileId
+        );
+  }, [props.project, props.selectedFile]);
+
+  const isKeymapCFile =
+    props.selectedFile?.fileType === 'keymap' &&
+    file?.path?.endsWith('.c');
+
+  const keyboardJsonCode = useMemo(() => {
+    if (!props.project) return undefined;
+    const kbFile = props.project.keyboardFiles.find(
+      (f) => f.path === 'keyboard.json'
+    );
+    return kbFile?.code;
+  }, [props.project]);
+
+  // Reset to Code Editor tab when file changes or is not a keymap
+  useEffect(() => {
+    if (!isKeymapCFile) {
+      setEditorTab(0);
+    }
+  }, [isKeymapCFile, file?.id]);
+
+  const handleVisualEditorCodeChange = useCallback(
+    (code: string) => {
+      if (file) {
+        props.onChangeCode(file, code);
+      }
+    },
+    [file, props.onChangeCode]
+  );
+
+  return (
+    <>
+      {isKeymapCFile && (
+        <Tabs
+          value={editorTab}
+          onChange={(_, newValue) => setEditorTab(newValue)}
+          sx={{ minHeight: 32, borderBottom: 1, borderColor: 'divider' }}
+        >
+          <Tab
+            label={t('Code Editor')}
+            sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+          />
+          <Tab
+            label={t('Visual Editor')}
+            sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+          />
+        </Tabs>
+      )}
+      {editorTab === 0 || !isKeymapCFile ? (
+        <WorkbenchSourceCodeEditor
+          project={props.project}
+          file={file}
+          onChangeCode={props.onChangeCode}
+          fontSize={props.editorFontSize}
+          onFontSizeChange={props.onFontSizeChange}
+        />
+      ) : (
+        file && (
+          <VisualKeymapEditor
+            keymapCode={file.code}
+            keyboardJsonCode={keyboardJsonCode}
+            onChangeCode={handleVisualEditorCodeChange}
+          />
+        )
+      )}
     </>
   );
 }

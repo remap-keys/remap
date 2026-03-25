@@ -1,0 +1,108 @@
+$key-size: 56px;
+
+.visual-keymap-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.visual-keymap-keyboard-area {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+}
+
+.visual-keymap-keyboard-root {
+  border: 5px solid #ececec;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2));
+  padding: 8px;
+  transform-origin: top left;
+}
+
+.visual-keymap-keyboard-frame {
+  position: relative;
+}
+
+// Reuse the same key styling from LayoutPreviewDialog
+.layout-preview-key {
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.layout-preview-key-roof-base {
+  position: absolute;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 3px;
+  pointer-events: none;
+  background-color: #f2f2f2;
+}
+
+.layout-preview-key-roof {
+  position: absolute;
+  border-radius: 2px;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.visual-keycap-label {
+  font-size: 10px;
+  font-family: monospace;
+  color: #333;
+  user-select: none;
+  text-align: center;
+  line-height: 1.1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.visual-keycap-base {
+  cursor: pointer;
+
+  &:hover {
+    .layout-preview-key {
+      border-color: #1976d2;
+      border-width: 2px;
+    }
+  }
+
+  &.visual-keycap-selected {
+    z-index: 5;
+
+    .layout-preview-key {
+      border-color: #1976d2;
+      border-width: 2px;
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+    }
+
+    .layout-preview-key-roof-base {
+      background-color: #e3f2fd;
+    }
+
+    .layout-preview-key-roof {
+      background-color: #e3f2fd;
+    }
+  }
+}
+
+.visual-keymap-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+}
