@@ -295,13 +295,14 @@ export default function VisualKeymapEditor({
     if (!localKeymap) return;
 
     const lastLayer = localKeymap.layers[localKeymap.layers.length - 1];
-    const newLayerIndex = lastLayer.index + 1;
+    const lastIndex = parseInt(lastLayer.index);
+    const newLayerIndex = isNaN(lastIndex)
+      ? String(localKeymap.layers.length)
+      : String(lastIndex + 1);
     const keyCount = lastLayer.keycodeNames.length;
     const newLayer = {
       index: newLayerIndex,
       keycodeNames: Array(keyCount).fill('KC_NO') as string[],
-      sourceStart: -1,
-      sourceEnd: -1,
     };
 
     applyKeymapUpdate({

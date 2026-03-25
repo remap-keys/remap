@@ -11,7 +11,7 @@ describe('KeymapCGenerator', () => {
         layoutMacroName: 'LAYOUT',
         layers: [
           {
-            index: 0,
+            index: '0',
             keycodeNames: ['KC_A', 'KC_B', 'KC_C', 'KC_D'],
           },
         ],
@@ -29,7 +29,7 @@ describe('KeymapCGenerator', () => {
         layoutMacroName: 'LAYOUT',
         layers: [
           {
-            index: 0,
+            index: '0',
             keycodeNames: [
               'KC_A',
               'KC_B',
@@ -113,8 +113,8 @@ void keyboard_post_init_user(void) {
           '#include QMK_KEYBOARD_H\n\nconst uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {',
         layoutMacroName: 'LAYOUT',
         layers: [
-          { index: 0, keycodeNames: ['KC_A', 'KC_B', 'MO(1)'] },
-          { index: 1, keycodeNames: ['KC_1', 'KC_2', '_______'] },
+          { index: '0', keycodeNames: ['KC_A', 'KC_B', 'MO(1)'] },
+          { index: '1', keycodeNames: ['KC_1', 'KC_2', '_______'] },
         ],
         postamble: '',
       };

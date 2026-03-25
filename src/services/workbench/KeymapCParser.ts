@@ -2,7 +2,7 @@
  * Parsed representation of a keymap.c file.
  */
 export type ParsedKeymapLayer = {
-  index: number;
+  index: string;
   keycodeNames: string[];
 };
 
@@ -142,13 +142,13 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
   // Remove comments for keycode parsing
   const cleanContent = removeComments(arrayContent);
 
-  const layerPattern = /\[\s*(\d+)\s*\]\s*=\s*(LAYOUT\w*)\s*\(/g;
+  const layerPattern = /\[\s*(\w+)\s*\]\s*=\s*(LAYOUT\w*)\s*\(/g;
   const layers: ParsedKeymapLayer[] = [];
   let layoutMacroName = '';
   let match;
 
   while ((match = layerPattern.exec(cleanContent)) !== null) {
-    const layerIndex = parseInt(match[1]);
+    const layerIndex = match[1];
     const macroName = match[2];
     if (!layoutMacroName) {
       layoutMacroName = macroName;
