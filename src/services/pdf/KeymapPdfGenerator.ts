@@ -13,10 +13,10 @@ import { KeyOp } from '../../gen/types/KeyboardDefinition';
 import KeyboardModel from '../../models/KeyboardModel';
 import KeyModel from '../../models/KeyModel';
 import download from 'downloadjs';
-import { buildHoldKeyLabel } from '../../components/configure/customkey/TabHoldTapKey';
-import { buildModLabel } from '../../components/configure/customkey/Modifiers';
+import { buildHoldKeyLabel } from '../../components/common/customkey/TabHoldTapKey';
+import { buildModLabel } from '../../components/common/customkey/Modifiers';
 import { isDoubleWidthString } from '../../utils/StringUtils';
-import { Key } from '../../components/configure/keycodekey/KeyGen';
+import { Key } from '../../components/common/keycodekey/KeyGen';
 import { KeyboardLabelLang, KeyLabelLangs } from '../labellang/KeyLabelLangs';
 import { LayoutOption } from '../../components/configure/keymap/Keymap';
 

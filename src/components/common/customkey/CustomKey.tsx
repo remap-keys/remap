@@ -4,7 +4,7 @@ import './CustomKey.scss';
 import Popover from '@mui/material/Popover';
 import { AppBar, Tab, Tabs, TextField } from '@mui/material';
 import { Key } from '../keycodekey/KeyGen';
-import TabKey from './TabKey.container';
+import TabKey from './TabKey';
 import {
   DIRECTION_LABELS,
   MOD_LABELS,
@@ -50,6 +50,9 @@ type OwnProps = {
   // eslint-disable-next-line no-unused-vars
   onChange: (newKey: Key) => void;
   customKeycodes: ICustomKeycode[] | undefined;
+  macroBufferBytes?: Uint8Array;
+  macroMaxBufferSize?: number;
+  macroMaxCount?: number;
 };
 
 type OwnState = {
@@ -351,6 +354,10 @@ export default class CustomKey extends React.Component<OwnProps, OwnState> {
               onChangeKey={(opt: IKeymap) => {
                 this.onChangeKey(opt);
               }}
+              macroBufferBytes={this.props.macroBufferBytes}
+              macroMaxBufferSize={this.props.macroMaxBufferSize}
+              macroMaxCount={this.props.macroMaxCount}
+              customKeycodes={this.props.customKeycodes}
             />
           </TabPanel>
           <TabPanel

@@ -1,4 +1,4 @@
-import { genKey, Key } from '../../components/configure/keycodekey/KeyGen';
+import { genKey, Key } from '../../components/common/keycodekey/KeyGen';
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import { KeycodeCompositionFactory } from '../hid/Composition';
 import { cloneUint8Array } from '../../utils/ArrayUtils';

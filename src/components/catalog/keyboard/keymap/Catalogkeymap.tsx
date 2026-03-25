@@ -14,7 +14,7 @@ import { KeyLabelLangs } from '../../../../services/labellang/KeyLabelLangs';
 import LayoutOptionComponentList from '../../../configure/layoutoption/LayoutOptionComponentList.container';
 import CatalogKeymapList from './CatalogKeymapList.container';
 import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
-import { genKey, Key } from '../../../configure/keycodekey/KeyGen';
+import { genKey, Key } from '../../../common/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../../services/pdf/KeymapPdfGenerator';
 import { sendEventToGoogleAnalytics } from '../../../../utils/GoogleAnalytics';
 import LayerPagination from '../../../common/layer/LayerPagination';

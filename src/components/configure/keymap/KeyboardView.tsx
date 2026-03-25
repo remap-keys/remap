@@ -2,7 +2,7 @@ import KeyModel from '../../../models/KeyModel';
 import { IEncoderKeymaps, IKeymap } from '../../../services/hid/Hid';
 import { KeyboardViewContent } from '../../../models/KeyboardModel';
 import { IKeySwitchOperation } from '../../../store/state';
-import { Key } from '../keycodekey/KeyGen';
+import { Key } from '../../common/keycodekey/KeyGen';
 import React from 'react';
 import Keycap from '../keycap/Keycap.container';
 import { LayoutOption } from './Keymap';

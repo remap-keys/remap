@@ -5,7 +5,7 @@ import {
   MacroEditorStateType,
 } from './MacroEditor.container';
 import { Button } from '@mui/material';
-import { genKey } from '../keycodekey/KeyGen';
+import { genKey } from '../../common/keycodekey/KeyGen';
 import {
   Hold,
   MacroHold,

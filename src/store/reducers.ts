@@ -103,7 +103,7 @@ import {
 } from '../actions/storage.action';
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
 import { KeycodeInfo } from '../components/configure/keycodekey/KeycodeKey.container';
-import { Key } from '../components/configure/keycodekey/KeyGen';
+import { Key } from '../components/common/keycodekey/KeyGen';
 import { IKeyboard, IKeycodeCategory } from '../services/hid/Hid';
 import {
   CONDITION_NOT_SELECTED,

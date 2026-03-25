@@ -1,5 +1,5 @@
 import { AnyKey } from '../components/configure/keycodekey/KeycodeKey';
-import { Key } from '../components/configure/keycodekey/KeyGen';
+import { Key } from '../components/common/keycodekey/KeyGen';
 import KeyModel from '../models/KeyModel';
 import { IEncoderKeymap, IKeymap } from '../services/hid/Hid';
 import { KeyboardLabelLang } from '../services/labellang/KeyLabelLangs';

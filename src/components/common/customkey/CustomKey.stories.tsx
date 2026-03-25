@@ -2,7 +2,7 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import CustomKey from './CustomKey';
-import Keycap from '../keycap/Keycap';
+import Keycap from '../../configure/keycap/Keycap';
 import KeyModel from '../../../models/KeyModel';
 import { Key } from '../keycodekey/KeyGen';
 import { MOD_LEFT } from '../../../services/hid/Constraints';

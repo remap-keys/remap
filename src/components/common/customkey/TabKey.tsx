@@ -11,7 +11,7 @@ import Modifiers from './Modifiers';
 import { IKeymap } from '../../../services/hid/Hid';
 import { KeyCategory } from '../../../services/hid/KeyCategoryList';
 import { KeyboardLabelLang } from '../../../services/labellang/KeyLabelLangs';
-import { TabKeyActionsType, TabKeyStateType } from './TabKey.container';
+import { ICustomKeycode } from '../../../services/hid/Hid';
 import { IMacroBuffer, MacroBuffer } from '../../../services/macro/Macro';
 import { ModsComposition } from '../../../services/hid/compositions/ModsComposition';
 import { OneShotModComposition } from '../../../services/hid/compositions/OneShotModComposition';
@@ -20,7 +20,7 @@ import { LayerModComposition } from '../../../services/hid/compositions/LayerMod
 import { MOD_LEFT } from '../../../services/hid/Constraints';
 import { t } from 'i18next';
 
-type OwnProps = {
+type TabKeyProps = {
   autoFocus: boolean;
   value: IKeymap | null; // Keys
   desc: string;
@@ -32,15 +32,16 @@ type OwnProps = {
     // eslint-disable-next-line no-unused-vars
     opt: IKeymap
   ) => void;
+  macroBufferBytes?: Uint8Array;
+  macroMaxBufferSize?: number;
+  macroMaxCount?: number;
+  customKeycodes?: ICustomKeycode[];
 };
-type TabKeyProps = OwnProps &
-  Partial<TabKeyActionsType> &
-  Partial<TabKeyStateType>;
 
 type OwnState = {};
 export default class TabKey extends React.Component<TabKeyProps, OwnState> {
   private static basicKeymaps: { [pos: string]: IKeymap[] } = {};
-  constructor(props: TabKeyProps | Readonly<OwnProps>) {
+  constructor(props: TabKeyProps | Readonly<TabKeyProps>) {
     super(props);
     this.state = {};
   }
@@ -129,7 +130,7 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
       ...KeyCategory.basic(labelLang),
       ...KeyCategory.functions(
         labelLang,
-        this.props.keyboardDefinition!.customKeycodes
+        this.props.customKeycodes
       ),
       ...KeyCategory.layer(layerCount),
       ...LayerModComposition.genKeymaps(layerCount),

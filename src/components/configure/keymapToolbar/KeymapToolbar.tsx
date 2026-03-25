@@ -25,7 +25,7 @@ import {
   KeymapMenuStateType,
 } from './KeymapToolbar.container';
 import { IKeymap } from '../../../services/hid/Hid';
-import { genKey, Key } from '../keycodekey/KeyGen';
+import { genKey, Key } from '../../common/keycodekey/KeyGen';
 import { KeymapPdfGenerator } from '../../../services/pdf/KeymapPdfGenerator';
 import LightingDialog from '../lighting/LightingDialog';
 import LayoutOptionPopover from '../layoutoption/LayoutOptionPopover.container';

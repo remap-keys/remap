@@ -6,7 +6,7 @@ import {
   KeycodeKeyActions,
 } from '../../../actions/actions';
 import { IKeycodeInfo } from '../../../services/hid/Hid';
-import { Key } from './KeyGen';
+import { Key } from '../../common/keycodekey/KeyGen';
 import { MacroActionsThunk } from '../../../actions/macro.action';
 
 export class KeycodeInfo implements IKeycodeInfo {
