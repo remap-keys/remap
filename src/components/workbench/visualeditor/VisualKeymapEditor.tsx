@@ -34,12 +34,12 @@ type VisualKeymapEditorProps = {
 };
 
 /**
- * Convert a keycode name to a short display label for keycap rendering.
+ * Convert a keycode name to a display label for keycap rendering.
+ * Shows the exact QMK keycode name to match the source code.
  */
 function keycodeNameToLabel(name: string): string {
-  if (name === '_______' || name === 'KC_TRANSPARENT') return '▽';
-  if (name === 'XXXXXXX' || name === 'KC_NO') return ' ';
-  if (name.startsWith('KC_')) return name.substring(3);
+  if (name === '_______') return '▽';
+  if (name === 'XXXXXXX') return ' ';
   return name;
 }
 
