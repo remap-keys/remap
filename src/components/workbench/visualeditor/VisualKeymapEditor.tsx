@@ -174,11 +174,12 @@ export default function VisualKeymapEditor({
       const keyModels = parsed.getKeyModels(layoutName);
       const viewContent = getLayoutViewContent(keyModels);
 
-      // Calculate keys per row by grouping KeyModels by their y coordinate
+      // Calculate keys per row by grouping layout keys by their matrix row
+      const layoutKeys = parsed.getLayoutKeys(layoutName);
       const rowMap = new Map<number, number>();
-      for (const model of keyModels) {
-        const y = Math.round(model.top);
-        rowMap.set(y, (rowMap.get(y) ?? 0) + 1);
+      for (const key of layoutKeys) {
+        const row = key.matrix[0];
+        rowMap.set(row, (rowMap.get(row) ?? 0) + 1);
       }
       const keysPerRow = Array.from(rowMap.entries())
         .sort(([a], [b]) => a - b)

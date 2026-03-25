@@ -81,6 +81,7 @@ export function getLayoutViewContent(keyModels: KeyModel[]): LayoutViewContent {
 export function parseQmkKeyboardJson(content: string): {
   layoutNames: string[];
   getKeyModels: (layoutName: string) => KeyModel[];
+  getLayoutKeys: (layoutName: string) => QmkLayoutKey[];
   getLayoutViewContent: (layoutName: string) => LayoutViewContent;
 } {
   const json = JSON.parse(content);
@@ -95,6 +96,13 @@ export function parseQmkKeyboardJson(content: string): {
         throw new Error(`Layout "${layoutName}" not found`);
       }
       return qmkLayoutToKeyModels(layoutDef.layout);
+    },
+    getLayoutKeys(layoutName: string): QmkLayoutKey[] {
+      const layoutDef = layouts[layoutName];
+      if (!layoutDef) {
+        throw new Error(`Layout "${layoutName}" not found`);
+      }
+      return layoutDef.layout;
     },
     getLayoutViewContent(layoutName: string): LayoutViewContent {
       const keyModels = this.getKeyModels(layoutName);
