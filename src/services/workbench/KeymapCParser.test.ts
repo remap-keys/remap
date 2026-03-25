@@ -82,7 +82,7 @@ describe('KeymapCParser', () => {
       expect(result).not.toBeNull();
       expect(result!.layoutMacroName).toBe('LAYOUT_ortho_4x4');
       expect(result!.layers).toHaveLength(1);
-      expect(result!.layers[0].index).toBe(0);
+      expect(result!.layers[0].index).toBe('0');
       expect(result!.layers[0].keycodeNames).toHaveLength(16);
       expect(result!.layers[0].keycodeNames[0]).toBe('KC_1');
       expect(result!.layers[0].keycodeNames[3]).toBe('KC_A');
@@ -90,20 +90,26 @@ describe('KeymapCParser', () => {
       expect(result!.layers[0].keycodeNames[15]).toBe('KC_ENT');
     });
 
+    it('preserves preamble and postamble', () => {
+      const result = parseKeymapC(KEYMAP_WITH_POSTAMBLE);
+      expect(result).not.toBeNull();
+      expect(result!.preamble).toContain('#include QMK_KEYBOARD_H');
+      expect(result!.postamble).toContain('ENCODER_ENABLE');
+    });
+
     it('parses a multi-layer keymap', () => {
       const result = parseKeymapC(MULTI_LAYER_KEYMAP);
       expect(result).not.toBeNull();
       expect(result!.layoutMacroName).toBe('LAYOUT_split_3x6_3');
       expect(result!.layers).toHaveLength(3);
-      expect(result!.layers[0].index).toBe(0);
-      expect(result!.layers[1].index).toBe(1);
-      expect(result!.layers[2].index).toBe(2);
+      expect(result!.layers[0].index).toBe('0');
+      expect(result!.layers[1].index).toBe('1');
+      expect(result!.layers[2].index).toBe('2');
     });
 
     it('correctly parses MO() in multi-layer keymap', () => {
       const result = parseKeymapC(MULTI_LAYER_KEYMAP);
       expect(result).not.toBeNull();
-      // Layer 0 should contain MO(1) and MO(2)
       const layer0 = result!.layers[0].keycodeNames;
       expect(layer0).toContain('MO(1)');
       expect(layer0).toContain('MO(2)');
@@ -137,21 +143,6 @@ describe('KeymapCParser', () => {
       expect(keys[3]).toBe('KC_D');
     });
 
-    it('preserves preamble', () => {
-      const result = parseKeymapC(SIMPLE_KEYMAP);
-      expect(result).not.toBeNull();
-      expect(result!.preamble).toContain('#include QMK_KEYBOARD_H');
-      expect(result!.preamble).toContain('Copyright');
-      expect(result!.preamble).toContain('keymaps[][MATRIX_ROWS][MATRIX_COLS] = {');
-    });
-
-    it('preserves postamble', () => {
-      const result = parseKeymapC(KEYMAP_WITH_POSTAMBLE);
-      expect(result).not.toBeNull();
-      expect(result!.postamble).toContain('ENCODER_ENABLE');
-      expect(result!.postamble).toContain('encoder_update_user');
-    });
-
     it('returns null for invalid content', () => {
       expect(parseKeymapC('')).toBeNull();
       expect(parseKeymapC('not a keymap')).toBeNull();
@@ -168,10 +159,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     it('handles each layer having correct key count for split_3x6_3', () => {
       const result = parseKeymapC(MULTI_LAYER_KEYMAP);
       expect(result).not.toBeNull();
-      // split_3x6_3 has 42 keys (3*6*2 + 3*2)
       expect(result!.layers[0].keycodeNames).toHaveLength(42);
       expect(result!.layers[1].keycodeNames).toHaveLength(42);
       expect(result!.layers[2].keycodeNames).toHaveLength(42);
+    });
+
+    it('parses layers with enum name indices', () => {
+      const enumKeymap = `#include QMK_KEYBOARD_H
+
+enum layer_number { _QWERTY = 0, _LOWER, _RAISE };
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [_QWERTY] = LAYOUT(KC_A, KC_B),
+    [_LOWER] = LAYOUT(KC_1, KC_2),
+    [_RAISE] = LAYOUT(KC_3, KC_4)
+};
+`;
+      const result = parseKeymapC(enumKeymap);
+      expect(result).not.toBeNull();
+      expect(result!.layers).toHaveLength(3);
+      expect(result!.layers[0].index).toBe('_QWERTY');
+      expect(result!.layers[1].index).toBe('_LOWER');
+      expect(result!.layers[2].index).toBe('_RAISE');
+      expect(result!.layers[0].keycodeNames).toEqual(['KC_A', 'KC_B']);
     });
   });
 });

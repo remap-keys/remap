@@ -1,34 +1,49 @@
 import { ParsedKeymap } from './KeymapCParser';
 
 /**
- * Generate a keymap.c file content from a ParsedKeymap structure.
- * Produces well-formatted C code with consistent indentation.
+ * Generate keymap.c content from a ParsedKeymap.
+ * Preserves preamble and postamble exactly. Regenerates the keymaps array
+ * with proper formatting based on keysPerRow layout info.
+ *
+ * @param parsed - The parsed keymap structure
+ * @param keysPerRow - Array of key counts per row (e.g., [12, 12, 12, 6] for split_3x6_3).
+ *                     If not provided, all keycodes are placed on a single line.
  */
 export function generateKeymapC(
   parsed: ParsedKeymap,
-  keysPerRow?: number
+  keysPerRow?: number[]
 ): string {
+  const indent = '    ';
+  const keyIndent = indent + indent;
+
   let result = parsed.preamble + '\n';
 
   parsed.layers.forEach((layer, i) => {
-    const indent = '    ';
     result += `${indent}[${layer.index}] = ${parsed.layoutMacroName}(\n`;
 
-    if (keysPerRow && keysPerRow > 0) {
-      // Format with specified keys per row
-      const rows: string[][] = [];
-      for (let j = 0; j < layer.keycodeNames.length; j += keysPerRow) {
-        rows.push(layer.keycodeNames.slice(j, j + keysPerRow));
+    if (keysPerRow && keysPerRow.length > 0) {
+      let keyIndex = 0;
+      for (let row = 0; row < keysPerRow.length; row++) {
+        const count = keysPerRow[row];
+        const rowKeys: string[] = [];
+        for (let j = 0; j < count && keyIndex < layer.keycodeNames.length; j++) {
+          rowKeys.push(layer.keycodeNames[keyIndex]);
+          keyIndex++;
+        }
+        const isLastRow = keyIndex >= layer.keycodeNames.length;
+        result += keyIndent + rowKeys.join(', ');
+        if (!isLastRow) {
+          result += ',';
+        }
+        result += '\n';
       }
-      rows.forEach((row, rowIdx) => {
-        const isLastRow = rowIdx === rows.length - 1;
-        const line = row.join(', ');
-        result += `${indent}${indent}${line}${isLastRow ? '' : ','}\n`;
-      });
+      // Handle any remaining keycodes beyond keysPerRow total
+      if (keyIndex < layer.keycodeNames.length) {
+        const remaining = layer.keycodeNames.slice(keyIndex);
+        result += keyIndent + remaining.join(', ') + '\n';
+      }
     } else {
-      // Single line with all keycodes, wrapped for readability
-      const line = layer.keycodeNames.join(', ');
-      result += `${indent}${indent}${line}\n`;
+      result += keyIndent + layer.keycodeNames.join(', ') + '\n';
     }
 
     result += `${indent})`;

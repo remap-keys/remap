@@ -2,7 +2,7 @@
  * Parsed representation of a keymap.c file.
  */
 export type ParsedKeymapLayer = {
-  index: number;
+  index: string;
   keycodeNames: string[];
 };
 
@@ -69,9 +69,8 @@ function findMatchingParen(text: string, startIndex: number): number {
 
 /**
  * Remove C-style single-line and multi-line comments from text.
- * Used only for the keycode array area to avoid breaking preamble/postamble.
  */
-function removeCommentsFromKeycodeArea(text: string): string {
+function removeComments(text: string): string {
   let result = '';
   let i = 0;
   while (i < text.length) {
@@ -108,6 +107,7 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
   const preambleEnd = keymapsMatch.index + keymapsMatch[0].length;
   const preamble = content.substring(0, preambleEnd);
 
+  // Find the matching closing brace for the keymaps array
   const afterPreamble = content.substring(preambleEnd);
   let braceDepth = 1;
   let arrayEndIndex = -1;
@@ -128,6 +128,8 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
   }
 
   const arrayContent = afterPreamble.substring(0, arrayEndIndex);
+
+  // Find postamble: everything after the closing };
   const postambleStart = preambleEnd + arrayEndIndex;
   let postambleOffset = postambleStart;
   const rest = content.substring(postambleStart);
@@ -137,15 +139,16 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
   }
   const postamble = content.substring(postambleOffset);
 
-  const cleanContent = removeCommentsFromKeycodeArea(arrayContent);
+  // Remove comments for keycode parsing
+  const cleanContent = removeComments(arrayContent);
 
-  const layerPattern = /\[\s*(\d+)\s*\]\s*=\s*(LAYOUT\w*)\s*\(/g;
+  const layerPattern = /\[\s*(\w+)\s*\]\s*=\s*(LAYOUT\w*)\s*\(/g;
   const layers: ParsedKeymapLayer[] = [];
   let layoutMacroName = '';
   let match;
 
   while ((match = layerPattern.exec(cleanContent)) !== null) {
-    const layerIndex = parseInt(match[1]);
+    const layerIndex = match[1];
     const macroName = match[2];
     if (!layoutMacroName) {
       layoutMacroName = macroName;
@@ -163,20 +166,12 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
     );
     const keycodeNames = splitKeycodes(keycodeContent);
 
-    layers.push({
-      index: layerIndex,
-      keycodeNames,
-    });
+    layers.push({ index: layerIndex, keycodeNames });
   }
 
   if (layers.length === 0) {
     return null;
   }
 
-  return {
-    preamble,
-    layoutMacroName,
-    layers,
-    postamble,
-  };
+  return { preamble, layoutMacroName, layers, postamble };
 }

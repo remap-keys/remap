@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -47,6 +47,7 @@ import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
 import LayoutPreviewDialog from '../dialogs/LayoutPreviewDialog';
 import KeyboardJsonEditorDialog from '../dialogs/KeyboardJsonEditorDialog';
+import VisualKeymapEditor from '../visualeditor/VisualKeymapEditor';
 
 type OwnProps = {};
 type BreadboardProps = OwnProps &
@@ -362,23 +363,12 @@ export default function Breadboard(
                 flexDirection: 'column',
               }}
             >
-              <WorkbenchSourceCodeEditor
+              <EditorWithVisualTab
                 project={props.currentProject}
-                file={
-                  props.currentProject === undefined
-                    ? undefined
-                    : props.selectedFile === undefined
-                      ? undefined
-                      : props.selectedFile.fileType === 'keyboard'
-                        ? props.currentProject.keyboardFiles.find(
-                            (file) => file.id === props.selectedFile!.fileId
-                          )
-                        : props.currentProject.keymapFiles.find(
-                            (file) => file.id === props.selectedFile!.fileId
-                          )
-                }
+                selectedFile={props.selectedFile}
                 onChangeCode={onChangeCode}
-                fontSize={editorFontSize}
+                onUpdateFile={props.updateWorkbenchProjectFile!}
+                editorFontSize={editorFontSize}
                 onFontSizeChange={setEditorFontSize}
               />
             </Paper>
@@ -567,12 +557,153 @@ export default function Breadboard(
   );
 }
 
+type EditorWithVisualTabProps = {
+  project: IWorkbenchProject | undefined;
+  selectedFile:
+    | { fileId: string; fileType: IBuildableFirmwareFileType }
+    | undefined;
+  onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onUpdateFile: (
+    project: IWorkbenchProject,
+    file: IWorkbenchProjectFile,
+    path: string,
+    code: string,
+    refreshCurrentProject: boolean
+  ) => void;
+  editorFontSize: number;
+  onFontSizeChange: (size: number) => void;
+};
+
+function EditorWithVisualTab(props: EditorWithVisualTabProps) {
+  const [editorTab, setEditorTab] = useState(0);
+
+  const file = useMemo(() => {
+    if (props.project === undefined || props.selectedFile === undefined) {
+      return undefined;
+    }
+    return props.selectedFile.fileType === 'keyboard'
+      ? props.project.keyboardFiles.find(
+          (f) => f.id === props.selectedFile!.fileId
+        )
+      : props.project.keymapFiles.find(
+          (f) => f.id === props.selectedFile!.fileId
+        );
+  }, [props.project, props.selectedFile]);
+
+  const isKeymapCFile =
+    props.selectedFile?.fileType === 'keymap' &&
+    file?.path?.endsWith('.c');
+
+  const keyboardJsonCode = useMemo(() => {
+    if (!props.project) return undefined;
+    const kbFile = props.project.keyboardFiles.find(
+      (f) => f.path === 'keyboard.json'
+    );
+    return kbFile?.code;
+  }, [props.project]);
+
+  // Reset to Code Editor tab when file changes or is not a keymap
+  useEffect(() => {
+    if (!isKeymapCFile) {
+      setEditorTab(0);
+    }
+  }, [isKeymapCFile, file?.id]);
+
+  const handleVisualEditorCodeChange = useCallback(
+    (code: string) => {
+      if (file && props.project) {
+        // Update the file with refreshCurrentProject=true so the Redux state
+        // reflects the change immediately (needed for Code Editor tab sync).
+        props.onUpdateFile(props.project, file, file.path, code, true);
+      }
+    },
+    [file, props.project, props.onUpdateFile]
+  );
+
+  return (
+    <>
+      {isKeymapCFile && (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            borderBottom: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <Tabs
+            value={editorTab}
+            onChange={(_, newValue) => setEditorTab(newValue)}
+            sx={{ minHeight: 32, flexGrow: 1 }}
+          >
+            <Tab
+              label={t('Code Editor')}
+              sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+            />
+            <Tab
+              label={t('Visual Editor')}
+              sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+            />
+          </Tabs>
+          {editorTab === 0 && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pr: 1 }}>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  props.onFontSizeChange(Math.max(8, props.editorFontSize - 2))
+                }
+              >
+                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                  A-
+                </Typography>
+              </IconButton>
+              <Typography variant="caption" color="text.secondary">
+                {props.editorFontSize}px
+              </Typography>
+              <IconButton
+                size="small"
+                onClick={() =>
+                  props.onFontSizeChange(Math.min(32, props.editorFontSize + 2))
+                }
+              >
+                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                  A+
+                </Typography>
+              </IconButton>
+            </Box>
+          )}
+        </Box>
+      )}
+      {editorTab === 0 || !isKeymapCFile ? (
+        <WorkbenchSourceCodeEditor
+          project={props.project}
+          file={file}
+          onChangeCode={props.onChangeCode}
+          fontSize={props.editorFontSize}
+          onFontSizeChange={props.onFontSizeChange}
+          showFontSizeControls={!isKeymapCFile}
+        />
+      ) : (
+        file && (
+          <VisualKeymapEditor
+            keymapCode={file.code}
+            keyboardJsonCode={keyboardJsonCode}
+            onChangeCode={handleVisualEditorCodeChange}
+          />
+        )
+      )}
+    </>
+  );
+}
+
 type WorkbenchSourceCodeEditorProps = {
   project: IWorkbenchProject | undefined;
   file: IWorkbenchProjectFile | undefined;
   onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
   fontSize: number;
   onFontSizeChange: (size: number) => void;
+  showFontSizeControls?: boolean;
 };
 
 function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
@@ -649,42 +780,45 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
   };
 
   if (props.project !== undefined && props.file !== undefined) {
+    const showControls = props.showFontSizeControls !== false;
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            padding: '2px 8px',
-            gap: 4,
-            borderBottom: '1px solid #e0e0e0',
-          }}
-        >
-          <IconButton
-            size="small"
-            onClick={() =>
-              props.onFontSizeChange(Math.max(8, props.fontSize - 2))
-            }
+        {showControls && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              padding: '2px 8px',
+              gap: 4,
+              borderBottom: '1px solid #e0e0e0',
+            }}
           >
-            <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-              A-
+            <IconButton
+              size="small"
+              onClick={() =>
+                props.onFontSizeChange(Math.max(8, props.fontSize - 2))
+              }
+            >
+              <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                A-
+              </Typography>
+            </IconButton>
+            <Typography variant="caption" color="text.secondary">
+              {props.fontSize}px
             </Typography>
-          </IconButton>
-          <Typography variant="caption" color="text.secondary">
-            {props.fontSize}px
-          </Typography>
-          <IconButton
-            size="small"
-            onClick={() =>
-              props.onFontSizeChange(Math.min(32, props.fontSize + 2))
-            }
-          >
-            <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-              A+
-            </Typography>
-          </IconButton>
-        </div>
+            <IconButton
+              size="small"
+              onClick={() =>
+                props.onFontSizeChange(Math.min(32, props.fontSize + 2))
+              }
+            >
+              <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                A+
+              </Typography>
+            </IconButton>
+          </div>
+        )}
         <div style={{ flex: 1 }}>
           <Editor
             language={getLanguage(props.file.path)}
