@@ -20,34 +20,11 @@ export default function VisualKeycap({
   isSelected,
   onClick,
 }: VisualKeycapProps) {
-  const width = model.width;
-  const height = model.height;
-  const top = model.top;
-  const left = model.left;
-
-  const baseStyle: React.CSSProperties = {
-    position: 'absolute',
-    top,
-    left,
-    width,
-    height,
-    background: model.color,
-  };
-
-  const roofBaseStyle: React.CSSProperties = {
-    position: 'absolute',
-    width: width - (MARGIN_W + BORDER) * 2,
-    height: height - (MARGIN_H + BORDER) * 2,
-    top: top + ROOF_TOP,
-    left: left + BORDER + MARGIN_W,
-  };
-
-  const roofStyle: React.CSSProperties = {
-    position: 'absolute',
-    width: width - (MARGIN_W + BORDER * 2) * 2,
-    height: height - MARGIN_H * 2 - BORDER * 4,
-    top: top + ROOF_TOP + BORDER,
-    left: left + BORDER + MARGIN_W + BORDER,
+  const { width, height, top, left } = {
+    width: model.width,
+    height: model.height,
+    top: model.top,
+    left: model.left,
   };
 
   // Truncate label to fit within keycap
@@ -58,6 +35,41 @@ export default function VisualKeycap({
   // Adjust font size based on label length
   const fontSize = displayLabel.length > 6 ? 8 : displayLabel.length > 4 ? 9 : 10;
 
+  const wrapperStyle: React.CSSProperties = {
+    ...model.styleTransform,
+    position: 'absolute',
+    top,
+    left,
+    width,
+    height,
+  };
+
+  // Inner elements use relative positioning (0,0) since the wrapper handles absolute placement
+  const innerBaseStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width,
+    height,
+    background: model.color,
+  };
+
+  const innerRoofBaseStyle: React.CSSProperties = {
+    position: 'absolute',
+    width: width - (MARGIN_W + BORDER) * 2,
+    height: height - (MARGIN_H + BORDER) * 2,
+    top: ROOF_TOP,
+    left: BORDER + MARGIN_W,
+  };
+
+  const innerRoofStyle: React.CSSProperties = {
+    position: 'absolute',
+    width: width - (MARGIN_W + BORDER * 2) * 2,
+    height: height - MARGIN_H * 2 - BORDER * 4,
+    top: ROOF_TOP + BORDER,
+    left: BORDER + MARGIN_W + BORDER,
+  };
+
   return (
     <div
       className={[
@@ -66,12 +78,12 @@ export default function VisualKeycap({
       ]
         .filter(Boolean)
         .join(' ')}
-      style={model.styleTransform}
+      style={wrapperStyle}
       onClick={onClick}
     >
-      <div className="layout-preview-key" style={baseStyle} />
-      <div className="layout-preview-key-roof-base" style={roofBaseStyle} />
-      <div className="layout-preview-key-roof" style={roofStyle}>
+      <div className="layout-preview-key" style={innerBaseStyle} />
+      <div className="layout-preview-key-roof-base" style={innerRoofBaseStyle} />
+      <div className="layout-preview-key-roof" style={innerRoofStyle}>
         <span
           className="visual-keycap-label"
           style={{ fontSize: `${fontSize}px` }}
