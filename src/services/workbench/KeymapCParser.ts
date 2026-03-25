@@ -4,13 +4,15 @@
 export type ParsedKeymapLayer = {
   index: number;
   keycodeNames: string[];
+  // Position of the keycode content in the original text (between LAYOUT( and ))
+  sourceStart: number;
+  sourceEnd: number;
 };
 
 export type ParsedKeymap = {
-  preamble: string;
+  originalContent: string;
   layoutMacroName: string;
   layers: ParsedKeymapLayer[];
-  postamble: string;
 };
 
 /**
@@ -69,9 +71,9 @@ function findMatchingParen(text: string, startIndex: number): number {
 
 /**
  * Remove C-style single-line and multi-line comments from text.
- * Used only for the keycode array area to avoid breaking preamble/postamble.
+ * Used only for parsing keycodes from the array content.
  */
-function removeCommentsFromKeycodeArea(text: string): string {
+function removeComments(text: string): string {
   let result = '';
   let i = 0;
   while (i < text.length) {
@@ -95,9 +97,12 @@ function removeCommentsFromKeycodeArea(text: string): string {
 
 /**
  * Parse a keymap.c file content into a structured representation.
+ * Preserves the original content and records positions so that only
+ * keycode names can be replaced in-place.
  * Returns null if the content cannot be parsed.
  */
 export function parseKeymapC(content: string): ParsedKeymap | null {
+  // Find the keymaps array declaration
   const keymapsPattern =
     /keymaps\s*\[\s*\]\s*\[\s*MATRIX_ROWS\s*\]\s*\[\s*MATRIX_COLS\s*\]\s*=\s*\{/;
   const keymapsMatch = content.match(keymapsPattern);
@@ -105,67 +110,44 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
     return null;
   }
 
-  const preambleEnd = keymapsMatch.index + keymapsMatch[0].length;
-  const preamble = content.substring(0, preambleEnd);
-
-  const afterPreamble = content.substring(preambleEnd);
-  let braceDepth = 1;
-  let arrayEndIndex = -1;
-  for (let i = 0; i < afterPreamble.length; i++) {
-    if (afterPreamble[i] === '{') {
-      braceDepth++;
-    } else if (afterPreamble[i] === '}') {
-      braceDepth--;
-      if (braceDepth === 0) {
-        arrayEndIndex = i;
-        break;
-      }
-    }
-  }
-
-  if (arrayEndIndex === -1) {
-    return null;
-  }
-
-  const arrayContent = afterPreamble.substring(0, arrayEndIndex);
-  const postambleStart = preambleEnd + arrayEndIndex;
-  let postambleOffset = postambleStart;
-  const rest = content.substring(postambleStart);
-  const closingMatch = rest.match(/^\}\s*;/);
-  if (closingMatch) {
-    postambleOffset += closingMatch[0].length;
-  }
-  const postamble = content.substring(postambleOffset);
-
-  const cleanContent = removeCommentsFromKeycodeArea(arrayContent);
-
+  // Find layer patterns in the ORIGINAL content (not comment-stripped)
+  // to get correct source positions.
   const layerPattern = /\[\s*(\d+)\s*\]\s*=\s*(LAYOUT\w*)\s*\(/g;
   const layers: ParsedKeymapLayer[] = [];
   let layoutMacroName = '';
   let match;
 
-  while ((match = layerPattern.exec(cleanContent)) !== null) {
+  while ((match = layerPattern.exec(content)) !== null) {
+    // Only match layers that are within the keymaps array
+    if (match.index < keymapsMatch.index) continue;
+
     const layerIndex = parseInt(match[1]);
     const macroName = match[2];
     if (!layoutMacroName) {
       layoutMacroName = macroName;
     }
 
+    // Find matching closing paren in original content
     const openParenIndex = match.index + match[0].length - 1;
-    const closeParenIndex = findMatchingParen(cleanContent, openParenIndex);
+    const closeParenIndex = findMatchingParen(content, openParenIndex);
     if (closeParenIndex === -1) {
       continue;
     }
 
-    const keycodeContent = cleanContent.substring(
-      openParenIndex + 1,
-      closeParenIndex
-    );
-    const keycodeNames = splitKeycodes(keycodeContent);
+    // The keycode content is between the opening and closing parens
+    const sourceStart = openParenIndex + 1;
+    const sourceEnd = closeParenIndex;
+    const keycodeContentRaw = content.substring(sourceStart, sourceEnd);
+
+    // Strip comments for parsing keycodes, but keep source positions
+    const cleanContent = removeComments(keycodeContentRaw);
+    const keycodeNames = splitKeycodes(cleanContent);
 
     layers.push({
       index: layerIndex,
       keycodeNames,
+      sourceStart,
+      sourceEnd,
     });
   }
 
@@ -174,9 +156,8 @@ export function parseKeymapC(content: string): ParsedKeymap | null {
   }
 
   return {
-    preamble,
+    originalContent: content,
     layoutMacroName,
     layers,
-    postamble,
   };
 }

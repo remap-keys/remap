@@ -194,11 +194,18 @@ export default function VisualKeymapEditor({
     );
   }, [localKeymap, selectedLayer]);
 
-  // Apply a change to the local keymap and propagate to parent
+  // Apply a change to the local keymap and propagate to parent.
+  // After generating new code, re-parse it to get updated source positions.
   const applyKeymapUpdate = useCallback(
     (updatedKeymap: ParsedKeymap) => {
-      setLocalKeymap(updatedKeymap);
       const newCode = generateKeymapC(updatedKeymap);
+      // Re-parse to get correct source positions for future edits
+      const reParsed = parseKeymapC(newCode);
+      if (reParsed) {
+        setLocalKeymap(reParsed);
+      } else {
+        setLocalKeymap(updatedKeymap);
+      }
       // Update the ref so the useEffect won't re-parse when this code
       // comes back from the parent via props.
       prevKeymapCodeRef.current = newCode;
@@ -273,7 +280,9 @@ export default function VisualKeymapEditor({
     const keyCount = lastLayer.keycodeNames.length;
     const newLayer = {
       index: newLayerIndex,
-      keycodeNames: Array(keyCount).fill('KC_NO'),
+      keycodeNames: Array(keyCount).fill('KC_NO') as string[],
+      sourceStart: -1,
+      sourceEnd: -1,
     };
 
     applyKeymapUpdate({
