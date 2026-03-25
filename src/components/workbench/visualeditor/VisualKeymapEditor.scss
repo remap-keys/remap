@@ -55,6 +55,19 @@ $key-size: 56px;
   pointer-events: none;
 }
 
+.visual-keycap-meta {
+  font-size: 8px;
+  font-family: monospace;
+  color: #888;
+  user-select: none;
+  text-align: center;
+  line-height: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 .visual-keycap-label {
   font-size: 10px;
   font-family: monospace;
@@ -64,6 +77,8 @@ $key-size: 56px;
   line-height: 1.1;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .visual-keycap-base {

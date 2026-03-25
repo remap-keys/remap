@@ -10,6 +10,7 @@ const ROOF_TOP = 3;
 type VisualKeycapProps = {
   model: KeyModel;
   label: string;
+  meta?: string;
   isSelected: boolean;
   onClick: (e: React.MouseEvent) => void;
 };
@@ -17,6 +18,7 @@ type VisualKeycapProps = {
 export default function VisualKeycap({
   model,
   label,
+  meta,
   isSelected,
   onClick,
 }: VisualKeycapProps) {
@@ -27,13 +29,7 @@ export default function VisualKeycap({
     left: model.left,
   };
 
-  // Truncate label to fit within keycap
-  const maxChars = Math.max(3, Math.floor((width - 12) / 6));
-  const displayLabel =
-    label.length > maxChars ? label.substring(0, maxChars) + '…' : label;
-
-  // Adjust font size based on label length
-  const fontSize = displayLabel.length > 6 ? 8 : displayLabel.length > 4 ? 9 : 10;
+  const hasMeta = meta !== undefined && meta.length > 0;
 
   const wrapperStyle: React.CSSProperties = {
     ...model.styleTransform,
@@ -44,7 +40,6 @@ export default function VisualKeycap({
     height,
   };
 
-  // Inner elements use relative positioning (0,0) since the wrapper handles absolute placement
   const innerBaseStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
@@ -68,6 +63,12 @@ export default function VisualKeycap({
     height: height - MARGIN_H * 2 - BORDER * 4,
     top: ROOF_TOP + BORDER,
     left: BORDER + MARGIN_W + BORDER,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: hasMeta ? 'flex-start' : 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    padding: '1px',
   };
 
   return (
@@ -84,12 +85,10 @@ export default function VisualKeycap({
       <div className="layout-preview-key" style={innerBaseStyle} />
       <div className="layout-preview-key-roof-base" style={innerRoofBaseStyle} />
       <div className="layout-preview-key-roof" style={innerRoofStyle}>
-        <span
-          className="visual-keycap-label"
-          style={{ fontSize: `${fontSize}px` }}
-        >
-          {displayLabel}
-        </span>
+        {hasMeta && (
+          <span className="visual-keycap-meta">{meta}</span>
+        )}
+        <span className="visual-keycap-label">{label}</span>
       </div>
     </div>
   );

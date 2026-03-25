@@ -33,14 +33,27 @@ type VisualKeymapEditorProps = {
   onChangeCode: (code: string) => void;
 };
 
+type KeycapLabel = {
+  label: string;
+  meta: string;
+};
+
 /**
- * Convert a keycode name to a display label for keycap rendering.
- * Shows the exact QMK keycode name to match the source code.
+ * Convert a keycode name to display labels for keycap rendering.
+ * Uses genKey() to produce labels consistent with the Configure domain.
  */
-function keycodeNameToLabel(name: string): string {
-  if (name === '_______') return '▽';
-  if (name === 'XXXXXXX') return ' ';
-  return name;
+function resolveKeycapLabel(keycodeName: string): KeycapLabel {
+  if (keycodeName === '_______') return { label: '▽', meta: '' };
+  if (keycodeName === 'XXXXXXX') return { label: '', meta: '' };
+  try {
+    const code = nameToCode(keycodeName);
+    if (code === null) return { label: keycodeName, meta: '' };
+    const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
+    const key = genKey(keymap, 'en-us');
+    return { label: key.label, meta: key.meta };
+  } catch {
+    return { label: keycodeName, meta: '' };
+  }
 }
 
 /**
@@ -201,9 +214,7 @@ export default function VisualKeymapEditor({
   // Convert keycode names to display labels for current layer
   const keyLabels = useMemo(() => {
     if (!localKeymap || selectedLayer >= localKeymap.layers.length) return [];
-    return localKeymap.layers[selectedLayer].keycodeNames.map(
-      keycodeNameToLabel
-    );
+    return localKeymap.layers[selectedLayer].keycodeNames.map(resolveKeycapLabel);
   }, [localKeymap, selectedLayer]);
 
   // Apply a change to the local keymap and propagate to parent.
@@ -388,7 +399,8 @@ export default function VisualKeymapEditor({
               <VisualKeycap
                 key={`${model.pos}-${index}`}
                 model={model}
-                label={keyLabels[index] ?? '?'}
+                label={keyLabels[index]?.label ?? '?'}
+                meta={keyLabels[index]?.meta ?? ''}
                 isSelected={selectedKeyIndex === index && popoverOpen}
                 onClick={(e) => handleKeyClick(index, e)}
               />
