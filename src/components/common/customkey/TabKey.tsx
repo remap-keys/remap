@@ -107,9 +107,9 @@ export default class TabKey extends React.Component<TabKeyProps, OwnState> {
   }
 
   private createMacroBuffer(): IMacroBuffer {
-    const macroBufferBytes = this.props.macroBufferBytes!;
-    const macroMaxBufferSize = this.props.macroMaxBufferSize!;
-    const macroMaxCount = this.props.macroMaxCount!;
+    const macroBufferBytes = this.props.macroBufferBytes ?? new Uint8Array(0);
+    const macroMaxBufferSize = this.props.macroMaxBufferSize ?? 0;
+    const macroMaxCount = this.props.macroMaxCount ?? 0;
     const macroBuffer: IMacroBuffer = new MacroBuffer(
       macroBufferBytes,
       macroMaxCount,

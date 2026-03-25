@@ -51,7 +51,27 @@ function resolveKeyForPopover(keycodeName: string): Key | null {
   try {
     const code = nameToCode(keycodeName);
     if (code === null) return null;
-    const keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
+    const { value, holdKey, tapKey } = KeycodeList.getKeymaps(
+      code,
+      'en-us',
+      undefined
+    );
+    // Use the value keymap if available, otherwise construct from holdKey
+    let keymap;
+    if (value) {
+      keymap = value;
+    } else if (holdKey && tapKey) {
+      // For composite keycodes (LT, MT, etc.), use holdKey with tapKey's keycodeInfo
+      keymap = {
+        ...holdKey,
+        code,
+        keycodeInfo: tapKey.keycodeInfo ?? holdKey.keycodeInfo,
+      };
+    } else {
+      // Fallback to anyKeymap
+      keymap = KeycodeList.getKeymap(code, 'en-us', undefined);
+    }
+    if (!keymap || !keymap.keycodeInfo) return null;
     return genKey(keymap, 'en-us');
   } catch {
     return null;
@@ -184,23 +204,28 @@ export default function VisualKeymapEditor({
 
   const handleKeyClick = useCallback(
     (index: number, e: React.MouseEvent) => {
-      if (!localKeymap || !layoutData) return;
-      if (selectedLayer >= localKeymap.layers.length) return;
-      if (index >= localKeymap.layers[selectedLayer].keycodeNames.length) return;
+      try {
+        if (!localKeymap || !layoutData) return;
+        if (selectedLayer >= localKeymap.layers.length) return;
+        if (index >= localKeymap.layers[selectedLayer].keycodeNames.length)
+          return;
 
-      const keycodeName =
-        localKeymap.layers[selectedLayer].keycodeNames[index];
-      const key = resolveKeyForPopover(keycodeName);
-      if (!key) return;
+        const keycodeName =
+          localKeymap.layers[selectedLayer].keycodeNames[index];
+        const key = resolveKeyForPopover(keycodeName);
+        if (!key) return;
 
-      const position = calculatePopoverPosition(
-        e.currentTarget as HTMLElement
-      );
+        const position = calculatePopoverPosition(
+          e.currentTarget as HTMLElement
+        );
 
-      setSelectedKeyIndex(index);
-      setSelectedKeyValue(key);
-      setPopoverPosition(position);
-      setPopoverOpen(true);
+        setSelectedKeyIndex(index);
+        setSelectedKeyValue(key);
+        setPopoverPosition(position);
+        setPopoverOpen(true);
+      } catch (err) {
+        console.error('Failed to handle key click:', err);
+      }
     },
     [localKeymap, layoutData, selectedLayer]
   );
