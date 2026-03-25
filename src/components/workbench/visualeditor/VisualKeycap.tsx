@@ -66,14 +66,7 @@ export default function VisualKeycap({
     height: height - MARGIN_H * 2 - BORDER * 4,
     top: ROOF_TOP + BORDER,
     left: BORDER + MARGIN_W + BORDER,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: hasMeta ? 'flex-start' : 'center',
-    paddingTop: hasMeta ? '2px' : undefined,
-    alignItems: 'center',
     overflow: 'hidden',
-    padding: '1px',
-    gap: 0,
   };
 
   const tooltipTitle = isCustom
@@ -98,17 +91,19 @@ export default function VisualKeycap({
           style={innerRoofBaseStyle}
         />
         <div className="layout-preview-key-roof" style={innerRoofStyle}>
-          {hasMeta && <span className="visual-keycap-meta">{meta}</span>}
-          <span
-            className={[
-              'visual-keycap-label',
-              isCustom && 'visual-keycap-custom',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {label}
-          </span>
+          <div className="visual-keycap-content">
+            {hasMeta && <span className="visual-keycap-meta">{meta}</span>}
+            <span
+              className={[
+                'visual-keycap-label',
+                isCustom && 'visual-keycap-custom',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {label}
+            </span>
+          </div>
         </div>
       </div>
     </Tooltip>
