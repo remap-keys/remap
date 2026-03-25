@@ -479,5 +479,16 @@
   "Completed! Great job!": "完了です！素晴らしい！",
   "Practice Category": "練習カテゴリー",
   "Are you sure you want to reset your typing statistics? This action cannot be undone.": "統計情報をリセットしてもよろしいですか？この操作は元に戻せません。",
-  "Sentence": "文"
+  "Sentence": "文",
+  "Code Editor": "コードエディタ",
+  "Visual Editor": "ビジュアルエディタ",
+  "Layer": "レイヤー",
+  "Add layer": "レイヤーを追加",
+  "Delete layer": "レイヤーを削除",
+  "No keyboard.json found in this project.": "このプロジェクトに keyboard.json が見つかりません。",
+  "Please generate files first to use the visual editor.": "ビジュアルエディタを使用するには、まずファイルを生成してください。",
+  "Could not parse keyboard.json layout.": "keyboard.json のレイアウトを解析できませんでした。",
+  "Could not parse keymap.c file.": "keymap.c ファイルを解析できませんでした。",
+  "Please use the Code Editor to fix syntax errors.": "コードエディタを使用して構文エラーを修正してください。",
+  "\"{{name}}\" is a custom keycode defined in the source code. It cannot be edited in the Visual Editor.": "\"{{name}}\" はソースコード内で定義されたカスタムキーコードです。ビジュアルエディタでは編集できません。"
 }
