@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 import {
   BreadboardActionsType,
   BreadboardStateType,
@@ -21,8 +27,6 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import FolderIcon from '@mui/icons-material/Folder';
 import EditIcon from '@mui/icons-material/Edit';
-import KeyboardIcon from '@mui/icons-material/Keyboard';
-import TuneIcon from '@mui/icons-material/Tune';
 import { Editor } from '@monaco-editor/react';
 import {
   IBuildableFirmwareFileType,
@@ -45,8 +49,8 @@ import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
 import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
-import LayoutPreviewDialog from '../dialogs/LayoutPreviewDialog';
-import KeyboardJsonEditorDialog from '../dialogs/KeyboardJsonEditorDialog';
+import { KeyboardLayoutPanel } from '../dialogs/LayoutPreviewDialog';
+import { KeyboardJsonSettingsPanel } from '../dialogs/KeyboardJsonEditorDialog';
 import VisualKeymapEditor from '../visualeditor/VisualKeymapEditor';
 
 type OwnProps = {};
@@ -77,13 +81,6 @@ export default function Breadboard(
     IFirmwareBuildingTask | undefined
   >(undefined);
   const [selectedOutputTab, setSelectedOutputTab] = useState<number>(0);
-  const [openLayoutPreviewDialog, setOpenLayoutPreviewDialog] =
-    useState<boolean>(false);
-  const [openKeyboardJsonEditorDialog, setOpenKeyboardJsonEditorDialog] =
-    useState<boolean>(false);
-  const [latestKeyboardJsonCode, setLatestKeyboardJsonCode] = useState<
-    string | null
-  >(null);
   const [editorFontSize, setEditorFontSize] = useState<number>(14);
 
   // Effects
@@ -93,10 +90,6 @@ export default function Breadboard(
       return;
     }
     setSelectedBuildingTask(undefined);
-    const keyboardJsonFile = props.currentProject.keyboardFiles.find(
-      (f) => f.path === 'keyboard.json'
-    );
-    setLatestKeyboardJsonCode(keyboardJsonFile?.code ?? null);
   }, [props.currentProject]);
 
   useBuildTaskHook(props.currentProject?.id, props.storage?.instance);
@@ -193,9 +186,6 @@ export default function Breadboard(
   ) => {
     if (code === undefined) {
       return;
-    }
-    if (file.path === 'keyboard.json') {
-      setLatestKeyboardJsonCode(code);
     }
     props.updateWorkbenchProjectFile!(
       props.currentProject!,
@@ -294,20 +284,6 @@ export default function Breadboard(
                         onClickWorkbenchProjectFile(file, fileType);
                       }}
                       onClickEditFile={onClickEditWorkbenchProjectFile}
-                      onClickEditKeyboardJson={
-                        file.path === 'keyboard.json'
-                          ? () => {
-                              setOpenKeyboardJsonEditorDialog(true);
-                            }
-                          : undefined
-                      }
-                      onClickPreviewLayout={
-                        file.path === 'keyboard.json'
-                          ? () => {
-                              setOpenLayoutPreviewDialog(true);
-                            }
-                          : undefined
-                      }
                     />
                   ))}
                 <ListItem
@@ -513,46 +489,6 @@ export default function Breadboard(
         }}
       />
       <FlashFirmwareDialog />
-      <LayoutPreviewDialog
-        open={openLayoutPreviewDialog}
-        onClose={() => setOpenLayoutPreviewDialog(false)}
-        keyboardJsonContent={latestKeyboardJsonCode}
-        onApply={(updatedContent: string) => {
-          setLatestKeyboardJsonCode(updatedContent);
-          const file = props.currentProject?.keyboardFiles.find(
-            (f) => f.path === 'keyboard.json'
-          );
-          if (file && props.currentProject) {
-            props.updateWorkbenchProjectFile!(
-              props.currentProject,
-              file,
-              file.path,
-              updatedContent,
-              true
-            );
-          }
-        }}
-      />
-      <KeyboardJsonEditorDialog
-        open={openKeyboardJsonEditorDialog}
-        onClose={() => setOpenKeyboardJsonEditorDialog(false)}
-        keyboardJsonContent={latestKeyboardJsonCode}
-        onApply={(updatedContent: string) => {
-          setLatestKeyboardJsonCode(updatedContent);
-          const file = props.currentProject?.keyboardFiles.find(
-            (f) => f.path === 'keyboard.json'
-          );
-          if (file && props.currentProject) {
-            props.updateWorkbenchProjectFile!(
-              props.currentProject,
-              file,
-              file.path,
-              updatedContent,
-              true
-            );
-          }
-        }}
-      />
     </>
   );
 }
@@ -577,6 +513,11 @@ type EditorWithVisualTabProps = {
 
 function EditorWithVisualTab(props: EditorWithVisualTabProps) {
   const [editorTab, setEditorTab] = useState(0);
+  // Snapshot of the Code Editor content at the moment of tab switch.
+  // This ensures Form Editor / Key Layout always receive the latest code
+  // even if the Code Editor's debounce hasn't flushed to Redux yet.
+  const [codeSnapshot, setCodeSnapshot] = useState<string | null>(null);
+  const pendingCodeRef = useRef<string | undefined>(undefined);
 
   const file = useMemo(() => {
     if (props.project === undefined || props.selectedFile === undefined) {
@@ -592,8 +533,13 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
   }, [props.project, props.selectedFile]);
 
   const isKeymapCFile =
-    props.selectedFile?.fileType === 'keymap' &&
-    file?.path?.endsWith('.c');
+    props.selectedFile?.fileType === 'keymap' && file?.path?.endsWith('.c');
+
+  const isKeyboardJsonFile =
+    props.selectedFile?.fileType === 'keyboard' &&
+    file?.path === 'keyboard.json';
+
+  const hasTabs = isKeymapCFile || isKeyboardJsonFile;
 
   const keyboardJsonCode = useMemo(() => {
     if (!props.project) return undefined;
@@ -603,12 +549,38 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
     return kbFile?.code;
   }, [props.project]);
 
-  // Reset to Code Editor tab when file changes or is not a keymap
+  // Reset to Code Editor tab when file changes or is not a tabbed file
   useEffect(() => {
-    if (!isKeymapCFile) {
+    if (!hasTabs) {
       setEditorTab(0);
     }
-  }, [isKeymapCFile, file?.id]);
+    pendingCodeRef.current = undefined;
+    setCodeSnapshot(null);
+  }, [hasTabs, file?.id]);
+
+  // Called by WorkbenchSourceCodeEditor on every keystroke (not debounced)
+  const handleImmediateCodeChange = useCallback((code: string) => {
+    pendingCodeRef.current = code;
+  }, []);
+
+  const handleTabChange = useCallback((_: unknown, newValue: number) => {
+    if (newValue !== 0) {
+      // Switching to a non-Code-Editor tab: capture latest code as snapshot
+      // so that Form Editor / Key Layout receive the most up-to-date content
+      // even if the Code Editor's debounce hasn't flushed to Redux yet.
+      const pending = pendingCodeRef.current;
+      if (pending !== undefined) {
+        setCodeSnapshot(pending);
+      } else {
+        setCodeSnapshot(null);
+      }
+    }
+    setEditorTab(newValue);
+  }, []);
+
+  // The code to pass to non-Code-Editor tabs.
+  // Prefer the snapshot (captured on tab switch) over file.code from Redux.
+  const effectiveCode = codeSnapshot ?? file?.code ?? null;
 
   const handleVisualEditorCodeChange = useCallback(
     (code: string) => {
@@ -616,14 +588,45 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
         // Update the file with refreshCurrentProject=true so the Redux state
         // reflects the change immediately (needed for Code Editor tab sync).
         props.onUpdateFile(props.project, file, file.path, code, true);
+        // Also update the snapshot so that switching between non-Code tabs
+        // reflects the latest changes.
+        setCodeSnapshot(code);
       }
     },
     [file, props.project, props.onUpdateFile]
   );
 
+  const fontSizeControls = (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pr: 1 }}>
+      <IconButton
+        size="small"
+        onClick={() =>
+          props.onFontSizeChange(Math.max(8, props.editorFontSize - 2))
+        }
+      >
+        <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+          A-
+        </Typography>
+      </IconButton>
+      <Typography variant="caption" color="text.secondary">
+        {props.editorFontSize}px
+      </Typography>
+      <IconButton
+        size="small"
+        onClick={() =>
+          props.onFontSizeChange(Math.min(32, props.editorFontSize + 2))
+        }
+      >
+        <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+          A+
+        </Typography>
+      </IconButton>
+    </Box>
+  );
+
   return (
     <>
-      {isKeymapCFile && (
+      {hasTabs && (
         <Box
           sx={{
             display: 'flex',
@@ -634,64 +637,71 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
         >
           <Tabs
             value={editorTab}
-            onChange={(_, newValue) => setEditorTab(newValue)}
+            onChange={handleTabChange}
             sx={{ minHeight: 32, flexGrow: 1 }}
           >
             <Tab
               label={t('Code Editor')}
               sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
             />
-            <Tab
-              label={t('Visual Editor')}
-              sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
-            />
+            {isKeymapCFile && (
+              <Tab
+                label={t('Visual Editor')}
+                sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+              />
+            )}
+            {isKeyboardJsonFile && (
+              <Tab
+                label={t('Form Editor')}
+                sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+              />
+            )}
+            {isKeyboardJsonFile && (
+              <Tab
+                label={t('Key Layout')}
+                sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+              />
+            )}
           </Tabs>
-          {editorTab === 0 && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pr: 1 }}>
-              <IconButton
-                size="small"
-                onClick={() =>
-                  props.onFontSizeChange(Math.max(8, props.editorFontSize - 2))
-                }
-              >
-                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                  A-
-                </Typography>
-              </IconButton>
-              <Typography variant="caption" color="text.secondary">
-                {props.editorFontSize}px
-              </Typography>
-              <IconButton
-                size="small"
-                onClick={() =>
-                  props.onFontSizeChange(Math.min(32, props.editorFontSize + 2))
-                }
-              >
-                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                  A+
-                </Typography>
-              </IconButton>
-            </Box>
-          )}
+          {editorTab === 0 && fontSizeControls}
         </Box>
       )}
-      {editorTab === 0 || !isKeymapCFile ? (
+      <div
+        style={{
+          display: editorTab === 0 || !hasTabs ? 'flex' : 'none',
+          flexDirection: 'column',
+          flex: 1,
+          minHeight: 0,
+        }}
+      >
         <WorkbenchSourceCodeEditor
           project={props.project}
           file={file}
           onChangeCode={props.onChangeCode}
+          onImmediateChange={handleImmediateCodeChange}
           fontSize={props.editorFontSize}
           onFontSizeChange={props.onFontSizeChange}
-          showFontSizeControls={!isKeymapCFile}
+          showFontSizeControls={!hasTabs}
         />
-      ) : (
-        file && (
-          <VisualKeymapEditor
-            keymapCode={file.code}
-            keyboardJsonCode={keyboardJsonCode}
-            onChangeCode={handleVisualEditorCodeChange}
-          />
-        )
+      </div>
+      {isKeymapCFile && editorTab === 1 && file && (
+        <VisualKeymapEditor
+          keymapCode={file.code}
+          keyboardJsonCode={keyboardJsonCode}
+          onChangeCode={handleVisualEditorCodeChange}
+        />
+      )}
+      {isKeyboardJsonFile && editorTab === 1 && (
+        <KeyboardJsonSettingsPanel
+          keyboardJsonContent={effectiveCode}
+          onChange={handleVisualEditorCodeChange}
+        />
+      )}
+      {isKeyboardJsonFile && editorTab === 2 && (
+        <KeyboardLayoutPanel
+          keyboardJsonContent={effectiveCode}
+          onChange={handleVisualEditorCodeChange}
+        />
       )}
     </>
   );
@@ -701,6 +711,7 @@ type WorkbenchSourceCodeEditorProps = {
   project: IWorkbenchProject | undefined;
   file: IWorkbenchProjectFile | undefined;
   onChangeCode: (file: IWorkbenchProjectFile, code: string) => void;
+  onImmediateChange?: (code: string) => void;
   fontSize: number;
   onFontSizeChange: (size: number) => void;
   showFontSizeControls?: boolean;
@@ -710,6 +721,12 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
   const [code, setCode] = useState<string | undefined>(undefined);
   const currentFileRef = useRef<string | undefined>(undefined);
   const lastPropCodeRef = useRef<string | undefined>(undefined);
+  // Refs for flush-on-unmount: track latest code and stable callback reference
+  const latestCodeRef = useRef<string | undefined>(undefined);
+  const onChangeCodeRef = useRef(props.onChangeCode);
+  const fileRef = useRef(props.file);
+  onChangeCodeRef.current = props.onChangeCode;
+  fileRef.current = props.file;
 
   useEffect(() => {
     if (props.project === undefined || props.file === undefined) {
@@ -723,10 +740,14 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
       setCode(props.file.code);
       currentFileRef.current = props.file.id;
       lastPropCodeRef.current = props.file.code;
+      latestCodeRef.current = props.file.code;
+      props.onImmediateChange?.(props.file.code);
     } else if (lastPropCodeRef.current !== props.file.code) {
       // Same file, but code changed externally (e.g. from layout editor or JSON editor)
       setCode(props.file.code);
       lastPropCodeRef.current = props.file.code;
+      latestCodeRef.current = props.file.code;
+      props.onImmediateChange?.(props.file.code);
     }
   }, [props.project, props.file]);
 
@@ -753,6 +774,19 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
     props.onChangeCode(props.file, debounceCode.value);
   }, [debounceCode]);
 
+  // Flush unsaved code on unmount to prevent data loss on tab switch
+  useEffect(() => {
+    return () => {
+      if (
+        latestCodeRef.current !== undefined &&
+        fileRef.current !== undefined &&
+        latestCodeRef.current !== fileRef.current.code
+      ) {
+        onChangeCodeRef.current(fileRef.current, latestCodeRef.current);
+      }
+    };
+  }, []);
+
   const onChangeCode = (value: string | undefined) => {
     if (
       props.project === undefined ||
@@ -762,6 +796,8 @@ function WorkbenchSourceCodeEditor(props: WorkbenchSourceCodeEditorProps) {
       return;
     }
     setCode(value);
+    latestCodeRef.current = value;
+    props.onImmediateChange?.(value);
   };
 
   const getLanguage = (path: string): string => {
@@ -854,8 +890,6 @@ type WorkbenchProjectFileListItemProps = {
     file: IWorkbenchProjectFile,
     type: IBuildableFirmwareFileType
   ) => void;
-  onClickEditKeyboardJson?: (file: IWorkbenchProjectFile) => void;
-  onClickPreviewLayout?: (file: IWorkbenchProjectFile) => void;
 };
 
 function WorkbenchProjectFileListItem(
@@ -864,44 +898,18 @@ function WorkbenchProjectFileListItem(
   return (
     <ListItem
       secondaryAction={
-        <>
-          {props.onClickEditKeyboardJson && (
-            <IconButton
-              edge="end"
-              aria-label="edit keyboard json"
-              onClick={() => {
-                props.onClickEditKeyboardJson!(props.workbenchProjectFile);
-              }}
-              sx={{ mr: 0.5 }}
-            >
-              <TuneIcon />
-            </IconButton>
-          )}
-          {props.onClickPreviewLayout && (
-            <IconButton
-              edge="end"
-              aria-label="preview layout"
-              onClick={() => {
-                props.onClickPreviewLayout!(props.workbenchProjectFile);
-              }}
-              sx={{ mr: 0.5 }}
-            >
-              <KeyboardIcon />
-            </IconButton>
-          )}
-          <IconButton
-            edge="end"
-            aria-label="edit"
-            onClick={() => {
-              props.onClickEditFile(
-                props.workbenchProjectFile,
-                props.workbenchProjectFileType
-              );
-            }}
-          >
-            <EditIcon />
-          </IconButton>
-        </>
+        <IconButton
+          edge="end"
+          aria-label="edit"
+          onClick={() => {
+            props.onClickEditFile(
+              props.workbenchProjectFile,
+              props.workbenchProjectFileType
+            );
+          }}
+        >
+          <EditIcon />
+        </IconButton>
       }
     >
       <ListItemButton

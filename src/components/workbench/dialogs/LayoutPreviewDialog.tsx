@@ -232,15 +232,14 @@ function AddKeyDialog({
   );
 }
 
-type LayoutPreviewDialogProps = {
-  open: boolean;
-  onClose: () => void;
+type KeyboardLayoutPanelProps = {
   keyboardJsonContent: string | null;
-  onApply?: (updatedContent: string) => void;
+  onChange?: (updatedContent: string) => void;
 };
 
-export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
+export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const lastGeneratedCodeRef = useRef<string | null>(null);
   const [scale, setScale] = useState(1);
   const [selectedLayout, setSelectedLayout] = useState('');
 
@@ -264,14 +263,19 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
   // Add key dialog
   const [openAddKeyDialog, setOpenAddKeyDialog] = useState(false);
 
-  const parsed = useMemo(() => {
-    if (!props.keyboardJsonContent) return null;
+  const parseResult = useMemo(() => {
+    if (!props.keyboardJsonContent) return { parsed: null, error: false };
     try {
-      return parseQmkKeyboardJson(props.keyboardJsonContent);
+      return {
+        parsed: parseQmkKeyboardJson(props.keyboardJsonContent),
+        error: false,
+      };
     } catch {
-      return null;
+      return { parsed: null, error: true };
     }
   }, [props.keyboardJsonContent]);
+
+  const parsed = parseResult.parsed;
 
   useEffect(() => {
     if (parsed && parsed.layoutNames.length > 0) {
@@ -344,7 +348,7 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
     } else {
       setScale(1);
     }
-  }, [layoutContent, props.open]);
+  }, [layoutContent]);
 
   // Commit current editor state to history
   const commitToHistory = useCallback(
@@ -466,7 +470,6 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
 
   // Keyboard shortcuts
   useEffect(() => {
-    if (!props.open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
         e.preventDefault();
@@ -489,7 +492,7 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [props.open, undo, redo, handleDeleteKey]);
+  }, [undo, redo, handleDeleteKey]);
 
   // Check if there are any changes
   const hasChanges =
@@ -497,67 +500,123 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
     editorState.addedKeys.length > 0 ||
     editorState.deletedIndices.size > 0;
 
-  // Apply changes to JSON
-  const handleApply = useCallback(() => {
-    if (!props.keyboardJsonContent || !props.onApply || !selectedLayout) return;
-    const json = JSON.parse(props.keyboardJsonContent);
-    const layoutKeys: QmkLayoutKey[] =
-      json.layouts?.[selectedLayout]?.layout ?? [];
+  // Build JSON from current editor state
+  const buildJson = useCallback((): string | null => {
+    if (!props.keyboardJsonContent || !selectedLayout) return null;
+    try {
+      const json = JSON.parse(props.keyboardJsonContent);
+      const layoutKeys: QmkLayoutKey[] =
+        json.layouts?.[selectedLayout]?.layout ?? [];
 
-    // Apply position overrides to original keys
-    for (const [indexStr, override] of Object.entries(
-      editorState.positionOverrides
-    )) {
-      const index = Number(indexStr);
-      if (index >= 0 && index < layoutKeys.length) {
-        layoutKeys[index].x = override.x;
-        layoutKeys[index].y = override.y;
+      // Apply position overrides to original keys
+      for (const [indexStr, override] of Object.entries(
+        editorState.positionOverrides
+      )) {
+        const index = Number(indexStr);
+        if (index >= 0 && index < layoutKeys.length) {
+          layoutKeys[index].x = override.x;
+          layoutKeys[index].y = override.y;
+        }
       }
-    }
 
-    // Remove deleted keys (in reverse order to preserve indices)
-    const sortedDeleted = [...editorState.deletedIndices].sort((a, b) => b - a);
-    for (const index of sortedDeleted) {
-      if (index < layoutKeys.length) {
-        layoutKeys.splice(index, 1);
+      // Remove deleted keys (in reverse order to preserve indices)
+      const sortedDeleted = [...editorState.deletedIndices].sort(
+        (a, b) => b - a
+      );
+      for (const index of sortedDeleted) {
+        if (index < layoutKeys.length) {
+          layoutKeys.splice(index, 1);
+        }
       }
-    }
 
-    // Add new keys (with position overrides if dragged)
-    editorState.addedKeys.forEach((key, i) => {
-      const addedIndex = originalKeyModels.length + i;
-      const override = editorState.positionOverrides[addedIndex];
-      layoutKeys.push({
-        ...key,
-        x: override?.x ?? key.x,
-        y: override?.y ?? key.y,
+      // Add new keys (with position overrides if dragged)
+      editorState.addedKeys.forEach((key, i) => {
+        const addedIndex = originalKeyModels.length + i;
+        const override = editorState.positionOverrides[addedIndex];
+        layoutKeys.push({
+          ...key,
+          x: override?.x ?? key.x,
+          y: override?.y ?? key.y,
+        });
       });
-    });
 
-    json.layouts[selectedLayout].layout = layoutKeys;
-    const updated = JSON.stringify(json, null, 2);
-    props.onApply(updated);
-    const empty = createEmptyState();
-    setEditorState(empty);
-    setHistory([empty]);
-    setHistoryIndex(0);
-    setSelectedKeyIndex(null);
-    props.onClose();
+      json.layouts[selectedLayout].layout = layoutKeys;
+      return JSON.stringify(json, null, 2);
+    } catch {
+      return null;
+    }
   }, [
     props.keyboardJsonContent,
-    props.onApply,
     selectedLayout,
     editorState,
     originalKeyModels.length,
   ]);
 
+  // Auto-apply layout changes with debounce
+  useEffect(() => {
+    if (!props.onChange || !hasChanges) return;
+    const timer = setTimeout(() => {
+      const updated = buildJson();
+      if (updated !== null && updated !== props.keyboardJsonContent) {
+        lastGeneratedCodeRef.current = updated;
+        props.onChange?.(updated);
+        const empty = createEmptyState();
+        setEditorState(empty);
+        setHistory([empty]);
+        setHistoryIndex(0);
+        setSelectedKeyIndex(null);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [buildJson, hasChanges]);
+
   const hasLayouts = parsed !== null && parsed.layoutNames.length > 0;
   const hasMultipleLayouts = parsed !== null && parsed.layoutNames.length > 1;
 
+  if (parseResult.error || !props.keyboardJsonContent) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          color: '#666',
+          gap: 8,
+          padding: 24,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="body2">
+          {t('Could not parse keyboard.json.')}
+        </Typography>
+        <Typography variant="caption" color="textSecondary">
+          {t('Please use the Code Editor to fix syntax errors.')}
+        </Typography>
+      </div>
+    );
+  }
+
   return (
-    <Dialog open={props.open} onClose={props.onClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {t('Layout Editor')}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 4,
+          padding: '4px 8px',
+          borderBottom: '1px solid #e0e0e0',
+          flexShrink: 0,
+        }}
+      >
         {hasLayouts && (
           <>
             <Tooltip title={`${t('Undo')} (Ctrl+Z)`}>
@@ -593,19 +652,8 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
                 </IconButton>
               </span>
             </Tooltip>
-          </>
-        )}
-      </DialogTitle>
-      <DialogContent>
-        {!hasLayouts && (
-          <Typography color="text.secondary">
-            {t('No layouts found in keyboard.json.')}
-          </Typography>
-        )}
-        {hasLayouts && (
-          <>
             {hasMultipleLayouts && (
-              <FormControl size="small" sx={{ minWidth: 240, mb: 2 }}>
+              <FormControl size="small" sx={{ minWidth: 200 }}>
                 <InputLabel>{t('Select Layout')}</InputLabel>
                 <Select
                   value={selectedLayout}
@@ -620,54 +668,55 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
                 </Select>
               </FormControl>
             )}
-            <div className="layout-preview-container" ref={containerRef}>
-              {layoutContent && (
-                <div
-                  className="layout-preview-keyboard-root"
-                  style={{
-                    width: layoutContent.width + 16,
-                    height: layoutContent.height + 16,
-                    transform: `scale(${scale})`,
-                  }}
-                >
-                  <div
-                    className="layout-preview-keyboard-frame"
-                    style={{
-                      width: layoutContent.width,
-                      height: layoutContent.height,
-                      left: -layoutContent.left,
-                      top: -layoutContent.top,
-                    }}
-                  >
-                    {visibleKeyEntries.map(({ model, index }) => {
-                      const override = editorState.positionOverrides[index];
-                      return (
-                        <KeycapPreview
-                          key={`key-${index}`}
-                          model={model}
-                          overrideX={override?.x}
-                          overrideY={override?.y}
-                          isDragging={draggingKeyIndex === index}
-                          isSelected={selectedKeyIndex === index}
-                          onMouseDown={(e) => handleMouseDown(e, index, model)}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
           </>
         )}
-      </DialogContent>
-      <DialogActions>
-        {props.onApply && (
-          <Button onClick={handleApply} disabled={!hasChanges}>
-            {t('Apply')}
-          </Button>
+      </div>
+      <div style={{ flex: 1, overflow: 'auto', padding: '8px' }}>
+        {!hasLayouts && (
+          <Typography color="text.secondary">
+            {t('No layouts found in keyboard.json.')}
+          </Typography>
         )}
-        <Button onClick={props.onClose}>{t('Close')}</Button>
-      </DialogActions>
+        {hasLayouts && (
+          <div className="layout-preview-container" ref={containerRef}>
+            {layoutContent && (
+              <div
+                className="layout-preview-keyboard-root"
+                style={{
+                  width: layoutContent.width + 16,
+                  height: layoutContent.height + 16,
+                  transform: `scale(${scale})`,
+                }}
+              >
+                <div
+                  className="layout-preview-keyboard-frame"
+                  style={{
+                    width: layoutContent.width,
+                    height: layoutContent.height,
+                    left: -layoutContent.left,
+                    top: -layoutContent.top,
+                  }}
+                >
+                  {visibleKeyEntries.map(({ model, index }) => {
+                    const override = editorState.positionOverrides[index];
+                    return (
+                      <KeycapPreview
+                        key={`key-${index}`}
+                        model={model}
+                        overrideX={override?.x}
+                        overrideY={override?.y}
+                        isDragging={draggingKeyIndex === index}
+                        isSelected={selectedKeyIndex === index}
+                        onMouseDown={(e) => handleMouseDown(e, index, model)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       <AddKeyDialog
         open={openAddKeyDialog}
         onClose={() => setOpenAddKeyDialog(false)}
@@ -689,6 +738,32 @@ export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
           }, 0) + 1
         }
       />
+    </div>
+  );
+}
+
+type LayoutPreviewDialogProps = {
+  open: boolean;
+  onClose: () => void;
+  keyboardJsonContent: string | null;
+  onApply?: (updatedContent: string) => void;
+};
+
+export default function LayoutPreviewDialog(props: LayoutPreviewDialogProps) {
+  return (
+    <Dialog open={props.open} onClose={props.onClose} maxWidth="md" fullWidth>
+      <DialogTitle>{t('Layout Editor')}</DialogTitle>
+      <DialogContent sx={{ padding: 0 }}>
+        <KeyboardLayoutPanel
+          keyboardJsonContent={props.keyboardJsonContent}
+          onChange={(updatedContent) => {
+            props.onApply?.(updatedContent);
+          }}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.onClose}>{t('Close')}</Button>
+      </DialogActions>
     </Dialog>
   );
 }
