@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Typography } from '@mui/material';
 import { t } from 'i18next';
 import {
@@ -140,7 +140,9 @@ export default function VisualKeymapEditor({
   // Local state for the parsed keymap — updated optimistically on edits,
   // and synced from props when the external code changes.
   const [localKeymap, setLocalKeymap] = useState<ParsedKeymap | null>(null);
-  const [lastExternalCode, setLastExternalCode] = useState<string>('');
+  // Track the last keymapCode prop we received to detect external changes.
+  // Using a ref to avoid triggering re-sync from our own updates.
+  const prevKeymapCodeRef = useRef<string>('');
 
   const [selectedLayer, setSelectedLayer] = useState(0);
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
@@ -152,14 +154,15 @@ export default function VisualKeymapEditor({
   });
   const [selectedKeyValue, setSelectedKeyValue] = useState<Key | null>(null);
 
-  // Sync local keymap from external code changes
+  // Sync local keymap from external code changes (e.g., switching from Code Editor).
+  // Only re-parse when the prop actually changes from what we last saw.
   useEffect(() => {
-    if (keymapCode !== lastExternalCode) {
+    if (keymapCode !== prevKeymapCodeRef.current) {
+      prevKeymapCodeRef.current = keymapCode;
       const parsed = parseKeymapC(keymapCode);
       setLocalKeymap(parsed);
-      setLastExternalCode(keymapCode);
     }
-  }, [keymapCode, lastExternalCode]);
+  }, [keymapCode]);
 
   // Parse keyboard.json to get layout info
   const layoutData = useMemo(() => {
@@ -196,7 +199,9 @@ export default function VisualKeymapEditor({
     (updatedKeymap: ParsedKeymap) => {
       setLocalKeymap(updatedKeymap);
       const newCode = generateKeymapC(updatedKeymap);
-      setLastExternalCode(newCode);
+      // Update the ref so the useEffect won't re-parse when this code
+      // comes back from the parent via props.
+      prevKeymapCodeRef.current = newCode;
       onChangeCode(newCode);
     },
     [onChangeCode]
