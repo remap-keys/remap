@@ -185,5 +185,29 @@ void my_custom_function(void) {
       expect(reParsed!.preamble).toContain('#define MY_MACRO 42');
       expect(reParsed!.postamble).toContain('my_custom_function');
     });
+
+    it('does not accumulate blank lines between array and postamble across round-trips', () => {
+      const original = `#include QMK_KEYBOARD_H
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(KC_A, KC_B)
+};
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return state;
+}
+`;
+      let content = original;
+      for (let i = 0; i < 5; i++) {
+        const parsed = parseKeymapC(content);
+        expect(parsed).not.toBeNull();
+        content = generateKeymapC(parsed!);
+      }
+
+      const blankLinesBetween = content
+        .split('};')[1]
+        .split('layer_state_t')[0];
+      expect(blankLinesBetween).toBe('\n\n');
+    });
   });
 });
