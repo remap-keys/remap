@@ -51,6 +51,7 @@ import { t } from 'i18next';
 import { useUserPurchaseHook } from './UserPurchaseHook';
 import { KeyboardLayoutPanel } from '../dialogs/LayoutPreviewDialog';
 import { KeyboardJsonSettingsPanel } from '../dialogs/KeyboardJsonEditorDialog';
+import { ConfigHSettingsPanel } from '../dialogs/ConfigHSettingsPanel';
 import VisualKeymapEditor from '../visualeditor/VisualKeymapEditor';
 
 type OwnProps = {};
@@ -539,7 +540,10 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
     props.selectedFile?.fileType === 'keyboard' &&
     file?.path === 'keyboard.json';
 
-  const hasTabs = isKeymapCFile || isKeyboardJsonFile;
+  const isConfigHFile =
+    props.selectedFile?.fileType === 'keyboard' && file?.path === 'config.h';
+
+  const hasTabs = isKeymapCFile || isKeyboardJsonFile || isConfigHFile;
 
   const keyboardJsonCode = useMemo(() => {
     if (!props.project) return undefined;
@@ -660,6 +664,12 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
                 sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
               />
             )}
+            {isConfigHFile && (
+              <Tab
+                label={t('Form Editor')}
+                sx={{ minHeight: 32, py: 0.5, textTransform: 'none' }}
+              />
+            )}
           </Tabs>
           {editorTab === 0 && fontSizeControls}
         </Box>
@@ -698,6 +708,12 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
       {isKeyboardJsonFile && editorTab === 2 && (
         <KeyboardLayoutPanel
           keyboardJsonContent={effectiveCode}
+          onChange={handleVisualEditorCodeChange}
+        />
+      )}
+      {isConfigHFile && editorTab === 1 && (
+        <ConfigHSettingsPanel
+          configHContent={effectiveCode}
           onChange={handleVisualEditorCodeChange}
         />
       )}
