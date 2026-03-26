@@ -551,12 +551,10 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
 
   // Reset to Code Editor tab when file changes or is not a tabbed file
   useEffect(() => {
-    if (!hasTabs) {
-      setEditorTab(0);
-    }
+    setEditorTab(0);
     pendingCodeRef.current = undefined;
     setCodeSnapshot(null);
-  }, [hasTabs, file?.id]);
+  }, [file?.id]);
 
   // Called by WorkbenchSourceCodeEditor on every keystroke (not debounced)
   const handleImmediateCodeChange = useCallback((code: string) => {
