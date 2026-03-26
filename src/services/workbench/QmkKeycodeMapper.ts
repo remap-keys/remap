@@ -57,6 +57,81 @@ import {
   QK_MODS_MAX,
 } from '../hid/compositions/ModsComposition';
 
+// Shifted keycode aliases from QMK's keymap_us.h
+// Each maps to S(base) = LSFT(base) = QK_MODS_MIN | (0x02 << 8) | baseCode
+const SHIFTED_ALIASES: Record<string, string> = {
+  KC_TILD: 'KC_GRAVE',
+  KC_TILDE: 'KC_GRAVE',
+  KC_EXLM: 'KC_1',
+  KC_EXCLAIM: 'KC_1',
+  KC_AT: 'KC_2',
+  KC_HASH: 'KC_3',
+  KC_DLR: 'KC_4',
+  KC_DOLLAR: 'KC_4',
+  KC_PERC: 'KC_5',
+  KC_PERCENT: 'KC_5',
+  KC_CIRC: 'KC_6',
+  KC_CIRCUMFLEX: 'KC_6',
+  KC_AMPR: 'KC_7',
+  KC_AMPERSAND: 'KC_7',
+  KC_ASTR: 'KC_8',
+  KC_ASTERISK: 'KC_8',
+  KC_LPRN: 'KC_9',
+  KC_LEFT_PAREN: 'KC_9',
+  KC_RPRN: 'KC_0',
+  KC_RIGHT_PAREN: 'KC_0',
+  KC_UNDS: 'KC_MINUS',
+  KC_UNDERSCORE: 'KC_MINUS',
+  KC_PLUS: 'KC_EQUAL',
+  KC_LCBR: 'KC_LEFT_BRACKET',
+  KC_LEFT_CURLY_BRACE: 'KC_LEFT_BRACKET',
+  KC_RCBR: 'KC_RIGHT_BRACKET',
+  KC_RIGHT_CURLY_BRACE: 'KC_RIGHT_BRACKET',
+  KC_PIPE: 'KC_BACKSLASH',
+  KC_COLN: 'KC_SEMICOLON',
+  KC_COLON: 'KC_SEMICOLON',
+  KC_DQUO: 'KC_QUOTE',
+  KC_DOUBLE_QUOTE: 'KC_QUOTE',
+  KC_DQT: 'KC_QUOTE',
+  KC_LABK: 'KC_COMMA',
+  KC_LEFT_ANGLE_BRACKET: 'KC_COMMA',
+  KC_LT: 'KC_COMMA',
+  KC_RABK: 'KC_DOT',
+  KC_RIGHT_ANGLE_BRACKET: 'KC_DOT',
+  KC_GT: 'KC_DOT',
+  KC_QUES: 'KC_SLASH',
+  KC_QUESTION: 'KC_SLASH',
+};
+
+// Reverse map: numeric shifted code → preferred short alias name
+const SHIFTED_CODE_TO_NAME: Record<number, string> = {};
+
+// UG_* keycode aliases (QMK v0.0.4+) mapping to legacy RGB_* names in keyInfoList
+const UG_ALIASES: Record<string, string> = {
+  UG_TOGG: 'RGB_TOG',
+  QK_UNDERGLOW_TOGGLE: 'RGB_TOG',
+  UG_NEXT: 'RGB_MODE_FORWARD',
+  QK_UNDERGLOW_MODE_NEXT: 'RGB_MODE_FORWARD',
+  UG_PREV: 'RGB_MODE_REVERSE',
+  QK_UNDERGLOW_MODE_PREVIOUS: 'RGB_MODE_REVERSE',
+  UG_HUEU: 'RGB_HUI',
+  QK_UNDERGLOW_HUE_UP: 'RGB_HUI',
+  UG_HUED: 'RGB_HUD',
+  QK_UNDERGLOW_HUE_DOWN: 'RGB_HUD',
+  UG_SATU: 'RGB_SAI',
+  QK_UNDERGLOW_SATURATION_UP: 'RGB_SAI',
+  UG_SATD: 'RGB_SAD',
+  QK_UNDERGLOW_SATURATION_DOWN: 'RGB_SAD',
+  UG_VALU: 'RGB_VAI',
+  QK_UNDERGLOW_VALUE_UP: 'RGB_VAI',
+  UG_VALD: 'RGB_VAD',
+  QK_UNDERGLOW_VALUE_DOWN: 'RGB_VAD',
+  UG_SPDU: 'RGB_SPI',
+  QK_UNDERGLOW_SPEED_UP: 'RGB_SPI',
+  UG_SPDD: 'RGB_SPD',
+  QK_UNDERGLOW_SPEED_DOWN: 'RGB_SPD',
+};
+
 // Lazy-initialized reverse lookup map: QMK keycode name → numeric code
 let nameToCodeMap: Map<string, number> | null = null;
 
@@ -74,6 +149,37 @@ function getNameToCodeMap(): Map<string, number> {
       nameToCodeMap.set(name.short, code);
     }
   }
+
+  // Register shifted aliases: KC_EXLM → LSFT(KC_1), etc.
+  const lsftBits = 0x02;
+  for (const [alias, baseName] of Object.entries(SHIFTED_ALIASES)) {
+    const baseCode = nameToCodeMap.get(baseName);
+    if (baseCode !== undefined) {
+      const shiftedCode = QK_MODS_MIN | (lsftBits << 8) | (baseCode & 0xff);
+      nameToCodeMap.set(alias, shiftedCode);
+    }
+  }
+
+  // Build reverse map for shifted codes (prefer shortest alias)
+  for (const [alias, baseName] of Object.entries(SHIFTED_ALIASES)) {
+    const baseCode = nameToCodeMap.get(baseName);
+    if (baseCode !== undefined) {
+      const shiftedCode = QK_MODS_MIN | (lsftBits << 8) | (baseCode & 0xff);
+      const existing = SHIFTED_CODE_TO_NAME[shiftedCode];
+      if (!existing || alias.length < existing.length) {
+        SHIFTED_CODE_TO_NAME[shiftedCode] = alias;
+      }
+    }
+  }
+
+  // Register UG_* aliases by resolving to the same code as the legacy RGB_* name
+  for (const [ugName, rgbName] of Object.entries(UG_ALIASES)) {
+    const code = nameToCodeMap.get(rgbName);
+    if (code !== undefined) {
+      nameToCodeMap.set(ugName, code);
+    }
+  }
+
   return nameToCodeMap;
 }
 
@@ -341,6 +447,11 @@ export function codeToName(code: number): string {
     return `SH_T(${baseName})`;
   }
   if (factory.isMods()) {
+    // Check for shifted keycode aliases (e.g., LSFT(KC_1) → KC_EXLM)
+    const shiftedAlias = SHIFTED_CODE_TO_NAME[code];
+    if (shiftedAlias) {
+      return shiftedAlias;
+    }
     const modBits = (code >> 8) & 0x1f;
     const baseCode = code & 0xff;
     const baseName = findBasicName(baseCode, map);
