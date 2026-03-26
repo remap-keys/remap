@@ -52,13 +52,9 @@ import {
   QK_SWAP_HANDS_MIN,
   QK_SWAP_HANDS_MAX,
 } from '../hid/compositions/SwapHandsComposition';
-import {
-  QK_MODS_MIN,
-  QK_MODS_MAX,
-} from '../hid/compositions/ModsComposition';
 
 // Shifted keycode aliases from QMK's keymap_us.h
-// Each maps to S(base) = LSFT(base) = QK_MODS_MIN | (0x02 << 8) | baseCode
+// Each maps to S(base) = LSFT(base) = (0x02 << 8) | baseCode
 const SHIFTED_ALIASES: Record<string, string> = {
   KC_TILD: 'KC_GRAVE',
   KC_TILDE: 'KC_GRAVE',
@@ -155,7 +151,7 @@ function getNameToCodeMap(): Map<string, number> {
   for (const [alias, baseName] of Object.entries(SHIFTED_ALIASES)) {
     const baseCode = nameToCodeMap.get(baseName);
     if (baseCode !== undefined) {
-      const shiftedCode = QK_MODS_MIN | (lsftBits << 8) | (baseCode & 0xff);
+      const shiftedCode = (lsftBits << 8) | (baseCode & 0xff);
       nameToCodeMap.set(alias, shiftedCode);
     }
   }
@@ -164,7 +160,7 @@ function getNameToCodeMap(): Map<string, number> {
   for (const [alias, baseName] of Object.entries(SHIFTED_ALIASES)) {
     const baseCode = nameToCodeMap.get(baseName);
     if (baseCode !== undefined) {
-      const shiftedCode = QK_MODS_MIN | (lsftBits << 8) | (baseCode & 0xff);
+      const shiftedCode = (lsftBits << 8) | (baseCode & 0xff);
       const existing = SHIFTED_CODE_TO_NAME[shiftedCode];
       if (!existing || alias.length < existing.length) {
         SHIFTED_CODE_TO_NAME[shiftedCode] = alias;
@@ -299,7 +295,7 @@ const COMPOSITE_PATTERNS: CompositePattern[] = [
     toCode: (m, map) => {
       const modBits = MOD_WRAPPER_NAMES[m[1]] ?? 0;
       const baseCode = map.get(m[2]) ?? 0;
-      return QK_MODS_MIN | (modBits << 8) | (baseCode & 0xff);
+      return (modBits << 8) | (baseCode & 0xff);
     },
   },
   // Modifier tap wrapper: LCTL_T(kc), RSFT_T(kc), etc.
