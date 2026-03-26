@@ -53,7 +53,7 @@ export function generateKeymapC(
     result += '\n';
   });
 
-  result += '};\n';
+  result += '};';
   result += parsed.postamble;
 
   return result;
