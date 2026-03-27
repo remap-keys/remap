@@ -177,12 +177,6 @@ export function KeyboardJsonSettingsPanel(
     Record<string, boolean>
   >({});
 
-  // Audio
-  const [audioPins, setAudioPins] = useState('');
-  const [audioDriver, setAudioDriver] = useState('');
-  const [audioVoices, setAudioVoices] = useState(false);
-  const [audioMacroBeep, setAudioMacroBeep] = useState(false);
-
   // Encoder
   const [encoderRotary, setEncoderRotary] = useState<EncoderEntry[]>([]);
 
@@ -307,14 +301,6 @@ export function KeyboardJsonSettingsPanel(
           ? { ...json.rgblight.animations }
           : {}
       );
-
-      // Audio
-      setAudioPins(
-        Array.isArray(json.audio?.pins) ? json.audio.pins.join(', ') : ''
-      );
-      setAudioDriver(json.audio?.driver ?? '');
-      setAudioVoices(json.audio?.voices ?? false);
-      setAudioMacroBeep(json.audio?.macro_beep ?? false);
 
       // Encoder
       if (Array.isArray(json.encoder?.rotary)) {
@@ -574,45 +560,6 @@ export function KeyboardJsonSettingsPanel(
       }
     }
 
-    // Audio
-    const audioPinValues = audioPins
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (
-      audioPinValues.length > 0 ||
-      audioDriver ||
-      audioVoices ||
-      audioMacroBeep
-    ) {
-      json.audio = json.audio || {};
-      if (audioPinValues.length > 0) {
-        json.audio.pins = audioPinValues;
-      } else {
-        delete json.audio.pins;
-      }
-      if (audioDriver) {
-        json.audio.driver = audioDriver;
-      } else {
-        delete json.audio.driver;
-      }
-      if (audioVoices) {
-        json.audio.voices = true;
-      } else {
-        delete json.audio.voices;
-      }
-      if (audioMacroBeep) {
-        json.audio.macro_beep = true;
-      } else {
-        delete json.audio.macro_beep;
-      }
-      if (Object.keys(json.audio).length === 0) {
-        delete json.audio;
-      }
-    } else if (json.audio) {
-      delete json.audio;
-    }
-
     // Encoder
     if (encoderRotary.length > 0) {
       json.encoder = json.encoder || {};
@@ -671,10 +618,6 @@ export function KeyboardJsonSettingsPanel(
     rgblightBriSteps,
     rgblightMaxBrightness,
     rgblightAnimations,
-    audioPins,
-    audioDriver,
-    audioVoices,
-    audioMacroBeep,
     encoderRotary,
     features,
   ]);
@@ -802,15 +745,6 @@ export function KeyboardJsonSettingsPanel(
           />
           <Tab
             label={t('Lighting')}
-            sx={{
-              minHeight: 36,
-              py: 0.5,
-              textTransform: 'none',
-              alignItems: 'flex-start',
-            }}
-          />
-          <Tab
-            label={t('Audio')}
             sx={{
               minHeight: 36,
               py: 0.5,
@@ -1439,7 +1373,7 @@ export function KeyboardJsonSettingsPanel(
           )}
 
           {/* === Encoder Tab === */}
-          {activeTab === 6 && (
+          {activeTab === 5 && (
             <Stack spacing={3}>
               {/* Encoder Section */}
               <div>
@@ -1501,84 +1435,6 @@ export function KeyboardJsonSettingsPanel(
                       {t('No encoders configured.')}
                     </Typography>
                   )}
-                </Stack>
-              </div>
-            </Stack>
-          )}
-
-          {/* === Audio Tab === */}
-          {activeTab === 5 && (
-            <Stack spacing={3}>
-              <div>
-                <SectionHeader>{t('Audio')}</SectionHeader>
-                <Stack spacing={2} sx={{ mt: 1 }}>
-                  <TextField
-                    label={t('Pins')}
-                    size="small"
-                    fullWidth
-                    value={audioPins}
-                    onChange={(e) => setAudioPins(e.target.value)}
-                    placeholder="C6"
-                    helperText={t(
-                      'Audio output pins, comma-separated (e.g. C6, B5)'
-                    )}
-                  />
-                  <FormControl size="small" fullWidth>
-                    <InputLabel>{t('Driver')}</InputLabel>
-                    <Select
-                      value={audioDriver}
-                      label={t('Driver')}
-                      onChange={(e) => setAudioDriver(e.target.value)}
-                    >
-                      <MenuItem value="">
-                        <em>{t('Default')}</em>
-                      </MenuItem>
-                      <MenuItem value="pwm_hardware">pwm_hardware</MenuItem>
-                      <MenuItem value="pwm_software">pwm_software</MenuItem>
-                      <MenuItem value="dac_basic">dac_basic</MenuItem>
-                      <MenuItem value="dac_additive">dac_additive</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <div>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          size="small"
-                          checked={audioVoices}
-                          onChange={(e) => setAudioVoices(e.target.checked)}
-                        />
-                      }
-                      label={t('Voices')}
-                    />
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{ display: 'block', ml: '42px', mt: -0.5 }}
-                    >
-                      {t(
-                        'Enable multiple audio voices to play different sounds simultaneously'
-                      )}
-                    </Typography>
-                  </div>
-                  <div>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          size="small"
-                          checked={audioMacroBeep}
-                          onChange={(e) => setAudioMacroBeep(e.target.checked)}
-                        />
-                      }
-                      label={t('Macro Beep')}
-                    />
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{ display: 'block', ml: '42px', mt: -0.5 }}
-                    >
-                      {t('Play a beep sound when a macro is executed')}
-                    </Typography>
-                  </div>
                 </Stack>
               </div>
             </Stack>

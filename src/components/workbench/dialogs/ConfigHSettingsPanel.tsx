@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from 'react';
 import {
+  Autocomplete,
   FormControlLabel,
   Stack,
   Switch,
@@ -141,6 +142,16 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
   const [leaderPerKeyTiming, setLeaderPerKeyTiming] = useState(false);
   const [leaderNoTimeout, setLeaderNoTimeout] = useState(false);
 
+  // --- Hardware ---
+  const [usbVbusPin, setUsbVbusPin] = useState('');
+
+  // --- Audio ---
+  const [audioPin, setAudioPin] = useState('');
+  const [audioPinAlt, setAudioPinAlt] = useState('');
+  const [audioDriver, setAudioDriver] = useState('');
+  const [audioVoices, setAudioVoices] = useState(false);
+  const [audioInitDelay, setAudioInitDelay] = useState(false);
+
   // Helper to read a numeric value from defines
   const getNumeric = (defines: ConfigDefines, key: string): string => {
     const val = defines.get(key);
@@ -206,6 +217,16 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
       setLeaderTimeout(getNumeric(defines, 'LEADER_TIMEOUT'));
       setLeaderPerKeyTiming(getFlag(defines, 'LEADER_PER_KEY_TIMING'));
       setLeaderNoTimeout(getFlag(defines, 'LEADER_NO_TIMEOUT'));
+
+      // Hardware
+      setUsbVbusPin(getNumeric(defines, 'USB_VBUS_PIN'));
+
+      // Audio
+      setAudioPin(getNumeric(defines, 'AUDIO_PIN'));
+      setAudioPinAlt(getNumeric(defines, 'AUDIO_PIN_ALT'));
+      setAudioDriver(getNumeric(defines, 'AUDIO_DRIVER'));
+      setAudioVoices(getFlag(defines, 'AUDIO_VOICES'));
+      setAudioInitDelay(getFlag(defines, 'AUDIO_INIT_DELAY'));
     } catch {
       // Invalid config.h - leave defaults
     }
@@ -280,6 +301,23 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
       setBool('LEADER_PER_KEY_TIMING', leaderPerKeyTiming);
       setBool('LEADER_NO_TIMEOUT', leaderNoTimeout);
 
+      // Hardware
+      const setStr = (key: string, value: string) => {
+        if (value.trim()) {
+          defines.set(key, value.trim());
+        } else {
+          removedKeys.add(key);
+        }
+      };
+      setStr('USB_VBUS_PIN', usbVbusPin);
+
+      // Audio
+      setStr('AUDIO_PIN', audioPin);
+      setStr('AUDIO_PIN_ALT', audioPinAlt);
+      setStr('AUDIO_DRIVER', audioDriver);
+      setBool('AUDIO_VOICES', audioVoices);
+      setBool('AUDIO_INIT_DELAY', audioInitDelay);
+
       return generateConfigH(props.configHContent, defines, removedKeys);
     } catch {
       return null;
@@ -318,6 +356,12 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
     leaderTimeout,
     leaderPerKeyTiming,
     leaderNoTimeout,
+    usbVbusPin,
+    audioPin,
+    audioPinAlt,
+    audioDriver,
+    audioVoices,
+    audioInitDelay,
   ]);
 
   // Auto-apply form changes with debounce
@@ -428,6 +472,24 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
           />
           <Tab
             label={t('Leader Key')}
+            sx={{
+              minHeight: 36,
+              py: 0.5,
+              textTransform: 'none',
+              alignItems: 'flex-start',
+            }}
+          />
+          <Tab
+            label={t('Hardware')}
+            sx={{
+              minHeight: 36,
+              py: 0.5,
+              textTransform: 'none',
+              alignItems: 'flex-start',
+            }}
+          />
+          <Tab
+            label={t('Audio')}
             sx={{
               minHeight: 36,
               py: 0.5,
@@ -826,6 +888,97 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
                     onChange={setLeaderNoTimeout}
                     helperText={t(
                       'Disable leader key timeout (wait indefinitely for sequence)'
+                    )}
+                  />
+                </Stack>
+              </div>
+            </Stack>
+          )}
+
+          {/* === Hardware Tab === */}
+          {activeTab === 6 && (
+            <Stack spacing={3}>
+              <div>
+                <SectionHeader>{t('Hardware')}</SectionHeader>
+                <Stack spacing={2} sx={{ mt: 1 }}>
+                  <TextField
+                    label="USB_VBUS_PIN"
+                    size="small"
+                    fullWidth
+                    value={usbVbusPin}
+                    onChange={(e) => setUsbVbusPin(e.target.value)}
+                    placeholder="GP19"
+                    helperText={t(
+                      'GPIO pin to detect USB VBUS for split keyboard host detection'
+                    )}
+                  />
+                </Stack>
+              </div>
+            </Stack>
+          )}
+
+          {/* === Audio Tab === */}
+          {activeTab === 7 && (
+            <Stack spacing={3}>
+              <div>
+                <SectionHeader>{t('Audio')}</SectionHeader>
+                <Stack spacing={2} sx={{ mt: 1 }}>
+                  <TextField
+                    label="AUDIO_PIN"
+                    size="small"
+                    fullWidth
+                    value={audioPin}
+                    onChange={(e) => setAudioPin(e.target.value)}
+                    placeholder="C6"
+                    helperText={t('Primary audio output pin (e.g. C6, B5)')}
+                  />
+                  <TextField
+                    label="AUDIO_PIN_ALT"
+                    size="small"
+                    fullWidth
+                    value={audioPinAlt}
+                    onChange={(e) => setAudioPinAlt(e.target.value)}
+                    placeholder="B5"
+                    helperText={t(
+                      'Secondary audio output pin for stereo or alternative output'
+                    )}
+                  />
+                  <Autocomplete
+                    size="small"
+                    freeSolo
+                    options={[
+                      'pwm_hardware',
+                      'pwm_software',
+                      'dac_basic',
+                      'dac_additive',
+                    ]}
+                    value={audioDriver}
+                    onInputChange={(_e, value) => setAudioDriver(value)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="AUDIO_DRIVER"
+                        placeholder="pwm_hardware"
+                        helperText={t(
+                          'Audio driver (pwm_hardware, pwm_software, dac_basic, dac_additive)'
+                        )}
+                      />
+                    )}
+                  />
+                  <SwitchField
+                    label="AUDIO_VOICES"
+                    checked={audioVoices}
+                    onChange={setAudioVoices}
+                    helperText={t(
+                      'Enable multiple audio voices to play different sounds simultaneously'
+                    )}
+                  />
+                  <SwitchField
+                    label="AUDIO_INIT_DELAY"
+                    checked={audioInitDelay}
+                    onChange={setAudioInitDelay}
+                    helperText={t(
+                      'Add a delay during audio initialization to avoid startup noise'
                     )}
                   />
                 </Stack>
