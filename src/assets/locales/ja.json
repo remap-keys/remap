@@ -533,11 +533,12 @@
   "Time to reach max scroll speed in steps (default: 40)": "最大スクロール速度に到達するまでのステップ数（デフォルト: 40）",
   "Time in ms to hold combo for hold behavior (default: 150)": "コンボのホールド動作に必要な保持時間（ミリ秒、デフォルト: 150）",
   "Only trigger combos from this layer number": "このレイヤー番号からのみコンボを発動する",
-  "Audio": "オーディオ",
-  "Voices": "ボイス",
-  "Macro Beep": "マクロビープ",
-  "Audio output pins, comma-separated (e.g. C6, B5)": "オーディオ出力ピン（カンマ区切り、例: C6, B5）",
   "Encoder": "エンコーダー",
+  "Audio": "オーディオ",
+  "Primary audio output pin (e.g. C6, B5)": "メインオーディオ出力ピン（例: C6, B5）",
+  "Secondary audio output pin for stereo or alternative output": "ステレオまたは代替出力用のセカンダリオーディオ出力ピン",
+  "Audio driver (pwm_hardware, pwm_software, dac_basic, dac_additive)": "オーディオドライバー（pwm_hardware, pwm_software, dac_basic, dac_additive）",
   "Enable multiple audio voices to play different sounds simultaneously": "複数のオーディオボイスを有効にして異なるサウンドを同時に再生する",
-  "Play a beep sound when a macro is executed": "マクロ実行時にビープ音を鳴らす"
+  "Add a delay during audio initialization to avoid startup noise": "起動時のノイズを避けるためにオーディオ初期化に遅延を追加する",
+  "GPIO pin to detect USB VBUS for split keyboard host detection": "スプリットキーボードのホスト検出用 USB VBUS 検出 GPIO ピン"
 }
