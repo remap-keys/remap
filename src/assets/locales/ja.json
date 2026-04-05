@@ -540,5 +540,8 @@
   "Audio driver (pwm_hardware, pwm_software, dac_basic, dac_additive)": "オーディオドライバー（pwm_hardware, pwm_software, dac_basic, dac_additive）",
   "Enable multiple audio voices to play different sounds simultaneously": "複数のオーディオボイスを有効にして異なるサウンドを同時に再生する",
   "Add a delay during audio initialization to avoid startup noise": "起動時のノイズを避けるためにオーディオ初期化に遅延を追加する",
-  "GPIO pin to detect USB VBUS for split keyboard host detection": "スプリットキーボードのホスト検出用 USB VBUS 検出 GPIO ピン"
+  "GPIO pin to detect USB VBUS for split keyboard host detection": "スプリットキーボードのホスト検出用 USB VBUS 検出 GPIO ピン",
+  "Enter the index and matrix position for the new key.": "新しいキーのインデックスとマトリクス位置を入力してください。",
+  "Index": "インデックス",
+  "Position in the layout array. Existing keys at this index and after will shift.": "レイアウト配列内の位置。このインデックス以降の既存キーはずれます。"
 }

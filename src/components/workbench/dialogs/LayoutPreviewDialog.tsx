@@ -20,8 +20,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { t } from 'i18next';
@@ -46,41 +44,47 @@ function snapToGrid(value: number): number {
   return Math.round(value / GRID_SNAP) * GRID_SNAP;
 }
 
-// Editor state tracked in undo/redo history
+// Editor state for tracking layout changes
 type EditorState = {
   positionOverrides: Record<number, { x: number; y: number }>;
+  matrixOverrides: Record<number, { row: number; col: number }>;
   addedKeys: QmkLayoutKey[];
   deletedIndices: Set<number>;
 };
 
 function createEmptyState(): EditorState {
-  return { positionOverrides: {}, addedKeys: [], deletedIndices: new Set() };
-}
-
-function cloneState(state: EditorState): EditorState {
   return {
-    positionOverrides: { ...state.positionOverrides },
-    addedKeys: [...state.addedKeys],
-    deletedIndices: new Set(state.deletedIndices),
+    positionOverrides: {},
+    matrixOverrides: {},
+    addedKeys: [],
+    deletedIndices: new Set(),
   };
 }
 
 type KeycapPreviewProps = {
   model: KeyModel;
+  layoutIndex: number;
   overrideX?: number;
   overrideY?: number;
+  matrixRow: number;
+  matrixCol: number;
   isDragging: boolean;
   isSelected: boolean;
   onMouseDown: (e: React.MouseEvent) => void;
+  onMatrixStep?: (dRow: number, dCol: number) => void;
 };
 
 function KeycapPreview({
   model,
+  layoutIndex,
   overrideX,
   overrideY,
+  matrixRow,
+  matrixCol,
   isDragging,
   isSelected,
   onMouseDown,
+  onMatrixStep,
 }: KeycapPreviewProps) {
   const width = model.width;
   const height = model.height;
@@ -112,6 +116,16 @@ function KeycapPreview({
     left: left + BORDER + MARGIN_W + BORDER,
   };
 
+  const handleMatrixButton = (
+    e: React.MouseEvent,
+    dRow: number,
+    dCol: number
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    onMatrixStep?.(dRow, dCol);
+  };
+
   return (
     <div
       className={[
@@ -127,7 +141,44 @@ function KeycapPreview({
       <div className="layout-preview-key" style={baseStyle} />
       <div className="layout-preview-key-roof-base" style={roofBaseStyle} />
       <div className="layout-preview-key-roof" style={roofStyle}>
-        <span className="layout-preview-key-label">{model.pos}</span>
+        <span className="layout-preview-index-badge">{layoutIndex}</span>
+        {isSelected && onMatrixStep ? (
+          <div className="layout-preview-matrix-editor">
+            <div className="layout-preview-matrix-arrows">
+              <button
+                className="layout-preview-matrix-btn"
+                onMouseDown={(e) => handleMatrixButton(e, -1, 0)}
+              >
+                ▲
+              </button>
+              <button
+                className="layout-preview-matrix-btn"
+                onMouseDown={(e) => handleMatrixButton(e, 0, -1)}
+              >
+                ◀
+              </button>
+              <span className="layout-preview-matrix-label">
+                {matrixRow},{matrixCol}
+              </span>
+              <button
+                className="layout-preview-matrix-btn"
+                onMouseDown={(e) => handleMatrixButton(e, 0, 1)}
+              >
+                ▶
+              </button>
+              <button
+                className="layout-preview-matrix-btn"
+                onMouseDown={(e) => handleMatrixButton(e, 1, 0)}
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+        ) : (
+          <span className="layout-preview-key-label">
+            {matrixRow},{matrixCol}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -137,10 +188,11 @@ function KeycapPreview({
 type AddKeyDialogProps = {
   open: boolean;
   onClose: () => void;
-  onAdd: (row: number, col: number) => void;
+  onAdd: (index: number, row: number, col: number) => void;
   existingMatrixPositions: [number, number][];
-  maxRow: number;
-  maxCol: number;
+  keyCount: number;
+  defaultRow: number;
+  defaultCol: number;
 };
 
 function AddKeyDialog({
@@ -148,31 +200,38 @@ function AddKeyDialog({
   onClose,
   onAdd,
   existingMatrixPositions,
-  maxRow,
-  maxCol,
+  keyCount,
+  defaultRow,
+  defaultCol,
 }: AddKeyDialogProps) {
+  const [index, setIndex] = useState('');
   const [row, setRow] = useState('');
   const [col, setCol] = useState('');
 
   useEffect(() => {
     if (open) {
-      setRow('');
-      setCol('');
+      setIndex(String(keyCount));
+      setRow(String(defaultRow));
+      setCol(String(defaultCol));
     }
-  }, [open]);
+  }, [open, keyCount, defaultRow, defaultCol]);
 
+  const indexNum = Number(index);
   const rowNum = Number(row);
   const colNum = Number(col);
 
   const isInputValid =
+    index !== '' &&
     row !== '' &&
     col !== '' &&
+    !isNaN(indexNum) &&
     !isNaN(rowNum) &&
     !isNaN(colNum) &&
+    indexNum >= 0 &&
+    indexNum <= keyCount &&
     rowNum >= 0 &&
-    rowNum <= maxRow &&
     colNum >= 0 &&
-    colNum <= maxCol &&
+    Number.isInteger(indexNum) &&
     Number.isInteger(rowNum) &&
     Number.isInteger(colNum);
 
@@ -184,7 +243,7 @@ function AddKeyDialog({
 
   const handleSubmit = () => {
     if (!isValid) return;
-    onAdd(rowNum, colNum);
+    onAdd(indexNum, rowNum, colNum);
     onClose();
   };
 
@@ -193,28 +252,42 @@ function AddKeyDialog({
       <DialogTitle>{t('Add Key')}</DialogTitle>
       <DialogContent>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          {t('Enter the matrix position for the new key.')}
+          {t('Enter the index and matrix position for the new key.')}
         </Typography>
-        <div style={{ display: 'flex', gap: 8, width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <TextField
-            label={`${t('Row')} (0-${maxRow})`}
+            label={`${t('Index')} (0-${keyCount})`}
             size="small"
             type="number"
-            value={row}
-            onChange={(e) => setRow(e.target.value)}
-            inputProps={{ min: 0, max: maxRow }}
-            sx={{ width: '50%' }}
+            value={index}
+            onChange={(e) => setIndex(e.target.value)}
+            inputProps={{ min: 0, max: keyCount }}
+            fullWidth
             autoFocus
+            helperText={t(
+              'Position in the layout array. Existing keys at this index and after will shift.'
+            )}
           />
-          <TextField
-            label={`${t('Column')} (0-${maxCol})`}
-            size="small"
-            type="number"
-            value={col}
-            onChange={(e) => setCol(e.target.value)}
-            inputProps={{ min: 0, max: maxCol }}
-            sx={{ width: '50%' }}
-          />
+          <div style={{ display: 'flex', gap: 8 }}>
+            <TextField
+              label={t('Row')}
+              size="small"
+              type="number"
+              value={row}
+              onChange={(e) => setRow(e.target.value)}
+              inputProps={{ min: 0 }}
+              sx={{ flex: 1 }}
+            />
+            <TextField
+              label={t('Column')}
+              size="small"
+              type="number"
+              value={col}
+              onChange={(e) => setCol(e.target.value)}
+              inputProps={{ min: 0 }}
+              sx={{ flex: 1 }}
+            />
+          </div>
         </div>
         {isDuplicate && (
           <Typography variant="body2" color="error" sx={{ mt: 1 }}>
@@ -243,11 +316,9 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
   const [scale, setScale] = useState(1);
   const [selectedLayout, setSelectedLayout] = useState('');
 
-  // Editor state with undo/redo
+  // Editor state
   const [editorState, setEditorState] =
     useState<EditorState>(createEmptyState());
-  const [history, setHistory] = useState<EditorState[]>([createEmptyState()]);
-  const [historyIndex, setHistoryIndex] = useState(0);
 
   // Selection & drag
   const [selectedKeyIndex, setSelectedKeyIndex] = useState<number | null>(null);
@@ -294,13 +365,23 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
     }
   }, [parsed, selectedLayout]);
 
-  // Reset editor state when layout changes
+  // Original layout keys (for matrix position data)
+  const originalLayoutKeys: QmkLayoutKey[] = useMemo(() => {
+    if (!parsed || !selectedLayout) return [];
+    try {
+      return parsed.getLayoutKeys(selectedLayout);
+    } catch {
+      return [];
+    }
+  }, [parsed, selectedLayout]);
+
+  // Reset editor state when layout changes (but not from auto-apply)
   useEffect(() => {
-    const empty = createEmptyState();
-    setEditorState(empty);
-    setHistory([empty]);
-    setHistoryIndex(0);
-    setSelectedKeyIndex(null);
+    setEditorState(createEmptyState());
+    // Only clear selection for external changes (not auto-apply)
+    if (props.keyboardJsonContent !== lastGeneratedCodeRef.current) {
+      setSelectedKeyIndex(null);
+    }
   }, [originalKeyModels]);
 
   // Build visible keys: original (minus deleted) + added
@@ -350,19 +431,6 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
     }
   }, [layoutContent]);
 
-  // Commit current editor state to history
-  const commitToHistory = useCallback(
-    (newState: EditorState) => {
-      setHistory((prev) => {
-        const truncated = prev.slice(0, historyIndex + 1);
-        truncated.push(cloneState(newState));
-        setHistoryIndex(truncated.length - 1);
-        return truncated;
-      });
-    },
-    [historyIndex]
-  );
-
   // Drag handlers
   const handleMouseDown = useCallback(
     (e: React.MouseEvent, index: number, model: KeyModel) => {
@@ -403,10 +471,6 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
       if (!dragRef.current) return;
       dragRef.current = null;
       setDraggingKeyIndex(null);
-      setEditorState((current) => {
-        commitToHistory(current);
-        return current;
-      });
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -415,41 +479,28 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [scale, commitToHistory]);
+  }, [scale]);
 
-  // Undo / Redo
-  const canUndo = historyIndex > 0;
-  const canRedo = historyIndex < history.length - 1;
-
-  const undo = useCallback(() => {
-    if (!canUndo) return;
-    const newIndex = historyIndex - 1;
-    setHistoryIndex(newIndex);
-    setEditorState(cloneState(history[newIndex]));
-    setSelectedKeyIndex(null);
-  }, [canUndo, historyIndex, history]);
-
-  const redo = useCallback(() => {
-    if (!canRedo) return;
-    const newIndex = historyIndex + 1;
-    setHistoryIndex(newIndex);
-    setEditorState(cloneState(history[newIndex]));
-    setSelectedKeyIndex(null);
-  }, [canRedo, historyIndex, history]);
-
-  // Add key
+  // Add key at a specific index (insert into layout array)
   const handleAddKey = useCallback(
-    (row: number, col: number) => {
-      setEditorState((prev) => {
-        const newState: EditorState = {
-          ...prev,
-          addedKeys: [...prev.addedKeys, { matrix: [row, col], x: 0, y: 0 }],
-        };
-        commitToHistory(newState);
-        return newState;
-      });
+    (index: number, row: number, col: number) => {
+      if (!props.keyboardJsonContent || !props.onChange || !selectedLayout)
+        return;
+      try {
+        const json = JSON.parse(props.keyboardJsonContent);
+        const layoutKeys: QmkLayoutKey[] =
+          json.layouts?.[selectedLayout]?.layout ?? [];
+        const newKey: QmkLayoutKey = { matrix: [row, col], x: 0, y: 0 };
+        layoutKeys.splice(index, 0, newKey);
+        json.layouts[selectedLayout].layout = layoutKeys;
+        const updated = JSON.stringify(json, null, 2);
+        lastGeneratedCodeRef.current = updated;
+        props.onChange(updated);
+      } catch {
+        // Invalid JSON
+      }
     },
-    [commitToHistory]
+    [props.keyboardJsonContent, props.onChange, selectedLayout]
   );
 
   // Delete selected key
@@ -458,29 +509,85 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
     setEditorState((prev) => {
       const newDeleted = new Set(prev.deletedIndices);
       newDeleted.add(selectedKeyIndex);
-      const newState: EditorState = {
+      return {
         ...prev,
         deletedIndices: newDeleted,
       };
-      commitToHistory(newState);
-      return newState;
     });
     setSelectedKeyIndex(null);
-  }, [selectedKeyIndex, commitToHistory]);
+  }, [selectedKeyIndex]);
+
+  // Step matrix position to the nearest available slot in the given direction
+  const handleMatrixStep = useCallback(
+    (keyIndex: number, dRow: number, dCol: number) => {
+      setEditorState((prev) => {
+        const allKeys = [...originalLayoutKeys, ...prev.addedKeys];
+
+        // Get current matrix position of this key
+        const curOverride = prev.matrixOverrides[keyIndex];
+        const curRow = curOverride?.row ?? allKeys[keyIndex]?.matrix[0] ?? 0;
+        const curCol = curOverride?.col ?? allKeys[keyIndex]?.matrix[1] ?? 0;
+
+        // Collect all occupied positions (excluding this key and deleted keys)
+        const occupied = new Set<string>();
+        for (let i = 0; i < allKeys.length; i++) {
+          if (i === keyIndex || prev.deletedIndices.has(i)) continue;
+          const ov = prev.matrixOverrides[i];
+          const r = ov?.row ?? allKeys[i].matrix[0];
+          const c = ov?.col ?? allKeys[i].matrix[1];
+          occupied.add(`${r},${c}`);
+        }
+
+        let newRow = curRow;
+        let newCol = curCol;
+
+        const MAX_MATRIX = 100;
+        if (dCol !== 0) {
+          // Horizontal: find nearest available col in same row
+          for (
+            let c = curCol + dCol;
+            dCol > 0 ? c <= MAX_MATRIX : c >= 0;
+            c += dCol
+          ) {
+            if (!occupied.has(`${curRow},${c}`)) {
+              newCol = c;
+              break;
+            }
+          }
+        } else if (dRow !== 0) {
+          // Vertical: find nearest available row in same col
+          for (
+            let r = curRow + dRow;
+            dRow > 0 ? r <= MAX_MATRIX : r >= 0;
+            r += dRow
+          ) {
+            if (!occupied.has(`${r},${curCol}`)) {
+              newRow = r;
+              break;
+            }
+          }
+        }
+
+        if (newRow === curRow && newCol === curCol) {
+          return prev; // No available slot found
+        }
+
+        return {
+          ...prev,
+          matrixOverrides: {
+            ...prev.matrixOverrides,
+            [keyIndex]: { row: newRow, col: newCol },
+          },
+        };
+      });
+    },
+    [originalLayoutKeys]
+  );
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-        e.preventDefault();
-        undo();
-      } else if (
-        (e.ctrlKey || e.metaKey) &&
-        (e.key === 'y' || (e.key === 'z' && e.shiftKey))
-      ) {
-        e.preventDefault();
-        redo();
-      } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
         if (
           !(e.target instanceof HTMLInputElement) &&
           !(e.target instanceof HTMLTextAreaElement)
@@ -492,11 +599,12 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [undo, redo, handleDeleteKey]);
+  }, [handleDeleteKey]);
 
   // Check if there are any changes
   const hasChanges =
     Object.keys(editorState.positionOverrides).length > 0 ||
+    Object.keys(editorState.matrixOverrides).length > 0 ||
     editorState.addedKeys.length > 0 ||
     editorState.deletedIndices.size > 0;
 
@@ -516,6 +624,16 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
         if (index >= 0 && index < layoutKeys.length) {
           layoutKeys[index].x = override.x;
           layoutKeys[index].y = override.y;
+        }
+      }
+
+      // Apply matrix overrides to original keys
+      for (const [indexStr, override] of Object.entries(
+        editorState.matrixOverrides
+      )) {
+        const index = Number(indexStr);
+        if (index >= 0 && index < layoutKeys.length) {
+          layoutKeys[index].matrix = [override.row, override.col];
         }
       }
 
@@ -560,11 +678,7 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
       if (updated !== null && updated !== props.keyboardJsonContent) {
         lastGeneratedCodeRef.current = updated;
         props.onChange?.(updated);
-        const empty = createEmptyState();
-        setEditorState(empty);
-        setHistory([empty]);
-        setHistoryIndex(0);
-        setSelectedKeyIndex(null);
+        setEditorState(createEmptyState());
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -619,20 +733,6 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
       >
         {hasLayouts && (
           <>
-            <Tooltip title={`${t('Undo')} (Ctrl+Z)`}>
-              <span>
-                <IconButton size="small" onClick={undo} disabled={!canUndo}>
-                  <UndoIcon fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
-            <Tooltip title={`${t('Redo')} (Ctrl+Shift+Z)`}>
-              <span>
-                <IconButton size="small" onClick={redo} disabled={!canRedo}>
-                  <RedoIcon fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
             <Tooltip title={t('Add Key')}>
               <IconButton
                 size="small"
@@ -697,17 +797,34 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
                     top: -layoutContent.top,
                   }}
                 >
-                  {visibleKeyEntries.map(({ model, index }) => {
+                  {visibleKeyEntries.map(({ model, index }, visibleIndex) => {
                     const override = editorState.positionOverrides[index];
+                    const matrixOverride = editorState.matrixOverrides[index];
+                    // Get matrix from: override > addedKeys > originalLayoutKeys
+                    const isAddedKey = index >= originalLayoutKeys.length;
+                    const baseMatrix = isAddedKey
+                      ? editorState.addedKeys[index - originalLayoutKeys.length]
+                          ?.matrix
+                      : originalLayoutKeys[index]?.matrix;
+                    const matrixRow =
+                      matrixOverride?.row ?? baseMatrix?.[0] ?? 0;
+                    const matrixCol =
+                      matrixOverride?.col ?? baseMatrix?.[1] ?? 0;
                     return (
                       <KeycapPreview
                         key={`key-${index}`}
                         model={model}
+                        layoutIndex={visibleIndex}
                         overrideX={override?.x}
                         overrideY={override?.y}
+                        matrixRow={matrixRow}
+                        matrixCol={matrixCol}
                         isDragging={draggingKeyIndex === index}
                         isSelected={selectedKeyIndex === index}
                         onMouseDown={(e) => handleMouseDown(e, index, model)}
+                        onMatrixStep={(dRow, dCol) =>
+                          handleMatrixStep(index, dRow, dCol)
+                        }
                       />
                     );
                   })}
@@ -725,13 +842,14 @@ export function KeyboardLayoutPanel(props: KeyboardLayoutPanelProps) {
           const parts = model.pos.split(',').map(Number);
           return [parts[0], parts[1]] as [number, number];
         })}
-        maxRow={
+        keyCount={visibleKeyEntries.length}
+        defaultRow={
           originalKeyModels.reduce((max, m) => {
             const row = Number(m.pos.split(',')[0]);
             return isNaN(row) ? max : Math.max(max, row);
           }, 0) + 1
         }
-        maxCol={
+        defaultCol={
           originalKeyModels.reduce((max, m) => {
             const col = Number(m.pos.split(',')[1]);
             return isNaN(col) ? max : Math.max(max, col);
