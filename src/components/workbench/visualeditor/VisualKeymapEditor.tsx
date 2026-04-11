@@ -242,13 +242,23 @@ export default function VisualKeymapEditor({
   }, [localKeymap, selectedLayer, layoutData]);
 
   // Apply a change to the local keymap and propagate to parent.
+  // Trims keycodeNames to match the keyboard.json layout key count so that
+  // deleted keys do not leave stale keycodes in the generated keymap.c.
   const applyKeymapUpdate = useCallback(
     (updatedKeymap: ParsedKeymap) => {
-      setLocalKeymap(updatedKeymap);
-      const newCode = generateKeymapC(
-        updatedKeymap,
-        layoutData?.keysPerRow
-      );
+      const layoutKeyCount = layoutData?.keyModels.length;
+      const trimmedKeymap =
+        layoutKeyCount != null
+          ? {
+              ...updatedKeymap,
+              layers: updatedKeymap.layers.map((layer) => ({
+                ...layer,
+                keycodeNames: layer.keycodeNames.slice(0, layoutKeyCount),
+              })),
+            }
+          : updatedKeymap;
+      setLocalKeymap(trimmedKeymap);
+      const newCode = generateKeymapC(trimmedKeymap, layoutData?.keysPerRow);
       // Update the ref so the useEffect won't re-parse when this code
       // comes back from the parent via props.
       prevKeymapCodeRef.current = newCode;
