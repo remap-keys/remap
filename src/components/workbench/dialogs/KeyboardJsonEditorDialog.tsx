@@ -177,6 +177,9 @@ export function KeyboardJsonSettingsPanel(
     Record<string, boolean>
   >({});
 
+  // Audio
+  const [audioDriver, setAudioDriver] = useState('');
+
   // Encoder
   const [encoderRotary, setEncoderRotary] = useState<EncoderEntry[]>([]);
 
@@ -301,6 +304,9 @@ export function KeyboardJsonSettingsPanel(
           ? { ...json.rgblight.animations }
           : {}
       );
+
+      // Audio
+      setAudioDriver(json.audio?.driver ?? '');
 
       // Encoder
       if (Array.isArray(json.encoder?.rotary)) {
@@ -560,6 +566,17 @@ export function KeyboardJsonSettingsPanel(
       }
     }
 
+    // Audio
+    if (audioDriver) {
+      json.audio = json.audio || {};
+      json.audio.driver = audioDriver;
+    } else if (json.audio) {
+      delete json.audio.driver;
+      if (Object.keys(json.audio).length === 0) {
+        delete json.audio;
+      }
+    }
+
     // Encoder
     if (encoderRotary.length > 0) {
       json.encoder = json.encoder || {};
@@ -618,6 +635,7 @@ export function KeyboardJsonSettingsPanel(
     rgblightBriSteps,
     rgblightMaxBrightness,
     rgblightAnimations,
+    audioDriver,
     encoderRotary,
     features,
   ]);
@@ -745,6 +763,15 @@ export function KeyboardJsonSettingsPanel(
           />
           <Tab
             label={t('Lighting')}
+            sx={{
+              minHeight: 36,
+              py: 0.5,
+              textTransform: 'none',
+              alignItems: 'flex-start',
+            }}
+          />
+          <Tab
+            label={t('Audio')}
             sx={{
               minHeight: 36,
               py: 0.5,
@@ -1372,8 +1399,41 @@ export function KeyboardJsonSettingsPanel(
             </Stack>
           )}
 
-          {/* === Encoder Tab === */}
+          {/* === Audio Tab === */}
           {activeTab === 5 && (
+            <Stack spacing={3}>
+              <div>
+                <SectionHeader>{t('Audio')}</SectionHeader>
+                <Stack spacing={2} sx={{ mt: 1 }}>
+                  <Autocomplete
+                    size="small"
+                    freeSolo
+                    options={[
+                      'pwm_hardware',
+                      'pwm_software',
+                      'dac_basic',
+                      'dac_additive',
+                    ]}
+                    value={audioDriver}
+                    onInputChange={(_e, value) => setAudioDriver(value)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={t('Driver')}
+                        placeholder="pwm_hardware"
+                        helperText={t(
+                          'Audio driver (pwm_hardware, pwm_software, dac_basic, dac_additive)'
+                        )}
+                      />
+                    )}
+                  />
+                </Stack>
+              </div>
+            </Stack>
+          )}
+
+          {/* === Encoder Tab === */}
+          {activeTab === 6 && (
             <Stack spacing={3}>
               {/* Encoder Section */}
               <div>

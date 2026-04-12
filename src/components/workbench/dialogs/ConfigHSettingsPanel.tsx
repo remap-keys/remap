@@ -6,7 +6,6 @@ import React, {
   useMemo,
 } from 'react';
 import {
-  Autocomplete,
   FormControlLabel,
   Stack,
   Switch,
@@ -148,7 +147,6 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
   // --- Audio ---
   const [audioPin, setAudioPin] = useState('');
   const [audioPinAlt, setAudioPinAlt] = useState('');
-  const [audioDriver, setAudioDriver] = useState('');
   const [audioVoices, setAudioVoices] = useState(false);
   const [audioInitDelay, setAudioInitDelay] = useState(false);
 
@@ -224,7 +222,6 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
       // Audio
       setAudioPin(getNumeric(defines, 'AUDIO_PIN'));
       setAudioPinAlt(getNumeric(defines, 'AUDIO_PIN_ALT'));
-      setAudioDriver(getNumeric(defines, 'AUDIO_DRIVER'));
       setAudioVoices(getFlag(defines, 'AUDIO_VOICES'));
       setAudioInitDelay(getFlag(defines, 'AUDIO_INIT_DELAY'));
     } catch {
@@ -314,7 +311,6 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
       // Audio
       setStr('AUDIO_PIN', audioPin);
       setStr('AUDIO_PIN_ALT', audioPinAlt);
-      setStr('AUDIO_DRIVER', audioDriver);
       setBool('AUDIO_VOICES', audioVoices);
       setBool('AUDIO_INIT_DELAY', audioInitDelay);
 
@@ -359,7 +355,6 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
     usbVbusPin,
     audioPin,
     audioPinAlt,
-    audioDriver,
     audioVoices,
     audioInitDelay,
   ]);
@@ -941,28 +936,6 @@ export function ConfigHSettingsPanel(props: ConfigHSettingsPanelProps) {
                     placeholder="B5"
                     helperText={t(
                       'Secondary audio output pin for stereo or alternative output'
-                    )}
-                  />
-                  <Autocomplete
-                    size="small"
-                    freeSolo
-                    options={[
-                      'pwm_hardware',
-                      'pwm_software',
-                      'dac_basic',
-                      'dac_additive',
-                    ]}
-                    value={audioDriver}
-                    onInputChange={(_e, value) => setAudioDriver(value)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="AUDIO_DRIVER"
-                        placeholder="pwm_hardware"
-                        helperText={t(
-                          'Audio driver (pwm_hardware, pwm_software, dac_basic, dac_additive)'
-                        )}
-                      />
                     )}
                   />
                   <SwitchField
