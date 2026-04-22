@@ -102,30 +102,35 @@ const SHIFTED_ALIASES: Record<string, string> = {
 // Reverse map: numeric shifted code → preferred short alias name
 const SHIFTED_CODE_TO_NAME: Record<number, string> = {};
 
-// UG_* keycode aliases (QMK v0.0.4+) mapping to legacy RGB_* names in keyInfoList
-const UG_ALIASES: Record<string, string> = {
-  UG_TOGG: 'RGB_TOG',
-  QK_UNDERGLOW_TOGGLE: 'RGB_TOG',
-  UG_NEXT: 'RGB_MODE_FORWARD',
-  QK_UNDERGLOW_MODE_NEXT: 'RGB_MODE_FORWARD',
-  UG_PREV: 'RGB_MODE_REVERSE',
-  QK_UNDERGLOW_MODE_PREVIOUS: 'RGB_MODE_REVERSE',
-  UG_HUEU: 'RGB_HUI',
-  QK_UNDERGLOW_HUE_UP: 'RGB_HUI',
-  UG_HUED: 'RGB_HUD',
-  QK_UNDERGLOW_HUE_DOWN: 'RGB_HUD',
-  UG_SATU: 'RGB_SAI',
-  QK_UNDERGLOW_SATURATION_UP: 'RGB_SAI',
-  UG_SATD: 'RGB_SAD',
-  QK_UNDERGLOW_SATURATION_DOWN: 'RGB_SAD',
-  UG_VALU: 'RGB_VAI',
-  QK_UNDERGLOW_VALUE_UP: 'RGB_VAI',
-  UG_VALD: 'RGB_VAD',
-  QK_UNDERGLOW_VALUE_DOWN: 'RGB_VAD',
-  UG_SPDU: 'RGB_SPI',
-  QK_UNDERGLOW_SPEED_UP: 'RGB_SPI',
-  UG_SPDD: 'RGB_SPD',
-  QK_UNDERGLOW_SPEED_DOWN: 'RGB_SPD',
+// Legacy keycode names that parse as modern UG_* canonical names in
+// keyInfoList. Covers pre-refactor QMK RGB_* spellings and QMK's own verbose
+// QK_UNDERGLOW_* long-form so that imported keymap.c sources built against
+// older QMK continue to resolve to the right numeric code.
+const LEGACY_UG_ALIASES: Record<string, string> = {
+  RGB_TOG: 'UG_TOGG',
+  QK_UNDERGLOW_TOGGLE: 'UG_TOGG',
+  RGB_MODE_FORWARD: 'UG_NEXT',
+  RGB_MOD: 'UG_NEXT',
+  QK_UNDERGLOW_MODE_NEXT: 'UG_NEXT',
+  RGB_MODE_REVERSE: 'UG_PREV',
+  RGB_RMOD: 'UG_PREV',
+  QK_UNDERGLOW_MODE_PREVIOUS: 'UG_PREV',
+  RGB_HUI: 'UG_HUEU',
+  QK_UNDERGLOW_HUE_UP: 'UG_HUEU',
+  RGB_HUD: 'UG_HUED',
+  QK_UNDERGLOW_HUE_DOWN: 'UG_HUED',
+  RGB_SAI: 'UG_SATU',
+  QK_UNDERGLOW_SATURATION_UP: 'UG_SATU',
+  RGB_SAD: 'UG_SATD',
+  QK_UNDERGLOW_SATURATION_DOWN: 'UG_SATD',
+  RGB_VAI: 'UG_VALU',
+  QK_UNDERGLOW_VALUE_UP: 'UG_VALU',
+  RGB_VAD: 'UG_VALD',
+  QK_UNDERGLOW_VALUE_DOWN: 'UG_VALD',
+  RGB_SPI: 'UG_SPDU',
+  QK_UNDERGLOW_SPEED_UP: 'UG_SPDU',
+  RGB_SPD: 'UG_SPDD',
+  QK_UNDERGLOW_SPEED_DOWN: 'UG_SPDD',
 };
 
 // Lazy-initialized reverse lookup map: QMK keycode name → numeric code
@@ -168,11 +173,12 @@ function getNameToCodeMap(): Map<string, number> {
     }
   }
 
-  // Register UG_* aliases by resolving to the same code as the legacy RGB_* name
-  for (const [ugName, rgbName] of Object.entries(UG_ALIASES)) {
-    const code = nameToCodeMap.get(rgbName);
+  // Register legacy RGB_* / QK_UNDERGLOW_* aliases by resolving to the same
+  // code as the canonical UG_* name already registered from keyInfoList.
+  for (const [legacyName, canonicalName] of Object.entries(LEGACY_UG_ALIASES)) {
+    const code = nameToCodeMap.get(canonicalName);
     if (code !== undefined) {
-      nameToCodeMap.set(ugName, code);
+      nameToCodeMap.set(legacyName, code);
     }
   }
 
