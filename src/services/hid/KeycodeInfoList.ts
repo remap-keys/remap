@@ -6507,132 +6507,132 @@ export const keyInfoList: KeyInfo[] = [
     desc: 'Toggle RGB lighting on or off',
     keycodeInfo: {
       code: 0x7820, // 30752 0b111100000100000
-      label: 'RGB Toggle',
+      label: 'UG Toggle',
       name: {
-        long: 'RGB_TOG',
-        short: 'RGB_TOG',
+        long: 'UG_TOGG',
+        short: 'UG_TOGG',
       },
-      keywords: ['Rgb Tog'],
+      keywords: ['Ug Togg', 'ug_togg', 'rgb_tog'],
     },
   },
   {
     desc: 'Cycle through modes, reverse direction when Shift is held',
     keycodeInfo: {
       code: 0x7821, // 30753 0b111100000100001
-      label: 'RGB Mode +',
+      label: 'UG Mode +',
       name: {
-        long: 'RGB_MODE_FORWARD',
-        short: 'RGB_MOD',
+        long: 'UG_NEXT',
+        short: 'UG_NEXT',
       },
-      keywords: ['Rgb Mode Forward'],
+      keywords: ['Ug Next', 'ug_next', 'rgb_mode_forward', 'rgb_mod'],
     },
   },
   {
     desc: 'Cycle through modes in reverse, forward direction when Shift is held',
     keycodeInfo: {
       code: 0x7822, // 30754 0b111100000100010
-      label: 'RGB Mode -',
+      label: 'UG Mode -',
       name: {
-        long: 'RGB_MODE_REVERSE',
-        short: 'RGB_RMOD',
+        long: 'UG_PREV',
+        short: 'UG_PREV',
       },
-      keywords: ['Rgb Mode Reverse'],
+      keywords: ['Ug Prev', 'ug_prev', 'rgb_mode_reverse', 'rgb_rmod'],
     },
   },
   {
     desc: 'Increase hue, decrease hue when Shift is held',
     keycodeInfo: {
       code: 0x7823, // 30755 0b111100000100011
-      label: 'RGB HUE +',
+      label: 'UG HUE +',
       name: {
-        long: 'RGB_HUI',
-        short: 'RGB_HUI',
+        long: 'UG_HUEU',
+        short: 'UG_HUEU',
       },
-      keywords: ['Rgb Hui'],
+      keywords: ['Ug Hueu', 'ug_hueu', 'rgb_hui'],
     },
   },
   {
     desc: 'Decrease hue, increase hue when Shift is held',
     keycodeInfo: {
       code: 0x7824, // 30756 0b111100000100100
-      label: 'RGB HUE -',
+      label: 'UG HUE -',
       name: {
-        long: 'RGB_HUD',
-        short: 'RGB_HUD',
+        long: 'UG_HUED',
+        short: 'UG_HUED',
       },
-      keywords: ['Rgb Hud'],
+      keywords: ['Ug Hued', 'ug_hued', 'rgb_hud'],
     },
   },
   {
     desc: 'Increase saturation, decrease saturation when Shift is held',
     keycodeInfo: {
       code: 0x7825, // 30757 0b111100000100101
-      label: 'RGB SAT +',
+      label: 'UG SAT +',
       name: {
-        long: 'RGB_SAI',
-        short: 'RGB_SAI',
+        long: 'UG_SATU',
+        short: 'UG_SATU',
       },
-      keywords: ['Rgb Sai'],
+      keywords: ['Ug Satu', 'ug_satu', 'rgb_sai'],
     },
   },
   {
     desc: 'Decrease saturation, increase saturation when Shift is held',
     keycodeInfo: {
       code: 0x7826, // 30758 0b111100000100110
-      label: 'RGB SAT -',
+      label: 'UG SAT -',
       name: {
-        long: 'RGB_SAD',
-        short: 'RGB_SAD',
+        long: 'UG_SATD',
+        short: 'UG_SATD',
       },
-      keywords: ['Rgb Sad'],
+      keywords: ['Ug Satd', 'ug_satd', 'rgb_sad'],
     },
   },
   {
     desc: 'Increase value (brightness), decrease value when Shift is held',
     keycodeInfo: {
       code: 0x7827, // 30759 0b111100000100111
-      label: 'RGB Bright +',
+      label: 'UG Bright +',
       name: {
-        long: 'RGB_VAI',
-        short: 'RGB_VAI',
+        long: 'UG_VALU',
+        short: 'UG_VALU',
       },
-      keywords: ['Rgb Vai'],
+      keywords: ['Ug Valu', 'ug_valu', 'rgb_vai'],
     },
   },
   {
     desc: 'Decrease value (brightness), increase value when Shift is held',
     keycodeInfo: {
       code: 0x7828, // 30760 0b111100000101000
-      label: 'RGB Bright -',
+      label: 'UG Bright -',
       name: {
-        long: 'RGB_VAD',
-        short: 'RGB_VAD',
+        long: 'UG_VALD',
+        short: 'UG_VALD',
       },
-      keywords: ['Rgb Vad'],
+      keywords: ['Ug Vald', 'ug_vald', 'rgb_vad'],
     },
   },
   {
     desc: 'Increase effect speed (does not support eeprom yet), decrease speed when Shift is held',
     keycodeInfo: {
       code: 0x7829, // 30761 0b111100000101001
-      label: 'RGB Effect Speed +',
+      label: 'UG Effect Speed +',
       name: {
-        long: 'RGB_SPI',
-        short: 'RGB_SPI',
+        long: 'UG_SPDU',
+        short: 'UG_SPDU',
       },
-      keywords: ['Rgb Spi'],
+      keywords: ['Ug Spdu', 'ug_spdu', 'rgb_spi'],
     },
   },
   {
     desc: 'Decrease effect speed (does not support eeprom yet), increase speed when Shift is held',
     keycodeInfo: {
       code: 0x782a, // 30762 0b111100000101010
-      label: 'RGB Effect Speed -',
+      label: 'UG Effect Speed -',
       name: {
-        long: 'RGB_SPD',
-        short: 'RGB_SPD',
+        long: 'UG_SPDD',
+        short: 'UG_SPDD',
       },
-      keywords: ['Rgb Spd'],
+      keywords: ['Ug Spdd', 'ug_spdd', 'rgb_spd'],
     },
   },
   {

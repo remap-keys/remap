@@ -30,14 +30,7 @@ describe('KeymapCGenerator', () => {
         layers: [
           {
             index: '0',
-            keycodeNames: [
-              'KC_A',
-              'KC_B',
-              'KC_C',
-              'KC_D',
-              'KC_E',
-              'KC_F',
-            ],
+            keycodeNames: ['KC_A', 'KC_B', 'KC_C', 'KC_D', 'KC_E', 'KC_F'],
           },
         ],
         postamble: '',
@@ -131,6 +124,229 @@ void keyboard_post_init_user(void) {
     });
   });
 
+  describe('RGB/UG compatibility shim', () => {
+    const SHIM_BEGIN_MARKER = '/* BEGIN Remap shim: RGB/UG compat */';
+    const SHIM_END_MARKER = '/* END Remap shim: RGB/UG compat */';
+
+    it('injects shim before keymaps array when UG_* keycodes are present', () => {
+      const parsed: ParsedKeymap = {
+        preamble:
+          '#include QMK_KEYBOARD_H\n\nconst uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {',
+        layoutMacroName: 'LAYOUT',
+        layers: [{ index: '0', keycodeNames: ['KC_A', 'UG_TOGG', 'KC_B'] }],
+        postamble: '',
+      };
+
+      const result = generateKeymapC(parsed);
+      expect(result).toContain(SHIM_BEGIN_MARKER);
+      expect(result).toContain(SHIM_END_MARKER);
+      expect(result).toContain('#if !defined(UG_TOGG) && defined(RGB_TOG)');
+      expect(result).toContain('#  define UG_TOGG');
+      expect(result).toContain('#  define UG_SPDD');
+
+      // Shim must appear before the keymaps array declaration.
+      const shimIdx = result.indexOf(SHIM_BEGIN_MARKER);
+      const keymapsIdx = result.indexOf('const uint16_t PROGMEM keymaps');
+      expect(shimIdx).toBeGreaterThanOrEqual(0);
+      expect(keymapsIdx).toBeGreaterThan(shimIdx);
+    });
+
+    it('does not inject shim when no UG_* keycodes are present', () => {
+      const parsed: ParsedKeymap = {
+        preamble:
+          '#include QMK_KEYBOARD_H\n\nconst uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {',
+        layoutMacroName: 'LAYOUT',
+        layers: [{ index: '0', keycodeNames: ['KC_A', 'KC_B', 'KC_C'] }],
+        postamble: '',
+      };
+
+      const result = generateKeymapC(parsed);
+      expect(result).not.toContain(SHIM_BEGIN_MARKER);
+      expect(result).not.toContain('#  define UG_TOGG');
+    });
+
+    it('does not duplicate shim across round-trips', () => {
+      const original = `#include QMK_KEYBOARD_H
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(KC_A, UG_TOGG, KC_B)
+};
+`;
+
+      let content = original;
+      for (let i = 0; i < 3; i++) {
+        const parsed = parseKeymapC(content);
+        expect(parsed).not.toBeNull();
+        content = generateKeymapC(parsed!);
+      }
+
+      const beginCount = (
+        content.match(/BEGIN Remap shim: RGB\/UG compat/g) || []
+      ).length;
+      const endCount = (content.match(/END Remap shim: RGB\/UG compat/g) || [])
+        .length;
+      expect(beginCount).toBe(1);
+      expect(endCount).toBe(1);
+    });
+
+    it('refreshes an existing shim rather than stacking a second one', () => {
+      // Preamble already contains a (possibly older) shim block.
+      const original = `#include QMK_KEYBOARD_H
+
+${SHIM_BEGIN_MARKER}
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+#  define UG_TOGG RGB_TOG
+#endif
+${SHIM_END_MARKER}
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(KC_A, UG_TOGG, KC_B)
+};
+`;
+      const parsed = parseKeymapC(original);
+      expect(parsed).not.toBeNull();
+      const result = generateKeymapC(parsed!);
+
+      const beginCount = (
+        result.match(/BEGIN Remap shim: RGB\/UG compat/g) || []
+      ).length;
+      expect(beginCount).toBe(1);
+      // Fresh shim must contain all eleven UG_* definitions.
+      expect(result).toContain('#  define UG_SPDD');
+    });
+
+    it('strips unmarked legacy shims that share our #if signature', () => {
+      // Real-world input: the user's file ended up with both a pre-existing
+      // unmarked legacy shim and a Remap-marked shim. A regenerate must
+      // collapse everything down to one canonical shim.
+      const legacyPlusMarked = `// Copyright 2023 QMK
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include QMK_KEYBOARD_H
+
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+    #define UG_TOGG  RGB_TOG
+    #define UG_NEXT  RGB_MODE_FORWARD
+    #define UG_PREV  RGB_MODE_REVERSE
+    #define UG_HUEU  RGB_HUI
+    #define UG_HUED  RGB_HUD
+    #define UG_SATU  RGB_SAI
+    #define UG_SATD  RGB_SAD
+    #define UG_VALU  RGB_VAI
+    #define UG_VALD  RGB_VAD
+    #define UG_SPDU  RGB_SPI
+    #define UG_SPDD  RGB_SPD
+#endif
+
+${SHIM_BEGIN_MARKER}
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+#  define UG_TOGG  RGB_TOG
+#endif
+${SHIM_END_MARKER}
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(UG_TOGG)
+};
+`;
+      const parsed = parseKeymapC(legacyPlusMarked);
+      expect(parsed).not.toBeNull();
+      const result = generateKeymapC(parsed!);
+
+      // Only one shim should remain, and the unmarked block must be gone.
+      const beginCount = (
+        result.match(/BEGIN Remap shim: RGB\/UG compat/g) || []
+      ).length;
+      expect(beginCount).toBe(1);
+
+      const rawIfCount = (
+        result.match(/#if\s+!defined\(UG_TOGG\) && defined\(RGB_TOG\)/g) || []
+      ).length;
+      expect(rawIfCount).toBe(1);
+
+      // The 4-space-indented legacy `    #define` must be purged.
+      expect(result).not.toMatch(/ {4}#define UG_TOGG/);
+    });
+
+    it('strips a lone unmarked legacy shim (no Remap markers at all)', () => {
+      const legacyOnly = `#include QMK_KEYBOARD_H
+
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+    #define UG_TOGG  RGB_TOG
+    #define UG_NEXT  RGB_MODE_FORWARD
+#endif
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(UG_TOGG, KC_A)
+};
+`;
+      const parsed = parseKeymapC(legacyOnly);
+      expect(parsed).not.toBeNull();
+      const result = generateKeymapC(parsed!);
+
+      const beginCount = (
+        result.match(/BEGIN Remap shim: RGB\/UG compat/g) || []
+      ).length;
+      expect(beginCount).toBe(1);
+      // The 4-space indentation legacy form must be gone.
+      expect(result).not.toMatch(/ {4}#define UG_TOGG/);
+    });
+
+    it('collapses two existing shim blocks into one', () => {
+      const doubled = `#include QMK_KEYBOARD_H
+
+${SHIM_BEGIN_MARKER}
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+#  define UG_TOGG RGB_TOG
+#endif
+${SHIM_END_MARKER}
+
+${SHIM_BEGIN_MARKER}
+#if !defined(UG_TOGG) && defined(RGB_TOG)
+#  define UG_TOGG RGB_TOG
+#endif
+${SHIM_END_MARKER}
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(KC_A, UG_TOGG, KC_B)
+};
+`;
+      const parsed = parseKeymapC(doubled);
+      expect(parsed).not.toBeNull();
+      const result = generateKeymapC(parsed!);
+
+      const beginCount = (
+        result.match(/BEGIN Remap shim: RGB\/UG compat/g) || []
+      ).length;
+      expect(beginCount).toBe(1);
+    });
+
+    it('does not accumulate blank lines around the shim across round-trips', () => {
+      const original = `#include QMK_KEYBOARD_H
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT(KC_A, UG_TOGG, KC_B)
+};
+`;
+      let content = original;
+      for (let i = 0; i < 5; i++) {
+        const parsed = parseKeymapC(content);
+        expect(parsed).not.toBeNull();
+        content = generateKeymapC(parsed!);
+      }
+
+      // At most one blank line between each adjacent pair of sections.
+      const blankBetweenIncludeAndShim = content
+        .split('#include QMK_KEYBOARD_H')[1]
+        .split(SHIM_BEGIN_MARKER)[0];
+      expect(blankBetweenIncludeAndShim).toBe('\n\n');
+
+      const blankBetweenShimEndAndArray = content
+        .split(SHIM_END_MARKER)[1]
+        .split('const uint16_t')[0];
+      expect(blankBetweenShimEndAndArray).toBe('\n\n');
+    });
+  });
+
   describe('round-trip: parse → modify → generate → parse', () => {
     it('round-trips preserving keycode data after modification', () => {
       const original = `#include QMK_KEYBOARD_H
@@ -148,11 +364,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       const generated = generateKeymapC(parsed1!);
       const parsed2 = parseKeymapC(generated);
       expect(parsed2).not.toBeNull();
-      expect(parsed2!.layers[0].keycodeNames).toEqual([
-        'KC_A',
-        'KC_Z',
-        'KC_C',
-      ]);
+      expect(parsed2!.layers[0].keycodeNames).toEqual(['KC_A', 'KC_Z', 'KC_C']);
     });
 
     it('round-trips preserving preamble and postamble', () => {

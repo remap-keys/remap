@@ -395,6 +395,64 @@ describe('QmkKeycodeMapper', () => {
       });
     });
 
+    describe('UG_* output for RGB underglow keycodes', () => {
+      it('converts 0x7820 to UG_TOGG', () => {
+        expect(codeToName(0x7820)).toBe('UG_TOGG');
+      });
+
+      it('converts 0x7821 to UG_NEXT', () => {
+        expect(codeToName(0x7821)).toBe('UG_NEXT');
+      });
+
+      it('converts 0x7822 to UG_PREV', () => {
+        expect(codeToName(0x7822)).toBe('UG_PREV');
+      });
+
+      it('converts 0x7823 to UG_HUEU', () => {
+        expect(codeToName(0x7823)).toBe('UG_HUEU');
+      });
+
+      it('converts 0x7824 to UG_HUED', () => {
+        expect(codeToName(0x7824)).toBe('UG_HUED');
+      });
+
+      it('converts 0x7825 to UG_SATU', () => {
+        expect(codeToName(0x7825)).toBe('UG_SATU');
+      });
+
+      it('converts 0x7826 to UG_SATD', () => {
+        expect(codeToName(0x7826)).toBe('UG_SATD');
+      });
+
+      it('converts 0x7827 to UG_VALU', () => {
+        expect(codeToName(0x7827)).toBe('UG_VALU');
+      });
+
+      it('converts 0x7828 to UG_VALD', () => {
+        expect(codeToName(0x7828)).toBe('UG_VALD');
+      });
+
+      it('converts 0x7829 to UG_SPDU', () => {
+        expect(codeToName(0x7829)).toBe('UG_SPDU');
+      });
+
+      it('converts 0x782A to UG_SPDD', () => {
+        expect(codeToName(0x782a)).toBe('UG_SPDD');
+      });
+
+      it('round-trips UG_TOGG through nameToCode and codeToName', () => {
+        const code = nameToCode('UG_TOGG');
+        expect(code).not.toBeNull();
+        expect(codeToName(code!)).toBe('UG_TOGG');
+      });
+
+      it('normalizes legacy RGB_TOG input to UG_TOGG on output', () => {
+        const code = nameToCode('RGB_TOG');
+        expect(code).not.toBeNull();
+        expect(codeToName(code!)).toBe('UG_TOGG');
+      });
+    });
+
     describe('round-trip consistency', () => {
       const testCases = [
         'KC_A',
