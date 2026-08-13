@@ -73,6 +73,16 @@ export default function VisualKeycap({
     ? t('"{{name}}" is a custom keycode defined in the source code. It cannot be edited in the Visual Editor.', { name: label })
     : '';
 
+  const labelLength = label.length;
+  const labelSizeClass =
+    labelLength > 24
+      ? 'visual-keycap-label-xs'
+      : labelLength > 18
+        ? 'visual-keycap-label-s'
+        : labelLength > 14
+          ? 'visual-keycap-label-m'
+          : '';
+
   return (
     <Tooltip title={tooltipTitle} arrow disableHoverListener={!isCustom}>
       <div
@@ -96,6 +106,7 @@ export default function VisualKeycap({
             <span
               className={[
                 'visual-keycap-label',
+                labelSizeClass,
                 isCustom && 'visual-keycap-custom',
               ]
                 .filter(Boolean)

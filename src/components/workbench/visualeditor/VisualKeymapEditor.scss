@@ -94,6 +94,18 @@ $key-size: 56px;
   overflow-wrap: anywhere;
   max-width: 100%;
 
+  &.visual-keycap-label-m {
+    font-size: 8px;
+  }
+
+  &.visual-keycap-label-s {
+    font-size: 7px;
+  }
+
+  &.visual-keycap-label-xs {
+    font-size: 6px;
+  }
+
   &.visual-keycap-custom {
     color: #e65100;
     font-style: italic;
