@@ -88,8 +88,10 @@ $key-size: 56px;
   text-align: center;
   line-height: 1.1;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
   max-width: 100%;
 
   &.visual-keycap-custom {
