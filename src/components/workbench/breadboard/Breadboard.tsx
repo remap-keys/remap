@@ -48,6 +48,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import FlashFirmwareDialog from '../../common/firmware/FlashFirmwareDialog.container';
 import { t } from 'i18next';
+import AnsiText from './AnsiText';
 import { useUserPurchaseHook } from './UserPurchaseHook';
 import { KeyboardLayoutPanel } from '../dialogs/LayoutPreviewDialog';
 import { KeyboardJsonSettingsPanel } from '../dialogs/KeyboardJsonEditorDialog';
@@ -447,10 +448,15 @@ export default function Breadboard(
                       fontFamily: 'monospace',
                     }}
                   >
-                    {selectedBuildingTask !== undefined &&
-                      (selectedOutputTab === 0
-                        ? selectedBuildingTask.stdout
-                        : selectedBuildingTask.stderr)}
+                    {selectedBuildingTask !== undefined && (
+                      <AnsiText
+                        text={
+                          selectedOutputTab === 0
+                            ? selectedBuildingTask.stdout
+                            : selectedBuildingTask.stderr
+                        }
+                      />
+                    )}
                   </Typography>
                 </Box>
               </Box>
