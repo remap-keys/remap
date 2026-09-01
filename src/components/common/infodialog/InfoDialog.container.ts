@@ -10,6 +10,8 @@ const mapStateToProps = (state: RootState) => {
     auth: state.auth.instance,
     organization: state.entities.organization,
     viaProtocolVersion: state.entities.device.viaProtocolVersion,
+    firmwareType: state.entities.device.firmwareType,
+    remapProtocolVersion: state.entities.device.remapProtocolVersion,
   };
 };
 export type InfoDialogStateType = ReturnType<typeof mapStateToProps>;

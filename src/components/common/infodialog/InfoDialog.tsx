@@ -22,6 +22,7 @@ import {
   KeyboardDefinitionStatus,
 } from '../../../services/storage/Storage';
 import { KeyboardDefinitionSchema } from '../../../gen/types/KeyboardDefinition';
+import { FirmwareType } from '../../../services/hid/Hid';
 import firebase from 'firebase/app';
 import { t } from 'i18next';
 
@@ -34,6 +35,8 @@ type OwnState = {
     vendorId: number;
     productId: number;
     viaProtocolVersion: number;
+    firmwareType: FirmwareType;
+    remapProtocolVersion: number;
   };
   keyboardDef: {
     name: string;
@@ -70,6 +73,8 @@ export default class InfoDialog extends React.Component<
         vendorId: NaN,
         productId: NaN,
         viaProtocolVersion: NaN,
+        firmwareType: FirmwareType.VIA,
+        remapProtocolVersion: NaN,
       },
       keyboardDef: {
         name: '',
@@ -98,6 +103,8 @@ export default class InfoDialog extends React.Component<
     const deviceInfo = {
       ...this.props.keyboard!.getInformation(),
       viaProtocolVersion: this.props.viaProtocolVersion!,
+      firmwareType: this.props.firmwareType!,
+      remapProtocolVersion: this.props.remapProtocolVersion!,
     };
     const keyboardDef = this.props.keyboardDefinition!;
     this.setState({ deviceInfo, keyboardDef });
@@ -139,10 +146,23 @@ export default class InfoDialog extends React.Component<
               label="Product ID"
               value={hexadecimal(this.state.deviceInfo.productId, 4)}
             />
-            <InfoRow
-              label="VIA Protocol Version"
-              value={hexadecimal(this.state.deviceInfo.viaProtocolVersion, 4)}
-            />
+            {this.state.deviceInfo.firmwareType === FirmwareType.REMAP ? (
+              <React.Fragment>
+                <InfoRow label={t('Firmware Type')} value="Remap" />
+                <InfoRow
+                  label={t('Remap Firmware Version')}
+                  value={hexadecimal(
+                    this.state.deviceInfo.remapProtocolVersion,
+                    4
+                  )}
+                />
+              </React.Fragment>
+            ) : (
+              <InfoRow
+                label="VIA Protocol Version"
+                value={hexadecimal(this.state.deviceInfo.viaProtocolVersion, 4)}
+              />
+            )}
             <KeyboardDefinitionSection
               keyboardDefinitionDocument={this.props.keyboardDefinitionDocument}
               keyboardDefinition={this.props.keyboardDefinition}
