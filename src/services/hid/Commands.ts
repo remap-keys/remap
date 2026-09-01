@@ -14,6 +14,7 @@ export abstract class AbstractCommand<
 {
   private readonly request: TRequest;
   private readonly responseHandler: ICommandResponseHandler<TResponse>;
+  private commandIdOffset: number = 0;
 
   static RAW_BUFFER_SIZE: number = 32;
 
@@ -31,6 +32,24 @@ export abstract class AbstractCommand<
 
   protected getResponseHandler(): ICommandResponseHandler<TResponse> {
     return this.responseHandler;
+  }
+
+  /**
+   * Injects the firmware-specific command id offset. Called by Keyboard on
+   * enqueue for every command that goes through the normal queue. REMAP
+   * firmware shifts VIA-equivalent command ids by 0x80; VIA firmware leaves
+   * this at 0 (the default).
+   */
+  setCommandIdOffset(offset: number): void {
+    this.commandIdOffset = offset;
+  }
+
+  /**
+   * Returns the wire-level command id for a given VIA-equivalent base id,
+   * applying the offset set via setCommandIdOffset().
+   */
+  protected getCommandId(baseId: number): number {
+    return baseId + this.commandIdOffset;
   }
 
   abstract createReport(): Uint8Array;
@@ -156,7 +175,7 @@ export class BacklightGetValueCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const valueId = this.getRequest().valueId;
     return new Uint8Array([
-      id_custom_get_value,
+      this.getCommandId(id_custom_get_value),
       id_qmk_backlight_channel,
       valueId,
     ]);
@@ -170,7 +189,7 @@ export class BacklightGetValueCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_custom_get_value &&
+      resultArray[0] === this.getCommandId(id_custom_get_value) &&
       resultArray[1] === id_qmk_backlight_channel &&
       resultArray[2] === this.getRequest().valueId
     );
@@ -193,7 +212,7 @@ export class BacklightSetValueCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const valueId = this.getRequest().valueId;
     return new Uint8Array([
-      id_custom_set_value,
+      this.getCommandId(id_custom_set_value),
       id_qmk_backlight_channel,
       valueId,
       this.getRequest().value,
@@ -209,7 +228,7 @@ export class BacklightSetValueCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const valueId = this.getRequest().valueId;
     return (
-      resultArray[0] === id_custom_set_value &&
+      resultArray[0] === this.getCommandId(id_custom_set_value) &&
       resultArray[1] === id_qmk_backlight_channel &&
       resultArray[2] === valueId &&
       resultArray[3] === this.getRequest().value
@@ -222,7 +241,10 @@ export class BacklightSaveCommand extends AbstractCommand<
   ICommandResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_custom_save, id_qmk_backlight_channel]);
+    return new Uint8Array([
+      this.getCommandId(id_custom_save),
+      id_qmk_backlight_channel,
+    ]);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -232,7 +254,7 @@ export class BacklightSaveCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_custom_save &&
+      resultArray[0] === this.getCommandId(id_custom_save) &&
       resultArray[1] === id_qmk_backlight_channel
     );
   }
@@ -254,7 +276,7 @@ export class RgbLightGetValueCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const valueId = this.getRequest().valueId;
     return new Uint8Array([
-      id_custom_get_value,
+      this.getCommandId(id_custom_get_value),
       id_qmk_rgblight_channel,
       valueId,
     ]);
@@ -269,7 +291,7 @@ export class RgbLightGetValueCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_custom_get_value &&
+      resultArray[0] === this.getCommandId(id_custom_get_value) &&
       resultArray[1] === id_qmk_rgblight_channel &&
       resultArray[2] === this.getRequest().valueId
     );
@@ -294,7 +316,7 @@ export class RgbLightSetValueCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const valueId = this.getRequest().valueId;
     return new Uint8Array([
-      id_custom_set_value,
+      this.getCommandId(id_custom_set_value),
       id_qmk_rgblight_channel,
       valueId,
       this.getRequest().value1,
@@ -312,7 +334,7 @@ export class RgbLightSetValueCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const valueId = this.getRequest().valueId;
     return (
-      resultArray[0] === id_custom_set_value &&
+      resultArray[0] === this.getCommandId(id_custom_set_value) &&
       resultArray[1] === id_qmk_rgblight_channel &&
       resultArray[2] === valueId &&
       resultArray[3] === this.getRequest().value1 &&
@@ -326,7 +348,10 @@ export class RgbLightSaveCommand extends AbstractCommand<
   ICommandResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_custom_save, id_qmk_rgblight_channel]);
+    return new Uint8Array([
+      this.getCommandId(id_custom_save),
+      id_qmk_rgblight_channel,
+    ]);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -336,7 +361,7 @@ export class RgbLightSaveCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_custom_save &&
+      resultArray[0] === this.getCommandId(id_custom_save) &&
       resultArray[1] === id_qmk_rgblight_channel
     );
   }
@@ -362,7 +387,7 @@ export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_get_keycode,
+      this.getCommandId(id_dynamic_keymap_get_keycode),
       req.layer,
       req.row,
       req.column,
@@ -383,7 +408,7 @@ export class DynamicKeymapGetKeycodeCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_get_keycode &&
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_get_keycode) &&
       resultArray[1] === req.layer &&
       resultArray[2] === req.row &&
       resultArray[3] === req.column
@@ -412,7 +437,7 @@ export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_set_keycode,
+      this.getCommandId(id_dynamic_keymap_set_keycode),
       req.layer,
       req.row,
       req.column,
@@ -435,7 +460,7 @@ export class DynamicKeymapSetKeycodeCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_set_keycode &&
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_set_keycode) &&
       resultArray[1] === req.layer &&
       resultArray[2] === req.row &&
       resultArray[3] === req.column &&
@@ -454,7 +479,9 @@ export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<
   IDynamicKeymapGetLayerCountResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_dynamic_keymap_get_layer_count]);
+    return new Uint8Array([
+      this.getCommandId(id_dynamic_keymap_get_layer_count),
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapGetLayerCountResponse {
@@ -464,7 +491,9 @@ export class DynamicKeymapGetLayerCountCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_dynamic_keymap_get_layer_count;
+    return (
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_get_layer_count)
+    );
   }
 }
 
@@ -486,7 +515,7 @@ export class DynamicKeymapReadBufferCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_get_buffer,
+      this.getCommandId(id_dynamic_keymap_get_buffer),
       req.offset >> 8,
       req.offset & 0xff,
       req.size,
@@ -506,7 +535,7 @@ export class DynamicKeymapReadBufferCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_get_buffer &&
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_get_buffer) &&
       resultArray[1] === req.offset >> 8 &&
       resultArray[2] === (req.offset & 0xff) &&
       resultArray[3] === req.size
@@ -519,7 +548,7 @@ export class DynamicKeymapResetCommand extends AbstractCommand<
   ICommandResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_dynamic_keymap_reset]);
+    return new Uint8Array([this.getCommandId(id_dynamic_keymap_reset)]);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -528,7 +557,7 @@ export class DynamicKeymapResetCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_dynamic_keymap_reset;
+    return resultArray[0] === this.getCommandId(id_dynamic_keymap_reset);
   }
 }
 
@@ -542,7 +571,7 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
   IBleMicroProStoreKeymapPersistentlyResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_set_keyboard_value, 0xff]);
+    return new Uint8Array([this.getCommandId(id_set_keyboard_value), 0xff]);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -555,7 +584,10 @@ export class BleMicroProStoreKeymapPersistentlyCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_set_keyboard_value && resultArray[1] === 0xff;
+    return (
+      resultArray[0] === this.getCommandId(id_set_keyboard_value) &&
+      resultArray[1] === 0xff
+    );
   }
 }
 
@@ -568,7 +600,9 @@ export class DynamicKeymapMacroGetCountCommand extends AbstractCommand<
   IDynamicKeymapMacroGetCountResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_dynamic_keymap_macro_get_count]);
+    return new Uint8Array([
+      this.getCommandId(id_dynamic_keymap_macro_get_count),
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): IDynamicKeymapMacroGetCountResponse {
@@ -579,7 +613,9 @@ export class DynamicKeymapMacroGetCountCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_dynamic_keymap_macro_get_count;
+    return (
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_macro_get_count)
+    );
   }
 }
 
@@ -593,7 +629,9 @@ export class DynamicKeymapMacroGetBufferSizeCommand extends AbstractCommand<
   IDynamicKeymapMacroGetBufferSizeResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_dynamic_keymap_macro_get_buffer_size]);
+    return new Uint8Array([
+      this.getCommandId(id_dynamic_keymap_macro_get_buffer_size),
+    ]);
   }
 
   createResponse(
@@ -606,7 +644,10 @@ export class DynamicKeymapMacroGetBufferSizeCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_dynamic_keymap_macro_get_buffer_size;
+    return (
+      resultArray[0] ===
+      this.getCommandId(id_dynamic_keymap_macro_get_buffer_size)
+    );
   }
 }
 
@@ -625,7 +666,7 @@ export class SwitchMatrixStateCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const offset = this.getRequest().offset;
     return new Uint8Array([
-      id_get_keyboard_value,
+      this.getCommandId(id_get_keyboard_value),
       id_switch_matrix_state,
       offset,
     ]);
@@ -639,7 +680,7 @@ export class SwitchMatrixStateCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_get_keyboard_value &&
+      resultArray[0] === this.getCommandId(id_get_keyboard_value) &&
       resultArray[1] === id_switch_matrix_state &&
       resultArray[2] === this.getRequest().offset
     );
@@ -655,7 +696,10 @@ export class GetLayoutOptionsCommand extends AbstractCommand<
   IGetLayoutOptionsResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_get_keyboard_value, id_layout_options]);
+    return new Uint8Array([
+      this.getCommandId(id_get_keyboard_value),
+      id_layout_options,
+    ]);
   }
 
   createResponse(resultArray: Uint8Array): IGetLayoutOptionsResponse {
@@ -671,7 +715,7 @@ export class GetLayoutOptionsCommand extends AbstractCommand<
 
   isSameRequest(resultArray: Uint8Array): boolean {
     return (
-      resultArray[0] === id_get_keyboard_value &&
+      resultArray[0] === this.getCommandId(id_get_keyboard_value) &&
       resultArray[1] === id_layout_options
     );
   }
@@ -695,7 +739,7 @@ export class DynamicKeymapMacroGetBufferCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_macro_get_buffer,
+      this.getCommandId(id_dynamic_keymap_macro_get_buffer),
       req.offset >> 8,
       req.offset & 0xff,
       req.size,
@@ -717,7 +761,8 @@ export class DynamicKeymapMacroGetBufferCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_macro_get_buffer &&
+      resultArray[0] ===
+        this.getCommandId(id_dynamic_keymap_macro_get_buffer) &&
       resultArray[1] === req.offset >> 8 &&
       resultArray[2] === (req.offset & 0xff) &&
       resultArray[3] === req.size
@@ -744,7 +789,7 @@ export class DynamicKeymapMacroSetBufferCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     const buf = new Uint8Array(4 + Math.min(req.buffer.length, 28));
-    buf[0] = id_dynamic_keymap_macro_set_buffer;
+    buf[0] = this.getCommandId(id_dynamic_keymap_macro_set_buffer);
     buf[1] = req.offset >> 8;
     buf[2] = req.offset & 0xff;
     buf[3] = req.size;
@@ -768,7 +813,8 @@ export class DynamicKeymapMacroSetBufferCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_macro_set_buffer &&
+      resultArray[0] ===
+        this.getCommandId(id_dynamic_keymap_macro_set_buffer) &&
       resultArray[1] === req.offset >> 8 &&
       resultArray[2] === (req.offset & 0xff) &&
       resultArray[3] === req.size
@@ -787,7 +833,7 @@ export class SetLayoutOptionsCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const value = this.getRequest().value;
     return new Uint8Array([
-      id_set_keyboard_value,
+      this.getCommandId(id_set_keyboard_value),
       0x02,
       (value >> 24) & 0xff,
       (value >> 16) & 0xff,
@@ -802,7 +848,10 @@ export class SetLayoutOptionsCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_set_keyboard_value && resultArray[1] === 0x02;
+    return (
+      resultArray[0] === this.getCommandId(id_set_keyboard_value) &&
+      resultArray[1] === 0x02
+    );
   }
 }
 
@@ -815,7 +864,7 @@ export class GetProtocolVersionCommand extends AbstractCommand<
   IGetProtocolVersionResponse
 > {
   createReport(): Uint8Array {
-    return new Uint8Array([id_get_protocol_version]);
+    return new Uint8Array([this.getCommandId(id_get_protocol_version)]);
   }
 
   createResponse(resultArray: Uint8Array): IGetProtocolVersionResponse {
@@ -825,7 +874,7 @@ export class GetProtocolVersionCommand extends AbstractCommand<
   }
 
   isSameRequest(resultArray: Uint8Array): boolean {
-    return resultArray[0] === id_get_protocol_version;
+    return resultArray[0] === this.getCommandId(id_get_protocol_version);
   }
 }
 
@@ -846,7 +895,7 @@ export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_get_encoder,
+      this.getCommandId(id_dynamic_keymap_get_encoder),
       req.layer,
       req.encoderId,
       req.clockwise ? 0x01 : 0x00,
@@ -869,7 +918,7 @@ export class DynamicKeymapGetEncoderCommand extends AbstractCommand<
     const req = this.getRequest();
     return (
       resultArray[0] === id_unhandled ||
-      (resultArray[0] === id_dynamic_keymap_get_encoder &&
+      (resultArray[0] === this.getCommandId(id_dynamic_keymap_get_encoder) &&
         resultArray[1] === req.layer &&
         resultArray[2] === req.encoderId &&
         resultArray[3] === (req.clockwise ? 0x01 : 0x00))
@@ -891,7 +940,7 @@ export class DynamicKeymapSetEncoderCommand extends AbstractCommand<
   createReport(): Uint8Array {
     const req = this.getRequest();
     return new Uint8Array([
-      id_dynamic_keymap_set_encoder,
+      this.getCommandId(id_dynamic_keymap_set_encoder),
       req.layer,
       req.encoderId,
       req.clockwise ? 0x01 : 0x00,
@@ -908,7 +957,7 @@ export class DynamicKeymapSetEncoderCommand extends AbstractCommand<
   isSameRequest(resultArray: Uint8Array): boolean {
     const req = this.getRequest();
     return (
-      resultArray[0] === id_dynamic_keymap_set_encoder &&
+      resultArray[0] === this.getCommandId(id_dynamic_keymap_set_encoder) &&
       resultArray[1] === req.layer &&
       resultArray[2] === req.encoderId &&
       resultArray[3] === (req.clockwise ? 0x01 : 0x00) &&

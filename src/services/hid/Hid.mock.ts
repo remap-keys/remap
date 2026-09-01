@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { KeyboardLabelLang } from '../labellang/KeyLabelLangs';
 import {
+  FirmwareType,
   ICommand,
   IConnectionEventHandler,
   IConnectParams,
   ICustomKeycode,
+  IDetectFirmwareResult,
   IFetchEncodersKeymapsResult,
   IFetchLayoutOptionsResult,
   IFetchViaProtocolVersionResult,
@@ -282,6 +284,11 @@ export const mockIKeyboad: IKeyboard = {
   fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult> {
     return new Promise((resolve) => {
       resolve({ success: true, viaProtocolVersion: 0x0a });
+    });
+  },
+  detectFirmware(): Promise<IDetectFirmwareResult> {
+    return new Promise((resolve) => {
+      resolve({ success: true, firmwareType: FirmwareType.VIA });
     });
   },
 };

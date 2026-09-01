@@ -25,6 +25,13 @@ import {
   IFetchEncodersKeymapsResult,
   IEncoderKeymaps,
 } from './Hid';
+import {
+  FirmwareType,
+  IDetectFirmwareResult,
+  REMAP_COMMAND_ID_OFFSET,
+  RemapIdentifyCommand,
+  buildResponseHandler as buildRemapIdentifyResponseHandler,
+} from './FirmwareDetection';
 import { KeycodeList } from './KeycodeList';
 import {
   BacklightGetValueCommand,
@@ -67,6 +74,7 @@ export class Keyboard implements IKeyboard {
   private readonly hid: IHid;
   private readonly device: HIDDevice;
   private commandQueue: ICommand[];
+  private commandIdOffset: number = 0;
 
   constructor(hid: IHid, device: HIDDevice) {
     this.hid = hid;
@@ -164,6 +172,7 @@ export class Keyboard implements IKeyboard {
 
   async enqueue(command: ICommand): Promise<IResult> {
     if (this.isOpened()) {
+      command.setCommandIdOffset(this.commandIdOffset);
       this.commandQueue.push(command);
       if (this.commandQueue.length === 1) {
         await this.commandQueue[0].sendReport(this.getDevice());
@@ -177,6 +186,24 @@ export class Keyboard implements IKeyboard {
         error: 'Not connected or opened.',
       };
     }
+  }
+
+  detectFirmware(): Promise<IDetectFirmwareResult> {
+    return new Promise<IDetectFirmwareResult>((resolve) => {
+      const command = new RemapIdentifyCommand(
+        {},
+        buildRemapIdentifyResponseHandler((detectResult) => {
+          if (detectResult.success && detectResult.firmwareType) {
+            this.commandIdOffset =
+              detectResult.firmwareType === FirmwareType.REMAP
+                ? REMAP_COMMAND_ID_OFFSET
+                : 0;
+          }
+          resolve(detectResult);
+        })
+      );
+      return this.enqueue(command);
+    });
   }
 
   async fetchEncodersKeymaps(

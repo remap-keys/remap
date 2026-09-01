@@ -8,6 +8,9 @@ import {
   ISwapHandsOption,
 } from './Composition';
 import { KeymapCategory } from './KeycodeList';
+import type { IDetectFirmwareResult } from './FirmwareDetection';
+export { FirmwareType } from './FirmwareDetection';
+export type { IDetectFirmwareResult } from './FirmwareDetection';
 
 export interface IResult {
   readonly success: boolean;
@@ -218,12 +221,14 @@ export interface IKeyboard {
   fetchMacroBuffer(bufferSize: number): Promise<IFetchMacroBufferResult>;
   updateMacroBuffer(offset: number, buffer: Uint8Array): Promise<IResult>;
   fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult>;
+  detectFirmware(): Promise<IDetectFirmwareResult>;
 }
 
 export interface ICommand {
   sendReport(device: any): Promise<void>;
   handleInputReport(data: any): Promise<void>;
   canHandleInputReport(data: any): boolean;
+  setCommandIdOffset(offset: number): void;
 }
 
 export interface IConnectResult extends IResult {

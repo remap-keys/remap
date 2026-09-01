@@ -1,5 +1,6 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import {
+  FirmwareType,
   ICustomKeycode,
   IEncoderKeymaps,
   IHid,
@@ -41,6 +42,8 @@ export const HID_UPDATE_MACRO_BUFFER_BYTES = `${HID_ACTIONS}/UpdateMacroBufferBy
 export const HID_UPDATE_MACRO_MAX_BUFFER_SIZE = `${HID_ACTIONS}/UpdateMacroMaxBufferSize`;
 export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HID_UPDATE_VIA_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateViaProtocolVersion`;
+export const HID_UPDATE_FIRMWARE_TYPE = `${HID_ACTIONS}/UpdateFirmwareType`;
+export const HID_UPDATE_REMAP_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateRemapProtocolVersion`;
 export const HID_UPDATE_ENCODERS_KEYMAPS = `${HID_ACTIONS}/UpdateEncodersKeymaps`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
@@ -116,6 +119,20 @@ export const HidActions = {
   updateViaProtocolVersion: (version: number) => {
     return {
       type: HID_UPDATE_VIA_PROTOCOL_VERSION,
+      value: version,
+    };
+  },
+
+  updateFirmwareType: (firmwareType: FirmwareType) => {
+    return {
+      type: HID_UPDATE_FIRMWARE_TYPE,
+      value: firmwareType,
+    };
+  },
+
+  updateRemapProtocolVersion: (version: number) => {
+    return {
+      type: HID_UPDATE_REMAP_PROTOCOL_VERSION,
       value: version,
     };
   },
@@ -301,9 +318,39 @@ export const hidActionsThunk = {
         );
       }
 
-      const isBleMicroPro = keyboard
-        .getInformation()
-        .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO);
+      // Firmware detection: REMAP firmware answers command id 0x80 with the
+      // "RMP" magic bytes; VIA firmware returns 0xFF (id_unhandled). This
+      // must run before any other VIA-equivalent command, because it
+      // determines the command id offset applied to subsequent commands.
+      const detectResult = await keyboard.detectFirmware();
+      if (!detectResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Detecting the firmware type failed.',
+            detectResult.cause
+          )
+        );
+        return;
+      }
+      const firmwareType = detectResult.firmwareType!;
+      dispatch(HidActions.updateFirmwareType(firmwareType));
+      if (firmwareType === FirmwareType.REMAP) {
+        dispatch(
+          HidActions.updateRemapProtocolVersion(
+            detectResult.remapProtocolVersion ?? 0
+          )
+        );
+      }
+
+      // REMAP firmware never runs on a BLE Micro Pro device, so force the
+      // flag off in that case; on VIA firmware fall back to the product
+      // name prefix heuristic as before.
+      const isBleMicroPro =
+        firmwareType === FirmwareType.REMAP
+          ? false
+          : keyboard
+              .getInformation()
+              .productName.includes(PRODUCT_PREFIX_FOR_BLE_MICRO_PRO);
       dispatch(HidActions.updateBleMicroPro(isBleMicroPro));
 
       // Override custom keycode list if the keyboard uses BLE Micro Pro
@@ -326,16 +373,26 @@ export const hidActionsThunk = {
         );
       }
 
-      const viaProtocolVersionResult = await keyboard.fetchViaProtocolVersion();
-      if (!viaProtocolVersionResult.success) {
-        dispatch(
-          NotificationActions.addError(
-            'Fetching the VIA protocol version failed.'
-          )
-        );
-        return;
+      // REMAP firmware does not implement id_get_protocol_version (0x01)
+      // because the identify response already includes its own protocol
+      // version. Treat REMAP as VIA v13 equivalent (0x0d) so downstream
+      // version-gated behavior (encoders, macros, etc.) works unchanged.
+      let viaProtocolVersion: number;
+      if (firmwareType === FirmwareType.REMAP) {
+        viaProtocolVersion = 0x0d;
+      } else {
+        const viaProtocolVersionResult =
+          await keyboard.fetchViaProtocolVersion();
+        if (!viaProtocolVersionResult.success) {
+          dispatch(
+            NotificationActions.addError(
+              'Fetching the VIA protocol version failed.'
+            )
+          );
+          return;
+        }
+        viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
       }
-      const viaProtocolVersion = viaProtocolVersionResult.viaProtocolVersion!;
 
       // If the VIA protocol version of the connected keyboard is less than 0x0C,
       // show warning message and close the keyboard.
