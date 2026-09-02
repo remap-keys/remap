@@ -28,6 +28,7 @@ import { KeyOp } from '../gen/types/KeyboardDefinition';
 import { getEncoderIdList, sendOperationLog } from './utils';
 import { bmpKeyInfoList } from '../services/hid/KeycodeInfoListBmp';
 import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
+import { isError } from '../types';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -259,7 +260,7 @@ export const hidActionsThunk = {
       dispatch: ThunkDispatch<RootState, undefined, ActionTypes>,
       getState: () => RootState
     ) => {
-      const { entities } = getState();
+      const { entities, storage } = getState();
       const keyboards: IKeyboard[] = entities.keyboards;
 
       if (keyboard.isOpened()) {
@@ -344,6 +345,41 @@ export const hidActionsThunk = {
                   : []
               )
             );
+
+            // Best-effort Firebase catalog metadata lookup ("両取り"):
+            // the definition body always comes from the firmware, but if
+            // this keyboard also happens to be registered in the catalog,
+            // pull the document metadata so that catalog-side features
+            // (Registered by, Status badge, share keymap, catalog firmware
+            // flash) light up. Any failure here — network error, missing
+            // storage instance, duplicate/absent document — is silent: the
+            // embedded definition alone is enough to run Configure.
+            if (storage.instance !== null) {
+              const catalogDocResult =
+                await storage.instance.fetchKeyboardDefinitionDocumentByDeviceInfo(
+                  keyboardInfo.vendorId,
+                  keyboardInfo.productId,
+                  keyboardInfo.productName
+                );
+              if (!isError(catalogDocResult) && catalogDocResult.value.exists) {
+                const doc = catalogDocResult.value.document!;
+                dispatch(StorageActions.updateKeyboardDefinitionDocument(doc));
+                if (doc.authorType === 'organization' && doc.organizationId) {
+                  const orgResult =
+                    await storage.instance.fetchOrganizationById(
+                      doc.organizationId
+                    );
+                  if (!isError(orgResult)) {
+                    dispatch(
+                      StorageActions.updateOrganization(
+                        orgResult.value.organization
+                      )
+                    );
+                  }
+                }
+              }
+            }
+
             dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
             await dispatch(hidActionsThunk.openKeyboard());
             return;
