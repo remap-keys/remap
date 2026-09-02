@@ -286,6 +286,80 @@ export const hidActionsThunk = {
 
       dispatch(HidActions.updateKeyboard(targetKbd));
       const keyboardInfo = keyboard.getInformation();
+
+      // Open the device early so that we can query it for firmware
+      // identification before deciding where to source the keyboard
+      // definition from. Keeping the device open through the whole
+      // discovery flow lets REMAP firmware serve its own embedded
+      // definition and lets the manual-upload path skip a second open.
+      const openResult = await keyboard.open();
+      if (!openResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Could not open the keyboard.',
+            openResult.cause
+          )
+        );
+        return;
+      }
+
+      const detectResult = await keyboard.detectFirmware();
+      if (!detectResult.success) {
+        dispatch(
+          NotificationActions.addError(
+            'Detecting the firmware type failed.',
+            detectResult.cause
+          )
+        );
+        await dispatch(hidActionsThunk.closeOpenedKeyboard());
+        return;
+      }
+      const firmwareType = detectResult.firmwareType!;
+      dispatch(HidActions.updateFirmwareType(firmwareType));
+      if (firmwareType === FirmwareType.REMAP) {
+        dispatch(
+          HidActions.updateRemapProtocolVersion(
+            detectResult.remapProtocolVersion ?? 0
+          )
+        );
+
+        // Embedded-first: prefer the JSON the firmware ships with over
+        // whatever the Firebase catalog might have registered. If the
+        // firmware does not embed a definition, or the payload fails
+        // schema validation, fall through to the catalog lookup.
+        const embeddedResult = await keyboard.fetchEmbeddedDefinition();
+        if (embeddedResult.success && embeddedResult.definition) {
+          const validation = validateKeyboardDefinitionSchema(
+            embeddedResult.definition
+          );
+          if (validation.valid) {
+            dispatch(
+              StorageActions.updateKeyboardDefinition(embeddedResult.definition)
+            );
+            dispatch(HidActions.updateIsEmbeddedDefinition(true));
+            dispatch(
+              LayoutOptionsActions.initSelectedOptions(
+                embeddedResult.definition.layouts.labels
+                  ? embeddedResult.definition.layouts.labels
+                  : []
+              )
+            );
+            dispatch(AppActions.updateSetupPhase(SetupPhase.openingKeyboard));
+            await dispatch(hidActionsThunk.openKeyboard());
+            return;
+          }
+          console.warn(
+            'Embedded definition failed schema validation; falling back to Firebase catalog.',
+            validation.errors
+          );
+        } else if (!embeddedResult.success) {
+          console.warn(
+            'Failed to fetch embedded definition from REMAP firmware; falling back to Firebase catalog.',
+            embeddedResult.error
+          );
+        }
+      }
+
       dispatch(
         AppActions.updateSetupPhase(SetupPhase.fetchingKeyboardDefinition)
       );
@@ -306,10 +380,17 @@ export const hidActionsThunk = {
     ) => {
       const { app, entities, storage, auth } = getState();
       const keyboard = entities.keyboard!;
-      const result = await keyboard.open();
-      if (!result.success) {
-        console.error('Could not open');
-        dispatch(NotificationActions.addError('Could not open', result.cause));
+      // The device is expected to be already open by the time openKeyboard
+      // runs: connectKeyboard opens it up-front so that firmware detection
+      // and (for REMAP firmware) the embedded-definition fetch can happen
+      // before the definition source is chosen. This function is now the
+      // "load configuration into an already-open keyboard" step.
+      if (!keyboard.isOpened()) {
+        dispatch(
+          NotificationActions.addError(
+            'The keyboard is not open. Reconnect the keyboard to continue.'
+          )
+        );
         return;
       }
       sendEventToGoogleAnalytics('configure/open', {
@@ -327,68 +408,9 @@ export const hidActionsThunk = {
         );
       }
 
-      // Firmware detection: REMAP firmware answers command id 0x80 with the
-      // "RMP" magic bytes; VIA firmware returns 0xFF (id_unhandled). This
-      // must run before any other VIA-equivalent command, because it
-      // determines the command id offset applied to subsequent commands.
-      const detectResult = await keyboard.detectFirmware();
-      if (!detectResult.success) {
-        dispatch(
-          NotificationActions.addError(
-            'Detecting the firmware type failed.',
-            detectResult.cause
-          )
-        );
-        return;
-      }
-      const firmwareType = detectResult.firmwareType!;
-      dispatch(HidActions.updateFirmwareType(firmwareType));
-      if (firmwareType === FirmwareType.REMAP) {
-        dispatch(
-          HidActions.updateRemapProtocolVersion(
-            detectResult.remapProtocolVersion ?? 0
-          )
-        );
-      }
-
-      // Embedded-first policy for REMAP firmware: when a Remap-native
-      // firmware provides its own keyboard definition JSON, prefer that
-      // over anything the Firebase catalog may have supplied. If the
-      // firmware does not embed one, or the payload fails validation,
-      // silently fall back to the definition already in state.
-      let effectiveDefinition = entities.keyboardDefinition;
-      if (firmwareType === FirmwareType.REMAP) {
-        const embeddedResult = await keyboard.fetchEmbeddedDefinition();
-        if (embeddedResult.success && embeddedResult.definition) {
-          const validation = validateKeyboardDefinitionSchema(
-            embeddedResult.definition
-          );
-          if (validation.valid) {
-            effectiveDefinition = embeddedResult.definition;
-            dispatch(
-              StorageActions.updateKeyboardDefinition(embeddedResult.definition)
-            );
-            dispatch(HidActions.updateIsEmbeddedDefinition(true));
-            dispatch(
-              LayoutOptionsActions.initSelectedOptions(
-                embeddedResult.definition.layouts.labels
-                  ? embeddedResult.definition.layouts.labels
-                  : []
-              )
-            );
-          } else {
-            console.warn(
-              'Embedded definition failed schema validation; falling back to Firebase definition.',
-              validation.errors
-            );
-          }
-        } else if (!embeddedResult.success) {
-          console.warn(
-            'Failed to fetch embedded definition from REMAP firmware; falling back to Firebase definition.',
-            embeddedResult.error
-          );
-        }
-      }
+      // Firmware type was already resolved by connectKeyboard; read it
+      // back from state instead of re-detecting.
+      const firmwareType = entities.device.firmwareType;
 
       // REMAP firmware never runs on a BLE Micro Pro device, so force the
       // flag off in that case; on VIA firmware fall back to the product
@@ -403,7 +425,7 @@ export const hidActionsThunk = {
 
       // Override custom keycode list if the keyboard uses BLE Micro Pro
       const customKeycodes = !isBleMicroPro
-        ? effectiveDefinition?.customKeycodes
+        ? entities.keyboardDefinition?.customKeycodes
         : bmpKeyInfoList.map((k) => {
             return {
               name: k.keycodeInfo.label,
@@ -415,7 +437,7 @@ export const hidActionsThunk = {
       if (isBleMicroPro) {
         dispatch(
           StorageActions.updateKeyboardDefinition({
-            ...effectiveDefinition,
+            ...entities.keyboardDefinition,
             customKeycodes: customKeycodes,
           })
         );
