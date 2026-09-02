@@ -27,6 +27,7 @@ import { maxValueByBitLength } from '../utils/NumberUtils';
 import { KeyOp } from '../gen/types/KeyboardDefinition';
 import { getEncoderIdList, sendOperationLog } from './utils';
 import { bmpKeyInfoList } from '../services/hid/KeycodeInfoListBmp';
+import { validateKeyboardDefinitionSchema } from '../services/storage/Validator';
 
 const PRODUCT_PREFIX_FOR_BLE_MICRO_PRO = '(BMP)';
 
@@ -44,6 +45,7 @@ export const HID_UPDATE_MACRO_MAX_COUNT = `${HID_ACTIONS}/UpdateMacroMaxCount`;
 export const HID_UPDATE_VIA_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateViaProtocolVersion`;
 export const HID_UPDATE_FIRMWARE_TYPE = `${HID_ACTIONS}/UpdateFirmwareType`;
 export const HID_UPDATE_REMAP_PROTOCOL_VERSION = `${HID_ACTIONS}/UpdateRemapProtocolVersion`;
+export const HID_UPDATE_IS_EMBEDDED_DEFINITION = `${HID_ACTIONS}/UpdateIsEmbeddedDefinition`;
 export const HID_UPDATE_ENCODERS_KEYMAPS = `${HID_ACTIONS}/UpdateEncodersKeymaps`;
 export const HidActions = {
   connectKeyboard: (keyboard: IKeyboard) => {
@@ -134,6 +136,13 @@ export const HidActions = {
     return {
       type: HID_UPDATE_REMAP_PROTOCOL_VERSION,
       value: version,
+    };
+  },
+
+  updateIsEmbeddedDefinition: (isEmbedded: boolean) => {
+    return {
+      type: HID_UPDATE_IS_EMBEDDED_DEFINITION,
+      value: isEmbedded,
     };
   },
 
@@ -342,6 +351,45 @@ export const hidActionsThunk = {
         );
       }
 
+      // Embedded-first policy for REMAP firmware: when a Remap-native
+      // firmware provides its own keyboard definition JSON, prefer that
+      // over anything the Firebase catalog may have supplied. If the
+      // firmware does not embed one, or the payload fails validation,
+      // silently fall back to the definition already in state.
+      let effectiveDefinition = entities.keyboardDefinition;
+      if (firmwareType === FirmwareType.REMAP) {
+        const embeddedResult = await keyboard.fetchEmbeddedDefinition();
+        if (embeddedResult.success && embeddedResult.definition) {
+          const validation = validateKeyboardDefinitionSchema(
+            embeddedResult.definition
+          );
+          if (validation.valid) {
+            effectiveDefinition = embeddedResult.definition;
+            dispatch(
+              StorageActions.updateKeyboardDefinition(embeddedResult.definition)
+            );
+            dispatch(HidActions.updateIsEmbeddedDefinition(true));
+            dispatch(
+              LayoutOptionsActions.initSelectedOptions(
+                embeddedResult.definition.layouts.labels
+                  ? embeddedResult.definition.layouts.labels
+                  : []
+              )
+            );
+          } else {
+            console.warn(
+              'Embedded definition failed schema validation; falling back to Firebase definition.',
+              validation.errors
+            );
+          }
+        } else if (!embeddedResult.success) {
+          console.warn(
+            'Failed to fetch embedded definition from REMAP firmware; falling back to Firebase definition.',
+            embeddedResult.error
+          );
+        }
+      }
+
       // REMAP firmware never runs on a BLE Micro Pro device, so force the
       // flag off in that case; on VIA firmware fall back to the product
       // name prefix heuristic as before.
@@ -355,7 +403,7 @@ export const hidActionsThunk = {
 
       // Override custom keycode list if the keyboard uses BLE Micro Pro
       const customKeycodes = !isBleMicroPro
-        ? entities.keyboardDefinition?.customKeycodes
+        ? effectiveDefinition?.customKeycodes
         : bmpKeyInfoList.map((k) => {
             return {
               name: k.keycodeInfo.label,
@@ -367,7 +415,7 @@ export const hidActionsThunk = {
       if (isBleMicroPro) {
         dispatch(
           StorageActions.updateKeyboardDefinition({
-            ...entities.keyboardDefinition,
+            ...effectiveDefinition,
             customKeycodes: customKeycodes,
           })
         );
@@ -520,6 +568,7 @@ export const hidActionsThunk = {
       dispatch(KeycodeKeyActions.clear());
       dispatch(KeymapActions.clearSelectedKeyPosition());
       dispatch(StorageActions.updateKeyboardDefinition(null));
+      dispatch(HidActions.updateIsEmbeddedDefinition(false));
       dispatch(HidActions.updateKeyboard(null));
     },
 
@@ -541,6 +590,7 @@ export const hidActionsThunk = {
         dispatch(StorageActions.updateKeyboardDefinition(null));
         dispatch(StorageActions.clearKeyboardDefinitionDocument());
         dispatch(StorageActions.updateSavedKeymaps([]));
+        dispatch(HidActions.updateIsEmbeddedDefinition(false));
         dispatch(HidActions.updateKeyboard(null));
       }
     },

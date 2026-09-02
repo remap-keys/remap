@@ -7,6 +7,7 @@ import {
   IConnectParams,
   ICustomKeycode,
   IDetectFirmwareResult,
+  IFetchEmbeddedDefinitionResult,
   IFetchEncodersKeymapsResult,
   IFetchLayoutOptionsResult,
   IFetchViaProtocolVersionResult,
@@ -289,6 +290,14 @@ export const mockIKeyboad: IKeyboard = {
   detectFirmware(): Promise<IDetectFirmwareResult> {
     return new Promise((resolve) => {
       resolve({ success: true, firmwareType: FirmwareType.VIA });
+    });
+  },
+  fetchEmbeddedDefinition(): Promise<IFetchEmbeddedDefinitionResult> {
+    return new Promise((resolve) => {
+      resolve({
+        success: false,
+        error: 'Mock keyboard does not embed a definition.',
+      });
     });
   },
 };

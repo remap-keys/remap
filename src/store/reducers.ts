@@ -74,6 +74,7 @@ import {
   HID_UPDATE_BLE_MICRO_PRO,
   HID_UPDATE_FIRMWARE_TYPE,
   HID_UPDATE_REMAP_PROTOCOL_VERSION,
+  HID_UPDATE_IS_EMBEDDED_DEFINITION,
   HID_UPDATE_ENCODERS_KEYMAPS,
   HID_UPDATE_KEYBOARD,
   HID_UPDATE_KEYBOARD_LAYER_COUNT,
@@ -830,6 +831,10 @@ const hidReducer = (action: Action, draft: WritableDraft<RootState>) => {
     }
     case HID_UPDATE_REMAP_PROTOCOL_VERSION: {
       draft.entities.device.remapProtocolVersion = action.value;
+      break;
+    }
+    case HID_UPDATE_IS_EMBEDDED_DEFINITION: {
+      draft.entities.device.isEmbeddedDefinition = action.value;
       break;
     }
     case HID_UPDATE_ENCODERS_KEYMAPS: {

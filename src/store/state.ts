@@ -340,6 +340,7 @@ export type RootState = {
       viaProtocolVersion: number;
       firmwareType: FirmwareType;
       remapProtocolVersion: number;
+      isEmbeddedDefinition: boolean;
       encodersKeymaps: IEncoderKeymaps[];
     };
     keyboards: IKeyboard[]; // authorized keyboard list
@@ -633,6 +634,7 @@ export const INIT_STATE: RootState = {
       viaProtocolVersion: NaN,
       firmwareType: FirmwareType.VIA,
       remapProtocolVersion: NaN,
+      isEmbeddedDefinition: false,
       encodersKeymaps: [],
     },
     keyboards: [],

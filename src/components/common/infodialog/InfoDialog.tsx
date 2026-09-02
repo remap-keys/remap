@@ -156,6 +156,16 @@ export default class InfoDialog extends React.Component<
                     4
                   )}
                 />
+                {this.props.isEmbeddedDefinition ? (
+                  <InfoRow
+                    label={t('Definition Source')}
+                    value={
+                      <span className="info-dialog-embedded-badge">
+                        {t('Embedded from firmware')}
+                      </span>
+                    }
+                  />
+                ) : null}
               </React.Fragment>
             ) : (
               <InfoRow

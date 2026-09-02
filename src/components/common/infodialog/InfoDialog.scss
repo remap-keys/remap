@@ -25,4 +25,15 @@
     color: variables.$error;
     margin-bottom: variables.$space-m;
   }
+
+  &-embedded-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background-color: #e3f2fd;
+    color: #0056b3;
+    font-size: 90%;
+    font-weight: 500;
+    border: 1px solid #90caf9;
+  }
 }

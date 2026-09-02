@@ -9,6 +9,7 @@ import {
 } from './Composition';
 import { KeymapCategory } from './KeycodeList';
 import type { IDetectFirmwareResult } from './FirmwareDetection';
+import type { KeyboardDefinitionSchema } from '../../gen/types/KeyboardDefinition';
 export { FirmwareType } from './FirmwareDetection';
 export type { IDetectFirmwareResult } from './FirmwareDetection';
 
@@ -222,6 +223,11 @@ export interface IKeyboard {
   updateMacroBuffer(offset: number, buffer: Uint8Array): Promise<IResult>;
   fetchViaProtocolVersion(): Promise<IFetchViaProtocolVersionResult>;
   detectFirmware(): Promise<IDetectFirmwareResult>;
+  fetchEmbeddedDefinition(): Promise<IFetchEmbeddedDefinitionResult>;
+}
+
+export interface IFetchEmbeddedDefinitionResult extends IResult {
+  definition?: KeyboardDefinitionSchema;
 }
 
 export interface ICommand {

@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => {
     viaProtocolVersion: state.entities.device.viaProtocolVersion,
     firmwareType: state.entities.device.firmwareType,
     remapProtocolVersion: state.entities.device.remapProtocolVersion,
+    isEmbeddedDefinition: state.entities.device.isEmbeddedDefinition,
   };
 };
 export type InfoDialogStateType = ReturnType<typeof mapStateToProps>;

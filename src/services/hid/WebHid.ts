@@ -21,6 +21,7 @@ import {
   IGetMacroBufferSizeResult,
   IFetchMacroBufferResult,
   IFetchViaProtocolVersionResult,
+  IFetchEmbeddedDefinitionResult,
   ICustomKeycode,
   IFetchEncodersKeymapsResult,
   IEncoderKeymaps,
@@ -32,6 +33,12 @@ import {
   RemapIdentifyCommand,
   buildResponseHandler as buildRemapIdentifyResponseHandler,
 } from './FirmwareDetection';
+import {
+  REMAP_DEFINITION_CHUNK_MAX_SIZE,
+  RemapGetDefinitionChunkCommand,
+  RemapGetDefinitionSizeCommand,
+} from './RemapDefinitionCommands';
+import type { KeyboardDefinitionSchema } from '../../gen/types/KeyboardDefinition';
 import { KeycodeList } from './KeycodeList';
 import {
   BacklightGetValueCommand,
@@ -396,6 +403,86 @@ export class Keyboard implements IKeyboard {
       });
       return this.enqueue(command);
     });
+  }
+
+  async fetchEmbeddedDefinition(): Promise<IFetchEmbeddedDefinitionResult> {
+    try {
+      const totalSize = await new Promise<number>((resolve, reject) => {
+        const cmd = new RemapGetDefinitionSizeCommand({}, async (result) => {
+          if (result.success) {
+            resolve(result.response!.totalSize);
+          } else {
+            reject(new Error(result.error || 'Failed to get definition size.'));
+          }
+        });
+        this.enqueue(cmd);
+      });
+
+      if (totalSize === 0) {
+        return {
+          success: false,
+          error: 'The firmware reports an empty embedded definition.',
+        };
+      }
+
+      const buffer = new Uint8Array(totalSize);
+      let offset = 0;
+      while (offset < totalSize) {
+        const requestedSize = Math.min(
+          REMAP_DEFINITION_CHUNK_MAX_SIZE,
+          totalSize - offset
+        );
+        const currentOffset = offset;
+        const chunk = await new Promise<{
+          offset: number;
+          actualSize: number;
+          data: Uint8Array;
+        }>((resolve, reject) => {
+          const cmd = new RemapGetDefinitionChunkCommand(
+            { offset: currentOffset, requestedSize },
+            async (result) => {
+              if (result.success) {
+                resolve(result.response!);
+              } else {
+                reject(
+                  new Error(
+                    result.error ||
+                      `Failed to get chunk at offset ${currentOffset}.`
+                  )
+                );
+              }
+            }
+          );
+          this.enqueue(cmd);
+        });
+
+        if (chunk.actualSize === 0) {
+          // Firmware refused to return more bytes at this offset; stop.
+          break;
+        }
+        buffer.set(chunk.data, offset);
+        offset += chunk.actualSize;
+      }
+
+      if (offset < totalSize) {
+        return {
+          success: false,
+          error: `Embedded definition was truncated: got ${offset} of ${totalSize} bytes.`,
+        };
+      }
+
+      const jsonText = new TextDecoder('utf-8').decode(buffer);
+      const definition = JSON.parse(jsonText) as KeyboardDefinitionSchema;
+      return { success: true, definition };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Fetching embedded definition failed: ${
+          (error as Error).message
+        }`,
+        cause: error,
+      };
+    }
   }
 
   updateKeymap(
