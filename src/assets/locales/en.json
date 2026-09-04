@@ -435,5 +435,9 @@
   "Completed! Great job!": "Completed! Great job!",
   "Practice Category": "Practice Category",
   "Are you sure you want to reset your typing statistics? This action cannot be undone.": "Are you sure you want to reset your typing statistics? This action cannot be undone.",
-  "Sentence": "Sentence"
+  "Sentence": "Sentence",
+  "Remap Module": "Remap Module",
+  "Apply the Remap module": "Apply the Remap module",
+  "Enable the Remap module for this firmware. When enabled, the `via` feature is automatically disabled because the Remap module replaces the VIA HID protocol.": "Enable the Remap module for this firmware. When enabled, the `via` feature is automatically disabled because the Remap module replaces the VIA HID protocol.",
+  "Using the Remap module requires QMK Firmware {{version}} or later. Please open Project Settings and change the QMK Firmware Version.": "Using the Remap module requires QMK Firmware {{version}} or later. Please open Project Settings and change the QMK Firmware Version."
 }

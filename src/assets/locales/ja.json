@@ -543,5 +543,9 @@
   "GPIO pin to detect USB VBUS for split keyboard host detection": "スプリットキーボードのホスト検出用 USB VBUS 検出 GPIO ピン",
   "Enter the index and matrix position for the new key.": "新しいキーのインデックスとマトリクス位置を入力してください。",
   "Index": "インデックス",
-  "Position in the layout array. Existing keys at this index and after will shift.": "レイアウト配列内の位置。このインデックス以降の既存キーはずれます。"
+  "Position in the layout array. Existing keys at this index and after will shift.": "レイアウト配列内の位置。このインデックス以降の既存キーはずれます。",
+  "Remap Module": "Remap モジュール",
+  "Apply the Remap module": "Remap モジュールを適用する",
+  "Enable the Remap module for this firmware. When enabled, the `via` feature is automatically disabled because the Remap module replaces the VIA HID protocol.": "このファームウェアで Remap モジュールを有効化します。有効にすると、Remap モジュールが VIA の HID プロトコルを置き換えるため、`via` 機能は自動的に無効化されます。",
+  "Using the Remap module requires QMK Firmware {{version}} or later. Please open Project Settings and change the QMK Firmware Version.": "Remap モジュールを使うには QMK Firmware {{version}} 以降が必要です。プロジェクト設定で QMK Firmware バージョンを変更してください。"
 }
