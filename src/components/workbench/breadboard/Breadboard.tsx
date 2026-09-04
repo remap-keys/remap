@@ -708,6 +708,7 @@ function EditorWithVisualTab(props: EditorWithVisualTabProps) {
       {isKeyboardJsonFile && editorTab === 1 && (
         <KeyboardJsonSettingsPanel
           keyboardJsonContent={effectiveCode}
+          qmkFirmwareVersion={props.project?.qmkFirmwareVersion}
           onChange={handleVisualEditorCodeChange}
         />
       )}

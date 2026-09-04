@@ -37,7 +37,26 @@ import {
   INTEGRATED_MCUS,
   MCU2BOOTLOADER,
 } from '../../../services/workbench/constants/McuConstants';
+import {
+  BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION,
+  IBuildableFirmwareQmkFirmwareVersion,
+} from '../../../services/storage/Storage';
 import './KeyboardJsonEditorDialog.scss';
+
+const REMAP_MODULE_MIN_QMK_FIRMWARE_VERSION: IBuildableFirmwareQmkFirmwareVersion =
+  '0.34.0';
+
+function isQmkFirmwareVersionAtLeast(
+  version: IBuildableFirmwareQmkFirmwareVersion | undefined,
+  minimum: IBuildableFirmwareQmkFirmwareVersion
+): boolean {
+  if (!version) return false;
+  const versions =
+    BUILDABLE_FIRMWARE_QMK_FIRMWARE_VERSION as readonly IBuildableFirmwareQmkFirmwareVersion[];
+  const currentIndex = versions.indexOf(version);
+  const minimumIndex = versions.indexOf(minimum);
+  return currentIndex !== -1 && currentIndex >= minimumIndex;
+}
 
 type MCUType = 'development_board' | 'integrated_mcu';
 
@@ -100,6 +119,7 @@ function validateHexId(value: string): boolean {
 
 type KeyboardJsonSettingsPanelProps = {
   keyboardJsonContent: string | null;
+  qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
   onChange?: (updatedContent: string) => void;
 };
 
@@ -185,6 +205,12 @@ export function KeyboardJsonSettingsPanel(
 
   // Features
   const [features, setFeatures] = useState<Record<string, boolean>>({});
+
+  // Remap Module toggle. When true, the generated JSON will contain
+  // `modules: [..., "remap"]` and `features.via` will be forced off.
+  // Reflects `json.modules` on load.
+  const [remapModuleEnabled, setRemapModuleEnabled] = useState<boolean>(false);
+  const [otherModules, setOtherModules] = useState<string[]>([]);
 
   // Initialize form from JSON content
   useEffect(() => {
@@ -328,6 +354,20 @@ export function KeyboardJsonSettingsPanel(
           ? { ...json.features }
           : {}
       );
+
+      // Remap module: split the `modules` array into "remap" (as a toggle)
+      // and any other modules the user may have (preserved as-is so they
+      // round-trip unchanged).
+      if (Array.isArray(json.modules)) {
+        const modules = json.modules.filter(
+          (m: unknown): m is string => typeof m === 'string'
+        );
+        setRemapModuleEnabled(modules.includes('remap'));
+        setOtherModules(modules.filter((m: string) => m !== 'remap'));
+      } else {
+        setRemapModuleEnabled(false);
+        setOtherModules([]);
+      }
     } catch {
       // Invalid JSON - leave defaults
     }
@@ -593,7 +633,23 @@ export function KeyboardJsonSettingsPanel(
     }
 
     // Features
-    json.features = { ...features };
+    const nextFeatures = { ...features };
+
+    // Remap module: keep the non-"remap" modules the user had untouched,
+    // then append "remap" when the toggle is on. When the toggle is on and
+    // features.via is enabled, force it off — the two are mutually
+    // exclusive because the Remap firmware replaces VIA's HID protocol.
+    if (remapModuleEnabled) {
+      json.modules = [...otherModules, 'remap'];
+      if (nextFeatures.via === true) {
+        nextFeatures.via = false;
+      }
+    } else if (otherModules.length > 0) {
+      json.modules = [...otherModules];
+    } else {
+      delete json.modules;
+    }
+    json.features = nextFeatures;
 
     return JSON.stringify(json, null, 2);
   }, [
@@ -638,6 +694,8 @@ export function KeyboardJsonSettingsPanel(
     audioDriver,
     encoderRotary,
     features,
+    remapModuleEnabled,
+    otherModules,
   ]);
 
   const keyboardNameValid = validateSingleByteString(keyboardName, 256);
@@ -1204,6 +1262,50 @@ export function KeyboardJsonSettingsPanel(
                   />
                 )}
               </div>
+              <div>
+                <SectionHeader>{t('Remap Module')}</SectionHeader>
+                {isQmkFirmwareVersionAtLeast(
+                  props.qmkFirmwareVersion,
+                  REMAP_MODULE_MIN_QMK_FIRMWARE_VERSION
+                ) ? (
+                  <Stack spacing={1} sx={{ mt: 1 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      {t(
+                        'Enable the Remap module for this firmware. When enabled, the `via` feature is automatically disabled because the Remap module replaces the VIA HID protocol.'
+                      )}
+                    </Typography>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          size="small"
+                          checked={remapModuleEnabled}
+                          onChange={(e) => {
+                            const next = e.target.checked;
+                            setRemapModuleEnabled(next);
+                            if (next && features.via === true) {
+                              setFeatures((prev) => ({ ...prev, via: false }));
+                            }
+                          }}
+                        />
+                      }
+                      label={t('Apply the Remap module')}
+                    />
+                  </Stack>
+                ) : (
+                  <Stack spacing={1} sx={{ mt: 1 }}>
+                    <Typography variant="body2" color="warning.main">
+                      {t(
+                        'Using the Remap module requires QMK Firmware {{version}} or later. Please open Project Settings and change the QMK Firmware Version.',
+                        { version: REMAP_MODULE_MIN_QMK_FIRMWARE_VERSION }
+                      )}
+                    </Typography>
+                    <FormControlLabel
+                      control={<Switch size="small" checked={false} disabled />}
+                      label={t('Apply the Remap module')}
+                    />
+                  </Stack>
+                )}
+              </div>
             </Stack>
           )}
 
@@ -1499,6 +1601,7 @@ export function KeyboardJsonSettingsPanel(
               </div>
             </Stack>
           )}
+
         </div>
       </div>
     </div>
@@ -1509,6 +1612,7 @@ type KeyboardJsonEditorDialogProps = {
   open: boolean;
   onClose: () => void;
   keyboardJsonContent: string | null;
+  qmkFirmwareVersion?: IBuildableFirmwareQmkFirmwareVersion;
   onApply?: (updatedContent: string) => void;
 };
 
@@ -1527,6 +1631,7 @@ export default function KeyboardJsonEditorDialog(
       <DialogContent dividers sx={{ padding: 0 }}>
         <KeyboardJsonSettingsPanel
           keyboardJsonContent={props.keyboardJsonContent}
+          qmkFirmwareVersion={props.qmkFirmwareVersion}
           onChange={(updatedContent) => {
             props.onApply?.(updatedContent);
           }}
